@@ -10,8 +10,8 @@ Solus is a decentralized protocol designed to provide immutable proof of medical
 - **Network:** XRP Ledger (Mainnet)
 
 ## 🔐 Official Asset Details
-- **Issuer Address:** `PASTE_YOUR_INDEX_0_ADDRESS_HERE`
-- **Domain Verification:** Verified at [solusprotocol.org](https://solusprotocol.org)
+- **Issuer Address:** rPsbRGPCs5TAG95rUpxUtoZGxMPiS8UAdf
+- **Domain Verification:** Verified at [solusprotocol.com](https://solusprotocol.com)
 
 ## 🚀 Use Cases
 1. **Clinical Validation:** Hospitals use $SLS to timestamp and verify patient data integrity.
@@ -20,4 +20,5 @@ Solus is a decentralized protocol designed to provide immutable proof of medical
 
 ---
 © 2026 Solus Protocol. Built on the XRP Ledger.
+
 Disclaimer: Solus Protocol is a data integrity tool. It does not provide medical advice or diagnosis. Users are responsible for ensuring compliance with local healthcare regulations (e.g., HIPAA/GDPR).
