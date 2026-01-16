@@ -3,12 +3,12 @@ modified = 2026-01-15T00:00:00Z
 expires = 2027-01-15T00:00:00Z
 
 [[ACCOUNTS]]
-address = "rPsbRGPCs5TAG95rUpxUtoZGxMPiS8UAdf"
+address = "r95GyZac4butvVcsTWUPpxzekmyzaHsTA5"
 description = "Solus Protocol Issuing Address"
 
 [[CURRENCIES]]
 code = "SLS"
-issuer = "rPsbRGPCs5TAG95rUpxUtoZGxMPiS8UAdf"
+issuer = "r95GyZac4butvVcsTWUPpxzekmyzaHsTA5"
 display_decimal = 2
 symbol = "SLS"
 logo_256x256 = "https://solusprotocol.com/logo.png"
