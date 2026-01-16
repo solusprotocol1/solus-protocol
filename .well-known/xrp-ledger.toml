@@ -11,7 +11,7 @@ code = "SLS"
 issuer = "r95GyZac4butvVcsTWUPpxzekmyzaHsTA5"
 display_decimal = 2
 symbol = "SLS"
-logo_256x256 = "https://solusprotocol.com/logo.png"
+logo_250x250 = "https://raw.githubusercontent.com/solusprotocol1/solus-protocol/main/logo.png"
 
 [[PRINCIPALS]]
 name = "Solus Protocol Team"
