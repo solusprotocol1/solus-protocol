@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Solus Protocol | Medical Integrity on XRPL</title>
+    <title>Solus Protocol | Medical Data Integrity</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     
@@ -16,56 +16,172 @@
             --border: rgba(255, 255, 255, 0.1);
         }
 
-        body { background-color: var(--bg); color: #fff; font-family: 'Plus Jakarta Sans', sans-serif; margin: 0; line-height: 1.6; }
+        body { background-color: var(--bg); color: #fff; font-family: 'Plus Jakarta Sans', sans-serif; margin: 0; line-height: 1.6; overflow-x: hidden; }
+
+        /* Solana-style Animated Background */
+        .mesh-bg {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: 
+                radial-gradient(at 0% 0%, rgba(20, 241, 149, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(153, 69, 255, 0.1) 0px, transparent 50%);
+            z-index: -1; filter: blur(80px);
+        }
 
         nav {
             position: fixed; top: 0; width: 100%; z-index: 1000;
             display: flex; justify-content: space-between; align-items: center;
-            padding: 15px 5%; box-sizing: border-box;
+            padding: 20px 5%; box-sizing: border-box;
             backdrop-filter: blur(20px); border-bottom: 1px solid var(--border);
         }
-        .nav-brand { text-decoration: none; color: white; font-weight: 800; font-size: 1.2rem; letter-spacing: -0.5px; }
+        .nav-brand { text-decoration: none; color: white; font-weight: 800; font-size: 1.1rem; letter-spacing: 1px; }
 
         .hero {
-            height: 85vh; display: flex; flex-direction: column; 
-            justify-content: center; align-items: center; text-align: center;
-            background: radial-gradient(circle at 50% 30%, rgba(20, 241, 149, 0.1), transparent 50%);
+            height: 80vh; display: flex; flex-direction: column; 
+            justify-content: center; align-items: center; text-align: center; padding: 0 20px;
         }
-        h1 { font-size: clamp(2.5rem, 8vw, 5rem); margin: 0; font-weight: 800; letter-spacing: -2px; }
+        h1 { font-size: clamp(2.5rem, 8vw, 5.5rem); margin: 0; font-weight: 800; letter-spacing: -3px; line-height: 1.1; }
         .gradient-text { background: linear-gradient(90deg, #fff, var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         
-        .section-container { max-width: 1100px; margin: 60px auto; padding: 20px; }
-        .tabs { display: flex; gap: 8px; margin-bottom: 25px; overflow-x: auto; padding-bottom: 5px; scrollbar-width: none; }
+        .section-container { max-width: 1100px; margin: 40px auto; padding: 20px; position: relative; }
+        
+        /* Tabs Styling */
+        .tabs { display: flex; gap: 10px; margin-bottom: 25px; overflow-x: auto; padding-bottom: 10px; scrollbar-width: none; border-bottom: 1px solid var(--border); }
         .tab-btn {
-            background: var(--glass); border: 1px solid var(--border); color: #888;
-            padding: 10px 20px; border-radius: 10px; cursor: pointer; white-space: nowrap; transition: 0.2s; font-size: 0.9rem;
+            background: transparent; border: none; color: #888;
+            padding: 12px 20px; cursor: pointer; white-space: nowrap; transition: 0.3s; font-size: 0.95rem; font-weight: 600;
         }
-        .tab-btn.active { background: var(--accent); color: #000; border-color: var(--accent); font-weight: 600; }
-        .tab-content { display: none; background: var(--glass); padding: 40px; border-radius: 20px; border: 1px solid var(--border); }
-        .tab-content.active { display: block; animation: slideUp 0.3s ease-out; }
+        .tab-btn.active { color: var(--accent); position: relative; }
+        .tab-btn.active::after { content: ''; position: absolute; bottom: -11px; left: 0; width: 100%; height: 2px; background: var(--accent); }
 
-        @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .tab-content { display: none; background: var(--glass); padding: 50px; border-radius: 24px; border: 1px solid var(--border); backdrop-filter: blur(10px); }
+        .tab-content.active { display: block; animation: fadeIn 0.4s ease-out; }
 
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
-        .card { background: rgba(255,255,255,0.01); padding: 25px; border-radius: 16px; border: 1px solid var(--border); }
-        .soon { font-size: 0.65rem; background: var(--secondary); color: white; padding: 2px 6px; border-radius: 4px; margin-left: 5px; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
+        .card { background: rgba(255,255,255,0.02); padding: 30px; border-radius: 18px; border: 1px solid var(--border); transition: 0.3s; }
+        .card:hover { border-color: var(--accent); background: rgba(20, 241, 149, 0.02); }
+        
+        .badge-soon { font-size: 0.6rem; background: var(--secondary); color: white; padding: 2px 8px; border-radius: 4px; margin-left: 8px; vertical-align: middle; }
 
         .cta-btn { 
-            background: #fff; color: #000; padding: 14px 28px; border-radius: 50px; 
-            text-decoration: none; font-weight: 700; display: inline-block; margin-top: 20px;
+            background: #fff; color: #000; padding: 16px 35px; border-radius: 50px; 
+            text-decoration: none; font-weight: 700; display: inline-block; margin-top: 30px; transition: 0.3s;
         }
-        footer { padding: 40px; text-align: center; color: #444; font-size: 0.8rem; border-top: 1px solid var(--border); }
+        .cta-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(20, 241, 149, 0.2); }
+
+        footer { padding: 60px; text-align: center; color: #555; font-size: 0.85rem; }
     </style>
 </head>
 <body>
 
+<div class="mesh-bg"></div>
+
 <nav>
     <a href="/" class="nav-brand">SOLUS PROTOCOL</a>
-    <div style="display: flex; gap: 15px;">
-        <a href="https://github.com/solusprotocol1/solus-protocol/wiki" style="color: #888; text-decoration: none; font-size: 0.85rem;">Docs</a>
-        <a href="mailto:support@solusprotocol.com" style="color: var(--accent); text-decoration: none; font-size: 0.85rem;">Support</a>
+    <div style="display: flex; gap: 20px;">
+        <a href="https://github.com/solusprotocol1/solus-protocol/wiki" style="color: #888; text-decoration: none; font-size: 0.9rem;">Wiki</a>
+        <a href="mailto:support@solusprotocol.com" style="color: var(--accent); text-decoration: none; font-size: 0.9rem;">Support</a>
     </div>
 </nav>
 
 <section class="hero" data-aos="fade-up">
-    <div style="color: var(--accent); font-
+    <div style="background: rgba(20, 241, 149, 0.1); color: var(--accent); padding: 5px 15px; border-radius: 100px; font-size: 0.75rem; font-weight: 700; margin-bottom: 25px; letter-spacing: 1px;">PROTOCOL LIVE ON MAINNET</div>
+    <h1>Immutable <span class="gradient-text">Trust.</span></h1>
+    <p style="color: #888; font-size: 1.25rem; max-width: 650px; margin: 20px 0;">
+        Decentralized infrastructure for the next generation of clinical data integrity. Secured by the XRP Ledger.
+    </p>
+    <a href="https://www.xrptoolkit.com/trade/SLS-rPsbRGPCs5TAG95rUpxUtoZGxMPiS8UAdf/XRP" class="cta-btn">Trade $SLS</a>
+</section>
+
+<section class="section-container" data-aos="fade-up">
+    <div class="tabs">
+        <button class="tab-btn active" onclick="showTab(event, 'utility')">Utility</button>
+        <button class="tab-btn" onclick="showTab(event, 'roadmap')">Roadmap</button>
+        <button class="tab-btn" onclick="showTab(event, 'dev')">Development<span class="badge-soon">Coming Soon</span></button>
+        <button class="tab-btn" onclick="showTab(event, 'partners')">Partners</button>
+        <button class="tab-btn" onclick="showTab(event, 'contact')">Support</button>
+    </div>
+
+    <div id="utility" class="tab-content active">
+        <h2>Token Utility & Economy</h2>
+        <div class="grid">
+            <div class="card">
+                <h4 style="color: var(--accent);">Data Anchoring</h4>
+                <p>Clinics utilize $SLS to generate cryptographic hashes of medical records, ensuring they can never be altered.</p>
+            </div>
+            <div class="card">
+                <h4 style="color: var(--accent);">Staking Rewards</h4>
+                <p>Node operators stake $SLS to validate clinical data streams and earn protocol emission rewards.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="roadmap" class="tab-content">
+        <h2>2026 Strategic Roadmap</h2>
+        <div class="grid">
+            <div class="card">
+                <h4 style="color: var(--accent);">Q1: Foundation</h4>
+                <p>Community launch, $SLS liquidity pools, and technical documentation release.</p>
+            </div>
+            <div class="card">
+                <h4 style="color: #fff;">Q2: Pilot Phase</h4>
+                <p>Onboarding the first 5 clinical partners for the data-integrity sandbox.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="dev" class="tab-content">
+        <h2>Developer Ecosystem</h2>
+        <p>We are building a robust API for healthcare software integrations.</p>
+        <div class="card" style="background: #000;">
+            <code style="color: var(--accent);">// Coming Q2 2026<br>const solus = require('@solus/sdk');<br>await solus.verify(patientData);</code>
+        </div>
+    </div>
+
+    <div id="partners" class="tab-content">
+        <h2>Clinical Partnerships</h2>
+        <p>Seeking medical centers and labs looking to lead in data transparency.</p>
+        <a href="mailto:partners@solusprotocol.com" class="cta-btn" style="background: var(--accent);">Inquire for Pilot</a>
+    </div>
+
+    <div id="contact" class="tab-content">
+        <h2>Get in Touch</h2>
+        <div class="grid">
+            <div class="card">
+                <h4>General Inquiries</h4>
+                <p>info@solusprotocol.com</p>
+            </div>
+            <div class="card">
+                <h4>Technical Support</h4>
+                <p>support@solusprotocol.com</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <p>&copy; 2026 Solus Protocol | Decentralized Medical Integrity <br> Built on the XRP Ledger</p>
+</footer>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    AOS.init({ duration: 800, once: true });
+
+    function showTab(evt, tabName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tab-content");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].classList.remove("active");
+        }
+        tablinks = document.getElementsByClassName("tab-btn");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].classList.remove("active");
+        }
+        document.getElementById(tabName).classList.add("active");
+        evt.currentTarget.classList.add("active");
+    }
+</script>
+
+</body>
+</html>
