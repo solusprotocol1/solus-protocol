@@ -233,43 +233,64 @@
 <script>
     AOS.init({ duration: 800, once: true });
 
-    // --- ENHANCED PRICE FETCH (XPMARKET) ---
+    // --- ENHANCED PRICE FETCH (XPMARKET + FALLBACKS) ---
     async function updateLivePrice() {
         const btn = document.getElementById('live-price-btn');
-        // VITAL: This is the correct issuer address and Hex currency code for SLS
         const issuer = 'r95GyZac4butvVcsTWUPpxzekmyzaHsTA5';
-        const currencyHex = '534C530000000000000000000000000000000000'; 
+        const ticker = 'SLS';
+        const hex = '534C530000000000000000000000000000000000';
 
+        function setPriceDisplay(price, change) {
+            const val = parseFloat(price);
+            const formattedPrice = val < 0.1 ? val.toFixed(6) : val.toFixed(4);
+            let changeHTML = "";
+            
+            if (change !== undefined && change !== null) {
+                const changeVal = parseFloat(change);
+                const icon = changeVal >= 0 ? "▲" : "▼";
+                const color = changeVal >= 0 ? "#003300" : "#660000"; // Darker shades for contrast on bright button
+                changeHTML = ` <span style="color: ${color}; opacity: 0.8;">(${icon}${Math.abs(changeVal).toFixed(2)}%)</span>`;
+            }
+            
+            btn.innerHTML = `TRADE $SLS: $${formattedPrice}${changeHTML}`;
+        }
+
+        // Method 1: XPMarket Ticker
         try {
-            // Fetch from XPMarket (Best for XRPL tokens)
-            const response = await fetch(`https://api.xpmarket.com/v1/token/${issuer}/${currencyHex}`);
+            const response = await fetch(`https://api.xpmarket.com/v1/token/${issuer}/${ticker}`);
             const data = await response.json();
-
-            // XPMarket typically returns { "price_usd": 0.XXXX }
             if (data && data.price_usd) {
-                const price = parseFloat(data.price_usd);
-                const display = price < 0.1 ? price.toFixed(6) : price.toFixed(4);
-                btn.innerText = `TRADE $SLS: $${display}`;
-            } else {
-                throw new Error("Invalid data format");
+                setPriceDisplay(data.price_usd, data.vol_24h_change_percent || data.price_change_24h_percentage);
+                return;
             }
-        } catch (error) {
-            console.warn("XPMarket fail, trying GeckoTerminal fallback...");
-            try {
-                // Fallback to GeckoTerminal Pools endpoint
-                const fallback = await fetch(`https://api.geckoterminal.com/api/v2/networks/xrp/tokens/${issuer}/pools`);
-                const fData = await fallback.json();
-                const fPrice = fData.data[0].attributes.base_token_price_usd;
-                if (fPrice) btn.innerText = `TRADE $SLS: $${parseFloat(fPrice).toFixed(5)}`;
-            } catch (e) {
-                btn.innerText = "TRADE $SLS LIVE";
+        } catch (e) { console.warn("Ticker fetch failed..."); }
+
+        // Method 2: XPMarket Hex
+        try {
+            const response = await fetch(`https://api.xpmarket.com/v1/token/${issuer}/${hex}`);
+            const data = await response.json();
+            if (data && data.price_usd) {
+                setPriceDisplay(data.price_usd, data.vol_24h_change_percent || data.price_change_24h_percentage);
+                return;
             }
+        } catch (e) { console.warn("Hex fetch failed..."); }
+
+        // Method 3: GeckoTerminal
+        try {
+            const response = await fetch(`https://api.geckoterminal.com/api/v2/networks/xrp/tokens/${issuer}/pools`);
+            const data = await response.json();
+            if (data && data.data && data.data[0]) {
+                const attr = data.data[0].attributes;
+                setPriceDisplay(attr.base_token_price_usd, attr.price_change_percentage.h24);
+            }
+        } catch (e) {
+            if (!btn.innerHTML.includes('$')) btn.innerText = "TRADE $SLS LIVE";
         }
     }
 
     setInterval(updateLivePrice, 30000);
     updateLivePrice();
-    // ---------------------------------------
+    // ---------------------------------------------------
 
     function showTab(evt, tabName) {
         var i, tabcontent, tablinks;
@@ -299,7 +320,7 @@
             const res = await fetch(url);
             const md = await res.text();
             renderDiv.innerHTML = marked.parse(md);
-        } catch (e) { renderDiv.innerHTML = "<p>Error loading.</p>"; }
+        } catch (e) { renderDiv.innerHTML = "<p>Error loading Whitepaper.</p>"; }
     }
 </script>
 
