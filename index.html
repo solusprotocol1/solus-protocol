@@ -235,32 +235,46 @@
 <script>
     AOS.init({ duration: 800, once: true });
 
-    // --- SIMULATED PRICE FETCH LOOP ---
-    let lastPrice = 0.4520; // Starting simulated price in XRP
+    // --- REAL-WORLD API PRICE FETCH ---
+    let lastPrice = 0;
 
-    function updateLivePrice() {
+    async function updateLivePrice() {
         const btn = document.getElementById('live-price-btn');
+        const tokenAddress = 'r95GyZac4butvVcsTWUPpxzekmyzaHsTA5'; // Solus Protocol Issuer Address
         
-        // Simulate a small market fluctuation (+/- 0.5%)
-        const fluctuation = (Math.random() * 0.01 - 0.005) * lastPrice;
-        const newPrice = (lastPrice + fluctuation).toFixed(4);
-        
-        // Update the button text
-        btn.innerText = `TRADE $SLS: ${newPrice} XRP`;
-        
-        // Visual feedback: green for up, red for down (optional flash)
-        if (newPrice > lastPrice) {
-            btn.style.filter = "hue-rotate(0deg) brightness(1.2)";
-        } else {
-            btn.style.filter = "hue-rotate(-45deg) brightness(1.1)";
+        try {
+            // Using GeckoTerminal Public API for XRPL Network
+            const response = await fetch(`https://api.geckoterminal.com/api/v2/networks/xrp/tokens/${tokenAddress}`);
+            const data = await response.json();
+            
+            if (data && data.data && data.data.attributes) {
+                const newPriceUSD = parseFloat(data.data.attributes.price_usd);
+                
+                // Format price based on value (more decimals for small values)
+                const formattedPrice = newPriceUSD < 1 ? newPriceUSD.toFixed(4) : newPriceUSD.toFixed(2);
+                
+                btn.innerText = `TRADE $SLS: $${formattedPrice}`;
+                
+                // Visual feedback if price changed
+                if (lastPrice > 0) {
+                    if (newPriceUSD > lastPrice) {
+                        btn.style.filter = "hue-rotate(0deg) brightness(1.2)";
+                    } else if (newPriceUSD < lastPrice) {
+                        btn.style.filter = "hue-rotate(-45deg) brightness(1.1)";
+                    }
+                }
+                
+                lastPrice = newPriceUSD;
+            }
+        } catch (error) {
+            console.error("Price fetch error:", error);
+            // Graceful fallback if API is throttled or down
+            if (lastPrice === 0) btn.innerText = "TRADE $SLS LIVE";
         }
-        
-        lastPrice = parseFloat(newPrice);
     }
 
-    // Run every 5 seconds
-    setInterval(updateLivePrice, 5000);
-    // Initial call to set price immediately
+    // Update every 30 seconds (standard for free public APIs to avoid rate limits)
+    setInterval(updateLivePrice, 30000);
     updateLivePrice();
     // ---------------------------------
 
@@ -276,7 +290,8 @@
         if (evt) {
             evt.currentTarget.classList.add("active");
         } else {
-            document.getElementById('btn-' + tabName).classList.add("active");
+            const targetBtn = document.getElementById('btn-' + tabName);
+            if(targetBtn) targetBtn.classList.add("active");
         }
 
         if(tabName === 'whitepaper') { loadWhitepaper(); }
