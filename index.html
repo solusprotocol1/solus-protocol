@@ -105,9 +105,44 @@
     <p style="color: #888; font-size: 1.25rem; max-width: 650px; margin: 20px 0;">
         Decentralized infrastructure for medical integrity. Powered by $SLS on the XRP Ledger.
     </p>
-    <a href="https://magnetic.org/swap/XRP-SLS.r95GyZac4butvVcsTWUPpxzekmyzaHsTA5" class="cta-btn">Trade $SLS</a>
+    <div style="display: flex; gap: 15px;">
+        <a href="#trade" onclick="showTab(event, 'trade')" class="cta-btn">Access Trading Hub</a>
+        <a href="https://xrpscan.com/account/r95GyZac4butvVcsTWUPpxzekmyzaHsTA5" target="_blank" class="cta-btn" style="background: transparent; border: 1px solid var(--border); color: #fff;">View Ledger Data</a>
+    </div>
 </section>
 
+<button class="tab-btn" onclick="showTab(event, 'trade')">Trade $SLS</button>
+
+<div id="trade" class="tab-content">
+    <h2>Verified Trading Portals</h2>
+    <p style="color: #888; margin-bottom: 30px;">Access $SLS through verified XRP Ledger decentralized exchanges and AMM interfaces.</p>
+    <div class="grid">
+        <div class="card">
+            <h4 style="color: var(--accent);">Magnetic DEX</h4>
+            <p>Best for instant AMM swaps with low slippage and real-time charts.</p>
+            <a href="https://magnetic.org/swap/XRP-SLS.r95GyZac4butvVcsTWUPpxzekmyzaHsTA5" target="_blank" style="color: var(--accent); text-decoration: none; font-weight: bold;">Swap on Magnetic →</a>
+        </div>
+        
+        <div class="card">
+            <h4 style="color: #00e5ff;">Sologenic DEX</h4>
+            <p>Advanced trading interface for setting limit buy and sell orders.</p>
+            <a href="https://sologenic.org/trade?market=SLS%2Br95GyZac4butvVcsTWUPpxzekmyzaHsTA5%2FXRP" target="_blank" style="color: #00e5ff; text-decoration: none; font-weight: bold;">Trade on Sologenic →</a>
+        </div>
+
+        <div class="card">
+            <h4 style="color: var(--secondary);">XPMarket</h4>
+            <p>Comprehensive token analytics, holder data, and portfolio tracking.</p>
+            <a href="https://xpmarket.com/token/SLS-r95GyZac4butvVcsTWUPpxzekmyzaHsTA5" target="_blank" style="color: var(--secondary); text-decoration: none; font-weight: bold;">View on XPMarket →</a>
+        </div>
+
+        <div class="card">
+            <h4 style="color: #fff;">XRP Toolkit</h4>
+            <p>Direct interaction with the XRPL for hardware wallet users (Ledger/Trezor).</p>
+            <a href="https://www.xrptoolkit.com/trade?base=SLS.r95GyZac4butvVcsTWUPpxzekmyzaHsTA5&quote=XRP" target="_blank" style="color: #fff; text-decoration: none; font-weight: bold;">Trade on XRP Toolkit →</a>
+        </div>
+    </div>
+</div>
+    
 <section class="section-container" data-aos="fade-up">
     <div class="tabs">
         <button class="tab-btn active" onclick="showTab(event, 'utility')">Utility</button>
