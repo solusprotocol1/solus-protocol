@@ -126,7 +126,7 @@
 
 <div class="mesh-bg"></div>
 
-<button class="sticky-trade-btn" onclick="scrollToTrade()">TRADE $SLS LIVE</button>
+<button class="sticky-trade-btn" id="live-price-btn" onclick="scrollToTrade()">TRADE $SLS LIVE</button>
 
 <nav>
     <a href="/" class="nav-brand">SOLUS PROTOCOL</a>
@@ -235,6 +235,35 @@
 <script>
     AOS.init({ duration: 800, once: true });
 
+    // --- SIMULATED PRICE FETCH LOOP ---
+    let lastPrice = 0.4520; // Starting simulated price in XRP
+
+    function updateLivePrice() {
+        const btn = document.getElementById('live-price-btn');
+        
+        // Simulate a small market fluctuation (+/- 0.5%)
+        const fluctuation = (Math.random() * 0.01 - 0.005) * lastPrice;
+        const newPrice = (lastPrice + fluctuation).toFixed(4);
+        
+        // Update the button text
+        btn.innerText = `TRADE $SLS: ${newPrice} XRP`;
+        
+        // Visual feedback: green for up, red for down (optional flash)
+        if (newPrice > lastPrice) {
+            btn.style.filter = "hue-rotate(0deg) brightness(1.2)";
+        } else {
+            btn.style.filter = "hue-rotate(-45deg) brightness(1.1)";
+        }
+        
+        lastPrice = parseFloat(newPrice);
+    }
+
+    // Run every 5 seconds
+    setInterval(updateLivePrice, 5000);
+    // Initial call to set price immediately
+    updateLivePrice();
+    // ---------------------------------
+
     function showTab(evt, tabName) {
         var i, tabcontent, tablinks;
         tabcontent = document.getElementsByClassName("tab-content");
@@ -244,7 +273,6 @@
         
         document.getElementById(tabName).classList.add("active");
         
-        // Update button active state
         if (evt) {
             evt.currentTarget.classList.add("active");
         } else {
