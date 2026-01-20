@@ -1,34 +1,86 @@
-# Solus Protocol (SLS) Whitepaper
-**Version:** 1.0  
-**Network:** XRP Ledger (XRPL)  
-**Issuer Address:** `r95GyZac4butvVcsTWUPpxzekmyzaHsTA5`
+# Solus Protocol Whitepaper
+**Decentralized Infrastructure for Medical Data Integrity** *Version 2.1 | January 2026*
 
 ---
 
-## 1. Abstract
-Solus Protocol is a decentralized utility asset built on the XRP Ledger (XRPL). It is designed to provide a low-latency, highly scalable foundation for decentralized applications (dApps) and automated market participation. By utilizing the XRPL's native LS20 Automated Market Maker (AMM) protocol, Solus ensures transparent liquidity and efficient transaction finality without the need for centralized intermediaries.
+## 1. Executive Summary
+Solus Protocol ($SLS) provides a decentralized, immutable layer for the verification and anchoring of healthcare data. Built on the **XRP Ledger (XRPL)**, Solus enables healthcare providers, clinical researchers, and patients to ensure the integrity of medical records through cryptographic hashing. By removing the possibility of retroactive data manipulation, Solus establishes a "Gold Standard" for trust in digital health.
 
-## 2. Technical Infrastructure
-Solus Protocol is built natively on the XRP Ledger to leverage its institutional-grade security and settlement speed.
-* **Native AMM Integration:** SLS utilizes the XRPL native AMM, allowing for decentralized trading and liquidity provision with a fixed 0.5% trading fee.
-* **Dual-Wallet Architecture:** The protocol maintains a clear separation between the **Issuer Wallet (Cold)** and **Operational Wallet (Hot)** to ensure maximum security of the token supply.
-* **Domain Verification:** The protocol utilizes XLS-32 standards for domain verification via `raw.githubusercontent.com` to establish trust and project identity.
+## 2. The Problem: Data Fragmentation and Manipulation
+Current Electronic Health Record (EHR) systems and clinical trial databases suffer from two critical vulnerabilities:
+1. **Centralization:** Data stored in centralized silos is susceptible to unauthorized alteration and cyberattacks.
+2. **Lack of Auditability:** Retroactive changes to clinical trial results or patient history can be difficult to detect, compromising patient safety and regulatory compliance.
 
-## 3. Tokenomics & Utility
-* **Total Supply:** 100,000,000 SLS
-* **Token Type:** Utility Asset
-* **Core Utility:** 1. **Governance:** SLS holders may participate in future protocol parameter votes.
-    2. **Liquidity Incentives:** Users providing liquidity to the SLS/XRP pool receive a proportional share of trading fees.
-    3. **Ecosystem Access:** Future dApp integrations within the Solus ecosystem will utilize SLS as a primary access and reward token.
+## 3. The Solution: Solus Protocol
+Solus leverages the high speed and low cost of the XRP Ledger to create a permanent audit trail.
+- **Data Anchoring:** Instead of storing sensitive PII (Personally Identifiable Information) on-chain, Solus stores a unique cryptographic hash of the data.
+- **Verification:** Any party with the original document can verify its authenticity by comparing its hash against the one anchored on the Solus Protocol.
 
-## 4. Roadmap (2026)
-* **Q1:** Genesis and Initial AMM Deployment.
-* **Q2:** Verification on primary XRPL trackers (XPMarket, Magnetic, XRPScan).
-* **Q3:** Community expansion and first-tier utility integrations.
-* **Q4:** Exploration of bridge integrations and expanded DEX presence.
+## 4. Tokenomics ($SLS)
+The $SLS token is the native utility asset of the Solus ecosystem. It is used to fuel data anchoring operations and govern the protocol's development.
 
-## 5. Security & Compliance
-Solus Protocol is committed to transparency. All issuer settings, including the `DefaultRipple` flag and transaction history, are publicly verifiable. The project does not conduct a public sale or initial coin offering (ICO); liquidity is established through open market participation on the decentralized exchange.
+| Attribute | Details |
+| :--- | :--- |
+| **Token Name** | Solus Protocol |
+| **Symbol** | $SLS |
+| **Network** | XRP Ledger (XRPL) |
+| **Issuer Address** | `r95GyZac4butvVcsTWUPpxzekmyzaHsTA5` |
+| **Total Supply** | 100,000,000 SLS |
+| **Utility** | Data Anchoring, Validation, Governance |
+
+### Supply Management
+To ensure long-term ecosystem stability, a significant portion of the supply is managed via **XRPL Escrow** contracts, providing a predictable and transparent release schedule for development and partnership grants.
+
+## 5. Strategic Roadmap (2026 – 2031)
+
+### 2026: The Foundation
+* **Q1: Mainnet Launch & Liquidity [COMPLETED]**
+    * Official deployment on XRPL mainnet.
+    * Establishment of initial liquidity pools for $SLS trading.
+* **Q2: Clinical Pilot Program**
+    * Onboard first clinics for data anchoring trials.
+* **Q3: Developer API Beta**
+    * Launch beta SDK for healthcare system integrations.
+* **Q4: Full API Launch**
+    * Production-ready API for enterprise developers.
+
+### 2027: Integration & Governance
+* **Q1: Mobile App Launch**
+    * Patient-facing app for instant data verification.
+* **Q2: EHR System Integration**
+    * Direct API hooks into major Electronic Health Record platforms.
+* **Q4: Community Governance**
+    * Implementation of the Solus DAO for decentralized protocol voting.
+
+### 2028: Compliance & AI
+* **Q2: Regulatory Certifications**
+    * Achieve HIPAA and GDPR compliance certifications.
+* **Q3: AI Insights Engine**
+    * Add AI tools for anonymized data analytics while maintaining hash integrity.
+
+### 2029 – 2031: Global Standard
+* **2029:** Cross-chain bridges (Ethereum, Solana) for cross-protocol data verification.
+* **2030:** Protocol v2.0 upgrade featuring Zero-Knowledge Proofs (ZKP) for enhanced privacy.
+* **2031:** Milestone: 1 Million active users verifying medical data integrity via Solus.
+
+## 6. Trading & Participation
+$SLS is traded on the XRP Ledger Decentralized Exchange (DEX).
+
+**How to Acquire $SLS via Xaman:**
+1. Open your **Xaman (formerly Xumm)** wallet.
+2. Ensure you have a Trustline set for the $SLS Issuer.
+3. Navigate to the "DEX" or "Trade" tab.
+4. Search for the **SLS** asset to swap XRP for $SLS.
+
+**Official Links:**
+- **Twitter:** [@solus_protocol](https://x.com/solus_protocol)
+- **Telegram:** [t.me/solus_protocol](https://t.me/solus_protocol)
 
 ---
-*Disclaimer: SLS is a utility token. Holding SLS does not represent an equity stake or a claim on profits. Digital assets involve significant risk.*
+
+## 7. Regulatory Disclosure & Risk Warning
+**SOLUS PROTOCOL ($SLS) IS A UTILITY TOKEN INTENDED FOR USE WITHIN THE SOLUS DATA ECOSYSTEM.**
+
+**US Regulatory Notice:** $SLS has not been registered as a security under the U.S. Securities Act of 1933. It is designed as a functional utility token for data anchoring. Participation in the Solus ecosystem involves significant risk. This document does not constitute financial or investment advice.
+
+**Risk Disclosure:** Digital assets are highly volatile. There is no guarantee of value, and users should only participate with funds they can afford to lose. Solus Protocol does not offer "staking" or "investment contracts" as defined by the SEC’s Howey Test. Users are responsible for their own tax and legal compliance in their respective jurisdictions.
