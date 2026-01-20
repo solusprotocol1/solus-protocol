@@ -47,8 +47,8 @@ To hold or trade $SLS, you must establish a trust line to the official issuer ad
 
 ### **Trading & Liquidity**
 Instant liquidity is available via the native XRPL Automated Market Maker (AMM):
-* **Swap on Magnetic:** [Swap XRP/SLS](https://magnetic.org/swap/XRP-SLS.r95GyZac4butvVcsTWUPpxzekmyzaHsTA5)
-* **Market Analytics:** [View on XPMarket](https://xpmarket.com/amm/create?asset1=XRP&asset2=SLS.r95GyZac4butvVcsTWUPpxzekmyzaHsTA5)
+* **Swap on Magnetic:** [Swap XRP/SLS](https://xpmarket.com/amm/pool/SLS-r95GyZac4butvVcsTWUPpxzekmyzaHsTA5/XRP)
+* **Market Analytics:** [View on XPMarket](https://xmagnetic.org/amm/SLS+r95GyZac4butvVcsTWUPpxzekmyzaHsTA5_XRP+XRP?network=mainnet)
 
 ### **Developer Support**
 We welcome contributions to the Solus Gateway API and open-source EHR connectors. 
