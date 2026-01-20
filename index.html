@@ -690,9 +690,9 @@ The $SLS token is the native utility asset of the Solus ecosystem.
 | **Token Name** | Solus Protocol |
 | **Symbol** | $SLS |
 | **Network** | XRP Ledger (XRPL) |
-| **Issuer Address** | `r95GyZac4butvVcsTWUPpxzekmyzaHsTA5` |
+| **Issuer Address** | r95GyZac4butvVcsTWUPpxzekmyzaHsTA5 |
 | **Total Supply** | 100,000,000 SLS |
-| **Liquidity** | **Decentralized AMM Pools Enabled** |
+| **Liquidity** | Decentralized AMM Pools Enabled |
 | **Utility** | Data Anchoring, Validation, Governance |
 
 ### <center>**LEGAL CHARACTERIZATION OF THE SLS TOKEN**</center>
@@ -723,7 +723,7 @@ The Solus Protocol is transitioning toward a **Decentralized Technical Governanc
 * **2031:** Milestone: 1 Million active users verifying health data integrity.
 
 ## <center>7. Trading & Participation</center>
-$SLS is available on the XRPL Decentralized Exchange (DEX). Always verify the Issuer Address: `r95GyZac4butvVcsTWUPpxzekmyzaHsTA5`.
+$SLS is available on the XRPL Decentralized Exchange (DEX). Always verify the Issuer Address: r95GyZac4butvVcsTWUPpxzekmyzaHsTA5.
 - **Xaman:** Direct swapping via mobile.
 - **xMagnetic / Sologenic:** Advanced AMM and order-book trading.
 
@@ -736,7 +736,6 @@ Solus Protocol is engineered to meet the "Privacy-by-Design" requirements of the
 
 ### <center>A. Data De-Identification, Transmission & Storage Security (Safe Harbor) (§ 164.312(e)(1))</center>
 - **HIPAA Safe Harbor Compliance:** Solus **does not store** PHI on the blockchain. By anchoring only de-identified hashes, providers separate the *content* of the record from the *integrity proof*, minimizing the "breach surface area."
-Solus **does not store** Protected Health Information (PHI) on the blockchain. 
 - **Hashed Anchoring:** The protocol only records SHA-256 cryptographic hashes. These are irreversible "fingerprints" that cannot be used to reconstruct patient data.
 - **Off-Chain Sovereignty:** Actual medical records remain in the secure, HIPAA-compliant databases of the healthcare provider.
 
@@ -767,15 +766,8 @@ Solus implements **Cryptographic Meta-Sealing** (SHA-256) to protect ePHI from i
 **<center>Official Socials:</center>**
 - **<center>Twitter: [@solus_protocol](https://x.com/solus_protocol)</center>**
 - **<center>Telegram: [t.me/solus_protocol](https://t.me/solus_protocol)</center>**
-
-            `;
-            
-            try {
-                renderDiv.innerHTML = marked.parse(content);
-                renderDiv.style.textAlign = 'left';
-            } catch (e) { 
-                renderDiv.innerHTML = `<p>Error loading content. <a href="https://github.com/solusprotocol1/solus-protocol/raw/main/Solus%20Protocol%20Whitepaper%20Version%202.9.pdf" target="_blank" style="color:var(--accent)">Click here to download the PDF.</a></p>`; 
-            }
+`;
+            renderDiv.innerHTML = marked.parse(content);
         }
     </script>
 </body>
