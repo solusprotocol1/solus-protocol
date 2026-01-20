@@ -364,6 +364,17 @@
             cursor: pointer;
         }
 
+        .img-placeholder {
+            background: rgba(255,255,255,0.05);
+            border: 1px dashed var(--border);
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
+            color: #666;
+            margin: 20px 0;
+            font-style: italic;
+        }
+
         @media (max-width: 768px) {
             .sticky-trade-btn { top: auto; bottom: 20px; right: 20px; width: calc(100% - 40px); text-align: center; }
         }
@@ -406,6 +417,7 @@
 
         <div class="tabs">
             <button id="btn-utility" class="tab-btn active" onclick="showTab(event, 'utility')">Utility</button>
+            <button id="btn-providers" class="tab-btn" onclick="showTab(event, 'providers')">For Providers</button>
             <button id="btn-trade" class="tab-btn" onclick="showTab(event, 'trade')" style="color: var(--accent); border: 1px solid rgba(20, 241, 149, 0.3); border-radius: 8px;">Trade $SLS</button>
             <button id="btn-roadmap" class="tab-btn" onclick="showTab(event, 'roadmap')">Roadmap</button>
             <button id="btn-whitepaper" class="tab-btn" onclick="showTab(event, 'whitepaper')">Whitepaper</button>
@@ -414,6 +426,7 @@
 
         <div id="trade" class="tab-content">
             <h2>Verified Trading Portals</h2>
+            <div class="img-placeholder"></div>
             <div class="grid">
                 <div class="card" style="border-color: var(--accent); background: rgba(20, 241, 149, 0.05);">
                     <h4 style="color: var(--accent);">Trade via Xaman (Mobile)</h4>
@@ -433,74 +446,73 @@
                     <h4 style="color: #00e5ff;">Sologenic DEX</h4>
                     <a href="https://sologenic.org/trade?market=SLS%2Br95GyZac4butvVcsTWUPpxzekmyzaHsTA5%2FXRP&network=mainnet" target="_blank" style="color: #00e5ff; text-decoration: none; font-weight: bold;">Trade on Sologenic →</a>
                 </div>
-                <div class="card">
-                    <h4 style="color: #9945ff;">DEX Trade</h4>
-                    <p>Establish limit orders and view real-time market depth for $SLS pairs.</p>
-                    <a href="https://dex-trade.com/" target="_blank" style="color: #9945ff; text-decoration: none; font-weight: bold;">Trade on DEX Trade →</a>
-                </div>
             </div>
         </div>
 
         <div id="utility" class="tab-content active">
             <h2>Token Utility & Economy</h2>
+            [cite_start]<div class="img-placeholder"> [cite: 21, 70]</div>
             <div class="grid">
                 <div class="card">
-                    <h4 style="color: var(--accent);">Data Anchoring</h4>
-                    <p>Clinics utilize $SLS to generate cryptographic hashes of medical records, ensuring they can never be altered.</p>
+                    <h4 style="color: var(--accent);">Privacy-by-Design</h4>
+                    [cite_start]<p>Solus remains HIPAA/GDPR compliant by never storing Protected Health Information (PHI) on-chain. [cite: 88, 90]</p>
                 </div>
                 <div class="card">
-                    <h4 style="color: var(--secondary);">Integrity Validation</h4>
-                    <p>$SLS acts as the network fuel for decentralized verification of clinical trial data and EHR integrity.</p>
+                    <h4 style="color: var(--secondary);">Cryptographic Fingerprinting</h4>
+                    [cite_start]<p>Uses SHA-256 hashes to create irreversible "fingerprints" of medical records while data stays off-chain. [cite: 91, 92]</p>
+                </div>
+                <div class="card">
+                    <h4 style="color: var(--accent);">Integrity Controls</h4>
+                    [cite_start]<p>The XRPL ensures that once a hash is anchored, it is immutable and time-stamped for auditability. [cite: 94, 95]</p>
                 </div>
             </div>
         </div>
 
+        <div id="providers" class="tab-content">
+            <h2>Institutional Solutions</h2>
+            <div class="grid">
+                <div class="card">
+                    <h4 style="color: var(--accent);">Clinical Pilot Program</h4>
+                    [cite_start]<p>Participate in our Q2 2026 onboard trials for healthcare clinics. [cite: 26]</p>
+                    <a href="mailto:support@solusprotocol.com?subject=Pilot Program Interest" class="cta-btn" style="padding: 10px 20px; margin-top: 10px; font-size: 0.8rem;">Express Interest</a>
+                </div>
+                <div class="card">
+                    <h4 style="color: var(--secondary);">Enterprise API</h4>
+                    [cite_start]<p>Developer SDK for seamless EHR integration launching Q4 2026. [cite: 28]</p>
+                </div>
+            </div>
+            [cite_start]<div class="img-placeholder"> [cite: 15, 17]</div>
+        </div>
+
         <div id="roadmap" class="tab-content">
-            <h2>Strategic Roadmap <span style="font-size: 0.9rem; color: #555; margin-left: 10px;">2026 — 2031</span></h2>
+            [cite_start]<h2>Strategic Roadmap <span style="font-size: 0.9rem; color: #555; margin-left: 10px;">2026 — 2031 [cite: 22]</span></h2>
             
             <div class="roadmap-year">
-                <h3>2026</h3>
+                [cite_start]<h3>2026 [cite: 23]</h3>
                 <div class="roadmap-item done">
-                    <strong>Q1: Mainnet Launch & Liquidity Pools</strong> <span class="status-tag status-done">Completed</span>
-                    <p>Official deployment on XRPL and establishment of $SLS/XRP pairs.</p>
+                    [cite_start]<strong>Q1: Mainnet Launch & Liquidity Pools</strong> <span class="status-tag status-done">Completed [cite: 24]</span>
+                    [cite_start]<p>Official deployment on XRPL and establishment of $SLS/XRP pairs. [cite: 25]</p>
                 </div>
                 <div class="roadmap-item">
                     <strong>Q2: Clinical Pilot Program Start</strong> <span class="status-tag status-next">In Progress</span>
-                    <p>Onboard first clinics for data anchoring trials using immutable hashing.</p>
-                </div>
-                <div class="roadmap-item">
-                    <strong>Q3: Developer API Beta & Partnerships</strong>
-                    <p>Launch beta SDK; secure partnerships with 5-10 pilot clinics.</p>
+                    [cite_start]<p>Onboard first clinics for data anchoring trials using immutable hashing. [cite: 27]</p>
                 </div>
                 <div class="roadmap-item">
                     <strong>Q4: Full API Launch & Infrastructure Activation</strong>
-                    <p>Release production-ready API for enterprise developers and node infrastructure.</p>
+                    [cite_start]<p>Release production-ready API for enterprise developers. [cite: 30]</p>
                 </div>
             </div>
 
             <div class="roadmap-year">
-                <h3>2027</h3>
-                <div class="roadmap-item"><strong>Q1: Mobile App Launch</strong><p>Patient-facing app for data verification.</p></div>
-                <div class="roadmap-item"><strong>Q2: Integration with EHR Systems</strong><p>Hooks into major Electronic Health Records platforms.</p></div>
-                <div class="roadmap-item"><strong>Q4: Community Governance</strong><p>Launch DAO for $SLS holders to vote on protocol proposals.</p></div>
-            </div>
-
-            <div class="roadmap-year">
-                <h3>2028</h3>
-                <div class="roadmap-item"><strong>Q2: Regulatory Certifications</strong><p>Achieve HIPAA/GDPR compliance certifications.</p></div>
-                <div class="roadmap-item"><strong>Q4: Patient Data Sharing</strong><p>Consent-based access controls for medical data sharing.</p></div>
-            </div>
-
-            <div class="roadmap-year">
-                <h3>2029 - 2031</h3>
-                <div class="roadmap-item"><strong>2029: Cross-Chain Integrations</strong><p>Bridge $SLS to Ethereum and Solana for cross-protocol verification.</p></div>
-                <div class="roadmap-item"><strong>2030: Version 2.0 Protocol</strong><p>Major overhaul implementing Zero-Knowledge Proofs for enhanced privacy.</p></div>
-                <div class="roadmap-item"><strong>2031: Global Standard Realization</strong><p>Milestone: 1M active users verifying health data integrity.</p></div>
+                [cite_start]<h3>2027–2031 [cite: 31]</h3>
+                [cite_start]<div class="roadmap-item"><strong>2027: Mobile App & EHR Integration</strong><p>Launch patient app and link with major EHR systems. [cite: 32]</p></div>
+                [cite_start]<div class="roadmap-item"><strong>2028: Compliance Certifications</strong><p>Achieve HIPAA/GDPR certifications for the protocol. [cite: 33]</p></div>
+                [cite_start]<div class="roadmap-item"><strong>2031: Global Standard</strong><p>Milestone: 1 Million active users verifying health data integrity. [cite: 34]</p></div>
             </div>
         </div>
 
         <div id="whitepaper" class="tab-content">
-            <h2>Official Whitepaper</h2>
+            [cite_start]<h2>Official Whitepaper [cite: 2]</h2>
             <a href="https://github.com/solusprotocol1/solus-protocol/raw/main/Solus%20Protocol%20Whitepaper%20Version%202.8.pdf" class="download-btn" target="_blank">
                 <span>📄</span> Download Whitepaper PDF
             </a>
@@ -509,29 +521,33 @@
         </div>
 
         <div id="contact" class="tab-content">
-            <h2>Connect with Solus</h2>
+            [cite_start]<h2>Connect with Solus [cite: 96]</h2>
             <div class="grid">
                 <div class="card">
-                    <h4>Twitter</h4>
+                    [cite_start]<h4>Twitter [cite: 97]</h4>
                     <a href="https://x.com/solus_protocol" target="_blank" style="color: var(--accent);">@solus_protocol</a>
                 </div>
                 <div class="card">
-                    <h4>Telegram</h4>
-                    <a href="https://t.me/solus_protocol" target="_blank" style="color: var(--secondary);">Join Discussion</a>
+                    [cite_start]<h4>Telegram [cite: 98]</h4>
+                    <a href="https://t.me/solus_protocol" target="_blank" style="color: var(--secondary);">t.me/solus_protocol</a>
                 </div>
             </div>
         </div>
 
         <div class="disclaimer-box">
-            <strong>REGULATORY DISCLOSURE & RISK WARNING:</strong><br>
-            Solus Protocol ($SLS) is a decentralized utility token built on the XRP Ledger. $SLS is intended solely for use within the Solus ecosystem for data anchoring and integrity verification purposes. It does not represent an equity stake, share, or profit-sharing interest in any entity. 
+            [cite_start]<strong>REGULATORY DISCLOSURE & RISK WARNING[cite: 61, 62]:</strong><br>
+            [cite_start]Solus Protocol ($SLS) is a digital asset on the XRP Ledger. [cite: 64] [cite_start]Holders possess no ownership, equity, or financial rights (dividends/profit-sharing). [cite: 65, 66]
             <br><br>
-            <strong>For United States Residents:</strong> $SLS has not been registered under the U.S. Securities Act of 1933 or with any state securities commission. Participation in decentralized finance carries significant risk. Solus Protocol does not offer financial services, investment advice, or "staking" programs that constitute an investment contract under the Howey Test. Users are responsible for ensuring compliance with local laws, including tax obligations. The value of digital assets is highly volatile; never risk funds you cannot afford to lose.
+            <strong>Technical Reliance & Custody:</strong> The protocol relies on the XRP Ledger (XRPL); [cite_start]Solus has no control over its consensus mechanism or operational status. [cite: 71, 72] [cite_start]Users are solely responsible for private key management; loss of keys results in permanent asset loss. [cite: 73, 74]
+            <br><br>
+            [cite_start]<strong>Market Risks:</strong> Crypto assets are subject to extreme price swings and may decrease to zero value. [cite: 75, 77] [cite_start]There is no guarantee of a continuous market or liquidity on third-party platforms. [cite: 76, 78]
+            <br><br>
+            [cite_start]<strong>Registration Status:</strong> $SLS has not been registered under the U.S. Securities Act of 1933. [cite: 81] [cite_start]Future regulatory actions may materially impact the ability to hold or use $SLS. [cite: 83]
         </div>
     </section>
 
     <footer>
-        <p>&copy; 2026 Solus Protocol | Decentralized Medical Integrity <br> Built on the XRP Ledger</p>
+        <p>&copy; 2026 Solus Protocol | [cite_start]Decentralized Medical Integrity [cite: 3] [cite_start]<br> Built on the XRP Ledger [cite: 6]</p>
     </footer>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
@@ -574,7 +590,6 @@
             let tablinks = document.getElementsByClassName("tab-btn");
             for (let i = 0; i < tablinks.length; i++) tablinks[i].classList.remove("active");
             
-            // Toggle download button bar visibility
             const dlBar = document.getElementById('wp-dl-bar');
             if(tabName === 'whitepaper') {
                 dlBar.classList.add('visible');
