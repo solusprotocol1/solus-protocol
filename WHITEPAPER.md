@@ -1,6 +1,22 @@
 # ![Solus Protocol Logo](https://solusprotocol.com/logo.png) Solus Protocol Whitepaper
-**Decentralized Infrastructure for Medical Data Integrity**
-*Version 2.8 | January 2026*
+**Decentralized Infrastructure for Medical Data Integrity** *Version 2.8 | January 2026*
+
+---
+
+## **LEGAL NOTICE AND RISK DISCLOSURE FOR SOLUS PROTOCOL (SLS)**
+
+> [!WARNING]
+> **IMPORTANT: PLEASE READ THE FOLLOWING CAREFULLY.** THE ACQUISITION OF SLS TOKENS INVOLVES SUBSTANTIAL RISK AND SHOULD ONLY BE UNDERTAKEN BY INDIVIDUALS CAPABLE OF BEARING THE TOTAL LOSS OF THEIR PURCHASE.
+
+**1. REGULATORY AND LEGAL STATUS** The legal and regulatory status of **SLS** and the **Solus Protocol** in the United States and globally is uncertain and subject to rapid change. There is a risk that the **SEC**, **CFTC**, or **FinCEN** may deem SLS a "security" or a regulated financial instrument. Such a determination could subject the **Solus Protocol** issuers to enforcement actions and registration requirements, which could result in a total loss of liquidity and utility for SLS holders.
+
+**2. VOLATILITY AND MARKET RISKS** The value of **SLS** is subject to extreme market volatility. Significant price declines, fraud, market manipulation, and operational failures on third-party trading platforms can lead to a sudden and permanent loss of value. **SLS** is not a stablecoin and is not pegged to any fiat currency or physical asset.
+
+**3. CYBERSECURITY AND TECHNOLOGY** The **Solus Protocol** relies on complex smart contract code. Despite security audits, vulnerabilities may exist. Risks include malicious attacks, protocol failures, and the risk of **private key theft**. If you lose your private keys or your wallet is compromised, the **Solus Protocol** has no mechanism to recover your **SLS** tokens. Smart contract code for the protocol may be filed as an exhibit to public disclosures where required by law.
+
+**4. LIMITATION OF RIGHTS** **SLS** tokens do not represent equity, shares, or any ownership interest in the **Solus Protocol** or any associated company. Holders have no rights to profits, dividends, or corporate voting. Governance is limited strictly to protocol-level decisions (e.g., on-chain votes) as defined in the **Solus Protocol** technical documentation.
+
+**5. DEVELOPMENT STAGE AND OPERATIONS** The **Solus Protocol** is currently in its development stage. Future plans and revenue models are subject to change. The protocol may rely on third-party service providers or counterparties; any failure by these parties could disrupt the functionality of **SLS**. There is no guarantee that the project’s roadmap will be fully realized.
 
 ---
 
@@ -30,6 +46,25 @@ The $SLS token is the native utility asset of the Solus ecosystem.
 | **Liquidity** | **Decentralized AMM Pools Enabled** |
 | **Utility** | Data Anchoring, Validation, Governance |
 
+### **LEGAL CHARACTERIZATION OF THE SLS TOKEN**
+The SLS Token is designed and intended to function as a **"Network Token"** or **"Digital Tool"** within the **Solus Protocol** ecosystem. It is not an investment, a security, a commodity, or any other kind of financial instrument. The following factors support the characterization of SLS as a utility asset rather than a security:
+
+* **Consumptive Use & Functionality:** SLS provides holders with programmatic access to the decentralized services and computational resources provided by the **Solus Protocol**. The primary purpose of acquiring SLS is for consumption and interaction within the ecosystem, not for passive speculative gain.
+* **No Expectation of Profit from Managerial Efforts:** The value and utility of SLS are derived from the programmatic operation and decentralized demand for the **Solus Protocol** network. While the initial developers have contributed to the codebase, the ongoing utility of the token is tied to the collective performance of independent network participants and the open-source protocol.
+* **Decentralized Governance:** Governance rights associated with SLS are limited to protocol-level adjustments and parameter voting within the **Solus Protocol**. These rights do not grant any ownership in a corporate entity, nor do they entitle holders to dividends, profit-sharing, or the selection of corporate directors.
+* **Fixed Utility, Not Equity:** SLS does not represent a claim on the assets of the **Solus Protocol** developers or any associated legal entity. In the event of a liquidation of any supporting entity, SLS holders have no rights to the residual value of that entity's assets.
+* **Marketing Focus:** SLS is marketed solely on its functional utility and its role as a necessary component for interacting with the **Solus Protocol**. The project does not promote SLS as an investment vehicle or suggest that it will increase in value based on the developers' profit-generating activities.
+
+### **Solus Protocol Utility vs. Security Comparison**
+
+| Feature | SLS Token (Utility Model) | Traditional Security |
+| :--- | :--- | :--- |
+| **Primary Purpose** | Access to **Solus Protocol** services | Financial return / Investment |
+| **Governance** | On-chain protocol parameters | Corporate board / Strategy voting |
+| **Economic Right** | Functional usage value | Dividends / Share of profits |
+| **Source of Value** | Decentralized network demand | Managerial efforts of a company |
+| **Issuer Obligation** | Maintain the **Solus Protocol** code | Generate profit for shareholders |
+
 ## 5. Strategic Roadmap (2026 – 2031)
 
 ### 2026: The Foundation
@@ -48,61 +83,9 @@ The $SLS token is the native utility asset of the Solus ecosystem.
 ## 6. Trading & Ecosystem Participation
 $SLS is available on the XRP Ledger Decentralized Exchange (DEX). Always verify the Issuer Address: `r95GyZac4butvVcsTWUPpxzekmyzaHsTA5`.
 
-### Trading via Xaman (Mobile)
-1. Open the **Xaman** app and tap the **DEX** button.
-2. Search for **SLS**. If it doesn't appear, paste the Issuer Address.
-3. Select the XRP/SLS pair and enter the amount you wish to swap.
-4. Slide to confirm the transaction.
-
-### Trading via xMagnetic (AMM Optimized)
-1. Visit [xmagnetic.org](https://xmagnetic.org/).
-2. Connect your wallet using the **Xaman** QR code.
-3. Navigate to the **Swap** section.
-4. Select **XRP** in the 'From' field and **SLS** in the 'To' field.
-5. Click **Swap** to execute the trade against the AMM liquidity pools.
-
-### Trading & Investing via Sologenic (Pro Interface)
-1. Go to the [Sologenic DEX](https://sologenic.org/trade).
-2. Click **Connect Wallet** and scan the QR with your Xaman app.
-3. **To Trade:** Search for the **SLS/XRP** pair. Use the **Market** tab for instant execution or the **Limit** tab to set your own price (ideal for large entries).
-4. **To Invest (Liquidity Provision):** Navigate to the **AMM** section. By providing equal parts XRP and SLS to the pool, you earn a percentage of all trading fees generated on the pair.
-
-### Trading & Investing via XPMarket (Analytics & Swap)
-1. Visit [xpmarket.com](https://xpmarket.com/).
-2. Connect your wallet via **WalletConnect** or **Xaman**.
-3. **To Trade:** Use the **Swap** tool for an easy, price-optimized AMM exchange or the **Trade** tab to see real-time order books.
-4. **To Invest (Portfolio Growth):** Use the **Liquidity** dashboard to deposit $SLS into the AMM. XPMarket provides detailed analytics on your "LP tokens," allowing you to track earned fees and total value in real-time.
-
 ---
 
-## 7. Disclosures & Risk Factors
-*In accordance with the SEC Division of Corporation Finance Statement (April 10, 2025).*
-
-### A. Description of the Asset & Rights of Holders
-$SLS is a digital asset created on the XRP Ledger. 
-- **No Ownership Interest:** Holders of $SLS do not possess any equity, debt, or proprietary interest in Solus Protocol or any affiliated entity. 
-- **No Financial Rights:** $SLS does not grant rights to dividends, profit-sharing, or distributions of any kind. 
-- **Utility Function:** The primary function of $SLS is to facilitate cryptographic data anchoring and network validation. 
-- **Governance:** Voting rights, if implemented via DAO, are restricted to protocol-level technical parameters and do not constitute control over a corporate entity.
-
-### B. Technical Specifications & Supply Mechanics
-- **Issuance:** The total supply is fixed at 100,000,000 $SLS. No further minting is possible under the current ledger settings.
-- **Network Reliance:** The protocol is built on the XRP Ledger (XRPL). Solus Protocol has no control over the underlying consensus mechanism (Proof of Association/RPCA) or the operational status of the XRPL.
-- **Custody:** Solus Protocol does not provide custodial services. Holders are solely responsible for the management of their private keys. Loss of keys results in the permanent loss of assets.
-
-### C. Market & Volatility Risks
-- **Liquidity:** While $SLS is traded on decentralized platforms (xMagnetic, Sologenic, XPMarket), there is no guarantee of a continuous market or liquidity. 
-- **Price Volatility:** Crypto assets are subject to extreme price swings. The value of $SLS may decrease to zero. 
-- **Trading Platforms:** Users interact with third-party decentralized exchanges. Solus Protocol is not responsible for the performance, security, or regulatory compliance of these platforms.
-
-### D. Legal & Regulatory Risks
-- **Registration Status:** $SLS has not been registered under the U.S. Securities Act of 1933 or any state securities laws. 
-- **Regulatory Uncertainty:** The legal status of crypto assets remains subject to change. Future regulatory actions by the SEC or other authorities may materially impact the ability to hold, transfer, or use $SLS.
-- **Compliance:** Solus Protocol intends to comply with all relevant laws, including HIPAA/GDPR for data integrity; however, the protocol does not offer financial products and is not registered as a broker-dealer or investment advisor.
-
----
-
-## 8. HIPAA Alignment & Data Privacy Standards
+## 7. HIPAA Alignment & Data Privacy Standards
 Solus Protocol is engineered to meet the "Privacy-by-Design" requirements of the **Health Insurance Portability and Accountability Act (HIPAA)**.
 
 ### A. Data De-Identification (Safe Harbor)
