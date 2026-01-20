@@ -1,47 +1,69 @@
-# Solus Protocol ($SLS)
-**The Future of Medical Data Integrity on the XRP Ledger**
+# ![Solus Protocol Logo](https://solusprotocol.com/logo.png) Solus Protocol ($SLS)
+**The Immutable Standard for Medical Data Integrity on the XRP Ledger**
 
-Solus is a decentralized protocol designed to provide immutable proof of medical data integrity. By leveraging the speed and security of the XRP Ledger, Solus allows clinics to validate clinical data entries in real-time.
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
+[![Network: XRPL Mainnet](https://img.shields.io/badge/Network-XRPL%20Mainnet-orange)](https://xrpscan.com/token/SLS/r95GyZac4butvVcsTWUPpxzekmyzaHsTA5)
+[![Compliance: HIPAA Ready](https://img.shields.io/badge/Compliance-HIPAA%20Ready-green.svg)](WHITEPAPER.md#8-hipaa-regulatory-alignment--technical-safeguards)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
-##  Protocol Overview
-- **Token Name:** Solus
-- **Symbol:** $SLS
-- **Total Supply:** 100,000,000 SLS
-- **Network:** XRP Ledger (Mainnet)
+Solus Protocol is a decentralized infrastructure layer built to bridge legacy Electronic Health Records (EHR) with the transparency of the XRP Ledger. By anchoring cryptographic fingerprints of medical data, we enable real-time validation, auditability, and tamper-proof custody without exposing sensitive Protected Health Information (PHI).
 
-# SLS Token (Project Name)
 
-Official SLS Token on the XRP Ledger. 
 
-## 🛡️ Official Wallet Addresses
+---
 
-| Wallet Type | Address | Purpose |
-| :--- | :--- | :--- |
-| **Issuer (Cold)** | `r95GyZac4butvVcsTWUPpxzekmyzaHsTA5` | Token minting & supply anchor |
-| **Operational (Hot)** | `raWL7nYZkuXMUurHcp5ZXkABfVgStdun51` | Daily transactions & liquidity management |
+## 📖 Quick Links
+* 📄 **[Whitepaper](WHITEPAPER.md)** - Technical vision, HIPAA alignment, and core protocol logic.
+* 🏗️ **[Technical Specs](TECHNICAL_SPECS.md)** - SHA-256 anchoring architecture and XRPL transaction schemas.
+* 📈 **[Investor Relations](INVESTOR_RELATIONS.md)** - Tokenomics, roadmap, and ecosystem distribution.
+* 🛡️ **[Security Policy](SECURITY.md)** - Responsible disclosure and Safe Harbor guidelines.
 
-## 🚀 How to Acquire SLS
+---
 
-### 1. Set Trust Line
-To hold SLS, you must first establish a trust line to the official issuer address.
-- **Currency Code:** `SLS`
-- **Issuer:** `r95GyZac4butvVcsTWUPpxzekmyzaHsTA5`
-- [Click here to set trustline via Xaman (Xumm)](https://xumm.community/?issuer=r95GyZac4butvVcsTWUPpxzekmyzaHsTA5&currency=SLS&limit=1000000000)
+## 🛠️ Protocol Core Features
+* **Immutable Anchoring:** Leverages XRPL transaction memos to create permanent clinical audit trails.
+* **Zero-Knowledge Privacy:** Anchors SHA-256 hashes only—ensuring zero patient data is leaked on-chain.
+* **Low-Latency Verification:** Validates the integrity of millions of records in seconds using XRPL's high-throughput consensus.
+* **Enterprise Interoperability:** Designed for seamless API integration with Epic, Cerner, and other major EHR providers.
 
-### 2. Trade via AMM (Recommended)
-We provide instant liquidity via the XRPL Native AMM. 
-- [Trade on XPMarket](https://xpmarket.com/amm/create?asset1=XRP&asset2=SLS.r95GyZac4butvVcsTWUPpxzekmyzaHsTA5)
-- [Trade on Magnetic](https://magnetic.org/trade/XRP-SLS.r95GyZac4butvVcsTWUPpxzekmyzaHsTA5)
+---
 
-## 📊 Tokenomics
-- **Total Supply:** 100,000,000 SLS
-- **Network:** XRP Ledger (Mainnet)
+## 🛡️ Asset Information & Governance
 
-- ## 🔗 Official Links
-* **Trade SLS (AMM):** [Swap XRP for SLS on Magnetic](https://magnetic.org/swap/XRP-SLS.r95GyZac4butvVcsTWUPpxzekmyzaHsTA5)
-* **Token Explorer:** [View SLS on XRPScan](https://xrpscan.com/token/SLS/r95GyZac4butvVcsTWUPpxzekmyzaHsTA5)
-* **Xaman Trustline:** [Set SLS Trustline](https://xumm.community/?issuer=r95GyZac4butvVcsTWUPpxzekmyzaHsTA5&currency=SLS&limit=1000000000)
+| Attribute | Details |
+| :--- | :--- |
+| **Token Symbol** | $SLS |
+| **Network** | XRP Ledger (Mainnet) |
+| **Issuer Address** | `r95GyZac4butvVcsTWUPpxzekmyzaHsTA5` |
+| **Total Supply** | 100,000,000 SLS |
 
+### **Official Trust Line**
+To hold or trade $SLS, you must establish a trust line to the official issuer address.
+> **[Set Trustline via Xaman (Xumm)](https://xumm.community/?issuer=r95GyZac4butvVcsTWUPpxzekmyzaHsTA5&currency=SLS&limit=1000000000)**
+
+---
+
+## 🚀 Ecosystem Participation
+
+### **Trading & Liquidity**
+Instant liquidity is available via the native XRPL Automated Market Maker (AMM):
+* **Swap on Magnetic:** [Swap XRP/SLS](https://magnetic.org/swap/XRP-SLS.r95GyZac4butvVcsTWUPpxzekmyzaHsTA5)
+* **Market Analytics:** [View on XPMarket](https://xpmarket.com/amm/create?asset1=XRP&asset2=SLS.r95GyZac4butvVcsTWUPpxzekmyzaHsTA5)
+
+### **Developer Support**
+We welcome contributions to the Solus Gateway API and open-source EHR connectors. 
+* See **[CONTRIBUTING.md](CONTRIBUTING.md)** to get started.
+* For critical vulnerabilities, refer to our **[Security Policy](SECURITY.md)**.
+
+---
+
+## 🔗 Official Channels
+* **Twitter:** [@solus_protocol](https://x.com/solus_protocol)
+* **Telegram:** [t.me/solus_protocol](https://t.me/solus_protocol)
+* **Explorer:** [XRPScan Token Profile](https://xrpscan.com/token/SLS/r95GyZac4butvVcsTWUPpxzekmyzaHsTA5)
+
+---
+*© 2026 Solus Protocol. All rights reserved. SLS is a utility token and does not represent equity or an investment contract.*
 ---
 © 2026 Solus Protocol. Built on the XRP Ledger.
 
