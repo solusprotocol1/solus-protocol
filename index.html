@@ -361,17 +361,6 @@
             cursor: pointer;
         }
 
-        .img-placeholder {
-            background: rgba(255,255,255,0.05);
-            border: 1px dashed var(--border);
-            border-radius: 12px;
-            padding: 40px;
-            text-align: center;
-            color: #666;
-            margin: 20px 0;
-            font-style: italic;
-        }
-
         /* Input Styles for Feedback */
         .feedback-input {
             width: 100%;
@@ -563,7 +552,6 @@
             <a href="https://github.com/solusprotocol1/solus-protocol/raw/main/Solus%20Protocol%20Whitepaper%20Version%202.9.pdf" class="download-btn" target="_blank">
                 <span>📄</span> Download Whitepaper PDF
             </a>
-            
             <div id="whitepaper-render">Loading Protocol Documentation...</div>
         </div>
 
@@ -575,7 +563,7 @@
                     <p style="font-size: 0.9rem; color: #bbb; line-height: 1.5;">
                         The Solus Protocol maintains a rigorous commitment to technical transparency. This module serves as a formal portal for security researchers, blockchain architects, and clinical auditors to submit documented observations regarding the cryptographic integrity of our hash anchoring mechanisms, XRPL smart contract interfaces, or consensus-level vulnerabilities. Your submission will be processed by our Security Operations Center (SOC).
                     </p>
-                    <input type="email" id="audit-email" class="email-input" placeholder="Your institutional email address" required>
+                    <input type="email" id="audit-email" class="email-input" placeholder="Institutional email address" required>
                     <textarea id="audit-text" class="feedback-input" rows="5" placeholder="Detailed technical observation or audit finding..."></textarea>
                     <button class="feedback-submit" onclick="submitForm('Audit')">Submit Audit Report</button>
                 </div>
@@ -590,7 +578,7 @@
                     <p style="font-size: 0.9rem; color: #bbb; line-height: 1.5;">
                         Navigating the complex global intersection of decentralized ledger technology and healthcare data regulation requires a continuous, multi-jurisdictional dialogue. This interface is strictly designated for institutional legal counsel, policy makers, and compliance officers to submit formal inquiries or jurisdictional opinions regarding the protocol’s alignment with HIPAA, GDPR, and emerging digital asset frameworks.
                     </p>
-                    <input type="email" id="legal-email" class="email-input" placeholder="Professional email address" required>
+                    <input type="email" id="legal-email" class="email-input" placeholder="Professional legal email" required>
                     <textarea id="legal-text" class="feedback-input" rows="5" placeholder="Legal inquiry or jurisdictional compliance opinion..."></textarea>
                     <button class="feedback-submit" onclick="submitForm('Legal')">Submit Inquiry</button>
                 </div>
@@ -631,9 +619,9 @@
     <script>
         AOS.init({ duration: 800, once: true });
 
-        // UPDATED: Form Submission with Email for Auto-Reply
+        // Institutional Form Logic with Automated Reply Support
         async function submitForm(type) {
-            const successMessage = `Submission successful! Our systems have logged your ${type} report. An automated confirmation email has been dispatched to your provided address.`;
+            const successMessage = `Submission successful! Our systems have logged your ${type} report. An automated institutional confirmation has been dispatched to your provided email address.`;
             
             const emailField = type === 'Audit' ? document.getElementById('audit-email') : document.getElementById('legal-email');
             const textArea = type === 'Audit' ? document.getElementById('audit-text') : document.getElementById('legal-text');
@@ -643,7 +631,7 @@
             const btn = event.target;
 
             if (!email || !message) {
-                alert('Please provide both your email and a detailed message.');
+                alert('Please provide both your professional email and a detailed message.');
                 return;
             }
 
@@ -733,79 +721,121 @@
         // FULL WHITEPAPER RENDERER
         async function loadWhitepaper() {
             const renderDiv = document.getElementById('whitepaper-render');
-            const content = `
-# <center>![Solus Protocol Logo](https://raw.githubusercontent.com/solusprotocol1/solus-protocol/main/logo.png)</center>
-### **<center>Solus Protocol Whitepaper</center>**
+            const content = `# <center>![Solus Protocol Logo](https://raw.githubusercontent.com/solusprotocol1/solus-protocol/main/logo.png)</center>
+# <center>Solus Protocol Whitepaper</center>
 **<center>Decentralized Infrastructure for Medical Data Integrity</center>**
+
 *<center>Version 2.9 | January 2026</center>*
 
 ---
 
 ## <center>**LEGAL NOTICE AND RISK DISCLOSURE**</center>
 
-## <center>**[!WARNING]**</center>
+> [!WARNING]
 > **IMPORTANT:**
 > **PLEASE READ THE FOLLOWING CAREFULLY.**
-> **THE ACQUISITION OF SLS TOKENS INVOLVES SUBSTANTIAL RISK AND SHOULD ONLY BE UNDERTAKEN BY INDIVIDUALS CAPABLE OF BEARING THE TOTAL LOSS OF THEIR PURCHASE.**
+> 
+> THE ACQUISITION OF SLS TOKENS INVOLVES SUBSTANTIAL RISK AND SHOULD ONLY BE UNDERTAKEN BY INDIVIDUALS CAPABLE OF BEARING THE TOTAL LOSS OF THEIR PURCHASE.
 
 **1. REGULATORY AND SECURITIES LAW RISK**
-The legal status of **SLS** and the **Solus Protocol** is subject to rapid change. While the project is designed as a utility-based network token, there is a material risk that global authorities may deem SLS a "security."
+The legal status of **SLS** and the **Solus Protocol** is subject to rapid change. While the project is designed as a utility-based network token, there is a material risk that the **SEC**, **CFTC**, or other global authorities may deem SLS a "security" under the *Howey Test* or similar frameworks. 
 
 **2. TECHNOLOGY AND NETWORK RELIANCE**
-Solus Protocol is built on the **XRP Ledger (XRPL)**. Malfunctions, "hard forks," or 51% attacks on the XRPL would directly impact the integrity of anchored hashes.
+Solus Protocol is built on the **XRP Ledger (XRPL)**. The protocol has no control over the underlying consensus mechanism or the operational status of the XRPL. Malfunctions, "hard forks," or 51% attacks on the XRPL would directly impact the integrity of anchored hashes.
 
 **3. MARKET VOLATILITY AND LIQUIDITY**
-$SLS tokens are subject to extreme price swings and have no guarantee of a continuous market.
+$SLS is not a stablecoin and is not backed by fiat currency or physical assets. The market price of SLS is subject to extreme swings based on speculation, regulatory news, and broader crypto-market trends.
+
+**4. LIMITATION OF RIGHTS AND NO EQUITY**
+$SLS tokens do not represent an investment, debt, or proprietary interest in any entity. Holders possess no rights to dividends, profit-sharing, or residual assets in the event of a project liquidation.
 
 ---
 
-### **1. Executive Summary**
+## <center>1. Executive Summary</center>
 Solus Protocol ($SLS) provides a decentralized, immutable layer for the verification and anchoring of healthcare data. Built on the **XRP Ledger (XRPL)**, Solus enables healthcare providers and clinical researchers to ensure the integrity of medical records through cryptographic hashing. 
 
-By leveraging the XRPL's high-speed consensus, Solus establishes a "Gold Standard" for trust. The protocol does not store sensitive Protected Health Information (PHI) on-chain; instead, it anchors a unique cryptographic "fingerprint" (SHA-256) of the data.
+By leveraging the XRPL's high-speed consensus, Solus establishes a "Gold Standard" for trust. The protocol does not store sensitive Protected Health Information (PHI) on-chain; instead, it anchors a unique cryptographic "fingerprint" (SHA-256) of the data. 
 
-### **2. The Problem: Data Fragmentation and Tampering**
-Healthcare systems currently face three critical vulnerabilities:
-1. **Centralized Silos:** Patient data is stored in proprietary databases vulnerable to unauthorized modification.
-2. **Audit Fragility:** Verifying that a clinical trial result or patient record has not been altered is manually intensive and prone to error.
-3. **Lack of Interoperability:** Transferring data between providers often degrades the "chain of custody" for that information.
+## <center>2. The Problem: The "Silent" Vulnerability of Health Data</center>
+Current Electronic Health Record (EHR) systems are centralized silos vulnerable to three specific failures:
 
-### **3. The Solution: Hash Anchoring**
-Solus utilizes a method known as **Hash Anchoring**. 
-- **Step 1:** A medical document is created in a local EHR system.
-- **Step 2:** The Solus API generates a SHA-256 hash of that document.
-- **Step 3:** This hash is sent to the XRP Ledger as a transaction memo.
-- **Step 4:** The XRPL timestamps and seals the transaction. 
-The original data never leaves the clinic, satisfying HIPAA and GDPR privacy requirements, while the proof of the data's state is permanently archived on the ledger.
+### 2.1 Administrative Tampering & "God-Mode"
+Standard databases allow users with high-level administrative access to alter entries. There is no way for an external auditor to mathematically prove that a record was not back-dated or modified to hide a medical error or unfavorable trial result.
 
-### **4. Tokenomics ($SLS)**
-The $SLS token serves as the utility engine for the protocol:
-- **Service Access:** Providers must hold/spend SLS to access high-frequency anchoring APIs.
-- **Incentivization:** Nodes and clinical partners are rewarded for maintaining the data integrity layer.
-- **Governance:** Token holders can participate in technical steering for protocol upgrades.
+### 2.2 The Verification Gap in Data Exchange
+When a patient moves from a General Practitioner to a Specialist, the data is transmitted via insecure or centralized channels. "Provider B" has no automated way to verify that the file received is a bit-for-bit match of the original.
 
-**Metrics:**
-- **Network:** XRP Ledger (XRPL)
-- **Issuer:** r95GyZac4butvVcsTWUPpxzekmyzaHsTA5
-- **Max Supply:** 10,000,000,000 SLS
+---
 
-### **5. Roadmap 2026–2031**
-**2026: The Foundation Year**
-- Q1: Mainnet Launch & Liquidity Pools
-- Q2: Clinic Pilot Onboarding (Private Beta)
-- Q4: Enterprise API v1.0 Release
+## <center>3. The Solution: Solus Protocol</center>
+Solus provides a **Layer-2 Integrity Framework** that uses the XRP Ledger as a universal "Truth Layer."
 
-**2027–2028: Expansion**
-- Full HIPAA/GDPR Certification Audit
-- Launch of the Solus Patient Verification Mobile App
+### 3.1 Immutable Data Anchoring
+When a medical record is generated, Solus creates a **SHA-256 Hash**. The protocol then submits this hash to the XRPL. Once confirmed, the timestamp and hash are permanent.
 
-**2031: The Global Standard**
-- Target: 1 Million Clinical Records anchored per day.
-- Integration into primary EHR (Electronic Health Record) software vendors.
+### 3.2 Real-Time Integrity Auditing
+Any authorized auditor can use the Solus API to compare a current medical file against its on-chain anchor. If even one byte of the file has been altered, the verification will fail.
 
-### **6. Conclusion**
-The Solus Protocol represents the next evolution in healthcare infrastructure—where trust is not assumed, but mathematically proven. By combining the speed of the XRPL with the privacy of off-chain storage, Solus provides the world's most secure medical audit trail.
-`;
+---
+
+## <center>4. Tokenomics ($SLS)</center>
+
+| Attribute | Details |
+| :--- | :--- |
+| **Token Name** | Solus Protocol |
+| **Symbol** | $SLS |
+| **Network** | XRP Ledger (XRPL) |
+| **Issuer Address** | \`r95GyZac4butvVcsTWUPpxzekmyzaHsTA5\` |
+| **Total Supply** | 100,000,000 SLS |
+| **Utility** | Data Anchoring, Validation, Governance |
+
+---
+
+## <center>5. Project Governance</center>
+The Solus Protocol is transitioning toward a **Decentralized Technical Governance** model. $SLS holders do not control the corporate entity, but they influence the protocol's technical evolution.
+
+---
+
+## <center>6. Strategic Roadmap (2026 – 2031)</center>
+
+### <center>2026: The Foundation</center>
+* **Q1: Mainnet Launch & Liquidity [COMPLETED]**
+* **Q2: Clinical Pilot Program** - Onboard first clinics for data anchoring trials.
+* **Q4: Full API Launch** - Production-ready API for enterprise developers.
+
+---
+
+## <center>7. Trading & Participation</center>
+$SLS is available on the XRPL Decentralized Exchange (DEX). Always verify the Issuer Address: \`r95GyZac4butvVcsTWUPpxzekmyzaHsTA5\`.
+
+---
+
+## <center>8. HIPAA Regulatory Alignment & Technical Safeguards</center>
+Solus Protocol is engineered to serve as a **Technical Safeguard** for Covered Entities and Business Associates. 
+
+### <center>A. Data De-Identification (Safe Harbor)</center>
+Solus **does not store** Protected Health Information (PHI) on the blockchain. 
+- **Hashed Anchoring:** Only records SHA-256 cryptographic hashes.
+- **Off-Chain Sovereignty:** Actual records remain in the secure, HIPAA-compliant databases of the provider.
+
+### <center>B. Audit Controls (§ 164.312(b))</center>
+- **Immutable Audit Trails:** Solus anchors activity logs to the XRP Ledger, creating a permanent history of data custody.
+
+---
+
+## <center>APPENDIX A: Business Associate Agreement (BAA) Summary</center>
+1. **Permitted Uses:** PHI only for data anchoring and verification services.
+2. **Safeguards:** Administrative, physical, and technical safeguards (AES-256 and TLS 1.3).
+3. **Breach Reporting:** Notify Covered Entity within **24 hours**.
+
+## <center>APPENDIX B: Compliance Checklist</center>
+- [ ] **No PHI On-Chain:** Ensure no PHI is included in the "extra data" field of the XRPL transaction. 
+- [ ] **Key Management:** Implement a HIPAA-compliant HSM to manage private keys.
+
+---
+**<center>Official Socials:</center>**
+- **<center>Twitter: [@solus_protocol](https://x.com/solus_protocol)</center>**
+- **<center>Telegram: [t.me/solus_protocol](https://t.me/solus_protocol)</center>**`;
             renderDiv.innerHTML = marked.parse(content);
         }
     </script>
