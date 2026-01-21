@@ -1,5 +1,7 @@
-# <center>![Solus Protocol Logo](https://solusprotocol.com/logo.png)&nbsp; Solus Protocol Whitepaper</center>
+# <center>![Solus Protocol Logo](https://solusprotocol.com/logo.png) 
+# </center>Solus Protocol Whitepaper</center>
 **<center>Decentralized Infrastructure for Medical Data Integrity</center>**
+
 *<center>Version 2.9 | January 2026</center>*
 
 ---
@@ -7,39 +9,49 @@
 ## <center>**LEGAL NOTICE AND RISK DISCLOSURE**</center>
 
 > [!WARNING]
-> **IMPORTANT: PLEASE READ THE FOLLOWING CAREFULLY.** THE ACQUISITION OF SLS TOKENS INVOLVES SUBSTANTIAL RISK AND SHOULD ONLY BE UNDERTAKEN BY INDIVIDUALS CAPABLE OF BEARING THE TOTAL LOSS OF THEIR PURCHASE.
+> **IMPORTANT:**
+> **PLEASE READ THE FOLLOWING CAREFULLY.**
+> 
+> THE ACQUISITION OF SLS TOKENS INVOLVES SUBSTANTIAL RISK AND SHOULD ONLY BE UNDERTAKEN BY INDIVIDUALS CAPABLE OF BEARING THE TOTAL LOSS OF THEIR PURCHASE.
 
 **1. REGULATORY AND SECURITIES LAW RISK**
+
 The legal status of **SLS** and the **Solus Protocol** is subject to rapid change. While the project is designed as a utility-based network token, there is a material risk that the **SEC**, **CFTC**, or other global authorities may deem SLS a "security" under the *Howey Test* or similar frameworks. 
 * **Managerial Efforts:** The value of SLS is intended to be derived from decentralized network demand; however, regulatory bodies may view the initial development efforts by the Solus team as "essential managerial efforts," potentially triggering registration requirements under Section 5 of the Securities Act of 1933. 
 * **Consequences:** Such a determination could result in the delisting of SLS from decentralized exchanges (DEXs), enforcement actions, and a total loss of token liquidity and utility.
 
 **2. TECHNOLOGY AND NETWORK RELIANCE**
+
 Solus Protocol is built on the **XRP Ledger (XRPL)**. 
 * **Third-Party Dependency:** The protocol has no control over the underlying consensus mechanism or the operational status of the XRPL. Malfunctions, "hard forks," or 51% attacks on the XRPL would directly impact the integrity of anchored hashes.
 * **Smart Contract Risk:** Despite audits, the programmatic code used for data anchoring and verification may contain undiscovered vulnerabilities. Exploits could lead to the permanent loss of $SLS or the corruption of clinical audit trails.
 
 **3. MARKET VOLATILITY AND LIQUIDITY**
+
 $SLS is not a stablecoin and is not backed by fiat currency or physical assets. 
 * **Price Fluctuations:** The market price of SLS is subject to extreme swings based on speculation, regulatory news, and broader crypto-market trends. 
 * **DEX Interaction:** Users trade $SLS on third-party decentralized platforms (Sologenic, xMagnetic, XPMarket). Solus Protocol is not responsible for the security, performance, or regulatory compliance of these independent trading environments.
 
 **4. LIMITATION OF RIGHTS AND NO EQUITY**
+
 $SLS tokens do not represent an investment, debt, or proprietary interest in any entity. 
 * **No Financial Claims:** Holders possess no rights to dividends, profit-sharing, or residual assets in the event of a project liquidation. 
 * **Governance Limitations:** Any voting rights granted to holders are limited to protocol-level technical parameters and do not constitute control over a corporate board or business strategy.
 
 **5. FORWARD-LOOKING STATEMENTS**
+
 This document contains "forward-looking statements" regarding the 2026–2031 Roadmap. These are based on current technical goals and are not guarantees of future performance. Actual results may differ materially due to technological hurdles, shifts in HIPAA/GDPR compliance requirements, or lack of global healthcare adoption.
 
 ---
 
 ## <center>1. Executive Summary</center>
+
 Solus Protocol ($SLS) provides a decentralized, immutable layer for the verification and anchoring of healthcare data. Built on the **XRP Ledger (XRPL)**, Solus enables healthcare providers and clinical researchers to ensure the integrity of medical records through cryptographic hashing. 
 
 By leveraging the XRPL's high-speed consensus, Solus establishes a "Gold Standard" for trust. The protocol does not store sensitive Protected Health Information (PHI) on-chain; instead, it anchors a unique cryptographic "fingerprint" (SHA-256) of the data. This allows any authorized party to prove a document has not been altered since its creation without exposing private details to the public.
 
 ## <center>2. The Problem: The "Silent" Vulnerability of Health Data</center>
+
 Current Electronic Health Record (EHR) systems are centralized silos vulnerable to three specific failures:
 
 ### 2.1 Administrative Tampering & "God-Mode"
@@ -64,6 +76,7 @@ Any authorized auditor can use the Solus API to compare a current medical file a
 Because only the hash is stored, Solus satisfies the **HIPAA Safe Harbor** method for de-identification. The protocol remains "content-agnostic," meaning it secures the *validity* of the data without ever needing to "see" the patient's personal information.
 
 ## <center>4. Tokenomics ($SLS)</center>
+
 The $SLS token is the native utility asset of the Solus ecosystem.
 
 | Attribute | Details |
@@ -77,12 +90,14 @@ The $SLS token is the native utility asset of the Solus ecosystem.
 | **Utility** | Data Anchoring, Validation, Governance |
 
 ### <center>**LEGAL CHARACTERIZATION OF THE SLS TOKEN**</center>
+
 The SLS Token is designed as a **"Network Token"** within the **Solus Protocol**. It is not an investment, security, or commodity.
 * **Consumptive Use:** SLS provides programmatic access to decentralized services.
 * **No Managerial Reliance:** Value is derived from decentralized network demand, not the efforts of a central team.
 * **No Equity:** SLS grants no ownership or dividend rights.
 
 ## <center>5. Project Governance</center>
+
 The Solus Protocol is transitioning toward a **Decentralized Technical Governance** model. $SLS holders do not control the corporate entity, but they influence the protocol's technical evolution.
 
 * **Protocol Parameter Voting:** Holders can vote on technical variables, such as anchoring fee structures and validator reward tiers.
@@ -90,6 +105,7 @@ The Solus Protocol is transitioning toward a **Decentralized Technical Governanc
 * **Grant Allocation:** A portion of the ecosystem fund is governed by SLS holders to support open-source developers building EHR integrations.
 
 ## <center>6. Strategic Roadmap (2026 – 2031)</center>
+
 ### <center>2026: The Foundation</center>
 * **Q1: Mainnet Launch & Liquidity [COMPLETED]**
     * Official deployment on XRPL mainnet and establishment of AMM pools.
@@ -104,6 +120,7 @@ The Solus Protocol is transitioning toward a **Decentralized Technical Governanc
 * **2031:** Milestone: 1 Million active users verifying health data integrity.
 
 ## <center>7. Trading & Participation</center>
+
 $SLS is available on the XRPL Decentralized Exchange (DEX). Always verify the Issuer Address: `r95GyZac4butvVcsTWUPpxzekmyzaHsTA5`.
 - **Xaman:** Direct swapping via mobile.
 - **xMagnetic / Sologenic:** Advanced AMM and order-book trading.
@@ -111,6 +128,7 @@ $SLS is available on the XRPL Decentralized Exchange (DEX). Always verify the Is
 ---
 
 ## <center>8. HIPAA Regulatory Alignment & Technical Safeguards</center>
+
 Solus Protocol is engineered to serve as a **Technical Safeguard** for Covered Entities and Business Associates. The protocol’s architecture directly addresses the implementation specifications of the **HIPAA Security Rule (45 CFR § 164.312)** and the **2021 HITECH Act Amendment**.
 
 Solus Protocol is engineered to meet the "Privacy-by-Design" requirements of the **Health Insurance Portability and Accountability Act (HIPAA)**.
