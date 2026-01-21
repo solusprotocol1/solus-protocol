@@ -14,5 +14,5 @@ symbol = "SLS"
 logo_250x250 = "https://raw.githubusercontent.com/solusprotocol1/solus-protocol/main/logo.png"
 
 [[PRINCIPALS]]
-name = "Solus Protocol Team"
+name = "Solus Protocol"
 email = "support@solusprotocol.com"
