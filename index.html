@@ -928,5 +928,22 @@ Solus **does not store** Protected Health Information (PHI) on the blockchain.
             renderDiv.innerHTML = marked.parse(content);
         }
     </script>
+<script>
+function toggleFaq(element) {
+    // Find the answer div that is a sibling of the question clicked
+    const answer = element.nextElementSibling;
+    const span = element.querySelector('span');
+
+    // Toggle the display between block and none
+    if (answer.style.display === "block") {
+        answer.style.display = "none";
+        span.textContent = "+";
+    } else {
+        answer.style.display = "block";
+        span.textContent = "-";
+    }
+}
+</script>
+    
 </body>
 </html>
