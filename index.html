@@ -413,24 +413,22 @@
             border-radius: 12px;
             overflow: hidden;
         }
+       
+        .faq-answer {
+            display: none; /* This hides the answer by default */
+            padding: 10px 0;
+            color: #555;
+        }
+
         .faq-question {
-            background: rgba(255,255,255,0.03);
-            padding: 20px;
             cursor: pointer;
-            font-weight: 600;
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            font-weight: bold;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;      
         }
-        .faq-answer {
-            padding: 0 20px;
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease-out, padding 0.3s;
-            background: rgba(0,0,0,0.2);
-            font-size: 0.9rem;
-            color: #ccc;
-        }
+
         .faq-item.active .faq-answer {
             max-height: 300px;
             padding: 20px;
