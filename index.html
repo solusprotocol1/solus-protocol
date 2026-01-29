@@ -804,7 +804,8 @@
                 const statResponse = await fetch(`https://api.xrpscan.com/api/v1/token/SLS.${issuer}`);
                 const statData = await statResponse.json();
                 if(statData?.metrics?.holders && holderSpan) {
-                    holderSpan.innerText = `Active Trustlines: ${parseInt(statData.metrics.holders).toLocaleString()}`;
+                    holderSpan.innerText = `Active Trustlines: ${parseInt(statData.metrics.trustlines).toLocaleString()}`;
+                const statResponse = await fetch(`https://api.xrpscan.com/api/v1/token/SLS.${issuer}?t=${Date.now()}`);
                 }
 
             } catch (e) { 
