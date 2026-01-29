@@ -482,7 +482,7 @@
             <button id="btn-providers" class="tab-btn" onclick="showTab(event, 'providers')">For Providers</button>
             <button id="btn-trade" class="tab-btn" onclick="showTab(event, 'trade')" style="color: var(--accent); border: 1px solid rgba(20, 241, 149, 0.3); border-radius: 8px;">Trade $SLS</button>
             <button id="btn-roadmap" class="tab-btn" onclick="showTab(event, 'roadmap')">Roadmap</button>
-            <button id="btn-whitepaper" class="tab-btn" onclick="showTab(event, 'whitepaper')">Whitepaper</button>
+            <button id="btn-whitepaper" class="tab-btn" onclick="showTab(event, 'whitepaper'); downloadWhitepaper();">Whitepaper</button>
             <button id="btn-faq" class="tab-btn" onclick="showTab(event, 'faq')">FAQ</button>
             <button id="btn-audits" class="tab-btn" onclick="showTab(event, 'audits')">Audit Reports</button>
             <button id="btn-legal" class="tab-btn" onclick="showTab(event, 'legal')">Legal Opinion</button>
@@ -621,12 +621,8 @@
         <h2 style="margin-bottom: 10px;">Official Whitepaper v3.0</h2>
         <p style="color: #888; max-width: 500px; margin: 0 auto 30px;">Access the complete technical specifications, legal disclosures, and the 2026-2031 strategic roadmap hosted on our official GitHub repository.</p>
         
-        <a href="https://github.com/solusprotocol1/solus-protocol/blob/main/Solus%20Protocol%20Whitepaper%20Version%203.0%20(January%202026).pdf" 
-           target="_blank" 
-           class="cta-btn" 
-           style="background: linear-gradient(135deg, var(--secondary), #7021cf); color: white; border: none; padding: 20px 40px; font-size: 1.1rem; display: inline-flex; align-items: center; gap: 15px; box-shadow: 0 10px 30px rgba(153, 69, 255, 0.3);">
-            <span>Read on GitHub</span>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+        <a href="https://raw.githubusercontent.com/solusprotocol1/solus-protocol/main/Solus%20Protocol%20Whitepaper%20Version%203.0%20(January%202026).pdf" class="green-download-btn" download="Solus Protocol Whitepaper Version 3.0 (January 2026).pdf">
+        Download Whitepaper PDF
         </a>
         
         <p style="margin-top: 25px; font-size: 0.8rem; color: #555;">SHA-256 Fingerprint: 8f32...a941 (Verified Mainnet)</p>
@@ -842,6 +838,18 @@
         function scrollToTrade() {
             document.getElementById('main-content').scrollIntoView({ behavior: 'smooth' });
             showTab(null, 'trade');
+
+         function downloadWhitepaper() {
+            const link = document.createElement('a');
+            link.href = 'https://raw.githubusercontent.com/solusprotocol1/solus-protocol/main/Solus%20Protocol%20Whitepaper%20Version%203.0%20(January%202026).pdf';
+            link.download = 'Solus Protocol Whitepaper Version 3.0 (January 2026).pdf';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+            if(tabName === 'whitepaper') {
+            dlBar.classList.add('visible');
+        }
         }
         
     </script>
