@@ -444,6 +444,55 @@
     </style>
 </head>
 <body>
+
+<!-- Navigation Bar with Dropdowns -->
+<nav class="navbar navbar-expand-lg navbar-dark" style="background: rgba(5, 6, 8, 0.9); backdrop-filter: blur(15px); border-bottom: 1px solid var(--border); position: fixed; top: 0; width: 100%; z-index: 9999; padding: 15px 5%;">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#" style="color: white; font-weight: 800; display: flex; align-items: center; gap: 12px;">
+            <img src="https://raw.githubusercontent.com/solusprotocol1/solus-protocol/main/logo.png" alt="Solus Logo" style="height: 40px; width: auto;">
+            SOLUS PROTOCOL
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav">
+                <!-- About Us Dropdown -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="aboutDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white; font-weight: 600;">
+                        About Us
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="aboutDropdown" style="background: rgba(5, 6, 8, 0.95); border: 1px solid var(--border); backdrop-filter: blur(10px);">
+                        <li><a class="dropdown-item" href="#who-we-are" style="color: white;">Who We Are</a></li>
+                        <li><a class="dropdown-item" href="#our-mission" style="color: white;">Our Mission</a></li>
+                        <li><a class="dropdown-item" href="#our-impact" style="color: white;">Our Impact</a></li>
+                    </ul>
+                </li>
+                <!-- SDK Dropdown -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="sdkDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white; font-weight: 600;">
+                        Solus Protocol SDK
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="sdkDropdown" style="background: rgba(5, 6, 8, 0.95); border: 1px solid var(--border); backdrop-filter: blur(10px);">
+                        <li><a class="dropdown-item" href="#sdk-info" style="color: white;">Overview - Coming Soon</a></li>
+                        <li><a class="dropdown-item" href="#sdk-how-it-works" style="color: white;">How It Works</a></li>
+                        <li><a class="dropdown-item" href="#sdk-subscriptions" style="color: white;">Subscriptions</a></li>
+                        <li><a class="dropdown-item" href="#sdk-what-it-does" style="color: white;">What It Does</a></li>
+                    </ul>
+                </li>
+                <!-- Security & Compliance -->
+                <li class="nav-item">
+                    <a class="nav-link" href="#security-compliance" style="color: white; font-weight: 600;">Security & Compliance</a>
+                </li>
+                <!-- Contact Us -->
+                <li class="nav-item">
+                    <a class="nav-link" href="#contact-us" style="color: white; font-weight: 600;">Contact Us</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>    
+    
     <div class="mesh-bg"></div>
     <button class="sticky-trade-btn" id="live-price-btn" onclick="scrollToTrade()">TRADE $SLS LIVE</button>
 
