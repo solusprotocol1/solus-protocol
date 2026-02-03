@@ -6,13 +6,19 @@
 [![Compliance: HIPAA Ready](https://img.shields.io/badge/Compliance-HIPAA%20Ready-green.svg)](WHITEPAPER.md#8-hipaa-regulatory-alignment--technical-safeguards)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
+## Overview
+
 Solus Protocol is a decentralized infrastructure layer built to bridge legacy Electronic Health Records (EHR) with the transparency of the XRP Ledger. By anchoring cryptographic fingerprints of medical data, we enable real-time validation, auditability, and tamper-proof custody without exposing sensitive Protected Health Information (PHI).
 
+Solus Protocol is designed to establish the standard for secure, patient-controlled medical data integrity in healthcare. We address critical challenges in healthcare data management, such as fragmentation, insecurity, and lack of patient ownership, which cost the US healthcare system approximately $300 billion annually due to mismanagement, redundancies, and inefficiencies (industry estimates, e.g., Persivia 2024 analysis).
 
+Our mission is to empower patients with true data sovereignty while enabling providers (e.g., hospitals like MUSC and SC clinics) to access verifiable, tamper-proof records compliantly and efficiently. Starting with a South Carolina-first approach (headquartered in Mount Pleasant, SC), we prioritize local pilots to drive economic impact before national expansion.
+
+This repository contains a prototype SDK (Software Development Kit) demonstrating core functionality: hashing medical records for integrity, optional encryption for privacy, and storing hashes on XRPL using $SLS as a utility token for fees and incentives. This prototype showcases our progress as an early-stage project and serves as a foundation for production development.
 
 ---
 
-## 📖 Quick Links
+## Quick Links
 * 📄 **[Whitepaper](WHITEPAPER.md)** - Technical vision, HIPAA alignment, and core protocol logic.
 * 🏗️ **[Technical Specs](TECHNICAL_SPECS.md)** - SHA-256 anchoring architecture and XRPL transaction schemas.
 * 📈 **[Investor Relations](INVESTOR_RELATIONS.md)** - Tokenomics, roadmap, and ecosystem distribution.
@@ -28,14 +34,18 @@ Solus Protocol is a decentralized infrastructure layer built to bridge legacy El
 
 ---
 
-## 🛡️ Asset Information & Governance
+## Asset Information & Governance
 
 | Attribute | Details |
 | :--- | :--- |
-| **Token Symbol** | $SLS |
-| **Network** | XRP Ledger (Mainnet) |
+| **Token Name** | Solus Protocol |
+| **Symbol** | $SLS |
+| **Network** | XRP Ledger (XRPL) |
 | **Issuer Address** | `r95GyZac4butvVcsTWUPpxzekmyzaHsTA5` |
-| **Total Supply** | 100,000,000 SLS |
+| **Total Supply** | 100,000,000 SLS (maximum issued; no additional minting without owner action) |
+| **Circulating/Issued Supply** | ~69,999,909 SLS (current on XRPL Mainnet; Base ERC-20 representation aligned via burn) |
+| **Liquidity** | **Decentralized AMM Pools Enabled** |
+| **Utility** | Data Anchoring, Validation, Governance |
 
 ### **Official Trust Line**
 To hold or trade $SLS, you must establish a trust line to the official issuer address.
@@ -43,7 +53,7 @@ To hold or trade $SLS, you must establish a trust line to the official issuer ad
 
 ---
 
-## 🚀 Ecosystem Participation
+## Ecosystem Participation & Stakeholders
 
 ### **Trading & Liquidity**
 Instant liquidity is available via the native XRPL Automated Market Maker (AMM):
@@ -51,7 +61,7 @@ Instant liquidity is available via the native XRPL Automated Market Maker (AMM):
 * **Market Analytics:** [View on XPMarket](https://xmagnetic.org/amm/SLS+r95GyZac4butvVcsTWUPpxzekmyzaHsTA5_XRP+XRP?network=mainnet)
 
 ### **Developer Support**
-We welcome contributions to the Solus Gateway API and open-source EHR connectors. 
+We welcome contributions to the Solus Protocol Gateway API and open-source EHR connectors. 
 * See **[CONTRIBUTING.md](CONTRIBUTING.md)** to get started.
 * For critical vulnerabilities, refer to our **[Security Policy](SECURITY.md)**.
 
