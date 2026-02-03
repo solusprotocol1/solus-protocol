@@ -59,7 +59,7 @@ In SC, this impacts institutions like MUSC (2.4M patients). Solus solves this wi
 We start by creating a "fingerprint" (hash) of the medical record. This ensures immutability: Any change alters the hash, proving tampering. Sensitive PHI stays off-chain (local/encrypted storage) for compliance.
 
 ## Example Code for Hashing:
-| :--- | :--- |
+
 import hashlib  # Built-in Python tool for hashing
 
 # Function to hash a patient record
@@ -85,7 +85,7 @@ print("Secure Hash (Fingerprint):", hash_result)  # Example: 'd4e567f...etc'
 The SDK is a Python library that providers install to integrate Solus into their systems (e.g., Epic/Cerner via APIs). It handles hashing, encryption (for privacy), and XRPL storage. Providers subscribe (USD via Stripe) for access—freemium for betas.
 
 ## Full Prototype SDK Code:
-| :--- | :--- |
+
 import hashlib
 from cryptography.fernet import Fernet
 from xrpl.clients import JsonRpcClient
