@@ -1,4 +1,6 @@
-# ![Solus Protocol Logo](https://solusprotocol.com/logo.png) Solus Protocol ($SLS)
+# <center>![Solus Protocol Logo](https://solusprotocol.com/logo.png)</center> 
+## <center>Solus Protocol ($SLS)</center>
+
 **The Immutable Standard for Medical Data Integrity on the XRP Ledger**
 
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
@@ -20,9 +22,12 @@ This repository contains a prototype SDK (Software Development Kit) demonstratin
 
 **Problem Solved:** Healthcare data silos lead to errors, delays, privacy breaches, and high costs. Solus fixes this with decentralized integrity, reducing redundancies (e.g., saving providers 20-30% on admin costs) and enabling personalized care.
 Differentiation: XRPL's speed (3-5s settlements), low costs (<1 cent/tx), and scalability outperform Ethereum-based competitors. True patient sovereignty + SC-focused entry for quick traction.
+
 **Traction/Validation:** Live mainnet with $SLS token, treasury secured (30M locked), Axelar bridge in progress. Planned SC pilots with MUSC/clinics for real-world testing.
 Revenue Model: Primary: SDK subscriptions ($5K-50K/year per provider). Secondary: $SLS utility fees (micro-payments for actions) + incentives. Projected: $250K-600K Year 2, scaling to $12M-60M by Year 5.
+
 **Compliance Focus:** Off-chain PHI storage, encryption, and hash-only on-chain design supports HIPAA. $SLS framed as pure utility (not security) to avoid SEC issues—legal opinions planned with funding.
+
 **VC Appeal:** $11B blockchain healthcare market (2024) → $200B+ by 2030 (CAGR 60%+). Recurring SaaS revenue + network growth in a defensible niche.
 
 For more, see our whitepaper or website: solusprotocol.com. Contact: support@solusprotocol.com | X: @Solus_Protocol
@@ -43,9 +48,11 @@ For more, see our whitepaper or website: solusprotocol.com. Contact: support@sol
 * **Low-Latency Verification:** Validates the integrity of millions of records in seconds using XRPL's high-throughput consensus.
 * **Enterprise Interoperability:** Designed for seamless API integration with Epic, Cerner, and other major EHR providers.
 
+---
+
 ## How Solus Protocol Works (Utility): 
 
-## Step 1: The Problem in Detail
+### Step 1: The Problem in Detail
 
 Healthcare providers struggle with fragmented data across silos (e.g., different EHR systems like Epic/Cerner), leading to:
 * Medical errors/delays (e.g., missing records cause redundant tests, costing $100-500/patient).
@@ -54,60 +61,76 @@ Healthcare providers struggle with fragmented data across silos (e.g., different
 
 In SC, this impacts institutions like MUSC (2.4M patients). Solus solves this with blockchain-secured hashes for verifiable integrity.
 
-## Step 2: Core Solution – Hashing for Integrity
+### Step 2: Core Solution – Hashing for Integrity
 
 We start by creating a "fingerprint" (hash) of the medical record. This ensures immutability: Any change alters the hash, proving tampering. Sensitive PHI stays off-chain (local/encrypted storage) for compliance.
 
-## Example Code for Hashing:
+### Example Code for Hashing:
 
-import hashlib  # Built-in Python tool for hashing
+    import hashlib  # Built-in Python tool for hashing
 
-# Function to hash a patient record
-def create_record_hash(record_text):
-    # Turn text into a secure, unique "fingerprint" (hash)
-    hash_object = hashlib.sha256(record_text.encode())
-    return hash_object.hexdigest()  # Outputs a long string like 'abc123...'
+    # Function to hash a patient record
+    def create_record_hash(record_text):
+        # Turn text into a secure, unique "fingerprint" (hash)
+        hash_object = hashlib.sha256(record_text.encode())
+        return hash_object.hexdigest()  # Outputs a long string like 'abc123...'
+    
+    *Example with test data*
+    test_record = """
+    Patient ID: TEST-987654
+    Name: John Doe (fictional test patient)
+    Date of Visit: January 19, 2026
+    Blood Pressure: 118/76
+    Heart Rate: 72 bpm
+    Notes: Routine checkup. No issues detected. This is dummy data for Solus Protocol testing only.
+    """
+    hash_result = create_record_hash(test_record)
+    print("Secure Hash (Fingerprint):", hash_result)  # Example: 'd4e567f...etc'
 
-# Example with test data
-test_record = """
-Patient ID: TEST-987654
-Name: John Doe (fictional test patient)
-Date of Visit: January 19, 2026
-Blood Pressure: 118/76
-Heart Rate: 72 bpm
-Notes: Routine checkup. No issues detected. This is dummy data for Solus Protocol testing only.
-"""
-hash_result = create_record_hash(test_record)
-print("Secure Hash (Fingerprint):", hash_result)  # Example: 'd4e567f...etc'
-
-## Step 3: The SDK – Provider Integration Tool
+### Step 3: The SDK – Provider Integration Tool
 
 The SDK is a Python library that providers install to integrate Solus into their systems (e.g., Epic/Cerner via APIs). It handles hashing, encryption (for privacy), and XRPL storage. Providers subscribe (USD via Stripe) for access—freemium for betas.
 
-## Full Prototype SDK Code:
+### Full Prototype SDK Code:
 
-import hashlib
-from cryptography.fernet import Fernet
-from xrpl.clients import JsonRpcClient
-from xrpl.wallet import Wallet
-from xrpl.models.transactions import Payment, TrustSet
-from xrpl.models.amounts import IssuedCurrencyAmount
+    import hashlib
+    from cryptography.fernet import Fernet
+    from xrpl.clients import JsonRpcClient
+    from xrpl.wallet import Wallet
+    from xrpl.models.transactions import Payment, TrustSet
+    from xrpl.models.amounts import IssuedCurrencyAmount
 
-class SolusSDK:
-    def __init__(self, xrpl_rpc_url="https://s.altnet.rippletest.net:51234/", sls_issuer="rTreasuryAddressHere", encryption_key=None):
+    # Mock fiat gateway (e.g., simulate Stripe + crypto purchase; in real: use Stripe API + MoonPay/Ramp for USD to $SLS)
+    def mock_fiat_to_sls_conversion(usd_amount):
+    """Simulate converting USD to $SLS (e.g., via gateway). Returns equivalent $SLS value (hypothetical rate)."""
+    sls_rate = 0.05  # Mock: $1 USD = 20 $SLS (adjust based on market)
+    sls_purchased = usd_amount / sls_rate
+    return sls_purchased  # In real: Call API to buy and transfer to wallet
+
+    class SolusSDK:
+    def __init__(self, xrpl_rpc_url="https://s.altnet.rippletest.net:51234/", sls_issuer="r95GyZac4butvVcsTWUPpxzekmyzaHsTA5", encryption_key=None, api_key=None):
         """
         Initialize the SDK.
         - xrpl_rpc_url: XRPL testnet/mainnet URL.
         - sls_issuer: Your $SLS issuer account.
         - encryption_key: Secret key for encrypting sensitive data.
+        - api_key: Provider's subscription API key (for USD-based access).
         """
         self.client = JsonRpcClient(xrpl_rpc_url)
         self.sls_issuer = sls_issuer
+        self.api_key = api_key  # For subscription validation
         if encryption_key is None:
             self.encryption_key = Fernet.generate_key()
         else:
             self.encryption_key = encryption_key
         self.cipher = Fernet(self.encryption_key)
+
+    def validate_subscription(self):
+        """Mock check for active USD subscription via API key."""
+        if self.api_key == "valid_mock_key":  # In real: Query Stripe/backend
+            return True
+        else:
+            raise ValueError("Invalid or expired API key. Please subscribe or renew.")
 
     def encrypt_data(self, data):
         """Encrypt sensitive data (PHI) off-chain for HIPAA support."""
@@ -132,12 +155,21 @@ class SolusSDK:
         response = self.client.submit_and_wait(tx, wallet)
         return response.result
 
-    def store_hash_with_sls_fee(self, hash_value, wallet_seed, fee_sls="0.01", destination="rProtocolTreasury", rebate_sls="0.005"):
+    def store_hash_with_sls_fee(self, hash_value, wallet_seed, fee_sls="0.01", destination="rProtocolTreasury", rebate_sls="0.005", fiat_mode=False, usd_fee_equiv=0.01):
         """
         $SLS Utility: Pay micro-fee in $SLS for action, store hash in memo.
+        - If fiat_mode=True, simulate USD payment and auto-convert to $SLS.
         - Deducts fee (revenue to treasury).
         - Sends rebate (incentive).
         """
+        if fiat_mode:
+            # Simulate USD payment and conversion (providers pay USD, get $SLS)
+            sls_needed = float(fee_sls)
+            sls_purchased = mock_fiat_to_sls_conversion(usd_fee_equiv)  # Converts USD to $SLS
+            if sls_purchased < sls_needed:
+                raise ValueError("Insufficient $SLS from fiat conversion. Top up subscription.")
+            print(f"Simulated USD payment: Purchased {sls_purchased} $SLS for fee.")
+
         wallet = Wallet.from_seed(wallet_seed)
         
         # Pay $SLS fee with hash memo
@@ -161,22 +193,23 @@ class SolusSDK:
 
         return {"fee_tx": fee_response.result, "rebate": rebate_response}
 
-    def secure_patient_record(self, record_text, wallet_seed, encrypt_first=False):
-        """Full workflow: Encrypt (optional), hash, store on XRPL with $SLS fee."""
+    def secure_patient_record(self, record_text, wallet_seed, encrypt_first=False, fiat_mode=False):
+        """Full workflow: Validate sub, encrypt (optional), hash, store on XRPL with $SLS fee (fiat optional)."""
+        self.validate_subscription()  # Check USD sub
         if encrypt_first:
             record_text = self.encrypt_data(record_text)
         hash_val = self.create_record_hash(record_text)
-        tx_results = self.store_hash_with_sls_fee(hash_val, wallet_seed)
+        tx_results = self.store_hash_with_sls_fee(hash_val, wallet_seed, fiat_mode=fiat_mode)
         return {"hash": hash_val, "tx_results": tx_results}
 
-# Usage Example (Provider Side)
-sdk = SolusSDK(sls_issuer="rYourSLSIssuer")
-test_record = "Patient data here"
-test_seed = "sTestSeed"  # Testnet wallet seed
-result = sdk.secure_patient_record(test_record, test_seed, encrypt_first=True)
-print(result)
-
-## Step 4: Real-World Use & $SLS Utility
+    # Usage Example (Provider Side – Crypto Critic with Fiat Mode)
+    sdk = SolusSDK(api_key="valid_mock_key")  # Provider's USD sub key
+    test_record = "Patient data here"
+    test_seed = "sTestSeed"  # Still needs wallet for XRPL, but fiat handles $SLS
+    result = sdk.secure_patient_record(test_record, test_seed, encrypt_first=True, fiat_mode=True)
+    print(result)
+    
+### Step 4: Real-World Use & $SLS Utility
 
 * **Provider Implementation:** Install via [pip install solus-sdk] (once packaged). Setup trust line once. Call [secure_patient_record()] in their EHR workflow—hashes/stores automatically.
 
@@ -184,14 +217,12 @@ print(result)
 
 * **Path to Profitability:** Subscriptions for SDK access; $SLS fees (10-20% to treasury) scale with adoption. Pilots prove value, leading to paid tiers.
 
-## Installation
+### Installation
 
 Install dependencies: [pip install cryptography xrpl-py]
 Run the code: Import and use as shown.
 
----
-
-## Compliance & Legal
+### Compliance & Legal
 
 Design supports HIPAA (off-chain PHI, encryption). $SLS as utility token (not security). Funding will enable full audits.
 
