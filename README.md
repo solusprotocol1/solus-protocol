@@ -10,7 +10,7 @@
 
 ## Overview
 
-Solus Protocol is a decentralized infrastructure layer built to bridge legacy Electronic Health Records (EHR) with the transparency of the XRP Ledger. By anchoring cryptographic fingerprints of medical data, we enable real-time validation, auditability, and tamper-proof custody without exposing sensitive Protected Health Information (PHI).
+Solus Protocol is a decentralized infrastructure layer built to bridge legacy Electronic Health Records (EHR) with the transparency of the XRP Ledger. By anchoring cryptographic fingerprints of medical data, we enable real-time validation, auditability, and tamper-proof custody without exposing sensitive Protected Health Information (PHI). **NOTE: In the full product phase, the SDK will support both EHR integration mode and standalone mode — allowing providers without existing EHRs to use Solus as a complete, self-contained solution.**
 
 Solus Protocol is designed to establish the standard for secure, patient-controlled medical data integrity in healthcare. We address critical challenges in healthcare data management, such as fragmentation, insecurity, and lack of patient ownership, which cost the US healthcare system approximately $300 billion annually due to mismanagement, redundancies, and inefficiencies (industry estimates, e.g., Persivia 2024 analysis).
 
