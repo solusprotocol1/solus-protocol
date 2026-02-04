@@ -16,8 +16,6 @@ Report vulnerabilities privately through one of the following secure methods:
 
 **Email:** support@solusprotocol.com (preferred for detailed reports).
 
-**PGP Encryption:** Use our PGP key for encrypted communications. [Link to PGP Key or Fingerprint: e.g., Fingerprint: ABCD 1234 5678 9ABC DEF0 1234 5678 9ABC DEF0] (available on our website or Keybase.io/solusprotocol).
-
 **Subject Line:** Use "Vulnerability Report: [Brief Non-Sensitive Description]" to ensure priority handling.
 
 If you require an alternative secure channel (e.g., Signal or encrypted platform), include your contact preferences in the initial email, and we will accommodate.
