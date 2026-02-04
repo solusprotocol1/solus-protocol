@@ -1,1 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security & Compliance | Solus Protocol</title>
+    <meta name="description" content="Solus Protocol security, compliance, and legal framework – HIPAA alignment, responsible disclosure, and regulatory steps.">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg: #050608;
+            --accent: #14f195;
+            --secondary: #9945ff;
+            --glass: rgba(255, 255, 255, 0.05);
+            --border: rgba(255, 255, 255, 0.1);
+            --completed: #14f195;
+        }
 
+        body {
+            background-color: var(--bg);
+            color: #fff;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .mesh-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(at 0% 0%, rgba(20, 241, 149, 0.12) 0px, transparent 50%), 
+                        radial-gradient(at 100% 100%, rgba(153, 69, 255, 0.12) 0px, transparent 50%);
+            z-index: -1;
+            filter: blur(80px);
+        }
+
+        header {
+            padding: 120px 5% 60px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: clamp(3rem, 8vw, 6rem);
+            margin: 0;
+            font-weight: 800;
+            letter-spacing: -3px;
+            line-height: 1.1;
+        }
+
+        .gradient-text {
+            background: linear-gradient(90deg, #fff, var(--accent), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .section-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 5%;
+        }
+
+        .card {
+            background: var(--glass);
+            padding: 30px;
+            border-radius: 18px;
+            border: 1px solid var(--border);
+            backdrop-filter: blur(10px);
+            margin-bottom: 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--accent);
+        }
+
+        p {
+            font-size: 1.1rem;
+            color: #ddd;
+            line-height: 1.7;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin: 20px 5%;
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        footer {
+            text-align: center;
+            padding: 60px 20px;
+            color: #777;
+            border-top: 1px solid var(--border);
+            margin-top: 80px;
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 3.5rem; }
+            h2 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="mesh-bg"></div>
+
+    <header>
+        <h1>Security & <span class="gradient-text">Compliance</span></h1>
+        <p style="color: #aaa; font-size: 1.3rem; max-width: 700px; margin: 20px auto;">
+            Protecting data integrity with transparency, compliance, and ethical standards.
+        </p>
+        <a href="/" class="back-link">← Back to Home</a>
+    </header>
+
+    <div class="section-container">
+        <div class="card">
+            <h2>Security Philosophy</h2>
+            <p>Solus Protocol is built with security as the foundational principle. We employ "Privacy-by-Design" architecture, ensuring Protected Health Information (PHI) is never stored or transmitted on-chain. Only cryptographic SHA-256 hashes are anchored to the XRP Ledger, providing immutable proof of integrity without compromising patient privacy.</p>
+            <p>All components undergo rigorous threat modeling, and we maintain an open responsible disclosure program to collaborate with the security research community.</p>
+        </div>
+
+        <div class="card">
+            <h2>HIPAA & Regulatory Compliance</h2>
+            <p>Solus Protocol is designed to support HIPAA compliance by keeping all sensitive PHI off-chain in provider-controlled, encrypted storage. Hash anchoring on XRPL provides verifiable audit trails without exposing protected data.</p>
+            <p>Current steps include:
+                <ul>
+                    <li>Off-chain encryption (AES-256) and local storage for PHI</li>
+                    <li>Hash-only on-chain anchoring for integrity proof</li>
+                    <li>Planned third-party HIPAA audits and certification</li>
+                    <li>Business Associate Agreement (BAA) readiness for pilot partners</li>
+                </ul>
+            </p>
+            <p>We are actively preparing for full regulatory alignment, including GDPR considerations for future international expansion.</p>
+        </div>
+
+        <div class="card">
+            <h2>Legal & Token Framework</h2>
+            <p>$SLS is a pure utility token designed for protocol operations (data anchoring fees, incentives, governance). It confers no equity, dividends, or profit-sharing rights and is not intended as an investment contract.</p>
+            <p>We are obtaining formal legal opinions to confirm $SLS's utility classification under applicable securities laws. All marketing and usage emphasize functional access and network participation, not speculative investment.</p>
+        </div>
+
+        <div class="card">
+            <h2>Responsible Disclosure Policy</h2>
+            <p>We welcome security researchers to report vulnerabilities privately. See our full <a href="/security-policy" style="color: var(--accent);">Security Policy</a> for guidelines and safe harbor commitments.</p>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2026 Solus Protocol | Decentralized Medical Integrity<br>Built on the XRP Ledger</p>
+    </footer>
+</body>
+</html>
