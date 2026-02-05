@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="scroll-behavior: smooth;">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,6 +13,29 @@
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="Solus Protocol">
     <meta name="twitter:description" content="Decentralized Medical Data Integrity on XRPL">
+    <meta name="author" content="Solus Protocol">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://solusprotocol.com">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Solus Protocol",
+        "url": "https://solusprotocol.com",
+        "logo": "https://raw.githubusercontent.com/solusprotocol1/solus-protocol/main/logo.png",
+        "description": "Decentralized healthcare data integrity platform built on the XRP Ledger",
+        "sameAs": [
+            "https://x.com/Solus_Protocol",
+            "https://t.me/solus_protocol",
+            "https://github.com/solusprotocol1/solus-protocol"
+        ],
+        "contactPoint": {
+            "@type": "ContactPoint",
+            "email": "support@solusprotocol.com",
+            "contactType": "customer service"
+        }
+    }
+    </script>
     <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/solusprotocol1/solus-protocol/main/logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -173,6 +196,8 @@
         .user-badge.provider { background: rgba(153, 69, 255, 0.2); color: var(--secondary); }
         .social-link { display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; background: var(--glass); border: 1px solid var(--border); border-radius: 8px; color: var(--accent); text-decoration: none; transition: all 0.3s; }
         .social-link:hover { background: rgba(20,241,149,0.1); transform: translateY(-2px); color: var(--accent); }
+        .fade-in { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
         .wallet { background: rgba(20,241,149,0.1); border: 1px solid var(--accent); border-radius: 12px; padding: 20px; margin-bottom: 20px; text-align: center; }
         .tx-list { list-style: none; padding: 0; margin: 0; }
         .tx-item { background: var(--glass); padding: 15px; margin: 10px 0; border-radius: 8px; color: #fff; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
@@ -218,11 +243,24 @@
     <!-- Hero Section -->
     <section id="home" class="hero">
         <a href="https://xmagnetic.org/tokens/r95GyZac4butvVcsTWUPpxzekmyzaHsTA5+534C5300000000000000000000000000000000000000" target="_blank" class="live-badge">$SLS Token LIVE on XRPL</a>
-        <h1>Patient Dashboard <span class="gradient-text">Demo</span></h1>
+        <h1>Immutable <span class="gradient-text">Trust</span></h1>
+        <p style="font-size: 1.3rem; max-width: 700px; margin: 0 auto 15px; color: #fff; font-weight: 500;">For Healthcare Data</p>
         <p style="font-size: 1.1rem; max-width: 600px; margin: 0 auto 30px;">Secure your medical records with Solus Protocol - Decentralized Medical Data Integrity on the XRP Ledger</p>
         <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
-            <a href="#dashboard" class="btn-primary-custom">Try Demo Dashboard</a>
+            <a href="https://solus-protocol-demo.replit.app" target="_blank" class="btn-primary-custom">Launch Demo App</a>
             <a href="https://github.com/solusprotocol1/solus-protocol/blob/dec022ee9ca6c9b1117abc2bc63d36b537318a36/Solus%20Protocol%20Whitepaper%20Version%203.0%20(January%202026).pdf" target="_blank" class="btn-secondary-custom">Read Whitepaper</a>
+        </div>
+
+        <div class="container mt-4">
+            <div class="card" style="background: linear-gradient(135deg, rgba(20,241,149,0.15), rgba(153,69,255,0.15)); border: 2px solid rgba(20,241,149,0.4); max-width: 700px; margin: 0 auto;">
+                <div style="text-align: center;">
+                    <div style="font-size: 2.5rem; margin-bottom: 15px;">🚀</div>
+                    <h3>Try the <span class="gradient-text">Live Demo</span></h3>
+                    <p style="margin-bottom: 20px;">Experience the Solus Protocol dashboard firsthand. Hash patient records, verify data integrity, and explore our SDK integration — all in a live interactive environment.</p>
+                    <a href="https://solus-protocol-demo.replit.app" target="_blank" class="btn-primary-custom" style="font-size: 1.1rem; padding: 15px 35px;">Launch Demo App →</a>
+                    <p style="font-size: 0.85rem; margin-top: 15px; color: var(--text-muted);">Demo credentials: username "patient" or "provider", password "demo123"</p>
+                </div>
+            </div>
         </div>
 
         <div class="container mt-5">
@@ -500,10 +538,17 @@
                                 <label style="margin-bottom: 0;">Patient Record Data</label>
                                 <div style="position: relative;">
                                     <button class="btn-secondary-custom" style="padding: 8px 16px; font-size: 0.85rem;" onclick="toggleSampleMenu()">Load Sample</button>
-                                    <div id="sampleMenu" style="display: none; position: absolute; background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 10px; right: 0; margin-top: 5px; z-index: 100; min-width: 200px;">
-                                        <button onclick="loadSample(0)" style="display: block; width: 100%; background: none; border: none; color: #fff; padding: 10px; text-align: left; cursor: pointer; border-radius: 8px;">Patient Visit Record</button>
-                                        <button onclick="loadSample(1)" style="display: block; width: 100%; background: none; border: none; color: #fff; padding: 10px; text-align: left; cursor: pointer; border-radius: 8px;">Lab Results</button>
-                                        <button onclick="loadSample(2)" style="display: block; width: 100%; background: none; border: none; color: #fff; padding: 10px; text-align: left; cursor: pointer; border-radius: 8px;">Prescription Record</button>
+                                    <div id="sampleMenu" style="display: none; position: absolute; background: var(--bg); border: 1px solid var(--accent); border-radius: 12px; padding: 8px; right: 0; margin-top: 5px; z-index: 100; min-width: 220px; max-height: 400px; overflow-y: auto; box-shadow: 0 10px 40px rgba(0,0,0,0.5);">
+                                        <button onclick="loadSample(0)" style="display: flex; align-items: center; gap: 10px; width: 100%; background: rgba(20,241,149,0.1); border: none; color: #fff; padding: 12px 15px; text-align: left; cursor: pointer; border-radius: 8px; margin-bottom: 5px; font-size: 0.9rem;" onmouseover="this.style.background='rgba(20,241,149,0.2)'" onmouseout="this.style.background='rgba(20,241,149,0.1)'">📋 Patient Visit Record</button>
+                                        <button onclick="loadSample(1)" style="display: flex; align-items: center; gap: 10px; width: 100%; background: rgba(20,241,149,0.1); border: none; color: #fff; padding: 12px 15px; text-align: left; cursor: pointer; border-radius: 8px; margin-bottom: 5px; font-size: 0.9rem;" onmouseover="this.style.background='rgba(20,241,149,0.2)'" onmouseout="this.style.background='rgba(20,241,149,0.1)'">🧪 Lab Results</button>
+                                        <button onclick="loadSample(2)" style="display: flex; align-items: center; gap: 10px; width: 100%; background: rgba(20,241,149,0.1); border: none; color: #fff; padding: 12px 15px; text-align: left; cursor: pointer; border-radius: 8px; margin-bottom: 5px; font-size: 0.9rem;" onmouseover="this.style.background='rgba(20,241,149,0.2)'" onmouseout="this.style.background='rgba(20,241,149,0.1)'">💊 Prescription Record</button>
+                                        <button onclick="loadSample(3)" style="display: flex; align-items: center; gap: 10px; width: 100%; background: rgba(20,241,149,0.1); border: none; color: #fff; padding: 12px 15px; text-align: left; cursor: pointer; border-radius: 8px; margin-bottom: 5px; font-size: 0.9rem;" onmouseover="this.style.background='rgba(20,241,149,0.2)'" onmouseout="this.style.background='rgba(20,241,149,0.1)'">🏥 Surgery Report</button>
+                                        <button onclick="loadSample(4)" style="display: flex; align-items: center; gap: 10px; width: 100%; background: rgba(20,241,149,0.1); border: none; color: #fff; padding: 12px 15px; text-align: left; cursor: pointer; border-radius: 8px; margin-bottom: 5px; font-size: 0.9rem;" onmouseover="this.style.background='rgba(20,241,149,0.2)'" onmouseout="this.style.background='rgba(20,241,149,0.1)'">🏦 Insurance Claim</button>
+                                        <button onclick="loadSample(5)" style="display: flex; align-items: center; gap: 10px; width: 100%; background: rgba(20,241,149,0.1); border: none; color: #fff; padding: 12px 15px; text-align: left; cursor: pointer; border-radius: 8px; margin-bottom: 5px; font-size: 0.9rem;" onmouseover="this.style.background='rgba(20,241,149,0.2)'" onmouseout="this.style.background='rgba(20,241,149,0.1)'">⚠️ Allergy Record</button>
+                                        <button onclick="loadSample(6)" style="display: flex; align-items: center; gap: 10px; width: 100%; background: rgba(20,241,149,0.1); border: none; color: #fff; padding: 12px 15px; text-align: left; cursor: pointer; border-radius: 8px; margin-bottom: 5px; font-size: 0.9rem;" onmouseover="this.style.background='rgba(20,241,149,0.2)'" onmouseout="this.style.background='rgba(20,241,149,0.1)'">💉 Immunization Record</button>
+                                        <button onclick="loadSample(7)" style="display: flex; align-items: center; gap: 10px; width: 100%; background: rgba(20,241,149,0.1); border: none; color: #fff; padding: 12px 15px; text-align: left; cursor: pointer; border-radius: 8px; margin-bottom: 5px; font-size: 0.9rem;" onmouseover="this.style.background='rgba(20,241,149,0.2)'" onmouseout="this.style.background='rgba(20,241,149,0.1)'">📷 Radiology Report</button>
+                                        <button onclick="loadSample(8)" style="display: flex; align-items: center; gap: 10px; width: 100%; background: rgba(20,241,149,0.1); border: none; color: #fff; padding: 12px 15px; text-align: left; cursor: pointer; border-radius: 8px; margin-bottom: 5px; font-size: 0.9rem;" onmouseover="this.style.background='rgba(20,241,149,0.2)'" onmouseout="this.style.background='rgba(20,241,149,0.1)'">🚪 Discharge Summary</button>
+                                        <button onclick="loadSample(9)" style="display: flex; align-items: center; gap: 10px; width: 100%; background: rgba(20,241,149,0.1); border: none; color: #fff; padding: 12px 15px; text-align: left; cursor: pointer; border-radius: 8px; font-size: 0.9rem;" onmouseover="this.style.background='rgba(20,241,149,0.2)'" onmouseout="this.style.background='rgba(20,241,149,0.1)'">🧠 Mental Health Assessment</button>
                                     </div>
                                 </div>
                             </div>
@@ -808,7 +853,7 @@ epic.on_record_update(lambda record:
                         <h4 class="mb-4">Other Ways to Reach Us</h4>
                         <p style="margin-bottom: 20px;"><strong style="color: var(--accent);">Website:</strong> <a href="https://solusprotocol.com" target="_blank" style="color: var(--text-secondary);">solusprotocol.com</a></p>
                         <p style="margin-bottom: 20px;"><strong style="color: var(--accent);">Email:</strong> <a href="mailto:support@solusprotocol.com" style="color: var(--text-secondary);">support@solusprotocol.com</a></p>
-                        <p style="margin-bottom: 20px;"><strong style="color: var(--accent);">Investor Relations:</strong> <a href="mailto:investors@solusprotocol.com" style="color: var(--text-secondary);">investors@solusprotocol.com</a></p>
+                        <p style="margin-bottom: 20px;"><strong style="color: var(--accent);">Investor Relations:</strong> <a href="mailto:support@solusprotocol.com" style="color: var(--text-secondary);">support@solusprotocol.com</a></p>
                         <p><strong style="color: var(--accent);">Security Reports:</strong> <a href="mailto:security@solusprotocol.com" style="color: var(--text-secondary);">security@solusprotocol.com</a></p>
                         <h5 class="mt-4">Follow Us</h5>
                         <div style="display: flex; flex-wrap: wrap; gap: 10px;">
@@ -821,7 +866,7 @@ epic.on_record_update(lambda record:
             <div class="card text-center" style="background: linear-gradient(135deg, rgba(20,241,149,0.1), rgba(153,69,255,0.1)); border: 2px solid rgba(20,241,149,0.3); max-width: 600px; margin: 0 auto;">
                 <h3>Investor Updates</h3>
                 <p>Stay informed about funding rounds, partnerships, and major milestones</p>
-                <a href="mailto:investors@solusprotocol.com?subject=Investor Updates Signup&body=I would like to receive investor updates for Solus Protocol.%0D%0A%0D%0AName:%0D%0AOrganization:%0D%0AInvestment Focus:" class="btn-primary-custom" style="width: auto;">Subscribe to Investor Updates</a>
+                <a href="mailto:support@solusprotocol.com?subject=Investor Updates Signup&body=I would like to receive investor updates for Solus Protocol.%0D%0A%0D%0AName:%0D%0AOrganization:%0D%0AInvestment Focus:" class="btn-primary-custom" style="width: auto;">Subscribe to Investor Updates</a>
             </div>
         </div>
     </section>
@@ -849,7 +894,14 @@ epic.on_record_update(lambda record:
         const SAMPLE_RECORDS = [
             { name: 'Patient Visit Record', data: `Patient ID: P-2026-00142\nName: Jane Doe\nDOB: 1985-03-15\nVisit Date: 2026-02-04\nChief Complaint: Annual wellness checkup\nVitals: BP 120/80, HR 72, Temp 98.6F\nAssessment: Patient in good health\nPlan: Continue current medications, follow up in 12 months` },
             { name: 'Lab Results', data: `Lab Order ID: LAB-2026-8847\nPatient: John Smith (P-2026-00089)\nTest Date: 2026-02-03\nTests Performed:\n- Complete Blood Count (CBC): Normal\n- Basic Metabolic Panel: Normal\n- Lipid Panel: Total Cholesterol 185 mg/dL\n- HbA1c: 5.4%\nInterpreting Physician: Dr. Sarah Johnson` },
-            { name: 'Prescription Record', data: `Rx ID: RX-2026-55123\nPatient: Robert Williams (P-2026-00201)\nPrescriber: Dr. Michael Chen, MD\nDate: 2026-02-04\nMedication: Lisinopril 10mg\nDirections: Take one tablet by mouth daily\nQuantity: 30 tablets\nRefills: 3\nPharmacy: HealthFirst Pharmacy #442` }
+            { name: 'Prescription Record', data: `Rx ID: RX-2026-55123\nPatient: Robert Williams (P-2026-00201)\nPrescriber: Dr. Michael Chen, MD\nDate: 2026-02-04\nMedication: Lisinopril 10mg\nDirections: Take one tablet by mouth daily\nQuantity: 30 tablets\nRefills: 3\nPharmacy: HealthFirst Pharmacy #442` },
+            { name: 'Surgery Report', data: `Surgical Report ID: SR-2026-04421\nPatient: Emily Thompson (P-2026-00156)\nDOB: 1978-09-22\nProcedure Date: 2026-01-28\nProcedure: Laparoscopic Cholecystectomy\nSurgeon: Dr. Amanda Williams, MD, FACS\nAnesthesia: General\nDuration: 45 minutes\nFindings: Chronic cholecystitis with gallstones\nComplications: None\nDisposition: Discharged same day, stable condition` },
+            { name: 'Insurance Claim', data: `Claim ID: CLM-2026-887456\nPatient: Michael Brown (P-2026-00203)\nPolicy Number: BCBS-445521789\nProvider: Charleston Medical Center\nDate of Service: 2026-02-01\nDiagnosis Code: J06.9 (Acute upper respiratory infection)\nProcedure Codes: 99213 (Office visit), 87880 (Strep test)\nBilled Amount: $285.00\nAllowed Amount: $178.50\nPatient Responsibility: $35.00\nStatus: Approved` },
+            { name: 'Allergy Record', data: `Allergy Record ID: ALG-2026-00089\nPatient: Sarah Martinez (P-2026-00178)\nDOB: 1992-06-14\nLast Updated: 2026-02-04\n\nKnown Allergies:\n1. Penicillin - Severe (Anaphylaxis)\n2. Sulfa Drugs - Moderate (Rash, hives)\n3. Latex - Mild (Contact dermatitis)\n4. Shellfish - Severe (Throat swelling)\n5. Ibuprofen - Moderate (GI bleeding)\n\nVerified by: Dr. Lisa Park, MD\nPatient Confirmation: Yes` },
+            { name: 'Immunization Record', data: `Immunization Record ID: IMM-2026-33421\nPatient: David Chen (P-2026-00134)\nDOB: 1990-11-08\n\nVaccination History:\n- COVID-19 Bivalent: 2025-10-15 (Moderna, Lot# M442891)\n- Influenza: 2025-09-20 (Fluzone, Lot# FL88742)\n- Tdap: 2023-04-12 (Boostrix, Lot# TD33219)\n- Hepatitis B (Series): Completed 2018\n- MMR: Childhood series complete\n\nNext Due: Influenza (Fall 2026)\nAdministered by: Nurse Jennifer Adams, RN` },
+            { name: 'Radiology Report', data: `Radiology Report ID: RAD-2026-12847\nPatient: Karen Wilson (P-2026-00221)\nDOB: 1965-03-28\nExam Date: 2026-02-02\nExam Type: Chest X-Ray (PA and Lateral)\n\nClinical Indication: Persistent cough x 2 weeks\n\nFindings:\n- Heart size normal\n- Lungs clear bilaterally\n- No pleural effusion\n- No pneumothorax\n- Bony structures intact\n\nImpression: Normal chest radiograph\nRadiologist: Dr. James Patterson, MD` },
+            { name: 'Discharge Summary', data: `Discharge Summary ID: DIS-2026-05567\nPatient: Thomas Anderson (P-2026-00189)\nDOB: 1958-12-05\nAdmission Date: 2026-01-25\nDischarge Date: 2026-01-29\n\nAdmitting Diagnosis: Acute Myocardial Infarction\nProcedures Performed: Cardiac catheterization with stent placement\nHospital Course: Uncomplicated recovery post-PCI\n\nDischarge Medications:\n- Aspirin 81mg daily\n- Clopidogrel 75mg daily\n- Atorvastatin 80mg daily\n- Metoprolol 50mg twice daily\n\nFollow-up: Cardiology in 2 weeks\nAttending Physician: Dr. Robert Kim, MD, FACC` },
+            { name: 'Mental Health Assessment', data: `Assessment ID: MH-2026-00782\nPatient: Jessica Taylor (P-2026-00245)\nDOB: 1995-07-19\nAssessment Date: 2026-02-03\n\nChief Complaint: Anxiety and difficulty sleeping\nDuration of Symptoms: 3 months\n\nAssessment Tools:\n- GAD-7 Score: 14 (Moderate anxiety)\n- PHQ-9 Score: 8 (Mild depression)\n\nDiagnosis: Generalized Anxiety Disorder (F41.1)\nTreatment Plan: CBT therapy weekly, consider SSRI if no improvement\nRisk Assessment: Low risk, no SI/HI\n\nProvider: Dr. Michelle Stevens, PhD, Licensed Psychologist` }
         ];
 
         window.addEventListener('scroll', function() {
@@ -883,6 +935,20 @@ epic.on_record_update(lambda record:
             }, { threshold: 0.5 });
             counters.forEach(function(c) { observer.observe(c); });
             updateLoginState();
+
+            // Fade-in animation for sections
+            var fadeElements = document.querySelectorAll('.card, .metric-card, .trust-badge, .faq-item, .roadmap-item');
+            var fadeObserver = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('fade-in', 'visible');
+                    }
+                });
+            }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+            fadeElements.forEach(function(el) { 
+                el.classList.add('fade-in');
+                fadeObserver.observe(el); 
+            });
         });
 
         function switchDashboardTab(tab) {
