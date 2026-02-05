@@ -10,8 +10,11 @@ All contributors are expected to follow our Code of Conduct, ensuring a professi
 - **Feature Requests:** Propose new integrations or protocol improvements via the "Discussions" tab.
 - **Pull Requests:**
     1. Fork the repo.
+       
     2. Create a feature branch (`git checkout -b feature/AmazingFeature`).
+       
     3. Ensure all code remains compliant with our **Zero-Knowledge Architecture** (No PHI handling).
+       
     4. Submit the PR for review by the core maintainers.
 
 ## 3. Security Disclosure
