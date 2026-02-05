@@ -785,7 +785,7 @@ epic.on_record_update(lambda record:
                             <div style="font-size: 2rem; font-weight: bold; color: var(--accent);">150.75 $SLS</div>
                             <p style="margin: 10px 0 0;">Estimated USD: ~$7.50 (mock rate)</p>
                         </div>
-                        <button class="btn-primary-custom">Deposit $SLS</button>
+                        <button class="btn-primary-custom" onclick="depositSLS()">Deposit $SLS</button>
                         <button class="btn-secondary-custom">Withdraw</button>
                         <div style="margin-top: 20px; padding-top: 15px; border-top: 1px solid var(--border);">
                             <h5 style="color: var(--accent); margin-bottom: 10px;">Trade $SLS on XRPL</h5>
@@ -903,6 +903,30 @@ epic.on_record_update(lambda record:
             { name: 'Discharge Summary', data: `Discharge Summary ID: DIS-2026-05567\nPatient: Thomas Anderson (P-2026-00189)\nDOB: 1958-12-05\nAdmission Date: 2026-01-25\nDischarge Date: 2026-01-29\n\nAdmitting Diagnosis: Acute Myocardial Infarction\nProcedures Performed: Cardiac catheterization with stent placement\nHospital Course: Uncomplicated recovery post-PCI\n\nDischarge Medications:\n- Aspirin 81mg daily\n- Clopidogrel 75mg daily\n- Atorvastatin 80mg daily\n- Metoprolol 50mg twice daily\n\nFollow-up: Cardiology in 2 weeks\nAttending Physician: Dr. Robert Kim, MD, FACC` },
             { name: 'Mental Health Assessment', data: `Assessment ID: MH-2026-00782\nPatient: Jessica Taylor (P-2026-00245)\nDOB: 1995-07-19\nAssessment Date: 2026-02-03\n\nChief Complaint: Anxiety and difficulty sleeping\nDuration of Symptoms: 3 months\n\nAssessment Tools:\n- GAD-7 Score: 14 (Moderate anxiety)\n- PHQ-9 Score: 8 (Mild depression)\n\nDiagnosis: Generalized Anxiety Disorder (F41.1)\nTreatment Plan: CBT therapy weekly, consider SSRI if no improvement\nRisk Assessment: Low risk, no SI/HI\n\nProvider: Dr. Michelle Stevens, PhD, Licensed Psychologist` }
         ];
+
+        // Deposit $SLS functionality
+        let currentBalance = 150.75;
+        function depositSLS() {
+            currentBalance += 50;
+            const balanceEl = document.querySelector('.wallet div[style*="font-size: 2rem"]');
+            if (balanceEl) {
+                balanceEl.textContent = currentBalance.toFixed(2) + ' $SLS';
+                
+                // Update USD estimate
+                const usdEl = balanceEl.nextElementSibling;
+                if (usdEl) {
+                    usdEl.textContent = 'Estimated USD: ~$' + (currentBalance * 0.05).toFixed(2) + ' (mock rate)';
+                }
+                
+                // Visual feedback
+                balanceEl.style.transform = 'scale(1.1)';
+                balanceEl.style.transition = 'transform 0.3s';
+                setTimeout(() => { balanceEl.style.transform = 'scale(1)'; }, 300);
+                
+                // Show confirmation
+                alert('Mock deposit successful! +50 $SLS added to your balance.');
+            }
+        }
 
         window.addEventListener('scroll', function() {
             const btn = document.querySelector('.back-to-top');
