@@ -57,11 +57,22 @@ except Exception:
             return f"IssuedCurrencyAmount({self.currency},{self.issuer},{self.value})"
 
 # Mock fiat gateway (e.g., simulate Stripe + crypto purchase; in real: use Stripe API + MoonPay/Ramp for USD to $SLS)
-def mock_fiat_to_sls_conversion(usd_amount):
-    """Simulate converting USD to $SLS (e.g., via gateway). Returns equivalent $SLS value (hypothetical rate)."""
-    sls_rate = 0.05  # Mock: $1 USD = 20 $SLS (adjust based on market)
-    sls_purchased = usd_amount / sls_rate
-    return sls_purchased  # In real: Call API to buy and transfer to wallet
+
+# Real fiat conversion using XRPL DEX/gateways
+def real_fiat_to_sls_conversion(client, wallet, usd_amount, sls_issuer, gateway_issuer, destination):
+    """
+    Convert USD.IOU to $SLS using XRPL DEX/gateway. Requires USD.IOU trustline and gateway issuer.
+    Returns response from XRPL transaction.
+    """
+    from xrpl.models.transactions import Payment
+    payment_tx = Payment(
+        account=wallet.classic_address,
+        amount={"currency": "SLS", "value": str(usd_amount), "issuer": sls_issuer},
+        destination=destination,
+        send_max={"currency": "USD", "value": str(usd_amount), "issuer": gateway_issuer}
+    )
+    response = client.submit_and_wait(payment_tx, wallet)
+    return response.result
 
 class SolusSDK:
     def encrypt(self, data):
@@ -140,7 +151,7 @@ class SolusSDK:
         except Exception as e:
             raise RuntimeError(f"Failed to submit trustline transaction: {e}")
 
-    def store_hash_with_sls_fee(self, hash_value, wallet_seed, fee_sls="0.01", destination=None, rebate_sls="0.005", fiat_mode=False, usd_fee_equiv=0.01):
+    def store_hash_with_sls_fee(self, hash_value, wallet_seed, fee_sls="0.01", destination=None, rebate_sls="0.005", fiat_mode=False, usd_fee_equiv=0.01, gateway_issuer=None):
         """
         $SLS Utility: Pay micro-fee in $SLS for action, store hash in memo.
         - If fiat_mode=True, simulate USD payment and auto-convert to $SLS.
@@ -148,12 +159,12 @@ class SolusSDK:
         - Sends rebate (incentive).
         """
         if fiat_mode:
-            # Simulate USD payment and conversion (providers pay USD, get $SLS)
-            sls_needed = float(fee_sls)
-            sls_purchased = mock_fiat_to_sls_conversion(usd_fee_equiv)  # Converts USD to $SLS
-            if sls_purchased < sls_needed:
-                raise ValueError("Insufficient $SLS from fiat conversion. Top up subscription.")
-            print(f"Simulated USD payment: Purchased {sls_purchased} $SLS for fee.")
+            # Real fiat conversion via XRPL DEX/gateway
+            if gateway_issuer is None:
+                raise ValueError("gateway_issuer required for real fiat conversion.")
+            wallet = self.wallet_from_seed(wallet_seed)
+            response = real_fiat_to_sls_conversion(self.client, wallet, usd_fee_equiv, self.sls_issuer, gateway_issuer, destination or self.sls_issuer)
+            print(f"Real USD.IOU conversion: Response: {response}")
 
         wallet = self.wallet_from_seed(wallet_seed)
         if destination is None:
