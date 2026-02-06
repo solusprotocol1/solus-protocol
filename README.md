@@ -387,7 +387,7 @@ We welcome contributions to the Solus Protocol Gateway API and open-source EHR c
 ## 🔗 Official Channels
 * **Twitter:** [@solus_protocol](https://x.com/solus_protocol)
 * **Telegram:** [t.me/solus_protocol](https://t.me/solus_protocol)
-* **Explorer:** [XRPScan Token Profile](https://xrpscan.com/token/SLS/r95GyZac4butvVcsTWUPpxzekmyzaHsTA5)
+* **Explorer:** [XRPScan Token Profile](https://xrpscan.com/account/r95GyZac4butvVcsTWUPpxzekmyzaHsTA5)
 
 ---
 
