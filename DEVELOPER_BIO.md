@@ -11,8 +11,8 @@ Nick Frankfort is a solo developer, entrepreneur, and innovator in blockchain an
 To make healthcare data more secure, auditable, and accessible for patients, providers, and partners worldwide.
 
 ## Contact
-- Email: nick.frankfort@example.com
-- LinkedIn: https://linkedin.com/in/nickfrankfort
+- Email: nickfrankfort@solusprotocol.com
+- LinkedIn: https://www.linkedin.com/in/nicolas-frankfort-6ab29090/
 - Website: https://solusprotocol.com
 
 Open to partnerships, consulting, and collaboration.
