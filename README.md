@@ -1,5 +1,7 @@
-# <center>![Solus Protocol Logo](https://solusprotocol.com/logo.png)</center> 
-## <center>Solus Protocol ($SLS)</center>
+
+# ![Solus Protocol Logo](logo.png)
+
+## Solus Protocol ($SLS)
 
 **The Immutable Standard for Medical Data Integrity on the XRP Ledger**
 
@@ -7,6 +9,91 @@
 [![Network: XRPL Mainnet](https://img.shields.io/badge/Network-XRPL%20Mainnet-orange)](https://xrpscan.com/token/SLS.r95GyZac4butvVcsTWUPpxzekmyzaHsTA5)
 [![Compliance: HIPAA Ready](https://img.shields.io/badge/Compliance-HIPAA%20Ready-green.svg)](WHITEPAPER.md#8-hipaa-regulatory-alignment--technical-safeguards)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
+
+---
+
+## Architecture Diagram
+
+![Data Integrity Lifecycle](data-integrity-lifecycle.png)
+
+---
+
+## Installation
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+## Quickstart Example
+
+```python
+from solus_sdk import SolusSDK
+sdk = SolusSDK(wallet_seed="sEdYourTestnetSeedHere", testnet=True)
+record = "Patient: John Doe\nDOB: 1985-03-15\nVisit: 2026-01-20\nDiagnosis: Hypertension, mild"
+result = sdk.secure_patient_record(record_text=record, encrypt_first=True, fiat_mode=False)
+print(result)
+```
+
+---
+
+## Environment Variables
+
+- `XRPL_RPC_URL` (optional): Set to use a custom XRPL node (e.g., mainnet)
+- `SOLUS_API_KEY` (optional): For production/fiat mode
+
+---
+
+## Security Notes
+
+- **Never commit real seeds, secrets, or patient data to version control.**
+- Use `.env` files or environment variables for sensitive config.
+- All hashes are SHA-256; no PHI is ever stored on-chain.
+- For HIPAA compliance, always encrypt PHI before anchoring.
+
+---
+
+## License
+
+Apache License 2.0. See [LICENSE](LICENSE).
+
+---
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) and [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md).
+
+---
+
+## Tests
+
+Run all tests with:
+
+```bash
+pytest
+```
+
+---
+
+## PyPI Publishing
+
+To publish:
+
+```bash
+python -m build
+python -m twine upload dist/*
+```
+
+---
+
+## Contact
+
+support@solusprotocol.com | X: @Solus_Protocol
+
+---
+
+---
 
 ## Overview
 

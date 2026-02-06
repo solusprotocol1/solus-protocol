@@ -64,6 +64,14 @@ def mock_fiat_to_sls_conversion(usd_amount):
     return sls_purchased  # In real: Call API to buy and transfer to wallet
 
 class SolusSDK:
+    def encrypt(self, data):
+        """Encrypt data using the SDK's encryption key."""
+        return self.encrypt_data(data)
+
+    def decrypt(self, encrypted_data):
+        """Decrypt data using the SDK's encryption key."""
+        return self.decrypt_data(encrypted_data)
+
     def __init__(self, xrpl_rpc_url=None, sls_issuer="r95GyZac4butvVcsTWUPpxzekmyzaHsTA5", encryption_key=None, api_key=None, wallet_seed=None, testnet=False):
         """
         Initialize the SDK.
