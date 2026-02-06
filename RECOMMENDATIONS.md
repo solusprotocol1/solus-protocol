@@ -12,4 +12,4 @@
 10. Gather user feedback and iterate
 
 ---
-For implementation help, contact Nick Frankfort.
+For implementation help, contact support@solusprotocol.com.
