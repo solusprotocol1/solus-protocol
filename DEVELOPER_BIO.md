@@ -22,6 +22,6 @@ Nick Frankfort is the solo developer behind Solus Protocol ($SLS), a pioneering 
 
 - Python, XRPL, cryptography, compliance
 - Open to partnerships, consulting, and collaboration
-- Contact: nick.frankfort@example.com
+- Contact: nickfrankfort@solusprotocol.com
 
 Learn more at https://solusprotocol.com
