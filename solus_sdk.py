@@ -91,10 +91,15 @@ class SolusSDK:
             self.encryption_key = None
             self.cipher = None
         else:
-            if encryption_key is None:
-                self.encryption_key = Fernet.generate_key()
-            else:
+            if encryption_key is not None:
                 self.encryption_key = encryption_key
+            elif wallet_seed is not None:
+                # Deterministically derive a Fernet key from the wallet seed using SHA-256
+                import base64
+                key_bytes = hashlib.sha256(wallet_seed.encode()).digest()
+                self.encryption_key = base64.urlsafe_b64encode(key_bytes)
+            else:
+                self.encryption_key = Fernet.generate_key()
             self.cipher = Fernet(self.encryption_key)
 
     def validate_subscription(self):
