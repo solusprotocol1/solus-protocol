@@ -9,7 +9,8 @@ Solus Protocol is building the future of secure, compliant, and interoperable me
 - Solus anchors only SHA-256 hashes (never PHI) to XRPL for privacy, compliance, and real-time audit
 
 ## Traction
-- Live $SLS token, South Carolina pilot partners, and a working SDK
+- $SLS token is live on the XRPL mainnet
+- South Carolina pilot partners and a working SDK
 - HIPAA-ready, open-source, and transparent
 - Product roadmap with clear milestones (see below)
 
@@ -24,7 +25,7 @@ Solus Protocol is building the future of secure, compliant, and interoperable me
 
 ## Tokenomics & Governance
 - 100M $SLS: 60% public, 15% ecosystem, 15% team, 10% reserves (DAO)
-- Utility token (not a security), with legal review for SEC/CFTC compliance
+  - Utility token (not a security), with legal review for SEC/CFTC compliance
 
 ## Team & Partners
 - Founder: Nick Frankfort (blockchain, healthcare, compliance)
@@ -33,7 +34,7 @@ Solus Protocol is building the future of secure, compliant, and interoperable me
 
 ## Ask
 - Seeking $1.5M seed/strategic investment for:
-  - Mainnet launch, compliance audits, and global partner onboarding
+  - Compliance audits and global partner onboarding
   - Product development (mobile, cross-chain, AI, audit dashboard)
   - Go-to-market and regulatory expansion
 
