@@ -98,6 +98,35 @@ Consent for Transfer: Obtained 2026-02-04; patient authorizes release to Dr. Pat
 
 ---
 
+## Scenario: paramedic_vitals_anchor.py (Robert Lee)
+### Record Anchored (encrypted before hashing)
+```
+Patient: Robert Lee
+Patient ID: RL-987654
+Incident: Multi-vehicle collision
+Date/Time: 2026-02-05 17:45 PST
+Paramedic: EMT Jordan Hayes
+Vital Signs: HR 110 bpm, BP 90/60 mmHg, SpO2 92%, GCS 10 (E3 V3 M4)
+Interventions: IV fluids started, oxygen mask applied, cervical collar placed
+Notes: Suspected TBI; rapid transport to trauma center. Data anchored en route for ER prep.
+```
+### Transaction Details
+- Date: 2026-02-05
+- Patient: Robert Lee
+- Hash Anchored: 467b5a5571dda9f646f0f5b37822426249c8cd8713ce5906b5f6a4b98746e0ac
+- Transaction Hash: F8F17236A851043F3E05BF5AC7FE351F715C751E0E1CFFC4C2380CA59FFB8964
+- Ledger Index: 14658323
+- XRPL Account: rEADrNJ4STXGgrsYCfMMZAZy65pnwT2nT4
+- Transaction Type: AccountSet (with memo)
+- Result: tesSUCCESS (validated)
+
+#### Notes
+- The hash above is a SHA-256 of the encrypted vitals record (not the record itself).
+- The transaction was recorded on the XRPL testnet using the Solus SDK prototype.
+- The fallback AccountSet method was used to ensure the hash is anchored even if $SLS trust lines are not set up.
+
+---
+
 # Confirmation
 
 Yes, with the current `solus_sdk.py` and these scenarios, medical providers and patients can anchor (store) hashes of medical data on the XRPL using $SLS. The SDK:
