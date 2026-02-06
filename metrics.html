@@ -36,7 +36,7 @@
             <canvas id="feeChart" height="80"></canvas>
         </div>
         <div class="card">
-            <h2>XRPL Transaction Volume (Solus)</h2>
+            <h2>XRPL Transaction Volume ($SLS)</h2>
             <canvas id="txChart" height="80"></canvas>
         </div>
         <div class="text-center mt-5">
@@ -44,11 +44,6 @@
         </div>
     </div>
     <script>
-        // Fetch real-time metrics from backend API
-        let hashChart, recordChart, feeChart, txChart;
-        function setView(view) {
-            // This can be expanded for monthly/weekly toggles if backend supports
-        }
         // Demo data for charts
         const weeks = ["Week 1","Week 2","Week 3","Week 4","Week 5","Week 6","Week 7","Week 8"];
         const hashes = [5, 12, 18, 25, 40, 60, 80, 120];
@@ -56,8 +51,7 @@
         const recordCounts = [50, 20, 30, 15, 10, 5];
         const feeData = [0.05, 0.12, 0.18, 0.25, 0.40, 0.60, 0.80, 1.20];
         const txData = [10, 22, 35, 50, 70, 90, 110, 150];
-        let hashChart, recordChart, feeChart, txChart;
-        window.onload = function() {
+        window.addEventListener('DOMContentLoaded', function() {
             hashChart = new Chart(document.getElementById('hashChart').getContext('2d'), {
                 type: 'line',
                 data: {
@@ -138,7 +132,7 @@
                     scales: { x: { grid: { color: '#222' } }, y: { grid: { color: '#222' } } }
                 }
             });
-        };
+        });
     </script>
 </body>
 </html>
