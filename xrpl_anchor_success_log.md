@@ -1,5 +1,7 @@
 # XRPL Hash Anchor Success Log
 
+**NOTE: All information in this log is fake and only used as test dummies for testing the Solus Protocol SDK Prototype and Hash Anchoring Hashes on the XRPL.**
+
 ## Scenario: anchor_test.py (John Doe)
 ### Record Anchored
 ```
