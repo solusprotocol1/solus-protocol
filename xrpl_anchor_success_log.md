@@ -14,7 +14,7 @@ Allergies: None known
 Follow-up: 2026-04-15
 ...
 ```
-### Transaction Details
+### XRPL Transaction Details
 - Date: 2026-02-05
 - Patient: John Doe
 - Hash Anchored: 56d1d868e08fdb4a2a352c355f66da726c362f5e287ba30b724173012d6872bb
@@ -48,7 +48,7 @@ Response: Heart rhythm stabilized within 2 minutes
 Notes: Lifesaving intervention; no adverse reactions observed. Verified by anesthesiologist Dr. Kim Lee.
 Consent: Obtained verbally due to emergency; documented post-procedure.
 ```
-### Transaction Details
+### XRPL Transaction Details
 - Date: 2026-02-05
 - Patient: Jane Smith
 - Hash Anchored: 51e33890d61fec0ec270d83a99d313eb0374fa3556d79ac91b1c8b53540037b9
@@ -81,7 +81,7 @@ Imaging: MRI shows compatible donor match
 Notes: Urgent transplant recommended; no contraindications. Prior treatments: Dialysis since 2025-06.
 Consent for Transfer: Obtained 2026-02-04; patient authorizes release to Dr. Patel for procedure prep.
 ```
-### Transaction Details
+### XRPL Transaction Details
 - Date: 2026-02-05
 - Patient: Michael Johnson
 - Hash Anchored: 0987b3cccdcff3525aa6b9bca44de6bd6814c4e18df1e55e1266995d75bfff93
@@ -110,7 +110,7 @@ Vital Signs: HR 110 bpm, BP 90/60 mmHg, SpO2 92%, GCS 10 (E3 V3 M4)
 Interventions: IV fluids started, oxygen mask applied, cervical collar placed
 Notes: Suspected TBI; rapid transport to trauma center. Data anchored en route for ER prep.
 ```
-### Transaction Details
+### XRPL Transaction Details
 - Date: 2026-02-05
 - Patient: Robert Lee
 - Hash Anchored: 467b5a5571dda9f646f0f5b37822426249c8cd8713ce5906b5f6a4b98746e0ac
@@ -129,7 +129,8 @@ Notes: Suspected TBI; rapid transport to trauma center. Data anchored en route f
 
 ## Scenario: Telemedicine Rare Disease Consultation (Emily Chen)
 
-**Record:**
+### Record Anchored (encrypted before hashing)
+```
 Patient: Emily Chen
 Patient ID: EC-112233
 DOB: 2010-07-14
@@ -139,8 +140,8 @@ Participants: Dr. Maria Gonzalez (Rural Clinic, USA), Dr. Lars Svensson (Genetic
 Findings: Genetic panel shows COL5A1 mutation; hypermobility confirmed via imaging shared securely.
 Recommendations: Custom brace fitting, physical therapy protocol, follow-up genetic counseling.
 Notes: All data verified and anchored for cross-border compliance; consensus achieved in 45 minutes.
-
-**XRPL Transaction Details:**
+```
+### XRPL Transaction Details:
 - Hash: 00ef7d88346116bd737a6e30065e2aa9b2fd133f7c959091d07cbd6e3e57a61a
 - Transaction Hash: 565DE893DA0AA262EDAD0F0F2430F540EDEA60F106A500F03ECF0CEC27323C01
 - Result: tesSUCCESS (validated)
@@ -153,7 +154,8 @@ Notes: All data verified and anchored for cross-border compliance; consensus ach
 
 ## Scenario: AI Post-Op Monitoring (David Ramirez)
 
-**Record:**
+### Record Anchored (encrypted before hashing)
+```
 Patient: David Ramirez
 Patient ID: DR-778899
 DOB: 1982-04-30
@@ -164,8 +166,8 @@ AI Analysis: Detected atrial fibrillation episodes (3x, avg duration 5 min); HR 
 Raw Data Summary: Steps: 1,200/day; Sleep: 6 hrs (disrupted); ECG anomalies flagged by AI model (accuracy 95%).
 Recommendations: Immediate cardiologist review; prescribe beta-blocker if confirmed.
 Notes: AI output anchored for liability and audit; patient notified via app.
-
-**XRPL Transaction Details:**
+```
+### XRPL Transaction Details:
 - Hash: 2061083f33a59bbd385ba7bba926f4488e5b66ad61e1c6ebfcee4723b88de6cc
 - Transaction Hash: A1DD23EAB99353D4A7595F051F87A733A9EAFFC9D6171A259F559F251672F1B0
 - Result: tesSUCCESS (validated)
