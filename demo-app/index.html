@@ -1529,6 +1529,113 @@
         }
         .timeout-actions { display: flex; gap: 12px; }
         .timeout-actions .btn { flex: 1; }
+
+        /* ===== RIPPLE TAP EFFECT ===== */
+        .ripple-container { position: relative; overflow: hidden; }
+        .ripple-effect {
+            position: absolute; border-radius: 50%; background: rgba(20, 241, 149, 0.25);
+            transform: scale(0); animation: rippleAnim 0.6s ease-out; pointer-events: none;
+        }
+        @keyframes rippleAnim {
+            to { transform: scale(4); opacity: 0; }
+        }
+
+        /* ===== ANIMATED GRADIENT BORDER (Trade Balance) ===== */
+        .trade-balance-card {
+            background: linear-gradient(135deg, rgba(20, 241, 149, 0.15), rgba(153, 69, 255, 0.15));
+            border: 2px solid transparent; border-radius: 20px; padding: 24px; text-align: center;
+            background-clip: padding-box; position: relative;
+        }
+        .trade-balance-card::before {
+            content: ''; position: absolute; top: -2px; left: -2px; right: -2px; bottom: -2px;
+            border-radius: 22px; z-index: -1;
+            background: linear-gradient(135deg, var(--accent), var(--secondary), var(--accent2), var(--accent));
+            background-size: 300% 300%;
+            animation: gradientBorder 4s ease infinite;
+        }
+        @keyframes gradientBorder {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* ===== PULL TO REFRESH ===== */
+        .pull-indicator {
+            text-align: center; overflow: hidden; height: 0;
+            transition: height 0.2s ease; color: var(--accent);
+        }
+        .pull-indicator .spinner {
+            width: 24px; height: 24px; border: 2px solid var(--border);
+            border-top-color: var(--accent); border-radius: 50%;
+            margin: 8px auto; animation: spin 0.8s linear infinite;
+        }
+        .pull-indicator i { font-size: 1.2rem; padding: 10px 0; }
+
+        /* ===== BLOCKCHAIN ANCHORING ANIMATION ===== */
+        .anchor-overlay {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 10003;
+            background: rgba(10, 10, 15, 0.97); display: none; flex-direction: column;
+            align-items: center; justify-content: center; padding: 24px;
+        }
+        .anchor-overlay.active { display: flex; }
+        .anchor-steps { width: 100%; max-width: 320px; }
+        .anchor-step {
+            display: flex; align-items: center; gap: 16px; padding: 16px 0;
+            border-bottom: 1px solid var(--border); opacity: 0.3; transition: all 0.5s ease;
+        }
+        .anchor-step:last-child { border-bottom: none; }
+        .anchor-step.active { opacity: 1; }
+        .anchor-step.done { opacity: 1; }
+        .anchor-step-icon {
+            width: 44px; height: 44px; border-radius: 50%; display: flex;
+            align-items: center; justify-content: center; font-size: 1.1rem;
+            background: var(--glass); border: 2px solid var(--border); flex-shrink: 0;
+            transition: all 0.5s ease;
+        }
+        .anchor-step.active .anchor-step-icon { border-color: var(--accent); color: var(--accent); }
+        .anchor-step.done .anchor-step-icon { background: var(--accent); color: var(--primary); border-color: var(--accent); }
+        .anchor-step-text h4 { font-size: 0.95rem; margin-bottom: 2px; }
+        .anchor-step-text p { font-size: 0.8rem; color: var(--text-muted); }
+        .anchor-hash-display {
+            font-family: monospace; font-size: 0.7rem; color: var(--accent);
+            background: var(--glass); padding: 8px 12px; border-radius: 8px;
+            margin-top: 12px; word-break: break-all; overflow: hidden;
+        }
+
+        /* ===== CONFETTI ===== */
+        .confetti-container {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 10004; overflow: hidden;
+        }
+        .confetti-piece {
+            position: absolute; width: 10px; height: 10px; top: -10px;
+            animation: confettiFall 3s ease-in forwards;
+        }
+        @keyframes confettiFall {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+
+        /* ===== VERIFY TYPEWRITER ===== */
+        .verify-typewriter {
+            font-family: monospace; font-size: 0.8rem; color: var(--accent);
+            background: var(--glass); padding: 12px; border-radius: 8px;
+            margin-top: 12px; min-height: 40px; border: 1px solid var(--border);
+        }
+        .verify-typewriter .cursor {
+            display: inline-block; width: 2px; height: 14px; background: var(--accent);
+            margin-left: 2px; animation: blink 0.7s infinite;
+        }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+        /* ===== XRPL EXPLORER LINK ===== */
+        .xrpl-explorer-link {
+            display: flex; align-items: center; gap: 8px; padding: 10px 14px;
+            background: rgba(20, 241, 149, 0.08); border: 1px solid rgba(20, 241, 149, 0.2);
+            border-radius: 10px; color: var(--accent); text-decoration: none;
+            font-size: 0.8rem; transition: all 0.3s; margin-top: 12px;
+        }
+        .xrpl-explorer-link:hover { background: rgba(20, 241, 149, 0.15); border-color: var(--accent); }
     </style>
 </head>
 <body>
@@ -1566,6 +1673,37 @@
             </div>
         </div>
     </div>
+
+    <!-- Blockchain Anchoring Animation -->
+    <div class="anchor-overlay" id="anchorOverlay">
+        <div style="text-align: center; margin-bottom: 32px;">
+            <i class="fas fa-link" style="font-size: 2.5rem; color: var(--accent); margin-bottom: 12px;"></i>
+            <h2 style="font-size: 1.3rem;">Anchoring to XRPL</h2>
+            <p style="color: var(--text-muted); font-size: 0.9rem;">Securing your record on the blockchain</p>
+        </div>
+        <div class="anchor-steps" id="anchorSteps">
+            <div class="anchor-step" id="anchorStep1">
+                <div class="anchor-step-icon"><i class="fas fa-file-medical"></i></div>
+                <div class="anchor-step-text"><h4>Preparing Record</h4><p>Extracting document data...</p></div>
+            </div>
+            <div class="anchor-step" id="anchorStep2">
+                <div class="anchor-step-icon"><i class="fas fa-hashtag"></i></div>
+                <div class="anchor-step-text"><h4>Generating SHA-256 Hash</h4><p id="anchorHashText">Computing cryptographic fingerprint...</p></div>
+            </div>
+            <div class="anchor-step" id="anchorStep3">
+                <div class="anchor-step-icon"><i class="fas fa-paper-plane"></i></div>
+                <div class="anchor-step-text"><h4>Submitting to XRPL</h4><p>Broadcasting transaction to ledger...</p></div>
+            </div>
+            <div class="anchor-step" id="anchorStep4">
+                <div class="anchor-step-icon"><i class="fas fa-check-circle"></i></div>
+                <div class="anchor-step-text"><h4>Confirmed on Ledger</h4><p>Record anchored immutably</p></div>
+            </div>
+        </div>
+        <div class="anchor-hash-display" id="anchorHashDisplay" style="display: none;"></div>
+    </div>
+
+    <!-- Confetti Container -->
+    <div class="confetti-container" id="confettiContainer"></div>
 
     <!-- Biometric Auth Overlay -->
     <div class="biometric-overlay" id="biometricOverlay">
@@ -1630,6 +1768,9 @@
 
         <!-- Home Screen -->
         <div id="homeScreen" class="screen">
+            <div class="pull-indicator" id="pullIndicator">
+                <i class="fas fa-arrow-down"></i>
+            </div>
             <div class="app-header">
                 <div class="header-top">
                     <div class="user-greeting">
@@ -2618,6 +2759,9 @@
                 <button class="btn btn-primary btn-full" onclick="simulateVerify()" style="margin-bottom: 24px;">
                     <i class="fas fa-search"></i> Verify on XRPL
                 </button>
+                <div id="verifyProgress" style="display: none;">
+                    <div class="verify-typewriter" id="verifyTypewriter"></div>
+                </div>
                 <div id="verifyResult" style="display: none;">
                     <div style="background: rgba(20, 241, 149, 0.1); border: 1px solid var(--accent); border-radius: 12px; padding: 20px; text-align: center;">
                         <i class="fas fa-check-circle" style="font-size: 3rem; color: var(--accent); margin-bottom: 12px;"></i>
@@ -2627,6 +2771,9 @@
                             <p style="font-size: 0.8rem; color: var(--text-muted);">Anchored on</p>
                             <p style="font-weight: 600;">Feb 7, 2026 at 2:34 PM</p>
                         </div>
+                        <a href="https://testnet.xrpl.org/accounts/rJPqcx8wUBM58ajPUoz1dReKkTT6hqrqJA" target="_blank" class="xrpl-explorer-link" style="margin-top: 16px; justify-content: center;">
+                            <i class="fas fa-external-link-alt"></i> View on XRPL Explorer
+                        </a>
                     </div>
                 </div>
             </div>
@@ -3201,6 +3348,7 @@
             const record = mockRecords.find(r => r.id === id);
             if (record) {
                 const fakeHash = '0x7f8a9b2c3d4e5f6a' + record.id.toString(16).padStart(4, '0') + 'k1l2m3n4o5p6q7r8s';
+                const fakeTxHash = 'A1B2C3D4E5F6' + record.id.toString(16).toUpperCase().padStart(4, '0') + '7890ABCDEF1234567890ABCDEF12345678';
                 document.getElementById('recordDetailTitle').textContent = record.title;
                 document.getElementById('recordDetailContent').innerHTML = `
                     <div style="text-align: center; margin-bottom: 24px;">
@@ -3226,6 +3374,11 @@
                                 <i class="fas fa-copy"></i> <span>Copy Hash</span>
                             </button>
                         </div>
+                        <a href="https://testnet.xrpl.org/accounts/rJPqcx8wUBM58ajPUoz1dReKkTT6hqrqJA" target="_blank" class="xrpl-explorer-link">
+                            <i class="fas fa-external-link-alt"></i>
+                            <span>View on XRPL Testnet Explorer</span>
+                            <i class="fas fa-chevron-right" style="margin-left: auto; font-size: 0.7rem; opacity: 0.5;"></i>
+                        </a>
                     </div>
                     <div style="display: flex; gap: 12px; margin-top: 20px;">
                         <button class="btn btn-secondary" style="flex: 1;" onclick="shareRecord(${record.id})">
@@ -3296,16 +3449,70 @@
         }
 
         // ===== SIMULATED ACTIONS =====
-        function simulateScan() { closeModal('scanModal'); setTimeout(() => showToast('QR Code scanned - Access granted', 'success'), 500); }
-        function simulateShare() { closeModal('shareModal'); showToast('Record shared securely', 'success'); }
+        function simulateScan() { haptic(); closeModal('scanModal'); setTimeout(() => showToast('QR Code scanned - Access granted', 'success'), 500); }
+        function simulateShare() { haptic(); closeModal('shareModal'); showToast('Record shared securely', 'success'); }
+
         function simulateAddRecord() {
             closeModal('addRecordModal');
-            showToast('Record anchored to XRPL', 'success');
-            document.getElementById('statRecords').textContent = '13';
-            document.getElementById('statVerified').textContent = '13';
+            haptic();
+            showAnchorAnimation();
         }
-        function simulateVerify() { document.getElementById('verifyResult').style.display = 'block'; }
-        function simulateBulkAnchor() { closeModal('bulkAnchorModal'); showToast('Batch anchoring started - 2,847 records', 'success'); }
+
+        function simulateVerify() {
+            haptic();
+            document.getElementById('verifyResult').style.display = 'none';
+            document.getElementById('verifyProgress').style.display = 'block';
+            const typewriter = document.getElementById('verifyTypewriter');
+
+            const lines = [
+                'Initializing XRPL connection...',
+                'Connecting to wss://s.altnet.rippletest.net:51233',
+                'Connected to XRPL Testnet',
+                'Looking up account: rJPqcx8wUBM58ajPUoz1dReKkTT6hqrqJA',
+                'Scanning transaction memos...',
+                'Hash found in ledger: 0x7f8a9b2c3d4e...',
+                'Verifying SHA-256 integrity...',
+                '✓ MATCH CONFIRMED — record is authentic'
+            ];
+
+            let lineIndex = 0;
+            typewriter.innerHTML = '';
+
+            function typeLine() {
+                if (lineIndex >= lines.length) {
+                    setTimeout(() => {
+                        document.getElementById('verifyProgress').style.display = 'none';
+                        document.getElementById('verifyResult').style.display = 'block';
+                        haptic();
+                    }, 500);
+                    return;
+                }
+                const line = lines[lineIndex];
+                const isLast = lineIndex === lines.length - 1;
+                const lineEl = document.createElement('div');
+                lineEl.style.color = isLast ? 'var(--accent)' : 'var(--text-muted)';
+                lineEl.style.fontWeight = isLast ? '600' : '400';
+                lineEl.style.marginBottom = '4px';
+                typewriter.appendChild(lineEl);
+
+                let charIndex = 0;
+                function typeChar() {
+                    if (charIndex < line.length) {
+                        lineEl.textContent = line.substring(0, charIndex + 1);
+                        charIndex++;
+                        setTimeout(typeChar, 15 + Math.random() * 20);
+                    } else {
+                        lineIndex++;
+                        setTimeout(typeLine, 200 + Math.random() * 300);
+                    }
+                }
+                typeChar();
+                typewriter.scrollTop = typewriter.scrollHeight;
+            }
+            typeLine();
+        }
+
+        function simulateBulkAnchor() { haptic(); closeModal('bulkAnchorModal'); showToast('Batch anchoring started - 2,847 records', 'success'); }
         document.getElementById('loginPassword').addEventListener('keypress', function(e) { if (e.key === 'Enter') login(); });
 
         // ===== ACTION HELP TOGGLE =====
@@ -3713,6 +3920,175 @@
             if (screen === 'trade') { updateTradeBalance(); }
             if (screen === 'home') { animateHomeStats(); }
         };
+
+        // ===== HAPTIC FEEDBACK =====
+        function haptic(pattern) {
+            if ('vibrate' in navigator) {
+                navigator.vibrate(pattern || 10);
+            }
+        }
+
+        // ===== RIPPLE TAP EFFECT =====
+        document.addEventListener('click', function(e) {
+            const target = e.target.closest('.action-card, .record-card, .btn, .nav-item, .role-card, .patient-card, .exchange-card, .settings-item, .faq-item');
+            if (!target) return;
+            haptic();
+            const rect = target.getBoundingClientRect();
+            const ripple = document.createElement('span');
+            ripple.className = 'ripple-effect';
+            const size = Math.max(rect.width, rect.height);
+            ripple.style.width = ripple.style.height = size + 'px';
+            ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
+            ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
+            target.style.position = target.style.position || 'relative';
+            target.style.overflow = 'hidden';
+            target.appendChild(ripple);
+            ripple.addEventListener('animationend', () => ripple.remove());
+        });
+
+        // ===== BLOCKCHAIN ANCHORING ANIMATION =====
+        function showAnchorAnimation() {
+            const overlay = document.getElementById('anchorOverlay');
+            const hashDisplay = document.getElementById('anchorHashDisplay');
+            overlay.classList.add('active');
+            hashDisplay.style.display = 'none';
+
+            // Reset all steps
+            for (let i = 1; i <= 4; i++) {
+                const step = document.getElementById('anchorStep' + i);
+                step.classList.remove('active', 'done');
+            }
+
+            const fakeHash = 'a7f8b9c2d3e4f5' + Math.random().toString(16).substring(2, 10) + '1k2l3m4n5o6p7q8r';
+
+            // Step 1: Preparing
+            setTimeout(() => {
+                document.getElementById('anchorStep1').classList.add('active');
+                haptic();
+            }, 300);
+
+            // Step 2: Hash
+            setTimeout(() => {
+                document.getElementById('anchorStep1').classList.remove('active');
+                document.getElementById('anchorStep1').classList.add('done');
+                document.getElementById('anchorStep2').classList.add('active');
+                hashDisplay.style.display = 'block';
+                hashDisplay.textContent = '';
+                haptic();
+                // Typewriter hash
+                let idx = 0;
+                const hashInterval = setInterval(() => {
+                    if (idx < fakeHash.length) {
+                        hashDisplay.textContent += fakeHash[idx];
+                        idx++;
+                    } else {
+                        clearInterval(hashInterval);
+                    }
+                }, 40);
+            }, 1200);
+
+            // Step 3: Submitting
+            setTimeout(() => {
+                document.getElementById('anchorStep2').classList.remove('active');
+                document.getElementById('anchorStep2').classList.add('done');
+                document.getElementById('anchorStep3').classList.add('active');
+                haptic();
+            }, 2800);
+
+            // Step 4: Confirmed
+            setTimeout(() => {
+                document.getElementById('anchorStep3').classList.remove('active');
+                document.getElementById('anchorStep3').classList.add('done');
+                document.getElementById('anchorStep4').classList.add('active');
+                haptic([10, 50, 10]);
+            }, 4200);
+
+            // Done — close and celebrate
+            setTimeout(() => {
+                document.getElementById('anchorStep4').classList.remove('active');
+                document.getElementById('anchorStep4').classList.add('done');
+                setTimeout(() => {
+                    overlay.classList.remove('active');
+                    showToast('Record anchored to XRPL', 'success');
+                    document.getElementById('statRecords').textContent = '13';
+                    document.getElementById('statVerified').textContent = '13';
+                    launchConfetti();
+                }, 600);
+            }, 5000);
+        }
+
+        // ===== CONFETTI CELEBRATION =====
+        function launchConfetti() {
+            const container = document.getElementById('confettiContainer');
+            const colors = ['#14F195', '#9945FF', '#00C2FF', '#ffd700', '#ff6b6b', '#ffffff'];
+            const shapes = ['square', 'circle'];
+
+            for (let i = 0; i < 60; i++) {
+                const piece = document.createElement('div');
+                piece.className = 'confetti-piece';
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                const shape = shapes[Math.floor(Math.random() * shapes.length)];
+                piece.style.left = Math.random() * 100 + '%';
+                piece.style.background = color;
+                piece.style.animationDuration = (2 + Math.random() * 2) + 's';
+                piece.style.animationDelay = Math.random() * 0.5 + 's';
+                if (shape === 'circle') piece.style.borderRadius = '50%';
+                piece.style.width = (6 + Math.random() * 8) + 'px';
+                piece.style.height = (6 + Math.random() * 8) + 'px';
+                container.appendChild(piece);
+            }
+            haptic([10, 30, 10, 30, 10]);
+            setTimeout(() => { container.innerHTML = ''; }, 4000);
+        }
+
+        // ===== PULL TO REFRESH =====
+        (function() {
+            let startY = 0;
+            let pulling = false;
+            const homeScreen = document.getElementById('homeScreen');
+            const indicator = document.getElementById('pullIndicator');
+            if (!homeScreen || !indicator) return;
+
+            homeScreen.addEventListener('touchstart', function(e) {
+                if (homeScreen.scrollTop === 0 && currentScreen === 'home') {
+                    startY = e.touches[0].clientY;
+                    pulling = true;
+                }
+            }, { passive: true });
+
+            homeScreen.addEventListener('touchmove', function(e) {
+                if (!pulling) return;
+                const diff = e.touches[0].clientY - startY;
+                if (diff > 0 && diff < 120) {
+                    indicator.style.height = Math.min(diff * 0.5, 50) + 'px';
+                }
+            }, { passive: true });
+
+            homeScreen.addEventListener('touchend', function() {
+                if (!pulling) return;
+                pulling = false;
+                const h = parseInt(indicator.style.height) || 0;
+                if (h > 30) {
+                    indicator.innerHTML = '<div class="spinner"></div>';
+                    indicator.style.height = '50px';
+                    haptic();
+                    setTimeout(() => {
+                        updateGreeting();
+                        renderRecords();
+                        renderActivity();
+                        animateHomeStats();
+                        indicator.innerHTML = '<i class="fas fa-check" style="color: var(--accent);"></i>';
+                        setTimeout(() => {
+                            indicator.style.height = '0';
+                            indicator.innerHTML = '<i class="fas fa-arrow-down"></i>';
+                        }, 800);
+                        showToast('Dashboard refreshed', 'success');
+                    }, 1000);
+                } else {
+                    indicator.style.height = '0';
+                }
+            }, { passive: true });
+        })();
     </script>
 </body>
 </html>
