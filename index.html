@@ -195,6 +195,7 @@
         .close-modal:hover { color: #fff; }
         .user-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(20, 241, 149, 0.2); padding: 6px 12px; border-radius: 20px; font-size: 0.85rem; color: var(--accent); }
         .user-badge.provider { background: rgba(153, 69, 255, 0.2); color: var(--secondary); }
+        .user-badge.ehr { background: rgba(255, 215, 0, 0.2); color: #ffd700; }
         .social-link { display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; background: var(--glass); border: 1px solid var(--border); border-radius: 8px; color: var(--accent); text-decoration: none; transition: all 0.3s; }
         .social-link:hover { background: rgba(20,241,149,0.1); transform: translateY(-2px); color: var(--accent); }
         .fade-in { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
@@ -255,6 +256,26 @@
         .toggle-switch.active { background: var(--accent); }
         .toggle-switch::after { content: ''; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; background: #fff; border-radius: 50%; transition: all 0.3s; }
         .toggle-switch.active::after { left: 27px; }
+        
+        /* Help Icon Styles */
+        .help-icon { position: absolute; top: 15px; right: 50px; width: 28px; height: 28px; background: var(--glass); border: 1px solid var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--text-muted); font-size: 0.9rem; font-weight: bold; transition: all 0.2s; }
+        .help-icon:hover { background: rgba(20, 241, 149, 0.2); border-color: var(--accent); color: var(--accent); }
+        .help-tooltip { display: none; position: absolute; top: 50px; right: 15px; background: rgba(20, 20, 25, 0.98); border: 1px solid var(--accent); border-radius: 12px; padding: 15px; max-width: 280px; z-index: 100; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .help-tooltip.active { display: block; }
+        .help-tooltip h5 { color: var(--accent); margin-bottom: 8px; font-size: 0.95rem; }
+        .help-tooltip p { color: #ccc; font-size: 0.85rem; margin: 0; line-height: 1.5; }
+        .help-tooltip ul { color: #aaa; font-size: 0.8rem; margin: 10px 0 0; padding-left: 18px; }
+        .help-tooltip li { margin-bottom: 5px; }
+        .action-box { position: relative; }
+        
+        /* Full Records Modal */
+        .records-container { max-height: 400px; overflow-y: auto; padding-right: 10px; }
+        .full-record-card { background: var(--glass); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 15px; }
+        .full-record-card h5 { color: var(--accent); margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+        .full-record-card .record-badge { font-size: 0.75rem; padding: 3px 10px; border-radius: 20px; background: rgba(20, 241, 149, 0.2); color: var(--accent); }
+        .full-record-card pre { background: rgba(0,0,0,0.3); padding: 15px; border-radius: 8px; font-size: 0.8rem; color: #ccc; white-space: pre-wrap; margin: 0; font-family: monospace; }
+        .record-meta { display: flex; gap: 15px; margin-bottom: 10px; font-size: 0.8rem; color: #888; }
+        
         .wallet { background: rgba(20,241,149,0.1); border: 1px solid var(--accent); border-radius: 12px; padding: 20px; margin-bottom: 20px; text-align: center; }
         .tx-list { list-style: none; padding: 0; margin: 0; }
         .tx-item { background: var(--glass); padding: 15px; margin: 10px 0; border-radius: 8px; color: #fff; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
@@ -291,6 +312,7 @@
                     <li class="nav-item"><a class="nav-link" href="transactions.html" target="_blank">Transactions</a></li>
                     <li class="nav-item"><a class="nav-link" href="#sdk">SDK</a></li>
                     <li class="nav-item"><a class="nav-link" href="#security">Security</a></li>
+                    <li class="nav-item"><a class="nav-link" href="partners/">Partners</a></li>
                     <li class="nav-item"><a class="nav-link" href="#faq">FAQ</a></li>
                     <li class="nav-item"><a class="nav-link" href="#profile">Profile</a></li>
                     <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
@@ -320,7 +342,7 @@
                     <h3>Try the <span class="gradient-text">Live Demo</span></h3>
                     <p style="margin-bottom: 20px;">Experience the Solus Protocol dashboard firsthand. Hash patient records, verify data integrity, and explore our SDK integration — all in a live interactive environment.</p>
                     <a href="https://solus-protocol-demo.replit.app" target="_blank" class="btn-primary-custom" style="font-size: 1.1rem; padding: 15px 35px;">Launch Demo App →</a>
-                    <p style="font-size: 0.85rem; margin-top: 15px; color: var(--text-muted);">Demo credentials: username "patient" or "provider", password "demo123"</p>
+                    <p style="font-size: 0.85rem; margin-top: 15px; color: var(--text-muted);">Demo credentials: username "patient", "provider", or "ehr" | password "demo123"</p>
                 </div>
             </div>
         </div>
@@ -981,7 +1003,7 @@ sdk.on_ehr_event(lambda record:
                     <div class="col-md-6"><div style="background: var(--glass); padding: 15px; border-radius: 8px; margin: 10px 0;"><strong style="color: #fff;">Record 1</strong><p style="font-size: 0.85rem; margin: 5px 0; color: #ccc;">Hash: d4e567f8... (Verified 2026-01-19)</p></div></div>
                     <div class="col-md-6"><div style="background: var(--glass); padding: 15px; border-radius: 8px; margin: 10px 0;"><strong style="color: #fff;">Record 2</strong><p style="font-size: 0.85rem; margin: 5px 0; color: #ccc;">Hash: a1b2c3d4... (Shared with Provider X)</p></div></div>
                 </div>
-                <button class="btn-primary-custom mt-3">View Full Records</button>
+                <button class="btn-primary-custom mt-3" onclick="showFullRecordsModal()">View Full Records</button>
             </div>
             
             <!-- Rewards Progress -->
@@ -1028,8 +1050,10 @@ sdk.on_ehr_event(lambda record:
             
             <!-- Quick Actions -->
             <div class="card">
-                <h3>⚡ Quick Actions</h3>
-                <div class="row mt-3">
+                <h3>⚡ Quick Actions <span id="quickActionsRole" style="font-size: 0.8rem; background: rgba(20,241,149,0.2); padding: 3px 12px; border-radius: 20px; color: var(--accent); margin-left: 10px;">Patient</span></h3>
+                
+                <!-- Patient Actions -->
+                <div id="patientActions" class="row mt-3">
                     <div class="col-md-4 col-6 mb-3">
                         <button class="btn-secondary-custom w-100" style="display: flex; align-items: center; justify-content: center; gap: 8px;" onclick="showSecureModal()">
                             <span>🔒</span> Secure New Record
@@ -1054,6 +1078,74 @@ sdk.on_ehr_event(lambda record:
                         <a href="transactions.html" class="btn-secondary-custom w-100" style="display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none;">
                             <span>📜</span> TX History
                         </a>
+                    </div>
+                    <div class="col-md-4 col-6 mb-3">
+                        <button class="btn-secondary-custom w-100" style="display: flex; align-items: center; justify-content: center; gap: 8px;" onclick="showSettingsModal()">
+                            <span>⚙️</span> Settings
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Provider Actions -->
+                <div id="providerActions" class="row mt-3" style="display: none;">
+                    <div class="col-md-4 col-6 mb-3">
+                        <button class="btn-secondary-custom w-100" style="display: flex; align-items: center; justify-content: center; gap: 8px;" onclick="showProviderViewSharedModal()">
+                            <span>📋</span> View Shared Records
+                        </button>
+                    </div>
+                    <div class="col-md-4 col-6 mb-3">
+                        <button class="btn-secondary-custom w-100" style="display: flex; align-items: center; justify-content: center; gap: 8px;" onclick="showVerifyModal()">
+                            <span>✅</span> Verify Patient Record
+                        </button>
+                    </div>
+                    <div class="col-md-4 col-6 mb-3">
+                        <button class="btn-secondary-custom w-100" style="display: flex; align-items: center; justify-content: center; gap: 8px;" onclick="showProviderRequestModal()">
+                            <span>📨</span> Request Access
+                        </button>
+                    </div>
+                    <div class="col-md-4 col-6 mb-3">
+                        <button class="btn-secondary-custom w-100" style="display: flex; align-items: center; justify-content: center; gap: 8px;" onclick="showProviderLookupModal()">
+                            <span>🔍</span> Patient Lookup
+                        </button>
+                    </div>
+                    <div class="col-md-4 col-6 mb-3">
+                        <a href="transactions.html" class="btn-secondary-custom w-100" style="display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none;">
+                            <span>📜</span> TX History
+                        </a>
+                    </div>
+                    <div class="col-md-4 col-6 mb-3">
+                        <button class="btn-secondary-custom w-100" style="display: flex; align-items: center; justify-content: center; gap: 8px;" onclick="showSettingsModal()">
+                            <span>⚙️</span> Settings
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- EHR Company Actions -->
+                <div id="ehrActions" class="row mt-3" style="display: none;">
+                    <div class="col-md-4 col-6 mb-3">
+                        <button class="btn-secondary-custom w-100" style="display: flex; align-items: center; justify-content: center; gap: 8px;" onclick="showEHRBulkAnchorModal()">
+                            <span>🔗</span> Bulk Anchor API
+                        </button>
+                    </div>
+                    <div class="col-md-4 col-6 mb-3">
+                        <button class="btn-secondary-custom w-100" style="display: flex; align-items: center; justify-content: center; gap: 8px;" onclick="showEHRDashboardModal()">
+                            <span>📊</span> Integration Dashboard
+                        </button>
+                    </div>
+                    <div class="col-md-4 col-6 mb-3">
+                        <button class="btn-secondary-custom w-100" style="display: flex; align-items: center; justify-content: center; gap: 8px;" onclick="showEHRAuditModal()">
+                            <span>📝</span> Audit Logs
+                        </button>
+                    </div>
+                    <div class="col-md-4 col-6 mb-3">
+                        <button class="btn-secondary-custom w-100" style="display: flex; align-items: center; justify-content: center; gap: 8px;" onclick="showEHRApiKeysModal()">
+                            <span>🔑</span> API Keys
+                        </button>
+                    </div>
+                    <div class="col-md-4 col-6 mb-3">
+                        <button class="btn-secondary-custom w-100" style="display: flex; align-items: center; justify-content: center; gap: 8px;" onclick="showEHRBillingModal()">
+                            <span>💳</span> Billing
+                        </button>
                     </div>
                     <div class="col-md-4 col-6 mb-3">
                         <button class="btn-secondary-custom w-100" style="display: flex; align-items: center; justify-content: center; gap: 8px;" onclick="showSettingsModal()">
@@ -1130,7 +1222,7 @@ sdk.on_ehr_event(lambda record:
             <label>Username</label><input type="text" id="loginUsername" placeholder="patient or provider">
             <label>Password</label><input type="password" id="loginPassword" placeholder="demo123">
             <button class="btn-primary-custom w-100" onclick="login()">Sign In</button>
-            <p style="font-size: 0.85rem; margin-top: 15px; text-align: center;"><strong>Demo Credentials:</strong><br>Patient: username "patient", password "demo123"<br>Provider: username "provider", password "demo123"</p>
+            <p style="font-size: 0.85rem; margin-top: 15px; text-align: center;"><strong>Demo Credentials:</strong><br>Patient: "patient" / demo123<br>Provider: "provider" / demo123<br>EHR Company: "ehr" / demo123</p>
         </div>
     </div>
 
@@ -1138,6 +1230,17 @@ sdk.on_ehr_event(lambda record:
     <div class="action-modal" id="secureModal">
         <div class="action-box">
             <button class="close-modal" onclick="hideSecureModal()">&times;</button>
+            <div class="help-icon" onclick="toggleHelp('secureHelp')">?</div>
+            <div class="help-tooltip" id="secureHelp">
+                <h5>What is Secure Record?</h5>
+                <p>This action creates a cryptographic hash (SHA-256) of your medical record and anchors it to the XRP Ledger.</p>
+                <ul>
+                    <li><strong>Privacy:</strong> Your actual data is never stored on the blockchain - only the hash</li>
+                    <li><strong>Immutable:</strong> Once anchored, the record cannot be altered</li>
+                    <li><strong>Verifiable:</strong> Anyone can verify the record hasn't been tampered with</li>
+                    <li><strong>Fee:</strong> 0.01 $SLS per record (0.005 rebate)</li>
+                </ul>
+            </div>
             <h3>🔒 Secure New Record</h3>
             <p class="subtitle">Hash and anchor a medical record to XRPL</p>
             
@@ -1166,6 +1269,17 @@ sdk.on_ehr_event(lambda record:
     <div class="action-modal" id="shareModal">
         <div class="action-box">
             <button class="close-modal" onclick="hideShareModal()">&times;</button>
+            <div class="help-icon" onclick="toggleHelp('shareHelp')">?</div>
+            <div class="help-tooltip" id="shareHelp">
+                <h5>What is Share Access?</h5>
+                <p>Grant a healthcare provider temporary, secure access to view your medical record.</p>
+                <ul>
+                    <li><strong>You control access:</strong> Choose which records to share</li>
+                    <li><strong>Time-limited:</strong> Access expires after your chosen duration</li>
+                    <li><strong>Revocable:</strong> You can revoke access at any time</li>
+                    <li><strong>Auditable:</strong> All access is logged on-chain</li>
+                </ul>
+            </div>
             <h3>🔗 Share Access</h3>
             <p class="subtitle">Grant a provider temporary access to a record</p>
             
@@ -1206,6 +1320,17 @@ sdk.on_ehr_event(lambda record:
     <div class="action-modal" id="verifyModal">
         <div class="action-box">
             <button class="close-modal" onclick="hideVerifyModal()">&times;</button>
+            <div class="help-icon" onclick="toggleHelp('verifyHelp')">?</div>
+            <div class="help-tooltip" id="verifyHelp">
+                <h5>What is Verify Record?</h5>
+                <p>Check if a medical record has been tampered with by comparing its hash to what's stored on XRPL.</p>
+                <ul>
+                    <li><strong>Integrity check:</strong> Confirms record hasn't been altered</li>
+                    <li><strong>On-chain proof:</strong> Verification happens against the blockchain</li>
+                    <li><strong>Instant:</strong> Results in seconds</li>
+                    <li><strong>Free:</strong> No fee to verify records</li>
+                </ul>
+            </div>
             <h3>✅ Verify Record</h3>
             <p class="subtitle">Check if a record hash matches XRPL anchor</p>
             
@@ -1225,6 +1350,17 @@ sdk.on_ehr_event(lambda record:
     <div class="action-modal" id="settingsModal">
         <div class="action-box">
             <button class="close-modal" onclick="hideSettingsModal()">&times;</button>
+            <div class="help-icon" onclick="toggleHelp('settingsHelp')">?</div>
+            <div class="help-tooltip" id="settingsHelp">
+                <h5>Settings Help</h5>
+                <p>Configure how Solus Protocol works for you.</p>
+                <ul>
+                    <li><strong>Notifications:</strong> Get alerts when records are shared or verified</li>
+                    <li><strong>Auto-Verify:</strong> Automatically check record integrity on access</li>
+                    <li><strong>Testnet Mode:</strong> Use test network (no real $SLS)</li>
+                    <li><strong>Fee Auto-Pay:</strong> Automatically deduct fees from balance</li>
+                </ul>
+            </div>
             <h3>⚙️ Settings</h3>
             <p class="subtitle">Configure your Solus Protocol preferences</p>
             
@@ -1269,6 +1405,357 @@ sdk.on_ehr_event(lambda record:
             </div>
             
             <button class="btn-secondary-custom w-100 mt-3" onclick="hideSettingsModal()">Close Settings</button>
+        </div>
+    </div>
+
+    <!-- Full Records Modal -->
+    <div class="action-modal" id="fullRecordsModal">
+        <div class="action-box" style="max-width: 700px;">
+            <button class="close-modal" onclick="hideFullRecordsModal()">&times;</button>
+            <div class="help-icon" onclick="toggleHelp('fullRecordsHelp')">?</div>
+            <div class="help-tooltip" id="fullRecordsHelp">
+                <h5>Your Secured Records</h5>
+                <p>These are all records you've secured on the XRPL blockchain. Each record shows:</p>
+                <ul>
+                    <li><strong>Type:</strong> Category of medical record</li>
+                    <li><strong>Hash:</strong> Unique cryptographic fingerprint</li>
+                    <li><strong>Date:</strong> When it was anchored</li>
+                    <li><strong>Status:</strong> Current verification state</li>
+                </ul>
+                <p style="margin-top: 8px; font-size: 0.8rem; color: #888;">Note: Only you can see your full record data. Providers see only what you share.</p>
+            </div>
+            <h3>📋 My Full Records</h3>
+            <p class="subtitle">All your secured records anchored to XRPL</p>
+            
+            <div class="records-container" id="fullRecordsList">
+                <!-- Records will be populated by JavaScript -->
+            </div>
+            
+            <button class="btn-secondary-custom w-100 mt-3" onclick="hideFullRecordsModal()">Close</button>
+        </div>
+    </div>
+
+    <!-- Provider: View Shared Records Modal -->
+    <div class="action-modal" id="providerViewSharedModal">
+        <div class="action-box" style="max-width: 600px;">
+            <button class="close-modal" onclick="hideProviderViewSharedModal()">&times;</button>
+            <div class="help-icon" onclick="toggleHelp('providerViewSharedHelp')">?</div>
+            <div class="help-tooltip" id="providerViewSharedHelp">
+                <h5>View Shared Records</h5>
+                <p>These are patient records that have been shared with you. You have temporary access based on patient permissions.</p>
+                <ul>
+                    <li><strong>Time-limited:</strong> Access expires as specified by patient</li>
+                    <li><strong>Verified:</strong> All records are blockchain-verified</li>
+                    <li><strong>Audited:</strong> Your access is logged for compliance</li>
+                </ul>
+            </div>
+            <h3>📋 Shared Patient Records</h3>
+            <p class="subtitle">Records patients have shared with you</p>
+            
+            <div class="records-container">
+                <div class="full-record-card">
+                    <h5>Patient: J*** D*** <span class="record-badge">VITALS</span></h5>
+                    <div class="record-meta"><span>Shared: 2026-02-05</span><span>Expires: 24 hours</span></div>
+                    <pre>Blood Pressure: 118/76 mmHg
+Heart Rate: 72 bpm
+Temperature: 98.6°F
+Respiratory Rate: 16/min
+SpO2: 98%
+Weight: [Redacted by patient]
+Last Updated: 2026-02-05</pre>
+                </div>
+                <div class="full-record-card">
+                    <h5>Patient: M*** B*** <span class="record-badge" style="background: rgba(153,69,255,0.2); color: var(--secondary);">LAB</span></h5>
+                    <div class="record-meta"><span>Shared: 2026-02-04</span><span>Expires: 7 days</span></div>
+                    <pre>Complete Blood Count (CBC)
+WBC: 7.2 x10^9/L (Normal)
+RBC: 4.8 x10^12/L (Normal)
+Hemoglobin: 14.2 g/dL (Normal)
+Hematocrit: 42% (Normal)
+Platelets: 245 x10^9/L (Normal)
+Lab ID: [Verified on XRPL]</pre>
+                </div>
+            </div>
+            
+            <button class="btn-secondary-custom w-100 mt-3" onclick="hideProviderViewSharedModal()">Close</button>
+        </div>
+    </div>
+
+    <!-- Provider: Request Access Modal -->
+    <div class="action-modal" id="providerRequestModal">
+        <div class="action-box">
+            <button class="close-modal" onclick="hideProviderRequestModal()">&times;</button>
+            <div class="help-icon" onclick="toggleHelp('providerRequestHelp')">?</div>
+            <div class="help-tooltip" id="providerRequestHelp">
+                <h5>Request Record Access</h5>
+                <p>Send a request to a patient to share their medical records with you. The patient will:</p>
+                <ul>
+                    <li>Receive a notification of your request</li>
+                    <li>Choose which records to share</li>
+                    <li>Set access duration</li>
+                    <li>Approve or deny the request</li>
+                </ul>
+            </div>
+            <h3>📨 Request Patient Access</h3>
+            <p class="subtitle">Request a patient to share records with you</p>
+            
+            <label>Patient Wallet Address or ID</label>
+            <input type="text" id="requestPatientId" placeholder="Patient ID or XRPL address">
+            
+            <label>Reason for Request</label>
+            <select id="requestReason">
+                <option value="consultation">Consultation</option>
+                <option value="treatment">Treatment Planning</option>
+                <option value="referral">Referral Review</option>
+                <option value="emergency">Emergency Access</option>
+                <option value="second-opinion">Second Opinion</option>
+            </select>
+            
+            <label>Message to Patient (optional)</label>
+            <textarea id="requestMessage" placeholder="Explain why you need access..." style="height: 80px;"></textarea>
+            
+            <button class="btn-primary-custom w-100 mt-3" onclick="sendAccessRequest()">📨 Send Request</button>
+            
+            <div id="requestResult" style="display: none;"></div>
+        </div>
+    </div>
+
+    <!-- Provider: Patient Lookup Modal -->
+    <div class="action-modal" id="providerLookupModal">
+        <div class="action-box">
+            <button class="close-modal" onclick="hideProviderLookupModal()">&times;</button>
+            <div class="help-icon" onclick="toggleHelp('providerLookupHelp')">?</div>
+            <div class="help-tooltip" id="providerLookupHelp">
+                <h5>Patient Lookup</h5>
+                <p>Search for patients in the Solus network to request record access or verify their identity.</p>
+                <ul>
+                    <li>Search by patient ID or wallet address</li>
+                    <li>View public profile information</li>
+                    <li>Send access requests</li>
+                </ul>
+            </div>
+            <h3>🔍 Patient Lookup</h3>
+            <p class="subtitle">Search for patients in the Solus network</p>
+            
+            <label>Search by ID or Address</label>
+            <input type="text" id="lookupPatientId" placeholder="Enter patient ID or XRPL address">
+            
+            <button class="btn-primary-custom w-100 mt-3" onclick="lookupPatient()">🔍 Search</button>
+            
+            <div id="lookupResult" style="display: none;"></div>
+        </div>
+    </div>
+
+    <!-- EHR: Bulk Anchor API Modal -->
+    <div class="action-modal" id="ehrBulkAnchorModal">
+        <div class="action-box" style="max-width: 600px;">
+            <button class="close-modal" onclick="hideEHRBulkAnchorModal()">&times;</button>
+            <div class="help-icon" onclick="toggleHelp('ehrBulkAnchorHelp')">?</div>
+            <div class="help-tooltip" id="ehrBulkAnchorHelp">
+                <h5>Bulk Anchor API</h5>
+                <p>Anchor multiple patient records to XRPL simultaneously. Ideal for:</p>
+                <ul>
+                    <li>Nightly batch processing</li>
+                    <li>Historical record migration</li>
+                    <li>Real-time HL7/FHIR feeds</li>
+                    <li>High-volume operations</li>
+                </ul>
+                <p style="margin-top: 8px; font-size: 0.8rem; color: #888;">Volume discounts apply for 10,000+ records/month</p>
+            </div>
+            <h3>🔗 Bulk Anchor API</h3>
+            <p class="subtitle">Anchor multiple records via API</p>
+            
+            <div style="background: rgba(0,0,0,0.3); border-radius: 10px; padding: 15px; margin-bottom: 15px;">
+                <p style="color: #aaa; font-size: 0.85rem; margin-bottom: 10px;">API Endpoint:</p>
+                <code style="color: var(--accent); font-size: 0.85rem;">POST https://api.solusprotocol.com/v1/bulk-anchor</code>
+            </div>
+            
+            <label>Upload CSV or JSON</label>
+            <div style="border: 2px dashed var(--border); border-radius: 10px; padding: 30px; text-align: center; cursor: pointer;" onclick="alert('File upload would open here in production')">
+                <p style="margin: 0; color: #888;">📁 Click to upload or drag & drop</p>
+                <p style="margin: 5px 0 0; font-size: 0.8rem; color: #666;">Supports CSV, JSON, HL7, FHIR formats</p>
+            </div>
+            
+            <div style="display: flex; justify-content: space-between; margin-top: 20px; padding: 15px; background: var(--glass); border-radius: 10px;">
+                <div style="text-align: center;">
+                    <div style="font-size: 1.5rem; font-weight: bold; color: var(--accent);">0</div>
+                    <div style="font-size: 0.8rem; color: #888;">Records Queued</div>
+                </div>
+                <div style="text-align: center;">
+                    <div style="font-size: 1.5rem; font-weight: bold; color: var(--secondary);">$0.008</div>
+                    <div style="font-size: 0.8rem; color: #888;">Est. Cost/Record</div>
+                </div>
+                <div style="text-align: center;">
+                    <div style="font-size: 1.5rem; font-weight: bold; color: #fff;">$0.00</div>
+                    <div style="font-size: 0.8rem; color: #888;">Total Cost</div>
+                </div>
+            </div>
+            
+            <button class="btn-primary-custom w-100 mt-3" disabled style="opacity: 0.5;">🚀 Start Bulk Anchor</button>
+        </div>
+    </div>
+
+    <!-- EHR: Integration Dashboard Modal -->
+    <div class="action-modal" id="ehrDashboardModal">
+        <div class="action-box" style="max-width: 650px;">
+            <button class="close-modal" onclick="hideEHRDashboardModal()">&times;</button>
+            <div class="help-icon" onclick="toggleHelp('ehrDashboardHelp')">?</div>
+            <div class="help-tooltip" id="ehrDashboardHelp">
+                <h5>Integration Dashboard</h5>
+                <p>Monitor your EHR integration health, throughput, and system status in real-time.</p>
+            </div>
+            <h3>📊 Integration Dashboard</h3>
+            <p class="subtitle">Monitor your Solus Protocol integration</p>
+            
+            <div class="row mb-3">
+                <div class="col-4">
+                    <div style="text-align: center; padding: 15px; background: rgba(20,241,149,0.1); border-radius: 10px;">
+                        <div style="font-size: 1.8rem; font-weight: bold; color: var(--accent);">✓</div>
+                        <div style="font-size: 0.8rem; color: #aaa;">API Status</div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div style="text-align: center; padding: 15px; background: var(--glass); border-radius: 10px;">
+                        <div style="font-size: 1.5rem; font-weight: bold; color: #fff;">12,847</div>
+                        <div style="font-size: 0.8rem; color: #aaa;">Records This Month</div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div style="text-align: center; padding: 15px; background: var(--glass); border-radius: 10px;">
+                        <div style="font-size: 1.5rem; font-weight: bold; color: var(--secondary);">99.9%</div>
+                        <div style="font-size: 0.8rem; color: #aaa;">Uptime</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="background: var(--glass); border-radius: 10px; padding: 15px; margin-bottom: 15px;">
+                <h5 style="color: #fff; margin-bottom: 10px;">Recent Activity</h5>
+                <div style="font-size: 0.85rem;">
+                    <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border);"><span style="color: #ccc;">Batch #4521 anchored</span><span style="color: var(--accent);">2 min ago</span></div>
+                    <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border);"><span style="color: #ccc;">HL7 feed connected</span><span style="color: #888;">15 min ago</span></div>
+                    <div style="display: flex; justify-content: space-between; padding: 8px 0;"><span style="color: #ccc;">API key rotated</span><span style="color: #888;">1 hour ago</span></div>
+                </div>
+            </div>
+            
+            <a href="metrics.html" class="btn-secondary-custom w-100" style="text-decoration: none; text-align: center;">View Full Metrics →</a>
+        </div>
+    </div>
+
+    <!-- EHR: Audit Logs Modal -->
+    <div class="action-modal" id="ehrAuditModal">
+        <div class="action-box" style="max-width: 600px;">
+            <button class="close-modal" onclick="hideEHRAuditModal()">&times;</button>
+            <div class="help-icon" onclick="toggleHelp('ehrAuditHelp')">?</div>
+            <div class="help-tooltip" id="ehrAuditHelp">
+                <h5>Audit Logs</h5>
+                <p>Complete audit trail of all anchoring operations for HIPAA compliance. Logs include:</p>
+                <ul>
+                    <li>Timestamp of each operation</li>
+                    <li>Record type and hash</li>
+                    <li>XRPL transaction ID</li>
+                    <li>User/system that initiated</li>
+                </ul>
+            </div>
+            <h3>📝 Audit Logs</h3>
+            <p class="subtitle">HIPAA-compliant operation audit trail</p>
+            
+            <div style="max-height: 300px; overflow-y: auto; background: rgba(0,0,0,0.3); border-radius: 10px; padding: 10px; font-family: monospace; font-size: 0.75rem; color: #aaa;">
+                <div style="padding: 5px 0; border-bottom: 1px solid var(--border);">[2026-02-07 09:45:12] ANCHOR batch_4521 records=150 tx=TX_A8F2...</div>
+                <div style="padding: 5px 0; border-bottom: 1px solid var(--border);">[2026-02-07 09:30:00] VERIFY hash=d4e567f8... status=VALID user=sys_api</div>
+                <div style="padding: 5px 0; border-bottom: 1px solid var(--border);">[2026-02-07 09:15:33] ANCHOR single type=LAB tx=TX_B9C3...</div>
+                <div style="padding: 5px 0; border-bottom: 1px solid var(--border);">[2026-02-07 08:00:01] BATCH_START records=500 source=hl7_feed</div>
+                <div style="padding: 5px 0; border-bottom: 1px solid var(--border);">[2026-02-07 08:02:45] BATCH_COMPLETE records=500 success=498 failed=2</div>
+                <div style="padding: 5px 0; border-bottom: 1px solid var(--border);">[2026-02-06 23:00:00] KEY_ROTATE api_key=sk_live_*** user=admin@ehr.com</div>
+                <div style="padding: 5px 0;">[2026-02-06 18:30:22] ANCHOR batch_4520 records=75 tx=TX_C1D4...</div>
+            </div>
+            
+            <div style="display: flex; gap: 10px; margin-top: 15px;">
+                <button class="btn-secondary-custom w-100" onclick="alert('Export would download CSV in production')">📥 Export CSV</button>
+                <button class="btn-secondary-custom w-100" onclick="alert('Export would download JSON in production')">📥 Export JSON</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- EHR: API Keys Modal -->
+    <div class="action-modal" id="ehrApiKeysModal">
+        <div class="action-box">
+            <button class="close-modal" onclick="hideEHRApiKeysModal()">&times;</button>
+            <div class="help-icon" onclick="toggleHelp('ehrApiKeysHelp')">?</div>
+            <div class="help-tooltip" id="ehrApiKeysHelp">
+                <h5>API Key Management</h5>
+                <p>Manage your API credentials for Solus Protocol integration.</p>
+                <ul>
+                    <li><strong>Never share</strong> your secret key</li>
+                    <li>Rotate keys regularly for security</li>
+                    <li>Use test keys for development</li>
+                </ul>
+            </div>
+            <h3>🔑 API Keys</h3>
+            <p class="subtitle">Manage your integration credentials</p>
+            
+            <div style="background: var(--glass); border-radius: 10px; padding: 15px; margin-bottom: 15px;">
+                <label style="font-size: 0.8rem; color: #888;">Live API Key</label>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <input type="password" value="sk_live_a1b2c3d4e5f6g7h8i9j0" style="flex: 1; font-family: monospace;" readonly>
+                    <button class="btn-secondary-custom" style="padding: 8px 15px;" onclick="alert('Key copied!')">📋</button>
+                </div>
+            </div>
+            
+            <div style="background: var(--glass); border-radius: 10px; padding: 15px; margin-bottom: 15px;">
+                <label style="font-size: 0.8rem; color: #888;">Test API Key</label>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <input type="text" value="sk_test_x9y8z7w6v5u4t3s2r1q0" style="flex: 1; font-family: monospace;" readonly>
+                    <button class="btn-secondary-custom" style="padding: 8px 15px;" onclick="alert('Key copied!')">📋</button>
+                </div>
+            </div>
+            
+            <button class="btn-primary-custom w-100" onclick="alert('Key rotation would happen here in production')">🔄 Rotate Keys</button>
+        </div>
+    </div>
+
+    <!-- EHR: Billing Modal -->
+    <div class="action-modal" id="ehrBillingModal">
+        <div class="action-box">
+            <button class="close-modal" onclick="hideEHRBillingModal()">&times;</button>
+            <div class="help-icon" onclick="toggleHelp('ehrBillingHelp')">?</div>
+            <div class="help-tooltip" id="ehrBillingHelp">
+                <h5>Billing & Usage</h5>
+                <p>View your current plan, usage, and billing history. Volume discounts are applied automatically.</p>
+            </div>
+            <h3>💳 Billing</h3>
+            <p class="subtitle">Plan, usage, and payment management</p>
+            
+            <div style="background: linear-gradient(135deg, rgba(20,241,149,0.15), rgba(153,69,255,0.15)); border: 1px solid var(--accent); border-radius: 10px; padding: 20px; margin-bottom: 15px;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <div style="color: var(--accent); font-weight: bold;">Enterprise Plan</div>
+                        <div style="color: #aaa; font-size: 0.85rem;">50,000 records/month included</div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div style="font-size: 1.5rem; font-weight: bold; color: #fff;">$499</div>
+                        <div style="color: #888; font-size: 0.8rem;">/month</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border);">
+                <span style="color: #ccc;">Records This Month</span>
+                <span style="color: #fff;">12,847 / 50,000</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border);">
+                <span style="color: #ccc;">Overage Rate</span>
+                <span style="color: #888;">$0.008/record</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border);">
+                <span style="color: #ccc;">Next Billing Date</span>
+                <span style="color: #fff;">March 1, 2026</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: 10px 0;">
+                <span style="color: #ccc;">Payment Method</span>
+                <span style="color: #fff;">•••• 4242</span>
+            </div>
+            
+            <button class="btn-secondary-custom w-100 mt-3" onclick="alert('Billing portal would open here')">Manage Billing →</button>
         </div>
     </div>
 
@@ -1432,12 +1919,13 @@ sdk.on_ehr_event(lambda record:
         function showLoginModal() { document.getElementById('loginModal').classList.add('active'); }
         function hideLoginModal() { document.getElementById('loginModal').classList.remove('active'); }
         function login() {
-            const username = document.getElementById('loginUsername').value;
+            const username = document.getElementById('loginUsername').value.toLowerCase();
             const password = document.getElementById('loginPassword').value;
-            if ((username === 'patient' || username === 'provider') && password === 'demo123') {
-                localStorage.setItem('user', JSON.stringify({ name: username === 'patient' ? 'John Doe' : 'Dr. Smith', role: username }));
+            if ((username === 'patient' || username === 'provider' || username === 'ehr') && password === 'demo123') {
+                const names = { 'patient': 'John Doe', 'provider': 'Dr. Smith', 'ehr': 'Epic Systems' };
+                localStorage.setItem('user', JSON.stringify({ name: names[username], role: username }));
                 updateLoginState(); hideLoginModal();
-            } else { alert('Invalid credentials. Try patient/demo123 or provider/demo123'); }
+            } else { alert('Invalid credentials. Try patient/demo123, provider/demo123, or ehr/demo123'); }
         }
         function logout() { localStorage.removeItem('user'); updateLoginState(); }
         function updateLoginState() {
@@ -1446,12 +1934,17 @@ sdk.on_ehr_event(lambda record:
                 document.getElementById('loginBtn').style.display = 'none';
                 document.getElementById('userInfo').style.display = 'block';
                 document.getElementById('logoutBtn').style.display = 'block';
-                document.getElementById('userBadge').textContent = user.name + ' (' + user.role.charAt(0).toUpperCase() + user.role.slice(1) + ')';
-                document.getElementById('userBadge').className = 'user-badge' + (user.role === 'provider' ? ' provider' : '');
+                const roleLabels = { 'patient': 'Patient', 'provider': 'Provider', 'ehr': 'EHR Company' };
+                document.getElementById('userBadge').textContent = user.name + ' (' + roleLabels[user.role] + ')';
+                document.getElementById('userBadge').className = 'user-badge' + (user.role === 'provider' ? ' provider' : user.role === 'ehr' ? ' ehr' : '');
+                // Update Quick Actions based on role
+                updateQuickActionsForRole(user.role);
             } else {
                 document.getElementById('loginBtn').style.display = 'block';
                 document.getElementById('userInfo').style.display = 'none';
                 document.getElementById('logoutBtn').style.display = 'none';
+                // Default to patient actions
+                updateQuickActionsForRole('patient');
             }
         }
 
@@ -1663,9 +2156,294 @@ sdk.on_ehr_event(lambda record:
             modal.addEventListener('click', function(e) {
                 if (e.target === this) {
                     this.classList.remove('active');
+                    // Close any open help tooltips
+                    document.querySelectorAll('.help-tooltip').forEach(t => t.classList.remove('active'));
                 }
             });
         });
+        
+        // ==========================================
+        // Help Tooltip Function
+        // ==========================================
+        function toggleHelp(helpId) {
+            const tooltip = document.getElementById(helpId);
+            const isActive = tooltip.classList.contains('active');
+            // Close all other tooltips first
+            document.querySelectorAll('.help-tooltip').forEach(t => t.classList.remove('active'));
+            if (!isActive) {
+                tooltip.classList.add('active');
+            }
+        }
+        
+        // Close help tooltip when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.help-icon') && !e.target.closest('.help-tooltip')) {
+                document.querySelectorAll('.help-tooltip').forEach(t => t.classList.remove('active'));
+            }
+        });
+        
+        // ==========================================
+        // Full Records Modal
+        // ==========================================
+        const mockFullRecords = [
+            {
+                id: 1,
+                type: 'VITALS',
+                date: '2026-01-19',
+                hash: 'd4e567f8a9b0c1d2e3f4a5b6c7d8e9f0',
+                status: 'Verified',
+                data: `Vital Signs Record
+─────────────────────────────
+Date: 2026-01-19 09:30 AM
+Blood Pressure: 118/76 mmHg
+Heart Rate: 72 bpm
+Temperature: 98.6°F
+Respiratory Rate: 16 breaths/min
+Oxygen Saturation: 98%
+Weight: 165 lbs
+Height: 5'10"
+
+Notes: Routine checkup, all vitals within normal range.
+Provider: Dr. S*** (ID: ***42)
+Facility: City Medical Center`
+            },
+            {
+                id: 2,
+                type: 'LAB',
+                date: '2026-01-25',
+                hash: 'a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6',
+                status: 'Shared',
+                sharedWith: 'Provider X',
+                data: `Complete Blood Count (CBC)
+─────────────────────────────
+Date: 2026-01-25
+Lab ID: LAB-***847
+
+Results:
+• WBC: 7.2 x10^9/L (Normal: 4.5-11.0)
+• RBC: 4.8 x10^12/L (Normal: 4.5-5.5)
+• Hemoglobin: 14.2 g/dL (Normal: 13.5-17.5)
+• Hematocrit: 42% (Normal: 38-50%)
+• Platelets: 245 x10^9/L (Normal: 150-400)
+• MCV: 88 fL (Normal: 80-100)
+
+Interpretation: All values within normal limits.
+Ordering Physician: Dr. J*** (ID: ***89)`
+            },
+            {
+                id: 3,
+                type: 'PRESCRIPTION',
+                date: '2026-02-01',
+                hash: '7f8e9d0c1b2a3c4d5e6f7a8b9c0d1e2f',
+                status: 'Verified',
+                data: `Prescription Record
+─────────────────────────────
+Rx ID: RX-2026-***23
+Date: 2026-02-01
+
+Medication: [Redacted - Generic Antihypertensive]
+Dosage: 10mg tablet
+Instructions: Take one tablet by mouth once daily
+Quantity: 30 tablets
+Refills Remaining: 3
+
+Prescriber: Dr. C***, MD (NPI: ***4567)
+Pharmacy: HealthFirst Pharmacy
+Status: Filled 2026-02-02`
+            },
+            {
+                id: 4,
+                type: 'IMAGING',
+                date: '2026-01-10',
+                hash: '5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b',
+                status: 'Verified',
+                data: `Radiology Report
+─────────────────────────────
+Study: Chest X-Ray (PA and Lateral)
+Date: 2026-01-10
+Accession: RAD-***847
+
+Clinical Indication: Annual screening
+
+Findings:
+• Heart size normal
+• Lungs clear bilaterally
+• No pleural effusion
+• No pneumothorax
+• Bony structures intact
+
+Impression: Normal chest radiograph.
+No acute cardiopulmonary disease.
+
+Radiologist: Dr. P***, MD (ID: ***91)`
+            },
+            {
+                id: 5,
+                type: 'DISCHARGE',
+                date: '2025-11-15',
+                hash: '9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d',
+                status: 'Verified',
+                data: `Discharge Summary
+─────────────────────────────
+Admission: 2025-11-12
+Discharge: 2025-11-15
+Hospital: Metro General
+
+Admission Reason: [General medical procedure]
+
+Hospital Course:
+• Day 1: Admitted, pre-op evaluation
+• Day 2: Procedure completed successfully
+• Day 3: Recovery, monitoring
+• Day 4: Discharged home, stable
+
+Discharge Instructions:
+• Follow up in 2 weeks
+• Activity restrictions for 1 week
+• Medications adjusted per orders
+
+Attending: Dr. W***, MD, FACS
+Case ID: ***567`
+            }
+        ];
+        
+        function showFullRecordsModal() {
+            const container = document.getElementById('fullRecordsList');
+            container.innerHTML = mockFullRecords.map(record => `
+                <div class="full-record-card">
+                    <h5>
+                        Record ${record.id}
+                        <span class="record-badge" style="${record.type === 'LAB' ? 'background: rgba(153,69,255,0.2); color: var(--secondary);' : ''}">${record.type}</span>
+                    </h5>
+                    <div class="record-meta">
+                        <span>📅 ${record.date}</span>
+                        <span>🔐 ${record.status}${record.sharedWith ? ' with ' + record.sharedWith : ''}</span>
+                    </div>
+                    <pre>${record.data}</pre>
+                    <div style="margin-top: 10px; font-size: 0.75rem; color: #666;">
+                        Hash: ${record.hash.substring(0, 16)}...
+                    </div>
+                </div>
+            `).join('');
+            document.getElementById('fullRecordsModal').classList.add('active');
+        }
+        
+        function hideFullRecordsModal() {
+            document.getElementById('fullRecordsModal').classList.remove('active');
+        }
+        
+        // ==========================================
+        // Provider Modal Functions
+        // ==========================================
+        function showProviderViewSharedModal() { document.getElementById('providerViewSharedModal').classList.add('active'); }
+        function hideProviderViewSharedModal() { document.getElementById('providerViewSharedModal').classList.remove('active'); }
+        
+        function showProviderRequestModal() { document.getElementById('providerRequestModal').classList.add('active'); }
+        function hideProviderRequestModal() { 
+            document.getElementById('providerRequestModal').classList.remove('active');
+            document.getElementById('requestResult').style.display = 'none';
+        }
+        
+        function sendAccessRequest() {
+            const patientId = document.getElementById('requestPatientId').value;
+            const reason = document.getElementById('requestReason').value;
+            
+            if (!patientId.trim()) {
+                alert('Please enter patient ID or address');
+                return;
+            }
+            
+            const resultDiv = document.getElementById('requestResult');
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = `
+                <div class="action-result animate-slide-up">
+                    <h5 style="color: var(--accent); margin-bottom: 10px;">📨 Request Sent!</h5>
+                    <p style="margin: 5px 0;"><strong>Patient:</strong> ${patientId}</p>
+                    <p style="margin: 5px 0;"><strong>Reason:</strong> ${reason}</p>
+                    <p style="font-size: 0.85rem; margin-top: 10px; color: #888;">Patient will be notified and can approve/deny this request.</p>
+                </div>
+            `;
+        }
+        
+        function showProviderLookupModal() { document.getElementById('providerLookupModal').classList.add('active'); }
+        function hideProviderLookupModal() {
+            document.getElementById('providerLookupModal').classList.remove('active');
+            document.getElementById('lookupResult').style.display = 'none';
+        }
+        
+        function lookupPatient() {
+            const patientId = document.getElementById('lookupPatientId').value;
+            
+            if (!patientId.trim()) {
+                alert('Please enter a patient ID or address');
+                return;
+            }
+            
+            const resultDiv = document.getElementById('lookupResult');
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = `<div class="action-result"><p style="text-align: center; color: #aaa;">🔍 Searching...</p></div>`;
+            
+            setTimeout(() => {
+                resultDiv.innerHTML = `
+                    <div class="action-result animate-slide-up">
+                        <h5 style="color: var(--accent); margin-bottom: 10px;">Patient Found</h5>
+                        <p style="margin: 5px 0;"><strong>ID:</strong> ${patientId.substring(0, 8)}***</p>
+                        <p style="margin: 5px 0;"><strong>Records Secured:</strong> 5</p>
+                        <p style="margin: 5px 0;"><strong>Trust Score:</strong> 9/10</p>
+                        <p style="margin: 5px 0;"><strong>Status:</strong> <span style="color: var(--accent);">Active</span></p>
+                        <button class="btn-primary-custom w-100 mt-3" onclick="hideProviderLookupModal(); showProviderRequestModal();">📨 Request Access</button>
+                    </div>
+                `;
+            }, 1000);
+        }
+        
+        // ==========================================
+        // EHR Modal Functions
+        // ==========================================
+        function showEHRBulkAnchorModal() { document.getElementById('ehrBulkAnchorModal').classList.add('active'); }
+        function hideEHRBulkAnchorModal() { document.getElementById('ehrBulkAnchorModal').classList.remove('active'); }
+        
+        function showEHRDashboardModal() { document.getElementById('ehrDashboardModal').classList.add('active'); }
+        function hideEHRDashboardModal() { document.getElementById('ehrDashboardModal').classList.remove('active'); }
+        
+        function showEHRAuditModal() { document.getElementById('ehrAuditModal').classList.add('active'); }
+        function hideEHRAuditModal() { document.getElementById('ehrAuditModal').classList.remove('active'); }
+        
+        function showEHRApiKeysModal() { document.getElementById('ehrApiKeysModal').classList.add('active'); }
+        function hideEHRApiKeysModal() { document.getElementById('ehrApiKeysModal').classList.remove('active'); }
+        
+        function showEHRBillingModal() { document.getElementById('ehrBillingModal').classList.add('active'); }
+        function hideEHRBillingModal() { document.getElementById('ehrBillingModal').classList.remove('active'); }
+        
+        // ==========================================
+        // Role-Based Quick Actions
+        // ==========================================
+        function updateQuickActionsForRole(role) {
+            // Hide all action panels
+            document.getElementById('patientActions').style.display = 'none';
+            document.getElementById('providerActions').style.display = 'none';
+            document.getElementById('ehrActions').style.display = 'none';
+            
+            // Update badge
+            const badge = document.getElementById('quickActionsRole');
+            
+            if (role === 'patient') {
+                document.getElementById('patientActions').style.display = 'flex';
+                badge.textContent = 'Patient';
+                badge.style.background = 'rgba(20,241,149,0.2)';
+                badge.style.color = 'var(--accent)';
+            } else if (role === 'provider') {
+                document.getElementById('providerActions').style.display = 'flex';
+                badge.textContent = 'Provider';
+                badge.style.background = 'rgba(153,69,255,0.2)';
+                badge.style.color = 'var(--secondary)';
+            } else if (role === 'ehr') {
+                document.getElementById('ehrActions').style.display = 'flex';
+                badge.textContent = 'EHR Company';
+                badge.style.background = 'rgba(255,215,0,0.2)';
+                badge.style.color = '#ffd700';
+            }
+        }
 
         // ==========================================
         // Particles.js Initialization
