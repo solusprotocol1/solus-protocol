@@ -74,7 +74,6 @@
             margin: 0 auto;
             min-height: 100vh;
             position: relative;
-            background: linear-gradient(180deg, var(--primary) 0%, #0d0d15 100%);
         }
 
         /* Screens */
@@ -1217,6 +1216,52 @@
         .modal-overlay.dismissing { animation: fadeOut 0.2s ease forwards; }
         @keyframes fadeOut { to { opacity: 0; } }
 
+        /* ===== SKELETON SHIMMER (loading placeholder) ===== */
+        .skeleton {
+            background: linear-gradient(90deg, var(--glass) 25%, rgba(255,255,255,0.08) 50%, var(--glass) 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            border-radius: 8px;
+            min-height: 20px;
+        }
+        .skeleton-card { height: 80px; margin-bottom: 12px; border-radius: 16px; }
+        .skeleton-stat { height: 70px; border-radius: 16px; }
+        .skeleton-text { height: 14px; margin-bottom: 8px; width: 60%; }
+        .skeleton-text.wide { width: 90%; }
+        @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+        /* ===== SCROLL TO TOP ===== */
+        .scroll-top-btn {
+            position: fixed; bottom: calc(80px + env(safe-area-inset-bottom, 0px)); left: 20px;
+            width: 40px; height: 40px; border-radius: 50%; background: var(--glass);
+            border: 1px solid var(--border); color: var(--text); font-size: 1rem;
+            display: none; align-items: center; justify-content: center;
+            z-index: 500; cursor: pointer; transition: all 0.3s; backdrop-filter: blur(10px);
+        }
+        .scroll-top-btn.visible { display: flex; }
+        .scroll-top-btn:active { transform: scale(0.9); }
+
+        /* ===== LONG PRESS CONTEXT MENU ===== */
+        .context-menu {
+            position: fixed; background: var(--dark); border: 1px solid var(--border);
+            border-radius: 16px; padding: 8px 0; z-index: 9000; display: none;
+            min-width: 180px; box-shadow: 0 12px 40px rgba(0,0,0,0.6); backdrop-filter: blur(20px);
+            animation: scaleIn 0.15s ease-out;
+        }
+        .context-menu.active { display: block; }
+        .context-menu-item {
+            display: flex; align-items: center; gap: 12px; padding: 12px 20px;
+            font-size: 0.9rem; color: var(--text); cursor: pointer; transition: background 0.15s;
+        }
+        .context-menu-item:hover { background: rgba(255,255,255,0.05); }
+        .context-menu-item i { width: 18px; text-align: center; color: var(--text-muted); }
+        .context-menu-item.danger { color: var(--danger); }
+        .context-menu-item.danger i { color: var(--danger); }
+        @keyframes scaleIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+
+        /* ===== LIVE CLOCK ===== */
+        .header-clock { font-size: 0.75rem; color: var(--text-muted); font-variant-numeric: tabular-nums; }
+
         /* ===== ENHANCED ANIMATIONS ===== */
         @keyframes pulse-glow {
             0%, 100% { box-shadow: 0 0 5px rgba(20, 241, 149, 0.3), 0 0 20px rgba(20, 241, 149, 0.1); }
@@ -1311,8 +1356,10 @@
 
         /* ===== DARK/LIGHT MODE ===== */
         .app-container.light-mode {
-            background: linear-gradient(180deg, #f0f2f5 0%, #e4e6eb 100%);
+            background: transparent;
         }
+        .light-mode ~ .app-mesh-bg .g-orb { opacity: 0.12; }
+        body.light-body { background: linear-gradient(180deg, #f0f2f5 0%, #e4e6eb 100%); }
         .light-mode .screen { color: #1a1a2e; }
         .light-mode .app-header { background: linear-gradient(180deg, rgba(240, 242, 245, 0.98) 0%, transparent 100%); }
         .light-mode .stat-card,
@@ -1678,6 +1725,20 @@
         <div class="g-orb g-orb-3" id="orb3"></div>
     </div>
 
+    <!-- Scroll To Top -->
+    <button class="scroll-top-btn" id="scrollTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'}); haptic();" aria-label="Scroll to top">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <!-- Context Menu -->
+    <div class="context-menu" id="contextMenu">
+        <div class="context-menu-item" onclick="contextAction('verify')"><i class="fas fa-certificate"></i> Verify Record</div>
+        <div class="context-menu-item" onclick="contextAction('share')"><i class="fas fa-share"></i> Share</div>
+        <div class="context-menu-item" onclick="contextAction('copy')"><i class="fas fa-copy"></i> Copy Hash</div>
+        <div class="context-menu-item" onclick="contextAction('explorer')"><i class="fas fa-external-link-alt"></i> View on XRPL</div>
+        <div class="context-menu-item danger" onclick="contextAction('revoke')"><i class="fas fa-ban"></i> Revoke Access</div>
+    </div>
+
     <!-- Floating Action Button -->
     <button class="fab" id="fab" onclick="openModal('addRecordModal'); haptic();" aria-label="Anchor new record">
         <i class="fas fa-plus"></i>
@@ -1814,7 +1875,10 @@
                         <h1 id="greetingText">Good morning</h1>
                         <p id="userName">Alex Johnson</p>
                     </div>
-                    <div class="user-avatar" id="userAvatar" onclick="showScreen('profileScreen')">AJ</div>
+                    <div style="text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 4px;">
+                        <div class="header-clock" id="headerClock"></div>
+                        <div class="user-avatar" id="userAvatar" onclick="showScreen('profileScreen')">AJ</div>
+                    </div>
                 </div>
                 <div class="status-bar">
                     <div class="status-item">
@@ -2236,7 +2300,7 @@
                 </div>
 
                 <div style="text-align: center; padding: 20px; color: var(--text-muted); font-size: 0.8rem;">
-                    <p>Solus Protocol v2.4.0</p>
+                    <p>Solus Protocol v2.5.0</p>
                     <p style="margin-top: 4px;">Build Feb 2026 • Powered by XRP Ledger</p>
                     <p style="margin-top: 4px; font-size: 0.7rem; opacity: 0.6;">Demo Environment • Testnet</p>
                 </div>
@@ -2652,7 +2716,7 @@
                     </div>
                 </div>
                 <div style="text-align: center; padding: 20px; color: var(--text-muted); font-size: 0.8rem;">
-                    <p>Solus Protocol v2.4.0</p>
+                    <p>Solus Protocol v2.5.0</p>
                     <p style="margin-top: 4px;">Build Feb 2026 • Powered by XRP Ledger</p>
                     <p style="margin-top: 4px; font-size: 0.7rem; opacity: 0.6;">Demo Environment • Testnet</p>
                 </div>
@@ -3615,12 +3679,14 @@
 
             if (isDarkMode) {
                 container.classList.remove('light-mode');
+                document.body.classList.remove('light-body');
                 icon.className = 'fas fa-moon';
                 label.textContent = 'Dark Mode';
                 toggle.classList.add('active');
                 if (themeMeta) themeMeta.content = '#0a0a0f';
             } else {
                 container.classList.add('light-mode');
+                document.body.classList.add('light-body');
                 icon.className = 'fas fa-sun';
                 label.textContent = 'Light Mode';
                 toggle.classList.remove('active');
@@ -4219,6 +4285,70 @@
                 }
             }, { passive: true });
         })();
+
+        // ===== LIVE CLOCK =====
+        (function() {
+            const clockEl = document.getElementById('headerClock');
+            if (!clockEl) return;
+            function tick() {
+                const now = new Date();
+                const h = now.getHours();
+                const m = now.getMinutes().toString().padStart(2, '0');
+                const ampm = h >= 12 ? 'PM' : 'AM';
+                const h12 = h % 12 || 12;
+                clockEl.textContent = h12 + ':' + m + ' ' + ampm;
+            }
+            tick();
+            setInterval(tick, 15000);
+        })();
+
+        // ===== SCROLL TO TOP =====
+        (function() {
+            const btn = document.getElementById('scrollTopBtn');
+            if (!btn) return;
+            window.addEventListener('scroll', function() {
+                btn.classList.toggle('visible', window.scrollY > 300);
+            }, { passive: true });
+        })();
+
+        // ===== LONG PRESS CONTEXT MENU =====
+        let contextRecordId = null;
+        let longPressTimer = null;
+        document.addEventListener('touchstart', function(e) {
+            const card = e.target.closest('.record-card');
+            if (!card) return;
+            longPressTimer = setTimeout(function() {
+                haptic([10, 30, 10]);
+                contextRecordId = card.getAttribute('onclick')?.match(/\d+/)?.[0];
+                const menu = document.getElementById('contextMenu');
+                const rect = card.getBoundingClientRect();
+                menu.style.top = Math.min(rect.bottom, window.innerHeight - 250) + 'px';
+                menu.style.left = Math.min(rect.left + 20, window.innerWidth - 200) + 'px';
+                menu.classList.add('active');
+            }, 500);
+        }, { passive: true });
+        document.addEventListener('touchend', function() { clearTimeout(longPressTimer); }, { passive: true });
+        document.addEventListener('touchmove', function() { clearTimeout(longPressTimer); }, { passive: true });
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.context-menu')) document.getElementById('contextMenu').classList.remove('active');
+        });
+        function contextAction(action) {
+            document.getElementById('contextMenu').classList.remove('active');
+            switch(action) {
+                case 'verify': openModal('verifyModal'); break;
+                case 'share': openModal('shareModal'); break;
+                case 'copy':
+                    const fakeHash = '0x7f8a9b2c3d4e5f6a' + (contextRecordId || '0001');
+                    navigator.clipboard.writeText(fakeHash).then(() => showToast('Hash copied!', 'success'));
+                    break;
+                case 'explorer':
+                    window.open('https://testnet.xrpl.org/accounts/rJPqcx8wUBM58ajPUoz1dReKkTT6hqrqJA', '_blank');
+                    break;
+                case 'revoke':
+                    showToast('Access revoked for this record', 'success');
+                    break;
+            }
+        }
     </script>
 </body>
 </html>
