@@ -2330,6 +2330,60 @@
         .roi-bar-fill { height: 100%; border-radius: 6px; display: flex; align-items: center; padding: 0 8px; font-size: 0.62rem; font-weight: 700; }
         .roi-bar-amount { font-size: 0.72rem; font-weight: 700; width: 80px; text-align: left; flex-shrink: 0; }
 
+        /* ===== ROI CALCULATOR ===== */
+        .roi-calc-card {
+            background: linear-gradient(135deg, rgba(20, 241, 149, 0.06), rgba(153, 69, 255, 0.06));
+            border: 1px solid var(--border); border-radius: 14px; padding: 18px;
+        }
+        .roi-slider-group { margin-bottom: 16px; }
+        .roi-slider-header {
+            display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;
+        }
+        .roi-slider-label { font-size: 0.72rem; color: var(--text-muted); font-weight: 600; }
+        .roi-slider-value {
+            font-size: 0.82rem; font-weight: 800; color: var(--accent);
+            background: rgba(20, 241, 149, 0.1); padding: 2px 8px; border-radius: 6px;
+        }
+        .roi-calc-card input[type="range"] {
+            -webkit-appearance: none; appearance: none; width: 100%; height: 6px;
+            border-radius: 3px; outline: none; cursor: pointer;
+            background: linear-gradient(90deg, var(--accent), var(--secondary));
+        }
+        .roi-calc-card input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none; appearance: none; width: 22px; height: 22px;
+            border-radius: 50%; background: var(--accent); border: 3px solid var(--primary);
+            box-shadow: 0 0 8px rgba(20, 241, 149, 0.4); cursor: pointer;
+        }
+        .roi-calc-card input[type="range"]::-moz-range-thumb {
+            width: 22px; height: 22px; border-radius: 50%; background: var(--accent);
+            border: 3px solid var(--primary); box-shadow: 0 0 8px rgba(20, 241, 149, 0.4); cursor: pointer;
+        }
+        .roi-results-grid {
+            display: grid; grid-template-columns: 1fr; gap: 10px; margin-top: 16px;
+            padding-top: 14px; border-top: 1px solid var(--border);
+        }
+        .roi-result-item {
+            background: var(--glass); border: 1px solid var(--border); border-radius: 10px;
+            padding: 12px; text-align: center; transition: transform 0.2s;
+        }
+        .roi-result-item:hover { transform: scale(1.02); }
+        .roi-result-num {
+            font-size: 1.3rem; font-weight: 800;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .roi-result-num.savings {
+            font-size: 1.5rem;
+            background: linear-gradient(135deg, var(--accent), #00e676);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .roi-result-label { font-size: 0.62rem; color: var(--text-muted); margin-top: 3px; }
+        .roi-savings-highlight {
+            background: linear-gradient(135deg, rgba(20, 241, 149, 0.12), rgba(0, 230, 118, 0.08));
+            border: 1px solid rgba(20, 241, 149, 0.3); border-radius: 12px; padding: 14px;
+            text-align: center; margin-top: 12px;
+        }
+
         /* ===== Investor Analytics ===== */
         .analytics-stat-grid {
             display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 14px;
@@ -3816,6 +3870,79 @@
                         </div>
                         <div style="font-size: 0.6rem; color: var(--text-muted); text-align: center; margin-top: 6px; line-height: 1.4;">
                             Based on 0.000012 XRP/tx × $1/XRP. Legacy = compliance audit trails, intermediary data systems, breach insurance.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ROI Calculator -->
+                <div class="section">
+                    <div class="pg-section-title"><i class="fas fa-chart-pie" style="color: var(--accent);"></i> ROI Calculator — Your Savings</div>
+                    <div class="roi-calc-card">
+                        <div style="font-size: 0.72rem; color: var(--text-muted); margin-bottom: 16px; line-height: 1.5;">
+                            Adjust the sliders below to estimate how much your organization could save by switching to Solus Protocol.
+                        </div>
+
+                        <!-- Slider: Monthly Patient Volume -->
+                        <div class="roi-slider-group">
+                            <div class="roi-slider-header">
+                                <span class="roi-slider-label"><i class="fas fa-users" style="color: var(--accent); margin-right: 4px;"></i> Monthly Patient Volume</span>
+                                <span class="roi-slider-value" id="demoRoiPatientsVal">5,000</span>
+                            </div>
+                            <input type="range" id="demoRoiPatients" min="100" max="100000" value="5000" step="100" oninput="updateDemoROI()">
+                            <div style="display: flex; justify-content: space-between; font-size: 0.55rem; color: var(--text-muted); margin-top: 2px;"><span>100</span><span>100K</span></div>
+                        </div>
+
+                        <!-- Slider: Records per Patient -->
+                        <div class="roi-slider-group">
+                            <div class="roi-slider-header">
+                                <span class="roi-slider-label"><i class="fas fa-file-medical" style="color: var(--accent2); margin-right: 4px;"></i> Records per Patient</span>
+                                <span class="roi-slider-value" id="demoRoiRecordsVal" style="color: var(--accent2);">3</span>
+                            </div>
+                            <input type="range" id="demoRoiRecords" min="1" max="20" value="3" step="1" oninput="updateDemoROI()">
+                            <div style="display: flex; justify-content: space-between; font-size: 0.55rem; color: var(--text-muted); margin-top: 2px;"><span>1</span><span>20</span></div>
+                        </div>
+
+                        <!-- Slider: Current Error Rate -->
+                        <div class="roi-slider-group">
+                            <div class="roi-slider-header">
+                                <span class="roi-slider-label"><i class="fas fa-exclamation-triangle" style="color: var(--warning); margin-right: 4px;"></i> Current Error Rate</span>
+                                <span class="roi-slider-value" id="demoRoiErrorRateVal" style="color: var(--warning);">2.5%</span>
+                            </div>
+                            <input type="range" id="demoRoiErrorRate" min="0.5" max="15" value="2.5" step="0.5" oninput="updateDemoROI()">
+                            <div style="display: flex; justify-content: space-between; font-size: 0.55rem; color: var(--text-muted); margin-top: 2px;"><span>0.5%</span><span>15%</span></div>
+                        </div>
+
+                        <!-- Slider: Cost per Error -->
+                        <div class="roi-slider-group">
+                            <div class="roi-slider-header">
+                                <span class="roi-slider-label"><i class="fas fa-dollar-sign" style="color: #ff5252; margin-right: 4px;"></i> Cost per Error</span>
+                                <span class="roi-slider-value" id="demoRoiCostPerErrorVal" style="color: #ff5252;">$500</span>
+                            </div>
+                            <input type="range" id="demoRoiCostPerError" min="50" max="10000" value="500" step="50" oninput="updateDemoROI()">
+                            <div style="display: flex; justify-content: space-between; font-size: 0.55rem; color: var(--text-muted); margin-top: 2px;"><span>$50</span><span>$10K</span></div>
+                        </div>
+
+                        <!-- Results -->
+                        <div class="roi-results-grid">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                                <div class="roi-result-item">
+                                    <div class="roi-result-num" id="demoRoiMonthlyVerif">15,000</div>
+                                    <div class="roi-result-label">Monthly Verifications</div>
+                                </div>
+                                <div class="roi-result-item">
+                                    <div class="roi-result-num" id="demoRoiErrorsPrevented">4,275</div>
+                                    <div class="roi-result-label">Errors Prevented / Year</div>
+                                </div>
+                            </div>
+                            <div class="roi-savings-highlight">
+                                <div style="font-size: 0.65rem; color: var(--accent); font-weight: 600; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px;"><i class="fas fa-piggy-bank" style="margin-right: 4px;"></i> Estimated Annual Savings</div>
+                                <div class="roi-result-num savings" id="demoRoiSavings">$6,631,800</div>
+                                <div style="font-size: 0.6rem; color: var(--text-muted); margin-top: 4px;">vs. legacy healthcare data infrastructure</div>
+                            </div>
+                        </div>
+
+                        <div style="font-size: 0.58rem; color: var(--text-muted); text-align: center; margin-top: 12px; line-height: 1.4;">
+                            Savings = 95% error reduction × cost per error + verification cost savings ($25 legacy vs $0.000012 Solus Protocol per record).
                         </div>
                     </div>
                 </div>
@@ -5630,6 +5757,50 @@
             window.location.href = 'mailto:support@solusprotocol.com?subject=' + encodeURIComponent((subject || 'General') + ' - Solus Protocol App') + '&body=' + body;
             showToast('Opening email client...', 'success');
         }
+
+        // ===== ROI CALCULATOR =====
+        function updateDemoROI() {
+            const patients = parseInt(document.getElementById('demoRoiPatients').value) || 5000;
+            const records = parseInt(document.getElementById('demoRoiRecords').value) || 3;
+            const errorRate = parseFloat(document.getElementById('demoRoiErrorRate').value) || 2.5;
+            const costPerError = parseInt(document.getElementById('demoRoiCostPerError').value) || 500;
+
+            // Update slider value displays
+            document.getElementById('demoRoiPatientsVal').textContent = patients.toLocaleString();
+            document.getElementById('demoRoiRecordsVal').textContent = records;
+            document.getElementById('demoRoiErrorRateVal').textContent = errorRate + '%';
+            document.getElementById('demoRoiCostPerErrorVal').textContent = '$' + costPerError.toLocaleString();
+
+            // Calculate
+            const monthlyVerifications = patients * records;
+            const yearlyVerifications = monthlyVerifications * 12;
+            const currentErrors = yearlyVerifications * (errorRate / 100);
+            const errorsPrevented = Math.round(currentErrors * 0.95); // 95% error reduction with blockchain verification
+            const savingsFromErrors = errorsPrevented * costPerError;
+            const verificationSavings = yearlyVerifications * 24.99; // $25 legacy vs $0.01 Solus per verification
+            const totalSavings = savingsFromErrors + verificationSavings;
+
+            // Animate result updates
+            const verifEl = document.getElementById('demoRoiMonthlyVerif');
+            const errorsEl = document.getElementById('demoRoiErrorsPrevented');
+            const savingsEl = document.getElementById('demoRoiSavings');
+
+            verifEl.textContent = monthlyVerifications.toLocaleString();
+            errorsEl.textContent = errorsPrevented.toLocaleString();
+            savingsEl.textContent = '$' + totalSavings.toLocaleString('en-US', { maximumFractionDigits: 0 });
+
+            // Pulse animation on change
+            [verifEl, errorsEl, savingsEl].forEach(el => {
+                el.style.transition = 'transform 0.15s';
+                el.style.transform = 'scale(1.08)';
+                setTimeout(() => { el.style.transform = 'scale(1)'; }, 150);
+            });
+        }
+
+        // Initialize ROI calculator on load
+        document.addEventListener('DOMContentLoaded', function() {
+            if (document.getElementById('demoRoiPatients')) updateDemoROI();
+        });
 
         // ===== PARTICLES.JS INIT =====
         document.addEventListener('DOMContentLoaded', function() {
