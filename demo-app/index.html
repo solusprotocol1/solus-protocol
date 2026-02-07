@@ -1182,9 +1182,40 @@
         /* ===== PARTICLES & MESH BACKGROUND ===== */
         #app-particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; pointer-events: none; }
         .app-mesh-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; }
-        .app-mesh-bg .g-orb { position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.25; }
-        .app-mesh-bg .g-orb-1 { width: 300px; height: 300px; background: var(--accent); top: -100px; right: -100px; }
-        .app-mesh-bg .g-orb-2 { width: 200px; height: 200px; background: var(--secondary); bottom: -50px; left: -50px; }
+        .app-mesh-bg .g-orb { position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.3; transition: transform 0.1s ease-out; }
+        .app-mesh-bg .g-orb-1 { width: 350px; height: 350px; background: var(--accent); top: -120px; right: -120px; animation: orb-drift-1 8s ease-in-out infinite; }
+        .app-mesh-bg .g-orb-2 { width: 250px; height: 250px; background: var(--secondary); bottom: -80px; left: -80px; animation: orb-drift-2 10s ease-in-out infinite; }
+        .app-mesh-bg .g-orb-3 { width: 200px; height: 200px; background: linear-gradient(135deg, var(--accent), var(--secondary)); top: 50%; left: 50%; transform: translate(-50%, -50%); animation: orb-drift-3 12s ease-in-out infinite; }
+
+        @keyframes orb-drift-1 { 0%, 100% { transform: translate(0, 0); } 33% { transform: translate(25px, 35px); } 66% { transform: translate(-10px, 15px); } }
+        @keyframes orb-drift-2 { 0%, 100% { transform: translate(0, 0); } 33% { transform: translate(-20px, -25px); } 66% { transform: translate(15px, -10px); } }
+        @keyframes orb-drift-3 { 0%, 100% { transform: translate(-50%, -50%) scale(1); } 33% { transform: translate(calc(-50% + 15px), calc(-50% + 20px)) scale(1.05); } 66% { transform: translate(calc(-50% - 10px), calc(-50% - 15px)) scale(0.95); } }
+
+        /* ===== CARD STAGGER ENTRANCE ===== */
+        @keyframes card-cascade { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+        .screen.active .section { animation: card-cascade 0.45s ease-out backwards; }
+        .screen.active .section:nth-child(1) { animation-delay: 0s; }
+        .screen.active .section:nth-child(2) { animation-delay: 0.07s; }
+        .screen.active .section:nth-child(3) { animation-delay: 0.14s; }
+        .screen.active .section:nth-child(4) { animation-delay: 0.21s; }
+        .screen.active .section:nth-child(5) { animation-delay: 0.28s; }
+        .screen.active .section:nth-child(6) { animation-delay: 0.35s; }
+        .screen.active .section:nth-child(7) { animation-delay: 0.42s; }
+
+        /* ===== FLOATING ACTION BUTTON ===== */
+        .fab { position: fixed; bottom: calc(80px + env(safe-area-inset-bottom, 0px)); right: 20px; width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), var(--secondary)); border: none; color: #fff; font-size: 1.5rem; display: none; align-items: center; justify-content: center; box-shadow: 0 4px 24px rgba(20, 241, 149, 0.4), 0 0 0 0 rgba(20, 241, 149, 0.2); z-index: 500; cursor: pointer; transition: all 0.3s; animation: fab-pulse 3s ease-in-out infinite; }
+        .fab.visible { display: flex; }
+        .fab:active { transform: scale(0.9); }
+        @keyframes fab-pulse { 0%, 100% { box-shadow: 0 4px 24px rgba(20, 241, 149, 0.4), 0 0 0 0 rgba(20, 241, 149, 0.2); } 50% { box-shadow: 0 4px 24px rgba(20, 241, 149, 0.4), 0 0 0 12px rgba(20, 241, 149, 0); } }
+
+        /* ===== GRADIENT TEXT HEADER ===== */
+        .gradient-text { background: linear-gradient(135deg, var(--accent), var(--accent2), var(--secondary), var(--accent)); background-size: 300% 300%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: gradient-text-flow 4s ease infinite; }
+        @keyframes gradient-text-flow { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+
+        /* ===== SWIPE DISMISS MODAL ===== */
+        .modal.swiping { transition: none !important; }
+        .modal-overlay.dismissing { animation: fadeOut 0.2s ease forwards; }
+        @keyframes fadeOut { to { opacity: 0; } }
 
         /* ===== ENHANCED ANIMATIONS ===== */
         @keyframes pulse-glow {
@@ -1642,9 +1673,15 @@
     <!-- Particles Background -->
     <div id="app-particles"></div>
     <div class="app-mesh-bg">
-        <div class="g-orb g-orb-1"></div>
-        <div class="g-orb g-orb-2"></div>
+        <div class="g-orb g-orb-1" id="orb1"></div>
+        <div class="g-orb g-orb-2" id="orb2"></div>
+        <div class="g-orb g-orb-3" id="orb3"></div>
     </div>
+
+    <!-- Floating Action Button -->
+    <button class="fab" id="fab" onclick="openModal('addRecordModal'); haptic();" aria-label="Anchor new record">
+        <i class="fas fa-plus"></i>
+    </button>
 
     <!-- Splash Screen -->
     <div class="splash-screen" id="splashScreen">
@@ -1726,7 +1763,7 @@
         <!-- Login Screen -->
         <div id="loginScreen" class="screen active">
             <img src="https://raw.githubusercontent.com/solusprotocol1/solus-protocol/main/logo.png" alt="Solus Protocol" style="width: 80px; height: 80px; border-radius: 20px; margin-bottom: 16px; animation: float 3s ease-in-out infinite;">
-            <h1 class="login-title">Solus Protocol</h1>
+            <h1 class="login-title gradient-text">Solus Protocol</h1>
             <p class="login-subtitle">Your Healthcare Data Wallet</p>
             
             <div class="role-selector">
@@ -2199,7 +2236,7 @@
                 </div>
 
                 <div style="text-align: center; padding: 20px; color: var(--text-muted); font-size: 0.8rem;">
-                    <p>Solus Protocol v2.2.0</p>
+                    <p>Solus Protocol v2.4.0</p>
                     <p style="margin-top: 4px;">Build Feb 2026 • Powered by XRP Ledger</p>
                     <p style="margin-top: 4px; font-size: 0.7rem; opacity: 0.6;">Demo Environment • Testnet</p>
                 </div>
@@ -2615,7 +2652,7 @@
                     </div>
                 </div>
                 <div style="text-align: center; padding: 20px; color: var(--text-muted); font-size: 0.8rem;">
-                    <p>Solus Protocol v2.2.0</p>
+                    <p>Solus Protocol v2.4.0</p>
                     <p style="margin-top: 4px;">Build Feb 2026 • Powered by XRP Ledger</p>
                     <p style="margin-top: 4px; font-size: 0.7rem; opacity: 0.6;">Demo Environment • Testnet</p>
                 </div>
@@ -3430,8 +3467,52 @@
         }
 
         // ===== MODAL FUNCTIONS =====
-        function openModal(modalId) { document.getElementById(modalId).classList.add('active'); }
-        function closeModal(modalId) { document.getElementById(modalId).classList.remove('active'); }
+        function openModal(modalId) {
+            const overlay = document.getElementById(modalId);
+            overlay.classList.add('active');
+            // Setup swipe-to-dismiss
+            const modal = overlay.querySelector('.modal');
+            if (modal) {
+                let startY = 0, currentY = 0, isDragging = false;
+                const handle = modal.querySelector('.modal-handle');
+                const dragTarget = handle || modal;
+                dragTarget.addEventListener('touchstart', function(e) {
+                    startY = e.touches[0].clientY;
+                    isDragging = true;
+                    modal.classList.add('swiping');
+                }, { passive: true });
+                dragTarget.addEventListener('touchmove', function(e) {
+                    if (!isDragging) return;
+                    currentY = e.touches[0].clientY;
+                    const diff = currentY - startY;
+                    if (diff > 0) {
+                        modal.style.transform = 'translateY(' + diff + 'px)';
+                        overlay.style.background = 'rgba(0,0,0,' + Math.max(0, 0.8 - diff / 500) + ')';
+                    }
+                }, { passive: true });
+                dragTarget.addEventListener('touchend', function() {
+                    if (!isDragging) return;
+                    isDragging = false;
+                    modal.classList.remove('swiping');
+                    const diff = currentY - startY;
+                    if (diff > 120) {
+                        modal.style.transform = 'translateY(100%)';
+                        haptic();
+                        setTimeout(() => {
+                            overlay.classList.remove('active');
+                            modal.style.transform = '';
+                            overlay.style.background = '';
+                        }, 200);
+                    } else {
+                        modal.style.transition = 'transform 0.3s ease';
+                        modal.style.transform = '';
+                        overlay.style.background = '';
+                        setTimeout(() => { modal.style.transition = ''; }, 300);
+                    }
+                }, { passive: true });
+            }
+        }
+        function closeModal(modalId) { const o = document.getElementById(modalId); o.classList.remove('active'); const m = o.querySelector('.modal'); if (m) { m.style.transform = ''; } o.style.background = ''; }
         document.querySelectorAll('.modal-overlay').forEach(overlay => {
             overlay.addEventListener('click', function(e) { if (e.target === this) this.classList.remove('active'); });
         });
@@ -3751,17 +3832,18 @@
             if (typeof particlesJS !== 'undefined') {
                 particlesJS('app-particles', {
                     particles: {
-                        number: { value: 30, density: { enable: true, value_area: 800 } },
+                        number: { value: 50, density: { enable: true, value_area: 1000 } },
                         color: { value: ['#14F195', '#9945FF', '#ffffff'] },
                         shape: { type: 'circle' },
-                        opacity: { value: 0.2, random: true, anim: { enable: true, speed: 0.5, opacity_min: 0.05, sync: false } },
-                        size: { value: 2.5, random: true },
-                        line_linked: { enable: true, distance: 120, color: '#14F195', opacity: 0.08, width: 1 },
-                        move: { enable: true, speed: 0.8, direction: 'none', random: true, straight: false, out_mode: 'out' }
+                        opacity: { value: 0.3, random: true, anim: { enable: true, speed: 0.5, opacity_min: 0.1, sync: false } },
+                        size: { value: 3, random: true, anim: { enable: true, speed: 2, size_min: 0.5, sync: false } },
+                        line_linked: { enable: true, distance: 150, color: '#14F195', opacity: 0.1, width: 1 },
+                        move: { enable: true, speed: 1, direction: 'none', random: true, straight: false, out_mode: 'out', bounce: false }
                     },
                     interactivity: {
                         detect_on: 'canvas',
-                        events: { onhover: { enable: false }, onclick: { enable: false }, resize: true }
+                        events: { onhover: { enable: true, mode: 'grab' }, onclick: { enable: false }, resize: true },
+                        modes: { grab: { distance: 140, line_linked: { opacity: 0.3 } } }
                     },
                     retina_detect: true
                 });
@@ -4040,6 +4122,54 @@
             haptic([10, 30, 10, 30, 10]);
             setTimeout(() => { container.innerHTML = ''; }, 4000);
         }
+
+        // ===== GYROSCOPE PARALLAX ON GRADIENT ORBS =====
+        (function() {
+            const orb1 = document.getElementById('orb1');
+            const orb2 = document.getElementById('orb2');
+            const orb3 = document.getElementById('orb3');
+            if (!orb1) return;
+
+            // Device tilt (mobile)
+            if (window.DeviceOrientationEvent) {
+                window.addEventListener('deviceorientation', function(e) {
+                    const beta = (e.beta || 0) * 0.4;
+                    const gamma = (e.gamma || 0) * 0.4;
+                    orb1.style.transform = 'translate(' + gamma + 'px, ' + beta + 'px)';
+                    orb2.style.transform = 'translate(' + (-gamma * 0.7) + 'px, ' + (-beta * 0.7) + 'px)';
+                    orb3.style.transform = 'translate(calc(-50% + ' + (gamma * 0.5) + 'px), calc(-50% + ' + (beta * 0.5) + 'px))';
+                }, { passive: true });
+            }
+
+            // Mouse parallax fallback (desktop)
+            document.addEventListener('mousemove', function(e) {
+                const cx = window.innerWidth / 2;
+                const cy = window.innerHeight / 2;
+                const dx = (e.clientX - cx) * 0.025;
+                const dy = (e.clientY - cy) * 0.025;
+                orb1.style.transform = 'translate(' + dx + 'px, ' + dy + 'px)';
+                orb2.style.transform = 'translate(' + (-dx * 0.7) + 'px, ' + (-dy * 0.7) + 'px)';
+                orb3.style.transform = 'translate(calc(-50% + ' + (dx * 0.5) + 'px), calc(-50% + ' + (dy * 0.5) + 'px))';
+            }, { passive: true });
+        })();
+
+        // ===== FAB VISIBILITY =====
+        (function() {
+            const fab = document.getElementById('fab');
+            function updateFab() {
+                if (currentScreen === 'home' && currentRole === 'patient') {
+                    fab.classList.add('visible');
+                } else {
+                    fab.classList.remove('visible');
+                }
+            }
+            const _nav = navigateTo;
+            window.navigateTo = function(s, el) { _nav(s, el); setTimeout(updateFab, 50); };
+            const _login = login;
+            window.login = function() { _login(); setTimeout(updateFab, 100); };
+            const _sessionLogout = sessionLogout;
+            window.sessionLogout = function() { _sessionLogout(); fab.classList.remove('visible'); };
+        })();
 
         // ===== PULL TO REFRESH =====
         (function() {
