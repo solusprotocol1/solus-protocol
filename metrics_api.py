@@ -16,29 +16,97 @@ def home():
     return '<h1>Solus Protocol Metrics API</h1><p><a href="/metrics">/metrics</a> | <a href="/transactions">/transactions</a></p>'
 
 def categorize_record(memo_data):
+    """Categorize medical records - covers all global healthcare record types"""
     memo_lower = memo_data.lower()
-    if any(kw in memo_lower for kw in ["vitals", "bp", "blood pressure", "heart rate", "temperature"]):
+    
+    # Vitals & Measurements
+    if any(kw in memo_lower for kw in ["vitals", "bp", "blood pressure", "heart rate", "temperature", "pulse", "oxygen", "spo2", "weight", "height", "bmi"]):
         return "Vitals"
-    elif any(kw in memo_lower for kw in ["post-op", "postop", "recovery", "follow-up"]):
-        return "Post-Op"
-    elif any(kw in memo_lower for kw in ["lab", "blood test", "urinalysis", "biopsy", "pathology", "cbc", "hemoglobin"]):
+    
+    # Laboratory
+    elif any(kw in memo_lower for kw in ["lab", "blood test", "urinalysis", "biopsy", "pathology", "cbc", "hemoglobin", "glucose", "cholesterol", "lipid", "metabolic panel", "culture", "specimen"]):
         return "Lab Results"
-    elif any(kw in memo_lower for kw in ["imaging", "mri", "ct scan", "x-ray", "xray", "ultrasound", "radiology"]):
+    
+    # Imaging & Radiology
+    elif any(kw in memo_lower for kw in ["imaging", "mri", "ct scan", "x-ray", "xray", "ultrasound", "radiology", "mammogram", "pet scan", "echocardiogram", "echo", "ekg", "ecg", "sonogram"]):
         return "Imaging"
-    elif any(kw in memo_lower for kw in ["discharge", "released", "checkout"]):
-        return "Discharge"
-    elif any(kw in memo_lower for kw in ["mental", "psychiatric", "therapy", "counseling", "anxiety", "depression"]):
-        return "Mental Health"
-    elif any(kw in memo_lower for kw in ["emergency", "er ", "trauma", "urgent", "critical"]):
-        return "Emergency"
-    elif any(kw in memo_lower for kw in ["prescription", "medication", "rx", "drug", "pharmacy"]):
-        return "Prescription"
-    elif any(kw in memo_lower for kw in ["surgery", "operation", "procedure", "anesthesia"]):
+    
+    # Surgery & Procedures
+    elif any(kw in memo_lower for kw in ["surgery", "operation", "procedure", "anesthesia", "surgical", "laparoscopic", "biopsy procedure", "endoscopy", "colonoscopy", "arthroscopy"]):
         return "Surgery"
-    elif any(kw in memo_lower for kw in ["telemedicine", "telehealth", "virtual", "remote consult"]):
+    
+    # Post-Op & Recovery
+    elif any(kw in memo_lower for kw in ["post-op", "postop", "recovery", "follow-up", "post-operative", "wound care"]):
+        return "Post-Op"
+    
+    # Allergies & Adverse Reactions
+    elif any(kw in memo_lower for kw in ["allergy", "allergies", "allergic", "adverse reaction", "drug allergy", "food allergy", "anaphylaxis", "sensitivity"]):
+        return "Allergies"
+    
+    # Medications & Prescriptions
+    elif any(kw in memo_lower for kw in ["prescription", "medication", "rx", "drug", "pharmacy", "dosage", "refill", "dispense", "medicine"]):
+        return "Prescription"
+    
+    # Immunizations & Vaccines
+    elif any(kw in memo_lower for kw in ["immunization", "vaccine", "vaccination", "booster", "flu shot", "covid vaccine", "hepatitis", "mmr", "tdap", "polio"]):
+        return "Immunization"
+    
+    # Patient Messages & Communications
+    elif any(kw in memo_lower for kw in ["patient message", "secure message", "message to", "message from", "patient inquiry", "patient question", "patient portal", "mychart"]):
+        return "Patient Message"
+    
+    # Clinical Notes & Documentation
+    elif any(kw in memo_lower for kw in ["clinical note", "progress note", "soap note", "physician note", "nurse note", "provider note", "chart note", "documentation"]):
+        return "Clinical Notes"
+    
+    # Discharge & Transitions
+    elif any(kw in memo_lower for kw in ["discharge", "released", "checkout", "transition of care", "discharge summary", "discharge instructions"]):
+        return "Discharge"
+    
+    # Emergency & Urgent Care
+    elif any(kw in memo_lower for kw in ["emergency", "er ", "trauma", "urgent", "critical", "acute", "911", "ambulance", "ems"]):
+        return "Emergency"
+    
+    # Mental Health & Behavioral
+    elif any(kw in memo_lower for kw in ["mental", "psychiatric", "therapy", "counseling", "anxiety", "depression", "behavioral", "psychology", "psychotherapy", "substance abuse"]):
+        return "Mental Health"
+    
+    # Referrals & Consultations
+    elif any(kw in memo_lower for kw in ["referral", "consult", "consultation", "specialist", "referred to", "second opinion"]):
+        return "Referral"
+    
+    # Care Plans & Treatment Plans
+    elif any(kw in memo_lower for kw in ["care plan", "treatment plan", "care coordination", "care management", "chronic care", "disease management"]):
+        return "Care Plan"
+    
+    # Consent & Authorization
+    elif any(kw in memo_lower for kw in ["consent", "authorization", "hipaa", "release of information", "patient consent", "informed consent", "roi"]):
+        return "Consent"
+    
+    # EHR System Integrations
+    elif any(kw in memo_lower for kw in ["epic", "oracle health", "cerner", "meditech", "athenahealth", "allscripts", "eclinicalworks", "nextgen", "ehr", "emr"]):
+        return "EHR Integration"
+    
+    # Telemedicine & Virtual Care
+    elif any(kw in memo_lower for kw in ["telemedicine", "telehealth", "virtual", "remote consult", "video visit", "e-visit"]):
         return "Telemedicine"
-    elif any(kw in memo_lower for kw in ["pediatric", "child", "infant", "newborn", "vaccination"]):
+    
+    # Pediatric & Maternal
+    elif any(kw in memo_lower for kw in ["pediatric", "child", "infant", "newborn", "prenatal", "maternal", "pregnancy", "obstetric", "neonatal", "well-child"]):
         return "Pediatric"
+    
+    # Chronic Conditions & Disease Management
+    elif any(kw in memo_lower for kw in ["diabetes", "hypertension", "asthma", "copd", "heart failure", "chronic", "ongoing condition"]):
+        return "Chronic Care"
+    
+    # Preventive & Wellness
+    elif any(kw in memo_lower for kw in ["preventive", "wellness", "annual exam", "physical exam", "screening", "health maintenance", "checkup"]):
+        return "Preventive"
+    
+    # Billing & Administrative (if included in records)
+    elif any(kw in memo_lower for kw in ["insurance", "claim", "billing", "prior auth", "preauthorization", "eligibility"]):
+        return "Administrative"
+    
     else:
         return "Other"
 
