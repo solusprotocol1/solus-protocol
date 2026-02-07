@@ -1714,6 +1714,160 @@
             font-size: 0.8rem; transition: all 0.3s; margin-top: 12px;
         }
         .xrpl-explorer-link:hover { background: rgba(20, 241, 149, 0.15); border-color: var(--accent); }
+
+        /* ===== ROLE SWITCHER (in-app) ===== */
+        .role-switcher-bar {
+            display: flex; gap: 8px; margin-top: 12px; padding: 4px;
+            background: var(--glass); border-radius: 14px; border: 1px solid var(--border);
+        }
+        .role-switch-btn {
+            flex: 1; padding: 10px 6px; border: none; border-radius: 10px;
+            background: transparent; color: var(--text-muted); font-size: 0.75rem;
+            font-weight: 600; cursor: pointer; transition: all 0.3s ease;
+            display: flex; flex-direction: column; align-items: center; gap: 4px;
+        }
+        .role-switch-btn i { font-size: 1rem; }
+        .role-switch-btn.active {
+            background: rgba(20, 241, 149, 0.15); color: var(--accent);
+            box-shadow: 0 2px 8px rgba(20, 241, 149, 0.2);
+        }
+        .role-switch-btn.active.provider-active { background: rgba(153, 69, 255, 0.15); color: var(--secondary); box-shadow: 0 2px 8px rgba(153, 69, 255, 0.2); }
+        .role-switch-btn.active.ehr-active { background: rgba(255, 215, 0, 0.15); color: var(--ehr); box-shadow: 0 2px 8px rgba(255, 215, 0, 0.2); }
+        .role-switch-anim {
+            animation: roleSwitchPulse 0.5s ease;
+        }
+        @keyframes roleSwitchPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(0.96); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* ===== TOOLTIPS ===== */
+        .term-tooltip {
+            position: relative; display: inline-flex; align-items: center; gap: 3px;
+            border-bottom: 1px dashed rgba(20, 241, 149, 0.4); cursor: help;
+            color: var(--accent);
+        }
+        .term-tooltip .tooltip-icon {
+            font-size: 0.6rem; opacity: 0.6; vertical-align: super;
+        }
+        .tooltip-bubble {
+            position: fixed; z-index: 10010; max-width: 280px; padding: 14px 16px;
+            background: var(--dark); border: 1px solid var(--accent);
+            border-radius: 12px; font-size: 0.8rem; color: var(--text);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.5); pointer-events: auto;
+            animation: tooltipIn 0.25s ease;
+            line-height: 1.5;
+        }
+        .tooltip-bubble::after {
+            content: ''; position: absolute; bottom: -6px; left: 20px;
+            width: 12px; height: 12px; background: var(--dark);
+            border-right: 1px solid var(--accent); border-bottom: 1px solid var(--accent);
+            transform: rotate(45deg);
+        }
+        .tooltip-bubble.above::after { bottom: auto; top: -6px; transform: rotate(225deg); }
+        .tooltip-bubble h4 { color: var(--accent); font-size: 0.85rem; margin-bottom: 6px; }
+        @keyframes tooltipIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+        .tooltip-backdrop {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 10009;
+            background: transparent;
+        }
+
+        /* ===== AI INSIGHTS PANEL ===== */
+        .ai-insights-card {
+            background: linear-gradient(135deg, rgba(0, 194, 255, 0.08), rgba(153, 69, 255, 0.08));
+            border: 1px solid rgba(0, 194, 255, 0.2); border-radius: 16px;
+            padding: 20px; margin-top: 8px;
+        }
+        .ai-badge {
+            display: inline-flex; align-items: center; gap: 6px;
+            background: linear-gradient(135deg, var(--accent2), var(--secondary));
+            color: #fff; font-size: 0.7rem; font-weight: 700; padding: 4px 10px;
+            border-radius: 20px; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px;
+        }
+        .ai-badge i { font-size: 0.7rem; }
+        .ai-finding {
+            display: flex; align-items: flex-start; gap: 12px; padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .ai-finding:last-child { border-bottom: none; padding-bottom: 0; }
+        .ai-finding-icon {
+            width: 36px; height: 36px; border-radius: 10px; display: flex;
+            align-items: center; justify-content: center; font-size: 0.9rem; flex-shrink: 0;
+        }
+        .ai-finding-icon.warning { background: rgba(255, 215, 0, 0.15); color: var(--warning); }
+        .ai-finding-icon.alert { background: rgba(255, 71, 87, 0.15); color: var(--danger); }
+        .ai-finding-icon.info { background: rgba(0, 194, 255, 0.15); color: var(--accent2); }
+        .ai-finding-icon.ok { background: rgba(20, 241, 149, 0.15); color: var(--accent); }
+        .ai-finding-text h4 { font-size: 0.85rem; margin-bottom: 2px; }
+        .ai-finding-text p { font-size: 0.78rem; color: var(--text-muted); line-height: 1.4; }
+        .ai-finding-text .ai-tag {
+            display: inline-block; font-size: 0.65rem; padding: 2px 8px;
+            border-radius: 6px; margin-top: 4px; font-weight: 600;
+        }
+        .ai-tag.high { background: rgba(255, 71, 87, 0.15); color: var(--danger); }
+        .ai-tag.medium { background: rgba(255, 215, 0, 0.15); color: var(--warning); }
+        .ai-tag.low { background: rgba(20, 241, 149, 0.15); color: var(--accent); }
+        .ai-summary-box {
+            background: var(--glass); border: 1px solid var(--border); border-radius: 12px;
+            padding: 16px; margin-top: 8px;
+        }
+        .ai-summary-box h4 { font-size: 0.9rem; margin-bottom: 8px; color: var(--accent2); }
+        .ai-summary-box p { font-size: 0.82rem; color: var(--text-muted); line-height: 1.6; }
+        .ai-summary-box ul { list-style: none; padding: 0; margin: 8px 0 0; }
+        .ai-summary-box ul li {
+            font-size: 0.8rem; color: var(--text); padding: 6px 0;
+            border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 8px;
+        }
+        .ai-summary-box ul li:last-child { border-bottom: none; }
+        .ai-summary-box ul li i { color: var(--accent); font-size: 0.7rem; }
+        .ai-scan-animation {
+            display: flex; align-items: center; gap: 8px; padding: 12px;
+            color: var(--accent2); font-size: 0.85rem;
+        }
+        .ai-scan-animation .ai-spinner {
+            width: 18px; height: 18px; border: 2px solid var(--border);
+            border-top-color: var(--accent2); border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        .ai-scan-progress {
+            height: 3px; background: var(--glass); border-radius: 2px;
+            overflow: hidden; margin-top: 8px;
+        }
+        .ai-scan-progress-bar {
+            height: 100%; width: 0; border-radius: 2px;
+            background: linear-gradient(90deg, var(--accent2), var(--secondary));
+            transition: width 0.3s ease;
+        }
+
+        /* ===== STATUS INDICATOR DOT ===== */
+        .status-pulse {
+            display: inline-block; width: 8px; height: 8px; border-radius: 50%;
+            background: var(--accent); margin-right: 6px;
+            animation: statusPulse 2s infinite;
+        }
+        .status-pulse.warning { background: var(--warning); }
+        .status-pulse.danger { background: var(--danger); }
+        @keyframes statusPulse {
+            0%, 100% { opacity: 1; box-shadow: 0 0 0 0 currentColor; }
+            50% { opacity: 0.7; box-shadow: 0 0 0 4px transparent; }
+        }
+
+        /* ===== DATA HEALTH SCORE ===== */
+        .health-score-ring {
+            width: 100px; height: 100px; border-radius: 50%; margin: 0 auto 12px;
+            background: conic-gradient(var(--accent) 0deg, var(--accent) calc(var(--score) * 3.6deg), var(--glass) calc(var(--score) * 3.6deg));
+            display: flex; align-items: center; justify-content: center;
+            position: relative;
+        }
+        .health-score-ring::before {
+            content: ''; position: absolute; width: 80px; height: 80px;
+            border-radius: 50%; background: var(--dark);
+        }
+        .health-score-value {
+            position: relative; z-index: 1; font-size: 1.5rem;
+            font-weight: 800; color: var(--accent);
+        }
     </style>
 </head>
 <body>
@@ -1776,7 +1930,7 @@
     <div class="anchor-overlay" id="anchorOverlay">
         <div style="text-align: center; margin-bottom: 32px;">
             <i class="fas fa-link" style="font-size: 2.5rem; color: var(--accent); margin-bottom: 12px;"></i>
-            <h2 style="font-size: 1.3rem;">Anchoring to XRPL</h2>
+            <h2 style="font-size: 1.3rem;"><span class="term-tooltip" onclick="showTermTooltip(event, 'anchoring')">Anchoring <i class="fas fa-info-circle tooltip-icon"></i></span> to XRPL</h2>
             <p style="color: var(--text-muted); font-size: 0.9rem;">Securing your record on the blockchain</p>
         </div>
         <div class="anchor-steps" id="anchorSteps">
@@ -1786,7 +1940,7 @@
             </div>
             <div class="anchor-step" id="anchorStep2">
                 <div class="anchor-step-icon"><i class="fas fa-hashtag"></i></div>
-                <div class="anchor-step-text"><h4>Generating SHA-256 Hash</h4><p id="anchorHashText">Computing cryptographic fingerprint...</p></div>
+                <div class="anchor-step-text"><h4>Generating <span class="term-tooltip" onclick="showTermTooltip(event, 'sha256')">SHA-256 <i class="fas fa-info-circle tooltip-icon"></i></span> Hash</h4><p id="anchorHashText">Computing cryptographic fingerprint...</p></div>
             </div>
             <div class="anchor-step" id="anchorStep3">
                 <div class="anchor-step-icon"><i class="fas fa-paper-plane"></i></div>
@@ -1825,7 +1979,7 @@
         <div id="loginScreen" class="screen active">
             <img src="https://raw.githubusercontent.com/solusprotocol1/solus-protocol/main/logo.png" alt="Solus Protocol" style="width: 80px; height: 80px; border-radius: 20px; margin-bottom: 16px; animation: float 3s ease-in-out infinite;">
             <h1 class="login-title gradient-text">Solus Protocol</h1>
-            <p class="login-subtitle">Your Healthcare Data Wallet</p>
+            <p class="login-subtitle">Your <span class="term-tooltip" onclick="showTermTooltip(event, 'zeroKnowledge')">Zero-Knowledge <i class="fas fa-info-circle tooltip-icon"></i></span> Healthcare Data Wallet</p>
             
             <div class="role-selector">
                 <div class="role-card selected" data-role="patient" onclick="selectRole('patient')">
@@ -1881,13 +2035,13 @@
                     </div>
                 </div>
                 <div class="status-bar">
-                    <div class="status-item">
+                    <div class="status-item" onclick="showTermTooltip(event, 'blockchain')">
                         <div class="status-dot"></div>
-                        <span>Blockchain Synced</span>
+                        <span class="term-tooltip">Blockchain Synced <i class="fas fa-info-circle tooltip-icon"></i></span>
                     </div>
-                    <div class="status-item">
+                    <div class="status-item" onclick="showTermTooltip(event, 'hipaa')">
                         <i class="fas fa-shield-halved" style="color: var(--accent);"></i>
-                        <span>HIPAA Secured</span>
+                        <span class="term-tooltip">HIPAA Secured <i class="fas fa-info-circle tooltip-icon"></i></span>
                     </div>
                 </div>
             </div>
@@ -1959,6 +2113,54 @@
                         </div>
                         <div class="records-list" id="recentRecordsList">
                             <!-- Populated by JS -->
+                        </div>
+                    </div>
+
+                    <!-- AI Insights Section -->
+                    <div class="section">
+                        <div class="section-header">
+                            <span class="section-title">AI Health Insights</span>
+                            <span class="section-action" onclick="runAIScan()"><i class="fas fa-wand-magic-sparkles"></i> Scan</span>
+                        </div>
+                        <div class="ai-insights-card" id="aiInsightsCard">
+                            <div class="ai-badge"><i class="fas fa-brain"></i> Solus AI Engine</div>
+                            <div id="aiInsightsContent">
+                                <p style="color: var(--text-muted); font-size: 0.85rem; text-align: center; padding: 16px 0;">
+                                    <i class="fas fa-wand-magic-sparkles" style="font-size: 1.5rem; opacity: 0.3; display: block; margin-bottom: 8px;"></i>
+                                    Tap <strong>"Scan"</strong> to analyze your health records for anomalies, drug interactions, and trends.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Data Health Score -->
+                    <div class="section">
+                        <div class="section-header">
+                            <span class="section-title">Data Health Score</span>
+                            <span class="term-tooltip" onclick="showTermTooltip(event, 'healthScore')">
+                                <i class="fas fa-info-circle tooltip-icon"></i>
+                            </span>
+                        </div>
+                        <div class="ai-summary-box" style="text-align: center;">
+                            <div class="health-score-ring" style="--score: 94;">
+                                <span class="health-score-value">94</span>
+                            </div>
+                            <h4 style="color: var(--accent); margin-bottom: 4px;">Excellent</h4>
+                            <p style="font-size: 0.8rem; color: var(--text-muted);">All records anchored & verified on XRPL</p>
+                            <div style="display: flex; gap: 12px; margin-top: 16px; text-align: left;">
+                                <div style="flex: 1; font-size: 0.78rem;">
+                                    <div style="color: var(--accent); font-weight: 600;"><i class="fas fa-check-circle"></i> 12/12</div>
+                                    <div style="color: var(--text-muted);">Records Verified</div>
+                                </div>
+                                <div style="flex: 1; font-size: 0.78rem;">
+                                    <div style="color: var(--accent); font-weight: 600;"><i class="fas fa-shield-halved"></i> AES-256</div>
+                                    <div style="color: var(--text-muted);">Encryption</div>
+                                </div>
+                                <div style="flex: 1; font-size: 0.78rem;">
+                                    <div style="color: var(--warning); font-weight: 600;"><i class="fas fa-clock"></i> 28d</div>
+                                    <div style="color: var(--text-muted);">Since Last Visit</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -2235,6 +2437,18 @@
                     <p style="color: var(--accent); font-size: 0.85rem; margin-top: 8px;">
                         <i class="fas fa-check-circle"></i> Verified Identity
                     </p>
+                    <!-- Role Switcher -->
+                    <div class="role-switcher-bar" id="roleSwitcherBar">
+                        <button class="role-switch-btn active" id="rsPatient" onclick="switchRoleLive('patient')">
+                            <i class="fas fa-user"></i> Patient
+                        </button>
+                        <button class="role-switch-btn" id="rsProvider" onclick="switchRoleLive('provider')">
+                            <i class="fas fa-stethoscope"></i> Provider
+                        </button>
+                        <button class="role-switch-btn" id="rsEhr" onclick="switchRoleLive('ehr')">
+                            <i class="fas fa-hospital"></i> EHR
+                        </button>
+                    </div>
                 </div>
 
                 <div class="section">
@@ -2300,7 +2514,7 @@
                 </div>
 
                 <div style="text-align: center; padding: 20px; color: var(--text-muted); font-size: 0.8rem;">
-                    <p>Solus Protocol v2.5.0</p>
+                    <p>Solus Protocol v2.6.0</p>
                     <p style="margin-top: 4px;">Build Feb 2026 • Powered by XRP Ledger</p>
                     <p style="margin-top: 4px; font-size: 0.7rem; opacity: 0.6;">Demo Environment • Testnet</p>
                 </div>
@@ -2716,7 +2930,7 @@
                     </div>
                 </div>
                 <div style="text-align: center; padding: 20px; color: var(--text-muted); font-size: 0.8rem;">
-                    <p>Solus Protocol v2.5.0</p>
+                    <p>Solus Protocol v2.6.0</p>
                     <p style="margin-top: 4px;">Build Feb 2026 • Powered by XRP Ledger</p>
                     <p style="margin-top: 4px; font-size: 0.7rem; opacity: 0.6;">Demo Environment • Testnet</p>
                 </div>
@@ -3203,22 +3417,22 @@
             {
                 icon: 'fa-shield-halved', iconClass: '', color: 'var(--accent)',
                 title: 'Your Data, Your Control',
-                desc: 'Solus Protocol gives you complete ownership of your medical records. Every record is cryptographically hashed and anchored to the XRP Ledger — only you decide who can access it.'
+                desc: 'Solus Protocol gives you complete ownership of your medical records. Every record is cryptographically hashed and anchored to the <strong>XRP Ledger</strong> — only you decide who can access it.'
             },
             {
                 icon: 'fa-link', iconClass: 'purple', color: 'var(--secondary)',
                 title: 'Blockchain-Verified Records',
-                desc: 'Each record gets a unique SHA-256 hash stored on the XRPL. Your actual health data never goes on-chain — just a tamper-proof fingerprint that proves authenticity forever.'
+                desc: 'Each record gets a unique <strong>SHA-256 hash</strong> — a one-way digital fingerprint stored on the XRPL. Your actual health data <em>never</em> goes on-chain. Only the fingerprint does, proving authenticity forever.'
             },
             {
                 icon: 'fa-users', iconClass: 'blue', color: 'var(--accent2)',
                 title: 'Three Roles, One Platform',
-                desc: 'Patients manage and share records. Providers verify and access patient data. EHR Systems integrate with bulk anchoring and API access. Choose your role on the login screen.'
+                desc: '<strong>Patients</strong> manage and share records. <strong>Providers</strong> verify and access patient data. <strong>EHR Systems</strong> integrate with bulk anchoring and API access. Switch roles anytime from your profile.'
             },
             {
                 icon: 'fa-coins', iconClass: 'gold', color: 'var(--ehr)',
                 title: '$SLS Powers Everything',
-                desc: 'The $SLS utility token handles anchoring fees (~$0.001 per record), provider payments, and patient rebates. Trade it on xMagnetic, Sologenic, and more — or use USD through our subscription tier.'
+                desc: 'The <strong>$SLS utility token</strong> handles anchoring fees (~$0.001 per record), provider payments, and patient rebates. Trade it on xMagnetic, Sologenic, and more — or use USD through our subscription tier.'
             }
         ];
         let onboardingStep = 0;
@@ -3293,6 +3507,15 @@
             } else if (currentRole === 'ehr') {
                 avatar.classList.add('ehr');
                 profileAvatar.classList.add('ehr');
+            }
+
+            // Update role switcher buttons
+            document.querySelectorAll('.role-switch-btn').forEach(b => b.classList.remove('active', 'provider-active', 'ehr-active'));
+            const activeBtn = document.getElementById(currentRole === 'patient' ? 'rsPatient' : currentRole === 'provider' ? 'rsProvider' : 'rsEhr');
+            if (activeBtn) {
+                activeBtn.classList.add('active');
+                if (currentRole === 'provider') activeBtn.classList.add('provider-active');
+                if (currentRole === 'ehr') activeBtn.classList.add('ehr-active');
             }
         }
 
@@ -3469,7 +3692,7 @@
                             <span style="color: var(--text-muted);">Type</span><span>${record.type.charAt(0).toUpperCase() + record.type.slice(1)}</span>
                         </div>
                         <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border);">
-                            <span style="color: var(--text-muted); font-size: 0.85rem;">Blockchain Hash</span>
+                            <span style="color: var(--text-muted); font-size: 0.85rem;">Blockchain Hash <span class="term-tooltip" onclick="event.stopPropagation(); showTermTooltip(event, 'sha256')"><i class="fas fa-info-circle tooltip-icon"></i></span></span>
                             <div class="api-key" style="margin-top: 8px; font-size: 0.75rem;" id="recordHash_${record.id}">${fakeHash}</div>
                             <button class="copy-hash-btn" onclick="copyHash('recordHash_${record.id}', this)">
                                 <i class="fas fa-copy"></i> <span>Copy Hash</span>
@@ -3489,6 +3712,10 @@
                             <i class="fas fa-download"></i> Download
                         </button>
                     </div>
+                    <button class="btn" id="aiSummaryBtn" style="width: 100%; margin-top: 12px; background: linear-gradient(135deg, rgba(0,194,255,0.15), rgba(153,69,255,0.15)); border: 1px solid rgba(0,194,255,0.3); color: var(--accent2);" onclick="generateAISummary(${record.id})">
+                        <i class="fas fa-brain"></i> AI Summary
+                    </button>
+                    <div id="aiSummaryContainer"></div>
                 `;
                 openModal('recordDetailModal');
             }
@@ -4348,6 +4575,229 @@
                     showToast('Access revoked for this record', 'success');
                     break;
             }
+        }
+
+        // ===== LIVE ROLE SWITCHING (mid-session) =====
+        function switchRoleLive(role) {
+            if (currentRole === role) return;
+            haptic([10, 50, 10]);
+            currentRole = role;
+
+            // Animate switch
+            const homeScreen = document.getElementById('homeScreen');
+            homeScreen.classList.add('role-switch-anim');
+            setTimeout(() => homeScreen.classList.remove('role-switch-anim'), 500);
+
+            updateUIForRole();
+            animateHomeStats();
+
+            const roleNames = { patient: 'Patient', provider: 'Provider', ehr: 'EHR Administrator' };
+            showToast('Switched to ' + roleNames[role], 'success');
+
+            // Navigate back to home if on profile
+            if (currentScreen === 'more' || currentScreen === 'profile') {
+                navigateTo('home', document.querySelector('.nav-item'));
+            }
+        }
+
+        // ===== TOOLTIP SYSTEM =====
+        const tooltipDefinitions = {
+            zeroKnowledge: {
+                title: 'Zero-Knowledge Privacy',
+                text: 'A method where the blockchain verifies your data is authentic without ever seeing the actual data. Only a cryptographic "fingerprint" (hash) is stored on-chain — your medical records remain completely private.'
+            },
+            blockchain: {
+                title: 'Blockchain Synced',
+                text: 'Your wallet is connected to the XRP Ledger (XRPL) in real time. All record hashes are verified against on-chain data to ensure nothing has been tampered with since anchoring.'
+            },
+            hipaa: {
+                title: 'HIPAA Secured',
+                text: 'HIPAA (Health Insurance Portability and Accountability Act) is the U.S. federal law protecting sensitive patient health information. Solus complies by never storing actual health data on-chain — only irreversible SHA-256 hashes.'
+            },
+            sha256: {
+                title: 'SHA-256 Hash',
+                text: 'A one-way cryptographic function that converts any data into a unique 64-character string. Even changing a single letter in the original data produces a completely different hash — making tampering instantly detectable.'
+            },
+            healthScore: {
+                title: 'Data Health Score',
+                text: 'A composite score measuring the integrity and completeness of your health data portfolio. Factors include: percentage of records anchored on-chain, verification freshness, encryption status, and access control configuration.'
+            },
+            xrpl: {
+                title: 'XRP Ledger (XRPL)',
+                text: 'A decentralized, open-source blockchain designed for fast, low-cost transactions. Solus uses XRPL to permanently anchor medical record hashes, providing an immutable audit trail without storing sensitive data.'
+            },
+            anchoring: {
+                title: 'Data Anchoring',
+                text: 'The process of recording a cryptographic hash of your medical record onto the blockchain. Once anchored, the hash is permanent and can be used to prove the record hasn\'t been altered since that moment.'
+            }
+        };
+
+        function showTermTooltip(event, termKey) {
+            event.stopPropagation();
+            // Remove any existing tooltip
+            dismissTooltip();
+
+            const def = tooltipDefinitions[termKey];
+            if (!def) return;
+
+            // Create backdrop
+            const backdrop = document.createElement('div');
+            backdrop.className = 'tooltip-backdrop';
+            backdrop.onclick = dismissTooltip;
+
+            // Create tooltip
+            const bubble = document.createElement('div');
+            bubble.className = 'tooltip-bubble';
+            bubble.innerHTML = '<h4><i class="fas fa-lightbulb" style="margin-right: 4px;"></i> ' + def.title + '</h4><p>' + def.text + '</p>';
+
+            document.body.appendChild(backdrop);
+            document.body.appendChild(bubble);
+
+            // Position near the clicked element
+            const rect = event.target.getBoundingClientRect();
+            const bw = 280;
+            let left = Math.max(10, Math.min(rect.left, window.innerWidth - bw - 10));
+            let top = rect.top - bubble.offsetHeight - 12;
+
+            if (top < 10) {
+                top = rect.bottom + 12;
+                bubble.classList.add('above');
+            }
+
+            bubble.style.left = left + 'px';
+            bubble.style.top = top + 'px';
+        }
+
+        function dismissTooltip() {
+            document.querySelectorAll('.tooltip-bubble, .tooltip-backdrop').forEach(el => el.remove());
+        }
+
+        // ===== AI HEALTH SCAN ENGINE =====
+        function runAIScan() {
+            haptic();
+            const content = document.getElementById('aiInsightsContent');
+            content.innerHTML = `
+                <div class="ai-scan-animation">
+                    <div class="ai-spinner"></div>
+                    <span>Analyzing 12 records with Solus AI...</span>
+                </div>
+                <div class="ai-scan-progress">
+                    <div class="ai-scan-progress-bar" id="aiProgressBar"></div>
+                </div>
+            `;
+
+            // Animate progress bar
+            let progress = 0;
+            const progressBar = document.getElementById('aiProgressBar');
+            const progressInterval = setInterval(() => {
+                progress += Math.random() * 15;
+                if (progress > 95) progress = 95;
+                progressBar.style.width = progress + '%';
+            }, 200);
+
+            // Simulate AI analysis
+            setTimeout(() => {
+                clearInterval(progressInterval);
+                progressBar.style.width = '100%';
+
+                setTimeout(() => {
+                    haptic([10, 30, 10, 30, 10]);
+                    content.innerHTML = `
+                        <div class="ai-finding">
+                            <div class="ai-finding-icon warning"><i class="fas fa-exclamation-triangle"></i></div>
+                            <div class="ai-finding-text">
+                                <h4>Potential Drug Interaction</h4>
+                                <p>Lisinopril 10mg + Metformin 500mg — monitor renal function. Studies indicate increased risk of lactic acidosis in patients with reduced kidney function.</p>
+                                <span class="ai-tag medium">Medium Priority</span>
+                            </div>
+                        </div>
+                        <div class="ai-finding">
+                            <div class="ai-finding-icon alert"><i class="fas fa-heart-pulse"></i></div>
+                            <div class="ai-finding-text">
+                                <h4>Blood Pressure Trend Anomaly</h4>
+                                <p>Systolic BP readings show an upward trend over the past 3 months (118 → 128 → 136 mmHg). Consider discussing medication adjustment with Dr. Smith.</p>
+                                <span class="ai-tag high">High Priority</span>
+                            </div>
+                        </div>
+                        <div class="ai-finding">
+                            <div class="ai-finding-icon info"><i class="fas fa-flask"></i></div>
+                            <div class="ai-finding-text">
+                                <h4>A1C Improvement Detected</h4>
+                                <p>Your A1C dropped from 7.2% to 6.8% between Oct–Nov 2025. Current Metformin regimen appears effective. Keep up the progress!</p>
+                                <span class="ai-tag low">Positive Trend</span>
+                            </div>
+                        </div>
+                        <div class="ai-finding">
+                            <div class="ai-finding-icon ok"><i class="fas fa-clock"></i></div>
+                            <div class="ai-finding-text">
+                                <h4>Overdue: Lipid Panel Follow-up</h4>
+                                <p>Last lipid panel was Dec 20, 2025 (49 days ago). Recommended follow-up interval for your profile is 90 days. Next due: Mar 20, 2026.</p>
+                                <span class="ai-tag low">Reminder</span>
+                            </div>
+                        </div>
+                    `;
+                    showToast('AI analysis complete — 4 insights found', 'success');
+                }, 400);
+            }, 2500);
+        }
+
+        // ===== AI RECORD SUMMARIZATION (in record detail) =====
+        function generateAISummary(recordId) {
+            const record = mockRecords.find(r => r.id === recordId);
+            if (!record) return;
+
+            const summaryBtn = document.getElementById('aiSummaryBtn');
+            if (summaryBtn) summaryBtn.disabled = true;
+
+            const container = document.getElementById('aiSummaryContainer');
+            container.innerHTML = `
+                <div class="ai-scan-animation" style="justify-content: center;">
+                    <div class="ai-spinner"></div>
+                    <span>Generating AI summary...</span>
+                </div>
+            `;
+
+            const summaries = {
+                visit: {
+                    summary: 'Comprehensive physical examination completed. Patient presents in good general health with controlled diabetes (Type 2) and stage 1 hypertension.',
+                    keyPoints: ['BMI: 26.4 (slightly overweight)', 'Blood glucose: within target range', 'Heart and lung auscultation: normal', 'Recommended: increase physical activity to 150min/week']
+                },
+                lab: {
+                    summary: 'Blood work results within normal parameters with minor elevations in cholesterol markers. Kidney function stable — important for current medication regimen.',
+                    keyPoints: ['WBC, RBC, Platelets: all normal ranges', 'LDL cholesterol: 142 mg/dL (borderline high)', 'eGFR: 78 mL/min (adequate for Metformin)', 'Fasting glucose: 112 mg/dL']
+                },
+                imaging: {
+                    summary: 'Diagnostic imaging reviewed with no acute findings. Chronic degenerative changes noted consistent with age and medical history.',
+                    keyPoints: ['No acute pathology identified', 'Mild degenerative disc changes at L4-L5', 'Heart silhouette: normal size', 'Lungs: clear bilaterally']
+                },
+                rx: {
+                    summary: 'Prescription medication for ongoing management of chronic condition. Dosage is within standard therapeutic range.',
+                    keyPoints: ['Standard dosage for indication', 'Monitor for GI side effects', 'Take with meals to reduce nausea', 'Renal function monitoring recommended quarterly']
+                },
+                vitals: {
+                    summary: 'Vital signs captured during routine monitoring. Blood pressure trending slightly above target — warrants continued monitoring.',
+                    keyPoints: ['BP: 136/84 mmHg (slightly elevated)', 'Heart rate: 72 bpm (normal)', 'SpO2: 98% (normal)', 'Temperature: 98.4°F (normal)']
+                }
+            };
+
+            setTimeout(() => {
+                haptic();
+                const data = summaries[record.type] || summaries.visit;
+                container.innerHTML = `
+                    <div class="ai-summary-box">
+                        <div class="ai-badge" style="margin-bottom: 8px;"><i class="fas fa-brain"></i> AI Summary</div>
+                        <p>${data.summary}</p>
+                        <h4 style="margin-top: 12px; font-size: 0.82rem; color: var(--text);">Key Findings</h4>
+                        <ul>
+                            ${data.keyPoints.map(p => '<li><i class="fas fa-chevron-right"></i> ' + p + '</li>').join('')}
+                        </ul>
+                        <p style="font-size: 0.7rem; color: var(--text-muted); margin-top: 12px; font-style: italic;">
+                            <i class="fas fa-info-circle"></i> AI-generated summary for informational purposes only. Always consult your healthcare provider for medical decisions.
+                        </p>
+                    </div>
+                `;
+                if (summaryBtn) summaryBtn.disabled = false;
+            }, 1800);
         }
     </script>
 </body>

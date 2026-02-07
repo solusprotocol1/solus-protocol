@@ -134,7 +134,7 @@ All Solus anchoring operations are submitted to the XRPL Testnet with full trans
 - **Explorer Verification:** Every anchored record links directly to `https://testnet.xrpl.org` for independent on-chain verification.
 - **Memo-Encoded Hashes:** SHA-256 hashes are stored in XRPL transaction memos, ensuring they are permanently readable by any XRPL client.
 
-## <center>5. Solus Mobile Wallet (Progressive Web App)</center>
+## <center>5. Solus Protocol Mobile Wallet (Progressive Web App)</center>
 
 The Solus Protocol Mobile Wallet is a production-grade **Progressive Web App (PWA)** designed for patients, providers, and EHR administrators. It serves as the primary user-facing interface for the Solus ecosystem.
 
@@ -370,6 +370,7 @@ Each record type is prefixed in the XRPL memo data (e.g., `SURGERY:sha256hash`) 
 | **v2.3.0** | Feb 2026 | Ripple tap effects, blockchain anchoring animation (4-step), verify typewriter, haptic feedback, pull-to-refresh, animated gradient border, confetti celebration, XRPL explorer links |
 | **v2.4.0** | Feb 2026 | Matched main site particles.js (50 particles, grab hover), 3rd gradient orb with drift animation, gyroscope/mouse parallax, card stagger entrance, FAB, swipe-dismiss modals, gradient text headers |
 | **v2.5.0** | Feb 2026 | Background transparency fix (particles visible through app), scroll-to-top button, long-press context menu, real-time header clock, skeleton shimmer CSS |
+| **v2.6.0** | Feb 2026 | Mid-session role switching (swap Patient/Provider/EHR without logout), AI Health Insights engine (drug interaction detection, vitals trend analysis, anomaly flagging), AI record summarization per record, interactive tooltip system for non-technical users, Data Health Score ring, onboarding text improvements |
 
 ---
 
