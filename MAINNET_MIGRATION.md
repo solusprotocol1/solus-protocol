@@ -16,6 +16,7 @@
 8. [Testing the Migration](#8-testing-the-migration)
 9. [Rollback Plan](#9-rollback-plan)
 10. [Cost Estimation](#10-cost-estimation)
+11. [XRPL Amendment Resilience](#11-xrpl-amendment-resilience)
 
 ---
 
@@ -650,6 +651,63 @@ If issues arise after mainnet launch:
 
 ---
 
+## 11. XRPL Amendment Resilience
+
+The XRPL periodically activates protocol amendments (e.g., new transaction types, fee changes). Solus Protocol v2.9.3+ is designed to auto-adapt:
+
+### Fallback WebSocket Nodes
+
+The SDK connects to multiple XRPL nodes in priority order. If the primary node is unreachable (e.g., during an amendment activation window), the next node is tried automatically:
+
+```
+Priority 1: wss://s.altnet.rippletest.net:51233  (Testnet primary)
+Priority 2: wss://testnet.xrpl-labs.com          (XRPL Labs mirror)
+Priority 3: wss://xls20-sandbox.rippletest.net:51233  (XLS-20 sandbox)
+```
+
+For **mainnet**, configure:
+
+```
+Priority 1: wss://xrplcluster.com                (Community cluster)
+Priority 2: wss://s1.ripple.com                   (Ripple node 1)
+Priority 3: wss://s2.ripple.com                   (Ripple node 2)
+```
+
+### xrpl.js API Version Handling
+
+xrpl.js v4.0.0+ defaults to XRPL API v2, which changes the response format:
+
+| Field | API v1 (`result.result.*`) | API v2 (`result.result.tx_json.*`) |
+|-------|---|---|
+| Transaction Hash | `result.result.hash` | `result.result.tx_json.hash` |
+| Ledger Index | `result.result.ledger_index` | `result.result.tx_json.ledger_index` |
+
+Solus v2.9.3 uses the `extractTxHash()` and `extractLedgerIndex()` helper functions that check all known paths, ensuring compatibility across xrpl.js versions and API versions.
+
+### Amendment Monitoring
+
+Before anchoring, the backend should check for `amendmentBlocked` errors:
+
+```python
+try:
+    result = client.request(ServerInfo())
+    amendments = result.result.get('info', {}).get('amendment_blocked', False)
+    if amendments:
+        # Switch to fallback node or queue for retry
+        pass
+except Exception:
+    pass
+```
+
+### Best Practices
+
+1. **Pin xrpl.js version** in production (currently v4.5.0)
+2. **Monitor XRPL amendment votes** at [xrpl.org/amendments](https://xrpl.org/known-amendments.html)
+3. **Test on Testnet first** when a new amendment activates — testnet usually gets amendments 2 weeks before mainnet
+4. **Use `connectXrplWithFallback()`** instead of direct `new xrpl.Client()` calls
+
+---
+
 ## Quick Reference Card
 
 ```
@@ -669,11 +727,13 @@ If issues arise after mainnet launch:
 ║  □ Deploy frontend to Vercel                                 ║
 ║  □ Smoke test: anchor + verify one record                    ║
 ║  □ Set up balance monitoring alerts                          ║
+║  □ Configure fallback WebSocket nodes                        ║
+║  □ Test amendment resilience on Testnet                      ║
 ║                                                              ║
 ╚══════════════════════════════════════════════════════════════╝
 ```
 
 ---
 
-*Last updated: v2.9.2 — This document is part of the Solus Protocol project.*
+*Last updated: v2.9.3 — This document is part of the Solus Protocol project.*
 *See also: [DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md) | [SECURITY.md](SECURITY.md) | [HIPAA_COMPLIANCE.md](HIPAA_COMPLIANCE.md)*
