@@ -29,6 +29,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="https://unpkg.com/xrpl@4.1.0/build/xrpl-latest-min.js"></script>
     <style>
         :root {
             --primary: #0a0a0f;
@@ -1997,6 +1998,145 @@
             font-family: 'SF Mono', monospace; font-weight: 600;
             color: var(--text); min-width: 24px; text-align: center;
         }
+
+        /* ===== v2.9.0 — SDK Playground ===== */
+        .playground-banner {
+            background: linear-gradient(135deg, rgba(20, 241, 149, 0.12), rgba(153, 69, 255, 0.12));
+            border: 1px solid rgba(20, 241, 149, 0.25);
+            border-radius: 16px; padding: 16px; cursor: pointer;
+            transition: all 0.3s; position: relative; overflow: hidden;
+        }
+        .playground-banner:active { transform: scale(0.98); }
+        .playground-banner::after {
+            content: ''; position: absolute; top: -20px; right: -20px;
+            width: 80px; height: 80px; border-radius: 50%;
+            background: rgba(20, 241, 149, 0.1); pointer-events: none;
+        }
+        .playground-badge {
+            display: inline-flex; align-items: center; gap: 4px;
+            background: linear-gradient(135deg, var(--accent), var(--secondary));
+            color: #fff; padding: 3px 10px; border-radius: 12px;
+            font-size: 0.65rem; font-weight: 700; letter-spacing: 0.5px;
+            text-transform: uppercase; margin-bottom: 8px;
+        }
+        .pg-section-title { font-size: 0.82rem; font-weight: 700; margin-bottom: 12px; color: var(--text); }
+        .template-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+        .template-card {
+            background: var(--glass); border: 1px solid var(--border);
+            border-radius: 12px; padding: 12px; cursor: pointer;
+            transition: all 0.2s; text-align: center;
+        }
+        .template-card:active { transform: scale(0.96); }
+        .template-card.selected { border-color: var(--accent); background: rgba(20, 241, 149, 0.08); }
+        .template-card-icon { font-size: 1.3rem; margin-bottom: 6px; }
+        .template-card-name { font-size: 0.78rem; font-weight: 600; }
+        .template-card-type { font-size: 0.65rem; color: var(--text-muted); margin-top: 2px; }
+        .pg-editor {
+            width: 100%; min-height: 120px; background: rgba(0,0,0,0.3);
+            border: 1px solid var(--border); border-radius: 12px;
+            padding: 12px; color: var(--text); font-family: 'SF Mono', monospace;
+            font-size: 0.78rem; resize: vertical; outline: none;
+            transition: border-color 0.2s; line-height: 1.5;
+        }
+        .pg-editor:focus { border-color: var(--accent); }
+        .pg-hash-preview {
+            background: rgba(0,0,0,0.3); border: 1px solid var(--border);
+            border-radius: 10px; padding: 10px 12px; font-family: 'SF Mono', monospace;
+            font-size: 0.72rem; color: var(--accent); word-break: break-all;
+            min-height: 36px; transition: all 0.3s;
+        }
+        .pg-hash-label { font-size: 0.7rem; color: var(--text-muted); margin-bottom: 4px; font-weight: 600; }
+        .anchor-btn {
+            width: 100%; padding: 14px; border: none; border-radius: 12px;
+            font-size: 0.95rem; font-weight: 700; cursor: pointer;
+            background: linear-gradient(135deg, var(--accent), #0ba968);
+            color: #000; display: flex; align-items: center;
+            justify-content: center; gap: 8px; transition: all 0.3s;
+            position: relative; overflow: hidden;
+        }
+        .anchor-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .anchor-btn:active:not(:disabled) { transform: scale(0.98); }
+        .anchor-btn .btn-ripple {
+            position: absolute; background: rgba(255,255,255,0.3);
+            border-radius: 50%; transform: scale(0);
+            animation: ripple 0.6s linear;
+        }
+        .pg-progress { margin: 16px 0; }
+        .pg-step {
+            display: flex; align-items: center; gap: 10px;
+            padding: 8px 0; opacity: 0.3; transition: all 0.4s;
+        }
+        .pg-step.active { opacity: 1; }
+        .pg-step.done { opacity: 0.7; }
+        .pg-step.done .pg-step-icon { color: var(--accent); }
+        .pg-step-icon { width: 28px; text-align: center; font-size: 0.9rem; }
+        .pg-step-text h4 { font-size: 0.82rem; font-weight: 600; }
+        .pg-step-text p { font-size: 0.72rem; color: var(--text-muted); }
+        .pg-result {
+            background: linear-gradient(135deg, rgba(20, 241, 149, 0.1), rgba(0, 194, 255, 0.05));
+            border: 1px solid rgba(20, 241, 149, 0.3);
+            border-radius: 14px; padding: 16px; display: none;
+        }
+        .pg-result.show { display: block; animation: fadeUp 0.4s ease; }
+        .pg-result-label { font-size: 0.7rem; color: var(--text-muted); margin-bottom: 2px; }
+        .pg-result-value { font-family: 'SF Mono', monospace; font-size: 0.75rem; word-break: break-all; margin-bottom: 10px; }
+        .pg-result-actions { display: flex; gap: 8px; margin-top: 12px; }
+        .pg-result-btn {
+            flex: 1; padding: 8px; border: 1px solid var(--border);
+            border-radius: 8px; background: var(--glass);
+            color: var(--text); font-size: 0.75rem; font-weight: 600;
+            cursor: pointer; text-align: center; transition: all 0.2s;
+        }
+        .pg-result-btn:active { transform: scale(0.96); }
+        .pg-session-counter {
+            display: flex; align-items: center; gap: 8px;
+            background: rgba(20, 241, 149, 0.08); border-radius: 10px;
+            padding: 8px 12px; font-size: 0.8rem;
+        }
+        .pg-session-count {
+            font-weight: 800; font-size: 1.1rem; color: var(--accent);
+        }
+        .pg-history-item {
+            display: flex; align-items: center; gap: 10px;
+            padding: 10px; background: var(--glass); border-radius: 10px;
+            margin-bottom: 6px; font-size: 0.78rem;
+        }
+        .pg-history-icon { width: 30px; height: 30px; border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            background: rgba(20, 241, 149, 0.15); color: var(--accent); flex-shrink: 0;
+        }
+        .pg-history-hash { font-family: 'SF Mono', monospace; font-size: 0.68rem; color: var(--text-muted); }
+        .pg-tutorial-overlay {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.85); backdrop-filter: blur(8px);
+            z-index: 9998; display: none; align-items: center;
+            justify-content: center; padding: 20px;
+        }
+        .pg-tutorial-overlay.active { display: flex; }
+        .pg-tutorial-card {
+            background: var(--card); border: 1px solid var(--border);
+            border-radius: 20px; padding: 24px; width: 100%;
+            max-width: 380px; max-height: 85vh; overflow-y: auto;
+        }
+        .pg-tutorial-step {
+            display: flex; gap: 12px; padding: 10px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .pg-tutorial-step:last-child { border-bottom: none; }
+        .pg-tutorial-num {
+            width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
+            background: linear-gradient(135deg, var(--accent), var(--secondary));
+            color: #000; font-weight: 800; font-size: 0.78rem;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .pg-tutorial-text h4 { font-size: 0.85rem; font-weight: 600; margin-bottom: 2px; }
+        .pg-tutorial-text p { font-size: 0.78rem; color: var(--text-muted); line-height: 1.4; }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+        .pg-testnet-badge {
+            display: inline-flex; align-items: center; gap: 4px;
+            background: rgba(255, 215, 0, 0.12); color: var(--warning);
+            padding: 3px 8px; border-radius: 8px; font-size: 0.68rem; font-weight: 600;
+        }
     </style>
 </head>
 <body>
@@ -2255,6 +2395,18 @@
                         </div>
                     </div>
 
+                    <!-- SDK Playground Banner -->
+                    <div class="section">
+                        <div class="playground-banner" onclick="navigateToScreen('sdkPlaygroundScreen'); initPlaygroundTemplates();">
+                            <div class="playground-badge"><i class="fas fa-terminal"></i> New</div>
+                            <h3 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 4px;">SDK Playground</h3>
+                            <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 8px;">Anchor real medical records to the XRPL blockchain — directly from your browser. No setup required.</p>
+                            <div style="display: flex; align-items: center; gap: 6px; font-size: 0.78rem; color: var(--accent);">
+                                <span>Try it now</span> <i class="fas fa-arrow-right"></i>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="section">
                         <div class="section-header">
                             <span class="section-title">Recent Records</span>
@@ -2483,6 +2635,18 @@
                         </div>
                     </div>
 
+                    <!-- SDK Playground Banner -->
+                    <div class="section">
+                        <div class="playground-banner" onclick="navigateToScreen('sdkPlaygroundScreen'); initPlaygroundTemplates();" style="border-color: rgba(153, 69, 255, 0.25); background: linear-gradient(135deg, rgba(153, 69, 255, 0.12), rgba(0, 194, 255, 0.08));">
+                            <div class="playground-badge" style="background: linear-gradient(135deg, var(--secondary), var(--accent2));"><i class="fas fa-terminal"></i> New</div>
+                            <h3 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 4px;">SDK Playground</h3>
+                            <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 8px;">Anchor clinical records, test cross-patient scenarios, and verify data integrity — all on XRPL Testnet.</p>
+                            <div style="display: flex; align-items: center; gap: 6px; font-size: 0.78rem; color: var(--secondary);">
+                                <span>Open Playground</span> <i class="fas fa-arrow-right"></i>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="section">
                         <div class="section-header">
                             <span class="section-title">Recent Patients</span>
@@ -2620,6 +2784,18 @@
                                 <div class="action-icon gold"><i class="fas fa-clipboard-list"></i></div>
                                 <div class="action-title">Audit Log</div>
                                 <div class="action-desc">View activity</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SDK Playground Banner -->
+                    <div class="section">
+                        <div class="playground-banner" onclick="navigateToScreen('sdkPlaygroundScreen'); initPlaygroundTemplates();" style="border-color: rgba(255, 215, 0, 0.25); background: linear-gradient(135deg, rgba(255, 215, 0, 0.12), rgba(0, 194, 255, 0.08));">
+                            <div class="playground-badge" style="background: linear-gradient(135deg, var(--ehr), #ff8c00);"><i class="fas fa-terminal"></i> New</div>
+                            <h3 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 4px;">SDK Playground</h3>
+                            <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 8px;">Test bulk anchoring, API integration logging, and compliance audit scenarios on XRPL Testnet.</p>
+                            <div style="display: flex; align-items: center; gap: 6px; font-size: 0.78rem; color: var(--ehr);">
+                                <span>Open Playground</span> <i class="fas fa-arrow-right"></i>
                             </div>
                         </div>
                     </div>
@@ -2869,7 +3045,7 @@
                 </div>
 
                 <div style="text-align: center; padding: 20px; color: var(--text-muted); font-size: 0.8rem;">
-                    <p>Solus Protocol v2.7.0</p>
+                    <p>Solus Protocol v2.9.0</p>
                     <p style="margin-top: 4px;">Build Feb 2026 • Powered by XRP Ledger</p>
                     <p style="margin-top: 4px; font-size: 0.7rem; opacity: 0.6;">Demo Environment • Testnet</p>
                 </div>
@@ -3230,6 +3406,185 @@
             </div>
         </div>
 
+        <!-- ===== SDK PLAYGROUND SCREEN ===== -->
+        <div id="sdkPlaygroundScreen" class="screen">
+            <div class="app-header">
+                <div class="header-top">
+                    <div class="user-greeting">
+                        <h1><i class="fas fa-terminal" style="color: var(--accent); margin-right: 6px;"></i> SDK Playground</h1>
+                        <p>Anchor real records to XRPL Testnet</p>
+                    </div>
+                    <div style="display: flex; gap: 8px;">
+                        <button style="background: var(--glass); border: 1px solid var(--border); color: var(--accent); width: 36px; height: 36px; border-radius: 10px; cursor: pointer; font-size: 0.85rem;" onclick="showPlaygroundTutorial()" aria-label="Tutorial"><i class="fas fa-graduation-cap"></i></button>
+                        <button style="background: var(--glass); border: 1px solid var(--border); color: var(--text-muted); width: 36px; height: 36px; border-radius: 10px; cursor: pointer; font-size: 0.85rem;" onclick="navigateTo('home', document.querySelector('.nav-item'))" aria-label="Back"><i class="fas fa-times"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="content">
+                <!-- Session Counter -->
+                <div class="section">
+                    <div class="pg-session-counter">
+                        <i class="fas fa-link" style="color: var(--accent);"></i>
+                        <div>
+                            <span class="pg-session-count" id="pgSessionCount">0</span>
+                            <span style="color: var(--text-muted); font-size: 0.78rem;"> records anchored this session</span>
+                        </div>
+                        <div style="margin-left: auto;">
+                            <span class="pg-testnet-badge"><i class="fas fa-flask"></i> Testnet</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 1: Choose Template -->
+                <div class="section">
+                    <div class="pg-section-title"><span style="color: var(--accent);">1.</span> Choose a Record Template</div>
+                    <div class="template-grid" id="pgTemplateGrid">
+                        <!-- Populated by JS based on role -->
+                    </div>
+                </div>
+
+                <!-- Step 2: Edit Record -->
+                <div class="section">
+                    <div class="pg-section-title"><span style="color: var(--accent);">2.</span> Review & Edit Record Data</div>
+                    <textarea class="pg-editor" id="pgRecordEditor" placeholder="Select a template above, or type your own medical record data here..." oninput="updatePgHashPreview()"></textarea>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px;">
+                        <div id="pgRecordType" style="font-size: 0.72rem; color: var(--text-muted);">Type: <span id="pgRecordTypeLabel">—</span></div>
+                        <div id="pgCharCount" style="font-size: 0.72rem; color: var(--text-muted);">0 characters</div>
+                    </div>
+                </div>
+
+                <!-- Step 3: Hash Preview -->
+                <div class="section">
+                    <div class="pg-section-title"><span style="color: var(--accent);">3.</span> Live SHA-256 Hash Preview</div>
+                    <div class="pg-hash-label">SHA-256 Fingerprint (computed in real-time)</div>
+                    <div class="pg-hash-preview" id="pgHashPreview">Enter record data above to see the live hash...</div>
+                </div>
+
+                <!-- Step 4: Anchor -->
+                <div class="section">
+                    <div class="pg-section-title"><span style="color: var(--accent);">4.</span> Anchor to XRPL Blockchain</div>
+                    <button class="anchor-btn" id="pgAnchorBtn" onclick="anchorFromPlayground()" disabled>
+                        <i class="fas fa-link"></i> Anchor Record to XRPL Testnet
+                    </button>
+                    <p style="font-size: 0.7rem; color: var(--text-muted); margin-top: 8px; text-align: center;">
+                        <i class="fas fa-info-circle"></i> Submits an on-chain transaction to the XRP Ledger Testnet. Your record data is never stored on-chain — only its SHA-256 hash.
+                    </p>
+
+                    <!-- Progress Steps -->
+                    <div class="pg-progress" id="pgProgress" style="display: none;">
+                        <div class="pg-step" id="pgStep1">
+                            <div class="pg-step-icon"><i class="fas fa-wifi"></i></div>
+                            <div class="pg-step-text"><h4>Connecting to XRPL</h4><p>Establishing WebSocket to testnet...</p></div>
+                        </div>
+                        <div class="pg-step" id="pgStep2">
+                            <div class="pg-step-icon"><i class="fas fa-hashtag"></i></div>
+                            <div class="pg-step-text"><h4>Computing SHA-256 Hash</h4><p id="pgStepHashText">Generating cryptographic fingerprint...</p></div>
+                        </div>
+                        <div class="pg-step" id="pgStep3">
+                            <div class="pg-step-icon"><i class="fas fa-paper-plane"></i></div>
+                            <div class="pg-step-text"><h4>Submitting Transaction</h4><p>Broadcasting to XRPL validators...</p></div>
+                        </div>
+                        <div class="pg-step" id="pgStep4">
+                            <div class="pg-step-icon"><i class="fas fa-check-circle"></i></div>
+                            <div class="pg-step-text"><h4>Confirmed on Ledger</h4><p id="pgStepLedgerText">Waiting for ledger inclusion...</p></div>
+                        </div>
+                    </div>
+
+                    <!-- Result -->
+                    <div class="pg-result" id="pgResult">
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+                            <i class="fas fa-check-circle" style="color: var(--accent); font-size: 1.2rem;"></i>
+                            <h4 style="font-size: 0.9rem;">Record Anchored Successfully!</h4>
+                        </div>
+                        <div class="pg-result-label">SHA-256 Hash</div>
+                        <div class="pg-result-value" id="pgResultHash" style="color: var(--accent);"></div>
+                        <div class="pg-result-label">Transaction Hash</div>
+                        <div class="pg-result-value" id="pgResultTxHash" style="color: var(--accent2);"></div>
+                        <div class="pg-result-label">Ledger Index</div>
+                        <div class="pg-result-value" id="pgResultLedger" style="color: var(--text);"></div>
+                        <div class="pg-result-label">Record Type</div>
+                        <div class="pg-result-value" id="pgResultType" style="color: var(--secondary);"></div>
+                        <div class="pg-result-actions">
+                            <button class="pg-result-btn" onclick="copyPgHash()"><i class="fas fa-copy"></i> Copy Hash</button>
+                            <button class="pg-result-btn" id="pgExplorerBtn" onclick="openPgExplorer()"><i class="fas fa-external-link-alt"></i> XRPL Explorer</button>
+                            <button class="pg-result-btn" onclick="navigateToScreen('metricsScreen')"><i class="fas fa-chart-bar"></i> Metrics</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Session History -->
+                <div class="section" id="pgHistorySection" style="display: none;">
+                    <div class="pg-section-title"><i class="fas fa-history" style="color: var(--accent2);"></i> Session History</div>
+                    <div id="pgHistoryList">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <!-- Info footer -->
+                <div class="section">
+                    <div style="background: var(--glass); border: 1px solid var(--border); border-radius: 12px; padding: 14px; font-size: 0.75rem; color: var(--text-muted); line-height: 1.5;">
+                        <p><i class="fas fa-shield-halved" style="color: var(--accent);"></i> <strong>Privacy:</strong> Your record data never leaves your browser. Only the irreversible SHA-256 hash is submitted to the XRPL — the original data cannot be reconstructed from the hash.</p>
+                        <p style="margin-top: 8px;"><i class="fas fa-coins" style="color: var(--warning);"></i> <strong>Fees:</strong> Each anchoring transaction costs ~0.000012 XRP (~$0.000003). The testnet account has unlimited free XRP.</p>
+                        <p style="margin-top: 8px;"><i class="fas fa-chart-bar" style="color: var(--accent2);"></i> <strong>Metrics:</strong> Your anchored records appear in the live metrics dashboard within 60 seconds — on both the demo app and the main website.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SDK Playground Tutorial Overlay -->
+        <div class="pg-tutorial-overlay" id="pgTutorialOverlay" onclick="if(event.target===this)this.classList.remove('active')">
+            <div class="pg-tutorial-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                    <h3 style="font-size: 1rem;"><i class="fas fa-graduation-cap" style="color: var(--accent); margin-right: 6px;"></i> How It Works</h3>
+                    <button style="background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 1.2rem;" onclick="document.getElementById('pgTutorialOverlay').classList.remove('active')">&times;</button>
+                </div>
+                <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 16px; line-height: 1.5;">
+                    The SDK Playground lets you anchor real medical records to the <strong style="color: var(--accent);">XRP Ledger Testnet</strong> directly from your browser. Here's how:
+                </p>
+                <div class="pg-tutorial-step">
+                    <div class="pg-tutorial-num">1</div>
+                    <div class="pg-tutorial-text">
+                        <h4>Choose a Template</h4>
+                        <p>Select a pre-built record template that matches your role — vitals, lab results, surgery reports, EHR integration logs, and more. Templates are role-specific (Patient, Provider, EHR).</p>
+                    </div>
+                </div>
+                <div class="pg-tutorial-step">
+                    <div class="pg-tutorial-num">2</div>
+                    <div class="pg-tutorial-text">
+                        <h4>Review & Customize</h4>
+                        <p>Edit the record data in the text editor. You can modify patient names, values, dates — or write something entirely custom. The SHA-256 hash updates in real-time as you type.</p>
+                    </div>
+                </div>
+                <div class="pg-tutorial-step">
+                    <div class="pg-tutorial-num">3</div>
+                    <div class="pg-tutorial-text">
+                        <h4>Anchor to XRPL</h4>
+                        <p>Click the anchor button to submit a real on-chain transaction. The app connects to the XRPL Testnet via WebSocket, computes the SHA-256 hash, signs the transaction, and submits it to validators.</p>
+                    </div>
+                </div>
+                <div class="pg-tutorial-step">
+                    <div class="pg-tutorial-num">4</div>
+                    <div class="pg-tutorial-text">
+                        <h4>Verify on Explorer</h4>
+                        <p>Once confirmed, you get a transaction hash and direct link to the XRPL Testnet Explorer where you can verify the on-chain anchoring. The hash is stored in the transaction memo.</p>
+                    </div>
+                </div>
+                <div class="pg-tutorial-step">
+                    <div class="pg-tutorial-num">5</div>
+                    <div class="pg-tutorial-text">
+                        <h4>See It in Metrics</h4>
+                        <p>Your anchored record immediately appears in the live metrics dashboard — both on this app and on <strong>solusprotocol.com</strong>. Record type, timestamp, and hash are all tracked.</p>
+                    </div>
+                </div>
+                <div style="margin-top: 16px; padding: 12px; background: rgba(255, 215, 0, 0.08); border: 1px solid rgba(255, 215, 0, 0.2); border-radius: 10px; font-size: 0.78rem; color: var(--warning);">
+                    <i class="fas fa-flask"></i> <strong>Testnet Only:</strong> This playground uses the XRPL Testnet — no real money or tokens are involved. All transactions are for demonstration purposes.
+                </div>
+                <button class="btn btn-primary btn-full" style="margin-top: 16px;" onclick="document.getElementById('pgTutorialOverlay').classList.remove('active')">
+                    <i class="fas fa-rocket"></i> Got It — Let's Anchor!
+                </button>
+            </div>
+        </div>
+
         <!-- ===== MORE SCREEN ===== -->
         <div id="moreScreen" class="screen">
             <div class="app-header">
@@ -3250,6 +3605,10 @@
                         <div class="settings-item" onclick="navigateToScreen('contactScreen')">
                             <div class="settings-left"><div class="settings-icon"><i class="fas fa-envelope"></i></div><span>Contact Us</span></div>
                             <i class="fas fa-chevron-right" style="color: var(--text-muted);"></i>
+                        </div>
+                        <div class="settings-item" onclick="navigateToScreen('sdkPlaygroundScreen'); initPlaygroundTemplates();">
+                            <div class="settings-left"><div class="settings-icon" style="background: linear-gradient(135deg, var(--accent), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"><i class="fas fa-terminal"></i></div><span>SDK Playground</span></div>
+                            <span class="playground-badge" style="font-size: 0.6rem; padding: 2px 6px;"><i class="fas fa-bolt"></i> Live</span>
                         </div>
                         <div class="settings-item" onclick="navigateToScreen('metricsScreen')">
                             <div class="settings-left"><div class="settings-icon"><i class="fas fa-chart-bar"></i></div><span>Network Metrics</span></div>
@@ -3285,7 +3644,7 @@
                     </div>
                 </div>
                 <div style="text-align: center; padding: 20px; color: var(--text-muted); font-size: 0.8rem;">
-                    <p>Solus Protocol v2.7.0</p>
+                    <p>Solus Protocol v2.9.0</p>
                     <p style="margin-top: 4px;">Build Feb 2026 • Powered by XRP Ledger</p>
                     <p style="margin-top: 4px; font-size: 0.7rem; opacity: 0.6;">Demo Environment • Testnet</p>
                 </div>
@@ -5381,6 +5740,246 @@
             }).join('');
         }
 
+        // ===== SDK PLAYGROUND =====
+        const pgTemplates = {
+            patient: [
+                { name: 'Vitals Check', icon: 'fas fa-heartbeat', type: 'vitals',
+                  content: `Patient: Sarah Chen | DOB: 1985-03-15\nDate: ${new Date().toISOString().split('T')[0]}\nHeart Rate: 72 bpm | BP: 118/76 mmHg\nSpO2: 98% | Temp: 98.4°F\nRespiratory Rate: 16 breaths/min\nWeight: 145 lbs | Height: 5'6"\nNotes: Routine check — all vitals within normal range.` },
+                { name: 'Lab Results', icon: 'fas fa-flask', type: 'lab_result',
+                  content: `Lab Report — Complete Blood Count (CBC)\nPatient: Sarah Chen | Ordered by: Dr. Patel\nDate: ${new Date().toISOString().split('T')[0]}\nWBC: 6.2 K/uL (Normal: 4.5-11.0)\nRBC: 4.8 M/uL (Normal: 4.0-5.5)\nHemoglobin: 14.2 g/dL (Normal: 12.0-16.0)\nHematocrit: 42% (Normal: 36-46%)\nPlatelets: 250 K/uL (Normal: 150-400)\nStatus: All values within normal limits` },
+                { name: 'Prescription', icon: 'fas fa-pills', type: 'prescription',
+                  content: `Prescription Record\nPatient: Sarah Chen | Provider: Dr. Lisa Patel\nDate: ${new Date().toISOString().split('T')[0]}\nMedication: Lisinopril 10mg\nDirections: Take one tablet by mouth daily\nQuantity: 30 tablets | Refills: 3\nPharmacy: CVS Health #4521\nDiagnosis: Essential hypertension (I10)\nNotes: Monitor blood pressure weekly` },
+                { name: 'Allergy Update', icon: 'fas fa-allergies', type: 'allergy_update',
+                  content: `Allergy Record Update\nPatient: Sarah Chen\nDate: ${new Date().toISOString().split('T')[0]}\nNew Allergy: Amoxicillin\nReaction: Skin rash, mild hives\nSeverity: Moderate\nOnset: Within 2 hours of administration\nVerified by: Dr. Lisa Patel\nAction: Added to EHR allergy list, patient notified` }
+            ],
+            provider: [
+                { name: 'Clinical Note', icon: 'fas fa-stethoscope', type: 'clinical_note',
+                  content: `Clinical Note — Office Visit\nProvider: Dr. James Wilson, MD | NPI: 1234567890\nPatient: Michael Torres | MRN: PT-20056\nDate: ${new Date().toISOString().split('T')[0]}\nCC: Follow-up for Type 2 Diabetes\nAssessment: A1C improved from 8.2% to 7.1%\nPlan: Continue Metformin 1000mg BID\n      Add CGM monitoring\n      Follow-up in 3 months\nCPT: 99214 | ICD-10: E11.65` },
+                { name: 'Surgery Report', icon: 'fas fa-procedures', type: 'surgery_report',
+                  content: `Operative Report\nSurgeon: Dr. James Wilson, MD\nPatient: Robert Kim | MRN: PT-30042\nDate: ${new Date().toISOString().split('T')[0]}\nProcedure: Laparoscopic Cholecystectomy\nDuration: 47 minutes | Anesthesia: General\nFindings: Chronic cholecystitis with cholelithiasis\nComplications: None\nEBL: <50mL\nDisposition: Recovery, discharge expected next day` },
+                { name: 'Referral', icon: 'fas fa-share', type: 'referral',
+                  content: `Patient Referral\nReferring: Dr. James Wilson (Internal Medicine)\nReferred to: Dr. Sarah Kim (Cardiology)\nPatient: Maria Santos | DOB: 1968-07-22\nDate: ${new Date().toISOString().split('T')[0]}\nReason: Persistent atrial fibrillation\nPriority: Urgent\nClinical Summary: New-onset AFib, HR 110-130 bpm\n  Started on rate control, needs cardiology eval\nAttachments: ECG, Echo results, CBC` },
+                { name: 'Discharge Summary', icon: 'fas fa-file-medical-alt', type: 'discharge',
+                  content: `Discharge Summary\nProvider: Dr. James Wilson, MD\nPatient: Alex Johnson | MRN: PT-10089\nDate: ${new Date().toISOString().split('T')[0]}\nAdmission: Post-appendectomy care\nLength of Stay: 2 days\nDiagnosis: Acute appendicitis (K35.80)\nProcedures: Laparoscopic appendectomy\nDischarge Meds: Acetaminophen 500mg PRN\n  Ciprofloxacin 500mg BID x7 days\nFollow-up: Surgeon in 2 weeks` }
+            ],
+            ehr: [
+                { name: 'Integration Log', icon: 'fas fa-plug', type: 'integration_log',
+                  content: `EHR Integration Log — FHIR R4 Sync\nSystem: HealthBridge EHR v4.2\nDate: ${new Date().toISOString().split('T')[0]}\nEndpoint: api.healthbridge.io/fhir/r4\nResources Synced: 847\n  Patient: 156 | Observation: 312\n  MedicationRequest: 89 | Encounter: 290\nErrors: 3 (0.35% error rate)\nAvg Response Time: 142ms\nStatus: Sync Complete` },
+                { name: 'Audit Entry', icon: 'fas fa-shield-alt', type: 'audit_entry',
+                  content: `Security Audit Log\nSystem: HealthBridge EHR v4.2\nDate: ${new Date().toISOString().split('T')[0]}\nAudit Period: Last 24 Hours\nTotal Access Events: 2,847\nAuthorized: 2,841 (99.79%)\nDenied: 6 (0.21%)\nBreak-Glass Events: 0\nPHI Access by Role:\n  Physician: 1,204 | Nurse: 1,122\n  Admin: 287 | Billing: 228\nHIPAA Compliance: Passed` },
+                { name: 'Compliance Report', icon: 'fas fa-clipboard-check', type: 'compliance_report',
+                  content: `Compliance Verification Report\nOrganization: Metro Health Network\nDate: ${new Date().toISOString().split('T')[0]}\nFramework: HIPAA Security Rule\nOverall Score: 94/100\nAccess Controls: 96/100\nAudit Controls: 92/100\nIntegrity Controls: 95/100\nTransmission Security: 93/100\nFindings:\n  Password rotation: 85% compliance\n  Encryption at rest: 100% verified\nNext Review: 30 days` },
+                { name: 'Bulk Anchor Test', icon: 'fas fa-layer-group', type: 'bulk_anchor',
+                  content: `Bulk Anchor Batch Record\nSystem: HealthBridge EHR v4.2\nDate: ${new Date().toISOString().split('T')[0]}\nBatch ID: BATCH-${Date.now().toString(36).toUpperCase()}\nRecords in Batch: 25\nRecord Types:\n  Clinical Notes: 8 | Lab Results: 6\n  Prescriptions: 5 | Vitals: 4 | Imaging: 2\nAnchor Method: SHA-256 → XRPL Memo\nEstimated Fees: 0.000300 XRP\nCompliance: HIPAA-aligned, PHI never on-chain` }
+            ]
+        };
+
+        let pgSessionHistory = [];
+        let pgSelectedTemplate = null;
+        let pgCurrentHash = '';
+        let pgIsAnchoring = false;
+        let pgLastTxHash = '';
+
+        function initPlaygroundTemplates() {
+            const grid = document.getElementById('pgTemplateGrid');
+            if (!grid) return;
+            const role = currentRole || 'patient';
+            const templates = pgTemplates[role] || pgTemplates.patient;
+            grid.innerHTML = templates.map((t, i) => `
+                <div class="template-card ${pgSelectedTemplate === i ? 'selected' : ''}" onclick="selectPgTemplate(${i})">
+                    <i class="${t.icon}" style="font-size: 1.3rem; margin-bottom: 6px;"></i>
+                    <span style="font-size: 0.78rem; font-weight: 600;">${t.name}</span>
+                </div>
+            `).join('');
+            renderPgHistory();
+            updatePgSessionCounter();
+            // Show tutorial on first visit
+            if (!localStorage.getItem('pgTutorialSeen')) {
+                setTimeout(showPlaygroundTutorial, 600);
+            }
+        }
+
+        function selectPgTemplate(index) {
+            const role = currentRole || 'patient';
+            const templates = pgTemplates[role] || pgTemplates.patient;
+            pgSelectedTemplate = index;
+            const template = templates[index];
+            document.querySelectorAll('.template-card').forEach((c, i) => c.classList.toggle('selected', i === index));
+            document.getElementById('pgRecordType').textContent = template.type.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+            const editor = document.getElementById('pgEditor');
+            editor.value = template.content;
+            activatePgStep(2);
+            updatePgHashPreview();
+        }
+
+        async function updatePgHashPreview() {
+            const editor = document.getElementById('pgEditor');
+            const content = editor.value.trim();
+            const hashEl = document.getElementById('pgHashValue');
+            const anchorBtn = document.getElementById('pgAnchorBtn');
+            if (!content) {
+                hashEl.textContent = 'Enter or select a record to see its hash...';
+                hashEl.style.opacity = '0.4';
+                if (anchorBtn) anchorBtn.disabled = true;
+                pgCurrentHash = '';
+                return;
+            }
+            try {
+                const buffer = new TextEncoder().encode(content);
+                const hashBuffer = await crypto.subtle.digest('SHA-256', buffer);
+                const hashArray = Array.from(new Uint8Array(hashBuffer));
+                pgCurrentHash = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+                hashEl.textContent = pgCurrentHash;
+                hashEl.style.opacity = '1';
+                if (anchorBtn) anchorBtn.disabled = false;
+                activatePgStep(3);
+            } catch(e) {
+                hashEl.textContent = 'Hash computation error';
+                hashEl.style.opacity = '0.4';
+            }
+        }
+
+        function activatePgStep(upTo) {
+            for (let i = 1; i <= 4; i++) {
+                const step = document.getElementById('pgStep' + i);
+                if (step) step.classList.toggle('active', i <= upTo);
+            }
+        }
+
+        function strToHex(str) {
+            return Array.from(new TextEncoder().encode(str)).map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+
+        async function anchorFromPlayground() {
+            if (pgIsAnchoring || !pgCurrentHash) return;
+            pgIsAnchoring = true;
+            const anchorBtn = document.getElementById('pgAnchorBtn');
+            const resultCard = document.getElementById('pgResultCard');
+            const role = currentRole || 'patient';
+            const templates = pgTemplates[role] || pgTemplates.patient;
+            const recordType = pgSelectedTemplate !== null ? templates[pgSelectedTemplate].type : 'custom_record';
+            anchorBtn.disabled = true;
+            anchorBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Connecting to XRPL Testnet...';
+            resultCard.style.display = 'none';
+            activatePgStep(4);
+
+            try {
+                const client = new xrpl.Client("wss://s.altnet.rippletest.net:51233");
+                await client.connect();
+
+                anchorBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Preparing transaction...';
+                const wallet = xrpl.Wallet.fromSeed("sEd75GpyfXbSLGUShjwvViXoo6xaGuZ");
+
+                const memoData = 'solus:' + recordType + ':' + pgCurrentHash;
+                const tx = {
+                    TransactionType: "AccountSet",
+                    Account: wallet.classicAddress,
+                    Memos: [{
+                        Memo: {
+                            MemoType: strToHex("solus/anchor"),
+                            MemoData: strToHex(memoData)
+                        }
+                    }]
+                };
+
+                anchorBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting to ledger...';
+                const result = await client.submitAndWait(tx, { wallet });
+                await client.disconnect();
+
+                const txHash = result.result.hash;
+                pgLastTxHash = txHash;
+                const explorerUrl = 'https://testnet.xrpl.org/transactions/' + txHash;
+
+                document.getElementById('pgResultHash').textContent = pgCurrentHash;
+                document.getElementById('pgResultTx').textContent = txHash.substring(0, 20) + '...' + txHash.substring(txHash.length - 8);
+                document.getElementById('pgResultTx').title = txHash;
+                document.getElementById('pgResultTime').textContent = new Date().toLocaleTimeString();
+                document.getElementById('pgResultExplorer').href = explorerUrl;
+                resultCard.style.display = 'block';
+
+                pgSessionHistory.unshift({
+                    timestamp: new Date().toLocaleTimeString(),
+                    recordType: recordType,
+                    hash: pgCurrentHash.substring(0, 16) + '...',
+                    fullHash: pgCurrentHash,
+                    txHash: txHash,
+                    explorerUrl: explorerUrl
+                });
+                renderPgHistory();
+                updatePgSessionCounter();
+
+                anchorBtn.innerHTML = '<i class="fas fa-check-circle"></i> Anchored Successfully!';
+                anchorBtn.style.background = 'linear-gradient(135deg, #00c853, #00e676)';
+                showNotification('Record anchored to XRPL! TX: ' + txHash.substring(0, 12) + '...', 'success');
+
+                setTimeout(() => {
+                    anchorBtn.innerHTML = '<i class="fas fa-anchor"></i> Anchor to XRPL Testnet';
+                    anchorBtn.style.background = '';
+                    anchorBtn.disabled = false;
+                }, 3000);
+
+            } catch(err) {
+                console.error('Playground anchor error:', err);
+                anchorBtn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Error — Tap to Retry';
+                anchorBtn.style.background = 'linear-gradient(135deg, #ff1744, #ff5252)';
+                showNotification('Anchor failed: ' + (err.message || 'Connection error'), 'error');
+                setTimeout(() => {
+                    anchorBtn.innerHTML = '<i class="fas fa-anchor"></i> Anchor to XRPL Testnet';
+                    anchorBtn.style.background = '';
+                    anchorBtn.disabled = false;
+                }, 3000);
+            }
+            pgIsAnchoring = false;
+        }
+
+        function updatePgSessionCounter() {
+            const counter = document.getElementById('pgSessionCount');
+            if (counter) counter.textContent = pgSessionHistory.length;
+        }
+
+        function renderPgHistory() {
+            const container = document.getElementById('pgHistoryList');
+            if (!container) return;
+            if (pgSessionHistory.length === 0) {
+                container.innerHTML = '<div style="text-align: center; padding: 20px; color: var(--text-muted); font-size: 0.8rem;">No records anchored yet this session</div>';
+                return;
+            }
+            container.innerHTML = pgSessionHistory.map(h => `
+                <div class="pg-history-item" onclick="window.open('${h.explorerUrl}', '_blank')">
+                    <div class="pg-history-dot"></div>
+                    <div style="flex: 1; min-width: 0;">
+                        <div style="font-size: 0.82rem; font-weight: 600; margin-bottom: 2px;">${h.recordType.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}</div>
+                        <div style="font-size: 0.72rem; color: var(--text-muted); font-family: 'SF Mono', monospace;">${h.hash}</div>
+                    </div>
+                    <div style="text-align: right; flex-shrink: 0;">
+                        <div style="font-size: 0.72rem; color: var(--accent);"><i class="fas fa-check-circle"></i></div>
+                        <div style="font-size: 0.68rem; color: var(--text-muted);">${h.timestamp}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function copyPgHash() {
+            const hash = pgCurrentHash || (document.getElementById('pgResultHash') ? document.getElementById('pgResultHash').textContent : '');
+            if (hash && hash.length === 64) {
+                navigator.clipboard.writeText(hash).then(() => showNotification('Hash copied to clipboard!', 'success'));
+            }
+        }
+
+        function openPgExplorer() {
+            if (pgLastTxHash) window.open('https://testnet.xrpl.org/transactions/' + pgLastTxHash, '_blank');
+        }
+
+        function showPlaygroundTutorial() {
+            const overlay = document.getElementById('pgTutorialOverlay');
+            if (overlay) { overlay.classList.add('active'); localStorage.setItem('pgTutorialSeen', 'true'); }
+        }
+
+        function closePgTutorial() {
+            const overlay = document.getElementById('pgTutorialOverlay');
+            if (overlay) overlay.classList.remove('active');
+        }
+
         // ===== KEYBOARD SHORTCUTS =====
         document.addEventListener('keydown', function(e) {
             // Don't fire if user is typing in an input
@@ -5396,12 +5995,14 @@
             else if (key === 't') { navigateTo('trade', document.querySelectorAll('.nav-item')[2]); }
             else if (key === 'a') { navigateTo('activity', document.querySelectorAll('.nav-item')[3]); }
             else if (key === 'm') { navigateToScreen('metricsScreen'); }
+            else if (key === 'p') { navigateToScreen('sdkPlaygroundScreen'); initPlaygroundTemplates(); }
             else if (key === 'n') { openModal('addRecordModal'); }
             else if (key === 'd') { toggleTheme(); }
             else if (key === '/') { e.preventDefault(); navigateTo('records'); setTimeout(() => document.getElementById('recordSearchInput')?.focus(), 100); }
             else if (key === 'escape') {
                 const shortcuts = document.getElementById('shortcutsOverlay');
                 if (shortcuts.classList.contains('active')) { shortcuts.classList.remove('active'); }
+                else if (document.getElementById('pgTutorialOverlay')?.classList.contains('active')) { closePgTutorial(); }
                 else { logout(); }
             }
         });
