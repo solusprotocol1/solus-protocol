@@ -16,7 +16,61 @@ def home():
     return '<h1>Solus Protocol Metrics API</h1><p><a href="/metrics">/metrics</a> | <a href="/transactions">/transactions</a></p>'
 
 def categorize_record(memo_data):
-    """Categorize medical records - covers all global healthcare record types"""
+    """Categorize medical records - covers all global healthcare record types.
+    
+    First checks for explicit record_type prefix (e.g., 'SURGERY:hash...'),
+    then falls back to keyword matching for legacy records.
+    """
+    # Check for explicit record_type prefix (new SDK format: RECORD_TYPE:hash)
+    if ':' in memo_data and len(memo_data.split(':')[0]) < 30:
+        explicit_type = memo_data.split(':')[0].upper().replace('_', ' ')
+        # Map explicit types to display names
+        type_map = {
+            'SURGERY': 'Surgery',
+            'VITALS': 'Vitals',
+            'LAB': 'Lab Results',
+            'LAB_RESULTS': 'Lab Results',
+            'IMAGING': 'Imaging',
+            'ALLERGY': 'Allergies',
+            'ALLERGIES': 'Allergies',
+            'PRESCRIPTION': 'Prescription',
+            'RX': 'Prescription',
+            'IMMUNIZATION': 'Immunization',
+            'VACCINE': 'Immunization',
+            'PATIENT_MESSAGE': 'Patient Message',
+            'MESSAGE': 'Patient Message',
+            'CLINICAL_NOTE': 'Clinical Notes',
+            'NOTES': 'Clinical Notes',
+            'DISCHARGE': 'Discharge',
+            'EMERGENCY': 'Emergency',
+            'ER': 'Emergency',
+            'MENTAL_HEALTH': 'Mental Health',
+            'THERAPY': 'Mental Health',
+            'REFERRAL': 'Referral',
+            'CONSULT': 'Referral',
+            'CARE_PLAN': 'Care Plan',
+            'CONSENT': 'Consent',
+            'EPIC': 'EHR Integration',
+            'ORACLE_HEALTH': 'EHR Integration',
+            'CERNER': 'EHR Integration',
+            'MEDITECH': 'EHR Integration',
+            'EHR': 'EHR Integration',
+            'TELEMEDICINE': 'Telemedicine',
+            'TELEHEALTH': 'Telemedicine',
+            'PEDIATRIC': 'Pediatric',
+            'MATERNAL': 'Pediatric',
+            'POST_OP': 'Post-Op',
+            'POSTOP': 'Post-Op',
+            'CHRONIC': 'Chronic Care',
+            'CHRONIC_CARE': 'Chronic Care',
+            'PREVENTIVE': 'Preventive',
+            'WELLNESS': 'Preventive',
+            'ADMIN': 'Administrative',
+        }
+        if explicit_type in type_map:
+            return type_map[explicit_type]
+    
+    # Fall back to keyword matching for legacy records
     memo_lower = memo_data.lower()
     
     # Vitals & Measurements

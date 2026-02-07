@@ -153,12 +153,13 @@ class SolusSDK:
         except Exception as e:
             raise RuntimeError(f"Failed to submit trustline transaction: {e}")
 
-    def store_hash_with_sls_fee(self, hash_value, wallet_seed, fee_sls="0.01", destination=None, rebate_sls="0.005", fiat_mode=False, usd_fee_equiv=0.01, gateway_issuer=None):
+    def store_hash_with_sls_fee(self, hash_value, wallet_seed, fee_sls="0.01", destination=None, rebate_sls="0.005", fiat_mode=False, usd_fee_equiv=0.01, gateway_issuer=None, record_type=None):
         """
         $SLS Utility: Pay micro-fee in $SLS for action, store hash in memo.
         - If fiat_mode=True, simulate USD payment and auto-convert to $SLS.
         - Deducts fee (revenue to treasury).
         - Sends rebate (incentive).
+        - record_type: Optional category prepended to memo (e.g., 'SURGERY:hash...')
         """
         if fiat_mode:
             # Real fiat conversion via XRPL DEX/gateway
@@ -172,13 +173,16 @@ class SolusSDK:
         if destination is None:
             destination = self.treasury_account
 
+        # Build memo data: optionally include record_type for categorization
+        memo_data = f"{record_type}:{hash_value}" if record_type else hash_value
+
         # Pay $SLS fee with hash memo
         amount_sls = IssuedCurrencyAmount(currency="SLS", issuer=self.sls_issuer, value=fee_sls)
         tx_fee = Payment(
             account=wallet.classic_address,
             amount=amount_sls,
             destination=destination,
-            memos=[{"memo": {"memo_data": hash_value}}]
+            memos=[{"memo": {"memo_data": memo_data}}]
         )
         try:
             signed_fee = autofill_and_sign(tx_fee, self.client, wallet)
@@ -191,7 +195,7 @@ class SolusSDK:
                     # Fallback: submit an AccountSet with the memo (does not change account state)
                     tx_memo = AccountSet(
                         account=wallet.classic_address,
-                        memos=[{"memo": {"memo_data": hash_value}}]
+                        memos=[{"memo": {"memo_data": memo_data}}]
                     )
                     signed_memo = autofill_and_sign(tx_memo, self.client, wallet)
                     fee_response = submit_and_wait(signed_memo, self.client)
@@ -211,8 +215,17 @@ class SolusSDK:
 
         return {"fee_tx": fee_response.result, "rebate": rebate_response}
 
-    def secure_patient_record(self, record_text, wallet_seed=None, encrypt_first=False, fiat_mode=False, gateway_issuer=None):
-        """Full workflow: Validate sub, encrypt (optional), hash, store on XRPL with $SLS fee (fiat optional)."""
+    def secure_patient_record(self, record_text, wallet_seed=None, encrypt_first=False, fiat_mode=False, gateway_issuer=None, record_type=None):
+        """Full workflow: Validate sub, encrypt (optional), hash, store on XRPL with $SLS fee (fiat optional).
+        
+        Args:
+            record_text: The medical record content to secure
+            wallet_seed: XRPL wallet seed for signing
+            encrypt_first: If True, encrypt before hashing
+            fiat_mode: If True, use USD subscription mode
+            gateway_issuer: Optional custom gateway issuer
+            record_type: Optional record type for categorization (e.g., 'SURGERY', 'VITALS', 'LAB_RESULTS')
+        """
         # Allow SDK-level wallet_seed to be set at initialization
         wallet_seed = wallet_seed or self.wallet_seed
         if not wallet_seed:
@@ -225,8 +238,8 @@ class SolusSDK:
         if encrypt_first:
             record_text = self.encrypt_data(record_text)
         hash_val = self.create_record_hash(record_text)
-        tx_results = self.store_hash_with_sls_fee(hash_val, wallet_seed, fiat_mode=fiat_mode, gateway_issuer=gateway_issuer)
-        return {"hash": hash_val, "tx_results": tx_results}
+        tx_results = self.store_hash_with_sls_fee(hash_val, wallet_seed, fiat_mode=fiat_mode, gateway_issuer=gateway_issuer, record_type=record_type)
+        return {"hash": hash_val, "tx_results": tx_results, "record_type": record_type}
 
     def wallet_from_seed(self, seed):
         """Create an XRPL Wallet from a given seed, handling ED25519 seeds (sEd...)."""
