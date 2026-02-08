@@ -7103,6 +7103,69 @@
             if (overlay) overlay.classList.remove('active');
         }
 
+        function detectRecordType(text) {
+            const t = text.toLowerCase();
+            const rules = [
+                [/operative report|surgery|cholecystectomy|appendectomy|laparoscop/i, 'surgery_report'],
+                [/anesthesia|propofol|sevoflurane|intubat/i, 'anesthesia'],
+                [/pathology report|specimen|microscopic|gross.*description/i, 'pathology'],
+                [/discharge summary|length of stay|discharge meds/i, 'discharge'],
+                [/history.*physical|hpi|pmh|physical exam.*assessment/i, 'history_physical'],
+                [/progress note|hospital day|subjective.*objective/i, 'progress_note'],
+                [/consultation note|consultant.*requested by/i, 'consultation'],
+                [/procedure note|central line|seldinger|ultrasound.guided/i, 'procedure_note'],
+                [/referral|referred to|referring.*provider/i, 'referral'],
+                [/order set|physician order|admit to.*diet/i, 'order_set'],
+                [/wound care|wound bed|granulation|periwound/i, 'wound_care'],
+                [/medication reconciliation|home medications.*continue/i, 'med_reconciliation'],
+                [/telehealth|telemedicine|video visit/i, 'telehealth'],
+                [/psychiatric|psych.*eval|phq-9.*gad-7|mental status exam/i, 'psych_eval'],
+                [/nursing assessment|shift.*vitals.*i&o|braden score/i, 'nursing_note'],
+                [/death summary|cause of death|time of death|autopsy/i, 'death_summary'],
+                [/clinical note|office visit|cc:.*assessment.*plan|cpt.*icd/i, 'clinical_note'],
+                [/prescription|medication.*directions.*quantity|refills/i, 'prescription'],
+                [/allergy.*update|new allergy|reaction.*severity/i, 'allergy_update'],
+                [/immunization|vaccine|lot.*route.*administered/i, 'immunization'],
+                [/radiology report|x-ray|ct scan|mri|impression.*radiologist/i, 'radiology'],
+                [/radiology order|study.*indication.*priority/i, 'radiology_order'],
+                [/mental health|phq-9|gad-7|depression.*screening/i, 'mental_health'],
+                [/dental|periodontal|probing depth|caries|prophylaxis/i, 'dental'],
+                [/vision|visual acuity|intraocular pressure|retinal/i, 'vision'],
+                [/physical therapy|rom.*flexion|grip strength|pt.*session/i, 'physical_therapy'],
+                [/rehabilitation|rehab.*progress|occupational therapy/i, 'rehab'],
+                [/emergency department|triage|esi-[1-5]|disposition/i, 'emergency'],
+                [/prenatal|gestational age|fetal.*hr|fundal height/i, 'maternity'],
+                [/dermatology|dermoscopy|lesion|biopsy.*skin/i, 'dermatology'],
+                [/cardiology|echocardiogram|ejection fraction|holter/i, 'cardiology'],
+                [/nutrition|dietitian|caloric.*goal|macronutrient/i, 'nutrition'],
+                [/sleep study|polysomnography|ahi.*events|cpap/i, 'sleep_study'],
+                [/genetic test|brca|pharmacogenomics|carrier.*screening/i, 'genetics'],
+                [/informed consent|risks discussed|alternatives|consent obtained/i, 'consent'],
+                [/lab report|cbc|wbc|rbc|hemoglobin|hematocrit|platelets/i, 'lab_result'],
+                [/heart rate|bp.*mmhg|spo2|respiratory rate|vitals/i, 'vitals'],
+                [/fhir.*sync|resources synced|integration log/i, 'integration_log'],
+                [/security audit|access events|authorized.*denied|break.glass/i, 'audit_entry'],
+                [/compliance.*report|hipaa.*score|access controls.*audit/i, 'compliance_report'],
+                [/bulk anchor|batch.*records.*anchor/i, 'bulk_anchor'],
+                [/hl7.*message|adt.*a0[1-9]|ack status/i, 'hl7_message'],
+                [/api.*metrics|api calls|success rate|response time.*p99/i, 'api_metrics'],
+                [/data migration|records migrated|validation.*match rate/i, 'data_migration'],
+                [/backup.*log|backup type|full incremental|checksum/i, 'backup_log'],
+                [/user access review|active users|role distribution|mfa/i, 'user_access'],
+                [/incident report|security incident|unauthorized access/i, 'incident_report'],
+                [/uptime report|overall uptime|sla compliance/i, 'uptime_report'],
+                [/fhir.*export|bulk data export|ndjson/i, 'fhir_export'],
+                [/clinical decision support|cds.*alert|drug.drug interaction/i, 'cds_alert'],
+                [/certification|onc health it|cehrt/i, 'certification'],
+                [/interface.*engine|interface.*status|active interfaces/i, 'interface_map'],
+                [/patch notes|cve-|release type.*security/i, 'patch_notes']
+            ];
+            for (const [pattern, type] of rules) {
+                if (pattern.test(text)) return type;
+            }
+            return 'custom_record';
+        }
+
         async function anchorFromPlayground() {
             if (pgIsAnchoring || !pgCurrentHash) return;
             pgIsAnchoring = true;
@@ -7111,7 +7174,8 @@
             const resultCard = document.getElementById('pgResult');
             const role = currentRole || 'patient';
             const templates = pgTemplates[role] || pgTemplates.patient;
-            const recordType = pgSelectedTemplate !== null ? templates[pgSelectedTemplate].type : 'custom_record';
+            const editorText = document.getElementById('pgRecordEditor')?.value || '';
+            const recordType = pgSelectedTemplate !== null ? templates[pgSelectedTemplate].type : detectRecordType(editorText);
             anchorBtn.disabled = true;
             anchorBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Connecting to XRPL Testnet...';
             if (resultCard) resultCard.style.display = 'none';
@@ -7296,7 +7360,7 @@
             if (!content) { showNotification('Enter record data first', 'error'); return; }
             const role = currentRole || 'patient';
             const templates = pgTemplates[role] || pgTemplates.patient;
-            const recordType = pgSelectedTemplate !== null ? templates[pgSelectedTemplate].type : 'custom_record';
+            const recordType = pgSelectedTemplate !== null ? templates[pgSelectedTemplate].type : detectRecordType(content);
             batchQueue.push({ content, recordType, status: 'pending' });
             renderBatchQueue();
             showNotification('Added to batch queue (' + batchQueue.length + ' records)', 'success');
