@@ -5699,16 +5699,26 @@
         }
 
         // ===== METRICS API (Real Data from metrics_api.py) =====
-        const typeColors = {
-            'Vitals': '#14F195', 'Lab Results': '#9945FF', 'Imaging': '#00C2FF',
-            'Surgery': '#ff6b6b', 'Prescription': '#ffa502', 'Immunization': '#2ed573',
-            'Clinical Notes': '#70a1ff', 'Discharge': '#ff4757', 'Emergency': '#ff3f34',
-            'Mental Health': '#a29bfe', 'Referral': '#fd79a8', 'Care Plan': '#55efc4',
-            'Consent': '#ffeaa7', 'EHR Integration': '#dfe6e9', 'Telemedicine': '#74b9ff',
-            'Pediatric': '#fab1a0', 'Post-Op': '#e17055', 'Chronic Care': '#00cec9',
-            'Preventive': '#81ecec', 'Patient Message': '#6c5ce7', 'Other': '#636e72',
-            'Allergies': '#e84393', 'Administrative': '#b2bec3'
-        };
+        const typeColorPalette = [
+            '#14F195','#9945FF','#00C2FF','#ff6b6b','#ffa502','#2ed573',
+            '#70a1ff','#ff4757','#ff3f34','#a29bfe','#fd79a8','#55efc4',
+            '#ffeaa7','#74b9ff','#fab1a0','#e17055','#00cec9','#81ecec',
+            '#6c5ce7','#e84393','#f368e0','#48dbfb','#ff9ff3','#feca57',
+            '#54a0ff','#5f27cd','#01a3a4','#c44569','#574b90','#f78fb3',
+            '#3dc1d3','#e77f67','#cf6a87','#786fa6','#63cdda','#ea8685'
+        ];
+        const typeColorCache = {};
+        let typeColorIndex = 0;
+        function getTypeColor(type) {
+            if (!type) return '#636e72';
+            const key = type.toLowerCase().replace(/[_\s]+/g, '_');
+            if (typeColorCache[key]) return typeColorCache[key];
+            typeColorCache[key] = typeColorPalette[typeColorIndex % typeColorPalette.length];
+            typeColorIndex++;
+            return typeColorCache[key];
+        }
+        // Backwards-compat: typeColors proxy for old Metrics API labels
+        const typeColors = new Proxy({}, { get: (_, prop) => getTypeColor(prop) });
 
         async function loadMetricsAPI() {
             const loading = document.getElementById('metricsLoading');
@@ -5810,16 +5820,42 @@
 
         function getRecordTypeIcon(type) {
             const icons = {
-                'Vitals': 'heartbeat', 'Lab Results': 'vial', 'Imaging': 'x-ray',
-                'Surgery': 'user-md', 'Prescription': 'pills', 'Immunization': 'syringe',
-                'Clinical Notes': 'file-medical', 'Discharge': 'door-open', 'Emergency': 'ambulance',
+                // Patient types
+                'vitals': 'heartbeat', 'lab_result': 'flask', 'prescription': 'pills',
+                'allergy_update': 'allergies', 'immunization': 'syringe', 'radiology': 'x-ray',
+                'mental_health': 'brain', 'dental': 'tooth', 'vision': 'eye',
+                'physical_therapy': 'walking', 'emergency': 'ambulance', 'maternity': 'baby',
+                'dermatology': 'hand-holding-medical', 'cardiology': 'heart', 'nutrition': 'apple-alt',
+                'sleep_study': 'bed', 'genetics': 'dna', 'rehab': 'dumbbell',
+                'consent': 'file-signature',
+                // Provider types
+                'clinical_note': 'stethoscope', 'surgery_report': 'procedures', 'referral': 'share',
+                'discharge': 'file-medical-alt', 'progress_note': 'notes-medical',
+                'history_physical': 'clipboard-list', 'order_set': 'list-ol',
+                'pathology': 'microscope', 'anesthesia': 'lungs', 'consultation': 'user-md',
+                'procedure_note': 'syringe', 'death_summary': 'cross', 'radiology_order': 'x-ray',
+                'wound_care': 'band-aid', 'med_reconciliation': 'tablets', 'telehealth': 'video',
+                'psych_eval': 'brain', 'nursing_note': 'user-nurse',
+                // EHR types
+                'integration_log': 'plug', 'audit_entry': 'shield-alt', 'compliance_report': 'clipboard-check',
+                'bulk_anchor': 'layer-group', 'hl7_message': 'exchange-alt',
+                'api_metrics': 'tachometer-alt', 'data_migration': 'database',
+                'backup_log': 'hdd', 'user_access': 'users-cog',
+                'incident_report': 'exclamation-triangle', 'uptime_report': 'server',
+                'fhir_export': 'file-export', 'cds_alert': 'bell', 'certification': 'certificate',
+                'interface_map': 'project-diagram', 'patch_notes': 'code-branch',
+                'custom_record': 'file-alt',
+                // Legacy Metrics API labels (title case)
+                'Vitals': 'heartbeat', 'Lab Results': 'flask', 'Imaging': 'x-ray',
+                'Surgery': 'procedures', 'Prescription': 'pills', 'Immunization': 'syringe',
+                'Clinical Notes': 'stethoscope', 'Discharge': 'door-open', 'Emergency': 'ambulance',
                 'Mental Health': 'brain', 'Referral': 'share', 'Care Plan': 'clipboard-list',
                 'Consent': 'file-signature', 'EHR Integration': 'hospital', 'Telemedicine': 'video',
                 'Pediatric': 'baby', 'Post-Op': 'band-aid', 'Chronic Care': 'stethoscope',
-                'Preventive': 'shield-halved', 'Patient Message': 'comment-medical',
-                'Allergies': 'allergies', 'Administrative': 'file-invoice', 'Other': 'file'
+                'Preventive': 'shield-alt', 'Patient Message': 'comment-medical',
+                'Allergies': 'allergies', 'Administrative': 'file-invoice'
             };
-            return icons[type] || 'file';
+            return icons[type] || icons[type?.toLowerCase()?.replace(/\s+/g, '_')] || 'file';
         }
 
         // ===== CONTACT FORM =====
@@ -7813,7 +7849,6 @@
         function renderAnalyticsBreakdown() {
             const container = document.getElementById('analyticsBreakdown');
             if (!container) return;
-            const colors = ['var(--accent)', 'var(--secondary)', 'var(--accent2)', 'var(--warning)', '#ff5252', '#e040fb'];
             const types = {};
             pgSessionHistory.forEach(h => {
                 const t = h.recordType.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
@@ -7825,9 +7860,11 @@
                 types['Integration Log'] = 2; types['Prescription'] = 1;
             }
             const entries = Object.entries(types).sort((a, b) => b[1] - a[1]);
-            container.innerHTML = entries.map((e, i) =>
-                `<div class="analytics-tag"><div class="tag-dot" style="background: ${colors[i % colors.length]};"></div>${e[0]} <span style="color: var(--text-muted); margin-left: 2px;">(${e[1]})</span></div>`
-            ).join('');
+            container.innerHTML = entries.map((e, i) => {
+                const color = getTypeColor(e[0]);
+                const icon = getRecordTypeIcon(e[0].toLowerCase().replace(/\s+/g, '_'));
+                return `<div class="analytics-tag"><div class="tag-dot" style="background: ${color};"></div><i class="fas fa-${icon}" style="color: ${color}; font-size: 0.7rem; margin-right: 3px;"></i>${e[0]} <span style="color: var(--text-muted); margin-left: 2px;">(${e[1]})</span></div>`;
+            }).join('');
         }
 
         // ===== KEYBOARD SHORTCUTS =====
