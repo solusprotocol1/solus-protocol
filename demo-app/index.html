@@ -5248,6 +5248,7 @@
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
             document.getElementById(screenId).classList.add('active');
             if (screenId === 'metricsScreen') loadMetricsAPI();
+            if (screenId === 'analyticsScreen') loadAnalytics();
         }
 
         function showScreen(screenId) {
@@ -7090,6 +7091,7 @@
                 });
                 renderPgHistory();
                 updatePgSessionCounter();
+                updateAnalyticsSession();
 
                 /* Show celebration animation */
                 showAnchorCelebration(txHash);
@@ -7305,6 +7307,7 @@
                     renderBatchQueue();
                     renderPgHistory();
                     updatePgSessionCounter();
+                    updateAnalyticsSession();
                     const histSection = document.getElementById('pgHistorySection');
                     if (histSection) histSection.style.display = 'block';
                 }
@@ -7602,26 +7605,40 @@
 
         // ===== INVESTOR ANALYTICS DASHBOARD =====
         function loadAnalytics() {
-            updateAnalyticsSession();
-            renderAnalyticsChart();
-            renderAnalyticsBreakdown();
+            const sessionCount = pgSessionHistory.length;
+            const costPerAnchor = 0.000012; // XRP base fee × ~$1/XRP
 
-            // Fetch real metrics
+            // Session anchors — always accurate
+            document.getElementById('analyticsSession').textContent = sessionCount;
+
+            // Total Anchors = session count + baseline from API (if available)
+            // Cost per Anchor = fixed XRPL cost
+            document.getElementById('analyticsCost').textContent = '$' + costPerAnchor.toFixed(6);
+
+            // Try to fetch cumulative metrics from API, combine with session
             fetch('https://solusprotocol.onrender.com/metrics')
                 .then(r => r.json())
                 .then(data => {
-                    const total = data.total_records || data.total_transactions || '—';
-                    document.getElementById('analyticsTotal').textContent = total;
-                    document.getElementById('analyticsCost').textContent = '$' + (total * 0.000003).toFixed(4);
+                    const apiTotal = parseInt(data.total_records || data.total_transactions || 0, 10);
+                    const total = (isNaN(apiTotal) ? 0 : apiTotal) + sessionCount;
+                    document.getElementById('analyticsTotal').textContent = total > 0 ? total.toLocaleString() : sessionCount.toString();
                 })
                 .catch(() => {
-                    document.getElementById('analyticsTotal').textContent = pgSessionHistory.length || '—';
-                    document.getElementById('analyticsCost').textContent = '$' + ((pgSessionHistory.length || 0) * 0.000003).toFixed(6);
+                    // API unavailable — show session count as total
+                    document.getElementById('analyticsTotal').textContent = sessionCount > 0 ? sessionCount.toString() : '0';
                 });
+
+            renderAnalyticsChart();
+            renderAnalyticsBreakdown();
         }
 
         function updateAnalyticsSession() {
             document.getElementById('analyticsSession').textContent = pgSessionHistory.length;
+            // Also update total if analytics screen is visible
+            const analyticsScreen = document.getElementById('analyticsScreen');
+            if (analyticsScreen && analyticsScreen.classList.contains('active')) {
+                loadAnalytics();
+            }
         }
 
         function renderAnalyticsChart() {
