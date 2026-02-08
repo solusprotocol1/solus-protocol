@@ -508,15 +508,62 @@
                 <!-- Latest Updates from X -->
                 <div class="mt-4" style="background: rgba(255,255,255,0.03); border-radius: 12px; padding: 25px;">
                     <h4 class="text-center" style="margin-bottom: 20px;"><span style="color: var(--secondary);">📣</span> Latest Updates</h4>
-                    <div style="max-width: 550px; margin: 0 auto; border-radius: 12px; overflow: hidden;">
+                    <div id="xTimelineContainer" style="max-width: 550px; margin: 0 auto; border-radius: 12px; overflow: hidden; min-height: 400px; background: rgba(0,0,0,0.2);">
                         <a class="twitter-timeline" 
                            data-theme="dark" 
                            data-chrome="noheader nofooter noborders transparent" 
                            data-tweet-limit="5"
-                           data-width="100%"
-                           href="https://twitter.com/Solus_Protocol">Posts by @Solus_Protocol</a>
-                        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+                           data-width="550"
+                           data-height="500"
+                           href="https://twitter.com/Solus_Protocol">Loading @Solus_Protocol posts...</a>
                     </div>
+                    <script>
+                        // Load Twitter widgets.js and verify it renders
+                        (function() {
+                            var s = document.createElement('script');
+                            s.src = 'https://platform.twitter.com/widgets.js';
+                            s.charset = 'utf-8';
+                            s.onload = function() {
+                                if (window.twttr && twttr.widgets) {
+                                    twttr.widgets.load(document.getElementById('xTimelineContainer'));
+                                }
+                            };
+                            document.head.appendChild(s);
+
+                            // Fallback: if widget doesn't render after 5s, show styled posts
+                            setTimeout(function() {
+                                var container = document.getElementById('xTimelineContainer');
+                                if (container && !container.querySelector('iframe')) {
+                                    container.innerHTML = '<div style="padding: 0;">' +
+                                        '<div style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 15px; margin-bottom: 12px;">' +
+                                            '<div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">' +
+                                                '<div style="width: 40px; height: 40px; background: linear-gradient(135deg, #14F195, #9945FF); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #fff;">S</div>' +
+                                                '<div><div style="font-weight: 600; color: #fff;">Solus Protocol</div><div style="font-size: 0.8rem; color: #aaa;">@Solus_Protocol</div></div>' +
+                                            '</div>' +
+                                            '<p style="font-size: 0.95rem; margin-bottom: 10px; color: #e0e0e0;">🚀 Solus Protocol v2.9.3c demo app is LIVE. Real SHA-256 hash anchoring to @Ripple\'s XRPL. Not a mockup — working code. Visit solusprotocol.com → Launch Demo App #HealthTech #XRPL</p>' +
+                                            '<a href="https://x.com/Solus_Protocol" target="_blank" style="color: #14F195; font-size: 0.85rem;">View on X →</a>' +
+                                        '</div>' +
+                                        '<div style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 15px; margin-bottom: 12px;">' +
+                                            '<div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">' +
+                                                '<div style="width: 40px; height: 40px; background: linear-gradient(135deg, #14F195, #9945FF); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #fff;">S</div>' +
+                                                '<div><div style="font-weight: 600; color: #fff;">Solus Protocol</div><div style="font-size: 0.8rem; color: #aaa;">@Solus_Protocol</div></div>' +
+                                            '</div>' +
+                                            '<p style="font-size: 0.95rem; margin-bottom: 10px; color: #e0e0e0;">📊 SC Healthcare pilot discussions underway. Building partnerships with MUSC, Prisma Health & more. 1,917× cheaper than legacy verification. $SLS #XRPL #Blockchain</p>' +
+                                            '<a href="https://x.com/Solus_Protocol" target="_blank" style="color: #14F195; font-size: 0.85rem;">View on X →</a>' +
+                                        '</div>' +
+                                        '<div style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 15px;">' +
+                                            '<div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">' +
+                                                '<div style="width: 40px; height: 40px; background: linear-gradient(135deg, #14F195, #9945FF); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #fff;">S</div>' +
+                                                '<div><div style="font-weight: 600; color: #fff;">Solus Protocol</div><div style="font-size: 0.8rem; color: #aaa;">@Solus_Protocol</div></div>' +
+                                            '</div>' +
+                                            '<p style="font-size: 0.95rem; margin-bottom: 10px; color: #e0e0e0;">📄 Whitepaper v4.0 published — 5 new sections: SDK architecture, ROI calculator, partnership strategy, investor analytics & XRPL resilience. Read it on GitHub. #HealthTech</p>' +
+                                            '<a href="https://x.com/Solus_Protocol" target="_blank" style="color: #14F195; font-size: 0.85rem;">View on X →</a>' +
+                                        '</div>' +
+                                    '</div>';
+                                }
+                            }, 5000);
+                        })();
+                    </script>
                     <div class="text-center mt-3">
                         <a href="https://x.com/Solus_Protocol" target="_blank" class="btn-secondary-custom" style="display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px;">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
