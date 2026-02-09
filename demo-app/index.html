@@ -5112,9 +5112,15 @@
                                     <option value="81">Independent Lab (81)</option>
                                 </select>
                             </div>
-                            <button onclick="ehrCheckEligibility()" style="width: 100%; background: rgba(0,200,150,0.12); border: 1px solid rgba(0,200,150,0.3); color: #00c896; padding: 10px; border-radius: 10px; font-size: 0.82rem; font-weight: 600; cursor: pointer; margin-bottom: 10px;">
-                                <i class="fas fa-user-check"></i> Check Insurance Eligibility
-                            </button>
+                            <div style="display:flex;gap:10px;align-items:center;margin-bottom:10px;">
+                                <button onclick="ehrCheckEligibility()" style="flex:1;background: rgba(0,200,150,0.12); border: 1px solid rgba(0,200,150,0.3); color: #00c896; padding: 10px; border-radius: 10px; font-size: 0.82rem; font-weight: 600; cursor: pointer;">
+                                    <i class="fas fa-user-check"></i> Check Eligibility
+                                </button>
+                                <label style="display:flex;align-items:center;gap:6px;font-size:0.72rem;color:var(--text-muted);cursor:pointer;white-space:nowrap;" title="Anchor the 270/271 eligibility response to XRPL for billing dispute & audit proof">
+                                    <input type="checkbox" id="ehrAnchorEligibility" checked style="accent-color:#9945ff;">
+                                    <span>Anchor Proof</span>
+                                </label>
+                            </div>
                             <div id="ehrEligibilityResult" style="display:none;padding:10px;background:rgba(0,200,150,0.06);border:1px solid rgba(0,200,150,0.2);border-radius:10px;margin-bottom:10px;font-size:0.78rem;"></div>
                             <button onclick="ehrSubmitClaim()" style="width: 100%; background: linear-gradient(135deg, #ff6464, #9945ff); color: white; border: none; padding: 12px; border-radius: 10px; font-size: 0.85rem; font-weight: 600; cursor: pointer;">
                                 <i class="fas fa-file-invoice-dollar"></i> Submit Claim & Anchor
@@ -11677,7 +11683,7 @@
         });
 
         // ===== INSURANCE ELIGIBILITY CHECK =====
-        function ehrCheckEligibility() {
+        async function ehrCheckEligibility() {
             const patientId = document.getElementById('ehrClaimPatient').value;
             const payer = document.getElementById('ehrClaimPayer').value;
             if (!patientId) { showToast('Select a patient first'); return; }
@@ -11685,23 +11691,51 @@
             const result = document.getElementById('ehrEligibilityResult');
             result.style.display = 'block';
             const payerNames = {medicare:'Medicare',medicaid:'Medicaid',bcbs:'Blue Cross Blue Shield',united:'UnitedHealthcare',aetna:'Aetna',cigna:'Cigna',humana:'Humana',selfpay:'Self-Pay'};
-            // Simulated eligibility response
+            const shouldAnchor = document.getElementById('ehrAnchorEligibility')?.checked;
+
+            // Simulated 270/271 eligibility response
+            const eligibilityResponse = {
+                transaction_type: 'X12_271',
+                patient_id: patientId,
+                patient_name: patient?.full_name || patientId,
+                payer: payerNames[payer],
+                payer_code: payer,
+                status: 'active',
+                group_number: 'GRP-' + Math.random().toString(36).substr(2,6).toUpperCase(),
+                copay: payer === 'medicare' ? 0 : payer === 'selfpay' ? null : [20,25,30,35,40][Math.floor(Math.random()*5)],
+                deductible: payer === 'medicare' ? 226 : payer === 'selfpay' ? null : [500,1000,1500,2000,2500][Math.floor(Math.random()*5)],
+                deductible_met: Math.random() > 0.4,
+                deductible_remaining: Math.floor(Math.random()*1500),
+                verified_at: new Date().toISOString(),
+                verified_by: 'Solus Protocol EHR'
+            };
+
             result.innerHTML = `
                 <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
                     <i class="fas fa-check-circle" style="color:#00c896;font-size:1.1rem;"></i>
                     <strong style="color:#00c896;">Eligible — Active Coverage</strong>
                 </div>
                 <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:0.72rem;">
-                    <div><span style="color:var(--text-muted);">Patient:</span> ${patient?.full_name || patientId}</div>
-                    <div><span style="color:var(--text-muted);">Payer:</span> ${payerNames[payer]}</div>
-                    <div><span style="color:var(--text-muted);">Group #:</span> GRP-${Math.random().toString(36).substr(2,6).toUpperCase()}</div>
-                    <div><span style="color:var(--text-muted);">Copay:</span> $${payer === 'medicare' ? '0' : payer === 'selfpay' ? 'N/A' : [20,25,30,35,40][Math.floor(Math.random()*5)]}</div>
-                    <div><span style="color:var(--text-muted);">Deductible:</span> $${payer === 'medicare' ? '226' : payer === 'selfpay' ? 'N/A' : [500,1000,1500,2000,2500][Math.floor(Math.random()*5)]}</div>
-                    <div><span style="color:var(--text-muted);">Deductible Met:</span> <span style="color:#00c896;">${Math.random() > 0.4 ? 'Yes' : 'No — $' + Math.floor(Math.random()*1500) + ' remaining'}</span></div>
+                    <div><span style="color:var(--text-muted);">Patient:</span> ${eligibilityResponse.patient_name}</div>
+                    <div><span style="color:var(--text-muted);">Payer:</span> ${eligibilityResponse.payer}</div>
+                    <div><span style="color:var(--text-muted);">Group #:</span> ${eligibilityResponse.group_number}</div>
+                    <div><span style="color:var(--text-muted);">Copay:</span> ${eligibilityResponse.copay !== null ? '$' + eligibilityResponse.copay : 'N/A'}</div>
+                    <div><span style="color:var(--text-muted);">Deductible:</span> ${eligibilityResponse.deductible !== null ? '$' + eligibilityResponse.deductible : 'N/A'}</div>
+                    <div><span style="color:var(--text-muted);">Deductible Met:</span> <span style="color:#00c896;">${eligibilityResponse.deductible_met ? 'Yes' : 'No — $' + eligibilityResponse.deductible_remaining + ' remaining'}</span></div>
                 </div>
+                ${shouldAnchor ? '<div style="margin-top:8px;font-size:0.65rem;color:var(--accent);"><i class="fas fa-link" style="margin-right:4px;"></i>Eligibility proof anchored to XRPL</div>' : ''}
             `;
-            ehrAudit('Eligibility Check', `${patient?.full_name || patientId} — ${payerNames[payer]}: Eligible`);
-            showToast('Insurance eligibility verified', 'success');
+
+            // Optionally anchor the eligibility proof to XRPL
+            if (shouldAnchor) {
+                const hash = await computeSHA256(JSON.stringify(eligibilityResponse));
+                await ehrAnchorToXRPL(hash, 'ELIGIBILITY');
+                ehrAudit('Eligibility Anchored', `${eligibilityResponse.patient_name} — ${eligibilityResponse.payer}: Coverage verified & anchored (${hash.substring(0,16)}...)`);
+                showToast('Eligibility verified & anchored to XRPL', 'success');
+            } else {
+                ehrAudit('Eligibility Check', `${eligibilityResponse.patient_name} — ${eligibilityResponse.payer}: Eligible (not anchored)`);
+                showToast('Insurance eligibility verified', 'success');
+            }
         }
 
         // Claim CSV export
