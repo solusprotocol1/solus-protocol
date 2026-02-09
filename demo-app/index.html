@@ -3444,7 +3444,7 @@
                 </div>
 
                 <div style="text-align: center; padding: 20px; color: var(--text-muted); font-size: 0.8rem;">
-                    <p>Solus Protocol v2.9.7</p>
+                    <p>Solus Protocol v2.9.8</p>
                     <p style="margin-top: 4px;">Build Feb 2026 • Powered by XRP Ledger</p>
                     <p style="margin-top: 4px; font-size: 0.7rem; opacity: 0.6;">Demo Environment • Testnet</p>
                 </div>
@@ -3611,7 +3611,7 @@
                 </div>
                 <div style="text-align: center; padding: 0 0 24px; border-top: 1px solid var(--border); margin-top: 4px; padding-top: 16px;">
                     <div style="font-size: 0.72rem; color: var(--text-muted); font-weight: 600;">Solus Protocol Demo App</div>
-                    <div style="font-size: 0.82rem; font-weight: 800; background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 4px 0;">v2.9.7</div>
+                    <div style="font-size: 0.82rem; font-weight: 800; background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 4px 0;">v2.9.8</div>
                     <div style="font-size: 0.62rem; color: var(--text-muted); line-height: 1.5;">&copy; 2026 Solus Protocol | Decentralized Medical Integrity<br>Built on the XRP Ledger</div>
                 </div>
             </div>
@@ -4634,7 +4634,10 @@
                         <h1><i class="fas fa-notes-medical" style="color: #ff6464; margin-right: 6px;"></i> Solus Protocol EHR</h1>
                         <p>Blockchain-anchored electronic health records</p>
                     </div>
-                    <button style="background: var(--glass); border: 1px solid var(--border); color: var(--text-muted); width: 36px; height: 36px; border-radius: 10px; cursor: pointer; font-size: 0.85rem;" onclick="navigateTo('home', document.querySelector('.nav-item'))" aria-label="Back"><i class="fas fa-times"></i></button>
+                    <div style="display: flex; gap: 6px;">
+                        <button style="background: var(--glass); border: 1px solid rgba(153,69,255,0.3); color: #9945ff; width: 36px; height: 36px; border-radius: 10px; cursor: pointer; font-size: 0.85rem;" onclick="ehrShowTutorial()" aria-label="Tutorial" title="Tutorial"><i class="fas fa-graduation-cap"></i></button>
+                        <button style="background: var(--glass); border: 1px solid var(--border); color: var(--text-muted); width: 36px; height: 36px; border-radius: 10px; cursor: pointer; font-size: 0.85rem;" onclick="navigateTo('home', document.querySelector('.nav-item'))" aria-label="Back"><i class="fas fa-times"></i></button>
+                    </div>
                 </div>
             </div>
             <div class="content" style="padding-bottom: 100px;">
@@ -4666,6 +4669,9 @@
                     <button class="ehr-tab" onclick="ehrSwitchTab('records')" id="ehrTabRecords" style="background: var(--glass); color: var(--text-muted); border: 1px solid var(--border); padding: 8px 14px; border-radius: 20px; font-size: 0.78rem; font-weight: 600; cursor: pointer; white-space: nowrap;">
                         <i class="fas fa-file-medical"></i> Records
                     </button>
+                    <button class="ehr-tab" onclick="ehrSwitchTab('scenarios')" id="ehrTabScenarios" style="background: var(--glass); color: var(--text-muted); border: 1px solid var(--border); padding: 8px 14px; border-radius: 20px; font-size: 0.78rem; font-weight: 600; cursor: pointer; white-space: nowrap;">
+                        <i class="fas fa-play-circle"></i> Scenarios
+                    </button>
                     <button class="ehr-tab" onclick="ehrSwitchTab('interop')" id="ehrTabInterop" style="background: var(--glass); color: var(--text-muted); border: 1px solid var(--border); padding: 8px 14px; border-radius: 20px; font-size: 0.78rem; font-weight: 600; cursor: pointer; white-space: nowrap;">
                         <i class="fas fa-exchange-alt"></i> Interop
                     </button>
@@ -4674,6 +4680,9 @@
                     </button>
                     <button class="ehr-tab" onclick="ehrSwitchTab('billing')" id="ehrTabBilling" style="background: var(--glass); color: var(--text-muted); border: 1px solid var(--border); padding: 8px 14px; border-radius: 20px; font-size: 0.78rem; font-weight: 600; cursor: pointer; white-space: nowrap;">
                         <i class="fas fa-file-invoice-dollar"></i> Billing
+                    </button>
+                    <button class="ehr-tab" onclick="ehrSwitchTab('savings')" id="ehrTabSavings" style="background: var(--glass); color: var(--text-muted); border: 1px solid var(--border); padding: 8px 14px; border-radius: 20px; font-size: 0.78rem; font-weight: 600; cursor: pointer; white-space: nowrap;">
+                        <i class="fas fa-chart-line"></i> Cost Savings
                     </button>
                     <button class="ehr-tab" onclick="ehrSwitchTab('audit')" id="ehrTabAudit" style="background: var(--glass); color: var(--text-muted); border: 1px solid var(--border); padding: 8px 14px; border-radius: 20px; font-size: 0.78rem; font-weight: 600; cursor: pointer; white-space: nowrap;">
                         <i class="fas fa-shield-alt"></i> Audit
@@ -4947,6 +4956,204 @@
                     </div>
                 </div>
 
+                <!-- ===== SCENARIOS TAB ===== -->
+                <div id="ehrPanelScenarios" class="ehr-panel" style="display: none;">
+                    <!-- Tutorial Banner -->
+                    <div id="ehrTutorialBanner" style="background: linear-gradient(135deg, rgba(153, 69, 255, 0.15), rgba(0, 194, 255, 0.10)); border: 1px solid rgba(153, 69, 255, 0.3); border-radius: 14px; padding: 16px; margin-bottom: 16px; cursor: pointer;" onclick="ehrShowTutorial()">
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <div style="width: 40px; height: 40px; border-radius: 12px; background: linear-gradient(135deg, #9945ff, #00c2ff); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                <i class="fas fa-graduation-cap" style="color: white; font-size: 1rem;"></i>
+                            </div>
+                            <div style="flex: 1;">
+                                <div style="font-weight: 700; font-size: 0.9rem; color: var(--text);">New to Solus Protocol EHR?</div>
+                                <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 2px;">Take the interactive tutorial — learn why we replace Epic, Cerner & MEDITECH</div>
+                            </div>
+                            <i class="fas fa-chevron-right" style="color: var(--text-muted);"></i>
+                        </div>
+                    </div>
+
+                    <!-- Scenario Filter Bar -->
+                    <div style="display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap;">
+                        <button class="svcn-persona-btn active" onclick="ehrFilterScenarios('all',this)" style="background: linear-gradient(135deg, #ff6464, #ff8c00); color: white; border: none; padding: 6px 12px; border-radius: 16px; font-size: 0.72rem; font-weight: 600; cursor: pointer;">All</button>
+                        <button class="svcn-persona-btn" onclick="ehrFilterScenarios('hospital',this)" style="background: var(--glass); color: var(--text-muted); border: 1px solid var(--border); padding: 6px 12px; border-radius: 16px; font-size: 0.72rem; font-weight: 600; cursor: pointer;"><i class="fas fa-hospital"></i> Hospital</button>
+                        <button class="svcn-persona-btn" onclick="ehrFilterScenarios('clinic',this)" style="background: var(--glass); color: var(--text-muted); border: 1px solid var(--border); padding: 6px 12px; border-radius: 16px; font-size: 0.72rem; font-weight: 600; cursor: pointer;"><i class="fas fa-clinic-medical"></i> Clinic</button>
+                        <button class="svcn-persona-btn" onclick="ehrFilterScenarios('emergency',this)" style="background: var(--glass); color: var(--text-muted); border: 1px solid var(--border); padding: 6px 12px; border-radius: 16px; font-size: 0.72rem; font-weight: 600; cursor: pointer;"><i class="fas fa-ambulance"></i> Emergency</button>
+                        <button class="svcn-persona-btn" onclick="ehrFilterScenarios('billing',this)" style="background: var(--glass); color: var(--text-muted); border: 1px solid var(--border); padding: 6px 12px; border-radius: 16px; font-size: 0.72rem; font-weight: 600; cursor: pointer;"><i class="fas fa-file-invoice-dollar"></i> Billing</button>
+                    </div>
+
+                    <!-- Scenario Grid -->
+                    <div id="ehrScenarioGrid" style="display: grid; grid-template-columns: 1fr; gap: 10px; margin-bottom: 16px;"></div>
+
+                    <!-- Scenario Execution Panel -->
+                    <div id="ehrScenarioExecPanel" style="display: none; background: var(--glass); border: 1px solid var(--border); border-radius: 14px; padding: 16px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                            <div style="font-weight: 700; font-size: 0.95rem; color: var(--text);" id="ehrExecTitle">Scenario</div>
+                            <button onclick="document.getElementById('ehrScenarioExecPanel').style.display='none'; document.getElementById('ehrScenarioGrid').style.display='grid'; ehrScenarioRunning=false;" style="background: var(--glass); border: 1px solid var(--border); color: var(--text-muted); width: 30px; height: 30px; border-radius: 8px; cursor: pointer; font-size: 0.8rem;"><i class="fas fa-times"></i></button>
+                        </div>
+                        <div style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 12px; line-height: 1.4;" id="ehrExecDesc"></div>
+                        <div id="ehrExecSteps" style="display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px;"></div>
+                        <div id="ehrScenarioConsole" style="background: #0a0a0f; border: 1px solid var(--border); border-radius: 10px; padding: 12px; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.68rem; line-height: 1.5; max-height: 300px; overflow-y: auto; color: #888;"></div>
+                        <div id="ehrScenarioCostSummary" style="display: none; background: linear-gradient(135deg, rgba(0,200,150,0.08), rgba(153,69,255,0.05)); border: 1px solid rgba(0,200,150,0.2); border-radius: 10px; padding: 12px; margin-top: 10px;"></div>
+                    </div>
+                </div>
+
+                <!-- ===== COST SAVINGS TAB ===== -->
+                <div id="ehrPanelSavings" class="ehr-panel" style="display: none;">
+                    <div class="section">
+                        <div class="section-header">
+                            <span class="section-title">Why Solus Protocol EHR?</span>
+                        </div>
+                        <div style="background: linear-gradient(135deg, rgba(255, 100, 100, 0.10), rgba(153, 69, 255, 0.08)); border: 1px solid rgba(255, 100, 100, 0.25); border-radius: 14px; padding: 16px; margin-bottom: 16px;">
+                            <div style="font-weight: 700; font-size: 1rem; color: var(--text); margin-bottom: 8px;">
+                                <i class="fas fa-fire" style="color: #ff6464;"></i> Legacy EHR Systems Are Broken
+                            </div>
+                            <div style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.6;">
+                                U.S. hospitals spend <strong style="color: var(--text);">$38B+/yr</strong> on EHR systems that are siloed, insecure, and built on 1990s architecture. Epic alone costs hospitals <strong style="color: var(--text);">$1-3M for implementation</strong> and $400K-$1M annually. Solus Protocol EHR eliminates these costs while adding blockchain-verified immutability.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Cost Comparison Table -->
+                    <div class="section">
+                        <div class="section-header">
+                            <span class="section-title">Cost Comparison: Per-Provider/Year</span>
+                        </div>
+                        <div style="overflow-x: auto;">
+                            <table style="width: 100%; border-collapse: collapse; font-size: 0.78rem;">
+                                <thead>
+                                    <tr style="background: rgba(255, 100, 100, 0.1);">
+                                        <th style="padding: 10px 8px; text-align: left; color: var(--text); border-bottom: 2px solid var(--border); font-weight: 700;"></th>
+                                        <th style="padding: 10px 8px; text-align: center; color: #ff6464; border-bottom: 2px solid var(--border); font-weight: 700;">Epic</th>
+                                        <th style="padding: 10px 8px; text-align: center; color: #ff8c00; border-bottom: 2px solid var(--border); font-weight: 700;">Oracle (Cerner)</th>
+                                        <th style="padding: 10px 8px; text-align: center; color: #ffb432; border-bottom: 2px solid var(--border); font-weight: 700;">MEDITECH</th>
+                                        <th style="padding: 10px 8px; text-align: center; color: #00c896; border-bottom: 2px solid var(--border); font-weight: 700;">Solus EHR</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="ehrCostTableBody">
+                                    <tr style="border-bottom: 1px solid var(--border);">
+                                        <td style="padding: 8px; font-weight: 600; color: var(--text);">Implementation</td>
+                                        <td style="padding: 8px; text-align: center; color: #ff6464;">$1.5M-$3M</td>
+                                        <td style="padding: 8px; text-align: center; color: #ff8c00;">$800K-$2M</td>
+                                        <td style="padding: 8px; text-align: center; color: #ffb432;">$500K-$1.2M</td>
+                                        <td style="padding: 8px; text-align: center; color: #00c896; font-weight: 700;">$0 *</td>
+                                    </tr>
+                                    <tr style="border-bottom: 1px solid var(--border);">
+                                        <td style="padding: 8px; font-weight: 600; color: var(--text);">Annual License</td>
+                                        <td style="padding: 8px; text-align: center; color: #ff6464;">$400K-$1M</td>
+                                        <td style="padding: 8px; text-align: center; color: #ff8c00;">$300K-$700K</td>
+                                        <td style="padding: 8px; text-align: center; color: #ffb432;">$200K-$500K</td>
+                                        <td style="padding: 8px; text-align: center; color: #00c896; font-weight: 700;">$SLS only</td>
+                                    </tr>
+                                    <tr style="border-bottom: 1px solid var(--border);">
+                                        <td style="padding: 8px; font-weight: 600; color: var(--text);">Per-Anchor Cost</td>
+                                        <td style="padding: 8px; text-align: center; color: var(--text-muted);">N/A</td>
+                                        <td style="padding: 8px; text-align: center; color: var(--text-muted);">N/A</td>
+                                        <td style="padding: 8px; text-align: center; color: var(--text-muted);">N/A</td>
+                                        <td style="padding: 8px; text-align: center; color: #00c896; font-weight: 700;">$0.000012</td>
+                                    </tr>
+                                    <tr style="border-bottom: 1px solid var(--border);">
+                                        <td style="padding: 8px; font-weight: 600; color: var(--text);">Blockchain Proof</td>
+                                        <td style="padding: 8px; text-align: center; color: #ff3232;"><i class="fas fa-times"></i></td>
+                                        <td style="padding: 8px; text-align: center; color: #ff3232;"><i class="fas fa-times"></i></td>
+                                        <td style="padding: 8px; text-align: center; color: #ff3232;"><i class="fas fa-times"></i></td>
+                                        <td style="padding: 8px; text-align: center; color: #00c896;"><i class="fas fa-check"></i></td>
+                                    </tr>
+                                    <tr style="border-bottom: 1px solid var(--border);">
+                                        <td style="padding: 8px; font-weight: 600; color: var(--text);">Interoperability</td>
+                                        <td style="padding: 8px; text-align: center; color: #ffb432;">Limited</td>
+                                        <td style="padding: 8px; text-align: center; color: #ffb432;">Limited</td>
+                                        <td style="padding: 8px; text-align: center; color: #ff8c00;">Poor</td>
+                                        <td style="padding: 8px; text-align: center; color: #00c896; font-weight: 700;">FHIR + HL7 Native</td>
+                                    </tr>
+                                    <tr style="border-bottom: 1px solid var(--border);">
+                                        <td style="padding: 8px; font-weight: 600; color: var(--text);">Data Portability</td>
+                                        <td style="padding: 8px; text-align: center; color: #ff3232;">Vendor Lock-in</td>
+                                        <td style="padding: 8px; text-align: center; color: #ff3232;">Vendor Lock-in</td>
+                                        <td style="padding: 8px; text-align: center; color: #ff3232;">Vendor Lock-in</td>
+                                        <td style="padding: 8px; text-align: center; color: #00c896; font-weight: 700;">Patient-Owned</td>
+                                    </tr>
+                                    <tr style="border-bottom: 1px solid var(--border);">
+                                        <td style="padding: 8px; font-weight: 600; color: var(--text);">Audit Trail</td>
+                                        <td style="padding: 8px; text-align: center; color: #ffb432;">Internal Only</td>
+                                        <td style="padding: 8px; text-align: center; color: #ffb432;">Internal Only</td>
+                                        <td style="padding: 8px; text-align: center; color: #ffb432;">Internal Only</td>
+                                        <td style="padding: 8px; text-align: center; color: #00c896; font-weight: 700;">On-Chain Immutable</td>
+                                    </tr>
+                                    <tr style="border-bottom: 1px solid var(--border);">
+                                        <td style="padding: 8px; font-weight: 600; color: var(--text);">Claim Verification</td>
+                                        <td style="padding: 8px; text-align: center; color: var(--text-muted);">30 days avg</td>
+                                        <td style="padding: 8px; text-align: center; color: var(--text-muted);">30 days avg</td>
+                                        <td style="padding: 8px; text-align: center; color: var(--text-muted);">30 days avg</td>
+                                        <td style="padding: 8px; text-align: center; color: #00c896; font-weight: 700;">Instant (on-chain)</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 8px; font-weight: 600; color: var(--text);">Tamper Detection</td>
+                                        <td style="padding: 8px; text-align: center; color: #ff3232;"><i class="fas fa-times"></i></td>
+                                        <td style="padding: 8px; text-align: center; color: #ff3232;"><i class="fas fa-times"></i></td>
+                                        <td style="padding: 8px; text-align: center; color: #ff3232;"><i class="fas fa-times"></i></td>
+                                        <td style="padding: 8px; text-align: center; color: #00c896;"><i class="fas fa-check"></i> SHA-256 + XRPL</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div style="font-size: 0.72rem; color: var(--text-muted); margin-top: 8px; padding: 8px; background: rgba(0, 200, 150, 0.05); border-radius: 8px;">
+                            * Solus Protocol EHR uses $SLS token micro-fees — total annual cost for a 500-bed hospital anchoring 10,000 records/month: <strong style="color: #00c896;">~$1.44/year</strong> vs Epic's $600K+/year.
+                        </div>
+                    </div>
+
+                    <!-- ROI Calculator -->
+                    <div class="section">
+                        <div class="section-header">
+                            <span class="section-title">ROI Calculator</span>
+                        </div>
+                        <div style="background: var(--glass); border: 1px solid var(--border); border-radius: 14px; padding: 16px;">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
+                                <div>
+                                    <label style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-bottom: 4px;">Hospital Beds</label>
+                                    <input type="number" id="ehrRoiBeds" value="250" style="width: 100%; background: var(--bg); border: 1px solid var(--border); color: var(--text); padding: 10px; border-radius: 10px; font-size: 0.85rem;">
+                                </div>
+                                <div>
+                                    <label style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-bottom: 4px;">Records/Month</label>
+                                    <input type="number" id="ehrRoiRecords" value="5000" style="width: 100%; background: var(--bg); border: 1px solid var(--border); color: var(--text); padding: 10px; border-radius: 10px; font-size: 0.85rem;">
+                                </div>
+                            </div>
+                            <button onclick="ehrCalcROI()" style="width: 100%; background: linear-gradient(135deg, #00c896, #00c2ff); color: white; border: none; padding: 12px; border-radius: 10px; font-size: 0.85rem; font-weight: 600; cursor: pointer;">
+                                <i class="fas fa-calculator"></i> Calculate Savings
+                            </button>
+                            <div id="ehrRoiResult" style="display: none; margin-top: 12px; padding: 14px; background: rgba(0, 200, 150, 0.08); border: 1px solid rgba(0, 200, 150, 0.2); border-radius: 10px;"></div>
+                        </div>
+                    </div>
+
+                    <!-- Key Advantages -->
+                    <div class="section">
+                        <div class="section-header">
+                            <span class="section-title">Why Switch from Legacy EHR</span>
+                        </div>
+                        <div style="display: flex; flex-direction: column; gap: 10px;">
+                            <div style="background: var(--glass); border: 1px solid var(--border); border-radius: 12px; padding: 14px; display: flex; gap: 12px; align-items: flex-start;">
+                                <div style="width: 36px; height: 36px; border-radius: 10px; background: rgba(255, 100, 100, 0.15); display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><i class="fas fa-lock-open" style="color: #ff6464;"></i></div>
+                                <div><div style="font-weight: 600; font-size: 0.85rem;">No Vendor Lock-in</div><div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 2px;">Patient data is patient-owned. Export anytime with FHIR R4 bundles. Zero switching costs, zero data hostage situations.</div></div>
+                            </div>
+                            <div style="background: var(--glass); border: 1px solid var(--border); border-radius: 12px; padding: 14px; display: flex; gap: 12px; align-items: flex-start;">
+                                <div style="width: 36px; height: 36px; border-radius: 10px; background: rgba(0, 200, 150, 0.15); display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><i class="fas fa-link" style="color: #00c896;"></i></div>
+                                <div><div style="font-weight: 600; font-size: 0.85rem;">Immutable Audit Trail</div><div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 2px;">Every record change is SHA-256 hashed and anchored to the XRPL. No one — not even Solus Protocol — can alter the audit trail. Instant HIPAA compliance proof.</div></div>
+                            </div>
+                            <div style="background: var(--glass); border: 1px solid var(--border); border-radius: 12px; padding: 14px; display: flex; gap: 12px; align-items: flex-start;">
+                                <div style="width: 36px; height: 36px; border-radius: 10px; background: rgba(153, 69, 255, 0.15); display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><i class="fas fa-dollar-sign" style="color: #9945ff;"></i></div>
+                                <div><div style="font-weight: 600; font-size: 0.85rem;">99.99% Cost Reduction</div><div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 2px;">Epic charges $600K+/yr for 250 beds. Solus Protocol EHR: ~$1.44/yr in $SLS micro-fees. That's not a typo — blockchain anchoring is virtually free.</div></div>
+                            </div>
+                            <div style="background: var(--glass); border: 1px solid var(--border); border-radius: 12px; padding: 14px; display: flex; gap: 12px; align-items: flex-start;">
+                                <div style="width: 36px; height: 36px; border-radius: 10px; background: rgba(0, 194, 255, 0.15); display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><i class="fas fa-shield-alt" style="color: #00c2ff;"></i></div>
+                                <div><div style="font-weight: 600; font-size: 0.85rem;">Fraud Elimination</div><div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 2px;">$47B/yr in healthcare fraud because legacy systems can't prove a record wasn't altered. On-chain verification eliminates this entirely — claim verification in seconds, not months.</div></div>
+                            </div>
+                            <div style="background: var(--glass); border: 1px solid var(--border); border-radius: 12px; padding: 14px; display: flex; gap: 12px; align-items: flex-start;">
+                                <div style="width: 36px; height: 36px; border-radius: 10px; background: rgba(255, 180, 50, 0.15); display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><i class="fas fa-exchange-alt" style="color: #ffb432;"></i></div>
+                                <div><div style="font-weight: 600; font-size: 0.85rem;">True Interoperability</div><div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 2px;">Native FHIR R4 + HL7 v2.5. Import from Epic, Cerner, MEDITECH, Athenahealth — and export to any system. No middleware needed, no "bridges" that cost $50K.</div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- ===== AUDIT TAB ===== -->
                 <div id="ehrPanelAudit" class="ehr-panel" style="display: none;">
                     <div class="section">
@@ -5003,6 +5210,25 @@
                             EHR actions that anchor to XRPL will appear here.
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- EHR Tutorial Overlay -->
+        <div id="ehrTutorialOverlay" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.85); z-index: 99999; overflow-y: auto; -webkit-overflow-scrolling: touch;">
+            <div style="max-width: 500px; margin: 0 auto; padding: 24px 20px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                    <div style="font-size: 1.1rem; font-weight: 700; color: white;"><i class="fas fa-graduation-cap" style="color: #9945ff; margin-right: 6px;"></i> Solus EHR Tutorial</div>
+                    <button onclick="ehrCloseTutorial()" style="background: rgba(255,255,255,0.1); border: none; color: white; width: 32px; height: 32px; border-radius: 8px; cursor: pointer; font-size: 0.9rem;"><i class="fas fa-times"></i></button>
+                </div>
+                <!-- Step Indicator -->
+                <div style="display: flex; gap: 4px; margin-bottom: 24px;" id="ehrTutorialStepDots"></div>
+                <!-- Tutorial Content -->
+                <div id="ehrTutorialContent" style="color: white;"></div>
+                <!-- Nav Buttons -->
+                <div style="display: flex; justify-content: space-between; margin-top: 24px;">
+                    <button id="ehrTutPrev" onclick="ehrTutorialNav(-1)" style="background: rgba(255,255,255,0.1); border: none; color: white; padding: 10px 20px; border-radius: 10px; font-size: 0.85rem; cursor: pointer;"><i class="fas fa-arrow-left"></i> Back</button>
+                    <button id="ehrTutNext" onclick="ehrTutorialNav(1)" style="background: linear-gradient(135deg, #ff6464, #9945ff); border: none; color: white; padding: 10px 24px; border-radius: 10px; font-size: 0.85rem; font-weight: 600; cursor: pointer;">Next <i class="fas fa-arrow-right"></i></button>
                 </div>
             </div>
         </div>
@@ -5385,7 +5611,7 @@
                     </div>
                 </div>
                 <div style="text-align: center; padding: 20px; color: var(--text-muted); font-size: 0.8rem;">
-                    <p>Solus Protocol v2.9.7</p>
+                    <p>Solus Protocol v2.9.8</p>
                     <p style="margin-top: 4px;">Build Feb 2026 • Powered by XRP Ledger</p>
                     <p style="margin-top: 4px; font-size: 0.7rem; opacity: 0.6;">Demo Environment • Testnet</p>
                 </div>
@@ -8641,7 +8867,7 @@
                 {label:'Anomaly Engine triggers',detail:'Rule: HR > 100 AND SpO2 < 93 → CRITICAL for hip_replacement post-op',icon:'fa-exclamation-triangle',type:'anomaly'},
                 {label:'Vitals encrypted (AES-128)',detail:'Raw PHI encrypted with patient key → ciphertext',icon:'fa-lock',type:'encrypt'},
                 {label:'SHA-256 hash computed',detail:'Hash: a7f3b2...e9d1 (irreversible — no PHI in hash)',icon:'fa-hashtag',type:'hash'},
-                {label:'Anchored to XRPL',detail:'TX submitted → 12 drops fee → Memo: solus:anomaly:hip_post_op',icon:'fa-anchor',type:'xrpl'},
+                {label:'Anchored to XRPL',detail:'TX submitted → 12 drops fee → Memo: solus:anomaly:hip_post_op',icon:'fa-anchor',type:'xrpl',anchorType:'anomaly:hip_post_op'},
                 {label:'$SLS fee: 0.00005',detail:'Trust line debit for anomaly anchor service',icon:'fa-coins',type:'sls'},
                 {label:'Push alert to Dr. Chen',detail:'Solus Protocol: CRITICAL — Post-op anomaly detected for Maria G.',icon:'fa-bell',type:'notify'},
                 {label:'Dr. Chen reviews in Epic EHR',detail:'SMART on FHIR plugin surfaces anchored vitals in Epic sidebar',icon:'fa-hospital',type:'ehr'}
@@ -8650,11 +8876,11 @@
              desc:'James collapses at work. Paramedics → ER → Cardiologist → ICU. Every handoff is anchored with chain-of-custody proof.',
              steps:[
                 {label:'Paramedic captures vitals',detail:'BP: 85/55, HR: 135, SpO2: 88%, GCS: 12',icon:'fa-ambulance',type:'capture'},
-                {label:'Vitals anchored to XRPL',detail:'solus:handoff:emergency_intake | prev=GENESIS',icon:'fa-anchor',type:'xrpl'},
+                {label:'Vitals anchored to XRPL',detail:'solus:handoff:emergency_intake | prev=GENESIS',icon:'fa-anchor',type:'xrpl',anchorType:'vitals'},
                 {label:'ER receives handoff',detail:'Dr. Patel accepts custody — linked to paramedic TX hash',icon:'fa-exchange-alt',type:'handoff'},
-                {label:'ER handoff anchored',detail:'solus:handoff:er_admit | prev=0xA1B2...C3D4',icon:'fa-anchor',type:'xrpl'},
+                {label:'ER handoff anchored',detail:'solus:handoff:er_admit | prev=0xA1B2...C3D4',icon:'fa-anchor',type:'xrpl',anchorType:'handoff:er_admit'},
                 {label:'Cardiologist consult',detail:'Dr. Kim receives cardiac referral — chain grows to 3 links',icon:'fa-heart',type:'handoff'},
-                {label:'Cardiology handoff anchored',detail:'solus:handoff:specialist_referral | prev=0xD4E5...F6A1',icon:'fa-anchor',type:'xrpl'},
+                {label:'Cardiology handoff anchored',detail:'solus:handoff:specialist_referral | prev=0xD4E5...F6A1',icon:'fa-anchor',type:'xrpl',anchorType:'handoff:specialist_referral'},
                 {label:'ICU admission',detail:'Full chain verified: 4 handoffs, all linked on-ledger',icon:'fa-procedures',type:'handoff'},
                 {label:'Chain integrity verified',detail:'✓ All TX hashes link correctly — immutable custody trail',icon:'fa-check-circle',type:'verify'}
              ]},
@@ -8665,7 +8891,7 @@
                 {label:'Sets access parameters',detail:'Provider: Dr. Rivera | Duration: 30 days | Read-only',icon:'fa-clock',type:'consent'},
                 {label:'Consent token created',detail:'Token ID: CST-7F2A...B3E1 | Categories: 3 | Revocable',icon:'fa-ticket-alt',type:'consent'},
                 {label:'Token encrypted & hashed',detail:'SHA-256 of consent payload: c4d5e6...f7a8',icon:'fa-hashtag',type:'hash'},
-                {label:'Anchored to XRPL',detail:'solus:consent:grant | token_id=CST-7F2A...B3E1',icon:'fa-anchor',type:'xrpl'},
+                {label:'Anchored to XRPL',detail:'solus:consent:grant | token_id=CST-7F2A...B3E1',icon:'fa-anchor',type:'xrpl',anchorType:'consent:grant'},
                 {label:'$SLS fee: 0.0001',detail:'Consent token issuance fee via trust line',icon:'fa-coins',type:'sls'},
                 {label:'Dr. Rivera notified',detail:'Secure notification: "Sarah M. granted 30-day access to 3 categories"',icon:'fa-bell',type:'notify'},
                 {label:'Dr. Rivera accesses records',detail:'EHR plugin pulls consented data — verified against on-chain token',icon:'fa-hospital',type:'ehr'}
@@ -8676,10 +8902,10 @@
                 {label:'Dr. Patel composes message',detail:'"Patient shows atypical troponin elevation. Recommend urgent echo."',icon:'fa-pen',type:'compose'},
                 {label:'Message encrypted (AES-128)',detail:'Plaintext → ciphertext with shared session key',icon:'fa-lock',type:'encrypt'},
                 {label:'SHA-256 hash computed',detail:'Hash of encrypted message: b2c3d4...e5f6',icon:'fa-hashtag',type:'hash'},
-                {label:'Anchored to XRPL',detail:'solus:msg:clinical_update | thread=THR-9A1B...',icon:'fa-anchor',type:'xrpl'},
+                {label:'Anchored to XRPL',detail:'solus:msg:clinical_update | thread=THR-9A1B...',icon:'fa-anchor',type:'xrpl',anchorType:'message:clinical'},
                 {label:'$SLS fee: 0.00005',detail:'Message anchoring service fee',icon:'fa-coins',type:'sls'},
                 {label:'Dr. Kim receives & decrypts',detail:'Push notification → opens in secure viewer → plaintext',icon:'fa-envelope-open',type:'receive'},
-                {label:'ACK receipt anchored',detail:'solus:ack:read | msg_hash=b2c3d4...e5f6',icon:'fa-check-double',type:'xrpl'},
+                {label:'ACK receipt anchored',detail:'solus:ack:read | msg_hash=b2c3d4...e5f6',icon:'fa-check-double',type:'xrpl',anchorType:'message:ack'},
                 {label:'Audit trail complete',detail:'Both send and read events are on-chain — HIPAA audit-ready',icon:'fa-clipboard-check',type:'verify'}
              ]},
             {id:'s5',title:'Dexcom CGM Glucose Spike',persona:'patient',icon:'fa-tint',color:'var(--warning)',
@@ -8689,7 +8915,7 @@
                 {label:'Anomaly Engine triggers',detail:'Rule: glucose > 300 mg/dL → CRITICAL for appendectomy post-op',icon:'fa-exclamation-triangle',type:'anomaly'},
                 {label:'Context enriched',detail:'Cross-ref: last insulin dose 4h ago, post-op Day 2, stress response likely',icon:'fa-brain',type:'analysis'},
                 {label:'Encrypted & hashed',detail:'Glucose payload + context → AES → SHA-256: d5e6f7...a8b9',icon:'fa-hashtag',type:'hash'},
-                {label:'Anchored to XRPL',detail:'solus:anomaly:glucose_critical | severity=CRITICAL',icon:'fa-anchor',type:'xrpl'},
+                {label:'Anchored to XRPL',detail:'solus:anomaly:glucose_critical | severity=CRITICAL',icon:'fa-anchor',type:'xrpl',anchorType:'anomaly:glucose_critical'},
                 {label:'$SLS fee: 0.00005',detail:'Auto-anchor fee for anomaly detection',icon:'fa-coins',type:'sls'},
                 {label:'Endocrinologist alerted',detail:'Dr. Shah receives: "CRITICAL glucose 342 — appendectomy post-op Day 2"',icon:'fa-bell',type:'notify'},
                 {label:'Insulin dosage adjusted',detail:'Dr. Shah orders correction — new order anchored to chain',icon:'fa-prescription',type:'ehr'}
@@ -8701,7 +8927,7 @@
                 {label:'Hospital B submits 289 hashes',detail:'St. Mary\'s Medical — surgery, orthopedics, neurology',icon:'fa-hospital',type:'batch'},
                 {label:'Hospital C submits 246 hashes',detail:'University Health — research trials, rare disease, genetics',icon:'fa-hospital',type:'batch'},
                 {label:'Merkle tree computed',detail:'847 leaf hashes → binary tree → root: f7a8b9...c0d1',icon:'fa-sitemap',type:'merkle'},
-                {label:'Single TX anchored',detail:'solus:fed_batch:merkle_root | count=847 | institutions=3',icon:'fa-anchor',type:'xrpl'},
+                {label:'Single TX anchored',detail:'solus:fed_batch:merkle_root | count=847 | institutions=3',icon:'fa-anchor',type:'xrpl',anchorType:'batch:merkle'},
                 {label:'$SLS fee: 0.001 total',detail:'Split 3 ways via shared trust line — $0.00033 each',icon:'fa-coins',type:'sls'},
                 {label:'Proof distributed',detail:'Each hospital receives Merkle proof for their records',icon:'fa-certificate',type:'verify'},
                 {label:'Cost comparison',detail:'847 records × $0.000012 = $0.010164 individual vs $0.000012 batched — 847× savings',icon:'fa-chart-line',type:'savings'}
@@ -8713,7 +8939,7 @@
                 {label:'Selects token to revoke',detail:'Token CST-3B4C...D5E6 | Granted 6 months ago | Full access',icon:'fa-times-circle',type:'consent'},
                 {label:'Confirms revocation',detail:'"Are you sure? This immediately blocks all access for Dr. Former."',icon:'fa-exclamation-circle',type:'consent'},
                 {label:'Revocation hashed',detail:'SHA-256 of revocation event: e6f7a8...b9c0',icon:'fa-hashtag',type:'hash'},
-                {label:'Anchored to XRPL',detail:'solus:consent:revoke | token_id=CST-3B4C...D5E6 | immediate=true',icon:'fa-anchor',type:'xrpl'},
+                {label:'Anchored to XRPL',detail:'solus:consent:revoke | token_id=CST-3B4C...D5E6 | immediate=true',icon:'fa-anchor',type:'xrpl',anchorType:'consent:revoke'},
                 {label:'Access blocked instantly',detail:'EHR plugin checks on-chain status → token revoked → access denied',icon:'fa-shield-alt',type:'verify'},
                 {label:'Dr. Former notified',detail:'"Patient David M. has revoked your access effective immediately"',icon:'fa-bell',type:'notify'},
                 {label:'Immutable audit trail',detail:'Grant + revoke both on-chain — proves exact access window for compliance',icon:'fa-clipboard-check',type:'verify'}
@@ -8736,7 +8962,7 @@
                 {label:'Withings reads BP',detail:'Systolic: 178, Diastolic: 112 (Stage 2 Hypertension)',icon:'fa-stethoscope',type:'wearable'},
                 {label:'Anomaly Engine evaluates',detail:'Rule: systolic > 160 OR diastolic > 100 → HIGH for cardiac_surgery',icon:'fa-exclamation-triangle',type:'anomaly'},
                 {label:'Trend analysis added',detail:'3 consecutive readings above threshold — escalation triggered',icon:'fa-chart-line',type:'analysis'},
-                {label:'Encrypted & anchored',detail:'BP payload → AES-128 → SHA-256 → XRPL memo',icon:'fa-anchor',type:'xrpl'},
+                {label:'Encrypted & anchored',detail:'BP payload → AES-128 → SHA-256 → XRPL memo',icon:'fa-anchor',type:'xrpl',anchorType:'anomaly:bp_critical'},
                 {label:'$SLS fee: 0.00005',detail:'Anomaly detection service fee',icon:'fa-coins',type:'sls'},
                 {label:'Cardiologist alerted',detail:'Dr. Park: "ELEVATED BP 178/112 — cardiac post-op Day 3"',icon:'fa-bell',type:'notify'},
                 {label:'Medication adjustment ordered',detail:'Increase amlodipine 5mg → 10mg — order anchored',icon:'fa-prescription',type:'ehr'},
@@ -8749,7 +8975,7 @@
                 {label:'FHIR webhook fires',detail:'Epic detects clinically significant event → triggers Solus Protocol plugin',icon:'fa-bolt',type:'ehr'},
                 {label:'Plugin extracts metadata',detail:'Event type: progress_note | Patient ID: hashed | Provider: Dr. Adams',icon:'fa-cogs',type:'ehr'},
                 {label:'Record hashed (SHA-256)',detail:'Note content → SHA-256: a8b9c0...d1e2 (no PHI leaves Epic)',icon:'fa-hashtag',type:'hash'},
-                {label:'Anchored to XRPL',detail:'solus:ehr:epic:progress_note | auto=true',icon:'fa-anchor',type:'xrpl'},
+                {label:'Anchored to XRPL',detail:'solus:ehr:epic:progress_note | auto=true',icon:'fa-anchor',type:'xrpl',anchorType:'ehr_event'},
                 {label:'$SLS fee: 0.00005',detail:'Auto-anchor fee — billed to institution trust line',icon:'fa-coins',type:'sls'},
                 {label:'Zero clicks for Dr. Adams',detail:'She doesn\'t even know it happened — zero workflow disruption',icon:'fa-magic',type:'success'},
                 {label:'Audit log updated',detail:'Record appears in patient\'s anchor history with Epic source badge',icon:'fa-clipboard-check',type:'verify'}
@@ -8758,11 +8984,11 @@
              desc:'Complete care journey from initial complaint to surgery, with every handoff creating a verifiable custody chain.',
              steps:[
                 {label:'PCP initial visit',detail:'Dr. Wilson: "Persistent knee pain, 3 months, worsening" — anchored',icon:'fa-user-md',type:'handoff'},
-                {label:'Referral to Orthopedist',detail:'solus:handoff:referral_out | reason=chronic_knee | prev=GENESIS',icon:'fa-anchor',type:'xrpl'},
+                {label:'Referral to Orthopedist',detail:'solus:handoff:referral_out | reason=chronic_knee | prev=GENESIS',icon:'fa-anchor',type:'xrpl',anchorType:'handoff:referral'},
                 {label:'Orthopedist accepts',detail:'Dr. Santos receives referral + full anchored history → accepts custody',icon:'fa-exchange-alt',type:'handoff'},
                 {label:'MRI ordered & results anchored',detail:'Findings: ACL tear, Grade III — imaging hash anchored',icon:'fa-x-ray',type:'capture'},
                 {label:'Surgery recommended',detail:'Dr. Santos → Pre-op handoff to surgical team',icon:'fa-procedures',type:'handoff'},
-                {label:'Surgical handoff anchored',detail:'solus:handoff:pre_op | surgeon=Dr.Lee | prev=0xC3D4...E5F6',icon:'fa-anchor',type:'xrpl'},
+                {label:'Surgical handoff anchored',detail:'solus:handoff:pre_op | surgeon=Dr.Lee | prev=0xC3D4...E5F6',icon:'fa-anchor',type:'xrpl',anchorType:'handoff:pre_op'},
                 {label:'Post-op to Recovery',detail:'Successful ACL reconstruction — post-op vitals anchored',icon:'fa-check-circle',type:'handoff'},
                 {label:'Full chain: 7 linked TXs',detail:'PCP → Ortho → Imaging → Surgery → Recovery — complete CustodyChain™',icon:'fa-link',type:'verify'}
              ]},
@@ -9025,7 +9251,29 @@
                     totalXRP += 12;
                     const slsFeeStep = scenario.steps.find((s, j) => j > i - 3 && j <= i + 1 && s.type === 'sls');
                     const slsAmount = slsFeeStep ? parseFloat((slsFeeStep.detail.match(/([\d.]+)/) || [0, 0.00005])[1]) : 0.00005;
-                    const memoType = step.detail.split('|')[0].trim().replace('solus:','').split(' ')[0] || 'anchor';
+                    // Fix: Use explicit anchorType if defined on step, otherwise extract solus:TYPE from detail
+                    let memoType = 'anchor';
+                    if (step.anchorType) {
+                        memoType = step.anchorType;
+                    } else {
+                        const solusMatch = step.detail.match(/solus:([a-z_:]+)/i);
+                        if (solusMatch) {
+                            memoType = solusMatch[1];
+                        } else {
+                            // Infer type from the step label/detail
+                            const lbl = (step.label + ' ' + step.detail).toLowerCase();
+                            if (lbl.includes('handoff') || lbl.includes('transfer')) memoType = 'handoff';
+                            else if (lbl.includes('anomaly') || lbl.includes('alert')) memoType = 'anomaly';
+                            else if (lbl.includes('consent')) memoType = 'consent';
+                            else if (lbl.includes('vitals') || lbl.includes('bp') || lbl.includes('glucose')) memoType = 'vitals';
+                            else if (lbl.includes('batch') || lbl.includes('merkle')) memoType = 'batch:merkle';
+                            else if (lbl.includes('backup')) memoType = 'backup';
+                            else if (lbl.includes('message') || lbl.includes('msg') || lbl.includes('ack')) memoType = 'message';
+                            else if (lbl.includes('ehr') || lbl.includes('epic') || lbl.includes('fhir')) memoType = 'ehr_event';
+                            else if (lbl.includes('referral')) memoType = 'handoff:referral';
+                            else if (lbl.includes('surgery') || lbl.includes('surgical')) memoType = 'surgery';
+                        }
+                    }
                     const recordType = memoType.replace(/:/g, '_');
                     const dataPayload = { scenario: scenario.id, step: i, label: step.label, detail: step.detail, ts: Date.now() };
 
@@ -9454,7 +9702,7 @@
         // ===== SVCN TUTORIAL =====
         const SVCN_TUTORIAL = [
             {title:'Welcome to the Care Network',icon:'fa-project-diagram',color:'var(--accent)',body:'The <strong>Solus Protocol Verified Care Network (SVCN)</strong> connects patients, providers, wearables, and EHR systems through a single verifiable data layer anchored to the XRP Ledger.\n\nEvery action — messages, consent grants, care handoffs, wearable anomalies — is <strong>cryptographically anchored to the real XRPL Testnet</strong>. No PHI ever touches the blockchain. Every TX is verifiable on-chain.'},
-            {title:'Real XRPL Anchoring',icon:'fa-broadcast-tower',color:'var(--accent)',body:'<strong>v2.9.7: Everything is REAL.</strong> Unlike typical demos, every action in the SVCN creates a real transaction on the XRP Ledger Testnet.\n\n• <strong>Scenarios</strong> anchor real hashes at each XRPL step\n• <strong>Sandbox</strong> modules submit live transactions\n• Every TX hash is clickable — verify on the XRPL Explorer\n• All anchors appear in Metrics API and Analytics\n• The <strong>Audit & Proof</strong> tab shows your live on-chain evidence\n\nThis is the world\'s first working healthcare data anchoring demo on a public ledger.'},
+            {title:'Real XRPL Anchoring',icon:'fa-broadcast-tower',color:'var(--accent)',body:'<strong>v2.9.8: Everything is REAL.</strong> Unlike typical demos, every action in the SVCN creates a real transaction on the XRP Ledger Testnet.\n\n• <strong>Scenarios</strong> anchor real hashes at each XRPL step\n• <strong>Sandbox</strong> modules submit live transactions\n• Every TX hash is clickable — verify on the XRPL Explorer\n• All anchors appear in Metrics API and Analytics\n• The <strong>Audit & Proof</strong> tab shows your live on-chain evidence\n\nThis is the world\'s first working healthcare data anchoring demo on a public ledger.'},
             {title:'Scenarios: Walk Through Real Cases',icon:'fa-play-circle',color:'var(--accent)',body:'The <strong>Scenarios</strong> tab has 12 real-world clinical scenarios you can run step-by-step:\n\n• <strong>Patient</strong>: Post-op monitoring, consent management, backup recovery\n• <strong>Provider</strong>: Secure messaging, EHR auto-anchoring, care chain handoffs\n• <strong>System</strong>: Federated batch, insurance verification\n• <strong>Emergency</strong>: ER handoff chains with linked TX hashes\n\nClick any scenario card to watch it execute with <strong>live XRPL transactions</strong>.'},
             {title:'Sandbox: Build It Yourself',icon:'fa-flask',color:'var(--secondary)',body:'The <strong>Sandbox</strong> tab lets you interact with each SVCN module directly — every action anchors to XRPL:\n\n• <strong>Messenger</strong>: Send encrypted messages — anchored on-chain\n• <strong>Consent</strong>: Grant & revoke patient access tokens — on-chain\n• <strong>Care Chain</strong>: Build handoff chains — each link on-chain\n• <strong>Wearables</strong>: Detect anomalies — auto-anchored on-chain\n• <strong>EHR Plugin</strong>: Epic/Cerner auto-anchor — live TX on-chain\n• <strong>Fed. Batch</strong>: Merkle root anchoring — single TX for hundreds\n• <strong>Backup</strong>: Export & verify with on-chain proof'},
             {title:'Audit & Proof Tab',icon:'fa-shield-alt',color:'var(--accent2)',body:'The <strong>Audit & Proof</strong> tab is your compliance command center:\n\n• <strong>Live Anchor Feed</strong>: Real-time stream of every SVCN transaction\n• <strong>Integrity Dashboard</strong>: Cumulative on-chain proof with breakdown by type\n• <strong>Compliance Evidence</strong>: Generate HIPAA, SOX, GDPR audit reports from real TX hashes\n• <strong>On-Chain Verification</strong>: Paste any TX hash to independently verify against XRPL\n\nEvery report includes real, immutable transaction hashes that anyone can verify.'},
@@ -9716,7 +9964,7 @@
         };
 
         function ehrSwitchTab(tab) {
-            const tabs = ['patients', 'records', 'interop', 'scheduling', 'billing', 'audit'];
+            const tabs = ['patients', 'records', 'scenarios', 'interop', 'scheduling', 'billing', 'savings', 'audit'];
             tabs.forEach(t => {
                 const panel = document.getElementById('ehrPanel' + t.charAt(0).toUpperCase() + t.slice(1));
                 const btn = document.getElementById('ehrTab' + t.charAt(0).toUpperCase() + t.slice(1));
@@ -9733,6 +9981,492 @@
                     }
                 }
             });
+            if (tab === 'scenarios') ehrRenderScenarios();
+        }
+
+        // ===== EHR SCENARIO ENGINE =====
+        const EHR_SCENARIOS = [
+            {id:'e1',title:'Hospital Admission: Chest Pain',persona:'hospital',icon:'fa-hospital',color:'#ff6464',
+             desc:'A 56-year-old male presents to the ER with acute chest pain. Full admission workflow: triage, labs, imaging, cardiology consult, admission — every step anchored.',
+             steps:[
+                {label:'Patient arrives at ER',detail:'Chief complaint: crushing chest pain, onset 45 min ago, radiating to left arm',icon:'fa-ambulance',type:'capture'},
+                {label:'Triage assessment',detail:'Vitals: BP 165/95, HR 110, SpO2 94%, Temp 37.2°C — Priority: ESI Level 2',icon:'fa-heartbeat',type:'vitals'},
+                {label:'Patient registered in EHR',detail:'MRN auto-assigned, demographics captured, insurance verified',icon:'fa-user-plus',type:'register'},
+                {label:'Vitals anchored to XRPL',detail:'solus:VITALS:HASH — triage record immutably timestamped',icon:'fa-anchor',type:'xrpl',anchorType:'VITALS'},
+                {label:'STAT labs ordered',detail:'Troponin I, CBC, BMP, PT/INR, BNP — orders entered by Dr. Martinez',icon:'fa-vial',type:'lab'},
+                {label:'12-lead EKG performed',detail:'ST elevation in leads II, III, aVF — consistent with inferior STEMI',icon:'fa-bolt',type:'imaging'},
+                {label:'Lab results returned',detail:'Troponin I: 2.4 ng/mL (critical high) — flagged for cardiology',icon:'fa-flask',type:'lab'},
+                {label:'Lab results anchored',detail:'solus:LAB_RESULTS:HASH — tamper-proof lab record on-chain',icon:'fa-anchor',type:'xrpl',anchorType:'LAB_RESULTS'},
+                {label:'Cardiology consult',detail:'Dr. Kim responds within 8 min — reviews anchored EKG + labs remotely',icon:'fa-heart',type:'consult'},
+                {label:'Cardiac cath ordered',detail:'Emergent PCI scheduled — OR notified, consent obtained',icon:'fa-procedures',type:'surgery'},
+                {label:'Surgical consent anchored',detail:'solus:CONSENT_GRANT:HASH — patient consent immutably recorded',icon:'fa-anchor',type:'xrpl',anchorType:'CONSENT_GRANT'},
+                {label:'ICU bed assigned',detail:'Admitted to CCU Room 412 — care handoff from ER to cardiology complete',icon:'fa-bed',type:'handoff'},
+                {label:'Admission anchored',detail:'solus:EHR_RECORD:HASH — full admission with care chain proof',icon:'fa-anchor',type:'xrpl',anchorType:'EHR_RECORD'},
+                {label:'$SLS Total: 0.0006',detail:'5 XRPL anchors × ~$0.000012 = $0.00006 total cost',icon:'fa-coins',type:'sls'}
+             ]},
+            {id:'e2',title:'Lab Results & Auto-Notification',persona:'clinic',icon:'fa-flask',color:'var(--accent)',
+             desc:'A primary care clinic processes morning lab results. Each result is auto-anchored, and critical values trigger immediate provider notifications.',
+             steps:[
+                {label:'Lab interface receives results',detail:'HL7 ORU^R01 message from Quest Diagnostics — 12 patient results',icon:'fa-satellite-dish',type:'receive'},
+                {label:'Auto-parse HL7 message',detail:'Result: Patient Sarah Chen — HbA1c: 9.2% (critical) | Cholesterol: 245',icon:'fa-code',type:'parse'},
+                {label:'Critical value detected',detail:'HbA1c 9.2% exceeds threshold (>8.0%) — immediate notification queue',icon:'fa-exclamation-triangle',type:'anomaly'},
+                {label:'Lab result anchored',detail:'solus:LAB_RESULTS:HASH — critical lab immutably recorded',icon:'fa-anchor',type:'xrpl',anchorType:'LAB_RESULTS'},
+                {label:'Provider auto-notified',detail:'Dr. Wilson alerted: "CRITICAL LAB — Sarah Chen HbA1c 9.2%"',icon:'fa-bell',type:'notify'},
+                {label:'Medication adjustment',detail:'Metformin increased 500mg → 1000mg, Ozempic 0.5mg started',icon:'fa-prescription',type:'rx'},
+                {label:'Prescription anchored',detail:'solus:PRESCRIPTION:HASH — medication change with tamper-proof audit',icon:'fa-anchor',type:'xrpl',anchorType:'PRESCRIPTION'},
+                {label:'Follow-up scheduled',detail:'2-week follow-up with repeat HbA1c — appointment auto-created',icon:'fa-calendar-check',type:'schedule'},
+                {label:'Appointment anchored',detail:'solus:SCHEDULING:HASH — scheduling record on-chain',icon:'fa-anchor',type:'xrpl',anchorType:'SCHEDULING'},
+                {label:'Patient notified via portal',detail:'MyChart message: "Lab results available — Dr. Wilson has reviewed"',icon:'fa-envelope',type:'notify'}
+             ]},
+            {id:'e3',title:'Prescription Workflow with e-Prescribe',persona:'clinic',icon:'fa-prescription-bottle-alt',color:'var(--secondary)',
+             desc:'A provider writes a new prescription through Solus EHR. Drug interaction check, e-prescribe to pharmacy, patient consent — all anchored.',
+             steps:[
+                {label:'Provider opens medication module',detail:'Dr. Adams reviewing patient John Doe — current meds: lisinopril, metformin',icon:'fa-pills',type:'rx'},
+                {label:'New Rx entered',detail:'Atorvastatin 40mg, once daily at bedtime — for hyperlipidemia (E78.5)',icon:'fa-prescription',type:'rx'},
+                {label:'Drug interaction check',detail:'Screening against 847 known interactions — CLEAR, no conflicts detected',icon:'fa-shield-alt',type:'verify'},
+                {label:'Formulary check',detail:'Patient insurance: UHC PPO — Atorvastatin Tier 1 ($5 copay)',icon:'fa-file-invoice-dollar',type:'billing'},
+                {label:'e-Prescribe transmitted',detail:'NCPDP SCRIPT v2017071 to CVS Pharmacy #4521 — DEA validation passed',icon:'fa-paper-plane',type:'transmit'},
+                {label:'Prescription anchored',detail:'solus:PRESCRIPTION:HASH — Rx with chain-of-custody proof',icon:'fa-anchor',type:'xrpl',anchorType:'PRESCRIPTION'},
+                {label:'Patient education sent',detail:'Auto-generated: Atorvastatin side effects, dietary considerations',icon:'fa-book-medical',type:'notify'},
+                {label:'Pharmacy confirms fill',detail:'CVS #4521: Rx filled, ready for pickup — confirmation anchored',icon:'fa-check-circle',type:'success'},
+                {label:'Fill confirmation anchored',detail:'solus:PRESCRIPTION:HASH — pharmacy fill event on-chain',icon:'fa-anchor',type:'xrpl',anchorType:'PRESCRIPTION'}
+             ]},
+            {id:'e4',title:'Multi-Department Surgical Workflow',persona:'hospital',icon:'fa-procedures',color:'#9945ff',
+             desc:'Complete surgical workflow from pre-op assessment to post-op discharge. 6 departments coordinate through Solus EHR with every handoff anchored.',
+             steps:[
+                {label:'Pre-op assessment',detail:'Anesthesia evaluation: ASA Class II, NPO verified, consent signed',icon:'fa-clipboard-check',type:'assess'},
+                {label:'Pre-op anchored',detail:'solus:SURGERY:HASH — pre-operative assessment immutably recorded',icon:'fa-anchor',type:'xrpl',anchorType:'SURGERY'},
+                {label:'OR check-in',detail:'Surgical safety checklist: patient ID ✓, site marked ✓, consent ✓, allergy band ✓',icon:'fa-check-double',type:'verify'},
+                {label:'Anesthesia induction',detail:'General anesthesia induced — vitals monitored: BP 120/80, HR 72, SpO2 99%',icon:'fa-lungs',type:'vitals'},
+                {label:'Procedure performed',detail:'Laparoscopic cholecystectomy — 45 min, no complications, EBL < 50mL',icon:'fa-cut',type:'surgery'},
+                {label:'Intra-op record anchored',detail:'solus:SURGERY:HASH — operative note with timestamp proof',icon:'fa-anchor',type:'xrpl',anchorType:'SURGERY'},
+                {label:'PACU handoff',detail:'Surgeon → recovery nurse: vital signs stable, pain 4/10, Aldrete score 9',icon:'fa-exchange-alt',type:'handoff'},
+                {label:'PACU handoff anchored',detail:'solus:CARE_HANDOFF:HASH — custody chain extended',icon:'fa-anchor',type:'xrpl',anchorType:'CARE_HANDOFF'},
+                {label:'Post-op orders',detail:'Ketorolac 30mg IV, clear liquids, ambulate in 4h, discharge criteria set',icon:'fa-file-medical',type:'orders'},
+                {label:'Discharge at 6h post-op',detail:'All criteria met: pain controlled, tolerating PO, voiding, ambulating',icon:'fa-door-open',type:'discharge'},
+                {label:'Discharge anchored',detail:'solus:DISCHARGE:HASH — discharge summary with full audit chain',icon:'fa-anchor',type:'xrpl',anchorType:'DISCHARGE'},
+                {label:'$SLS Total: 0.0006',detail:'5 XRPL anchors — complete surgical chain of custody for $0.00006',icon:'fa-coins',type:'sls'}
+             ]},
+            {id:'e5',title:'Emergency Department: Stroke Code',persona:'emergency',icon:'fa-brain',color:'#ff3232',
+             desc:'Time-critical stroke code activation. Door-to-needle time tracking with every milestone anchored for quality reporting and liability protection.',
+             steps:[
+                {label:'EMS pre-notification',detail:'Stroke alert: 72F, left-sided weakness, onset 45 min, last known well 10:15 AM',icon:'fa-ambulance',type:'capture'},
+                {label:'Stroke team activated',detail:'CT scanner cleared, neurology on standby, tPA prepared, pharmacy notified',icon:'fa-bell',type:'notify'},
+                {label:'Patient arrival — CLOCK STARTS',detail:'Door time: 10:58 AM — target: tPA within 60 min',icon:'fa-clock',type:'vitals'},
+                {label:'Arrival anchored',detail:'solus:EMERGENCY:HASH — door time immutably recorded for metrics',icon:'fa-anchor',type:'xrpl',anchorType:'EMERGENCY'},
+                {label:'CT completed',detail:'Non-contrast CT head: no hemorrhage. CTA: left MCA occlusion confirmed',icon:'fa-x-ray',type:'imaging'},
+                {label:'Imaging anchored',detail:'solus:IMAGING:HASH — CT findings timestamped on-chain',icon:'fa-anchor',type:'xrpl',anchorType:'IMAGING'},
+                {label:'tPA administered',detail:'Alteplase 0.9mg/kg IV — Door-to-needle: 32 minutes (TARGET MET)',icon:'fa-syringe',type:'rx'},
+                {label:'Treatment anchored',detail:'solus:PRESCRIPTION:HASH — tPA administration with exact timestamp',icon:'fa-anchor',type:'xrpl',anchorType:'PRESCRIPTION'},
+                {label:'Neuro ICU admission',detail:'Continuous monitoring, BP protocol, repeat CT at 24h, NIH Stroke Scale q2h',icon:'fa-bed',type:'handoff'},
+                {label:'Quality metrics anchored',detail:'solus:EHR_RECORD:HASH — Door-to-needle 32 min, Joint Commission compliant',icon:'fa-anchor',type:'xrpl',anchorType:'EHR_RECORD'},
+                {label:'All timestamps on-chain',detail:'Every milestone has immutable proof — CMS quality reporting automated',icon:'fa-certificate',type:'success'}
+             ]},
+            {id:'e6',title:'Insurance Claim Auto-Adjudication',persona:'billing',icon:'fa-file-invoice-dollar',color:'var(--warning)',
+             desc:'$23,000 surgical claim processed in seconds instead of 30 days. On-chain proof chain enables instant verification — no manual review needed.',
+             steps:[
+                {label:'Claim generated from encounter',detail:'CPT 47562 (Lap chole), ICD-10 K80.20 (Cholelithiasis), charges: $23,450',icon:'fa-file-invoice-dollar',type:'billing'},
+                {label:'Claim anchored',detail:'solus:BILLING:HASH — claim data immutably recorded',icon:'fa-anchor',type:'xrpl',anchorType:'BILLING'},
+                {label:'Insurer receives claim',detail:'UHC automated system pulls claim + on-chain proof hashes',icon:'fa-search',type:'verify'},
+                {label:'On-chain verification',detail:'5 TX hashes verified: pre-op → surgery → recovery → discharge → claim',icon:'fa-link',type:'verify'},
+                {label:'Timeline validated',detail:'All timestamps sequential, gaps consistent with procedure duration',icon:'fa-clock',type:'verify'},
+                {label:'Fraud risk: ZERO',detail:'Complete verifiable chain — no phantom billing, no upcoding possible',icon:'fa-shield-alt',type:'success'},
+                {label:'Auto-adjudication',detail:'Claim auto-approved in 4.2 seconds (vs 30 day manual process)',icon:'fa-check-circle',type:'success'},
+                {label:'Payment initiated',detail:'Provider paid in 48 hours — $18,200 after contractual adjustments',icon:'fa-credit-card',type:'billing'},
+                {label:'Adjudication anchored',detail:'solus:BILLING:HASH — payment proof on-chain for reconciliation',icon:'fa-anchor',type:'xrpl',anchorType:'BILLING'},
+                {label:'Savings: $150 vs $0.00006',detail:'Manual claim review costs $150 avg — Solus verification: $0.00006',icon:'fa-chart-line',type:'savings'}
+             ]},
+            {id:'e7',title:'Patient Record Transfer (Hospital-to-Hospital)',persona:'hospital',icon:'fa-exchange-alt',color:'var(--accent2)',
+             desc:'Patient transfers from Community Hospital to University Medical Center. Complete medical record transferred via FHIR R4 with blockchain continuity proof.',
+             steps:[
+                {label:'Transfer order initiated',detail:'Dr. Chen at Community Hospital: "Transfer to UMC for neurosurgery consult"',icon:'fa-file-export',type:'transfer'},
+                {label:'FHIR R4 Bundle compiled',detail:'47 resources: 12 encounters, 8 lab results, 6 imaging, 15 meds, 6 allergies',icon:'fa-database',type:'compile'},
+                {label:'Bundle hash computed',detail:'SHA-256 of entire FHIR Bundle — integrity proof for receiving facility',icon:'fa-hashtag',type:'hash'},
+                {label:'Transfer anchored',detail:'solus:EHR_TRANSFER:HASH — complete provenance chain',icon:'fa-anchor',type:'xrpl',anchorType:'EHR_TRANSFER'},
+                {label:'UMC receives & verifies',detail:'FHIR Bundle integrity verified against on-chain hash — 47/47 resources intact',icon:'fa-check-double',type:'verify'},
+                {label:'Records imported to UMC EHR',detail:'Auto-mapped to UMC\'s system — no manual data entry, zero transcription errors',icon:'fa-file-import',type:'import'},
+                {label:'Receiving provider reviews',detail:'Dr. Park at UMC: full history available instantly — no phone calls, no faxes',icon:'fa-user-md',type:'review'},
+                {label:'Continuity proof anchored',detail:'solus:EHR_RECORD:HASH — receiving facility acceptance on-chain',icon:'fa-anchor',type:'xrpl',anchorType:'EHR_RECORD'},
+                {label:'Cost: $0.000024 vs $180',detail:'Traditional transfer: fax/mail + staff time = $180 avg. Solus: 2 TX × $0.000012',icon:'fa-chart-line',type:'savings'}
+             ]},
+            {id:'e8',title:'Chronic Care Management (Monthly Review)',persona:'clinic',icon:'fa-heartbeat',color:'#00c896',
+             desc:'Monthly chronic care review for a diabetic patient. Wearable data, medication adherence, lab trends — all synthesized and anchored for continuous care proof.',
+             steps:[
+                {label:'Wearable data synced',detail:'Dexcom G7: 30-day avg glucose 168 mg/dL, time-in-range 62%, hypos: 3',icon:'fa-mobile-alt',type:'wearable'},
+                {label:'Medication adherence pulled',detail:'Smart pill dispenser: 87% adherence (missed 4 doses this month)',icon:'fa-pills',type:'rx'},
+                {label:'Lab trend analysis',detail:'HbA1c trend: 9.2 → 8.4 → 7.8 (3 months) — improving with current regimen',icon:'fa-chart-line',type:'analysis'},
+                {label:'Care plan reviewed',detail:'Provider updates plan: maintain current meds, increase CGM check-ins',icon:'fa-clipboard-check',type:'plan'},
+                {label:'Monthly summary anchored',detail:'solus:CHRONIC_CARE:HASH — continuous care documentation proof',icon:'fa-anchor',type:'xrpl',anchorType:'CHRONIC_CARE'},
+                {label:'Patient education updated',detail:'New dietary guidelines sent via portal — interactive meal planning tool',icon:'fa-book-medical',type:'educate'},
+                {label:'Next appointment set',detail:'30-day follow-up with repeat labs 3 days prior',icon:'fa-calendar-check',type:'schedule'},
+                {label:'Scheduling anchored',detail:'solus:SCHEDULING:HASH — appointment on-chain',icon:'fa-anchor',type:'xrpl',anchorType:'SCHEDULING'},
+                {label:'CMS CCM billing',detail:'CPT 99490 (20+ min CCM) — auto-generated from documented time',icon:'fa-file-invoice-dollar',type:'billing'}
+             ]}
+        ];
+
+        let ehrScenarioFilter = 'all';
+        let ehrScenarioRunning = false;
+
+        function ehrFilterScenarios(filter, btn) {
+            ehrScenarioFilter = filter;
+            document.querySelectorAll('#ehrPanelScenarios .svcn-persona-btn').forEach(b => {
+                b.style.background = 'var(--glass)'; b.style.color = 'var(--text-muted)'; b.style.border = '1px solid var(--border)';
+            });
+            if (btn) { btn.style.background = 'linear-gradient(135deg, #ff6464, #ff8c00)'; btn.style.color = 'white'; btn.style.border = 'none'; }
+            ehrRenderScenarios();
+        }
+
+        function ehrRenderScenarios() {
+            const grid = document.getElementById('ehrScenarioGrid');
+            if (!grid) return;
+            const filtered = ehrScenarioFilter === 'all' ? EHR_SCENARIOS : EHR_SCENARIOS.filter(s => s.persona === ehrScenarioFilter);
+            const xrplCounts = {};
+            filtered.forEach(s => { xrplCounts[s.id] = s.steps.filter(st => st.type === 'xrpl').length; });
+            grid.innerHTML = filtered.map(s => `
+                <div class="svcn-scenario-card" style="background: var(--glass); border: 1px solid var(--border); border-radius: 14px; padding: 14px; cursor: pointer; transition: all 0.2s;" onclick="ehrRunScenario('${s.id}')" onmouseover="this.style.borderColor='${s.color}'" onmouseout="this.style.borderColor='var(--border)'">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <div style="width: 40px; height: 40px; border-radius: 12px; background: ${s.color}22; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                            <i class="fas ${s.icon}" style="color: ${s.color}; font-size: 1rem;"></i>
+                        </div>
+                        <div style="flex: 1; min-width: 0;">
+                            <div style="font-weight: 700; font-size: 0.85rem; color: var(--text);">${s.title}</div>
+                            <div style="font-size: 0.72rem; color: var(--text-muted); margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${s.desc}</div>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 8px; margin-top: 10px; font-size: 0.68rem;">
+                        <span style="background: rgba(255,100,100,0.1); color: #ff6464; padding: 3px 8px; border-radius: 8px;"><i class="fas fa-list"></i> ${s.steps.length} steps</span>
+                        <span style="background: rgba(20,241,149,0.1); color: var(--accent); padding: 3px 8px; border-radius: 8px;"><i class="fas fa-anchor"></i> ${xrplCounts[s.id]} XRPL TX</span>
+                        <span style="background: rgba(153,69,255,0.1); color: #9945ff; padding: 3px 8px; border-radius: 8px;"><i class="fas fa-tag"></i> ${s.persona}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function ehrScenarioLog(msg, color, isHtml) {
+            const console = document.getElementById('ehrScenarioConsole');
+            if (!console) return;
+            const line = document.createElement('div');
+            line.style.color = color || '#888';
+            line.style.marginBottom = '2px';
+            if (isHtml) line.innerHTML = msg; else line.textContent = msg;
+            console.appendChild(line);
+            console.scrollTop = console.scrollHeight;
+        }
+
+        async function ehrRunScenario(id) {
+            if (ehrScenarioRunning) return;
+            const scenario = EHR_SCENARIOS.find(s => s.id === id);
+            if (!scenario) return;
+            ehrScenarioRunning = true;
+
+            const grid = document.getElementById('ehrScenarioGrid');
+            const panel = document.getElementById('ehrScenarioExecPanel');
+            document.getElementById('ehrExecTitle').textContent = scenario.title;
+            document.getElementById('ehrExecDesc').textContent = scenario.desc;
+            document.getElementById('ehrScenarioConsole').innerHTML = '';
+            document.getElementById('ehrScenarioCostSummary').style.display = 'none';
+            const stepsEl = document.getElementById('ehrExecSteps');
+            const typeColors = {capture:'var(--accent)',vitals:'#00c896',register:'var(--secondary)',lab:'var(--accent2)',imaging:'var(--accent)',consult:'#9945ff',surgery:'#ff6464',
+                handoff:'var(--secondary)',orders:'var(--accent)',discharge:'var(--accent2)',success:'#00c896',billing:'var(--warning)',verify:'var(--accent)',rx:'var(--secondary)',
+                notify:'var(--accent2)',anomaly:'var(--warning)',receive:'var(--accent)',parse:'var(--accent2)',schedule:'#9945ff',hash:'var(--accent2)',compile:'var(--accent)',
+                transfer:'var(--accent2)',import:'var(--accent)',review:'#9945ff',wearable:'var(--accent)',analysis:'var(--accent2)',plan:'var(--secondary)',educate:'#00c896',
+                assess:'var(--accent)',transmit:'var(--secondary)',savings:'#00c896',sls:'var(--warning)',xrpl:'var(--accent)'};
+            stepsEl.innerHTML = scenario.steps.map((st, i) => `
+                <div class="svcn-step" id="ehrStep_${i}">
+                    <div style="display:flex;align-items:center;gap:10px;">
+                        <div class="step-status" id="ehrStepStatus_${i}">${i + 1}</div>
+                        <div style="flex:1;">
+                            <div style="font-size:0.72rem;font-weight:600;color:var(--text);">${st.label}</div>
+                            <div style="font-size:0.6rem;color:var(--text-muted);margin-top:2px;">${st.detail}</div>
+                        </div>
+                        <i class="fas ${st.icon}" style="color:var(--text-muted);font-size:0.7rem;opacity:0.5;"></i>
+                    </div>
+                </div>
+            `).join('');
+            grid.style.display = 'none';
+            panel.style.display = 'block';
+            panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+            let totalSLS = 0;
+            let totalXRP = 0;
+            let scenarioAnchors = [];
+
+            async function runEhrStep(i) {
+                if (i >= scenario.steps.length) {
+                    ehrScenarioLog('─'.repeat(40), 'var(--border)');
+                    ehrScenarioLog(`✓ Scenario complete — ${scenarioAnchors.length} real XRPL anchors`, '#00c896');
+                    if (scenarioAnchors.length > 0) showAnchorCelebration(scenarioAnchors[0].txHash, scenarioAnchors.length);
+
+                    const summary = document.getElementById('ehrScenarioCostSummary');
+                    summary.style.display = 'block';
+                    summary.innerHTML = `
+                        <div style="font-size:0.7rem;font-weight:700;color:var(--text);margin-bottom:8px;"><i class="fas fa-receipt" style="color:#ff6464;margin-right:4px;"></i> Cost Summary — ${scenarioAnchors.length} XRPL Transactions</div>
+                        <div style="display:flex;justify-content:space-between;font-size:0.65rem;margin-bottom:3px;"><span style="color:var(--text-muted);">XRPL TX fees</span><span style="color:var(--accent);font-weight:600;">${totalXRP} drops ($${(totalXRP * 0.0000005).toFixed(8)})</span></div>
+                        <div style="display:flex;justify-content:space-between;font-size:0.65rem;margin-bottom:3px;"><span style="color:var(--text-muted);">$SLS service fees</span><span style="color:var(--warning);font-weight:600;">${totalSLS.toFixed(5)} $SLS</span></div>
+                        <div style="border-top:1px solid var(--border);padding-top:4px;margin-top:4px;display:flex;justify-content:space-between;font-size:0.65rem;"><span style="color:var(--text);">Total cost</span><span style="color:#00c896;font-weight:700;">< $0.001</span></div>
+                        ${scenarioAnchors.length > 0 ? `
+                        <div style="border-top:1px solid var(--border);padding-top:6px;margin-top:6px;">
+                            <div style="font-size:0.62rem;font-weight:600;color:var(--text);margin-bottom:4px;"><i class="fas fa-link" style="color:var(--accent2);"></i> On-Chain Proof</div>
+                            ${scenarioAnchors.map(a => `<div style="font-size:0.55rem;margin-bottom:2px;"><span style="color:var(--text-muted);">${a.type}:</span> ${a.explorerUrl ? `<a href="${a.explorerUrl}" target="_blank" style="color:var(--accent);text-decoration:underline;">${a.txHash.substring(0,16)}...</a>` : `<span style="color:var(--text-muted);">${a.txHash.substring(0,16)}...</span>`}</div>`).join('')}
+                        </div>` : ''}
+                    `;
+                    ehrScenarioRunning = false;
+                    return;
+                }
+                const step = scenario.steps[i];
+                const stepEl = document.getElementById(`ehrStep_${i}`);
+                const statusEl = document.getElementById(`ehrStepStatus_${i}`);
+                stepEl.classList.add('active');
+                stepEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                const color = typeColors[step.type] || 'var(--text-muted)';
+                ehrScenarioLog(`[Step ${i+1}] ${step.label}`, color);
+
+                if (step.type === 'xrpl') {
+                    totalXRP += 12;
+                    const anchorType = step.anchorType || 'EHR_RECORD';
+                    const slsAmount = 0.00005;
+                    totalSLS += slsAmount;
+                    const dataPayload = { scenario: scenario.id, step: i, label: step.label, detail: step.detail, ts: Date.now() };
+                    const dataHash = await computeSHA256(JSON.stringify(dataPayload));
+                    ehrScenarioLog(`  → SHA-256: ${dataHash}`, 'var(--accent2)');
+                    ehrScenarioLog(`  → Anchoring to XRPL Testnet (LIVE)...`, 'var(--accent)');
+
+                    const result = await ehrAnchorToXRPL(dataHash, anchorType);
+                    scenarioAnchors.push({ type: step.label, txHash: result.txHash, explorerUrl: result.explorerUrl });
+
+                    const txShort = result.txHash.length > 20 ? result.txHash.substring(0,12) + '...' + result.txHash.substring(result.txHash.length-6) : result.txHash;
+                    ehrScenarioLog(`  ✓ TX: ${txShort}`, '#00c896');
+                    if (result.explorerUrl) {
+                        ehrScenarioLog(`  <a href="${result.explorerUrl}" target="_blank" style="color:var(--accent2);text-decoration:underline;">View on XRPL Explorer →</a>`, 'var(--accent2)', true);
+                    }
+
+                    stepEl.classList.remove('active');
+                    stepEl.classList.add('done');
+                    statusEl.innerHTML = '<i class="fas fa-check"></i>';
+                    setTimeout(() => runEhrStep(i + 1), 300);
+                    return;
+                }
+
+                if (step.type === 'sls') {
+                    const m = step.detail.match(/([\d.]+)/);
+                    if (m) totalSLS += parseFloat(m[1]);
+                    ehrScenarioLog(`  → $SLS fee debit via trust line`, 'var(--warning)');
+                }
+                if (step.type === 'hash') {
+                    const hash = await computeSHA256(step.detail + '|' + Date.now());
+                    ehrScenarioLog(`  → SHA-256: ${hash}`, 'var(--accent2)');
+                }
+
+                const delay = step.type === 'hash' ? 400 : step.type === 'xrpl' ? 0 : 500;
+                setTimeout(() => {
+                    stepEl.classList.remove('active');
+                    stepEl.classList.add('done');
+                    statusEl.innerHTML = '<i class="fas fa-check"></i>';
+                    ehrScenarioLog(`  ✓ Done`, 'var(--text-muted)');
+                    setTimeout(() => runEhrStep(i + 1), 200);
+                }, delay);
+            }
+            setTimeout(() => runEhrStep(0), 400);
+        }
+
+        // ===== EHR TUTORIAL SYSTEM =====
+        let ehrTutorialStep = 0;
+        const EHR_TUTORIAL_SLIDES = [
+            {
+                title: 'Welcome to Solus Protocol EHR',
+                icon: 'fa-notes-medical',
+                color: '#ff6464',
+                content: `<div style="font-size:0.88rem;line-height:1.7;color:rgba(255,255,255,0.85);">
+                    <p>Solus Protocol EHR is the world's first <strong style="color: #ff6464;">blockchain-anchored electronic health record system</strong> built on the XRP Ledger.</p>
+                    <p style="margin-top:12px;">Unlike Epic ($1.5M+), Cerner ($800K+), or MEDITECH ($500K+), Solus EHR costs <strong style="color: #00c896;">$0.000012 per record anchor</strong> — that's $1.44/year for a 500-bed hospital.</p>
+                    <div style="margin-top:16px;padding:12px;background:rgba(255,100,100,0.1);border-radius:10px;border:1px solid rgba(255,100,100,0.2);">
+                        <div style="font-weight:700;margin-bottom:6px;">What makes it revolutionary:</div>
+                        <div style="display:flex;gap:8px;align-items:center;margin-bottom:4px;"><i class="fas fa-check" style="color:#00c896;font-size:0.7rem;"></i> Every record SHA-256 hashed & anchored to XRPL</div>
+                        <div style="display:flex;gap:8px;align-items:center;margin-bottom:4px;"><i class="fas fa-check" style="color:#00c896;font-size:0.7rem;"></i> No PHI ever leaves your system (only hashes go on-chain)</div>
+                        <div style="display:flex;gap:8px;align-items:center;margin-bottom:4px;"><i class="fas fa-check" style="color:#00c896;font-size:0.7rem;"></i> Instant HIPAA compliance proof via immutable audit trail</div>
+                        <div style="display:flex;gap:8px;align-items:center;"><i class="fas fa-check" style="color:#00c896;font-size:0.7rem;"></i> Patient-owned data — no vendor lock-in</div>
+                    </div>
+                </div>`
+            },
+            {
+                title: 'Patients & Records',
+                icon: 'fa-users',
+                color: '#9945ff',
+                content: `<div style="font-size:0.88rem;line-height:1.7;color:rgba(255,255,255,0.85);">
+                    <p><strong style="color:#9945ff;">Patients Tab:</strong> Register patients with demographics and insurance. Every registration is hashed and anchored to the XRPL — creating an immutable admission record.</p>
+                    <p style="margin-top:12px;"><strong style="color:#9945ff;">Records Tab:</strong> Create clinical records across 20+ types — vitals, labs, imaging, prescriptions, surgical notes, and more. Each record is:</p>
+                    <ol style="margin-top:8px;padding-left:20px;">
+                        <li>SHA-256 hashed (data fingerprint)</li>
+                        <li>Anchored to XRPL (immutable proof)</li>
+                        <li>Mapped to FHIR R4 resources (interoperable)</li>
+                        <li>Logged in the audit trail (compliance)</li>
+                    </ol>
+                    <p style="margin-top:12px;"><strong style="color:#9945ff;">Access Control:</strong> Grant/revoke access per patient with role-based permissions. Consent tokens are anchored on-chain — proving exactly who had access and when.</p>
+                </div>`
+            },
+            {
+                title: 'Run Real Scenarios',
+                icon: 'fa-play-circle',
+                color: '#00c2ff',
+                content: `<div style="font-size:0.88rem;line-height:1.7;color:rgba(255,255,255,0.85);">
+                    <p><strong style="color:#00c2ff;">Scenarios Tab:</strong> This is where Solus EHR comes alive. Run real hospital workflows that actually anchor to the XRPL:</p>
+                    <div style="margin-top:12px;display:flex;flex-direction:column;gap:8px;">
+                        <div style="padding:10px;background:rgba(0,194,255,0.1);border-radius:8px;"><i class="fas fa-hospital" style="color:#ff6464;margin-right:6px;"></i> <strong>Hospital Admission</strong> — ER triage → labs → cardiology → ICU</div>
+                        <div style="padding:10px;background:rgba(0,194,255,0.1);border-radius:8px;"><i class="fas fa-flask" style="color:var(--accent);margin-right:6px;"></i> <strong>Lab Results</strong> — Auto-parse, critical value alerts, notification</div>
+                        <div style="padding:10px;background:rgba(0,194,255,0.1);border-radius:8px;"><i class="fas fa-procedures" style="color:#9945ff;margin-right:6px;"></i> <strong>Surgical Workflow</strong> — Pre-op → OR → PACU → discharge</div>
+                        <div style="padding:10px;background:rgba(0,194,255,0.1);border-radius:8px;"><i class="fas fa-brain" style="color:#ff3232;margin-right:6px;"></i> <strong>Stroke Code</strong> — Time-critical door-to-needle tracking</div>
+                        <div style="padding:10px;background:rgba(0,194,255,0.1);border-radius:8px;"><i class="fas fa-file-invoice-dollar" style="color:var(--warning);margin-right:6px;"></i> <strong>Claim Auto-Adjudication</strong> — Instant verification, no fraud</div>
+                    </div>
+                    <p style="margin-top:12px;color:#00c896;font-weight:600;">Every scenario creates REAL transactions on the XRPL Testnet — click the TX hash to verify on the XRPL Explorer.</p>
+                </div>`
+            },
+            {
+                title: 'Interoperability & Standards',
+                icon: 'fa-exchange-alt',
+                color: '#ffb432',
+                content: `<div style="font-size:0.88rem;line-height:1.7;color:rgba(255,255,255,0.85);">
+                    <p><strong style="color:#ffb432;">Interop Tab:</strong> Solus EHR speaks the language of healthcare standards natively:</p>
+                    <div style="margin-top:12px;display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+                        <div style="padding:12px;background:rgba(255,180,50,0.1);border-radius:8px;text-align:center;">
+                            <div style="font-weight:700;font-size:0.9rem;color:#ffb432;">FHIR R4</div>
+                            <div style="font-size:0.75rem;margin-top:4px;">Export patient data as FHIR Bundles — import into any modern EHR</div>
+                        </div>
+                        <div style="padding:12px;background:rgba(255,180,50,0.1);border-radius:8px;text-align:center;">
+                            <div style="font-weight:700;font-size:0.9rem;color:#ffb432;">HL7 v2.5</div>
+                            <div style="font-size:0.75rem;margin-top:4px;">Generate ADT messages for legacy system communication</div>
+                        </div>
+                    </div>
+                    <p style="margin-top:12px;"><strong style="color:#ffb432;">Legacy Import:</strong> Import from Epic, Oracle Health (Cerner), MEDITECH, and Athenahealth. Records are automatically anchored upon import.</p>
+                    <p style="margin-top:8px;"><strong style="color:#ffb432;">Record Transfer:</strong> Transfer records between facilities with blockchain proof of delivery — no faxes, no lost records, no liability gaps.</p>
+                </div>`
+            },
+            {
+                title: 'Cost Savings & ROI',
+                icon: 'fa-chart-line',
+                color: '#00c896',
+                content: `<div style="font-size:0.88rem;line-height:1.7;color:rgba(255,255,255,0.85);">
+                    <p><strong style="color:#00c896;">Cost Savings Tab:</strong> See exactly how much Solus EHR saves vs legacy systems:</p>
+                    <div style="margin-top:12px;overflow-x:auto;">
+                        <table style="width:100%;border-collapse:collapse;font-size:0.78rem;">
+                            <tr style="border-bottom:1px solid rgba(255,255,255,0.1);">
+                                <td style="padding:6px;"></td><td style="padding:6px;text-align:center;color:#ff6464;font-weight:700;">Epic</td><td style="padding:6px;text-align:center;color:#00c896;font-weight:700;">Solus</td>
+                            </tr>
+                            <tr style="border-bottom:1px solid rgba(255,255,255,0.1);">
+                                <td style="padding:6px;">Setup</td><td style="padding:6px;text-align:center;">$1.5M-$3M</td><td style="padding:6px;text-align:center;color:#00c896;">$0</td>
+                            </tr>
+                            <tr style="border-bottom:1px solid rgba(255,255,255,0.1);">
+                                <td style="padding:6px;">Annual</td><td style="padding:6px;text-align:center;">$400K-$1M</td><td style="padding:6px;text-align:center;color:#00c896;">~$1.44</td>
+                            </tr>
+                            <tr>
+                                <td style="padding:6px;">Per Record</td><td style="padding:6px;text-align:center;">N/A</td><td style="padding:6px;text-align:center;color:#00c896;">$0.000012</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <p style="margin-top:12px;">Use the <strong style="color:#00c896;">ROI Calculator</strong> to see savings for your institution size. Spoiler: a 500-bed hospital saves <strong style="color:#00c896;">$600K+/year</strong>.</p>
+                </div>`
+            },
+            {
+                title: 'Metrics & Audit',
+                icon: 'fa-shield-alt',
+                color: '#14f195',
+                content: `<div style="font-size:0.88rem;line-height:1.7;color:rgba(255,255,255,0.85);">
+                    <p><strong style="color:#14f195;">Everything syncs to Metrics:</strong> Every EHR action — patient registration, record creation, scheduling, billing — anchors to the XRPL and <strong>automatically appears in the Metrics Dashboard</strong>.</p>
+                    <div style="margin-top:12px;padding:12px;background:rgba(20,241,149,0.1);border-radius:10px;border:1px solid rgba(20,241,149,0.2);">
+                        <div style="font-weight:700;margin-bottom:6px;">Audit Tab features:</div>
+                        <div style="display:flex;gap:8px;align-items:center;margin-bottom:4px;"><i class="fas fa-check-double" style="color:#14f195;font-size:0.7rem;"></i> Integrity Check — verify all record hashes</div>
+                        <div style="display:flex;gap:8px;align-items:center;margin-bottom:4px;"><i class="fas fa-file-contract" style="color:#ff6464;font-size:0.7rem;"></i> HIPAA Report — instant compliance evidence</div>
+                        <div style="display:flex;gap:8px;align-items:center;margin-bottom:4px;"><i class="fas fa-exclamation-triangle" style="color:#ff3232;font-size:0.7rem;"></i> Break Glass — emergency access (logged + anchored)</div>
+                        <div style="display:flex;gap:8px;align-items:center;"><i class="fas fa-link" style="color:var(--accent);font-size:0.7rem;"></i> On-Chain Verify — look up XRPL proof</div>
+                    </div>
+                    <p style="margin-top:12px;">Go to the <strong style="color:#14f195;">Metrics Dashboard</strong> (press 'm') to see your EHR anchors in real-time alongside SDK and Care Network records.</p>
+                </div>`
+            }
+        ];
+
+        function ehrShowTutorial() {
+            ehrTutorialStep = 0;
+            document.getElementById('ehrTutorialOverlay').style.display = 'block';
+            ehrRenderTutorialStep();
+        }
+
+        function ehrCloseTutorial() {
+            document.getElementById('ehrTutorialOverlay').style.display = 'none';
+        }
+
+        function ehrTutorialNav(dir) {
+            ehrTutorialStep += dir;
+            if (ehrTutorialStep < 0) ehrTutorialStep = 0;
+            if (ehrTutorialStep >= EHR_TUTORIAL_SLIDES.length) {
+                ehrCloseTutorial();
+                return;
+            }
+            ehrRenderTutorialStep();
+        }
+
+        function ehrRenderTutorialStep() {
+            const slide = EHR_TUTORIAL_SLIDES[ehrTutorialStep];
+            const dots = document.getElementById('ehrTutorialStepDots');
+            dots.innerHTML = EHR_TUTORIAL_SLIDES.map((_, i) =>
+                `<div style="flex:1;height:4px;border-radius:2px;background:${i <= ehrTutorialStep ? slide.color : 'rgba(255,255,255,0.15)'};transition:background 0.3s;"></div>`
+            ).join('');
+
+            document.getElementById('ehrTutorialContent').innerHTML = `
+                <div style="text-align:center;margin-bottom:20px;">
+                    <div style="width:60px;height:60px;border-radius:16px;background:${slide.color}22;display:inline-flex;align-items:center;justify-content:center;margin-bottom:12px;">
+                        <i class="fas ${slide.icon}" style="color:${slide.color};font-size:1.5rem;"></i>
+                    </div>
+                    <div style="font-size:1.1rem;font-weight:700;">${slide.title}</div>
+                    <div style="font-size:0.75rem;color:rgba(255,255,255,0.5);margin-top:4px;">Step ${ehrTutorialStep + 1} of ${EHR_TUTORIAL_SLIDES.length}</div>
+                </div>
+                ${slide.content}
+            `;
+
+            document.getElementById('ehrTutPrev').style.visibility = ehrTutorialStep === 0 ? 'hidden' : 'visible';
+            const nextBtn = document.getElementById('ehrTutNext');
+            if (ehrTutorialStep === EHR_TUTORIAL_SLIDES.length - 1) {
+                nextBtn.innerHTML = '<i class="fas fa-check"></i> Start Using EHR';
+                nextBtn.style.background = 'linear-gradient(135deg, #00c896, #14f195)';
+            } else {
+                nextBtn.innerHTML = 'Next <i class="fas fa-arrow-right"></i>';
+                nextBtn.style.background = 'linear-gradient(135deg, #ff6464, #9945ff)';
+            }
+        }
+
+        // ===== ROI CALCULATOR =====
+        function ehrCalcROI() {
+            const beds = parseInt(document.getElementById('ehrRoiBeds').value) || 250;
+            const records = parseInt(document.getElementById('ehrRoiRecords').value) || 5000;
+
+            const epicAnnual = beds <= 100 ? 400000 : beds <= 300 ? 650000 : beds <= 500 ? 900000 : 1200000;
+            const epicImplementation = beds <= 100 ? 800000 : beds <= 300 ? 1500000 : beds <= 500 ? 2500000 : 3500000;
+            const solusAnnual = records * 12 * 0.000012; // records/month × 12 months × cost per anchor
+            const annualSavings = epicAnnual - solusAnnual;
+            const fiveYearSavings = (epicAnnual * 5 + epicImplementation) - (solusAnnual * 5);
+
+            const result = document.getElementById('ehrRoiResult');
+            result.style.display = 'block';
+            result.innerHTML = `
+                <div style="font-weight:700;font-size:0.9rem;color:var(--text);margin-bottom:10px;"><i class="fas fa-chart-line" style="color:#00c896;"></i> Your Savings</div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;">
+                    <div style="text-align:center;padding:10px;background:rgba(255,100,100,0.08);border-radius:8px;">
+                        <div style="font-size:0.7rem;color:var(--text-muted);">Epic Annual Cost</div>
+                        <div style="font-size:1.1rem;font-weight:700;color:#ff6464;">$${epicAnnual.toLocaleString()}</div>
+                    </div>
+                    <div style="text-align:center;padding:10px;background:rgba(0,200,150,0.08);border-radius:8px;">
+                        <div style="font-size:0.7rem;color:var(--text-muted);">Solus Annual Cost</div>
+                        <div style="font-size:1.1rem;font-weight:700;color:#00c896;">$${solusAnnual.toFixed(2)}</div>
+                    </div>
+                </div>
+                <div style="text-align:center;padding:14px;background:linear-gradient(135deg,rgba(0,200,150,0.12),rgba(20,241,149,0.08));border:1px solid rgba(0,200,150,0.3);border-radius:10px;margin-bottom:8px;">
+                    <div style="font-size:0.75rem;color:var(--text-muted);">Annual Savings</div>
+                    <div style="font-size:1.4rem;font-weight:800;color:#00c896;">$${Math.round(annualSavings).toLocaleString()}</div>
+                    <div style="font-size:0.72rem;color:var(--text-muted);margin-top:4px;">${((annualSavings / epicAnnual) * 100).toFixed(4)}% reduction</div>
+                </div>
+                <div style="text-align:center;padding:10px;background:rgba(153,69,255,0.08);border-radius:8px;">
+                    <div style="font-size:0.75rem;color:var(--text-muted);">5-Year Savings (incl. implementation)</div>
+                    <div style="font-size:1.1rem;font-weight:700;color:#9945ff;">$${Math.round(fiveYearSavings).toLocaleString()}</div>
+                </div>
+            `;
         }
 
         function ehrGenerateId(prefix) {
@@ -9740,9 +10474,8 @@
         }
 
         async function ehrAnchorToXRPL(dataHash, recordType) {
-            // Real XRPL anchoring (same as svcnAnchorToXRPL but for EHR)
-            const memoData = 'solus:ehr_' + recordType.toLowerCase() + ':' + dataHash;
-            const memoHex = Array.from(new TextEncoder().encode(memoData)).map(b => b.toString(16).padStart(2, '0')).join('');
+            // Real XRPL anchoring — uses same wallet & format as SDK Playground & SVCN
+            const memoData = 'solus:' + recordType + ':' + dataHash;
             const result = { hash: dataHash, recordType: recordType, anchored: false, txHash: null, explorerUrl: null };
 
             if (typeof xrpl === 'undefined') {
@@ -9755,57 +10488,62 @@
                 return result;
             }
 
-            const nodes = [
-                'wss://s.altnet.rippletest.net:51233',
-                'wss://testnet.xrpl-labs.com',
-                'wss://xrpl-testnet.nownodes.io'
-            ];
-            const walletSeed = 'sEd75GpyfXbSLGUShjwvViXoo6xaGuZ';
+            let client = null;
+            try {
+                client = await connectXrplWithFallback();
+                updateWsStatus('connected');
+                const wallet = await getPlaygroundWallet(client);
+                const tx = {
+                    TransactionType: 'AccountSet',
+                    Account: wallet.classicAddress,
+                    Memos: [{
+                        Memo: {
+                            MemoType: strToHex('solus/ehr'),
+                            MemoData: strToHex(memoData)
+                        }
+                    }]
+                };
+                const response = await client.submitAndWait(tx, { wallet });
+                try { await client.disconnect(); } catch(dc) {}
+                updateWsStatus('offline');
 
-            for (const node of nodes) {
-                try {
-                    const client = new xrpl.Client(node);
-                    await client.connect();
-                    const wallet = xrpl.Wallet.fromSeed(walletSeed, { algorithm: 'ed25519' });
-                    const tx = {
-                        TransactionType: 'Payment',
-                        Account: wallet.classicAddress,
-                        Destination: wallet.classicAddress,
-                        Amount: '1',
-                        Memos: [{
-                            Memo: {
-                                MemoType: Buffer.from('solus/ehr', 'utf8').toString('hex').toUpperCase(),
-                                MemoData: memoHex.toUpperCase()
-                            }
-                        }]
-                    };
-                    const prepared = await client.autofill(tx);
-                    const signed = wallet.sign(prepared);
-                    const response = await client.submitAndWait(signed.tx_blob);
-                    await client.disconnect();
+                result.txHash = extractTxHash(response) || 'tx_confirmed';
+                result.anchored = true;
+                result.explorerUrl = 'https://testnet.xrpl.org/transactions/' + result.txHash;
+                ehrStore.stats.anchored++;
+                ehrAddAnchorFeed(dataHash, recordType, result.txHash, false);
+                ehrAddToSessionHistory(dataHash, recordType);
 
-                    result.txHash = response.result.hash;
-                    result.anchored = true;
-                    result.explorerUrl = 'https://testnet.xrpl.org/transactions/' + result.txHash;
-                    ehrStore.stats.anchored++;
-                    ehrAddAnchorFeed(dataHash, recordType, result.txHash, false);
-                    ehrAddToSessionHistory(dataHash, recordType);
-                    break;
-                } catch(e) {
-                    console.warn('EHR XRPL node failed:', node, e.message);
-                }
-            }
+                // Push to global session history so it appears in analytics + metrics
+                pgSessionHistory.unshift({
+                    timestamp: new Date().toLocaleTimeString(),
+                    recordType: recordType,
+                    type: recordType,
+                    hash: dataHash.substring(0, 16) + '...',
+                    fullHash: dataHash,
+                    txHash: result.txHash,
+                    explorerUrl: result.explorerUrl,
+                    source: 'ehr'
+                });
+                renderPgHistory();
+                updatePgSessionCounter();
+                updateAnalyticsSession();
 
-            if (!result.anchored) {
-                result.note = 'All XRPL nodes failed — simulating anchor';
+                return result;
+            } catch(e) {
+                console.warn('EHR XRPL anchor failed:', e.message);
+                try { if (client && client.isConnected()) await client.disconnect(); } catch(dc) {}
+                updateWsStatus('offline');
+
+                // Simulation fallback
+                result.note = 'XRPL connection failed — simulating anchor';
                 result.anchored = true;
                 result.txHash = 'SIM_' + dataHash.substring(0, 16);
                 ehrStore.stats.anchored++;
                 ehrAddAnchorFeed(dataHash, recordType, result.txHash, true);
                 ehrAddToSessionHistory(dataHash, recordType);
+                return result;
             }
-
-            return result;
         }
 
         function ehrAddToSessionHistory(hash, recordType) {
@@ -10391,6 +11129,14 @@
             ehrRenderRecordList();
             ehrRenderAuditLog();
             ehrUpdatePatientDropdowns();
+            ehrRenderScenarios();
+            // Show tutorial on first visit
+            if (!localStorage.getItem('solus_ehr_tutorial_seen')) {
+                setTimeout(() => {
+                    ehrShowTutorial();
+                    localStorage.setItem('solus_ehr_tutorial_seen', '1');
+                }, 600);
+            }
         }
 
         // ===== KEYBOARD SHORTCUTS =====

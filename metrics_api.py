@@ -100,6 +100,15 @@ def categorize_record(memo_data):
             'FHIR_IMPORT': 'EHR Import',
             'SCHEDULING': 'Scheduling',
             'BILLING': 'Billing',
+            # EHR scenario types (v2.9.8)
+            'CHRONIC_CARE': 'Chronic Care',
+            'CHRONIC': 'Chronic Care',
+            'ENCOUNTER': 'Encounter',
+            'MEDICATION': 'Prescription',
+            'PROGRESS_NOTE': 'Clinical Notes',
+            'CLINICAL_NOTE': 'Clinical Notes',
+            'CLINICAL NOTES': 'Clinical Notes',
+            'NOTES': 'Clinical Notes',
         }
         if explicit_type in type_map:
             return type_map[explicit_type]

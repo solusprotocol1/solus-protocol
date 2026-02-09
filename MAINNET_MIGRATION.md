@@ -835,6 +835,59 @@ The Solus Protocol EHR system (`solus_ehr.py` + `demo-app/index.html`) anchors a
 | Break-Glass | `EMERGENCY` | — |
 | Compliance Report | `EHR_RECORD` | — |
 | Legacy Import | `EHR_IMPORT` | — |
+| Chronic Care Review | `CHRONIC_CARE` | CarePlan |
+| Encounter Note | `ENCOUNTER` | Encounter |
+| Medication Order | `MEDICATION` | MedicationRequest |
+| Progress Note | `PROGRESS_NOTE` | DocumentReference |
+| Clinical Note | `CLINICAL_NOTE` | DocumentReference |
+
+### EHR Scenario Engine (v2.9.8)
+The demo app includes 8 pre-built EHR scenarios that execute real XRPL anchoring:
+
+| ID | Scenario | Persona | XRPL Anchors | Record Types |
+|----|----------|---------|--------------|-------------|
+| e1 | Hospital Admission: Chest Pain | Hospital | 5 | VITALS, LAB_RESULTS, CONSENT_GRANT, EHR_RECORD |
+| e2 | Lab Results & Auto-Notification | Clinic | 3 | LAB_RESULTS, PRESCRIPTION, SCHEDULING |
+| e3 | Prescription Workflow (e-Prescribe) | Clinic | 2 | PRESCRIPTION |
+| e4 | Multi-Department Surgical Workflow | Hospital | 5 | SURGERY, CARE_HANDOFF, DISCHARGE |
+| e5 | Emergency Stroke Code | Emergency | 4 | EMERGENCY, IMAGING, PRESCRIPTION, EHR_RECORD |
+| e6 | Insurance Claim Auto-Adjudication | Billing | 2 | BILLING |
+| e7 | Patient Record Transfer | Hospital | 2 | EHR_TRANSFER, EHR_RECORD |
+| e8 | Chronic Care Management | Clinic | 2 | CHRONIC_CARE, SCHEDULING |
+
+Each scenario uses `ehrAnchorToXRPL()` which shares the same wallet and `AccountSet` transaction format as the SDK Playground and SVCN Care Network, ensuring all anchors appear in the unified Metrics API.
+
+### EHR Tutorial System (v2.9.8)
+First-time users see a 6-slide interactive tutorial covering:
+1. Welcome to Solus Protocol EHR
+2. Patients & Records management
+3. Running real scenarios with XRPL anchoring
+4. Interoperability standards (FHIR R4, HL7 v2)
+5. Cost savings vs legacy EHR systems
+6. Metrics & audit trail verification
+
+The tutorial auto-triggers on first visit (localStorage flag) and can be re-opened from the header.
+
+### Cost Savings Comparison (v2.9.8)
+The Cost Savings tab demonstrates competitive advantage over legacy EHR systems:
+
+| Feature | Epic | Oracle (Cerner) | MEDITECH | Solus EHR |
+|---------|------|-----------------|----------|----------|
+| Implementation | $5M–$100M+ | $3M–$50M | $500K–$5M | $0 (open protocol) |
+| Annual License | $1M–$10M | $500K–$5M | $100K–$1M | $0 |
+| Per-Anchor Cost | N/A | N/A | N/A | ~$0.000012 (12 drops) |
+| Blockchain Proof | ❌ | ❌ | ❌ | ✅ Every record |
+| Data Portability | Vendor-locked | Vendor-locked | Vendor-locked | ✅ Open standard |
+
+Includes an interactive ROI calculator: beds × records/month → annual savings vs Epic.
+
+### Wallet Unification (v2.9.8)
+As of v2.9.8, all three demo app systems use the same wallet via `getPlaygroundWallet()`:
+- **SDK Playground:** `anchorFromPlayground()` → `getPlaygroundWallet(client)`
+- **SVCN Care Network:** `svcnAnchorToXRPL()` → `getPlaygroundWallet(client)`
+- **EHR System:** `ehrAnchorToXRPL()` → `getPlaygroundWallet(client)`
+
+All produce memos in the standardized format `solus:RECORD_TYPE:SHA256_HASH` using `AccountSet` transactions. On mainnet, all three will migrate to the same backend `/api/anchor` endpoint.
 
 ### Migration Steps
 
@@ -855,12 +908,12 @@ ehr = SolusEHR(
 ```
 
 #### Step 2: Demo App EHR Screen Migration
-The `ehrAnchorToXRPL()` function in the demo app mirrors `svcnAnchorToXRPL()`:
+The `ehrAnchorToXRPL()` function (v2.9.8) already uses `getPlaygroundWallet()`, `AccountSet`, and the standardized `solus:TYPE:HASH` memo format — identical to SDK and SVCN. Migration to mainnet only requires swapping to the backend API:
 
 ```javascript
 // Replace client-side signing with backend API call
 async function ehrAnchorToXRPL(dataHash, recordType) {
-    const memoData = `solus:ehr_${recordType.toLowerCase()}:${dataHash}`;
+    const memoData = `solus:${recordType.toLowerCase()}:${dataHash}`;
     const response = await fetch('https://solusprotocol.onrender.com/api/anchor', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'X-API-Key': SOLUS_API_KEY },
@@ -869,6 +922,8 @@ async function ehrAnchorToXRPL(dataHash, recordType) {
     return await response.json();
 }
 ```
+
+**Note:** The v2.9.8 memo format is `solus:TYPE:HASH` (no `ehr_` prefix), matching the SVCN format exactly. The Metrics API `categorize_record()` handles both old (`solus:ehr_TYPE:HASH`) and new (`solus:TYPE:HASH`) formats.
 
 #### Step 3: EHR-Specific Security
 - **PHI Protection:** All patient data remains encrypted off-chain. Only SHA-256 hashes are written to XRPL memos.
@@ -923,7 +978,7 @@ XRPL_MAINNET_ACCOUNT = os.environ.get("XRPL_MAINNET_ACCOUNT", "rMainnetAddress..
 ```
 
 #### Step 2: Record Type Categorization
-The `categorize_record()` function already handles all SVCN and EHR record types (v2.9.7). The `solus:TYPE:hash` format parser checks:
+The `categorize_record()` function already handles all SVCN and EHR record types (v2.9.8, 56+ categories including CHRONIC_CARE, ENCOUNTER, MEDICATION, PROGRESS_NOTE, CLINICAL_NOTE). The `solus:TYPE:hash` format parser checks:
 1. First segment → if `SOLUS`, look at second segment
 2. Multi-segment types (e.g., `solus:consent:grant:hash` → `CONSENT_GRANT`)
 3. Explicit type_map with 50+ categories including SVCN and EHR types
@@ -937,11 +992,11 @@ On mainnet, the Metrics API will start with zero transactions. Consider:
 - Building a migration script that maps testnet TX hashes to their record types for reference
 - Displaying a "Since Mainnet Launch" date on the metrics dashboard
 
-### Migration Checklist (Updated for v2.9.7)
+### Migration Checklist (Updated for v2.9.8)
 
 ```
 ╔══════════════════════════════════════════════════════════════╗
-║  MAINNET MIGRATION CHECKLIST — v2.9.7                       ║
+║  MAINNET MIGRATION CHECKLIST — v2.9.8                       ║
 ╠══════════════════════════════════════════════════════════════╣
 ║                                                              ║
 ║  INFRASTRUCTURE                                              ║
@@ -973,7 +1028,10 @@ On mainnet, the Metrics API will start with zero transactions. Consider:
 ║  □ Smoke test: anchor + verify one record (SDK Playground)   ║
 ║  □ Smoke test: run SVCN scenario with XRPL anchoring        ║
 ║  □ Smoke test: EHR register patient + create record          ║
-║  □ Verify Metrics API categorizes all record types           ║
+║  □ Smoke test: run EHR scenario (e1–e8) with XRPL anchoring ║
+║  □ Verify Metrics API categorizes all 56+ record types      ║
+║  □ Verify SVCN anchorType field produces correct memos      ║
+║  □ Verify EHR memo format: solus:TYPE:HASH (no ehr_ prefix) ║
 ║  □ Set up balance monitoring alerts                          ║
 ║  □ Configure fallback WebSocket nodes                        ║
 ║  □ Test amendment resilience on Testnet                      ║
@@ -983,5 +1041,5 @@ On mainnet, the Metrics API will start with zero transactions. Consider:
 
 ---
 
-*Last updated: v2.9.7 — This document is part of the Solus Protocol project.*
+*Last updated: v2.9.8 — This document is part of the Solus Protocol project.*
 *See also: [DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md) | [SECURITY.md](SECURITY.md) | [HIPAA_COMPLIANCE.md](HIPAA_COMPLIANCE.md)*
