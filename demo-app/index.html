@@ -1971,6 +1971,38 @@
             width: 12px; height: 12px; border-radius: 3px;
         }
 
+        /* ===== SVCN Interactive ===== */
+        .svcn-tab { background: var(--glass); border: 1px solid var(--border); color: var(--text-muted); padding: 6px 12px; border-radius: 8px; font-size: 0.65rem; font-weight: 600; cursor: pointer; white-space: nowrap; transition: all 0.2s; }
+        .svcn-tab.active { background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #000; border-color: transparent; }
+        .svcn-tab-content { display: none; }
+        .svcn-tab-content.active { display: block; }
+        .svcn-persona-btn { background: var(--glass); border: 1px solid var(--border); color: var(--text-muted); padding: 5px 10px; border-radius: 8px; font-size: 0.62rem; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+        .svcn-persona-btn.active { background: rgba(20,241,149,0.15); border-color: rgba(20,241,149,0.3); color: var(--accent); }
+        .svcn-scenario-card { background: var(--glass); border: 1px solid var(--border); border-radius: 12px; padding: 11px; cursor: pointer; transition: all 0.2s; margin-bottom: 8px; }
+        .svcn-scenario-card:hover { border-color: rgba(20,241,149,0.4); transform: translateY(-1px); }
+        .svcn-scenario-card:active { transform: scale(0.98); }
+        .svcn-step { background: var(--glass); border: 1px solid var(--border); border-radius: 10px; padding: 10px; margin-bottom: 6px; opacity: 0.4; transition: all 0.4s; }
+        .svcn-step.active { opacity: 1; border-color: rgba(20,241,149,0.4); }
+        .svcn-step.done { opacity: 1; border-color: rgba(20,241,149,0.2); }
+        .svcn-step .step-status { width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 0.55rem; color: var(--text-muted); flex-shrink: 0; transition: all 0.3s; }
+        .svcn-step.active .step-status { border-color: var(--accent); color: var(--accent); animation: pulse 1s infinite; }
+        .svcn-step.done .step-status { border-color: var(--accent); background: var(--accent); color: #000; }
+        .svcn-mod-btn { background: var(--glass); border: 1px solid var(--border); color: var(--text-muted); padding: 8px; border-radius: 8px; font-size: 0.62rem; font-weight: 600; cursor: pointer; transition: all 0.2s; text-align: center; }
+        .svcn-mod-btn.active { background: rgba(20,241,149,0.15); border-color: rgba(20,241,149,0.3); color: var(--accent); }
+        .svcn-flow-node { border: 1px solid; border-radius: 10px; padding: 8px 10px; text-align: center; font-size: 0.6rem; font-weight: 600; color: var(--text); min-width: 56px; }
+        .svcn-flow-node i { display: block; margin-bottom: 3px; font-size: 0.8rem; }
+        .svcn-sandbox-input { width: 100%; background: var(--glass); border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px; font-size: 0.68rem; color: var(--text); font-family: inherit; outline: none; resize: none; transition: border-color 0.2s; }
+        .svcn-sandbox-input:focus { border-color: rgba(20,241,149,0.5); }
+        .svcn-sandbox-input::placeholder { color: var(--text-muted); }
+        .svcn-action-btn { background: linear-gradient(135deg, var(--accent), var(--accent2)); border: none; color: #000; padding: 8px 14px; border-radius: 8px; font-size: 0.68rem; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+        .svcn-action-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 15px rgba(20,241,149,0.3); }
+        .svcn-action-btn:active { transform: scale(0.96); }
+        .svcn-action-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+        .svcn-tutorial-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); z-index: 10000; display: none; align-items: center; justify-content: center; padding: 20px; }
+        .svcn-tutorial-overlay.active { display: flex; }
+        .svcn-tutorial-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 24px; max-width: 360px; width: 100%; max-height: 80vh; overflow-y: auto; }
+        @keyframes svcnPulse { 0%,100%{box-shadow:0 0 0 0 rgba(20,241,149,0.3)} 50%{box-shadow:0 0 0 8px rgba(20,241,149,0)} }
+
         /* ===== Keyboard Shortcuts ===== */
         .shortcuts-overlay {
             position: fixed; top: 0; left: 0; right: 0; bottom: 0;
@@ -2435,6 +2467,11 @@
         <div class="g-orb g-orb-1" id="orb1"></div>
         <div class="g-orb g-orb-2" id="orb2"></div>
         <div class="g-orb g-orb-3" id="orb3"></div>
+    </div>
+
+    <!-- SVCN Tutorial Overlay -->
+    <div class="svcn-tutorial-overlay" id="svcnTutorialOverlay" onclick="if(event.target===this)this.classList.remove('active')">
+        <div class="svcn-tutorial-card" id="svcnTutorialBody"></div>
     </div>
 
     <!-- Keyboard Shortcuts Overlay -->
@@ -4261,242 +4298,185 @@
                         <h1><i class="fas fa-project-diagram" style="color: var(--accent); margin-right: 6px;"></i> Care Network</h1>
                         <p>Solus Protocol Verified Care Network (SVCN)</p>
                     </div>
-                    <button style="background: var(--glass); border: 1px solid var(--border); color: var(--text-muted); width: 36px; height: 36px; border-radius: 10px; cursor: pointer; font-size: 0.85rem;" onclick="navigateTo('home', document.querySelector('.nav-item'))" aria-label="Back"><i class="fas fa-times"></i></button>
+                    <div style="display:flex;gap:6px;">
+                        <button style="background: linear-gradient(135deg, var(--accent), var(--accent2)); border: none; color: #000; width: 36px; height: 36px; border-radius: 10px; cursor: pointer; font-size: 0.75rem; font-weight: 700;" onclick="svcnStartTutorial()" aria-label="Tutorial"><i class="fas fa-graduation-cap"></i></button>
+                        <button style="background: var(--glass); border: 1px solid var(--border); color: var(--text-muted); width: 36px; height: 36px; border-radius: 10px; cursor: pointer; font-size: 0.85rem;" onclick="navigateTo('home', document.querySelector('.nav-item'))" aria-label="Back"><i class="fas fa-times"></i></button>
+                    </div>
+                </div>
+                <!-- SVCN Tabs -->
+                <div style="display: flex; gap: 4px; padding: 8px 16px 0; overflow-x: auto;">
+                    <button class="svcn-tab active" data-tab="scenarios" onclick="svcnSwitchTab('scenarios')"><i class="fas fa-play-circle"></i> Scenarios</button>
+                    <button class="svcn-tab" data-tab="sandbox" onclick="svcnSwitchTab('sandbox')"><i class="fas fa-flask"></i> Sandbox</button>
+                    <button class="svcn-tab" data-tab="howitworks" onclick="svcnSwitchTab('howitworks')"><i class="fas fa-cogs"></i> XRPL & $SLS</button>
                 </div>
             </div>
             <div class="content">
-                <!-- SVCN Hero -->
-                <div class="section">
-                    <div style="background: linear-gradient(135deg, rgba(20,241,149,0.12), rgba(153,69,255,0.12), rgba(0,194,255,0.08)); border: 1px solid rgba(20,241,149,0.2); border-radius: 14px; padding: 16px; text-align: center;">
-                        <div style="font-size: 1.6rem; margin-bottom: 4px;">🌐</div>
-                        <div style="font-size: 0.95rem; font-weight: 700; color: var(--text); margin-bottom: 4px;">Universal Health Passport</div>
-                        <div style="font-size: 0.7rem; color: var(--text-muted); line-height: 1.5;">Every provider sees the same verified record chain. Sub-second finality. <$0.001 per anchored update. Patient-controlled consent.</div>
-                        <div style="display: flex; gap: 8px; justify-content: center; margin-top: 10px; flex-wrap: wrap;">
-                            <span class="playground-badge" style="font-size: 0.58rem;"><i class="fas fa-bolt"></i> XRPL Anchored</span>
-                            <span class="playground-badge" style="font-size: 0.58rem; background: rgba(153,69,255,0.15); color: var(--secondary);"><i class="fas fa-shield-alt"></i> HIPAA Aligned</span>
-                            <span class="playground-badge" style="font-size: 0.58rem; background: rgba(0,194,255,0.15); color: var(--accent2);"><i class="fas fa-lock"></i> Zero PHI On-Chain</span>
+
+                <!-- ========== SCENARIOS TAB ========== -->
+                <div id="svcnTab_scenarios" class="svcn-tab-content active">
+                    <!-- Persona Filter -->
+                    <div class="section">
+                        <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                            <button class="svcn-persona-btn active" onclick="svcnFilterScenarios('all',this)">All</button>
+                            <button class="svcn-persona-btn" onclick="svcnFilterScenarios('patient',this)"><i class="fas fa-user"></i> Patient</button>
+                            <button class="svcn-persona-btn" onclick="svcnFilterScenarios('provider',this)"><i class="fas fa-user-md"></i> Provider</button>
+                            <button class="svcn-persona-btn" onclick="svcnFilterScenarios('system',this)"><i class="fas fa-server"></i> System</button>
+                            <button class="svcn-persona-btn" onclick="svcnFilterScenarios('emergency',this)"><i class="fas fa-ambulance"></i> Emergency</button>
+                        </div>
+                    </div>
+                    <!-- Scenario Cards -->
+                    <div class="section" id="svcnScenarioGrid"></div>
+                    <!-- Scenario Execution Panel -->
+                    <div id="svcnExecPanel" style="display:none;">
+                        <div class="section">
+                            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+                                <div style="font-size:0.85rem;font-weight:700;color:var(--text);" id="svcnExecTitle"></div>
+                                <button style="background:var(--glass);border:1px solid var(--border);color:var(--text-muted);padding:4px 10px;border-radius:8px;font-size:0.65rem;cursor:pointer;" onclick="svcnCloseExec()"><i class="fas fa-times"></i> Close</button>
+                            </div>
+                            <div id="svcnExecDesc" style="font-size:0.68rem;color:var(--text-muted);margin-bottom:12px;line-height:1.5;"></div>
+                            <!-- Step-by-step execution -->
+                            <div id="svcnExecSteps"></div>
+                            <!-- Live Console -->
+                            <div style="margin-top:12px;">
+                                <div style="font-size:0.65rem;font-weight:600;color:var(--text-muted);margin-bottom:4px;"><i class="fas fa-terminal"></i> Live Console</div>
+                                <div id="svcnConsole" style="background:rgba(0,0,0,0.4);border:1px solid var(--border);border-radius:10px;padding:10px;font-family:'SF Mono',monospace;font-size:0.6rem;color:var(--accent);max-height:200px;overflow-y:auto;line-height:1.6;"></div>
+                            </div>
+                            <!-- Cost Summary -->
+                            <div id="svcnCostSummary" style="display:none;margin-top:10px;background:var(--glass);border:1px solid var(--border);border-radius:10px;padding:10px;"></div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Live Modules -->
-                <div class="section">
-                    <div class="pg-section-title"><i class="fas fa-cubes" style="color: var(--accent);"></i> SVCN Modules</div>
-                    <div id="svcnModules">
-                        <div style="background: var(--glass); border: 1px solid var(--border); border-radius: 12px; padding: 12px; margin-bottom: 8px;">
-                            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
-                                <div style="width: 34px; height: 34px; border-radius: 8px; background: rgba(20,241,149,0.15); display: flex; align-items: center; justify-content: center; color: var(--accent); font-size: 0.9rem;"><i class="fas fa-comment-medical"></i></div>
-                                <div><div style="font-size: 0.82rem; font-weight: 600; color: var(--text);">Secure Messenger</div><div style="font-size: 0.62rem; color: var(--text-muted);">Encrypted, anchored care communication</div></div>
-                                <span class="playground-badge" style="font-size: 0.55rem; margin-left: auto;"><i class="fas fa-check"></i> Built</span>
-                            </div>
-                            <div style="font-size: 0.65rem; color: var(--text-muted); line-height: 1.5; padding-left: 44px;">AES-128 encrypted messages → SHA-256 hashed → XRPL memo anchor → ACK receipts → webhook + push notifications. Thread-based conversations with immutable audit trail.</div>
+                <!-- ========== SANDBOX TAB ========== -->
+                <div id="svcnTab_sandbox" class="svcn-tab-content">
+                    <!-- Module Selector -->
+                    <div class="section">
+                        <div class="pg-section-title"><i class="fas fa-flask" style="color:var(--secondary);"></i> Live Sandbox</div>
+                        <div style="font-size:0.65rem;color:var(--text-muted);margin-bottom:10px;">Choose a module and interact with it in real time. Every action simulates the full Solus Protocol pipeline: encrypt → hash → XRPL anchor → $SLS fee.</div>
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;" id="svcnSandboxModules">
+                            <button class="svcn-mod-btn active" onclick="svcnSelectModule('messenger',this)"><i class="fas fa-comment-medical"></i> Messenger</button>
+                            <button class="svcn-mod-btn" onclick="svcnSelectModule('consent',this)"><i class="fas fa-key"></i> Consent</button>
+                            <button class="svcn-mod-btn" onclick="svcnSelectModule('carechain',this)"><i class="fas fa-link"></i> Care Chain</button>
+                            <button class="svcn-mod-btn" onclick="svcnSelectModule('wearables',this)"><i class="fas fa-heartbeat"></i> Wearables</button>
+                            <button class="svcn-mod-btn" onclick="svcnSelectModule('ehr',this)"><i class="fas fa-hospital"></i> EHR Plugin</button>
+                            <button class="svcn-mod-btn" onclick="svcnSelectModule('batch',this)"><i class="fas fa-layer-group"></i> Fed. Batch</button>
+                            <button class="svcn-mod-btn" onclick="svcnSelectModule('backup',this)"><i class="fas fa-cloud-download-alt"></i> Backup</button>
                         </div>
-                        <div style="background: var(--glass); border: 1px solid var(--border); border-radius: 12px; padding: 12px; margin-bottom: 8px;">
-                            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
-                                <div style="width: 34px; height: 34px; border-radius: 8px; background: rgba(153,69,255,0.15); display: flex; align-items: center; justify-content: center; color: var(--secondary); font-size: 0.9rem;"><i class="fas fa-key"></i></div>
-                                <div><div style="font-size: 0.82rem; font-weight: 600; color: var(--text);">Consent Manager</div><div style="font-size: 0.62rem; color: var(--text-muted);">Patient-controlled data access tokens</div></div>
-                                <span class="playground-badge" style="font-size: 0.55rem; margin-left: auto;"><i class="fas fa-check"></i> Built</span>
-                            </div>
-                            <div style="font-size: 0.65rem; color: var(--text-muted); line-height: 1.5; padding-left: 44px;">Create time-limited consent tokens for specific data categories. Grant/revoke access instantly. Every consent event anchored to XRPL for immutable audit.</div>
-                        </div>
-                        <div style="background: var(--glass); border: 1px solid var(--border); border-radius: 12px; padding: 12px; margin-bottom: 8px;">
-                            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
-                                <div style="width: 34px; height: 34px; border-radius: 8px; background: rgba(0,194,255,0.15); display: flex; align-items: center; justify-content: center; color: var(--accent2); font-size: 0.9rem;"><i class="fas fa-link"></i></div>
-                                <div><div style="font-size: 0.82rem; font-weight: 600; color: var(--text);">Care Chain Tracker</div><div style="font-size: 0.62rem; color: var(--text-muted);">Verifiable chain-of-custody handoffs</div></div>
-                                <span class="playground-badge" style="font-size: 0.55rem; margin-left: auto;"><i class="fas fa-check"></i> Built</span>
-                            </div>
-                            <div style="font-size: 0.65rem; color: var(--text-muted); line-height: 1.5; padding-left: 44px;">Patient → PCP → Specialist → ER → Insurance. Each handoff anchored with previous TX reference, creating a linked on-chain custody trail. Never done before at scale.</div>
-                        </div>
-                        <div style="background: var(--glass); border: 1px solid var(--border); border-radius: 12px; padding: 12px; margin-bottom: 8px;">
-                            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
-                                <div style="width: 34px; height: 34px; border-radius: 8px; background: rgba(255,215,0,0.15); display: flex; align-items: center; justify-content: center; color: var(--warning); font-size: 0.9rem;"><i class="fas fa-heartbeat"></i></div>
-                                <div><div style="font-size: 0.82rem; font-weight: 600; color: var(--text);">Anomaly Engine</div><div style="font-size: 0.62rem; color: var(--text-muted);">Real-time wearable monitoring + auto-anchor</div></div>
-                                <span class="playground-badge" style="font-size: 0.55rem; margin-left: auto;"><i class="fas fa-check"></i> Built</span>
-                            </div>
-                            <div style="font-size: 0.65rem; color: var(--text-muted); line-height: 1.5; padding-left: 44px;">Fitbit, Apple Health, Dexcom, Withings, Google Fit. 52 threshold rules + ONNX ML model. Auto-anchors anomalies. Catches post-op complications in hours, not days.</div>
-                        </div>
-                        <div style="background: var(--glass); border: 1px solid var(--border); border-radius: 12px; padding: 12px; margin-bottom: 8px;">
-                            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
-                                <div style="width: 34px; height: 34px; border-radius: 8px; background: rgba(255,82,82,0.15); display: flex; align-items: center; justify-content: center; color: #ff5252; font-size: 0.9rem;"><i class="fas fa-hospital"></i></div>
-                                <div><div style="font-size: 0.82rem; font-weight: 600; color: var(--text);">EHR Plugins</div><div style="font-size: 0.62rem; color: var(--text-muted);">Epic, Cerner, athenahealth auto-anchor</div></div>
-                                <span class="playground-badge" style="font-size: 0.55rem; margin-left: auto;"><i class="fas fa-check"></i> Built</span>
-                            </div>
-                            <div style="font-size: 0.65rem; color: var(--text-muted); line-height: 1.5; padding-left: 44px;">SMART on FHIR R4 plugins for major EHR vendors. Automatically anchor clinically significant events. OAuth2 authentication. Zero workflow disruption for clinicians.</div>
-                        </div>
-                        <div style="background: var(--glass); border: 1px solid var(--border); border-radius: 12px; padding: 12px; margin-bottom: 8px;">
-                            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
-                                <div style="width: 34px; height: 34px; border-radius: 8px; background: rgba(20,241,149,0.1); display: flex; align-items: center; justify-content: center; color: var(--accent); font-size: 0.9rem;"><i class="fas fa-layer-group"></i></div>
-                                <div><div style="font-size: 0.82rem; font-weight: 600; color: var(--text);">Federated Batch</div><div style="font-size: 0.62rem; color: var(--text-muted);">Multi-institution Merkle anchoring</div></div>
-                                <span class="playground-badge" style="font-size: 0.55rem; margin-left: auto;"><i class="fas fa-check"></i> Built</span>
-                            </div>
-                            <div style="font-size: 0.65rem; color: var(--text-muted); line-height: 1.5; padding-left: 44px;">Multiple hospitals contribute records to a shared batch. Merkle root of all hashes anchored in a single TX. Shared trust lines for $SLS fee settlement.</div>
-                        </div>
-                        <div style="background: var(--glass); border: 1px solid var(--border); border-radius: 12px; padding: 12px;">
-                            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
-                                <div style="width: 34px; height: 34px; border-radius: 8px; background: rgba(0,194,255,0.1); display: flex; align-items: center; justify-content: center; color: var(--accent2); font-size: 0.9rem;"><i class="fas fa-cloud-download-alt"></i></div>
-                                <div><div style="font-size: 0.82rem; font-weight: 600; color: var(--text);">Backup & Recovery</div><div style="font-size: 0.62rem; color: var(--text-muted);">Encrypted .solusbackup + XRPL recovery</div></div>
-                                <span class="playground-badge" style="font-size: 0.55rem; margin-left: auto;"><i class="fas fa-check"></i> Built</span>
-                            </div>
-                            <div style="font-size: 0.65rem; color: var(--text-muted); line-height: 1.5; padding-left: 44px;">Export encrypted backup files. QR seed backup. Cloud sync (patient-controlled). Full XRPL re-verification on restore. Lost phone? Data integrity guaranteed.</div>
+                    </div>
+                    <!-- Dynamic Module Content -->
+                    <div class="section" id="svcnSandboxContent"></div>
+                    <!-- Sandbox Console -->
+                    <div class="section">
+                        <div style="font-size:0.65rem;font-weight:600;color:var(--text-muted);margin-bottom:4px;"><i class="fas fa-terminal"></i> Sandbox Console</div>
+                        <div id="svcnSandboxConsole" style="background:rgba(0,0,0,0.4);border:1px solid var(--border);border-radius:10px;padding:10px;font-family:'SF Mono',monospace;font-size:0.6rem;color:var(--accent);min-height:80px;max-height:250px;overflow-y:auto;line-height:1.6;">
+                            <span style="color:var(--text-muted);">// Select a module above and start interacting...</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Care Chain Visualization -->
-                <div class="section">
-                    <div class="pg-section-title"><i class="fas fa-link" style="color: var(--accent2);"></i> Care Chain Demo</div>
-                    <div id="svcnCareChain" style="position: relative; padding-left: 20px;">
-                        <div style="position: absolute; left: 10px; top: 0; bottom: 0; width: 2px; background: linear-gradient(to bottom, var(--accent), var(--secondary), var(--accent2), var(--warning));"></div>
-                        <div style="position: relative; margin-bottom: 16px; padding: 10px 12px; background: var(--glass); border: 1px solid rgba(20,241,149,0.3); border-radius: 10px;">
-                            <div style="position: absolute; left: -16px; top: 14px; width: 10px; height: 10px; border-radius: 50%; background: var(--accent); border: 2px solid var(--bg);"></div>
-                            <div style="font-size: 0.75rem; font-weight: 600; color: var(--accent);"><i class="fas fa-user"></i> Patient → PCP</div>
-                            <div style="font-size: 0.63rem; color: var(--text-muted); margin-top: 3px;">Initial intake — full H&P anchored</div>
-                            <div style="font-size: 0.55rem; color: var(--text-muted); margin-top: 3px; font-family: monospace;">TX: prev=GENESIS | type=initial_intake</div>
-                        </div>
-                        <div style="position: relative; margin-bottom: 16px; padding: 10px 12px; background: var(--glass); border: 1px solid rgba(153,69,255,0.3); border-radius: 10px;">
-                            <div style="position: absolute; left: -16px; top: 14px; width: 10px; height: 10px; border-radius: 50%; background: var(--secondary); border: 2px solid var(--bg);"></div>
-                            <div style="font-size: 0.75rem; font-weight: 600; color: var(--secondary);"><i class="fas fa-user-md"></i> PCP → Cardiologist</div>
-                            <div style="font-size: 0.63rem; color: var(--text-muted); margin-top: 3px;">Referral for palpitations + abnormal ECG</div>
-                            <div style="font-size: 0.55rem; color: var(--text-muted); margin-top: 3px; font-family: monospace;">TX: prev=0xA1B2...C3D4 | type=referral_out</div>
-                        </div>
-                        <div style="position: relative; margin-bottom: 16px; padding: 10px 12px; background: var(--glass); border: 1px solid rgba(0,194,255,0.3); border-radius: 10px;">
-                            <div style="position: absolute; left: -16px; top: 14px; width: 10px; height: 10px; border-radius: 50%; background: var(--accent2); border: 2px solid var(--bg);"></div>
-                            <div style="font-size: 0.75rem; font-weight: 600; color: var(--accent2);"><i class="fas fa-heartbeat"></i> Cardiologist → ER</div>
-                            <div style="font-size: 0.63rem; color: var(--text-muted); margin-top: 3px;">Emergency handoff — acute chest pain during stress test</div>
-                            <div style="font-size: 0.55rem; color: var(--text-muted); margin-top: 3px; font-family: monospace;">TX: prev=0xD4E5...F6A1 | type=emergency_handoff</div>
-                        </div>
-                        <div style="position: relative; padding: 10px 12px; background: var(--glass); border: 1px solid rgba(255,215,0,0.3); border-radius: 10px;">
-                            <div style="position: absolute; left: -16px; top: 14px; width: 10px; height: 10px; border-radius: 50%; background: var(--warning); border: 2px solid var(--bg);"></div>
-                            <div style="font-size: 0.75rem; font-weight: 600; color: var(--warning);"><i class="fas fa-file-invoice"></i> ER → Insurance</div>
-                            <div style="font-size: 0.63rem; color: var(--text-muted); margin-top: 3px;">Claim submitted — verified against full care chain</div>
-                            <div style="font-size: 0.55rem; color: var(--text-muted); margin-top: 3px; font-family: monospace;">TX: prev=0xF6A1...B2C3 | type=insurance_claim</div>
-                        </div>
-                    </div>
-                    <div style="text-align: center; margin-top: 10px;">
-                        <span style="font-size: 0.62rem; color: var(--accent); font-weight: 600;"><i class="fas fa-check-circle"></i> Chain Integrity: VALID — 4 handoffs verified on-ledger</span>
-                    </div>
-                </div>
-
-                <!-- Wearable Integrations -->
-                <div class="section">
-                    <div class="pg-section-title"><i class="fas fa-heartbeat" style="color: var(--warning);"></i> Wearable Integrations</div>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px;">
-                        <div style="background: var(--glass); border: 1px solid var(--border); border-radius: 10px; padding: 10px; text-align: center;">
-                            <div style="font-size: 1.1rem; margin-bottom: 4px;">⌚</div>
-                            <div style="font-size: 0.68rem; font-weight: 600; color: var(--text);">Fitbit</div>
-                            <div style="font-size: 0.55rem; color: var(--accent); margin-top: 2px;">HR • SpO2 • ECG</div>
-                        </div>
-                        <div style="background: var(--glass); border: 1px solid var(--border); border-radius: 10px; padding: 10px; text-align: center;">
-                            <div style="font-size: 1.1rem; margin-bottom: 4px;">🍎</div>
-                            <div style="font-size: 0.68rem; font-weight: 600; color: var(--text);">Apple Health</div>
-                            <div style="font-size: 0.55rem; color: var(--accent); margin-top: 2px;">HR • O₂ • Temp</div>
-                        </div>
-                        <div style="background: var(--glass); border: 1px solid var(--border); border-radius: 10px; padding: 10px; text-align: center;">
-                            <div style="font-size: 1.1rem; margin-bottom: 4px;">📊</div>
-                            <div style="font-size: 0.68rem; font-weight: 600; color: var(--text);">Dexcom</div>
-                            <div style="font-size: 0.55rem; color: var(--accent); margin-top: 2px;">CGM • Glucose</div>
-                        </div>
-                        <div style="background: var(--glass); border: 1px solid var(--border); border-radius: 10px; padding: 10px; text-align: center;">
-                            <div style="font-size: 1.1rem; margin-bottom: 4px;">🩺</div>
-                            <div style="font-size: 0.68rem; font-weight: 600; color: var(--text);">Withings</div>
-                            <div style="font-size: 0.55rem; color: var(--accent); margin-top: 2px;">BP • Weight • Sleep</div>
-                        </div>
-                        <div style="background: var(--glass); border: 1px solid var(--border); border-radius: 10px; padding: 10px; text-align: center;">
-                            <div style="font-size: 1.1rem; margin-bottom: 4px;">🏃</div>
-                            <div style="font-size: 0.68rem; font-weight: 600; color: var(--text);">Google Fit</div>
-                            <div style="font-size: 0.55rem; color: var(--accent); margin-top: 2px;">HR • Steps • Stress</div>
-                        </div>
-                        <div style="background: var(--glass); border: 1px solid rgba(153,69,255,0.2); border-radius: 10px; padding: 10px; text-align: center;">
-                            <div style="font-size: 1.1rem; margin-bottom: 4px;">🧬</div>
-                            <div style="font-size: 0.68rem; font-weight: 600; color: var(--text);">ONNX ML</div>
-                            <div style="font-size: 0.55rem; color: var(--secondary); margin-top: 2px;">LSTM Anomaly</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- EHR Plugins -->
-                <div class="section">
-                    <div class="pg-section-title"><i class="fas fa-hospital" style="color: #ff5252;"></i> EHR Plugin Status</div>
-                    <div style="background: var(--glass); border: 1px solid var(--border); border-radius: 12px; overflow: hidden;">
-                        <div style="display: flex; align-items: center; padding: 10px 12px; border-bottom: 1px solid var(--border);">
-                            <div style="width: 28px; height: 28px; border-radius: 6px; background: rgba(20,241,149,0.15); display: flex; align-items: center; justify-content: center; font-size: 0.75rem; color: var(--accent); margin-right: 10px;"><i class="fas fa-hospital"></i></div>
-                            <div style="flex: 1;"><div style="font-size: 0.78rem; font-weight: 600; color: var(--text);">Epic Systems</div><div style="font-size: 0.6rem; color: var(--text-muted);">SMART on FHIR R4 • Auto-anchor</div></div>
-                            <span class="playground-badge" style="font-size: 0.52rem; background: rgba(20,241,149,0.15);"><i class="fas fa-code"></i> Ready</span>
-                        </div>
-                        <div style="display: flex; align-items: center; padding: 10px 12px; border-bottom: 1px solid var(--border);">
-                            <div style="width: 28px; height: 28px; border-radius: 6px; background: rgba(153,69,255,0.15); display: flex; align-items: center; justify-content: center; font-size: 0.75rem; color: var(--secondary); margin-right: 10px;"><i class="fas fa-hospital"></i></div>
-                            <div style="flex: 1;"><div style="font-size: 0.78rem; font-weight: 600; color: var(--text);">Oracle Cerner</div><div style="font-size: 0.6rem; color: var(--text-muted);">SMART on FHIR R4 • Auto-anchor</div></div>
-                            <span class="playground-badge" style="font-size: 0.52rem; background: rgba(153,69,255,0.15); color: var(--secondary);"><i class="fas fa-code"></i> Ready</span>
-                        </div>
-                        <div style="display: flex; align-items: center; padding: 10px 12px;">
-                            <div style="width: 28px; height: 28px; border-radius: 6px; background: rgba(0,194,255,0.15); display: flex; align-items: center; justify-content: center; font-size: 0.75rem; color: var(--accent2); margin-right: 10px;"><i class="fas fa-hospital"></i></div>
-                            <div style="flex: 1;"><div style="font-size: 0.78rem; font-weight: 600; color: var(--text);">athenahealth</div><div style="font-size: 0.6rem; color: var(--text-muted);">SMART on FHIR R4 • Auto-anchor</div></div>
-                            <span class="playground-badge" style="font-size: 0.52rem; background: rgba(0,194,255,0.15); color: var(--accent2);"><i class="fas fa-code"></i> Ready</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Revenue Model -->
-                <div class="section">
-                    <div class="pg-section-title"><i class="fas fa-coins" style="color: var(--warning);"></i> $SLS Utility Flow</div>
-                    <div style="background: var(--glass); border: 1px solid var(--border); border-radius: 12px; padding: 14px;">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                            <span style="font-size: 0.75rem; color: var(--text);"><i class="fas fa-anchor" style="color: var(--accent); margin-right: 4px;"></i> Per Anchor</span>
-                            <span style="font-size: 0.8rem; font-weight: 700; color: var(--accent);">0.000012 XRP</span>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                            <span style="font-size: 0.75rem; color: var(--text);"><i class="fas fa-envelope" style="color: var(--accent2); margin-right: 4px;"></i> Per Message</span>
-                            <span style="font-size: 0.8rem; font-weight: 700; color: var(--accent2);">0.00005 $SLS</span>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                            <span style="font-size: 0.75rem; color: var(--text);"><i class="fas fa-key" style="color: var(--secondary); margin-right: 4px;"></i> Per Consent Token</span>
-                            <span style="font-size: 0.8rem; font-weight: 700; color: var(--secondary);">0.0001 $SLS</span>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                            <span style="font-size: 0.75rem; color: var(--text);"><i class="fas fa-link" style="color: var(--warning); margin-right: 4px;"></i> Per Handoff</span>
-                            <span style="font-size: 0.8rem; font-weight: 700; color: var(--warning);">0.0001 $SLS</span>
-                        </div>
-                        <div style="border-top: 1px solid var(--border); padding-top: 8px; margin-top: 4px;">
-                            <div style="display: flex; justify-content: space-between; align-items: center;">
-                                <span style="font-size: 0.75rem; color: var(--text);"><i class="fas fa-gift" style="color: var(--accent); margin-right: 4px;"></i> Patient Data Bounty</span>
-                                <span style="font-size: 0.8rem; font-weight: 700; color: var(--accent);">Earn $SLS</span>
+                <!-- ========== HOW IT WORKS TAB ========== -->
+                <div id="svcnTab_howitworks" class="svcn-tab-content">
+                    <div class="section">
+                        <div class="pg-section-title"><i class="fas fa-cogs" style="color:var(--accent);"></i> How XRPL Powers the Care Network</div>
+                        <div style="font-size:0.68rem;color:var(--text-muted);line-height:1.6;margin-bottom:12px;">Every action in the Solus Protocol Verified Care Network anchors a cryptographic proof to the <strong style="color:var(--accent);">XRP Ledger</strong>. No PHI ever touches the chain — only SHA-256 hashes are stored in XRPL memo fields.</div>
+                        <!-- Flow Diagram -->
+                        <div style="background:var(--glass);border:1px solid var(--border);border-radius:12px;padding:14px;">
+                            <div style="font-size:0.72rem;font-weight:700;color:var(--text);margin-bottom:10px;">Data Flow: Record → XRPL</div>
+                            <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:center;">
+                                <div class="svcn-flow-node" style="background:rgba(20,241,149,0.15);border-color:rgba(20,241,149,0.3);"><i class="fas fa-file-medical" style="color:var(--accent);"></i><div>Raw Record</div></div>
+                                <div style="color:var(--text-muted);font-size:0.7rem;">→</div>
+                                <div class="svcn-flow-node" style="background:rgba(153,69,255,0.15);border-color:rgba(153,69,255,0.3);"><i class="fas fa-lock" style="color:var(--secondary);"></i><div>AES Encrypt</div></div>
+                                <div style="color:var(--text-muted);font-size:0.7rem;">→</div>
+                                <div class="svcn-flow-node" style="background:rgba(0,194,255,0.15);border-color:rgba(0,194,255,0.3);"><i class="fas fa-hashtag" style="color:var(--accent2);"></i><div>SHA-256</div></div>
+                                <div style="color:var(--text-muted);font-size:0.7rem;">→</div>
+                                <div class="svcn-flow-node" style="background:rgba(255,215,0,0.15);border-color:rgba(255,215,0,0.3);"><i class="fas fa-anchor" style="color:var(--warning);"></i><div>XRPL Memo</div></div>
+                                <div style="color:var(--text-muted);font-size:0.7rem;">→</div>
+                                <div class="svcn-flow-node" style="background:rgba(20,241,149,0.15);border-color:rgba(20,241,149,0.3);"><i class="fas fa-check-circle" style="color:var(--accent);"></i><div>Verified</div></div>
                             </div>
-                            <div style="font-size: 0.6rem; color: var(--text-muted); margin-top: 4px;">Patients earn micro-$SLS for every verified data point shared with consented parties.</div>
                         </div>
                     </div>
-                </div>
-
-                <!-- Impact Stats -->
-                <div class="section">
-                    <div class="pg-section-title"><i class="fas fa-chart-line" style="color: var(--accent);"></i> Market Impact</div>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
-                        <div style="background: var(--glass); border: 1px solid var(--border); border-radius: 10px; padding: 12px; text-align: center;">
-                            <div style="font-size: 1.1rem; font-weight: 800; color: var(--accent);">$40–50B</div>
-                            <div style="font-size: 0.6rem; color: var(--text-muted);">Annual U.S. post-discharge complication costs</div>
+                    <!-- XRPL Transaction Anatomy -->
+                    <div class="section">
+                        <div class="pg-section-title"><i class="fas fa-microscope" style="color:var(--secondary);"></i> XRPL Transaction Anatomy</div>
+                        <div style="background:rgba(0,0,0,0.3);border:1px solid var(--border);border-radius:10px;padding:12px;font-family:'SF Mono',monospace;font-size:0.58rem;color:var(--text-muted);line-height:1.8;">
+                            <div><span style="color:var(--secondary);">{</span></div>
+                            <div>&nbsp;&nbsp;<span style="color:var(--accent2);">"TransactionType"</span>: <span style="color:var(--accent);">"Payment"</span>,</div>
+                            <div>&nbsp;&nbsp;<span style="color:var(--accent2);">"Account"</span>: <span style="color:var(--text-muted);">"rSolusProtocol..."</span>,</div>
+                            <div>&nbsp;&nbsp;<span style="color:var(--accent2);">"Destination"</span>: <span style="color:var(--text-muted);">"rSolusProtocol..."</span>, <span style="color:var(--text-muted);">// self-payment</span></div>
+                            <div>&nbsp;&nbsp;<span style="color:var(--accent2);">"Amount"</span>: <span style="color:var(--warning);">"12"</span>, <span style="color:var(--text-muted);">// 0.000012 XRP (12 drops)</span></div>
+                            <div>&nbsp;&nbsp;<span style="color:var(--accent2);">"Memos"</span>: [<span style="color:var(--secondary);">{</span></div>
+                            <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--accent2);">"MemoType"</span>: <span style="color:var(--accent);">"solus:record_anchor"</span>,</div>
+                            <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--accent2);">"MemoData"</span>: <span style="color:var(--accent);">"a1b2c3d4e5...sha256hash"</span></div>
+                            <div>&nbsp;&nbsp;<span style="color:var(--secondary);">}</span>]</div>
+                            <div><span style="color:var(--secondary);">}</span></div>
                         </div>
-                        <div style="background: var(--glass); border: 1px solid var(--border); border-radius: 10px; padding: 12px; text-align: center;">
-                            <div style="font-size: 1.1rem; font-weight: 800; color: var(--secondary);">5–10%</div>
-                            <div style="font-size: 0.6rem; color: var(--text-muted);">Reduction target via earlier detection</div>
-                        </div>
-                        <div style="background: var(--glass); border: 1px solid var(--border); border-radius: 10px; padding: 12px; text-align: center;">
-                            <div style="font-size: 1.1rem; font-weight: 800; color: var(--accent2);"><1s</div>
-                            <div style="font-size: 0.6rem; color: var(--text-muted);">XRPL finality per anchor</div>
-                        </div>
-                        <div style="background: var(--glass); border: 1px solid var(--border); border-radius: 10px; padding: 12px; text-align: center;">
-                            <div style="font-size: 1.1rem; font-weight: 800; color: var(--warning);">$0.001</div>
-                            <div style="font-size: 0.6rem; color: var(--text-muted);">Max cost per anchored update</div>
+                        <div style="font-size:0.62rem;color:var(--text-muted);margin-top:8px;line-height:1.5;">
+                            <strong style="color:var(--accent);">Key insight:</strong> The XRPL transaction is a self-payment of 12 drops (0.000012 XRP ≈ $0.000006). The SHA-256 hash is stored only in the Memo fields. The ledger provides immutable, timestamped proof that this specific hash existed at this exact moment — without revealing any patient data.
                         </div>
                     </div>
-                </div>
-
-                <!-- SDK Files -->
-                <div class="section">
-                    <div style="background: var(--glass); border: 1px solid var(--border); border-radius: 12px; padding: 14px; font-size: 0.7rem; color: var(--text-muted); line-height: 1.6;">
-                        <div style="font-weight: 600; color: var(--text); margin-bottom: 6px;"><i class="fas fa-file-code" style="color: var(--accent);"></i> SDK Files</div>
-                        <div><span style="color: var(--accent); font-family: monospace;">solus_comms.py</span> — Messenger, Consent, Care Chain, Federated Batch, EHR Plugins (590 LOC)</div>
-                        <div><span style="color: var(--accent2); font-family: monospace;">solus_backup.py</span> — Encrypted backup/restore, XRPL verification, QR seed, cloud sync (310 LOC)</div>
-                        <div><span style="color: var(--secondary); font-family: monospace;">solus_anomaly.py</span> — Wearable APIs, anomaly engine, ONNX ML, auto-anchor (520 LOC)</div>
-                        <div style="margin-top: 6px;"><i class="fas fa-info-circle" style="color: var(--accent2);"></i> All modules use mock OAuth2/API keys in prototype. Swap <span style="font-family: monospace;">MOCK_*</span> constants for production.</div>
+                    <!-- $SLS Token Utility -->
+                    <div class="section">
+                        <div class="pg-section-title"><i class="fas fa-coins" style="color:var(--warning);"></i> $SLS Token in the Care Network</div>
+                        <div style="background:var(--glass);border:1px solid var(--border);border-radius:12px;overflow:hidden;">
+                            <div style="padding:11px 13px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;">
+                                <div><div style="font-size:0.75rem;font-weight:600;color:var(--text);"><i class="fas fa-comment-medical" style="color:var(--accent);margin-right:4px;"></i> Send Message</div><div style="font-size:0.58rem;color:var(--text-muted);">Encrypted message anchored to XRPL</div></div>
+                                <div style="text-align:right;"><div style="font-size:0.72rem;font-weight:700;color:var(--accent);">0.00005 $SLS</div><div style="font-size:0.52rem;color:var(--text-muted);">+ 12 drops XRP</div></div>
+                            </div>
+                            <div style="padding:11px 13px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;">
+                                <div><div style="font-size:0.75rem;font-weight:600;color:var(--text);"><i class="fas fa-key" style="color:var(--secondary);margin-right:4px;"></i> Issue Consent Token</div><div style="font-size:0.58rem;color:var(--text-muted);">Create time-limited access grant</div></div>
+                                <div style="text-align:right;"><div style="font-size:0.72rem;font-weight:700;color:var(--secondary);">0.0001 $SLS</div><div style="font-size:0.52rem;color:var(--text-muted);">+ 12 drops XRP</div></div>
+                            </div>
+                            <div style="padding:11px 13px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;">
+                                <div><div style="font-size:0.75rem;font-weight:600;color:var(--text);"><i class="fas fa-link" style="color:var(--accent2);margin-right:4px;"></i> Care Chain Handoff</div><div style="font-size:0.58rem;color:var(--text-muted);">Verified custody transfer between providers</div></div>
+                                <div style="text-align:right;"><div style="font-size:0.72rem;font-weight:700;color:var(--accent2);">0.0001 $SLS</div><div style="font-size:0.52rem;color:var(--text-muted);">+ 12 drops XRP</div></div>
+                            </div>
+                            <div style="padding:11px 13px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;">
+                                <div><div style="font-size:0.75rem;font-weight:600;color:var(--text);"><i class="fas fa-heartbeat" style="color:var(--warning);margin-right:4px;"></i> Anomaly Anchor</div><div style="font-size:0.58rem;color:var(--text-muted);">Wearable anomaly auto-anchored</div></div>
+                                <div style="text-align:right;"><div style="font-size:0.72rem;font-weight:700;color:var(--warning);">0.00005 $SLS</div><div style="font-size:0.52rem;color:var(--text-muted);">+ 12 drops XRP</div></div>
+                            </div>
+                            <div style="padding:11px 13px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;">
+                                <div><div style="font-size:0.75rem;font-weight:600;color:var(--text);"><i class="fas fa-layer-group" style="color:var(--accent);margin-right:4px;"></i> Federated Batch</div><div style="font-size:0.58rem;color:var(--text-muted);">Multi-institution Merkle root</div></div>
+                                <div style="text-align:right;"><div style="font-size:0.72rem;font-weight:700;color:var(--accent);">0.001 $SLS</div><div style="font-size:0.52rem;color:var(--text-muted);">+ 12 drops XRP (1 TX for all)</div></div>
+                            </div>
+                            <div style="padding:11px 13px;display:flex;justify-content:space-between;align-items:center;">
+                                <div><div style="font-size:0.75rem;font-weight:600;color:var(--text);"><i class="fas fa-gift" style="color:var(--accent);margin-right:4px;"></i> Patient Data Bounty</div><div style="font-size:0.58rem;color:var(--text-muted);">Earned when sharing consented data</div></div>
+                                <div style="text-align:right;"><div style="font-size:0.72rem;font-weight:700;color:var(--accent);">Earn $SLS</div><div style="font-size:0.52rem;color:var(--text-muted);">per verified data point</div></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Why XRPL -->
+                    <div class="section">
+                        <div class="pg-section-title"><i class="fas fa-bolt" style="color:var(--accent);"></i> Why XRPL?</div>
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                            <div style="background:var(--glass);border:1px solid var(--border);border-radius:10px;padding:11px;text-align:center;">
+                                <div style="font-size:1.05rem;font-weight:800;color:var(--accent);">3-5s</div>
+                                <div style="font-size:0.58rem;color:var(--text-muted);">Finality — vs 10-60 min on ETH/BTC</div>
+                            </div>
+                            <div style="background:var(--glass);border:1px solid var(--border);border-radius:10px;padding:11px;text-align:center;">
+                                <div style="font-size:1.05rem;font-weight:800;color:var(--secondary);">$0.000006</div>
+                                <div style="font-size:0.58rem;color:var(--text-muted);">Per TX — 1,917x cheaper than Ethereum</div>
+                            </div>
+                            <div style="background:var(--glass);border:1px solid var(--border);border-radius:10px;padding:11px;text-align:center;">
+                                <div style="font-size:1.05rem;font-weight:800;color:var(--accent2);">1,500</div>
+                                <div style="font-size:0.58rem;color:var(--text-muted);">TX/sec — healthcare-grade throughput</div>
+                            </div>
+                            <div style="background:var(--glass);border:1px solid var(--border);border-radius:10px;padding:11px;text-align:center;">
+                                <div style="font-size:1.05rem;font-weight:800;color:var(--warning);">10+ yrs</div>
+                                <div style="font-size:0.58rem;color:var(--text-muted);">Proven uptime — zero chain halts</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Security Model -->
+                    <div class="section">
+                        <div class="pg-section-title"><i class="fas fa-shield-alt" style="color:var(--accent2);"></i> Zero-Knowledge Security Model</div>
+                        <div style="background:var(--glass);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:0.66rem;color:var(--text-muted);line-height:1.7;">
+                            <div style="margin-bottom:6px;"><span style="color:var(--accent);font-weight:600;">1.</span> Raw PHI is <strong style="color:var(--text);">never</strong> transmitted to the blockchain.</div>
+                            <div style="margin-bottom:6px;"><span style="color:var(--accent);font-weight:600;">2.</span> Data is AES-128 encrypted at the application layer, stored in the provider's HIPAA-compliant database.</div>
+                            <div style="margin-bottom:6px;"><span style="color:var(--accent);font-weight:600;">3.</span> A SHA-256 hash of the encrypted record is computed.</div>
+                            <div style="margin-bottom:6px;"><span style="color:var(--accent);font-weight:600;">4.</span> Only the hash is written to XRPL memo fields — the hash is irreversible.</div>
+                            <div style="margin-bottom:6px;"><span style="color:var(--accent);font-weight:600;">5.</span> To verify: re-hash the local record and compare with on-chain hash.</div>
+                            <div><span style="color:var(--accent);font-weight:600;">6.</span> If hashes match → record has not been tampered with since anchoring.</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -5506,6 +5486,7 @@
             document.getElementById(screenId).classList.add('active');
             if (screenId === 'metricsScreen') loadMetricsAPI();
             if (screenId === 'analyticsScreen') loadAnalytics();
+            if (screenId === 'svcnScreen') initSVCN();
         }
 
         function showScreen(screenId) {
@@ -8120,6 +8101,724 @@
                 return `<div class="analytics-tag"><div class="tag-dot" style="background: ${color};"></div><i class="fas fa-${icon}" style="color: ${color}; font-size: 0.7rem; margin-right: 3px;"></i>${e[0]} <span style="color: var(--text-muted); margin-left: 2px;">(${e[1]})</span></div>`;
             }).join('');
         }
+
+        // ===== SVCN INTERACTIVE ENGINE =====
+        const SVCN_SCENARIOS = [
+            {id:'s1',title:'Post-Op Hip Replacement Monitoring',persona:'patient',icon:'fa-walking',color:'var(--accent)',
+             desc:'Maria, 68, just had hip replacement surgery. Her Apple Watch detects elevated heart rate and low SpO2 at 2 AM — 6 hours before her scheduled follow-up.',
+             steps:[
+                {label:'Apple Watch reads vitals',detail:'HR: 112 bpm, SpO2: 91%, Temp: 38.4°C',icon:'fa-heartbeat',type:'wearable'},
+                {label:'Anomaly Engine triggers',detail:'Rule: HR > 100 AND SpO2 < 93 → CRITICAL for hip_replacement post-op',icon:'fa-exclamation-triangle',type:'anomaly'},
+                {label:'Vitals encrypted (AES-128)',detail:'Raw PHI encrypted with patient key → ciphertext',icon:'fa-lock',type:'encrypt'},
+                {label:'SHA-256 hash computed',detail:'Hash: a7f3b2...e9d1 (irreversible — no PHI in hash)',icon:'fa-hashtag',type:'hash'},
+                {label:'Anchored to XRPL',detail:'TX submitted → 12 drops fee → Memo: solus:anomaly:hip_post_op',icon:'fa-anchor',type:'xrpl'},
+                {label:'$SLS fee: 0.00005',detail:'Trust line debit for anomaly anchor service',icon:'fa-coins',type:'sls'},
+                {label:'Push alert to Dr. Chen',detail:'Solus Protocol: CRITICAL — Post-op anomaly detected for Maria G.',icon:'fa-bell',type:'notify'},
+                {label:'Dr. Chen reviews in Epic EHR',detail:'SMART on FHIR plugin surfaces anchored vitals in Epic sidebar',icon:'fa-hospital',type:'ehr'}
+             ]},
+            {id:'s2',title:'Emergency Room Handoff Chain',persona:'emergency',icon:'fa-ambulance',color:'#ff5252',
+             desc:'James collapses at work. Paramedics → ER → Cardiologist → ICU. Every handoff is anchored with chain-of-custody proof.',
+             steps:[
+                {label:'Paramedic captures vitals',detail:'BP: 85/55, HR: 135, SpO2: 88%, GCS: 12',icon:'fa-ambulance',type:'capture'},
+                {label:'Vitals anchored to XRPL',detail:'solus:handoff:emergency_intake | prev=GENESIS',icon:'fa-anchor',type:'xrpl'},
+                {label:'ER receives handoff',detail:'Dr. Patel accepts custody — linked to paramedic TX hash',icon:'fa-exchange-alt',type:'handoff'},
+                {label:'ER handoff anchored',detail:'solus:handoff:er_admit | prev=0xA1B2...C3D4',icon:'fa-anchor',type:'xrpl'},
+                {label:'Cardiologist consult',detail:'Dr. Kim receives cardiac referral — chain grows to 3 links',icon:'fa-heart',type:'handoff'},
+                {label:'Cardiology handoff anchored',detail:'solus:handoff:specialist_referral | prev=0xD4E5...F6A1',icon:'fa-anchor',type:'xrpl'},
+                {label:'ICU admission',detail:'Full chain verified: 4 handoffs, all linked on-ledger',icon:'fa-procedures',type:'handoff'},
+                {label:'Chain integrity verified',detail:'✓ All TX hashes link correctly — immutable custody trail',icon:'fa-check-circle',type:'verify'}
+             ]},
+            {id:'s3',title:'Patient Grants Consent to Specialist',persona:'patient',icon:'fa-key',color:'var(--secondary)',
+             desc:'Sarah needs to share her cardiology records with a new endocrinologist. She creates a time-limited consent token from her phone.',
+             steps:[
+                {label:'Sarah opens Consent Manager',detail:'Selects data categories: lab_results, medications, imaging',icon:'fa-key',type:'consent'},
+                {label:'Sets access parameters',detail:'Provider: Dr. Rivera | Duration: 30 days | Read-only',icon:'fa-clock',type:'consent'},
+                {label:'Consent token created',detail:'Token ID: CST-7F2A...B3E1 | Categories: 3 | Revocable',icon:'fa-ticket-alt',type:'consent'},
+                {label:'Token encrypted & hashed',detail:'SHA-256 of consent payload: c4d5e6...f7a8',icon:'fa-hashtag',type:'hash'},
+                {label:'Anchored to XRPL',detail:'solus:consent:grant | token_id=CST-7F2A...B3E1',icon:'fa-anchor',type:'xrpl'},
+                {label:'$SLS fee: 0.0001',detail:'Consent token issuance fee via trust line',icon:'fa-coins',type:'sls'},
+                {label:'Dr. Rivera notified',detail:'Secure notification: "Sarah M. granted 30-day access to 3 categories"',icon:'fa-bell',type:'notify'},
+                {label:'Dr. Rivera accesses records',detail:'EHR plugin pulls consented data — verified against on-chain token',icon:'fa-hospital',type:'ehr'}
+             ]},
+            {id:'s4',title:'Secure Provider-to-Provider Message',persona:'provider',icon:'fa-comment-medical',color:'var(--accent2)',
+             desc:'Dr. Patel needs to discuss a complex case with Dr. Kim. Every message is encrypted, anchored, and has delivery receipts.',
+             steps:[
+                {label:'Dr. Patel composes message',detail:'"Patient shows atypical troponin elevation. Recommend urgent echo."',icon:'fa-pen',type:'compose'},
+                {label:'Message encrypted (AES-128)',detail:'Plaintext → ciphertext with shared session key',icon:'fa-lock',type:'encrypt'},
+                {label:'SHA-256 hash computed',detail:'Hash of encrypted message: b2c3d4...e5f6',icon:'fa-hashtag',type:'hash'},
+                {label:'Anchored to XRPL',detail:'solus:msg:clinical_update | thread=THR-9A1B...',icon:'fa-anchor',type:'xrpl'},
+                {label:'$SLS fee: 0.00005',detail:'Message anchoring service fee',icon:'fa-coins',type:'sls'},
+                {label:'Dr. Kim receives & decrypts',detail:'Push notification → opens in secure viewer → plaintext',icon:'fa-envelope-open',type:'receive'},
+                {label:'ACK receipt anchored',detail:'solus:ack:read | msg_hash=b2c3d4...e5f6',icon:'fa-check-double',type:'xrpl'},
+                {label:'Audit trail complete',detail:'Both send and read events are on-chain — HIPAA audit-ready',icon:'fa-clipboard-check',type:'verify'}
+             ]},
+            {id:'s5',title:'Dexcom CGM Glucose Spike',persona:'patient',icon:'fa-tint',color:'var(--warning)',
+             desc:'Tom, a Type 1 diabetic recovering from appendectomy, has a dangerous glucose spike detected by his Dexcom G7 CGM.',
+             steps:[
+                {label:'Dexcom G7 reads glucose',detail:'Glucose: 342 mg/dL (CRITICAL — normal: 70-180)',icon:'fa-tint',type:'wearable'},
+                {label:'Anomaly Engine triggers',detail:'Rule: glucose > 300 mg/dL → CRITICAL for appendectomy post-op',icon:'fa-exclamation-triangle',type:'anomaly'},
+                {label:'Context enriched',detail:'Cross-ref: last insulin dose 4h ago, post-op Day 2, stress response likely',icon:'fa-brain',type:'analysis'},
+                {label:'Encrypted & hashed',detail:'Glucose payload + context → AES → SHA-256: d5e6f7...a8b9',icon:'fa-hashtag',type:'hash'},
+                {label:'Anchored to XRPL',detail:'solus:anomaly:glucose_critical | severity=CRITICAL',icon:'fa-anchor',type:'xrpl'},
+                {label:'$SLS fee: 0.00005',detail:'Auto-anchor fee for anomaly detection',icon:'fa-coins',type:'sls'},
+                {label:'Endocrinologist alerted',detail:'Dr. Shah receives: "CRITICAL glucose 342 — appendectomy post-op Day 2"',icon:'fa-bell',type:'notify'},
+                {label:'Insulin dosage adjusted',detail:'Dr. Shah orders correction — new order anchored to chain',icon:'fa-prescription',type:'ehr'}
+             ]},
+            {id:'s6',title:'Federated Multi-Hospital Batch',persona:'system',icon:'fa-layer-group',color:'var(--accent)',
+             desc:'Three hospitals batch their daily records into a single XRPL transaction using a Merkle root — 847 records, 1 TX.',
+             steps:[
+                {label:'Hospital A submits 312 hashes',detail:'Memorial General — oncology, cardiology, pediatrics',icon:'fa-hospital',type:'batch'},
+                {label:'Hospital B submits 289 hashes',detail:'St. Mary\'s Medical — surgery, orthopedics, neurology',icon:'fa-hospital',type:'batch'},
+                {label:'Hospital C submits 246 hashes',detail:'University Health — research trials, rare disease, genetics',icon:'fa-hospital',type:'batch'},
+                {label:'Merkle tree computed',detail:'847 leaf hashes → binary tree → root: f7a8b9...c0d1',icon:'fa-sitemap',type:'merkle'},
+                {label:'Single TX anchored',detail:'solus:fed_batch:merkle_root | count=847 | institutions=3',icon:'fa-anchor',type:'xrpl'},
+                {label:'$SLS fee: 0.001 total',detail:'Split 3 ways via shared trust line — $0.00033 each',icon:'fa-coins',type:'sls'},
+                {label:'Proof distributed',detail:'Each hospital receives Merkle proof for their records',icon:'fa-certificate',type:'verify'},
+                {label:'Cost comparison',detail:'847 records × $0.000012 = $0.010164 individual vs $0.000012 batched — 847× savings',icon:'fa-chart-line',type:'savings'}
+             ]},
+            {id:'s7',title:'Patient Revokes Consent',persona:'patient',icon:'fa-ban',color:'#ff5252',
+             desc:'David discovers his former provider still has access to his records. He instantly revokes the consent token from his phone.',
+             steps:[
+                {label:'David opens active consents',detail:'Views 4 active tokens — spots one for "Dr. Former, expired clinic"',icon:'fa-list',type:'consent'},
+                {label:'Selects token to revoke',detail:'Token CST-3B4C...D5E6 | Granted 6 months ago | Full access',icon:'fa-times-circle',type:'consent'},
+                {label:'Confirms revocation',detail:'"Are you sure? This immediately blocks all access for Dr. Former."',icon:'fa-exclamation-circle',type:'consent'},
+                {label:'Revocation hashed',detail:'SHA-256 of revocation event: e6f7a8...b9c0',icon:'fa-hashtag',type:'hash'},
+                {label:'Anchored to XRPL',detail:'solus:consent:revoke | token_id=CST-3B4C...D5E6 | immediate=true',icon:'fa-anchor',type:'xrpl'},
+                {label:'Access blocked instantly',detail:'EHR plugin checks on-chain status → token revoked → access denied',icon:'fa-shield-alt',type:'verify'},
+                {label:'Dr. Former notified',detail:'"Patient David M. has revoked your access effective immediately"',icon:'fa-bell',type:'notify'},
+                {label:'Immutable audit trail',detail:'Grant + revoke both on-chain — proves exact access window for compliance',icon:'fa-clipboard-check',type:'verify'}
+             ]},
+            {id:'s8',title:'Backup & Recovery After Lost Phone',persona:'patient',icon:'fa-mobile-alt',color:'var(--accent2)',
+             desc:'Lisa\'s phone is stolen. She uses her encrypted QR seed backup to restore her entire health wallet on a new device.',
+             steps:[
+                {label:'Lisa reports device lost',detail:'Logs into web portal → initiates remote wallet lock',icon:'fa-lock',type:'security'},
+                {label:'Wallet locked on old device',detail:'All local keys invalidated — data encrypted at rest remains safe',icon:'fa-shield-alt',type:'security'},
+                {label:'Retrieves QR seed backup',detail:'Scans encrypted QR code stored in home safe',icon:'fa-qrcode',type:'backup'},
+                {label:'Enters recovery passphrase',detail:'12-word mnemonic decrypts the QR seed → wallet key restored',icon:'fa-key',type:'backup'},
+                {label:'Cloud backup downloaded',detail:'Encrypted .solusbackup file pulled from patient-controlled storage',icon:'fa-cloud-download-alt',type:'backup'},
+                {label:'Backup integrity verified',detail:'Re-hash all records → compare with XRPL anchored hashes',icon:'fa-check-double',type:'verify'},
+                {label:'147 of 147 records verified',detail:'All on-chain hashes match — zero tampering detected',icon:'fa-certificate',type:'verify'},
+                {label:'Wallet fully restored',detail:'All records, consent tokens, care chain history — restored in 23 seconds',icon:'fa-check-circle',type:'success'}
+             ]},
+            {id:'s9',title:'Withings Blood Pressure Alert',persona:'patient',icon:'fa-stethoscope',color:'var(--secondary)',
+             desc:'Robert\'s Withings BPM Connect detects Stage 2 hypertension during cardiac surgery recovery.',
+             steps:[
+                {label:'Withings reads BP',detail:'Systolic: 178, Diastolic: 112 (Stage 2 Hypertension)',icon:'fa-stethoscope',type:'wearable'},
+                {label:'Anomaly Engine evaluates',detail:'Rule: systolic > 160 OR diastolic > 100 → HIGH for cardiac_surgery',icon:'fa-exclamation-triangle',type:'anomaly'},
+                {label:'Trend analysis added',detail:'3 consecutive readings above threshold — escalation triggered',icon:'fa-chart-line',type:'analysis'},
+                {label:'Encrypted & anchored',detail:'BP payload → AES-128 → SHA-256 → XRPL memo',icon:'fa-anchor',type:'xrpl'},
+                {label:'$SLS fee: 0.00005',detail:'Anomaly detection service fee',icon:'fa-coins',type:'sls'},
+                {label:'Cardiologist alerted',detail:'Dr. Park: "ELEVATED BP 178/112 — cardiac post-op Day 3"',icon:'fa-bell',type:'notify'},
+                {label:'Medication adjustment ordered',detail:'Increase amlodipine 5mg → 10mg — order anchored',icon:'fa-prescription',type:'ehr'},
+                {label:'Follow-up monitoring set',detail:'Anomaly engine adjusts thresholds for new medication baseline',icon:'fa-cogs',type:'configure'}
+             ]},
+            {id:'s10',title:'Epic EHR Auto-Anchor',persona:'provider',icon:'fa-hospital',color:'#ff5252',
+             desc:'Mount Sinai\'s Epic SMART on FHIR plugin automatically anchors every clinically significant event — zero workflow disruption.',
+             steps:[
+                {label:'Dr. Adams enters note in Epic',detail:'Progress note: "Patient stable, wound healing well, discharge Day 3"',icon:'fa-pen',type:'ehr'},
+                {label:'FHIR webhook fires',detail:'Epic detects clinically significant event → triggers Solus Protocol plugin',icon:'fa-bolt',type:'ehr'},
+                {label:'Plugin extracts metadata',detail:'Event type: progress_note | Patient ID: hashed | Provider: Dr. Adams',icon:'fa-cogs',type:'ehr'},
+                {label:'Record hashed (SHA-256)',detail:'Note content → SHA-256: a8b9c0...d1e2 (no PHI leaves Epic)',icon:'fa-hashtag',type:'hash'},
+                {label:'Anchored to XRPL',detail:'solus:ehr:epic:progress_note | auto=true',icon:'fa-anchor',type:'xrpl'},
+                {label:'$SLS fee: 0.00005',detail:'Auto-anchor fee — billed to institution trust line',icon:'fa-coins',type:'sls'},
+                {label:'Zero clicks for Dr. Adams',detail:'She doesn\'t even know it happened — zero workflow disruption',icon:'fa-magic',type:'success'},
+                {label:'Audit log updated',detail:'Record appears in patient\'s anchor history with Epic source badge',icon:'fa-clipboard-check',type:'verify'}
+             ]},
+            {id:'s11',title:'Care Chain: PCP → Specialist → Surgery',persona:'provider',icon:'fa-project-diagram',color:'var(--accent)',
+             desc:'Complete care journey from initial complaint to surgery, with every handoff creating a verifiable custody chain.',
+             steps:[
+                {label:'PCP initial visit',detail:'Dr. Wilson: "Persistent knee pain, 3 months, worsening" — anchored',icon:'fa-user-md',type:'handoff'},
+                {label:'Referral to Orthopedist',detail:'solus:handoff:referral_out | reason=chronic_knee | prev=GENESIS',icon:'fa-anchor',type:'xrpl'},
+                {label:'Orthopedist accepts',detail:'Dr. Santos receives referral + full anchored history → accepts custody',icon:'fa-exchange-alt',type:'handoff'},
+                {label:'MRI ordered & results anchored',detail:'Findings: ACL tear, Grade III — imaging hash anchored',icon:'fa-x-ray',type:'capture'},
+                {label:'Surgery recommended',detail:'Dr. Santos → Pre-op handoff to surgical team',icon:'fa-procedures',type:'handoff'},
+                {label:'Surgical handoff anchored',detail:'solus:handoff:pre_op | surgeon=Dr.Lee | prev=0xC3D4...E5F6',icon:'fa-anchor',type:'xrpl'},
+                {label:'Post-op to Recovery',detail:'Successful ACL reconstruction — post-op vitals anchored',icon:'fa-check-circle',type:'handoff'},
+                {label:'Full chain: 7 linked TXs',detail:'PCP → Ortho → Imaging → Surgery → Recovery — complete CustodyChain™',icon:'fa-link',type:'verify'}
+             ]},
+            {id:'s12',title:'Insurance Claim Verification',persona:'system',icon:'fa-file-invoice-dollar',color:'var(--warning)',
+             desc:'United Healthcare verifies a $47,000 surgery claim by checking the on-chain care chain — fraud detection in seconds.',
+             steps:[
+                {label:'Claim submitted',detail:'$47,000 — ACL reconstruction, 2-day stay, anesthesia, PT eval',icon:'fa-file-invoice-dollar',type:'claim'},
+                {label:'Insurer queries care chain',detail:'Pull all TX hashes for patient + procedure code 27427',icon:'fa-search',type:'verify'},
+                {label:'7 on-chain TXs found',detail:'PCP referral → Ortho consult → MRI → Pre-op → Surgery → Recovery → Discharge',icon:'fa-link',type:'verify'},
+                {label:'Each hash verified',detail:'Re-hash provider records → compare with on-chain → all 7 match',icon:'fa-check-double',type:'verify'},
+                {label:'Timeline validated',detail:'All timestamps sequential, no gaps, clinically consistent',icon:'fa-clock',type:'verify'},
+                {label:'Fraud risk: NONE',detail:'Complete verifiable chain eliminates $47B/yr in healthcare fraud',icon:'fa-shield-alt',type:'success'},
+                {label:'Claim auto-approved',detail:'Verified chain → instant approval → provider paid in 48h vs 30 days',icon:'fa-credit-card',type:'success'},
+                {label:'$0.000084 verification cost',detail:'7 TX lookups × $0.000012 = $0.000084 vs $150 manual review',icon:'fa-chart-line',type:'savings'}
+             ]}
+        ];
+
+        let svcnCurrentFilter = 'all';
+        let svcnRunning = false;
+        let svcnCurrentModule = 'messenger';
+        let svcnTutorialStep = 0;
+        let svcnSandboxState = { messages: [], consents: [], handoffs: [], vitals: [], batchQueue: [], backups: [] };
+
+        function svcnSwitchTab(tab) {
+            document.querySelectorAll('.svcn-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.svcn-tab-content').forEach(c => c.classList.remove('active'));
+            document.querySelector(`.svcn-tab[data-tab="${tab}"]`).classList.add('active');
+            document.getElementById(`svcnTab_${tab}`).classList.add('active');
+            if (tab === 'scenarios') svcnRenderScenarios();
+            if (tab === 'sandbox') svcnRenderSandboxModule(svcnCurrentModule);
+        }
+
+        function svcnFilterScenarios(persona, btn) {
+            svcnCurrentFilter = persona;
+            document.querySelectorAll('.svcn-persona-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            svcnRenderScenarios();
+        }
+
+        function svcnRenderScenarios() {
+            const grid = document.getElementById('svcnScenarioGrid');
+            const filtered = svcnCurrentFilter === 'all' ? SVCN_SCENARIOS : SVCN_SCENARIOS.filter(s => s.persona === svcnCurrentFilter);
+            grid.innerHTML = filtered.map(s => `
+                <div class="svcn-scenario-card" onclick="svcnRunScenario('${s.id}')">
+                    <div style="display:flex;align-items:center;gap:10px;">
+                        <div style="width:36px;height:36px;border-radius:10px;background:${s.color === 'var(--accent)' ? 'rgba(20,241,149,0.15)' : s.color === 'var(--secondary)' ? 'rgba(153,69,255,0.15)' : s.color === 'var(--accent2)' ? 'rgba(0,194,255,0.15)' : s.color === 'var(--warning)' ? 'rgba(255,215,0,0.15)' : 'rgba(255,82,82,0.15)'};display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                            <i class="fas ${s.icon}" style="color:${s.color};font-size:0.85rem;"></i>
+                        </div>
+                        <div style="flex:1;min-width:0;">
+                            <div style="font-size:0.75rem;font-weight:600;color:var(--text);margin-bottom:2px;">${s.title}</div>
+                            <div style="font-size:0.6rem;color:var(--text-muted);line-height:1.4;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;">${s.desc}</div>
+                        </div>
+                        <div style="flex-shrink:0;">
+                            <span class="playground-badge" style="font-size:0.52rem;background:${s.persona==='patient'?'rgba(20,241,149,0.15)':s.persona==='provider'?'rgba(153,69,255,0.15)':s.persona==='system'?'rgba(0,194,255,0.15)':'rgba(255,82,82,0.15)'};color:${s.persona==='patient'?'var(--accent)':s.persona==='provider'?'var(--secondary)':s.persona==='system'?'var(--accent2)':'#ff5252'};">${s.persona}</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function svcnRunScenario(id) {
+            if (svcnRunning) return;
+            const scenario = SVCN_SCENARIOS.find(s => s.id === id);
+            if (!scenario) return;
+            svcnRunning = true;
+            const panel = document.getElementById('svcnExecPanel');
+            const grid = document.getElementById('svcnScenarioGrid');
+            document.getElementById('svcnExecTitle').innerHTML = `<i class="fas ${scenario.icon}" style="color:${scenario.color};margin-right:6px;"></i>${scenario.title}`;
+            document.getElementById('svcnExecDesc').textContent = scenario.desc;
+            document.getElementById('svcnConsole').innerHTML = '';
+            document.getElementById('svcnCostSummary').style.display = 'none';
+            const stepsEl = document.getElementById('svcnExecSteps');
+            stepsEl.innerHTML = scenario.steps.map((st, i) => `
+                <div class="svcn-step" id="svcnStep_${i}">
+                    <div style="display:flex;align-items:center;gap:10px;">
+                        <div class="step-status" id="svcnStepStatus_${i}">${i + 1}</div>
+                        <div style="flex:1;">
+                            <div style="font-size:0.72rem;font-weight:600;color:var(--text);">${st.label}</div>
+                            <div style="font-size:0.6rem;color:var(--text-muted);margin-top:2px;">${st.detail}</div>
+                        </div>
+                        <i class="fas ${st.icon}" style="color:var(--text-muted);font-size:0.7rem;opacity:0.5;"></i>
+                    </div>
+                </div>
+            `).join('');
+            grid.style.display = 'none';
+            panel.style.display = 'block';
+            panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+            let totalSLS = 0;
+            let totalXRP = 0;
+            const typeColors = {wearable:'var(--accent)',anomaly:'var(--warning)',encrypt:'var(--secondary)',hash:'var(--accent2)',xrpl:'var(--accent)',sls:'var(--warning)',notify:'var(--accent2)',ehr:'#ff5252',capture:'var(--accent)',handoff:'var(--secondary)',verify:'var(--accent)',consent:'var(--secondary)',compose:'var(--accent2)',receive:'var(--accent)',batch:'var(--accent2)',merkle:'var(--secondary)',analysis:'var(--accent2)',security:'#ff5252',backup:'var(--accent2)',success:'var(--accent)',claim:'var(--warning)',configure:'var(--text-muted)',savings:'var(--accent)'};
+
+            function runStep(i) {
+                if (i >= scenario.steps.length) {
+                    svcnLog('svcnConsole', '─'.repeat(40), 'var(--border)');
+                    svcnLog('svcnConsole', '✓ Scenario complete', 'var(--accent)');
+                    if (totalXRP > 0 || totalSLS > 0) {
+                        const summary = document.getElementById('svcnCostSummary');
+                        summary.style.display = 'block';
+                        summary.innerHTML = `
+                            <div style="font-size:0.7rem;font-weight:700;color:var(--text);margin-bottom:6px;"><i class="fas fa-receipt" style="color:var(--accent);margin-right:4px;"></i> Cost Summary</div>
+                            <div style="display:flex;justify-content:space-between;font-size:0.65rem;margin-bottom:3px;"><span style="color:var(--text-muted);">XRPL TX fees</span><span style="color:var(--accent);font-weight:600;">${totalXRP} drops ($${(totalXRP * 0.0000005).toFixed(8)})</span></div>
+                            <div style="display:flex;justify-content:space-between;font-size:0.65rem;margin-bottom:3px;"><span style="color:var(--text-muted);">$SLS service fees</span><span style="color:var(--warning);font-weight:600;">${totalSLS.toFixed(5)} $SLS</span></div>
+                            <div style="border-top:1px solid var(--border);padding-top:4px;margin-top:4px;display:flex;justify-content:space-between;font-size:0.65rem;"><span style="color:var(--text);">Total cost</span><span style="color:var(--accent);font-weight:700;">< $0.001</span></div>
+                        `;
+                    }
+                    svcnRunning = false;
+                    return;
+                }
+                const step = scenario.steps[i];
+                const stepEl = document.getElementById(`svcnStep_${i}`);
+                const statusEl = document.getElementById(`svcnStepStatus_${i}`);
+                stepEl.classList.add('active');
+                stepEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                const color = typeColors[step.type] || 'var(--text-muted)';
+                svcnLog('svcnConsole', `[Step ${i+1}] ${step.label}`, color);
+
+                if (step.type === 'xrpl') { totalXRP += 12; svcnLog('svcnConsole', `  → XRPL TX: 12 drops | Memo: ${step.detail.split('|')[0].trim().split(':').slice(-1)}`, 'var(--accent)'); }
+                if (step.type === 'sls') { const m = step.detail.match(/([\d.]+)/); if (m) totalSLS += parseFloat(m[1]); svcnLog('svcnConsole', `  → $SLS fee debit via trust line`, 'var(--warning)'); }
+                if (step.type === 'hash') { svcnLog('svcnConsole', `  → ${_svcnMockHash()}`, 'var(--accent2)'); }
+
+                const delay = step.type === 'xrpl' ? 1200 : step.type === 'hash' ? 600 : step.type === 'encrypt' ? 500 : 800;
+                setTimeout(() => {
+                    stepEl.classList.remove('active');
+                    stepEl.classList.add('done');
+                    statusEl.innerHTML = '<i class="fas fa-check"></i>';
+                    svcnLog('svcnConsole', `  ✓ Done (${(delay/1000).toFixed(1)}s)`, 'var(--text-muted)');
+                    setTimeout(() => runStep(i + 1), 200);
+                }, delay);
+            }
+            setTimeout(() => runStep(0), 400);
+        }
+
+        function svcnCloseExec() {
+            document.getElementById('svcnExecPanel').style.display = 'none';
+            document.getElementById('svcnScenarioGrid').style.display = 'block';
+            svcnRunning = false;
+        }
+
+        function svcnLog(consoleId, text, color) {
+            const con = document.getElementById(consoleId);
+            const line = document.createElement('div');
+            line.style.color = color || 'var(--accent)';
+            line.textContent = text;
+            con.appendChild(line);
+            con.scrollTop = con.scrollHeight;
+        }
+
+        function _svcnMockHash() {
+            return 'SHA-256: ' + Array.from({length:64}, () => '0123456789abcdef'[Math.floor(Math.random()*16)]).join('');
+        }
+        function _svcnMockTx() {
+            return Array.from({length:64}, () => '0123456789ABCDEF'[Math.floor(Math.random()*16)]).join('');
+        }
+        function _svcnTimestamp() {
+            return new Date().toISOString().replace('T',' ').split('.')[0];
+        }
+
+        // ===== SANDBOX MODULES =====
+        function svcnSelectModule(mod, btn) {
+            svcnCurrentModule = mod;
+            document.querySelectorAll('.svcn-mod-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            svcnRenderSandboxModule(mod);
+        }
+
+        function svcnRenderSandboxModule(mod) {
+            const el = document.getElementById('svcnSandboxContent');
+            const modules = {
+                messenger: `
+                    <div class="pg-section-title"><i class="fas fa-comment-medical" style="color:var(--accent);"></i> Secure Messenger</div>
+                    <div style="font-size:0.63rem;color:var(--text-muted);margin-bottom:10px;">Send encrypted, XRPL-anchored messages between providers. Every message gets a SHA-256 hash anchored with delivery + read receipts.</div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px;">
+                        <select class="svcn-sandbox-input" id="svcnMsgFrom" style="padding:6px 8px;font-size:0.65rem;">
+                            <option>Dr. Patel (Cardiology)</option><option>Dr. Kim (Surgery)</option><option>Dr. Chen (PCP)</option><option>Nurse Rodriguez</option><option>Dr. Adams (ER)</option>
+                        </select>
+                        <select class="svcn-sandbox-input" id="svcnMsgTo" style="padding:6px 8px;font-size:0.65rem;">
+                            <option>Dr. Kim (Surgery)</option><option>Dr. Patel (Cardiology)</option><option>Dr. Rivera (Endocrine)</option><option>Dr. Shah (Neurology)</option><option>Pharmacist Lee</option>
+                        </select>
+                    </div>
+                    <select class="svcn-sandbox-input" id="svcnMsgType" style="padding:6px 8px;font-size:0.65rem;margin-bottom:8px;">
+                        <option value="clinical_update">Clinical Update</option><option value="lab_result">Lab Result</option><option value="medication_change">Medication Change</option>
+                        <option value="referral_request">Referral Request</option><option value="discharge_summary">Discharge Summary</option><option value="imaging_result">Imaging Result</option>
+                        <option value="consult_request">Consult Request</option><option value="adverse_event">Adverse Event</option><option value="care_plan_update">Care Plan Update</option>
+                    </select>
+                    <textarea class="svcn-sandbox-input" id="svcnMsgBody" rows="3" placeholder="Type your clinical message... (e.g. 'Patient shows improved troponin levels. Recommend stepping down heparin drip.')"></textarea>
+                    <div style="display:flex;gap:6px;margin-top:8px;">
+                        <button class="svcn-action-btn" onclick="svcnSendMessage()" style="flex:1;"><i class="fas fa-paper-plane"></i> Send & Anchor</button>
+                        <button class="svcn-action-btn" onclick="svcnSendMessage(true)" style="flex:1;background:linear-gradient(135deg,var(--secondary),var(--accent2));"><i class="fas fa-bolt"></i> Urgent</button>
+                    </div>
+                    ${svcnSandboxState.messages.length ? `<div style="margin-top:10px;font-size:0.62rem;font-weight:600;color:var(--text-muted);"><i class="fas fa-history"></i> Message Thread (${svcnSandboxState.messages.length})</div>${svcnSandboxState.messages.slice(-5).map(m => `<div style="background:var(--glass);border:1px solid var(--border);border-radius:8px;padding:8px;margin-top:4px;font-size:0.6rem;"><div style="display:flex;justify-content:space-between;"><span style="color:${m.urgent?'#ff5252':'var(--accent)'};font-weight:600;">${m.from} → ${m.to}</span><span style="color:var(--text-muted);">${m.time}</span></div><div style="color:var(--text);margin-top:3px;">${m.body.substring(0,80)}${m.body.length>80?'...':''}</div><div style="color:var(--text-muted);margin-top:2px;font-family:monospace;font-size:0.5rem;">TX: ${m.tx.substring(0,16)}... | ACK: ✓</div></div>`).join('')}` : ''}
+                `,
+                consent: `
+                    <div class="pg-section-title"><i class="fas fa-key" style="color:var(--secondary);"></i> Consent Manager</div>
+                    <div style="font-size:0.63rem;color:var(--text-muted);margin-bottom:10px;">Create or revoke patient consent tokens. Each token grants time-limited, category-specific access — all anchored to XRPL.</div>
+                    <input class="svcn-sandbox-input" id="svcnConsentPatient" placeholder="Patient name (e.g. Sarah M.)" style="margin-bottom:6px;" />
+                    <select class="svcn-sandbox-input" id="svcnConsentProvider" style="padding:6px 8px;font-size:0.65rem;margin-bottom:6px;">
+                        <option>Dr. Rivera (Endocrinology)</option><option>Dr. Park (Cardiology)</option><option>Dr. Lee (Orthopedics)</option><option>Dr. Shah (Neurology)</option><option>Memorial General Lab</option><option>Radiology Associates</option>
+                    </select>
+                    <div style="font-size:0.62rem;font-weight:600;color:var(--text-muted);margin-bottom:4px;">Data Categories:</div>
+                    <div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:8px;" id="svcnConsentCats">
+                        ${['Lab Results','Medications','Imaging','Vitals','Allergies','Diagnoses','Procedures','Notes','Immunizations','Family History'].map(c => `<button class="svcn-persona-btn" style="font-size:0.55rem;padding:3px 7px;" onclick="this.classList.toggle('active')">${c}</button>`).join('')}
+                    </div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px;">
+                        <select class="svcn-sandbox-input" id="svcnConsentDuration" style="padding:6px 8px;font-size:0.65rem;">
+                            <option value="24h">24 Hours</option><option value="7d">7 Days</option><option value="30d" selected>30 Days</option><option value="90d">90 Days</option><option value="1y">1 Year</option>
+                        </select>
+                        <select class="svcn-sandbox-input" id="svcnConsentAccess" style="padding:6px 8px;font-size:0.65rem;">
+                            <option value="read">Read Only</option><option value="read_write">Read + Write</option><option value="read_share">Read + Share</option>
+                        </select>
+                    </div>
+                    <div style="display:flex;gap:6px;">
+                        <button class="svcn-action-btn" onclick="svcnGrantConsent()" style="flex:1;"><i class="fas fa-check-circle"></i> Grant Consent</button>
+                        <button class="svcn-action-btn" onclick="svcnRevokeLastConsent()" style="flex:1;background:linear-gradient(135deg,#ff5252,#ff1744);"><i class="fas fa-times-circle"></i> Revoke Last</button>
+                    </div>
+                    ${svcnSandboxState.consents.length ? `<div style="margin-top:10px;font-size:0.62rem;font-weight:600;color:var(--text-muted);"><i class="fas fa-list"></i> Active Tokens (${svcnSandboxState.consents.filter(c=>c.active).length}/${svcnSandboxState.consents.length})</div>${svcnSandboxState.consents.slice(-5).map(c => `<div style="background:var(--glass);border:1px solid ${c.active?'rgba(20,241,149,0.3)':'rgba(255,82,82,0.3)'};border-radius:8px;padding:8px;margin-top:4px;font-size:0.6rem;"><div style="display:flex;justify-content:space-between;"><span style="color:${c.active?'var(--accent)':'#ff5252'};font-weight:600;">${c.patient} → ${c.provider}</span><span class="playground-badge" style="font-size:0.5rem;background:${c.active?'rgba(20,241,149,0.15)':'rgba(255,82,82,0.15)'};color:${c.active?'var(--accent)':'#ff5252'};">${c.active?'ACTIVE':'REVOKED'}</span></div><div style="color:var(--text-muted);margin-top:2px;">${c.categories.join(', ')} | ${c.duration} | ${c.access}</div><div style="font-family:monospace;font-size:0.5rem;color:var(--text-muted);margin-top:2px;">Token: ${c.token} | TX: ${c.tx.substring(0,16)}...</div></div>`).join('')}` : ''}
+                `,
+                carechain: `
+                    <div class="pg-section-title"><i class="fas fa-link" style="color:var(--accent2);"></i> Care Chain Builder</div>
+                    <div style="font-size:0.63rem;color:var(--text-muted);margin-bottom:10px;">Build a verifiable chain-of-custody. Each handoff links to the previous TX hash, creating an immutable on-ledger care trail.</div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:6px;">
+                        <select class="svcn-sandbox-input" id="svcnChainFrom" style="padding:6px 8px;font-size:0.65rem;">
+                            <option>Dr. Wilson (PCP)</option><option>Dr. Santos (Ortho)</option><option>Dr. Lee (Surgeon)</option><option>Paramedic Unit 7</option><option>ER (Dr. Patel)</option>
+                        </select>
+                        <select class="svcn-sandbox-input" id="svcnChainTo" style="padding:6px 8px;font-size:0.65rem;">
+                            <option>Dr. Santos (Ortho)</option><option>Dr. Lee (Surgeon)</option><option>ICU (Dr. Park)</option><option>ER (Dr. Patel)</option><option>Recovery (Nurse Rodriguez)</option>
+                        </select>
+                    </div>
+                    <select class="svcn-sandbox-input" id="svcnChainType" style="padding:6px 8px;font-size:0.65rem;margin-bottom:6px;">
+                        <option value="referral_out">Referral Out</option><option value="emergency_handoff">Emergency Handoff</option><option value="specialist_referral">Specialist Referral</option>
+                        <option value="pre_op">Pre-Op Handoff</option><option value="post_op">Post-Op Handoff</option><option value="discharge">Discharge</option><option value="insurance_claim">Insurance Claim</option>
+                    </select>
+                    <textarea class="svcn-sandbox-input" id="svcnChainNotes" rows="2" placeholder="Handoff notes (e.g. 'ACL tear confirmed, scheduling arthroscopy')"></textarea>
+                    <button class="svcn-action-btn" onclick="svcnAddHandoff()" style="width:100%;margin-top:8px;"><i class="fas fa-plus-circle"></i> Add Handoff to Chain</button>
+                    ${svcnSandboxState.handoffs.length ? `
+                    <div style="margin-top:12px;font-size:0.62rem;font-weight:600;color:var(--text-muted);margin-bottom:6px;"><i class="fas fa-link"></i> Chain (${svcnSandboxState.handoffs.length} links)</div>
+                    <div style="position:relative;padding-left:18px;">
+                        <div style="position:absolute;left:8px;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,var(--accent),var(--secondary),var(--accent2),var(--warning));"></div>
+                        ${svcnSandboxState.handoffs.map((h,i) => `
+                        <div style="position:relative;margin-bottom:8px;padding:8px 10px;background:var(--glass);border:1px solid var(--border);border-radius:8px;">
+                            <div style="position:absolute;left:-14px;top:12px;width:10px;height:10px;border-radius:50%;background:var(--accent);border:2px solid var(--bg);"></div>
+                            <div style="font-size:0.68rem;font-weight:600;color:var(--text);">${h.from} → ${h.to}</div>
+                            <div style="font-size:0.57rem;color:var(--text-muted);margin-top:2px;">${h.type.replace(/_/g,' ')} | ${h.notes.substring(0,60)}${h.notes.length>60?'...':''}</div>
+                            <div style="font-family:monospace;font-size:0.48rem;color:var(--text-muted);margin-top:2px;">TX: ${h.tx.substring(0,20)}... | prev: ${i===0?'GENESIS':svcnSandboxState.handoffs[i-1].tx.substring(0,12)+'...'}</div>
+                        </div>`).join('')}
+                    </div>
+                    <div style="text-align:center;margin-top:6px;"><span style="font-size:0.6rem;color:var(--accent);font-weight:600;"><i class="fas fa-check-circle"></i> Chain Integrity: VALID — ${svcnSandboxState.handoffs.length} handoffs verified</span></div>
+                    ` : ''}
+                `,
+                wearables: `
+                    <div class="pg-section-title"><i class="fas fa-heartbeat" style="color:var(--warning);"></i> Wearable Monitor</div>
+                    <div style="font-size:0.63rem;color:var(--text-muted);margin-bottom:10px;">Simulate real-time vitals from wearable devices. The anomaly engine evaluates against procedure-specific thresholds and auto-anchors alerts.</div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px;">
+                        <select class="svcn-sandbox-input" id="svcnWearDevice" style="padding:6px 8px;font-size:0.65rem;">
+                            <option value="fitbit">Fitbit Sense 2</option><option value="apple">Apple Watch Ultra</option><option value="dexcom">Dexcom G7</option><option value="withings">Withings BPM</option><option value="google">Google Pixel Watch</option>
+                        </select>
+                        <select class="svcn-sandbox-input" id="svcnWearProcedure" style="padding:6px 8px;font-size:0.65rem;">
+                            <option value="hip_replacement">Hip Replacement</option><option value="cardiac_surgery">Cardiac Surgery</option><option value="appendectomy">Appendectomy</option><option value="knee_replacement">Knee Replacement</option><option value="bariatric_surgery">Bariatric Surgery</option><option value="general">General (Default)</option>
+                        </select>
+                    </div>
+                    <div style="display:flex;gap:6px;">
+                        <button class="svcn-action-btn" onclick="svcnSimulateVitals('normal')" style="flex:1;background:linear-gradient(135deg,var(--accent),#0a7);"><i class="fas fa-heartbeat"></i> Normal Vitals</button>
+                        <button class="svcn-action-btn" onclick="svcnSimulateVitals('anomaly')" style="flex:1;background:linear-gradient(135deg,#ff5252,#ff1744);"><i class="fas fa-exclamation-triangle"></i> Trigger Anomaly</button>
+                    </div>
+                    ${svcnSandboxState.vitals.length ? `<div style="margin-top:10px;font-size:0.62rem;font-weight:600;color:var(--text-muted);"><i class="fas fa-history"></i> Vitals Log (${svcnSandboxState.vitals.length})</div>${svcnSandboxState.vitals.slice(-6).map(v => `<div style="background:var(--glass);border:1px solid ${v.anomaly?'rgba(255,82,82,0.3)':'var(--border)'};border-radius:8px;padding:7px;margin-top:4px;font-size:0.58rem;"><div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-weight:600;color:var(--text);">${v.device}</span>${v.anomaly?'<span class="playground-badge" style="font-size:0.48rem;background:rgba(255,82,82,0.2);color:#ff5252;"><i class="fas fa-exclamation-triangle"></i> ANOMALY</span>':'<span class="playground-badge" style="font-size:0.48rem;"><i class="fas fa-check"></i> Normal</span>'}</div><div style="color:var(--text-muted);margin-top:2px;">${v.readings}</div><div style="font-family:monospace;font-size:0.48rem;color:var(--text-muted);margin-top:2px;">${v.anomaly?'Anchored TX: '+v.tx.substring(0,20)+'...':'No anchor needed — within thresholds'}</div></div>`).join('')}` : ''}
+                `,
+                ehr: `
+                    <div class="pg-section-title"><i class="fas fa-hospital" style="color:#ff5252;"></i> EHR Plugin Simulator</div>
+                    <div style="font-size:0.63rem;color:var(--text-muted);margin-bottom:10px;">Simulate how SMART on FHIR plugins auto-anchor clinical events from Epic, Cerner, and athenahealth — with zero clicks from clinicians.</div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:6px;">
+                        <select class="svcn-sandbox-input" id="svcnEhrSystem" style="padding:6px 8px;font-size:0.65rem;">
+                            <option value="Epic">Epic Systems</option><option value="Cerner">Oracle Cerner</option><option value="athena">athenahealth</option>
+                        </select>
+                        <select class="svcn-sandbox-input" id="svcnEhrEvent" style="padding:6px 8px;font-size:0.65rem;">
+                            <option value="progress_note">Progress Note</option><option value="lab_result">Lab Result</option><option value="medication_order">Medication Order</option>
+                            <option value="discharge_summary">Discharge Summary</option><option value="imaging_result">Imaging Result</option><option value="procedure_note">Procedure Note</option>
+                        </select>
+                    </div>
+                    <input class="svcn-sandbox-input" id="svcnEhrProvider" placeholder="Provider name (e.g. Dr. Adams)" style="margin-bottom:6px;" />
+                    <textarea class="svcn-sandbox-input" id="svcnEhrContent" rows="2" placeholder="Clinical content (e.g. 'Troponin trending down 0.8→0.3, patient stable')"></textarea>
+                    <button class="svcn-action-btn" onclick="svcnSimulateEHR()" style="width:100%;margin-top:8px;"><i class="fas fa-bolt"></i> Simulate Auto-Anchor</button>
+                `,
+                batch: `
+                    <div class="pg-section-title"><i class="fas fa-layer-group" style="color:var(--accent);"></i> Federated Batch</div>
+                    <div style="font-size:0.63rem;color:var(--text-muted);margin-bottom:10px;">Add records from multiple institutions to a shared batch. When you anchor, all hashes are combined into a Merkle root — 1 TX for hundreds of records.</div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:6px;">
+                        <input class="svcn-sandbox-input" id="svcnBatchHospital" placeholder="Hospital name" />
+                        <input class="svcn-sandbox-input" id="svcnBatchCount" type="number" placeholder="# records" value="50" />
+                    </div>
+                    <select class="svcn-sandbox-input" id="svcnBatchDept" style="padding:6px 8px;font-size:0.65rem;margin-bottom:6px;">
+                        <option>Cardiology</option><option>Surgery</option><option>Oncology</option><option>Pediatrics</option><option>Neurology</option><option>Orthopedics</option>
+                    </select>
+                    <div style="display:flex;gap:6px;">
+                        <button class="svcn-action-btn" onclick="svcnAddToBatch()" style="flex:1;background:linear-gradient(135deg,var(--secondary),var(--accent2));"><i class="fas fa-plus"></i> Add to Batch</button>
+                        <button class="svcn-action-btn" onclick="svcnAnchorBatch()" style="flex:1;" ${svcnSandboxState.batchQueue.length===0?'disabled':''}><i class="fas fa-anchor"></i> Anchor Batch</button>
+                    </div>
+                    ${svcnSandboxState.batchQueue.length ? `<div style="margin-top:10px;font-size:0.62rem;font-weight:600;color:var(--text-muted);"><i class="fas fa-list"></i> Batch Queue (${svcnSandboxState.batchQueue.reduce((a,b)=>a+b.count,0)} records from ${svcnSandboxState.batchQueue.length} institutions)</div>${svcnSandboxState.batchQueue.map(b => `<div style="background:var(--glass);border:1px solid var(--border);border-radius:8px;padding:7px;margin-top:4px;font-size:0.58rem;display:flex;justify-content:space-between;"><span style="color:var(--text);">${b.hospital} — ${b.dept}</span><span style="color:var(--accent);font-weight:600;">${b.count} records</span></div>`).join('')}` : ''}
+                `,
+                backup: `
+                    <div class="pg-section-title"><i class="fas fa-cloud-download-alt" style="color:var(--accent2);"></i> Backup & Recovery</div>
+                    <div style="font-size:0.63rem;color:var(--text-muted);margin-bottom:10px;">Create encrypted .solusbackup files, generate QR seed backups, and verify all records against their XRPL anchors.</div>
+                    <input class="svcn-sandbox-input" id="svcnBackupPatient" placeholder="Patient name" style="margin-bottom:6px;" />
+                    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;">
+                        <button class="svcn-action-btn" onclick="svcnSimulateBackup('export')" style="font-size:0.6rem;padding:8px 6px;"><i class="fas fa-download"></i> Export</button>
+                        <button class="svcn-action-btn" onclick="svcnSimulateBackup('qr')" style="font-size:0.6rem;padding:8px 6px;background:linear-gradient(135deg,var(--secondary),var(--accent2));"><i class="fas fa-qrcode"></i> QR Seed</button>
+                        <button class="svcn-action-btn" onclick="svcnSimulateBackup('verify')" style="font-size:0.6rem;padding:8px 6px;background:linear-gradient(135deg,var(--accent2),var(--accent));"><i class="fas fa-check-double"></i> Verify</button>
+                    </div>
+                    ${svcnSandboxState.backups.length ? `<div style="margin-top:10px;font-size:0.62rem;font-weight:600;color:var(--text-muted);"><i class="fas fa-history"></i> Backup History</div>${svcnSandboxState.backups.slice(-4).map(b => `<div style="background:var(--glass);border:1px solid var(--border);border-radius:8px;padding:7px;margin-top:4px;font-size:0.58rem;"><div style="display:flex;justify-content:space-between;"><span style="color:var(--text);font-weight:600;">${b.type}</span><span style="color:var(--text-muted);">${b.time}</span></div><div style="color:var(--text-muted);margin-top:2px;">${b.detail}</div></div>`).join('')}` : ''}
+                `
+            };
+            el.innerHTML = modules[mod] || '';
+        }
+
+        // Sandbox action handlers
+        function svcnSendMessage(urgent) {
+            const from = document.getElementById('svcnMsgFrom').value;
+            const to = document.getElementById('svcnMsgTo').value;
+            const body = document.getElementById('svcnMsgBody').value || 'Patient stable, continue current treatment plan.';
+            const type = document.getElementById('svcnMsgType').value;
+            const tx = _svcnMockTx();
+            const con = document.getElementById('svcnSandboxConsole');
+            svcnLog('svcnSandboxConsole', `━━━ Secure Message ${urgent?'[URGENT] ':''}━━━`, urgent?'#ff5252':'var(--accent)');
+            svcnLog('svcnSandboxConsole', `From: ${from}`, 'var(--text)');
+            svcnLog('svcnSandboxConsole', `To: ${to}`, 'var(--text)');
+            svcnLog('svcnSandboxConsole', `Type: ${type}`, 'var(--text-muted)');
+            svcnLog('svcnSandboxConsole', `Body: "${body.substring(0,80)}${body.length>80?'...':''}"`, 'var(--text-muted)');
+            svcnLog('svcnSandboxConsole', `→ Encrypting (AES-128)...`, 'var(--secondary)');
+            setTimeout(() => {
+                svcnLog('svcnSandboxConsole', `→ ${_svcnMockHash()}`, 'var(--accent2)');
+                svcnLog('svcnSandboxConsole', `→ Anchoring to XRPL... (12 drops)`, 'var(--accent)');
+                setTimeout(() => {
+                    svcnLog('svcnSandboxConsole', `→ TX: ${tx}`, 'var(--accent)');
+                    svcnLog('svcnSandboxConsole', `→ $SLS fee: 0.00005 (trust line debit)`, 'var(--warning)');
+                    svcnLog('svcnSandboxConsole', `→ Push notification sent to ${to}`, 'var(--accent2)');
+                    svcnLog('svcnSandboxConsole', `→ ACK receipt anchored: solus:ack:delivered`, 'var(--text-muted)');
+                    svcnLog('svcnSandboxConsole', `✓ Message sent, encrypted, and anchored`, 'var(--accent)');
+                    svcnSandboxState.messages.push({from:from.split('(')[0].trim(),to:to.split('(')[0].trim(),body,type,urgent:!!urgent,tx,time:_svcnTimestamp()});
+                    svcnRenderSandboxModule('messenger');
+                }, 800);
+            }, 400);
+        }
+
+        function svcnGrantConsent() {
+            const patient = document.getElementById('svcnConsentPatient').value || 'Sarah M.';
+            const provider = document.getElementById('svcnConsentProvider').value;
+            const cats = [...document.querySelectorAll('#svcnConsentCats .active')].map(b => b.textContent);
+            if (cats.length === 0) cats.push('Lab Results', 'Medications');
+            const duration = document.getElementById('svcnConsentDuration').value;
+            const access = document.getElementById('svcnConsentAccess').value;
+            const token = 'CST-' + _svcnMockTx().substring(0,8);
+            const tx = _svcnMockTx();
+            svcnLog('svcnSandboxConsole', `━━━ Consent Grant ━━━`, 'var(--secondary)');
+            svcnLog('svcnSandboxConsole', `Patient: ${patient}`, 'var(--text)');
+            svcnLog('svcnSandboxConsole', `Provider: ${provider}`, 'var(--text)');
+            svcnLog('svcnSandboxConsole', `Categories: ${cats.join(', ')}`, 'var(--text-muted)');
+            svcnLog('svcnSandboxConsole', `Duration: ${duration} | Access: ${access}`, 'var(--text-muted)');
+            svcnLog('svcnSandboxConsole', `→ Token ID: ${token}`, 'var(--secondary)');
+            setTimeout(() => {
+                svcnLog('svcnSandboxConsole', `→ ${_svcnMockHash()}`, 'var(--accent2)');
+                svcnLog('svcnSandboxConsole', `→ Anchored: solus:consent:grant | token=${token}`, 'var(--accent)');
+                svcnLog('svcnSandboxConsole', `→ $SLS fee: 0.0001`, 'var(--warning)');
+                svcnLog('svcnSandboxConsole', `→ ${provider} notified`, 'var(--accent2)');
+                svcnLog('svcnSandboxConsole', `✓ Consent granted and anchored`, 'var(--accent)');
+                svcnSandboxState.consents.push({patient,provider:provider.split('(')[0].trim(),categories:cats,duration,access,token,tx,active:true});
+                svcnRenderSandboxModule('consent');
+            }, 600);
+        }
+
+        function svcnRevokeLastConsent() {
+            const active = svcnSandboxState.consents.filter(c => c.active);
+            if (!active.length) { svcnLog('svcnSandboxConsole', '⚠ No active consents to revoke', '#ff5252'); return; }
+            const last = active[active.length - 1];
+            last.active = false;
+            svcnLog('svcnSandboxConsole', `━━━ Consent Revoked ━━━`, '#ff5252');
+            svcnLog('svcnSandboxConsole', `Token: ${last.token} — REVOKED`, '#ff5252');
+            svcnLog('svcnSandboxConsole', `→ Anchored: solus:consent:revoke | immediate=true`, 'var(--accent)');
+            svcnLog('svcnSandboxConsole', `→ Access blocked for ${last.provider}`, '#ff5252');
+            svcnLog('svcnSandboxConsole', `✓ Revocation anchored — immutable audit trail`, 'var(--accent)');
+            svcnRenderSandboxModule('consent');
+        }
+
+        function svcnAddHandoff() {
+            const from = document.getElementById('svcnChainFrom').value;
+            const to = document.getElementById('svcnChainTo').value;
+            const type = document.getElementById('svcnChainType').value;
+            const notes = document.getElementById('svcnChainNotes').value || 'Standard care handoff';
+            const tx = _svcnMockTx();
+            const prevTx = svcnSandboxState.handoffs.length ? svcnSandboxState.handoffs[svcnSandboxState.handoffs.length-1].tx : 'GENESIS';
+            svcnLog('svcnSandboxConsole', `━━━ Care Chain Handoff ━━━`, 'var(--accent2)');
+            svcnLog('svcnSandboxConsole', `${from} → ${to}`, 'var(--text)');
+            svcnLog('svcnSandboxConsole', `Type: ${type.replace(/_/g,' ')}`, 'var(--text-muted)');
+            svcnLog('svcnSandboxConsole', `→ prev TX: ${prevTx.substring(0,20)}${prevTx.length>20?'...':''}`, 'var(--text-muted)');
+            setTimeout(() => {
+                svcnLog('svcnSandboxConsole', `→ Anchored: solus:handoff:${type}`, 'var(--accent)');
+                svcnLog('svcnSandboxConsole', `→ TX: ${tx.substring(0,32)}...`, 'var(--accent)');
+                svcnLog('svcnSandboxConsole', `→ $SLS fee: 0.0001`, 'var(--warning)');
+                svcnLog('svcnSandboxConsole', `✓ Handoff #${svcnSandboxState.handoffs.length+1} anchored — chain linked`, 'var(--accent)');
+                svcnSandboxState.handoffs.push({from:from.split('(')[0].trim(),to:to.split('(')[0].trim(),type,notes,tx});
+                svcnRenderSandboxModule('carechain');
+            }, 700);
+        }
+
+        function svcnSimulateVitals(mode) {
+            const device = document.getElementById('svcnWearDevice').value;
+            const proc = document.getElementById('svcnWearProcedure').value;
+            const deviceNames = {fitbit:'Fitbit Sense 2',apple:'Apple Watch Ultra',dexcom:'Dexcom G7',withings:'Withings BPM',google:'Pixel Watch'};
+            let readings, anomaly = mode === 'anomaly';
+            if (device === 'dexcom') {
+                const glucose = anomaly ? Math.floor(Math.random()*100)+280 : Math.floor(Math.random()*60)+90;
+                readings = `Glucose: ${glucose} mg/dL`;
+            } else if (device === 'withings') {
+                const sys = anomaly ? Math.floor(Math.random()*30)+165 : Math.floor(Math.random()*20)+110;
+                const dia = anomaly ? Math.floor(Math.random()*20)+105 : Math.floor(Math.random()*15)+70;
+                readings = `BP: ${sys}/${dia} mmHg`;
+            } else {
+                const hr = anomaly ? Math.floor(Math.random()*30)+110 : Math.floor(Math.random()*20)+65;
+                const spo2 = anomaly ? Math.floor(Math.random()*4)+88 : Math.floor(Math.random()*3)+96;
+                const temp = anomaly ? (Math.random()*1.5+38.2).toFixed(1) : (Math.random()*0.6+36.4).toFixed(1);
+                readings = `HR: ${hr} bpm | SpO2: ${spo2}% | Temp: ${temp}°C`;
+            }
+            const tx = _svcnMockTx();
+            svcnLog('svcnSandboxConsole', `━━━ ${deviceNames[device]} Reading ━━━`, anomaly?'#ff5252':'var(--accent)');
+            svcnLog('svcnSandboxConsole', `${readings}`, 'var(--text)');
+            svcnLog('svcnSandboxConsole', `Procedure context: ${proc.replace(/_/g,' ')}`, 'var(--text-muted)');
+            if (anomaly) {
+                svcnLog('svcnSandboxConsole', `⚠ ANOMALY DETECTED — threshold exceeded for ${proc.replace(/_/g,' ')}`, '#ff5252');
+                setTimeout(() => {
+                    svcnLog('svcnSandboxConsole', `→ Encrypting vitals...`, 'var(--secondary)');
+                    svcnLog('svcnSandboxConsole', `→ ${_svcnMockHash()}`, 'var(--accent2)');
+                    svcnLog('svcnSandboxConsole', `→ Auto-anchoring to XRPL...`, 'var(--accent)');
+                    setTimeout(() => {
+                        svcnLog('svcnSandboxConsole', `→ TX: ${tx.substring(0,32)}...`, 'var(--accent)');
+                        svcnLog('svcnSandboxConsole', `→ $SLS fee: 0.00005`, 'var(--warning)');
+                        svcnLog('svcnSandboxConsole', `→ Provider alert sent!`, '#ff5252');
+                        svcnLog('svcnSandboxConsole', `✓ Anomaly anchored — early detection in hours, not days`, 'var(--accent)');
+                        svcnSandboxState.vitals.push({device:deviceNames[device],readings,anomaly:true,tx,time:_svcnTimestamp()});
+                        svcnRenderSandboxModule('wearables');
+                    }, 800);
+                }, 400);
+            } else {
+                svcnLog('svcnSandboxConsole', `✓ All vitals within ${proc.replace(/_/g,' ')} thresholds — no anchor needed`, 'var(--accent)');
+                svcnSandboxState.vitals.push({device:deviceNames[device],readings,anomaly:false,tx:'',time:_svcnTimestamp()});
+                svcnRenderSandboxModule('wearables');
+            }
+        }
+
+        function svcnSimulateEHR() {
+            const system = document.getElementById('svcnEhrSystem').value;
+            const event = document.getElementById('svcnEhrEvent').value;
+            const provider = document.getElementById('svcnEhrProvider').value || 'Dr. Adams';
+            const content = document.getElementById('svcnEhrContent').value || 'Patient recovering well, vitals stable.';
+            const tx = _svcnMockTx();
+            svcnLog('svcnSandboxConsole', `━━━ ${system} SMART on FHIR Auto-Anchor ━━━`, '#ff5252');
+            svcnLog('svcnSandboxConsole', `Event: ${event.replace(/_/g,' ')} by ${provider}`, 'var(--text)');
+            svcnLog('svcnSandboxConsole', `→ FHIR webhook detected clinically significant event`, 'var(--text-muted)');
+            setTimeout(() => {
+                svcnLog('svcnSandboxConsole', `→ Extracting metadata (no PHI leaves ${system})...`, 'var(--secondary)');
+                svcnLog('svcnSandboxConsole', `→ ${_svcnMockHash()}`, 'var(--accent2)');
+                setTimeout(() => {
+                    svcnLog('svcnSandboxConsole', `→ Anchored: solus:ehr:${system.toLowerCase()}:${event}`, 'var(--accent)');
+                    svcnLog('svcnSandboxConsole', `→ TX: ${tx.substring(0,32)}...`, 'var(--accent)');
+                    svcnLog('svcnSandboxConsole', `→ $SLS fee: 0.00005 (institution trust line)`, 'var(--warning)');
+                    svcnLog('svcnSandboxConsole', `→ Zero clicks for ${provider} — fully automatic`, 'var(--accent)');
+                    svcnLog('svcnSandboxConsole', `✓ ${system} event anchored to XRPL`, 'var(--accent)');
+                }, 600);
+            }, 400);
+        }
+
+        function svcnAddToBatch() {
+            const hospital = document.getElementById('svcnBatchHospital').value || `Hospital ${String.fromCharCode(65+svcnSandboxState.batchQueue.length)}`;
+            const count = parseInt(document.getElementById('svcnBatchCount').value) || 50;
+            const dept = document.getElementById('svcnBatchDept').value;
+            svcnLog('svcnSandboxConsole', `━━━ Added to Batch ━━━`, 'var(--secondary)');
+            svcnLog('svcnSandboxConsole', `${hospital} — ${dept}: ${count} records`, 'var(--text)');
+            svcnSandboxState.batchQueue.push({hospital,dept,count});
+            const total = svcnSandboxState.batchQueue.reduce((a,b)=>a+b.count,0);
+            svcnLog('svcnSandboxConsole', `→ Batch now: ${total} records from ${svcnSandboxState.batchQueue.length} institutions`, 'var(--text-muted)');
+            svcnRenderSandboxModule('batch');
+        }
+
+        function svcnAnchorBatch() {
+            if (!svcnSandboxState.batchQueue.length) return;
+            const total = svcnSandboxState.batchQueue.reduce((a,b)=>a+b.count,0);
+            const institutions = svcnSandboxState.batchQueue.length;
+            const tx = _svcnMockTx();
+            svcnLog('svcnSandboxConsole', `━━━ Federated Batch Anchor ━━━`, 'var(--accent)');
+            svcnLog('svcnSandboxConsole', `${total} records from ${institutions} institutions`, 'var(--text)');
+            svcnLog('svcnSandboxConsole', `→ Computing Merkle tree (${total} leaves)...`, 'var(--secondary)');
+            setTimeout(() => {
+                svcnLog('svcnSandboxConsole', `→ Merkle root: ${_svcnMockHash().replace('SHA-256: ','')}`, 'var(--accent2)');
+                svcnLog('svcnSandboxConsole', `→ Anchoring single TX to XRPL...`, 'var(--accent)');
+                setTimeout(() => {
+                    svcnLog('svcnSandboxConsole', `→ TX: ${tx.substring(0,32)}...`, 'var(--accent)');
+                    svcnLog('svcnSandboxConsole', `→ $SLS fee: 0.001 (split ${institutions} ways = ${(0.001/institutions).toFixed(6)} each)`, 'var(--warning)');
+                    const individualCost = total * 0.000012;
+                    svcnLog('svcnSandboxConsole', `→ Individual cost would be: $${individualCost.toFixed(6)} vs batched: $0.000012`, 'var(--text-muted)');
+                    svcnLog('svcnSandboxConsole', `→ Savings: ${total}× reduction (${((1-0.000012/individualCost)*100).toFixed(1)}% cheaper)`, 'var(--accent)');
+                    svcnLog('svcnSandboxConsole', `✓ Batch anchored — Merkle proofs distributed to all ${institutions} institutions`, 'var(--accent)');
+                    svcnSandboxState.batchQueue = [];
+                    svcnRenderSandboxModule('batch');
+                }, 1000);
+            }, 600);
+        }
+
+        function svcnSimulateBackup(type) {
+            const patient = document.getElementById('svcnBackupPatient').value || 'Lisa K.';
+            const recordCount = Math.floor(Math.random()*100)+50;
+            if (type === 'export') {
+                svcnLog('svcnSandboxConsole', `━━━ Backup Export ━━━`, 'var(--accent2)');
+                svcnLog('svcnSandboxConsole', `Patient: ${patient} | Records: ${recordCount}`, 'var(--text)');
+                svcnLog('svcnSandboxConsole', `→ Encrypting ${recordCount} records with patient key...`, 'var(--secondary)');
+                setTimeout(() => {
+                    const size = (recordCount * 2.3).toFixed(1);
+                    svcnLog('svcnSandboxConsole', `→ File: ${patient.replace(/\s/g,'_').toLowerCase()}_backup.solusbackup (${size} KB)`, 'var(--accent)');
+                    svcnLog('svcnSandboxConsole', `→ Integrity hash: ${_svcnMockHash()}`, 'var(--accent2)');
+                    svcnLog('svcnSandboxConsole', `✓ Encrypted backup exported — patient-controlled`, 'var(--accent)');
+                    svcnSandboxState.backups.push({type:'Export',time:_svcnTimestamp(),detail:`${recordCount} records → ${size} KB .solusbackup`});
+                    svcnRenderSandboxModule('backup');
+                }, 700);
+            } else if (type === 'qr') {
+                svcnLog('svcnSandboxConsole', `━━━ QR Seed Backup ━━━`, 'var(--secondary)');
+                svcnLog('svcnSandboxConsole', `→ Generating encrypted QR code for wallet seed...`, 'var(--secondary)');
+                setTimeout(() => {
+                    svcnLog('svcnSandboxConsole', `→ 12-word mnemonic passphrase required for recovery`, 'var(--text-muted)');
+                    svcnLog('svcnSandboxConsole', `→ QR contains: encrypted seed + recovery metadata`, 'var(--accent2)');
+                    svcnLog('svcnSandboxConsole', `✓ QR seed generated — store in a secure physical location`, 'var(--accent)');
+                    svcnSandboxState.backups.push({type:'QR Seed',time:_svcnTimestamp(),detail:'Encrypted QR with 12-word mnemonic protection'});
+                    svcnRenderSandboxModule('backup');
+                }, 500);
+            } else {
+                svcnLog('svcnSandboxConsole', `━━━ XRPL Verification ━━━`, 'var(--accent)');
+                svcnLog('svcnSandboxConsole', `Patient: ${patient} | Verifying ${recordCount} records...`, 'var(--text)');
+                let verified = 0;
+                const interval = setInterval(() => {
+                    verified += Math.floor(Math.random()*15)+5;
+                    if (verified >= recordCount) { verified = recordCount; clearInterval(interval); }
+                    svcnLog('svcnSandboxConsole', `→ Verified: ${verified}/${recordCount} (${((verified/recordCount)*100).toFixed(0)}%)`, verified===recordCount?'var(--accent)':'var(--text-muted)');
+                    if (verified === recordCount) {
+                        svcnLog('svcnSandboxConsole', `✓ All ${recordCount} records verified against XRPL — zero tampering`, 'var(--accent)');
+                        svcnSandboxState.backups.push({type:'Verify',time:_svcnTimestamp(),detail:`${recordCount}/${recordCount} records verified on-chain`});
+                        svcnRenderSandboxModule('backup');
+                    }
+                }, 300);
+            }
+        }
+
+        // ===== SVCN TUTORIAL =====
+        const SVCN_TUTORIAL = [
+            {title:'Welcome to the Care Network',icon:'fa-project-diagram',color:'var(--accent)',body:'The <strong>Solus Protocol Verified Care Network (SVCN)</strong> connects patients, providers, wearables, and EHR systems through a single verifiable data layer anchored to the XRP Ledger.\n\nEvery action — messages, consent grants, care handoffs, wearable anomalies — is cryptographically anchored. No PHI ever touches the blockchain.'},
+            {title:'Scenarios: Walk Through Real Cases',icon:'fa-play-circle',color:'var(--accent)',body:'The <strong>Scenarios</strong> tab has 12 real-world clinical scenarios you can run step-by-step:\n\n• <strong>Patient</strong>: Post-op monitoring, consent management, backup recovery\n• <strong>Provider</strong>: Secure messaging, EHR auto-anchoring, care chain handoffs\n• <strong>System</strong>: Federated batch, insurance verification\n• <strong>Emergency</strong>: ER handoff chains with linked TX hashes\n\nClick any scenario card to watch it execute in real time with a live console.'},
+            {title:'Sandbox: Build It Yourself',icon:'fa-flask',color:'var(--secondary)',body:'The <strong>Sandbox</strong> tab lets you interact with each SVCN module directly:\n\n• <strong>Messenger</strong>: Send encrypted messages between providers\n• <strong>Consent</strong>: Grant & revoke patient access tokens\n• <strong>Care Chain</strong>: Build handoff chains link by link\n• <strong>Wearables</strong>: Simulate normal & anomalous vitals\n• <strong>EHR Plugin</strong>: See how Epic/Cerner auto-anchor events\n• <strong>Fed. Batch</strong>: Add hospitals and anchor Merkle roots\n• <strong>Backup</strong>: Export, QR seed, and XRPL verification'},
+            {title:'How XRPL Powers It',icon:'fa-cogs',color:'var(--accent2)',body:'The <strong>XRPL & $SLS</strong> tab explains the technical foundation:\n\n<strong>Data Flow:</strong> Raw Record → AES-128 Encrypt → SHA-256 Hash → XRPL Memo → Verified\n\n<strong>Key facts:</strong>\n• Only the SHA-256 hash is on-chain (irreversible, no PHI)\n• 12 drops per TX ($0.000006)\n• 3-5 second finality\n• 1,500 TX/sec throughput\n• $SLS token handles service fees via trust lines'},
+            {title:'$SLS Token Utility',icon:'fa-coins',color:'var(--warning)',body:'The <strong>$SLS token</strong> powers the network economy:\n\n• Messages: <strong>0.00005 $SLS</strong> per anchored message\n• Consent tokens: <strong>0.0001 $SLS</strong> per grant/revoke\n• Care handoffs: <strong>0.0001 $SLS</strong> per custody transfer\n• Anomaly anchors: <strong>0.00005 $SLS</strong> per auto-alert\n• Federated batch: <strong>0.001 $SLS</strong> per batch (split among institutions)\n• Patient Data Bounty: Patients <strong>earn $SLS</strong> for sharing consented data\n\nAll fees are settled via XRPL trust lines — instant, atomic, auditable.'},
+            {title:'You\'re Ready!',icon:'fa-rocket',color:'var(--accent)',body:'You now understand the full Solus Protocol Verified Care Network.\n\n<strong>Try this:</strong>\n1. Run the "Post-Op Hip Replacement Monitoring" scenario\n2. Open the Sandbox and send a secure message\n3. Build a Care Chain with 3+ handoffs\n4. Simulate a wearable anomaly for cardiac surgery\n\nEvery action you take demonstrates what the production SDK already supports. The Python modules (<code>solus_comms.py</code>, <code>solus_anomaly.py</code>, <code>solus_backup.py</code>) are ready for integration.\n\n<strong>Welcome to the future of healthcare data.</strong>'}
+        ];
+
+        function svcnStartTutorial() {
+            svcnTutorialStep = 0;
+            svcnRenderTutorial();
+            document.getElementById('svcnTutorialOverlay').classList.add('active');
+        }
+
+        function svcnRenderTutorial() {
+            const t = SVCN_TUTORIAL[svcnTutorialStep];
+            const el = document.getElementById('svcnTutorialBody');
+            el.innerHTML = `
+                <div style="text-align:center;margin-bottom:16px;">
+                    <div style="width:50px;height:50px;border-radius:14px;background:${t.color==='var(--accent)'?'rgba(20,241,149,0.15)':t.color==='var(--secondary)'?'rgba(153,69,255,0.15)':t.color==='var(--accent2)'?'rgba(0,194,255,0.15)':'rgba(255,215,0,0.15)'};display:inline-flex;align-items:center;justify-content:center;margin-bottom:10px;">
+                        <i class="fas ${t.icon}" style="font-size:1.3rem;color:${t.color};"></i>
+                    </div>
+                    <div style="font-size:1rem;font-weight:700;color:var(--text);">${t.title}</div>
+                    <div style="font-size:0.62rem;color:var(--text-muted);margin-top:4px;">Step ${svcnTutorialStep+1} of ${SVCN_TUTORIAL.length}</div>
+                </div>
+                <div style="font-size:0.68rem;color:var(--text-muted);line-height:1.7;white-space:pre-line;">${t.body}</div>
+                <div style="display:flex;gap:8px;margin-top:20px;">
+                    ${svcnTutorialStep > 0 ? `<button class="svcn-action-btn" onclick="svcnTutorialStep--;svcnRenderTutorial();" style="flex:1;background:var(--glass);color:var(--text);border:1px solid var(--border);"><i class="fas fa-arrow-left"></i> Back</button>` : ''}
+                    ${svcnTutorialStep < SVCN_TUTORIAL.length - 1 ? `<button class="svcn-action-btn" onclick="svcnTutorialStep++;svcnRenderTutorial();" style="flex:1;"><i class="fas fa-arrow-right"></i> Next</button>` : `<button class="svcn-action-btn" onclick="document.getElementById('svcnTutorialOverlay').classList.remove('active');" style="flex:1;"><i class="fas fa-check"></i> Start Exploring</button>`}
+                </div>
+                <div style="display:flex;justify-content:center;gap:4px;margin-top:12px;">
+                    ${SVCN_TUTORIAL.map((_,i) => `<div style="width:${i===svcnTutorialStep?'16px':'6px'};height:6px;border-radius:3px;background:${i===svcnTutorialStep?'var(--accent)':'var(--border)'};transition:all 0.3s;"></div>`).join('')}
+                </div>
+            `;
+        }
+
+        // Init scenarios on first visit
+        function initSVCN() { svcnRenderScenarios(); svcnRenderSandboxModule('messenger'); }
 
         // ===== KEYBOARD SHORTCUTS =====
         document.addEventListener('keydown', function(e) {
