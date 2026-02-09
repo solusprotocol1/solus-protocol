@@ -2,7 +2,7 @@
 # </center>Solus Protocol Whitepaper</center>
 **<center>Decentralized Infrastructure for Medical Data Integrity</center>**
 
-*<center>Version 4.0 | February 2026</center>*
+*<center>Version 4.1 | February 2026</center>*
 
 ---
 
@@ -96,6 +96,25 @@ Solus implements a role-based access system with three distinct user types:
 - **Patient:** Manage personal health records, grant/revoke provider access, view blockchain verification status, share records via QR code or direct link, and track data custody.
 - **Healthcare Provider:** Anchor clinical records, verify incoming patient data, perform bulk anchoring operations, look up patient records by identifier, and request access to patient data.
 - **EHR Administrator:** Manage institutional anchoring, perform system-wide data integrity verification, oversee compliance dashboards, and conduct bulk record operations.
+
+### 3.5 Solus Virtual Care Network (SVCN)
+The **Solus Virtual Care Network** is a decentralized provider coordination platform built on top of the Solus Protocol anchoring layer. SVCN addresses the fragmentation problem in healthcare by connecting patients to verified providers through blockchain-backed referrals, transparent reviews, and real-time availability data.
+
+Key capabilities:
+- **Provider Directory** — Search by specialty, location, insurance accepted, and blockchain-verified patient ratings.
+- **Credential Verification** — Provider licenses and board certifications are hashed and anchored to the XRPL, enabling instant verification without intermediaries.
+- **Referral Management** — Secure referrals with attached medical records, creating an immutable chain of custody from referring provider to specialist.
+- **Care Coordination** — Track patient journeys across multiple providers and facilities, with every handoff logged and verifiable on-chain.
+- **Transparent Reviews** — Patient reviews are anchored to the XRPL, preventing fake reviews and enabling trust in provider ratings.
+
+SVCN operates alongside the Solus Protocol EHR System (§5.12), allowing providers listed on SVCN to accept referrals directly into their EHR workflow with full blockchain provenance.
+
+### 3.6 Blockchain-Anchored Billing & Revenue Cycle
+Solus Protocol extends data integrity to the financial layer of healthcare through blockchain-anchored billing operations:
+- **ICD-10 / CPT Code Anchoring** — Diagnosis and procedure codes submitted with claims are hashed and anchored, creating tamper-proof billing records.
+- **Insurance Eligibility Verification (X12 270/271)** — Eligibility responses can be optionally anchored to the XRPL, providing immutable proof for billing disputes and denial appeals.
+- **Claim Auto-Adjudication** — Claims are processed through a rules engine with outcomes (approved, partial, denied) logged on-chain.
+- **Drug Interaction Screening** — Pre-prescribing safety checks cross-reference active medications against known interaction databases, with results anchored for clinical audit.
 
 ## <center>4. Technical Architecture</center>
 
@@ -397,6 +416,53 @@ connectXrplWithFallback():
 
 This ensures that if a primary testnet node goes down during an amendment cycle, the wallet automatically falls over to backup nodes without user intervention.
 
+### 5.12 EHR System — Full Clinical Platform
+
+The Solus Protocol EHR System (v2.10.1) is a comprehensive, blockchain-anchored electronic health record platform. Unlike traditional EHR systems that cost $500K–$3M to implement, Solus Protocol EHR operates at $0.000012 per record anchor on the XRPL.
+
+**Clinical Capabilities:**
+
+| Module | Description |
+|:---|:---|
+| **Patient Management** | Registration with demographics, insurance, phone, email — each registration anchored to XRPL |
+| **Clinical Records** | 20+ record types: vitals, labs, imaging, prescriptions, clinical notes, surgical notes, discharge, consent, pathology |
+| **Scheduling** | Visual calendar with month navigation, appointment booking by department and provider, push notification reminders |
+| **Billing & Claims** | ICD-10 autocomplete (24 codes), CPT autocomplete (20 codes), X12 270/271 insurance eligibility checks, claim auto-adjudication (70% approved / 15% partial / 15% denied) |
+| **Drug Interactions** | 10 known interaction pairs with severity levels (high/moderate/low), pre-prescribing medication safety screening |
+| **Interoperability** | FHIR R4 bundle export, HL7 v2.5 ADT messaging, legacy import from Epic/Cerner/MEDITECH/Athenahealth |
+| **Record Transfer** | Cross-facility transfer with blockchain proof of delivery |
+| **12 Clinical Scenarios** | Hospital admission, stroke code, surgical workflow, lab results, telehealth, radiology, pharmacy, patient self-service — all with real XRPL transactions |
+
+**Security & Governance:**
+
+| Feature | Description |
+|:---|:---|
+| **XLS-20 NFT Consent Tokens** | Mint on-chain consent tokens per patient using XRPL's native NFT standard; revocable anytime with full audit trail |
+| **Gamification** | 10 achievement badges (First Anchor, Record Keeper, Integrity Guardian, etc.) and 5 Guardian Levels driving engagement |
+| **MFA Simulation** | Optional 6-digit multi-factor authentication code on login |
+| **Hash Mismatch Testing** | Deliberately corrupt records to demonstrate tamper detection capabilities |
+| **Break-Glass Access** | Emergency access with automatic logging and XRPL anchoring |
+| **Audit Trail** | Complete event log with CSV export and per-entry blockchain proof |
+
+**Analytics & Scalability:**
+
+| Feature | Description |
+|:---|:---|
+| **Cohort Analytics** | Population health dashboard with age distribution, ICD-10 condition prevalence, record type breakdown, anchoring trends, and AI-driven population health insights |
+| **Stress Testing** | Scalability proof simulating SHA-256 hashing for batches up to 1,000,000 records, measuring throughput (hashes/sec), elapsed time, and estimated XRPL cost |
+| **ROI Calculator** | Interactive calculator comparing Solus Protocol costs vs Epic, Cerner, and MEDITECH |
+
+### 5.13 PWA Push Notifications
+
+The mobile wallet supports PWA push notifications via the Web Push API and service worker integration. Notification types include:
+- **Appointment Reminders** — Automated alerts for upcoming patient appointments
+- **Integrity Alerts** — Notifications when hash verification completes or detects anomalies
+- **Claim Status Updates** — Real-time alerts for claim approval, partial payment, or denial
+- **Critical Lab Results** — STAT notifications for critical-high or critical-low lab values
+- **Background Sync** — Offline-queued anchors are automatically synced when connectivity resumes
+
+Push notifications require explicit user opt-in (Notification API permission) and operate entirely client-side for the demo; production deployments will integrate with VAPID-authenticated push servers.
+
 ## <center>6. Tokenomics ($SLS)</center>
 
 The $SLS token is the native utility asset of the Solus ecosystem.
@@ -471,6 +537,21 @@ The Solus Protocol is transitioning toward a **Decentralized Technical Governanc
     * Partners screen with 6 active partners, 3 integrations, 12 pilot targets.
     * Investor Analytics dashboard with live XRPL data.
     * XRPL multi-node failover resilience for amendment cycles.
+* **Q1: EHR System & Care Network [COMPLETED]**
+    * Full EHR clinical platform with 20+ record types, patient management, and record transfer.
+    * Visual calendar scheduling with department/provider booking and push reminders.
+    * Billing & claims engine: ICD-10/CPT autocomplete, X12 270/271 eligibility, claim auto-adjudication.
+    * Drug interaction checker with 10 known interaction pairs and severity levels.
+    * XLS-20 NFT consent tokens minted on-chain per patient with revocable audit trail.
+    * Gamification system: 10 achievement badges, 5 Guardian Levels, engagement scoring.
+    * MFA simulation, hash mismatch tamper detection, break-glass emergency access.
+    * 12 clinical scenarios with real XRPL transactions (hospital, stroke, surgical, lab, telehealth, etc.).
+    * ONC/CEHRT compliance roadmap for 2015 Edition Cures Update certification.
+    * Solus Virtual Care Network (SVCN): provider directory, credential verification, referral management.
+    * Cohort analytics: population health dashboard with age distribution, condition prevalence, anchoring trends.
+    * Stress testing: SHA-256 batch simulation up to 1,000,000 records with throughput benchmarks.
+    * PWA push notifications: appointment reminders, integrity alerts, claim updates, critical lab results.
+    * Freemium pricing model: Free/Pilot, Standard ($0.000012/anchor), Enterprise tiers.
 * **Q2: Clinical Pilot Program**
     * Onboard first clinics for data anchoring trials.
 * **Q3: Partner Integrations**
@@ -578,6 +659,8 @@ Each record type is prefixed in the XRPL memo data (e.g., `SURGERY:sha256hash`) 
 | **v2.9.3** | Feb 2026 | Fixed anchor success/error bug for xrpl.js v4 API (hash now read from `result.result.tx_json.hash`). Celebration confetti animation on successful anchor. XRPL amendment resilience with `connectXrplWithFallback()` across 3 testnet nodes. Hardened auto-fund wallet logic with balance checking and faucet retry. Updated MAINNET_MIGRATION.md with Section 11: XRPL Amendment Resilience |
 | **v2.9.3b** | Feb 2026 | Corrected cost math from 7.6Mx to 1,917× cheaper (at $1/XRP). "Solus" → "Solus Protocol" in all cost labels. Added 6 SC healthcare placeholder partners (MUSC Health, Prisma Health, SC EMS Association, HIPAA Cloud Partners, SC Legal Health Advisory). Early adopter benefit box with pricing tiers (Basic Tier free for pilots, Standard $5K–20K/yr, Enterprise $20K–100K/yr). Fixed docs.solusprotocol.com → GitHub link |
 | **v2.9.3c** | Feb 2026 | Interactive ROI Calculator in SDK Playground with 4 adjustable sliders (Monthly Patient Volume 100–100K, Records per Patient 1–20, Error Rate 0.5–15%, Cost per Error $50–$10K). Real-time savings calculation showing Monthly Verifications, Errors Prevented/Year, and Estimated Annual Savings. Formula: 95% error reduction × cost per error + verification cost savings ($25 legacy vs $0.000012 Solus per record). Mobile-optimized touch-friendly range inputs with custom gradient styling |
+| **v2.10.0** | Feb 2026 | Full EHR System: patient management, 20+ record types, visual calendar scheduling, ICD-10/CPT billing with autocomplete, X12 270/271 eligibility checks, claim auto-adjudication, drug interaction checker (10 pairs), XLS-20 NFT consent tokens, gamification (10 badges / 5 Guardian Levels), MFA simulation, hash mismatch testing, break-glass access, 12 clinical scenarios with real XRPL transactions, record transfer, FHIR R4/HL7 v2.5 interoperability, audit log with CSV export, ONC/CEHRT roadmap, freemium pricing, SVCN Care Network with provider directory and referral management |
+| **v2.10.1** | Feb 2026 | PWA push notifications (appointment reminders, integrity alerts, claim updates, critical labs) via Web Push API and service worker. Cohort analytics dashboard (age distribution, ICD-10 condition prevalence, record type breakdown, 7-day anchoring trends, AI population health insights). Stress-test simulation up to 1M records with SHA-256 throughput benchmarks and XRPL cost projections. Tutorial system expanded to 10 slides with newbie onboarding. Main website overhaul: consolidated navbar with dropdowns, Products section with EHR / SVCN / pricing tiers |
 
 ---
 

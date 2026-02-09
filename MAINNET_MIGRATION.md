@@ -1464,11 +1464,141 @@ Provider Fee:   ~0.005 $SLS per verification request
 
 ---
 
-## Migration Checklist (v2.10.0 — Comprehensive)
+## 27. PWA Push Notifications (v2.10.1)
+
+### Current (Testnet Demo)
+Push notifications use the browser's Notification API with local scheduling. No server-side push infrastructure is needed for the demo — alerts fire client-side at timed intervals.
+
+```javascript
+// Demo implementation — client-side only
+Notification.requestPermission().then(perm => {
+  if (perm === 'granted') {
+    new Notification('Appointment Reminder', {
+      body: 'Patient follow-up in 30 minutes',
+      icon: '/demo-app/icon-192.png',
+      tag: 'appointment-reminder'
+    });
+  }
+});
+```
+
+### Mainnet — Production Push Infrastructure
+
+| Component | Testnet (Demo) | Mainnet (Production) |
+|-----------|---------------|---------------------|
+| **Permission** | `Notification.requestPermission()` | Same — browser standard |
+| **Push Server** | None (local scheduling) | VAPID-authenticated push server |
+| **Subscription** | Not stored | PushSubscription stored in encrypted DB |
+| **Delivery** | `setTimeout()` scheduling | FCM (Android/Chrome) + APNs (iOS/Safari) |
+| **Payload** | Hardcoded demo messages | Real-time event-driven from EHR backend |
+| **Encryption** | None | RFC 8291 (Web Push Encryption) |
+| **Background Sync** | Service worker `sync` event | Service worker + IndexedDB queue |
+
+### Migration Steps
+1. **Generate VAPID Keys** — `web-push generate-vapid-keys` (Node.js) or Python `pywebpush`
+2. **Store VAPID Keys** — Set `VAPID_PUBLIC_KEY` and `VAPID_PRIVATE_KEY` as env vars on Render
+3. **Backend Push Endpoint** — `POST /api/push/subscribe` to store `PushSubscription` objects (encrypted at rest)
+4. **Event Triggers** — Wire EHR events (appointment T-30min, claim status change, critical lab, integrity alert) to push dispatch
+5. **FCM Integration** — Register Firebase project, obtain server key, configure `gcm_sender_id` in manifest.json
+6. **APNs Integration** — For iOS Safari 16.4+ PWA push support, register Apple Developer Certificate
+7. **Offline Anchor Sync** — Implement `BackgroundSyncPlugin` to queue anchors in IndexedDB when offline, replay on reconnection
+
+### HIPAA Considerations
+- Push payloads must **never** contain PHI in the notification body (use generic text like "New update available" with in-app detail)
+- PushSubscription endpoints should be stored in HIPAA-compliant encrypted storage
+- All push server logs must exclude patient identifiers
+
+---
+
+## 28. Cohort Analytics & Population Health (v2.10.1)
+
+### Current (Testnet Demo)
+The cohort analytics dashboard renders population health visualizations using client-side data from `localStorage`. When insufficient real data exists, the system generates simulated representative data for demonstration purposes.
+
+### Dashboard Modules
+
+| Module | Description | Data Source (Demo) | Data Source (Mainnet) |
+|--------|-------------|-------------------|----------------------|
+| **Age Distribution** | Bar chart of patient age buckets (0-17, 18-34, 35-49, 50-64, 65-79, 80+) | In-memory patient records | PostgreSQL patient demographics (de-identified) |
+| **Condition Prevalence** | ICD-10 condition prevalence bars with percentage | 8 simulated conditions (I10, E11.9, J06.9, M54.5, etc.) | Aggregate ICD-10 codes from claims database |
+| **Record Type Breakdown** | Grid showing count per record category | localStorage record array | Metrics API `/api/records/breakdown` |
+| **Anchoring Trends** | 7-day bar chart of daily anchor volume | Simulated daily counts | XRPL transaction query by date range |
+| **Population Health Insights** | 5 AI-driven insight cards | Static analysis of demo data | ML pipeline (chronic disease prediction, care gaps, utilization) |
+
+### Mainnet Migration Steps
+1. **Database Backend** — Deploy PostgreSQL (HIPAA-compliant hosting) for patient demographics and record metadata
+2. **De-identification Layer** — All analytics queries must pass through a HIPAA Safe Harbor de-identification filter (remove 18 PHI identifiers per 45 CFR §164.514(b))
+3. **Aggregate-Only API** — `GET /api/analytics/cohort` returns only aggregate statistics (no individual records); minimum cohort size of 10 patients to prevent re-identification
+4. **Real ICD-10 Integration** — Connect to CMS ICD-10-CM API for validated code lookups
+5. **XRPL Trend Queries** — Use Clio server API to query historical anchoring transactions by date range and memo type
+6. **ML Pipeline** — Deploy scikit-learn or TensorFlow Lite models for population health predictions (chronic disease risk scoring, care gap identification, utilization forecasting)
+7. **Caching** — Redis cache with 15-minute TTL for aggregate analytics to reduce database load
+
+### Data Governance
+- All cohort analytics operate on **de-identified aggregate data only**
+- Individual patient records are never exposed through analytics endpoints
+- Minimum cohort sizes enforced to prevent statistical re-identification
+- Analytics audit log: every query is logged with requester, timestamp, and query parameters
+
+---
+
+## 29. Stress Testing & Scalability Benchmarks (v2.10.1)
+
+### Current (Testnet Demo)
+The stress test module simulates SHA-256 hashing for batches of 1,000 to 1,000,000 records using the Web Crypto API (`crypto.subtle.digest`). Processing occurs in chunks of 5,000 via `requestAnimationFrame` to maintain UI responsiveness.
+
+### Benchmark Results (Client-Side, Browser)
+
+| Batch Size | Typical Time | Hashes/sec | Est. XRPL Cost |
+|-----------|-------------|-----------|----------------|
+| 1,000 | ~0.3s | ~3,300/s | $0.012 |
+| 10,000 | ~2.5s | ~4,000/s | $0.12 |
+| 100,000 | ~22s | ~4,500/s | $1.20 |
+| 1,000,000 | ~3.5min | ~4,700/s | $12.00 |
+
+### Mainnet — Production Scalability
+
+| Component | Demo | Production |
+|-----------|------|------------|
+| **Hashing** | Browser Web Crypto API | Server-side (Node.js `crypto` or Rust `sha2` crate) |
+| **Throughput** | ~4,700 hashes/sec | 50,000–500,000 hashes/sec (server-side) |
+| **Batching** | Individual simulated hashes | Merkle tree root anchoring (1 XRPL tx per batch) |
+| **XRPL Submission** | Not submitted (simulation only) | Batch Merkle root → single XRPL Memo transaction |
+| **Concurrency** | Single browser thread | Horizontal scaling with worker pools |
+| **Cost** | $0.000012/record (estimated) | $0.000012/batch (Merkle root = 1 tx regardless of batch size) |
+
+### Merkle Tree Batching for Mainnet
+
+```
+Records:    [H1] [H2] [H3] [H4] [H5] [H6] [H7] [H8]
+              \  /      \  /      \  /      \  /
+Level 1:   [H1+H2]  [H3+H4]  [H5+H6]  [H7+H8]
+                \      /            \      /
+Level 2:    [H1234]              [H5678]
+                    \            /
+Merkle Root:      [H12345678]
+                       ↓
+              Single XRPL Transaction
+              Cost: ~0.000012 XRP
+              Proves: 8 records in 1 tx
+```
+
+### Migration Steps
+1. **Server-Side Hashing** — Move SHA-256 computation to backend using Node.js `crypto.createHash('sha256')` or Rust for maximum throughput
+2. **Merkle Tree Library** — Implement `merkle-tree-solidity`-compatible tree builder (or custom) to batch N records into a single root hash
+3. **Batch Scheduler** — Cron job or event-driven batch processor (e.g., every 5 minutes or every 1,000 records, whichever comes first)
+4. **Proof Generation** — Store Merkle proofs per record so any individual record can be verified against the on-chain root
+5. **XRPL Throughput** — XRPL handles ~1,500 TPS; with Merkle batching at 1,000 records/batch, effective throughput = 1,500,000 records/sec
+6. **Horizontal Scaling** — Deploy hash worker pool behind a load balancer; each worker processes batches independently
+7. **Monitoring** — Prometheus metrics for batch processing latency, queue depth, and XRPL submission success rate
+
+---
+
+## Migration Checklist (v2.10.1 — Comprehensive)
 
 ```
 ╔══════════════════════════════════════════════════════════════════╗
-║         MAINNET MIGRATION CHECKLIST — v2.10.0                   ║
+║         MAINNET MIGRATION CHECKLIST — v2.10.1                   ║
 ╠══════════════════════════════════════════════════════════════════╣
 ║                                                                  ║
 ║  INFRASTRUCTURE                                                  ║
@@ -1508,6 +1638,25 @@ Provider Fee:   ~0.005 $SLS per verification request
 ║  □ Implement Background Sync for offline anchor queueing         ║
 ║  □ Connect feedback form to Slack webhook + Jira                 ║
 ║                                                                  ║
+║  PUSH NOTIFICATIONS (v2.10.1)                                    ║
+║  □ Generate VAPID keys and set env vars                          ║
+║  □ Deploy push subscription endpoint (POST /api/push/subscribe) ║
+║  □ Wire EHR events to push dispatch                              ║
+║  □ Configure FCM for Android/Chrome push                         ║
+║  □ Configure APNs for iOS Safari 16.4+ push                     ║
+║  □ Implement BackgroundSyncPlugin for offline anchors            ║
+║  □ Verify push payloads contain no PHI                           ║
+║                                                                  ║
+║  ANALYTICS & STRESS TESTING (v2.10.1)                            ║
+║  □ Deploy PostgreSQL for de-identified analytics                 ║
+║  □ Implement HIPAA Safe Harbor de-identification layer           ║
+║  □ Build aggregate-only analytics API endpoints                  ║
+║  □ Connect real ICD-10 codes to CMS API                          ║
+║  □ Deploy server-side Merkle tree batch hashing                  ║
+║  □ Implement batch scheduler (5min / 1K records)                 ║
+║  □ Generate and store per-record Merkle proofs                   ║
+║  □ Set up Prometheus monitoring for batch processing             ║
+║                                                                  ║
 ║  METRICS API                                                     ║
 ║  □ Update XRPL_URL to mainnet RPC                                ║
 ║  □ Update XRPL_ACCOUNT to mainnet address                        ║
@@ -1524,6 +1673,9 @@ Provider Fee:   ~0.005 $SLS per verification request
 ║  □ Smoke test: eligibility check + optional anchor               ║
 ║  □ Smoke test: drug interaction check                            ║
 ║  □ Smoke test: hash mismatch / integrity failure                 ║
+║  □ Smoke test: push notification permission + delivery           ║
+║  □ Smoke test: cohort analytics with real patient data           ║
+║  □ Smoke test: stress test 10K records server-side               ║
 ║  □ Verify Metrics API categorizes all record types               ║
 ║  □ Set up XRP balance monitoring alerts (warn at 10 XRP)         ║
 ║  □ Test amendment resilience on Testnet                           ║
@@ -1539,5 +1691,5 @@ Provider Fee:   ~0.005 $SLS per verification request
 
 ---
 
-*Last updated: v2.10.0 — February 2026*
+*Last updated: v2.10.1 — February 2026*
 *See also: [DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md) | [SECURITY.md](SECURITY.md) | [HIPAA_COMPLIANCE.md](HIPAA_COMPLIANCE.md) | [WHITEPAPER.md](WHITEPAPER.md)*

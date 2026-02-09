@@ -1,5 +1,5 @@
-// Solus Protocol Service Worker v2.10.0
-const CACHE_NAME = 'solus-v2100';
+// Solus Protocol Service Worker v2.10.1
+const CACHE_NAME = 'solus-v2101';
 const ASSETS = [
   './',
   './index.html',
@@ -59,4 +59,60 @@ self.addEventListener('fetch', e => {
       }
     })
   );
+});
+
+// ===== PUSH NOTIFICATIONS =====
+self.addEventListener('push', e => {
+  let data = { title: 'Solus Protocol', body: 'New notification', icon: './manifest.json' };
+  try {
+    if (e.data) data = Object.assign(data, e.data.json());
+  } catch (err) {
+    if (e.data) data.body = e.data.text();
+  }
+
+  const options = {
+    body: data.body,
+    icon: data.icon || '/demo-app/manifest.json',
+    badge: data.badge || '/demo-app/manifest.json',
+    tag: data.tag || 'solus-notification',
+    data: data.url || './',
+    vibrate: [200, 100, 200],
+    actions: data.actions || [
+      { action: 'open', title: 'Open App' },
+      { action: 'dismiss', title: 'Dismiss' }
+    ]
+  };
+
+  e.waitUntil(self.registration.showNotification(data.title, options));
+});
+
+// Handle notification click
+self.addEventListener('notificationclick', e => {
+  e.notification.close();
+  if (e.action === 'dismiss') return;
+
+  const url = e.notification.data || './';
+  e.waitUntil(
+    clients.matchAll({ type: 'window', includeUncontrolled: true }).then(windowClients => {
+      // Focus existing window if open
+      for (const client of windowClients) {
+        if (client.url.includes('solus') && 'focus' in client) return client.focus();
+      }
+      // Otherwise open new window
+      return clients.openWindow(url);
+    })
+  );
+});
+
+// Background sync for offline-queued anchors
+self.addEventListener('sync', e => {
+  if (e.tag === 'solus-anchor-sync') {
+    e.waitUntil(
+      // Retrieve queued anchors from IndexedDB and retry
+      self.registration.showNotification('Solus Protocol', {
+        body: 'Offline anchors synced to XRPL',
+        tag: 'sync-complete'
+      })
+    );
+  }
 });

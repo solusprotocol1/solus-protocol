@@ -305,16 +305,29 @@
                 <ul class="navbar-nav ms-auto align-items-center">
                     <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Products</a>
+                        <ul class="dropdown-menu" style="background: rgba(15,15,25,0.98); border: 1px solid rgba(20,241,149,0.2); backdrop-filter: blur(20px);">
+                            <li><a class="dropdown-item" href="#products" style="color: #e0e0e0;">Overview</a></li>
+                            <li><a class="dropdown-item" href="#ehr-system" style="color: #e0e0e0;">EHR System</a></li>
+                            <li><a class="dropdown-item" href="#care-network" style="color: #e0e0e0;">Care Network (SVCN)</a></li>
+                            <li><a class="dropdown-item" href="#sdk" style="color: #e0e0e0;">SDK & Playground</a></li>
+                            <li><hr class="dropdown-divider" style="border-color: rgba(255,255,255,0.1);"></li>
+                            <li><a class="dropdown-item" href="https://solusprotocol.com/demo-app/" target="_blank" style="color: #14f195;"><i class="fas fa-external-link-alt" style="margin-right: 6px;"></i>Launch Demo App</a></li>
+                        </ul>
+                    </li>
                     <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#dashboard">Dashboard</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Data</a>
+                        <ul class="dropdown-menu" style="background: rgba(15,15,25,0.98); border: 1px solid rgba(20,241,149,0.2); backdrop-filter: blur(20px);">
+                            <li><a class="dropdown-item" href="#dashboard" style="color: #e0e0e0;">Hash Dashboard</a></li>
+                            <li><a class="dropdown-item" href="metrics.html" target="_blank" style="color: #e0e0e0;">Live Metrics</a></li>
+                            <li><a class="dropdown-item" href="transactions.html" target="_blank" style="color: #e0e0e0;">Transactions</a></li>
+                        </ul>
+                    </li>
                     <li class="nav-item"><a class="nav-link" href="#roadmap">Roadmap</a></li>
-                    <li class="nav-item"><a class="nav-link" href="metrics.html" target="_blank">Metrics</a></li>
-                    <li class="nav-item"><a class="nav-link" href="transactions.html" target="_blank">Transactions</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#sdk">SDK</a></li>
                     <li class="nav-item"><a class="nav-link" href="#security">Security</a></li>
                     <li class="nav-item"><a class="nav-link" href="partners/">Partners</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#faq">FAQ</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#profile">Profile</a></li>
                     <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
                     <li class="nav-item" id="loginBtn"><a class="nav-link" href="#" onclick="showLoginModal()">Login</a></li>
                     <li class="nav-item" id="userInfo" style="display:none;"><span class="user-badge" id="userBadge"></span></li>
@@ -514,7 +527,7 @@
                                 <div style="width: 40px; height: 40px; background: linear-gradient(135deg, var(--accent), var(--secondary)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #fff;">S</div>
                                 <div><div style="font-weight: 600; color: #fff;">Solus Protocol</div><div style="font-size: 0.8rem; color: #aaa;">@Solus_Protocol</div></div>
                             </div>
-                            <p style="font-size: 0.95rem; margin-bottom: 10px; color: #e0e0e0;">🚀 Solus Protocol v2.9.3c demo app is LIVE. Real SHA-256 hash anchoring to @Ripple's XRPL. Not a mockup — working code. Visit solusprotocol.com → Launch Demo App #HealthTech #XRPL</p>
+                            <p style="font-size: 0.95rem; margin-bottom: 10px; color: #e0e0e0;">🚀 Solus Protocol v2.10.1 is LIVE — now with full EHR System, Care Network (SVCN), cohort analytics & 1M-record stress testing. Real SHA-256 hash anchoring to @Ripple's XRPL. Visit solusprotocol.com → Launch Demo App #HealthTech #XRPL</p>
                             <a href="https://x.com/Solus_Protocol" target="_blank" style="color: var(--accent); font-size: 0.85rem;">View on X →</a>
                         </div>
                         <div style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 15px; margin-bottom: 12px;">
@@ -676,6 +689,181 @@
                 <!-- Keep original inputs hidden for backward compatibility -->
                 <input type="hidden" id="roiVerifications" value="1000">
                 <input type="hidden" id="roiCostPer" value="25">
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section id="products" class="section" style="background: rgba(0,0,0,0.2);">
+        <div class="container">
+            <h2 class="section-title">Our <span class="gradient-text">Products</span></h2>
+            <p class="text-center" style="margin-bottom: 40px; max-width: 700px; margin-left: auto; margin-right: auto;">Solus Protocol offers a complete suite of blockchain-powered healthcare tools — from patient records to provider coordination to developer integration.</p>
+
+            <div class="row mb-4">
+                <div class="col-md-4 mb-3">
+                    <div class="card h-100 text-center" style="border: 1px solid rgba(255,100,100,0.3); background: linear-gradient(135deg, rgba(255,100,100,0.08), rgba(153,69,255,0.06));">
+                        <div style="font-size: 2.5rem; margin-bottom: 10px;">🏥</div>
+                        <h4 style="color: #ff6464;">EHR System</h4>
+                        <p style="font-size: 0.9rem;">Full electronic health record system with blockchain-anchored integrity — scheduling, billing, claims, drug interactions, and 12 real-world clinical scenarios.</p>
+                        <a href="#ehr-system" class="btn-primary-custom" style="padding: 8px 20px; font-size: 0.85rem;">Learn More</a>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="card h-100 text-center" style="border: 1px solid rgba(153,69,255,0.3); background: linear-gradient(135deg, rgba(153,69,255,0.08), rgba(0,194,255,0.06));">
+                        <div style="font-size: 2.5rem; margin-bottom: 10px;">🌐</div>
+                        <h4 style="color: #9945ff;">Solus Virtual Care Network</h4>
+                        <p style="font-size: 0.9rem;">SVCN connects patients with providers through blockchain-verified referrals, ratings, and real-time availability — all anchored on the XRP Ledger.</p>
+                        <a href="#care-network" class="btn-primary-custom" style="padding: 8px 20px; font-size: 0.85rem;">Learn More</a>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="card h-100 text-center" style="border: 1px solid rgba(0,200,150,0.3); background: linear-gradient(135deg, rgba(0,200,150,0.08), rgba(20,241,149,0.06));">
+                        <div style="font-size: 2.5rem; margin-bottom: 10px;">🛠️</div>
+                        <h4 style="color: #00c896;">SDK & Playground</h4>
+                        <p style="font-size: 0.9rem;">Developer toolkit for integrating blockchain-anchored record integrity into any application — with an in-browser playground for instant testing.</p>
+                        <a href="#sdk" class="btn-primary-custom" style="padding: 8px 20px; font-size: 0.85rem;">Learn More</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- EHR System Detail -->
+            <div id="ehr-system" class="card mb-4" style="border: 1px solid rgba(255,100,100,0.25);">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <h3><span style="color: #ff6464;">🏥</span> Solus Protocol <span class="gradient-text">EHR System</span></h3>
+                        <p>The world's first blockchain-anchored electronic health record system — a full-featured clinical platform where every record, every appointment, and every claim is SHA-256 hashed and immutably anchored to the XRP Ledger.</p>
+                        <div style="display: flex; flex-direction: column; gap: 8px; margin: 15px 0;">
+                            <div style="display: flex; align-items: center; gap: 10px;"><span style="color: #00c896;">✓</span> <strong>Patient Management</strong> — Registration, demographics, insurance, access control</div>
+                            <div style="display: flex; align-items: center; gap: 10px;"><span style="color: #00c896;">✓</span> <strong>Clinical Records</strong> — 20+ record types (vitals, labs, imaging, prescriptions, surgical notes)</div>
+                            <div style="display: flex; align-items: center; gap: 10px;"><span style="color: #00c896;">✓</span> <strong>Scheduling</strong> — Visual calendar with month navigation & push reminders</div>
+                            <div style="display: flex; align-items: center; gap: 10px;"><span style="color: #00c896;">✓</span> <strong>Billing & Claims</strong> — ICD-10 / CPT autocomplete, X12 270/271 eligibility, auto-adjudication</div>
+                            <div style="display: flex; align-items: center; gap: 10px;"><span style="color: #00c896;">✓</span> <strong>Drug Interaction Checker</strong> — Real-time medication safety screening</div>
+                            <div style="display: flex; align-items: center; gap: 10px;"><span style="color: #00c896;">✓</span> <strong>12 Clinical Scenarios</strong> — Hospital admission, stroke code, telehealth, radiology, and more</div>
+                            <div style="display: flex; align-items: center; gap: 10px;"><span style="color: #00c896;">✓</span> <strong>Interoperability</strong> — FHIR R4 export, HL7 v2.5 messaging, Epic/Cerner import</div>
+                            <div style="display: flex; align-items: center; gap: 10px;"><span style="color: #00c896;">✓</span> <strong>XLS-20 NFT Consent Tokens</strong> — Mint/revoke on-chain patient consent</div>
+                            <div style="display: flex; align-items: center; gap: 10px;"><span style="color: #00c896;">✓</span> <strong>Cohort Analytics</strong> — Population health insights, condition prevalence, trends</div>
+                            <div style="display: flex; align-items: center; gap: 10px;"><span style="color: #00c896;">✓</span> <strong>Stress Testing</strong> — Prove scalability with 1M-record batch simulations</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div style="background: linear-gradient(135deg, rgba(255,100,100,0.1), rgba(153,69,255,0.08)); border: 1px solid rgba(255,100,100,0.2); border-radius: 16px; padding: 25px;">
+                            <h4 class="text-center" style="margin-bottom: 15px;">EHR vs Legacy Comparison</h4>
+                            <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
+                                <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);"><td style="padding: 8px;"></td><td style="padding: 8px; text-align: center; color: #ff6464; font-weight: 700;">Epic</td><td style="padding: 8px; text-align: center; color: #00c896; font-weight: 700;">Solus EHR</td></tr>
+                                <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);"><td style="padding: 8px;">Implementation</td><td style="padding: 8px; text-align: center;">$1.5M-$3M</td><td style="padding: 8px; text-align: center; color: #00c896;">$0</td></tr>
+                                <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);"><td style="padding: 8px;">Annual Cost</td><td style="padding: 8px; text-align: center;">$400K–$1M</td><td style="padding: 8px; text-align: center; color: #00c896;">~$1.44/yr</td></tr>
+                                <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);"><td style="padding: 8px;">Per Record</td><td style="padding: 8px; text-align: center;">N/A</td><td style="padding: 8px; text-align: center; color: #00c896;">$0.000012</td></tr>
+                                <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);"><td style="padding: 8px;">Data Ownership</td><td style="padding: 8px; text-align: center; color: #ff6464;">Vendor</td><td style="padding: 8px; text-align: center; color: #00c896;">Patient</td></tr>
+                                <tr><td style="padding: 8px;">Tamper-Proof</td><td style="padding: 8px; text-align: center; color: #ff6464;">No</td><td style="padding: 8px; text-align: center; color: #00c896;">Yes (XRPL)</td></tr>
+                            </table>
+                            <div class="text-center mt-3">
+                                <a href="https://solusprotocol.com/demo-app/" target="_blank" class="btn-primary-custom" style="padding: 10px 25px;">Try EHR System →</a>
+                                <p style="font-size: 0.75rem; margin-top: 8px; color: #888;">Login: "ehr" / "demo123"</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Care Network (SVCN) Detail -->
+            <div id="care-network" class="card mb-4" style="border: 1px solid rgba(153,69,255,0.25);">
+                <div class="row align-items-center">
+                    <div class="col-md-6 order-md-2">
+                        <h3><span style="color: #9945ff;">🌐</span> Solus Virtual <span class="gradient-text">Care Network</span></h3>
+                        <p>SVCN is a decentralized provider directory and patient coordination network. Find specialists, book referrals, and track patient journeys — all with blockchain-verified provider credentials and transparent reviews.</p>
+                        <div style="display: flex; flex-direction: column; gap: 8px; margin: 15px 0;">
+                            <div style="display: flex; align-items: center; gap: 10px;"><span style="color: #9945ff;">✓</span> <strong>Provider Directory</strong> — Search by specialty, location, insurance, and availability</div>
+                            <div style="display: flex; align-items: center; gap: 10px;"><span style="color: #9945ff;">✓</span> <strong>Blockchain-Verified Credentials</strong> — Provider licenses anchored on XRPL</div>
+                            <div style="display: flex; align-items: center; gap: 10px;"><span style="color: #9945ff;">✓</span> <strong>Patient Referral Network</strong> — Seamless referrals with on-chain proof of delivery</div>
+                            <div style="display: flex; align-items: center; gap: 10px;"><span style="color: #9945ff;">✓</span> <strong>Care Coordination</strong> — Track patient journeys across providers and facilities</div>
+                            <div style="display: flex; align-items: center; gap: 10px;"><span style="color: #9945ff;">✓</span> <strong>Transparent Reviews</strong> — Patient ratings anchored on-chain for authenticity</div>
+                            <div style="display: flex; align-items: center; gap: 10px;"><span style="color: #9945ff;">✓</span> <strong>Real-Time Availability</strong> — See provider slot openings instantly</div>
+                        </div>
+                        <a href="https://solusprotocol.com/demo-app/" target="_blank" class="btn-primary-custom" style="padding: 10px 25px;">Explore SVCN →</a>
+                        <p style="font-size: 0.75rem; margin-top: 8px; color: #888;">Login: "provider" / "demo123" → Navigate to Care Network</p>
+                    </div>
+                    <div class="col-md-6 order-md-1">
+                        <div style="background: linear-gradient(135deg, rgba(153,69,255,0.1), rgba(0,194,255,0.08)); border: 1px solid rgba(153,69,255,0.2); border-radius: 16px; padding: 25px;">
+                            <h4 class="text-center" style="margin-bottom: 20px;">How SVCN Works</h4>
+                            <div style="display: flex; flex-direction: column; gap: 12px;">
+                                <div style="display: flex; align-items: flex-start; gap: 12px;">
+                                    <div style="width: 36px; height: 36px; border-radius: 50%; background: #9945ff; color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; flex-shrink: 0;">1</div>
+                                    <div><strong style="color: #9945ff;">Patient Searches</strong><br><span style="font-size: 0.85rem; color: #aaa;">Find providers by specialty, insurance, location, and patient ratings</span></div>
+                                </div>
+                                <div style="display: flex; align-items: flex-start; gap: 12px;">
+                                    <div style="width: 36px; height: 36px; border-radius: 50%; background: #00c2ff; color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; flex-shrink: 0;">2</div>
+                                    <div><strong style="color: #00c2ff;">Provider Verified</strong><br><span style="font-size: 0.85rem; color: #aaa;">Credentials checked via XRPL-anchored license hashes — no fake doctors</span></div>
+                                </div>
+                                <div style="display: flex; align-items: flex-start; gap: 12px;">
+                                    <div style="width: 36px; height: 36px; border-radius: 50%; background: #00c896; color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; flex-shrink: 0;">3</div>
+                                    <div><strong style="color: #00c896;">Referral Sent</strong><br><span style="font-size: 0.85rem; color: #aaa;">Secure referral with medical records attached — blockchain proof of delivery</span></div>
+                                </div>
+                                <div style="display: flex; align-items: flex-start; gap: 12px;">
+                                    <div style="width: 36px; height: 36px; border-radius: 50%; background: #14f195; color: #0a0a14; display: flex; align-items: center; justify-content: center; font-weight: 800; flex-shrink: 0;">4</div>
+                                    <div><strong style="color: #14f195;">Care Tracked</strong><br><span style="font-size: 0.85rem; color: #aaa;">Every step of the patient journey is logged and verifiable on XRPL</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pricing -->
+            <div id="pricing" class="card mb-4" style="border: 1px solid rgba(20,241,149,0.3); background: linear-gradient(135deg, rgba(20,241,149,0.06), rgba(153,69,255,0.06));">
+                <h3 class="text-center">Transparent <span class="gradient-text">Pricing</span></h3>
+                <p class="text-center" style="margin-bottom: 25px;">No hidden fees. No vendor lock-in. Pay only for what you use.</p>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <div class="card h-100 text-center" style="border: 1px solid rgba(0,200,150,0.3);">
+                            <div style="font-size: 1.5rem; color: #00c896; font-weight: 800;">Free</div>
+                            <h4 style="margin: 10px 0;">Pilot Tier</h4>
+                            <p style="font-size: 0.85rem; color: #aaa; margin-bottom: 15px;">For clinics evaluating Solus Protocol</p>
+                            <ul style="text-align: left; list-style: none; padding: 0; font-size: 0.85rem; line-height: 2.2;">
+                                <li><span style="color: #00c896;">✓</span> Up to 500 record anchors/month</li>
+                                <li><span style="color: #00c896;">✓</span> EHR System access</li>
+                                <li><span style="color: #00c896;">✓</span> SVCN provider listing</li>
+                                <li><span style="color: #00c896;">✓</span> SDK Playground</li>
+                                <li><span style="color: #00c896;">✓</span> XRPL Testnet</li>
+                                <li style="color: #555;">✗ Production API keys</li>
+                                <li style="color: #555;">✗ Custom integrations</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="card h-100 text-center" style="border: 2px solid rgba(153,69,255,0.5); position: relative;">
+                            <div style="position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #9945ff, #00c2ff); padding: 4px 16px; border-radius: 20px; font-size: 0.7rem; font-weight: 700; color: white;">RECOMMENDED</div>
+                            <div style="font-size: 1.5rem; color: #9945ff; font-weight: 800;">$0.000012<span style="font-size: 0.8rem; color: #aaa;">/anchor</span></div>
+                            <h4 style="margin: 10px 0;">Standard Tier</h4>
+                            <p style="font-size: 0.85rem; color: #aaa; margin-bottom: 15px;">For hospitals and health systems</p>
+                            <ul style="text-align: left; list-style: none; padding: 0; font-size: 0.85rem; line-height: 2.2;">
+                                <li><span style="color: #9945ff;">✓</span> Unlimited record anchors</li>
+                                <li><span style="color: #9945ff;">✓</span> Full EHR System + SVCN</li>
+                                <li><span style="color: #9945ff;">✓</span> Production API keys</li>
+                                <li><span style="color: #9945ff;">✓</span> XRPL Mainnet anchoring</li>
+                                <li><span style="color: #9945ff;">✓</span> FHIR R4 / HL7 v2.5 export</li>
+                                <li><span style="color: #9945ff;">✓</span> Cohort analytics</li>
+                                <li><span style="color: #9945ff;">✓</span> Priority support</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="card h-100 text-center" style="border: 1px solid rgba(255,180,50,0.3);">
+                            <div style="font-size: 1.5rem; color: #ffb432; font-weight: 800;">Custom</div>
+                            <h4 style="margin: 10px 0;">Enterprise Tier</h4>
+                            <p style="font-size: 0.85rem; color: #aaa; margin-bottom: 15px;">For health networks and state agencies</p>
+                            <ul style="text-align: left; list-style: none; padding: 0; font-size: 0.85rem; line-height: 2.2;">
+                                <li><span style="color: #ffb432;">✓</span> Everything in Standard</li>
+                                <li><span style="color: #ffb432;">✓</span> White-label deployment</li>
+                                <li><span style="color: #ffb432;">✓</span> Custom EHR integrations</li>
+                                <li><span style="color: #ffb432;">✓</span> On-premise option</li>
+                                <li><span style="color: #ffb432;">✓</span> SLA & BAA included</li>
+                                <li><span style="color: #ffb432;">✓</span> Dedicated success manager</li>
+                                <li><span style="color: #ffb432;">✓</span> Multi-facility analytics</li>
+                            </ul>
+                            <a href="#contact" class="btn-secondary-custom" style="padding: 8px 20px; font-size: 0.85rem;">Contact Sales</a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -1218,7 +1406,7 @@ sdk.on_ehr_event(lambda record:
     </section>
 
     <footer>
-        <p>&copy; 2026 Solus Protocol | Decentralized Medical Integrity Built on the XRP Ledger</p>
+        <p>&copy; 2026 Solus Protocol v2.10.1 | Decentralized Medical Integrity Built on the XRP Ledger</p>
         <p style="margin-top: 10px;"><a href="https://github.com/solusprotocol1/solus-protocol" target="_blank" style="color: var(--accent);">GitHub</a> | <a href="https://x.com/Solus_Protocol" target="_blank" style="color: var(--accent);">Twitter</a></p>
     </footer>
 
