@@ -378,6 +378,9 @@
             #ehr-system, #care-network { padding: 15px; }
             #ehr-system .row, #care-network .row { flex-direction: column; }
             #ehr-system .col-md-6, #care-network .col-md-6 { width: 100%; max-width: 100%; margin-bottom: 20px; }
+            /* EHR/SVCN feature items - fix text wrapping on mobile */
+            .ehr-feature-item { display: block !important; line-height: 1.6; margin-bottom: 12px !important; }
+            .ehr-feature-item strong { display: inline; }
             /* Pricing cards */
             #pricing .col-md-4 { margin-bottom: 15px; }
             /* Video embed */
@@ -513,7 +516,6 @@
         <div class="container mt-4">
             <div class="card" style="background: linear-gradient(135deg, rgba(20,241,149,0.15), rgba(153,69,255,0.15)); border: 2px solid rgba(20,241,149,0.4); max-width: 700px; margin: 0 auto;">
                 <div style="text-align: center;">
-                    <div style="font-size: 2.5rem; margin-bottom: 15px;">�</div>
                     <h3>Try the <span class="gradient-text">Live Demo</span></h3>
                     <p style="margin-bottom: 20px;">Experience the SLS Protocol dashboard firsthand. Hash patient records, verify data integrity, and explore our SDK integration — all in a live interactive environment.</p>
                     <a href="https://solusprotocol.com/demo-app/" target="_blank" class="btn-primary-custom" style="font-size: 1.1rem; padding: 15px 35px;">Launch Demo App →</a>
@@ -925,17 +927,17 @@
                     <div class="col-md-6">
                         <h3 style="color: #fff;"><span style="color: #ff6464;">🏥</span> SLS Protocol <span class="gradient-text">EHR System</span></h3>
                         <p style="color: #ccc;">The world's first blockchain-anchored electronic health record system — a full-featured clinical platform where every record, every appointment, and every claim is SHA-256 hashed and immutably anchored to the XRP Ledger.</p>
-                        <div style="display: flex; flex-direction: column; gap: 8px; margin: 15px 0;">
-                            <div style="display: flex; align-items: center; gap: 10px; color: #ddd;"><span style="color: #00c896;">✓</span> <strong style="color: #fff;">Patient Management</strong> — Registration, demographics, insurance, access control</div>
-                            <div style="display: flex; align-items: center; gap: 10px; color: #ddd;"><span style="color: #00c896;">✓</span> <strong style="color: #fff;">Clinical Records</strong> — 20+ record types (vitals, labs, imaging, prescriptions, surgical notes)</div>
-                            <div style="display: flex; align-items: center; gap: 10px; color: #ddd;"><span style="color: #00c896;">✓</span> <strong style="color: #fff;">Scheduling</strong> — Visual calendar with month navigation & push reminders</div>
-                            <div style="display: flex; align-items: center; gap: 10px; color: #ddd;"><span style="color: #00c896;">✓</span> <strong style="color: #fff;">Billing & Claims</strong> — ICD-10 / CPT autocomplete, X12 270/271 eligibility, auto-adjudication</div>
-                            <div style="display: flex; align-items: center; gap: 10px; color: #ddd;"><span style="color: #00c896;">✓</span> <strong style="color: #fff;">Drug Interaction Checker</strong> — Real-time medication safety screening</div>
-                            <div style="display: flex; align-items: center; gap: 10px; color: #ddd;"><span style="color: #00c896;">✓</span> <strong style="color: #fff;">12 Clinical Scenarios</strong> — Hospital admission, stroke code, telehealth, radiology, and more</div>
-                            <div style="display: flex; align-items: center; gap: 10px; color: #ddd;"><span style="color: #00c896;">✓</span> <strong style="color: #fff;">Interoperability</strong> — FHIR R4 export, HL7 v2.5 messaging, Epic/Cerner import</div>
-                            <div style="display: flex; align-items: center; gap: 10px; color: #ddd;"><span style="color: #00c896;">✓</span> <strong style="color: #fff;">XLS-20 NFT Consent Tokens</strong> — Mint/revoke on-chain patient consent</div>
-                            <div style="display: flex; align-items: center; gap: 10px; color: #ddd;"><span style="color: #00c896;">✓</span> <strong style="color: #fff;">Cohort Analytics</strong> — Population health insights, condition prevalence, trends</div>
-                            <div style="display: flex; align-items: center; gap: 10px; color: #ddd;"><span style="color: #00c896;">✓</span> <strong style="color: #fff;">Stress Testing</strong> — Prove scalability with 1M-record batch simulations</div>
+                        <div class="ehr-features-list" style="display: flex; flex-direction: column; gap: 8px; margin: 15px 0;">
+                            <div class="ehr-feature-item" style="display: flex; align-items: flex-start; gap: 10px; color: #ddd;"><span style="color: #00c896; flex-shrink: 0;">✓</span> <span><strong style="color: #fff;">Patient Management</strong> — Registration, demographics, insurance, access control</span></div>
+                            <div class="ehr-feature-item" style="display: flex; align-items: flex-start; gap: 10px; color: #ddd;"><span style="color: #00c896; flex-shrink: 0;">✓</span> <span><strong style="color: #fff;">Clinical Records</strong> — 20+ record types (vitals, labs, imaging, prescriptions, surgical notes)</span></div>
+                            <div class="ehr-feature-item" style="display: flex; align-items: flex-start; gap: 10px; color: #ddd;"><span style="color: #00c896; flex-shrink: 0;">✓</span> <span><strong style="color: #fff;">Scheduling</strong> — Visual calendar with month navigation & push reminders</span></div>
+                            <div class="ehr-feature-item" style="display: flex; align-items: flex-start; gap: 10px; color: #ddd;"><span style="color: #00c896; flex-shrink: 0;">✓</span> <span><strong style="color: #fff;">Billing & Claims</strong> — ICD-10 / CPT autocomplete, X12 270/271 eligibility, auto-adjudication</span></div>
+                            <div class="ehr-feature-item" style="display: flex; align-items: flex-start; gap: 10px; color: #ddd;"><span style="color: #00c896; flex-shrink: 0;">✓</span> <span><strong style="color: #fff;">Drug Interaction Checker</strong> — Real-time medication safety screening</span></div>
+                            <div class="ehr-feature-item" style="display: flex; align-items: flex-start; gap: 10px; color: #ddd;"><span style="color: #00c896; flex-shrink: 0;">✓</span> <span><strong style="color: #fff;">12 Clinical Scenarios</strong> — Hospital admission, stroke code, telehealth, radiology, and more</span></div>
+                            <div class="ehr-feature-item" style="display: flex; align-items: flex-start; gap: 10px; color: #ddd;"><span style="color: #00c896; flex-shrink: 0;">✓</span> <span><strong style="color: #fff;">Interoperability</strong> — FHIR R4 export, HL7 v2.5 messaging, Epic/Cerner import</span></div>
+                            <div class="ehr-feature-item" style="display: flex; align-items: flex-start; gap: 10px; color: #ddd;"><span style="color: #00c896; flex-shrink: 0;">✓</span> <span><strong style="color: #fff;">XLS-20 NFT Consent Tokens</strong> — Mint/revoke on-chain patient consent</span></div>
+                            <div class="ehr-feature-item" style="display: flex; align-items: flex-start; gap: 10px; color: #ddd;"><span style="color: #00c896; flex-shrink: 0;">✓</span> <span><strong style="color: #fff;">Cohort Analytics</strong> — Population health insights, condition prevalence, trends</span></div>
+                            <div class="ehr-feature-item" style="display: flex; align-items: flex-start; gap: 10px; color: #ddd;"><span style="color: #00c896; flex-shrink: 0;">✓</span> <span><strong style="color: #fff;">Stress Testing</strong> — Prove scalability with 1M-record batch simulations</span></div>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -964,13 +966,13 @@
                     <div class="col-md-6 order-md-2">
                         <h3 style="color: #fff;"><span style="color: #9945ff;">🌐</span> SLS Virtual <span class="gradient-text">Care Network</span></h3>
                         <p style="color: #ccc;">SVCN is a decentralized provider directory and patient coordination network. Find specialists, book referrals, and track patient journeys — all with blockchain-verified provider credentials and transparent reviews.</p>
-                        <div style="display: flex; flex-direction: column; gap: 8px; margin: 15px 0;">
-                            <div style="display: flex; align-items: center; gap: 10px; color: #ddd;"><span style="color: #9945ff;">✓</span> <strong style="color: #fff;">Provider Directory</strong> — Search by specialty, location, insurance, and availability</div>
-                            <div style="display: flex; align-items: center; gap: 10px; color: #ddd;"><span style="color: #9945ff;">✓</span> <strong style="color: #fff;">Blockchain-Verified Credentials</strong> — Provider licenses anchored on XRPL</div>
-                            <div style="display: flex; align-items: center; gap: 10px; color: #ddd;"><span style="color: #9945ff;">✓</span> <strong style="color: #fff;">Patient Referral Network</strong> — Seamless referrals with on-chain proof of delivery</div>
-                            <div style="display: flex; align-items: center; gap: 10px; color: #ddd;"><span style="color: #9945ff;">✓</span> <strong style="color: #fff;">Care Coordination</strong> — Track patient journeys across providers and facilities</div>
-                            <div style="display: flex; align-items: center; gap: 10px; color: #ddd;"><span style="color: #9945ff;">✓</span> <strong style="color: #fff;">Transparent Reviews</strong> — Patient ratings anchored on-chain for authenticity</div>
-                            <div style="display: flex; align-items: center; gap: 10px; color: #ddd;"><span style="color: #9945ff;">✓</span> <strong style="color: #fff;">Real-Time Availability</strong> — See provider slot openings instantly</div>
+                        <div class="ehr-features-list" style="display: flex; flex-direction: column; gap: 8px; margin: 15px 0;">
+                            <div class="ehr-feature-item" style="display: flex; align-items: flex-start; gap: 10px; color: #ddd;"><span style="color: #9945ff; flex-shrink: 0;">✓</span> <span><strong style="color: #fff;">Provider Directory</strong> — Search by specialty, location, insurance, and availability</span></div>
+                            <div class="ehr-feature-item" style="display: flex; align-items: flex-start; gap: 10px; color: #ddd;"><span style="color: #9945ff; flex-shrink: 0;">✓</span> <span><strong style="color: #fff;">Blockchain-Verified Credentials</strong> — Provider licenses anchored on XRPL</span></div>
+                            <div class="ehr-feature-item" style="display: flex; align-items: flex-start; gap: 10px; color: #ddd;"><span style="color: #9945ff; flex-shrink: 0;">✓</span> <span><strong style="color: #fff;">Patient Referral Network</strong> — Seamless referrals with on-chain proof of delivery</span></div>
+                            <div class="ehr-feature-item" style="display: flex; align-items: flex-start; gap: 10px; color: #ddd;"><span style="color: #9945ff; flex-shrink: 0;">✓</span> <span><strong style="color: #fff;">Care Coordination</strong> — Track patient journeys across providers and facilities</span></div>
+                            <div class="ehr-feature-item" style="display: flex; align-items: flex-start; gap: 10px; color: #ddd;"><span style="color: #9945ff; flex-shrink: 0;">✓</span> <span><strong style="color: #fff;">Transparent Reviews</strong> — Patient ratings anchored on-chain for authenticity</span></div>
+                            <div class="ehr-feature-item" style="display: flex; align-items: flex-start; gap: 10px; color: #ddd;"><span style="color: #9945ff; flex-shrink: 0;">✓</span> <span><strong style="color: #fff;">Real-Time Availability</strong> — See provider slot openings instantly</span></div>
                         </div>
                         <a href="https://solusprotocol.com/demo-app/" target="_blank" class="btn-primary-custom" style="padding: 10px 25px;">Explore SVCN →</a>
                         <p style="font-size: 0.75rem; margin-top: 8px; color: #888;">Login: "provider" / "demo123" → Navigate to Care Network</p>
