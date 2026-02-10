@@ -55,13 +55,31 @@
     </script>
     <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     <style>
-        /* Hide Google Translate banner and branding */
+        /* Hide Google Translate banner and branding but keep combo accessible for JS */
         .goog-te-banner-frame, .goog-te-balloon-frame { display: none !important; }
-        .goog-te-gadget { color: transparent !important; }
-        .goog-te-gadget .goog-te-combo { display: none !important; }
-        #google_translate_element { display: none !important; }
+        .goog-te-gadget { font-size: 0 !important; }
+        .goog-te-gadget .goog-te-combo { 
+            position: fixed !important; 
+            top: 0 !important; 
+            left: 0 !important; 
+            opacity: 0.01 !important;
+            width: 1px !important;
+            height: 1px !important;
+            pointer-events: none !important;
+        }
+        #google_translate_element { 
+            position: fixed !important; 
+            top: 0 !important; 
+            left: 0 !important; 
+            z-index: 1 !important;
+            width: 1px !important;
+            height: 1px !important;
+            overflow: hidden !important;
+        }
         body { top: 0 !important; }
         .skiptranslate { display: none !important; }
+        iframe.skiptranslate { display: none !important; }
+        .goog-te-spinner-pos { display: none !important; }
     </style>
     <style>
         :root {
@@ -4005,43 +4023,40 @@ Case ID: ***567`
             loadingToast.innerHTML = `<span style="margin-right: 8px;">⏳</span> Translating to ${langData.fullName}...`;
             document.body.appendChild(loadingToast);
             
-            // Trigger Google Translate
-            if (lang === 'en') {
-                // Reset to English
-                const frame = document.querySelector('.goog-te-banner-frame');
-                if (frame) {
-                    const innerDoc = frame.contentDocument || frame.contentWindow.document;
-                    const restoreBtn = innerDoc.querySelector('.goog-te-button button');
-                    if (restoreBtn) restoreBtn.click();
-                }
-                // Remove any existing translations
-                const translateCookies = document.cookie.split(';');
-                for (let c of translateCookies) {
-                    if (c.trim().startsWith('googtrans')) {
-                        document.cookie = c.split('=')[0] + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+            // Find and trigger Google Translate dropdown
+            const waitForGT = setInterval(() => {
+                const gtCombo = document.querySelector('.goog-te-combo');
+                if (gtCombo) {
+                    clearInterval(waitForGT);
+                    
+                    if (lang === 'en') {
+                        // Reset to original
+                        gtCombo.value = '';
+                        gtCombo.dispatchEvent(new Event('change'));
+                        setTimeout(() => {
+                            loadingToast.innerHTML = `<span style="margin-right: 8px;">✓</span> Restored to English`;
+                            setTimeout(() => loadingToast.remove(), 2000);
+                        }, 500);
+                    } else {
+                        // Set to selected language
+                        gtCombo.value = langData.gtCode;
+                        gtCombo.dispatchEvent(new Event('change'));
+                        setTimeout(() => {
+                            loadingToast.innerHTML = `<span style="margin-right: 8px;">✓</span> Translated to ${langData.fullName}`;
+                            setTimeout(() => loadingToast.remove(), 2000);
+                        }, 1000);
                     }
                 }
-                // Reload to show original
-                setTimeout(() => {
-                    loadingToast.innerHTML = `<span style="margin-right: 8px;">✓</span> Restored to English`;
-                    setTimeout(() => {
-                        loadingToast.remove();
-                        location.reload();
-                    }, 1000);
-                }, 500);
-            } else {
-                // Set translation cookie and reload
-                document.cookie = `googtrans=/en/${langData.gtCode}; path=/`;
-                document.cookie = `googtrans=/en/${langData.gtCode}; path=/; domain=.${location.hostname}`;
-                
-                setTimeout(() => {
-                    loadingToast.innerHTML = `<span style="margin-right: 8px;">✓</span> Translated to ${langData.fullName}`;
-                    setTimeout(() => {
-                        loadingToast.remove();
-                        location.reload();
-                    }, 1000);
-                }, 500);
-            }
+            }, 100);
+            
+            // Timeout fallback
+            setTimeout(() => {
+                clearInterval(waitForGT);
+                if (document.getElementById('langLoadingToast')) {
+                    loadingToast.innerHTML = `<span style="margin-right: 8px;">⚠</span> Translation loading...`;
+                    setTimeout(() => loadingToast.remove(), 2000);
+                }
+            }, 5000);
         }
         
         // Load saved language preference on page load
