@@ -749,6 +749,124 @@
             50% { box-shadow: 0 0 20px rgba(20, 241, 149, 0.6), 0 0 40px rgba(20, 241, 149, 0.3); }
         }
         
+        /* Search Overlay Styles */
+        .search-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(5, 6, 8, 0.95);
+            backdrop-filter: blur(20px);
+            z-index: 3000;
+            justify-content: center;
+            align-items: flex-start;
+            padding-top: 100px;
+            animation: fadeIn 0.2s ease;
+        }
+        .search-overlay.active { display: flex; }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .search-container {
+            width: 90%;
+            max-width: 600px;
+            position: relative;
+        }
+        .close-search {
+            position: absolute;
+            top: -50px;
+            right: 0;
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        .close-search:hover { color: var(--accent); }
+        .search-input-wrapper {
+            position: relative;
+            width: 100%;
+        }
+        .search-icon {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 1.2rem;
+        }
+        #searchInput {
+            width: 100%;
+            padding: 20px 20px 20px 55px;
+            font-size: 1.2rem;
+            background: rgba(255,255,255,0.08);
+            border: 2px solid rgba(20, 241, 149, 0.3);
+            border-radius: 16px;
+            color: #fff;
+            transition: all 0.3s;
+        }
+        #searchInput:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 30px rgba(20, 241, 149, 0.2);
+        }
+        .search-results {
+            margin-top: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .search-hint {
+            text-align: center;
+            color: var(--text-muted);
+            padding: 20px;
+        }
+        .search-hint span {
+            color: var(--accent);
+            cursor: pointer;
+            padding: 4px 12px;
+            background: rgba(20, 241, 149, 0.1);
+            border-radius: 20px;
+            margin: 0 5px;
+            transition: all 0.2s;
+        }
+        .search-hint span:hover {
+            background: rgba(20, 241, 149, 0.2);
+        }
+        .search-result-item {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 15px 20px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .search-result-item:hover {
+            background: rgba(20, 241, 149, 0.1);
+            border-color: rgba(20, 241, 149, 0.3);
+            transform: translateX(5px);
+        }
+        .search-result-item h4 {
+            color: #fff;
+            margin-bottom: 5px;
+            font-size: 1rem;
+        }
+        .search-result-item p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin: 0;
+        }
+        .search-result-item .highlight {
+            background: rgba(20, 241, 149, 0.3);
+            color: #fff;
+            padding: 1px 4px;
+            border-radius: 3px;
+        }
+        
         /* ========== END TOP-TIER ENHANCEMENTS ========== */
     </style>
 </head>
@@ -812,6 +930,28 @@
                     <li class="nav-item"><a class="nav-link" href="#partners">Partners</a></li>
                     <li class="nav-item"><a class="nav-link" href="#profile">My Profile</a></li>
                     <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                    <!-- Search Button -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="toggleSearch(); return false;" title="Search" style="padding: 8px 10px !important;">
+                            <i class="fas fa-search"></i>
+                        </a>
+                    </li>
+                    <!-- Language Selector -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="padding: 8px 10px !important;" title="Language">
+                            <i class="fas fa-globe"></i> <span id="currentLang">EN</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" style="background: rgba(15,15,25,0.98); border: 1px solid rgba(20,241,149,0.2); backdrop-filter: blur(20px); min-width: 120px;">
+                            <li><a class="dropdown-item" href="#" onclick="setLanguage('en'); return false;" style="color: #e0e0e0;"><span style="margin-right: 8px;">🇺🇸</span> English</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="setLanguage('es'); return false;" style="color: #e0e0e0;"><span style="margin-right: 8px;">🇪🇸</span> Español</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="setLanguage('fr'); return false;" style="color: #e0e0e0;"><span style="margin-right: 8px;">🇫🇷</span> Français</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="setLanguage('de'); return false;" style="color: #e0e0e0;"><span style="margin-right: 8px;">🇩🇪</span> Deutsch</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="setLanguage('zh'); return false;" style="color: #e0e0e0;"><span style="margin-right: 8px;">🇨🇳</span> 中文</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="setLanguage('ja'); return false;" style="color: #e0e0e0;"><span style="margin-right: 8px;">🇯🇵</span> 日本語</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="setLanguage('ko'); return false;" style="color: #e0e0e0;"><span style="margin-right: 8px;">🇰🇷</span> 한국어</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="setLanguage('pt'); return false;" style="color: #e0e0e0;"><span style="margin-right: 8px;">🇧🇷</span> Português</a></li>
+                        </ul>
+                    </li>
                     <li class="nav-item" id="loginBtn"><a class="nav-link" href="#" onclick="showLoginModal()">Login</a></li>
                     <li class="nav-item" id="userInfo" style="display:none;"><span class="user-badge" id="userBadge"></span></li>
                     <li class="nav-item" id="logoutBtn" style="display:none;"><a class="nav-link" href="#" onclick="logout()">Logout</a></li>
@@ -1116,7 +1256,12 @@
                     <span class="partner-logo">Regional Health Systems</span>
                     <span class="partner-logo">Telehealth Providers</span>
                 </div>
-                <p class="text-center" style="color:#aaa;font-size:0.85rem;margin-top:18px;">Interested in partnering? <a href="#contact" style="color:var(--accent);">Contact us</a></p>
+                <div class="text-center" style="margin-top: 25px;">
+                    <button onclick="showPilotSignupModal()" class="btn-primary-custom" style="padding: 14px 30px;">
+                        <i class="fas fa-handshake" style="margin-right: 8px;"></i>Apply for Pilot Program
+                    </button>
+                </div>
+                <p class="text-center" style="color:#aaa;font-size:0.85rem;margin-top:12px;">Or <a href="#contact" style="color:var(--accent);">contact us directly</a> for partnership inquiries</p>
             </div>
 
             <div class="card mb-4">
@@ -2069,6 +2214,75 @@ sdk.on_ehr_event(lambda record:
             <label>Password</label><input type="password" id="loginPassword" placeholder="demo123">
             <button class="btn-primary-custom w-100" onclick="login()">Sign In</button>
             <p style="font-size: 0.85rem; margin-top: 15px; text-align: center;"><strong>Demo Credentials:</strong><br>Patient: "patient" / demo123<br>Provider: "provider" / demo123<br>EHR Company: "ehr" / demo123</p>
+        </div>
+    </div>
+
+    <!-- Search Overlay -->
+    <div class="search-overlay" id="searchOverlay">
+        <div class="search-container">
+            <button class="close-search" onclick="toggleSearch()">&times;</button>
+            <div class="search-input-wrapper">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" id="searchInput" placeholder="Search Solus Protocol..." autocomplete="off" onkeyup="performSearch(this.value)">
+            </div>
+            <div class="search-results" id="searchResults">
+                <div class="search-hint">
+                    <p>Try searching for: <span onclick="setSearchQuery('SDK')">SDK</span>, <span onclick="setSearchQuery('XRPL')">XRPL</span>, <span onclick="setSearchQuery('EHR')">EHR</span>, <span onclick="setSearchQuery('pricing')">Pricing</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pilot Signup Modal -->
+    <div class="login-modal" id="pilotModal">
+        <div class="login-box" style="max-width: 500px;">
+            <button class="close-modal" onclick="hidePilotModal()">&times;</button>
+            <h3 class="mb-2" style="display: flex; align-items: center; gap: 10px;"><span style="font-size: 1.5rem;">🤝</span> Pilot Program Application</h3>
+            <p style="color: var(--text-muted); margin-bottom: 20px; font-size: 0.9rem;">Join leading healthcare organizations in piloting Solus Protocol's blockchain-verified records system.</p>
+            
+            <label>Organization Name <span style="color: var(--accent);">*</span></label>
+            <input type="text" id="pilotOrgName" placeholder="e.g., MUSC Health">
+            
+            <label>Contact Name <span style="color: var(--accent);">*</span></label>
+            <input type="text" id="pilotContactName" placeholder="Your full name">
+            
+            <label>Email Address <span style="color: var(--accent);">*</span></label>
+            <input type="email" id="pilotEmail" placeholder="contact@organization.com">
+            
+            <label>Phone Number</label>
+            <input type="text" id="pilotPhone" placeholder="(xxx) xxx-xxxx">
+            
+            <label>Organization Type <span style="color: var(--accent);">*</span></label>
+            <select id="pilotOrgType">
+                <option value="">Select type...</option>
+                <option value="hospital">Hospital / Health System</option>
+                <option value="clinic">Clinic / Medical Practice</option>
+                <option value="ems">EMS / Emergency Services</option>
+                <option value="telehealth">Telehealth Provider</option>
+                <option value="ehr">EHR Vendor</option>
+                <option value="insurance">Insurance / Payer</option>
+                <option value="other">Other</option>
+            </select>
+            
+            <label>Estimated Monthly Records</label>
+            <select id="pilotVolume">
+                <option value="">Select volume...</option>
+                <option value="1000">Under 1,000</option>
+                <option value="10000">1,000 - 10,000</option>
+                <option value="50000">10,000 - 50,000</option>
+                <option value="100000">50,000 - 100,000</option>
+                <option value="500000">100,000 - 500,000</option>
+                <option value="1000000">500,000+</option>
+            </select>
+            
+            <label>Interest / Goals</label>
+            <textarea id="pilotGoals" placeholder="Tell us about your goals for the pilot program..." style="min-height: 80px;"></textarea>
+            
+            <button class="btn-primary-custom w-100" onclick="submitPilotApplication()" style="margin-top: 15px;">
+                <i class="fas fa-paper-plane" style="margin-right: 8px;"></i>Submit Application
+            </button>
+            
+            <p style="font-size: 0.8rem; margin-top: 15px; text-align: center; color: var(--text-muted);">We'll respond within 24-48 hours. For urgent inquiries, email <a href="mailto:support@solusprotocol.com" style="color: var(--accent);">support@solusprotocol.com</a></p>
         </div>
     </div>
 
@@ -3673,6 +3887,202 @@ Case ID: ***567`
             });
             
             // ========== END TOP-TIER ENHANCEMENTS JS ==========
+        });
+        
+        // ========== SEARCH FUNCTIONALITY ==========
+        const searchableContent = [
+            { title: 'SDK & API Integration', section: 'sdk', keywords: ['sdk', 'api', 'integration', 'developer', 'code', 'javascript', 'python'] },
+            { title: 'XRPL Blockchain', section: 'about', keywords: ['xrpl', 'xrp', 'ledger', 'blockchain', 'ripple', 'anchor'] },
+            { title: 'EHR System', section: 'ehr-system', keywords: ['ehr', 'electronic health', 'records', 'hospital', 'clinic'] },
+            { title: 'Care Network (SVCN)', section: 'care-network', keywords: ['svcn', 'care network', 'veterans', 'telehealth'] },
+            { title: 'Pricing & Costs', section: 'pricing', keywords: ['pricing', 'cost', 'price', 'fee', 'free', 'enterprise', 'pilot'] },
+            { title: 'Security & Compliance', section: 'security', keywords: ['security', 'hipaa', 'compliance', 'privacy', 'encryption'] },
+            { title: 'Investors', section: 'investors', keywords: ['investor', 'invest', 'funding', 'roi', 'returns'] },
+            { title: 'Partnerships', section: 'partners', keywords: ['partner', 'partnership', 'pilot', 'musc', 'prisma'] },
+            { title: 'Roadmap', section: 'roadmap', keywords: ['roadmap', 'timeline', 'future', 'plans', 'development'] },
+            { title: 'Whitepaper', section: 'home', keywords: ['whitepaper', 'documentation', 'technical'] },
+            { title: 'Demo App', section: 'home', keywords: ['demo', 'app', 'try', 'test', 'playground'] },
+            { title: 'Contact Us', section: 'contact', keywords: ['contact', 'email', 'support', 'help'] },
+            { title: 'Hash Dashboard', section: 'dashboard', keywords: ['hash', 'sha256', 'verify', 'dashboard'] },
+            { title: 'Live Metrics', section: 'dashboard', keywords: ['metrics', 'stats', 'transactions', 'live'] },
+            { title: '$SLS Token', section: 'home', keywords: ['sls', 'token', 'buy', 'trade', 'xmagnetic'] }
+        ];
+        
+        function toggleSearch() {
+            const overlay = document.getElementById('searchOverlay');
+            overlay.classList.toggle('active');
+            if (overlay.classList.contains('active')) {
+                document.getElementById('searchInput').focus();
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = '';
+                document.getElementById('searchInput').value = '';
+                document.getElementById('searchResults').innerHTML = '<div class="search-hint"><p>Try searching for: <span onclick="setSearchQuery(\'SDK\')">SDK</span>, <span onclick="setSearchQuery(\'XRPL\')">XRPL</span>, <span onclick="setSearchQuery(\'EHR\')">EHR</span>, <span onclick="setSearchQuery(\'pricing\')">Pricing</span></p></div>';
+            }
+        }
+        
+        function setSearchQuery(query) {
+            document.getElementById('searchInput').value = query;
+            performSearch(query);
+        }
+        
+        function performSearch(query) {
+            const resultsContainer = document.getElementById('searchResults');
+            if (!query || query.length < 2) {
+                resultsContainer.innerHTML = '<div class="search-hint"><p>Try searching for: <span onclick="setSearchQuery(\'SDK\')">SDK</span>, <span onclick="setSearchQuery(\'XRPL\')">XRPL</span>, <span onclick="setSearchQuery(\'EHR\')">EHR</span>, <span onclick="setSearchQuery(\'pricing\')">Pricing</span></p></div>';
+                return;
+            }
+            
+            const q = query.toLowerCase();
+            const results = searchableContent.filter(item => 
+                item.title.toLowerCase().includes(q) || 
+                item.keywords.some(k => k.includes(q))
+            );
+            
+            if (results.length === 0) {
+                resultsContainer.innerHTML = '<div class="search-hint"><p>No results found for "' + query + '". Try a different search term.</p></div>';
+                return;
+            }
+            
+            resultsContainer.innerHTML = results.map(item => `
+                <div class="search-result-item" onclick="goToSection('${item.section}')">
+                    <h4>${item.title}</h4>
+                    <p>Go to #${item.section} section</p>
+                </div>
+            `).join('');
+        }
+        
+        function goToSection(sectionId) {
+            toggleSearch();
+            setTimeout(() => {
+                const section = document.getElementById(sectionId);
+                if (section) {
+                    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }, 200);
+        }
+        
+        // Close search on Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && document.getElementById('searchOverlay').classList.contains('active')) {
+                toggleSearch();
+            }
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                toggleSearch();
+            }
+        });
+        
+        // ========== LANGUAGE SELECTOR ==========
+        const translations = {
+            en: { name: 'EN', greeting: 'Welcome' },
+            es: { name: 'ES', greeting: 'Bienvenido' },
+            fr: { name: 'FR', greeting: 'Bienvenue' },
+            de: { name: 'DE', greeting: 'Willkommen' },
+            zh: { name: '中文', greeting: '欢迎' },
+            ja: { name: '日本語', greeting: 'ようこそ' },
+            ko: { name: '한국어', greeting: '환영합니다' },
+            pt: { name: 'PT', greeting: 'Bem-vindo' }
+        };
+        
+        function setLanguage(lang) {
+            const langData = translations[lang] || translations.en;
+            document.getElementById('currentLang').textContent = langData.name;
+            localStorage.setItem('solusLang', lang);
+            
+            // In a full implementation, this would translate the entire page
+            // For now, show a toast indicating the language was changed
+            const langNames = { en: 'English', es: 'Español', fr: 'Français', de: 'Deutsch', zh: '中文', ja: '日本語', ko: '한국어', pt: 'Português' };
+            
+            // Create a toast notification
+            const toast = document.createElement('div');
+            toast.style.cssText = 'position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, var(--accent), #00ffa3); color: #000; padding: 12px 24px; border-radius: 30px; font-weight: 600; z-index: 9999; animation: slide-up 0.3s ease;';
+            toast.textContent = `Language set to ${langNames[lang]}`;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+        
+        // Load saved language preference
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedLang = localStorage.getItem('solusLang');
+            if (savedLang && translations[savedLang]) {
+                document.getElementById('currentLang').textContent = translations[savedLang].name;
+            }
+        });
+        
+        // ========== PILOT SIGNUP MODAL ==========
+        function showPilotSignupModal() {
+            document.getElementById('pilotModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function hidePilotModal() {
+            document.getElementById('pilotModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        
+        function submitPilotApplication() {
+            const orgName = document.getElementById('pilotOrgName').value.trim();
+            const contactName = document.getElementById('pilotContactName').value.trim();
+            const email = document.getElementById('pilotEmail').value.trim();
+            const phone = document.getElementById('pilotPhone').value.trim();
+            const orgType = document.getElementById('pilotOrgType').value;
+            const volume = document.getElementById('pilotVolume').value;
+            const goals = document.getElementById('pilotGoals').value.trim();
+            
+            // Validation
+            if (!orgName || !contactName || !email || !orgType) {
+                alert('Please fill in all required fields (Organization Name, Contact Name, Email, Organization Type)');
+                return;
+            }
+            
+            if (!email.includes('@') || !email.includes('.')) {
+                alert('Please enter a valid email address');
+                return;
+            }
+            
+            // Build email body
+            const subject = `Pilot Program Application - ${orgName}`;
+            const body = `
+PILOT PROGRAM APPLICATION
+=========================
+
+Organization Name: ${orgName}
+Contact Name: ${contactName}
+Email: ${email}
+Phone: ${phone || 'Not provided'}
+Organization Type: ${orgType}
+Estimated Monthly Records: ${volume || 'Not specified'}
+
+Goals/Interest:
+${goals || 'Not specified'}
+
+---
+Submitted via solusprotocol.com
+Date: ${new Date().toLocaleString()}
+            `.trim();
+            
+            // Open email client
+            const mailtoLink = 'mailto:support@solusprotocol.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+            window.location.href = mailtoLink;
+            
+            // Show confirmation and close modal
+            setTimeout(() => {
+                hidePilotModal();
+                // Clear form
+                document.getElementById('pilotOrgName').value = '';
+                document.getElementById('pilotContactName').value = '';
+                document.getElementById('pilotEmail').value = '';
+                document.getElementById('pilotPhone').value = '';
+                document.getElementById('pilotOrgType').value = '';
+                document.getElementById('pilotVolume').value = '';
+                document.getElementById('pilotGoals').value = '';
+            }, 500);
+        }
+        
+        // Close pilot modal when clicking outside
+        document.getElementById('pilotModal')?.addEventListener('click', function(e) {
+            if (e.target === this) hidePilotModal();
         });
     </script>
 </body>

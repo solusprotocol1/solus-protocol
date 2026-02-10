@@ -3481,12 +3481,19 @@
                             </div>
                             <div class="toggle active" id="themeToggle"></div>
                         </div>
-                        <div class="settings-item">
+                        <div class="settings-item" onclick="togglePushNotifications(this)">
                             <div class="settings-left">
                                 <div class="settings-icon"><i class="fas fa-bell"></i></div>
-                                <span>Notifications</span>
+                                <span>Push Notifications</span>
                             </div>
-                            <div class="toggle active" onclick="this.classList.toggle('active')"></div>
+                            <div class="toggle" id="notificationToggle"></div>
+                        </div>
+                        <div class="settings-item" onclick="sendTestNotification()">
+                            <div class="settings-left">
+                                <div class="settings-icon" style="background: rgba(20,241,149,0.2);"><i class="fas fa-paper-plane"></i></div>
+                                <span>Send Test Notification</span>
+                            </div>
+                            <i class="fas fa-chevron-right" style="color: var(--text-muted);"></i>
                         </div>
                         <div class="settings-item">
                             <div class="settings-left">
@@ -6838,6 +6845,124 @@
             clearInterval(countdownTimer);
             showToast('Signed out successfully', 'success');
         }
+
+        // ===== PUSH NOTIFICATIONS =====
+        // Note: pushSubscription is defined later in PWA section
+        
+        async function togglePushNotifications(item) {
+            const toggle = item.querySelector('.toggle');
+            
+            if (!('Notification' in window)) {
+                showToast('Push notifications not supported in this browser', 'warning');
+                return;
+            }
+            
+            if (!('serviceWorker' in navigator)) {
+                showToast('Service Worker not supported', 'warning');
+                return;
+            }
+            
+            if (Notification.permission === 'denied') {
+                showToast('Notifications blocked. Enable in browser settings.', 'warning');
+                return;
+            }
+            
+            if (toggle.classList.contains('active')) {
+                // Disable notifications
+                toggle.classList.remove('active');
+                pushSubscription = null;
+                showToast('Push notifications disabled', 'info');
+            } else {
+                // Request permission and enable
+                try {
+                    const permission = await Notification.requestPermission();
+                    if (permission === 'granted') {
+                        toggle.classList.add('active');
+                        await subscribeToPush();
+                        showToast('Push notifications enabled!', 'success');
+                    } else {
+                        showToast('Notification permission denied', 'warning');
+                    }
+                } catch (err) {
+                    console.error('Push setup error:', err);
+                    showToast('Error enabling notifications', 'error');
+                }
+            }
+        }
+        
+        async function subscribeToPush() {
+            try {
+                const registration = await navigator.serviceWorker.ready;
+                pushSubscription = await registration.pushManager.subscribe({
+                    userVisibleOnly: true,
+                    applicationServerKey: urlBase64ToUint8Array('BEl62iUYgUivxIkv69yViEuiBIa-Ib9-4gGZ8NJVQ2o0d5XXTGK7T5Xj6CjPoi4PNMDRPBrZlXEqRjjQ7RMbJ8k')
+                });
+                console.log('Push subscription:', JSON.stringify(pushSubscription));
+                return pushSubscription;
+            } catch (err) {
+                console.error('Push subscription failed:', err);
+            }
+        }
+        
+        function urlBase64ToUint8Array(base64String) {
+            const padding = '='.repeat((4 - base64String.length % 4) % 4);
+            const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
+            const rawData = window.atob(base64);
+            const outputArray = new Uint8Array(rawData.length);
+            for (let i = 0; i < rawData.length; ++i) {
+                outputArray[i] = rawData.charCodeAt(i);
+            }
+            return outputArray;
+        }
+        
+        async function sendTestNotification() {
+            if (!('Notification' in window)) {
+                showToast('Notifications not supported', 'warning');
+                return;
+            }
+            
+            if (Notification.permission !== 'granted') {
+                const permission = await Notification.requestPermission();
+                if (permission !== 'granted') {
+                    showToast('Please enable notifications first', 'warning');
+                    return;
+                }
+                document.getElementById('notificationToggle').classList.add('active');
+            }
+            
+            // For native apps (PWA), use service worker notification
+            if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+                const registration = await navigator.serviceWorker.ready;
+                registration.showNotification('Solus Protocol', {
+                    body: 'Your medical record has been anchored to XRPL!',
+                    icon: 'https://raw.githubusercontent.com/solusprotocol1/solus-protocol/main/logo.png',
+                    badge: 'https://raw.githubusercontent.com/solusprotocol1/solus-protocol/main/logo.png',
+                    tag: 'test-notification',
+                    vibrate: [200, 100, 200],
+                    data: { url: './' },
+                    actions: [
+                        { action: 'view', title: 'View Record' },
+                        { action: 'dismiss', title: 'Dismiss' }
+                    ]
+                });
+                showToast('Test notification sent!', 'success');
+            } else {
+                // Fallback for browser
+                new Notification('Solus Protocol', {
+                    body: 'Your medical record has been anchored to XRPL!',
+                    icon: 'https://raw.githubusercontent.com/solusprotocol1/solus-protocol/main/logo.png'
+                });
+                showToast('Test notification sent!', 'success');
+            }
+        }
+        
+        // Check notification permission on load
+        document.addEventListener('DOMContentLoaded', () => {
+            if ('Notification' in window && Notification.permission === 'granted') {
+                const toggle = document.getElementById('notificationToggle');
+                if (toggle) toggle.classList.add('active');
+            }
+        });
 
         // ===== NAVIGATION =====
         function navigateTo(screen, el) {
