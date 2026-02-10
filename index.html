@@ -40,6 +40,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="https://unpkg.com/xrpl@4.5.0/build/xrpl-latest-min.js"></script>
     <style>
         :root {
             --bg: #050608;
@@ -1130,65 +1131,86 @@
         </div>
     </section>
 
-    <!-- Dashboard Section -->
+    <!-- SDK Playground Section -->
     <section id="dashboard" class="section" style="background: rgba(0,0,0,0.2);">
         <div class="container">
-            <h2 class="section-title">Hash <span class="gradient-text">Dashboard</span></h2>
-            <p class="text-center" style="margin-bottom: 30px;">Secure patient record hashing with blockchain verification (demo)</p>
-            <div class="tab-buttons">
-                <button class="tab-btn active" onclick="switchDashboardTab('generate')">Generate Hash</button>
-                <button class="tab-btn" onclick="switchDashboardTab('verify')">Verify Record</button>
-            </div>
+            <h2 class="section-title">SDK <span class="gradient-text">Playground</span></h2>
+            <p class="text-center" style="margin-bottom: 10px;">Anchor real medical records to XRPL Testnet — watch them appear on the metrics page in real-time</p>
+            <p class="text-center" style="margin-bottom: 30px;"><span style="background: linear-gradient(135deg, var(--accent), var(--secondary)); color: #000; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 700;">🔴 LIVE ON XRPL TESTNET</span></p>
+            
             <div class="row justify-content-center">
-                <div class="col-lg-8">
-                    <div class="card">
-                        <div id="generateTab" class="tab-content active">
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px;">
-                                <label style="margin-bottom: 0;">Patient Record Data</label>
-                                <div style="position: relative;">
-                                    <button class="btn-secondary-custom" style="padding: 8px 16px; font-size: 0.85rem;" onclick="toggleSampleMenu()">Load Sample</button>
-                                    <div id="sampleMenu" style="display: none; position: absolute; background: var(--bg); border: 1px solid var(--accent); border-radius: 12px; padding: 8px; right: 0; margin-top: 5px; z-index: 100; min-width: 220px; max-height: 400px; overflow-y: auto; box-shadow: 0 10px 40px rgba(0,0,0,0.5);">
-                                        <button onclick="loadSample(0)" style="display: flex; align-items: center; gap: 10px; width: 100%; background: rgba(20,241,149,0.1); border: none; color: #fff; padding: 12px 15px; text-align: left; cursor: pointer; border-radius: 8px; margin-bottom: 5px; font-size: 0.9rem;" onmouseover="this.style.background='rgba(20,241,149,0.2)'" onmouseout="this.style.background='rgba(20,241,149,0.1)'">📋 Patient Visit Record</button>
-                                        <button onclick="loadSample(1)" style="display: flex; align-items: center; gap: 10px; width: 100%; background: rgba(20,241,149,0.1); border: none; color: #fff; padding: 12px 15px; text-align: left; cursor: pointer; border-radius: 8px; margin-bottom: 5px; font-size: 0.9rem;" onmouseover="this.style.background='rgba(20,241,149,0.2)'" onmouseout="this.style.background='rgba(20,241,149,0.1)'">🧪 Lab Results</button>
-                                        <button onclick="loadSample(2)" style="display: flex; align-items: center; gap: 10px; width: 100%; background: rgba(20,241,149,0.1); border: none; color: #fff; padding: 12px 15px; text-align: left; cursor: pointer; border-radius: 8px; margin-bottom: 5px; font-size: 0.9rem;" onmouseover="this.style.background='rgba(20,241,149,0.2)'" onmouseout="this.style.background='rgba(20,241,149,0.1)'">💊 Prescription Record</button>
-                                        <button onclick="loadSample(3)" style="display: flex; align-items: center; gap: 10px; width: 100%; background: rgba(20,241,149,0.1); border: none; color: #fff; padding: 12px 15px; text-align: left; cursor: pointer; border-radius: 8px; margin-bottom: 5px; font-size: 0.9rem;" onmouseover="this.style.background='rgba(20,241,149,0.2)'" onmouseout="this.style.background='rgba(20,241,149,0.1)'">🏥 Surgery Report</button>
-                                        <button onclick="loadSample(4)" style="display: flex; align-items: center; gap: 10px; width: 100%; background: rgba(20,241,149,0.1); border: none; color: #fff; padding: 12px 15px; text-align: left; cursor: pointer; border-radius: 8px; margin-bottom: 5px; font-size: 0.9rem;" onmouseover="this.style.background='rgba(20,241,149,0.2)'" onmouseout="this.style.background='rgba(20,241,149,0.1)'">🏦 Insurance Claim</button>
-                                        <button onclick="loadSample(5)" style="display: flex; align-items: center; gap: 10px; width: 100%; background: rgba(20,241,149,0.1); border: none; color: #fff; padding: 12px 15px; text-align: left; cursor: pointer; border-radius: 8px; margin-bottom: 5px; font-size: 0.9rem;" onmouseover="this.style.background='rgba(20,241,149,0.2)'" onmouseout="this.style.background='rgba(20,241,149,0.1)'">⚠️ Allergy Record</button>
-                                        <button onclick="loadSample(6)" style="display: flex; align-items: center; gap: 10px; width: 100%; background: rgba(20,241,149,0.1); border: none; color: #fff; padding: 12px 15px; text-align: left; cursor: pointer; border-radius: 8px; margin-bottom: 5px; font-size: 0.9rem;" onmouseover="this.style.background='rgba(20,241,149,0.2)'" onmouseout="this.style.background='rgba(20,241,149,0.1)'">💉 Immunization Record</button>
-                                        <button onclick="loadSample(7)" style="display: flex; align-items: center; gap: 10px; width: 100%; background: rgba(20,241,149,0.1); border: none; color: #fff; padding: 12px 15px; text-align: left; cursor: pointer; border-radius: 8px; margin-bottom: 5px; font-size: 0.9rem;" onmouseover="this.style.background='rgba(20,241,149,0.2)'" onmouseout="this.style.background='rgba(20,241,149,0.1)'">📷 Radiology Report</button>
-                                        <button onclick="loadSample(8)" style="display: flex; align-items: center; gap: 10px; width: 100%; background: rgba(20,241,149,0.1); border: none; color: #fff; padding: 12px 15px; text-align: left; cursor: pointer; border-radius: 8px; margin-bottom: 5px; font-size: 0.9rem;" onmouseover="this.style.background='rgba(20,241,149,0.2)'" onmouseout="this.style.background='rgba(20,241,149,0.1)'">🚪 Discharge Summary</button>
-                                        <button onclick="loadSample(9)" style="display: flex; align-items: center; gap: 10px; width: 100%; background: rgba(20,241,149,0.1); border: none; color: #fff; padding: 12px 15px; text-align: left; cursor: pointer; border-radius: 8px; font-size: 0.9rem;" onmouseover="this.style.background='rgba(20,241,149,0.2)'" onmouseout="this.style.background='rgba(20,241,149,0.1)'">🧠 Mental Health Assessment</button>
+                <div class="col-lg-10">
+                    <!-- Session Counter -->
+                    <div class="card" style="padding: 15px 20px; margin-bottom: 20px; display: flex; flex-wrap: wrap; gap: 15px; align-items: center; justify-content: space-between;">
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <span style="font-size: 1.5rem;">⛓️</span>
+                            <div>
+                                <span id="pgSessionCount" style="font-size: 1.5rem; font-weight: 700; color: var(--accent);">0</span>
+                                <span style="color: #aaa; font-size: 0.9rem;"> records anchored this session</span>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 10px; align-items: center;">
+                            <span id="pgWsStatus" style="background: rgba(0,194,255,0.15); color: #00c2ff; padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 600;">⚫ Ready</span>
+                            <span style="background: rgba(153,69,255,0.15); color: #9945ff; padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 600;">🧪 Testnet</span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <!-- Left Column: Input -->
+                        <div class="col-lg-6 mb-4">
+                            <div class="card h-100">
+                                <h4 style="margin-bottom: 15px;"><span style="color: var(--accent);">1.</span> Choose a Record Template</h4>
+                                <div id="pgTemplateGrid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 20px;"></div>
+                                
+                                <h4 style="margin-bottom: 15px; margin-top: 10px;"><span style="color: var(--accent);">2.</span> Review & Edit Record</h4>
+                                <textarea id="pgRecordEditor" placeholder="Select a template above or type your own medical record data here..." style="width: 100%; height: 150px; background: rgba(0,0,0,0.3); border: 1px solid var(--border); border-radius: 12px; padding: 15px; color: #fff; font-family: monospace; font-size: 0.85rem; resize: vertical;" oninput="updatePgHashPreview()"></textarea>
+                                <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                    <span id="pgRecordType" style="font-size: 0.8rem; color: #888;">Type: <span id="pgRecordTypeLabel">—</span></span>
+                                    <span id="pgCharCount" style="font-size: 0.8rem; color: #888;">0 chars</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Right Column: Hash & Anchor -->
+                        <div class="col-lg-6 mb-4">
+                            <div class="card h-100">
+                                <h4 style="margin-bottom: 15px;"><span style="color: var(--accent);">3.</span> Live SHA-256 Hash Preview</h4>
+                                <div style="background: rgba(0,0,0,0.3); border: 1px solid var(--border); border-radius: 12px; padding: 15px; margin-bottom: 20px;">
+                                    <div style="font-size: 0.75rem; color: #888; margin-bottom: 8px;">SHA-256 Fingerprint (computed in real-time)</div>
+                                    <div id="pgHashPreview" style="font-family: monospace; color: var(--accent); font-size: 0.85rem; word-break: break-all;">Enter record data to see the live hash...</div>
+                                </div>
+                                
+                                <h4 style="margin-bottom: 15px;"><span style="color: var(--accent);">4.</span> Anchor to XRPL Blockchain</h4>
+                                <button id="pgAnchorBtn" class="btn-primary-custom w-100" onclick="anchorToXRPL()" disabled style="padding: 15px; font-size: 1rem;">
+                                    <span>⛓️ Anchor Record to XRPL Testnet</span>
+                                </button>
+                                <p style="font-size: 0.75rem; color: #888; margin-top: 10px; text-align: center;">⚠️ Submits a real transaction to the XRP Ledger Testnet. Only the SHA-256 hash is stored on-chain — never your actual data.</p>
+                                
+                                <!-- Result -->
+                                <div id="pgResult" style="display: none; margin-top: 20px; background: rgba(20,241,149,0.1); border: 1px solid rgba(20,241,149,0.3); border-radius: 12px; padding: 20px;">
+                                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
+                                        <span style="font-size: 1.5rem;">✅</span>
+                                        <h4 style="color: var(--accent); margin: 0;">Record Anchored Successfully!</h4>
+                                    </div>
+                                    <div style="font-size: 0.75rem; color: #888; margin-bottom: 5px;">SHA-256 Hash</div>
+                                    <div id="pgResultHash" style="font-family: monospace; color: var(--accent); font-size: 0.8rem; word-break: break-all; margin-bottom: 15px;"></div>
+                                    <div style="font-size: 0.75rem; color: #888; margin-bottom: 5px;">Transaction Hash</div>
+                                    <div id="pgResultTxHash" style="font-family: monospace; color: #00c2ff; font-size: 0.8rem; word-break: break-all; margin-bottom: 15px;"></div>
+                                    <div style="font-size: 0.75rem; color: #888; margin-bottom: 5px;">Ledger Index</div>
+                                    <div id="pgResultLedger" style="font-family: monospace; color: #fff; font-size: 0.9rem; margin-bottom: 20px;"></div>
+                                    <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+                                        <button class="btn-secondary-custom" style="padding: 8px 15px; font-size: 0.85rem;" onclick="window.open(document.getElementById('pgResultTxHash').dataset.url, '_blank')">🔗 View on Explorer</button>
+                                        <a href="metrics.html" target="_blank" class="btn-primary-custom" style="padding: 8px 15px; font-size: 0.85rem;">📊 See Live Metrics →</a>
                                     </div>
                                 </div>
                             </div>
-                            <textarea id="recordText" placeholder="Paste patient record data here..."></textarea>
-                            <label>Hash Algorithm</label>
-                            <select id="algorithm">
-                                <option value="SHA-256">SHA-256</option>
-                                <option value="SHA-512">SHA-512</option>
-                                <option value="SHA-384">SHA-384</option>
-                                <option value="SHA3-256">SHA3-256</option>
-                                <option value="BLAKE2b">BLAKE2b</option>
-                            </select>
-                            <button class="btn-primary-custom w-100" onclick="generateHash()">Secure Record (Generate Hash)</button>
-                            <div id="hashResult" style="display: none;"></div>
                         </div>
-                        <div id="verifyTab" class="tab-content">
-                            <label>Patient Record Data</label>
-                            <textarea id="verifyRecordText" placeholder="Paste the original patient record here..."></textarea>
-                            <label>Expected Hash</label>
-                            <input type="text" id="expectedHash" placeholder="Paste the hash to verify against...">
-                            <label>Hash Algorithm</label>
-                            <select id="verifyAlgorithm">
-                                <option value="SHA-256">SHA-256</option>
-                                <option value="SHA-512">SHA-512</option>
-                                <option value="SHA-384">SHA-384</option>
-                                <option value="SHA3-256">SHA3-256</option>
-                                <option value="BLAKE2b">BLAKE2b</option>
-                            </select>
-                            <button class="btn-primary-custom w-100" onclick="verifyHash()">Verify Record Integrity</button>
-                            <div id="verifyResult" style="display: none;"></div>
-                        </div>
+                    </div>
+                    
+                    <!-- Session History -->
+                    <div id="pgHistorySection" class="card" style="display: none;">
+                        <h4 style="margin-bottom: 15px;">📜 Session History</h4>
+                        <div id="pgHistoryList"></div>
                     </div>
                 </div>
             </div>
@@ -2312,7 +2334,212 @@ Lab ID: [Verified on XRPL]</pre>
                 el.classList.add('fade-in');
                 fadeObserver.observe(el); 
             });
+            
+            // Initialize SDK Playground templates
+            initPgTemplates();
         });
+
+        // ===== SDK PLAYGROUND FUNCTIONS =====
+        const pgTemplates = [
+            { icon: '📋', label: 'Patient Visit', type: 'VISIT', data: 'Patient Visit Record\nPatient: John Doe\nDOB: 1985-03-15\nDate: ' + new Date().toISOString().split('T')[0] + '\nChief Complaint: Routine checkup\nVitals: BP 120/80, HR 72, Temp 98.6°F\nAssessment: Healthy, no acute concerns\nPlan: Annual labs, follow-up in 12 months' },
+            { icon: '🧪', label: 'Lab Results', type: 'LAB', data: 'Laboratory Report\nPatient: John Doe\nTest Date: ' + new Date().toISOString().split('T')[0] + '\nOrdering Physician: Dr. Smith\n\nComplete Blood Count (CBC):\n- WBC: 7.2 x10^9/L (Normal)\n- RBC: 4.8 x10^12/L (Normal)\n- Hemoglobin: 14.2 g/dL (Normal)\n- Platelets: 250 x10^9/L (Normal)\n\nMetabolic Panel:\n- Glucose: 95 mg/dL (Normal)\n- Creatinine: 1.0 mg/dL (Normal)' },
+            { icon: '💊', label: 'Prescription', type: 'PRESCRIPTION', data: 'E-Prescription\nPatient: John Doe\nDate: ' + new Date().toISOString().split('T')[0] + '\nPrescriber: Dr. Smith, MD\nDEA#: AB1234567\n\nMedication: Lisinopril 10mg\nSig: Take 1 tablet by mouth daily\nQuantity: 30 tablets\nRefills: 3\n\nPharmacy: CVS #1234\nRx#: 7890123' },
+            { icon: '🏥', label: 'Surgery', type: 'SURGERY', data: 'Operative Report\nPatient: John Doe\nDate of Surgery: ' + new Date().toISOString().split('T')[0] + '\nSurgeon: Dr. Johnson, MD\n\nProcedure: Laparoscopic Cholecystectomy\nAnesthesia: General\nDuration: 45 minutes\n\nFindings: Chronic cholecystitis, gallstones\nComplications: None\nBlood Loss: Minimal (<50mL)\nDisposition: Recovery room, stable' },
+            { icon: '💉', label: 'Immunization', type: 'IMMUNIZATION', data: 'Immunization Record\nPatient: John Doe\nDate: ' + new Date().toISOString().split('T')[0] + '\nAdministering Provider: Nurse Williams\n\nVaccine: Influenza (Flu) 2025-2026\nManufacturer: Sanofi Pasteur\nLot#: FL2025A789\nExpiration: 06/2026\nDose: 0.5mL IM\nSite: Left Deltoid\n\nAdverse Reactions: None observed' },
+            { icon: '📷', label: 'Radiology', type: 'IMAGING', data: 'Radiology Report\nPatient: John Doe\nExam Date: ' + new Date().toISOString().split('T')[0] + '\nExam Type: Chest X-Ray (PA/Lateral)\nOrdering MD: Dr. Smith\nRadiologist: Dr. Chen, MD\n\nFindings:\n- Heart size normal\n- Lungs clear bilaterally\n- No pleural effusion\n- Bony structures intact\n\nImpression: Normal chest radiograph' }
+        ];
+        let pgCurrentHash = '';
+        let pgSelectedTemplate = null;
+        let pgSessionHistory = [];
+        let pgIsAnchoring = false;
+
+        function initPgTemplates() {
+            const grid = document.getElementById('pgTemplateGrid');
+            if (!grid) return;
+            grid.innerHTML = pgTemplates.map((t, i) => `
+                <button onclick="selectPgTemplate(${i})" class="pg-template-btn" id="pgTemplate${i}" style="background: var(--glass); border: 1px solid var(--border); border-radius: 12px; padding: 12px; text-align: center; cursor: pointer; transition: all 0.2s;">
+                    <div style="font-size: 1.5rem; margin-bottom: 5px;">${t.icon}</div>
+                    <div style="font-size: 0.8rem; color: #fff; font-weight: 600;">${t.label}</div>
+                </button>
+            `).join('');
+        }
+
+        function selectPgTemplate(index) {
+            pgSelectedTemplate = index;
+            const template = pgTemplates[index];
+            document.getElementById('pgRecordEditor').value = template.data;
+            document.getElementById('pgRecordTypeLabel').textContent = template.type;
+            document.querySelectorAll('.pg-template-btn').forEach((btn, i) => {
+                btn.style.borderColor = i === index ? 'var(--accent)' : 'var(--border)';
+                btn.style.background = i === index ? 'rgba(20,241,149,0.15)' : 'var(--glass)';
+            });
+            updatePgHashPreview();
+        }
+
+        async function updatePgHashPreview() {
+            const text = document.getElementById('pgRecordEditor').value;
+            const charCount = document.getElementById('pgCharCount');
+            const hashPreview = document.getElementById('pgHashPreview');
+            const anchorBtn = document.getElementById('pgAnchorBtn');
+            
+            charCount.textContent = text.length + ' chars';
+            
+            if (!text.trim()) {
+                hashPreview.textContent = 'Enter record data to see the live hash...';
+                hashPreview.style.color = '#888';
+                pgCurrentHash = '';
+                anchorBtn.disabled = true;
+                return;
+            }
+            
+            const encoder = new TextEncoder();
+            const hashBuffer = await crypto.subtle.digest('SHA-256', encoder.encode(text));
+            pgCurrentHash = Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
+            hashPreview.textContent = pgCurrentHash;
+            hashPreview.style.color = 'var(--accent)';
+            anchorBtn.disabled = false;
+        }
+
+        function strToHex(str) {
+            return Array.from(new TextEncoder().encode(str)).map(b => b.toString(16).padStart(2, '0')).join('').toUpperCase();
+        }
+
+        async function anchorToXRPL() {
+            if (pgIsAnchoring || !pgCurrentHash) return;
+            pgIsAnchoring = true;
+            
+            const anchorBtn = document.getElementById('pgAnchorBtn');
+            const result = document.getElementById('pgResult');
+            const wsStatus = document.getElementById('pgWsStatus');
+            
+            anchorBtn.disabled = true;
+            anchorBtn.innerHTML = '<span>🔄 Connecting to XRPL Testnet...</span>';
+            wsStatus.innerHTML = '🟡 Connecting';
+            wsStatus.style.background = 'rgba(255,200,0,0.15)';
+            wsStatus.style.color = '#ffcc00';
+            result.style.display = 'none';
+            
+            const recordType = pgSelectedTemplate !== null ? pgTemplates[pgSelectedTemplate].type : 'RECORD';
+            
+            let client = null;
+            try {
+                // Connect to XRPL Testnet
+                const endpoints = ['wss://s.altnet.rippletest.net:51233', 'wss://testnet.xrpl-labs.com'];
+                for (const endpoint of endpoints) {
+                    try {
+                        client = new xrpl.Client(endpoint);
+                        await client.connect();
+                        break;
+                    } catch(e) { console.log('Trying next endpoint...'); }
+                }
+                if (!client || !client.isConnected()) throw new Error('Could not connect to XRPL');
+                
+                wsStatus.innerHTML = '🟢 Connected';
+                wsStatus.style.background = 'rgba(20,241,149,0.15)';
+                wsStatus.style.color = 'var(--accent)';
+                anchorBtn.innerHTML = '<span>🔄 Preparing wallet...</span>';
+                
+                // Get testnet wallet
+                const wallet = xrpl.Wallet.fromSeed('sEdVHEqPt91xyFrExvWYpYXqX8iBjq3'); // Public testnet faucet seed
+                
+                // Build transaction
+                const memoData = 'solus:' + recordType + ':' + pgCurrentHash;
+                const tx = {
+                    TransactionType: 'AccountSet',
+                    Account: wallet.classicAddress,
+                    Memos: [{
+                        Memo: {
+                            MemoType: strToHex('solus/anchor'),
+                            MemoData: strToHex(memoData)
+                        }
+                    }]
+                };
+                
+                anchorBtn.innerHTML = '<span>🔄 Submitting to ledger...</span>';
+                
+                // Submit transaction
+                const response = await client.submitAndWait(tx, { wallet });
+                
+                await client.disconnect();
+                
+                // Extract results
+                const txHash = response?.result?.hash || response?.result?.tx_json?.hash || 'confirmed';
+                const ledgerIndex = response?.result?.ledger_index || response?.result?.validated_ledger_index || '—';
+                const explorerUrl = 'https://testnet.xrpl.org/transactions/' + txHash;
+                
+                // Show success
+                document.getElementById('pgResultHash').textContent = pgCurrentHash;
+                document.getElementById('pgResultTxHash').textContent = txHash;
+                document.getElementById('pgResultTxHash').dataset.url = explorerUrl;
+                document.getElementById('pgResultLedger').textContent = ledgerIndex;
+                result.style.display = 'block';
+                
+                // Update session history
+                pgSessionHistory.unshift({
+                    timestamp: new Date().toLocaleTimeString(),
+                    type: recordType,
+                    hash: pgCurrentHash.substring(0, 16) + '...',
+                    txHash: txHash,
+                    url: explorerUrl
+                });
+                updatePgSessionCounter();
+                renderPgHistory();
+                
+                anchorBtn.innerHTML = '<span>✅ Anchored Successfully!</span>';
+                anchorBtn.style.background = 'linear-gradient(135deg, #00c853, #00e676)';
+                
+                setTimeout(() => {
+                    anchorBtn.innerHTML = '<span>⛓️ Anchor Record to XRPL Testnet</span>';
+                    anchorBtn.style.background = '';
+                    anchorBtn.disabled = false;
+                }, 3000);
+                
+            } catch(err) {
+                console.error('Anchor error:', err);
+                wsStatus.innerHTML = '🔴 Error';
+                wsStatus.style.background = 'rgba(255,71,87,0.15)';
+                wsStatus.style.color = '#ff4757';
+                anchorBtn.innerHTML = '<span>❌ Error - Tap to Retry</span>';
+                anchorBtn.style.background = 'linear-gradient(135deg, #ff1744, #ff5252)';
+                setTimeout(() => {
+                    anchorBtn.innerHTML = '<span>⛓️ Anchor Record to XRPL Testnet</span>';
+                    anchorBtn.style.background = '';
+                    anchorBtn.disabled = false;
+                }, 3000);
+                try { if (client && client.isConnected()) await client.disconnect(); } catch(e) {}
+            }
+            pgIsAnchoring = false;
+        }
+
+        function updatePgSessionCounter() {
+            const counter = document.getElementById('pgSessionCount');
+            if (counter) counter.textContent = pgSessionHistory.length;
+        }
+
+        function renderPgHistory() {
+            const container = document.getElementById('pgHistoryList');
+            const section = document.getElementById('pgHistorySection');
+            if (!container) return;
+            if (pgSessionHistory.length === 0) {
+                section.style.display = 'none';
+                return;
+            }
+            section.style.display = 'block';
+            container.innerHTML = pgSessionHistory.map(h => `
+                <div onclick="window.open('${h.url}', '_blank')" style="display: flex; align-items: center; gap: 15px; padding: 12px; background: var(--glass); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 10px; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">
+                    <div style="width: 10px; height: 10px; background: var(--accent); border-radius: 50%;"></div>
+                    <div style="flex: 1;">
+                        <div style="font-weight: 600; color: #fff;">${h.type}</div>
+                        <div style="font-size: 0.8rem; color: #888; font-family: monospace;">${h.hash}</div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div style="color: var(--accent); font-size: 0.85rem;">✓</div>
+                        <div style="font-size: 0.75rem; color: #888;">${h.timestamp}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+        // ===== END SDK PLAYGROUND =====
 
         function switchDashboardTab(tab) {
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
