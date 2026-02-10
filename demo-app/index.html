@@ -1418,6 +1418,69 @@
         .light-mode .search-bar input { background: rgba(0, 0, 0, 0.04); border-color: rgba(0, 0, 0, 0.1); color: #1a1a2e; }
         .light-mode .onboarding-overlay { background: rgba(0, 0, 0, 0.7); }
         .light-mode p { color: #374151; }
+        
+        /* Comprehensive light mode text colors */
+        .light-mode,
+        .light-mode .screen,
+        .light-mode .app-container { color: #1a1a2e; }
+        
+        /* All headings and titles */
+        .light-mode h1, .light-mode h2, .light-mode h3, .light-mode h4, .light-mode h5, .light-mode h6,
+        .light-mode .section-header h2,
+        .light-mode .stat-value,
+        .light-mode .metrics-stat-value,
+        .light-mode .trade-balance-amount,
+        .light-mode .modal-title,
+        .light-mode .faq-question,
+        .light-mode .about-card h3,
+        .light-mode .contact-card h3,
+        .light-mode .api-card h3,
+        .light-mode .more-item span,
+        .light-mode .toggle-label,
+        .light-mode .login-title { color: #1a1a2e !important; -webkit-text-fill-color: #1a1a2e !important; }
+        
+        /* Body text and descriptions */
+        .light-mode span,
+        .light-mode .text-muted,
+        .light-mode .record-hash,
+        .light-mode .metrics-stat-label,
+        .light-mode .metrics-type-name,
+        .light-mode .metrics-type-count,
+        .light-mode .metrics-live-type,
+        .light-mode .metrics-live-time,
+        .light-mode .metrics-live-hash,
+        .light-mode .trade-tx-amount,
+        .light-mode .trade-tx-hash,
+        .light-mode .exchange-link,
+        .light-mode .faq-answer,
+        .light-mode .about-card p,
+        .light-mode .contact-card p,
+        .light-mode .api-card p,
+        .light-mode .how-step p,
+        .light-mode .how-step-num,
+        .light-mode .record-status,
+        .light-mode label { color: #4b5563 !important; }
+        
+        /* Icons in light mode */
+        .light-mode .nav-icon,
+        .light-mode .action-icon,
+        .light-mode .record-icon,
+        .light-mode .stat-icon,
+        .light-mode .more-item i,
+        .light-mode .settings-icon { color: #6b7280 !important; }
+        
+        /* Keep accent colors for active/highlighted elements */
+        .light-mode .nav-item.active .nav-icon,
+        .light-mode .nav-item.active .nav-label { color: var(--accent) !important; -webkit-text-fill-color: var(--accent) !important; }
+        .light-mode .stat-value.accent,
+        .light-mode .record-badge.verified { color: #059669 !important; }
+        
+        /* Form elements */
+        .light-mode input,
+        .light-mode select,
+        .light-mode textarea { color: #1a1a2e !important; }
+        .light-mode input::placeholder,
+        .light-mode textarea::placeholder { color: #9ca3af !important; }
 
         .theme-toggle-btn {
             width: 44px; height: 44px; border-radius: 12px; border: 1px solid var(--border);
