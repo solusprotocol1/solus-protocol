@@ -113,7 +113,7 @@
             margin-bottom: 15px;
         }
         .page-header p {
-            color: #aaa;
+            color: #d0d0d0;
             font-size: 1.1rem;
         }
         @keyframes fadeInDown {
@@ -234,7 +234,7 @@
         }
         .stat-label {
             font-size: 0.9rem;
-            color: #bbb;
+            color: #e0e0e0;
             margin-top: 8px;
             font-weight: 500;
         }
@@ -382,14 +382,14 @@
         .hash-cell {
             font-family: 'Monaco', 'Menlo', monospace;
             font-size: 0.8rem;
-            color: #ccc;
+            color: #e8e8e8;
             background: rgba(0, 0, 0, 0.3);
             padding: 6px 10px;
             border-radius: 6px;
         }
         
         .refresh-info {
-            color: #aaa;
+            color: #d0d0d0;
             font-size: 0.85rem;
             margin-top: 15px;
             text-align: center;
@@ -401,7 +401,7 @@
             padding: 40px 20px;
             margin-top: 50px;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
-            color: #aaa;
+            color: #d0d0d0;
             font-size: 0.9rem;
         }
         .source-footer a {
@@ -505,7 +505,7 @@
         </div>
         <div class="card">
             <h2>⚡ Hash Anchoring Over Time</h2>
-            <p style="color:#ccc;">Each bar represents hashes anchored during that time period</p>
+            <p style="color:#e0e0e0;">Each bar represents hashes anchored during that time period</p>
             <div class="mb-3" id="hashBtns">
                 <button class="filter-btn active" data-view="minute">Per Minute</button>
                 <button class="filter-btn" data-view="hour">Per Hour</button>
@@ -517,7 +517,7 @@
         </div>
         <div class="card">
             <h2>🔐 Records Secured Breakdown</h2>
-            <p style="color:#ccc;">Distribution of record types anchored to XRPL
+            <p style="color:#e0e0e0;">Distribution of record types anchored to XRPL
                 <select class="filter-select" id="recordTypeFilter" onchange="filterByRecordType()">
                     <option value="all">All Record Types</option>
                 </select>
@@ -526,7 +526,7 @@
         </div>
         <div class="card">
             <h2>💎 $SLS Fee Activity</h2>
-            <p style="color:#ccc;">Fees collected per time period (0.01 $SLS per anchor)</p>
+            <p style="color:#e0e0e0;">Fees collected per time period (0.01 $SLS per anchor)</p>
             <div class="mb-3" id="feeBtns">
                 <button class="filter-btn active" data-view="minute">Per Minute</button>
                 <button class="filter-btn" data-view="hour">Per Hour</button>
@@ -538,7 +538,7 @@
         </div>
         <div class="card">
             <h2>📈 XRPL Transaction Volume</h2>
-            <p style="color:#ccc;">Number of transactions per time period</p>
+            <p style="color:#e0e0e0;">Number of transactions per time period</p>
             <div class="mb-3" id="txBtns">
                 <button class="filter-btn active" data-view="minute">Per Minute</button>
                 <button class="filter-btn" data-view="hour">Per Hour</button>
@@ -550,11 +550,11 @@
         </div>
         <div class="card">
             <h2>📋 Recent Anchored Records</h2>
-            <p style="color:#ccc;">Individual records with exact timestamps (scroll to view more)</p>
+            <p style="color:#e0e0e0;">Individual records with exact timestamps (scroll to view more)</p>
             <div style="max-height: 400px; overflow-y: auto; border: 1px solid rgba(20,241,149,0.2); border-radius: 8px;">
                 <table class="recent-table" style="display: table; width: 100%;">
                     <thead style="position: sticky; top: 0; background: #0a0b0d; z-index: 1;"><tr><th>Timestamp</th><th>Record Type</th><th>Hash (truncated)</th><th>Fee</th></tr></thead>
-                    <tbody id="recentBody"><tr><td colspan="4" style="text-align:center;color:#aaa;">Loading...</td></tr></tbody>
+                    <tbody id="recentBody"><tr><td colspan="4" style="text-align:center;color:#d0d0d0;">Loading...</td></tr></tbody>
                 </table>
             </div>
             <p class="refresh-info">Auto-refreshes every 30 seconds | Showing last 30 minutes of activity</p>
