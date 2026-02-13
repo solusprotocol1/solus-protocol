@@ -2,6 +2,6 @@
     "framework": null,
     "cleanUrls": true,
     "rewrites": [
-        { "source": "/api/(.*)", "destination": "/api/index.py" }
+        { "source": "/api/:path*", "destination": "/api/index.py" }
     ]
 }
