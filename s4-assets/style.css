@@ -251,6 +251,18 @@ footer { text-align: center; padding: 30px 20px; border-top: 1px solid var(--bor
 .reveal { opacity: 0; transform: translateY(30px); transition: all 0.5s ease-out; }
 .reveal.visible { opacity: 1; transform: translateY(0); }
 
+/* ===== CTA Box ===== */
+.cta-box {
+    background: linear-gradient(135deg, rgba(0,170,255,0.12), rgba(201,168,76,0.08));
+    border: 1px solid rgba(0,170,255,0.25);
+    border-radius: 20px;
+    padding: 40px 30px;
+    text-align: center;
+}
+.cta-box h3 { font-size: 1.4rem; font-weight: 700; }
+.cta-box p { color: var(--text-secondary); font-size: 0.95rem; }
+
+
 /* ===== Responsive ===== */
 @media (max-width: 768px) {
     .hero { padding: 100px 15px 40px; }

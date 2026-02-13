@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy | S4 Ledger</title>
+    <meta name="description" content="S4 Ledger Privacy Policy — how we handle data, protect your records, and comply with defense industry regulations.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../s4-assets/style.css">
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <style>
+        .legal-section{margin-bottom:2rem}
+        .legal-section h2{font-size:1.15rem;font-weight:700;color:var(--accent);margin-bottom:0.75rem;padding-bottom:0.5rem;border-bottom:1px solid rgba(0,170,255,0.15)}
+        .legal-section h3{font-size:1rem;font-weight:600;color:#fff;margin-bottom:0.5rem;margin-top:1.2rem}
+        .legal-section p,.legal-section li{font-size:0.9rem;color:var(--text-secondary);line-height:1.8}
+        .legal-section ul{padding-left:1.5rem}
+        .legal-section ul li{margin-bottom:0.4rem}
+        .effective-date{display:inline-flex;align-items:center;gap:8px;background:rgba(0,170,255,0.08);border:1px solid rgba(0,170,255,0.2);border-radius:8px;padding:6px 16px;font-size:0.85rem;color:var(--accent);font-weight:600;margin-bottom:1.5rem}
+        .data-table{width:100%;border-collapse:collapse;margin:1rem 0}
+        .data-table th{background:rgba(0,170,255,0.1);color:var(--accent);padding:10px 14px;font-size:0.85rem;font-weight:700;text-align:left;border-bottom:2px solid rgba(0,170,255,0.2)}
+        .data-table td{padding:10px 14px;font-size:0.85rem;color:var(--text-secondary);border-bottom:1px solid rgba(255,255,255,0.05)}
+        .data-table tr:hover td{background:rgba(0,170,255,0.03)}
+    </style>
+</head>
+<body>
+    <div class="scroll-progress" id="scrollProgress"></div>
+    <div class="mesh-bg"><div class="gradient-orb orb-1"></div><div class="gradient-orb orb-2"></div><div class="gradient-orb orb-3"></div></div>
+    <div id="particles-js"></div>
+
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="../"><img src="../s4-assets/S4Ledger_logo.png" alt="S4 Ledger" class="nav-logo"><span class="brand-text">S4 Ledger</span></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"><i class="fas fa-bars" style="color:#fff"></i></button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="../">Home</a></li>
+                    <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Company</a><ul class="dropdown-menu" style="background:rgba(5,8,16,0.98);border:1px solid rgba(255,255,255,0.1);"><li><a class="dropdown-item" href="../s4-about/" style="color:#fff;">About Us</a></li><li><a class="dropdown-item" href="../s4-investors/" style="color:#fff;">Investors</a></li><li><a class="dropdown-item" href="../s4-partners/" style="color:#fff;">Partners</a></li></ul></li>
+                    <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Products</a><ul class="dropdown-menu" style="background:rgba(5,8,16,0.98);border:1px solid rgba(255,255,255,0.1);"><li><a class="dropdown-item" href="../demo-app/" style="color:#fff;"><i class="fas fa-play-circle" style="width:18px;margin-right:6px;color:#00aaff;"></i>Demo App</a></li><li><a class="dropdown-item" href="../sdk-playground/" style="color:#fff;"><i class="fas fa-code" style="width:18px;margin-right:6px;color:#c9a84c;"></i>SDK Playground</a></li><li><a class="dropdown-item" href="../metrics.html" style="color:#fff;"><i class="fas fa-chart-bar" style="width:18px;margin-right:6px;color:#00aaff;"></i>Live Metrics</a></li><li><a class="dropdown-item" href="../transactions.html" style="color:#fff;"><i class="fas fa-list" style="width:18px;margin-right:6px;color:#c9a84c;"></i>Transactions</a></li><li><a class="dropdown-item" href="https://github.com/s4ledger/s4-ledger" target="_blank" style="color:#fff;"><i class="fab fa-github" style="width:18px;margin-right:6px;"></i>SDK &amp; Docs</a></li></ul></li>
+                    <li class="nav-item"><a class="nav-link" href="../s4-use-cases/">Use Cases</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../s4-pricing/">Pricing</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../s4-roadmap/">Roadmap</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../s4-faq/">FAQ</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../s4-contact/">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="page-hero">
+        <div class="container">
+            <h1><i class="fas fa-shield-halved" style="margin-right:12px;color:var(--accent)"></i>Privacy <span class="gradient-text">Policy</span></h1>
+            <p>How S4 Ledger handles, protects, and processes your data</p>
+        </div>
+    </div>
+
+    <div class="container" style="max-width:800px;">
+        <div class="effective-date"><i class="fas fa-calendar-alt"></i> Effective Date: February 1, 2026</div>
+
+        <div class="legal-section card reveal">
+            <h2>1. Our Core Privacy Principle</h2>
+            <p><strong>No sensitive data on-chain — ever.</strong> S4 Ledger was designed from the ground up to anchor only SHA-256 hashes to the XRP Ledger. We never store, transmit, or process classified data, CUI, PII, ITAR-controlled content, or any sensitive material on any public blockchain.</p>
+            <div style="background:rgba(20,241,149,0.08);border:1px solid rgba(20,241,149,0.2);border-radius:8px;padding:14px 18px;margin-top:1rem;font-size:0.88rem;">
+                <i class="fas fa-check-circle" style="color:#14f195;margin-right:8px;"></i> <strong>What goes on-chain:</strong> A 64-character SHA-256 hash string<br>
+                <i class="fas fa-times-circle" style="color:#ff6b6b;margin-right:8px;"></i> <strong>What never goes on-chain:</strong> Original records, names, locations, part details, or any identifiable information
+            </div>
+        </div>
+
+        <div class="legal-section card reveal">
+            <h2>2. Data We Collect</h2>
+            <table class="data-table">
+                <tr><th>Category</th><th>Data</th><th>Purpose</th><th>Retention</th></tr>
+                <tr><td><strong>Anchor Metadata</strong></td><td>SHA-256 hash, record type, branch, timestamp</td><td>Transaction tracking, metrics dashboard</td><td>Indefinite (on-chain)</td></tr>
+                <tr><td><strong>API Usage</strong></td><td>Request timestamps, endpoints called, response codes</td><td>Rate limiting, monitoring, analytics</td><td>90 days</td></tr>
+                <tr><td><strong>Account Info</strong></td><td>Organization name, contact email, subscription tier</td><td>Service delivery, billing, support</td><td>Duration of account</td></tr>
+                <tr><td><strong>Analytics</strong></td><td>Page views, session duration (anonymized)</td><td>Platform improvement</td><td>12 months</td></tr>
+            </table>
+        </div>
+
+        <div class="legal-section card reveal">
+            <h2>3. Data We Do NOT Collect</h2>
+            <ul>
+                <li>Original record content (records are hashed client-side or in-memory and never persisted)</li>
+                <li>Classified or CUI material</li>
+                <li>Social Security numbers, health records, or financial account numbers</li>
+                <li>Biometric data</li>
+                <li>Device-level tracking identifiers (no fingerprinting)</li>
+            </ul>
+        </div>
+
+        <div class="legal-section card reveal">
+            <h2>4. How We Use Your Data</h2>
+            <ul>
+                <li><strong>Service delivery:</strong> Processing anchor requests, returning hash verification results, displaying metrics</li>
+                <li><strong>Platform improvement:</strong> Analyzing aggregate usage patterns to improve performance and UX</li>
+                <li><strong>Security:</strong> Monitoring for abuse, unauthorized access, or anomalous activity</li>
+                <li><strong>Communication:</strong> Service updates, security notices, and billing (if applicable)</li>
+            </ul>
+            <p>We do not sell, rent, or share your data with third parties for marketing purposes.</p>
+        </div>
+
+        <div class="legal-section card reveal">
+            <h2>5. Data Security</h2>
+            <p>S4 Ledger implements security controls aligned with defense industry standards:</p>
+            <ul>
+                <li><strong>NIST SP 800-171:</strong> Controls for protecting Controlled Unclassified Information</li>
+                <li><strong>CMMC Level 2:</strong> Active alignment roadmap toward certification</li>
+                <li><strong>Encryption:</strong> TLS 1.3 for all data in transit; AES-256 for data at rest</li>
+                <li><strong>Access control:</strong> Role-based access, principle of least privilege</li>
+                <li><strong>Audit logging:</strong> All API access and administrative actions are logged</li>
+                <li><strong>Incident response:</strong> Documented plan with &lt;24-hour notification for security events</li>
+            </ul>
+        </div>
+
+        <div class="legal-section card reveal">
+            <h2>6. Blockchain Immutability</h2>
+            <p>Once a SHA-256 hash is anchored to the XRP Ledger, it is immutable and cannot be deleted, modified, or redacted. This is by design — immutability is the core value proposition of S4 Ledger. Because only hashes (not original content) are stored on-chain, immutability does not create a privacy risk for underlying data.</p>
+            <p>If you need to supersede a record, you can anchor a new version with updated content. The original hash remains on the ledger but can be marked as superseded in your internal systems.</p>
+        </div>
+
+        <div class="legal-section card reveal">
+            <h2>7. Third-Party Services</h2>
+            <ul>
+                <li><strong>XRP Ledger:</strong> Public, decentralized blockchain operated by independent validators. Transaction hashes and memo fields are publicly visible.</li>
+                <li><strong>Vercel:</strong> Hosting platform for the S4 Ledger website and API. Subject to Vercel's privacy practices.</li>
+                <li><strong>GitHub:</strong> Source code and SDK distribution. Subject to GitHub's privacy policy.</li>
+            </ul>
+        </div>
+
+        <div class="legal-section card reveal">
+            <h2>8. Defense & Government Users</h2>
+            <p>For Department of Defense (DoD) and government users:</p>
+            <ul>
+                <li>S4 Ledger does not process classified information at any classification level.</li>
+                <li>CUI should only be submitted through approved on-premises or FedRAMP-authorized deployments (when available).</li>
+                <li>The public demo and testnet environment should only be used with non-sensitive, unclassified test data.</li>
+                <li>For DFARS 252.204-7012 compliance requirements, contact us for our System Security Plan (SSP) and Plan of Action and Milestones (POA&M).</li>
+            </ul>
+        </div>
+
+        <div class="legal-section card reveal">
+            <h2>9. Cookies & Tracking</h2>
+            <p>S4 Ledger uses only functional cookies essential for the operation of the platform (e.g., localStorage for session data in the Demo App). We do not use advertising cookies, social media trackers, or third-party tracking pixels.</p>
+        </div>
+
+        <div class="legal-section card reveal">
+            <h2>10. Your Rights</h2>
+            <ul>
+                <li><strong>Access:</strong> Request a copy of data we hold about you</li>
+                <li><strong>Correction:</strong> Request correction of inaccurate account information</li>
+                <li><strong>Deletion:</strong> Request deletion of your account and associated data (note: on-chain hashes are immutable)</li>
+                <li><strong>Portability:</strong> Export your transaction history and anchor records</li>
+                <li><strong>Objection:</strong> Object to processing of your data for specific purposes</li>
+            </ul>
+            <p>To exercise these rights, contact us at <strong>privacy@s4ledger.com</strong> or via our <a href="../s4-contact/" style="color:var(--accent);">Contact page</a>.</p>
+        </div>
+
+        <div class="legal-section card reveal">
+            <h2>11. Children's Privacy</h2>
+            <p>S4 Ledger is a professional enterprise platform and is not intended for use by individuals under the age of 18. We do not knowingly collect data from minors.</p>
+        </div>
+
+        <div class="legal-section card reveal">
+            <h2>12. Changes to This Policy</h2>
+            <p>We may update this Privacy Policy periodically. Material changes will be communicated via email to registered users and prominently displayed on our website. The "Effective Date" at the top reflects the most recent revision.</p>
+        </div>
+
+        <div class="legal-section card reveal">
+            <h2>13. Contact</h2>
+            <p>For privacy questions or concerns:</p>
+            <ul>
+                <li><strong>Email:</strong> privacy@s4ledger.com</li>
+                <li><strong>Web:</strong> <a href="../s4-contact/" style="color:var(--accent);">s4ledger.com/s4-contact</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div style="height:60px;"></div>
+
+    <footer>
+        <div class="container">
+            <div style="margin-bottom:12px;"><img src="../s4-assets/S4Ledger_logo.png" alt="S4 Ledger" class="footer-logo"><span style="font-weight:700;font-size:1.1rem;">S4 Ledger</span><span style="color:var(--text-muted);margin-left:5px;">— Secure Logistics Standard</span></div>
+            <p style="font-size:0.82rem;margin-bottom:10px;">Immutable logistics verification for the defense industry. Built on the XRP Ledger.</p>
+            <div style="margin-bottom:10px;"><a href="https://github.com/s4ledger/s4-ledger" target="_blank" style="color:var(--text-muted);margin:0 10px;text-decoration:none;"><i class="fab fa-github fa-lg"></i></a><a href="https://x.com/S4_Ledger" target="_blank" style="color:var(--text-muted);margin:0 10px;text-decoration:none;"><i class="fab fa-x-twitter fa-lg"></i></a><a href="https://linkedin.com" target="_blank" style="color:var(--text-muted);margin:0 10px;text-decoration:none;"><i class="fab fa-linkedin fa-lg"></i></a></div>
+            <div style="margin-bottom:10px;font-size:0.78rem;"><a href="../s4-terms/" style="color:var(--text-muted);margin:0 10px;text-decoration:none;">Terms of Service</a><a href="#" style="color:var(--text-muted);margin:0 10px;text-decoration:none;font-weight:600;">Privacy Policy</a><a href="../security/" style="color:var(--text-muted);margin:0 10px;text-decoration:none;">Security</a></div>
+            <p style="font-size:0.75rem;color:var(--text-muted);">$SLS is a utility token — not equity or an investment contract. © 2026 S4 Ledger.</p>
+        </div>
+    </footer>
+
+    <button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../s4-assets/main.js"></script>
+    <script src="../s4-assets/search.js"></script>
+</body>
+</html>
