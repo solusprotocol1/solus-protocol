@@ -15,13 +15,6 @@ S4 Ledger is designed to integrate with existing defense logistics systems throu
 | **Contractor ERPs** | Various logistics | SDK + REST API (Phase 4) |
 | **CDRL submittal** | Deliverable tracking | SDK + file hash anchoring |
 
-## Cross-Chain Anchoring (Reference)
-
-- **Ethereum:** Smart contract sample for anchoring hashes ([ethereum_anchor_sample.sol](ethereum_anchor_sample.sol))
-- **Solana:** Rust sample for record anchoring ([solana_anchor_sample.rs](solana_anchor_sample.rs))
-
-Primary operations use the XRPL for cost efficiency ($0.001 vs $0.50-$50 on other chains).
-
 ## Partner API (Roadmap — Phase 4)
 
 - RESTful endpoints for partner onboarding, record anchoring, and audit log retrieval

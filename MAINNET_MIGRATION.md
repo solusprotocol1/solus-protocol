@@ -1590,7 +1590,7 @@ Merkle Root:      [H12345678]
 
 ### Migration Steps
 1. **Server-Side Hashing** — Move SHA-256 computation to backend using Node.js `crypto.createHash('sha256')` or Rust for maximum throughput
-2. **Merkle Tree Library** — Implement `merkle-tree-solidity`-compatible tree builder (or custom) to batch N records into a single root hash
+2. **Merkle Tree Library** — Implement a Merkle tree builder (or custom) to batch N records into a single root hash
 3. **Batch Scheduler** — Cron job or event-driven batch processor (e.g., every 5 minutes or every 1,000 records, whichever comes first)
 4. **Proof Generation** — Store Merkle proofs per record so any individual record can be verified against the on-chain root
 5. **XRPL Throughput** — XRPL handles ~1,500 TPS; with Merkle batching at 1,000 records/batch, effective throughput = 1,500,000 records/sec
