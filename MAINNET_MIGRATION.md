@@ -18,19 +18,19 @@
 10. [Cost Estimation](#10-cost-estimation)
 11. [XRPL Amendment Resilience](#11-xrpl-amendment-resilience)
 12. [S4 Ledger Network Migration](#12-svcn-care-network-migration)
-13. [S4 Ledger defense system Migration](#13-sls-protocol-ehr-migration)
+13. [S4 Ledger DLRS Migration](#13-sls-protocol-dlrs-migration)
 14. [Metrics API Migration](#14-metrics-api-migration)
 15. [Visual Calendar & Scheduling](#15-visual-calendar--scheduling-v2100)
-16. [ICD-10/CPT Billing & Claim Lifecycle](#16-icd-10cpt-billing--claim-lifecycle-v2100)
+16. [FSC/CLIN Billing & Contract Lifecycle](#16-fscclin-billing--contract-lifecycle-v2100)
 17. [Insurance Eligibility Verification & Anchoring](#17-insurance-eligibility-verification--anchoring-v2100)
-18. [Drug Interaction Checker](#18-drug-interaction-checker-v2100)
-19. [XLS-20 NFT Consent Tokens](#19-xls-20-nft-consent-tokens-v2100)
+18. [HAZMAT Compatibility Checker](#18-hazmat-compatibility-checker-v2100)
+19. [XLS-20 NFT Access Tokens](#19-xls-20-nft-access-tokens-v2100)
 20. [Gamification & Guardian Level System](#20-gamification--guardian-level-system-v2100)
 21. [Hash Mismatch & Integrity Testing](#21-hash-mismatch--integrity-testing-v2100)
 22. [Multi-Factor Authentication](#22-multi-factor-authentication-v2100)
 23. [Settings Persistence & PWA Service Worker](#23-settings-persistence--pwa-service-worker-v2100)
 24. [In-App Feedback System](#24-in-app-feedback-system-v2100)
-25. [ONC/Cdefense systemT Compliance Roadmap](#25-onccehrt-compliance-roadmap)
+25. [CMMC Level 2 Compliance Roadmap](#25-cmmc-level-2-compliance-roadmap)
 26. [Freemium Pricing Model](#26-freemium-pricing-model)
 27. [PWA Push Notifications (v2.10.1)](#27-pwa-push-notifications-v2101)
 28. [Cohort Analytics & Population Health (v2.10.1)](#28-cohort-analytics--population-health-v2101)
@@ -274,7 +274,7 @@ def anchor_record():
     Request body:
         {
             "hash": "64-char hex SHA-256 hash",
-            "record_type": "lab_results|surgery|vitals|...",
+            "record_type": "inspection|depot_repair|fleet_status|...",
             "metadata": "optional additional context"
         }
     
@@ -311,12 +311,12 @@ def anchor_record():
     
     # Validate record type
     allowed_types = [
-        'lab_results', 'surgery', 'vitals', 'imaging', 'prescription',
-        'immunization', 'clinical_note', 'discharge_summary', 'emergency',
-        'mental_health', 'referral', 'consent', 'insurance_claim',
-        'pathology', 'genetic_test', 'dental', 'optometry', 'physical_therapy',
-        'allergy', 'record_message', 'custom_record', 'ehr_sync',
-        'device_reading', 'rare_disease', 'telemedicine'
+        'inspection', 'depot_repair', 'fleet_status', 'calibration', 'supply_receipt',
+        'training', 'maintenance_log', 'transfer_summary', 'casrep',
+        'readiness', 'logistics_transfer', 'access_grant', 'contract_claim',
+        'hazmat_cert', 'msds_record', 'ordnance_lot', 'config_baseline', 'spare_parts',
+        'hazmat_alert', 'deployment_message', 'custom_record', 'dlrs_sync',
+        'equipment_reading', 'special_program', 'remote_support'
     ]
     if record_type not in allowed_types:
         record_type = 'custom_record'
@@ -484,7 +484,7 @@ curl -X POST https://s4ledger.onrender.com/api/anchor \
   -H "X-API-Key: sk_test_demo_key_not_for_production" \
   -d '{
     "hash": "f0e366f13efcb0dd6d564e267a9efb6afed62eabce3abed64e830bfe25cacca1",
-    "record_type": "discharge_summary"
+    "record_type": "transfer_summary"
   }'
 
 # Test verification
@@ -763,10 +763,10 @@ The S4 Ledger Network (`demo-app/index.html`) performs **real XRPL anchoring** f
 | Module | Memo Format | Record Types |
 |--------|-------------|-------------|
 | Secure Messenger | `s4:message:HASH` | `secure_message`, `urgent_message` |
-| Consent Manager | `s4:consent:grant:HASH` | `consent_grant`, `consent_revoke` |
-| Care Handoff | `s4:handoff:TYPE:HASH` | `care_handoff` |
-| Wearable Monitor | `s4:wearable_anomaly:HASH` | `wearable_anomaly` |
-| defense system Simulator | `s4:ehr_event:HASH` | `ehr_event` |
+| Access Manager | `s4:access:grant:HASH` | `access_grant`, `access_revoke` |
+| Custody Transfer | `s4:handoff:TYPE:HASH` | `custody_transfer` |
+| Sensor Monitor | `s4:sensor_anomaly:HASH` | `sensor_anomaly` |
+| DLRS Simulator | `s4:dlrs_event:HASH` | `dlrs_event` |
 | Federated Batch | `s4:federated_batch:HASH` | `federated_batch` |
 | Backup & Recovery | `s4:backup_export:HASH` | `backup_export`, `backup_verify` |
 
@@ -828,65 +828,65 @@ No structural changes needed — just change `testnet=True` to `testnet=False` a
 ### S4VN Compliance Considerations
 - All S4VN anchor transactions use **memo fields only** (no XRP transfer needed on mainnet if using AccountSet transactions)
 - The Audit & Proof tab's compliance evidence generator works identically on mainnet
-- Break-glass events, consent anchors, and care handoffs retain full immutability on mainnet
+- Break-glass events, access grant anchors, and custody transfers retain full immutability on mainnet
 - On-chain re-verification works by reading memo data from mainnet ledger
 
 ---
 
-## 13. S4 Ledger defense system Migration
+## 13. S4 Ledger Defense System Migration
 
 ### Current State (Testnet — v2.10.0)
-The S4 Ledger defense system system (`s4_ehr.py` + `demo-app/index.html`) anchors all healthcare data operations to XRPL:
+The S4 Ledger defense system (`s4_dlrs.py` + `demo-app/index.html`) anchors all defense logistics data operations to XRPL:
 
-| defense system Operation | XRPL Record Type | FHIR Mapping | Added In |
+| Defense System Operation | XRPL Record Type | Data Standard | Added In |
 |---------------|------------------|-------------|----------|
-| Record Registration | `defense system_RECORD` | Record | v2.9.7 |
+| Asset Registration | `DLRS_RECORD` | Asset Record | v2.9.7 |
 | Record Create | `{type}.upper()` | Varies by type | v2.9.7 |
-| Record Update | `defense system_UPDATE` | — | v2.9.7 |
-| Access Grant | `CONSENT_GRANT` | Consent | v2.9.7 |
-| Access Revoke | `CONSENT_REVOKE` | Consent | v2.9.7 |
-| FHIR Export | `defense system_TRANSFER` | Bundle | v2.9.8 |
-| HL7 Generation | `defense system_TRANSFER` | — | v2.9.8 |
-| Appointment Create | `SCHEDULING` | Appointment | v2.9.8 |
-| Billing Claim Submit | `BILLING` | Claim | v2.9.8 |
-| Claim Auto-Adjudication | `BILLING` | ClaimResponse | v2.10.0 |
-| Claim Resubmission | `BILLING` | Claim | v2.10.0 |
-| Eligibility Verification | `ELIGIBILITY` | CoverageEligibilityResponse | v2.10.0 |
-| XLS-20 Consent NFT Mint | `CONSENT` | Consent | v2.10.0 |
-| XLS-20 Consent NFT Revoke | `CONSENT` | Consent | v2.10.0 |
+| Record Update | `DLRS_UPDATE` | — | v2.9.7 |
+| Access Grant | `ACCESS_GRANT` | RBAC | v2.9.7 |
+| Access Revoke | `ACCESS_REVOKE` | RBAC | v2.9.7 |
+| MILSTRIP Export | `DLRS_TRANSFER` | Bundle | v2.9.8 |
+| DI-MGMT Generation | `DLRS_TRANSFER` | — | v2.9.8 |
+| Scheduling Create | `SCHEDULING` | Maintenance Schedule | v2.9.8 |
+| Contract Claim Submit | `CONTRACT` | Claim | v2.9.8 |
+| Claim Auto-Adjudication | `CONTRACT` | ClaimResponse | v2.10.0 |
+| Claim Resubmission | `CONTRACT` | Claim | v2.10.0 |
+| Readiness Verification | `READINESS` | ReadinessResponse | v2.10.0 |
+| XLS-20 Access NFT Mint | `ACCESS_GRANT` | AccessToken | v2.10.0 |
+| XLS-20 Access NFT Revoke | `ACCESS_REVOKE` | AccessToken | v2.10.0 |
 | Hash Integrity Failure | `INTEGRITY` | AuditEvent | v2.10.0 |
-| Break-Glass | `EMERGENCY` | — | v2.9.7 |
-| Compliance Report | `defense system_RECORD` | — | v2.9.8 |
-| Legacy Import | `defense system_IMPORT` | — | v2.9.8 |
-| Chronic Care Review | `CHRONIC_CARE` | CarePlan | v2.9.8 |
-| Encounter Note | `ENCOUNTER` | Encounter | v2.9.8 |
-| Medication Order | `MEDICATION` | MedicationRequest | v2.9.8 |
-| Progress Note | `PROGRESS_NOTE` | DocumentReference | v2.9.8 |
-| Clinical Note | `CLINICAL_NOTE` | DocumentReference | v2.9.8 |
+| Break-Glass / CASREP | `CASREP` | — | v2.9.7 |
+| Compliance Report | `DLRS_RECORD` | — | v2.9.8 |
+| Legacy Import | `DLRS_IMPORT` | — | v2.9.8 |
+| Recurring Maintenance | `MAINTENANCE_3M` | MaintenancePlan | v2.9.8 |
+| Inspection Note | `INSPECTION` | Inspection | v2.9.8 |
+| Spare Parts Order | `SPARE_PARTS` | SupplyRequest | v2.9.8 |
+| Progress Note | `PROGRESS_NOTE` | AuditReference | v2.9.8 |
+| Technical Note | `TECH_NOTE` | AuditReference | v2.9.8 |
 
-### defense system Scenario Engine (v2.10.0)
+### Defense System Scenario Engine (v2.10.0)
 The demo app includes 12 pre-built defense system scenarios that execute real XRPL anchoring:
 
 | ID | Scenario | Persona | XRPL Anchors | Record Types |
 |----|----------|---------|--------------|-------------|
-| e1 | Hospital Admission: Chest Pain | Hospital | 5 | VITALS, LAB_RESULTS, CONSENT_GRANT, defense system_RECORD |
-| e2 | Lab Results & Auto-Notification | Clinic | 3 | LAB_RESULTS, PRESCRIPTION, SCHEDULING |
-| e3 | Prescription Workflow (e-Prescribe) | Clinic | 2 | PRESCRIPTION |
-| e4 | Multi-Department Surgical Workflow | Hospital | 5 | SURGERY, CARE_HANDOFF, DISCHARGE |
-| e5 | Emergency Stroke Code | Emergency | 4 | EMERGENCY, IMAGING, PRESCRIPTION, defense system_RECORD |
-| e6 | Insurance Claim Auto-Adjudication | Billing | 2 | BILLING |
-| e7 | Record Record Transfer | Hospital | 2 | defense system_TRANSFER, defense system_RECORD |
-| e8 | Chronic Care Management | Clinic | 2 | CHRONIC_CARE, SCHEDULING |
-| e9 | Maternity Ward Delivery | Hospital | 4 | VITALS, PROCEDURE, defense system_RECORD |
-| e10 | Pediatric Well-Child Visit | Clinic | 3 | IMMUNIZATION, VITALS, SCHEDULING |
-| e11 | Mental Health Intake | Behavioral | 3 | MENTAL_HEALTH, CONSENT_GRANT, CLINICAL_NOTE |
-| e12 | Oncology Treatment Cycle | Oncology | 4 | MEDICATION, LAB_RESULTS, IMAGING, PROGRESS_NOTE |
+| e1 | Depot Intake: Equipment Failure | Depot | 5 | FLEET_STATUS, INSPECTION, ACCESS_GRANT, DLRS_RECORD |
+| e2 | Inspection Results & Auto-Notification | Maintenance | 3 | INSPECTION, SUPPLY_RECEIPT, SCHEDULING |
+| e3 | Supply Requisition Workflow | Logistics | 2 | SUPPLY_RECEIPT |
+| e4 | Multi-Shop Depot Repair Workflow | Depot | 5 | DEPOT_REPAIR, CUSTODY_TRANSFER, TRANSFER_SUMMARY |
+| e5 | CASREP Urgent Repair | CASREP | 4 | CASREP, CALIBRATION, SUPPLY_RECEIPT, DLRS_RECORD |
+| e6 | Contract Claim Auto-Adjudication | Contracting | 2 | CONTRACT |
+| e7 | Equipment Record Transfer | Depot | 2 | DLRS_TRANSFER, DLRS_RECORD |
+| e8 | Recurring Maintenance Schedule | Maintenance | 2 | MAINTENANCE_3M, SCHEDULING |
+| e9 | Ordnance Lot Acceptance | Depot | 4 | FLEET_STATUS, ORDNANCE_LOT, DLRS_RECORD |
+| e10 | Equipment Readiness Check | Maintenance | 3 | TRAINING, FLEET_STATUS, SCHEDULING |
+| e11 | Security Clearance Intake | Security | 3 | READINESS, ACCESS_GRANT, TECH_NOTE |
+| e12 | Phased Depot Overhaul Cycle | Overhaul | 4 | SPARE_PARTS, INSPECTION, CALIBRATION, PROGRESS_NOTE |
 
 ### Wallet Unification (v2.10.0)
 All three demo app systems use the same wallet via `getPlaygroundWallet()`:
 - **SDK Playground:** `anchorFromPlayground()` → `getPlaygroundWallet(client)`
 - **S4 Ledger Network:** `svcnAnchorToXRPL()` → `getPlaygroundWallet(client)`
-- **defense system System:** `ehrAnchorToXRPL()` → `getPlaygroundWallet(client)`
+- **Defense System:** `dlrsAnchorToXRPL()` → `getPlaygroundWallet(client)`
 
 All produce memos in the standardized format `s4:RECORD_TYPE:SHA256_HASH` using `AccountSet` transactions. On mainnet, all three will migrate to the same backend `/api/anchor` endpoint.
 
@@ -895,10 +895,10 @@ All produce memos in the standardized format `s4:RECORD_TYPE:SHA256_HASH` using 
 #### Step 1: Python SDK Migration
 ```python
 # Testnet (current)
-ehr = S4Defense system(wallet_seed="sEd...", testnet=True, anchor_enabled=True)
+dlrs = S4Defense system(wallet_seed="sEd...", testnet=True, anchor_enabled=True)
 
 # Mainnet (production)
-ehr = S4Defense system(
+dlrs = S4Defense system(
     wallet_seed=os.environ['XRPL_MAINNET_SEED'],
     testnet=False,
     anchor_enabled=True,
@@ -907,10 +907,10 @@ ehr = S4Defense system(
 ```
 
 #### Step 2: Demo App defense system Screen Migration
-Replace `ehrAnchorToXRPL()` with backend API call:
+Replace `dlrsAnchorToXRPL()` with backend API call:
 
 ```javascript
-async function ehrAnchorToXRPL(dataHash, recordType) {
+async function dlrsAnchorToXRPL(dataHash, recordType) {
     const memoData = `s4:${recordType.toLowerCase()}:${dataHash}`;
     const response = await fetch('https://s4ledger.onrender.com/api/anchor', {
         method: 'POST',
@@ -922,15 +922,15 @@ async function ehrAnchorToXRPL(dataHash, recordType) {
 ```
 
 #### Step 3: defense system-Specific Security
-- **PHI Protection:** All record data remains encrypted off-chain. Only SHA-256 hashes are written to XRPL memos.
+- **CUI Protection:** All record data remains encrypted off-chain. Only SHA-256 hashes are written to XRPL memos.
 - **Encryption Keys:** Must use production-grade key management (AWS KMS, Azure Key Vault, or HashiCorp Vault) instead of Fernet auto-generated keys.
 - **Access Control:** RBAC grants are anchored immutably — on mainnet, these become permanent compliance evidence.
 - **Break-Glass:** Emergency access events on mainnet create permanent, auditable records that satisfy NIST § 164.312(b) audit requirements.
 
-#### Step 4: FHIR & HL7 Interop
-- FHIR R4 Bundles include `meta.tag` with `system: "https://s4ledger.com/hash"` pointing to the on-chain hash. On mainnet, these become verifiable against the live XRPL.
-- HL7 v2 messages include `ZSP` custom Z-segments with `S4_HASH|{hash}|XRPL_ANCHORED`.
-- Replace `"XRPL_ANCHORED"` with `"XRPL_MAINNET_ANCHORED"` in production HL7 messages.
+#### Step 4: MILSTRIP & DI-MGMT Interop
+- MILSTRIP Bundles include `meta.tag` with `system: "https://s4ledger.com/hash"` pointing to the on-chain hash. On mainnet, these become verifiable against the live XRPL.
+- DI-MGMT messages include `ZSP` custom Z-segments with `S4_HASH|{hash}|XRPL_ANCHORED`.
+- Replace `"XRPL_ANCHORED"` with `"XRPL_MAINNET_ANCHORED"` in production DI-MGMT messages.
 
 ### defense system Data Flow (Mainnet)
 ```
@@ -952,8 +952,8 @@ Record Data → AES-256 Encrypt → Off-Chain Storage
 ### Current State
 The Metrics API (`metrics_api.py`) reads transactions from the XRPL Testnet account and categorizes them using `categorize_record()`. It parses memo data in two formats:
 
-1. **SDK Playground:** `RECORD_TYPE:hash` (e.g., `SURGERY:abc123...`)
-2. **S4VN/defense system:** `s4:TYPE:hash` (e.g., `s4:message:abc123...`, `s4:BILLING:abc123...`)
+1. **SDK Playground:** `RECORD_TYPE:hash` (e.g., `DEPOT_REPAIR:abc123...`)
+2. **S4VN/defense system:** `s4:TYPE:hash` (e.g., `s4:message:abc123...`, `s4:CONTRACT:abc123...`)
 
 ### Migration Steps
 
@@ -971,7 +971,7 @@ XRPL_MAINNET_ACCOUNT = os.environ.get("XRPL_MAINNET_ACCOUNT", "rMainnetAddress..
 #### Step 2: Record Type Categorization
 The `categorize_record()` function handles all 130+ record types across SDK, S4VN, and defense system. The `s4:TYPE:hash` format parser checks:
 1. First segment → if `S4`, look at second segment
-2. Multi-segment types (e.g., `s4:consent:grant:hash` → `CONSENT_GRANT`)
+2. Multi-segment types (e.g., `s4:access:grant:hash` → `ACCESS_GRANT`)
 3. Explicit type_map with 130+ categories
 4. Keyword-based fallback matching
 
@@ -991,12 +991,12 @@ On mainnet, the Metrics API will start with zero transactions. Consider:
 - Month-grid calendar with prev/next navigation
 - Appointment dot indicators on calendar dates
 - Duration selection, recurring appointment types (weekly, biweekly, monthly, quarterly), appointment notes
-- Each appointment creation calls `ehrAnchorToXRPL(hash, 'SCHEDULING')`
+- Each appointment creation calls `dlrsAnchorToXRPL(hash, 'SCHEDULING')`
 
 ### Real-World Migration
 | Component | Demo State | Production State |
 |-----------|-----------|-----------------|
-| Calendar Data | In-memory `ehrStore.appointments` | PostgreSQL/FHIR Appointment resource |
+| Calendar Data | In-memory `dlrsStore.appointments` | PostgreSQL/MILSTRIP Appointment resource |
 | Recurring Logic | Frontend generates single appointment | Backend cron with `rrule` library generates series |
 | Notifications | Toast messages | Twilio SMS + SendGrid email reminders |
 | Provider Availability | Any slot available | Google Calendar / Calendly API integration for real provider schedules |
@@ -1012,39 +1012,39 @@ This creates immutable proof that an appointment was created, modified, or cance
 
 ---
 
-## 16. ICD-10/CPT Billing & Claim Lifecycle (v2.10.0)
+## 16. FSC/CLIN Billing & Contract Lifecycle (v2.10.0)
 
 ### What Exists (Demo)
-- 24 ICD-10 codes with autocomplete (E11.65 Type 2 Diabetes, I10 HTN, J06.9 URI, M54.5 Low Back Pain, etc.)
-- 20 CPT codes with fee amounts and autocomplete (99213 Office Visit, 99285 ER Critical, 71046 Chest X-ray, etc.)
+- 24 FSC codes with autocomplete (1005 Guns, 1010 Guns over 30mm, 2320 Trucks, 2350 Combat Vehicles, etc.)
+- 20 CLIN codes with fee amounts and autocomplete (0001 Depot Repair, 0002 Overhaul, 0003 Field Service, etc.)
 - Payer selection (Medicare, Medicaid, BCBS, United, Aetna, Cigna, Humana, Self-Pay)
 - Place of service codes (Office 11, Inrecord 21, Outrecord 22, ER 23, Telehealth 02, Lab 81)
 - Claim auto-adjudication simulation (70% approved, 15% partial, 15% denied with denial reasons)
 - Claim resubmission with corrections
 - Claims CSV export
-- Each claim submission + adjudication result anchored via `ehrAnchorToXRPL(hash, 'BILLING')`
+- Each claim submission + adjudication result anchored via `dlrsAnchorToXRPL(hash, 'CONTRACT')`
 
 ### Real-World Migration
 | Component | Demo State | Production State |
 |-----------|-----------|-----------------|
-| ICD-10 Codes | 24 hardcoded codes | CMS ICD-10-CM API (80,000+ codes) or NLM UMLS API |
-| CPT Codes | 20 hardcoded with fees | AMA CPT API (10,000+ codes) — requires AMA license for full set |
-| Fee Schedule | Static fee per CPT code | CMS Physician Fee Schedule API + payer-specific contracted rates |
-| Claim Submission | In-memory, simulated adjudication | EDI 837 Professional/Institutional via clearinghouse (Availity, Change Healthcare, Trizetto) |
-| Adjudication | Random 70/15/15 split | Real 835 ERA/EOB remittance from payer |
-| Denial Management | Mock denial reasons | X12 CARC/RARC reason codes from payer |
-| Payer Eligibility | Simulated 270/271 (see §17) | Real EDI 270/271 via clearinghouse |
-| XRPL Anchoring | `s4:BILLING:HASH` | Same — hash of claim JSON + adjudication result anchored on mainnet |
+| FSC Codes | 24 hardcoded codes | DLA Federal Supply Classification API |
+| CLIN Codes | 20 hardcoded with fees | FPDS-NG contract line item database |
+| Fee Schedule | Static fee per CLIN | GSA Schedule + contract-specific rates |
+| Claim Submission | In-memory, simulated adjudication | WAWF/MOCAS via contracting office (DLA, NAVSUP, TACOM) |
+| Adjudication | Random 70/15/15 split | Real remittance from contracting office |
+| Denial Management | Mock denial reasons | DFARS denial reason codes from contracting office |
+| Readiness Query | Simulated readiness query (see §17) | Real readiness query via DLA |
+| XRPL Anchoring | `s4:CONTRACT:HASH` | Same — hash of claim JSON + adjudication result anchored on mainnet |
 
-### Why Anchoring Billing Data Matters
+### Why Anchoring Contract Data Matters
 1. **SOX-compliant audit trails** — immutable proof of every claim state change
 2. **Fraud detection** — cross-reference on-chain hashes to detect duplicate claims
 3. **Denial appeal evidence** — prove exact claim content and submission timestamp
-4. **Revenue cycle transparency** — insurers can verify claim integrity without accessing PHI
+4. **Contract transparency** — auditors can verify claim integrity without accessing CUI
 
 ### Clearinghouse Integration (Production)
 ```python
-# Example: Submit 837P claim via Availity API
+# Example: Submit contract claim via WAWF API
 import requests
 
 def submit_claim_837(claim_data):
@@ -1055,8 +1055,8 @@ def submit_claim_837(claim_data):
     claim_hash = hashlib.sha256(edi_837.encode()).hexdigest()
     
     # 3. Submit to clearinghouse
-    response = requests.post('https://api.availity.com/v1/claims', 
-        headers={'Authorization': f'Bearer {AVAILITY_TOKEN}'},
+    response = requests.post('https://wawf.eb.mil/api/v1/claims', 
+        headers={'Authorization': f'Bearer {WAWF_TOKEN}'},
         data=edi_837
     )
     
@@ -1079,7 +1079,7 @@ def submit_claim_837(claim_data):
 ### Real-World Migration
 | Component | Demo State | Production State |
 |-----------|-----------|-----------------|
-| Eligibility Request | Simulated with random values | EDI 270 via clearinghouse (Availity, Change Healthcare) |
+| Eligibility Request | Simulated with random values | EDI 270 via clearinghouse (GCSS-MC, DLA) |
 | Eligibility Response | Mock 271 with hardcoded copay/deductible | Real 271 from payer with actual benefit details |
 | Anchoring | Optional toggle, `s4:ELIGIBILITY:HASH` | Same anchor format on mainnet |
 | Response Time | Instant (simulated) | 2-10 seconds (real payer lookup) |
@@ -1093,13 +1093,13 @@ Anchoring is **optional** but valuable for:
 
 ### Real-World Integration
 ```python
-# Availity Real-Time Eligibility API
+# GCSS-MC Real-Time Readiness API
 def check_eligibility_real(record, payer_id, service_type):
-    response = requests.post('https://api.availity.com/v1/coverages', json={
+    response = requests.post('https://gcss.army.mil/api/v1/coverages', json={
         'payer_id': payer_id,
         'subscriber': {'member_id': record['insurance_id'], 'dob': record['dob']},
         'service_type': service_type  # '30' for health benefit plan coverage
-    }, headers={'Authorization': f'Bearer {AVAILITY_TOKEN}'})
+    }, headers={'Authorization': f'Bearer {GCSS_MC_TOKEN}'})
     
     eligibility = response.json()
     
@@ -1115,69 +1115,69 @@ def check_eligibility_real(record, payer_id, service_type):
 
 ---
 
-## 18. Drug Interaction Checker (v2.10.0)
+## 18. HAZMAT Compatibility Checker (v2.10.0)
 
 ### What Exists (Demo)
-- 10 hardcoded drug interaction pairs with severity levels (high/moderate/low):
-  - warfarin + aspirin (high), warfarin + ibuprofen (high)
-  - lisinopril + potassium (moderate), metformin + contrast dye (high)
-  - simvastatin + amlodipine (moderate), SSRI + tramadol (high)
-  - ciprofloxacin + antacids (moderate), methotrexate + NSAIDs (high)
-  - digoxin + amiodarone (high), clopidogrel + omeprazole (moderate)
-- Cross-references medication list against known interactions
+- 10 hardcoded HAZMAT incompatibility pairs with severity levels (high/moderate/low):
+  - Class 1.1 + Class 3 (high), Class 1.3 + Class 5.1 (high)
+  - Class 2.1 + Class 5.1 (moderate), Class 3 + Class 4.2 (high)
+  - Class 4.1 + Class 5.1 (moderate), Class 6.1 + Class 8 (high)
+  - Class 2.2 + Class 8 (moderate), Class 4.3 + Class 8 (high)
+  - Class 1.1 + Class 6.1 (high), Class 3 + Class 5.2 (moderate)
+- Cross-references HAZMAT inventory against known incompatibilities
 - UI panel in Records tab with text input + results display
 
 ### Real-World Migration
 | Component | Demo State | Production State |
 |-----------|-----------|-----------------|
-| Interaction Database | 10 hardcoded pairs | NIH RxNorm API (68,000+ drugs) + NLM DailyMed + DrugBank API |
-| Lookup Method | String matching on drug names | RxCUI normalization → RxNorm interaction endpoint |
-| Severity Data | Static high/moderate/low | FDA Adverse Event Reporting System (FAERS) severity scoring |
-| Alert System | Toast notification | CDS Hooks integration for real-time clinical decision support |
-| XRPL Anchoring | Not anchored | Optional: anchor interaction check result for clinical liability proof |
+| Incompatibility Database | 10 hardcoded pairs | DoD HMIRS database (HAZMAT items) + DLA MSDS repository |
+| Lookup Method | String matching on HAZMAT class | NSN normalization → HMIRS compatibility endpoint |
+| Severity Data | Static high/moderate/low | DoD HAZMAT incident severity scoring |
+| Alert System | Toast notification | Rules engine integration for real-time logistics decision support |
+| XRPL Anchoring | Not anchored | Optional: anchor compatibility check result for logistics compliance proof |
 
 ### Production Integration
 ```python
-# NIH RxNorm Interaction API (free, no API key needed)
-def check_interactions_rxnorm(drug_names):
-    rxcuis = []
-    for drug in drug_names:
-        # Step 1: Get RxCUI for each drug
-        r = requests.get(f'https://rxnav.nlm.nih.gov/REST/rxcui.json?name={drug}')
-        rxcui = r.json().get('idGroup', {}).get('rxnormId', [None])[0]
-        if rxcui:
-            rxcuis.append(rxcui)
+# DoD HMIRS Compatibility API
+def check_hazmat_compatibility(hazmat_items):
+    nsns = []
+    for item in hazmat_items:
+        # Step 1: Get NSN for each HAZMAT item
+        r = requests.get(f'https://hmirs.example.mil/api/nsn?name={item}')
+        nsn = r.json().get('nsn', None)
+        if nsn:
+            nsns.append(nsn)
     
-    # Step 2: Check interactions between all pairs
-    if len(rxcuis) >= 2:
-        r = requests.get(f'https://rxnav.nlm.nih.gov/REST/interaction/list.json?rxcuis={"+".join(rxcuis)}')
-        return r.json().get('fullInteractionTypeGroup', [])
+    # Step 2: Check compatibility between all pairs
+    if len(nsns) >= 2:
+        r = requests.get(f'https://hmirs.example.mil/api/compatibility?nsns={",".join(nsns)}')
+        return r.json().get('incompatibilityGroups', [])
     return []
 ```
 
-### CDS Hooks Integration (Future)
-For real clinical use, drug interaction checking would integrate with CDS Hooks (HL7 standard):
+### Rules Engine Integration (Future)
+For real operational use, HAZMAT compatibility checking would integrate with a rules engine:
 ```json
 {
   "hookInstance": "uuid",
-  "hook": "medication-prescribe",
+  "hook": "hazmat-storage-check",
   "context": {
-    "medications": [{"resourceType": "MedicationRequest", "medicationCodeableConcept": {...}}]
+    "hazmat_items": [{"resourceType": "HazmatStorageRequest", "classCode": {...}}]
   }
 }
 ```
-The CDS service returns `cards` with interaction warnings, severity, and suggested alternatives.
+The rules service returns `alerts` with incompatibility warnings, severity, and recommended storage separation.
 
 ---
 
-## 19. XLS-20 NFT Consent Tokens (v2.10.0)
+## 19. XLS-20 NFT Access Tokens (v2.10.0)
 
 ### What Exists (Demo)
-- Mint XLS-20 NFT as tamper-proof consent token
+- Mint XLS-20 NFT as tamper-proof access token
 - NFT metadata: standard (XLS-20), issuer, flags (tfTransferable + tfBurnable = 9), IPFS URI
-- Fields: record, grantee provider, access level (read/read-write/full/emergency), expiration (24h to 1 year)
+- Fields: record, grantee operator, access level (read/read-write/full/casrep), expiration (24h to 1 year)
 - Revocation: burns the NFT, anchors revocation to XRPL
-- Each mint/revoke anchored via `ehrAnchorToXRPL(hash, 'CONSENT')`
+- Each mint/revoke anchored via `dlrsAnchorToXRPL(hash, 'ACCESS_GRANT')`
 - UI panel with record/grantee/level/expiry selectors + mint button
 
 ### Real-World Migration
@@ -1186,16 +1186,16 @@ The CDS service returns `cards` with interaction warnings, severity, and suggest
 | NFT Minting | Simulated (hash anchored, no real NFT) | Real `NFTokenMint` transaction on XRPL mainnet |
 | NFT Burning | Simulated revocation | Real `NFTokenBurn` transaction |
 | Token ID | Random string `NFT-xxxx` | Actual XRPL NFToken ID from ledger response |
-| IPFS Storage | Fake URI `ipfs://consent/{id}/{ts}` | Real IPFS/Arweave pinning of consent metadata (encrypted) |
-| Flags | Hardcoded 9 | `tfTransferable` (8) + `tfBurnable` (1) = 9 (correct for consent tokens) |
-| Taxon | Not set | Unique taxon per consent category (e.g., 1 = read, 2 = write, 3 = full) |
+| IPFS Storage | Fake URI `ipfs://access/{id}/{ts}` | Real IPFS/Arweave pinning of access grant metadata (encrypted) |
+| Flags | Hardcoded 9 | `tfTransferable` (8) + `tfBurnable` (1) = 9 (correct for access tokens) |
+| Taxon | Not set | Unique taxon per access category (e.g., 1 = read, 2 = write, 3 = full) |
 
-### Why NFTs for Consent?
-Traditional consent systems store grants in databases that can be silently altered. XLS-20 NFTs provide:
-1. **Immutability** — consent grant is permanently recorded on XRPL
+### Why NFTs for Access Control?
+Traditional access control systems store grants in databases that can be silently altered. XLS-20 NFTs provide:
+1. **Immutability** — access grant is permanently recorded on XRPL
 2. **Revocability** — burning the NFT is also permanently recorded
-3. **Transferability** — consent can be transferred between providers (flag 8)
-4. **Time-boundedness** — metadata includes expiration; expired consents can be auto-burned
+3. **Transferability** — access can be transferred between operators (flag 8)
+4. **Time-boundedness** — metadata includes expiration; expired access grants can be auto-burned
 5. **Record control** — record holds the NFT and decides when to burn (revoke)
 
 ### XRPL XLS-20 Transaction Format (Mainnet)
@@ -1203,25 +1203,25 @@ Traditional consent systems store grants in databases that can be silently alter
 import xrpl
 from xrpl.models.transactions import NFTokenMint, NFTokenBurn
 
-# Mint consent NFT
+# Mint access NFT
 mint_tx = NFTokenMint(
     account=wallet.classic_address,
-    nftoken_taxon=1,  # 1 = read-only consent
+    nftoken_taxon=1,  # 1 = read-only access
     flags=9,  # tfTransferable + tfBurnable
     uri=xrpl.utils.str_to_hex(f"ipfs://{ipfs_hash}"),
     memos=[xrpl.models.transactions.Memo(
-        memo_type=xrpl.utils.str_to_hex("s4/consent"),
-        memo_data=xrpl.utils.str_to_hex(f"s4:CONSENT:{consent_hash}")
+        memo_type=xrpl.utils.str_to_hex("s4/access"),
+        memo_data=xrpl.utils.str_to_hex(f"s4:ACCESS:{access_hash}")
     )]
 )
 
-# Revoke consent NFT
+# Revoke access NFT
 burn_tx = NFTokenBurn(
     account=wallet.classic_address,
     nftoken_id=nft_token_id,
     memos=[xrpl.models.transactions.Memo(
-        memo_type=xrpl.utils.str_to_hex("s4/consent-revoke"),
-        memo_data=xrpl.utils.str_to_hex(f"s4:CONSENT_REVOKE:{revocation_hash}")
+        memo_type=xrpl.utils.str_to_hex("s4/access-revoke"),
+        memo_data=xrpl.utils.str_to_hex(f"s4:ACCESS_REVOKE:{revocation_hash}")
     )]
 )
 ```
@@ -1230,8 +1230,8 @@ burn_tx = NFTokenBurn(
 ```json
 {
   "standard": "XLS-20",
-  "type": "healthcare_consent",
-  "record_hash": "SHA256 of record demographics (never raw PHI)",
+  "type": "defense_access_grant",
+  "record_hash": "SHA256 of record metadata (never raw CUI)",
   "grantee_hash": "SHA256 of provider identifier",
   "access_level": "read-only",
   "issued_at": "2026-02-08T14:30:00Z",
@@ -1250,7 +1250,7 @@ burn_tx = NFTokenBurn(
 - 10 badges with emoji icons and unlock thresholds:
   - ⚓ First Anchor (1 anchor), 🔰 Data Guardian (10), 🛡️ Silver Guardian (50), 👑 Gold Guardian (100)
   - 📁 Record Keeper (5 records), 💰 Claim Master (3 claims), 📅 Scheduler (3 appointments)
-  - 🔒 NIST Hero (1 compliance report), 🔄 Interop Pro (1 FHIR/HL7 export), ▶️ Scenario Runner (3 scenarios)
+  - 🔒 NIST Hero (1 compliance report), 🔄 Interop Pro (1 MILSTRIP/DI-MGMT export), ▶️ Scenario Runner (3 scenarios)
 - 5 Guardian Levels with progress bar: New User → Novice Anchor → Data Guardian → Silver Guardian → Gold Guardian
 - Badge display grid in Audit tab
 - Toast notifications on badge unlock
@@ -1260,16 +1260,16 @@ burn_tx = NFTokenBurn(
 | Component | Demo State | Production State |
 |-----------|-----------|-----------------|
 | Badge Storage | localStorage | PostgreSQL user_badges table + XRPL NFT (optional: mint achievement NFTs) |
-| Threshold Tracking | `ehrStore.stats` counters | Server-side event aggregation (Kafka/Redis streams) |
+| Threshold Tracking | `dlrsStore.stats` counters | Server-side event aggregation (Kafka/Redis streams) |
 | Notifications | Toast in browser | Push notifications (Firebase Cloud Messaging) + email digests |
 | Leaderboards | None | Organization-level leaderboard (anonymized) for compliance gamification |
 | XRPL Integration | No anchoring | Optional: anchor badge milestones as achievement NFTs (XLS-20) |
 
-### Why Gamification in Healthcare?
+### Why Gamification in Defense Logistics?
 - **Provider engagement** — defense system adoption is notoriously low; badges incentivize consistent use
 - **Compliance tracking** — "NIST Hero" badge proves a provider generated compliance reports
 - **Onboarding acceleration** — new users naturally explore features to unlock badges
-- **Audit evidence** — badge history shows system usage patterns (valuable for Cdefense systemT attestation)
+- **Audit evidence** — badge history shows system usage patterns (valuable for CMMC Level 2 attestation)
 
 ---
 
@@ -1288,7 +1288,7 @@ burn_tx = NFTokenBurn(
 | Alert System | In-app modal | PagerDuty/Opsgenie alert → immediate security incident response |
 | Forensics | Shows original vs. tampered hash | Full diff of what changed, when, and by whom (access log correlation) |
 | XRPL Anchoring | `s4:INTEGRITY:HASH` | Same — integrity failure events are permanently recorded on mainnet |
-| Compliance | Demo only | NIST § 164.312(c)(2) requires mechanism to authenticate ePHI — this IS that mechanism |
+| Compliance | Demo only | NIST 800-171 requires mechanism to authenticate CUI — this IS that mechanism |
 
 ### Integrity Scan Architecture (Production)
 ```python
@@ -1403,42 +1403,42 @@ self.addEventListener('sync', event => {
 
 ---
 
-## 25. ONC/Cdefense systemT Compliance Roadmap
+## 25. CMMC Level 2 Compliance Roadmap
 
 ### Current Classification
-S4 Ledger is a **medical data integrity layer** — not a standalone certified defense system system. It does not currently hold ONC Cdefense systemT (Certified defense system Technology) designation.
+S4 Ledger is a **defense logistics data integrity layer** — not a standalone certified DLRS system. It does not currently hold CMMC Level 2 (Cybersecurity Maturity Model Certification) designation.
 
-### What Cdefense systemT Requires (and Our Status)
+### What CMMC Level 2 Requires (and Our Status)
 
-| ONC Cdefense systemT Criterion | S4 Ledger Status | Gap |
+| CMMC Level 2 Criterion | S4 Ledger Status | Gap |
 |---------------------|-------------|-----|
-| CPOE (Computerized Provider Order Entry) | ⬜ Not implemented | Requires medication/lab/imaging order workflows |
-| Clinical Decision Support (CDS) | 🟡 Drug interactions only (10 pairs) | Requires evidence-based CDS rules engine + CDS Hooks |
-| Demographics Recording | ✅ Record registration with demographics | Needs preferred language, race, ethnicity fields |
-| Problem List | 🟡 Conditions via ICD-10 on claims | Requires standalone problem list management |
-| Medication List | ⬜ Not implemented | Requires active medication list, not just prescriptions |
-| Medication Allergy List | 🟡 Allergy record type exists | Requires coded allergy list with RxNorm |
-| Vital Signs Recording | ✅ Observation/vitals records | Needs LOINC-coded vital signs |
-| Smoking Status | ⬜ Not implemented | Requires structured smoking status capture |
-| Lab Results Integration | ✅ Lab result records + FHIR export | Needs LOINC-coded lab results |
-| Record Education | ⬜ Not implemented | Requires record education resource delivery |
-| Health Information Exchange | ✅ FHIR R4 + HL7 v2 export | Needs bidirectional exchange (currently export-only) |
+| Automated Requisitioning | ⬜ Not implemented | Requires supply/repair/logistics order workflows |
+| Logistics Decision Support (LDS) | 🟡 HAZMAT compatibility only (10 pairs) | Requires evidence-based LDS rules engine + LDS Hooks |
+| Asset Registration | ✅ Equipment registration with metadata | Needs serial number, NSN, location fields |
+| Discrepancy List | 🟡 Conditions via FSC on contracts | Requires standalone discrepancy list management |
+| Supply List | ⬜ Not implemented | Requires active supply list, not just requisitions |
+| HAZMAT Alert List | 🟡 Alert record type exists | Requires coded alert list with NSN |
+| Fleet Status Recording | ✅ Observation/fleet_status records | Needs standardized fleet status codes |
+| Environmental Compliance | ⬜ Not implemented | Requires structured environmental compliance capture |
+| Inspection Results Integration | ✅ Inspection result records + MILSTRIP export | Needs standardized inspection result codes |
+| Operator Training | ⬜ Not implemented | Requires operator training resource delivery |
+| Logistics Information Exchange | ✅ MILSTRIP + DI-MGMT export | Needs bidirectional exchange (currently export-only) |
 | Security (Access Control) | ✅ RBAC + break-glass + audit + XRPL anchoring | ✅ Exceeds requirements |
 | Audit Logging | ✅ Full audit trail + blockchain proof | ✅ Exceeds requirements |
 | Integrity | ✅ SHA-256 hash verification | ✅ Exceeds requirements |
 | Authentication | ✅ Password + biometric + MFA | ✅ Meets requirements |
 
-### Roadmap to Cdefense systemT (Estimated 12-18 Months)
-1. **Phase 1 (Q2 2026):** CPOE module, structured problem/medication/allergy lists
-2. **Phase 2 (Q3 2026):** CDS rules engine with CDS Hooks, LOINC-coded vitals and labs
-3. **Phase 3 (Q4 2026):** Bidirectional HIE (TEFCA/Carequality), record education module
-4. **Phase 4 (Q1 2027):** ONC Health IT Certification Program application + testing
-5. **Dependencies:** Requires funding, dedicated compliance officer, testing partner (Drummond Group or ICSA Labs)
+### Roadmap to CMMC Level 2 (Estimated 12-18 Months)
+1. **Phase 1 (Q2 2026):** Automated requisitioning module, structured discrepancy/supply/HAZMAT alert lists
+2. **Phase 2 (Q3 2026):** LDS rules engine with LDS Hooks, standardized fleet status and inspection codes
+3. **Phase 3 (Q4 2026):** Bidirectional logistics exchange (DLA/GCSS), operator training module
+4. **Phase 4 (Q1 2027):** CMMC Level 2 certification application + assessment
+5. **Dependencies:** Requires funding, dedicated compliance officer, C3PAO assessment (CMMC Accreditation Body)
 
-### Where S4 Ledger Already Exceeds Cdefense systemT
-- **Blockchain-backed audit logging** — no certified defense system system provides immutable on-chain proof of every action
+### Where S4 Ledger Already Exceeds CMMC Level 2
+- **Blockchain-backed audit logging** — no certified DLRS system provides immutable on-chain proof of every action
 - **Hash integrity verification** — real-time tamper detection across all records
-- **Record-controlled consent NFTs** — no certified defense system offers XLS-20 NFT-based consent management
+- **Record-controlled access NFTs** — no certified DLRS system offers XLS-20 NFT-based access management
 - **Cost transparency** — ~$0.001 per verification vs. millions in legacy defense system licensing
 
 ---
@@ -1449,14 +1449,14 @@ S4 Ledger is a **medical data integrity layer** — not a standalone certified d
 
 | Tier | Price | Anchors/Month | Features |
 |------|-------|---------------|----------|
-| **Free** | $0 | 100 | XRPL anchoring, FHIR/HL7 export, audit logging, API access |
+| **Free** | $0 | 100 | XRPL anchoring, MILSTRIP/DI-MGMT export, audit logging, API access |
 | **Pro** | $499/mo | Unlimited | Everything in Free + priority support + BAA + custom integrations |
 | **Enterprise** | Custom | Unlimited | Everything in Pro + dedicated infrastructure + SLA + on-prem option |
 
 ### Revenue Model
 - **$SLS utility token** powers all on-chain transactions (~$0.001 per anchor)
 - **Pro subscriptions** provide recurring revenue for support and infrastructure
-- **Enterprise contracts** fund custom integrations for hospital systems
+- **Enterprise contracts** fund custom integrations for DoD logistics systems
 - **Free tier** enables pilots, testing, and developer adoption (100 anchors/month = plenty for evaluation)
 
 ### $SLS Token Economics on Mainnet
@@ -1509,7 +1509,7 @@ Notification.requestPermission().then(perm => {
 7. **Offline Anchor Sync** — Implement `BackgroundSyncPlugin` to queue anchors in IndexedDB when offline, replay on reconnection
 
 ### NIST Considerations
-- Push payloads must **never** contain PHI in the notification body (use generic text like "New update available" with in-app detail)
+- Push payloads must **never** contain CUI in the notification body (use generic text like "New update available" with in-app detail)
 - PushSubscription endpoints should be stored in NIST-compliant encrypted storage
 - All push server logs must exclude record identifiers
 
@@ -1524,19 +1524,19 @@ The cohort analytics dashboard renders population health visualizations using cl
 
 | Module | Description | Data Source (Demo) | Data Source (Mainnet) |
 |--------|-------------|-------------------|----------------------|
-| **Age Distribution** | Bar chart of record age buckets (0-17, 18-34, 35-49, 50-64, 65-79, 80+) | In-memory record records | PostgreSQL record demographics (de-identified) |
-| **Condition Prevalence** | ICD-10 condition prevalence bars with percentage | 8 simulated conditions (I10, E11.9, J06.9, M54.5, etc.) | Aggregate ICD-10 codes from claims database |
+| **Equipment Age Distribution** | Bar chart of asset age buckets (0-2yr, 2-5yr, 5-10yr, 10-15yr, 15-20yr, 20+yr) | In-memory asset records | PostgreSQL asset metadata (de-identified) |
+| **Asset Condition Prevalence** | FSC condition prevalence bars with percentage | 8 simulated conditions (1005, 2320, 2350, 5820, etc.) | Aggregate FSC codes from contracts database |
 | **Record Type Breakdown** | Grid showing count per record category | localStorage record array | Metrics API `/api/records/breakdown` |
 | **Anchoring Trends** | 7-day bar chart of daily anchor volume | Simulated daily counts | XRPL transaction query by date range |
-| **Population Health Insights** | 5 AI-driven insight cards | Static analysis of demo data | ML pipeline (chronic disease prediction, care gaps, utilization) |
+| **Fleet Readiness Insights** | 5 AI-driven insight cards | Static analysis of demo data | ML pipeline (equipment failure prediction, readiness gaps, utilization) |
 
 ### Mainnet Migration Steps
-1. **Database Backend** — Deploy PostgreSQL (NIST-compliant hosting) for record demographics and record metadata
-2. **De-identification Layer** — All analytics queries must pass through a NIST Safe Harbor de-identification filter (remove 18 PHI identifiers per 45 CFR §164.514(b))
+1. **Database Backend** — Deploy PostgreSQL (NIST-compliant hosting) for asset metadata and record metadata
+2. **De-identification Layer** — All analytics queries must pass through a NIST 800-171 de-identification filter (remove controlled identifiers per NIST 800-171 / CMMC L2)
 3. **Aggregate-Only API** — `GET /api/analytics/cohort` returns only aggregate statistics (no individual records); minimum cohort size of 10 records to prevent re-identification
-4. **Real ICD-10 Integration** — Connect to CMS ICD-10-CM API for validated code lookups
+4. **Real FSC Integration** — Connect to DLA FSC API for validated code lookups
 5. **XRPL Trend Queries** — Use Clio server API to query historical anchoring transactions by date range and memo type
-6. **ML Pipeline** — Deploy scikit-learn or TensorFlow Lite models for population health predictions (chronic disease risk scoring, care gap identification, utilization forecasting)
+6. **ML Pipeline** — Deploy scikit-learn or TensorFlow Lite models for fleet readiness predictions (equipment failure risk scoring, readiness gap identification, utilization forecasting)
 7. **Caching** — Redis cache with 15-minute TTL for aggregate analytics to reduce database load
 
 ### Data Governance
@@ -1608,8 +1608,8 @@ The AI Predictions Engine provides intelligent health insights across all three 
 
 | Component | Function | Demo Implementation | Mainnet Implementation |
 |-----------|----------|---------------------|------------------------|
-| **aiDrugWarning()** | Drug interaction analysis | FDA API lookup + local severity scoring | FDA API + ML interaction classifier |
-| **aiCostEstimate()** | Pre-visit cost prediction | CPT-based cost averaging | ML model trained on claims data |
+| **aiHazmatWarning()** | HAZMAT compatibility analysis | DoD HMIRS lookup + local severity scoring | HMIRS API + ML compatibility classifier |
+| **aiCostEstimate()** | Pre-contract cost prediction | CLIN-based cost averaging | ML model trained on contracts data |
 | **aiSchedulingSuggestions()** | Smart appointment recommendations | Rule-based gap detection | ML scheduling optimizer |
 | **aiReadinessScore()** | Pre-appointment preparation score | Weighted checklist completion | NLP analysis of record messages |
 | **aiLabAnalysis()** | Lab result trend analysis | Statistical trend detection | Time-series forecasting models |
@@ -1653,7 +1653,7 @@ The AI Predictions Engine provides intelligent health insights across all three 
 ### Mainnet Migration Steps
 1. **ML Model Training** — Train prediction models on de-identified claims data (diabetes risk, readmission risk, cost prediction)
 2. **Inference API** — Deploy FastAPI + TensorFlow Serving for sub-100ms inference
-3. **Vector Embeddings** — Use OpenAI embeddings or local BERT model for record condition/medication similarity scoring
+3. **Vector Embeddings** — Use OpenAI embeddings or local BERT model for record condition/supply item similarity scoring
 4. **Real-Time Alerts** — Wire AI engine to push notification service for critical predictions
 5. **Audit Trail** — All AI predictions logged with model version, confidence score, and input features (de-identified)
 6. **Explainability** — SHAP values or LIME explanations for regulatory compliance (FDA SaMD guidance)
@@ -1661,9 +1661,9 @@ The AI Predictions Engine provides intelligent health insights across all three 
 
 ### NIST & AI Governance
 - AI models trained only on de-identified data meeting Safe Harbor or Expert Determination standards
-- No direct PHI used in model training; only aggregate statistical features
+- No direct CUI used in model training; only aggregate statistical features
 - All AI predictions include confidence intervals and "AI-generated" labeling
-- Human-in-the-loop for any clinical decision support (no autonomous treatment recommendations)
+- Human-in-the-loop for any logistics decision support (no autonomous operational recommendations)
 
 ---
 
@@ -1720,7 +1720,7 @@ The enhanced scheduling system provides visual calendar management with drag-and
 4. **SMS/Email Reminders** — Integrate Twilio (SMS) and SendGrid (email) for automated reminders at T-48h, T-24h, T-1h
 5. **Telehealth Integration** — Generate Zoom/Teams links for telehealth appointments with automatic embedding
 6. **Waitlist Service** — Deploy Redis-backed waitlist with automatic slot matching on cancellations
-7. **FHIR Scheduling** — Implement FHIR R4 Appointment and Schedule resources for defense system interoperability
+7. **Logistics Scheduling** — Implement MILSTRIP Appointment and Schedule resources for defense system interoperability
 
 ### AI Scheduling Optimization
 ```python
@@ -1764,20 +1764,20 @@ features = {
 ║  DEMO APP / FRONTEND                                             ║
 ║  □ Update anchorFromPlayground() → fetch() API call              ║
 ║  □ Update svcnAnchorToXRPL() → fetch() API call                 ║
-║  □ Update ehrAnchorToXRPL() → fetch() API call                  ║
+║  □ Update dlrsAnchorToXRPL() → fetch() API call                  ║
 ║  □ Update all explorer URLs to livenet.xrpl.org                  ║
 ║  □ Remove embedded wallet seed from frontend JS                  ║
 ║  □ Deploy frontend                                               ║
 ║                                                                  ║
 ║  defense system FEATURES (v2.10.0)                                          ║
-║  □ Connect ICD-10 autocomplete to CMS API                        ║
-║  □ Connect CPT autocomplete to AMA API (license required)        ║
-║  □ Connect eligibility check to Availity/Change Healthcare       ║
-║  □ Connect drug interaction checker to RxNorm API                ║
+║  □ Connect FSC autocomplete to DLA API                        ║
+║  □ Connect CLIN autocomplete to FPDS-NG API                    ║
+║  □ Connect readiness check to GCSS-MC/DLA                      ║
+║  □ Connect HAZMAT compatibility checker to HMIRS API            ║
 ║  □ Connect claim submission to EDI 837 clearinghouse             ║
 ║  □ Implement real TOTP MFA (Google Authenticator / Authy)        ║
 ║  □ Implement real XLS-20 NFTokenMint for consent tokens          ║
-║  □ Set up IPFS/Arweave pinning for consent NFT metadata          ║
+║  □ Set up IPFS/Arweave pinning for access NFT metadata          ║
 ║  □ Implement Firebase Cloud Messaging for push notifications     ║
 ║  □ Implement Background Sync for offline anchor queueing         ║
 ║  □ Connect feedback form to Slack webhook + Jira                 ║
@@ -1789,13 +1789,13 @@ features = {
 ║  □ Configure FCM for Android/Chrome push                         ║
 ║  □ Configure APNs for iOS Safari 16.4+ push                     ║
 ║  □ Implement BackgroundSyncPlugin for offline anchors            ║
-║  □ Verify push payloads contain no PHI                           ║
+║  □ Verify push payloads contain no CUI                           ║
 ║                                                                  ║
 ║  ANALYTICS & STRESS TESTING (v2.10.1)                            ║
 ║  □ Deploy PostgreSQL for de-identified analytics                 ║
 ║  □ Implement NIST Safe Harbor de-identification layer           ║
 ║  □ Build aggregate-only analytics API endpoints                  ║
-║  □ Connect real ICD-10 codes to CMS API                          ║
+║  □ Connect real FSC codes to DLA API                          ║
 ║  □ Deploy server-side Merkle tree batch hashing                  ║
 ║  □ Implement batch scheduler (5min / 1K records)                 ║
 ║  □ Generate and store per-record Merkle proofs                   ║
@@ -1813,9 +1813,9 @@ features = {
 ║  □ Smoke test: defense system register record + create record              ║
 ║  □ Smoke test: run defense system scenario (e1-e12)                         ║
 ║  □ Smoke test: submit claim + verify adjudication anchor         ║
-║  □ Smoke test: mint + revoke consent NFT                         ║
+║  □ Smoke test: mint + revoke access NFT                         ║
 ║  □ Smoke test: eligibility check + optional anchor               ║
-║  □ Smoke test: drug interaction check                            ║
+║  □ Smoke test: HAZMAT compatibility check                            ║
 ║  □ Smoke test: hash mismatch / integrity failure                 ║
 ║  □ Smoke test: push notification permission + delivery           ║
 ║  □ Smoke test: cohort analytics with real record data           ║
@@ -1827,7 +1827,7 @@ features = {
 ║  COMPLIANCE                                                      ║
 ║  □ Execute BAA with hosting providers (Render, Vercel)           ║
 ║  □ Complete NIST Security Risk Assessment                       ║
-║  □ Begin ONC Cdefense systemT readiness evaluation                          ║
+║  □ Begin CMMC Level 2 readiness evaluation                          ║
 ║  □ Engage Drummond Group or ICSA Labs for certification testing  ║
 ║                                                                  ║
 ║  AI PREDICTIONS (v2.10.4)                                        ║
@@ -1844,7 +1844,7 @@ features = {
 ║  □ Implement iCal export (ICS) for record calendar sync         ║
 ║  □ Integrate Twilio/SendGrid for appointment reminders           ║
 ║  □ Deploy Redis-backed waitlist service                          ║
-║  □ Implement FHIR R4 Appointment/Schedule resources              ║
+║  □ Implement MILSTRIP Appointment/Schedule resources              ║
 ║  □ Smoke test: appointment CRUD + XRPL anchoring                 ║
 ║  □ Smoke test: conflict detection on double-booking              ║
 ║                                                                  ║

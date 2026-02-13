@@ -206,7 +206,7 @@ SHA-256 is not directly vulnerable to Grover's algorithm. Grover's algorithm red
 | **S4 Ledger** | Hash anchoring on XRPL | ~$0.001/anchor | Zero | Built for DoD ILS |
 | IBM/Maersk TradeLens | Enterprise blockchain | High | On-chain data | Commercial shipping |
 | VeChain | IoT + blockchain | Moderate | On-chain data | Consumer supply chain |
-| Hyperledger Fabric | Private blockchain | High (infra) | Private chain data | Healthcare, finance |
+| Hyperledger Fabric | Private blockchain | High (infra) | Private chain data | Enterprise, finance |
 | Hedera Hashgraph | DLT consensus | Low-moderate | On-chain data | General enterprise |
 
 S4 Ledger is the only solution purpose-built for defense logistics that keeps zero data on-chain.

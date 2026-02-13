@@ -1,18 +1,13 @@
+#!/usr/bin/env python3
+"""S4 Ledger — Standalone SHA-256 hash test (defense record)."""
+
 import hashlib
 
-fake_record = """
-Patient ID: FAKE-PAT-00001
-Name: Alex Testperson
-DOB: 1995-03-15
-Provider: Test Clinic XYZ
-Date: 2026-02-05
-Diagnosis: Routine wellness check - all clear
-Blood Pressure: 118/76
-Notes: No medications, exercise daily.
-"""
+record = """NSN: 5340-01-234-5678 | Nomenclature: Valve, Gate, Carbon Steel
+Condition Code: A (Serviceable) | Inspector: QA-237 J. Martinez
+Contract: N00024-23-C-5501 | Depot: Norfolk Naval Shipyard
+Date: 2026-02-10 | CoC: CoC-NNSY-2026-0451"""
 
-record_bytes = fake_record.encode('utf-8')
-hash_obj = hashlib.sha256(record_bytes)
-record_hash = hash_obj.hexdigest()
-
-print("Record Hash:", record_hash)
+record_hash = hashlib.sha256(record.encode()).hexdigest()
+print(f"Record:\n{record}\n")
+print(f"SHA-256: {record_hash}")

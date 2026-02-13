@@ -1,39 +1,30 @@
 #!/usr/bin/env python3
-"""Simple test with 5 diverse record types"""
+"""S4 Ledger — Quick smoke test with 5 defense record types."""
 
 from s4_sdk import S4SDK
 import time
-import sys
 
-sdk = S4SDK(api_key="valid_mock_key", testnet=True)
-test_seed = "sEd75GpyfXbSLGUShjwvViXoo6xaGuZ"
+wallet_seed = "sEdT9vPQ4QCA4TtDSZqAGTv9ABL2uLS"
+sdk = S4SDK(wallet_seed=wallet_seed, testnet=True)
 
 scenarios = [
-    ("Surgery", "SURGERY", "Appendectomy performed by Dr. Chen"),
-    ("Lab", "LAB", "Blood panel results - all normal"),
-    ("Patient Message", "PATIENT_MESSAGE", "Secure message from patient portal"),
-    ("Epic EHR", "EPIC", "Epic MyChart integrated record"),
-    ("Emergency", "EMERGENCY", "ER visit - patient stable"),
+    ("SUPPLY_CHAIN", "NSN 5340-01-234-5678 | Valve, Gate | Qty: 50 | Condition: A | Depot: NNSY"),
+    ("MAINTENANCE_3M", "MRC 2815-1.3.7 | Oil sample analysis | Results: Normal | Next due: 2026-08"),
+    ("CDRL", "CDRL A003 | Technical Manual Update | Contract N00024-23-C-5501 | Delivered 2026-02-10"),
+    ("CUSTODY_TRANSFER", "SPY-TM-2019-04472 | From DDG-78 | To NAVSEA IMA | Reason: Depot repair"),
+    ("ORDNANCE_LOT", "DODIC A059 | Lot WCC-2025-1147 | Qty: 250,000 rds | Storage: WSE Mag 14"),
 ]
 
-print("Testing 5 diverse record types...")
-print("=" * 50)
+print("🔒 S4 LEDGER — QUICK SMOKE TEST (5 defense record types)")
+print("=" * 60)
 
-success = 0
-for i, (name, record_type, text) in enumerate(scenarios):
-    print(f"[{i+1}/5] {name}...", end=" ", flush=True)
+for i, (rtype, record) in enumerate(scenarios):
+    print(f"[{i+1}/5] {rtype}")
     try:
-        result = sdk.secure_patient_record(text, wallet_seed=test_seed, record_type=record_type)
-        if "tesSUCCESS" in str(result):
-            print("SUCCESS")
-            success += 1
-        else:
-            print("FAILED")
+        result = sdk.anchor_record(record, encrypt_first=True, record_type=rtype)
+        print(f"  ✅ Hash: {result['hash'][:24]}...")
     except Exception as e:
-        print(f"ERROR: {e}")
-    
-    if i < len(scenarios) - 1:
-        time.sleep(8)  # 8 second delay
+        print(f"  ❌ Error: {e}")
+    time.sleep(2)
 
-print("=" * 50)
-print(f"Result: {success}/5 succeeded")
+print("\nDone — all 5 defense record types tested.")

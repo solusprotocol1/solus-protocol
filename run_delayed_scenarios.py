@@ -1,47 +1,36 @@
 #!/usr/bin/env python3
-"""Run test scenarios with delays to populate metrics dashboard"""
+"""S4 Ledger — 12 defense scenarios with 30-second delays (rate-limit safe)."""
 
 from s4_sdk import S4SDK
 import time
 
-sdk = S4SDK(api_key="valid_mock_key", testnet=True)
-test_seed = "sEd75GpyfXbSLGUShjwvViXoo6xaGuZ"
+sdk = S4SDK(wallet_seed="sEdT9vPQ4QCA4TtDSZqAGTv9ABL2uLS", testnet=True)
 
 scenarios = [
-    ("Vitals Check 1", "Patient: Jane Smith | Vitals: BP 120/80, HR 72, Temp 98.6F | Visit: 2026-02-06 14:30"),
-    ("Lab Results 1", "Patient: John Doe | Lab: CBC Complete | WBC 6.8, RBC 4.9, Hemoglobin 14.5 | Status: Normal"),
-    ("Post-Op Recovery", "Patient: Maria Garcia | Post-Op Day 2 | Surgery: Knee Replacement | Recovery: Good"),
-    ("MRI Imaging", "Patient: Robert Chen | MRI Brain Scan | Findings: No abnormalities | Date: 2026-02-06"),
-    ("Discharge Note", "Patient: Emily Wilson | Discharged | Reason: Pneumonia resolved | Follow-up: 2 weeks"),
-    ("Mental Health Eval", "Patient: David Lee | Mental Health Assessment | Diagnosis: Anxiety | Therapy recommended"),
-    ("Emergency Visit", "Patient: Sarah Brown | Emergency Room | Chest pain workup | Cardiac negative | Discharged"),
-    ("Prescription Rx", "Patient: Mike Johnson | Prescription: Metformin 500mg | Diabetes management | Pharmacy: Walgreens"),
-    ("Surgery Report", "Patient: Lisa Anderson | Surgery: Laparoscopic Appendectomy | Duration: 45 min | Success"),
-    ("Telemedicine Call", "Patient: Kevin Thomas | Telemedicine Visit | Skin rash evaluation | Prescribed: Hydrocortisone"),
-    ("Pediatric Vaccine", "Patient: Baby Emma (6mo) | Pediatric Visit | Vaccination: DTaP, HepB | No reaction"),
-    ("X-Ray Report", "Patient: Chris White | X-Ray Chest PA | Findings: Clear lung fields | No acute disease"),
+    ("Supply Chain", "SUPPLY_CHAIN", "NSN 5340-01-234-5678 | Qty: 50 | Condition: A | NNSY"),
+    ("Maintenance 3-M", "MAINTENANCE_3M", "MRC 2815-1.3.7 | Oil sample | Results: SAT"),
+    ("Depot Repair", "DEPOT_REPAIR", "SPY-TM-2019-04472 | Overhaul started | FRC SE"),
+    ("CDRL Delivery", "CDRL", "CDRL A003 | Tech Manual Rev 4.2 | Accepted"),
+    ("Ordnance Lot", "ORDNANCE_LOT", "DODIC A059 | 250K rds | Lot WCC-2025-1147-A"),
+    ("Config Baseline", "CONFIG_BASELINE", "DDG-118 CS Baseline Rev 4.2.1 | CDMD-OA"),
+    ("Calibration", "CALIBRATION", "AN/USM-486 | Cal complete | METCAL compliant"),
+    ("Custody Transfer", "CUSTODY_TRANSFER", "SPY module | DDG-78 → NAVSEA IMA"),
+    ("Certificate of Conformance", "COC", "CoC-NNSY-2026-0451 | MIL-STD-1916"),
+    ("Inspection", "INSPECTION", "INSURV DDG-118 | Overall: SAT"),
+    ("Equipment Fielding", "FIELDING", "SEWIP Block III | DDG-118 | IOT&E passed"),
+    ("Training Record", "TRAINING", "ET1 Cooper | NEC 1420 | SPY-1D Qual"),
 ]
 
-print("=" * 60)
-print("S4 LEDGER - RUNNING TEST SCENARIOS")
-print("=" * 60)
-print(f"Total scenarios: {len(scenarios)}")
-print("Delay between scenarios: 30 seconds")
-print("=" * 60)
-
-for i, (name, record) in enumerate(scenarios):
-    print(f"\n[{i+1}/{len(scenarios)}] Anchoring: {name}")
+print("🔒 S4 LEDGER — 12 DEFENSE SCENARIOS (30-SECOND DELAYS)")
+print("=" * 55)
+for i, (name, rtype, record) in enumerate(scenarios):
+    print(f"[{i+1:2d}/12] {name}")
     try:
-        result = sdk.secure_patient_record(record, test_seed, encrypt_first=True, fiat_mode=False)
-        print(f"  SUCCESS: {result['hash'][:32]}...")
+        result = sdk.anchor_record(record, encrypt_first=True, record_type=rtype)
+        print(f"  ✅ {result['hash'][:24]}...")
     except Exception as e:
-        print(f"  ERROR: {e}")
-    
+        print(f"  ❌ {e}")
     if i < len(scenarios) - 1:
-        print(f"  Waiting 30 seconds before next scenario...")
+        print("  ⏳ Waiting 30 seconds...")
         time.sleep(30)
-
-print("\n" + "=" * 60)
-print("ALL SCENARIOS COMPLETE!")
-print("View metrics at: https://s4ledger.com/metrics.html")
-print("=" * 60)
+print("\n✅ All 12 defense scenarios complete.")

@@ -1,18 +1,67 @@
+#!/usr/bin/env python3
+"""S4 Ledger CLI — Command-line tool for defense record anchoring and verification."""
+
 import argparse
+import sys
 from s4_sdk import S4SDK
 
-parser = argparse.ArgumentParser(description="S4 Ledger CLI Tool")
-parser.add_argument("--anchor", help="Anchor a record", type=str)
-parser.add_argument("--verify", help="Verify a record hash", type=str)
-parser.add_argument("--seed", help="XRPL wallet seed", type=str, required=True)
-parser.add_argument("--testnet", help="Use XRPL testnet", action="store_true")
-args = parser.parse_args()
 
-sdk = S4SDK(wallet_seed=args.seed, testnet=args.testnet)
+def main():
+    parser = argparse.ArgumentParser(
+        prog="s4-cli",
+        description="S4 Ledger — Anchor and verify defense logistics records on XRPL",
+    )
+    sub = parser.add_subparsers(dest="command")
 
-if args.anchor:
-    result = sdk.secure_patient_record(record_text=args.anchor, encrypt_first=True, fiat_mode=False)
-    print("Anchor result:", result)
-if args.verify:
-    hash_val = sdk.create_record_hash(args.verify)
-    print("Record hash:", hash_val)
+    # anchor sub-command
+    p_anchor = sub.add_parser("anchor", help="Anchor a defense record to XRPL")
+    p_anchor.add_argument("record", help="Record text to anchor (or - for stdin)")
+    p_anchor.add_argument("--seed", required=True, help="XRPL wallet seed")
+    p_anchor.add_argument("--encrypt", action="store_true", help="Encrypt before hashing")
+    p_anchor.add_argument("--type", dest="record_type", default=None,
+                          help="Record type (e.g., SUPPLY_CHAIN, CDRL, MAINTENANCE_3M)")
+    p_anchor.add_argument("--testnet", action="store_true", default=True, help="Use XRPL testnet")
+
+    # verify sub-command
+    p_verify = sub.add_parser("verify", help="Verify a record's SHA-256 hash")
+    p_verify.add_argument("record", help="Record text to hash")
+    p_verify.add_argument("--expected", help="Expected hash to compare against")
+
+    # hash sub-command
+    p_hash = sub.add_parser("hash", help="Compute SHA-256 hash of a record")
+    p_hash.add_argument("record", help="Record text to hash (or - for stdin)")
+
+    args = parser.parse_args()
+
+    if args.command == "anchor":
+        record_text = sys.stdin.read() if args.record == "-" else args.record
+        sdk = S4SDK(wallet_seed=args.seed, testnet=args.testnet)
+        result = sdk.anchor_record(
+            record_text=record_text,
+            encrypt_first=args.encrypt,
+            record_type=args.record_type,
+        )
+        print(f"Hash:    {result['hash']}")
+        print(f"Type:    {result.get('record_type', 'N/A')}")
+        print(f"TX:      {result['tx_results']}")
+
+    elif args.command == "verify":
+        sdk = S4SDK(testnet=True)
+        computed = sdk.create_record_hash(args.record)
+        print(f"Computed: {computed}")
+        if args.expected:
+            match = computed.lower() == args.expected.lower()
+            print(f"Expected: {args.expected}")
+            print(f"Match:    {'✅ YES' if match else '❌ NO'}")
+
+    elif args.command == "hash":
+        record_text = sys.stdin.read() if args.record == "-" else args.record
+        sdk = S4SDK(testnet=True)
+        print(sdk.create_record_hash(record_text))
+
+    else:
+        parser.print_help()
+
+
+if __name__ == "__main__":
+    main()

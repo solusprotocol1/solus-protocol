@@ -1,10 +1,10 @@
 import requests
 from s4_sdk import S4SDK
 
-# --- Demo: Paramedic Vitals (Robert Lee) ---
-# Encrypted text from SDK (see previous output)
-encrypted_text = "gAAAAABphUtRvSoLVXxC4iociwesOj780j_QMDOUeEprM1X2bqoVQR-VyM6qREWj-Zl-cVqgDmd9gZNWXJpEENZZ2scfTgPboCDenFjav3xWxNln-AZgsInl5jvYqq65IP8yEm3R8O-YpVfjqrs0M9ho7ZyVvDeqGd972wzUuUWYhY7aoeVa3IRFoxcWnD5xb38E2OvJbU6IbDvlsobRZnJCKLT2HM1vxAgIxe8CzYE1FVqGjdjwVuCUMRGa-6ntFE_qPvgiwGaWZJnHOV70H0jvrBhGBH1VOb26GwlIJ9qUM_fDJepL5yiDDD5TVxKGEsDMmH9THXtPjrQHXYAT_sfGML5242Gcir5krsG21UsBnKbExuoyfzlJJkgrlFqRrdEUNVu2BcPQO1BW92up_7UZfnhrmsKRr5oQlIj9fwu02xNt88dNtMXzFhaPQBKG3ZlSqsGaR12hPkNUZDlXFwlCpWNY-20pVOqUN7R1dOr3y06Q6HpZ8ERk3HAjP5J4-sUKtchGy9xDW02OAWAZUMSr55D_s-96stomI-b-79IAflGnpvOeMsEYSMXM4m97CtAE44nUUlbD"
-tx_hash = "F8F17236A851043F3E05BF5AC7FE351F715C751E0E1CFFC4C2380CA59FFB8964"
+# --- Demo: Verify Supply Chain Receipt (NSN 5340-01-234-5678) ---
+# Encrypted text from SDK (see supply_chain_receipt_anchor.py output)
+encrypted_text = "REPLACE_WITH_ACTUAL_ENCRYPTED_OUTPUT"
+tx_hash = "REPLACE_WITH_ACTUAL_TX_HASH"
 wseed = "sEdT9vPQ4QCA4TtDSZqAGTv9ABL2uLS"
 
 sdk = S4SDK(wallet_seed=wseed, testnet=True)

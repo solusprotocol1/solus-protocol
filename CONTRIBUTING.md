@@ -21,7 +21,7 @@ Thank you for your interest in contributing to S4 Ledger. This guide covers the 
 ### 1. Fork & Clone
 
 ```bash
-git clone https://github.com/solusprotocol1/solus-protocol.git
+git clone https://github.com/s4ledger/s4-ledger.git
 cd s4-ledger
 ```
 

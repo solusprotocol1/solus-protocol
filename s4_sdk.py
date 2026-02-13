@@ -123,13 +123,13 @@ class S4SDK:
             raise ValueError("Invalid or expired API key. Please subscribe or renew.")
 
     def encrypt_data(self, data):
-        """Encrypt sensitive data (PHI) off-chain for HIPAA support."""
+        """Encrypt sensitive data (CUI/FOUO) off-chain before hashing."""
         if self.cipher is None:
             raise RuntimeError("cryptography package is required for encryption. Install it with `pip install cryptography`.")
         return self.cipher.encrypt(data.encode()).decode()
 
     def decrypt_data(self, encrypted_data):
-        """Decrypt data (for authorized providers)."""
+        """Decrypt data (for authorized defense personnel)."""
         if self.cipher is None:
             raise RuntimeError("cryptography package is required for decryption. Install it with `pip install cryptography`.")
         return self.cipher.decrypt(encrypted_data.encode()).decode()
@@ -159,7 +159,7 @@ class S4SDK:
         - If fiat_mode=True, simulate USD payment and auto-convert to $SLS.
         - Deducts fee (revenue to treasury).
         - Sends rebate (incentive).
-        - record_type: Optional category prepended to memo (e.g., 'SURGERY:hash...')
+        - record_type: Optional category prepended to memo (e.g., 'DEPOT_REPAIR:hash...')
         """
         if fiat_mode:
             # Real fiat conversion via XRPL DEX/gateway
@@ -217,16 +217,16 @@ class S4SDK:
 
         return {"fee_tx": fee_response.result, "rebate": rebate_response}
 
-    def secure_patient_record(self, record_text, wallet_seed=None, encrypt_first=False, fiat_mode=False, gateway_issuer=None, record_type=None):
+    def anchor_record(self, record_text, wallet_seed=None, encrypt_first=False, fiat_mode=False, gateway_issuer=None, record_type=None):
         """Full workflow: Validate sub, encrypt (optional), hash, store on XRPL with $SLS fee (fiat optional).
         
         Args:
-            record_text: The medical record content to secure
+            record_text: The defense record content to anchor
             wallet_seed: XRPL wallet seed for signing
             encrypt_first: If True, encrypt before hashing
             fiat_mode: If True, use USD subscription mode
             gateway_issuer: Optional custom gateway issuer
-            record_type: Optional record type for categorization (e.g., 'SURGERY', 'VITALS', 'LAB_RESULTS')
+            record_type: Optional category for defense record (e.g., 'SUPPLY_CHAIN', 'CDRL', 'MAINTENANCE_3M')
         """
         # Allow SDK-level wallet_seed to be set at initialization
         wallet_seed = wallet_seed or self.wallet_seed
@@ -258,13 +258,18 @@ class S4SDK:
                 # Propagate the original error with more context
                 raise RuntimeError(f"Failed to create Wallet from seed. Default error: {e_default}")
 
+    # Backward-compatible alias (deprecated)
+    def secure_patient_record(self, *args, **kwargs):
+        """Deprecated: Use anchor_record() instead."""
+        return self.anchor_record(*args, **kwargs)
+
 if __name__ == "__main__":
-    # Usage Example (Provider Side – Crypto Critic with Fiat Mode)
-    sdk = S4SDK(api_key="valid_mock_key", testnet=True)  # Provider's USD sub key
-    test_record = "Patient data here"
+    # Usage Example — Anchor a defense logistics record
+    sdk = S4SDK(api_key="valid_mock_key", testnet=True)
+    test_record = "NSN 5340-01-234-5678 | Qty: 50 | Condition: A | Depot: Norfolk NSYD"
     test_seed = "sTestSeed"  # Replace with a valid seed when running directly
     try:
-        result = sdk.secure_patient_record(test_record, test_seed, encrypt_first=True, fiat_mode=True)
+        result = sdk.anchor_record(test_record, test_seed, encrypt_first=True, fiat_mode=True)
         print(result)
     except Exception as e:
         print("Example run failed (expected when seed or network not configured):", e)

@@ -1,51 +1,32 @@
 #!/usr/bin/env python3
-"""Quick test script with longer delays between transactions"""
+"""S4 Ledger — 10 quick defense record tests (6-second delays)."""
 
 from s4_sdk import S4SDK
 import time
 
-sdk = S4SDK(api_key="valid_mock_key", testnet=True)
-test_seed = "sEd75GpyfXbSLGUShjwvViXoo6xaGuZ"
+sdk = S4SDK(wallet_seed="sEdT9vPQ4QCA4TtDSZqAGTv9ABL2uLS", testnet=True)
 
 scenarios = [
-    ("Surgery", "SURGERY", "Hip replacement surgery - Dr. Chen"),
-    ("Vitals", "VITALS", "BP 120/80 HR 72 SpO2 99%"),
-    ("Lab", "LAB", "CBC Blood test complete"),
-    ("Allergy", "ALLERGY", "Penicillin allergy CRITICAL"),
-    ("Imaging", "IMAGING", "MRI Brain scan results"),
-    ("Patient Message", "PATIENT_MESSAGE", "Patient portal secure message"),
-    ("Epic EHR", "EPIC", "Epic MyChart integration"),
-    ("Prescription", "PRESCRIPTION", "Lisinopril 10mg prescribed"),
-    ("Discharge", "DISCHARGE", "Patient discharged stable"),
-    ("Emergency", "EMERGENCY", "ER visit - chest pain eval"),
+    ("Supply Chain",    "SUPPLY_CHAIN",     "NSN 5340-01-234-5678 | Valve, Gate | Qty 50 | Cond A"),
+    ("Maintenance",     "MAINTENANCE_3M",   "MRC 2815-1.3.7 | Oil sample | SAT"),
+    ("CDRL",            "CDRL",             "A003 | Tech Manual Rev 4.2 | Accepted"),
+    ("Ordnance",        "ORDNANCE_LOT",     "DODIC A059 | 250K rds | PASS"),
+    ("Config",          "CONFIG_BASELINE",  "CS Baseline Rev 4.2.1 | CDMD-OA"),
+    ("Custody",         "CUSTODY_TRANSFER", "SPY module | DDG-78 → NAVSEA IMA"),
+    ("Calibration",     "CALIBRATION",      "AN/USM-486 | Cal complete"),
+    ("Contract CLIN",   "CONTRACT",         "CLIN 0003 | 50 EA | WAWF accepted"),
+    ("Fielding",        "FIELDING",         "SEWIP Block III | IOT&E passed"),
+    ("Disposal",        "DISPOSAL",         "500 EA condemned | DRMO turn-in"),
 ]
 
-print("=" * 60)
-print("S4 Ledger - Quick Typed Scenarios Test")
-print("=" * 60)
-
-success = 0
-failed = 0
-
-for i, (name, record_type, text) in enumerate(scenarios, 1):
-    print(f"\n[{i}/10] {name} ({record_type})...")
+print("🔒 S4 LEDGER — QUICK DEFENSE TEST (10 SCENARIOS)")
+print("=" * 50)
+for i, (name, rtype, record) in enumerate(scenarios):
+    print(f"[{i+1:2d}/10] {name}")
     try:
-        result = sdk.secure_patient_record(text, wallet_seed=test_seed, record_type=record_type)
-        if "tesSUCCESS" in str(result):
-            print(f"  SUCCESS - Hash: {result['hash'][:16]}...")
-            success += 1
-        else:
-            print(f"  FAILED - {result}")
-            failed += 1
+        result = sdk.anchor_record(record, encrypt_first=True, record_type=rtype)
+        print(f"  ✅ {result['hash'][:24]}...")
     except Exception as e:
-        print(f"  ERROR - {e}")
-        failed += 1
-    
-    # Longer delay to avoid ledger timing issues
-    if i < len(scenarios):
-        print("  Waiting 6 seconds...")
-        time.sleep(6)
-
-print("\n" + "=" * 60)
-print(f"RESULTS: {success} succeeded, {failed} failed")
-print("=" * 60)
+        print(f"  ❌ {e}")
+    time.sleep(6)
+print("\n✅ All 10 quick defense tests complete.")

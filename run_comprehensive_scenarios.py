@@ -1,99 +1,42 @@
 #!/usr/bin/env python3
-"""
-S4 Ledger - Comprehensive Medical Record Scenarios
-Covers: Providers, Patients, EHR Systems (Epic, Oracle Health, Cerner, etc.)
-20 diverse scenarios demonstrating full healthcare use cases
-"""
+"""S4 Ledger — 20 comprehensive defense record anchoring scenarios."""
 
 from s4_sdk import S4SDK
 import time
 
-sdk = S4SDK(api_key="valid_mock_key", testnet=True)
-test_seed = "sEd75GpyfXbSLGUShjwvViXoo6xaGuZ"
+sdk = S4SDK(wallet_seed="sEdT9vPQ4QCA4TtDSZqAGTv9ABL2uLS", testnet=True)
 
-# Comprehensive scenarios covering all use cases
 scenarios = [
-    # === PROVIDER USE CASES ===
-    ("Surgery Record", "SURGERY REPORT | Patient: Michael Torres | Procedure: Laparoscopic Cholecystectomy | Surgeon: Dr. Chen | Duration: 52 min | Anesthesia: General | Outcome: Successful | No complications"),
-    
-    ("Vitals Check", "VITALS | Patient: Sarah Johnson | BP: 118/76 mmHg | HR: 72 bpm | Temp: 98.4F | SpO2: 99% | Weight: 145 lbs | Recorded by: RN Martinez"),
-    
-    ("Lab Results CBC", "LAB RESULTS | Patient: David Kim | CBC Complete Blood Count | WBC: 7.2 | RBC: 4.8 | Hemoglobin: 14.5 | Platelets: 245K | Status: Within normal limits"),
-    
-    ("Drug Allergy Alert", "ALLERGY DOCUMENTATION | Patient: Emma Wilson | Drug Allergy: Penicillin | Reaction: Anaphylaxis | Severity: Severe | Added by: Dr. Patel | CRITICAL - DO NOT PRESCRIBE"),
-    
-    ("MRI Imaging Study", "IMAGING REPORT | Patient: Robert Garcia | MRI Brain with Contrast | Findings: No acute intracranial abnormality | Impression: Normal study | Radiologist: Dr. Thompson"),
-    
-    ("Immunization Record", "IMMUNIZATION | Patient: Baby Olivia (6 months) | Vaccine: DTaP, IPV, Hep B, PCV13 | Lot#: VX2026-445 | Site: Right thigh IM | No adverse reaction | Administered by: RN Davis"),
-    
-    # === PATIENT SECURE MESSAGES ===
-    ("Patient Message", "PATIENT MESSAGE to Provider | From: Jennifer Adams | To: Dr. Smith | Subject: Medication Side Effects | Message: I've been experiencing dizziness since starting the new blood pressure medication. Should I be concerned? | Sent via Patient Portal"),
-    
-    ("Patient Symptom Report", "PATIENT MESSAGE | From: Mark Thompson | Subject: New Symptoms | I've had persistent headaches for 3 days and some nausea. Requesting appointment. | Sent via MyChart Patient Portal"),
-    
-    ("Patient Follow-up Question", "SECURE MESSAGE | Patient: Linda Chen | To: Cardiology Team | Question: Can I resume exercise after my stress test results came back normal? | Awaiting provider response"),
-    
-    # === EHR SYSTEM INTEGRATIONS ===
-    ("Epic EHR Integration", "EPIC MYCHART | System: Epic EHR | Hospital: Memorial Health | Record Type: Clinical Note | Provider: Dr. Williams | Patient encounter documented | HIPAA compliant transmission"),
-    
-    ("Oracle Health Record", "ORACLE HEALTH (Cerner) | Facility: St. Mary's Hospital | Clinical Documentation | Progress Note | Provider: NP Anderson | Assessment and Plan documented | Millennium system sync"),
-    
-    ("Meditech Integration", "MEDITECH EHR | Facility: Regional Medical Center | Lab Interface | Orders transmitted | Results received | HL7 FHIR compliant | Audit trail complete"),
-    
-    # === CARE COORDINATION ===
-    ("Care Plan Update", "CARE PLAN | Patient: George Martinez | Diagnosis: Type 2 Diabetes | Goals: HbA1c < 7%, Weight loss 10 lbs | Interventions: Diet counseling, Metformin 500mg BID | Care Team: Dr. Lee, RN Smith, Dietitian Jones"),
-    
-    ("Referral to Specialist", "REFERRAL | Patient: Nancy Brown | From: PCP Dr. Miller | To: Cardiology - Dr. Heart | Reason: Chest pain evaluation | Urgency: Routine | Insurance pre-auth obtained"),
-    
-    ("Discharge Summary", "DISCHARGE SUMMARY | Patient: William Davis | Admitted: Pneumonia | LOS: 4 days | Discharge Medications: Azithromycin, Albuterol | Follow-up: PCP in 1 week | Transition of care complete"),
-    
-    # === SPECIALTY CARE ===
-    ("Mental Health Session", "MENTAL HEALTH | Patient: Anonymous (MRN: 445566) | Therapy Session #12 | Type: CBT | Provider: Licensed Counselor Morgan | Progress: Good | Anxiety symptoms improving | Next session: 2 weeks"),
-    
-    ("Emergency Room Visit", "EMERGENCY DEPARTMENT | Patient: Jason Wright | Chief Complaint: Chest Pain | Triage: Level 2 | EKG: Normal sinus | Troponin: Negative x2 | Diagnosis: Costochondritis | Discharged stable"),
-    
-    ("Prescription Medication", "PRESCRIPTION | Patient: Maria Santos | Medication: Lisinopril 10mg | Sig: Take 1 tablet by mouth daily | Qty: 90 | Refills: 3 | Prescriber: Dr. Johnson | Pharmacy: CVS #4521"),
-    
-    # === PREVENTIVE & WELLNESS ===
-    ("Annual Physical Exam", "PREVENTIVE CARE | Patient: Chris Anderson | Annual Physical Exam | Age: 45 | All vitals normal | Labs ordered: Lipid panel, CMP, TSH | Screening: Colonoscopy due | Wellness visit complete"),
-    
-    ("Consent Documentation", "INFORMED CONSENT | Patient: Patricia Moore | Procedure: Cardiac Catheterization | Risks discussed | Patient questions answered | Signature obtained | Witness: RN Thompson | HIPAA authorization included"),
+    ("Supply Chain Receipt", "SUPPLY_CHAIN", "NSN 5340-01-234-5678 | Valve, Gate | Qty: 50 | Condition: A | Depot: NNSY"),
+    ("Maintenance 3-M", "MAINTENANCE_3M", "MRC 2815-1.3.7 | Oil sample analysis | Results: SAT | Hull: DDG-118 | Next: 2026-08"),
+    ("CDRL Delivery", "CDRL", "CDRL A003 | Tech Manual Update Rev 4.2 | Contract N00024-23-C-5501 | Accepted"),
+    ("Ordnance Lot", "ORDNANCE_LOT", "DODIC A059 | Lot WCC-2025-1147-A | 250K rds | Proof: PASS | WSE Mag 14"),
+    ("Config Baseline", "CONFIG_BASELINE", "DDG-118 Combat System Baseline Rev 4.2.1 | CDMD-OA verified | 2026-02-10"),
+    ("Custody Transfer", "CUSTODY_TRANSFER", "SPY-TM-2019-04472 | DDG-78 → NAVSEA IMA | Depot repair | Seal #TS-2026-0887"),
+    ("TDP Delivery", "TDP", "TDP-N00024-001 | ILS Technical Data Package | JEDMICS upload verified"),
+    ("Certificate of Conformance", "COC", "CoC-NNSY-2026-0451 | Full lot per MIL-STD-1916 | Zero defects"),
+    ("Depot Repair", "DEPOT_REPAIR", "SPY-TM-2019-04472 | Transmitter module overhaul | Est: 45 days | FRC Southeast"),
+    ("Inspection Report", "INSPECTION", "INSURV material inspection DDG-118 | Hull: SAT | Propulsion: SAT | C4I: SAT"),
+    ("Condition Assessment", "CONDITION", "Material condition survey DDG-78 | AN/SPY-1D: Degraded | Recommend depot"),
+    ("Equipment Fielding", "FIELDING", "AN/SLQ-32(V)6 SEWIP Block III | DDG-118 | Install complete | IOT&E passed"),
+    ("Contract CLIN", "CONTRACT", "CLIN 0003 | 50 EA Valves delivered | WAWF receipt accepted | $7,137.50"),
+    ("Disposal Record", "DISPOSAL", "NSN 5310-01-111-2222 | Qty: 500 | Condemned | DRMO turn-in | DD Form 1348-1A"),
+    ("Calibration", "CALIBRATION", "AN/USM-486 Multimeter | SN 2020-3345 | Cal due: 2026-08-15 | METCAL compliant"),
+    ("Provisioning", "PROVISIONING", "APL update DDG-118 | 47 new line items | CDMD-OA provisioning action"),
+    ("PHS&T Report", "PHST", "MIL-STD-2073 Level A | ESD protection | Container: NSN 8145-01-xxx | Weight: 42 lbs"),
+    ("Reliability Report", "RELIABILITY", "LM2500 Fleet MTBF: 4,200 hrs | Ao: 94.2% | RAM-C model v3.1"),
+    ("Training Record", "TRAINING", "ET1 Cooper | NEC 1420 | SPY-1D Maintenance Qual | FLTMPS verified | Exp: 2028-02"),
+    ("Mod Kit Install", "MOD_KIT", "ECP-2026-118-003 | CIWS Block 1B upgrade | DDG-118 | Install verified by NAVSEA"),
 ]
 
-print("=" * 70)
-print("S4 LEDGER - COMPREHENSIVE MEDICAL RECORD ANCHORING")
-print("=" * 70)
-print(f"Total scenarios: {len(scenarios)}")
-print("Record types: Surgery, Vitals, Labs, Allergies, Imaging, Immunizations,")
-print("              Patient Messages, EHR Integrations, Care Plans, Referrals,")
-print("              Discharge, Mental Health, Emergency, Prescriptions, Preventive, Consent")
-print("Use cases: Providers, Patients, Epic, Oracle Health, Meditech, Cerner")
-print("Delay between scenarios: 5 seconds")
-print("=" * 70)
-
-success_count = 0
-for i, (name, record) in enumerate(scenarios):
-    print(f"\n[{i+1}/{len(scenarios)}] Anchoring: {name}")
+print("🔒 S4 LEDGER — 20 DEFENSE RECORD ANCHORING SCENARIOS")
+print("=" * 65)
+for i, (name, rtype, record) in enumerate(scenarios):
+    print(f"[{i+1:2d}/20] {name:<28s}", end=" ")
     try:
-        result = sdk.secure_patient_record(record, test_seed, encrypt_first=True, fiat_mode=False)
-        print(f"  ✅ SUCCESS: {result['hash'][:32]}...")
-        success_count += 1
+        result = sdk.anchor_record(record, encrypt_first=True, record_type=rtype)
+        print(f"✅ {result['hash'][:20]}...")
     except Exception as e:
-        print(f"  ❌ ERROR: {e}")
-    
-    if i < len(scenarios) - 1:
-        print(f"  ⏳ Waiting 5 seconds...")
-        time.sleep(5)
-
-print("\n" + "=" * 70)
-print(f"COMPLETE! {success_count}/{len(scenarios)} scenarios anchored successfully")
-print("=" * 70)
-print("\n📊 View metrics: https://s4ledger.com/metrics.html")
-print("🔗 View transactions: https://s4ledger.com/transactions.html")
-print("\nRecord types demonstrated:")
-print("  • Provider records (Surgery, Labs, Imaging, Vitals, etc.)")
-print("  • Patient secure messages to providers")
-print("  • EHR integrations (Epic, Oracle Health, Meditech)")
-print("  • Care coordination (Care Plans, Referrals, Discharge)")
-print("  • Specialty care (Mental Health, Emergency, Prescriptions)")
-print("  • Preventive care and Consent documentation")
+        print(f"❌ {e}")
+    time.sleep(3)
+print("\n✅ All 20 defense scenarios complete.")

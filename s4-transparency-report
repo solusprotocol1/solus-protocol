@@ -1,4 +1,4 @@
-// Solus_Step_4_Transparency_Report.js
+// S4_Step_4_Transparency_Report.js
 const xrpl = require("xrpl");
 
 async function generateTransparencyReport() {
@@ -13,7 +13,7 @@ async function generateTransparencyReport() {
         limit: 10
     });
 
-    console.log(`--- Solus Protocol Treasury Transparency Log ---`);
+    console.log(`--- S4 Ledger Treasury Transparency Log ---`);
     console.log(`| Date | Type | Destination | Amount | Purpose (Memo) |`);
     
     response.result.transactions.forEach(tx => {

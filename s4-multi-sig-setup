@@ -1,4 +1,4 @@
-// Solus_Step_1_MultiSig_Setup.js
+// S4_Step_1_MultiSig_Setup.js
 const xrpl = require("xrpl");
 
 async function setupMultiSig() {
@@ -38,7 +38,7 @@ async function setupMultiSig() {
         const prep2 = await client.autofill(disableMasterTx);
         const signed2 = treasuryWallet.sign(prep2);
         await client.submitAndWait(signed2.tx_blob);
-        console.log("Master Key Disabled. Solus Treasury is now SECURED.");
+        console.log("Master Key Disabled. S4 Ledger Treasury is now SECURED.");
     }
 
     await client.disconnect();

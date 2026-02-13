@@ -1,110 +1,46 @@
-"""
-S4 Ledger SDK - Test Scenarios
-Run these scenarios to populate your metrics dashboard with various medical record types.
-Each scenario anchors a different type of medical record to the XRPL.
-"""
+#!/usr/bin/env python3
+"""S4 Ledger — 12 defense logistics test scenarios."""
 
 from s4_sdk import S4SDK
+import time
 
-# Initialize SDK with testnet credentials
-sdk = S4SDK(api_key="valid_mock_key", testnet=True)
-test_seed = "sEd75GpyfXbSLGUShjwvViXoo6xaGuZ"
+sdk = S4SDK(wallet_seed="sEdT9vPQ4QCA4TtDSZqAGTv9ABL2uLS", testnet=True)
 
-# Test scenarios for different medical record types
 scenarios = [
-    {
-        "name": "Vitals Check",
-        "record": "Patient: Jane Smith\nVitals: BP 118/76, Heart Rate 72 bpm, Temperature 98.6F\nVisit: 2026-02-06\nNotes: Routine vitals check, all normal"
-    },
-    {
-        "name": "Post-Op Recovery",
-        "record": "Patient: Robert Johnson\nPost-Op Day 3\nSurgery: Appendectomy\nRecovery Status: Good, no complications\nPain Level: 3/10\nFollow-up scheduled"
-    },
-    {
-        "name": "Lab Results",
-        "record": "Patient: Emily Davis\nLab Test: Complete Blood Count (CBC)\nResults: WBC 7.2, RBC 4.8, Hemoglobin 14.2\nStatus: All values within normal range\nDate: 2026-02-06"
-    },
-    {
-        "name": "Imaging Study",
-        "record": "Patient: Michael Brown\nImaging: MRI Brain Scan\nFindings: No abnormalities detected\nRadiology Report: Clear, no lesions or masses\nDate: 2026-02-06"
-    },
-    {
-        "name": "Discharge Summary",
-        "record": "Patient: Sarah Wilson\nDischarge Date: 2026-02-06\nAdmission Reason: Pneumonia\nTreatment: IV antibiotics, respiratory therapy\nDischarge Status: Recovered, follow-up in 2 weeks"
-    },
-    {
-        "name": "Mental Health Assessment",
-        "record": "Patient: David Lee\nMental Health Evaluation\nDiagnosis: Generalized Anxiety Disorder\nTreatment Plan: CBT therapy, medication review\nCounseling sessions scheduled"
-    },
-    {
-        "name": "Emergency Room Visit",
-        "record": "Patient: Amanda Garcia\nEmergency Room Visit\nChief Complaint: Chest pain, shortness of breath\nDiagnosis: Panic attack, cardiac workup negative\nDisposition: Discharged with follow-up"
-    },
-    {
-        "name": "Prescription Record",
-        "record": "Patient: James Martinez\nPrescription: Lisinopril 10mg\nMedication for: Hypertension\nInstructions: Take once daily\nPharmacy: CVS, filled 2026-02-06"
-    },
-    {
-        "name": "Surgical Procedure",
-        "record": "Patient: Lisa Anderson\nSurgery: Laparoscopic Cholecystectomy\nAnesthesia: General\nProcedure Duration: 45 minutes\nOutcome: Successful, no complications"
-    },
-    {
-        "name": "Telemedicine Consult",
-        "record": "Patient: Kevin Thomas\nTelemedicine Visit\nVirtual Consultation for: Skin rash evaluation\nDiagnosis: Contact dermatitis\nTreatment: Topical steroid cream prescribed"
-    },
-    {
-        "name": "Pediatric Vaccination",
-        "record": "Patient: Baby Emma (6 months)\nPediatric Visit\nVaccination: DTaP, Hepatitis B, Rotavirus\nReaction: None, tolerated well\nNext appointment: 9 months"
-    },
-    {
-        "name": "X-Ray Report",
-        "record": "Patient: Christopher White\nX-Ray: Chest PA and Lateral\nFindings: Clear lung fields, normal cardiac silhouette\nImpression: No acute cardiopulmonary disease\nRadiology sign-off: Dr. Stevens"
-    }
+    ("Supply Chain Receipt",   "NSN 5340-01-234-5678 | Valve, Gate | Qty 50 | Cond A | NNSY | QA-237"),
+    ("Maintenance 3-M",        "MRC 2815-1.3.7 | Oil sample analysis | SAT | DDG-118 | Next 2026-08"),
+    ("CDRL Delivery",          "CDRL A003 | Tech Manual Rev 4.2 | Contract N00024-23-C-5501 | Accepted"),
+    ("Ordnance Lot",           "DODIC A059 | 5.56mm Ball M855 | Lot WCC-2025-1147-A | 250K rds | PASS"),
+    ("Depot Repair",           "SPY-TM-2019-04472 | Transmitter overhaul | FRC Southeast | 45 day est"),
+    ("Config Baseline",        "DDG-118 Combat System Baseline Rev 4.2.1 | CDMD-OA verified"),
+    ("Equipment Fielding",     "SEWIP Block III AN/SLQ-32(V)6 | DDG-118 | IOT&E passed 2026-02-08"),
+    ("Calibration",            "AN/USM-486 Multimeter | SN 2020-3345 | METCAL compliant | Next 2026-08"),
+    ("Custody Transfer",       "SPY-TM-2019-04472 | From DDG-78 | To NAVSEA IMA | Tamper seal applied"),
+    ("Contract CLIN",          "CLIN 0003 | 50 EA Valves | N00024-23-C-5501 | WAWF | $7,137.50"),
+    ("Disposal",               "NSN 5310-01-111-2222 | 500 EA | Condemned | DRMO turn-in | DD 1348-1A"),
+    ("Training Qualification", "ET1 Cooper | NEC 1420 | SPY-1D Maintenance Qual | FLTMPS | Exp 2028-02"),
 ]
 
-def run_scenario(scenario):
-    """Run a single anchor scenario"""
-    print(f"\n🔗 Anchoring: {scenario['name']}")
-    print("-" * 40)
-    try:
-        result = sdk.secure_patient_record(
-            scenario["record"], 
-            test_seed, 
-            encrypt_first=True, 
-            fiat_mode=False
-        )
-        print(f"✅ Success! Hash: {result['hash'][:32]}...")
-        return True
-    except Exception as e:
-        print(f"❌ Error: {e}")
-        return False
-
 def run_all_scenarios():
-    """Run all test scenarios"""
-    print("=" * 50)
-    print("🏥 S4 LEDGER - DEFENSE RECORD ANCHORING TEST")
-    print("=" * 50)
+    print("=" * 65)
+    print("  🔒 S4 LEDGER — DEFENSE RECORD ANCHORING TEST (12 SCENARIOS)")
+    print("=" * 65)
     
-    success_count = 0
-    for scenario in scenarios:
-        if run_scenario(scenario):
-            success_count += 1
-    
-    print("\n" + "=" * 50)
-    print(f"📊 RESULTS: {success_count}/{len(scenarios)} scenarios completed successfully")
-    print("=" * 50)
-    print("\n🌐 View your metrics at: https://s4ledger.com/metrics.html")
-    print("🔍 View transactions at: https://s4ledger.com/transactions.html")
+    passed = 0
+    for i, (name, record) in enumerate(scenarios):
+        print(f"\n[{i+1:2d}/12] {name}")
+        try:
+            result = sdk.anchor_record(record, encrypt_first=True)
+            print(f"  ✅ Hash: {result['hash'][:24]}...")
+            passed += 1
+        except Exception as e:
+            print(f"  ❌ Error: {e}")
+        time.sleep(5)
+
+    print(f"\n{'=' * 65}")
+    print(f"  Results: {passed}/12 passed")
+    print(f"{'=' * 65}")
+
 
 if __name__ == "__main__":
-    import sys
-    
-    if len(sys.argv) > 1:
-        # Run specific number of scenarios
-        count = int(sys.argv[1])
-        print(f"Running {count} scenarios...")
-        for scenario in scenarios[:count]:
-            run_scenario(scenario)
-    else:
-        # Run all scenarios
-        run_all_scenarios()
+    run_all_scenarios()

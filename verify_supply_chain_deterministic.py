@@ -1,10 +1,10 @@
 import requests
 from s4_sdk import S4SDK
 
-# --- Demo: Paramedic Vitals (Robert Lee, deterministic) ---
+# --- Demo: Verify Supply Chain Receipt (deterministic encryption) ---
 # Encrypted text from deterministic SDK output
-encrypted_text = "gAAAAABphUwJB1aQ5afZb3iF8EyHDsMsKmdMJKJmA9ooZftxBqwV8K40o5Wt0dqr__7S_-i81_RnTETbpM97yixdWzwU-bd3A-UC2MO_CLEZRjUrAgWxzd5IMqwsfgI00OTPePW_omZ5ofqNsKnDDGhUoBWyBN6EBbQn0HzGCKT1blMFdtMuRCuIRIrtPNsIFdS83UXCbfP21IdrFye6LTGjvrORxgiH6cfZ-Hkh-rXI-0NvBwLn7bUfc2rt10zjmZImes9mP_KMqruOTf9xYMKWR_YIQaOdUIecoLxDPMnguVX9LQYuIisk4RgYkR6qD-End6hOD1_X-nRyKZan0fVmksLhFmoLLTZVzKdQoJbgEY4g-DTfir-kLoluWQdYKglFtSXefudBhaG-XWyMqqcIFMOeVCZrno9U_G4tN38UQvA-OcBIpHpdUaWrr6IITa7Inwe3OuEfVsl9idWmVhXu51HqFyDav7kSYqKliJyj-wCkKoT49fsmKOFyfCThll79oKfr5QFhUivMNls5tFCIYvq_W8pudQ0nHtw8zc_P7NEOoDmJo647kgj4GOU-F145VVL5sZTj"
-tx_hash = "DF100917D660835CF4E2BD4C05F807A168ED1142D5C781876A6642EA5D3D792F"
+encrypted_text = "REPLACE_WITH_ACTUAL_ENCRYPTED_OUTPUT"
+tx_hash = "REPLACE_WITH_ACTUAL_TX_HASH"
 wseed = "sEdT9vPQ4QCA4TtDSZqAGTv9ABL2uLS"
 
 sdk = S4SDK(wallet_seed=wseed, testnet=True)

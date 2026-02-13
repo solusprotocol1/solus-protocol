@@ -1,7 +1,7 @@
 # Deployment Guide: S4 Ledger
 
 ## Local Deployment
-1. Clone the repo: `git clone https://github.com/solusprotocol1/solus-protocol.git`
+1. Clone the repo: `git clone https://github.com/s4ledger/s4-ledger.git`
 2. Install dependencies: `pip install -r requirements.txt`
 3. Run tests: `pytest`
 4. Use Docker: `docker build -t s4-ledger-sdk . && docker run s4-ledger-sdk`

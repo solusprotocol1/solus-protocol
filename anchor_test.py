@@ -1,74 +1,40 @@
-# anchor_test.py
-# This version works EVEN IF s4_sdk.py has the auto-running example at the bottom
-# It overrides the bad hardcoded test_seed immediately after import
+#!/usr/bin/env python3
+"""S4 Ledger — Anchor integration test (defense logistics)."""
 
-import s4_sdk
-S4SDK = s4_sdk.S4SDK
+from s4_sdk import S4SDK
 
-# ────────────────────────────────────────────────
-# YOUR REAL TESTNET SEED — PASTE THE FULL ONE HERE
-# Instructions:
-# 1. Go to https://testnet.xrpl.org/
-# 2. Generate new credentials
-# 3. Copy ONLY the family seed / secret (starts with sEd, usually exactly 51 characters)
-# 4. Replace the line below — no extra spaces or line breaks!
-# ────────────────────────────────────────────────
-REAL_SEED = "sEdT9vPQ4QCA4TtDSZqAGTv9ABL2uLS"
+wallet_seed = "sEdT9vPQ4QCA4TtDSZqAGTv9ABL2uLS"
+sdk = S4SDK(wallet_seed=wallet_seed, testnet=True, api_key="valid_mock_key")
 
-# Debug check — run this to confirm before anything else crashes
-print("=== SEED CHECK ===")
-print(f"Length: {len(REAL_SEED)}   ← should be 51")
-print(f"Prefix: {REAL_SEED[:5]}    ← should start with 'sEd'")
-if len(REAL_SEED) != 51 or not REAL_SEED.startswith("sEd"):
-    # Try to be flexible: attempt to construct a Wallet from the seed using the SDK.
-    try:
-        sdk_for_check = S4SDK(testnet=True)
-        sdk_for_check.wallet_from_seed(REAL_SEED)
-        print("Seed failed basic length check but Wallet.from_seed succeeded → proceeding\n")
-    except Exception as e:
-        if not getattr(s4_sdk, 'XRPL_AVAILABLE', True):
-            print("WARNING: Seed looks invalid/truncated, but XRPL package is not installed. Continuing with mock XRPL client for local testing.\n")
-        else:
-            print("ERROR: Seed is invalid or truncated and Wallet.from_seed failed:")
-            print(e)
-            exit(1)
-else:
-    print("Seed looks correct length & prefix → proceeding\n")
+# Sample defense supply chain record
+record = """Supply Chain Receipt
+NSN: 5340-01-234-5678
+Nomenclature: Valve, Gate, Carbon Steel
+Contract: N00024-23-C-5501
+CAGE Code: 1THK9
+Quantity: 50 EA | Condition: A (Serviceable)
+Inspector: QA-237 J. Martinez
+Depot: Norfolk Naval Shipyard
+Date: 2026-02-10
+CoC: CoC-NNSY-2026-0451"""
 
-# (If desired) override any test seed inside the SDK module for example runs
-s4_sdk.test_seed = REAL_SEED
+print("S4 LEDGER — ANCHOR INTEGRATION TEST")
+print("=" * 50)
 
-# Now safe to use the SDK (import won't crash anymore)
-sdk = S4SDK(
-    wallet_seed=REAL_SEED,   # also pass it normally for your own calls
-    testnet=True
-    # Optional: xrpl_rpc_url="https://s.altnet.rippletest.net:51234/",
-    # api_key="valid_mock_key" if needed for fiat_mode
-)
+# Test 1: Basic anchoring
+result = sdk.anchor_record(record, encrypt_first=True, fiat_mode=False, record_type="SUPPLY_CHAIN")
+print(f"✅ Anchored: {result['hash'][:32]}...")
+print(f"   Type: {result['record_type']}")
+print(f"   TX Result: {result['tx_results']['fee_tx'].get('meta', {}).get('TransactionResult', 'N/A')}")
 
-# Your patient record
-fake_record = """Patient: John Doe
-DOB: 1985-03-15
-Visit: 2026-01-20
-Diagnosis: Hypertension, mild
-Notes: BP 145/92, prescribed Lisinopril 10mg daily
-Allergies: None known
-Follow-up: 2026-04-15
-..."""
+# Test 2: Hash verification
+computed = sdk.create_record_hash(record)
+print(f"\n✅ Hash verification: {computed[:32]}...")
 
-print("Running secure_patient_record with your real seed...")
+# Test 3: Encrypt/Decrypt roundtrip
+encrypted = sdk.encrypt(record)
+decrypted = sdk.decrypt(encrypted)
+assert decrypted == record, "Decrypt mismatch!"
+print(f"✅ Encrypt/decrypt roundtrip: PASS")
 
-try:
-    result = sdk.secure_patient_record(
-        record_text=fake_record,
-        encrypt_first=False,
-        fiat_mode=False   # change to True to test the simulated USD path
-    )
-    print("\nSuccess! Result:")
-    print(result)
-except Exception as e:
-    print("\nExecution failed:")
-    print(str(e))
-    print("\nMost common fix if still 'Invalid checksum':")
-    print("- Regenerate seed from faucet and paste FULL 51 chars")
-    print("- Or edit s4_sdk.py → Wallet.from_seed(..., algorithm='ED25519')")
+print("\nAll integration tests passed.")
