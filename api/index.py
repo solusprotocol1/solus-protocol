@@ -1,7 +1,7 @@
 """
 S4 Ledger — Defense Record Metrics API (Vercel Serverless)
 Zero-dependency implementation using Vercel's native Python handler.
-130+ defense record types, 600 pre-seeded records.
+160+ defense record types across 9 branches, 600 pre-seeded records.
 """
 
 from http.server import BaseHTTPRequestHandler
@@ -25,10 +25,11 @@ BRANCHES = {
     "DLA":   {"name": "Defense Logistics Agency",   "icon": "\U0001f3db\ufe0f", "color": "#1a3a5c"},
     "JOINT": {"name": "Joint / Cross-Branch",       "icon": "\U0001f396\ufe0f", "color": "#4a4a4a"},
     "SOCOM": {"name": "Special Operations Command", "icon": "\U0001f5e1\ufe0f", "color": "#2d2d2d"},
+    "USSF":  {"name": "U.S. Space Force",           "icon": "\U0001f680", "color": "#1a1a4e"},
 }
 
 # ═══════════════════════════════════════════════════════════════════════
-#  130+ DEFENSE RECORD CATEGORIES
+#  160+ DEFENSE RECORD CATEGORIES
 # ═══════════════════════════════════════════════════════════════════════
 
 RECORD_CATEGORIES = {
@@ -58,6 +59,36 @@ RECORD_CATEGORIES = {
     "USN_QDR":             {"label": "Quality Defect Report",        "icon": "\U0001f6ab", "color": "#cc0000", "branch": "USN", "system": "NAVSUP WSS"},
     "USN_FIELDING":        {"label": "Equipment Fielding",           "icon": "\U0001f6a2", "color": "#00ddaa", "branch": "USN", "system": "PMS"},
     "USN_REACTOR":         {"label": "Naval Reactor Test",           "icon": "\u2622\ufe0f", "color": "#ffcc00", "branch": "USN", "system": "NAVSEA 08"},
+
+    # --- U.S. Navy ILS Records — 29 types ---
+    "USN_DRL":             {"label": "Data Requirements List (DRL)",  "icon": "\U0001f4cb", "color": "#5599cc", "branch": "USN", "system": "NAVSEA/PMS"},
+    "USN_DI":              {"label": "Data Item Description (DID)",   "icon": "\U0001f4c3", "color": "#4488bb", "branch": "USN", "system": "CDMD-OA"},
+    "USN_VRS":             {"label": "Vendor Recommended Spares",     "icon": "\U0001f4e6", "color": "#7799aa", "branch": "USN", "system": "NAVICP/DLA"},
+    "USN_BUYLIST":         {"label": "Buylist / Provisioning",        "icon": "\U0001f6d2", "color": "#6688aa", "branch": "USN", "system": "NAVSUP WSS"},
+    "USN_J1_ILS":          {"label": "J-1 ILS Parameters / LORA",     "icon": "\U0001f4d1", "color": "#336699", "branch": "USN", "system": "PMS/ILS"},
+    "USN_J2_SE":           {"label": "J-2 Support Equipment",         "icon": "\U0001f527", "color": "#337799", "branch": "USN", "system": "PMS/ILS"},
+    "USN_J3_SUPPLY":       {"label": "J-3 Supply Support",            "icon": "\U0001f4e6", "color": "#338899", "branch": "USN", "system": "NAVSUP"},
+    "USN_J4_TECHDATA":     {"label": "J-4 Technical Data",            "icon": "\U0001f4d6", "color": "#339999", "branch": "USN", "system": "NAVSEA"},
+    "USN_J5_TRAINING":     {"label": "J-5 Training",                  "icon": "\U0001f393", "color": "#33aa99", "branch": "USN", "system": "NETC"},
+    "USN_J6_MANPOWER":     {"label": "J-6 Manpower & Personnel",      "icon": "\U0001f465", "color": "#4488cc", "branch": "USN", "system": "OPNAV N1"},
+    "USN_J7_FACILITIES":   {"label": "J-7 Facilities",                "icon": "\U0001f3d7\ufe0f", "color": "#5577bb", "branch": "USN", "system": "NAVFAC"},
+    "USN_J8_PHST":         {"label": "J-8 PHS&T",                     "icon": "\U0001f4e6", "color": "#6699cc", "branch": "USN", "system": "NAVSUP"},
+    "USN_J9_SOFTWARE":     {"label": "J-9 Computer Resources",        "icon": "\U0001f4bb", "color": "#4477aa", "branch": "USN", "system": "SPAWAR/NAVWAR"},
+    "USN_J10_DESIGN":      {"label": "J-10 Design Interface",         "icon": "\U0001f4d0", "color": "#3366aa", "branch": "USN", "system": "NAVSEA"},
+    "USN_J11_RAM":         {"label": "J-11 RAM Analysis",             "icon": "\U0001f4c8", "color": "#2255aa", "branch": "USN", "system": "PMS/ILS"},
+    "USN_J12_ACQLOG":      {"label": "J-12 Acquisition Logistics",    "icon": "\U0001f4ca", "color": "#2266bb", "branch": "USN", "system": "PMS/ILS"},
+    "USN_J13_CM":          {"label": "J-13 Configuration Mgmt",       "icon": "\u2699\ufe0f", "color": "#3377cc", "branch": "USN", "system": "CDMD-OA"},
+    "USN_J14_DISPOSAL":    {"label": "J-14 Disposal",                 "icon": "\U0001f5d1\ufe0f", "color": "#667788", "branch": "USN", "system": "DRMS"},
+    "USN_BAM":             {"label": "Budget Allowance Mgmt (BAM)",   "icon": "\U0001f4b0", "color": "#cc9933", "branch": "USN", "system": "NAVSUP"},
+    "USN_TRANSFER_BOOK":   {"label": "Transfer Book",                 "icon": "\U0001f4d3", "color": "#5588aa", "branch": "USN", "system": "Supply Officer"},
+    "USN_COTS_MANUAL":     {"label": "COTS Manual / Documentation",   "icon": "\U0001f4d8", "color": "#4477bb", "branch": "USN", "system": "NAVSEA"},
+    "USN_TM_INDEX":        {"label": "Technical Manual Index",        "icon": "\U0001f4c7", "color": "#3366bb", "branch": "USN", "system": "NAVSEA"},
+    "USN_PO_INDEX":        {"label": "Purchase Order Index",          "icon": "\U0001f4c2", "color": "#5588cc", "branch": "USN", "system": "NAVSUP"},
+    "USN_PID":             {"label": "Program Introduction Doc (PID)","icon": "\U0001f4c4", "color": "#6699bb", "branch": "USN", "system": "PMS"},
+    "USN_CONTRACT_MOD":    {"label": "Contract Modification",         "icon": "\U0001f4dd", "color": "#7788aa", "branch": "USN", "system": "NAVSEA Contracts"},
+    "USN_CONFIG_MGMT":     {"label": "Configuration Mgmt Record",     "icon": "\u2699\ufe0f", "color": "#4466aa", "branch": "USN", "system": "CDMD-OA"},
+    "USN_OUTFITTING":      {"label": "Outfitting Requirements",       "icon": "\U0001f6a2", "color": "#3355aa", "branch": "USN", "system": "PMS/Outfitting"},
+    "USN_PURCHASE_REQ":    {"label": "Purchase Request (PR)",         "icon": "\U0001f4b3", "color": "#558899", "branch": "USN", "system": "NAVSUP"},
 
     # --- U.S. Army (USA) — 20 types ---
     "USA_HAND_RECEIPT":    {"label": "DA 2062 Hand Receipt",         "icon": "\U0001f4dd", "color": "#4b5320", "branch": "USA", "system": "GCSS-Army"},
@@ -166,6 +197,19 @@ RECORD_CATEGORIES = {
     "SOCOM_INTEL":         {"label": "SOF Intelligence Equip",       "icon": "\U0001f575\ufe0f", "color": "#1a1a1a", "branch": "SOCOM", "system": "SOF-LAN"},
     "SOCOM_MEDICAL":       {"label": "SOF Medical Supply",           "icon": "\U0001f3e5", "color": "#4a4a4a", "branch": "SOCOM", "system": "SOF-LAN"},
     "SOCOM_DEMO":          {"label": "SOF Demolition Record",        "icon": "\U0001f4a5", "color": "#550000", "branch": "SOCOM", "system": "SOF-LAN"},
+
+    # --- U.S. Space Force (USSF) — 11 types ---
+    "USSF_SAT_OPS":        {"label": "Satellite Operations Record",   "icon": "\U0001f6f0\ufe0f", "color": "#1a1a4e", "branch": "USSF", "system": "18 SDS"},
+    "USSF_SPACE_VEH":      {"label": "Space Vehicle Maintenance",     "icon": "\U0001f680", "color": "#2a2a5e", "branch": "USSF", "system": "SMC"},
+    "USSF_SDA":            {"label": "Space Domain Awareness",        "icon": "\U0001f52d", "color": "#000066", "branch": "USSF", "system": "18 SDS"},
+    "USSF_GPS_CONST":      {"label": "GPS Constellation Record",      "icon": "\U0001f4e1", "color": "#003399", "branch": "USSF", "system": "2 SOPS"},
+    "USSF_LAUNCH_VEH":     {"label": "Launch Vehicle Record",         "icon": "\U0001f680", "color": "#0044aa", "branch": "USSF", "system": "SLD 45"},
+    "USSF_RADAR_TRACK":    {"label": "Space Surveillance Tracking",   "icon": "\U0001f4e1", "color": "#0055bb", "branch": "USSF", "system": "18 SDS"},
+    "USSF_GROUND_SYS":     {"label": "Ground Systems Maint",          "icon": "\U0001f5a5\ufe0f", "color": "#002266", "branch": "USSF", "system": "SBIRS"},
+    "USSF_COMM_SAT":       {"label": "Comm Satellite Record",         "icon": "\U0001f4e1", "color": "#0033aa", "branch": "USSF", "system": "MILSATCOM"},
+    "USSF_EARLY_WARN":     {"label": "Early Warning System",          "icon": "\u26a0\ufe0f", "color": "#003377", "branch": "USSF", "system": "SBIRS"},
+    "USSF_SPACE_CTRL":     {"label": "Space Control Record",          "icon": "\U0001f6e1\ufe0f", "color": "#001a66", "branch": "USSF", "system": "SPACECOM"},
+    "USSF_CYBER_DEF":      {"label": "Space Cyber Defense",           "icon": "\U0001f5a5\ufe0f", "color": "#002255", "branch": "USSF", "system": "16 AF/USSF"},
 }
 
 

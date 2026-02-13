@@ -141,7 +141,7 @@
     <div class="container">
         <h1><i class="fas fa-shield-halved" style="margin-right:12px;color:var(--accent)"></i><span class="gradient-text">Defense Logistics</span> Verification Demo</h1>
         <p>Anchor, verify, and track defense supply chain records across <strong>all military branches</strong> on the XRP Ledger.</p>
-        <div class="badge-live">XRPL Testnet Connected &mdash; 130+ Record Types</div>
+        <div class="badge-live">XRPL Testnet Connected &mdash; 160+ Record Types &bull; 9 Branches</div>
     </div>
 </section>
 
@@ -159,6 +159,7 @@
             <li class="nav-item"><a class="nav-link" data-bs-toggle="pill" href="#tabVerify" role="tab"><i class="fas fa-check-circle"></i> Verify</a></li>
             <li class="nav-item"><a class="nav-link" data-bs-toggle="pill" href="#tabLog" role="tab"><i class="fas fa-list"></i> Transaction Log</a></li>
             <li class="nav-item"><a class="nav-link" data-bs-toggle="pill" href="#tabAbout" role="tab"><i class="fas fa-info-circle"></i> How It Works</a></li>
+            <li class="nav-item"><a class="nav-link" data-bs-toggle="pill" href="#tabILS" role="tab"><i class="fas fa-brain"></i> ILS Intelligence</a></li>
         </ul>
 
         <div class="tab-content">
@@ -177,6 +178,7 @@
                                 <button class="branch-tab" onclick="selectBranch('DLA',this)">&#127963;&#65039; DLA</button>
                                 <button class="branch-tab" onclick="selectBranch('JOINT',this)">&#127894;&#65039; Joint</button>
                                 <button class="branch-tab" onclick="selectBranch('SOCOM',this)">&#128481;&#65039; SOCOM</button>
+                                <button class="branch-tab" onclick="selectBranch('USSF',this)">&#128640; Space Force</button>
                             </div>
                             <label>2. Choose Record Type <span class="branch-count" id="branchTypeCount"></span></label>
                             <input class="type-search" type="text" id="typeSearch" placeholder="Search record types..." oninput="renderTypeGrid()">
@@ -195,6 +197,10 @@
                                 <span class="sample-btn" onclick="loadSample('flight_record')">AF Flight Record</span>
                                 <span class="sample-btn" onclick="loadSample('ground_maint')">Marine Ground Maint</span>
                                 <span class="sample-btn" onclick="loadSample('cutter')">CG Cutter Maint</span>
+                                <span class="sample-btn" onclick="loadSample('satellite')">Space Force Sat</span>
+                                <span class="sample-btn" onclick="loadSample('drl')">Navy DRL</span>
+                                <span class="sample-btn" onclick="loadSample('buylist')">Navy Buylist</span>
+                                <span class="sample-btn" onclick="loadSample('transfer_book')">Transfer Book</span>
                             </div>
                             <div class="d-flex gap-2 align-items-center">
                                 <label class="form-check-label" style="font-size:0.85rem">
@@ -290,7 +296,7 @@
                             <h3><i class="fas fa-shield-halved"></i> Supported Military Branches</h3>
                             <table style="width:100%;font-size:0.82rem">
                                 <tr style="color:var(--muted);border-bottom:1px solid var(--border)"><th style="padding:0.4rem 0">Branch</th><th>Types</th><th>Key Systems</th></tr>
-                                <tr><td style="padding:0.3rem 0">&#9875; U.S. Navy</td><td>25</td><td style="color:var(--muted)">NAVSUP, SKED, NALCOMIS</td></tr>
+                                <tr><td style="padding:0.3rem 0">&#9875; U.S. Navy</td><td>54</td><td style="color:var(--muted)">NAVSUP, NAVSEA, CDMD-OA</td></tr>
                                 <tr><td>&#11088; U.S. Army</td><td>20</td><td style="color:var(--muted)">GCSS-Army, PBUSE, SAAS</td></tr>
                                 <tr><td>&#9992;&#65039; U.S. Air Force</td><td>18</td><td style="color:var(--muted)">IMDS, CEMS, CAS</td></tr>
                                 <tr><td>&#129413; Marines</td><td>14</td><td style="color:var(--muted)">GCSS-MC, NALCOMIS, ATLASS</td></tr>
@@ -298,8 +304,9 @@
                                 <tr><td>&#127963;&#65039; DLA</td><td>12</td><td style="color:var(--muted)">DSS, DRMS, HMIRS</td></tr>
                                 <tr><td>&#127894;&#65039; Joint</td><td>10</td><td style="color:var(--muted)">ALIS/ODIN, DRRS, MDA</td></tr>
                                 <tr><td>&#128481;&#65039; SOCOM</td><td>8</td><td style="color:var(--muted)">SOF-LAN</td></tr>
+                                <tr><td>&#128640; Space Force</td><td>11</td><td style="color:var(--muted)">18 SDS, SMC, SBIRS</td></tr>
                             </table>
-                            <div style="margin-top:0.8rem;padding-top:0.8rem;border-top:1px solid var(--border);font-size:0.85rem;color:var(--steel)"><strong>Total: 119 record types</strong> across 8 military branches and agencies</div>
+                            <div style="margin-top:0.8rem;padding-top:0.8rem;border-top:1px solid var(--border);font-size:0.85rem;color:var(--steel)"><strong>Total: 159 record types</strong> across 9 military branches and agencies</div>
                         </div>
                         <div class="demo-card">
                             <h3><i class="fas fa-coins"></i> $SLS Token</h3>
@@ -309,6 +316,64 @@
                                 <div><strong>Anchor Fee:</strong> 0.01 $SLS per record</div>
                                 <div><strong>Issuer:</strong> r95GyZac...HsTA5</div>
                                 <div><strong>Treasury:</strong> rMLmkrxp...1KLqJ</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="tabILS" role="tabpanel">
+                <div class="row">
+                    <div class="col-lg-7">
+                        <div class="demo-card">
+                            <h3><i class="fas fa-brain"></i> ILS Intelligence Analyzer</h3>
+                            <p style="color:var(--steel);font-size:0.9rem;margin-bottom:1rem">Analyze your ILS data package to identify gaps, assess readiness, and generate actionable reports for your customer.</p>
+                            <label>Select Program / Weapon System</label>
+                            <select id="ilsProgram" style="margin-bottom:1rem" onchange="runILSAnalysis()">
+                                <option value="ddg51">DDG-51 Flight III (Arleigh Burke)</option>
+                                <option value="lcs">LCS Freedom-class</option>
+                                <option value="cvn78">CVN-78 Ford-class</option>
+                                <option value="f35">F-35C Lightning II (Navy)</option>
+                                <option value="ch53k">CH-53K King Stallion</option>
+                                <option value="custom">Custom (use anchored records)</option>
+                            </select>
+                            <label>ILS Elements Present <span style="color:var(--muted);font-weight:400">(check what your data package includes)</span></label>
+                            <div id="ilsChecklist" style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:1rem;font-size:0.85rem;"></div>
+                            <div class="d-flex gap-2">
+                                <button class="btn-accent" onclick="runILSAnalysis()"><i class="fas fa-chart-line"></i> Analyze ILS Package</button>
+                                <button class="btn-gold" onclick="generateILSReport()"><i class="fas fa-file-export"></i> Generate Report</button>
+                            </div>
+                            <div class="result-panel" id="ilsResult"></div>
+                        </div>
+                    </div>
+                    <div class="col-lg-5">
+                        <div class="demo-card">
+                            <h3><i class="fas fa-chart-pie"></i> ILS Readiness Score</h3>
+                            <div id="ilsScoreContainer" style="text-align:center;padding:1rem 0">
+                                <div style="font-size:4rem;font-weight:800;color:var(--muted)" id="ilsScore">--</div>
+                                <div style="font-size:0.9rem;color:var(--steel)" id="ilsScoreLabel">Run analysis to see score</div>
+                                <div style="margin-top:1rem" id="ilsGaugeBar">
+                                    <div style="background:var(--surface);border-radius:8px;height:12px;overflow:hidden;border:1px solid var(--border)">
+                                        <div id="ilsGaugeFill" style="height:100%;width:0%;background:linear-gradient(90deg,#ff3333,#ffa500,#14f195);border-radius:8px;transition:width 0.8s ease"></div>
+                                    </div>
+                                    <div style="display:flex;justify-content:space-between;font-size:0.7rem;color:var(--muted);margin-top:4px"><span>Critical Gaps</span><span>Partial</span><span>Mission Ready</span></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="demo-card">
+                            <h3><i class="fas fa-exclamation-triangle" style="color:#ffa500"></i> Gap Analysis</h3>
+                            <div id="ilsGaps" style="font-size:0.85rem;color:var(--steel)">
+                                <div style="color:var(--muted);text-align:center;padding:1rem">Select a program and run analysis to identify data gaps.</div>
+                            </div>
+                        </div>
+                        <div class="demo-card">
+                            <h3><i class="fas fa-lightbulb" style="color:#c9a84c"></i> ILS Intelligence Tips</h3>
+                            <div style="font-size:0.82rem;line-height:1.8;color:var(--steel)">
+                                <div><span style="color:var(--gold)">&#9679;</span> <strong>DRLs tell the story</strong> — they define what data your contractor owes you. Missing DRLs = missing accountability.</div>
+                                <div><span style="color:var(--gold)">&#9679;</span> <strong>J-attachments are your ILS backbone</strong> — J-3 (Supply) and J-4 (Tech Data) are the most critical for post-delivery support.</div>
+                                <div><span style="color:var(--gold)">&#9679;</span> <strong>Transfer Books close the loop</strong> — they prove custody changed hands properly at turnover.</div>
+                                <div><span style="color:var(--gold)">&#9679;</span> <strong>Buylists drive readiness</strong> — incomplete buylists mean you can't order spares when equipment breaks.</div>
+                                <div><span style="color:var(--gold)">&#9679;</span> <strong>Configuration management catches drift</strong> — if your installed config doesn't match the baseline, your tech manuals are wrong.</div>
                             </div>
                         </div>
                     </div>
@@ -353,7 +418,8 @@ const BRANCHES = {
     USCG:{name:"U.S. Coast Guard",icon:"\uD83D\uDEDF\uFE0F",short:"Coast Guard"},
     DLA:{name:"Defense Logistics Agency",icon:"\uD83C\uDFDB\uFE0F",short:"DLA"},
     JOINT:{name:"Joint / Cross-Branch",icon:"\uD83C\uDF96\uFE0F",short:"Joint"},
-    SOCOM:{name:"Special Operations",icon:"\uD83D\uDDE1\uFE0F",short:"SOCOM"}
+    SOCOM:{name:"Special Operations",icon:"\uD83D\uDDE1\uFE0F",short:"SOCOM"},
+    USSF:{name:"U.S. Space Force",icon:"\uD83D\uDE80",short:"Space Force"}
 };
 
 // Compact: [label, icon, color, branch, system]
@@ -383,6 +449,34 @@ USN_MEDICAL:["Medical Equipment Cert","\uD83C\uDFE5","#33cc66","USN","BUMED"],
 USN_QDR:["Quality Defect Report","\uD83D\uDEAB","#cc0000","USN","NAVSUP WSS"],
 USN_FIELDING:["Equipment Fielding","\uD83D\uDEA2","#00ddaa","USN","PMS"],
 USN_REACTOR:["Naval Reactor Test","\u2622\uFE0F","#ffcc00","USN","NAVSEA 08"],
+USN_DRL:["Data Requirements List (DRL)","\uD83D\uDCCB","#5599cc","USN","NAVSEA/PMS"],
+USN_DI:["Data Item Description (DID)","\uD83D\uDCC3","#4488bb","USN","CDMD-OA"],
+USN_VRS:["Vendor Recommended Spares","\uD83D\uDCE6","#7799aa","USN","NAVICP/DLA"],
+USN_BUYLIST:["Buylist / Provisioning","\uD83D\uDED2","#6688aa","USN","NAVSUP WSS"],
+USN_J1_ILS:["J-1 ILS Parameters / LORA","\uD83D\uDCD1","#336699","USN","PMS/ILS"],
+USN_J2_SE:["J-2 Support Equipment","\uD83D\uDD27","#337799","USN","PMS/ILS"],
+USN_J3_SUPPLY:["J-3 Supply Support","\uD83D\uDCE6","#338899","USN","NAVSUP"],
+USN_J4_TECHDATA:["J-4 Technical Data","\uD83D\uDCD6","#339999","USN","NAVSEA"],
+USN_J5_TRAINING:["J-5 Training","\uD83C\uDF93","#33aa99","USN","NETC"],
+USN_J6_MANPOWER:["J-6 Manpower & Personnel","\uD83D\uDC65","#4488cc","USN","OPNAV N1"],
+USN_J7_FACILITIES:["J-7 Facilities","\uD83C\uDFD7\uFE0F","#5577bb","USN","NAVFAC"],
+USN_J8_PHST:["J-8 PHS&T","\uD83D\uDCE6","#6699cc","USN","NAVSUP"],
+USN_J9_SOFTWARE:["J-9 Computer Resources","\uD83D\uDCBB","#4477aa","USN","SPAWAR/NAVWAR"],
+USN_J10_DESIGN:["J-10 Design Interface","\uD83D\uDCD0","#3366aa","USN","NAVSEA"],
+USN_J11_RAM:["J-11 RAM Analysis","\uD83D\uDCC8","#2255aa","USN","PMS/ILS"],
+USN_J12_ACQLOG:["J-12 Acquisition Logistics","\uD83D\uDCCA","#2266bb","USN","PMS/ILS"],
+USN_J13_CM:["J-13 Configuration Mgmt","\u2699\uFE0F","#3377cc","USN","CDMD-OA"],
+USN_J14_DISPOSAL:["J-14 Disposal","\uD83D\uDDD1\uFE0F","#667788","USN","DRMS"],
+USN_BAM:["Budget Allowance Mgmt (BAM)","\uD83D\uDCB0","#cc9933","USN","NAVSUP"],
+USN_TRANSFER_BOOK:["Transfer Book","\uD83D\uDCD3","#5588aa","USN","Supply Officer"],
+USN_COTS_MANUAL:["COTS Manual / Documentation","\uD83D\uDCD8","#4477bb","USN","NAVSEA"],
+USN_TM_INDEX:["Technical Manual Index","\uD83D\uDCC7","#3366bb","USN","NAVSEA"],
+USN_PO_INDEX:["Purchase Order Index","\uD83D\uDCC2","#5588cc","USN","NAVSUP"],
+USN_PID:["Program Introduction Doc (PID)","\uD83D\uDCC4","#6699bb","USN","PMS"],
+USN_CONTRACT_MOD:["Contract Modification","\uD83D\uDCDD","#7788aa","USN","NAVSEA Contracts"],
+USN_CONFIG_MGMT:["Configuration Mgmt Record","\u2699\uFE0F","#4466aa","USN","CDMD-OA"],
+USN_OUTFITTING:["Outfitting Requirements","\uD83D\uDEA2","#3355aa","USN","PMS/Outfitting"],
+USN_PURCHASE_REQ:["Purchase Request (PR)","\uD83D\uDCB3","#558899","USN","NAVSUP"],
 USA_HAND_RECEIPT:["DA 2062 Hand Receipt","\uD83D\uDCDD","#4b5320","USA","GCSS-Army"],
 USA_TM_UPDATE:["Technical Manual Update","\uD83D\uDCD6","#6b8e23","USA","LOGSA"],
 USA_ARMS_ROOM:["Arms Room Inventory","\uD83D\uDD2B","#8b4513","USA","PBUSE"],
@@ -476,7 +570,17 @@ SOCOM_MARITIME:["SOF Maritime Equipment","\uD83E\uDD3F","#1a1a2e","SOCOM","SOF-L
 SOCOM_VEHICLE:["SOF Vehicle Maintenance","\uD83D\uDE97","#3d3d3d","SOCOM","SOF-LAN"],
 SOCOM_INTEL:["SOF Intelligence Equip","\uD83D\uDD75\uFE0F","#1a1a1a","SOCOM","SOF-LAN"],
 SOCOM_MEDICAL:["SOF Medical Supply","\uD83C\uDFE5","#4a4a4a","SOCOM","SOF-LAN"],
-SOCOM_DEMO:["SOF Demolition Record","\uD83D\uDCA5","#550000","SOCOM","SOF-LAN"]
+SOCOM_DEMO:["SOF Demolition Record","\uD83D\uDCA5","#550000","SOCOM","SOF-LAN"],
+USSF_SAT_OPS:["Satellite Operations Record","\uD83D\uDEF0\uFE0F","#1a1a4e","USSF","18 SDS"],
+USSF_SPACE_VEH:["Space Vehicle Maintenance","\uD83D\uDE80","#2a2a5e","USSF","SMC"],
+USSF_SDA:["Space Domain Awareness","\uD83D\uDD2D","#000066","USSF","18 SDS"],
+USSF_GPS_CONST:["GPS Constellation Record","\uD83D\uDCE1","#003399","USSF","2 SOPS"],
+USSF_LAUNCH_VEH:["Launch Vehicle Record","\uD83D\uDE80","#0044aa","USSF","SLD 45"],
+USSF_RADAR_TRACK:["Space Surveillance Tracking","\uD83D\uDCE1","#0055bb","USSF","18 SDS"],
+USSF_GROUND_SYS:["Ground Systems Maint","\uD83D\uDDA5\uFE0F","#002266","USSF","SBIRS"],
+USSF_COMM_SAT:["Comm Satellite Record","\uD83D\uDCE1","#0033aa","USSF","MILSATCOM"],
+USSF_EARLY_WARN:["Early Warning System","\u26A0\uFE0F","#003377","USSF","SBIRS"],
+USSF_SPACE_CTRL:["Space Control Record","\uD83D\uDEE1\uFE0F","#001a66","USSF","SPACECOM"]
 };
 
 // Expand
@@ -494,7 +598,11 @@ const SAMPLES = {
     hand_receipt:{type:'USA_HAND_RECEIPT',branch:'USA',text:`DA Form 2062 Hand Receipt\nUnit: 3rd BCT, 101st Airborne\nProperty Book Officer: CPT Rivera\nItem: AN/PVS-14 Night Vision Device\nNSN: 5855-01-432-0524\nSerial: NVD-2024-08871\nQuantity: 24 EA\nCondition: Serviceable\nSub-hand receipt to: 1LT Nakamura, B Co\nDate: 2026-02-09`},
     flight_record:{type:'USAF_781_FLIGHT',branch:'USAF',text:`AFTO Form 781 Flight Record\nAircraft: F-16C Block 50\nTail: 91-0412\nUnit: 480th Fighter Squadron, Spangdahlem AB\nMission: Air-to-ground training sortie\nSorties: 1\nFlight Hours: 1.8\nPilot: Capt Williams\nDiscrepancies: None\nDate: 2026-02-10`},
     ground_maint:{type:'USMC_GROUND_MAINT',branch:'USMC',text:`Ground Equipment Maintenance\nUnit: 1st Maintenance Battalion, Camp Pendleton\nEquipment: HMMWV M1151A1\nBumper: 1MaintBn-HQ-07\nWork Order: PM services, 6-month interval\nTechnician: Sgt Dominguez\nHours: 4.5\nParts Used: Oil filter (NSN 2940-01-318-2345)\nStatus: Operational\nDate: 2026-02-11`},
-    cutter:{type:'USCG_CUTTER_MAINT',branch:'USCG',text:`Cutter Maintenance Record\nVessel: USCGC Hamilton (WMSL-753)\nSystem: Main Diesel Engine #2\nAction: 500-hour inspection and filter change\nTechnician: MK1 Petersen\nParts: Fuel filter (NSN 2910-01-456-7890)\nCondition: Satisfactory\nNext PM: 2026-05-10\nDate: 2026-02-11`}
+    cutter:{type:'USCG_CUTTER_MAINT',branch:'USCG',text:`Cutter Maintenance Record\nVessel: USCGC Hamilton (WMSL-753)\nSystem: Main Diesel Engine #2\nAction: 500-hour inspection and filter change\nTechnician: MK1 Petersen\nParts: Fuel filter (NSN 2910-01-456-7890)\nCondition: Satisfactory\nNext PM: 2026-05-10\nDate: 2026-02-11`},
+    satellite:{type:'USSF_SAT_OPS',branch:'USSF',text:`Satellite Operations Record\nConstellation: GPS III\nVehicle: SVN-78 (GPS III-6)\nOrbit: MEO, Slot A3\nStatus: Operational / Healthy\nPayload: L1C/A, L2C, L5, M-Code\nGround Contact: Schriever SFB, CO\nAnomaly: None\nOperator: 2nd SOPS\nDate: 2026-02-12`},
+    drl:{type:'USN_DRL',branch:'USN',text:`Data Requirements List (CDRL)\nContract: N00024-24-C-6200\nCDRL Seq: A001\nDI Number: DI-ILSS-81495\nTitle: Integrated Logistics Support Plan\nFrequency: One-time with revisions\nDistribution: NAVSEA PMS 400D\nContractor: Huntington Ingalls Industries\nProgram: DDG-51 Flight III\nStatus: Submitted, under review\nDate: 2026-02-10`},
+    buylist:{type:'USN_BUYLIST',branch:'USN',text:`Buylist / Provisioning Record\nProgram: LCS Freedom-class\nPMS: PMS 501\nItem: Main Reduction Gear Oil Pump Assembly\nNSN: 4320-01-567-8901\nRecommended Qty: 4 EA per hull\nAcquisition Method: Sole Source (OEM)\nVendor: Rolls-Royce Naval Marine (CAGE: K2965)\nUnit Cost: $47,250.00\nJustification: Critical rotating machinery, no alternate source\nDate: 2026-02-09`},
+    transfer_book:{type:'USN_TRANSFER_BOOK',branch:'USN',text:`Transfer Book Entry\nUnit: Supply Department, USS Nimitz (CVN-68)\nAccount: OPTAR / EMRM\nJob Order: 68-2026-0195\nDescription: Transfer of ADP equipment to AIMD\nFrom: S-1 Division (Stock Control)\nTo: AIMD IM-3 Division\nQuantity: 12 laptops, 3 printers\nDocument Number: N68836-6026-0195\nApproved By: LCDR Torres, Supply Officer\nDate: 2026-02-11`}
 };
 
 let currentBranch = 'USN';
@@ -718,10 +826,197 @@ function updateTxLog() {
     }
 }
 
+// ── ILS Intelligence Engine ──
+const ILS_ELEMENTS = [
+    {id:'drl',label:'Data Requirements List (DRL)',critical:true},
+    {id:'di',label:'Data Item Descriptions (DIDs)',critical:true},
+    {id:'j1',label:'J-1 ILS Parameters / LORA',critical:true},
+    {id:'j2',label:'J-2 Support Equipment',critical:false},
+    {id:'j3',label:'J-3 Supply Support',critical:true},
+    {id:'j4',label:'J-4 Technical Data',critical:true},
+    {id:'j5',label:'J-5 Training',critical:false},
+    {id:'j6',label:'J-6 Manpower & Personnel',critical:false},
+    {id:'j7',label:'J-7 Facilities',critical:false},
+    {id:'j8',label:'J-8 PHS&T',critical:false},
+    {id:'j9',label:'J-9 Computer Resources',critical:false},
+    {id:'j10',label:'J-10 Design Interface',critical:false},
+    {id:'j11',label:'J-11 RAM Analysis',critical:true},
+    {id:'j12',label:'J-12 Acquisition Logistics',critical:false},
+    {id:'j13',label:'J-13 Configuration Mgmt',critical:true},
+    {id:'j14',label:'J-14 Disposal',critical:false},
+    {id:'vrs',label:'Vendor Recommended Spares',critical:true},
+    {id:'buylist',label:'Buylist / Provisioning',critical:true},
+    {id:'bam',label:'Budget Allowance Mgmt (BAM)',critical:false},
+    {id:'transfer',label:'Transfer Book',critical:true},
+    {id:'cots',label:'COTS Manuals / Documentation',critical:false},
+    {id:'tm_index',label:'Technical Manual Index',critical:true},
+    {id:'po_index',label:'Purchase Order Index',critical:false},
+    {id:'pid',label:'Program Introduction Doc (PID)',critical:false},
+    {id:'contract_mod',label:'Contract Modifications',critical:false},
+    {id:'config',label:'Configuration Baseline',critical:true},
+    {id:'outfitting',label:'Outfitting Requirements',critical:false},
+    {id:'purchase_req',label:'Purchase Requests (PRs)',critical:false}
+];
+
+const PROGRAM_DEFAULTS = {
+    ddg51:['drl','di','j1','j3','j4','j11','j13','vrs','buylist','config','tm_index','transfer','cots','outfitting'],
+    lcs:['drl','di','j1','j3','j4','vrs','buylist','config','tm_index'],
+    cvn78:['drl','di','j1','j2','j3','j4','j5','j6','j7','j8','j9','j10','j11','j12','j13','j14','vrs','buylist','bam','transfer','cots','tm_index','po_index','pid','config','outfitting','purchase_req'],
+    f35:['drl','di','j1','j3','j4','j5','j9','j11','j13','vrs','buylist','config','tm_index'],
+    ch53k:['drl','di','j1','j3','j4','j11','vrs','buylist','config','tm_index','transfer'],
+    custom:[]
+};
+
+function initILSChecklist() {
+    const container = document.getElementById('ilsChecklist');
+    if (!container) return;
+    container.innerHTML = ILS_ELEMENTS.map(el =>
+        '<label style="display:flex;align-items:center;gap:6px;cursor:pointer;padding:4px 6px;border-radius:6px;transition:background 0.2s;'+(el.critical?'font-weight:600':'')+'" onmouseover="this.style.background=\'rgba(0,170,255,0.05)\'" onmouseout="this.style.background=\'transparent\'">'
+        + '<input type="checkbox" id="ils_'+el.id+'" style="width:auto!important;accent-color:var(--accent)" onchange="runILSAnalysis()">'
+        + '<span>' + el.label + (el.critical?' <span style="color:var(--red);font-size:0.7rem">CRITICAL</span>':'') + '</span></label>'
+    ).join('');
+}
+
+function setILSDefaults() {
+    const prog = document.getElementById('ilsProgram').value;
+    const defaults = PROGRAM_DEFAULTS[prog] || [];
+    ILS_ELEMENTS.forEach(el => {
+        const cb = document.getElementById('ils_'+el.id);
+        if (cb) cb.checked = defaults.includes(el.id);
+    });
+    runILSAnalysis();
+}
+
+function runILSAnalysis() {
+    const checked = ILS_ELEMENTS.filter(el => {
+        const cb = document.getElementById('ils_'+el.id);
+        return cb && cb.checked;
+    });
+    const unchecked = ILS_ELEMENTS.filter(el => {
+        const cb = document.getElementById('ils_'+el.id);
+        return cb && !cb.checked;
+    });
+    const criticalMissing = unchecked.filter(el => el.critical);
+    const criticalPresent = checked.filter(el => el.critical);
+    const totalCritical = ILS_ELEMENTS.filter(el => el.critical).length;
+
+    // Score: critical elements weighted 2x
+    const maxScore = ILS_ELEMENTS.length + totalCritical; // critical counted twice
+    const score = checked.length + criticalPresent.length; // critical items get bonus point
+    const pct = Math.round((score / maxScore) * 100);
+
+    // Update gauge
+    const scoreEl = document.getElementById('ilsScore');
+    const labelEl = document.getElementById('ilsScoreLabel');
+    const fillEl = document.getElementById('ilsGaugeFill');
+    scoreEl.textContent = pct + '%';
+    scoreEl.style.color = pct >= 80 ? '#14f195' : pct >= 50 ? '#ffa500' : '#ff3333';
+    labelEl.textContent = pct >= 80 ? 'ILS Package: Mission Ready' : pct >= 50 ? 'ILS Package: Partial — Gaps Identified' : 'ILS Package: Critical Gaps — Action Required';
+    fillEl.style.width = pct + '%';
+
+    // Gap analysis
+    const gapsEl = document.getElementById('ilsGaps');
+    if (unchecked.length === 0) {
+        gapsEl.innerHTML = '<div style="color:var(--green);text-align:center;padding:1rem"><i class="fas fa-check-circle" style="font-size:1.5rem;margin-bottom:0.5rem;display:block"></i>No gaps detected. Your ILS data package is complete.</div>';
+    } else {
+        let html = '';
+        if (criticalMissing.length > 0) {
+            html += '<div style="color:var(--red);font-weight:700;margin-bottom:6px"><i class="fas fa-exclamation-circle"></i> Critical Gaps (' + criticalMissing.length + ')</div>';
+            html += criticalMissing.map(el => '<div style="padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.03)"><span style="color:var(--red)">&#9679;</span> ' + el.label + '</div>').join('');
+        }
+        const nonCriticalMissing = unchecked.filter(el => !el.critical);
+        if (nonCriticalMissing.length > 0) {
+            html += '<div style="color:var(--gold);font-weight:700;margin-top:8px;margin-bottom:6px"><i class="fas fa-info-circle"></i> Non-Critical Gaps (' + nonCriticalMissing.length + ')</div>';
+            html += nonCriticalMissing.map(el => '<div style="padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.03)"><span style="color:var(--gold)">&#9679;</span> ' + el.label + '</div>').join('');
+        }
+        gapsEl.innerHTML = html;
+    }
+
+    // Analysis result panel
+    const panel = document.getElementById('ilsResult');
+    const prog = document.getElementById('ilsProgram').value;
+    const progName = document.getElementById('ilsProgram').options[document.getElementById('ilsProgram').selectedIndex].text;
+
+    let recommendations = [];
+    if (criticalMissing.some(e => e.id === 'drl')) recommendations.push('Request complete DRL/CDRL listing from the contractor — this defines all deliverable data.');
+    if (criticalMissing.some(e => e.id === 'vrs')) recommendations.push('Obtain Vendor Recommended Spares list — without this, you cannot build initial sparing levels.');
+    if (criticalMissing.some(e => e.id === 'buylist')) recommendations.push('Buylist is missing — provisioning cannot be completed without approved buylists.');
+    if (criticalMissing.some(e => e.id === 'j3')) recommendations.push('J-3 Supply Support data is critical for post-delivery supply chain readiness.');
+    if (criticalMissing.some(e => e.id === 'j4')) recommendations.push('J-4 Technical Data gap — maintenance staff cannot perform work without current tech manuals.');
+    if (criticalMissing.some(e => e.id === 'tm_index')) recommendations.push('No Tech Manual Index — fleet units cannot identify which publications apply to installed equipment.');
+    if (criticalMissing.some(e => e.id === 'config')) recommendations.push('Configuration baseline missing — cannot verify installed equipment matches documentation.');
+    if (criticalMissing.some(e => e.id === 'transfer')) recommendations.push('Transfer Book not present — chain of custody for equipment/material at turnover is unverified.');
+    if (criticalMissing.some(e => e.id === 'j1')) recommendations.push('J-1 ILS Parameters / LORA study missing — cannot validate supportability decisions.');
+    if (criticalMissing.some(e => e.id === 'j11')) recommendations.push('J-11 RAM Analysis missing — reliability and maintainability data unavailable for planning.');
+    if (criticalMissing.some(e => e.id === 'j13')) recommendations.push('J-13 Configuration Management missing — cannot track engineering changes or ECP status.');
+
+    panel.innerHTML = '<div class="result-label">ILS ANALYSIS — ' + progName.toUpperCase() + '</div>'
+        + '<div style="margin:0.8rem 0"><span style="font-size:1.2rem;font-weight:800;color:' + (pct >= 80 ? 'var(--green)' : pct >= 50 ? '#ffa500' : 'var(--red)') + '">' + pct + '% Readiness</span>'
+        + '<span style="margin-left:12px;color:var(--muted)">' + checked.length + '/' + ILS_ELEMENTS.length + ' elements present (' + criticalPresent.length + '/' + totalCritical + ' critical)</span></div>'
+        + (recommendations.length > 0 ? '<div class="result-label" style="margin-top:1rem">RECOMMENDATIONS</div>' + recommendations.map(r => '<div style="padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.03);font-size:0.88rem;color:var(--steel)"><i class="fas fa-arrow-right" style="color:var(--accent);margin-right:8px;font-size:0.75rem"></i>' + r + '</div>').join('') : '<div style="color:var(--green);margin-top:0.5rem"><i class="fas fa-check-circle"></i> All critical ILS elements present. Package is ready for customer review.</div>')
+        + '<div style="margin-top:1rem;font-size:0.8rem;color:var(--muted)">Analysis based on standard Navy ILS element requirements. Actual program requirements may vary per contract.</div>';
+    panel.classList.add('show');
+}
+
+function generateILSReport() {
+    const prog = document.getElementById('ilsProgram');
+    const progName = prog.options[prog.selectedIndex].text;
+    const checked = ILS_ELEMENTS.filter(el => { const cb = document.getElementById('ils_'+el.id); return cb && cb.checked; });
+    const unchecked = ILS_ELEMENTS.filter(el => { const cb = document.getElementById('ils_'+el.id); return cb && !cb.checked; });
+    const criticalMissing = unchecked.filter(el => el.critical);
+    const totalCritical = ILS_ELEMENTS.filter(el => el.critical).length;
+    const pct = Math.round(((checked.length + checked.filter(e=>e.critical).length) / (ILS_ELEMENTS.length + totalCritical)) * 100);
+
+    let report = '═══════════════════════════════════════════════════════\n';
+    report += '  S4 LEDGER — ILS DATA PACKAGE ASSESSMENT REPORT\n';
+    report += '═══════════════════════════════════════════════════════\n\n';
+    report += 'Program: ' + progName + '\n';
+    report += 'Date: ' + new Date().toISOString().split('T')[0] + '\n';
+    report += 'Assessment Tool: S4 Ledger ILS Intelligence v1.0\n';
+    report += 'Classification: UNCLASSIFIED\n\n';
+    report += '───────────────────────────────────────────────────────\n';
+    report += '  OVERALL READINESS: ' + pct + '%\n';
+    report += '  Elements Present: ' + checked.length + ' / ' + ILS_ELEMENTS.length + '\n';
+    report += '  Critical Elements: ' + (totalCritical - criticalMissing.length) + ' / ' + totalCritical + '\n';
+    report += '───────────────────────────────────────────────────────\n\n';
+    report += 'ELEMENTS PRESENT:\n';
+    checked.forEach(el => { report += '  [✓] ' + el.label + (el.critical ? ' (CRITICAL)' : '') + '\n'; });
+    if (unchecked.length > 0) {
+        report += '\nELEMENTS MISSING:\n';
+        unchecked.forEach(el => { report += '  [✗] ' + el.label + (el.critical ? ' *** CRITICAL GAP ***' : '') + '\n'; });
+    }
+    if (criticalMissing.length > 0) {
+        report += '\nCRITICAL GAPS REQUIRING ACTION:\n';
+        criticalMissing.forEach((el,i) => { report += '  ' + (i+1) + '. ' + el.label + '\n'; });
+    }
+    report += '\n───────────────────────────────────────────────────────\n';
+    report += '  Generated by S4 Ledger | s4ledger.com\n';
+    report += '  Hash-verified logistics for the defense industry\n';
+    report += '═══════════════════════════════════════════════════════\n';
+
+    // Copy to clipboard
+    navigator.clipboard.writeText(report).then(() => {
+        const panel = document.getElementById('ilsResult');
+        const existingHtml = panel.innerHTML;
+        panel.innerHTML = '<div style="color:var(--green);font-size:1rem;font-weight:700;text-align:center;padding:1rem"><i class="fas fa-check-circle"></i> ILS Report copied to clipboard!</div><pre style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:1rem;font-size:0.75rem;color:var(--steel);max-height:300px;overflow-y:auto;white-space:pre-wrap">' + report + '</pre>';
+        panel.classList.add('show');
+    }).catch(() => {
+        // Fallback: show report to copy manually
+        const panel = document.getElementById('ilsResult');
+        panel.innerHTML = '<pre style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:1rem;font-size:0.75rem;color:var(--steel);max-height:400px;overflow-y:auto;white-space:pre-wrap;user-select:all">' + report + '</pre>';
+        panel.classList.add('show');
+    });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     loadStats();
     renderTypeGrid();
     loadSample('supply');
+    initILSChecklist();
+    // Set defaults when program changes
+    document.getElementById('ilsProgram').addEventListener('change', setILSDefaults);
+    // Load initial defaults
+    setILSDefaults();
 });
 </script>
 <script>

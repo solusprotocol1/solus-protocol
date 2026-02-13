@@ -132,7 +132,9 @@
             <h2>8. Defense & Government Users</h2>
             <p>For Department of Defense (DoD) and government users:</p>
             <ul>
-                <li>S4 Ledger does not process classified information at any classification level.</li>
+                <li>S4 Ledger's hash-only architecture supports records at <strong>any classification level</strong> when deployed appropriately. Only the irreversible SHA-256 hash leaves the source system — the hash itself is unclassified.</li>
+                <li>For Secret records, S4 Ledger can be deployed on-premises within the SIPRNet boundary with hash egress through a DISA-approved cross-domain solution.</li>
+                <li>For Top Secret / SCI records, the same architecture applies within JWICS enclaves.</li>
                 <li>CUI should only be submitted through approved on-premises or FedRAMP-authorized deployments (when available).</li>
                 <li>The public demo and testnet environment should only be used with non-sensitive, unclassified test data.</li>
                 <li>For DFARS 252.204-7012 compliance requirements, contact us for our System Security Plan (SSP) and Plan of Action and Milestones (POA&M).</li>
