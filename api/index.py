@@ -376,8 +376,8 @@ class handler(BaseHTTPRequestHandler):
 
     def _route(self, path):
         path = path.rstrip("/")
-        if path in ("/api", "/api/health"):
-            return "health"
+        if path in ("/api", "/api/status"):
+            return "status"
         if path == "/api/metrics":
             return "metrics"
         if path == "/api/transactions":
@@ -404,7 +404,7 @@ class handler(BaseHTTPRequestHandler):
         parsed = urlparse(self.path)
         route = self._route(parsed.path)
 
-        if route == "health":
+        if route == "status":
             root_files = []
             try:
                 root_files = sorted(os.listdir(PROJECT_ROOT))[:25]
