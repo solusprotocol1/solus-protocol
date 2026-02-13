@@ -35,7 +35,4 @@ def test_anchor_failure():
     with pytest.raises(Exception):
         bad_sdk.anchor_record(record_text="fail", encrypt_first=True, fiat_mode=False)
 
-def test_backward_compat_alias(sdk):
-    """Ensure the deprecated secure_patient_record alias still works."""
-    result = sdk.secure_patient_record(record_text="legacy API test", encrypt_first=False)
-    assert "hash" in result
+

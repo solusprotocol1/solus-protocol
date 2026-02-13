@@ -258,11 +258,6 @@ class S4SDK:
                 # Propagate the original error with more context
                 raise RuntimeError(f"Failed to create Wallet from seed. Default error: {e_default}")
 
-    # Backward-compatible alias (deprecated)
-    def secure_patient_record(self, *args, **kwargs):
-        """Deprecated: Use anchor_record() instead."""
-        return self.anchor_record(*args, **kwargs)
-
 if __name__ == "__main__":
     # Usage Example — Anchor a defense logistics record
     sdk = S4SDK(api_key="valid_mock_key", testnet=True)
