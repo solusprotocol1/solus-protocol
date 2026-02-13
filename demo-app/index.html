@@ -578,10 +578,10 @@ async function anchorRecord() {
 
     showAnchorAnimation(hash, typeInfo.label);
 
-    // POST to API (best-effort, try Vercel then Render)
+    // POST to API (best-effort)
     const apiData = {hash, record_type:selectedType, tx_hash:txHash, content_preview:input.substring(0,100)};
     try { await fetch('/api/anchor',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(apiData)}); }
-    catch(e) { try { await fetch('https://s4ledger.onrender.com/api/anchor',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(apiData)}); } catch(e2){} }
+    catch(e) { console.warn('API anchor failed:', e); }
 
     const record = {
         type:selectedType, label:typeInfo.label, icon:typeInfo.icon, branch:typeInfo.branch,

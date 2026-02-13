@@ -32,8 +32,8 @@ self.addEventListener('activate', e => {
 self.addEventListener('fetch', e => {
   const url = new URL(e.request.url);
 
-  // Network-first for XRPL and metrics API calls
-  if (url.hostname.includes('xrpl') || url.hostname.includes('onrender') || url.pathname.includes('/metrics')) {
+  // Network-first for API calls
+  if (url.hostname.includes('xrpl') || url.pathname.includes('/api/') || url.pathname.includes('/metrics')) {
     e.respondWith(
       fetch(e.request).catch(() => caches.match(e.request))
     );

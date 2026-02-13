@@ -10,32 +10,7 @@ from urllib.parse import urlparse, parse_qs
 import hashlib
 import random
 import json
-import os
 import re
-
-# Project root: one level up from api/
-PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-MIME_TYPES = {
-    '.html': 'text/html; charset=utf-8',
-    '.css': 'text/css; charset=utf-8',
-    '.js': 'application/javascript; charset=utf-8',
-    '.json': 'application/json; charset=utf-8',
-    '.png': 'image/png',
-    '.jpg': 'image/jpeg',
-    '.jpeg': 'image/jpeg',
-    '.gif': 'image/gif',
-    '.svg': 'image/svg+xml',
-    '.ico': 'image/x-icon',
-    '.webp': 'image/webp',
-    '.woff': 'font/woff',
-    '.woff2': 'font/woff2',
-    '.ttf': 'font/ttf',
-    '.txt': 'text/plain; charset=utf-8',
-    '.md': 'text/plain; charset=utf-8',
-    '.xml': 'application/xml; charset=utf-8',
-    '.webmanifest': 'application/manifest+json',
-}
 
 # ═══════════════════════════════════════════════════════════════════════
 #  MILITARY BRANCH DEFINITIONS
@@ -390,8 +365,6 @@ class handler(BaseHTTPRequestHandler):
             return "hash"
         if path == "/api/categorize":
             return "categorize"
-        if path == "/api/debug":
-            return "debug"
         return None
 
     def do_OPTIONS(self):
@@ -405,11 +378,6 @@ class handler(BaseHTTPRequestHandler):
         route = self._route(parsed.path)
 
         if route == "status":
-            root_files = []
-            try:
-                root_files = sorted(os.listdir(PROJECT_ROOT))[:25]
-            except Exception as e:
-                root_files = [str(e)]
             self._send_json({
                 "status": "operational",
                 "service": "S4 Ledger Defense Metrics API",
@@ -417,9 +385,6 @@ class handler(BaseHTTPRequestHandler):
                 "record_types": len(RECORD_CATEGORIES),
                 "branches": len(BRANCHES),
                 "total_records": len(_get_all_records()),
-                "_debug_root": PROJECT_ROOT,
-                "_debug_file": os.path.abspath(__file__),
-                "_debug_root_files": root_files,
             })
         elif route == "metrics":
             records = _get_all_records()
@@ -440,74 +405,8 @@ class handler(BaseHTTPRequestHandler):
                     grouped[branch] = {"info": BRANCHES.get(branch, {}), "types": []}
                 grouped[branch]["types"].append({"key": key, **cat})
             self._send_json({"branches": BRANCHES, "categories": RECORD_CATEGORIES, "grouped": grouped})
-        elif route == "debug":
-            # Temporary debug to diagnose Vercel filesystem
-            root = PROJECT_ROOT
-            root_exists = os.path.isdir(root)
-            root_files = []
-            if root_exists:
-                try:
-                    root_files = os.listdir(root)[:30]
-                except Exception as e:
-                    root_files = [f"ERROR: {e}"]
-            self._send_json({
-                "project_root": root,
-                "root_exists": root_exists,
-                "root_files": root_files,
-                "__file__": os.path.abspath(__file__),
-                "cwd": os.getcwd(),
-                "cwd_files": os.listdir(os.getcwd())[:20],
-            })
         else:
-            # Fallback: serve static files from project root
-            self._serve_static(parsed.path)
-
-    def _serve_static(self, path):
-        """Serve static files - fallback when Vercel routes everything through Python."""
-        try:
-            # Normalize path
-            if not path or path == '/':
-                path = '/index.html'
-            elif path.endswith('/'):
-                path = path + 'index.html'
-            elif '.' not in os.path.basename(path):
-                path = path.rstrip('/') + '/index.html'
-
-            # Security: prevent directory traversal
-            safe_path = os.path.normpath(path.lstrip('/'))
-            if safe_path.startswith('..'):
-                self._send_json({"error": "Forbidden"}, 403)
-                return
-
-            file_path = os.path.join(PROJECT_ROOT, safe_path)
-
-            if os.path.isfile(file_path):
-                ext = os.path.splitext(file_path)[1].lower()
-                content_type = MIME_TYPES.get(ext, 'application/octet-stream')
-                with open(file_path, 'rb') as f:
-                    body = f.read()
-                self.send_response(200)
-                self.send_header('Content-Type', content_type)
-                self.send_header('Content-Length', str(len(body)))
-                self.send_header('Cache-Control', 'public, max-age=60')
-                self.end_headers()
-                self.wfile.write(body)
-            else:
-                # Return friendly 404 page
-                body = b'<!DOCTYPE html><html><head><meta charset="utf-8"><title>404 - S4 Ledger</title></head><body style="font-family:sans-serif;text-align:center;padding:80px;"><h1>404</h1><p>Page not found</p><p style="color:#999;font-size:0.8em;">Path: ' + safe_path.encode() + b' | Root: ' + PROJECT_ROOT.encode() + b'</p><a href="/">Go to S4 Ledger Home</a></body></html>'
-                self.send_response(404)
-                self.send_header('Content-Type', 'text/html; charset=utf-8')
-                self.send_header('Content-Length', str(len(body)))
-                self.end_headers()
-                self.wfile.write(body)
-        except Exception as e:
-            # Emergency fallback — never crash
-            body = json.dumps({"error": str(e), "path": path, "project_root": PROJECT_ROOT}).encode()
-            self.send_response(500)
-            self.send_header('Content-Type', 'application/json')
-            self.send_header('Content-Length', str(len(body)))
-            self.end_headers()
-            self.wfile.write(body)
+            self._send_json({"error": "Not found", "path": self.path}, 404)
 
     def do_POST(self):
         parsed = urlparse(self.path)
