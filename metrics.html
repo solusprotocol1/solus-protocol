@@ -161,6 +161,10 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="s4-assets/main.js"></script>
     <script>
+        // ── localStorage cross-page record sync ──
+        const S4_STORAGE_KEY = 's4_anchored_records';
+        function getLocalRecords() { try { return JSON.parse(localStorage.getItem(S4_STORAGE_KEY) || '[]'); } catch { return []; } }
+
         let metricsData = null;
         let hashChart, recordChart, feeChart, txChart;
         let currentHashView = 'minute', currentFeeView = 'minute', currentTxView = 'minute';
@@ -170,6 +174,31 @@
             try {
                 const response = await fetch('/api/metrics');
                 metricsData = await response.json();
+
+                // Merge locally-anchored records from localStorage
+                const localRecs = getLocalRecords();
+                if (localRecs.length > 0) {
+                    metricsData.total_hashes = (metricsData.total_hashes || 0) + localRecs.length;
+                    metricsData.total_fees = +((metricsData.total_fees || 0) + localRecs.length * 0.01).toFixed(2);
+                    metricsData.individual_records = [...(metricsData.individual_records || []), ...localRecs];
+                    if (!metricsData.records_by_type) metricsData.records_by_type = {};
+                    if (!metricsData.records_by_branch) metricsData.records_by_branch = {};
+                    for (const r of localRecs) {
+                        const label = r.record_label || r.record_type || 'Unknown';
+                        metricsData.records_by_type[label] = (metricsData.records_by_type[label] || 0) + 1;
+                        metricsData.records_by_branch[r.branch || 'JOINT'] = (metricsData.records_by_branch[r.branch || 'JOINT'] || 0) + 1;
+                        // Add to time-series for day view
+                        try {
+                            const ts = new Date(r.timestamp);
+                            const dayKey = ts.toLocaleDateString('en-US', { month: 'short', day: '2-digit' });
+                            if (!metricsData.hashes_by_day) metricsData.hashes_by_day = {};
+                            if (!metricsData.fees_by_day) metricsData.fees_by_day = {};
+                            metricsData.hashes_by_day[dayKey] = (metricsData.hashes_by_day[dayKey] || 0) + 1;
+                            metricsData.fees_by_day[dayKey] = +((metricsData.fees_by_day[dayKey] || 0) + 0.01).toFixed(4);
+                        } catch(e) {}
+                    }
+                }
+
                 document.getElementById('totalHashes').textContent = metricsData.total_hashes || 0;
                 document.getElementById('totalFees').textContent = (metricsData.total_fees || 0).toFixed(2);
                 document.getElementById('recordTypes').textContent = Object.keys(metricsData.records_by_type || {}).length;

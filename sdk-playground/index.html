@@ -203,6 +203,11 @@
     let recordTypes = {};
     let currentExample = 'hash';
 
+    // ── localStorage cross-page record sync ──
+    const S4_STORAGE_KEY = 's4_anchored_records';
+    function getLocalRecords() { try { return JSON.parse(localStorage.getItem(S4_STORAGE_KEY) || '[]'); } catch { return []; } }
+    function saveLocalRecord(rec) { const records = getLocalRecords(); records.push(rec); localStorage.setItem(S4_STORAGE_KEY, JSON.stringify(records)); }
+
     // ── Fetch record types and populate dropdown ──
     async function loadRecordTypes() {
         try {
@@ -344,6 +349,8 @@ print(result)`,
                 });
                 const anchorData = await anchorRes.json();
                 const rec = anchorData.record || {};
+                // Save to localStorage for Metrics & Transactions pages
+                if (rec.hash) saveLocalRecord(rec);
 
                 await new Promise(r => setTimeout(r, 600));
                 hideAnchorAnimation();
@@ -478,6 +485,7 @@ for r in results:
                         })
                     });
                     const anchorData = await anchorRes.json();
+                    if (anchorData.record?.hash) saveLocalRecord(anchorData.record);
                     const label = anchorData.record?.record_label || r.type;
                     output += `POST /api/anchor  ${label.padEnd(28)} \u2192 ${hashData.hash.substring(0, 16)}... \u2713\n`;
                     totalFees += 0.01;

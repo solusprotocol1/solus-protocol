@@ -481,6 +481,11 @@ let selectedType = 'USN_SUPPLY_RECEIPT';
 let sessionRecords = [];
 let stats = {anchored:0,verified:0,types:new Set(),slsFees:0};
 
+// ── localStorage cross-page record sync ──
+const S4_STORAGE_KEY = 's4_anchored_records';
+function getLocalRecords() { try { return JSON.parse(localStorage.getItem(S4_STORAGE_KEY) || '[]'); } catch { return []; } }
+function saveLocalRecord(rec) { const records = getLocalRecords(); records.push(rec); localStorage.setItem(S4_STORAGE_KEY, JSON.stringify(records)); }
+
 async function sha256(text) {
     const data = new TextEncoder().encode(text);
     const buf = await crypto.subtle.digest('SHA-256', data);
@@ -584,6 +589,13 @@ async function anchorRecord() {
         content:input.substring(0,100)+(input.length>100?'...':'')
     };
     sessionRecords.push(record);
+    // Save to localStorage so Metrics & Transactions pages see it
+    saveLocalRecord({
+        hash, record_type: selectedType, record_label: typeInfo.label, branch: typeInfo.branch,
+        icon: typeInfo.icon, timestamp: new Date().toISOString(),
+        timestamp_display: new Date().toISOString().replace('T',' ').substring(0,19) + ' UTC',
+        fee: 0.01, tx_hash: txHash, system: typeInfo.system || 'N/A'
+    });
     stats.anchored++;
     stats.types.add(selectedType);
     stats.slsFees += 0.01;

@@ -165,6 +165,10 @@
     //  S4 LEDGER — LIVE TRANSACTIONS PAGE
     // ═══════════════════════════════════════════════════════
 
+    // ── localStorage cross-page record sync ──
+    const S4_STORAGE_KEY = 's4_anchored_records';
+    function getLocalRecords() { try { return JSON.parse(localStorage.getItem(S4_STORAGE_KEY) || '[]'); } catch { return []; } }
+
     const BRANCH_COLORS = {
         USN:   { bg: 'rgba(0,59,111,0.25)', color: '#66aaff', label: 'Navy' },
         USA:   { bg: 'rgba(75,83,32,0.25)', color: '#9acd32', label: 'Army' },
@@ -187,6 +191,12 @@
             const res = await fetch('/api/transactions');
             const data = await res.json();
             allTransactions = data.transactions || [];
+
+            // Merge locally-anchored records from localStorage
+            const localRecs = getLocalRecords();
+            if (localRecs.length > 0) {
+                allTransactions = [...localRecs.map(r => ({...r, _local: true})).reverse(), ...allTransactions];
+            }
 
             // Stats
             document.getElementById('totalTx').textContent = (data.total || allTransactions.length).toLocaleString();
