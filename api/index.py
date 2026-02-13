@@ -1,6 +1,6 @@
 """
 S4 Ledger — Defense Record Metrics API (Vercel Serverless)
-Zero-dependency implementation using Vercel's native Python handler.
+Real XRPL Testnet integration with graceful fallback.
 160+ defense record types across 9 branches, 600 pre-seeded records.
 """
 
@@ -10,7 +10,18 @@ from urllib.parse import urlparse, parse_qs
 import hashlib
 import random
 import json
+import os
 import re
+
+# XRPL Testnet integration (graceful fallback if unavailable)
+try:
+    from xrpl.clients import JsonRpcClient
+    from xrpl.wallet import generate_faucet_wallet, Wallet
+    from xrpl.models import Memo, Payment
+    from xrpl.transaction import submit_and_wait
+    XRPL_AVAILABLE = True
+except ImportError:
+    XRPL_AVAILABLE = False
 
 # ═══════════════════════════════════════════════════════════════════════
 #  MILITARY BRANCH DEFINITIONS
@@ -362,7 +373,67 @@ def _aggregate_metrics(records):
 
 
 # ═══════════════════════════════════════════════════════════════════════
-#  VERCEL HANDLER (BaseHTTPRequestHandler — zero dependencies)
+#  XRPL TESTNET ANCHOR ENGINE
+# ═══════════════════════════════════════════════════════════════════════
+
+XRPL_TESTNET_URL = "https://s.altnet.rippletest.net:51234"
+_xrpl_client = None
+_xrpl_wallet = None
+
+def _init_xrpl():
+    """Initialize XRPL testnet client and wallet (cached across warm invocations)."""
+    global _xrpl_client, _xrpl_wallet
+    if not XRPL_AVAILABLE or _xrpl_client is not None:
+        return
+    try:
+        _xrpl_client = JsonRpcClient(XRPL_TESTNET_URL)
+        seed = os.environ.get("XRPL_WALLET_SEED")
+        if seed:
+            _xrpl_wallet = Wallet.from_seed(seed)
+        else:
+            _xrpl_wallet = generate_faucet_wallet(_xrpl_client, debug=False)
+    except Exception as e:
+        print(f"XRPL init failed: {e}")
+        _xrpl_client = None
+        _xrpl_wallet = None
+
+def _anchor_xrpl(hash_value, record_type="", branch=""):
+    """Submit a real anchor transaction to XRPL Testnet. Returns tx info or None."""
+    _init_xrpl()
+    if not _xrpl_client or not _xrpl_wallet:
+        return None
+    try:
+        memo_data = json.dumps({
+            "hash": hash_value, "type": record_type, "branch": branch,
+            "platform": "S4 Ledger", "ts": datetime.now(timezone.utc).isoformat()
+        })
+        tx = Payment(
+            account=_xrpl_wallet.address,
+            destination=_xrpl_wallet.address,
+            amount="1",
+            memos=[Memo(
+                memo_type=bytes("text/plain", "utf-8").hex(),
+                memo_data=bytes(memo_data, "utf-8").hex()
+            )]
+        )
+        response = submit_and_wait(tx, _xrpl_client, _xrpl_wallet)
+        if response.is_successful():
+            tx_hash = response.result["hash"]
+            return {
+                "tx_hash": tx_hash,
+                "ledger_index": response.result.get("ledger_index"),
+                "fee_drops": response.result.get("Fee", "12"),
+                "network": "testnet",
+                "verified": True,
+                "explorer_url": f"https://testnet.xrpl.org/transactions/{tx_hash}"
+            }
+    except Exception as e:
+        print(f"XRPL anchor failed: {e}")
+    return None
+
+
+# ═══════════════════════════════════════════════════════════════════════
+#  VERCEL HANDLER
 # ═══════════════════════════════════════════════════════════════════════
 
 class handler(BaseHTTPRequestHandler):
@@ -409,6 +480,8 @@ class handler(BaseHTTPRequestHandler):
             return "hash"
         if path == "/api/categorize":
             return "categorize"
+        if path == "/api/xrpl-status":
+            return "xrpl_status"
         return None
 
     def do_OPTIONS(self):
@@ -449,6 +522,16 @@ class handler(BaseHTTPRequestHandler):
                     grouped[branch] = {"info": BRANCHES.get(branch, {}), "types": []}
                 grouped[branch]["types"].append({"key": key, **cat})
             self._send_json({"branches": BRANCHES, "categories": RECORD_CATEGORIES, "grouped": grouped})
+        elif route == "xrpl_status":
+            _init_xrpl()
+            self._send_json({
+                "xrpl_available": XRPL_AVAILABLE,
+                "connected": _xrpl_client is not None,
+                "wallet": _xrpl_wallet.address if _xrpl_wallet else None,
+                "network": "testnet",
+                "endpoint": XRPL_TESTNET_URL,
+                "note": "Real XRPL Testnet transactions. Verify at testnet.xrpl.org"
+            })
         else:
             self._send_json({"error": "Not found", "path": self.path}, 404)
 
@@ -461,8 +544,22 @@ class handler(BaseHTTPRequestHandler):
             now = datetime.now(timezone.utc)
             record_type = data.get("record_type", "JOINT_CONTRACT")
             cat = RECORD_CATEGORIES.get(record_type, {"label": record_type, "branch": "JOINT", "icon": "\U0001f4cb", "system": "N/A"})
+            hash_value = data.get("hash", hashlib.sha256(str(now).encode()).hexdigest())
+
+            # Try real XRPL testnet anchor first
+            xrpl_result = _anchor_xrpl(hash_value, record_type, cat.get("branch", ""))
+
+            if xrpl_result:
+                tx_hash = xrpl_result["tx_hash"]
+                network = "XRPL Testnet"
+                explorer_url = xrpl_result["explorer_url"]
+            else:
+                tx_hash = data.get("tx_hash", "TX" + hashlib.md5(str(now).encode()).hexdigest().upper()[:32])
+                network = "Simulated"
+                explorer_url = None
+
             record = {
-                "hash": data.get("hash", hashlib.sha256(str(now).encode()).hexdigest()),
+                "hash": hash_value,
                 "record_type": record_type,
                 "record_label": cat.get("label", record_type),
                 "branch": cat.get("branch", "JOINT"),
@@ -470,12 +567,14 @@ class handler(BaseHTTPRequestHandler):
                 "timestamp": now.isoformat(),
                 "timestamp_display": now.strftime("%Y-%m-%d %H:%M:%S UTC"),
                 "fee": 0.01,
-                "tx_hash": data.get("tx_hash", "TX" + hashlib.md5(str(now).encode()).hexdigest().upper()[:32]),
+                "tx_hash": tx_hash,
+                "network": network,
+                "explorer_url": explorer_url,
                 "system": cat.get("system", "N/A"),
                 "content_preview": data.get("content_preview", ""),
             }
             _live_records.append(record)
-            self._send_json({"status": "anchored", "record": record})
+            self._send_json({"status": "anchored", "record": record, "xrpl": xrpl_result})
 
         elif route == "hash":
             text = data.get("record", "")

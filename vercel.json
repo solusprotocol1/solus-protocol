@@ -8,6 +8,7 @@
         { "source": "/api/record-types", "destination": "/api" },
         { "source": "/api/anchor", "destination": "/api" },
         { "source": "/api/hash", "destination": "/api" },
-        { "source": "/api/categorize", "destination": "/api" }
+        { "source": "/api/categorize", "destination": "/api" },
+        { "source": "/api/xrpl-status", "destination": "/api" }
     ]
 }
