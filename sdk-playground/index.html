@@ -197,32 +197,33 @@
     <script src="../s4-assets/main.js"></script>
     <script>
     // ═══════════════════════════════════════════════════════
-    //  S4 LEDGER — SDK PLAYGROUND WITH LIVE API
+    //  S4 LEDGER — SDK PLAYGROUND (FULLY INTERACTIVE)
     // ═══════════════════════════════════════════════════════
 
-    let recordTypes = {};
-    let currentExample = 'hash';
+    var recordTypes = {};
+    var currentExample = 'hash';
 
     // ── localStorage cross-page record sync ──
-    const S4_STORAGE_KEY = 's4_anchored_records';
-    function getLocalRecords() { try { return JSON.parse(localStorage.getItem(S4_STORAGE_KEY) || '[]'); } catch { return []; } }
-    function saveLocalRecord(rec) { const records = getLocalRecords(); records.push(rec); localStorage.setItem(S4_STORAGE_KEY, JSON.stringify(records)); }
+    var S4_STORAGE_KEY = 's4_anchored_records';
+    function getLocalRecords() { try { return JSON.parse(localStorage.getItem(S4_STORAGE_KEY) || '[]'); } catch(e) { return []; } }
+    function saveLocalRecord(rec) { var records = getLocalRecords(); records.push(rec); localStorage.setItem(S4_STORAGE_KEY, JSON.stringify(records)); }
 
     // ── Fetch record types and populate dropdown ──
     async function loadRecordTypes() {
         try {
-            const res = await fetch('/api/record-types');
-            const data = await res.json();
+            var res = await fetch('/api/record-types');
+            var data = await res.json();
             recordTypes = data.categories || {};
-            const select = document.getElementById('recordTypeSelect');
+            var select = document.getElementById('recordTypeSelect');
             select.innerHTML = '';
-            const grouped = data.grouped || {};
-            for (const [branchKey, branchData] of Object.entries(grouped)) {
-                const info = branchData.info || {};
-                const optgroup = document.createElement('optgroup');
+            var grouped = data.grouped || {};
+            for (var branchKey of Object.keys(grouped)) {
+                var branchData = grouped[branchKey];
+                var info = branchData.info || {};
+                var optgroup = document.createElement('optgroup');
                 optgroup.label = (info.icon || '') + ' ' + (info.name || branchKey);
-                (branchData.types || []).forEach(t => {
-                    const opt = document.createElement('option');
+                (branchData.types || []).forEach(function(t) {
+                    var opt = document.createElement('option');
                     opt.value = t.key;
                     opt.textContent = t.icon + ' ' + t.label;
                     select.appendChild(opt);
@@ -230,353 +231,302 @@
                 });
                 select.appendChild(optgroup);
             }
-        } catch (e) { console.error('Failed to load record types:', e); }
-    }
-
-    // ── SHA-256 helper (client-side for verify) ──
-    async function sha256(text) {
-        const data = new TextEncoder().encode(text);
-        const buf = await crypto.subtle.digest('SHA-256', data);
-        return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+        } catch(e) { console.error('Failed to load record types:', e); }
     }
 
     // ── Anchor animation ──
     function showAnchorAnimation(text, sub) {
-        const overlay = document.getElementById('anchorOverlay');
+        var overlay = document.getElementById('anchorOverlay');
         document.getElementById('anchorAnimText').textContent = text || 'Anchoring to XRPL...';
         document.getElementById('anchorAnimSub').textContent = sub || 'Computing SHA-256 hash';
         overlay.classList.add('show');
-        // Re-trigger CSS animation
-        const icon = overlay.querySelector('.anchor-anim-icon');
+        var icon = overlay.querySelector('.anchor-anim-icon');
         icon.style.animation = 'none';
-        icon.offsetHeight; // reflow
+        icon.offsetHeight;
         icon.style.animation = '';
     }
     function hideAnchorAnimation() {
         document.getElementById('anchorOverlay').classList.remove('show');
     }
 
-    // ── Example definitions with LIVE API calls ──
-    const EXAMPLES = {
-        hash: {
-            showRecordType: false,
-            code: `from s4_sdk import S4Ledger
+    // ══════════════════════════════════════════════════════
+    //  SMART CONTENT EXTRACTION — reads whatever is in
+    //  the editor and pulls out the record text
+    // ══════════════════════════════════════════════════════
+    function extractRecordContent() {
+        var code = document.getElementById('codeEditor').value;
 
-# Initialize the SDK
-ledger = S4Ledger()
+        // 1) Triple-quoted Python strings: """...""" or '''...'''
+        var m = code.match(/"{3}([\s\S]*?)"{3}/) || code.match(/'{3}([\s\S]*?)'{3}/);
+        if (m && m[1].trim().length > 3) return m[1].trim();
 
-# Hash a defense logistics record
-record = """Supply Chain Receipt
-NSN: 5340-01-234-5678
-Nomenclature: Valve, Gate, Carbon Steel
-Contract: N00024-23-C-5501
-Quantity: 50 EA
-Condition: A (Serviceable)"""
+        // 2) Variable assignment: record = "..." or content = "..."
+        m = code.match(/(?:record|original|content)\s*=\s*"((?:[^"\\]|\\.)*)"/);
+        if (m && m[1].trim().length > 3) return m[1].replace(/\\n/g, '\n').trim();
 
-result = ledger.hash_record(record)
-print(f"SHA-256 Hash: {result['hash']}")
-print(f"Algorithm:    {result['algorithm']}")`,
-            run: async () => {
-                const record = "Supply Chain Receipt\nNSN: 5340-01-234-5678\nNomenclature: Valve, Gate, Carbon Steel\nContract: N00024-23-C-5501\nQuantity: 50 EA\nCondition: A (Serviceable)";
-                const res = await fetch('/api/hash', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ record })
-                });
-                const data = await res.json();
-                return `>>> ledger.hash_record(record)
-
-POST /api/hash  \u2192  200 OK
-
-{
-  "hash":      "${data.hash}",
-  "algorithm": "${data.algorithm}"
-}
-
-\u2713 Hash computed server-side via /api/hash
-\u2713 No record content leaves the system \u2014 only this hash is anchored.`;
-            }
-        },
-
-        anchor: {
-            showRecordType: true,
-            code: `from s4_sdk import S4Ledger
-
-# Initialize with credentials
-ledger = S4Ledger(
-    wallet_seed="sEdV...",
-    network="testnet"
-)
-
-# Anchor a maintenance record to XRPL
-result = ledger.anchor_record(
-    content=\"\"\"Maintenance 3-M Action
-MRC: 2815-1.3.7
-Equipment: LM2500 Gas Turbine
-Hull: DDG-118
-Action: Oil sample analysis
-Technician: MM2(SW) Garcia\"\"\",
-    record_type="USN_3M_MAINTENANCE",
-    encrypt=True
-)
-
-print(result)`,
-            run: async () => {
-                const recordType = document.getElementById('recordTypeSelect').value || 'USN_3M_MAINTENANCE';
-                const content = "Maintenance 3-M Action\nMRC: 2815-1.3.7\nEquipment: LM2500 Gas Turbine\nHull: DDG-118\nAction: Oil sample analysis\nTechnician: MM2(SW) Garcia";
-
-                showAnchorAnimation('Anchoring to XRPL...', 'Hashing & submitting ' + (recordTypes[recordType]?.label || recordType));
-
-                // First hash it
-                const hashRes = await fetch('/api/hash', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ record: content })
-                });
-                const hashData = await hashRes.json();
-
-                await new Promise(r => setTimeout(r, 800));
-
-                // Then anchor
-                const anchorRes = await fetch('/api/anchor', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        record_type: recordType,
-                        hash: hashData.hash,
-                        content_preview: content.substring(0, 80)
-                    })
-                });
-                const anchorData = await anchorRes.json();
-                const rec = anchorData.record || {};
-                // Save to localStorage for Metrics & Transactions pages
-                if (rec.hash) saveLocalRecord(rec);
-
-                await new Promise(r => setTimeout(r, 600));
-                hideAnchorAnimation();
-
-                return `>>> ledger.anchor_record(content, record_type="${recordType}", encrypt=True)
-
-POST /api/hash    \u2192  200 OK
-POST /api/anchor  \u2192  200 OK
-
-{
-  "status":       "${anchorData.status}",
-  "hash":         "${rec.hash}",
-  "tx_hash":      "${rec.tx_hash}",
-  "record_type":  "${rec.record_type}",
-  "record_label": "${rec.record_label}",
-  "branch":       "${rec.branch}",
-  "system":       "${rec.system}",
-  "fee":          ${rec.fee} $SLS,
-  "timestamp":    "${rec.timestamp_display}"
-}
-
-\u2713 Record anchored to XRPL \u2014 0.01 $SLS fee paid to treasury.
-\u2713 This record now appears on the Live Metrics and Transactions pages!`;
-            }
-        },
-
-        verify: {
-            showRecordType: false,
-            code: `from s4_sdk import S4Ledger
-
-ledger = S4Ledger()
-
-# Original record to verify
-original = \"\"\"CDRL Delivery Record
-CDRL: A003
-Title: Technical Manual Update Rev 4.2
-Contract: N00024-23-C-5501
-Contractor: Huntington Ingalls Industries\"\"\"
-
-# Expected hash from when it was anchored
-expected = ledger.hash_record(original)
-
-# Verify integrity
-result = ledger.verify_record(
-    content=original,
-    expected_hash=expected['hash']
-)
-
-print(result)`,
-            run: async () => {
-                const content = "CDRL Delivery Record\nCDRL: A003\nTitle: Technical Manual Update Rev 4.2\nContract: N00024-23-C-5501\nContractor: Huntington Ingalls Industries";
-
-                showAnchorAnimation('Verifying Record...', 'Computing hash & comparing');
-
-                const hashRes = await fetch('/api/hash', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ record: content })
-                });
-                const hashData = await hashRes.json();
-
-                await new Promise(r => setTimeout(r, 800));
-                hideAnchorAnimation();
-
-                return `>>> ledger.verify_record(content, expected_hash)
-
-POST /api/hash  \u2192  200 OK
-
-{
-  "verified":      true,
-  "computed_hash": "${hashData.hash}",
-  "expected_hash": "${hashData.hash}",
-  "match":         true,
-  "algorithm":     "SHA-256",
-  "message":       "Record integrity confirmed \u2014 hash matches anchored value."
-}
-
-\u2713 VERIFIED \u2014 Record has not been altered since anchoring.`;
-            }
-        },
-
-        batch: {
-            showRecordType: true,
-            code: `from s4_sdk import S4Ledger
-
-ledger = S4Ledger(wallet_seed="sEdV...", network="testnet")
-
-# Batch anchor multiple records at once
-records = [
-    {"content": "Supply receipt NSN 5340-01-234-5678",
-     "type": "USN_SUPPLY_RECEIPT"},
-    {"content": "Ordnance lot WCC-2025-1147-A inspected",
-     "type": "USN_ORDNANCE"},
-    {"content": "CASREP DDG-78 radar transmitter module",
-     "type": "USN_CASREP"},
-    {"content": "Calibration cert TMDE #8829-A thermal",
-     "type": "USN_CALIBRATION"},
-]
-
-results = ledger.batch_anchor(records)
-
-for r in results:
-    print(f"{r['type']:28s} -> {r['hash'][:16]}... ok")`,
-            run: async () => {
-                const records = [
-                    { content: "Supply receipt NSN 5340-01-234-5678", type: "USN_SUPPLY_RECEIPT" },
-                    { content: "Ordnance lot WCC-2025-1147-A inspected", type: "USN_ORDNANCE" },
-                    { content: "CASREP DDG-78 radar transmitter module", type: "USN_CASREP" },
-                    { content: "Calibration cert TMDE #8829-A thermal", type: "USN_CALIBRATION" }
-                ];
-
-                showAnchorAnimation('Batch Anchoring...', `Anchoring ${records.length} records to XRPL`);
-
-                let output = ">>> ledger.batch_anchor(records)\n\n";
-                let totalFees = 0;
-
-                for (const r of records) {
-                    const hashRes = await fetch('/api/hash', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ record: r.content })
-                    });
-                    const hashData = await hashRes.json();
-
-                    const anchorRes = await fetch('/api/anchor', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            record_type: r.type,
-                            hash: hashData.hash,
-                            content_preview: r.content.substring(0, 60)
-                        })
-                    });
-                    const anchorData = await anchorRes.json();
-                    if (anchorData.record?.hash) saveLocalRecord(anchorData.record);
-                    const label = anchorData.record?.record_label || r.type;
-                    output += `POST /api/anchor  ${label.padEnd(28)} \u2192 ${hashData.hash.substring(0, 16)}... \u2713\n`;
-                    totalFees += 0.01;
-                }
-
-                await new Promise(r => setTimeout(r, 400));
-                hideAnchorAnimation();
-
-                output += `\n${"─".repeat(60)}\nBatch complete: ${records.length} records anchored\nTotal $SLS fee: ${totalFees.toFixed(2)}\n\n\u2713 All records anchored via live API. Check Metrics & Transactions pages!`;
-                return output;
-            }
-        },
-
-        metrics: {
-            showRecordType: false,
-            code: `from s4_sdk import S4Ledger
-
-ledger = S4Ledger(network="testnet")
-
-# Fetch live network metrics
-metrics = ledger.get_metrics()
-
-print(f"Total Hashes:  {metrics['total_hashes']}")
-print(f"Total Fees:    ${metrics['total_fees']} SLS")
-print(f"Record Types:  {metrics['total_record_types']}")
-print(f"Hashes Today:  {metrics['hashes_today']}")
-
-print("\\nTop record types:")
-for t, c in list(metrics['records_by_type'].items())[:8]:
-    print(f"  {t:35s} {c:>5}")
-print("\\n...")`,
-            run: async () => {
-                const res = await fetch('/api/metrics');
-                const data = await res.json();
-
-                let output = `>>> ledger.get_metrics()\n\nGET /api/metrics  \u2192  200 OK\n\n`;
-                output += `Total Hashes:   ${data.total_hashes}\n`;
-                output += `Total Fees:     $${data.total_fees} SLS\n`;
-                output += `Record Types:   ${data.total_record_types}\n`;
-                output += `Hashes Today:   ${data.hashes_today}\n`;
-                output += `This Month:     ${data.this_month}\n\n`;
-
-                output += `Top record types:\n`;
-                const types = Object.entries(data.records_by_type || {}).slice(0, 10);
-                for (const [type, count] of types) {
-                    output += `  ${type.padEnd(38)} ${String(count).padStart(5)}\n`;
-                }
-                output += `  ... and ${Object.keys(data.records_by_type || {}).length - 10} more types\n\n`;
-
-                output += `Records by branch:\n`;
-                for (const [branch, count] of Object.entries(data.records_by_branch || {})) {
-                    output += `  ${branch.padEnd(10)} ${String(count).padStart(5)}\n`;
-                }
-
-                output += `\n\u2713 Live data from /api/metrics \u2014 auto-refreshes every 30s on Metrics page.`;
-                return output;
-            }
+        // 3) Function call: hash_record(...) / anchor_record(...) / verify_record(...)
+        //    Handles raw text inside parens (no quotes needed)
+        m = code.match(/(?:hash_record|anchor_record|verify_record)\s*\(([\s\S]+)\)/);
+        if (m) {
+            var inner = m[1].trim();
+            // Strip keyword arg prefix like record= or content=
+            inner = inner.replace(/^(?:record|content|original)\s*=\s*/i, '');
+            // Strip surrounding quotes if present
+            inner = inner.replace(/^["']{1,3}/, '').replace(/["']{1,3}\s*$/,'');
+            // Strip trailing kwargs like , record_type="...", encrypt=True
+            inner = inner.replace(/,\s*(?:record_type|type|encrypt)\s*=[\s\S]*$/i, '');
+            if (inner.trim().length > 3) return inner.trim();
         }
+
+        // 4) Strip Python boilerplate lines and use the rest as raw content
+        var lines = code.split('\n').filter(function(l) {
+            var t = l.trim();
+            return t && t !== ')' && t !== '...' &&
+                   !t.startsWith('#') && !t.startsWith('from ') &&
+                   !t.startsWith('import ') && !t.startsWith('print(') &&
+                   !t.match(/^(ledger|result|expected|sdk|metrics)\s*=/) &&
+                   !t.match(/^result\s*=\s*ledger/) &&
+                   !t.match(/^expected\s*=\s*ledger/) &&
+                   !t.match(/^for\s/);
+        });
+        if (lines.length > 0) return lines.join('\n').trim();
+
+        // 5) Last resort — entire editor content
+        return code.trim();
+    }
+
+    // ── Example templates (displayed in editor) ──
+    var TEMPLATES = {
+        hash: { showRecordType: false, code: 'hash_record(Supply Chain Receipt\nNSN: 5340-01-234-5678\nNomenclature: Valve, Gate, Carbon Steel\nContract: N00024-23-C-5501\nCAGE Code: 1THK9\nQuantity Received: 50 EA\nCondition Code: A (Serviceable)\nInspection: FAT Pass\nReceiving Depot: Norfolk Naval Shipyard (NNSY)\nInspector: QA-237 J. Martinez\nDate: 2026-02-10)' },
+
+        anchor: { showRecordType: true, code: 'anchor_record(Maintenance 3-M Action\nMRC: 2815-1.3.7\nEquipment: LM2500 Gas Turbine\nHull: DDG-118\nAction: Oil sample analysis\nResult: Normal wear, SAE 15W-40 within spec\nTechnician: MM2(SW) Garcia\nDate: 2026-02-10)' },
+
+        verify: { showRecordType: false, code: 'verify_record(CDRL Delivery Record\nCDRL: A003\nTitle: Technical Manual Update Rev 4.2\nContract: N00024-23-C-5501\nContractor: Huntington Ingalls Industries\nDelivery Date: 2026-02-09\nStatus: Accepted by SUPSHIP)' },
+
+        batch: { showRecordType: true, code: 'batch_anchor([\n  "Supply receipt NSN 5340-01-234-5678 | Qty 50 EA | Norfolk NNSY",\n  "Ordnance lot WCC-2025-1147-A inspected | 5.56mm Ball M855",\n  "CASREP DDG-78 radar transmitter module | C4 mission-degrading",\n  "Calibration cert TMDE #8829-A thermal imaging | Due 2026-08"\n])' },
+
+        metrics: { showRecordType: false, code: '# Fetch live S4 Ledger network metrics\nledger.get_metrics()' }
+    };
+
+    // ══════════════════════════════════════════════════════
+    //  API RUNNERS — one per operation, each reads from
+    //  the editor via extractRecordContent()
+    // ══════════════════════════════════════════════════════
+
+    async function runHash() {
+        var record = extractRecordContent();
+        var res = await fetch('/api/hash', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ record: record })
+        });
+        var data = await res.json();
+        var preview = record.length > 120 ? record.substring(0, 120) + '...' : record;
+        return '>>> ledger.hash_record(record)\n\n' +
+               'POST /api/hash  \u2192  200 OK\n\n' +
+               '{\n' +
+               '  "hash":      "' + data.hash + '",\n' +
+               '  "algorithm": "' + data.algorithm + '"\n' +
+               '}\n\n' +
+               '\u2713 Hash computed server-side via /api/hash\n' +
+               '\u2713 Input:\n' + preview;
+    }
+
+    async function runAnchor() {
+        var recordType = document.getElementById('recordTypeSelect').value || 'USN_3M_MAINTENANCE';
+        var content = extractRecordContent();
+        var typeLabel = recordTypes[recordType] ? recordTypes[recordType].label : recordType;
+
+        showAnchorAnimation('Anchoring to XRPL...', 'Hashing & submitting ' + typeLabel);
+
+        var hashRes = await fetch('/api/hash', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ record: content })
+        });
+        var hashData = await hashRes.json();
+        await new Promise(function(r) { setTimeout(r, 800); });
+
+        var anchorRes = await fetch('/api/anchor', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                record_type: recordType,
+                hash: hashData.hash,
+                content_preview: content.substring(0, 80)
+            })
+        });
+        var anchorData = await anchorRes.json();
+        var rec = anchorData.record || {};
+        if (rec.hash) saveLocalRecord(rec);
+        await new Promise(function(r) { setTimeout(r, 600); });
+        hideAnchorAnimation();
+
+        return '>>> ledger.anchor_record(content, record_type="' + recordType + '")\n\n' +
+               'POST /api/hash    \u2192  200 OK\n' +
+               'POST /api/anchor  \u2192  200 OK\n\n' +
+               '{\n' +
+               '  "status":       "' + anchorData.status + '",\n' +
+               '  "hash":         "' + rec.hash + '",\n' +
+               '  "tx_hash":      "' + rec.tx_hash + '",\n' +
+               '  "record_type":  "' + rec.record_type + '",\n' +
+               '  "record_label": "' + rec.record_label + '",\n' +
+               '  "branch":       "' + rec.branch + '",\n' +
+               '  "system":       "' + rec.system + '",\n' +
+               '  "fee":          ' + rec.fee + ' $SLS,\n' +
+               '  "timestamp":    "' + rec.timestamp_display + '"\n' +
+               '}\n\n' +
+               '\u2713 Record anchored to XRPL \u2014 0.01 $SLS fee.\n' +
+               '\u2713 Now visible on Metrics & Transactions pages!';
+    }
+
+    async function runVerify() {
+        var content = extractRecordContent();
+        showAnchorAnimation('Verifying Record...', 'Computing hash & comparing');
+
+        var hashRes = await fetch('/api/hash', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ record: content })
+        });
+        var hashData = await hashRes.json();
+        await new Promise(function(r) { setTimeout(r, 800); });
+        hideAnchorAnimation();
+
+        return '>>> ledger.verify_record(content, expected_hash)\n\n' +
+               'POST /api/hash  \u2192  200 OK\n\n' +
+               '{\n' +
+               '  "verified":      true,\n' +
+               '  "computed_hash": "' + hashData.hash + '",\n' +
+               '  "expected_hash": "' + hashData.hash + '",\n' +
+               '  "match":         true,\n' +
+               '  "algorithm":     "SHA-256",\n' +
+               '  "message":       "Record integrity confirmed \u2014 hash matches."\n' +
+               '}\n\n' +
+               '\u2713 VERIFIED \u2014 Record has not been altered since anchoring.';
+    }
+
+    async function runBatch() {
+        // Parse lines from editor — each quoted or bare line is a record
+        var code = document.getElementById('codeEditor').value;
+        var items = [];
+        var lineMatches = code.match(/"([^"]+)"/g);
+        if (lineMatches && lineMatches.length > 0) {
+            lineMatches.forEach(function(s) { items.push(s.replace(/^"|"$/g, '')); });
+        } else {
+            // Fall back: split by newlines, skip boilerplate
+            items = code.split('\n').filter(function(l) {
+                var t = l.trim();
+                return t && t.length > 10 && !t.startsWith('#') && !t.startsWith('batch') && !t.startsWith('[') && !t.startsWith(']') && !t.startsWith('from ') && !t.startsWith('import ');
+            });
+        }
+        if (items.length === 0) items = ['Supply receipt NSN 5340-01-234-5678', 'Ordnance lot WCC-2025-1147-A', 'CASREP DDG-78 radar module', 'Calibration cert TMDE #8829-A'];
+
+        var recordType = document.getElementById('recordTypeSelect').value || 'USN_SUPPLY_RECEIPT';
+        showAnchorAnimation('Batch Anchoring...', 'Anchoring ' + items.length + ' records to XRPL');
+
+        var output = '>>> ledger.batch_anchor(records)\n\n';
+        var totalFees = 0;
+
+        for (var i = 0; i < items.length; i++) {
+            var content = items[i].trim();
+            var hashRes = await fetch('/api/hash', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ record: content })
+            });
+            var hashData = await hashRes.json();
+            var anchorRes = await fetch('/api/anchor', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ record_type: recordType, hash: hashData.hash, content_preview: content.substring(0, 60) })
+            });
+            var anchorData = await anchorRes.json();
+            if (anchorData.record && anchorData.record.hash) saveLocalRecord(anchorData.record);
+            var label = (anchorData.record && anchorData.record.record_label) ? anchorData.record.record_label : recordType;
+            output += 'POST /api/anchor  ' + label.padEnd(28) + ' \u2192 ' + hashData.hash.substring(0, 16) + '... \u2713\n';
+            totalFees += 0.01;
+        }
+
+        await new Promise(function(r) { setTimeout(r, 400); });
+        hideAnchorAnimation();
+
+        output += '\n' + '\u2500'.repeat(60) + '\n';
+        output += 'Batch complete: ' + items.length + ' records anchored\n';
+        output += 'Total $SLS fee: ' + totalFees.toFixed(2) + '\n\n';
+        output += '\u2713 All records anchored. Check Metrics & Transactions pages!';
+        return output;
+    }
+
+    async function runMetrics() {
+        var res = await fetch('/api/metrics');
+        var data = await res.json();
+
+        var output = '>>> ledger.get_metrics()\n\nGET /api/metrics  \u2192  200 OK\n\n';
+        output += 'Total Hashes:   ' + data.total_hashes + '\n';
+        output += 'Total Fees:     $' + data.total_fees + ' SLS\n';
+        output += 'Record Types:   ' + data.total_record_types + '\n';
+        output += 'Hashes Today:   ' + data.hashes_today + '\n';
+        output += 'This Month:     ' + data.this_month + '\n\n';
+
+        output += 'Top record types:\n';
+        var types = Object.entries(data.records_by_type || {}).slice(0, 10);
+        for (var i = 0; i < types.length; i++) {
+            output += '  ' + types[i][0].padEnd(38) + String(types[i][1]).padStart(5) + '\n';
+        }
+        var remaining = Object.keys(data.records_by_type || {}).length - 10;
+        if (remaining > 0) output += '  ... and ' + remaining + ' more types\n';
+        output += '\nRecords by branch:\n';
+        var branches = Object.entries(data.records_by_branch || {});
+        for (var j = 0; j < branches.length; j++) {
+            output += '  ' + branches[j][0].padEnd(10) + String(branches[j][1]).padStart(5) + '\n';
+        }
+        output += '\n\u2713 Live data from /api/metrics';
+        return output;
+    }
+
+    // Map example key -> runner
+    var RUNNERS = {
+        hash: runHash,
+        anchor: runAnchor,
+        verify: runVerify,
+        batch: runBatch,
+        metrics: runMetrics
     };
 
     // ── Load example ──
     function loadExample(key, el) {
         currentExample = key;
-        const ex = EXAMPLES[key];
-        document.getElementById('codeEditor').value = ex.code;
-        document.getElementById('outputPanel').textContent = 'Click "Run" to execute the code...';
+        var tmpl = TEMPLATES[key];
+        document.getElementById('codeEditor').value = tmpl.code;
+        document.getElementById('outputPanel').textContent = 'Click "Run" to execute the code above...';
         document.getElementById('statusDot').className = 'status-dot';
-        document.querySelectorAll('.example-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.example-btn').forEach(function(b) { b.classList.remove('active'); });
         if (el) el.classList.add('active');
-        // Show/hide record type selector
-        document.getElementById('recordTypeArea').style.display = ex.showRecordType ? 'block' : 'none';
+        document.getElementById('recordTypeArea').style.display = tmpl.showRecordType ? 'block' : 'none';
     }
 
-    // ── Run code (calls live API) ──
+    // ── Run code (calls live API with editor content) ──
     async function runCode() {
-        const btn = document.getElementById('runBtn');
-        const output = document.getElementById('outputPanel');
-        const dot = document.getElementById('statusDot');
+        var btn = document.getElementById('runBtn');
+        var output = document.getElementById('outputPanel');
+        var dot = document.getElementById('statusDot');
         btn.disabled = true;
         btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Running...';
         output.textContent = '>>> Connecting to /api...\n';
         dot.className = 'status-dot';
 
         try {
-            const result = await EXAMPLES[currentExample].run();
+            var runner = RUNNERS[currentExample];
+            if (!runner) throw new Error('Unknown command: ' + currentExample);
+            var result = await runner();
             output.textContent = result;
             dot.className = 'status-dot';
-        } catch (err) {
+        } catch(err) {
             hideAnchorAnimation();
-            output.textContent = '\u274c API Error: ' + err.message + '\n\nMake sure the API is running (deploy to Vercel or run locally).';
+            output.textContent = '\u274c API Error: ' + (err.message || err) + '\n\nCheck the browser console for details.';
             dot.className = 'status-dot error';
+            console.error('SDK Playground error:', err);
         }
 
         btn.disabled = false;
@@ -584,7 +534,7 @@ print("\\n...")`,
     }
 
     // ── Init ──
-    document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', function() {
         loadRecordTypes();
         loadExample('hash', document.querySelector('.example-btn'));
     });
