@@ -1,5 +1,5 @@
 import pytest
-from solus_sdk import SolusSDK
+from s4_sdk import S4SDK
 import hashlib
 
 # Test data
@@ -8,7 +8,7 @@ TEST_SEED = "sEdT9vPQ4QCA4TtDSZqAGTv9ABL2uLS"  # Use a valid testnet seed for in
 
 @pytest.fixture
 def sdk():
-    return SolusSDK(wallet_seed=TEST_SEED, testnet=True)
+    return S4SDK(wallet_seed=TEST_SEED, testnet=True)
 
 def test_create_record_hash(sdk):
     # Should match SHA-256

@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 """
-Solus Protocol - Comprehensive Test with Record Type Tagging
+S4 Ledger - Comprehensive Test with Record Type Tagging
 Demonstrates full use case: Providers, Patients, EHR Systems
 Each record is properly categorized using the record_type parameter
 """
 
-from solus_sdk import SolusSDK
+from s4_sdk import S4SDK
 import time
 
-sdk = SolusSDK(api_key="valid_mock_key", testnet=True)
+sdk = S4SDK(api_key="valid_mock_key", testnet=True)
 test_seed = "sEd75GpyfXbSLGUShjwvViXoo6xaGuZ"
 
 # Comprehensive scenarios with explicit record_type for proper categorization
@@ -61,7 +61,7 @@ scenarios = [
 ]
 
 print("=" * 70)
-print("SOLUS PROTOCOL - COMPREHENSIVE RECORD TYPE DEMO")
+print("S4 LEDGER - COMPREHENSIVE RECORD TYPE DEMO")
 print("=" * 70)
 print(f"Total scenarios: {len(scenarios)}")
 print("Demonstrates: Providers, Patients, Epic, Oracle Health, Meditech")
@@ -94,8 +94,8 @@ for i, (name, record_type, record) in enumerate(scenarios):
 print("\n" + "=" * 70)
 print(f"COMPLETE! {success_count}/{len(scenarios)} records anchored successfully")
 print("=" * 70)
-print("\n📊 View metrics: https://solusprotocol.com/metrics.html")
-print("🔗 View transactions: https://solusprotocol.com/transactions.html")
+print("\n📊 View metrics: https://s4ledger.com/metrics.html")
+print("🔗 View transactions: https://s4ledger.com/transactions.html")
 print("\nRecord types demonstrated:")
 print("  ✓ Provider records (Surgery, Labs, Imaging, Vitals, Allergies)")
 print("  ✓ Patient secure messages to providers (via Patient Portal)")

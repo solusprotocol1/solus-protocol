@@ -1,8 +1,8 @@
 from flask import Flask, request, jsonify
-from solus_sdk import SolusSDK
+from s4_sdk import S4SDK
 
 app = Flask(__name__)
-sdk = SolusSDK(wallet_seed="sEdYourTestnetSeedHere", testnet=True)
+sdk = S4SDK(wallet_seed="sEdYourTestnetSeedHere", testnet=True)
 
 @app.route('/anchor', methods=['POST'])
 def anchor_record():

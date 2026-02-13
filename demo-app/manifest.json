@@ -1,13 +1,13 @@
 {
-  "name": "Solus Protocol",
-  "short_name": "Solus",
-  "description": "Decentralized Healthcare Data Wallet on XRPL",
+  "name": "S4 Ledger",
+  "short_name": "S4 Ledger",
+  "description": "Defense Logistics Verification Platform on XRPL",
   "start_url": "/demo-app/",
   "display": "standalone",
-  "background_color": "#0a0a0f",
-  "theme_color": "#0a0a0f",
+  "background_color": "#050810",
+  "theme_color": "#050810",
   "orientation": "portrait",
-  "categories": ["health", "medical", "finance"],
+  "categories": ["defense", "logistics", "blockchain"],
   "icons": [
     {
       "src": "https://raw.githubusercontent.com/solusprotocol1/solus-protocol/main/logo.png",

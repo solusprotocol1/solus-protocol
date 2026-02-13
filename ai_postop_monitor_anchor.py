@@ -1,11 +1,11 @@
 # ai_postop_monitor_anchor.py
 # Example: Anchor AI-analyzed wearable data to XRPL for post-op verification
 
-from solus_sdk import SolusSDK
+from s4_sdk import S4SDK
 
-# Override hardcoded test_seed if solus_sdk.py has auto-run example
-import solus_sdk
-solus_sdk.test_seed = "sEdT9vPQ4QCA4TtDSZqAGTv9ABL2uLS"  # ← Using your real seed from anchor_test.py
+# Override hardcoded test_seed if s4_sdk.py has auto-run example
+import s4_sdk
+s4_sdk.test_seed = "sEdT9vPQ4QCA4TtDSZqAGTv9ABL2uLS"  # ← Using your real seed from anchor_test.py
 
 # Your real testnet seed
 wallet_seed = "sEdT9vPQ4QCA4TtDSZqAGTv9ABL2uLS"  # ← Using your real seed
@@ -23,7 +23,7 @@ Recommendations: Immediate cardiologist review; prescribe beta-blocker if confir
 Notes: AI output anchored for liability and audit; patient notified via app."""
 
 # Initialize SDK
-sdk = SolusSDK(
+sdk = S4SDK(
     wallet_seed=wallet_seed,
     testnet=True,
     api_key="valid_mock_key"  # For fiat_mode in hospital billing systems

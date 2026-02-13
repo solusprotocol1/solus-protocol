@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-from solus_sdk import SolusSDK
+from s4_sdk import S4SDK
 import time
 
-sdk = SolusSDK(api_key="valid_mock_key", testnet=True)
+sdk = S4SDK(api_key="valid_mock_key", testnet=True)
 test_seed = "sEd75GpyfXbSLGUShjwvViXoo6xaGuZ"
 
 scenarios = [

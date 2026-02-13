@@ -1,19 +1,39 @@
-# Solus Protocol: Investor Relations & Transparency Summary
+# S4 Ledger: Investor Relations & Transparency Summary
+
 *Quarterly Update: Q1 2026*
 
-## Project Maturity & Legal Status
-Coming soon. 
+## Project Status
 
-## Key Performance Indicators (KPIs)
-Coming soon.
+| Milestone | Status |
+|---|---|
+| $SLS token live on XRPL mainnet | ✅ Complete |
+| Multi-sig treasury (30M SLS) | ✅ Complete |
+| Python SDK with defense use cases | ✅ Complete |
+| Website (s4ledger.com) | ✅ Complete |
+| Defense use case library | 🔄 In Progress |
+| SBIR/STTR applications | Planned Q3 2026 |
+| Pilot deployment | Planned Q3-Q4 2026 |
 
-## Token Distribution & Cap Table
+## Token Distribution
+
 Total Supply: **100,000,000 $SLS**
 
-* **Public/Community (60%):** 60,000,000 SLS (Released via AMM and IDO)
-* **Ecosystem & Grants (15%):** 15,000,000 SLS (Linear monthly unlock over 36 months)
-* **Team & Founders (15%):** 15,000,000 SLS (12-month cliff, 24-month vesting)
-* **Strategic Reserves (10%):** 10,000,000 SLS (DAO-governed for liquidity depth)
+| Allocation | Amount | Status |
+|---|---|---|
+| Public circulation | 30,000,000 SLS | Released |
+| Operating treasury (multi-sig) | 30,000,000 SLS | Locked |
+| Development reserve | 20,000,000 SLS | Reserved |
+| Ecosystem incentives | 20,000,000 SLS | Reserved |
 
-## Quarterly Audit Report
-Internal security review of XRPL trustline and AMM interaction protocols in January 2026.
+Treasury address: `rMLmkrxpadq5z6oTDmq8GhQj9LKjf1KLqJ`
+
+## Quarterly Highlights
+
+- Completed full rebrand from healthcare prototype to defense logistics platform
+- Built 9-page website with defense use cases, pricing, FAQ, and partner information
+- Established NIST 800-171 and CMMC compliance alignment documentation
+- Created Defense Data Integrity Agreement (DDIA) template
+
+## Contact
+
+info@s4ledger.com | [s4ledger.com](https://s4ledger.com)

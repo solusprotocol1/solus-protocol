@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About | S4 Ledger</title>
+    <meta name="description" content="S4 Ledger — built by defense logistics professionals who see supply chain, maintenance, and data integrity problems firsthand.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../s4-assets/style.css">
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+</head>
+<body>
+    <div class="scroll-progress" id="scrollProgress"></div>
+    <div class="mesh-bg"><div class="gradient-orb orb-1"></div><div class="gradient-orb orb-2"></div><div class="gradient-orb orb-3"></div></div>
+    <div id="particles-js"></div>
+
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="../"><img src="../s4-assets/S4Ledger_logo.png" alt="S4 Ledger" class="nav-logo"><span class="brand-text">S4 Ledger</span></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"><i class="fas fa-bars" style="color:#fff"></i></button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="../">Home</a></li>
+                    <li class="nav-item dropdown"><a class="nav-link dropdown-toggle active" href="#" data-bs-toggle="dropdown">Company</a><ul class="dropdown-menu" style="background:rgba(5,8,16,0.98);border:1px solid rgba(255,255,255,0.1);"><li><a class="dropdown-item" href="../s4-about/" style="color:#fff;">About Us</a></li><li><a class="dropdown-item" href="../s4-investors/" style="color:#fff;">Investors</a></li><li><a class="dropdown-item" href="../s4-partners/" style="color:#fff;">Partners</a></li></ul></li>
+                    <li class="nav-item"><a class="nav-link" href="../s4-use-cases/">Use Cases</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../s4-pricing/">Pricing</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../s4-roadmap/">Roadmap</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../s4-faq/">FAQ</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../s4-contact/">Contact</a></li>
+                </ul>
+                <button class="nav-link" onclick="openSearch()" style="background:none;border:none;cursor:pointer;padding:8px 12px !important;"><i class="fas fa-search" style="color:#fff;font-size:0.95rem;"></i></button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="page-hero">
+        <div class="container">
+            <h1>About <span class="gradient-text">S4 Ledger</span></h1>
+            <p>Built by defense logistics professionals. Solving problems we see firsthand.</p>
+        </div>
+    </div>
+
+    <!-- MISSION -->
+    <div class="container" style="max-width: 800px;">
+        <div class="card reveal" style="border-left: 3px solid var(--accent);">
+            <h3 style="margin-bottom: 12px;">Our Mission</h3>
+            <p style="font-size: 1.05rem; line-height: 1.8;">Bring <strong style="color:#fff;">immutable, independently verifiable audit trails</strong> to defense logistics — making counterfeit parts traceable, maintenance records tamper-proof, and contract deliverables dispute-free. Without replacing a single existing system.</p>
+        </div>
+    </div>
+
+    <!-- OUR STORY -->
+    <div class="section">
+        <div class="container" style="max-width: 800px;">
+            <h2 class="section-title">Our <span class="gradient-text">Story</span></h2>
+            <div class="card reveal">
+                <p style="line-height: 1.85; margin-bottom: 15px;">S4 Ledger was born from frustration — the kind you only get from years of experience inside the defense logistics ecosystem.</p>
+                <p style="line-height: 1.85; margin-bottom: 15px;">Our team has spent years <strong style="color:#fff;">deep in the world of Integrated Logistics Support</strong> — working across Navy and DoD programs, seeing the real problems up close. We've watched technical data packages fall into version disputes nobody can resolve. Maintenance records questioned months after the fact with no way to prove what happened. Contract deliverables devolve into he-said-she-said between government and contractor. Suspect counterfeit parts entering the supply chain with no reliable way to trace them back to the source.</p>
+                <p style="line-height: 1.85; margin-bottom: 15px;">We looked for a solution. There wasn't one — not at a price point that makes sense, not without vendor lock-in, and not built by people who actually understand ILS. The enterprise blockchain companies charge $500K+ for proprietary systems that the government can't independently verify. Manual audits cost $15-50 per record. Neither scales.</p>
+                <p style="line-height: 1.85; margin-bottom: 15px;">So we built S4 Ledger: <strong style="color:#fff;">SHA-256 hash anchoring on the XRP Ledger</strong>. The hash proves the data hasn't been altered. The XRPL timestamp proves when it was created. The public ledger means anyone can verify it — no proprietary software required, no vendor dependency, no trust assumptions. Cost: <strong style="color: var(--accent);">$0.01 per anchor</strong>. That's 1,500× cheaper than doing it the old way.</p>
+                <p style="line-height: 1.85;">We're based in <strong style="color:#fff;">Charleston, South Carolina</strong> — one of the densest defense contractor hubs on the East Coast. We didn't build this in a Silicon Valley lab. We built it next to the shipyards, the program offices, and the fleet.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- WHAT MAKES US DIFFERENT -->
+    <div class="container" style="max-width: 800px;">
+        <h2 class="section-title">What Makes Us <span class="gradient-text">Different</span></h2>
+        <div class="row">
+            <div class="col-md-6 mb-3 reveal">
+                <div class="card" style="height: 100%;">
+                    <h5><i class="fas fa-hard-hat" style="color: var(--accent); margin-right: 8px;"></i> Built by ILS Professionals</h5>
+                    <p style="font-size: 0.9rem;">Not a generic tech company pivoting to defense. We've lived defense logistics — 3-M, CDRLs, TDPs, configuration management, and supply chain provenance. We built S4 Ledger because we understand the problems firsthand.</p>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3 reveal">
+                <div class="card" style="height: 100%;">
+                    <h5><i class="fas fa-globe" style="color: var(--accent); margin-right: 8px;"></i> Public Blockchain</h5>
+                    <p style="font-size: 0.9rem;">Competitors use proprietary chains that require their software to verify. S4 Ledger uses the XRP Ledger — a public, decentralized ledger anyone can verify independently. No vendor lock-in. Ever.</p>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3 reveal">
+                <div class="card" style="height: 100%;">
+                    <h5><i class="fas fa-dollar-sign" style="color: var(--accent); margin-right: 8px;"></i> 1,500× More Cost-Effective</h5>
+                    <p style="font-size: 0.9rem;">Enterprise blockchain competitors charge $500K+ per contract. Legacy manual verification costs $15-50 per record. S4 Ledger: $0.01 per anchor. The math speaks for itself.</p>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3 reveal">
+                <div class="card" style="height: 100%;">
+                    <h5><i class="fas fa-shield-alt" style="color: var(--accent); margin-right: 8px;"></i> Zero Data On-Chain</h5>
+                    <p style="font-size: 0.9rem;">Only SHA-256 hashes touch the blockchain. No documents, part numbers, serial numbers, PII, or classified information. The hash is a one-way mathematical fingerprint — it cannot be reversed.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TECHNOLOGY -->
+    <div class="section">
+        <div class="container" style="max-width: 800px;">
+            <h2 class="section-title">Technology <span class="gradient-text">Stack</span></h2>
+            <div class="card reveal">
+                <div class="row text-center">
+                    <div class="col-md-3 col-6 mb-3">
+                        <div style="font-size: 2rem; margin-bottom: 5px;">⚓</div>
+                        <div style="font-weight: 600; color: #fff; font-size: 0.9rem;">XRP Ledger</div>
+                        <div style="font-size: 0.78rem; color: var(--text-muted);">Public, decentralized, 3-5s finality</div>
+                    </div>
+                    <div class="col-md-3 col-6 mb-3">
+                        <div style="font-size: 2rem; margin-bottom: 5px;">🔐</div>
+                        <div style="font-weight: 600; color: #fff; font-size: 0.9rem;">SHA-256</div>
+                        <div style="font-size: 0.78rem; color: var(--text-muted);">Industry-standard cryptographic hashing</div>
+                    </div>
+                    <div class="col-md-3 col-6 mb-3">
+                        <div style="font-size: 2rem; margin-bottom: 5px;">🐍</div>
+                        <div style="font-weight: 600; color: #fff; font-size: 0.9rem;">Python SDK</div>
+                        <div style="font-size: 0.78rem; color: var(--text-muted);">Open-source, pip installable</div>
+                    </div>
+                    <div class="col-md-3 col-6 mb-3">
+                        <div style="font-size: 2rem; margin-bottom: 5px;">🌐</div>
+                        <div style="font-weight: 600; color: #fff; font-size: 0.9rem;">REST API</div>
+                        <div style="font-size: 0.78rem; color: var(--text-muted);">Integrate from any language or system</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- LOCATION & TEAM -->
+    <div class="container" style="max-width: 800px;">
+        <div class="row mb-4">
+            <div class="col-md-6 mb-3 reveal">
+                <div class="card text-center" style="height: 100%; padding: 25px;">
+                    <i class="fas fa-map-marker-alt" style="font-size: 2.5rem; color: var(--accent); margin-bottom: 12px;"></i>
+                    <h4>Charleston, SC</h4>
+                    <p style="font-size: 0.9rem; margin: 0;">Home to SPAWAR/NAVWAR, the Charleston Naval Weapons Station, and dozens of defense contractors supporting NAVSEA, NAVAIR, and fleet maintenance programs.</p>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3 reveal">
+                <div class="card text-center" style="height: 100%; padding: 25px;">
+                    <i class="fas fa-users" style="font-size: 2.5rem; color: var(--gold); margin-bottom: 12px;"></i>
+                    <h4>The Team</h4>
+                    <p style="font-size: 0.9rem; margin: 0;">Defense logistics professionals, software engineers, and blockchain architects united by one goal: making audit trails impossible to fake and cheap enough to use everywhere.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="container mb-5" style="max-width: 800px;">
+        <div class="cta-box reveal">
+            <h3>Ready to talk?</h3>
+            <p>Whether you're a potential partner, investor, or customer — we'd love to hear from you.</p>
+            <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+                <a href="../s4-contact/" class="btn-primary-custom"><i class="fas fa-envelope"></i> &nbsp;Contact Us</a>
+                <a href="../s4-investors/" class="btn-secondary-custom"><i class="fas fa-chart-line"></i> &nbsp;Investor Portal</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div style="margin-bottom: 12px;"><img src="../s4-assets/S4Ledger_logo.png" alt="S4 Ledger" class="footer-logo"><span style="font-weight: 700; font-size: 1.1rem;">S4 Ledger</span><span style="color: var(--text-muted); margin-left: 5px;">— Secure Logistics Standard</span></div>
+            <p style="font-size: 0.82rem; margin-bottom: 10px;">Immutable logistics verification for the defense industry. Built on the XRP Ledger.</p>
+            <p style="font-size: 0.75rem; color: var(--text-muted);">$SLS is a utility token — not equity or an investment contract. © 2026 S4 Ledger.</p>
+        </div>
+    </footer>
+
+    <button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../s4-assets/main.js"></script>
+    <script src="../s4-assets/search.js"></script>
+</body>
+</html>

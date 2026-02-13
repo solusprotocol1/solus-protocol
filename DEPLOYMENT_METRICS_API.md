@@ -1,4 +1,4 @@
-# Deploying Solus Protocol Metrics API
+# Deploying S4 Ledger Metrics API
 
 ## Local Deployment
 1. Install dependencies:
@@ -17,14 +17,14 @@
   1. Create a Heroku account and install Heroku CLI.
   2. In your project folder:
      ```bash
-     heroku create solus-metrics-api
+     heroku create s4-ledger-metrics-api
      git push heroku main
      ```
   3. Set up Procfile:
      ```
      web: python metrics_api.py
      ```
-  4. Your API will be live at https://solus-metrics-api.herokuapp.com/metrics
+  4. Your API will be live at https://s4-ledger-metrics-api.herokuapp.com/metrics
 
 - For AWS, GCP, or Azure, follow their Python/Flask deployment guides.
 
@@ -33,6 +33,6 @@
 
 ## Security Note
 - Restrict API access if needed (e.g., API keys, CORS).
-- No PHI is exposed—only aggregate metrics.
+- No sensitive data is exposed — only aggregate metrics.
 
-For help, contact Nick Frankfort.
+For help, contact info@s4ledger.com.

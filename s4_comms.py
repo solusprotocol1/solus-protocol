@@ -1,8 +1,8 @@
 """
-solus_comms.py — Solus Protocol Verified Care Network (SVCN) Communications Module
+s4_comms.py — S4 Ledger Verified Care Network (S4VN) Communications Module
 
 Provides:
-  • SolusMessenger     — Encrypted, anchored messaging between patients/providers
+  • S4 LedgerMessenger     — Encrypted, anchored messaging between patients/providers
   • ConsentManager     — Patient-controlled consent tokens with create/revoke
   • CareChainTracker   — Verifiable chain-of-custody handoff records
   • FederatedBatch     — Multi-institution batch anchoring with shared trust lines
@@ -17,7 +17,7 @@ Architecture:
 
   No PHI is ever stored on-chain. Only hashes + metadata.
 
-Author: Solus Protocol Team
+Author: S4 Ledger Team
 License: Apache-2.0
 """
 
@@ -32,25 +32,25 @@ try:
 except ImportError:
     Fernet = None
 
-from solus_sdk import SolusSDK
+from s4_sdk import S4SDK
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # MOCK / PROTOTYPE CONFIGURATION
 # Replace these with real credentials for production deployment
 # ═══════════════════════════════════════════════════════════════════════════════
 
-MOCK_WEBHOOK_URL = "https://hooks.solusprotocol.com/v1/notify"          # → real: your webhook relay
+MOCK_WEBHOOK_URL = "https://hooks.s4ledger.com/v1/notify"          # → real: your webhook relay
 MOCK_PUSH_ENDPOINT = "https://fcm.googleapis.com/fcm/send"              # → real: Firebase Cloud Messaging
 MOCK_PUSH_API_KEY = "MOCK_FCM_SERVER_KEY_replace_in_production"         # → real: FCM server key
-MOCK_FHIR_BASE = "https://fhir.solusprotocol.com/r4"                   # → real: Epic/Cerner FHIR endpoint
+MOCK_FHIR_BASE = "https://fhir.s4ledger.com/r4"                   # → real: Epic/Cerner FHIR endpoint
 MOCK_FHIR_CLIENT_ID = "MOCK_SMART_ON_FHIR_CLIENT_ID"                   # → real: SMART on FHIR client ID
 MOCK_FHIR_CLIENT_SECRET = "MOCK_SMART_ON_FHIR_CLIENT_SECRET"           # → real: SMART on FHIR secret
-MOCK_FHIR_TOKEN_URL = "https://fhir.solusprotocol.com/auth/token"      # → real: OAuth2 token endpoint
+MOCK_FHIR_TOKEN_URL = "https://fhir.s4ledger.com/auth/token"      # → real: OAuth2 token endpoint
 
 # EHR Plugin endpoints (prototype stubs)
-MOCK_EPIC_PLUGIN_URL = "https://epic.solusprotocol.com/api/v1/anchor"
-MOCK_CERNER_PLUGIN_URL = "https://cerner.solusprotocol.com/api/v1/anchor"
-MOCK_ATHENA_PLUGIN_URL = "https://athena.solusprotocol.com/api/v1/anchor"
+MOCK_EPIC_PLUGIN_URL = "https://epic.s4ledger.com/api/v1/anchor"
+MOCK_CERNER_PLUGIN_URL = "https://cerner.s4ledger.com/api/v1/anchor"
+MOCK_ATHENA_PLUGIN_URL = "https://athena.s4ledger.com/api/v1/anchor"
 
 PROTOTYPE_MODE = True  # Set to False when real API keys are configured
 
@@ -142,17 +142,17 @@ def _mock_fhir_query(resource_type, patient_id):
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# 1. SOLUS PROTOCOL MESSENGER — Encrypted, Anchored Care Communication
+# 1. S4 LEDGER MESSENGER — Encrypted, Anchored Care Communication
 # ═══════════════════════════════════════════════════════════════════════════════
 
-class SolusMessenger:
+class S4 LedgerMessenger:
     """
     Secure, anchored messaging between healthcare participants.
 
     Every message is:
       1. Encrypted (Fernet, AES-128-CBC) for the recipient
       2. SHA-256 hashed
-      3. Anchored to XRPL with memo: solus:msg:{update_type}:{hash}:{thread_id}
+      3. Anchored to XRPL with memo: s4:msg:{update_type}:{hash}:{thread_id}
       4. Optionally requires an ACK anchor from the recipient
 
     No PHI is ever stored on-chain — only the hash + routing metadata.
@@ -169,7 +169,7 @@ class SolusMessenger:
         "provider_note", "ehr_sync", "custom"
     ]
 
-    def __init__(self, sdk: SolusSDK):
+    def __init__(self, sdk: S4SDK):
         self.sdk = sdk
         self.threads = {}  # thread_id → list of message records
         self.pending_acks = {}  # tx_hash → ack metadata
@@ -229,7 +229,7 @@ class SolusMessenger:
 
         # Step 3: Anchor to XRPL
         memo_parts = [
-            f"solus:msg:{update_type}",
+            f"s4:msg:{update_type}",
             message_hash,
             thread_id,
             timestamp
@@ -269,7 +269,7 @@ class SolusMessenger:
                 "original_tx": tx_hash,
                 "thread_id": thread_id,
                 "recipient": recipient_xrpl_account,
-                "ack_memo": f"solus:ack:{thread_id}:{message_hash[:16]}",
+                "ack_memo": f"s4:ack:{thread_id}:{message_hash[:16]}",
                 "instructions": "Recipient signs and anchors this to confirm receipt"
             }
             self.pending_acks[tx_hash] = ack_template
@@ -278,7 +278,7 @@ class SolusMessenger:
         # Step 6: Webhook notification
         webhook_target = webhook_url or MOCK_WEBHOOK_URL
         webhook_payload = {
-            "event": "solus.message.sent",
+            "event": "s4.message.sent",
             "thread_id": thread_id,
             "update_type": update_type,
             "tx_hash": tx_hash,
@@ -293,7 +293,7 @@ class SolusMessenger:
         if recipient_device_token:
             _mock_push_notification(
                 recipient_device_token,
-                title=f"Solus Protocol: New {update_type.replace('_', ' ').title()}",
+                title=f"S4 Ledger: New {update_type.replace('_', ' ').title()}",
                 body=f"You have a new verified update from your care team.",
                 data={"thread_id": thread_id, "tx_hash": tx_hash}
             )
@@ -377,7 +377,7 @@ class ConsentManager:
         "care_plans", "referrals", "all"
     ]
 
-    def __init__(self, sdk: SolusSDK):
+    def __init__(self, sdk: S4SDK):
         self.sdk = sdk
         self.active_consents = {}  # consent_id → consent record
         self.revoked_consents = {}  # consent_id → revocation record
@@ -429,7 +429,7 @@ class ConsentManager:
         consent_hash = _hash(json.dumps(consent_payload, sort_keys=True))
 
         # Anchor consent hash to XRPL
-        memo_data = f"solus:consent:grant:{consent_id}:{consent_hash}"
+        memo_data = f"s4:consent:grant:{consent_id}:{consent_hash}"
         result = self.sdk.store_hash_with_sls_fee(
             hash_value=memo_data,
             wallet_seed=patient_wallet_seed,
@@ -451,7 +451,7 @@ class ConsentManager:
 
         # Notify recipient via webhook
         _mock_webhook(MOCK_WEBHOOK_URL, {
-            "event": "solus.consent.granted",
+            "event": "s4.consent.granted",
             "consent_id": consent_id,
             "categories": valid_cats,
             "expiry": expiry,
@@ -486,7 +486,7 @@ class ConsentManager:
         revocation_hash = _hash(json.dumps(revocation, sort_keys=True))
 
         # Anchor revocation
-        memo_data = f"solus:consent:revoke:{consent_id}:{revocation_hash}"
+        memo_data = f"s4:consent:revoke:{consent_id}:{revocation_hash}"
         result = self.sdk.store_hash_with_sls_fee(
             hash_value=memo_data,
             wallet_seed=patient_wallet_seed,
@@ -503,7 +503,7 @@ class ConsentManager:
 
         # Notify affected recipient
         _mock_webhook(MOCK_WEBHOOK_URL, {
-            "event": "solus.consent.revoked",
+            "event": "s4.consent.revoked",
             "consent_id": consent_id,
             "revoke_tx": revoke_tx,
             "reason": reason
@@ -553,7 +553,7 @@ class CareChainTracker:
         "home_health", "telehealth_session", "care_transition"
     ]
 
-    def __init__(self, sdk: SolusSDK):
+    def __init__(self, sdk: S4SDK):
         self.sdk = sdk
         self.chains = {}  # patient_id → ordered list of handoff records
 
@@ -612,7 +612,7 @@ class CareChainTracker:
         handoff_hash = _hash(json.dumps(handoff_payload, sort_keys=True))
 
         # Anchor to XRPL — memo includes previous TX reference for chain linking
-        memo = f"solus:handoff:{handoff_type}:{handoff_hash}:prev={previous_tx_hash or 'GENESIS'}"
+        memo = f"s4:handoff:{handoff_type}:{handoff_hash}:prev={previous_tx_hash or 'GENESIS'}"
         result = self.sdk.store_hash_with_sls_fee(
             hash_value=memo,
             wallet_seed=sender_wallet_seed,
@@ -634,7 +634,7 @@ class CareChainTracker:
 
         # Notify receiver
         _mock_webhook(MOCK_WEBHOOK_URL, {
-            "event": "solus.handoff.created",
+            "event": "s4.handoff.created",
             "patient_id": patient_id,
             "handoff_type": handoff_type,
             "sender_role": sender_role,
@@ -692,7 +692,7 @@ class FederatedBatch:
     fees in $SLS with a single aggregated transaction.
     """
 
-    def __init__(self, sdk: SolusSDK):
+    def __init__(self, sdk: S4SDK):
         self.sdk = sdk
         self.pending_batches = {}  # batch_id → batch metadata + records
         self.completed_batches = {}
@@ -764,7 +764,7 @@ class FederatedBatch:
         merkle_root = _hash("".join(sorted(hashes)))
 
         # Anchor
-        memo = f"solus:fed_batch:{batch_id}:merkle={merkle_root}:count={len(hashes)}"
+        memo = f"s4:fed_batch:{batch_id}:merkle={merkle_root}:count={len(hashes)}"
         result = self.sdk.store_hash_with_sls_fee(
             hash_value=memo,
             wallet_seed=coordinator_wallet_seed,
@@ -811,7 +811,7 @@ class EHRPlugin:
         "athena": {"name": "athenahealth",   "fhir_version": "R4", "endpoint": MOCK_ATHENA_PLUGIN_URL}
     }
 
-    def __init__(self, sdk: SolusSDK, ehr_system: str):
+    def __init__(self, sdk: S4SDK, ehr_system: str):
         if ehr_system not in self.SUPPORTED_EHRS:
             raise ValueError(f"Unsupported EHR. Options: {list(self.SUPPORTED_EHRS.keys())}")
         self.sdk = sdk
@@ -857,7 +857,7 @@ class EHRPlugin:
         # Hash and anchor
         event_hash = _hash(event_data + _timestamp())
         result = self.sdk.store_hash_with_sls_fee(
-            hash_value=f"solus:ehr:{self.ehr}:{event_type}:{event_hash}",
+            hash_value=f"s4:ehr:{self.ehr}:{event_type}:{event_hash}",
             wallet_seed=wallet_seed,
             record_type=f"EHR_{self.ehr.upper()}_{event_type.upper()}"
         )
@@ -883,11 +883,11 @@ class EHRPlugin:
 
 if __name__ == "__main__":
     print("=" * 70)
-    print(" SOLUS PROTOCOL VERIFIED CARE NETWORK (SVCN) — Prototype Demo")
+    print(" S4 LEDGER VERIFIED CARE NETWORK (S4VN) — Prototype Demo")
     print("=" * 70)
 
     # Initialize SDK
-    sdk = SolusSDK(wallet_seed="sEdT9vPQ4QCA4TtDSZqAGTv9ABL2uLS", testnet=True, api_key="valid_mock_key")
+    sdk = S4SDK(wallet_seed="sEdT9vPQ4QCA4TtDSZqAGTv9ABL2uLS", testnet=True, api_key="valid_mock_key")
     patient_seed = "sEdT9vPQ4QCA4TtDSZqAGTv9ABL2uLS"
     provider_account = "rProviderXRPLAccountHere12345"
 
@@ -895,7 +895,7 @@ if __name__ == "__main__":
     print("\n" + "─" * 50)
     print(" 1. SECURE MESSAGING")
     print("─" * 50)
-    messenger = SolusMessenger(sdk)
+    messenger = S4 LedgerMessenger(sdk)
 
     msg1 = messenger.send_secure_update(
         sender_wallet_seed=patient_seed,
@@ -996,7 +996,7 @@ if __name__ == "__main__":
     )
 
     print("\n" + "=" * 70)
-    print(" SVCN PROTOTYPE DEMO COMPLETE")
+    print(" S4VN PROTOTYPE DEMO COMPLETE")
     print(f" Total anchored records: 8+ across 5 modules")
     print(f" All using mock APIs — swap MOCK_* constants for production")
     print("=" * 70)

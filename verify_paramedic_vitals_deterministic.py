@@ -1,5 +1,5 @@
 import requests
-from solus_sdk import SolusSDK
+from s4_sdk import S4SDK
 
 # --- Demo: Paramedic Vitals (Robert Lee, deterministic) ---
 # Encrypted text from deterministic SDK output
@@ -7,7 +7,7 @@ encrypted_text = "gAAAAABphUwJB1aQ5afZb3iF8EyHDsMsKmdMJKJmA9ooZftxBqwV8K40o5Wt0d
 tx_hash = "DF100917D660835CF4E2BD4C05F807A168ED1142D5C781876A6642EA5D3D792F"
 wseed = "sEdT9vPQ4QCA4TtDSZqAGTv9ABL2uLS"
 
-sdk = SolusSDK(wallet_seed=wseed, testnet=True)
+sdk = S4SDK(wallet_seed=wseed, testnet=True)
 
 # 1. Decrypt
 decrypted = sdk.decrypt(encrypted_text)

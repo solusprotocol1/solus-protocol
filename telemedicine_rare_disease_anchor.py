@@ -1,11 +1,11 @@
 # telemedicine_rare_disease_anchor.py
 # Example: Anchor telemedicine consultation records to XRPL for global verification
 
-from solus_sdk import SolusSDK
+from s4_sdk import S4SDK
 
-# Override hardcoded test_seed if solus_sdk.py has auto-run example
-import solus_sdk
-solus_sdk.test_seed = "sEdT9vPQ4QCA4TtDSZqAGTv9ABL2uLS"  # ← Using your real seed from anchor_test.py
+# Override hardcoded test_seed if s4_sdk.py has auto-run example
+import s4_sdk
+s4_sdk.test_seed = "sEdT9vPQ4QCA4TtDSZqAGTv9ABL2uLS"  # ← Using your real seed from anchor_test.py
 
 # Your real testnet seed
 wallet_seed = "sEdT9vPQ4QCA4TtDSZqAGTv9ABL2uLS"  # ← Using your real seed
@@ -22,7 +22,7 @@ Recommendations: Custom brace fitting, physical therapy protocol, follow-up gene
 Notes: All data verified and anchored for cross-border compliance; consensus achieved in 45 minutes."""
 
 # Initialize SDK
-sdk = SolusSDK(
+sdk = S4SDK(
     wallet_seed=wallet_seed,
     testnet=True,
     api_key="valid_mock_key"  # For fiat_mode if international providers use USD

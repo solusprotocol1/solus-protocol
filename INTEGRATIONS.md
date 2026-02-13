@@ -1,30 +1,46 @@
-# Solus Protocol Integrations
+# S4 Ledger: Integrations
 
+## Defense System Integration
 
-## EHR Integration
-- Epic, Cerner, Allscripts: Sample Python and REST API endpoints for anchoring and verifying records
-- Webhook support for real-time notifications
+S4 Ledger is designed to integrate with existing defense logistics systems through its Python SDK and upcoming REST API:
 
-## Independent Operation (Planned)
-- Solus SDK will support standalone operation, independent of existing EHR systems (feature in development)
-- Planned: direct record anchoring, verification, and audit logging
-- Target: clinics, startups, and partners without legacy EHR infrastructure
+### Supported Integration Targets
 
-## Cross-Chain Anchoring
-- Ethereum: Smart contract sample for anchoring hashes
-- Solana: Rust sample for record anchoring
+| System | Function | Integration Method |
+|---|---|---|
+| **GCSS-MC** | Supply chain management | SDK + file export anchoring |
+| **DPAS** | Asset management | SDK + API bridge |
+| **3-M / SCLSIS** | Maintenance records | SDK + MRC completion anchoring |
+| **CDMD-OA** | Configuration management | SDK + baseline snapshot anchoring |
+| **Contractor ERPs** | Various logistics | SDK + REST API (Phase 4) |
+| **CDRL submittal** | Deliverable tracking | SDK + file hash anchoring |
 
-## Partner API
+## Cross-Chain Anchoring (Reference)
+
+- **Ethereum:** Smart contract sample for anchoring hashes ([ethereum_anchor_sample.sol](ethereum_anchor_sample.sol))
+- **Solana:** Rust sample for record anchoring ([solana_anchor_sample.rs](solana_anchor_sample.rs))
+
+Primary operations use the XRPL for cost efficiency ($0.001 vs $0.50-$50 on other chains).
+
+## Partner API (Roadmap — Phase 4)
+
 - RESTful endpoints for partner onboarding, record anchoring, and audit log retrieval
-- OAuth2 support for secure partner authentication
+- API key authentication with tiered rate limits
+- Batch endpoints for high-volume operations
+- Webhook notifications for anchor confirmations
 
 ## Fiat Conversion
-- Multi-currency support via XRPL DEX and gateway IOUs
-- Sample integration for USD, EUR, GBP
 
-## Compliance
-- Automated compliance checks for HIPAA, GDPR, SOC2
-- Audit dashboard integration
+- $SLS acquisition via XRPL DEX
+- Gateway IOU support (USD, EUR, GBP)
+- See [fiat_conversion_documentation.md](fiat_conversion_documentation.md) for details
+
+## Compliance Modules
+
+- NIST 800-171 alignment verification
+- CMMC compatibility checks
+- Automated audit trail generation
 
 ---
-For integration help, contact Nick Frankfort.
+
+For integration help: info@s4ledger.com | [s4ledger.com](https://s4ledger.com)

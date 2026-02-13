@@ -16,7 +16,7 @@ XRPL_TESTNET_URL = "https://s.altnet.rippletest.net:51234/"
 
 @app.route('/')
 def home():
-    return '<h1>Solus Protocol Metrics API</h1><p><a href="/metrics">/metrics</a> | <a href="/transactions">/transactions</a></p>'
+    return '<h1>S4 Ledger Metrics API</h1><p><a href="/metrics">/metrics</a> | <a href="/transactions">/transactions</a></p>'
 
 def categorize_record(memo_data):
     memo_lower = memo_data.lower()
@@ -204,7 +204,7 @@ metrics_html_content = '''<!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Solus Protocol | Metrics & Network Activity</title>
+    <title>S4 Ledger | Metrics & Network Activity</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
@@ -228,7 +228,7 @@ metrics_html_content = '''<!DOCTYPE html>
 </head>
 <body>
     <div class="container">
-        <h1 class="mb-4">Solus Protocol Metrics & Network Activity</h1>
+        <h1 class="mb-4">S4 Ledger Metrics & Network Activity</h1>
         <div class="row mb-4">
             <div class="col-md-4">
                 <div class="stat-box">
@@ -301,7 +301,7 @@ metrics_html_content = '''<!DOCTYPE html>
         </div>
         <div class="text-center mt-5">
             <a href="transactions.html" class="nav-link">View Full XRPL Transactions</a><br><br>
-            <a href="index.html" class="nav-link">Back to Solus Protocol Home</a>
+            <a href="index.html" class="nav-link">Back to S4 Ledger Home</a>
         </div>
     </div>
     <script>
@@ -311,7 +311,7 @@ metrics_html_content = '''<!DOCTYPE html>
 
         async function loadMetrics() {
             try {
-                const response = await fetch('https://solusprotocol.onrender.com/metrics');
+                const response = await fetch('https://s4ledger.onrender.com/metrics');
                 metricsData = await response.json();
                 document.getElementById('totalHashes').textContent = metricsData.total_hashes || 0;
                 document.getElementById('totalFees').textContent = (metricsData.total_fees || 0).toFixed(2);

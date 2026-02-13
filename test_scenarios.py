@@ -1,13 +1,13 @@
 """
-Solus Protocol SDK - Test Scenarios
+S4 Ledger SDK - Test Scenarios
 Run these scenarios to populate your metrics dashboard with various medical record types.
 Each scenario anchors a different type of medical record to the XRPL.
 """
 
-from solus_sdk import SolusSDK
+from s4_sdk import S4SDK
 
 # Initialize SDK with testnet credentials
-sdk = SolusSDK(api_key="valid_mock_key", testnet=True)
+sdk = S4SDK(api_key="valid_mock_key", testnet=True)
 test_seed = "sEd75GpyfXbSLGUShjwvViXoo6xaGuZ"
 
 # Test scenarios for different medical record types
@@ -82,7 +82,7 @@ def run_scenario(scenario):
 def run_all_scenarios():
     """Run all test scenarios"""
     print("=" * 50)
-    print("🏥 SOLUS PROTOCOL - MEDICAL RECORD ANCHORING TEST")
+    print("🏥 S4 LEDGER - DEFENSE RECORD ANCHORING TEST")
     print("=" * 50)
     
     success_count = 0
@@ -93,8 +93,8 @@ def run_all_scenarios():
     print("\n" + "=" * 50)
     print(f"📊 RESULTS: {success_count}/{len(scenarios)} scenarios completed successfully")
     print("=" * 50)
-    print("\n🌐 View your metrics at: https://solusprotocol.com/metrics.html")
-    print("🔍 View transactions at: https://solusprotocol.com/transactions.html")
+    print("\n🌐 View your metrics at: https://s4ledger.com/metrics.html")
+    print("🔍 View transactions at: https://s4ledger.com/transactions.html")
 
 if __name__ == "__main__":
     import sys

@@ -75,7 +75,7 @@ def real_fiat_to_sls_conversion(client, wallet, usd_amount, sls_issuer, gateway_
     response = submit_and_wait(payment_tx, client, wallet)
     return response.result
 
-class SolusSDK:
+class S4SDK:
     def encrypt(self, data):
         """Encrypt data using the SDK's encryption key."""
         return self.encrypt_data(data)
@@ -231,7 +231,7 @@ class SolusSDK:
         # Allow SDK-level wallet_seed to be set at initialization
         wallet_seed = wallet_seed or self.wallet_seed
         if not wallet_seed:
-            raise ValueError("wallet_seed is required either as argument or when initializing SolusSDK")
+            raise ValueError("wallet_seed is required either as argument or when initializing S4SDK")
 
         # Only require USD subscription when fiat_mode is requested
         if fiat_mode:
@@ -260,7 +260,7 @@ class SolusSDK:
 
 if __name__ == "__main__":
     # Usage Example (Provider Side – Crypto Critic with Fiat Mode)
-    sdk = SolusSDK(api_key="valid_mock_key", testnet=True)  # Provider's USD sub key
+    sdk = S4SDK(api_key="valid_mock_key", testnet=True)  # Provider's USD sub key
     test_record = "Patient data here"
     test_seed = "sTestSeed"  # Replace with a valid seed when running directly
     try:

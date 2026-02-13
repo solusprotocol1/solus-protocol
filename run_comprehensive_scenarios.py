@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 """
-Solus Protocol - Comprehensive Medical Record Scenarios
+S4 Ledger - Comprehensive Medical Record Scenarios
 Covers: Providers, Patients, EHR Systems (Epic, Oracle Health, Cerner, etc.)
 20 diverse scenarios demonstrating full healthcare use cases
 """
 
-from solus_sdk import SolusSDK
+from s4_sdk import S4SDK
 import time
 
-sdk = SolusSDK(api_key="valid_mock_key", testnet=True)
+sdk = S4SDK(api_key="valid_mock_key", testnet=True)
 test_seed = "sEd75GpyfXbSLGUShjwvViXoo6xaGuZ"
 
 # Comprehensive scenarios covering all use cases
@@ -61,7 +61,7 @@ scenarios = [
 ]
 
 print("=" * 70)
-print("SOLUS PROTOCOL - COMPREHENSIVE MEDICAL RECORD ANCHORING")
+print("S4 LEDGER - COMPREHENSIVE MEDICAL RECORD ANCHORING")
 print("=" * 70)
 print(f"Total scenarios: {len(scenarios)}")
 print("Record types: Surgery, Vitals, Labs, Allergies, Imaging, Immunizations,")
@@ -88,8 +88,8 @@ for i, (name, record) in enumerate(scenarios):
 print("\n" + "=" * 70)
 print(f"COMPLETE! {success_count}/{len(scenarios)} scenarios anchored successfully")
 print("=" * 70)
-print("\n📊 View metrics: https://solusprotocol.com/metrics.html")
-print("🔗 View transactions: https://solusprotocol.com/transactions.html")
+print("\n📊 View metrics: https://s4ledger.com/metrics.html")
+print("🔗 View transactions: https://s4ledger.com/transactions.html")
 print("\nRecord types demonstrated:")
 print("  • Provider records (Surgery, Labs, Imaging, Vitals, etc.)")
 print("  • Patient secure messages to providers")

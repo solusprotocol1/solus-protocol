@@ -1,16 +1,43 @@
-# Partner Onboarding Guide
+# S4 Ledger Partner Onboarding Guide
 
 ## Step-by-Step Integration
-1. Contact support@solusprotocol.com to initiate partnership.
-2. Sign BAA/contract for HIPAA compliance (template available).
-3. Set up XRPL wallet and $SLS trustline.
-4. Integrate Solus SDK into EHR system (Epic, Cerner, etc.).
-5. Use SDK to anchor and verify records.
-6. Configure webhook for anchor notifications (optional).
 
-## API Examples
-- See SDK docs for Python integration.
-- Sample endpoints for EHR integration available upon request.
+1. **Contact** info@s4ledger.com to initiate partnership discussion
+2. **Sign DDIA** — Defense Data Integrity Agreement (template: [BAA_TEMPLATE.md](BAA_TEMPLATE.md))
+3. **Set up XRPL wallet** and $SLS trustline
+4. **Install S4 Ledger SDK:**
+   ```bash
+   pip install s4-ledger-sdk
+   ```
+5. **Integrate into your system** — Anchor hashes from your logistics, maintenance, or supply chain records:
+   ```python
+   from s4_sdk import S4Ledger
+   ledger = S4Ledger(wallet_seed="sYourXRPLSecret")
+   result = ledger.anchor_hash(
+       data="your_record_data",
+       record_type="supply_chain_receipt"
+   )
+   ```
+6. **Configure webhooks** for anchor confirmation notifications (optional)
+7. **Verify records** against the XRPL at any time
+
+## Integration Targets
+
+| System | Integration Method |
+|---|---|
+| GCSS-MC | SDK + file export anchoring |
+| DPAS | SDK + API bridge |
+| 3-M / SCLSIS | SDK + MRC completion anchoring |
+| Contractor ERP | SDK + REST API (Phase 4) |
+| CDMD-OA | SDK + configuration baseline anchoring |
+
+## API Access (Roadmap — Phase 4)
+
+- REST API with key-based authentication
+- Tier-based rate limits (1K / 10K / 100K anchors per month)
+- Batch endpoints for high-volume operations
+- Webhook notifications
 
 ## Support
-For onboarding help, email support@solusprotocol.com.
+
+For onboarding help: info@s4ledger.com | [s4ledger.com](https://s4ledger.com)

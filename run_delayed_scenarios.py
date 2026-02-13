@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """Run test scenarios with delays to populate metrics dashboard"""
 
-from solus_sdk import SolusSDK
+from s4_sdk import S4SDK
 import time
 
-sdk = SolusSDK(api_key="valid_mock_key", testnet=True)
+sdk = S4SDK(api_key="valid_mock_key", testnet=True)
 test_seed = "sEd75GpyfXbSLGUShjwvViXoo6xaGuZ"
 
 scenarios = [
@@ -23,7 +23,7 @@ scenarios = [
 ]
 
 print("=" * 60)
-print("SOLUS PROTOCOL - RUNNING TEST SCENARIOS")
+print("S4 LEDGER - RUNNING TEST SCENARIOS")
 print("=" * 60)
 print(f"Total scenarios: {len(scenarios)}")
 print("Delay between scenarios: 30 seconds")
@@ -43,5 +43,5 @@ for i, (name, record) in enumerate(scenarios):
 
 print("\n" + "=" * 60)
 print("ALL SCENARIOS COMPLETE!")
-print("View metrics at: https://solusprotocol.com/metrics.html")
+print("View metrics at: https://s4ledger.com/metrics.html")
 print("=" * 60)

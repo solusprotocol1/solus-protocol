@@ -1,113 +1,103 @@
-# Security Policy
+# S4 Ledger — Security Policy
 
-## Reporting a Vulnerability
+## Architecture: Hash-Only, Zero Data On-Chain
 
-If you discover a security vulnerability within this project, please send an email to security@example.com. All security vulnerabilities will be promptly addressed.
+S4 Ledger anchors **only SHA-256 hashes** to the XRP Ledger. No documents, filenames, part numbers, serial numbers, PII, CUI, or classified information ever touches the blockchain.
 
-## Supported Versions
+A SHA-256 hash is a one-way mathematical fingerprint. It **cannot be reversed** to recover the original data. Even knowing the hash, an attacker cannot determine what was hashed.
 
-The following versions are currently being supported:
-- Version 1.x
-- Version 2.x
-# Solus Protocol Security Policy
+### What goes on-chain
+- 64-character SHA-256 hash string
+- XRPL transaction metadata (timestamp, fee, memo field)
 
-## 1. Introduction and Responsible Disclosure
+### What never goes on-chain
+- Original documents, files, or records
+- Part numbers, NSNs, serial numbers
+- Personnel names, SSNs, or PII
+- Contract numbers or dollar amounts
+- Classified or CUI-marked data
+- Any identifiable defense information
 
-At Solus Protocol, the security of our decentralized infrastructure, built on the XRP Ledger (XRPL), is paramount. We are committed to safeguarding the integrity, confidentiality, and availability of medical data through our protocol, which enables tamper-proof anchoring and patient-controlled access without exposing sensitive Protected Health Information (PHI). We recognize the vital role of the security research community in identifying potential vulnerabilities and appreciate ethical disclosures that help us enhance our system's robustness.
+---
 
-This policy outlines our approach to vulnerability reporting, scope, and commitments to researchers. By participating, you agree to follow these guidelines in good faith. Solus Protocol adheres to principles of responsible disclosure, ensuring that reported issues are addressed promptly while minimizing risks to users and stakeholders.
+## SHA-256 Security
 
-## 2. Reporting a Vulnerability
+- **Collision resistance:** No two different inputs have ever been found to produce the same SHA-256 hash. The probability is approximately 1 in 2^128 — computationally infeasible.
+- **Pre-image resistance:** Given a hash, it is computationally infeasible to find the original input.
+- **NIST approved:** SHA-256 is approved by NIST (FIPS 180-4) for federal information processing.
+- **Industry standard:** Used by Bitcoin, TLS certificates, code signing, and DoD systems.
 
-To maintain the highest standards of security and protect our users, **please do not disclose vulnerabilities publicly (e.g., via GitHub issues, social media, or forums) until we have had sufficient time to investigate and remediate.** Public disclosure before resolution may void safe harbor protections (see Section 5).
+---
 
-### Preferred Reporting Channels
+## XRP Ledger Security
 
-Report vulnerabilities privately through one of the following secure methods:
+- **Consensus:** XRPL uses the XRP Ledger Consensus Protocol (not proof-of-work or proof-of-stake). Validators agree on transaction ordering without mining.
+- **Decentralized:** 150+ validators operated by universities, exchanges, and independent operators worldwide.
+- **Uptime:** 99.99%+ since 2012. No rollbacks, no chain reversals.
+- **Finality:** Transactions are final in 3-5 seconds. Once anchored, a hash cannot be altered or removed.
+- **Immutability:** Ledger history is cryptographically linked. Altering a past transaction would require rewriting the entire chain — computationally impossible.
 
-**Email:** security@solusprotocol.com (preferred for detailed reports).
+---
 
-**Subject Line:** Use "Vulnerability Report: [Brief Non-Sensitive Description]" to ensure priority handling.
+## SDK Security
 
-If you require an alternative secure channel (e.g., Signal or encrypted platform), include your contact preferences in the initial email, and we will accommodate.
+- **TLS 1.3:** All connections to XRPL nodes use TLS 1.3 encryption
+- **Key management:** Wallet seeds are never stored by S4 Ledger servers. Keys remain with the user.
+- **No telemetry:** The SDK does not phone home, collect analytics, or transmit usage data
+- **Open source:** Full source code available for audit
+- **Dependency management:** Minimal dependencies — `xrpl-py` and `cryptography` (both audited, widely-used libraries)
+- **Input validation:** All inputs are sanitized before hashing. Invalid data types are rejected.
 
-### What to Include in Your Report
+---
 
-To facilitate a swift and effective response, please provide as much detail as possible while avoiding the inclusion of sensitive data:
+## Compliance Alignment
 
-* **Description:** A clear, concise explanation of the vulnerability, including its type (e.g., buffer overflow, SQL injection, cryptographic weakness).
-* **Reproduction Steps:** Step-by-step instructions to replicate the issue, including any proof-of-concept (PoC) code, scripts, or screenshots. Specify the environment (e.g., XRPL testnet/mainnet, SDK version, OS/browser).
-* **Impact Assessment:** Potential consequences, such as data exposure, unauthorized access, denial of service, or financial loss. Quantify if possible (e.g., "Could allow tampering of hashed medical records").
-* **Affected Components:** Identify specific parts of the protocol (e.g., hashing logic, XRPL memo fields, SDK encryption module).
-* **Discovery Details:** How and when you found the issue (optional, but helpful for our internal review).
-* **Supporting Files:** Attach non-sensitive files (e.g., PoC scripts) via encrypted zip if needed.
+| Control Framework | S4 Ledger Alignment |
+|---|---|
+| **NIST 800-171** | Zero CUI on-chain. Hash-only architecture ensures no controlled unclassified information is exposed. |
+| **CMMC Level 2+** | Compatible with CMMC practices. S4 Ledger supplements existing controls with integrity verification. |
+| **DFARS 252.204-7012** | No covered defense information is stored, processed, or transmitted on-chain. |
+| **NIST 800-53 (AU family)** | Provides immutable audit trail (AU-3, AU-6, AU-10, AU-11). |
+| **FedRAMP** | Planned for Phase 5 roadmap. |
 
-We encourage reports in English, but we can accommodate other languages with translation assistance.
+---
 
-### Confidentiality During Reporting
+## Threat Model
 
-All reports are treated as confidential. We will not share your identity or report details without your explicit consent, except as required by law or to coordinate with trusted third parties (e.g., XRPL Foundation for ledger-related issues).
+| Threat | Mitigation |
+|---|---|
+| Data exfiltration via blockchain | Impossible — only irreversible hashes are stored |
+| Hash collision (fake record passes verification) | SHA-256 collision probability: ~1 in 2^128 |
+| XRPL ledger tampering | Requires compromising 80%+ of validators simultaneously |
+| Man-in-the-middle on SDK calls | TLS 1.3 encryption on all XRPL connections |
+| Wallet compromise | Users control their own keys; S4 Ledger never stores seeds |
+| Supply chain attack on SDK | Minimal dependencies, pinned versions, hash-verified packages |
 
-## 3. Scope
+---
 
-This policy applies to vulnerabilities in Solus Protocol's owned and operated components. We define "in-scope" and "out-of-scope" to focus efforts on high-impact areas.
+## Responsible Disclosure
 
-### In-Scope Vulnerabilities
+If you discover a security vulnerability in S4 Ledger:
 
-* Solus Core Protocol: Data anchoring logic, hashing mechanisms, and XRPL transaction handling.
-* Solus API and Gateway Services: Endpoints for SDK integrations, including authentication and data verification.
-* Smart Contracts/AMM Pools: Any deployed on XRPL, including $SLS token issuance and treasury management.
-* SDK Prototype: Encryption, hashing, and XRPL interaction modules in this repository.
-* Website and Documentation: Security flaws in solusprotocol.com or associated repos that could lead to data exposure.
+1. **Email:** security@s4ledger.com
+2. **Do not** open a public GitHub issue for security vulnerabilities
+3. **Include:** Description of the vulnerability, steps to reproduce, potential impact
+4. **Response time:** We will acknowledge within 48 hours and provide a resolution timeline within 7 days
 
-Vulnerabilities must be novel (not previously known to us) and demonstrable in a controlled environment.
+We follow coordinated disclosure practices. Reporters will be credited unless they request anonymity.
 
-### Out-of-Scope Vulnerabilities
+---
 
-* Denial of Service (DoS/DDoS) attacks or resource exhaustion (report to XRPL if ledger-wide).
-* Social engineering, phishing, or attacks targeting Solus employees/contractors.
-* Vulnerabilities in third-party dependencies (e.g., underlying XRPL protocol—report to Ripple/XRPL Foundation).
-* Issues in non-official forks or unrelated projects.
-* Theoretical vulnerabilities without a practical exploit PoC.
-* Spam, automated scanner outputs, or low-severity issues (e.g., self-XSS).
-* Attacks requiring physical access to devices or insider privileges.
+## Incident Response
 
-If unsure about scope, contact us for clarification before testing.
+In the event of a security incident:
 
-## 4. Response Process and Timeline
+1. Affected services are isolated immediately
+2. Impact assessment within 4 hours
+3. User notification within 24 hours if data is affected
+4. Post-incident report published within 30 days
+5. Remediation deployed and verified
 
-Upon receiving your report:
+---
 
-* **Acknowledgment:** We will confirm receipt within **48 hours** (business days) and assign a unique tracking ID.
-* **Triage:** Our security team will evaluate the report within **5 business days,** assessing severity (using CVSS scoring) and reproducibility.
-* **Investigation & Remediation:** We aim to provide an initial response on validity within **10 business days.** If confirmed, we'll share a remediation timeline (typically 30-90 days for high-severity issues).
-* **Disclosure Coordination:** We support coordinated disclosure. Once fixed, we'll credit you (if desired) in release notes or advisories.
-* **Updates:** You'll receive regular status updates. If no response in expected timeframes, follow up via the original channel.
-
-Severity Levels (Guideline):
-* **Critical/High:** Immediate threats to data integrity/privacy—prioritized fix within 30 days.
-* **Medium/Low:** Non-exploitable or mitigated issues—fixed in next release cycle.
-
-## 5. Our Commitment and Safe Harbor
-
-If you comply with this policy and act in good faith:
-
-* **Safe Harbor Guarantee:** We will not pursue civil or criminal action against you, nor involve law enforcement, provided you:Do not access, exfiltrate, or destroy actual user data.
-  *Avoid disruptive testing (e.g., no DoS or production impacts).
-  *Give us reasonable time (at least 90 days) to resolve before public disclosure.
-  *Do not exploit for personal gain.
-
-* **Public Credit:** With your permission, we'll acknowledge your contribution in our Hall of Fame or security advisories.
-* **No Retaliation:** We value ethical researchers and commit to treating all reports professionally.
-
-Violations of this policy (e.g., public disclosure without coordination) may result in disqualification from safe harbor.
-
-## 6. Additional Resources
-
-* **Testing Guidelines:** Use testnet environments only (e.g., XRPL testnet for SDK prototypes). Avoid mainnet or real data.
-* **Contact for Questions:** For policy clarifications, email security@solusprotocol.com with "Security Policy Inquiry" in the subject.
-* **Updates to Policy:** This policy may evolve; check the latest version on GitHub.
-
-We thank the security community for helping make Solus Protocol more secure. Together, we're building a safer future for healthcare data.
-
-
+© 2026 S4 Ledger. Charleston, SC.

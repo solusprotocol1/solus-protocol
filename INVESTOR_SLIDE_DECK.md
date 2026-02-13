@@ -1,64 +1,68 @@
-# Solus Protocol: Investor Slide Deck
+# S4 Ledger: Investor Slide Deck
 
 ---
 
 ## Vision
-Solus Protocol: Secure, compliant, and interoperable medical data on XRPL, powered by $SLS.
+S4 Ledger: Immutable logistics verification for the defense industry, anchored on XRPL, powered by $SLS.
 
 ---
 
 ## Problem
-- $300B+ lost annually to healthcare data silos and inefficiencies
-- Existing solutions lack compliance, auditability, and real-world integration
+- Counterfeit parts, falsified maintenance records, unverifiable supply chains
+- No common integrity layer across DoD logistics systems
+- Siloed data, audit failures, delivery disputes
 
 ---
 
 ## Solution
-- Anchor only SHA-256 hashes (never PHI) to XRPL
-- Privacy, compliance, and real-time auditability
+- Anchor only SHA-256 hashes (never sensitive data) to XRPL
+- Zero data on-chain — NIST/CMMC compliant
+- 3-5s confirmation, ~$0.001 per anchor
 
 ---
 
 ## Traction
-- Live $SLS token
-- South Carolina pilot partners
-- Working SDK
-- HIPAA-ready, open-source
+- Live $SLS token on XRPL mainnet
+- Working Python SDK
+- Defense use case library
+- s4ledger.com — 9 pages
 
 ---
 
 ## Market
-- Blockchain healthcare: $11B (2024) → $200B+ (2030), 60%+ CAGR
-- SaaS, $SLS utility fees, network incentives
+- $800B+ annual DoD budget
+- 12 ILS elements = 12 addressable verticals
+- No competitor combines hash-only + public ledger + defense focus
 
 ---
 
 ## Roadmap
-- Q1 2026: Partner onboarding, SDK docs, multi-language SDKs, compliance, audit dashboard
-- Q2 2026: Mobile SDK, advanced encryption, cross-chain, fiat, EHR partners
-- Q3 2026: Mainnet, AI anomaly detection, global partners, hackathon
+- Phase 1 ✅: SDK, token, website
+- Phase 2 🔄: Defense platform, compliance, partnerships
+- Phase 3: MVP pilot on real contract data
+- Phase 4: REST API, SaaS, DIU/NavalX
+- Phase 5: NIST, FedRAMP, production
 
 ---
 
 ## Tokenomics
-- 100M $SLS: 60% public, 15% ecosystem, 15% team, 10% reserves (DAO)
-- Utility token, SEC/CFTC reviewed
+- 100M $SLS: 30% public, 30% treasury (multi-sig), 20% dev, 20% ecosystem
+- Utility token — not a security
 
 ---
 
-## Team & Partners
-- Nick Frankfort (founder)
-- Advisors: Healthcare, blockchain, compliance
-- Partners: XRPL Community, SC clinics
+## Team
+- Built by ILS professionals
+- Years of hands-on Navy and DoD program experience
+- Charleston, SC
 
 ---
 
 ## Ask
-- $1.5M seed/strategic investment
-- For mainnet, compliance, global partners, product dev, go-to-market
+- Strategic investment + partnerships
+- SBIR/STTR, pilot programs, compliance certification
 
 ---
 
 ## Contact
-Nick Frankfort, Founder
-support@solusprotocol.com
+info@s4ledger.com | s4ledger.com

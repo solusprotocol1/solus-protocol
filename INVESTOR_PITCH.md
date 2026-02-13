@@ -1,46 +1,68 @@
-# Solus Protocol: Investor Pitch
+# S4 Ledger: Investor Pitch
 
 ## Vision
-Solus Protocol is building the future of secure, compliant, and interoperable medical data—anchored on the XRPL and powered by the $SLS utility token.
+
+S4 Ledger is building the integrity layer for defense logistics — immutable verification of supply chains, maintenance records, technical data, and contract deliverables, anchored on the XRPL and powered by the $SLS utility token.
 
 ## Problem & Opportunity
-- $300B+ lost annually to healthcare data silos, errors, and inefficiencies
-- Existing solutions lack compliance, auditability, and real-world integration
-- Solus anchors only SHA-256 hashes (never PHI) to XRPL for privacy, compliance, and real-time audit
+
+- Counterfeit parts in DoD supply chains cost billions and endanger warfighters
+- Gundecked maintenance records undermine readiness across all service branches
+- CDRL delivery disputes consume months of contract resolution time
+- No common integrity layer exists across GCSS, DPAS, 3-M, and contractor ERPs
+- Current solutions are siloed, unverifiable, and expensive
+
+## Solution
+
+- Anchor only SHA-256 hashes (never sensitive data) to the XRP Ledger
+- Zero data on-chain — full NIST/CMMC compliance
+- 3-5 second confirmation, ~$0.001 per anchor
+- Python SDK integrates in 10 lines of code
 
 ## Traction
-- $SLS token is live on the XRPL mainnet
-- South Carolina pilot partners and a working SDK
-- HIPAA-ready, open-source, and transparent
-- Product roadmap with clear milestones (see below)
+
+- $SLS token live on XRPL mainnet (issuer: r95GyZac4butvVcsTWUPpxzekmyzaHsTA5)
+- 30M SLS in multi-sig treasury
+- Working SDK with defense use case library
+- 9-page website at s4ledger.com
+- Open-source and auditable
 
 ## Market
-- Blockchain healthcare market: $11B (2024) → $200B+ (2030), 60%+ CAGR
-- SaaS subscriptions, $SLS utility fees, and network incentives
 
-## Roadmap & Milestones
-- Q1 2026: Partner onboarding automation, SDK docs, multi-language SDKs, compliance modules, audit dashboard
-- Q2 2026: Mobile SDK, advanced encryption, cross-chain anchoring, fiat expansion, EHR partnerships
-- Q3 2026: Mainnet launch, AI anomaly detection, global partners, developer hackathon
+- $800B+ annual DoD budget
+- 12 ILS elements (MIL-STD-1388) — each an addressable market
+- No competitor combines hash-only architecture + public ledger + defense focus
+- Adjacent markets: NATO allies, defense contractors, shipbuilding, aviation MRO
 
-## Tokenomics & Governance
-- 100M $SLS: 60% public, 15% ecosystem, 15% team, 10% reserves (DAO)
-  - Utility token (not a security), with legal review for SEC/CFTC compliance
+## Roadmap
 
-## Team & Partners
-- Founder: Nick Frankfort (blockchain, healthcare, compliance)
-- Advisors: Healthcare, blockchain, and compliance experts
-- Partners: XRPL Community, South Carolina pilot clinics
+| Phase | Timeline | Focus |
+|---|---|---|
+| Foundation | Q4 2025 – Q1 2026 ✅ | SDK, $SLS token, website |
+| Defense Platform | Q1 – Q2 2026 🔄 | Use case library, compliance docs, partnerships |
+| MVP & Pilot | Q3 – Q4 2026 | Internal pilot on real contract data |
+| Partner & SaaS | Q1 – Q2 2027 | REST API, SaaS dashboard, DIU/NavalX |
+| Scale & Certify | Q3 2027+ | NIST, FedRAMP, production deployments |
+
+## Tokenomics
+
+| Allocation | Amount | Purpose |
+|---|---|---|
+| Public circulation | 30,000,000 SLS | Market liquidity |
+| Operating treasury | 30,000,000 SLS | Platform operations (multi-sig) |
+| Development reserve | 20,000,000 SLS | Team, advisors |
+| Ecosystem incentives | 20,000,000 SLS | Early adopter grants, pilots |
+
+$SLS is a utility token — not equity or a security.
 
 ## Ask
-- Seeking $1.5M seed/strategic investment for:
-  - Compliance audits and global partner onboarding
-  - Product development (mobile, cross-chain, AI, audit dashboard)
-  - Go-to-market and regulatory expansion
+
+Seeking strategic investment and partnership for:
+- SBIR/STTR applications (Navy, DIU)
+- Pilot program with real contract data
+- Product development (REST API, SaaS dashboard, batch operations)
+- Compliance certification (NIST, FedRAMP)
 
 ## Contact
-- Nick Frankfort, Founder
-- support@solusprotocol.com
 
----
-For full deck, financials, or a call: support@solusprotocol.com
+info@s4ledger.com | [s4ledger.com](https://s4ledger.com)

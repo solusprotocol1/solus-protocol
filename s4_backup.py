@@ -1,23 +1,23 @@
 """
-solus_backup.py — Encrypted Backup & Recovery Module for Solus Protocol
+s4_backup.py — Encrypted Backup & Recovery Module for S4 Ledger
 
 Provides:
-  • SolusBackup — Export/import encrypted .solusbackup files
+  • S4LedgerBackup — Export/import encrypted .s4backup files
   • XRPL-based recovery — Re-verify record integrity from the ledger
   • QR code generation for wallet seed backup (mock in prototype)
 
 Architecture:
-  Export: records + tx hashes + metadata → encrypt → .solusbackup file
-  Import: .solusbackup → decrypt → verify hashes against XRPL → restore
+  Export: records + tx hashes + metadata → encrypt → .s4backup file
+  Import: .s4backup → decrypt → verify hashes against XRPL → restore
 
   Device loss recovery:
     1. Install app on new device
-    2. Import seed + .solusbackup (or scan QR)
+    2. Import seed + .s4backup (or scan QR)
     3. App re-fetches every anchored hash from XRPL
     4. Decrypts locally and re-populates cache
     5. Even without backup, EHR data + XRPL hashes prove integrity
 
-Author: Solus Protocol Team
+Author: S4 Ledger Team
 License: Apache-2.0
 """
 
@@ -33,13 +33,13 @@ try:
 except ImportError:
     Fernet = None
 
-from solus_sdk import SolusSDK
+from s4_sdk import S4SDK
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # MOCK / PROTOTYPE CONFIGURATION
 # ═══════════════════════════════════════════════════════════════════════════════
 
-MOCK_CLOUD_BACKUP_URL = "https://backup.solusprotocol.com/v1/store"    # → real: S3/GCS encrypted bucket
+MOCK_CLOUD_BACKUP_URL = "https://backup.s4ledger.com/v1/store"    # → real: S3/GCS encrypted bucket
 MOCK_CLOUD_API_KEY = "MOCK_BACKUP_API_KEY_replace_in_production"       # → real: cloud credential
 MOCK_XRPL_EXPLORER_URL = "https://testnet.xrpl.org/transactions/"     # Real — works now
 
@@ -55,14 +55,14 @@ def _hash(data: str) -> str:
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# SOLUS PROTOCOL BACKUP — Encrypted Export/Import
+# S4 LEDGER BACKUP — Encrypted Export/Import
 # ═══════════════════════════════════════════════════════════════════════════════
 
-class SolusBackup:
+class S4LedgerBackup:
     """
     Encrypted backup and recovery system for patient health wallets.
 
-    The .solusbackup file contains:
+    The .s4backup file contains:
       • All record plaintext (encrypted at rest with patient's key)
       • All XRPL transaction hashes for verification
       • Record metadata (type, timestamp, provider, etc.)
@@ -75,12 +75,12 @@ class SolusBackup:
     """
 
     BACKUP_VERSION = "1.0.0"
-    BACKUP_MAGIC = "SOLUS_BACKUP_V1"
+    BACKUP_MAGIC = "S4_BACKUP_V1"
 
-    def __init__(self, sdk: SolusSDK):
+    def __init__(self, sdk: S4SDK):
         self.sdk = sdk
         if not self.sdk.cipher:
-            raise RuntimeError("Encryption required for backup. Provide encryption_key or wallet_seed to SolusSDK.")
+            raise RuntimeError("Encryption required for backup. Provide encryption_key or wallet_seed to S4SDK.")
 
     def export_backup(
         self,
@@ -91,12 +91,12 @@ class SolusBackup:
         extra_metadata: dict = None
     ) -> dict:
         """
-        Export all records to an encrypted .solusbackup file.
+        Export all records to an encrypted .s4backup file.
 
         Args:
             records:            List of record dicts, each with at minimum:
                                 {content, record_type, tx_hash, timestamp}
-            output_path:        File path for the .solusbackup file
+            output_path:        File path for the .s4backup file
             include_plaintext:  If True, include encrypted record content for full recovery
             wallet_address:     XRPL wallet address (NOT the seed)
             extra_metadata:     Any additional metadata to include
@@ -106,7 +106,7 @@ class SolusBackup:
         """
         if not output_path:
             timestamp = datetime.utcnow().strftime("%Y%m%d_%H%M%S")
-            output_path = f"solus_backup_{timestamp}.solusbackup"
+            output_path = f"s4_backup_{timestamp}.s4backup"
 
         # Build backup manifest
         manifest = {
@@ -176,10 +176,10 @@ class SolusBackup:
 
     def import_backup(self, backup_path: str) -> dict:
         """
-        Import and decrypt a .solusbackup file.
+        Import and decrypt a .s4backup file.
 
         Args:
-            backup_path:  Path to the .solusbackup file
+            backup_path:  Path to the .s4backup file
 
         Returns:
             dict with manifest, records list, and integrity verification
@@ -216,7 +216,7 @@ class SolusBackup:
             "record_count": len(records)
         }
 
-    def verify_against_xrpl(self, records: list, sdk: SolusSDK = None) -> dict:
+    def verify_against_xrpl(self, records: list, sdk: S4SDK = None) -> dict:
         """
         Verify imported records against XRPL transaction hashes.
 
@@ -226,7 +226,7 @@ class SolusBackup:
 
         Args:
             records:  List of record dicts from import_backup
-            sdk:      SolusSDK instance (uses self.sdk if not provided)
+            sdk:      S4SDK instance (uses self.sdk if not provided)
 
         Returns:
             dict with verification results per record
@@ -349,7 +349,7 @@ class SolusBackup:
         Upload encrypted backup to cloud storage (patient-controlled).
 
         In production, uses pre-signed S3 URLs or GCS signed URLs so the
-        backup goes directly to the patient's controlled bucket — Solus Protocol
+        backup goes directly to the patient's controlled bucket — S4 Ledger
         never has access to the plaintext.
         """
         if not os.path.exists(backup_path):
@@ -382,12 +382,12 @@ class SolusBackup:
 
 if __name__ == "__main__":
     print("=" * 70)
-    print(" SOLUS PROTOCOL BACKUP & RECOVERY — Prototype Demo")
+    print(" S4 LEDGER BACKUP & RECOVERY — Prototype Demo")
     print("=" * 70)
 
     # Initialize
-    sdk = SolusSDK(wallet_seed="sEdT9vPQ4QCA4TtDSZqAGTv9ABL2uLS", testnet=True, api_key="valid_mock_key")
-    backup = SolusBackup(sdk)
+    sdk = S4SDK(wallet_seed="sEdT9vPQ4QCA4TtDSZqAGTv9ABL2uLS", testnet=True, api_key="valid_mock_key")
+    backup = S4LedgerBackup(sdk)
 
     # Sample records (what the patient's device would have cached)
     sample_records = [
@@ -427,7 +427,7 @@ if __name__ == "__main__":
     print("─" * 50)
     export_result = backup.export_backup(
         records=sample_records,
-        output_path="test_backup.solusbackup",
+        output_path="test_backup.s4backup",
         wallet_address="rPatientWalletAddress12345"
     )
 
@@ -435,7 +435,7 @@ if __name__ == "__main__":
     print("\n" + "─" * 50)
     print(" 2. IMPORT BACKUP ON NEW DEVICE")
     print("─" * 50)
-    imported = backup.import_backup("test_backup.solusbackup")
+    imported = backup.import_backup("test_backup.s4backup")
     print(f"  Record types recovered: {imported['manifest']['record_types']}")
 
     # ── 3. Verify Against XRPL ──
@@ -454,15 +454,15 @@ if __name__ == "__main__":
     print("\n" + "─" * 50)
     print(" 5. CLOUD BACKUP (Patient-Controlled)")
     print("─" * 50)
-    cloud = backup.cloud_backup("test_backup.solusbackup", patient_id="PT-44521")
+    cloud = backup.cloud_backup("test_backup.s4backup", patient_id="PT-44521")
 
     # Cleanup test file
-    if os.path.exists("test_backup.solusbackup"):
-        os.remove("test_backup.solusbackup")
+    if os.path.exists("test_backup.s4backup"):
+        os.remove("test_backup.s4backup")
         print("\n  ✓ Test backup file cleaned up")
 
     print("\n" + "=" * 70)
     print(" BACKUP & RECOVERY DEMO COMPLETE")
-    print(" In production: .solusbackup files are the patient's portable proof")
+    print(" In production: .s4backup files are the patient's portable proof")
     print(" Even without backups, XRPL hashes + EHR data = verifiable history")
     print("=" * 70)

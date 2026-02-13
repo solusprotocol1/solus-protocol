@@ -1,5 +1,5 @@
 """
-solus_anomaly.py — Real-Time Anomaly Detection & Notification Engine
+s4_anomaly.py — Real-Time Anomaly Detection & Notification Engine
 
 Extends the existing ai_postop_monitor_anchor.py with:
   • Wearable device API integrations (Fitbit, Apple Health, Google Fit, Dexcom, Withings)
@@ -11,7 +11,7 @@ Extends the existing ai_postop_monitor_anchor.py with:
 All wearable APIs use mock OAuth2 tokens in prototype mode.
 Replace MOCK_* constants with real client IDs/secrets for production.
 
-Author: Solus Protocol Team
+Author: S4 Ledger Team
 License: Apache-2.0
 """
 
@@ -21,7 +21,7 @@ import time
 import uuid
 from datetime import datetime, timedelta
 
-from solus_sdk import SolusSDK
+from s4_sdk import S4SDK
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # MOCK / PROTOTYPE CONFIGURATION
@@ -31,12 +31,12 @@ from solus_sdk import SolusSDK
 # Fitbit API (https://dev.fitbit.com/)
 MOCK_FITBIT_CLIENT_ID = "MOCK_FITBIT_CLIENT_ID"
 MOCK_FITBIT_CLIENT_SECRET = "MOCK_FITBIT_CLIENT_SECRET"
-MOCK_FITBIT_REDIRECT_URI = "https://app.solusprotocol.com/callback/fitbit"
+MOCK_FITBIT_REDIRECT_URI = "https://app.s4ledger.com/callback/fitbit"
 MOCK_FITBIT_TOKEN_URL = "https://api.fitbit.com/oauth2/token"
 MOCK_FITBIT_API_BASE = "https://api.fitbit.com/1/user/-"
 
 # Apple HealthKit (via Apple Health REST proxy — requires HealthKit entitlement)
-MOCK_APPLE_HEALTH_ENDPOINT = "https://healthkit.solusprotocol.com/v1/data"
+MOCK_APPLE_HEALTH_ENDPOINT = "https://healthkit.s4ledger.com/v1/data"
 MOCK_APPLE_HEALTH_API_KEY = "MOCK_APPLE_HEALTH_KEY"
 
 # Google Fit (https://developers.google.com/fit)
@@ -55,7 +55,7 @@ MOCK_WITHINGS_CLIENT_SECRET = "MOCK_WITHINGS_SECRET"
 MOCK_WITHINGS_API_BASE = "https://wbsapi.withings.net"
 
 # Webhook & Push
-MOCK_WEBHOOK_URL = "https://hooks.solusprotocol.com/v1/alert"
+MOCK_WEBHOOK_URL = "https://hooks.s4ledger.com/v1/alert"
 MOCK_PUSH_API_KEY = "MOCK_FCM_SERVER_KEY"
 
 # ONNX Model (optional advanced inference)
@@ -350,7 +350,7 @@ class AnomalyEngine:
 
     SEVERITY_LEVELS = ["info", "warning", "critical", "emergency"]
 
-    def __init__(self, sdk: SolusSDK, procedure_type: str = None, custom_thresholds: dict = None):
+    def __init__(self, sdk: S4SDK, procedure_type: str = None, custom_thresholds: dict = None):
         self.sdk = sdk
         self.providers = {}
         self.alerts_history = []
@@ -639,7 +639,7 @@ class AnomalyEngine:
 
                 # Anchor to XRPL
                 result = self.sdk.store_hash_with_sls_fee(
-                    hash_value=f"solus:anomaly:{anomaly['type']}:{record_hash}",
+                    hash_value=f"s4:anomaly:{anomaly['type']}:{record_hash}",
                     wallet_seed=wallet_seed,
                     record_type=f"ANOMALY_{anomaly['type']}"
                 )
@@ -665,7 +665,7 @@ class AnomalyEngine:
                 else:
                     import requests
                     requests.post(webhook, json={
-                        "event": "solus.anomaly.detected",
+                        "event": "s4.anomaly.detected",
                         "tx_hash": tx_hash,
                         **anchor_result
                     }, timeout=10)
@@ -726,11 +726,11 @@ class AnomalyEngine:
 
 if __name__ == "__main__":
     print("=" * 70)
-    print(" SOLUS PROTOCOL ANOMALY DETECTION ENGINE — Prototype Demo")
+    print(" S4 LEDGER ANOMALY DETECTION ENGINE — Prototype Demo")
     print("=" * 70)
 
     # Initialize
-    sdk = SolusSDK(wallet_seed="sEdT9vPQ4QCA4TtDSZqAGTv9ABL2uLS", testnet=True, api_key="valid_mock_key")
+    sdk = S4SDK(wallet_seed="sEdT9vPQ4QCA4TtDSZqAGTv9ABL2uLS", testnet=True, api_key="valid_mock_key")
     patient_seed = "sEdT9vPQ4QCA4TtDSZqAGTv9ABL2uLS"
 
     # Create engine for post-cardiac-surgery monitoring
@@ -794,5 +794,5 @@ if __name__ == "__main__":
     print(" Connected providers: Fitbit, Apple Health, Dexcom, Withings")
     print(" All using mock OAuth2 — swap MOCK_* constants for production")
     print(" McKinsey est: $40-50B/yr in post-discharge complication costs")
-    print(" Solus Protocol catches anomalies in hours, not days")
+    print(" S4 Ledger catches anomalies in hours, not days")
     print("=" * 70)

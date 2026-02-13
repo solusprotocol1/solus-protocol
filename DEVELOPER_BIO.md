@@ -1,27 +1,30 @@
-# About Nick Frankfort
+# About the Founder
 
-Nick Frankfort is a solo developer, entrepreneur, and innovator in blockchain and healthcare technology. He founded Solus Protocol ($SLS) to empower secure, transparent medical record anchoring and compliance for global partners.
+## Nick Frankfort
 
-## Background
-- Over 10 years in Python, cryptography, and distributed systems
-- Experience with XRPL, fintech, and medical data integration
-- Passionate about privacy, compliance, and real-world impact
+Nick Frankfort is the founder of S4 Ledger, a defense logistics verification platform anchoring tamper-proof audit trails on the XRP Ledger.
 
-## Mission
-To make healthcare data more secure, auditable, and accessible for patients, providers, and partners worldwide.
+### Background
 
-## Contact
-- Email: nickfrankfort@solusprotocol.com
-- LinkedIn: https://www.linkedin.com/in/nicolas-frankfort-6ab29090/
-- Website: https://solusprotocol.com
+- Years of experience in Integrated Logistics Support (ILS) across Navy and DoD programs
+- Expertise in Python, cryptography, and distributed systems
+- Deep understanding of defense supply chain challenges, maintenance record integrity, and configuration management
 
-Open to partnerships, consulting, and collaboration.
-# Developer Bio: Nick Frankfort
+### Mission
 
-Nick Frankfort is the solo developer behind Solus Protocol ($SLS), a pioneering project for anchoring medical records on the XRPL with transparent audit, compliance, and real-world scenario integration. Nick specializes in secure healthcare data, blockchain, and partner onboarding for medical and fintech innovation.
+To give the defense industry an integrity layer it can trust — immutable proof that logistics records are authentic, unaltered, and independently verifiable.
 
-- Python, XRPL, cryptography, compliance
-- Open to partnerships, consulting, and collaboration
-- Contact: nickfrankfort@solusprotocol.com
+### Technical Focus
 
-Learn more at https://solusprotocol.com
+- SHA-256 hash anchoring on XRPL
+- Python SDK development
+- NIST 800-171 / CMMC compliance alignment
+- Defense supply chain verification
+
+### Contact
+
+- Email: info@s4ledger.com
+- Website: [s4ledger.com](https://s4ledger.com)
+- LinkedIn: [linkedin.com/in/nicolas-frankfort-6ab29090](https://www.linkedin.com/in/nicolas-frankfort-6ab29090/)
+
+Open to partnerships, consulting, and collaboration in defense logistics and blockchain verification.

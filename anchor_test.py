@@ -1,9 +1,9 @@
 # anchor_test.py
-# This version works EVEN IF solus_sdk.py has the auto-running example at the bottom
+# This version works EVEN IF s4_sdk.py has the auto-running example at the bottom
 # It overrides the bad hardcoded test_seed immediately after import
 
-import solus_sdk
-SolusSDK = solus_sdk.SolusSDK
+import s4_sdk
+S4SDK = s4_sdk.S4SDK
 
 # ────────────────────────────────────────────────
 # YOUR REAL TESTNET SEED — PASTE THE FULL ONE HERE
@@ -22,11 +22,11 @@ print(f"Prefix: {REAL_SEED[:5]}    ← should start with 'sEd'")
 if len(REAL_SEED) != 51 or not REAL_SEED.startswith("sEd"):
     # Try to be flexible: attempt to construct a Wallet from the seed using the SDK.
     try:
-        sdk_for_check = SolusSDK(testnet=True)
+        sdk_for_check = S4SDK(testnet=True)
         sdk_for_check.wallet_from_seed(REAL_SEED)
         print("Seed failed basic length check but Wallet.from_seed succeeded → proceeding\n")
     except Exception as e:
-        if not getattr(solus_sdk, 'XRPL_AVAILABLE', True):
+        if not getattr(s4_sdk, 'XRPL_AVAILABLE', True):
             print("WARNING: Seed looks invalid/truncated, but XRPL package is not installed. Continuing with mock XRPL client for local testing.\n")
         else:
             print("ERROR: Seed is invalid or truncated and Wallet.from_seed failed:")
@@ -36,10 +36,10 @@ else:
     print("Seed looks correct length & prefix → proceeding\n")
 
 # (If desired) override any test seed inside the SDK module for example runs
-solus_sdk.test_seed = REAL_SEED
+s4_sdk.test_seed = REAL_SEED
 
 # Now safe to use the SDK (import won't crash anymore)
-sdk = SolusSDK(
+sdk = S4SDK(
     wallet_seed=REAL_SEED,   # also pass it normally for your own calls
     testnet=True
     # Optional: xrpl_rpc_url="https://s.altnet.rippletest.net:51234/",
@@ -71,4 +71,4 @@ except Exception as e:
     print(str(e))
     print("\nMost common fix if still 'Invalid checksum':")
     print("- Regenerate seed from faucet and paste FULL 51 chars")
-    print("- Or edit solus_sdk.py → Wallet.from_seed(..., algorithm='ED25519')")
+    print("- Or edit s4_sdk.py → Wallet.from_seed(..., algorithm='ED25519')")

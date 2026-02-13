@@ -1,14 +1,14 @@
 """
-Solus Protocol EHR — Blockchain-Anchored Electronic Health Record System
+S4 Ledger EHR — Blockchain-Anchored Electronic Health Record System
 
-A patient-controlled EHR wrapper built on top of the Solus SDK.
+A patient-controlled EHR wrapper built on top of the S4 Ledger SDK.
 All records are encrypted off-chain, with integrity hashes anchored to the XRPL.
 Supports FHIR R4 / HL7 interoperability, role-based access controls,
 audit trails, scheduling, billing, and legacy EHR import/export.
 
 Architecture:
 ┌────────────────────────────────────────────────────┐
-│  Solus Protocol EHR Layer                          │
+│  S4 Ledger EHR Layer                          │
 │  ┌──────────────┐  ┌──────────────┐  ┌──────────┐ │
 │  │ Patient Store │  │ Access Ctrl  │  │ Workflow │ │
 │  │ (encrypted)  │  │ (RBAC)       │  │ (sched,  │ │
@@ -16,7 +16,7 @@ Architecture:
 │  └──────┬───────┘  └──────┬───────┘  └────┬─────┘ │
 │         │                 │               │        │
 │  ┌──────┴─────────────────┴───────────────┴─────┐  │
-│  │            Solus SDK (hash + anchor)          │  │
+│  │            S4 Ledger SDK (hash + anchor)          │  │
 │  └──────────────────┬───────────────────────────┘  │
 │                     │                              │
 │  ┌──────────────────┴───────────────────────────┐  │
@@ -25,8 +25,8 @@ Architecture:
 └────────────────────────────────────────────────────┘
 
 Usage:
-    from solus_ehr import SolusEHR
-    ehr = SolusEHR(wallet_seed="sEd...", testnet=True)
+    from s4_ehr import S4 LedgerEHR
+    ehr = S4 LedgerEHR(wallet_seed="sEd...", testnet=True)
     patient = ehr.register_patient("John Doe", "1990-01-15", "M")
     record = ehr.create_record(patient["patient_id"], "encounter", {...})
     ehr.grant_access(patient["patient_id"], "Dr. Smith", "provider", ["read"])
@@ -40,9 +40,9 @@ import copy
 from datetime import datetime, timedelta
 
 try:
-    from solus_sdk import SolusSDK
+    from s4_sdk import S4SDK
 except ImportError:
-    SolusSDK = None
+    S4SDK = None
 
 try:
     from cryptography.fernet import Fernet
@@ -121,13 +121,13 @@ class EHRValidationError(Exception):
 # Core EHR Class
 # ─────────────────────────────────────────────
 
-class SolusEHR:
+class S4 LedgerEHR:
     """
     Blockchain-anchored Electronic Health Record system.
     
     All patient data is stored encrypted off-chain in memory (or pluggable storage).
     Every create/update/delete/access operation generates an integrity hash
-    that is anchored to the XRPL via the Solus SDK.
+    that is anchored to the XRPL via the S4 Ledger SDK.
     
     Features:
     - Patient registration & demographics
@@ -144,7 +144,7 @@ class SolusEHR:
     def __init__(self, wallet_seed=None, testnet=True, xrpl_rpc_url=None,
                  encryption_key=None, api_key=None, anchor_enabled=True):
         """
-        Initialize the Solus EHR system.
+        Initialize the S4 Ledger EHR system.
         
         Args:
             wallet_seed: XRPL wallet seed for anchoring
@@ -158,8 +158,8 @@ class SolusEHR:
         self.wallet_seed = wallet_seed
 
         # Initialize the underlying SDK
-        if SolusSDK is not None:
-            self.sdk = SolusSDK(
+        if S4SDK is not None:
+            self.sdk = S4SDK(
                 xrpl_rpc_url=xrpl_rpc_url,
                 encryption_key=encryption_key,
                 api_key=api_key,
@@ -225,7 +225,7 @@ class SolusEHR:
     # ─────────────────────────────────────────
 
     def _anchor(self, hash_value, record_type="EHR_RECORD"):
-        """Anchor a hash to the XRPL via the Solus SDK."""
+        """Anchor a hash to the XRPL via the S4 Ledger SDK."""
         result = {"hash": hash_value, "record_type": record_type, "anchored": False}
         if self.anchor_enabled and self.sdk and self.wallet_seed:
             try:
@@ -840,7 +840,7 @@ class SolusEHR:
             "entry": entries,
             "meta": {
                 "profile": ["http://hl7.org/fhir/StructureDefinition/Bundle"],
-                "tag": [{"system": "https://solusprotocol.com/fhir", "code": "solus-anchored"}]
+                "tag": [{"system": "https://s4ledger.com/fhir", "code": "s4-anchored"}]
             }
         }
 
@@ -864,8 +864,8 @@ class SolusEHR:
             "meta": {
                 "lastUpdated": record.get("updated_at"),
                 "tag": [
-                    {"system": "https://solusprotocol.com/ehr", "code": record["record_type"]},
-                    {"system": "https://solusprotocol.com/hash", "code": record.get("hash", "")}
+                    {"system": "https://s4ledger.com/ehr", "code": record["record_type"]},
+                    {"system": "https://s4ledger.com/hash", "code": record.get("hash", "")}
                 ]
             }
         }
@@ -989,7 +989,7 @@ class SolusEHR:
         sex = patient_data.get("sex", "U")
 
         segments = [
-            f"MSH|^~\\&|SOLUS_EHR|SOLUS_PROTOCOL||RECEIVING_FAC|{timestamp}||{message_type}|{uuid.uuid4().hex[:10]}|P|2.5",
+            f"MSH|^~\\&|S4_EHR|S4_LEDGER||RECEIVING_FAC|{timestamp}||{message_type}|{uuid.uuid4().hex[:10]}|P|2.5",
             f"EVN|{message_type.split('^')[1] if '^' in message_type else 'A01'}|{timestamp}",
             f"PID|1||{patient_id}||{last_name}^{first_name}||{dob}|{sex}",
         ]
@@ -1003,9 +1003,9 @@ class SolusEHR:
             segments.append(f"OBR|1|||LAB_RESULT|||{timestamp}")
             segments.append(f"OBX|1|TX|RESULT||See attached report||||||F")
 
-        # Add Solus Protocol anchoring segment (ZSP = custom Z-segment)
+        # Add S4 Ledger anchoring segment (ZSP = custom Z-segment)
         record_hash = self._hash({"patient": patient_id, "message_type": message_type, "ts": timestamp})
-        segments.append(f"ZSP|1|SOLUS_HASH|{record_hash}|XRPL_ANCHORED")
+        segments.append(f"ZSP|1|S4_HASH|{record_hash}|XRPL_ANCHORED")
 
         hl7_message = "\r".join(segments)
         self._stats["hl7_messages"] += 1
@@ -1355,7 +1355,7 @@ class SolusEHR:
         report = {
             "framework": framework,
             "generated_at": datetime.utcnow().isoformat(),
-            "system": "Solus Protocol EHR",
+            "system": "S4 Ledger EHR",
             "summary": {},
             "evidence": []
         }
@@ -1470,11 +1470,11 @@ class SolusEHR:
 
 if __name__ == "__main__":
     print("=" * 60)
-    print("  Solus Protocol EHR — System Self-Test")
+    print("  S4 Ledger EHR — System Self-Test")
     print("=" * 60)
 
     # Initialize EHR (no XRPL anchoring for self-test)
-    ehr = SolusEHR(anchor_enabled=False)
+    ehr = S4 LedgerEHR(anchor_enabled=False)
 
     # 1. Register patients
     p1 = ehr.register_patient("Sarah Johnson", "1985-03-15", "F",
@@ -1558,5 +1558,5 @@ if __name__ == "__main__":
         print(f"     {k}: {v}")
 
     print(f"\n{'=' * 60}")
-    print("  All tests passed. Solus Protocol EHR is operational.")
+    print("  All tests passed. S4 Ledger EHR is operational.")
     print(f"{'=' * 60}")

@@ -1,5 +1,5 @@
-// Solus Protocol Service Worker v2.10.1
-const CACHE_NAME = 'solus-v2101';
+// S4 Ledger Service Worker v2.10.1
+const CACHE_NAME = 's4-v2101';
 const ASSETS = [
   './',
   './index.html',
@@ -63,7 +63,7 @@ self.addEventListener('fetch', e => {
 
 // ===== PUSH NOTIFICATIONS =====
 self.addEventListener('push', e => {
-  let data = { title: 'Solus Protocol', body: 'New notification', icon: './manifest.json' };
+  let data = { title: 'S4 Ledger', body: 'New notification', icon: './manifest.json' };
   try {
     if (e.data) data = Object.assign(data, e.data.json());
   } catch (err) {
@@ -74,7 +74,7 @@ self.addEventListener('push', e => {
     body: data.body,
     icon: data.icon || '/demo-app/manifest.json',
     badge: data.badge || '/demo-app/manifest.json',
-    tag: data.tag || 'solus-notification',
+    tag: data.tag || 's4-notification',
     data: data.url || './',
     vibrate: [200, 100, 200],
     actions: data.actions || [
@@ -96,7 +96,7 @@ self.addEventListener('notificationclick', e => {
     clients.matchAll({ type: 'window', includeUncontrolled: true }).then(windowClients => {
       // Focus existing window if open
       for (const client of windowClients) {
-        if (client.url.includes('solus') && 'focus' in client) return client.focus();
+        if (client.url.includes('s4ledger') && 'focus' in client) return client.focus();
       }
       // Otherwise open new window
       return clients.openWindow(url);
@@ -106,10 +106,10 @@ self.addEventListener('notificationclick', e => {
 
 // Background sync for offline-queued anchors
 self.addEventListener('sync', e => {
-  if (e.tag === 'solus-anchor-sync') {
+  if (e.tag === 's4-anchor-sync') {
     e.waitUntil(
       // Retrieve queued anchors from IndexedDB and retry
-      self.registration.showNotification('Solus Protocol', {
+      self.registration.showNotification('S4 Ledger', {
         body: 'Offline anchors synced to XRPL',
         tag: 'sync-complete'
       })

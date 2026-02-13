@@ -1,14 +1,14 @@
 """
-Solus Protocol SDK — v2.8.0 Comprehensive Anchoring Test
+S4 Ledger SDK — v2.8.0 Comprehensive Anchoring Test
 Anchors 25 varied medical records to XRPL Testnet with record_type categorization.
 Each scenario uses the store_hash_with_sls_fee memo format: RECORD_TYPE:sha256hash
 """
 
 import time
 import random
-from solus_sdk import SolusSDK
+from s4_sdk import S4SDK
 
-sdk = SolusSDK(api_key="valid_mock_key", testnet=True)
+sdk = S4SDK(api_key="valid_mock_key", testnet=True)
 SEED = "sEd75GpyfXbSLGUShjwvViXoo6xaGuZ"
 
 scenarios = [
@@ -48,7 +48,7 @@ scenarios = [
     {"name": "CBT Session Note", "type": "MENTAL_HEALTH",
      "record": "Patient: Ashley Cooper | Session 8/12 | Dx: Generalized Anxiety Disorder (F41.1) | GAD-7: 9 (mild, down from 16) | Focus: Cognitive restructuring of catastrophic thinking | Homework: Daily thought record, progressive muscle relaxation | Therapist: Dr. Huang | Date: 2026-02-08"},
     {"name": "Telehealth Dermatology Consult", "type": "TELEMEDICINE",
-     "record": "Patient: Marcus Johnson | Telehealth Visit | CC: New mole on upper back | Assessment: 6mm irregularly bordered pigmented lesion | Plan: In-person visit for dermoscopy and possible biopsy within 2 weeks | Derm: Dr. Patel | Platform: Solus Protocol Telehealth | Date: 2026-02-08"},
+     "record": "Patient: Marcus Johnson | Telehealth Visit | CC: New mole on upper back | Assessment: 6mm irregularly bordered pigmented lesion | Plan: In-person visit for dermoscopy and possible biopsy within 2 weeks | Derm: Dr. Patel | Platform: S4 Ledger Telehealth | Date: 2026-02-08"},
     {"name": "Well-Child Check — 12 Months", "type": "PEDIATRIC",
      "record": "Patient: Baby Liam (12 months) | Well-Child Visit | Weight: 22 lbs (65th %ile) | Height: 30 in (55th %ile) | HC: 46.5 cm (70th %ile) | Milestones: Pulling to stand, 3 words, pincer grasp | Vaccines: MMR, Varicella, Hep A | Peds: Dr. Goodwin | Date: 2026-02-08"},
     {"name": "Allergy Testing Results", "type": "ALLERGIES",
@@ -64,7 +64,7 @@ scenarios = [
     {"name": "Insurance Pre-Authorization", "type": "ADMINISTRATIVE",
      "record": "Patient: Laura Diaz | Pre-Auth Request | Procedure: Lumbar MRI without contrast | Dx: Radiculopathy (M54.16) | Insurance: Blue Cross Blue Shield | Auth #: PA-2026-0208-4421 | Status: Approved | Valid through: 2026-03-10 | Date: 2026-02-08"},
     {"name": "Epic EHR Integration Log", "type": "EHR_INTEGRATION",
-     "record": "System: Epic MyChart Integration | Event: Batch record sync | Records synced: 847 | Failed: 0 | Duration: 12.3s | API Key: solus_live_***3f7a | Endpoint: /api/v1/anchor/batch | Status: 200 OK | Timestamp: 2026-02-08T14:30:00Z"},
+     "record": "System: Epic MyChart Integration | Event: Batch record sync | Records synced: 847 | Failed: 0 | Duration: 12.3s | API Key: s4_live_***3f7a | Endpoint: /api/v1/anchor/batch | Status: 200 OK | Timestamp: 2026-02-08T14:30:00Z"},
 
     # === Additional — Diverse scenarios ===
     {"name": "Echocardiogram Report", "type": "IMAGING",
@@ -77,7 +77,7 @@ scenarios = [
 
 def run_all():
     print("=" * 60)
-    print("  SOLUS PROTOCOL v2.8.0 — COMPREHENSIVE ANCHORING TEST")
+    print("  S4 LEDGER v2.8.0 — COMPREHENSIVE ANCHORING TEST")
     print("  25 Medical Records → XRPL Testnet")
     print("=" * 60)
 
@@ -119,9 +119,9 @@ def run_all():
     for t, count in sorted(types.items(), key=lambda x: -x[1]):
         print(f"   {t}: {count}")
 
-    print(f"\n🌐 View metrics: https://solusprotocol.com/metrics.html")
+    print(f"\n🌐 View metrics: https://s4ledger.com/metrics.html")
     print(f"🔍 XRPL Explorer: https://testnet.xrpl.org/accounts/rJPqcx8wUBM58ajPUoz1dReKkTT6hqrqJA")
-    print(f"📱 Demo App: https://solusprotocol.vercel.app/demo-app/")
+    print(f"📱 Demo App: https://s4ledger.vercel.app/demo-app/")
 
 if __name__ == "__main__":
     run_all()

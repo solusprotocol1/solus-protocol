@@ -1,5 +1,5 @@
 import requests
-from solus_sdk import SolusSDK
+from s4_sdk import S4SDK
 
 # --- User Inputs ---
 # Paste the encrypted record (as stored or from log)
@@ -10,7 +10,7 @@ tx_hash = "<PASTE_TX_HASH_HERE>"
 wallet_seed = "<PASTE_YOUR_SEED_HERE>"
 
 # --- Decrypt and Hash ---
-sdk = SolusSDK(wallet_seed=wallet_seed, testnet=True)
+sdk = S4SDK(wallet_seed=wallet_seed, testnet=True)
 decrypted = sdk.decrypt(encrypted_text)
 recomputed_hash = sdk.create_record_hash(decrypted)
 print("Decrypted record:\n", decrypted)

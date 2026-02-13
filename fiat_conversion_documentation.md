@@ -1,4 +1,4 @@
-# Solus Protocol Real Fiat Conversion Integration
+# S4 Ledger Fiat Conversion Integration
 
 ## Overview
 This document describes the integration of real fiat conversion for $SLS fees and rebates using XRPL's DEX and gateway IOUs.
@@ -13,17 +13,17 @@ See fiat_conversion_test.py for a test script.
 
 ## Required Parameters
 - gateway_issuer: XRPL address of the USD IOU gateway.
-- sls_issuer: XRPL address of the $SLS token issuer (Solus Protocol: r95GyZac4butvVcsTWUPpxzekmyzaHsTA5).
+- sls_issuer: XRPL address of the $SLS token issuer (S4 Ledger: r95GyZac4butvVcsTWUPpxzekmyzaHsTA5).
 - wallet_seed: User's XRPL wallet seed.
 - destination: Recipient address (usually protocol treasury).
 
 ## Compliance
 - KYC/AML may be required by gateways.
-- No PHI or sensitive data is involved in conversion.
+- No sensitive or defense data is involved in conversion.
 
 ## Customization
 - Update gateway_issuer for production/testnet.
 - Add KYC checks via APIs if needed.
 
 ## Contact
-support@solusprotocol.com
+info@s4ledger.com

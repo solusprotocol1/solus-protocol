@@ -1,4 +1,4 @@
-# SLS Protocol — XRPL Mainnet Migration Guide
+# S4 Ledger — XRPL Mainnet Migration Guide
 
 > **Status:** Pre-production. This document outlines the step-by-step process for migrating from XRPL Testnet to XRPL Mainnet. A pre-built backend endpoint is included but **has not been deployed to production**.
 
@@ -17,8 +17,8 @@
 9. [Rollback Plan](#9-rollback-plan)
 10. [Cost Estimation](#10-cost-estimation)
 11. [XRPL Amendment Resilience](#11-xrpl-amendment-resilience)
-12. [SVCN Care Network Migration](#12-svcn-care-network-migration)
-13. [SLS Protocol EHR Migration](#13-sls-protocol-ehr-migration)
+12. [S4 Ledger Network Migration](#12-svcn-care-network-migration)
+13. [S4 Ledger defense system Migration](#13-sls-protocol-ehr-migration)
 14. [Metrics API Migration](#14-metrics-api-migration)
 15. [Visual Calendar & Scheduling](#15-visual-calendar--scheduling-v2100)
 16. [ICD-10/CPT Billing & Claim Lifecycle](#16-icd-10cpt-billing--claim-lifecycle-v2100)
@@ -30,7 +30,7 @@
 22. [Multi-Factor Authentication](#22-multi-factor-authentication-v2100)
 23. [Settings Persistence & PWA Service Worker](#23-settings-persistence--pwa-service-worker-v2100)
 24. [In-App Feedback System](#24-in-app-feedback-system-v2100)
-25. [ONC/CEHRT Compliance Roadmap](#25-onccehrt-compliance-roadmap)
+25. [ONC/Cdefense systemT Compliance Roadmap](#25-onccehrt-compliance-roadmap)
 26. [Freemium Pricing Model](#26-freemium-pricing-model)
 27. [PWA Push Notifications (v2.10.1)](#27-pwa-push-notifications-v2101)
 28. [Cohort Analytics & Population Health (v2.10.1)](#28-cohort-analytics--population-health-v2101)
@@ -72,7 +72,7 @@ On Testnet, the wallet seed is embedded in the browser JavaScript for demo purpo
 2. **A stolen mainnet seed** gives full control over real XRP funds
 3. **Rate limiting and access control** cannot be enforced client-side
 4. **Audit logging** requires a server-side layer
-5. **HIPAA compliance** requires server-side access controls
+5. **NIST/CMMC compliance** requires server-side access controls
 
 ### Architecture Diagram
 
@@ -107,7 +107,7 @@ On Testnet, the wallet seed is embedded in the browser JavaScript for demo purpo
 
 ### SLS Issuer Account
 
-The **SLS (Solus Ledger Service) Issuer** is the mainnet account that will submit all anchor transactions.
+The **SLS (S4 Ledger Service) Issuer** is the mainnet account that will submit all anchor transactions.
 
 | Field | Value |
 |-------|-------|
@@ -147,8 +147,8 @@ XRPL_MAINNET_SEED=s__________________________________  # Mainnet wallet seed
 XRPL_MAINNET_ACCOUNT=r_________________________________  # Mainnet wallet address
 XRPL_MAINNET_URL=wss://xrplcluster.com                   # Mainnet WebSocket
 XRPL_NETWORK=mainnet                                      # Network selector
-SOLUS_API_KEY=sk_live_________________________________     # API key for frontend auth
-SOLUS_RATE_LIMIT=100                                       # Max anchors per minute
+S4_API_KEY=sk_live_________________________________     # API key for frontend auth
+S4_RATE_LIMIT=100                                       # Max anchors per minute
 ```
 
 ---
@@ -163,7 +163,7 @@ SOLUS_RATE_LIMIT=100                                       # Max anchors per min
 - [ ] **Step 1.4** — Set environment variables on Render
 - [ ] **Step 1.5** — Test the backend endpoint using curl with testnet first:
   ```bash
-  curl -X POST https://solusprotocol.onrender.com/api/anchor \
+  curl -X POST https://s4ledger.onrender.com/api/anchor \
     -H "Content-Type: application/json" \
     -H "X-API-Key: YOUR_API_KEY" \
     -d '{"hash": "abc123...", "record_type": "lab_results"}'
@@ -218,8 +218,8 @@ from flask import request, jsonify
 
 XRPL_NETWORK = os.environ.get('XRPL_NETWORK', 'testnet')
 XRPL_SEED = os.environ.get('XRPL_MAINNET_SEED', 'sEd75GpyfXbSLGUShjwvViXoo6xaGuZ')  # Testnet default
-SOLUS_API_KEY = os.environ.get('SOLUS_API_KEY', 'sk_test_demo_key_not_for_production')
-RATE_LIMIT = int(os.environ.get('SOLUS_RATE_LIMIT', '100'))
+S4_API_KEY = os.environ.get('S4_API_KEY', 'sk_test_demo_key_not_for_production')
+RATE_LIMIT = int(os.environ.get('S4_RATE_LIMIT', '100'))
 
 XRPL_URLS = {
     'testnet': 'https://s.altnet.rippletest.net:51234/',
@@ -257,7 +257,7 @@ def require_api_key(f):
     @wraps(f)
     def decorated(*args, **kwargs):
         api_key = request.headers.get('X-API-Key', '')
-        if not api_key or api_key != SOLUS_API_KEY:
+        if not api_key or api_key != S4_API_KEY:
             return jsonify({'error': 'Invalid or missing API key'}), 401
         if not check_rate_limit(api_key):
             return jsonify({'error': 'Rate limit exceeded. Max ' + str(RATE_LIMIT) + ' requests per minute.'}), 429
@@ -315,7 +315,7 @@ def anchor_record():
         'immunization', 'clinical_note', 'discharge_summary', 'emergency',
         'mental_health', 'referral', 'consent', 'insurance_claim',
         'pathology', 'genetic_test', 'dental', 'optometry', 'physical_therapy',
-        'allergy', 'patient_message', 'custom_record', 'ehr_sync',
+        'allergy', 'record_message', 'custom_record', 'ehr_sync',
         'device_reading', 'rare_disease', 'telemedicine'
     ]
     if record_type not in allowed_types:
@@ -323,9 +323,9 @@ def anchor_record():
     
     try:
         # Build memo data
-        memo_data_str = f'solus:{record_type}:{record_hash}'
+        memo_data_str = f's4:{record_type}:{record_hash}'
         memo_type_hex = memo_data_str.encode().hex()  # This is for MemoData
-        memo_type_str = 'solus/anchor'
+        memo_type_str = 's4/anchor'
         memo_type_hex_actual = memo_type_str.encode().hex()
         memo_data_hex = memo_data_str.encode().hex()
         
@@ -398,7 +398,7 @@ def verify_record():
             "found": true/false,
             "tx_hash": "...",
             "ledger_index": ...,
-            "memo_data": "solus:lab_results:abc123...",
+            "memo_data": "s4:lab_results:abc123...",
             "explorer_url": "..."
         }
     """
@@ -472,14 +472,14 @@ def network_info():
 2. **Set environment variables** on Render dashboard:
    - `XRPL_NETWORK=testnet` (change to `mainnet` when ready)
    - `XRPL_MAINNET_SEED=your_mainnet_seed_here`
-   - `SOLUS_API_KEY=your_generated_api_key`
-3. **Redeploy** — the endpoint will be live at `https://solusprotocol.onrender.com/api/anchor`
+   - `S4_API_KEY=your_generated_api_key`
+3. **Redeploy** — the endpoint will be live at `https://s4ledger.onrender.com/api/anchor`
 
 ### Test with curl
 
 ```bash
 # Test anchoring (testnet)
-curl -X POST https://solusprotocol.onrender.com/api/anchor \
+curl -X POST https://s4ledger.onrender.com/api/anchor \
   -H "Content-Type: application/json" \
   -H "X-API-Key: sk_test_demo_key_not_for_production" \
   -d '{
@@ -488,7 +488,7 @@ curl -X POST https://solusprotocol.onrender.com/api/anchor \
   }'
 
 # Test verification
-curl -X POST https://solusprotocol.onrender.com/api/verify \
+curl -X POST https://s4ledger.onrender.com/api/verify \
   -H "Content-Type: application/json" \
   -H "X-API-Key: sk_test_demo_key_not_for_production" \
   -d '{
@@ -496,7 +496,7 @@ curl -X POST https://solusprotocol.onrender.com/api/verify \
   }'
 
 # Check network config
-curl https://solusprotocol.onrender.com/api/network
+curl https://s4ledger.onrender.com/api/network
 ```
 
 ---
@@ -519,7 +519,7 @@ const result = await client.submitAndWait(tx, { wallet });
 ```javascript
 // ✅ SECURE: Hash sent to backend, signing happens server-side
 async function anchorFromPlayground() {
-    const response = await fetch('https://solusprotocol.onrender.com/api/anchor', {
+    const response = await fetch('https://s4ledger.onrender.com/api/anchor', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -584,17 +584,17 @@ async function anchorFromPlayground() {
 # In metrics_api.py, restrict CORS to your domain
 CORS(app, resources={
     r"/api/*": {
-        "origins": ["https://solusprotocol.vercel.app", "https://solusprotocol.com"]
+        "origins": ["https://s4ledger.vercel.app", "https://s4ledger.com"]
     }
 })
 ```
 
-### HIPAA Compliance
+### NIST Compliance
 - **Only the SHA-256 hash** is sent to the backend and XRPL — never the actual record content
 - The hash is a one-way function; the original record cannot be reconstructed
 - All API communication must use HTTPS
 - Backend logs should not contain hash-to-record mappings
-- See [HIPAA_COMPLIANCE.md](HIPAA_COMPLIANCE.md) for full details
+- See [NIST_COMPLIANCE.md](NIST_COMPLIANCE.md) for full details
 
 ---
 
@@ -673,7 +673,7 @@ If issues arise after mainnet launch:
 
 ## 11. XRPL Amendment Resilience
 
-The XRPL periodically activates protocol amendments (e.g., new transaction types, fee changes). SLS Protocol v2.9.3+ is designed to auto-adapt:
+The XRPL periodically activates protocol amendments (e.g., new transaction types, fee changes). S4 Ledger v2.9.3+ is designed to auto-adapt:
 
 ### Fallback WebSocket Nodes
 
@@ -702,7 +702,7 @@ xrpl.js v4.0.0+ defaults to XRPL API v2, which changes the response format:
 | Transaction Hash | `result.result.hash` | `result.result.tx_json.hash` |
 | Ledger Index | `result.result.ledger_index` | `result.result.tx_json.ledger_index` |
 
-Solus v2.9.3 uses the `extractTxHash()` and `extractLedgerIndex()` helper functions that check all known paths, ensuring compatibility across xrpl.js versions and API versions.
+S4 Ledger v2.9.3 uses the `extractTxHash()` and `extractLedgerIndex()` helper functions that check all known paths, ensuring compatibility across xrpl.js versions and API versions.
 
 ### Amendment Monitoring
 
@@ -738,7 +738,7 @@ except Exception:
 ║  □ Generate mainnet wallet                                   ║
 ║  □ Fund with 50+ XRP                                         ║
 ║  □ Set XRPL_MAINNET_SEED env var on Render                   ║
-║  □ Set SOLUS_API_KEY env var on Render                       ║
+║  □ Set S4_API_KEY env var on Render                       ║
 ║  □ Deploy backend with /api/anchor endpoint                  ║
 ║  □ Test with XRPL_NETWORK=testnet first                      ║
 ║  □ Update frontend to use fetch() instead of xrpl.js         ║
@@ -755,20 +755,20 @@ except Exception:
 
 ---
 
-## 12. SVCN Care Network Migration
+## 12. S4 Ledger Network Migration
 
 ### Current State (Testnet)
-The SVCN Care Network (`demo-app/index.html`) performs **real XRPL anchoring** for all care scenarios and sandbox modules:
+The S4 Ledger Network (`demo-app/index.html`) performs **real XRPL anchoring** for all care scenarios and sandbox modules:
 
 | Module | Memo Format | Record Types |
 |--------|-------------|-------------|
-| Secure Messenger | `solus:message:HASH` | `secure_message`, `urgent_message` |
-| Consent Manager | `solus:consent:grant:HASH` | `consent_grant`, `consent_revoke` |
-| Care Handoff | `solus:handoff:TYPE:HASH` | `care_handoff` |
-| Wearable Monitor | `solus:wearable_anomaly:HASH` | `wearable_anomaly` |
-| EHR Simulator | `solus:ehr_event:HASH` | `ehr_event` |
-| Federated Batch | `solus:federated_batch:HASH` | `federated_batch` |
-| Backup & Recovery | `solus:backup_export:HASH` | `backup_export`, `backup_verify` |
+| Secure Messenger | `s4:message:HASH` | `secure_message`, `urgent_message` |
+| Consent Manager | `s4:consent:grant:HASH` | `consent_grant`, `consent_revoke` |
+| Care Handoff | `s4:handoff:TYPE:HASH` | `care_handoff` |
+| Wearable Monitor | `s4:wearable_anomaly:HASH` | `wearable_anomaly` |
+| defense system Simulator | `s4:ehr_event:HASH` | `ehr_event` |
+| Federated Batch | `s4:federated_batch:HASH` | `federated_batch` |
+| Backup & Recovery | `s4:backup_export:HASH` | `backup_export`, `backup_verify` |
 
 ### Migration Steps
 
@@ -786,10 +786,10 @@ const wallet = xrpl.Wallet.fromSeed(walletSeed, { algorithm: 'ed25519' });
 ```javascript
 // MAINNET — server-side signing
 async function svcnAnchorToXRPL(dataHash, memoType, recordType) {
-    const memoData = `solus:${memoType}:${dataHash}`;
-    const response = await fetch('https://solusprotocol.onrender.com/api/anchor', {
+    const memoData = `s4:${memoType}:${dataHash}`;
+    const response = await fetch('https://s4ledger.onrender.com/api/anchor', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'X-API-Key': SOLUS_API_KEY },
+        headers: { 'Content-Type': 'application/json', 'X-API-Key': S4_API_KEY },
         body: JSON.stringify({ hash: dataHash, memo_data: memoData, record_type: recordType })
     });
     const result = await response.json();
@@ -812,41 +812,41 @@ The `svcnRunScenario()` function calls `svcnAnchorToXRPL()` at each `xrpl-type` 
 'https://livenet.xrpl.org/transactions/' + txHash
 ```
 
-#### Step 4: SVCN Python Modules
-The Python SVCN modules (`solus_comms.py`, `solus_backup.py`, `solus_anomaly.py`) already use the `SolusSDK` class which supports both testnet and mainnet:
+#### Step 4: S4VN Python Modules
+The Python S4VN modules (`s4_comms.py`, `s4_backup.py`, `s4_anomaly.py`) already use the `S4SDK` class which supports both testnet and mainnet:
 
 ```python
 # Testnet (current)
-sdk = SolusSDK(testnet=True, wallet_seed="sEd...")
+sdk = S4SDK(testnet=True, wallet_seed="sEd...")
 
 # Mainnet (production)
-sdk = SolusSDK(testnet=False, wallet_seed=os.environ['XRPL_MAINNET_SEED'])
+sdk = S4SDK(testnet=False, wallet_seed=os.environ['XRPL_MAINNET_SEED'])
 ```
 
 No structural changes needed — just change `testnet=True` to `testnet=False` and use environment variables for secrets.
 
-### SVCN Compliance Considerations
-- All SVCN anchor transactions use **memo fields only** (no XRP transfer needed on mainnet if using AccountSet transactions)
+### S4VN Compliance Considerations
+- All S4VN anchor transactions use **memo fields only** (no XRP transfer needed on mainnet if using AccountSet transactions)
 - The Audit & Proof tab's compliance evidence generator works identically on mainnet
 - Break-glass events, consent anchors, and care handoffs retain full immutability on mainnet
 - On-chain re-verification works by reading memo data from mainnet ledger
 
 ---
 
-## 13. SLS Protocol EHR Migration
+## 13. S4 Ledger defense system Migration
 
 ### Current State (Testnet — v2.10.0)
-The SLS Protocol EHR system (`solus_ehr.py` + `demo-app/index.html`) anchors all healthcare data operations to XRPL:
+The S4 Ledger defense system system (`s4_ehr.py` + `demo-app/index.html`) anchors all healthcare data operations to XRPL:
 
-| EHR Operation | XRPL Record Type | FHIR Mapping | Added In |
+| defense system Operation | XRPL Record Type | FHIR Mapping | Added In |
 |---------------|------------------|-------------|----------|
-| Patient Registration | `EHR_RECORD` | Patient | v2.9.7 |
+| Record Registration | `defense system_RECORD` | Record | v2.9.7 |
 | Record Create | `{type}.upper()` | Varies by type | v2.9.7 |
-| Record Update | `EHR_UPDATE` | — | v2.9.7 |
+| Record Update | `defense system_UPDATE` | — | v2.9.7 |
 | Access Grant | `CONSENT_GRANT` | Consent | v2.9.7 |
 | Access Revoke | `CONSENT_REVOKE` | Consent | v2.9.7 |
-| FHIR Export | `EHR_TRANSFER` | Bundle | v2.9.8 |
-| HL7 Generation | `EHR_TRANSFER` | — | v2.9.8 |
+| FHIR Export | `defense system_TRANSFER` | Bundle | v2.9.8 |
+| HL7 Generation | `defense system_TRANSFER` | — | v2.9.8 |
 | Appointment Create | `SCHEDULING` | Appointment | v2.9.8 |
 | Billing Claim Submit | `BILLING` | Claim | v2.9.8 |
 | Claim Auto-Adjudication | `BILLING` | ClaimResponse | v2.10.0 |
@@ -856,28 +856,28 @@ The SLS Protocol EHR system (`solus_ehr.py` + `demo-app/index.html`) anchors all
 | XLS-20 Consent NFT Revoke | `CONSENT` | Consent | v2.10.0 |
 | Hash Integrity Failure | `INTEGRITY` | AuditEvent | v2.10.0 |
 | Break-Glass | `EMERGENCY` | — | v2.9.7 |
-| Compliance Report | `EHR_RECORD` | — | v2.9.8 |
-| Legacy Import | `EHR_IMPORT` | — | v2.9.8 |
+| Compliance Report | `defense system_RECORD` | — | v2.9.8 |
+| Legacy Import | `defense system_IMPORT` | — | v2.9.8 |
 | Chronic Care Review | `CHRONIC_CARE` | CarePlan | v2.9.8 |
 | Encounter Note | `ENCOUNTER` | Encounter | v2.9.8 |
 | Medication Order | `MEDICATION` | MedicationRequest | v2.9.8 |
 | Progress Note | `PROGRESS_NOTE` | DocumentReference | v2.9.8 |
 | Clinical Note | `CLINICAL_NOTE` | DocumentReference | v2.9.8 |
 
-### EHR Scenario Engine (v2.10.0)
-The demo app includes 12 pre-built EHR scenarios that execute real XRPL anchoring:
+### defense system Scenario Engine (v2.10.0)
+The demo app includes 12 pre-built defense system scenarios that execute real XRPL anchoring:
 
 | ID | Scenario | Persona | XRPL Anchors | Record Types |
 |----|----------|---------|--------------|-------------|
-| e1 | Hospital Admission: Chest Pain | Hospital | 5 | VITALS, LAB_RESULTS, CONSENT_GRANT, EHR_RECORD |
+| e1 | Hospital Admission: Chest Pain | Hospital | 5 | VITALS, LAB_RESULTS, CONSENT_GRANT, defense system_RECORD |
 | e2 | Lab Results & Auto-Notification | Clinic | 3 | LAB_RESULTS, PRESCRIPTION, SCHEDULING |
 | e3 | Prescription Workflow (e-Prescribe) | Clinic | 2 | PRESCRIPTION |
 | e4 | Multi-Department Surgical Workflow | Hospital | 5 | SURGERY, CARE_HANDOFF, DISCHARGE |
-| e5 | Emergency Stroke Code | Emergency | 4 | EMERGENCY, IMAGING, PRESCRIPTION, EHR_RECORD |
+| e5 | Emergency Stroke Code | Emergency | 4 | EMERGENCY, IMAGING, PRESCRIPTION, defense system_RECORD |
 | e6 | Insurance Claim Auto-Adjudication | Billing | 2 | BILLING |
-| e7 | Patient Record Transfer | Hospital | 2 | EHR_TRANSFER, EHR_RECORD |
+| e7 | Record Record Transfer | Hospital | 2 | defense system_TRANSFER, defense system_RECORD |
 | e8 | Chronic Care Management | Clinic | 2 | CHRONIC_CARE, SCHEDULING |
-| e9 | Maternity Ward Delivery | Hospital | 4 | VITALS, PROCEDURE, EHR_RECORD |
+| e9 | Maternity Ward Delivery | Hospital | 4 | VITALS, PROCEDURE, defense system_RECORD |
 | e10 | Pediatric Well-Child Visit | Clinic | 3 | IMMUNIZATION, VITALS, SCHEDULING |
 | e11 | Mental Health Intake | Behavioral | 3 | MENTAL_HEALTH, CONSENT_GRANT, CLINICAL_NOTE |
 | e12 | Oncology Treatment Cycle | Oncology | 4 | MEDICATION, LAB_RESULTS, IMAGING, PROGRESS_NOTE |
@@ -885,20 +885,20 @@ The demo app includes 12 pre-built EHR scenarios that execute real XRPL anchorin
 ### Wallet Unification (v2.10.0)
 All three demo app systems use the same wallet via `getPlaygroundWallet()`:
 - **SDK Playground:** `anchorFromPlayground()` → `getPlaygroundWallet(client)`
-- **SVCN Care Network:** `svcnAnchorToXRPL()` → `getPlaygroundWallet(client)`
-- **EHR System:** `ehrAnchorToXRPL()` → `getPlaygroundWallet(client)`
+- **S4 Ledger Network:** `svcnAnchorToXRPL()` → `getPlaygroundWallet(client)`
+- **defense system System:** `ehrAnchorToXRPL()` → `getPlaygroundWallet(client)`
 
-All produce memos in the standardized format `solus:RECORD_TYPE:SHA256_HASH` using `AccountSet` transactions. On mainnet, all three will migrate to the same backend `/api/anchor` endpoint.
+All produce memos in the standardized format `s4:RECORD_TYPE:SHA256_HASH` using `AccountSet` transactions. On mainnet, all three will migrate to the same backend `/api/anchor` endpoint.
 
 ### Migration Steps
 
 #### Step 1: Python SDK Migration
 ```python
 # Testnet (current)
-ehr = SolusEHR(wallet_seed="sEd...", testnet=True, anchor_enabled=True)
+ehr = S4Defense system(wallet_seed="sEd...", testnet=True, anchor_enabled=True)
 
 # Mainnet (production)
-ehr = SolusEHR(
+ehr = S4Defense system(
     wallet_seed=os.environ['XRPL_MAINNET_SEED'],
     testnet=False,
     anchor_enabled=True,
@@ -906,35 +906,35 @@ ehr = SolusEHR(
 )
 ```
 
-#### Step 2: Demo App EHR Screen Migration
+#### Step 2: Demo App defense system Screen Migration
 Replace `ehrAnchorToXRPL()` with backend API call:
 
 ```javascript
 async function ehrAnchorToXRPL(dataHash, recordType) {
-    const memoData = `solus:${recordType.toLowerCase()}:${dataHash}`;
-    const response = await fetch('https://solusprotocol.onrender.com/api/anchor', {
+    const memoData = `s4:${recordType.toLowerCase()}:${dataHash}`;
+    const response = await fetch('https://s4ledger.onrender.com/api/anchor', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'X-API-Key': SOLUS_API_KEY },
+        headers: { 'Content-Type': 'application/json', 'X-API-Key': S4_API_KEY },
         body: JSON.stringify({ hash: dataHash, memo_data: memoData, record_type: recordType })
     });
     return await response.json();
 }
 ```
 
-#### Step 3: EHR-Specific Security
-- **PHI Protection:** All patient data remains encrypted off-chain. Only SHA-256 hashes are written to XRPL memos.
+#### Step 3: defense system-Specific Security
+- **PHI Protection:** All record data remains encrypted off-chain. Only SHA-256 hashes are written to XRPL memos.
 - **Encryption Keys:** Must use production-grade key management (AWS KMS, Azure Key Vault, or HashiCorp Vault) instead of Fernet auto-generated keys.
 - **Access Control:** RBAC grants are anchored immutably — on mainnet, these become permanent compliance evidence.
-- **Break-Glass:** Emergency access events on mainnet create permanent, auditable records that satisfy HIPAA § 164.312(b) audit requirements.
+- **Break-Glass:** Emergency access events on mainnet create permanent, auditable records that satisfy NIST § 164.312(b) audit requirements.
 
 #### Step 4: FHIR & HL7 Interop
-- FHIR R4 Bundles include `meta.tag` with `system: "https://solusprotocol.com/hash"` pointing to the on-chain hash. On mainnet, these become verifiable against the live XRPL.
-- HL7 v2 messages include `ZSP` custom Z-segments with `SOLUS_HASH|{hash}|XRPL_ANCHORED`.
+- FHIR R4 Bundles include `meta.tag` with `system: "https://s4ledger.com/hash"` pointing to the on-chain hash. On mainnet, these become verifiable against the live XRPL.
+- HL7 v2 messages include `ZSP` custom Z-segments with `S4_HASH|{hash}|XRPL_ANCHORED`.
 - Replace `"XRPL_ANCHORED"` with `"XRPL_MAINNET_ANCHORED"` in production HL7 messages.
 
-### EHR Data Flow (Mainnet)
+### defense system Data Flow (Mainnet)
 ```
-Patient Data → AES-256 Encrypt → Off-Chain Storage
+Record Data → AES-256 Encrypt → Off-Chain Storage
                     ↓
             SHA-256 Hash
                     ↓
@@ -953,7 +953,7 @@ Patient Data → AES-256 Encrypt → Off-Chain Storage
 The Metrics API (`metrics_api.py`) reads transactions from the XRPL Testnet account and categorizes them using `categorize_record()`. It parses memo data in two formats:
 
 1. **SDK Playground:** `RECORD_TYPE:hash` (e.g., `SURGERY:abc123...`)
-2. **SVCN/EHR:** `solus:TYPE:hash` (e.g., `solus:message:abc123...`, `solus:BILLING:abc123...`)
+2. **S4VN/defense system:** `s4:TYPE:hash` (e.g., `s4:message:abc123...`, `s4:BILLING:abc123...`)
 
 ### Migration Steps
 
@@ -969,9 +969,9 @@ XRPL_MAINNET_ACCOUNT = os.environ.get("XRPL_MAINNET_ACCOUNT", "rMainnetAddress..
 ```
 
 #### Step 2: Record Type Categorization
-The `categorize_record()` function handles all 130+ record types across SDK, SVCN, and EHR. The `solus:TYPE:hash` format parser checks:
-1. First segment → if `SOLUS`, look at second segment
-2. Multi-segment types (e.g., `solus:consent:grant:hash` → `CONSENT_GRANT`)
+The `categorize_record()` function handles all 130+ record types across SDK, S4VN, and defense system. The `s4:TYPE:hash` format parser checks:
+1. First segment → if `S4`, look at second segment
+2. Multi-segment types (e.g., `s4:consent:grant:hash` → `CONSENT_GRANT`)
 3. Explicit type_map with 130+ categories
 4. Keyword-based fallback matching
 
@@ -1001,12 +1001,12 @@ On mainnet, the Metrics API will start with zero transactions. Consider:
 | Notifications | Toast messages | Twilio SMS + SendGrid email reminders |
 | Provider Availability | Any slot available | Google Calendar / Calendly API integration for real provider schedules |
 | Cancellation | No implementation yet | Cancel + anchor cancellation hash to XRPL for audit trail |
-| XRPL Anchoring | `AccountSet` with memo `solus:SCHEDULING:HASH` | Same — via `/api/anchor` endpoint (server-side signing) |
+| XRPL Anchoring | `AccountSet` with memo `s4:SCHEDULING:HASH` | Same — via `/api/anchor` endpoint (server-side signing) |
 
 ### XRPL Anchor on Mainnet
 Each appointment action anchors identically:
 ```
-solus:SCHEDULING:{SHA256 of appointment JSON}
+s4:SCHEDULING:{SHA256 of appointment JSON}
 ```
 This creates immutable proof that an appointment was created, modified, or cancelled at a specific time — valuable for no-show disputes, compliance audits, and continuity-of-care evidence.
 
@@ -1018,7 +1018,7 @@ This creates immutable proof that an appointment was created, modified, or cance
 - 24 ICD-10 codes with autocomplete (E11.65 Type 2 Diabetes, I10 HTN, J06.9 URI, M54.5 Low Back Pain, etc.)
 - 20 CPT codes with fee amounts and autocomplete (99213 Office Visit, 99285 ER Critical, 71046 Chest X-ray, etc.)
 - Payer selection (Medicare, Medicaid, BCBS, United, Aetna, Cigna, Humana, Self-Pay)
-- Place of service codes (Office 11, Inpatient 21, Outpatient 22, ER 23, Telehealth 02, Lab 81)
+- Place of service codes (Office 11, Inrecord 21, Outrecord 22, ER 23, Telehealth 02, Lab 81)
 - Claim auto-adjudication simulation (70% approved, 15% partial, 15% denied with denial reasons)
 - Claim resubmission with corrections
 - Claims CSV export
@@ -1034,7 +1034,7 @@ This creates immutable proof that an appointment was created, modified, or cance
 | Adjudication | Random 70/15/15 split | Real 835 ERA/EOB remittance from payer |
 | Denial Management | Mock denial reasons | X12 CARC/RARC reason codes from payer |
 | Payer Eligibility | Simulated 270/271 (see §17) | Real EDI 270/271 via clearinghouse |
-| XRPL Anchoring | `solus:BILLING:HASH` | Same — hash of claim JSON + adjudication result anchored on mainnet |
+| XRPL Anchoring | `s4:BILLING:HASH` | Same — hash of claim JSON + adjudication result anchored on mainnet |
 
 ### Why Anchoring Billing Data Matters
 1. **SOX-compliant audit trails** — immutable proof of every claim state change
@@ -1081,7 +1081,7 @@ def submit_claim_837(claim_data):
 |-----------|-----------|-----------------|
 | Eligibility Request | Simulated with random values | EDI 270 via clearinghouse (Availity, Change Healthcare) |
 | Eligibility Response | Mock 271 with hardcoded copay/deductible | Real 271 from payer with actual benefit details |
-| Anchoring | Optional toggle, `solus:ELIGIBILITY:HASH` | Same anchor format on mainnet |
+| Anchoring | Optional toggle, `s4:ELIGIBILITY:HASH` | Same anchor format on mainnet |
 | Response Time | Instant (simulated) | 2-10 seconds (real payer lookup) |
 
 ### Why Anchor Eligibility Checks?
@@ -1094,10 +1094,10 @@ Anchoring is **optional** but valuable for:
 ### Real-World Integration
 ```python
 # Availity Real-Time Eligibility API
-def check_eligibility_real(patient, payer_id, service_type):
+def check_eligibility_real(record, payer_id, service_type):
     response = requests.post('https://api.availity.com/v1/coverages', json={
         'payer_id': payer_id,
-        'subscriber': {'member_id': patient['insurance_id'], 'dob': patient['dob']},
+        'subscriber': {'member_id': record['insurance_id'], 'dob': record['dob']},
         'service_type': service_type  # '30' for health benefit plan coverage
     }, headers={'Authorization': f'Bearer {AVAILITY_TOKEN}'})
     
@@ -1175,10 +1175,10 @@ The CDS service returns `cards` with interaction warnings, severity, and suggest
 ### What Exists (Demo)
 - Mint XLS-20 NFT as tamper-proof consent token
 - NFT metadata: standard (XLS-20), issuer, flags (tfTransferable + tfBurnable = 9), IPFS URI
-- Fields: patient, grantee provider, access level (read/read-write/full/emergency), expiration (24h to 1 year)
+- Fields: record, grantee provider, access level (read/read-write/full/emergency), expiration (24h to 1 year)
 - Revocation: burns the NFT, anchors revocation to XRPL
 - Each mint/revoke anchored via `ehrAnchorToXRPL(hash, 'CONSENT')`
-- UI panel with patient/grantee/level/expiry selectors + mint button
+- UI panel with record/grantee/level/expiry selectors + mint button
 
 ### Real-World Migration
 | Component | Demo State | Production State |
@@ -1196,7 +1196,7 @@ Traditional consent systems store grants in databases that can be silently alter
 2. **Revocability** — burning the NFT is also permanently recorded
 3. **Transferability** — consent can be transferred between providers (flag 8)
 4. **Time-boundedness** — metadata includes expiration; expired consents can be auto-burned
-5. **Patient control** — patient holds the NFT and decides when to burn (revoke)
+5. **Record control** — record holds the NFT and decides when to burn (revoke)
 
 ### XRPL XLS-20 Transaction Format (Mainnet)
 ```python
@@ -1210,8 +1210,8 @@ mint_tx = NFTokenMint(
     flags=9,  # tfTransferable + tfBurnable
     uri=xrpl.utils.str_to_hex(f"ipfs://{ipfs_hash}"),
     memos=[xrpl.models.transactions.Memo(
-        memo_type=xrpl.utils.str_to_hex("solus/consent"),
-        memo_data=xrpl.utils.str_to_hex(f"solus:CONSENT:{consent_hash}")
+        memo_type=xrpl.utils.str_to_hex("s4/consent"),
+        memo_data=xrpl.utils.str_to_hex(f"s4:CONSENT:{consent_hash}")
     )]
 )
 
@@ -1220,8 +1220,8 @@ burn_tx = NFTokenBurn(
     account=wallet.classic_address,
     nftoken_id=nft_token_id,
     memos=[xrpl.models.transactions.Memo(
-        memo_type=xrpl.utils.str_to_hex("solus/consent-revoke"),
-        memo_data=xrpl.utils.str_to_hex(f"solus:CONSENT_REVOKE:{revocation_hash}")
+        memo_type=xrpl.utils.str_to_hex("s4/consent-revoke"),
+        memo_data=xrpl.utils.str_to_hex(f"s4:CONSENT_REVOKE:{revocation_hash}")
     )]
 )
 ```
@@ -1231,13 +1231,13 @@ burn_tx = NFTokenBurn(
 {
   "standard": "XLS-20",
   "type": "healthcare_consent",
-  "patient_hash": "SHA256 of patient demographics (never raw PHI)",
+  "record_hash": "SHA256 of record demographics (never raw PHI)",
   "grantee_hash": "SHA256 of provider identifier",
   "access_level": "read-only",
   "issued_at": "2026-02-08T14:30:00Z",
   "expires_at": "2026-03-08T14:30:00Z",
   "issuer": "rMainnetAddress...",
-  "protocol": "solus-protocol",
+  "protocol": "s4-ledger",
   "version": "2.10.0"
 }
 ```
@@ -1250,7 +1250,7 @@ burn_tx = NFTokenBurn(
 - 10 badges with emoji icons and unlock thresholds:
   - ⚓ First Anchor (1 anchor), 🔰 Data Guardian (10), 🛡️ Silver Guardian (50), 👑 Gold Guardian (100)
   - 📁 Record Keeper (5 records), 💰 Claim Master (3 claims), 📅 Scheduler (3 appointments)
-  - 🔒 HIPAA Hero (1 compliance report), 🔄 Interop Pro (1 FHIR/HL7 export), ▶️ Scenario Runner (3 scenarios)
+  - 🔒 NIST Hero (1 compliance report), 🔄 Interop Pro (1 FHIR/HL7 export), ▶️ Scenario Runner (3 scenarios)
 - 5 Guardian Levels with progress bar: New User → Novice Anchor → Data Guardian → Silver Guardian → Gold Guardian
 - Badge display grid in Audit tab
 - Toast notifications on badge unlock
@@ -1266,10 +1266,10 @@ burn_tx = NFTokenBurn(
 | XRPL Integration | No anchoring | Optional: anchor badge milestones as achievement NFTs (XLS-20) |
 
 ### Why Gamification in Healthcare?
-- **Provider engagement** — EHR adoption is notoriously low; badges incentivize consistent use
-- **Compliance tracking** — "HIPAA Hero" badge proves a provider generated compliance reports
+- **Provider engagement** — defense system adoption is notoriously low; badges incentivize consistent use
+- **Compliance tracking** — "NIST Hero" badge proves a provider generated compliance reports
 - **Onboarding acceleration** — new users naturally explore features to unlock badges
-- **Audit evidence** — badge history shows system usage patterns (valuable for CEHRT attestation)
+- **Audit evidence** — badge history shows system usage patterns (valuable for Cdefense systemT attestation)
 
 ---
 
@@ -1279,7 +1279,7 @@ burn_tx = NFTokenBurn(
 - Button in Audit tab simulates a tampered record
 - Shows detailed mismatch alert: original hash vs. recomputed hash
 - Anchors the integrity failure event to XRPL as `INTEGRITY` record type
-- Logs to EHR audit trail
+- Logs to defense system audit trail
 
 ### Real-World Migration
 | Component | Demo State | Production State |
@@ -1287,8 +1287,8 @@ burn_tx = NFTokenBurn(
 | Tamper Detection | Simulates by adding `tampered: true` to record JSON | Periodic integrity scans comparing stored hashes vs. recomputed hashes |
 | Alert System | In-app modal | PagerDuty/Opsgenie alert → immediate security incident response |
 | Forensics | Shows original vs. tampered hash | Full diff of what changed, when, and by whom (access log correlation) |
-| XRPL Anchoring | `solus:INTEGRITY:HASH` | Same — integrity failure events are permanently recorded on mainnet |
-| Compliance | Demo only | HIPAA § 164.312(c)(2) requires mechanism to authenticate ePHI — this IS that mechanism |
+| XRPL Anchoring | `s4:INTEGRITY:HASH` | Same — integrity failure events are permanently recorded on mainnet |
+| Compliance | Demo only | NIST § 164.312(c)(2) requires mechanism to authenticate ePHI — this IS that mechanism |
 
 ### Integrity Scan Architecture (Production)
 ```python
@@ -1315,7 +1315,7 @@ def run_integrity_scan():
             record.save()
 ```
 
-This is the core value proposition of SLS Protocol — **every record has an on-chain hash that can be independently verified at any time.** If a database is compromised, the XRPL hashes reveal which records were altered.
+This is the core value proposition of S4 Ledger — **every record has an on-chain hash that can be independently verified at any time.** If a database is compromised, the XRPL hashes reveal which records were altered.
 
 ---
 
@@ -1333,7 +1333,7 @@ This is the core value proposition of SLS Protocol — **every record has an on-
 | Code Delivery | Displayed in UI | SMS (Twilio) or authenticator app or hardware key (WebAuthn/FIDO2) |
 | Session Management | No real session | JWT tokens with 15-min expiry + refresh tokens |
 | Backup Codes | Not implemented | 10 one-time backup codes generated at MFA enrollment |
-| HIPAA Requirement | Demo toggle | HIPAA § 164.312(d) requires person/entity authentication — MFA satisfies this |
+| NIST Requirement | Demo toggle | NIST § 164.312(d) requires person/entity authentication — MFA satisfies this |
 
 ### Production MFA Flow
 ```
@@ -1351,10 +1351,10 @@ This is the core value proposition of SLS Protocol — **every record has an on-
 ### Settings Persistence
 | Setting | Demo State | Production State |
 |---------|-----------|-----------------|
-| Dark Mode | localStorage `solus_dark_mode` | User preferences API (synced across devices) |
+| Dark Mode | localStorage `s4_dark_mode` | User preferences API (synced across devices) |
 | Notifications | UI toggle only | Firebase Cloud Messaging subscription management |
-| Badges | localStorage `solus_badges` | Server-side badge store + optional NFT minting |
-| Onboarding | localStorage `solus_onboarded` | Server-side user flags |
+| Badges | localStorage `s4_badges` | Server-side badge store + optional NFT minting |
+| Onboarding | localStorage `s4_onboarded` | Server-side user flags |
 
 ### PWA Service Worker
 **Current:** `demo-app/sw.js` (v2.10.0) — cache-first strategy with network-first for XRPL API calls.
@@ -1370,7 +1370,7 @@ This is the core value proposition of SLS Protocol — **every record has an on-
 ```javascript
 // When offline: queue anchor requests in IndexedDB
 self.addEventListener('sync', event => {
-    if (event.tag === 'solus-anchor-queue') {
+    if (event.tag === 's4-anchor-queue') {
         event.waitUntil(
             getQueuedAnchors().then(queue => 
                 Promise.all(queue.map(item => 
@@ -1389,7 +1389,7 @@ self.addEventListener('sync', event => {
 
 ### What Exists (Demo)
 - Star rating (1-5) with visual highlighting
-- Feature request dropdown (EHR, Billing, Scheduling, Interop, Security, Other)
+- Feature request dropdown (defense system, Billing, Scheduling, Interop, Security, Other)
 - Free-text feedback input
 - Accessible from More screen → "Send Feedback" button
 
@@ -1403,43 +1403,43 @@ self.addEventListener('sync', event => {
 
 ---
 
-## 25. ONC/CEHRT Compliance Roadmap
+## 25. ONC/Cdefense systemT Compliance Roadmap
 
 ### Current Classification
-SLS Protocol is a **medical data integrity layer** — not a standalone certified EHR system. It does not currently hold ONC CEHRT (Certified EHR Technology) designation.
+S4 Ledger is a **medical data integrity layer** — not a standalone certified defense system system. It does not currently hold ONC Cdefense systemT (Certified defense system Technology) designation.
 
-### What CEHRT Requires (and Our Status)
+### What Cdefense systemT Requires (and Our Status)
 
-| ONC CEHRT Criterion | Solus Status | Gap |
+| ONC Cdefense systemT Criterion | S4 Ledger Status | Gap |
 |---------------------|-------------|-----|
 | CPOE (Computerized Provider Order Entry) | ⬜ Not implemented | Requires medication/lab/imaging order workflows |
 | Clinical Decision Support (CDS) | 🟡 Drug interactions only (10 pairs) | Requires evidence-based CDS rules engine + CDS Hooks |
-| Demographics Recording | ✅ Patient registration with demographics | Needs preferred language, race, ethnicity fields |
+| Demographics Recording | ✅ Record registration with demographics | Needs preferred language, race, ethnicity fields |
 | Problem List | 🟡 Conditions via ICD-10 on claims | Requires standalone problem list management |
 | Medication List | ⬜ Not implemented | Requires active medication list, not just prescriptions |
 | Medication Allergy List | 🟡 Allergy record type exists | Requires coded allergy list with RxNorm |
 | Vital Signs Recording | ✅ Observation/vitals records | Needs LOINC-coded vital signs |
 | Smoking Status | ⬜ Not implemented | Requires structured smoking status capture |
 | Lab Results Integration | ✅ Lab result records + FHIR export | Needs LOINC-coded lab results |
-| Patient Education | ⬜ Not implemented | Requires patient education resource delivery |
+| Record Education | ⬜ Not implemented | Requires record education resource delivery |
 | Health Information Exchange | ✅ FHIR R4 + HL7 v2 export | Needs bidirectional exchange (currently export-only) |
 | Security (Access Control) | ✅ RBAC + break-glass + audit + XRPL anchoring | ✅ Exceeds requirements |
 | Audit Logging | ✅ Full audit trail + blockchain proof | ✅ Exceeds requirements |
 | Integrity | ✅ SHA-256 hash verification | ✅ Exceeds requirements |
 | Authentication | ✅ Password + biometric + MFA | ✅ Meets requirements |
 
-### Roadmap to CEHRT (Estimated 12-18 Months)
+### Roadmap to Cdefense systemT (Estimated 12-18 Months)
 1. **Phase 1 (Q2 2026):** CPOE module, structured problem/medication/allergy lists
 2. **Phase 2 (Q3 2026):** CDS rules engine with CDS Hooks, LOINC-coded vitals and labs
-3. **Phase 3 (Q4 2026):** Bidirectional HIE (TEFCA/Carequality), patient education module
+3. **Phase 3 (Q4 2026):** Bidirectional HIE (TEFCA/Carequality), record education module
 4. **Phase 4 (Q1 2027):** ONC Health IT Certification Program application + testing
 5. **Dependencies:** Requires funding, dedicated compliance officer, testing partner (Drummond Group or ICSA Labs)
 
-### Where SLS Protocol Already Exceeds CEHRT
-- **Blockchain-backed audit logging** — no certified EHR system provides immutable on-chain proof of every action
+### Where S4 Ledger Already Exceeds Cdefense systemT
+- **Blockchain-backed audit logging** — no certified defense system system provides immutable on-chain proof of every action
 - **Hash integrity verification** — real-time tamper detection across all records
-- **Patient-controlled consent NFTs** — no certified EHR offers XLS-20 NFT-based consent management
-- **Cost transparency** — ~$0.001 per verification vs. millions in legacy EHR licensing
+- **Record-controlled consent NFTs** — no certified defense system offers XLS-20 NFT-based consent management
+- **Cost transparency** — ~$0.001 per verification vs. millions in legacy defense system licensing
 
 ---
 
@@ -1463,7 +1463,7 @@ SLS Protocol is a **medical data integrity layer** — not a standalone certifie
 ```
 Anchor Fee:     ~0.000012 XRP per transaction (network fee)
 $SLS Fee:       ~0.01 $SLS per anchor (protocol fee)
-Patient Rebate: ~0.002 $SLS per record shared with provider
+Record Rebate: ~0.002 $SLS per record shared with provider
 Provider Fee:   ~0.005 $SLS per verification request
 ```
 
@@ -1479,7 +1479,7 @@ Push notifications use the browser's Notification API with local scheduling. No 
 Notification.requestPermission().then(perm => {
   if (perm === 'granted') {
     new Notification('Appointment Reminder', {
-      body: 'Patient follow-up in 30 minutes',
+      body: 'Record follow-up in 30 minutes',
       icon: '/demo-app/icon-192.png',
       tag: 'appointment-reminder'
     });
@@ -1495,7 +1495,7 @@ Notification.requestPermission().then(perm => {
 | **Push Server** | None (local scheduling) | VAPID-authenticated push server |
 | **Subscription** | Not stored | PushSubscription stored in encrypted DB |
 | **Delivery** | `setTimeout()` scheduling | FCM (Android/Chrome) + APNs (iOS/Safari) |
-| **Payload** | Hardcoded demo messages | Real-time event-driven from EHR backend |
+| **Payload** | Hardcoded demo messages | Real-time event-driven from defense system backend |
 | **Encryption** | None | RFC 8291 (Web Push Encryption) |
 | **Background Sync** | Service worker `sync` event | Service worker + IndexedDB queue |
 
@@ -1503,15 +1503,15 @@ Notification.requestPermission().then(perm => {
 1. **Generate VAPID Keys** — `web-push generate-vapid-keys` (Node.js) or Python `pywebpush`
 2. **Store VAPID Keys** — Set `VAPID_PUBLIC_KEY` and `VAPID_PRIVATE_KEY` as env vars on Render
 3. **Backend Push Endpoint** — `POST /api/push/subscribe` to store `PushSubscription` objects (encrypted at rest)
-4. **Event Triggers** — Wire EHR events (appointment T-30min, claim status change, critical lab, integrity alert) to push dispatch
+4. **Event Triggers** — Wire defense system events (appointment T-30min, claim status change, critical lab, integrity alert) to push dispatch
 5. **FCM Integration** — Register Firebase project, obtain server key, configure `gcm_sender_id` in manifest.json
 6. **APNs Integration** — For iOS Safari 16.4+ PWA push support, register Apple Developer Certificate
 7. **Offline Anchor Sync** — Implement `BackgroundSyncPlugin` to queue anchors in IndexedDB when offline, replay on reconnection
 
-### HIPAA Considerations
+### NIST Considerations
 - Push payloads must **never** contain PHI in the notification body (use generic text like "New update available" with in-app detail)
-- PushSubscription endpoints should be stored in HIPAA-compliant encrypted storage
-- All push server logs must exclude patient identifiers
+- PushSubscription endpoints should be stored in NIST-compliant encrypted storage
+- All push server logs must exclude record identifiers
 
 ---
 
@@ -1524,16 +1524,16 @@ The cohort analytics dashboard renders population health visualizations using cl
 
 | Module | Description | Data Source (Demo) | Data Source (Mainnet) |
 |--------|-------------|-------------------|----------------------|
-| **Age Distribution** | Bar chart of patient age buckets (0-17, 18-34, 35-49, 50-64, 65-79, 80+) | In-memory patient records | PostgreSQL patient demographics (de-identified) |
+| **Age Distribution** | Bar chart of record age buckets (0-17, 18-34, 35-49, 50-64, 65-79, 80+) | In-memory record records | PostgreSQL record demographics (de-identified) |
 | **Condition Prevalence** | ICD-10 condition prevalence bars with percentage | 8 simulated conditions (I10, E11.9, J06.9, M54.5, etc.) | Aggregate ICD-10 codes from claims database |
 | **Record Type Breakdown** | Grid showing count per record category | localStorage record array | Metrics API `/api/records/breakdown` |
 | **Anchoring Trends** | 7-day bar chart of daily anchor volume | Simulated daily counts | XRPL transaction query by date range |
 | **Population Health Insights** | 5 AI-driven insight cards | Static analysis of demo data | ML pipeline (chronic disease prediction, care gaps, utilization) |
 
 ### Mainnet Migration Steps
-1. **Database Backend** — Deploy PostgreSQL (HIPAA-compliant hosting) for patient demographics and record metadata
-2. **De-identification Layer** — All analytics queries must pass through a HIPAA Safe Harbor de-identification filter (remove 18 PHI identifiers per 45 CFR §164.514(b))
-3. **Aggregate-Only API** — `GET /api/analytics/cohort` returns only aggregate statistics (no individual records); minimum cohort size of 10 patients to prevent re-identification
+1. **Database Backend** — Deploy PostgreSQL (NIST-compliant hosting) for record demographics and record metadata
+2. **De-identification Layer** — All analytics queries must pass through a NIST Safe Harbor de-identification filter (remove 18 PHI identifiers per 45 CFR §164.514(b))
+3. **Aggregate-Only API** — `GET /api/analytics/cohort` returns only aggregate statistics (no individual records); minimum cohort size of 10 records to prevent re-identification
 4. **Real ICD-10 Integration** — Connect to CMS ICD-10-CM API for validated code lookups
 5. **XRPL Trend Queries** — Use Clio server API to query historical anchoring transactions by date range and memo type
 6. **ML Pipeline** — Deploy scikit-learn or TensorFlow Lite models for population health predictions (chronic disease risk scoring, care gap identification, utilization forecasting)
@@ -1541,7 +1541,7 @@ The cohort analytics dashboard renders population health visualizations using cl
 
 ### Data Governance
 - All cohort analytics operate on **de-identified aggregate data only**
-- Individual patient records are never exposed through analytics endpoints
+- Individual record records are never exposed through analytics endpoints
 - Minimum cohort sizes enforced to prevent statistical re-identification
 - Analytics audit log: every query is logged with requester, timestamp, and query parameters
 
@@ -1602,7 +1602,7 @@ Merkle Root:      [H12345678]
 ## 30. AI Predictions & Insights Engine (v2.10.4)
 
 ### Current (Testnet Demo)
-The AI Predictions Engine provides intelligent health insights across all three user roles (Patient, Provider, EHR Admin). Predictions are generated client-side using pattern analysis of patient records, appointment history, and health metrics.
+The AI Predictions Engine provides intelligent health insights across all three user roles (Record, Provider, defense system Admin). Predictions are generated client-side using pattern analysis of record records, appointment history, and health metrics.
 
 ### AI Components
 
@@ -1611,15 +1611,15 @@ The AI Predictions Engine provides intelligent health insights across all three 
 | **aiDrugWarning()** | Drug interaction analysis | FDA API lookup + local severity scoring | FDA API + ML interaction classifier |
 | **aiCostEstimate()** | Pre-visit cost prediction | CPT-based cost averaging | ML model trained on claims data |
 | **aiSchedulingSuggestions()** | Smart appointment recommendations | Rule-based gap detection | ML scheduling optimizer |
-| **aiReadinessScore()** | Pre-appointment preparation score | Weighted checklist completion | NLP analysis of patient messages |
+| **aiReadinessScore()** | Pre-appointment preparation score | Weighted checklist completion | NLP analysis of record messages |
 | **aiLabAnalysis()** | Lab result trend analysis | Statistical trend detection | Time-series forecasting models |
 | **getAIPredictions()** | Consolidated prediction array | Pattern-based static predictions | Real-time ML inference pipeline |
 
 ### AI Insight Cards (Role-Specific)
 
-**Patient Dashboard:**
+**Record Dashboard:**
 ```javascript
-// Example AI insights for patients
+// Example AI insights for records
 [
   { type: 'risk', message: 'Based on recent readings, blood pressure trending 12% higher' },
   { type: 'savings', message: 'Switching to generic Metoprolol could save $47/month' },
@@ -1632,34 +1632,34 @@ The AI Predictions Engine provides intelligent health insights across all three 
 ```javascript
 // Example AI insights for providers
 [
-  { type: 'critical', message: '3 patients with HbA1c > 9.0 need urgent follow-up' },
-  { type: 'compliance', message: 'Care gap alert: 12 patients overdue for mammogram' },
+  { type: 'critical', message: '3 records with HbA1c > 9.0 need urgent follow-up' },
+  { type: 'compliance', message: 'Care gap alert: 12 records overdue for mammogram' },
   { type: 'efficiency', message: 'Double-booking detected on 3/15 at 2pm slot' },
   { type: 'billing', message: '8 claims approaching filing deadline (< 30 days)' }
 ]
 ```
 
-**EHR Admin Dashboard:**
+**defense system Admin Dashboard:**
 ```javascript
-// Example AI insights for EHR administrators
+// Example AI insights for defense system administrators
 [
   { type: 'integrity', message: '2 records flagged for hash mismatch review' },
   { type: 'usage', message: 'API usage up 34% — consider rate limit adjustment' },
   { type: 'cost', message: 'Projected $SLS token usage: 12,400 anchors this month' },
-  { type: 'compliance', message: 'HIPAA audit log export due in 12 days' }
+  { type: 'compliance', message: 'NIST audit log export due in 12 days' }
 ]
 ```
 
 ### Mainnet Migration Steps
 1. **ML Model Training** — Train prediction models on de-identified claims data (diabetes risk, readmission risk, cost prediction)
 2. **Inference API** — Deploy FastAPI + TensorFlow Serving for sub-100ms inference
-3. **Vector Embeddings** — Use OpenAI embeddings or local BERT model for patient condition/medication similarity scoring
+3. **Vector Embeddings** — Use OpenAI embeddings or local BERT model for record condition/medication similarity scoring
 4. **Real-Time Alerts** — Wire AI engine to push notification service for critical predictions
 5. **Audit Trail** — All AI predictions logged with model version, confidence score, and input features (de-identified)
 6. **Explainability** — SHAP values or LIME explanations for regulatory compliance (FDA SaMD guidance)
 7. **A/B Testing** — Track prediction accuracy and clinician acceptance rates
 
-### HIPAA & AI Governance
+### NIST & AI Governance
 - AI models trained only on de-identified data meeting Safe Harbor or Expert Determination standards
 - No direct PHI used in model training; only aggregate statistical features
 - All AI predictions include confidence intervals and "AI-generated" labeling
@@ -1689,7 +1689,7 @@ The enhanced scheduling system provides visual calendar management with drag-and
 // Appointment schema
 {
   id: "apt_12345",
-  patientId: "pat_67890",
+  recordId: "pat_67890",
   providerId: "prov_11111",
   type: "followup|initial|procedure|telehealth",
   start: "2026-03-15T10:00:00Z",
@@ -1714,13 +1714,13 @@ The enhanced scheduling system provides visual calendar management with drag-and
 | No-Show Record | `sls:scheduling:noshow` | 0.01 $SLS |
 
 ### Mainnet Migration Steps
-1. **PostgreSQL Schema** — Deploy appointments table with provider/patient foreign keys and XRPL anchor references
+1. **PostgreSQL Schema** — Deploy appointments table with provider/record foreign keys and XRPL anchor references
 2. **Conflict Constraints** — Add database-level check constraints for overlapping appointments per provider
-3. **iCal Integration** — Export appointments as ICS files for patient calendar sync (Google, Apple, Outlook)
+3. **iCal Integration** — Export appointments as ICS files for record calendar sync (Google, Apple, Outlook)
 4. **SMS/Email Reminders** — Integrate Twilio (SMS) and SendGrid (email) for automated reminders at T-48h, T-24h, T-1h
 5. **Telehealth Integration** — Generate Zoom/Teams links for telehealth appointments with automatic embedding
 6. **Waitlist Service** — Deploy Redis-backed waitlist with automatic slot matching on cancellations
-7. **FHIR Scheduling** — Implement FHIR R4 Appointment and Schedule resources for EHR interoperability
+7. **FHIR Scheduling** — Implement FHIR R4 Appointment and Schedule resources for defense system interoperability
 
 ### AI Scheduling Optimization
 ```python
@@ -1729,7 +1729,7 @@ features = {
   'day_of_week': appointment.start.weekday(),
   'hour_of_day': appointment.start.hour,
   'provider_avg_delay_mins': get_provider_delay(provider_id),
-  'patient_noshow_probability': predict_noshow(patient_id),
+  'record_noshow_probability': predict_noshow(record_id),
   'appointment_type_duration_variance': get_type_variance(type),
   'weather_impact_score': get_weather_score(date, location)
 }
@@ -1750,15 +1750,15 @@ features = {
 ║  □ Fund with 50+ XRP (~$100)                                     ║
 ║  □ Set XRPL_MAINNET_SEED env var on Render                      ║
 ║  □ Set XRPL_MAINNET_ACCOUNT env var on Render                   ║
-║  □ Set SOLUS_API_KEY env var on Render                           ║
+║  □ Set S4_API_KEY env var on Render                           ║
 ║  □ Deploy backend with /api/anchor endpoint                      ║
 ║  □ Configure production encryption keys (AWS KMS / Vault)        ║
 ║  □ Set up Redis for distributed rate limiting                    ║
 ║  □ Configure fallback WebSocket nodes                            ║
 ║                                                                  ║
 ║  SDK & CORE                                                      ║
-║  □ Update SolusSDK: testnet=False                                ║
-║  □ Update SolusEHR: testnet=False + production keys              ║
+║  □ Update S4SDK: testnet=False                                ║
+║  □ Update S4Defense system: testnet=False + production keys              ║
 ║  □ Test with XRPL_NETWORK=testnet first                          ║
 ║                                                                  ║
 ║  DEMO APP / FRONTEND                                             ║
@@ -1769,7 +1769,7 @@ features = {
 ║  □ Remove embedded wallet seed from frontend JS                  ║
 ║  □ Deploy frontend                                               ║
 ║                                                                  ║
-║  EHR FEATURES (v2.10.0)                                          ║
+║  defense system FEATURES (v2.10.0)                                          ║
 ║  □ Connect ICD-10 autocomplete to CMS API                        ║
 ║  □ Connect CPT autocomplete to AMA API (license required)        ║
 ║  □ Connect eligibility check to Availity/Change Healthcare       ║
@@ -1785,7 +1785,7 @@ features = {
 ║  PUSH NOTIFICATIONS (v2.10.1)                                    ║
 ║  □ Generate VAPID keys and set env vars                          ║
 ║  □ Deploy push subscription endpoint (POST /api/push/subscribe) ║
-║  □ Wire EHR events to push dispatch                              ║
+║  □ Wire defense system events to push dispatch                              ║
 ║  □ Configure FCM for Android/Chrome push                         ║
 ║  □ Configure APNs for iOS Safari 16.4+ push                     ║
 ║  □ Implement BackgroundSyncPlugin for offline anchors            ║
@@ -1793,7 +1793,7 @@ features = {
 ║                                                                  ║
 ║  ANALYTICS & STRESS TESTING (v2.10.1)                            ║
 ║  □ Deploy PostgreSQL for de-identified analytics                 ║
-║  □ Implement HIPAA Safe Harbor de-identification layer           ║
+║  □ Implement NIST Safe Harbor de-identification layer           ║
 ║  □ Build aggregate-only analytics API endpoints                  ║
 ║  □ Connect real ICD-10 codes to CMS API                          ║
 ║  □ Deploy server-side Merkle tree batch hashing                  ║
@@ -1809,16 +1809,16 @@ features = {
 ║                                                                  ║
 ║  VERIFICATION                                                    ║
 ║  □ Smoke test: anchor + verify one record (SDK Playground)       ║
-║  □ Smoke test: run SVCN scenario with XRPL anchoring             ║
-║  □ Smoke test: EHR register patient + create record              ║
-║  □ Smoke test: run EHR scenario (e1-e12)                         ║
+║  □ Smoke test: run S4VN scenario with XRPL anchoring             ║
+║  □ Smoke test: defense system register record + create record              ║
+║  □ Smoke test: run defense system scenario (e1-e12)                         ║
 ║  □ Smoke test: submit claim + verify adjudication anchor         ║
 ║  □ Smoke test: mint + revoke consent NFT                         ║
 ║  □ Smoke test: eligibility check + optional anchor               ║
 ║  □ Smoke test: drug interaction check                            ║
 ║  □ Smoke test: hash mismatch / integrity failure                 ║
 ║  □ Smoke test: push notification permission + delivery           ║
-║  □ Smoke test: cohort analytics with real patient data           ║
+║  □ Smoke test: cohort analytics with real record data           ║
 ║  □ Smoke test: stress test 10K records server-side               ║
 ║  □ Verify Metrics API categorizes all record types               ║
 ║  □ Set up XRP balance monitoring alerts (warn at 10 XRP)         ║
@@ -1826,8 +1826,8 @@ features = {
 ║                                                                  ║
 ║  COMPLIANCE                                                      ║
 ║  □ Execute BAA with hosting providers (Render, Vercel)           ║
-║  □ Complete HIPAA Security Risk Assessment                       ║
-║  □ Begin ONC CEHRT readiness evaluation                          ║
+║  □ Complete NIST Security Risk Assessment                       ║
+║  □ Begin ONC Cdefense systemT readiness evaluation                          ║
 ║  □ Engage Drummond Group or ICSA Labs for certification testing  ║
 ║                                                                  ║
 ║  AI PREDICTIONS (v2.10.4)                                        ║
@@ -1841,7 +1841,7 @@ features = {
 ║                                                                  ║
 ║  ENHANCED SCHEDULING (v2.10.4)                                   ║
 ║  □ Deploy PostgreSQL appointments table with constraints         ║
-║  □ Implement iCal export (ICS) for patient calendar sync         ║
+║  □ Implement iCal export (ICS) for record calendar sync         ║
 ║  □ Integrate Twilio/SendGrid for appointment reminders           ║
 ║  □ Deploy Redis-backed waitlist service                          ║
 ║  □ Implement FHIR R4 Appointment/Schedule resources              ║
@@ -1854,4 +1854,4 @@ features = {
 ---
 
 *Last updated: v2.10.5 — February 2026*
-*See also: [DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md) | [SECURITY.md](SECURITY.md) | [HIPAA_COMPLIANCE.md](HIPAA_COMPLIANCE.md) | [WHITEPAPER.md](WHITEPAPER.md)*
+*See also: [DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md) | [SECURITY.md](SECURITY.md) | [NIST_COMPLIANCE.md](NIST_COMPLIANCE.md) | [WHITEPAPER.md](WHITEPAPER.md)*

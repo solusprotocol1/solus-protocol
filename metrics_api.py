@@ -13,7 +13,7 @@ XRPL_TESTNET_URL = "https://s.altnet.rippletest.net:51234/"
 
 @app.route('/')
 def home():
-    return '<h1>Solus Protocol Metrics API</h1><p><a href="/metrics">/metrics</a> | <a href="/transactions">/transactions</a></p>'
+    return '<h1>S4 Ledger Metrics API</h1><p><a href="/metrics">/metrics</a> | <a href="/transactions">/transactions</a></p>'
 
 def categorize_record(memo_data):
     """Categorize medical records - covers all global healthcare record types.
@@ -22,13 +22,13 @@ def categorize_record(memo_data):
     then falls back to keyword matching for legacy records.
     """
     # Check for explicit record_type prefix (new SDK format: RECORD_TYPE:hash)
-    # Also handles SVCN format: solus:TYPE:HASH and solus:TYPE:SUBTYPE:HASH
+    # Also handles SVCN format: s4:TYPE:HASH and s4:TYPE:SUBTYPE:HASH
     if ':' in memo_data and len(memo_data.split(':')[0]) < 30:
         parts = memo_data.split(':')
         explicit_type = parts[0].upper()
-        # If prefix is SOLUS (protocol marker), use the second/third segments as the type
-        if explicit_type == 'SOLUS' and len(parts) >= 3:
-            # Handle multi-segment types: solus:consent:grant:HASH → CONSENT_GRANT
+        # If prefix is S4 (protocol marker), use the second/third segments as the type
+        if explicit_type == 'S4' and len(parts) >= 3:
+            # Handle multi-segment types: s4:consent:grant:HASH → CONSENT_GRANT
             if len(parts) >= 4 and len(parts[2]) < 30:
                 explicit_type = (parts[1] + '_' + parts[2]).upper()
             else:

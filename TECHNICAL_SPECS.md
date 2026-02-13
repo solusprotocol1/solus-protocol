@@ -1,27 +1,101 @@
-# Solus Protocol: Technical Specifications
-**Architecture: Data Anchoring via XRP Ledger (XRPL)**
+# S4 Ledger: Technical Specifications
+
+**Architecture: Hash Anchoring via XRP Ledger (XRPL)**
 
 ## 1. Hashing Algorithm
-Solus uses **SHA-256** for all medical record fingerprints.
-* **Input:** Normalized JSON or PDF binary of the EHR.
-* **Output:** 64-character hexadecimal string.
+
+S4 Ledger uses **SHA-256** (NIST FIPS 180-4) for all record fingerprints.
+
+- **Input:** Any data — normalized JSON, PDF binary, file contents, serialized record
+- **Output:** 64-character hexadecimal string (256 bits)
+- **Properties:** Collision-resistant, irreversible, deterministic
 
 ## 2. XRPL Transaction Structure
-Solus utilizes the `Memos` field in a standard XRPL transaction to anchor data.
+
+S4 Ledger utilizes the `Memos` field in a standard XRPL transaction to anchor data:
 
 ```json
 {
   "TransactionType": "Payment",
-  "Account": "SOLUS_GATEWAY_ADDRESS",
-  "Destination": "SOLUS_SINK_ADDRESS",
-  "Amount": "1", 
+  "Account": "S4_GATEWAY_ADDRESS",
+  "Destination": "S4_SINK_ADDRESS",
+  "Amount": "1",
   "Memos": [
     {
       "Memo": {
-        "MemoType": "6865616c74682e616e63686f72", // HEX: "health.anchor"
-        "MemoData": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8", // SHA-256 Hash
-        "MemoFormat": "746578742f706c61696e" // HEX: "text/plain"
+        "MemoType": "HEX('defense.anchor')",
+        "MemoData": "SHA-256 HASH (64 hex chars)",
+        "MemoFormat": "HEX('text/plain')"
       }
     }
   ]
 }
+```
+
+## 3. Record Types
+
+| Type Code | Description | Example |
+|---|---|---|
+| `supply_chain_receipt` | Part receipt / chain of custody | NSN lot acceptance |
+| `maintenance_3m` | 3-M / SCLSIS maintenance record | MRC completion |
+| `cdrl_delivery` | Contract deliverable submission | CDRL A003 delivery |
+| `tdp_delivery` | Technical Data Package delivery | TDP Rev 4 |
+| `configuration_baseline` | Configuration baseline snapshot | AEGIS BL10 CB |
+| `batch_coc` | Batch certificate of conformance | 24x transmission assemblies |
+| `audit_artifact` | Audit evidence / inspection report | INSURV finding |
+
+## 4. SDK Specifications
+
+| Property | Value |
+|---|---|
+| **Language** | Python 3.10+ |
+| **Core Dependencies** | `xrpl-py`, `cryptography` |
+| **Authentication** | XRPL wallet seed (Ed25519) |
+| **Hashing** | SHA-256 (hashlib, stdlib) |
+| **Transport** | WebSocket (wss://) to XRPL nodes |
+| **Encryption** | TLS 1.3 |
+| **Batch Size** | Up to 1,000 records |
+
+## 5. XRPL Network
+
+| Property | Value |
+|---|---|
+| **Consensus** | XRP Ledger Consensus Protocol |
+| **Validators** | 150+ independent validators |
+| **Finality** | 3-5 seconds |
+| **Cost** | ~0.000012 XRP per transaction (~$0.000024) |
+| **Uptime** | 99.99%+ since 2012 |
+| **Explorer** | livenet.xrpl.org |
+
+## 6. $SLS Token
+
+| Property | Value |
+|---|---|
+| **Code** | SLS |
+| **Issuer** | `r95GyZac4butvVcsTWUPpxzekmyzaHsTA5` |
+| **Total Supply** | 100,000,000 |
+| **Treasury** | 30,000,000 (multi-sig) |
+| **Fee per Anchor** | ~0.01 SLS |
+
+## 7. Security
+
+- **No data on-chain** — only SHA-256 hashes
+- **No CUI/CDI exposure** — architecture makes it impossible
+- **No key storage** — wallet seeds remain with the user
+- **No telemetry** — SDK does not collect usage data
+- **Input validation** — all inputs sanitized before processing
+
+## 8. Compliance Alignment
+
+| Standard | Status |
+|---|---|
+| NIST SP 800-171 | Aligned |
+| CMMC Level 2+ | Compatible |
+| DFARS 252.204-7012 | Compliant (no CDI on-chain) |
+| NIST SP 800-53 (AU) | Immutable audit trail |
+| FedRAMP | Planned (Phase 5) |
+| FIPS 180-4 | SHA-256 compliant |
+
+---
+
+For technical inquiries: info@s4ledger.com | [s4ledger.com](https://s4ledger.com)

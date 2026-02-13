@@ -1,4 +1,4 @@
-from solus_sdk import SolusSDK
+from s4_sdk import S4SDK
 from xrpl.wallet import generate_faucet_wallet
 from xrpl.clients import JsonRpcClient
 
@@ -7,7 +7,7 @@ xrpl_rpc_url = "https://s.altnet.rippletest.net:51234/"
 client = JsonRpcClient(xrpl_rpc_url)
 wallet = generate_faucet_wallet(client)
 
-sdk = SolusSDK(wallet_seed=wallet.seed, testnet=True)
+sdk = S4SDK(wallet_seed=wallet.seed, testnet=True)
 
 # Example gateway issuer (replace with real testnet issuer for USD IOU)
 gateway_issuer = "rPT1Sjq2YGrBMTttX4GZHjKu9dyfzbpAYe"  # Example testnet issuer

@@ -4,20 +4,20 @@ expires = 2027-01-15T00:00:00Z
 
 [[ACCOUNTS]]
 address = "r95GyZac4butvVcsTWUPpxzekmyzaHsTA5"
-description = "Solus Protocol Issuing Address"
-domain = "solusprotocol.com"
+description = "S4 Ledger Issuing Address"
+domain = "s4ledger.com"
 
 [[CURRENCIES]]
 code = "SLS"
 issuer = "r95GyZac4butvVcsTWUPpxzekmyzaHsTA5"
-display_name = "Solus Protocol"
+display_name = "S4 Ledger"
 display_decimal = 6
 symbol = "$SLS"
-logo_250x250 = "https://raw.githubusercontent.com/solusprotocol1/solus-protocol/main/logo.png"
-description = "Utility token for medical data integrity on XRPL"
-website = "https://solusprotocol.com"
-twitter = "https://x.com/Solus_Protocol
+logo_250x250 = "https://raw.githubusercontent.com/solusprotocol1/solus-protocol/main/s4-assets/SLS_logo.png"
+description = "Utility token for defense logistics verification on XRPL"
+website = "https://s4ledger.com"
+twitter = "https://x.com/S4Ledger
 
 [[PRINCIPALS]]
-name = "Solus Protocol"
-email = "support@solusprotocol.com"
+name = "S4 Ledger"
+email = "info@s4ledger.com"

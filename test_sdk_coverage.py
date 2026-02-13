@@ -1,11 +1,11 @@
 import pytest
-from solus_sdk import SolusSDK
+from s4_sdk import S4SDK
 
 TEST_SEED = "sEdT9vPQ4QCA4TtDSZqAGTv9ABL2uLS"
 
 @pytest.fixture
 def sdk():
-    return SolusSDK(wallet_seed=TEST_SEED, testnet=True)
+    return S4SDK(wallet_seed=TEST_SEED, testnet=True)
 
 def test_hash_empty(sdk):
     assert sdk.create_record_hash("") == "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"  # SHA-256 of empty string
@@ -29,6 +29,6 @@ def test_anchor_success(sdk):
 
 def test_anchor_failure(sdk):
     # Simulate failure by passing invalid seed
-    bad_sdk = SolusSDK(wallet_seed="invalid_seed", testnet=True)
+    bad_sdk = S4SDK(wallet_seed="invalid_seed", testnet=True)
     with pytest.raises(Exception):
         bad_sdk.secure_patient_record(record_text="fail", encrypt_first=True, fiat_mode=False)
