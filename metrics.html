@@ -202,13 +202,11 @@
                 document.getElementById('totalHashes').textContent = metricsData.total_hashes || 0;
                 document.getElementById('totalFees').textContent = (metricsData.total_fees || 0).toFixed(2);
                 document.getElementById('recordTypes').textContent = Object.keys(metricsData.records_by_type || {}).length;
-                const today = new Date().toLocaleDateString('en-US', { month: 'short', day: '2-digit' });
-                const hashesToday = metricsData.hashes_by_day?.[today] || 0;
-                const feesToday = metricsData.fees_by_day?.[today] || 0;
+                const hashesToday = metricsData.hashes_today || 0;
+                const feesToday = metricsData.fees_today || 0;
                 document.getElementById('hashesToday').textContent = '+' + hashesToday + ' today';
                 document.getElementById('feesToday').textContent = '+$' + feesToday.toFixed(2) + ' today';
-                const monthYear = new Date().toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
-                const thisMonth = metricsData.hashes_by_month?.[monthYear] || 0;
+                const thisMonth = metricsData.this_month || 0;
                 document.getElementById('thisMonth').textContent = thisMonth;
                 const filterSelect = document.getElementById('recordTypeFilter');
                 const types = Object.keys(metricsData.records_by_type || {});

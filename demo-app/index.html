@@ -483,8 +483,25 @@ let stats = {anchored:0,verified:0,types:new Set(),slsFees:0};
 
 // ── localStorage cross-page record sync ──
 const S4_STORAGE_KEY = 's4_anchored_records';
+const S4_STATS_KEY = 's4_demo_stats';
 function getLocalRecords() { try { return JSON.parse(localStorage.getItem(S4_STORAGE_KEY) || '[]'); } catch { return []; } }
 function saveLocalRecord(rec) { const records = getLocalRecords(); records.push(rec); localStorage.setItem(S4_STORAGE_KEY, JSON.stringify(records)); }
+function saveStats() { localStorage.setItem(S4_STATS_KEY, JSON.stringify({anchored:stats.anchored,verified:stats.verified,types:[...stats.types],slsFees:stats.slsFees})); }
+function loadStats() {
+    try {
+        const saved = JSON.parse(localStorage.getItem(S4_STATS_KEY) || 'null');
+        if (saved) { stats.anchored = saved.anchored || 0; stats.verified = saved.verified || 0; stats.types = new Set(saved.types || []); stats.slsFees = saved.slsFees || 0; }
+    } catch {}
+    // Also restore session records from localStorage
+    const localRecs = getLocalRecords();
+    sessionRecords = localRecs.map(r => ({
+        type: r.record_type, label: r.record_label || r.record_type, icon: r.icon || '\uD83D\uDCCB',
+        branch: r.branch || 'JOINT', hash: r.hash, txHash: r.tx_hash,
+        encrypted: false, timestamp: r.timestamp, content: ''
+    }));
+    updateStats();
+    updateTxLog();
+}
 
 async function sha256(text) {
     const data = new TextEncoder().encode(text);
@@ -600,6 +617,7 @@ async function anchorRecord() {
     stats.types.add(selectedType);
     stats.slsFees += 0.01;
     updateStats();
+    saveStats();
 
     await new Promise(r => setTimeout(r, 3200));
     hideAnchorAnimation();
@@ -626,6 +644,7 @@ async function verifyRecord() {
     const expected = document.getElementById('verifyHash').value.trim();
     stats.verified++;
     updateStats();
+    saveStats();
     const panel = document.getElementById('verifyResult');
     let matchHtml = '';
     if (expected) {
@@ -657,6 +676,7 @@ function updateTxLog() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    loadStats();
     renderTypeGrid();
     loadSample('supply');
 });
