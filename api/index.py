@@ -390,6 +390,8 @@ class handler(BaseHTTPRequestHandler):
             return "hash"
         if path == "/api/categorize":
             return "categorize"
+        if path == "/api/debug":
+            return "debug"
         return None
 
     def do_OPTIONS(self):
@@ -430,6 +432,24 @@ class handler(BaseHTTPRequestHandler):
                     grouped[branch] = {"info": BRANCHES.get(branch, {}), "types": []}
                 grouped[branch]["types"].append({"key": key, **cat})
             self._send_json({"branches": BRANCHES, "categories": RECORD_CATEGORIES, "grouped": grouped})
+        elif route == "debug":
+            # Temporary debug to diagnose Vercel filesystem
+            root = PROJECT_ROOT
+            root_exists = os.path.isdir(root)
+            root_files = []
+            if root_exists:
+                try:
+                    root_files = os.listdir(root)[:30]
+                except Exception as e:
+                    root_files = [f"ERROR: {e}"]
+            self._send_json({
+                "project_root": root,
+                "root_exists": root_exists,
+                "root_files": root_files,
+                "__file__": os.path.abspath(__file__),
+                "cwd": os.getcwd(),
+                "cwd_files": os.listdir(os.getcwd())[:20],
+            })
         else:
             # Fallback: serve static files from project root
             self._serve_static(parsed.path)
