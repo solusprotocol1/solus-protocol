@@ -1,0 +1,6 @@
+[project]
+name = "s4-ledger-api"
+version = "2.0.0"
+description = "S4 Ledger Defense Record Metrics API"
+requires-python = ">=3.9"
+dependencies = []
