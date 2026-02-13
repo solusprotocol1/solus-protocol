@@ -10,7 +10,32 @@ from urllib.parse import urlparse, parse_qs
 import hashlib
 import random
 import json
+import os
 import re
+
+# Project root: one level up from api/
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+MIME_TYPES = {
+    '.html': 'text/html; charset=utf-8',
+    '.css': 'text/css; charset=utf-8',
+    '.js': 'application/javascript; charset=utf-8',
+    '.json': 'application/json; charset=utf-8',
+    '.png': 'image/png',
+    '.jpg': 'image/jpeg',
+    '.jpeg': 'image/jpeg',
+    '.gif': 'image/gif',
+    '.svg': 'image/svg+xml',
+    '.ico': 'image/x-icon',
+    '.webp': 'image/webp',
+    '.woff': 'font/woff',
+    '.woff2': 'font/woff2',
+    '.ttf': 'font/ttf',
+    '.txt': 'text/plain; charset=utf-8',
+    '.md': 'text/plain; charset=utf-8',
+    '.xml': 'application/xml; charset=utf-8',
+    '.webmanifest': 'application/manifest+json',
+}
 
 # ═══════════════════════════════════════════════════════════════════════
 #  MILITARY BRANCH DEFINITIONS
@@ -406,7 +431,52 @@ class handler(BaseHTTPRequestHandler):
                 grouped[branch]["types"].append({"key": key, **cat})
             self._send_json({"branches": BRANCHES, "categories": RECORD_CATEGORIES, "grouped": grouped})
         else:
-            self._send_json({"error": "Not found", "path": self.path}, 404)
+            # Fallback: serve static files from project root
+            self._serve_static(parsed.path)
+
+    def _serve_static(self, path):
+        """Serve static files - fallback when Vercel routes everything through Python."""
+        # Normalize path
+        if path == '' or path == '/':
+            path = '/index.html'
+        elif path.endswith('/') and not path.endswith('.html'):
+            path = path + 'index.html'
+        elif '.' not in os.path.basename(path):
+            path = path.rstrip('/') + '/index.html'
+
+        # Security: prevent directory traversal
+        safe_path = os.path.normpath(path.lstrip('/'))
+        if safe_path.startswith('..'):
+            self._send_json({"error": "Forbidden"}, 403)
+            return
+
+        file_path = os.path.join(PROJECT_ROOT, safe_path)
+
+        if os.path.isfile(file_path):
+            ext = os.path.splitext(file_path)[1].lower()
+            content_type = MIME_TYPES.get(ext, 'application/octet-stream')
+            try:
+                mode = 'r' if content_type.startswith(('text/', 'application/json', 'application/javascript', 'application/xml', 'application/manifest', 'image/svg')) else 'rb'
+                with open(file_path, mode) as f:
+                    body = f.read()
+                if isinstance(body, str):
+                    body = body.encode('utf-8')
+                self.send_response(200)
+                self.send_header('Content-Type', content_type)
+                self.send_header('Content-Length', str(len(body)))
+                self.send_header('Cache-Control', 'public, max-age=60')
+                self.end_headers()
+                self.wfile.write(body)
+            except Exception:
+                self._send_json({"error": "Internal server error"}, 500)
+        else:
+            # Return friendly 404 page
+            body = b'<!DOCTYPE html><html><head><meta charset="utf-8"><title>404 - S4 Ledger</title></head><body style="font-family:sans-serif;text-align:center;padding:80px;"><h1>404</h1><p>Page not found</p><a href="/">Go to S4 Ledger Home</a></body></html>'
+            self.send_response(404)
+            self.send_header('Content-Type', 'text/html; charset=utf-8')
+            self.send_header('Content-Length', str(len(body)))
+            self.end_headers()
+            self.wfile.write(body)
 
     def do_POST(self):
         parsed = urlparse(self.path)
