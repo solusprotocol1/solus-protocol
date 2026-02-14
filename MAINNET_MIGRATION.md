@@ -38,7 +38,7 @@
 30. [AI Predictions & Insights Engine (v2.10.4)](#30-ai-predictions--insights-engine-v2104)
 31. [Enhanced Scheduling System (v2.10.4)](#31-enhanced-scheduling-system-v2104)
 32. [Platform Database & New Tools (v3.3.0)](#32-platform-database--new-tools-v330)
-33. [ILS Intelligence Hub & Cross-Tool Integration (v3.5.0)](#33-ils-intelligence-hub--cross-tool-integration-v350)
+33. [ILS Workspace & Cross-Tool Integration (v3.5.0)](#33-ils-intelligence-hub--cross-tool-integration-v350)
 
 ---
 
@@ -1895,16 +1895,16 @@ Each platform includes category-based system templates with realistic NSNs, manu
 
 ---
 
-## 33. ILS Intelligence Hub & Cross-Tool Integration (v3.5.0)
+## 33. ILS Workspace & Cross-Tool Integration (v3.5.0)
 
 ### 33.1 Overview
 
-v3.5.0 introduces the **ILS Intelligence Hub** — a unified command center that consolidates all 8 ILS tools into a single tabbed interface. The hub provides cross-tool data syncing, a calendar system with action item integration, and enhanced cross-page visibility through the SDK Playground, API, Metrics, Transactions, and Search.
+v3.5.0 introduces the **ILS Workspace** — a unified command center that consolidates all 8 ILS tools into a single tabbed interface. The hub provides cross-tool data syncing, a calendar system with action item integration, and enhanced cross-page visibility through the SDK Playground, API, Metrics, Transactions, and Search.
 
-### 33.2 ILS Hub Architecture
+### 33.2 ILS Workspace Architecture
 
 ```
-ILS Intelligence Hub (tabILS)
+ILS Workspace (tabILS)
 ├── Gap Analysis (hub-analysis)      ← Original ILS analyzer
 ├── Action Items (hub-actions)       ← Cross-tool task queue + How It Works
 ├── Calendar (hub-calendar)          ← Month grid + events from action items
@@ -1929,10 +1929,10 @@ ILS Intelligence Hub (tabILS)
 |---|---|
 | SDK Playground | 6 new examples (DMSMS, Readiness, ROI, Lifecycle, Warranty, Action Items) + updated reference tables |
 | OpenAPI Spec | Full docs for ROI, Lifecycle, Warranty, Action Items, Calendar endpoints |
-| Metrics Page | ILS Hub cross-link card with CTA buttons |
-| Transactions Page | ILS Hub cross-link card with CTA buttons |
+| Metrics Page | ILS Workspace cross-link card with CTA buttons |
+| Transactions Page | ILS Workspace cross-link card with CTA buttons |
 | Search Index | 13 new searchable entries for all tools and pages |
-| Landing Page | Featured ILS Hub card with gradient border + Action Items card |
+| Landing Page | Featured ILS Workspace card with gradient border + Action Items card |
 
 ### 33.5 Lifecycle Cost Display Fix
 
@@ -1946,7 +1946,7 @@ Previously, `calcLifecycle()` hardcoded `.toFixed(1) + 'B'` which displayed "$80
 
 ### 33.6 Migration Checklist for v3.5.0
 
-- [ ] Verify ILS Hub sub-tabs switch correctly between all 9 panels
+- [ ] Verify ILS Workspace sub-tabs switch correctly between all 9 panels
 - [ ] Test Calendar renders month grid with navigation and event creation
 - [ ] Verify Action Items show cross-tool source breakdown
 - [ ] Test hub panel syncing (DMSMS stats, Readiness scores, Lifecycle costs, Warranty status)
@@ -1954,8 +1954,8 @@ Previously, `calcLifecycle()` hardcoded `.toFixed(1) + 'B'` which displayed "$80
 - [ ] Verify SDK Playground loads and runs all 12 examples
 - [ ] Test `/api/action-items` and `/api/calendar` endpoints
 - [ ] Validate OpenAPI spec includes all 22 endpoints
-- [ ] Verify Search overlay finds ILS Hub, Action Items, Calendar entries
-- [ ] Test Metrics and Transactions pages show ILS Hub cross-link cards
+- [ ] Verify Search overlay finds ILS Workspace, Action Items, Calendar entries
+- [ ] Test Metrics and Transactions pages show ILS Workspace cross-link cards
 - [ ] Verify `s4_sdk.py` CLI runs `action-items` and `calendar` commands
 - [ ] Deploy to production and verify all cross-page links work
 

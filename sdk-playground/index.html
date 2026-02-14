@@ -358,7 +358,7 @@
     // Build editor content based on current example + dropdown selection
     function buildEditorContent() {
         if (currentExample === 'metrics') return "# Fetch live S4 Ledger network metrics\nledger.get_metrics()";
-        if (currentExample === 'ils_analysis') return "# ILS Intelligence — Analyze data package completeness\n# Checks all Navy ILS elements: DRLs, DIs, J-attachments,\n# buylists, vendor spares, transfer books, tech manuals, etc.\n\nledger.ils_analysis(\n  program  = \"DDG-51 Flight III\",\n  branch   = \"USN\",\n  elements = [\n    \"DRL\", \"DI\", \"J-1 ILS Parameters\", \"J-3 Supply Support\",\n    \"J-4 Technical Data\", \"J-11 RAM Analysis\",\n    \"J-13 Configuration Mgmt\", \"Vendor Recommended Spares\",\n    \"Buylist\", \"Transfer Book\", \"TM Index\", \"Config Baseline\"\n  ]\n)";
+        if (currentExample === 'ils_analysis') return "# ILS Workspace — Analyze data package completeness\n# Checks all Navy ILS elements: DRLs, DIs, J-attachments,\n# buylists, vendor spares, transfer books, tech manuals, etc.\n\nledger.ils_analysis(\n  program  = \"DDG-51 Flight III\",\n  branch   = \"USN\",\n  elements = [\n    \"DRL\", \"DI\", \"J-1 ILS Parameters\", \"J-3 Supply Support\",\n    \"J-4 Technical Data\", \"J-11 RAM Analysis\",\n    \"J-13 Configuration Mgmt\", \"Vendor Recommended Spares\",\n    \"Buylist\", \"Transfer Book\", \"TM Index\", \"Config Baseline\"\n  ]\n)";
         if (SDK_TOOL_TEMPLATES[currentExample]) return SDK_TOOL_TEMPLATES[currentExample];
         var select = document.getElementById('recordTypeSelect');
         var typeKey = (select && select.value) ? select.value : 'USN_SUPPLY_RECEIPT';
@@ -633,7 +633,7 @@
         output += '  Overall ILS Readiness: 100%\n';
         output += '\u2500'.repeat(55) + '\n\n';
         output += '\u2713 All ILS element types available for anchoring.\n';
-        output += '\u2713 Use Demo App > ILS Intelligence tab for gap analysis.\n';
+        output += '\u2713 Use Demo App > ILS Workspace for gap analysis.\n';
         output += '\u2713 Generate customer-ready reports with one click.';
         return output;
     }
@@ -680,7 +680,7 @@
         output += '  \u26a0 NSN 5962-01-234-5678  DSP Processor      NRND\n';
         output += '  \u26a0 NSN 5961-01-789-0123  Power Regulator    Obsolete\n';
         output += '\u2500'.repeat(55) + '\n\n';
-        output += '\u2713 Full DMSMS analysis available in Demo App > ILS Hub\n';
+        output += '\u2713 Full DMSMS analysis available in Demo App > ILS Workspace\n';
         output += '\u2713 Action items auto-generated for at-risk parts\n';
         output += '\u2713 Results anchored to XRPL for audit trail';
         return output;
@@ -703,7 +703,7 @@
         output += '  RAM ASSESSMENT: EXCEEDS THRESHOLD\n';
         output += '  \u2713 Ao \u2265 95% requirement  \u2713 MTBF \u2265 500hr target\n';
         output += '\u2500'.repeat(55) + '\n\n';
-        output += '\u2713 Readiness metrics available in Demo App > ILS Hub';
+        output += '\u2713 Readiness metrics available in Demo App > ILS Workspace';
         return output;
     }
 
@@ -722,7 +722,7 @@
         output += '  ROI:                  1,612%\n';
         output += '  Payback Period:       < 1 month\n\n';
         output += '\u2500'.repeat(55) + '\n';
-        output += '\u2713 ROI calculator available in Demo App > ILS Hub';
+        output += '\u2713 ROI calculator available in Demo App > ILS Workspace';
         return output;
     }
 
@@ -743,7 +743,7 @@
         output += '  Cost/Operating Hour:  $12,450\n\n';
         output += '  S4 Impact (12% savings): -$960M\n\n';
         output += '\u2500'.repeat(55) + '\n';
-        output += '\u2713 Lifecycle estimator available in Demo App > ILS Hub';
+        output += '\u2713 Lifecycle estimator available in Demo App > ILS Workspace';
         return output;
     }
 
@@ -762,7 +762,7 @@
         output += '  \u26a0 AN/AAQ-37 DAS         Northrop Grumman 2025-10-01\n';
         output += '  \u26a0 ALIS Sustainment      Lockheed Martin  2025-08-22\n';
         output += '\u2500'.repeat(55) + '\n\n';
-        output += '\u2713 Full warranty tracker in Demo App > ILS Hub\n';
+        output += '\u2713 Full warranty tracker in Demo App > ILS Workspace\n';
         output += '\u2713 90-day expiry alerts generated automatically';
         return output;
     }
@@ -789,8 +789,8 @@
         output += '  [CRITICAL] Ao below 95% threshold on SPY-6 radar\n';
         output += '    Source: READINESS | Cost: $180K | Schedule: 60 days\n\n';
         output += '\u2500'.repeat(55) + '\n';
-        output += '\u2713 Action items auto-generated from all ILS Hub tools\n';
-        output += '\u2713 Track, delegate, and schedule in Demo App > ILS Hub\n';
+        output += '\u2713 Action items auto-generated from all ILS Workspace tools\n';
+        output += '\u2713 Track, delegate, and schedule in Demo App > ILS Workspace\n';
         output += '\u2713 Calendar integration for milestone tracking';
         return output;
     }

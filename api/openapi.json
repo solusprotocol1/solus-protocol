@@ -3,7 +3,7 @@
   "info": {
     "title": "S4 Ledger API",
     "version": "3.2.0",
-    "description": "S4 Ledger — Defense-grade blockchain-anchored logistics and supply chain integrity platform. Provides cryptographic anchoring, ILS intelligence, DMSMS monitoring, parts tracking, and XRPL-based immutable record verification for defense and government supply chains.",
+    "description": "S4 Ledger — Defense-grade blockchain-anchored logistics and supply chain integrity platform. Provides cryptographic anchoring, ILS workspace, DMSMS monitoring, parts tracking, and XRPL-based immutable record verification for defense and government supply chains.",
     "contact": {
       "name": "Solus Protocol",
       "url": "https://s4ledger.com",
@@ -296,9 +296,9 @@
     "/api/categorize": {
       "post": {
         "summary": "Categorize a record",
-        "description": "Categorizes a logistics or supply chain record using the ILS Intelligence engine. Returns category, confidence score, and suggested record type.",
+        "description": "Categorizes a logistics or supply chain record using the ILS Workspace engine. Returns category, confidence score, and suggested record type.",
         "operationId": "categorizeRecord",
-        "tags": ["ILS Intelligence"],
+        "tags": ["ILS Workspace"],
         "requestBody": {
           "required": true,
           "content": {
@@ -607,7 +607,7 @@
         "summary": "DMSMS monitoring",
         "description": "Retrieves Diminishing Manufacturing Sources and Material Shortages (DMSMS) risk data for tracked parts and components.",
         "operationId": "getDmsms",
-        "tags": ["ILS Intelligence"],
+        "tags": ["ILS Workspace"],
         "parameters": [
           {
             "name": "nsn",
@@ -660,7 +660,7 @@
         "summary": "Readiness assessment",
         "description": "Returns system and operational readiness scores, including logistics readiness levels, compliance status, and deployment readiness indicators.",
         "operationId": "getReadiness",
-        "tags": ["ILS Intelligence"],
+        "tags": ["ILS Workspace"],
         "responses": {
           "200": {
             "description": "Readiness assessment",
@@ -693,7 +693,7 @@
         "summary": "Parts catalog",
         "description": "Returns a catalog of tracked parts with NSN, CAGE codes, lifecycle status, and supply chain metadata.",
         "operationId": "getParts",
-        "tags": ["ILS Intelligence"],
+        "tags": ["ILS Workspace"],
         "parameters": [
           {
             "name": "nsn",
@@ -759,7 +759,7 @@
         "summary": "ROI Calculator",
         "description": "Calculate return on investment from S4 Ledger adoption across ILS programs.",
         "operationId": "calculateROI",
-        "tags": ["ILS Intelligence"],
+        "tags": ["ILS Workspace"],
         "parameters": [
           { "name": "programs", "in": "query", "description": "Number of programs managed", "schema": { "type": "integer", "default": 5 } },
           { "name": "ftes", "in": "query", "description": "Number of FTEs", "schema": { "type": "number", "default": 8 } },
@@ -794,7 +794,7 @@
         "summary": "Lifecycle Cost Estimator",
         "description": "Project total ownership cost over a weapon system's lifecycle per DoD Directive 5000.73.",
         "operationId": "estimateLifecycleCost",
-        "tags": ["ILS Intelligence"],
+        "tags": ["ILS Workspace"],
         "parameters": [
           { "name": "acquisition", "in": "query", "description": "Unit acquisition cost ($M)", "schema": { "type": "number", "default": 85 } },
           { "name": "fleet", "in": "query", "description": "Fleet size", "schema": { "type": "integer", "default": 20 } },
@@ -828,7 +828,7 @@
         "summary": "Warranty & Contract Tracker",
         "description": "Track OEM warranties, CLIN milestones, and contract expirations with 90-day alerts.",
         "operationId": "trackWarranty",
-        "tags": ["ILS Intelligence"],
+        "tags": ["ILS Workspace"],
         "parameters": [
           { "name": "program", "in": "query", "description": "Program identifier", "schema": { "type": "string", "default": "ddg51" } }
         ],
@@ -858,7 +858,7 @@
         "summary": "Action Items Queue",
         "description": "Retrieve cross-tool action items with severity tagging, cost estimates, and schedule tracking. Items are auto-generated from DMSMS, readiness, warranty, lifecycle, and parts tools.",
         "operationId": "getActionItems",
-        "tags": ["ILS Intelligence"],
+        "tags": ["ILS Workspace"],
         "parameters": [
           { "name": "severity", "in": "query", "description": "Filter by severity", "schema": { "type": "string", "enum": ["critical", "warning", "info"] } },
           { "name": "source", "in": "query", "description": "Filter by source tool", "schema": { "type": "string", "enum": ["dmsms", "readiness", "parts", "warranty", "lifecycle", "roi"] } }
@@ -888,7 +888,7 @@
         "summary": "Calendar Events",
         "description": "Get scheduled events for ILS program management including auto-generated deadlines from action items, warranty expirations, and DMSMS review dates.",
         "operationId": "getCalendarEvents",
-        "tags": ["ILS Intelligence"],
+        "tags": ["ILS Workspace"],
         "parameters": [
           { "name": "month", "in": "query", "schema": { "type": "integer" } },
           { "name": "year", "in": "query", "schema": { "type": "integer" } }
@@ -939,7 +939,7 @@
     { "name": "Anchoring", "description": "Blockchain anchoring and hashing operations" },
     { "name": "Transactions", "description": "XRPL transaction history and lookup" },
     { "name": "Records", "description": "Record type definitions and management" },
-    { "name": "ILS Intelligence", "description": "Integrated Logistics Support intelligence — DMSMS, readiness, parts catalog, and categorization" },
+    { "name": "ILS Workspace", "description": "Integrated Logistics Support intelligence — DMSMS, readiness, parts catalog, and categorization" },
     { "name": "XRPL", "description": "XRP Ledger network status and connectivity" },
     { "name": "Authentication", "description": "API key generation and validation" },
     { "name": "Database", "description": "Analysis storage and retrieval" }

@@ -5,25 +5,49 @@ All notable changes to the S4 Ledger project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.6.0] - 2026-02-15
+
+### Added
+- **ILS Workspace Consolidation** — All 9 ILS tools (Gap Analysis, Action Items, Calendar, DMSMS, Readiness, Parts Cross-Reference, ROI, Lifecycle Cost, Warranty) now contain FULL functionality inside the ILS Workspace panels — complete with all inputs, How It Works sections, Export buttons, and Anchor to XRPL buttons
+- **Executive Proposal Overhaul** — Removed blockchain jargon, defined all acronyms on first use, added SAP/Oracle/Microsoft/Windchill competitive analysis, corrected military branch count to 6, expanded ILS Workspace tool table with standards alignment
+- **Internal Pitch Document** — New `S4_LEDGER_INTERNAL_PITCH.md` — plain-English guide for any S4 Systems employee explaining what S4 Ledger is, how it works, and why it matters, with FAQ section addressing common concerns
+
+### Changed
+- **Renamed "ILS Intelligence Hub" → "ILS Workspace"** — all references across 15+ files (demo-app, landing page, metrics, transactions, search, SDK playground, OpenAPI spec, login page, CHANGELOG, WHITEPAPER, MAINNET_MIGRATION, PRODUCTION_READINESS)
+- **Deleted standalone tool tabs** — removed all 7 standalone ILS tool tabs (Action Items, DMSMS, Readiness, Parts, ROI, Lifecycle, Warranty) and their 7 nav buttons; tools now live exclusively inside the ILS Workspace
+- **Consolidated landing page explore cards** — replaced 8 individual tool cards (ILS Hub + 7 standalone tools) with single "ILS Workspace" card
+- **Search index updated** — all tool search entries now point to `demo-app/#tabILS` instead of removed tab hashes
+- **Cross-page links updated** — metrics.html and transactions.html cross-link cards renamed to "ILS Workspace"
+
+### Fixed
+- **YRBM naming** — corrected from "Yard Repair, Berthing & Messing" to "Yard, Repair, Berthing, & Messing" in demo-app and platforms database
+- **Removed sync functions** — deleted `syncHubDmsms`, `syncHubReadiness`, `syncHubLifecycle`, `syncHubWarranty`, `syncROIInput` (no longer needed since workspace panels contain full tools)
+- **Fixed broken element IDs** — hub-parts panel no longer references non-existent `searchParts()` or `partsNSN`/`partsName` elements; hub-roi no longer has `roiFTE` vs `roiFTEs` mismatch
+
+### Removed
+- Standalone tab panels: `tabActions`, `tabDMSMS`, `tabReadiness`, `tabParts`, `tabROI`, `tabLifecycle`, `tabWarranty`
+- Standalone nav buttons for 7 removed tabs
+- Hub sync functions that copied data between standalone tabs and hub mirrors
+
 ## [3.5.0] - 2026-02-15
 
 ### Added
-- **ILS Intelligence Hub** — Unified command center consolidating all 8 ILS tools (Gap Analysis, Action Items, Calendar, DMSMS, Readiness, Parts, ROI, Lifecycle, Warranty) into a single tabbed interface with sub-navigation and cross-tool data syncing
+- **ILS Workspace** — Unified command center consolidating all 8 ILS tools (Gap Analysis, Action Items, Calendar, DMSMS, Readiness, Parts, ROI, Lifecycle, Warranty) into a single tabbed interface with sub-navigation and cross-tool data syncing
 - **Calendar System** — Full month-grid calendar with day cells, event markers, navigation, add-event form, and upcoming-events sidebar. Auto-populates from action item schedules and custom events. Persisted via localStorage
 - **Action Items "How It Works"** — Expandable details section explaining the cross-tool task queue, severity system, and delegation workflow
-- **Hub Panel Syncing** — Tools inside the ILS Hub mirror data from standalone tabs (DMSMS stats, Readiness scores, Lifecycle costs, Warranty status)
+- **Hub Panel Syncing** — Tools inside the ILS Workspace mirror data from standalone tabs (DMSMS stats, Readiness scores, Lifecycle costs, Warranty status)
 - **Hub Action Items Breakdown** — Source-by-source breakdown showing open items per tool (DMSMS, Readiness, Warranty, etc.)
 - **SDK Playground Expansion** — 6 new interactive examples: DMSMS Check, Readiness Calculator, ROI Analysis, Lifecycle Cost, Warranty Tracker, Action Items. Updated SDK Reference table (13 methods) and API Endpoints table (12 endpoints)
 - **API Endpoints** — New `/api/action-items` and `/api/calendar` endpoints with query parameter filtering
 - **OpenAPI Spec** — Added documentation for `/api/roi`, `/api/lifecycle`, `/api/warranty`, `/api/action-items`, `/api/calendar` endpoints
 - **Python SDK Methods** — `get_action_items(severity, source)` and `get_calendar_events(month, year)` added to `S4SDK`
 - **CLI Commands** — `s4-anchor action-items` and `s4-anchor calendar` commands added
-- **Search Index** — 13 new entries for ILS Hub, Action Items, Calendar, DMSMS, Readiness, Parts, ROI, Lifecycle, Warranty, SDK Playground, Metrics, and Transactions
-- **Cross-Page Hub Links** — Metrics and Transactions pages now include ILS Hub cross-link cards
-- **Landing Page Hub Card** — ILS Intelligence explore card restyled as featured "ILS Intelligence Hub" with gradient border and Action Items card added
+- **Search Index** — 13 new entries for ILS Workspace, Action Items, Calendar, DMSMS, Readiness, Parts, ROI, Lifecycle, Warranty, SDK Playground, Metrics, and Transactions
+- **Cross-Page Hub Links** — Metrics and Transactions pages now include ILS Workspace cross-link cards
+- **Landing Page Hub Card** — ILS Workspace explore card restyled as featured "ILS Workspace" with gradient border and Action Items card added
 
 ### Changed
-- Landing page ILS Intelligence card → "ILS Intelligence Hub" with highlighted border and expanded description
+- Landing page ILS Workspace card → "ILS Workspace" with highlighted border and expanded description
 - API version bumped to 3.5.0 (11 tools, 22 endpoints)
 - OpenAPI spec fully documenting all ILS tool endpoints (was missing ROI and Warranty)
 
@@ -44,12 +68,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Lifecycle: DMSMS savings opportunities, high sustainment ratio alerts
   - ROI: Business case documentation actions
 - **Notification Bell** — Navbar bell icon with badge counter showing open action items
-- **ILS Intelligence "How It Works"** — Collapsible details box with platform overview, 9-branch coverage, $SLS Mainnet token status
+- **ILS Workspace "How It Works"** — Collapsible details box with platform overview, 9-branch coverage, $SLS Mainnet token status
 - **Landing page tools** — ROI Calculator, Lifecycle Cost Estimator, and Warranty & Contract Tracker added to Explore section (15 total cards)
 
 ### Changed
 - **$SLS Token: LIVE on XRPL Mainnet** — Total Supply: 100,000,000 | Circulating: ~15,000,000 | AMM pools active | Trustlines established | Tradable on XRPL DEX
-- Removed standalone "How It Works" tab (#tabAbout) — content merged into ILS Intelligence
+- Removed standalone "How It Works" tab (#tabAbout) — content merged into ILS Workspace
 - Updated PRODUCTION_READINESS.md: readiness score 67% -> 78%, XRPL integration 60% -> 85%
 - Updated all documentation to reflect $SLS Mainnet status (not just Testnet)
 - Action Items tab replaces How It Works in navigation (10 functional tabs)
@@ -65,7 +89,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **ROI Calculator** — calculates annual savings, ROI %, payback period, and 5-year net benefit from S4 Ledger implementation
 - **Lifecycle Cost Estimator** — projects total ownership cost (TOC) per DoD 5000.73 / MIL-STD-881F (acquisition, O&S, DMSMS, tech refresh)
 - **Warranty & Contract Tracker** — tracks OEM warranties, CLIN deliverables, and contract expirations per FAR 46.7 / DFARS 246.7
-- All existing tool dropdowns (ILS Intelligence, DMSMS, Readiness, Parts X-Ref) now dynamically populated from the 462-platform database
+- All existing tool dropdowns (ILS Workspace, DMSMS, Readiness, Parts X-Ref) now dynamically populated from the 462-platform database
 - 3 new API endpoints: `/api/roi`, `/api/lifecycle`, `/api/warranty`
 - 3 new SDK methods: `calculate_roi()`, `estimate_lifecycle_cost()`, `track_warranty()`
 - 3 new CLI commands: `s4-anchor roi`, `s4-anchor lifecycle`, `s4-anchor warranty`
@@ -120,7 +144,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Updated API version to 3.2.0
 - Enhanced metrics dashboard with real-time XRPL transaction monitoring
-- Improved ILS Intelligence categorization engine accuracy
+- Improved ILS Workspace categorization engine accuracy
 - Expanded record type support with granular field definitions
 - Refined security policy page with compliance badge display
 
@@ -137,7 +161,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [3.1.0] - 2026-02-12
 
 ### Added
-- ILS Intelligence v3 dashboard with DMSMS risk monitoring
+- ILS Workspace v3 dashboard with DMSMS risk monitoring
 - Parts catalog API endpoint (`GET /api/parts`)
 - Readiness assessment API endpoint (`GET /api/readiness`)
 - DMSMS monitoring API endpoint (`GET /api/dmsms`)
@@ -161,7 +185,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [3.0.0] - 2026-02-11
 
 ### Added
-- ILS Intelligence v3 engine with ML-powered categorization
+- ILS Workspace v3 engine with ML-powered categorization
 - XRPL mainnet anchoring with memo-based record storage
 - Real-time transaction monitoring dashboard
 - Supply chain receipt anchoring with deterministic verification

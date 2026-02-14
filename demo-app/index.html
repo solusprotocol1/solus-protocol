@@ -227,7 +227,7 @@
         .stat-mini{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center}
         .stat-mini-val{font-size:1.3rem;font-weight:800;color:var(--accent)}
         .stat-mini-label{font-size:0.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-top:2px}
-        /* ═══ ILS HUB SUB-TABS ═══ */
+        /* ═══ ILS WORKSPACE SUB-TABS ═══ */
         .ils-hub-tabs{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:16px;padding:4px;background:var(--surface);border:1px solid var(--border);border-radius:10px}
         .ils-hub-tab{background:transparent;border:1px solid transparent;border-radius:8px;padding:8px 14px;font-size:0.8rem;font-weight:600;cursor:pointer;color:var(--steel);transition:all 0.2s;font-family:inherit;display:flex;align-items:center;gap:6px;white-space:nowrap}
         .ils-hub-tab:hover{color:var(--accent);background:rgba(0,170,255,0.06)}
@@ -326,14 +326,7 @@
             <li class="nav-item"><a class="nav-link active" data-bs-toggle="pill" href="#tabAnchor" role="tab"><i class="fas fa-anchor"></i> Anchor</a></li>
             <li class="nav-item"><a class="nav-link" data-bs-toggle="pill" href="#tabVerify" role="tab"><i class="fas fa-check-circle"></i> Verify</a></li>
             <li class="nav-item"><a class="nav-link" data-bs-toggle="pill" href="#tabLog" role="tab"><i class="fas fa-list"></i> Transaction Log</a></li>
-            <li class="nav-item"><a class="nav-link" data-bs-toggle="pill" href="#tabActions" role="tab"><i class="fas fa-tasks"></i> Action Items <span class="ai-tag info" id="actionTabCount" style="margin-left:4px">0</span></a></li>
-            <li class="nav-item"><a class="nav-link" data-bs-toggle="pill" href="#tabILS" role="tab"><i class="fas fa-brain"></i> ILS Intelligence</a></li>
-            <li class="nav-item"><a class="nav-link" data-bs-toggle="pill" href="#tabDMSMS" role="tab"><i class="fas fa-exclamation-triangle"></i> DMSMS</a></li>
-            <li class="nav-item"><a class="nav-link" data-bs-toggle="pill" href="#tabReadiness" role="tab"><i class="fas fa-chart-line"></i> Readiness</a></li>
-            <li class="nav-item"><a class="nav-link" data-bs-toggle="pill" href="#tabParts" role="tab"><i class="fas fa-cogs"></i> Parts</a></li>
-            <li class="nav-item"><a class="nav-link" data-bs-toggle="pill" href="#tabROI" role="tab"><i class="fas fa-dollar-sign"></i> ROI</a></li>
-            <li class="nav-item"><a class="nav-link" data-bs-toggle="pill" href="#tabLifecycle" role="tab"><i class="fas fa-clock"></i> Lifecycle</a></li>
-            <li class="nav-item"><a class="nav-link" data-bs-toggle="pill" href="#tabWarranty" role="tab"><i class="fas fa-file-contract"></i> Warranty</a></li>
+            <li class="nav-item"><a class="nav-link" data-bs-toggle="pill" href="#tabILS" role="tab"><i class="fas fa-brain"></i> ILS Workspace</a></li>
         </ul>
 
         <div class="tab-content">
@@ -454,38 +447,12 @@
                 </div>
             </div>
 
-            <div class="tab-pane fade" id="tabActions" role="tabpanel">
-                <div class="demo-card">
-                    <h3><i class="fas fa-tasks" style="color:#00aaff"></i> Unified Action Items & Alerts</h3>
-                    <p style="color:var(--steel);font-size:0.9rem;margin-bottom:0.5rem">All actionable tasks, recommendations, and alerts generated across every S4 Ledger tool — consolidated in one place. Track progress, assign owners, set due dates, and communicate actions to your team.</p>
-                    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1rem">
-                        <button class="ai-quick-btn" onclick="filterActionItems('all')" style="background:rgba(0,170,255,0.15);border-color:var(--accent)">All</button>
-                        <button class="ai-quick-btn" onclick="filterActionItems('critical')"><span style="color:#ff3333">●</span> Critical</button>
-                        <button class="ai-quick-btn" onclick="filterActionItems('warning')"><span style="color:#ffa500">●</span> Warning</button>
-                        <button class="ai-quick-btn" onclick="filterActionItems('info')"><span style="color:#00aaff">●</span> Info</button>
-                        <button class="ai-quick-btn" onclick="filterActionItems('completed')"><span style="color:#14f195">●</span> Completed</button>
-                        <span style="flex:1"></span>
-                        <button class="ai-quick-btn" onclick="exportActionItems()"><i class="fas fa-download"></i> Export</button>
-                        <button class="ai-quick-btn" onclick="clearCompletedActions()"><i class="fas fa-broom"></i> Clear Done</button>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-3 col-6 mb-2"><div class="stat-mini"><div class="stat-mini-val" id="aiTotal" style="color:#00aaff">0</div><div class="stat-mini-label">Total Actions</div></div></div>
-                        <div class="col-md-3 col-6 mb-2"><div class="stat-mini"><div class="stat-mini-val" id="aiCritical" style="color:#ff3333">0</div><div class="stat-mini-label">Critical</div></div></div>
-                        <div class="col-md-3 col-6 mb-2"><div class="stat-mini"><div class="stat-mini-val" id="aiOpen" style="color:#ffa500">0</div><div class="stat-mini-label">Open</div></div></div>
-                        <div class="col-md-3 col-6 mb-2"><div class="stat-mini"><div class="stat-mini-val" id="aiDone" style="color:#14f195">0</div><div class="stat-mini-label">Completed</div></div></div>
-                    </div>
-                    <div id="actionItemsList" style="max-height:600px;overflow-y:auto">
-                        <div style="color:var(--muted);text-align:center;padding:2rem;font-size:0.85rem"><i class="fas fa-clipboard-list" style="font-size:2rem;margin-bottom:12px;display:block;opacity:0.3"></i>No action items yet. Use the DMSMS, Readiness, Parts, Warranty, ROI, or Lifecycle tools to generate actionable tasks and recommendations.</div>
-                    </div>
-                </div>
-            </div>
-
             <div class="tab-pane fade" id="tabILS" role="tabpanel">
-                <!-- ═══ ILS INTELLIGENCE HUB ═══ -->
+                <!-- ═══ ILS WORKSPACE ═══ -->
                 <div class="demo-card" style="padding:12px 16px;margin-bottom:8px;background:linear-gradient(135deg,rgba(0,170,255,0.06),rgba(201,168,76,0.03))">
                     <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
-                        <h3 style="margin:0;font-size:1.15rem"><i class="fas fa-brain" style="color:var(--accent)"></i> ILS Intelligence Hub</h3>
-                        <span style="font-size:0.78rem;color:var(--steel)">Unified command center — all ILS tools, action tracking, calendar, and AI agent in one place</span>
+                        <h3 style="margin:0;font-size:1.15rem"><i class="fas fa-brain" style="color:var(--accent)"></i> ILS Workspace</h3>
+                        <span style="font-size:0.78rem;color:var(--steel)">Unified command center — all ILS tools, action tracking, calendar, and AI agent in one workspace</span>
                     </div>
                 </div>
                 <div class="ils-hub-tabs" id="ilsHubTabs">
@@ -505,7 +472,7 @@
                 <div class="row">
                     <div class="col-lg-7">
                         <div class="demo-card">
-                            <h3><i class="fas fa-brain"></i> ILS Intelligence Analyzer</h3>
+                            <h3><i class="fas fa-brain"></i> ILS Workspace Analyzer</h3>
                             <details style="margin-bottom:1rem;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.15);border-radius:8px;padding:0 12px;">
                                 <summary style="cursor:pointer;padding:10px 0;color:#00aaff;font-weight:600;font-size:0.85rem;"><i class="fas fa-info-circle"></i> How S4 Ledger Works — Platform Overview</summary>
                                 <div style="padding:0 0 12px;color:var(--steel);font-size:0.82rem;line-height:1.6;">
@@ -658,7 +625,7 @@
                                 </div>
                                 <div class="ai-chat-container" style="border:none;border-radius:0;height:380px">
                                     <div class="ai-chat-messages" id="aiChatMessages">
-                                        <div class="ai-msg bot"><div class="ai-label"><i class="fas fa-robot"></i> S4 Agent</div>Hello! I'm your ILS Intelligence Agent. I can help you:<br>• Interpret gap analysis results<br>• Explain DI number requirements<br>• Suggest corrective actions<br>• Draft CAR narratives<br>• Estimate cost impacts<br><br>Run an analysis or ask me anything about ILS!</div>
+                                        <div class="ai-msg bot"><div class="ai-label"><i class="fas fa-robot"></i> S4 Agent</div>Hello! I'm your ILS Workspace Agent. I can help you:<br>• Interpret gap analysis results<br>• Explain DI number requirements<br>• Suggest corrective actions<br>• Draft CAR narratives<br>• Estimate cost impacts<br><br>Run an analysis or ask me anything about ILS!</div>
                                     </div>
                                     <div class="ai-quick-btns" id="aiQuickBtns">
                                         <button class="ai-quick-btn" onclick="aiAsk('Summarize my gaps')">Summarize Gaps</button>
@@ -801,411 +768,259 @@
                     </div>
                 </div><!-- /hub-calendar -->
 
-                <!-- ══ HUB: TOOL PANELS (embedded mirrors) ══ -->
+                <!-- ══ WORKSPACE TOOLS (full embedded) ══ -->
                 <div class="ils-hub-panel" id="hub-dmsms">
-                    <div class="hub-tool-card">
-                        <div class="hub-tool-header">
-                            <i class="fas fa-exclamation-triangle" style="color:#ff9900;font-size:1.2rem"></i>
-                            <h4>DMSMS / Obsolescence Tracker</h4>
-                            <a class="tool-link" onclick="document.querySelector('a[href=&quot;#tabDMSMS&quot;]').click()"><i class="fas fa-external-link-alt"></i> Open Full Tool</a>
-                        </div>
-                        <p style="color:var(--steel);font-size:0.85rem;margin-bottom:12px">Track obsolescence risk across programs. Results feed directly into Action Items and the AI Agent.</p>
+                    <div class="demo-card">
+                        <h3><i class="fas fa-exclamation-triangle" style="color:#ff9900"></i> DMSMS / Obsolescence Tracker</h3>
+                        <p style="color:var(--steel);font-size:0.9rem;margin-bottom:0.5rem">Track Diminishing Manufacturing Sources and Material Shortages (DMSMS). Identify parts at risk of obsolescence, find alternates, and estimate resolution costs. Per DoWI 4245.14.</p>
+                        <details style="margin-bottom:1rem;background:rgba(255,153,0,0.04);border:1px solid rgba(255,153,0,0.15);border-radius:8px;padding:0 12px;">
+                            <summary style="cursor:pointer;padding:10px 0;color:#ff9900;font-weight:600;font-size:0.85rem;"><i class="fas fa-info-circle"></i> How It Works — Data Sources & S4 Ledger Value</summary>
+                            <div style="padding:0 0 12px;color:var(--steel);font-size:0.82rem;line-height:1.6;">
+                                <p><strong style="color:#fff;">What's real:</strong> Platform names, system names, manufacturers, CAGE codes, and FSC groups are all real. The systems shown (AN/SPY-6, Mk 41 VLS, LM2500, etc.) are the actual systems installed on these platforms.</p>
+                                <p><strong style="color:#ffa500;">What's demo data:</strong> The DMSMS statuses (Active/At Risk/Obsolete) are <em>simulated</em> in this demo. Real obsolescence data comes from <strong>GIDEP</strong> (Government-Industry Data Exchange Program), <strong>DLA</strong> (Defense Logistics Agency), and vendor EOL notices — all of which require authenticated access.</p>
+                                <p><strong style="color:#14f195;">How S4 Ledger saves money here:</strong> When a DMSMS case is identified and a resolution is chosen (bridge buy, redesign, alternate source), S4 Ledger anchors a SHA-256 hash of that decision to the XRP Ledger. This creates <em>immutable proof</em> that the obsolescence was documented, analyzed, and resolved at a specific date — critical for audits, contract disputes, and proving due diligence. Without this, programs lose millions to undocumented obsolescence discoveries during production.</p>
+                                <p><strong style="color:#00aaff;">Production mode:</strong> Connect to GIDEP, DLA ASSIST, or your own parts database via the S4 API. Upload real DMSMS case files via CSV/XLSX. The tool structure is designed for real data — swap the demo layer for your authenticated data source.</p>
+                            </div>
+                        </details>
                         <label>Select Program</label>
-                        <select id="hubDmsmsProgram" class="form-select mb-2" style="background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.1);" onchange="document.getElementById('dmsmsProgram').value=this.value;loadDMSMSData()"></select>
-                        <div id="hubDmsmsResults" style="margin-top:8px;max-height:400px;overflow-y:auto;font-size:0.85rem;color:var(--steel)"><div style="color:var(--muted);text-align:center;padding:1rem">Select a program to load DMSMS data.</div></div>
-                        <div class="row mt-2">
-                            <div class="col-3"><div class="stat-mini"><div class="stat-mini-val" id="hubDmsmsParts">0</div><div class="stat-mini-label">Parts</div></div></div>
-                            <div class="col-3"><div class="stat-mini"><div class="stat-mini-val" id="hubDmsmsRisk" style="color:#ff3333">0</div><div class="stat-mini-label">At Risk</div></div></div>
-                            <div class="col-3"><div class="stat-mini"><div class="stat-mini-val" id="hubDmsmsOk" style="color:#14f195">0</div><div class="stat-mini-label">Resolved</div></div></div>
-                            <div class="col-3"><div class="stat-mini"><div class="stat-mini-val" id="hubDmsmsCost" style="color:#ffa500">$0</div><div class="stat-mini-label">Cost</div></div></div>
+                        <select id="dmsmsProgram" class="form-select mb-3" style="background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.1);" onchange="loadDMSMSData()"></select>
+                        <div id="dmsmsResults" style="margin-top:1rem"></div>
+                        <div class="row mt-3">
+                            <div class="col-md-3 col-6 mb-2"><div class="stat-mini"><div class="stat-mini-val" id="dmsmsTotalParts">0</div><div class="stat-mini-label">Parts Tracked</div></div></div>
+                            <div class="col-md-3 col-6 mb-2"><div class="stat-mini"><div class="stat-mini-val" id="dmsmsAtRisk" style="color:#ff3333">0</div><div class="stat-mini-label">At Risk</div></div></div>
+                            <div class="col-md-3 col-6 mb-2"><div class="stat-mini"><div class="stat-mini-val" id="dmsmsResolved" style="color:#14f195">0</div><div class="stat-mini-label">Resolved</div></div></div>
+                            <div class="col-md-3 col-6 mb-2"><div class="stat-mini"><div class="stat-mini-val" id="dmsmsCost" style="color:#ffa500">$0</div><div class="stat-mini-label">Est. Resolution Cost</div></div></div>
+                        </div>
+                        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:1rem">
+                            <button onclick="exportDMSMS()" class="btn btn-sm" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;border-radius:8px;padding:8px 16px;"><i class="fas fa-download"></i> Export DMSMS Report</button>
+                            <button onclick="anchorDMSMS()" class="btn btn-sm" style="background:linear-gradient(135deg,#c9a84c,#a88a3a);color:#fff;border:none;border-radius:8px;padding:8px 16px;"><i class="fas fa-anchor"></i> Anchor to XRPL ($0.01 SLS)</button>
                         </div>
                     </div>
                 </div>
 
                 <div class="ils-hub-panel" id="hub-readiness">
-                    <div class="hub-tool-card">
-                        <div class="hub-tool-header">
-                            <i class="fas fa-chart-line" style="color:#14f195;font-size:1.2rem"></i>
-                            <h4>Operational Readiness Calculator</h4>
-                            <a class="tool-link" onclick="document.querySelector('a[href=&quot;#tabReadiness&quot;]').click()"><i class="fas fa-external-link-alt"></i> Open Full Tool</a>
-                        </div>
-                        <p style="color:var(--steel);font-size:0.85rem;margin-bottom:12px">Calculate Ao, MTBF, MTTR, MLDT per MIL-STD-1390D. Low readiness generates critical action items.</p>
+                    <div class="demo-card">
+                        <h3><i class="fas fa-chart-line" style="color:#14f195"></i> Operational Readiness Calculator</h3>
+                        <p style="color:var(--steel);font-size:0.9rem;margin-bottom:0.5rem">Calculate Operational Availability (Ao), Mean Time Between Failures (MTBF), Mean Time To Repair (MTTR), and Mean Logistics Delay Time (MLDT). Per MIL-STD-1390D and DoWI 5000.02.</p>
+                        <details style="margin-bottom:1rem;background:rgba(20,241,149,0.04);border:1px solid rgba(20,241,149,0.15);border-radius:8px;padding:0 12px;">
+                            <summary style="cursor:pointer;padding:10px 0;color:#14f195;font-weight:600;font-size:0.85rem;"><i class="fas fa-info-circle"></i> How It Works — Data Sources & S4 Ledger Value</summary>
+                            <div style="padding:0 0 12px;color:var(--steel);font-size:0.82rem;line-height:1.6;">
+                                <p><strong style="color:#fff;">What's real:</strong> The formula <code style='color:#14f195'>Ao = MTBF / (MTBF + MTTR + MLDT)</code> is the actual DoD standard calculation. The MTBF/MTTR/MLDT values pre-loaded for each system are <em>representative ranges</em> based on published data for those system types (e.g., gas turbines average 2000-5000 hr MTBF, radar systems 600-1800 hr).</p>
+                                <p><strong style="color:#ffa500;">What's demo data:</strong> The specific MTBF/MTTR/MLDT numbers are representative but NOT from actual FRACAS (Failure Reporting, Analysis and Corrective Action System) databases. Real values come from fleet maintenance data (3-M system for Navy, AMPS for Army, REMIS for Air Force).</p>
+                                <p><strong style="color:#14f195;">How S4 Ledger saves money here:</strong> Readiness calculations drive billions in sustainment spending. When you compute an Ao and anchor it to the XRP Ledger, you create a <em>timestamped, tamper-proof record</em> that this system had X% availability on this date. This matters for: (1) Contract performance metrics — proving a system met its KPP/KSA readiness threshold, (2) Milestone decision briefings — anchored readiness reports can't be retroactively altered, (3) DMSMS correlation — linking obsolescence events to readiness drops to justify resolution funding.</p>
+                                <p><strong style="color:#00aaff;">Production mode:</strong> Input your actual FRACAS/3-M data. The fields are editable — type in real MTBF/MTTR/MLDT values from your program's RAM analysis. Export the report, anchor the hash. That hash becomes permanent proof of the calculation.</p>
+                            </div>
+                        </details>
                         <div class="row">
                             <div class="col-md-6">
-                                <label style="font-size:0.82rem">Program</label>
-                                <select id="hubReadinessProgram" class="form-select mb-2" style="background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.1);font-size:0.85rem" onchange="document.getElementById('readinessProgram').value=this.value;loadReadinessData()"></select>
-                                <label style="font-size:0.82rem">System</label>
-                                <select id="hubReadinessSystem" class="form-select mb-2" style="background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.1);font-size:0.85rem" onchange="document.getElementById('readinessSystem').value=this.value;calcReadiness()"></select>
+                                <label>Select Program</label>
+                                <select id="readinessProgram" class="form-select mb-2" style="background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.1);" onchange="loadReadinessData()"></select>
+                                <label>Select System / Subsystem</label>
+                                <select id="readinessSystem" class="form-select mb-2" style="background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.1);" onchange="calcReadiness()"></select>
                             </div>
                             <div class="col-md-6">
-                                <div class="row">
-                                    <div class="col-6"><div class="stat-mini"><div class="stat-mini-val" id="hubStatAo" style="color:#14f195">—</div><div class="stat-mini-label">Ao</div></div></div>
-                                    <div class="col-6"><div class="stat-mini"><div class="stat-mini-val" id="hubStatAi">—</div><div class="stat-mini-label">Ai</div></div></div>
-                                </div>
+                                <label>MTBF (hours) — Mean Time Between Failures</label>
+                                <input type="number" id="inputMTBF" class="form-control mb-2" style="background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.1);" placeholder="e.g., 2400" oninput="calcReadiness()">
+                                <label>MTTR (hours) — Mean Time To Repair</label>
+                                <input type="number" id="inputMTTR" class="form-control mb-2" style="background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.1);" placeholder="e.g., 4.5" oninput="calcReadiness()">
+                                <label>MLDT (hours) — Mean Logistics Delay Time</label>
+                                <input type="number" id="inputMLDT" class="form-control mb-2" style="background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.1);" placeholder="e.g., 24" oninput="calcReadiness()">
                             </div>
                         </div>
-                        <div id="hubReadinessOutput" style="margin-top:8px;max-height:300px;overflow-y:auto;font-size:0.85rem"></div>
+                        <div id="readinessOutput" style="margin-top:1rem"></div>
+                        <div class="row mt-3">
+                            <div class="col-md-3 col-6 mb-2"><div class="stat-mini"><div class="stat-mini-val" id="statAo" style="color:#14f195">—</div><div class="stat-mini-label">Ao (Operational Avail.)</div></div></div>
+                            <div class="col-md-3 col-6 mb-2"><div class="stat-mini"><div class="stat-mini-val" id="statAi">—</div><div class="stat-mini-label">Ai (Inherent Avail.)</div></div></div>
+                            <div class="col-md-3 col-6 mb-2"><div class="stat-mini"><div class="stat-mini-val" id="statFailRate">—</div><div class="stat-mini-label">Failure Rate (λ)</div></div></div>
+                            <div class="col-md-3 col-6 mb-2"><div class="stat-mini"><div class="stat-mini-val" id="statMissReady">—</div><div class="stat-mini-label">Mission Readiness</div></div></div>
+                        </div>
+                        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:1rem">
+                            <button onclick="exportReadiness()" class="btn btn-sm" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;border-radius:8px;padding:8px 16px;"><i class="fas fa-download"></i> Export RAM Report</button>
+                            <button onclick="anchorReadiness()" class="btn btn-sm" style="background:linear-gradient(135deg,#c9a84c,#a88a3a);color:#fff;border:none;border-radius:8px;padding:8px 16px;"><i class="fas fa-anchor"></i> Anchor to XRPL ($0.01 SLS)</button>
+                        </div>
                     </div>
                 </div>
 
                 <div class="ils-hub-panel" id="hub-parts">
-                    <div class="hub-tool-card">
-                        <div class="hub-tool-header">
-                            <i class="fas fa-cogs" style="color:#c9a84c;font-size:1.2rem"></i>
-                            <h4>NSN / Parts Cross-Reference</h4>
-                            <a class="tool-link" onclick="document.querySelector('a[href=&quot;#tabParts&quot;]').click()"><i class="fas fa-external-link-alt"></i> Open Full Tool</a>
+                    <div class="demo-card">
+                        <h3><i class="fas fa-cogs" style="color:#c9a84c"></i> NSN / Parts Cross-Reference</h3>
+                        <p style="color:var(--steel);font-size:0.9rem;margin-bottom:0.5rem">Look up National Stock Numbers (NSNs), CAGE codes, and find alternate/substitute parts across the Federal Supply System. Cross-reference manufacturers and check part availability across programs.</p>
+                        <details style="margin-bottom:1rem;background:rgba(201,168,76,0.04);border:1px solid rgba(201,168,76,0.15);border-radius:8px;padding:0 12px;">
+                            <summary style="cursor:pointer;padding:10px 0;color:#c9a84c;font-weight:600;font-size:0.85rem;"><i class="fas fa-info-circle"></i> How It Works — Data Sources & S4 Ledger Value</summary>
+                            <div style="padding:0 0 12px;color:var(--steel);font-size:0.82rem;line-height:1.6;">
+                                <p><strong style="color:#fff;">What's real:</strong> The CAGE codes for major primes are real (07458=Raytheon, 64928=Lockheed Martin, 77445=GE Aviation, etc.). FSC groups are real (5841=Radar, 2835=Engines, 1440=Launchers). System/part names are the actual nomenclatures used by these programs.</p>
+                                <p><strong style="color:#ffa500;">What's demo data:</strong> The specific NSN numbers (e.g., 5841-01-622-3401) follow correct formatting and FSC patterns but are NOT verified against FedLog/FLIS. Real NSN lookups require access to the <strong>Federal Logistics Information System (FLIS)</strong> via DLA's FedLog or WebFLIS, which requires CAC authentication. Prices, quantities on hand, and lead times are simulated.</p>
+                                <p><strong style="color:#fff;">Can it pull real parts?</strong> Not currently — this demo generates realistic part records from the platform database. In production, S4 Ledger would integrate with FedLog/WebFLIS APIs or accept CSV/XLSX uploads of real provisioning data (APLs, COSALs, technical manuals). The search functionality is real — it filters across whatever data is loaded.</p>
+                                <p><strong style="color:#14f195;">How S4 Ledger saves money here:</strong> Every time a part is cross-referenced, sourced, or an alternate identified, anchoring that lookup to the XRP Ledger creates proof of supply chain due diligence. This prevents: (1) Counterfeit parts — anchored source verification proves you checked CAGE/NSN provenance, (2) Duplicate procurement — searchable anchored records prevent re-buying parts already in inventory, (3) Audit failures — DLA and DCMA audits require proof of provisioning decisions; anchored records satisfy this automatically.</p>
+                                <p><strong style="color:#00aaff;">Production mode:</strong> Upload real APLs (Allowance Parts Lists), COSALs, or provisioning spreadsheets. The tool will index and cross-reference them. Connect to WebFLIS for live NSN validation. Every lookup and sourcing decision gets an anchored hash.</p>
+                            </div>
+                        </details>
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <label>Search by NSN</label>
+                                <input type="text" id="nsnSearch" class="form-control" style="background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.1);" placeholder="e.g., 5340-01-234-5678" oninput="searchNSN()">
+                            </div>
+                            <div class="col-md-4">
+                                <label>Search by CAGE Code</label>
+                                <input type="text" id="cageSearch" class="form-control" style="background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.1);" placeholder="e.g., 1THK9" oninput="searchCAGE()">
+                            </div>
+                            <div class="col-md-4">
+                                <label>Search by Part Name</label>
+                                <input type="text" id="partNameSearch" class="form-control" style="background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.1);" placeholder="e.g., valve, pump, filter" oninput="searchPartName()">
+                            </div>
                         </div>
-                        <p style="color:var(--steel);font-size:0.85rem;margin-bottom:12px">NSN lookup, CAGE codes, alternate parts, and cross-program search. Low stock items generate warnings.</p>
-                        <div class="row mb-2">
-                            <div class="col-md-4"><input type="text" id="hubPartsNSN" placeholder="NSN..." style="font-size:0.85rem!important" onkeydown="if(event.key==='Enter'){document.getElementById('partsNSN').value=this.value;searchParts()}"></div>
-                            <div class="col-md-4"><input type="text" id="hubPartsName" placeholder="Part Name..." style="font-size:0.85rem!important" onkeydown="if(event.key==='Enter'){document.getElementById('partsName').value=this.value;searchParts()}"></div>
-                            <div class="col-md-4"><button class="btn-accent" onclick="document.getElementById('partsNSN').value=document.getElementById('hubPartsNSN').value;document.getElementById('partsName').value=document.getElementById('hubPartsName').value;searchParts()" style="width:100%;font-size:0.85rem;padding:8px"><i class="fas fa-search"></i> Search</button></div>
+                        <label>Filter by Program</label>
+                        <select id="partsProgram" class="form-select mb-3" style="background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.1);" onchange="filterParts()"></select>
+                        <div id="partsResults" style="margin-top:1rem"></div>
+                        <div class="row mt-3">
+                            <div class="col-md-3 col-6 mb-2"><div class="stat-mini"><div class="stat-mini-val" id="partsTotal">0</div><div class="stat-mini-label">Parts in Database</div></div></div>
+                            <div class="col-md-3 col-6 mb-2"><div class="stat-mini"><div class="stat-mini-val" id="partsAlternates" style="color:#14f195">0</div><div class="stat-mini-label">Alternates Found</div></div></div>
+                            <div class="col-md-3 col-6 mb-2"><div class="stat-mini"><div class="stat-mini-val" id="partsCAGE" style="color:#00aaff">0</div><div class="stat-mini-label">CAGE Codes</div></div></div>
+                            <div class="col-md-3 col-6 mb-2"><div class="stat-mini"><div class="stat-mini-val" id="partsPrograms" style="color:#c9a84c">0</div><div class="stat-mini-label">Programs</div></div></div>
                         </div>
-                        <div id="hubPartsResults" style="max-height:400px;overflow-y:auto;font-size:0.85rem"><div style="color:var(--muted);text-align:center;padding:1rem">Search for parts by NSN or name.</div></div>
+                        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:1rem">
+                            <button onclick="exportParts()" class="btn btn-sm" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;border-radius:8px;padding:8px 16px;"><i class="fas fa-download"></i> Export Parts List</button>
+                            <button onclick="anchorParts()" class="btn btn-sm" style="background:linear-gradient(135deg,#c9a84c,#a88a3a);color:#fff;border:none;border-radius:8px;padding:8px 16px;"><i class="fas fa-anchor"></i> Anchor to XRPL ($0.01 SLS)</button>
+                        </div>
                     </div>
                 </div>
 
                 <div class="ils-hub-panel" id="hub-roi">
-                    <div class="hub-tool-card">
-                        <div class="hub-tool-header">
-                            <i class="fas fa-dollar-sign" style="color:#14f195;font-size:1.2rem"></i>
-                            <h4>ROI Calculator</h4>
-                            <a class="tool-link" onclick="document.querySelector('a[href=&quot;#tabROI&quot;]').click()"><i class="fas fa-external-link-alt"></i> Open Full Tool</a>
+                    <div class="demo-card">
+                        <h3><i class="fas fa-dollar-sign" style="color:#14f195"></i> S4 Ledger ROI Calculator</h3>
+                        <p style="color:var(--steel);font-size:0.9rem;margin-bottom:0.5rem">Calculate the return on investment from implementing S4 Ledger across your ILS, DMSMS, and readiness programs. Compare manual processes vs. automated blockchain-backed document management.</p>
+                        <details style="margin-bottom:1rem;background:rgba(20,241,149,0.04);border:1px solid rgba(20,241,149,0.15);border-radius:8px;padding:0 12px;">
+                            <summary style="cursor:pointer;padding:10px 0;color:#14f195;font-weight:600;font-size:0.85rem;"><i class="fas fa-info-circle"></i> How It Works — What These Numbers Mean</summary>
+                            <div style="padding:0 0 12px;color:var(--steel);font-size:0.82rem;line-height:1.6;">
+                                <p><strong style="color:#fff;">This calculator is a sales tool.</strong> Input YOUR program's real numbers (how many programs, how many staff, what you pay them) and it shows the cost savings from automating manual ILS work with S4 Ledger.</p>
+                                <p><strong style="color:#14f195;">Where the savings come from:</strong></p>
+                                <ul style="margin:4px 0 8px 16px;">
+                                    <li><strong>Labor automation (65%):</strong> S4 Ledger automates document hashing, record tracking, DRL status tracking, and compliance checklist management. Tasks that take an ILS manager hours (verifying a CDRL was delivered, checking a supply receipt against the contract) become one-click operations with XRPL-anchored proof.</li>
+                                    <li><strong>Error reduction (90%):</strong> Manual data entry into spreadsheets causes errors. Mistyped NSNs, wrong CAGE codes, duplicated PO entries — each costs thousands in rework, re-procurement, or failed audits. Automated hashing eliminates transcription errors.</li>
+                                    <li><strong>Audit cost reduction (70%):</strong> Instead of gathering evidence for weeks before a DCMA or DLA audit, S4 Ledger provides instant proof via XRPL hashes. The auditor can verify any record's integrity in seconds.</li>
+                                    <li><strong>Compliance acceleration:</strong> Per-program value of faster CDRL delivery, reduced contract risk, and avoided schedule delays from documentation gaps.</li>
+                                </ul>
+                                <p><strong style="color:#00aaff;">All inputs are editable.</strong> Change them to match your actual program. The output updates in real time. Use it in proposals or briefings to show the business case for S4 Ledger.</p>
+                            </div>
+                        </details>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Number of Programs Managed</label>
+                                <input type="number" id="roiPrograms" class="form-control mb-2" style="background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.1);" placeholder="e.g., 5" value="5" oninput="calcROI()">
+                                <label>Average Records / Month (per program)</label>
+                                <input type="number" id="roiRecords" class="form-control mb-2" style="background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.1);" placeholder="e.g., 200" value="200" oninput="calcROI()">
+                                <label>ILS Staff (FTEs doing manual work)</label>
+                                <input type="number" id="roiFTEs" class="form-control mb-2" style="background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.1);" placeholder="e.g., 8" value="8" oninput="calcROI()">
+                                <label>Average Fully-Burdened Labor Rate ($/hr)</label>
+                                <input type="number" id="roiRate" class="form-control mb-2" style="background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.1);" placeholder="e.g., 145" value="145" oninput="calcROI()">
+                            </div>
+                            <div class="col-md-6">
+                                <label>Current Annual Audit Cost ($)</label>
+                                <input type="number" id="roiAudit" class="form-control mb-2" style="background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.1);" placeholder="e.g., 250000" value="250000" oninput="calcROI()">
+                                <label>Average Rework/Error Cost per Incident ($)</label>
+                                <input type="number" id="roiError" class="form-control mb-2" style="background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.1);" placeholder="e.g., 8500" value="8500" oninput="calcROI()">
+                                <label>Estimated Error Incidents / Year</label>
+                                <input type="number" id="roiIncidents" class="form-control mb-2" style="background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.1);" placeholder="e.g., 35" value="35" oninput="calcROI()">
+                                <label>S4 Ledger Annual License Cost ($)</label>
+                                <input type="number" id="roiLicense" class="form-control mb-2" style="background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.1);" placeholder="e.g., 120000" value="120000" oninput="calcROI()">
+                            </div>
                         </div>
-                        <p style="color:var(--steel);font-size:0.85rem;margin-bottom:12px">Calculate return on investment from S4 Ledger deployment. Positive ROI generates business case action items.</p>
-                        <div class="row mb-2">
-                            <div class="col-md-3"><label style="font-size:0.78rem">Programs</label><input type="number" id="hubRoiPrograms" placeholder="5" value="5" style="font-size:0.85rem!important" oninput="syncROIInput()"></div>
-                            <div class="col-md-3"><label style="font-size:0.78rem">Records/Mo</label><input type="number" id="hubRoiRecords" placeholder="500" value="500" style="font-size:0.85rem!important" oninput="syncROIInput()"></div>
-                            <div class="col-md-3"><label style="font-size:0.78rem">FTEs</label><input type="number" id="hubRoiFTE" placeholder="3" value="3" style="font-size:0.85rem!important" oninput="syncROIInput()"></div>
-                            <div class="col-md-3"><label style="font-size:0.78rem">&nbsp;</label><button class="btn-accent" onclick="syncROIInput();calcROI()" style="width:100%;font-size:0.82rem;padding:8px"><i class="fas fa-calculator"></i> Calc</button></div>
+                        <div id="roiOutput" style="margin-top:1rem"></div>
+                        <div class="row mt-3">
+                            <div class="col-md-3 col-6 mb-2"><div class="stat-mini"><div class="stat-mini-val" id="roiSavings" style="color:#14f195">—</div><div class="stat-mini-label">Annual Savings</div></div></div>
+                            <div class="col-md-3 col-6 mb-2"><div class="stat-mini"><div class="stat-mini-val" id="roiPercent">—</div><div class="stat-mini-label">ROI %</div></div></div>
+                            <div class="col-md-3 col-6 mb-2"><div class="stat-mini"><div class="stat-mini-val" id="roiPayback" style="color:#00aaff">—</div><div class="stat-mini-label">Payback Period</div></div></div>
+                            <div class="col-md-3 col-6 mb-2"><div class="stat-mini"><div class="stat-mini-val" id="roi5Year" style="color:#c9a84c">—</div><div class="stat-mini-label">5-Year Net Savings</div></div></div>
                         </div>
-                        <div class="row mt-2">
-                            <div class="col-3"><div class="stat-mini"><div class="stat-mini-val" id="hubRoiSavings" style="color:#14f195">—</div><div class="stat-mini-label">Annual Savings</div></div></div>
-                            <div class="col-3"><div class="stat-mini"><div class="stat-mini-val" id="hubRoiPct" style="color:#00aaff">—</div><div class="stat-mini-label">ROI %</div></div></div>
-                            <div class="col-3"><div class="stat-mini"><div class="stat-mini-val" id="hubRoiPayback" style="color:#ffa500">—</div><div class="stat-mini-label">Payback</div></div></div>
-                            <div class="col-3"><div class="stat-mini"><div class="stat-mini-val" id="hubRoi5yr" style="color:#c9a84c">—</div><div class="stat-mini-label">5-Year Net</div></div></div>
+                        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:1rem">
+                            <button onclick="exportROI()" class="btn btn-sm" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;border-radius:8px;padding:8px 16px;"><i class="fas fa-download"></i> Export ROI Report</button>
+                            <button onclick="anchorROI()" class="btn btn-sm" style="background:linear-gradient(135deg,#c9a84c,#a88a3a);color:#fff;border:none;border-radius:8px;padding:8px 16px;"><i class="fas fa-anchor"></i> Anchor to XRPL ($0.01 SLS)</button>
                         </div>
                     </div>
                 </div>
 
                 <div class="ils-hub-panel" id="hub-lifecycle">
-                    <div class="hub-tool-card">
-                        <div class="hub-tool-header">
-                            <i class="fas fa-clock" style="color:#00aaff;font-size:1.2rem"></i>
-                            <h4>Lifecycle Cost Estimator</h4>
-                            <a class="tool-link" onclick="document.querySelector('a[href=&quot;#tabLifecycle&quot;]').click()"><i class="fas fa-external-link-alt"></i> Open Full Tool</a>
+                    <div class="demo-card">
+                        <h3><i class="fas fa-clock" style="color:#00aaff"></i> Lifecycle Cost Estimator</h3>
+                        <p style="color:var(--steel);font-size:0.9rem;margin-bottom:0.5rem">Project total ownership cost (TOC) over a weapon system's lifecycle. Factors in sustainment, DMSMS resolution, tech refresh, and depot maintenance per DoD 5000.73 and MIL-STD-881F.</p>
+                        <details style="margin-bottom:1rem;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.15);border-radius:8px;padding:0 12px;">
+                            <summary style="cursor:pointer;padding:10px 0;color:#00aaff;font-weight:600;font-size:0.85rem;"><i class="fas fa-info-circle"></i> How It Works — Understanding Total Ownership Cost</summary>
+                            <div style="padding:0 0 12px;color:var(--steel);font-size:0.82rem;line-height:1.6;">
+                                <p><strong style="color:#fff;">What this tool does:</strong> It calculates how much a weapon system costs over its ENTIRE life — not just the sticker price. The DoD famously spends 60-70% of a system's total cost AFTER it's built, on sustainment, repairs, and obsolescence. This tool breaks that down.</p>
+                                <p><strong style="color:#00aaff;">What the numbers mean:</strong></p>
+                                <ul style="margin:4px 0 8px 16px;">
+                                    <li><strong>Acquisition:</strong> What you pay upfront — unit cost × fleet size. For a DDG-51 Flight III, that's roughly $2.2B per ship × 20 ships = ~$44B.</li>
+                                    <li><strong>Sustainment (O&S):</strong> Annual maintenance, crew, parts, depot work — typically 6-10% of acquisition cost <em>per year</em>, over 30+ years. This is where most money goes.</li>
+                                    <li><strong>DMSMS/Obsolescence:</strong> Parts go out of production. Redesigning circuits, finding new vendors, bridge buys — estimated at ~4% of acquisition per year. Over 30 years for a fleet of destroyers, this can be billions.</li>
+                                    <li><strong>Tech Refresh:</strong> Every ~5 years, major systems need upgrades (new radar software, engine overhauls, avionics refreshes) — estimated at 2% of acquisition per cycle.</li>
+                                    <li><strong>Cost per Op Hour:</strong> Total cost divided by total operating hours across the fleet — what it costs to operate this system for one hour.</li>
+                                </ul>
+                                <p><strong style="color:#14f195;">How S4 Ledger saves money here:</strong> S4 Ledger doesn't change acquisition costs — those are fixed. It reduces sustainment and DMSMS costs by 15-25%. How? (1) Automated DMSMS tracking catches obsolescence earlier, before emergency bridge buys at premium prices, (2) Anchored maintenance records reduce duplicate work orders and audit overhead, (3) Parts cross-referencing with anchored provenance prevents counterfeit part insertion — a single counterfeit electronic part in a radar system can cost $3-5M to find and remediate.</p>
+                                <p><strong style="color:#ffa500;">Input your own data:</strong> Change the unit cost, fleet size, service life, and sustainment rate to match your actual program. The defaults (85M, 20 units, 30 years, 8%) are representative of a mid-size Navy combatant.</p>
+                            </div>
+                        </details>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Select Program</label>
+                                <select id="lifecycleProgram" class="form-select mb-2" style="background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.1);" onchange="calcLifecycle()"></select>
+                                <label>Planned Service Life (years)</label>
+                                <input type="number" id="lcServiceLife" class="form-control mb-2" style="background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.1);" placeholder="30" value="30" oninput="calcLifecycle()">
+                                <label>Annual Operating Hours</label>
+                                <input type="number" id="lcOpHours" class="form-control mb-2" style="background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.1);" placeholder="2500" value="2500" oninput="calcLifecycle()">
+                            </div>
+                            <div class="col-md-6">
+                                <label>Acquisition Unit Cost ($M)</label>
+                                <input type="number" id="lcAcqCost" class="form-control mb-2" style="background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.1);" placeholder="85" value="85" oninput="calcLifecycle()" step="0.1">
+                                <label>Fleet Size (number of units)</label>
+                                <input type="number" id="lcFleetSize" class="form-control mb-2" style="background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.1);" placeholder="20" value="20" oninput="calcLifecycle()">
+                                <label>Annual Sustainment Rate (% of acquisition)</label>
+                                <input type="number" id="lcSustRate" class="form-control mb-2" style="background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.1);" placeholder="8" value="8" oninput="calcLifecycle()" step="0.1">
+                            </div>
                         </div>
-                        <p style="color:var(--steel);font-size:0.85rem;margin-bottom:12px">Total ownership cost projection per DoD 5000.73. High sustainment ratios generate optimization action items.</p>
-                        <div class="row mb-2">
-                            <div class="col-md-4"><label style="font-size:0.78rem">Program</label><select id="hubLifecycleProgram" class="form-select" style="background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.1);font-size:0.85rem" onchange="document.getElementById('lifecycleProgram').value=this.value;calcLifecycle()"></select></div>
-                            <div class="col-md-2"><label style="font-size:0.78rem">Unit $M</label><input type="number" id="hubLcAcq" placeholder="85" value="85" style="font-size:0.85rem!important" oninput="document.getElementById('lcAcqCost').value=this.value;calcLifecycle()"></div>
-                            <div class="col-md-2"><label style="font-size:0.78rem">Fleet</label><input type="number" id="hubLcFleet" placeholder="20" value="20" style="font-size:0.85rem!important" oninput="document.getElementById('lcFleetSize').value=this.value;calcLifecycle()"></div>
-                            <div class="col-md-2"><label style="font-size:0.78rem">Years</label><input type="number" id="hubLcYears" placeholder="30" value="30" style="font-size:0.85rem!important" oninput="document.getElementById('lcServiceLife').value=this.value;calcLifecycle()"></div>
-                            <div class="col-md-2"><label style="font-size:0.78rem">Sust%</label><input type="number" id="hubLcSust" placeholder="8" value="8" style="font-size:0.85rem!important" oninput="document.getElementById('lcSustRate').value=this.value;calcLifecycle()"></div>
+                        <div id="lifecycleOutput" style="margin-top:1rem"></div>
+                        <div class="row mt-3">
+                            <div class="col-md-3 col-6 mb-2"><div class="stat-mini"><div class="stat-mini-val" id="lcTotalCost" style="color:#ff9900">—</div><div class="stat-mini-label">Total Ownership Cost</div></div></div>
+                            <div class="col-md-3 col-6 mb-2"><div class="stat-mini"><div class="stat-mini-val" id="lcSustCost" style="color:#00aaff">—</div><div class="stat-mini-label">Sustainment (O&S)</div></div></div>
+                            <div class="col-md-3 col-6 mb-2"><div class="stat-mini"><div class="stat-mini-val" id="lcDmsmsCost" style="color:#ff3333">—</div><div class="stat-mini-label">DMSMS/Obsol. Cost</div></div></div>
+                            <div class="col-md-3 col-6 mb-2"><div class="stat-mini"><div class="stat-mini-val" id="lcCostPerHr" style="color:#14f195">—</div><div class="stat-mini-label">Cost per Op Hour</div></div></div>
                         </div>
-                        <div class="row mt-2">
-                            <div class="col-3"><div class="stat-mini"><div class="stat-mini-val" id="hubLcTotal" style="color:#ff9900">—</div><div class="stat-mini-label">TOC</div></div></div>
-                            <div class="col-3"><div class="stat-mini"><div class="stat-mini-val" id="hubLcSustCost" style="color:#00aaff">—</div><div class="stat-mini-label">O&S</div></div></div>
-                            <div class="col-3"><div class="stat-mini"><div class="stat-mini-val" id="hubLcDmsms" style="color:#ff3333">—</div><div class="stat-mini-label">DMSMS</div></div></div>
-                            <div class="col-3"><div class="stat-mini"><div class="stat-mini-val" id="hubLcHr" style="color:#14f195">—</div><div class="stat-mini-label">$/Op Hr</div></div></div>
+                        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:1rem">
+                            <button onclick="exportLifecycle()" class="btn btn-sm" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;border-radius:8px;padding:8px 16px;"><i class="fas fa-download"></i> Export Lifecycle Report</button>
+                            <button onclick="anchorLifecycle()" class="btn btn-sm" style="background:linear-gradient(135deg,#c9a84c,#a88a3a);color:#fff;border:none;border-radius:8px;padding:8px 16px;"><i class="fas fa-anchor"></i> Anchor to XRPL ($0.01 SLS)</button>
                         </div>
                     </div>
                 </div>
 
                 <div class="ils-hub-panel" id="hub-warranty">
-                    <div class="hub-tool-card">
-                        <div class="hub-tool-header">
-                            <i class="fas fa-file-contract" style="color:#c9a84c;font-size:1.2rem"></i>
-                            <h4>Warranty & Contract Tracker</h4>
-                            <a class="tool-link" onclick="document.querySelector('a[href=&quot;#tabWarranty&quot;]').click()"><i class="fas fa-external-link-alt"></i> Open Full Tool</a>
+                    <div class="demo-card">
+                        <h3><i class="fas fa-file-contract" style="color:#c9a84c"></i> Warranty & Contract Tracker</h3>
+                        <p style="color:var(--steel);font-size:0.9rem;margin-bottom:0.5rem">Track OEM warranties, CLIN deliverable milestones, contract expirations, and service agreements across programs. Ensure compliance with FAR/DFARS warranty requirements and prevent coverage lapses.</p>
+                        <details style="margin-bottom:1rem;background:rgba(201,168,76,0.04);border:1px solid rgba(201,168,76,0.15);border-radius:8px;padding:0 12px;">
+                            <summary style="cursor:pointer;padding:10px 0;color:#c9a84c;font-weight:600;font-size:0.85rem;"><i class="fas fa-info-circle"></i> How It Works — Data Sources & S4 Ledger Value</summary>
+                            <div style="padding:0 0 12px;color:var(--steel);font-size:0.82rem;line-height:1.6;">
+                                <p><strong style="color:#fff;">What's real:</strong> The systems and OEMs listed are real — these are the actual systems on each platform with their actual manufacturers. Contract types (IDIQ, BPA, performance-based) reflect real acquisition vehicle structures.</p>
+                                <p><strong style="color:#ffa500;">What's demo data:</strong> The warranty dates, CLIN numbers, and dollar values are <em>simulated</em>. Real warranty data comes from contract documents (DD Form 1423s, CDRLs) and the program's contract administration office. This tool is designed to accept that data.</p>
+                                <p><strong style="color:#14f195;">How S4 Ledger saves money here:</strong> Warranty lapses cost the DoD hundreds of millions per year. When a $500K engine fails 3 days after the warranty expired because nobody tracked the date, the Government pays for the repair — not the OEM. S4 Ledger: (1) Anchors warranty start/end dates to the blockchain so they can't be disputed, (2) Generates expiration alerts 90 days out, (3) Creates immutable proof that a warranty claim was filed within the coverage period — critical when OEMs contest claims, (4) Tracks CLIN deliverable milestones so contract payments aren't made before deliverables are verified.</p>
+                                <p><strong style="color:#00aaff;">Production mode:</strong> Upload contract warranty schedules (CSV/XLSX), CLIN matrices from your DD Form 1423s, or service agreement details. The tracker will calculate expirations, generate alerts, and anchor each milestone to the XRPL. Every warranty event becomes a permanent, verifiable record.</p>
+                            </div>
+                        </details>
+                        <label>Select Program</label>
+                        <select id="warrantyProgram" class="form-select mb-3" style="background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.1);" onchange="loadWarrantyData()"></select>
+                        <div id="warrantyResults" style="margin-top:1rem"></div>
+                        <div class="row mt-3">
+                            <div class="col-md-3 col-6 mb-2"><div class="stat-mini"><div class="stat-mini-val" id="warActive" style="color:#14f195">0</div><div class="stat-mini-label">Active Warranties</div></div></div>
+                            <div class="col-md-3 col-6 mb-2"><div class="stat-mini"><div class="stat-mini-val" id="warExpiring" style="color:#ffa500">0</div><div class="stat-mini-label">Expiring (90 days)</div></div></div>
+                            <div class="col-md-3 col-6 mb-2"><div class="stat-mini"><div class="stat-mini-val" id="warExpired" style="color:#ff3333">0</div><div class="stat-mini-label">Expired</div></div></div>
+                            <div class="col-md-3 col-6 mb-2"><div class="stat-mini"><div class="stat-mini-val" id="warValue" style="color:#00aaff">$0</div><div class="stat-mini-label">Coverage Value</div></div></div>
                         </div>
-                        <p style="color:var(--steel);font-size:0.85rem;margin-bottom:12px">Track warranties, CLIN milestones, and contract expirations. Expiring items automatically create action items.</p>
-                        <label style="font-size:0.82rem">Select Program</label>
-                        <select id="hubWarrantyProgram" class="form-select mb-2" style="background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.1);font-size:0.85rem" onchange="document.getElementById('warrantyProgram').value=this.value;loadWarrantyData()"></select>
-                        <div id="hubWarrantyResults" style="max-height:350px;overflow-y:auto;font-size:0.85rem"><div style="color:var(--muted);text-align:center;padding:1rem">Select a program to load warranty data.</div></div>
-                        <div class="row mt-2">
-                            <div class="col-3"><div class="stat-mini"><div class="stat-mini-val" id="hubWarActive" style="color:#14f195">0</div><div class="stat-mini-label">Active</div></div></div>
-                            <div class="col-3"><div class="stat-mini"><div class="stat-mini-val" id="hubWarExpiring" style="color:#ffa500">0</div><div class="stat-mini-label">Expiring</div></div></div>
-                            <div class="col-3"><div class="stat-mini"><div class="stat-mini-val" id="hubWarExpired" style="color:#ff3333">0</div><div class="stat-mini-label">Expired</div></div></div>
-                            <div class="col-3"><div class="stat-mini"><div class="stat-mini-val" id="hubWarValue" style="color:#00aaff">$0</div><div class="stat-mini-label">Coverage</div></div></div>
+                        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:1rem">
+                            <button onclick="exportWarranty()" class="btn btn-sm" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;border-radius:8px;padding:8px 16px;"><i class="fas fa-download"></i> Export Warranty Report</button>
+                            <button onclick="anchorWarranty()" class="btn btn-sm" style="background:linear-gradient(135deg,#c9a84c,#a88a3a);color:#fff;border:none;border-radius:8px;padding:8px 16px;"><i class="fas fa-anchor"></i> Anchor to XRPL ($0.01 SLS)</button>
                         </div>
                     </div>
                 </div>
 
             </div><!-- /tabILS -->
-            <!-- ═══ DMSMS / OBSOLESCENCE TRACKER ═══ -->
-            <div class="tab-pane fade" id="tabDMSMS" role="tabpanel">
-                <div class="demo-card">
-                    <h3><i class="fas fa-exclamation-triangle" style="color:#ff9900"></i> DMSMS / Obsolescence Tracker</h3>
-                    <p style="color:var(--steel);font-size:0.9rem;margin-bottom:0.5rem">Track Diminishing Manufacturing Sources and Material Shortages (DMSMS). Identify parts at risk of obsolescence, find alternates, and estimate resolution costs. Per DoWI 4245.14.</p>
-                    <details style="margin-bottom:1rem;background:rgba(255,153,0,0.04);border:1px solid rgba(255,153,0,0.15);border-radius:8px;padding:0 12px;">
-                        <summary style="cursor:pointer;padding:10px 0;color:#ff9900;font-weight:600;font-size:0.85rem;"><i class="fas fa-info-circle"></i> How It Works — Data Sources & S4 Ledger Value</summary>
-                        <div style="padding:0 0 12px;color:var(--steel);font-size:0.82rem;line-height:1.6;">
-                            <p><strong style="color:#fff;">What's real:</strong> Platform names, system names, manufacturers, CAGE codes, and FSC groups are all real. The systems shown (AN/SPY-6, Mk 41 VLS, LM2500, etc.) are the actual systems installed on these platforms.</p>
-                            <p><strong style="color:#ffa500;">What's demo data:</strong> The DMSMS statuses (Active/At Risk/Obsolete) are <em>simulated</em> in this demo. Real obsolescence data comes from <strong>GIDEP</strong> (Government-Industry Data Exchange Program), <strong>DLA</strong> (Defense Logistics Agency), and vendor EOL notices — all of which require authenticated access.</p>
-                            <p><strong style="color:#14f195;">How S4 Ledger saves money here:</strong> When a DMSMS case is identified and a resolution is chosen (bridge buy, redesign, alternate source), S4 Ledger anchors a SHA-256 hash of that decision to the XRP Ledger. This creates <em>immutable proof</em> that the obsolescence was documented, analyzed, and resolved at a specific date — critical for audits, contract disputes, and proving due diligence. Without this, programs lose millions to undocumented obsolescence discoveries during production.</p>
-                            <p><strong style="color:#00aaff;">Production mode:</strong> Connect to GIDEP, DLA ASSIST, or your own parts database via the S4 API. Upload real DMSMS case files via CSV/XLSX. The tool structure is designed for real data — swap the demo layer for your authenticated data source.</p>
-                        </div>
-                    </details>
-                    
-                    <label>Select Program</label>
-                    <select id="dmsmsProgram" class="form-select mb-3" style="background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.1);" onchange="loadDMSMSData()">
-                    </select>
-
-                    <div id="dmsmsResults" style="margin-top:1rem"></div>
-
-                    <div class="row mt-3">
-                        <div class="col-md-3 col-6 mb-2"><div class="stat-mini"><div class="stat-mini-val" id="dmsmsTotalParts">0</div><div class="stat-mini-label">Parts Tracked</div></div></div>
-                        <div class="col-md-3 col-6 mb-2"><div class="stat-mini"><div class="stat-mini-val" id="dmsmsAtRisk" style="color:#ff3333">0</div><div class="stat-mini-label">At Risk</div></div></div>
-                        <div class="col-md-3 col-6 mb-2"><div class="stat-mini"><div class="stat-mini-val" id="dmsmsResolved" style="color:#14f195">0</div><div class="stat-mini-label">Resolved</div></div></div>
-                        <div class="col-md-3 col-6 mb-2"><div class="stat-mini"><div class="stat-mini-val" id="dmsmsCost" style="color:#ffa500">$0</div><div class="stat-mini-label">Est. Resolution Cost</div></div></div>
-                    </div>
-                    
-                    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:1rem">
-                        <button onclick="exportDMSMS()" class="btn btn-sm" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;border-radius:8px;padding:8px 16px;"><i class="fas fa-download"></i> Export DMSMS Report</button>
-                        <button onclick="anchorDMSMS()" class="btn btn-sm" style="background:linear-gradient(135deg,#c9a84c,#a88a3a);color:#fff;border:none;border-radius:8px;padding:8px 16px;"><i class="fas fa-anchor"></i> Anchor to XRPL ($0.01 SLS)</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ═══ READINESS CALCULATOR ═══ -->
-            <div class="tab-pane fade" id="tabReadiness" role="tabpanel">
-                <div class="demo-card">
-                    <h3><i class="fas fa-chart-line" style="color:#14f195"></i> Operational Readiness Calculator</h3>
-                    <p style="color:var(--steel);font-size:0.9rem;margin-bottom:0.5rem">Calculate Operational Availability (Ao), Mean Time Between Failures (MTBF), Mean Time To Repair (MTTR), and Mean Logistics Delay Time (MLDT). Per MIL-STD-1390D and DoWI 5000.02.</p>
-                    <details style="margin-bottom:1rem;background:rgba(20,241,149,0.04);border:1px solid rgba(20,241,149,0.15);border-radius:8px;padding:0 12px;">
-                        <summary style="cursor:pointer;padding:10px 0;color:#14f195;font-weight:600;font-size:0.85rem;"><i class="fas fa-info-circle"></i> How It Works — Data Sources & S4 Ledger Value</summary>
-                        <div style="padding:0 0 12px;color:var(--steel);font-size:0.82rem;line-height:1.6;">
-                            <p><strong style="color:#fff;">What's real:</strong> The formula <code style='color:#14f195'>Ao = MTBF / (MTBF + MTTR + MLDT)</code> is the actual DoD standard calculation. The MTBF/MTTR/MLDT values pre-loaded for each system are <em>representative ranges</em> based on published data for those system types (e.g., gas turbines average 2000-5000 hr MTBF, radar systems 600-1800 hr).</p>
-                            <p><strong style="color:#ffa500;">What's demo data:</strong> The specific MTBF/MTTR/MLDT numbers are representative but NOT from actual FRACAS (Failure Reporting, Analysis and Corrective Action System) databases. Real values come from fleet maintenance data (3-M system for Navy, AMPS for Army, REMIS for Air Force).</p>
-                            <p><strong style="color:#14f195;">How S4 Ledger saves money here:</strong> Readiness calculations drive billions in sustainment spending. When you compute an Ao and anchor it to the XRP Ledger, you create a <em>timestamped, tamper-proof record</em> that this system had X% availability on this date. This matters for: (1) Contract performance metrics — proving a system met its KPP/KSA readiness threshold, (2) Milestone decision briefings — anchored readiness reports can't be retroactively altered, (3) DMSMS correlation — linking obsolescence events to readiness drops to justify resolution funding.</p>
-                            <p><strong style="color:#00aaff;">Production mode:</strong> Input your actual FRACAS/3-M data. The fields are editable — type in real MTBF/MTTR/MLDT values from your program's RAM analysis. Export the report, anchor the hash. That hash becomes permanent proof of the calculation.</p>
-                        </div>
-                    </details>
-                    
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label>Select Program</label>
-                            <select id="readinessProgram" class="form-select mb-2" style="background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.1);" onchange="loadReadinessData()">
-                            </select>
-                            <label>Select System / Subsystem</label>
-                            <select id="readinessSystem" class="form-select mb-2" style="background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.1);" onchange="calcReadiness()">
-                            </select>
-                        </div>
-                        <div class="col-md-6">
-                            <label>MTBF (hours) — Mean Time Between Failures</label>
-                            <input type="number" id="inputMTBF" class="form-control mb-2" style="background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.1);" placeholder="e.g., 2400" oninput="calcReadiness()">
-                            <label>MTTR (hours) — Mean Time To Repair</label>
-                            <input type="number" id="inputMTTR" class="form-control mb-2" style="background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.1);" placeholder="e.g., 4.5" oninput="calcReadiness()">
-                            <label>MLDT (hours) — Mean Logistics Delay Time</label>
-                            <input type="number" id="inputMLDT" class="form-control mb-2" style="background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.1);" placeholder="e.g., 24" oninput="calcReadiness()">
-                        </div>
-                    </div>
-
-                    <div id="readinessOutput" style="margin-top:1rem"></div>
-
-                    <div class="row mt-3">
-                        <div class="col-md-3 col-6 mb-2"><div class="stat-mini"><div class="stat-mini-val" id="statAo" style="color:#14f195">—</div><div class="stat-mini-label">Ao (Operational Avail.)</div></div></div>
-                        <div class="col-md-3 col-6 mb-2"><div class="stat-mini"><div class="stat-mini-val" id="statAi">—</div><div class="stat-mini-label">Ai (Inherent Avail.)</div></div></div>
-                        <div class="col-md-3 col-6 mb-2"><div class="stat-mini"><div class="stat-mini-val" id="statFailRate">—</div><div class="stat-mini-label">Failure Rate (λ)</div></div></div>
-                        <div class="col-md-3 col-6 mb-2"><div class="stat-mini"><div class="stat-mini-val" id="statMissReady">—</div><div class="stat-mini-label">Mission Readiness</div></div></div>
-                    </div>
-
-                    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:1rem">
-                        <button onclick="exportReadiness()" class="btn btn-sm" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;border-radius:8px;padding:8px 16px;"><i class="fas fa-download"></i> Export RAM Report</button>
-                        <button onclick="anchorReadiness()" class="btn btn-sm" style="background:linear-gradient(135deg,#c9a84c,#a88a3a);color:#fff;border:none;border-radius:8px;padding:8px 16px;"><i class="fas fa-anchor"></i> Anchor to XRPL ($0.01 SLS)</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ═══ NSN / PARTS CROSS-REFERENCE ═══ -->
-            <div class="tab-pane fade" id="tabParts" role="tabpanel">
-                <div class="demo-card">
-                    <h3><i class="fas fa-cogs" style="color:#c9a84c"></i> NSN / Parts Cross-Reference</h3>
-                    <p style="color:var(--steel);font-size:0.9rem;margin-bottom:0.5rem">Look up National Stock Numbers (NSNs), CAGE codes, and find alternate/substitute parts across the Federal Supply System. Cross-reference manufacturers and check part availability across programs.</p>
-                    <details style="margin-bottom:1rem;background:rgba(201,168,76,0.04);border:1px solid rgba(201,168,76,0.15);border-radius:8px;padding:0 12px;">
-                        <summary style="cursor:pointer;padding:10px 0;color:#c9a84c;font-weight:600;font-size:0.85rem;"><i class="fas fa-info-circle"></i> How It Works — Data Sources & S4 Ledger Value</summary>
-                        <div style="padding:0 0 12px;color:var(--steel);font-size:0.82rem;line-height:1.6;">
-                            <p><strong style="color:#fff;">What's real:</strong> The CAGE codes for major primes are real (07458=Raytheon, 64928=Lockheed Martin, 77445=GE Aviation, etc.). FSC groups are real (5841=Radar, 2835=Engines, 1440=Launchers). System/part names are the actual nomenclatures used by these programs.</p>
-                            <p><strong style="color:#ffa500;">What's demo data:</strong> The specific NSN numbers (e.g., 5841-01-622-3401) follow correct formatting and FSC patterns but are NOT verified against FedLog/FLIS. Real NSN lookups require access to the <strong>Federal Logistics Information System (FLIS)</strong> via DLA's FedLog or WebFLIS, which requires CAC authentication. Prices, quantities on hand, and lead times are simulated.</p>
-                            <p><strong style="color:#fff;">Can it pull real parts?</strong> Not currently — this demo generates realistic part records from the platform database. In production, S4 Ledger would integrate with FedLog/WebFLIS APIs or accept CSV/XLSX uploads of real provisioning data (APLs, COSALs, technical manuals). The search functionality is real — it filters across whatever data is loaded.</p>
-                            <p><strong style="color:#14f195;">How S4 Ledger saves money here:</strong> Every time a part is cross-referenced, sourced, or an alternate identified, anchoring that lookup to the XRP Ledger creates proof of supply chain due diligence. This prevents: (1) Counterfeit parts — anchored source verification proves you checked CAGE/NSN provenance, (2) Duplicate procurement — searchable anchored records prevent re-buying parts already in inventory, (3) Audit failures — DLA and DCMA audits require proof of provisioning decisions; anchored records satisfy this automatically.</p>
-                            <p><strong style="color:#00aaff;">Production mode:</strong> Upload real APLs (Allowance Parts Lists), COSALs, or provisioning spreadsheets. The tool will index and cross-reference them. Connect to WebFLIS for live NSN validation. Every lookup and sourcing decision gets an anchored hash.</p>
-                        </div>
-                    </details>
-
-                    <div class="row mb-3">
-                        <div class="col-md-4">
-                            <label>Search by NSN</label>
-                            <input type="text" id="nsnSearch" class="form-control" style="background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.1);" placeholder="e.g., 5340-01-234-5678" oninput="searchNSN()">
-                        </div>
-                        <div class="col-md-4">
-                            <label>Search by CAGE Code</label>
-                            <input type="text" id="cageSearch" class="form-control" style="background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.1);" placeholder="e.g., 1THK9" oninput="searchCAGE()">
-                        </div>
-                        <div class="col-md-4">
-                            <label>Search by Part Name</label>
-                            <input type="text" id="partNameSearch" class="form-control" style="background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.1);" placeholder="e.g., valve, pump, filter" oninput="searchPartName()">
-                        </div>
-                    </div>
-
-                    <label>Filter by Program</label>
-                    <select id="partsProgram" class="form-select mb-3" style="background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.1);" onchange="filterParts()">
-                    </select>
-
-                    <div id="partsResults" style="margin-top:1rem"></div>
-
-                    <div class="row mt-3">
-                        <div class="col-md-3 col-6 mb-2"><div class="stat-mini"><div class="stat-mini-val" id="partsTotal">0</div><div class="stat-mini-label">Parts in Database</div></div></div>
-                        <div class="col-md-3 col-6 mb-2"><div class="stat-mini"><div class="stat-mini-val" id="partsAlternates" style="color:#14f195">0</div><div class="stat-mini-label">Alternates Found</div></div></div>
-                        <div class="col-md-3 col-6 mb-2"><div class="stat-mini"><div class="stat-mini-val" id="partsCAGE" style="color:#00aaff">0</div><div class="stat-mini-label">CAGE Codes</div></div></div>
-                        <div class="col-md-3 col-6 mb-2"><div class="stat-mini"><div class="stat-mini-val" id="partsPrograms" style="color:#c9a84c">0</div><div class="stat-mini-label">Programs</div></div></div>
-                    </div>
-
-                    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:1rem">
-                        <button onclick="exportParts()" class="btn btn-sm" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;border-radius:8px;padding:8px 16px;"><i class="fas fa-download"></i> Export Parts List</button>
-                        <button onclick="anchorParts()" class="btn btn-sm" style="background:linear-gradient(135deg,#c9a84c,#a88a3a);color:#fff;border:none;border-radius:8px;padding:8px 16px;"><i class="fas fa-anchor"></i> Anchor to XRPL ($0.01 SLS)</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ═══ ROI CALCULATOR ═══ -->
-            <div class="tab-pane fade" id="tabROI" role="tabpanel">
-                <div class="demo-card">
-                    <h3><i class="fas fa-dollar-sign" style="color:#14f195"></i> S4 Ledger ROI Calculator</h3>
-                    <p style="color:var(--steel);font-size:0.9rem;margin-bottom:0.5rem">Calculate the return on investment from implementing S4 Ledger across your ILS, DMSMS, and readiness programs. Compare manual processes vs. automated blockchain-backed document management.</p>
-                    <details style="margin-bottom:1rem;background:rgba(20,241,149,0.04);border:1px solid rgba(20,241,149,0.15);border-radius:8px;padding:0 12px;">
-                        <summary style="cursor:pointer;padding:10px 0;color:#14f195;font-weight:600;font-size:0.85rem;"><i class="fas fa-info-circle"></i> How It Works — What These Numbers Mean</summary>
-                        <div style="padding:0 0 12px;color:var(--steel);font-size:0.82rem;line-height:1.6;">
-                            <p><strong style="color:#fff;">This calculator is a sales tool.</strong> Input YOUR program's real numbers (how many programs, how many staff, what you pay them) and it shows the cost savings from automating manual ILS work with S4 Ledger.</p>
-                            <p><strong style="color:#14f195;">Where the savings come from:</strong></p>
-                            <ul style="margin:4px 0 8px 16px;">
-                                <li><strong>Labor automation (65%):</strong> S4 Ledger automates document hashing, record tracking, DRL status tracking, and compliance checklist management. Tasks that take an ILS manager hours (verifying a CDRL was delivered, checking a supply receipt against the contract) become one-click operations with XRPL-anchored proof.</li>
-                                <li><strong>Error reduction (90%):</strong> Manual data entry into spreadsheets causes errors. Mistyped NSNs, wrong CAGE codes, duplicated PO entries — each costs thousands in rework, re-procurement, or failed audits. Automated hashing eliminates transcription errors.</li>
-                                <li><strong>Audit cost reduction (70%):</strong> Instead of gathering evidence for weeks before a DCMA or DLA audit, S4 Ledger provides instant proof via XRPL hashes. The auditor can verify any record's integrity in seconds.</li>
-                                <li><strong>Compliance acceleration:</strong> Per-program value of faster CDRL delivery, reduced contract risk, and avoided schedule delays from documentation gaps.</li>
-                            </ul>
-                            <p><strong style="color:#00aaff;">All inputs are editable.</strong> Change them to match your actual program. The output updates in real time. Use it in proposals or briefings to show the business case for S4 Ledger.</p>
-                        </div>
-                    </details>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label>Number of Programs Managed</label>
-                            <input type="number" id="roiPrograms" class="form-control mb-2" style="background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.1);" placeholder="e.g., 5" value="5" oninput="calcROI()">
-                            <label>Average Records / Month (per program)</label>
-                            <input type="number" id="roiRecords" class="form-control mb-2" style="background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.1);" placeholder="e.g., 200" value="200" oninput="calcROI()">
-                            <label>ILS Staff (FTEs doing manual work)</label>
-                            <input type="number" id="roiFTEs" class="form-control mb-2" style="background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.1);" placeholder="e.g., 8" value="8" oninput="calcROI()">
-                            <label>Average Fully-Burdened Labor Rate ($/hr)</label>
-                            <input type="number" id="roiRate" class="form-control mb-2" style="background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.1);" placeholder="e.g., 145" value="145" oninput="calcROI()">
-                        </div>
-                        <div class="col-md-6">
-                            <label>Current Annual Audit Cost ($)</label>
-                            <input type="number" id="roiAudit" class="form-control mb-2" style="background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.1);" placeholder="e.g., 250000" value="250000" oninput="calcROI()">
-                            <label>Average Rework/Error Cost per Incident ($)</label>
-                            <input type="number" id="roiError" class="form-control mb-2" style="background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.1);" placeholder="e.g., 8500" value="8500" oninput="calcROI()">
-                            <label>Estimated Error Incidents / Year</label>
-                            <input type="number" id="roiIncidents" class="form-control mb-2" style="background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.1);" placeholder="e.g., 35" value="35" oninput="calcROI()">
-                            <label>S4 Ledger Annual License Cost ($)</label>
-                            <input type="number" id="roiLicense" class="form-control mb-2" style="background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.1);" placeholder="e.g., 120000" value="120000" oninput="calcROI()">
-                        </div>
-                    </div>
-                    <div id="roiOutput" style="margin-top:1rem"></div>
-                    <div class="row mt-3">
-                        <div class="col-md-3 col-6 mb-2"><div class="stat-mini"><div class="stat-mini-val" id="roiSavings" style="color:#14f195">—</div><div class="stat-mini-label">Annual Savings</div></div></div>
-                        <div class="col-md-3 col-6 mb-2"><div class="stat-mini"><div class="stat-mini-val" id="roiPercent">—</div><div class="stat-mini-label">ROI %</div></div></div>
-                        <div class="col-md-3 col-6 mb-2"><div class="stat-mini"><div class="stat-mini-val" id="roiPayback" style="color:#00aaff">—</div><div class="stat-mini-label">Payback Period</div></div></div>
-                        <div class="col-md-3 col-6 mb-2"><div class="stat-mini"><div class="stat-mini-val" id="roi5Year" style="color:#c9a84c">—</div><div class="stat-mini-label">5-Year Net Savings</div></div></div>
-                    </div>
-                    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:1rem">
-                        <button onclick="exportROI()" class="btn btn-sm" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;border-radius:8px;padding:8px 16px;"><i class="fas fa-download"></i> Export ROI Report</button>
-                        <button onclick="anchorROI()" class="btn btn-sm" style="background:linear-gradient(135deg,#c9a84c,#a88a3a);color:#fff;border:none;border-radius:8px;padding:8px 16px;"><i class="fas fa-anchor"></i> Anchor to XRPL ($0.01 SLS)</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ═══ LIFECYCLE COST ESTIMATOR ═══ -->
-            <div class="tab-pane fade" id="tabLifecycle" role="tabpanel">
-                <div class="demo-card">
-                    <h3><i class="fas fa-clock" style="color:#00aaff"></i> Lifecycle Cost Estimator</h3>
-                    <p style="color:var(--steel);font-size:0.9rem;margin-bottom:0.5rem">Project total ownership cost (TOC) over a weapon system's lifecycle. Factors in sustainment, DMSMS resolution, tech refresh, and depot maintenance per DoD 5000.73 and MIL-STD-881F.</p>
-                    <details open style="margin-bottom:1rem;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.15);border-radius:8px;padding:0 12px;">
-                        <summary style="cursor:pointer;padding:10px 0;color:#00aaff;font-weight:600;font-size:0.85rem;"><i class="fas fa-info-circle"></i> How It Works — Understanding Total Ownership Cost</summary>
-                        <div style="padding:0 0 12px;color:var(--steel);font-size:0.82rem;line-height:1.6;">
-                            <p><strong style="color:#fff;">What this tool does:</strong> It calculates how much a weapon system costs over its ENTIRE life — not just the sticker price. The DoD famously spends 60-70% of a system's total cost AFTER it's built, on sustainment, repairs, and obsolescence. This tool breaks that down.</p>
-                            <p><strong style="color:#00aaff;">What the numbers mean:</strong></p>
-                            <ul style="margin:4px 0 8px 16px;">
-                                <li><strong>Acquisition:</strong> What you pay upfront — unit cost × fleet size. For a DDG-51 Flight III, that's roughly $2.2B per ship × 20 ships = ~$44B.</li>
-                                <li><strong>Sustainment (O&S):</strong> Annual maintenance, crew, parts, depot work — typically 6-10% of acquisition cost <em>per year</em>, over 30+ years. This is where most money goes.</li>
-                                <li><strong>DMSMS/Obsolescence:</strong> Parts go out of production. Redesigning circuits, finding new vendors, bridge buys — estimated at ~4% of acquisition per year. Over 30 years for a fleet of destroyers, this can be billions.</li>
-                                <li><strong>Tech Refresh:</strong> Every ~5 years, major systems need upgrades (new radar software, engine overhauls, avionics refreshes) — estimated at 2% of acquisition per cycle.</li>
-                                <li><strong>Cost per Op Hour:</strong> Total cost divided by total operating hours across the fleet — what it costs to operate this system for one hour.</li>
-                            </ul>
-                            <p><strong style="color:#14f195;">How S4 Ledger saves money here:</strong> S4 Ledger doesn't change acquisition costs — those are fixed. It reduces sustainment and DMSMS costs by 15-25%. How? (1) Automated DMSMS tracking catches obsolescence earlier, before emergency bridge buys at premium prices, (2) Anchored maintenance records reduce duplicate work orders and audit overhead, (3) Parts cross-referencing with anchored provenance prevents counterfeit part insertion — a single counterfeit electronic part in a radar system can cost $3-5M to find and remediate.</p>
-                            <p><strong style="color:#ffa500;">Input your own data:</strong> Change the unit cost, fleet size, service life, and sustainment rate to match your actual program. The defaults (85M, 20 units, 30 years, 8%) are representative of a mid-size Navy combatant.</p>
-                        </div>
-                    </details>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label>Select Program</label>
-                            <select id="lifecycleProgram" class="form-select mb-2" style="background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.1);" onchange="calcLifecycle()"></select>
-                            <label>Planned Service Life (years)</label>
-                            <input type="number" id="lcServiceLife" class="form-control mb-2" style="background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.1);" placeholder="30" value="30" oninput="calcLifecycle()">
-                            <label>Annual Operating Hours</label>
-                            <input type="number" id="lcOpHours" class="form-control mb-2" style="background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.1);" placeholder="2500" value="2500" oninput="calcLifecycle()">
-                        </div>
-                        <div class="col-md-6">
-                            <label>Acquisition Unit Cost ($M)</label>
-                            <input type="number" id="lcAcqCost" class="form-control mb-2" style="background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.1);" placeholder="85" value="85" oninput="calcLifecycle()" step="0.1">
-                            <label>Fleet Size (number of units)</label>
-                            <input type="number" id="lcFleetSize" class="form-control mb-2" style="background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.1);" placeholder="20" value="20" oninput="calcLifecycle()">
-                            <label>Annual Sustainment Rate (% of acquisition)</label>
-                            <input type="number" id="lcSustRate" class="form-control mb-2" style="background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.1);" placeholder="8" value="8" oninput="calcLifecycle()" step="0.1">
-                        </div>
-                    </div>
-                    <div id="lifecycleOutput" style="margin-top:1rem"></div>
-                    <div class="row mt-3">
-                        <div class="col-md-3 col-6 mb-2"><div class="stat-mini"><div class="stat-mini-val" id="lcTotalCost" style="color:#ff9900">—</div><div class="stat-mini-label">Total Ownership Cost</div></div></div>
-                        <div class="col-md-3 col-6 mb-2"><div class="stat-mini"><div class="stat-mini-val" id="lcSustCost" style="color:#00aaff">—</div><div class="stat-mini-label">Sustainment (O&S)</div></div></div>
-                        <div class="col-md-3 col-6 mb-2"><div class="stat-mini"><div class="stat-mini-val" id="lcDmsmsCost" style="color:#ff3333">—</div><div class="stat-mini-label">DMSMS/Obsol. Cost</div></div></div>
-                        <div class="col-md-3 col-6 mb-2"><div class="stat-mini"><div class="stat-mini-val" id="lcCostPerHr" style="color:#14f195">—</div><div class="stat-mini-label">Cost per Op Hour</div></div></div>
-                    </div>
-                    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:1rem">
-                        <button onclick="exportLifecycle()" class="btn btn-sm" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;border-radius:8px;padding:8px 16px;"><i class="fas fa-download"></i> Export Lifecycle Report</button>
-                        <button onclick="anchorLifecycle()" class="btn btn-sm" style="background:linear-gradient(135deg,#c9a84c,#a88a3a);color:#fff;border:none;border-radius:8px;padding:8px 16px;"><i class="fas fa-anchor"></i> Anchor to XRPL ($0.01 SLS)</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ═══ WARRANTY & CONTRACT TRACKER ═══ -->
-            <div class="tab-pane fade" id="tabWarranty" role="tabpanel">
-                <div class="demo-card">
-                    <h3><i class="fas fa-file-contract" style="color:#c9a84c"></i> Warranty & Contract Tracker</h3>
-                    <p style="color:var(--steel);font-size:0.9rem;margin-bottom:0.5rem">Track OEM warranties, CLIN deliverable milestones, contract expirations, and service agreements across programs. Ensure compliance with FAR/DFARS warranty requirements and prevent coverage lapses.</p>
-                    <details style="margin-bottom:1rem;background:rgba(201,168,76,0.04);border:1px solid rgba(201,168,76,0.15);border-radius:8px;padding:0 12px;">
-                        <summary style="cursor:pointer;padding:10px 0;color:#c9a84c;font-weight:600;font-size:0.85rem;"><i class="fas fa-info-circle"></i> How It Works — Data Sources & S4 Ledger Value</summary>
-                        <div style="padding:0 0 12px;color:var(--steel);font-size:0.82rem;line-height:1.6;">
-                            <p><strong style="color:#fff;">What's real:</strong> The systems and OEMs listed are real — these are the actual systems on each platform with their actual manufacturers. Contract types (IDIQ, BPA, performance-based) reflect real acquisition vehicle structures.</p>
-                            <p><strong style="color:#ffa500;">What's demo data:</strong> The warranty dates, CLIN numbers, and dollar values are <em>simulated</em>. Real warranty data comes from contract documents (DD Form 1423s, CDRLs) and the program's contract administration office. This tool is designed to accept that data.</p>
-                            <p><strong style="color:#14f195;">How S4 Ledger saves money here:</strong> Warranty lapses cost the DoD hundreds of millions per year. When a $500K engine fails 3 days after the warranty expired because nobody tracked the date, the Government pays for the repair — not the OEM. S4 Ledger: (1) Anchors warranty start/end dates to the blockchain so they can't be disputed, (2) Generates expiration alerts 90 days out, (3) Creates immutable proof that a warranty claim was filed within the coverage period — critical when OEMs contest claims, (4) Tracks CLIN deliverable milestones so contract payments aren't made before deliverables are verified.</p>
-                            <p><strong style="color:#00aaff;">Production mode:</strong> Upload contract warranty schedules (CSV/XLSX), CLIN matrices from your DD Form 1423s, or service agreement details. The tracker will calculate expirations, generate alerts, and anchor each milestone to the XRPL. Every warranty event becomes a permanent, verifiable record.</p>
-                        </div>
-                    </details>
-                    <label>Select Program</label>
-                    <select id="warrantyProgram" class="form-select mb-3" style="background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.1);" onchange="loadWarrantyData()"></select>
-                    <div id="warrantyResults" style="margin-top:1rem"></div>
-                    <div class="row mt-3">
-                        <div class="col-md-3 col-6 mb-2"><div class="stat-mini"><div class="stat-mini-val" id="warActive" style="color:#14f195">0</div><div class="stat-mini-label">Active Warranties</div></div></div>
-                        <div class="col-md-3 col-6 mb-2"><div class="stat-mini"><div class="stat-mini-val" id="warExpiring" style="color:#ffa500">0</div><div class="stat-mini-label">Expiring (90 days)</div></div></div>
-                        <div class="col-md-3 col-6 mb-2"><div class="stat-mini"><div class="stat-mini-val" id="warExpired" style="color:#ff3333">0</div><div class="stat-mini-label">Expired</div></div></div>
-                        <div class="col-md-3 col-6 mb-2"><div class="stat-mini"><div class="stat-mini-val" id="warValue" style="color:#00aaff">$0</div><div class="stat-mini-label">Coverage Value</div></div></div>
-                    </div>
-                    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:1rem">
-                        <button onclick="exportWarranty()" class="btn btn-sm" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;border-radius:8px;padding:8px 16px;"><i class="fas fa-download"></i> Export Warranty Report</button>
-                        <button onclick="anchorWarranty()" class="btn btn-sm" style="background:linear-gradient(135deg,#c9a84c,#a88a3a);color:#fff;border:none;border-radius:8px;padding:8px 16px;"><i class="fas fa-anchor"></i> Anchor to XRPL ($0.01 SLS)</button>
-                    </div>
-                </div>
-            </div>
 
         </div>
     </div>
@@ -1827,7 +1642,7 @@ function updateTxLog() {
     }
 }
 
-// ═══ ILS Intelligence Engine v3 — Program-Specific Checklists & Document Analysis ═══
+// ═══ ILS Workspace Engine v3 — Program-Specific Checklists & Document Analysis ═══
 let ilsFiles = [];
 let ilsResults = null;
 
@@ -2299,7 +2114,7 @@ function formatCostM(valM) {
 
 // ── Program DRL Templates ──
 const PROGS = {
-    yrbm:{name:'YRBM \u2014 Yard Repair, Berthing & Messing',ofc:'PMS 300',type:'Service Craft (Non-Self-Propelled)',drls:[
+    yrbm:{name:'YRBM \u2014 Yard, Repair, Berthing, & Messing',ofc:'PMS 300',type:'Service Craft (Non-Self-Propelled)',drls:[
         {s:'A001',di:'DI-ILSS-81490',t:'Integrated Logistics Support Plan',el:'ilsmgmt',c:1},
         {s:'A002',di:'DI-ILSS-81494',t:'Planned Maintenance System (PMS) Development',el:'maint',c:1},
         {s:'A003',di:'DI-ILSS-81493',t:'Provisioning Technical Documentation',el:'supply',c:1},
@@ -3060,7 +2875,7 @@ function generateLCSP(progKey, prog) {
         '  IUID tracking per DI-031',
         '',
         '───────────────────────────────────────────────────────────────────',
-        '  LCSP generated by S4 Ledger ILS Intelligence Engine',
+        '  LCSP generated by S4 Ledger ILS Workspace Engine',
         '  s4ledger.com — Immutable logistics verification',
         '═══════════════════════════════════════════════════════════════════'
     ].join('\n');
@@ -3585,7 +3400,7 @@ function generateILSReport() {
     rpt += 'Platform Type:  ' + prog.type + '\n';
     rpt += 'Phase:          ' + phaseStr + '\n';
     rpt += 'Report Date:    ' + now.toISOString().split('T')[0] + '\n';
-    rpt += 'Analyst Tool:   S4 Ledger ILS Intelligence v3.0\n';
+    rpt += 'Analyst Tool:   S4 Ledger ILS Workspace v3.0\n';
     rpt += 'Classification: UNCLASSIFIED\n\n';
     rpt += '\u2500'.repeat(65) + '\n';
     rpt += '  OVERALL READINESS:     ' + r.pct + '%\n';
@@ -3682,7 +3497,7 @@ async function anchorILSReport() {
         hash, record_type:'ILS_GAP_ANALYSIS', record_label:'ILS Gap Analysis Report', branch:'JOINT',
         icon:'\uD83E\uDDE0', timestamp:new Date().toISOString(),
         timestamp_display: new Date().toISOString().replace('T',' ').substring(0,19) + ' UTC',
-        fee:0.01, tx_hash:txHash, system:'ILS Intelligence'
+        fee:0.01, tx_hash:txHash, system:'ILS Workspace'
     });
     stats.anchored++;
     stats.types.add('ILS_GAP_ANALYSIS');
@@ -3790,13 +3605,13 @@ function createCalendarEvent() {
     const endTime = String(parseInt(document.getElementById('meetTime').value.split(':')[0])+1).padStart(2,'0') + document.getElementById('meetTime').value.split(':')[1] + '00';
     const desc = buildAnalysisSummaryText();
     const ics = [
-        'BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//S4 Ledger//ILS Intelligence//EN',
+        'BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//S4 Ledger//ILS Workspace//EN',
         'BEGIN:VEVENT',
         'DTSTART:' + date + 'T' + time,
         'DTEND:' + date + 'T' + endTime,
         'SUMMARY:' + title,
         'DESCRIPTION:' + desc.replace(/\n/g,'\\n'),
-        'ORGANIZER:S4 Ledger ILS Intelligence',
+        'ORGANIZER:S4 Ledger ILS Workspace',
         'END:VEVENT','END:VCALENDAR'
     ].join('\r\n');
     const blob = new Blob([ics], {type:'text/calendar'});
@@ -3882,7 +3697,7 @@ function generateAiResponse(query) {
         if (/di-?\d+|di number/.test(q)) return explainDINumber(q);
         if (/what.*do|help|how.*work/.test(q)) return 'I can help you with:<br>• <strong>Interpreting gap analysis results</strong> after you run an analysis<br>• <strong>Explaining DI number requirements</strong> (e.g., "What is DI-009?")<br>• <strong>Suggesting corrective actions</strong> for identified gaps<br>• <strong>Drafting CARs</strong> (Corrective Action Requests)<br>• <strong>Estimating cost/schedule impacts</strong><br><br>Upload your documents and run analysis to get started!';
         if (/lcsp|life cycle/.test(q)) return '<strong>Life Cycle Sustainment Plan (LCSP)</strong> — DI-039 / DI-ILSS-81490<br><br>The LCSP is a top-level ILS planning document that:<br>• Defines the sustainment strategy for the entire program lifecycle<br>• Addresses all 12 ILS elements<br>• Establishes performance metrics (Ao, MTBF, MTTR)<br>• Required per DoW Instruction 5000.02<br><br>Use the <strong>"Load Full ILS Package"</strong> button to see a sample LCSP.';
-        return 'I\'m your ILS Intelligence Agent. I can help with DI numbers, gap analysis, CARs, and ILS requirements. Run an analysis to get context-specific insights, or ask me about any DI number or ILS topic!';
+        return 'I\'m your ILS Workspace Agent. I can help with DI numbers, gap analysis, CARs, and ILS requirements. Run an analysis to get context-specific insights, or ask me about any DI number or ILS topic!';
     }
 
     // Has analysis results
@@ -4833,9 +4648,10 @@ function updateNotifBadge() {
     if (tabCount) tabCount.textContent = items.length;
 }
 function toggleNotifPanel() {
-    // Navigate to action items tab
-    const tab = document.querySelector('a[href="#tabActions"]');
+    // Navigate to ILS Workspace and switch to Action Items panel
+    const tab = document.querySelector('a[href="#tabILS"]');
     if (tab) { tab.click(); window.scrollTo({top: 280, behavior:'smooth'}); }
+    setTimeout(() => { const btn = document.querySelector('.ils-hub-tab:nth-child(2)'); if (btn) switchHubTab('hub-actions', btn); }, 200);
 }
 
 // ── Unified Action Items Store (localStorage-backed) ──
@@ -4991,7 +4807,7 @@ function generateLifecycleActions(progKey, totalCost, dmsmsCost, sustCost) {
     }
 }
 
-// ═══ ILS INTELLIGENCE HUB ═══
+// ═══ ILS WORKSPACE ═══
 
 // ── Hub Tab Switching ──
 function switchHubTab(panelId, btn) {
@@ -5000,13 +4816,9 @@ function switchHubTab(panelId, btn) {
     const panel = document.getElementById(panelId);
     if (panel) panel.classList.add('active');
     if (btn) btn.classList.add('active');
-    // Sync hub panels with data
+    // Load data for workspace panels
     if (panelId === 'hub-actions') renderHubActions();
     if (panelId === 'hub-calendar') renderCalendar();
-    if (panelId === 'hub-dmsms') syncHubDmsms();
-    if (panelId === 'hub-readiness') syncHubReadiness();
-    if (panelId === 'hub-lifecycle') syncHubLifecycle();
-    if (panelId === 'hub-warranty') syncHubWarranty();
 }
 
 // ── Hub Action Items (mirrors the main action items + hub-specific stats) ──
@@ -5162,64 +4974,20 @@ function renderCalUpcoming(events) {
     el.innerHTML = html;
 }
 
-// ── Hub Tool Panel Syncing ──
-function syncHubDmsms() {
-    const sel = document.getElementById('hubDmsmsProgram');
-    if (sel && !sel.options.length) { sel.innerHTML = document.getElementById('dmsmsProgram').innerHTML; }
-    // Mirror stats
-    const mirror = (src,dst) => { const s = document.getElementById(src), d = document.getElementById(dst); if(s&&d)d.textContent=s.textContent; };
-    mirror('dmsmsTotalParts','hubDmsmsParts'); mirror('dmsmsAtRisk','hubDmsmsRisk'); mirror('dmsmsResolved','hubDmsmsOk'); mirror('dmsmsCost','hubDmsmsCost');
-    // Mirror results content
-    const srcRes = document.getElementById('dmsmsResults'), dstRes = document.getElementById('hubDmsmsResults');
-    if (srcRes && dstRes && srcRes.innerHTML.length > 50) dstRes.innerHTML = srcRes.innerHTML;
-}
-function syncHubReadiness() {
-    const sel = document.getElementById('hubReadinessProgram');
-    if (sel && !sel.options.length) { sel.innerHTML = document.getElementById('readinessProgram').innerHTML; }
-    const sysSel = document.getElementById('hubReadinessSystem');
-    if (sysSel) { sysSel.innerHTML = document.getElementById('readinessSystem').innerHTML; }
-    const mirror = (src,dst) => { const s = document.getElementById(src), d = document.getElementById(dst); if(s&&d)d.textContent=s.textContent; };
-    mirror('statAo','hubStatAo'); mirror('statAi','hubStatAi');
-}
-function syncHubLifecycle() {
-    const sel = document.getElementById('hubLifecycleProgram');
-    if (sel && !sel.options.length) { sel.innerHTML = document.getElementById('lifecycleProgram').innerHTML; }
-    const mirror = (src,dst) => { const s = document.getElementById(src), d = document.getElementById(dst); if(s&&d)d.textContent=s.textContent; };
-    mirror('lcTotalCost','hubLcTotal'); mirror('lcSustCost','hubLcSustCost'); mirror('lcDmsmsCost','hubLcDmsms'); mirror('lcCostPerHr','hubLcHr');
-}
-function syncHubWarranty() {
-    const sel = document.getElementById('hubWarrantyProgram');
-    if (sel && !sel.options.length) { sel.innerHTML = document.getElementById('warrantyProgram').innerHTML; }
-    const mirror = (src,dst) => { const s = document.getElementById(src), d = document.getElementById(dst); if(s&&d)d.textContent=s.textContent; };
-    mirror('warActive','hubWarActive'); mirror('warExpiring','hubWarExpiring'); mirror('warExpired','hubWarExpired'); mirror('warValue','hubWarValue');
-    const srcRes = document.getElementById('warrantyResults'), dstRes = document.getElementById('hubWarrantyResults');
-    if (srcRes && dstRes && srcRes.innerHTML.length > 50) dstRes.innerHTML = srcRes.innerHTML;
-}
-function syncROIInput() {
-    const fields = [['hubRoiPrograms','roiPrograms'],['hubRoiRecords','roiRecords'],['hubRoiFTE','roiFTE']];
-    fields.forEach(([hub,main]) => { const h = document.getElementById(hub), m = document.getElementById(main); if(h&&m) m.value = h.value; });
-}
-
-// ── Update hub stats when action items change ──
+// ── Update workspace stats when action items change ──
 const _origSaveActionItems = saveActionItems;
 saveActionItems = function() {
     localStorage.setItem('s4ActionItems', JSON.stringify(s4ActionItems));
     updateNotifBadge();
-    renderActionItemsPanel();
+    renderHubActions();
     // Also update hub badge
     const open = s4ActionItems.filter(a => !a.done).length;
     const badge = document.getElementById('hubActionBadge'); if (badge) badge.textContent = open > 0 ? open : '0';
 };
 
-// ── Hub initialization ──
+// ── Workspace initialization ──
 function initHub() {
-    // Populate hub selects from main tool selects after they're loaded
     setTimeout(() => {
-        ['dmsmsProgram:hubDmsmsProgram','readinessProgram:hubReadinessProgram','lifecycleProgram:hubLifecycleProgram','warrantyProgram:hubWarrantyProgram'].forEach(pair => {
-            const [src,dst] = pair.split(':');
-            const s = document.getElementById(src), d = document.getElementById(dst);
-            if (s && d && s.options.length) d.innerHTML = s.innerHTML;
-        });
         renderHubActions();
     }, 500);
 }
@@ -5230,9 +4998,9 @@ document.addEventListener('DOMContentLoaded', () => {
     loadSample('supply');
     initILSEngine();
     // Restore action items from localStorage
-    renderActionItemsPanel();
+    renderHubActions();
     updateNotifBadge();
-    // Initialize hub
+    // Initialize workspace
     initHub();
     // Set default calendar date
     const calDate = document.getElementById('calEventDate');

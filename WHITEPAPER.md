@@ -228,8 +228,8 @@ S4 Ledger is the only solution purpose-built for defense logistics that keeps ze
 
 | Tool | Description |
 |---|---|
-| **ILS Intelligence Hub** | Unified command center consolidating all tools with cross-tool data syncing and sub-tab navigation |
-| ILS Intelligence Engine | Per-program checklists for 26+ programs with DRL generation |
+| **ILS Workspace** | Unified command center consolidating all tools with cross-tool data syncing and sub-tab navigation |
+| ILS Workspace Engine | Per-program checklists for 26+ programs with DRL generation |
 | Action Items & Task Tracker | Cross-tool task queue with severity tagging, delegation, cost tracking, and source breakdown |
 | Calendar System | Month-grid calendar with auto-populated events from action item schedules and custom milestones |
 | DMSMS Tracker | Obsolescence monitoring with severity analysis |

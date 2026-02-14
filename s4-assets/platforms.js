@@ -32,7 +32,7 @@ const CL={
 // ═══════════════════════════════════════════
 const DB = {
 // ──── U.S. NAVY — SERVICE CRAFT (PMS 300) ────
-yrbm:{n:'YRBM — Yard Repair, Berthing & Messing Barge',b:'USN',c:'svc',p:'PMS 300'},
+yrbm:{n:'YRBM — Yard, Repair, Berthing, & Messing',b:'USN',c:'svc',p:'PMS 300'},
 apl:{n:'APL — Auxiliary Personnel Lighter',b:'USN',c:'svc',p:'PMS 300'},
 afdm:{n:'AFDM — Auxiliary Floating Drydock (Medium)',b:'USN',c:'svc',p:'PMS 300'},
 afdl:{n:'AFDL — Auxiliary Floating Drydock (Little)',b:'USN',c:'svc',p:'PMS 300'},
