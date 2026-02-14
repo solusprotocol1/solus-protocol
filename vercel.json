@@ -9,6 +9,11 @@
         { "source": "/api/anchor", "destination": "/api" },
         { "source": "/api/hash", "destination": "/api" },
         { "source": "/api/categorize", "destination": "/api" },
-        { "source": "/api/xrpl-status", "destination": "/api" }
+        { "source": "/api/xrpl-status", "destination": "/api" },
+        { "source": "/api/auth/api-key", "destination": "/api" },
+        { "source": "/api/auth/validate", "destination": "/api" },
+        { "source": "/api/db/save-analysis", "destination": "/api" },
+        { "source": "/api/db/get-analyses", "destination": "/api" },
+        { "source": "/api/infrastructure", "destination": "/api" }
     ]
 }

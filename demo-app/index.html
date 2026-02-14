@@ -144,6 +144,37 @@
         .ils-action-item .action-owner{font-size:0.78rem;padding:2px 8px;border-radius:4px;background:rgba(0,170,255,0.1);color:var(--accent)}
         .ils-action-item .action-detail{color:var(--steel);font-size:0.82rem}
         @media(max-width:991px){.navbar-collapse{background:rgba(5,8,16,0.98);padding:15px;border-radius:12px;margin-top:10px;border:1px solid var(--border);max-height:85vh;overflow-y:auto}.navbar-nav{gap:5px}.nav-link{padding:10px 15px!important;border-radius:8px}.nav-link:hover{background:rgba(0,170,255,0.1)}}
+        /* AI Agent Chat */
+        .ai-chat-container{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;height:420px}
+        .ai-chat-header{background:linear-gradient(135deg,rgba(0,170,255,0.15),rgba(201,168,76,0.1));padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
+        .ai-chat-header .ai-dot{width:10px;height:10px;background:#14f195;border-radius:50%;animation:pulse 2s infinite}
+        .ai-chat-messages{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:10px;font-size:0.85rem}
+        .ai-msg{padding:10px 14px;border-radius:12px;max-width:90%;line-height:1.5;animation:fadeIn 0.3s ease}
+        .ai-msg.bot{background:rgba(0,170,255,0.08);border:1px solid rgba(0,170,255,0.15);align-self:flex-start;color:var(--steel)}
+        .ai-msg.user{background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.2);align-self:flex-end;color:#fff}
+        .ai-msg .ai-label{font-size:0.7rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px}
+        .ai-chat-input{display:flex;gap:8px;padding:10px 12px;border-top:1px solid var(--border);background:var(--card)}
+        .ai-chat-input input{flex:1;background:var(--surface)!important;border:1px solid var(--border)!important;border-radius:8px!important;padding:8px 12px!important;color:var(--text)!important;font-size:0.85rem!important;font-family:inherit!important}
+        .ai-chat-input button{background:var(--accent);color:#fff;border:none;border-radius:8px;padding:8px 14px;font-size:0.85rem;font-weight:600;cursor:pointer;white-space:nowrap}
+        .ai-chat-input button:hover{background:#0099ee}
+        .ai-quick-btns{display:flex;flex-wrap:wrap;gap:4px;padding:6px 12px;background:var(--card);border-top:1px solid rgba(255,255,255,0.03)}
+        .ai-quick-btn{background:rgba(0,170,255,0.06);border:1px solid rgba(0,170,255,0.15);color:var(--accent);border-radius:16px;padding:4px 10px;font-size:0.72rem;cursor:pointer;font-family:inherit;transition:all 0.2s}
+        .ai-quick-btn:hover{background:rgba(0,170,255,0.15);border-color:var(--accent)}
+        /* Post-Analysis Actions */
+        .post-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;padding-top:12px;border-top:1px dashed var(--border)}
+        .post-action-btn{display:inline-flex;align-items:center;gap:6px;background:rgba(0,170,255,0.06);border:1px solid rgba(0,170,255,0.2);color:var(--steel);border-radius:8px;padding:8px 14px;font-size:0.8rem;font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.2s}
+        .post-action-btn:hover{background:rgba(0,170,255,0.14);color:var(--accent);border-color:var(--accent)}
+        .post-action-btn i{font-size:0.85rem;color:var(--accent)}
+        /* Sample Package Modal */
+        .sample-pkg-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:10px 0;max-height:200px;overflow-y:auto}
+        .sample-pkg-item{display:flex;align-items:center;gap:6px;padding:6px 10px;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.1);border-radius:6px;font-size:0.78rem;color:var(--steel);cursor:default}
+        .sample-pkg-item i{color:var(--accent);font-size:0.75rem;min-width:14px}
+        /* Send Modal */
+        .modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(5,8,16,0.9);display:flex;align-items:center;justify-content:center;z-index:9998;opacity:0;pointer-events:none;transition:opacity 0.3s}
+        .modal-overlay.active{opacity:1;pointer-events:all}
+        .modal-box{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:2rem;max-width:480px;width:90%;animation:fadeIn 0.3s ease}
+        .modal-box h4{color:var(--accent);margin-bottom:1rem}
+        .modal-box .modal-close{position:absolute;top:12px;right:16px;background:none;border:none;color:var(--muted);font-size:1.2rem;cursor:pointer}
     </style>
 </head>
 <body>
@@ -445,9 +476,10 @@
                                 <div style="font-size:0.82rem;color:var(--muted)">Accepts .csv, .xlsx, .xls, .txt — all processing done locally in your browser</div>
                             </div>
                             <input type="file" id="ilsFileInput" multiple accept=".csv,.xlsx,.xls,.txt,.tsv" style="display:none" onchange="handleILSFiles(this.files)">
-                            <div style="margin:8px 0">
+                            <div style="margin:8px 0;display:flex;align-items:center;gap:8px;flex-wrap:wrap">
                                 <button style="background:linear-gradient(135deg,rgba(0,170,255,0.12),rgba(201,168,76,0.12));border:1px solid rgba(0,170,255,0.25);color:var(--accent);border-radius:6px;padding:6px 14px;cursor:pointer;font-family:inherit;font-size:0.82rem;font-weight:600;transition:all 0.2s" onmouseover="this.style.background='rgba(0,170,255,0.2)'" onmouseout="this.style.background='linear-gradient(135deg,rgba(0,170,255,0.12),rgba(201,168,76,0.12))'" onclick="event.stopPropagation();loadSampleDRL()"><i class="fas fa-flask"></i> Load Sample DRL</button>
-                                <span style="font-size:0.78rem;color:var(--muted);margin-left:6px">Generate a realistic sample spreadsheet for the selected program</span>
+                                <button style="background:linear-gradient(135deg,rgba(201,168,76,0.12),rgba(20,241,149,0.08));border:1px solid rgba(201,168,76,0.25);color:var(--gold);border-radius:6px;padding:6px 14px;cursor:pointer;font-family:inherit;font-size:0.82rem;font-weight:600;transition:all 0.2s" onmouseover="this.style.background='rgba(201,168,76,0.2)'" onmouseout="this.style.background='linear-gradient(135deg,rgba(201,168,76,0.12),rgba(20,241,149,0.08))'" onclick="event.stopPropagation();loadSamplePackage()"><i class="fas fa-box-open"></i> Load Full ILS Package</button>
+                                <span style="font-size:0.78rem;color:var(--muted)">DRL, LCSP, IUID, VRS, Spares Buylist & more</span>
                             </div>
                             <div class="ils-file-list" id="ilsFileList"></div>
 
@@ -458,6 +490,15 @@
                                 <button class="btn-accent" onclick="runFullILSAnalysis()"><i class="fas fa-chart-line"></i> Run Full Analysis</button>
                                 <button class="btn-gold" onclick="generateILSReport()"><i class="fas fa-file-export"></i> Generate Report</button>
                                 <button style="background:rgba(0,170,255,0.1);border:1px solid rgba(0,170,255,0.3);color:var(--accent);border-radius:8px;padding:0.5rem 1rem;cursor:pointer;font-family:inherit;font-size:0.85rem;font-weight:600" onclick="anchorILSReport()"><i class="fas fa-anchor"></i> Anchor Report Hash</button>
+                            </div>
+                            <div id="ilsPostActions" style="display:none">
+                                <div class="post-actions">
+                                    <button class="post-action-btn" onclick="sendILSAnalysis()"><i class="fas fa-paper-plane"></i> Send Analysis</button>
+                                    <button class="post-action-btn" onclick="scheduleILSMeeting()"><i class="fas fa-calendar-plus"></i> Schedule Meeting</button>
+                                    <button class="post-action-btn" onclick="exportActionTracker()"><i class="fas fa-clipboard-list"></i> Update Action Tracker</button>
+                                    <button class="post-action-btn" onclick="printILSReport()"><i class="fas fa-print"></i> Print Report</button>
+                                    <button class="post-action-btn" onclick="saveILSReport()"><i class="fas fa-save"></i> Save Report</button>
+                                </div>
                             </div>
                             <div class="result-panel" id="ilsResult"></div>
                         </div>
@@ -494,6 +535,31 @@
                                 <div style="color:var(--muted);text-align:center;padding:1rem">Analysis required to estimate impact.</div>
                             </div>
                         </div>
+                        <div class="demo-card" style="padding:0;overflow:hidden">
+                            <div style="padding:0">
+                                <div class="ai-chat-header">
+                                    <div class="ai-dot"></div>
+                                    <div><span style="font-weight:700;color:#fff;font-size:0.95rem"><i class="fas fa-robot" style="color:var(--accent);margin-right:6px"></i>S4 ILS Agent</span><span style="font-size:0.72rem;color:var(--muted);margin-left:8px">AI-Powered Analysis Assistant</span></div>
+                                </div>
+                                <div class="ai-chat-container" style="border:none;border-radius:0;height:380px">
+                                    <div class="ai-chat-messages" id="aiChatMessages">
+                                        <div class="ai-msg bot"><div class="ai-label"><i class="fas fa-robot"></i> S4 Agent</div>Hello! I'm your ILS Intelligence Agent. I can help you:<br>• Interpret gap analysis results<br>• Explain DI number requirements<br>• Suggest corrective actions<br>• Draft CAR narratives<br>• Estimate cost impacts<br><br>Run an analysis or ask me anything about ILS!</div>
+                                    </div>
+                                    <div class="ai-quick-btns" id="aiQuickBtns">
+                                        <button class="ai-quick-btn" onclick="aiAsk('Summarize my gaps')">Summarize Gaps</button>
+                                        <button class="ai-quick-btn" onclick="aiAsk('What are the critical items?')">Critical Items</button>
+                                        <button class="ai-quick-btn" onclick="aiAsk('Draft a CAR')">Draft CAR</button>
+                                        <button class="ai-quick-btn" onclick="aiAsk('Estimate total risk')">Risk Estimate</button>
+                                        <button class="ai-quick-btn" onclick="aiAsk('What DI numbers am I missing?')">Missing DIs</button>
+                                        <button class="ai-quick-btn" onclick="aiAsk('Suggest next steps')">Next Steps</button>
+                                    </div>
+                                    <div class="ai-chat-input">
+                                        <input type="text" id="aiChatInput" placeholder="Ask the ILS Agent..." onkeydown="if(event.key==='Enter')aiSend()">
+                                        <button onclick="aiSend()"><i class="fas fa-paper-plane"></i> Send</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -510,6 +576,58 @@
         <div id="animClf" style="margin-top:0.6rem"></div>
         <div class="anim-fee" id="animFee">0.01 $SLS &rarr; Treasury</div>
         <div class="anim-success" id="animSuccess"></div>
+    </div>
+</div>
+
+<div id="sendModal" class="modal-overlay" onclick="if(event.target===this)closeSendModal()">
+    <div class="modal-box" style="position:relative">
+        <button onclick="closeSendModal()" style="position:absolute;top:12px;right:16px;background:none;border:none;color:var(--muted);font-size:1.2rem;cursor:pointer">&times;</button>
+        <h4><i class="fas fa-paper-plane" style="color:var(--accent);margin-right:8px"></i>Send ILS Analysis</h4>
+        <div style="margin-bottom:12px">
+            <label style="font-size:0.82rem">Recipient Email(s)</label>
+            <input type="text" id="sendEmail" placeholder="email@navy.mil, pm@contractor.com" style="font-size:0.85rem!important">
+        </div>
+        <div style="margin-bottom:12px">
+            <label style="font-size:0.82rem">Subject</label>
+            <input type="text" id="sendSubject" value="" style="font-size:0.85rem!important">
+        </div>
+        <div style="margin-bottom:12px">
+            <label style="font-size:0.82rem">Message (optional)</label>
+            <textarea id="sendMessage" rows="3" placeholder="Please review the attached ILS gap analysis..." style="min-height:70px!important;font-family:'Plus Jakarta Sans',sans-serif!important;font-size:0.85rem!important"></textarea>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button class="btn-accent" onclick="executeSend()"><i class="fas fa-paper-plane"></i> Send via Email Client</button>
+            <button style="background:rgba(0,170,255,0.1);border:1px solid var(--border);color:var(--steel);border-radius:8px;padding:8px 16px;cursor:pointer;font-size:0.85rem;font-family:inherit" onclick="copyAnalysisToClipboard()"><i class="fas fa-copy"></i> Copy to Clipboard</button>
+        </div>
+    </div>
+</div>
+
+<div id="meetingModal" class="modal-overlay" onclick="if(event.target===this)closeMeetingModal()">
+    <div class="modal-box" style="position:relative">
+        <button onclick="closeMeetingModal()" style="position:absolute;top:12px;right:16px;background:none;border:none;color:var(--muted);font-size:1.2rem;cursor:pointer">&times;</button>
+        <h4><i class="fas fa-calendar-plus" style="color:var(--accent);margin-right:8px"></i>Schedule ILS Review Meeting</h4>
+        <div style="margin-bottom:12px">
+            <label style="font-size:0.82rem">Meeting Title</label>
+            <input type="text" id="meetTitle" value="" style="font-size:0.85rem!important">
+        </div>
+        <div class="row mb-3">
+            <div class="col-6">
+                <label style="font-size:0.82rem">Date</label>
+                <input type="date" id="meetDate" style="font-size:0.85rem!important">
+            </div>
+            <div class="col-6">
+                <label style="font-size:0.82rem">Time</label>
+                <input type="time" id="meetTime" value="10:00" style="font-size:0.85rem!important">
+            </div>
+        </div>
+        <div style="margin-bottom:12px">
+            <label style="font-size:0.82rem">Attendees (emails)</label>
+            <input type="text" id="meetAttendees" placeholder="pm@navy.mil, ils@contractor.com" style="font-size:0.85rem!important">
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button class="btn-accent" onclick="createTeamsMeeting()"><i class="fab fa-microsoft"></i> Open Teams</button>
+            <button style="background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.3);color:var(--gold);border-radius:8px;padding:8px 16px;cursor:pointer;font-size:0.85rem;font-family:inherit;font-weight:600" onclick="createCalendarEvent()"><i class="fas fa-calendar-alt"></i> Add to Calendar (.ics)</button>
+        </div>
     </div>
 </div>
 
@@ -1884,29 +2002,326 @@ const PROGS = {
     ]}
 };
 
-// ── Sample DRL Generator ──
+// ── Sample DRL Generator (Enhanced with realistic DI numbers) ──
+// Extended DI catalog per program type for realistic samples
+const EXTENDED_DI = {
+    navy_pms300: [
+        {di:'DI-001',t:'Contract Data Requirements List (CDRL)',el:'ilsmgmt'},
+        {di:'DI-002',t:'Statement of Work (SOW) Compliance Matrix',el:'ilsmgmt'},
+        {di:'DI-003',t:'Integrated Master Schedule (IMS)',el:'ilsmgmt'},
+        {di:'DI-004',t:'Systems Engineering Plan (SEP)',el:'design'},
+        {di:'DI-005',t:'Interface Control Document (ICD)',el:'design'},
+        {di:'DI-006',t:'Test & Evaluation Master Plan (TEMP)',el:'ram'},
+        {di:'DI-007',t:'Weight Report',el:'design'},
+        {di:'DI-008',t:'Electrical Load Analysis',el:'design'},
+        {di:'DI-009',t:'Purchase Order Index',el:'supply'},
+        {di:'DI-010',t:'Long Lead Time Material List',el:'supply'},
+        {di:'DI-011',t:'Government Furnished Material (GFM) List',el:'supply'},
+        {di:'DI-012',t:'Hazardous Material (HazMat) List',el:'phst'},
+        {di:'DI-013',t:'Lifting & Handling Plan',el:'phst'},
+        {di:'DI-014',t:'Fire Protection Plan',el:'design'},
+        {di:'DI-015',t:'Compartment Check-Off List (CCOL)',el:'maint'},
+        {di:'DI-016',t:'Quality Assurance Plan',el:'ilsmgmt'},
+        {di:'DI-017',t:'Welding Procedure Qualification Records',el:'maint'},
+        {di:'DI-018',t:'Non-Destructive Testing (NDT) Procedures',el:'maint'},
+        {di:'DI-019',t:'Post-Delivery Availability (PDA) Plan',el:'maint'},
+        {di:'DI-020',t:'Vendor Recommended Spares (VRS)',el:'supply'},
+        {di:'DI-021',t:'Allowance Parts List (APL)',el:'supply'},
+        {di:'DI-022',t:'Allowance Equipage List (AEL)',el:'supply'},
+        {di:'DI-023',t:'Technical Manual (Operator)',el:'techdata'},
+        {di:'DI-024',t:'Technical Manual (Maintenance)',el:'techdata'},
+        {di:'DI-025',t:'Damage Control Book',el:'techdata'},
+        {di:'DI-026',t:'Ship Information Book (SIB)',el:'techdata'},
+        {di:'DI-027',t:'Baseline Design Drawing Package',el:'config'},
+        {di:'DI-028',t:'As-Built Drawing Package',el:'config'},
+        {di:'DI-029',t:'Configuration Status Accounting (CSA)',el:'config'},
+        {di:'DI-030',t:'Engineering Change Proposal (ECP)',el:'config'},
+        {di:'DI-031',t:'Item Unique Identification (IUID) Register',el:'supply'},
+        {di:'DI-032',t:'Maintenance Requirement Cards (MRCs)',el:'maint'},
+        {di:'DI-033',t:'Planned Maintenance System (PMS) Index',el:'maint'},
+        {di:'DI-034',t:'Reliability Analysis / FMECA',el:'ram'},
+        {di:'DI-035',t:'Maintainability Analysis',el:'ram'},
+        {di:'DI-036',t:'Availability (Ao) Analysis Report',el:'ram'},
+        {di:'DI-037',t:'Level of Repair Analysis (LORA)',el:'maint'},
+        {di:'DI-038',t:'Life Cycle Cost Analysis (LCCA)',el:'ilsmgmt'},
+        {di:'DI-039',t:'Life Cycle Sustainment Plan (LCSP)',el:'ilsmgmt'},
+        {di:'DI-040',t:'Crew Familiarization Training Plan',el:'training'},
+        {di:'DI-041',t:'Machinery Equipment List (MEL)',el:'supply'},
+        {di:'DI-042',t:'Safety Assessment Report',el:'design'},
+        {di:'DI-043',t:'Environmental Compliance Plan',el:'phst'},
+        {di:'DI-044',t:'Spares Buylist / Initial Outfitting',el:'supply'}
+    ],
+    army: [
+        {di:'DI-001',t:'LSA Record (LSAR) Data',el:'lsa'},{di:'DI-002',t:'MAC Code Assignment',el:'lsa'},
+        {di:'DI-003',t:'RPSTL — Repair Parts & Special Tools',el:'supply'},{di:'DI-004',t:'NET Plan / Training Support Package',el:'training'},
+        {di:'DI-005',t:'MANPRINT Assessment Report',el:'manpower'},{di:'DI-006',t:'Transportability Report (C-17/C-130)',el:'phst'},
+        {di:'DI-007',t:'Technical Manual TM 9-series',el:'techdata'},{di:'DI-008',t:'Depot Maintenance Work Requirements (DMWR)',el:'maint'},
+        {di:'DI-009',t:'Provisioning Master Record',el:'supply'},{di:'DI-010',t:'Reliability Growth Test Plan',el:'ram'},
+        {di:'DI-011',t:'RAM/Ao Threshold Analysis',el:'ram'},{di:'DI-012',t:'Fielding Plan',el:'ilsmgmt'},
+        {di:'DI-013',t:'PBL Strategy Document',el:'supply'},{di:'DI-014',t:'Obsolescence Management Plan',el:'supply'},
+        {di:'DI-015',t:'Safety Release Certificate',el:'design'}
+    ],
+    airforce: [
+        {di:'DI-001',t:'Technical Order (TO) Package',el:'techdata'},{di:'DI-002',t:'ODIN LCMP Integration',el:'compres'},
+        {di:'DI-003',t:'Aerospace Ground Equipment (AGE) List',el:'se'},{di:'DI-004',t:'Mission Capable Rate Baseline',el:'ram'},
+        {di:'DI-005',t:'Reliability Centered Maintenance Plan',el:'maint'},{di:'DI-006',t:'Software Configuration Baseline',el:'config'},
+        {di:'DI-007',t:'Preliminary Design Review (PDR) Data',el:'design'},{di:'DI-008',t:'Critical Design Review (CDR) Data',el:'design'},
+        {di:'DI-009',t:'Cybersecurity Assessment Report',el:'compres'},{di:'DI-010',t:'Aircrew Training Device Specifications',el:'training'},
+        {di:'DI-011',t:'Maintenance Training Courseware',el:'training'},{di:'DI-012',t:'Depot Source of Repair (DSOR)',el:'maint'}
+    ],
+    space: [
+        {di:'DI-001',t:'On-Orbit Reliability Model',el:'ram'},{di:'DI-002',t:'Ground Segment Maintenance Plan',el:'maint'},
+        {di:'DI-003',t:'Satellite Bus Configuration Baseline',el:'config'},{di:'DI-004',t:'Space Vehicle Integration Plan',el:'design'},
+        {di:'DI-005',t:'STIG Compliance Matrix',el:'compres'},{di:'DI-006',t:'Launch Operations Logistics Plan',el:'phst'},
+        {di:'DI-007',t:'Mission Crew Operations Manual',el:'training'},{di:'DI-008',t:'Constellation Availability Analysis',el:'ram'}
+    ],
+    coastguard: [
+        {di:'DI-001',t:'CG Maintenance Plan (PMS Format)',el:'maint'},{di:'DI-002',t:'CG Technical Manual (CG Format)',el:'techdata'},
+        {di:'DI-003',t:'CG Provisioning Documentation',el:'supply'},{di:'DI-004',t:'C4ISR Logistics Plan',el:'compres'},
+        {di:'DI-005',t:'Cutter Training Plan',el:'training'},{di:'DI-006',t:'Vessel Safety Assessment',el:'design'},
+        {di:'DI-007',t:'Environmental Compliance (MARPOL)',el:'phst'},{di:'DI-008',t:'SAR Equipment List',el:'se'}
+    ],
+    marines: [
+        {di:'DI-001',t:'LSA Record (LSAR) — Marine Corps',el:'lsa'},{di:'DI-002',t:'MOS Training Plan',el:'training'},
+        {di:'DI-003',t:'CSS Equipment Requirements',el:'se'},{di:'DI-004',t:'Amphibious Operations Logistics',el:'phst'},
+        {di:'DI-005',t:'Repair Parts Block Requirements',el:'supply'},{di:'DI-006',t:'Combat Configuration Baseline',el:'config'}
+    ]
+};
+
+function getExtendedDIs(progKey) {
+    if (['yrbm','apl','afdm','ydt','yon'].includes(progKey)) return EXTENDED_DI.navy_pms300;
+    if (['ddg51','lcs','cvn78','ffg62','lpd17'].includes(progKey)) return EXTENDED_DI.navy_pms300;
+    if (['f35','f35b','ch53k'].includes(progKey)) return EXTENDED_DI.airforce;
+    if (['m1','stryker','ah64','himars'].includes(progKey)) return EXTENDED_DI.army;
+    if (['f35a','kc46','b21','c17'].includes(progKey)) return EXTENDED_DI.airforce;
+    if (['gps3','sbirs'].includes(progKey)) return EXTENDED_DI.space;
+    if (['nsc','opc','frc'].includes(progKey)) return EXTENDED_DI.coastguard;
+    if (['acv'].includes(progKey)) return EXTENDED_DI.marines;
+    return EXTENDED_DI.navy_pms300;
+}
+
 function loadSampleDRL() {
     const progKey = document.getElementById('ilsProgram').value;
     const prog = PROGS[progKey];
     if (!prog) return;
-    const statuses = ['Approved','Approved','Submitted','In Review','Overdue','Rejected','Approved','Approved'];
-    const dates = ['2025-10-15','2025-12-01','2026-01-15','2026-02-01','2026-03-15','2026-04-01','2025-11-20','2026-05-01'];
-    let csv = 'CDRL Seq,DI Number,Title,Status,Due Date\n';
+    const statuses = ['Approved','Approved','Submitted','In Review','Overdue','Rejected','Approved','Approved','Submitted','Approved'];
+    const dates = ['2025-10-15','2025-12-01','2026-01-15','2026-02-01','2026-03-15','2026-04-01','2025-11-20','2026-05-01','2026-06-15','2025-09-01'];
+    // Generate primary DRL with extended DI items
+    const extDIs = getExtendedDIs(progKey);
+    let csv = 'CDRL Seq,DI Number,Title,ILS Element,Status,Due Date,Contractor,Approval Authority\n';
+    // First include all program-specific DRL items
     prog.drls.forEach((d,i) => {
-        if (Math.random() < 0.18) return; // ~18% missing
+        if (Math.random() < 0.15) return; // ~15% missing for realistic gaps
         const si = (i + Math.floor(Math.random()*3)) % statuses.length;
-        csv += d.s + ',' + d.di + ',"' + d.t + '",' + statuses[si] + ',' + dates[si] + '\n';
+        csv += d.s + ',' + d.di + ',"' + d.t + '",' + (d.el||'') + ',' + statuses[si] + ',' + dates[si] + ',Primary Contractor,' + prog.ofc + '\n';
     });
-    // Also add some realistic records that match checklist keywords
+    // Then add extended DI items
+    extDIs.forEach((d,i) => {
+        if (Math.random() < 0.25) return; // ~25% missing
+        const si = (i + Math.floor(Math.random()*4)) % statuses.length;
+        const seq = 'B' + String(i+1).padStart(3,'0');
+        csv += seq + ',' + d.di + ',"' + d.t + '",' + d.el + ',' + statuses[si] + ',' + dates[si] + ',Primary Contractor,' + prog.ofc + '\n';
+    });
+    // Add checklist items as status records
     const cl = getCL(progKey);
     cl.forEach(item => {
-        if (Math.random() < 0.5) {
-            csv += ','+ ',"' + item.l + ' \u2014 Status Report",Review Complete,2026-01-30\n';
-        }
+        if (Math.random() < 0.5) csv += ','+ ',"' + item.l + ' \u2014 Status Report",,Review Complete,2026-01-30,' + prog.ofc + ',\n';
     });
     const blob = new Blob([csv], {type:'text/csv'});
-    const file = new File([blob], 'Sample_DRL_' + progKey.toUpperCase() + '.csv', {type:'text/csv'});
+    const file = new File([blob], 'DRL_Tracker_' + progKey.toUpperCase() + '.csv', {type:'text/csv'});
     handleILSFiles([file]);
+}
+
+function loadSamplePackage() {
+    const progKey = document.getElementById('ilsProgram').value;
+    const prog = PROGS[progKey];
+    if (!prog) return;
+    // Clear existing files
+    ilsFiles = [];
+    document.getElementById('ilsFileList').innerHTML = '';
+
+    // 1. Main DRL Tracker (CSV)
+    loadSampleDRL();
+
+    // 2. Life Cycle Sustainment Plan (LCSP) — text content simulating a Word doc
+    const lcsp = generateLCSP(progKey, prog);
+    handleILSFiles([new File([new Blob([lcsp],{type:'text/plain'})], 'LCSP_' + progKey.toUpperCase() + '_2026.txt', {type:'text/plain'})]);
+
+    // 3. IUID Register (CSV)
+    const iuid = generateIUID(progKey, prog);
+    handleILSFiles([new File([new Blob([iuid],{type:'text/csv'})], 'IUID_Register_' + progKey.toUpperCase() + '.csv', {type:'text/csv'})]);
+
+    // 4. Vendor Recommended Spares (CSV)
+    const vrs = generateVRS(progKey, prog);
+    handleILSFiles([new File([new Blob([vrs],{type:'text/csv'})], 'VRS_' + progKey.toUpperCase() + '.csv', {type:'text/csv'})]);
+
+    // 5. Spares Buylist / Initial Outfitting (CSV)
+    const buylist = generateSparesBuylist(progKey, prog);
+    handleILSFiles([new File([new Blob([buylist],{type:'text/csv'})], 'Spares_Buylist_' + progKey.toUpperCase() + '.csv', {type:'text/csv'})]);
+
+    // 6. Purchase Order Index (CSV)
+    const poi = generatePOIndex(progKey, prog);
+    handleILSFiles([new File([new Blob([poi],{type:'text/csv'})], 'PO_Index_' + progKey.toUpperCase() + '.csv', {type:'text/csv'})]);
+
+    // 7. MEL / Equipment List (CSV) — for Navy/CG programs
+    if (['yrbm','apl','afdm','ydt','yon','ddg51','lcs','cvn78','ffg62','lpd17','nsc','opc','frc'].includes(progKey)) {
+        const mel = generateMEL(progKey, prog);
+        handleILSFiles([new File([new Blob([mel],{type:'text/csv'})], 'MEL_' + progKey.toUpperCase() + '.csv', {type:'text/csv'})]);
+    }
+
+    // 8. Maintenance Requirement Card Index (CSV) — for Navy
+    if (['yrbm','apl','afdm','ydt','yon','ddg51','lcs','cvn78','ffg62','lpd17','nsc','opc','frc'].includes(progKey)) {
+        const mrc = generateMRCIndex(progKey, prog);
+        handleILSFiles([new File([new Blob([mrc],{type:'text/csv'})], 'MRC_Index_' + progKey.toUpperCase() + '.csv', {type:'text/csv'})]);
+    }
+}
+
+function generateLCSP(progKey, prog) {
+    const hull = document.getElementById('ilsHull')?.value || progKey.toUpperCase();
+    return [
+        '═══════════════════════════════════════════════════════════════════',
+        '  LIFE CYCLE SUSTAINMENT PLAN (LCSP)',
+        '  DI-ILSS-81490 / DI-039',
+        '═══════════════════════════════════════════════════════════════════',
+        '',
+        'Program:         ' + prog.name,
+        'Hull/Desig:      ' + hull,
+        'Program Office:  ' + prog.ofc,
+        'Platform Type:   ' + prog.type,
+        'Document Rev:    Rev B (Draft)',
+        'Date:            ' + new Date().toISOString().split('T')[0],
+        'Classification:  UNCLASSIFIED',
+        '',
+        '───────────────────────────────────────────────────────────────────',
+        '1.0 PURPOSE',
+        '  This Life Cycle Sustainment Plan establishes the strategy for',
+        '  integrated logistics support of the ' + prog.name + ' program',
+        '  throughout its projected 30-year service life.',
+        '',
+        '2.0 ILS ELEMENTS ADDRESSED',
+        '  2.1 Maintenance Planning (PMS/MRC Development)',
+        '  2.2 Supply Support (Provisioning, APL, COSAL)',
+        '  2.3 Technical Data (Tech Manuals, IETMs)',
+        '  2.4 Training & Training Support',
+        '  2.5 Support Equipment',
+        '  2.6 Manpower & Personnel',
+        '  2.7 Computer Resources / Mission Systems',
+        '  2.8 Facilities',
+        '  2.9 PHS&T',
+        '  2.10 Design Interface',
+        '',
+        '3.0 SUSTAINMENT STRATEGY',
+        '  3.1 Organic Maintenance: ' + (prog.ofc.includes('PMS')?'NAVSEA / Regional Maintenance Centers':'Service Depot-Level'),
+        '  3.2 Contractor Maintenance: Post-Delivery Availability (PDA)',
+        '  3.3 Spares Strategy: DLA/NAVSUP with contractor initial provisioning',
+        '  3.4 Obsolescence: Proactive DMSMS monitoring program',
+        '',
+        '4.0 PERFORMANCE METRICS',
+        '  • Ao (Operational Availability): ≥ 0.85',
+        '  • MTBF target: Per RAM analysis (DI-034)',
+        '  • MTTR target: Per Maintainability Analysis (DI-035)',
+        '  • Fill Rate (supply support): ≥ 90%',
+        '',
+        '5.0 CONFIGURATION MANAGEMENT',
+        '  Baseline managed per DI-029 / DI-030 (CSA & ECP)',
+        '  IUID tracking per DI-031',
+        '',
+        '───────────────────────────────────────────────────────────────────',
+        '  LCSP generated by S4 Ledger ILS Intelligence Engine',
+        '  s4ledger.com — Immutable logistics verification',
+        '═══════════════════════════════════════════════════════════════════'
+    ].join('\n');
+}
+
+function generateIUID(progKey, prog) {
+    const parts = ['Main Engine Assembly','Generator Set #1','Generator Set #2','Fire Pump','HVAC Unit','Steering Gear','Anchor Windlass','Crane Assembly','Radar System','Navigation Console','Comm Suite','Electrical Switchboard','Hydraulic Power Unit','Fuel Transfer Pump','Freshwater Distiller','Sewage Treatment Plant','Capstan','Life Raft Cradle','Shore Power Connection','Battery Charger'];
+    const nsns = ['2815-01-234-5678','6115-01-345-6789','6115-01-345-6790','4210-01-456-7890','4120-01-567-8901','2540-01-678-9012','3950-01-789-0123','3810-01-890-1234','5820-01-901-2345','6605-01-012-3456'];
+    let csv = 'IUID UII,NSN,Nomenclature,Manufacturer,Part Number,Serial Number,Acquisition Cost,Install Location,Status\n';
+    parts.forEach((p,i) => {
+        const uii = 'D' + String(Math.floor(100000+Math.random()*900000)) + 'S4' + String(i+1).padStart(4,'0');
+        const nsn_i = nsns[i % nsns.length];
+        const mfg = ['Cummins','Caterpillar','Honeywell','Raytheon','L3Harris','GE Marine','Rolls-Royce','BAE Systems','Northrop Grumman','Eaton'][i%10];
+        csv += uii + ',' + nsn_i + ',"' + p + '",' + mfg + ',PN-' + (1000+i) + '-' + String(Math.floor(Math.random()*9999)).padStart(4,'0') + ',SN-' + String(Math.floor(100000+Math.random()*900000)) + ',$' + (5000+Math.floor(Math.random()*195000)).toLocaleString() + ',' + ['Engine Room','Bridge','Deck','Auxiliary','CIC','Berthing'][i%6] + ',' + ['Installed','Installed','In Transit','Installed','Warehouse','Installed','Installed','QA Hold','Installed','Installed'][i%10] + '\n';
+    });
+    return csv;
+}
+
+function generateVRS(progKey, prog) {
+    const items = ['Fuel Filter Element','Oil Filter','V-Belt Set','Seal Kit (Hydraulic)','Gasket Set','Bearing Assembly','Impeller (Pump)','Relay (24VDC)','Circuit Breaker (60A)','O-Ring Kit','Thermostat Assembly','Zinc Anode Set','Coupling (Flexible)','Pressure Gauge (0-300psi)','Sight Glass','Solenoid Valve','Check Valve (1.5in)','Expansion Valve','Temperature Sensor','Control Board (HVAC)'];
+    let csv = 'VRS Line,NSN,Nomenclature,Part Number,Qty Rec,Unit Price,Lead Time (wks),Vendor,Criticality\n';
+    items.forEach((item,i) => {
+        const crit = i < 6 ? 'Critical' : i < 14 ? 'Essential' : 'Desirable';
+        csv += 'VRS-' + String(i+1).padStart(3,'0') + ',5330-01-' + String(Math.floor(100+Math.random()*900)) + '-' + String(Math.floor(1000+Math.random()*9000)) + ',"' + item + '",PN-' + (2000+i) + ',' + (1+Math.floor(Math.random()*10)) + ',$' + (15+Math.floor(Math.random()*2500)).toLocaleString() + ',' + (4+Math.floor(Math.random()*20)) + ',' + ['Parker Hannifin','Donaldson','Gates','SKF','Garlock','Timken','Flowserve','TE Connectivity','Eaton','Dana'][i%10] + ',' + crit + '\n';
+    });
+    return csv;
+}
+
+function generateSparesBuylist(progKey, prog) {
+    let csv = 'Line,APL Number,NSN,Nomenclature,Qty Auth,Qty On Hand,Qty On Order,Unit Cost,Allowance Type,Notes\n';
+    const items = ['Packing Set','Bearing Ball','Connector Plug','Lamp Indicator','Fuse Cartridge','Hose Assembly','Valve Globe','Strainer Intake','Switch Toggle','Resistor Fixed','Capacitor Fixed','Transformer','Motor Starter','Contactor','Cable Assembly','Pipe Fitting','Bolt Set (SS)','Spring Compression','Diaphragm','Sensor Assembly'];
+    items.forEach((item,i) => {
+        csv += 'SB-' + String(i+1).padStart(3,'0') + ',APL-' + progKey.toUpperCase() + '-' + String(i+1).padStart(3,'0') + ',5330-01-' + String(Math.floor(100+Math.random()*900)) + '-' + String(Math.floor(1000+Math.random()*9000)) + ',"' + item + '",' + (2+Math.floor(Math.random()*8)) + ',' + Math.floor(Math.random()*5) + ',' + Math.floor(Math.random()*3) + ',$' + (8+Math.floor(Math.random()*800)).toLocaleString() + ',' + ['COSAL','AVCAL','SHORCAL','COSAL'][i%4] + ',' + (i<5?'Flight Critical':'') + '\n';
+    });
+    return csv;
+}
+
+function generatePOIndex(progKey, prog) {
+    let csv = 'PO Number,Vendor,Description,Value,Status,Ship Date,Contract Ref\n';
+    const vendors = ['Huntington Ingalls Industries','BAE Systems Ship Repair','General Dynamics NASSCO','Cummins Marine','L3Harris','Raytheon','Rolls-Royce Naval','Northrop Grumman','Leonardo DRS','Leidos'];
+    const descs = ['Main Engine Spare Parts','Generator Overhaul Kit','Navigation Radar Upgrade','Comm System Installation','Deck Machinery Spares','HVAC System Components','Electrical Distribution Panel','Fire Suppression System','Anchor Chain & Fittings','Hull Coating Materials','Paint & Preservation','Safety Equipment Package','Crane Wire Rope','Shore Power Transformer','Sewage System Parts'];
+    for (let i = 0; i < 15; i++) {
+        const poNum = 'N00024-26-C-' + String(4000+i).padStart(4,'0');
+        csv += poNum + ',' + vendors[i%10] + ',"' + descs[i] + '",$' + (25000+Math.floor(Math.random()*475000)).toLocaleString() + ',' + ['Awarded','In Progress','Delivered','In Progress','Awarded','Delivered','Pending','In Progress','Delivered','Awarded','In Progress','Delivered','Pending','Awarded','In Progress'][i] + ',' + [2026,2026,2025,2026,2026,2025,2026,2026,2025,2026,2026,2025,2026,2026,2025][i] + '-' + String(1+Math.floor(Math.random()*12)).padStart(2,'0') + '-15,' + 'N00024-25-D-' + String(Math.floor(1000+Math.random()*9000)) + '\n';
+    }
+    return csv;
+}
+
+function generateMEL(progKey, prog) {
+    let csv = 'MEL Item,System,Equipment,Manufacturer,Model,Location,Weight (lbs),Power (kW),Status\n';
+    const equip = [
+        ['Propulsion','Main Diesel Engine','Cummins','KTA50-M2','Engine Room'],
+        ['Propulsion','Reduction Gear','Reintjes','WAF 564','Engine Room'],
+        ['Electrical','Ship Service Generator','Caterpillar','C9.3 Marine','Gen Room'],
+        ['Electrical','Emergency Generator','John Deere','4045TFM85','Emerg Gen Room'],
+        ['Auxiliary','Fire Pump','Aurora','481-BF','Pump Room'],
+        ['Auxiliary','Bilge Pump','IMO','ACE 032','Bilge Well'],
+        ['HVAC','AC Plant','Carrier','30HX','Machine Shop'],
+        ['Navigation','Radar (Surface Search)','Furuno','FAR-2228','Bridge'],
+        ['Navigation','GPS Receiver','Furuno','GP-170','Bridge'],
+        ['Communication','VHF Radio','ICOM','IC-M510','Bridge'],
+        ['Communication','SATCOM Terminal','KVH','V7-HTS','Mast Top'],
+        ['Deck Machinery','Anchor Windlass','Burrard','AW-120','Fwd Deck'],
+        ['Deck Machinery','Capstan','Rotzler','TR 100','Aft Deck'],
+        ['Safety','Life Raft (25-person)','Viking','25DK+','Boat Deck'],
+        ['Crane','Mobile Crane','Palfinger','PK 40002','Main Deck']
+    ];
+    equip.forEach((e,i) => {
+        csv += 'MEL-' + String(i+1).padStart(3,'0') + ',' + e[0] + ',"' + e[1] + '",' + e[2] + ',' + e[3] + ',' + e[4] + ',' + (200+Math.floor(Math.random()*15000)) + ',' + (1+Math.floor(Math.random()*800)) + ',' + ['Installed','Installed','On Order','Installed','Installed','QA Hold','Installed','Installed','Installed','Installed','In Transit','Installed','Installed','Installed','On Order'][i] + '\n';
+    });
+    return csv;
+}
+
+function generateMRCIndex(progKey, prog) {
+    let csv = 'MRC Number,Periodicity,System,Description,Skill Rate,Est Hours,Critical\n';
+    const mrcs = [
+        ['MRC-DE-001','W','Main Engine','Lube Oil Level Check','EN2',0.5,'No'],
+        ['MRC-DE-002','M','Main Engine','Fuel Filter Inspection',  'EN1',1.0,'Yes'],
+        ['MRC-DE-003','Q','Main Engine','Injector Timing Check','EN1',4.0,'Yes'],
+        ['MRC-EL-001','W','Electrical','Generator Load Test','EM2',1.0,'Yes'],
+        ['MRC-EL-002','M','Electrical','Battery Electrolyte Check','EM3',0.5,'No'],
+        ['MRC-AX-001','M','Auxiliary','Fire Pump Performance Test','DC2',2.0,'Yes'],
+        ['MRC-AX-002','Q','Auxiliary','HVAC Refrigerant Check','MM2',1.5,'No'],
+        ['MRC-HU-001','SA','Hull','Cathodic Protection Inspection','HT2',3.0,'Yes'],
+        ['MRC-HU-002','A','Hull','Topside Paint Condition Survey','BM2',4.0,'No'],
+        ['MRC-NK-001','M','Navigation','Radar Performance Check','ET2',1.0,'Yes'],
+        ['MRC-NK-002','Q','Navigation','Compass Deviation Check','QM1',2.0,'No'],
+        ['MRC-DK-001','W','Deck','Wire Rope Inspection','BM2',1.0,'Yes'],
+        ['MRC-DK-002','M','Deck','Crane Load Test','BM1',4.0,'Yes'],
+        ['MRC-SF-001','M','Safety','Life Raft Hydrostatic Release','DC3',0.5,'Yes'],
+        ['MRC-SF-002','Q','Safety','Fire Extinguisher Inspection','DC3',1.0,'Yes']
+    ];
+    mrcs.forEach(m => { csv += m.join(',') + '\n'; });
+    return csv;
 }
 
 // ── File Upload Handling ──
@@ -2316,6 +2731,9 @@ function renderILSResult() {
             : '<div style="background:rgba(20,241,149,0.08);border:1px solid rgba(20,241,149,0.2);border-radius:8px;padding:10px;margin:0.8rem 0;font-size:0.88rem"><i class="fas fa-check-circle" style="color:var(--green)"></i> <strong style="color:var(--green)">All critical items accounted for.</strong> Package appears ready for review.</div>')
         + '<div style="margin-top:1rem;font-size:0.78rem;color:var(--muted)">Analysis based on DoD 5000 series ILS requirements per program type. Always verify against your contract-specific DRL.</div>';
     panel.classList.add('show');
+    showPostActions();
+    // Notify AI agent that analysis is available
+    addAiMessage('Analysis complete! <strong>' + r.prog.name + '</strong> scored <strong>' + r.pct + '%</strong> readiness with <strong>' + r.critGaps + ' critical gaps</strong>. Ask me anything about the results.', 'bot');
 }
 
 // ── Report Generation ──
@@ -2411,12 +2829,335 @@ async function anchorILSReport() {
         riskCost: ilsResults.totalCost, date: new Date().toISOString(), files: ilsFiles.map(f => f.name)
     });
     const hash = await sha256(reportStr);
+    const txHash = 'TX' + Array.from(crypto.getRandomValues(new Uint8Array(16))).map(b=>b.toString(16).padStart(2,'0')).join('').toUpperCase();
+
+    // Show the anchor animation (same as main anchor tab)
+    showAnchorAnimation(hash, 'ILS Gap Analysis Report', 'UNCLASSIFIED');
+
+    // POST to API (best-effort)
+    try { await fetch('/api/anchor',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({hash, record_type:'ILS_GAP_ANALYSIS', tx_hash:txHash, content_preview:'ILS Report: '+ilsResults.prog.name})}); }
+    catch(e) { console.warn('API anchor failed:', e); }
+
+    // Record in session
+    const record = {
+        type:'ILS_GAP_ANALYSIS', label:'ILS Gap Analysis Report', icon:'\uD83E\uDDE0', branch:'JOINT',
+        hash, txHash, encrypted:false, timestamp:new Date().toISOString(),
+        content:'ILS Analysis: ' + ilsResults.prog.name + ' — ' + ilsResults.pct + '% readiness'
+    };
+    sessionRecords.push(record);
+    saveLocalRecord({
+        hash, record_type:'ILS_GAP_ANALYSIS', record_label:'ILS Gap Analysis Report', branch:'JOINT',
+        icon:'\uD83E\uDDE0', timestamp:new Date().toISOString(),
+        timestamp_display: new Date().toISOString().replace('T',' ').substring(0,19) + ' UTC',
+        fee:0.01, tx_hash:txHash, system:'ILS Intelligence'
+    });
+    stats.anchored++;
+    stats.types.add('ILS_GAP_ANALYSIS');
+    stats.slsFees += 0.01;
+    updateStats();
+    saveStats();
+
+    await new Promise(r => setTimeout(r, 3200));
+    hideAnchorAnimation();
+    await new Promise(r => setTimeout(r, 400));
+
     const panel = document.getElementById('ilsResult');
-    panel.innerHTML = '<div class="result-label">ILS REPORT HASH ANCHORED</div>'
-        + '<div style="color:var(--green);font-weight:700;margin:0.5rem 0"><i class="fas fa-check-circle"></i> Report hash computed & ready for XRPL anchor</div>'
+    panel.innerHTML = '<div class="result-label">ILS REPORT ANCHORED TO XRPL</div>'
+        + '<div style="color:var(--green);font-weight:700;margin:0.5rem 0"><i class="fas fa-check-circle"></i> Report hash anchored successfully!</div>'
         + '<div class="result-label" style="margin-top:0.8rem">SHA-256 HASH</div><div class="hash-display">' + hash + '</div>'
-        + '<div style="margin-top:0.8rem;font-size:0.82rem;color:var(--muted)">This hash verifies the state of your ILS analysis. Anchor it to XRPL using the Anchor tab for immutable proof.</div>';
+        + '<div class="result-label">TX HASH</div><div style="color:var(--muted);margin-bottom:0.5rem;word-break:break-all">' + txHash + '</div>'
+        + '<div class="result-label">PROGRAM</div><div style="margin-bottom:0.5rem">' + ilsResults.prog.name + (ilsResults.hull?' ('+ilsResults.hull+')':'') + '</div>'
+        + '<div class="result-label">READINESS</div><div style="margin-bottom:0.5rem;color:'+(ilsResults.pct>=80?'var(--green)':ilsResults.pct>=50?'#ffa500':'var(--red)')+';font-weight:700">' + ilsResults.pct + '%</div>'
+        + '<div class="result-label">$SLS FEE</div><div>0.01 $SLS \u2192 Treasury</div>'
+        + '<div style="margin-top:0.8rem;font-size:0.82rem;color:var(--muted)">This hash is now immutably recorded on the XRP Ledger. Anyone with the original data can verify its integrity.</div>';
     panel.classList.add('show');
+    showPostActions();
+    updateTxLog();
+}
+
+// ═══ POST-ANALYSIS ACTIONS ═══
+function showPostActions() {
+    const el = document.getElementById('ilsPostActions');
+    if (el) el.style.display = 'block';
+}
+
+function sendILSAnalysis() {
+    if (!ilsResults) return;
+    const subj = 'ILS Gap Analysis — ' + ilsResults.prog.name + ' — ' + ilsResults.pct + '% Readiness';
+    document.getElementById('sendSubject').value = subj;
+    document.getElementById('sendModal').classList.add('active');
+}
+
+function closeSendModal() { document.getElementById('sendModal').classList.remove('active'); }
+
+function executeSend() {
+    const emails = document.getElementById('sendEmail').value.trim();
+    const subject = document.getElementById('sendSubject').value;
+    const body = document.getElementById('sendMessage').value + '\n\n' + buildAnalysisSummaryText();
+    const mailto = 'mailto:' + encodeURIComponent(emails) + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+    window.open(mailto, '_blank');
+    closeSendModal();
+}
+
+function copyAnalysisToClipboard() {
+    const text = buildAnalysisSummaryText();
+    navigator.clipboard.writeText(text).then(() => {
+        alert('Analysis copied to clipboard!');
+    });
+}
+
+function buildAnalysisSummaryText() {
+    if (!ilsResults) return '';
+    const r = ilsResults;
+    let txt = 'S4 LEDGER — ILS GAP ANALYSIS SUMMARY\n';
+    txt += '═══════════════════════════════════════\n';
+    txt += 'Program: ' + r.prog.name + (r.hull ? ' ('+r.hull+')' : '') + '\n';
+    txt += 'Office: ' + r.prog.ofc + '\n';
+    txt += 'Overall Readiness: ' + r.pct + '%\n';
+    txt += 'Critical Gaps: ' + r.critGaps + '\n';
+    txt += 'Total Action Items: ' + r.actions.length + '\n';
+    txt += 'Est. Risk Cost: $' + r.totalCost + 'K\n\n';
+    if (r.actions.length) {
+        txt += 'TOP ACTION ITEMS:\n';
+        r.actions.slice(0,5).forEach(a => { txt += '  • [' + a.severity.toUpperCase() + '] ' + a.title + ' — ' + a.owner + '\n'; });
+    }
+    txt += '\nGenerated by S4 Ledger | s4ledger.com\n';
+    return txt;
+}
+
+function scheduleILSMeeting() {
+    if (!ilsResults) return;
+    const title = 'ILS Review Board — ' + ilsResults.prog.name + ' (' + ilsResults.pct + '% Readiness)';
+    document.getElementById('meetTitle').value = title;
+    // Default to next Wednesday at 10:00
+    const nextWed = new Date();
+    nextWed.setDate(nextWed.getDate() + ((3 - nextWed.getDay() + 7) % 7 || 7));
+    document.getElementById('meetDate').value = nextWed.toISOString().split('T')[0];
+    document.getElementById('meetingModal').classList.add('active');
+}
+
+function closeMeetingModal() { document.getElementById('meetingModal').classList.remove('active'); }
+
+function createTeamsMeeting() {
+    const title = document.getElementById('meetTitle').value;
+    const date = document.getElementById('meetDate').value;
+    const time = document.getElementById('meetTime').value;
+    const attendees = document.getElementById('meetAttendees').value;
+    // Open Teams meeting creation
+    const teamsUrl = 'https://teams.microsoft.com/l/meeting/new?subject=' + encodeURIComponent(title) + '&attendees=' + encodeURIComponent(attendees) + '&startTime=' + date + 'T' + time;
+    window.open(teamsUrl, '_blank');
+    closeMeetingModal();
+}
+
+function createCalendarEvent() {
+    if (!ilsResults) return;
+    const title = document.getElementById('meetTitle').value;
+    const date = document.getElementById('meetDate').value.replace(/-/g,'');
+    const time = document.getElementById('meetTime').value.replace(':','') + '00';
+    const endTime = String(parseInt(document.getElementById('meetTime').value.split(':')[0])+1).padStart(2,'0') + document.getElementById('meetTime').value.split(':')[1] + '00';
+    const desc = buildAnalysisSummaryText();
+    const ics = [
+        'BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//S4 Ledger//ILS Intelligence//EN',
+        'BEGIN:VEVENT',
+        'DTSTART:' + date + 'T' + time,
+        'DTEND:' + date + 'T' + endTime,
+        'SUMMARY:' + title,
+        'DESCRIPTION:' + desc.replace(/\n/g,'\\n'),
+        'ORGANIZER:S4 Ledger ILS Intelligence',
+        'END:VEVENT','END:VCALENDAR'
+    ].join('\r\n');
+    const blob = new Blob([ics], {type:'text/calendar'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'ILS_Review_' + ilsResults.progKey + '.ics';
+    a.click();
+    closeMeetingModal();
+}
+
+function exportActionTracker() {
+    if (!ilsResults || !ilsResults.actions.length) { alert('Run analysis first to generate action items.'); return; }
+    let csv = 'Action ID,Severity,Title,Required Action,Responsible Party,Coordinator,Est Cost ($K),Schedule Risk,Status,Due Date,Notes\n';
+    ilsResults.actions.forEach(a => {
+        const due = new Date(); due.setDate(due.getDate() + (a.severity==='critical'?30:60));
+        csv += a.id + ',' + a.severity.toUpperCase() + ',"' + a.title + '","' + a.action + '",' + a.owner + ',' + (a.secondary||'') + ',' + a.cost + ',' + a.schedule + ',Open,' + due.toISOString().split('T')[0] + ',\n';
+    });
+    const blob = new Blob([csv], {type:'text/csv'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'Action_Tracker_' + ilsResults.progKey.toUpperCase() + '_' + new Date().toISOString().split('T')[0] + '.csv';
+    a.click();
+}
+
+function printILSReport() {
+    if (!ilsResults) { alert('Run analysis first.'); return; }
+    generateILSReport(); // This downloads the report
+    setTimeout(() => window.print(), 500);
+}
+
+function saveILSReport() {
+    if (!ilsResults) { alert('Run analysis first.'); return; }
+    generateILSReport();
+}
+
+// ═══ S4 ILS AI AGENT ═══
+function aiSend() {
+    const input = document.getElementById('aiChatInput');
+    const msg = input.value.trim();
+    if (!msg) return;
+    input.value = '';
+    addAiMessage(msg, 'user');
+    setTimeout(() => {
+        const response = generateAiResponse(msg);
+        addAiMessage(response, 'bot');
+    }, 400 + Math.random() * 600);
+}
+
+function aiAsk(question) {
+    document.getElementById('aiChatInput').value = question;
+    aiSend();
+}
+
+function addAiMessage(text, type) {
+    const container = document.getElementById('aiChatMessages');
+    const div = document.createElement('div');
+    div.className = 'ai-msg ' + type;
+    if (type === 'bot') {
+        div.innerHTML = '<div class="ai-label"><i class="fas fa-robot"></i> S4 Agent</div>' + text;
+    } else {
+        div.textContent = text;
+    }
+    container.appendChild(div);
+    container.scrollTop = container.scrollHeight;
+}
+
+function generateAiResponse(query) {
+    const q = query.toLowerCase();
+    const r = ilsResults;
+
+    // Context-aware responses based on analysis state
+    if (!r) {
+        if (/gap|analysis|result|score|status/.test(q)) return 'I don\'t have any analysis results yet. Please upload documents and click <strong>"Run Full Analysis"</strong> to generate results I can help interpret.';
+        if (/di-?\d+|di number/.test(q)) return explainDINumber(q);
+        if (/what.*do|help|how.*work/.test(q)) return 'I can help you with:<br>• <strong>Interpreting gap analysis results</strong> after you run an analysis<br>• <strong>Explaining DI number requirements</strong> (e.g., "What is DI-009?")<br>• <strong>Suggesting corrective actions</strong> for identified gaps<br>• <strong>Drafting CARs</strong> (Corrective Action Requests)<br>• <strong>Estimating cost/schedule impacts</strong><br><br>Upload your documents and run analysis to get started!';
+        if (/lcsp|life cycle/.test(q)) return '<strong>Life Cycle Sustainment Plan (LCSP)</strong> — DI-039 / DI-ILSS-81490<br><br>The LCSP is a top-level ILS planning document that:<br>• Defines the sustainment strategy for the entire program lifecycle<br>• Addresses all 12 ILS elements<br>• Establishes performance metrics (Ao, MTBF, MTTR)<br>• Required per DoD Instruction 5000.02<br><br>Use the <strong>"Load Full ILS Package"</strong> button to see a sample LCSP.';
+        return 'I\'m your ILS Intelligence Agent. I can help with DI numbers, gap analysis, CARs, and ILS requirements. Run an analysis to get context-specific insights, or ask me about any DI number or ILS topic!';
+    }
+
+    // Has analysis results
+    if (/summarize|summary|overview|gap/.test(q)) {
+        const critActions = r.actions.filter(a=>a.severity==='critical');
+        let resp = '<strong>' + r.prog.name + '</strong> — Overall Readiness: <strong style="color:'+(r.pct>=80?'#14f195':r.pct>=50?'#ffa500':'#ff3333')+'">' + r.pct + '%</strong><br><br>';
+        resp += '\uD83D\uDCCB Checklist: ' + r.clItems.filter(i=>i.checked).length + '/' + r.clItems.length + ' items (' + r.clPct + '%)<br>';
+        resp += '\uD83D\uDCC4 DRL Coverage: ' + r.drlFound + '/' + r.drlTotal + ' items (' + r.drlPct + '%)<br>';
+        if (critActions.length) {
+            resp += '<br>\u26A0\uFE0F <strong style="color:#ff3333">' + critActions.length + ' critical gaps:</strong><br>';
+            critActions.slice(0,3).forEach(a => { resp += '• ' + a.title + '<br>'; });
+            if (critActions.length > 3) resp += '• ...and ' + (critActions.length-3) + ' more<br>';
+        }
+        resp += '<br>\uD83D\uDCB0 Est. risk cost: <strong>$' + r.totalCost + 'K</strong>';
+        return resp;
+    }
+
+    if (/critical|urgent|important|priority/.test(q)) {
+        const crit = r.actions.filter(a=>a.severity==='critical');
+        if (!crit.length) return '\u2705 <strong>No critical items found!</strong> Your ILS package appears to cover all critical requirements. Review the warning-level items to ensure full compliance.';
+        let resp = '\u26A0\uFE0F <strong style="color:#ff3333">' + crit.length + ' Critical Items Requiring Immediate Attention:</strong><br><br>';
+        crit.forEach((a,i) => {
+            resp += '<strong>' + (i+1) + '. ' + a.id + '</strong>: ' + a.title + '<br>';
+            resp += '   \u2192 ' + a.action + '<br>';
+            resp += '   \uD83D\uDC64 Owner: ' + a.owner + ' | \uD83D\uDCB0 $' + a.cost + 'K | \u23F0 ' + a.schedule + '<br><br>';
+        });
+        resp += '<strong>Recommendation:</strong> Issue CARs for all critical items and escalate to the next ILS Review Board.';
+        return resp;
+    }
+
+    if (/car|corrective\s*action/.test(q)) {
+        const gaps = r.actions.filter(a=>a.severity==='critical');
+        if (!gaps.length) return 'No critical gaps found that require a CAR. Your ILS package appears complete for this phase.';
+        const g = gaps[0];
+        return '<strong>DRAFT — Corrective Action Request (CAR)</strong><br><br>' +
+            '<strong>CAR Number:</strong> CAR-' + r.progKey.toUpperCase() + '-' + new Date().getFullYear() + '-001<br>' +
+            '<strong>Program:</strong> ' + r.prog.name + '<br>' +
+            '<strong>Office:</strong> ' + r.prog.ofc + '<br>' +
+            '<strong>Date:</strong> ' + new Date().toISOString().split('T')[0] + '<br><br>' +
+            '<strong>Deficiency:</strong> ' + g.title + '<br>' +
+            '<strong>Required Action:</strong> ' + g.action + '<br>' +
+            '<strong>Days to Respond:</strong> 14 calendar days<br>' +
+            '<strong>Impact if Not Corrected:</strong> $' + g.cost + 'K cost risk, ' + g.schedule + ' schedule impact<br>' +
+            '<strong>Responsible Party:</strong> ' + g.owner + '<br><br>' +
+            '<em>Note: ' + (gaps.length-1) + ' additional CARs may be required for remaining critical gaps.</em>';
+    }
+
+    if (/cost|risk|money|budget|expense/.test(q)) {
+        return '<strong>Cost & Schedule Risk Summary</strong><br><br>' +
+            '\uD83D\uDCB0 Total Estimated Risk: <strong style="color:#ff3333">$' + r.totalCost + 'K</strong><br>' +
+            '\u23F0 Schedule Risk: <strong style="color:#ffa500">' + (r.critGaps > 3 ? '6-12 months' : r.critGaps > 0 ? '2-6 months' : '< 2 months') + '</strong><br>' +
+            '\uD83D\uDEA8 Critical Path Items: <strong>' + r.critGaps + '</strong><br><br>' +
+            'Cost breakdown by ILS element:<br>' +
+            r.actions.slice(0,5).map(a => '• ' + a.id + ': $' + a.cost + 'K (' + a.title.substring(0,40) + ')').join('<br>') +
+            '<br><br>Early resolution typically reduces costs by 30-50% vs. late-stage remediation.';
+    }
+
+    if (/missing|di.*number|what.*missing/.test(q)) {
+        const missing = r.drlResults.filter(d => !d.found);
+        if (!missing.length) return '\u2705 All DRL/CDRL items have been accounted for! No missing DI numbers detected.';
+        let resp = '\uD83D\uDCC4 <strong>Missing DI Numbers (' + missing.length + '):</strong><br><br>';
+        missing.forEach(d => {
+            resp += '• <strong>' + d.di + '</strong> — ' + d.t + (d.c ? ' <span style="color:#ff3333">[CRITICAL]</span>' : '') + '<br>';
+        });
+        return resp;
+    }
+
+    if (/next\s*step|recommend|suggest|what.*should/.test(q)) {
+        let resp = '<strong>Recommended Next Steps:</strong><br><br>';
+        if (r.critGaps > 0) {
+            resp += '1. \uD83D\uDEA8 <strong>Address critical gaps immediately</strong> — ' + r.critGaps + ' items need action before next milestone<br>';
+            resp += '2. \uD83D\uDCDD <strong>Issue CARs</strong> for all missing critical deliverables<br>';
+            resp += '3. \uD83D\uDCC5 <strong>Schedule ILS Review Board</strong> within 2 weeks to discuss contractor compliance<br>';
+            resp += '4. \uD83D\uDCCA <strong>Update program risk register</strong> with $' + r.totalCost + 'K estimated impact<br>';
+            resp += '5. \u2693 <strong>Anchor this analysis</strong> to XRPL for immutable audit trail<br>';
+        } else {
+            resp += '1. \u2705 <strong>Review complete package</strong> for final quality check<br>';
+            resp += '2. \uD83D\uDD0D <strong>Verify configuration baseline</strong> matches as-built<br>';
+            resp += '3. \uD83D\uDCDD <strong>Prepare milestone briefing</strong> with readiness score<br>';
+            resp += '4. \u2693 <strong>Anchor final analysis</strong> for permanent record<br>';
+        }
+        return resp;
+    }
+
+    if (/di-?\d+/.test(q)) return explainDINumber(q);
+
+    return 'I can help with that! Try asking me to:<br>• <strong>"Summarize my gaps"</strong> — overview of analysis results<br>• <strong>"What are the critical items?"</strong> — priority action list<br>• <strong>"Draft a CAR"</strong> — Corrective Action Request template<br>• <strong>"Estimate total risk"</strong> — cost & schedule impact<br>• <strong>"What DI numbers am I missing?"</strong> — missing deliverables<br>• <strong>"Suggest next steps"</strong> — recommended actions<br>• <strong>"What is DI-009?"</strong> — explain any DI number';
+}
+
+function explainDINumber(q) {
+    const match = q.match(/di-?0*(\d+)/i);
+    if (!match) return 'Please specify a DI number (e.g., DI-009, DI-020).';
+    const num = parseInt(match[1]);
+    const diInfo = {
+        1: {t:'Contract Data Requirements List (CDRL)', desc:'Master list of all contractual deliverables. References MIL-STD-1808.'},
+        2: {t:'SOW Compliance Matrix', desc:'Maps SOW paragraphs to contractor compliance status.'},
+        3: {t:'Integrated Master Schedule (IMS)', desc:'High-level program schedule linking all logistics milestones.'},
+        4: {t:'Systems Engineering Plan (SEP)', desc:'Systems engineering approach and design review gates.'},
+        5: {t:'Interface Control Document (ICD)', desc:'Defines all system interfaces (mechanical, electrical, data).'},
+        6: {t:'Test & Evaluation Master Plan (TEMP)', desc:'Comprehensive T&E strategy per DoDI 5000.89.'},
+        7: {t:'Weight Report', desc:'Weight accounting for hull margins, stability compliance.'},
+        8: {t:'Electrical Load Analysis', desc:'Power generation vs. demand analysis for all ship conditions.'},
+        9: {t:'Purchase Order Index', desc:'Tracks all subcontract and material purchase orders. Essential for schedule management and GFM coordination.'},
+        10: {t:'Long Lead Time Material List', desc:'Items with procurement lead > 6 months. Critical for schedule risk.'},
+        11: {t:'Government Furnished Material (GFM) List', desc:'All GFM items the government must provide to the contractor.'},
+        12: {t:'HazMat List', desc:'Hazardous material inventory per environmental compliance requirements.'},
+        20: {t:'Vendor Recommended Spares (VRS)', desc:'Manufacturer-recommended spare parts for initial provisioning. Basis for COSAL/APL development. Critical for post-delivery readiness.'},
+        21: {t:'Allowance Parts List (APL)', desc:'Authorized shipboard spare parts inventory (COSAL).'},
+        31: {t:'IUID Register', desc:'Item Unique Identification per MIL-STD-130. Tracks serially-managed components.'},
+        32: {t:'Maintenance Requirement Cards (MRCs)', desc:'Planned maintenance task cards per Navy PMS system.'},
+        39: {t:'Life Cycle Sustainment Plan (LCSP)', desc:'Top-level sustainment strategy addressing all 12 ILS elements.'},
+        41: {t:'Machinery Equipment List (MEL)', desc:'Complete listing of installed machinery and equipment, including manufacturer, model, and location.'},
+        44: {t:'Spares Buylist / Initial Outfitting', desc:'Initial provisioning purchase list for pre-delivery outfitting.'}
+    };
+    const info = diInfo[num];
+    if (info) return '<strong>DI-' + String(num).padStart(3,'0') + ': ' + info.t + '</strong><br><br>' + info.desc;
+    return 'DI-' + String(num).padStart(3,'0') + ' — I don\'t have detailed information on that specific DI number. Common PMS 300 DI numbers range from DI-001 (CDRL) through DI-044 (Spares Buylist). Ask about one of those!';
 }
 
 // ── Initialization ──

@@ -259,12 +259,59 @@ class S4SDK:
                 raise RuntimeError(f"Failed to create Wallet from seed. Default error: {e_default}")
 
 if __name__ == "__main__":
-    # Usage Example — Anchor a defense logistics record
-    sdk = S4SDK(api_key="valid_mock_key", testnet=True)
-    test_record = "NSN 5340-01-234-5678 | Qty: 50 | Condition: A | Depot: Norfolk NSYD"
-    test_seed = "sTestSeed"  # Replace with a valid seed when running directly
-    try:
-        result = sdk.anchor_record(test_record, test_seed, encrypt_first=True, fiat_mode=True)
-        print(result)
-    except Exception as e:
-        print("Example run failed (expected when seed or network not configured):", e)
+    main_cli()
+
+
+def main_cli():
+    """CLI entry point for s4-anchor command."""
+    import sys
+    import argparse
+
+    parser = argparse.ArgumentParser(
+        prog="s4-anchor",
+        description="S4 Ledger — Anchor defense logistics records to the XRP Ledger",
+    )
+    parser.add_argument("command", choices=["anchor", "hash", "verify", "status"], help="Command to execute")
+    parser.add_argument("--record", "-r", help="Record content to anchor or hash")
+    parser.add_argument("--seed", "-s", help="XRPL wallet seed")
+    parser.add_argument("--api-key", "-k", default="s4-demo-key-2026", help="S4 API key")
+    parser.add_argument("--testnet", action="store_true", default=True, help="Use XRPL Testnet (default)")
+    parser.add_argument("--encrypt", action="store_true", help="Encrypt record before hashing")
+    parser.add_argument("--type", "-t", default="USN_SUPPLY_RECEIPT", help="Record type")
+
+    args = parser.parse_args()
+    sdk = S4SDK(api_key=args.api_key, testnet=args.testnet)
+
+    if args.command == "hash":
+        if not args.record:
+            print("Error: --record required for hash command")
+            sys.exit(1)
+        h = sdk.create_record_hash(args.record)
+        print(f"SHA-256: {h}")
+
+    elif args.command == "anchor":
+        if not args.record or not args.seed:
+            print("Error: --record and --seed required for anchor command")
+            sys.exit(1)
+        try:
+            result = sdk.anchor_record(args.record, args.seed, encrypt_first=args.encrypt, record_type=args.type)
+            print(f"Anchored! Hash: {result['hash']}")
+            print(f"TX Results: {result['tx_results']}")
+        except Exception as e:
+            print(f"Anchor failed: {e}")
+            sys.exit(1)
+
+    elif args.command == "verify":
+        if not args.record:
+            print("Error: --record required for verify command")
+            sys.exit(1)
+        h = sdk.create_record_hash(args.record)
+        print(f"Verification Hash: {h}")
+        print("Compare this hash with the on-chain MemoData to verify integrity.")
+
+    elif args.command == "status":
+        print(f"S4 Ledger SDK v3.0.0")
+        print(f"XRPL Available: {XRPL_AVAILABLE}")
+        print(f"Encryption Available: {Fernet is not None}")
+        print(f"API Key: {args.api_key[:8]}...")
+        print(f"Network: {'Testnet' if args.testnet else 'Mainnet'}")
