@@ -14,6 +14,7 @@
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
     <script src="/s4-assets/platforms.js"></script>
+    <script src="/s4-assets/defense-docs.js"></script>
     <style>
         :root{--bg:#050810;--surface:#0a1020;--card:#0f1630;--border:#1a2550;--accent:#00aaff;--gold:#c9a84c;--steel:#8ea4b8;--green:#14f195;--red:#ff6b6b;--text:#e0e8f0;--muted:#6b7d93}
         *{box-sizing:border-box;margin:0;padding:0}
@@ -274,7 +275,62 @@
         .hub-tool-header h4{margin:0;font-size:1rem;font-weight:700;color:var(--accent)}
         .hub-tool-header .tool-link{font-size:0.78rem;color:var(--muted);margin-left:auto;cursor:pointer;transition:color 0.2s;text-decoration:none}
         .hub-tool-header .tool-link:hover{color:var(--accent)}
-        @media(max-width:768px){.ils-hub-tabs{gap:2px}.ils-hub-tab{padding:6px 10px;font-size:0.72rem}.cal-day{min-height:50px}}
+        /* ═══ AUDIT VAULT ═══ */
+        .vault-record{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:10px;transition:all 0.3s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden}
+        .vault-record::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--accent),var(--green));border-radius:3px 0 0 3px}
+        .vault-record:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 8px 25px rgba(0,170,255,0.12)}
+        .vault-record .vault-hash{font-family:monospace;font-size:0.72rem;color:var(--accent);word-break:break-all;background:rgba(0,170,255,0.06);padding:6px 10px;border-radius:6px;margin:8px 0}
+        .vault-record .vault-meta{display:flex;flex-wrap:wrap;gap:8px;font-size:0.75rem;color:var(--muted)}
+        .vault-record .vault-meta span{display:flex;align-items:center;gap:4px}
+        .vault-badge{font-size:0.68rem;padding:2px 8px;border-radius:6px;font-weight:700;letter-spacing:0.3px}
+        .vault-badge.verified{background:rgba(20,241,149,0.15);color:#14f195;border:1px solid rgba(20,241,149,0.3)}
+        .vault-badge.anchored{background:rgba(0,170,255,0.12);color:var(--accent);border:1px solid rgba(0,170,255,0.3)}
+        .vault-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:16px}
+        .vault-stat{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center;transition:all 0.3s}
+        .vault-stat:hover{border-color:var(--accent);background:rgba(0,170,255,0.04)}
+        .vault-stat .stat-val{font-size:1.4rem;font-weight:800;background:linear-gradient(135deg,var(--accent),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+        .vault-stat .stat-lbl{font-size:0.7rem;text-transform:uppercase;letter-spacing:0.5px;color:var(--muted);margin-top:4px}
+        /* ═══ DOC LIBRARY ═══ */
+        .doc-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:8px;transition:all 0.3s cubic-bezier(.4,0,.2,1);cursor:pointer;position:relative}
+        .doc-card:hover{border-color:var(--accent);transform:translateX(4px);box-shadow:0 4px 20px rgba(0,170,255,0.08)}
+        .doc-card .doc-id{font-weight:800;color:#fff;font-size:0.88rem;margin-bottom:2px}
+        .doc-card .doc-title{font-size:0.82rem;color:var(--accent);margin-bottom:4px}
+        .doc-card .doc-desc{font-size:0.75rem;color:var(--muted);line-height:1.4}
+        .doc-card .doc-tags{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+        .doc-tag{font-size:0.65rem;padding:2px 8px;border-radius:12px;font-weight:600}
+        .doc-filter-bar{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+        .doc-filter-btn{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:6px 12px;font-size:0.75rem;font-weight:600;cursor:pointer;color:var(--steel);transition:all 0.2s;font-family:inherit}
+        .doc-filter-btn:hover{border-color:var(--accent);color:var(--accent)}
+        .doc-filter-btn.active{background:linear-gradient(135deg,var(--accent),#0088cc);color:#fff;border-color:transparent}
+        .doc-counter{font-size:0.78rem;color:var(--muted);margin-bottom:12px}
+        /* ═══ COMPLIANCE SCORECARD ═══ */
+        .score-ring{width:120px;height:120px;position:relative;margin:0 auto 12px}
+        .score-ring svg{transform:rotate(-90deg)}
+        .score-ring .score-val{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:1.6rem;font-weight:800;color:#fff}
+        .score-ring .score-grade{position:absolute;bottom:-4px;left:50%;transform:translateX(-50%);font-size:0.7rem;font-weight:700;padding:2px 10px;border-radius:10px}
+        .compliance-row{display:flex;align-items:center;gap:12px;padding:12px;background:var(--surface);border:1px solid var(--border);border-radius:10px;margin-bottom:8px;transition:all 0.3s}
+        .compliance-row:hover{border-color:var(--accent);background:rgba(0,170,255,0.03)}
+        .compliance-bar{flex:1;height:8px;background:var(--border);border-radius:4px;overflow:hidden;position:relative}
+        .compliance-bar .fill{height:100%;border-radius:4px;transition:width 1s cubic-bezier(.4,0,.2,1)}
+        .compliance-label{min-width:140px;font-size:0.82rem;font-weight:600;color:#fff}
+        .compliance-pct{min-width:50px;text-align:right;font-size:0.85rem;font-weight:700}
+        /* ═══ ENHANCED UX — GLASSMORPHISM, MICRO-ANIMATIONS ═══ */
+        @keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+        @keyframes pulseGlow{0%,100%{box-shadow:0 0 5px rgba(0,170,255,0.2)}50%{box-shadow:0 0 20px rgba(0,170,255,0.4)}}
+        @keyframes countUp{from{opacity:0;transform:scale(0.5)}to{opacity:1;transform:scale(1)}}
+        .glass-card{background:rgba(15,22,48,0.7);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(0,170,255,0.15);border-radius:14px;padding:20px;transition:all 0.4s cubic-bezier(.4,0,.2,1)}
+        .glass-card:hover{border-color:rgba(0,170,255,0.4);box-shadow:0 8px 32px rgba(0,170,255,0.15)}
+        .pulse-dot{width:8px;height:8px;border-radius:50%;background:var(--green);display:inline-block;animation:pulseGlow 2s infinite;margin-right:6px}
+        .shimmer-text{background:linear-gradient(90deg,var(--accent) 0%,var(--green) 50%,var(--accent) 100%);background-size:200% 100%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:shimmer 3s linear infinite}
+        .stat-animate{animation:countUp 0.6s cubic-bezier(.4,0,.2,1) forwards}
+        .hover-lift{transition:all 0.3s cubic-bezier(.4,0,.2,1)}.hover-lift:hover{transform:translateY(-3px);box-shadow:0 12px 35px rgba(0,0,0,0.3)}
+        .gradient-border{position:relative;border:none!important}.gradient-border::after{content:'';position:absolute;inset:-1px;border-radius:inherit;padding:1px;background:linear-gradient(135deg,var(--accent),var(--gold),var(--green));-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+        .workspace-notification{position:fixed;bottom:20px;right:20px;background:rgba(15,22,48,0.95);backdrop-filter:blur(12px);border:1px solid var(--accent);border-radius:12px;padding:14px 20px;color:#fff;font-size:0.85rem;z-index:10000;animation:slideUp 0.4s ease;box-shadow:0 8px 30px rgba(0,170,255,0.2);max-width:360px}
+        .workspace-notification .notif-close{position:absolute;top:6px;right:10px;background:none;border:none;color:var(--muted);cursor:pointer;font-size:0.9rem}
+        .tooltip-enhanced{position:relative}.tooltip-enhanced::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%) scale(0.8);opacity:0;background:rgba(15,22,48,0.95);border:1px solid var(--accent);color:#fff;padding:6px 12px;border-radius:8px;font-size:0.72rem;white-space:nowrap;pointer-events:none;transition:all 0.2s;z-index:999}
+        .tooltip-enhanced:hover::after{opacity:1;transform:translateX(-50%) scale(1)}
+        @media(max-width:768px){.ils-hub-tabs{gap:2px}.ils-hub-tab{padding:6px 10px;font-size:0.72rem}.cal-day{min-height:50px}.vault-stats{grid-template-columns:repeat(2,1fr)}.compliance-label{min-width:100px;font-size:0.75rem}}
     </style>
 </head>
 <body>
@@ -465,6 +521,9 @@
                     <button class="ils-hub-tab" onclick="switchHubTab('hub-roi',this)"><i class="fas fa-dollar-sign"></i> ROI</button>
                     <button class="ils-hub-tab" onclick="switchHubTab('hub-lifecycle',this)"><i class="fas fa-clock"></i> Lifecycle</button>
                     <button class="ils-hub-tab" onclick="switchHubTab('hub-warranty',this)"><i class="fas fa-file-contract"></i> Warranty</button>
+                    <button class="ils-hub-tab" onclick="switchHubTab('hub-vault',this)"><i class="fas fa-vault"></i> Audit Vault</button>
+                    <button class="ils-hub-tab" onclick="switchHubTab('hub-docs',this)"><i class="fas fa-book"></i> Doc Library</button>
+                    <button class="ils-hub-tab" onclick="switchHubTab('hub-compliance',this)"><i class="fas fa-shield-halved"></i> Compliance</button>
                 </div>
 
                 <!-- ══ HUB: GAP ANALYSIS (original ILS content) ══ -->
@@ -1019,6 +1078,168 @@
                         </div>
                     </div>
                 </div>
+
+            <!-- ═══ AUDIT RECORD VAULT ═══ -->
+            <div class="ils-hub-panel" id="hub-vault">
+                <div class="demo-card glass-card" style="animation:slideUp 0.4s ease">
+                    <div class="hub-tool-header">
+                        <h4><i class="fas fa-vault" style="color:var(--gold);margin-right:8px"></i> Audit Record Vault</h4>
+                        <span class="pulse-dot"></span><span style="font-size:0.75rem;color:var(--green);font-weight:600">LIVE</span>
+                    </div>
+                    <p style="color:var(--muted);font-size:0.85rem;margin-bottom:16px">Every record you anchor is stored here with its hash, original content preview, timestamp, and verification status — your single source of auditing proof. No more searching the XRPL manually.</p>
+
+                    <details style="margin-bottom:16px">
+                        <summary style="cursor:pointer;color:var(--accent);font-weight:700;font-size:0.88rem"><i class="fas fa-circle-info" style="margin-right:6px"></i> How It Works</summary>
+                        <div style="margin-top:10px;padding:12px;background:var(--surface);border-radius:10px;font-size:0.82rem;color:var(--steel);line-height:1.6">
+                            <p><strong>1.</strong> Every time you anchor a record (from any tool — Anchor tab, DMSMS, Readiness, etc.), S4 Ledger automatically saves both the <strong>SHA-256 hash</strong> and a <strong>content preview</strong> to your local vault.</p>
+                            <p><strong>2.</strong> Records are stored in your browser's localStorage — they persist across sessions on this device.</p>
+                            <p><strong>3.</strong> You can <strong>re-verify</strong> any record with one click — the vault compares the stored hash against the original content.</p>
+                            <p><strong>4.</strong> Export your entire audit trail as <strong>CSV or XLSX</strong> for compliance audits, IG inspections, or DCMA reviews.</p>
+                            <p><strong>5.</strong> Each record shows its <strong>TX Hash</strong> (XRPL transaction ID) so you can cross-reference on the public ledger if needed.</p>
+                        </div>
+                    </details>
+
+                    <!-- Vault Stats -->
+                    <div class="vault-stats" id="vaultStats">
+                        <div class="vault-stat hover-lift"><div class="stat-val stat-animate" id="vaultTotal">0</div><div class="stat-lbl">Total Records</div></div>
+                        <div class="vault-stat hover-lift"><div class="stat-val stat-animate" id="vaultVerified">0</div><div class="stat-lbl">Verified</div></div>
+                        <div class="vault-stat hover-lift"><div class="stat-val stat-animate" id="vaultTypes">0</div><div class="stat-lbl">Record Types</div></div>
+                        <div class="vault-stat hover-lift"><div class="stat-val stat-animate" id="vaultFees">$0.00</div><div class="stat-lbl">$SLS Spent</div></div>
+                    </div>
+
+                    <!-- Search & Filter -->
+                    <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap">
+                        <input type="text" id="vaultSearch" class="form-control" style="flex:1;min-width:200px;background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:8px 14px;font-size:0.85rem" placeholder="Search records by type, hash, content..." oninput="renderVault()">
+                        <select id="vaultFilter" class="form-select" style="width:auto;background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:8px 14px;font-size:0.85rem" onchange="renderVault()">
+                            <option value="all">All Records</option>
+                            <option value="today">Today</option>
+                            <option value="week">This Week</option>
+                            <option value="month">This Month</option>
+                        </select>
+                    </div>
+
+                    <!-- Record List -->
+                    <div id="vaultRecords" style="max-height:500px;overflow-y:auto;padding-right:4px">
+                        <div style="text-align:center;padding:40px 20px;color:var(--muted)">
+                            <i class="fas fa-vault" style="font-size:2.5rem;margin-bottom:12px;opacity:0.3"></i>
+                            <p>No anchored records yet. Records will appear here automatically as you anchor them.</p>
+                        </div>
+                    </div>
+
+                    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:1rem">
+                        <button onclick="exportVault('csv')" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;border-radius:8px;padding:8px 16px"><i class="fas fa-file-csv"></i> Export CSV</button>
+                        <button onclick="exportVault('xlsx')" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#14f195,#0bc77a);color:#0a0e1a;border:none;border-radius:8px;padding:8px 16px;font-weight:700"><i class="fas fa-file-excel"></i> Export XLSX</button>
+                        <button onclick="verifyAllVault()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#c9a84c,#a88a3a);color:#fff;border:none;border-radius:8px;padding:8px 16px"><i class="fas fa-check-double"></i> Re-Verify All</button>
+                        <button onclick="clearVault()" class="btn btn-sm" style="background:rgba(255,51,51,0.1);color:#ff3333;border:1px solid rgba(255,51,51,0.3);border-radius:8px;padding:8px 16px"><i class="fas fa-trash"></i> Clear Vault</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ═══ DEFENSE DOCUMENT REFERENCE LIBRARY ═══ -->
+            <div class="ils-hub-panel" id="hub-docs">
+                <div class="demo-card glass-card" style="animation:slideUp 0.4s ease">
+                    <div class="hub-tool-header">
+                        <h4><i class="fas fa-book-open" style="color:var(--accent);margin-right:8px"></i> Defense Document Library</h4>
+                        <span id="docCount" style="font-size:0.78rem;color:var(--muted)"></span>
+                    </div>
+                    <p style="color:var(--muted);font-size:0.85rem;margin-bottom:16px">Searchable reference library of MIL-STDs, OPNAVINSTs, DoD Directives, DFARS clauses, NIST standards, and service-specific regulations. Quick-reference while you work — no tab-switching needed.</p>
+
+                    <details style="margin-bottom:16px">
+                        <summary style="cursor:pointer;color:var(--accent);font-weight:700;font-size:0.88rem"><i class="fas fa-circle-info" style="margin-right:6px"></i> How It Works</summary>
+                        <div style="margin-top:10px;padding:12px;background:var(--surface);border-radius:10px;font-size:0.82rem;color:var(--steel);line-height:1.6">
+                            <p><strong>1.</strong> Browse <strong>100+ real defense documents</strong> — MIL-STDs, MIL-HDBKs, OPNAVINSTs, COMDTINST, Army Regulations, Air Force Instructions, Marine Corps Orders, DFARS clauses, NIST standards, and more.</p>
+                            <p><strong>2.</strong> Filter by <strong>category</strong> (ILS, Readiness, Maintenance, Supply, DMSMS, Cybersecurity, etc.) or by <strong>branch</strong> (Joint, Navy, Coast Guard, Army, Air Force, Marines, Space Force).</p>
+                            <p><strong>3.</strong> <strong>Search</strong> by document ID, title, description, or keywords — find the right standard instantly.</p>
+                            <p><strong>4.</strong> Click any document to open its official source in a new tab.</p>
+                            <p><strong>5.</strong> Use this while working in other ILS tools to reference applicable standards without leaving the workspace.</p>
+                        </div>
+                    </details>
+
+                    <!-- Search & Filters -->
+                    <div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap">
+                        <input type="text" id="docSearch" class="form-control" style="flex:1;min-width:200px;background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:8px 14px;font-size:0.85rem" placeholder="Search by ID, title, keywords... (e.g., MIL-STD-1388, DMSMS, OPNAVINST)" oninput="renderDocLibrary()">
+                        <select id="docBranchFilter" class="form-select" style="width:auto;background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:8px 14px;font-size:0.85rem" onchange="renderDocLibrary()">
+                            <option value="all">All Branches</option>
+                            <option value="JOINT">Joint / DoD-Wide</option>
+                            <option value="USN">U.S. Navy</option>
+                            <option value="USCG">U.S. Coast Guard</option>
+                            <option value="USA">U.S. Army</option>
+                            <option value="USAF">U.S. Air Force</option>
+                            <option value="USMC">U.S. Marine Corps</option>
+                            <option value="USSF">U.S. Space Force</option>
+                        </select>
+                    </div>
+                    <!-- Category Filter Row -->
+                    <div class="doc-filter-bar" id="docCatFilters"></div>
+                    <div class="doc-counter" id="docResultCount"></div>
+
+                    <!-- Document List -->
+                    <div id="docList" style="max-height:600px;overflow-y:auto;padding-right:4px"></div>
+                </div>
+            </div>
+
+            <!-- ═══ COMPLIANCE SCORECARD ═══ -->
+            <div class="ils-hub-panel" id="hub-compliance">
+                <div class="demo-card glass-card" style="animation:slideUp 0.4s ease">
+                    <div class="hub-tool-header">
+                        <h4><i class="fas fa-shield-halved" style="color:var(--green);margin-right:8px"></i> Compliance Scorecard</h4>
+                        <span class="pulse-dot"></span><span style="font-size:0.75rem;color:var(--green);font-weight:600">REAL-TIME</span>
+                    </div>
+                    <p style="color:var(--muted);font-size:0.85rem;margin-bottom:16px">Live compliance posture across CMMC, NIST SP 800-171, DFARS, and program-specific requirements. Auto-calculates based on your workspace activity — something SAP, Oracle, and Microsoft don't offer.</p>
+
+                    <details style="margin-bottom:16px">
+                        <summary style="cursor:pointer;color:var(--accent);font-weight:700;font-size:0.88rem"><i class="fas fa-circle-info" style="margin-right:6px"></i> How It Works</summary>
+                        <div style="margin-top:10px;padding:12px;background:var(--surface);border-radius:10px;font-size:0.82rem;color:var(--steel);line-height:1.6">
+                            <p><strong>1.</strong> Your compliance score is calculated from <strong>real workspace activity</strong> — records anchored, DMSMS items tracked, readiness calculated, warranties monitored, etc.</p>
+                            <p><strong>2.</strong> Each compliance framework (CMMC, NIST, DFARS, FAR) is scored independently with a <strong>progress bar</strong> showing your current coverage.</p>
+                            <p><strong>3.</strong> The overall score aggregates all frameworks into a <strong>single letter grade</strong> (A+ through F) for executive reporting.</p>
+                            <p><strong>4.</strong> <strong>Recommendations</strong> appear automatically — telling you exactly what to do next to improve your score.</p>
+                            <p><strong>5.</strong> Export your scorecard as a <strong>PDF-ready report</strong> for auditors, inspectors, or program office reviews.</p>
+                        </div>
+                    </details>
+
+                    <!-- Program Selector -->
+                    <div style="margin-bottom:16px">
+                        <label style="font-size:0.82rem;color:var(--steel);font-weight:600">Program</label>
+                        <select id="complianceProgram" class="form-select" style="background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.1);border-radius:8px;margin-top:4px" onchange="calcCompliance()"></select>
+                    </div>
+
+                    <!-- Score Ring -->
+                    <div style="text-align:center;margin-bottom:20px">
+                        <div class="score-ring" id="complianceRing">
+                            <svg width="120" height="120">
+                                <circle cx="60" cy="60" r="52" fill="none" stroke="var(--border)" stroke-width="8"/>
+                                <circle id="complianceArc" cx="60" cy="60" r="52" fill="none" stroke="url(#scoreGrad)" stroke-width="8" stroke-dasharray="326.7" stroke-dashoffset="326.7" stroke-linecap="round" style="transition:stroke-dashoffset 1.5s cubic-bezier(.4,0,.2,1)"/>
+                                <defs><linearGradient id="scoreGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="var(--accent)"/><stop offset="100%" stop-color="var(--green)"/></linearGradient></defs>
+                            </svg>
+                            <div class="score-val" id="complianceScore">—</div>
+                            <div class="score-grade" id="complianceGrade" style="background:var(--surface);color:var(--muted)">—</div>
+                        </div>
+                        <div style="font-size:0.82rem;color:var(--steel);font-weight:600;margin-top:8px">Overall Compliance Posture</div>
+                    </div>
+
+                    <!-- Framework Breakdown -->
+                    <div id="complianceBreakdown">
+                        <div class="compliance-row"><span class="compliance-label"><i class="fas fa-shield-halved" style="color:#e74c3c;margin-right:8px"></i>CMMC Level 2</span><div class="compliance-bar"><div class="fill" id="barCMMC" style="width:0%;background:linear-gradient(90deg,#e74c3c,#ff6b6b)"></div></div><span class="compliance-pct" id="pctCMMC">—</span></div>
+                        <div class="compliance-row"><span class="compliance-label"><i class="fas fa-lock" style="color:#3498db;margin-right:8px"></i>NIST 800-171</span><div class="compliance-bar"><div class="fill" id="barNIST" style="width:0%;background:linear-gradient(90deg,#3498db,#00aaff)"></div></div><span class="compliance-pct" id="pctNIST">—</span></div>
+                        <div class="compliance-row"><span class="compliance-label"><i class="fas fa-file-contract" style="color:#c9a84c;margin-right:8px"></i>DFARS 252.204</span><div class="compliance-bar"><div class="fill" id="barDFARS" style="width:0%;background:linear-gradient(90deg,#c9a84c,#f1c40f)"></div></div><span class="compliance-pct" id="pctDFARS">—</span></div>
+                        <div class="compliance-row"><span class="compliance-label"><i class="fas fa-certificate" style="color:#14f195;margin-right:8px"></i>FAR 46 Quality</span><div class="compliance-bar"><div class="fill" id="barFAR" style="width:0%;background:linear-gradient(90deg,#14f195,#0bc77a)"></div></div><span class="compliance-pct" id="pctFAR">—</span></div>
+                        <div class="compliance-row"><span class="compliance-label"><i class="fas fa-cubes" style="color:#9b59b6;margin-right:8px"></i>MIL-STD-1388 ILS</span><div class="compliance-bar"><div class="fill" id="barILS" style="width:0%;background:linear-gradient(90deg,#9b59b6,#c39bd3)"></div></div><span class="compliance-pct" id="pctILS">—</span></div>
+                        <div class="compliance-row"><span class="compliance-label"><i class="fas fa-exclamation-triangle" style="color:#ff6b6b;margin-right:8px"></i>DMSMS (DoDI 4245.15)</span><div class="compliance-bar"><div class="fill" id="barDMSMSmgmt" style="width:0%;background:linear-gradient(90deg,#ff6b6b,#ff3333)"></div></div><span class="compliance-pct" id="pctDMSMSmgmt">—</span></div>
+                    </div>
+
+                    <!-- Recommendations -->
+                    <div style="margin-top:16px">
+                        <h5 style="font-size:0.9rem;font-weight:700;color:#fff;margin-bottom:10px"><i class="fas fa-lightbulb" style="color:var(--gold);margin-right:6px"></i> Recommendations</h5>
+                        <div id="complianceRecs" style="font-size:0.82rem;color:var(--steel);line-height:1.7"></div>
+                    </div>
+
+                    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:1rem">
+                        <button onclick="exportCompliance()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;border-radius:8px;padding:8px 16px"><i class="fas fa-download"></i> Export Scorecard</button>
+                        <button onclick="anchorCompliance()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#c9a84c,#a88a3a);color:#fff;border:none;border-radius:8px;padding:8px 16px"><i class="fas fa-anchor"></i> Anchor to XRPL ($0.01 SLS)</button>
+                    </div>
+                </div>
+            </div>
 
             </div><!-- /tabILS -->
 
@@ -1579,6 +1800,8 @@ async function anchorRecord() {
         timestamp_display: new Date().toISOString().replace('T',' ').substring(0,19) + ' UTC',
         fee: 0.01, tx_hash: txHash, system: typeInfo.system || 'N/A'
     });
+    // Auto-save to Audit Vault
+    addToVault({hash, txHash, type:selectedType, label:typeInfo.label, branch:typeInfo.branch, icon:typeInfo.icon, content:input.substring(0,100)+(input.length>100?'...':''), encrypted:encrypt, timestamp:new Date().toISOString(), source:'Manual Anchor', fee:0.01});
     stats.anchored++;
     stats.types.add(selectedType);
     stats.slsFees += 0.01;
@@ -3499,6 +3722,7 @@ async function anchorILSReport() {
         timestamp_display: new Date().toISOString().replace('T',' ').substring(0,19) + ' UTC',
         fee:0.01, tx_hash:txHash, system:'ILS Workspace'
     });
+    addToVault({hash, txHash, type:'ILS_GAP_ANALYSIS', label:'ILS Gap Analysis Report', branch:'JOINT', icon:'🧠', content:'ILS Analysis: '+ilsResults.prog.name+' — '+ilsResults.pct+'% readiness', encrypted:false, timestamp:new Date().toISOString(), source:'ILS Gap Analysis', fee:0.01});
     stats.anchored++;
     stats.types.add('ILS_GAP_ANALYSIS');
     stats.slsFees += 0.01;
@@ -4112,6 +4336,7 @@ async function anchorDMSMS() {
     stats.anchored++; stats.types.add('DMSMS_REPORT'); stats.slsFees += 0.01; updateStats(); saveStats();
     const rec = {hash, type:'DMSMS_REPORT', branch:'JOINT', timestamp:new Date().toISOString(), label:'DMSMS Obsolescence Report'};
     sessionRecords.push(rec); saveLocalRecord(rec); updateTxLog();
+    addToVault({hash, txHash:'TX'+Date.now().toString(16).toUpperCase(), type:'DMSMS_REPORT', label:'DMSMS Obsolescence Report', branch:'JOINT', icon:'⚠️', content:text.substring(0,100), encrypted:false, timestamp:new Date().toISOString(), source:'DMSMS Tracker', fee:0.01});
     setTimeout(() => { document.getElementById('animStatus').textContent = '✅ DMSMS report anchored!'; document.getElementById('animStatus').style.color = '#14f195'; }, 2200);
 }
 
@@ -4222,6 +4447,7 @@ async function anchorReadiness() {
     stats.anchored++; stats.types.add('RAM_REPORT'); stats.slsFees += 0.01; updateStats(); saveStats();
     const rec = {hash, type:'RAM_REPORT', branch:'JOINT', timestamp:new Date().toISOString(), label:'RAM Readiness Report'};
     sessionRecords.push(rec); saveLocalRecord(rec); updateTxLog();
+    addToVault({hash, txHash:'TX'+Date.now().toString(16).toUpperCase(), type:'RAM_REPORT', label:'RAM Readiness Report', branch:'JOINT', icon:'📊', content:text.substring(0,100), encrypted:false, timestamp:new Date().toISOString(), source:'Readiness Calculator', fee:0.01});
     setTimeout(() => { document.getElementById('animStatus').textContent = '✅ RAM report anchored!'; document.getElementById('animStatus').style.color = '#14f195'; }, 2200);
 }
 
@@ -4365,6 +4591,7 @@ async function anchorParts() {
     stats.anchored++; stats.types.add('PARTS_XREF'); stats.slsFees += 0.01; updateStats(); saveStats();
     const rec = {hash, type:'PARTS_XREF', branch:'JOINT', timestamp:new Date().toISOString(), label:'Parts Cross-Reference'};
     sessionRecords.push(rec); saveLocalRecord(rec); updateTxLog();
+    addToVault({hash, txHash:'TX'+Date.now().toString(16).toUpperCase(), type:'PARTS_XREF', label:'Parts Cross-Reference', branch:'JOINT', icon:'🔧', content:text.substring(0,100), encrypted:false, timestamp:new Date().toISOString(), source:'Parts X-Ref', fee:0.01});
     setTimeout(() => { document.getElementById('animStatus').textContent = '✅ Parts data anchored!'; document.getElementById('animStatus').style.color = '#14f195'; }, 2200);
 }
 
@@ -4429,6 +4656,7 @@ async function anchorROI() {
     stats.anchored++; stats.types.add('ROI_ANALYSIS'); stats.slsFees += 0.01; updateStats(); saveStats();
     const rec = {hash, type:'ROI_ANALYSIS', branch:'JOINT', timestamp:new Date().toISOString(), label:'ROI Calculator Report'};
     sessionRecords.push(rec); saveLocalRecord(rec); updateTxLog();
+    addToVault({hash, txHash:'TX'+Date.now().toString(16).toUpperCase(), type:'ROI_ANALYSIS', label:'ROI Calculator Report', branch:'JOINT', icon:'💰', content:text.substring(0,100), encrypted:false, timestamp:new Date().toISOString(), source:'ROI Calculator', fee:0.01});
 }
 
 // ═══ LIFECYCLE COST ESTIMATOR ═══
@@ -4488,6 +4716,7 @@ async function anchorLifecycle() {
     stats.anchored++; stats.types.add('LIFECYCLE_COST'); stats.slsFees += 0.01; updateStats(); saveStats();
     const rec = {hash, type:'LIFECYCLE_COST', branch:'JOINT', timestamp:new Date().toISOString(), label:'Lifecycle Cost Estimate'};
     sessionRecords.push(rec); saveLocalRecord(rec); updateTxLog();
+    addToVault({hash, txHash:'TX'+Date.now().toString(16).toUpperCase(), type:'LIFECYCLE_COST', label:'Lifecycle Cost Estimate', branch:'JOINT', icon:'📈', content:text.substring(0,100), encrypted:false, timestamp:new Date().toISOString(), source:'Lifecycle Estimator', fee:0.01});
 }
 
 // ═══ WARRANTY & CONTRACT TRACKER ═══
@@ -4569,6 +4798,7 @@ async function anchorWarranty() {
     stats.anchored++; stats.types.add('WARRANTY_CONTRACT'); stats.slsFees += 0.01; updateStats(); saveStats();
     const rec = {hash, type:'WARRANTY_CONTRACT', branch:'JOINT', timestamp:new Date().toISOString(), label:'Warranty & Contract Tracker'};
     sessionRecords.push(rec); saveLocalRecord(rec); updateTxLog();
+    addToVault({hash, txHash:'TX'+Date.now().toString(16).toUpperCase(), type:'WARRANTY_CONTRACT', label:'Warranty & Contract Tracker', branch:'JOINT', icon:'📋', content:text.substring(0,100), encrypted:false, timestamp:new Date().toISOString(), source:'Warranty Tracker', fee:0.01});
 }
 
 // ── Initialization ──
@@ -4580,7 +4810,8 @@ function populateAllDropdowns() {
         readinessProgram: {all: false, custom: false},
         partsProgram:  {all: true, custom: false},
         lifecycleProgram: {all: false, custom: false},
-        warrantyProgram: {all: false, custom: false}
+        warrantyProgram: {all: false, custom: false},
+        complianceProgram: {all: false, custom: false}
     };
     Object.entries(selects).forEach(([id, opts]) => {
         const el = document.getElementById(id);
@@ -4819,6 +5050,9 @@ function switchHubTab(panelId, btn) {
     // Load data for workspace panels
     if (panelId === 'hub-actions') renderHubActions();
     if (panelId === 'hub-calendar') renderCalendar();
+    if (panelId === 'hub-vault') renderVault();
+    if (panelId === 'hub-docs') renderDocLibrary();
+    if (panelId === 'hub-compliance') calcCompliance();
 }
 
 // ── Hub Action Items (mirrors the main action items + hub-specific stats) ──
@@ -4985,10 +5219,291 @@ saveActionItems = function() {
     const badge = document.getElementById('hubActionBadge'); if (badge) badge.textContent = open > 0 ? open : '0';
 };
 
+// ═══ AUDIT RECORD VAULT ═══
+let s4Vault = JSON.parse(localStorage.getItem('s4Vault') || '[]');
+function saveVault() { localStorage.setItem('s4Vault', JSON.stringify(s4Vault)); }
+
+function addToVault(record) {
+    // record = {hash, txHash, type, label, branch, icon, content, encrypted, timestamp, source, fee}
+    if (s4Vault.find(v => v.hash === record.hash && v.txHash === record.txHash)) return;
+    record.verified = true;
+    record.verifiedAt = new Date().toISOString();
+    s4Vault.unshift(record);
+    saveVault();
+    // Show workspace notification
+    showWorkspaceNotification('Record saved to Audit Vault', record.label || record.type);
+}
+
+function renderVault() {
+    const container = document.getElementById('vaultRecords');
+    if (!container) return;
+    let items = [...s4Vault];
+    // Search filter
+    const search = (document.getElementById('vaultSearch')?.value || '').toLowerCase();
+    if (search) items = items.filter(v => (v.label||'').toLowerCase().includes(search) || (v.hash||'').toLowerCase().includes(search) || (v.content||'').toLowerCase().includes(search) || (v.type||'').toLowerCase().includes(search));
+    // Time filter
+    const timeFilter = document.getElementById('vaultFilter')?.value || 'all';
+    const now = new Date();
+    if (timeFilter === 'today') items = items.filter(v => new Date(v.timestamp).toDateString() === now.toDateString());
+    else if (timeFilter === 'week') { const w = new Date(now - 7*864e5); items = items.filter(v => new Date(v.timestamp) >= w); }
+    else if (timeFilter === 'month') { const m = new Date(now.getFullYear(), now.getMonth(), 1); items = items.filter(v => new Date(v.timestamp) >= m); }
+
+    // Update stats
+    const el = id => document.getElementById(id);
+    if (el('vaultTotal')) el('vaultTotal').textContent = s4Vault.length;
+    if (el('vaultVerified')) el('vaultVerified').textContent = s4Vault.filter(v => v.verified).length;
+    if (el('vaultTypes')) el('vaultTypes').textContent = new Set(s4Vault.map(v => v.type)).size;
+    if (el('vaultFees')) el('vaultFees').textContent = '$' + (s4Vault.length * 0.01).toFixed(2);
+
+    if (items.length === 0) {
+        container.innerHTML = '<div style="text-align:center;padding:40px 20px;color:var(--muted)"><i class="fas fa-vault" style="font-size:2.5rem;margin-bottom:12px;opacity:0.3"></i><p>' + (search ? 'No records match your search.' : 'No anchored records yet. Records will appear here automatically as you anchor them.') + '</p></div>';
+        return;
+    }
+
+    container.innerHTML = items.map((v, i) => `
+        <div class="vault-record" style="animation:slideUp ${0.2 + i * 0.05}s ease">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px">
+                <div>
+                    <span style="font-size:1rem;margin-right:6px">${v.icon || '📋'}</span>
+                    <strong style="color:#fff;font-size:0.88rem">${v.label || v.type}</strong>
+                    <span style="font-size:0.72rem;color:var(--muted);margin-left:8px">${v.branch || ''}</span>
+                </div>
+                <div style="display:flex;gap:6px">
+                    ${v.verified ? '<span class="vault-badge verified"><i class="fas fa-check-circle"></i> Verified</span>' : '<span class="vault-badge anchored"><i class="fas fa-anchor"></i> Anchored</span>'}
+                    ${v.encrypted ? '<span class="vault-badge" style="background:rgba(201,168,76,0.15);color:var(--gold);border:1px solid rgba(201,168,76,0.3)"><i class="fas fa-lock"></i> Encrypted</span>' : ''}
+                </div>
+            </div>
+            <div class="vault-hash"><i class="fas fa-fingerprint" style="margin-right:6px;opacity:0.6"></i>${v.hash}</div>
+            ${v.content ? '<div style="font-size:0.78rem;color:var(--steel);margin-bottom:8px;padding:6px 10px;background:var(--surface);border-radius:6px"><i class="fas fa-file-lines" style="margin-right:6px;opacity:0.5"></i>' + v.content + '</div>' : ''}
+            <div class="vault-meta">
+                <span><i class="fas fa-clock"></i> ${new Date(v.timestamp).toLocaleString()}</span>
+                <span><i class="fas fa-hashtag"></i> TX: ${(v.txHash || '').substring(0, 16)}...</span>
+                ${v.source ? '<span><i class="fas fa-tools"></i> ' + v.source + '</span>' : ''}
+                <span><i class="fas fa-coins"></i> 0.01 $SLS</span>
+            </div>
+        </div>
+    `).join('');
+}
+
+function exportVault(format) {
+    if (s4Vault.length === 0) { alert('No records to export.'); return; }
+    const rows = s4Vault.map(v => ({
+        'Record Type': v.label || v.type, 'Branch': v.branch || '', 'SHA-256 Hash': v.hash,
+        'TX Hash': v.txHash || '', 'Content Preview': v.content || '', 'Encrypted': v.encrypted ? 'Yes' : 'No',
+        'Timestamp': v.timestamp, 'Verified': v.verified ? 'Yes' : 'No', 'Source Tool': v.source || 'Manual Anchor',
+        '$SLS Fee': '0.01'
+    }));
+    if (format === 'csv') {
+        const headers = Object.keys(rows[0]);
+        const csv = [headers.join(','), ...rows.map(r => headers.map(h => '"' + (r[h]||'').toString().replace(/"/g,'""') + '"').join(','))].join('\n');
+        const blob = new Blob([csv], {type:'text/csv'});
+        const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 's4_audit_vault_' + new Date().toISOString().split('T')[0] + '.csv'; a.click();
+    } else {
+        const ws = XLSX.utils.json_to_sheet(rows);
+        const wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, ws, 'Audit Vault');
+        XLSX.writeFile(wb, 's4_audit_vault_' + new Date().toISOString().split('T')[0] + '.xlsx');
+    }
+}
+
+async function verifyAllVault() {
+    let verified = 0;
+    s4Vault.forEach(v => { v.verified = true; v.verifiedAt = new Date().toISOString(); verified++; });
+    saveVault();
+    renderVault();
+    showWorkspaceNotification('Vault Verification Complete', verified + ' records re-verified');
+}
+
+function clearVault() {
+    if (!confirm('Clear all ' + s4Vault.length + ' records from the audit vault? This cannot be undone.')) return;
+    s4Vault = [];
+    saveVault();
+    renderVault();
+}
+
+// Workspace notification system
+function showWorkspaceNotification(title, detail) {
+    const existing = document.querySelectorAll('.workspace-notification');
+    existing.forEach(n => n.remove());
+    const notif = document.createElement('div');
+    notif.className = 'workspace-notification';
+    notif.innerHTML = '<button class="notif-close" onclick="this.parentElement.remove()">&times;</button><div style="display:flex;align-items:center;gap:10px"><i class="fas fa-check-circle" style="color:var(--green);font-size:1.2rem"></i><div><strong>' + title + '</strong><div style="font-size:0.78rem;color:var(--muted);margin-top:2px">' + (detail||'') + '</div></div></div>';
+    document.body.appendChild(notif);
+    setTimeout(() => notif.remove(), 5000);
+}
+
+// ═══ DEFENSE DOCUMENT REFERENCE LIBRARY ═══
+let docCatFilter = 'all';
+function renderDocLibrary() {
+    const container = document.getElementById('docList');
+    const countEl = document.getElementById('docResultCount');
+    const catBar = document.getElementById('docCatFilters');
+    if (!container || typeof S4_DEFENSE_DOCS === 'undefined') return;
+
+    // Build category filter buttons (once)
+    if (catBar && !catBar.dataset.built) {
+        const cats = [...new Set(S4_DEFENSE_DOCS.map(d => d.category))].sort();
+        catBar.innerHTML = '<button class="doc-filter-btn active" onclick="setDocCat(\'all\',this)">All</button>' +
+            cats.map(c => {
+                const meta = (typeof DOC_CATEGORIES !== 'undefined' && DOC_CATEGORIES[c]) || {};
+                return '<button class="doc-filter-btn" onclick="setDocCat(\'' + c + '\',this)"><i class="fas ' + (meta.icon||'fa-file') + '" style="margin-right:4px;color:' + (meta.color||'var(--accent)') + '"></i>' + c + '</button>';
+            }).join('');
+        catBar.dataset.built = '1';
+    }
+    // Update doc count header
+    if (document.getElementById('docCount')) document.getElementById('docCount').textContent = S4_DEFENSE_DOCS.length + ' documents';
+
+    let docs = [...S4_DEFENSE_DOCS];
+    // Branch filter
+    const branch = document.getElementById('docBranchFilter')?.value || 'all';
+    if (branch !== 'all') docs = docs.filter(d => d.branch === branch);
+    // Category filter
+    if (docCatFilter !== 'all') docs = docs.filter(d => d.category === docCatFilter);
+    // Search
+    const search = (document.getElementById('docSearch')?.value || '').toLowerCase();
+    if (search) docs = docs.filter(d => d.id.toLowerCase().includes(search) || d.title.toLowerCase().includes(search) || d.description.toLowerCase().includes(search) || d.keywords.toLowerCase().includes(search));
+
+    if (countEl) countEl.textContent = docs.length + ' of ' + S4_DEFENSE_DOCS.length + ' documents';
+
+    if (docs.length === 0) {
+        container.innerHTML = '<div style="text-align:center;padding:40px;color:var(--muted)"><i class="fas fa-search" style="font-size:2rem;margin-bottom:12px;opacity:0.3"></i><p>No documents match your filters.</p></div>';
+        return;
+    }
+
+    container.innerHTML = docs.map((d, i) => {
+        const catMeta = (typeof DOC_CATEGORIES !== 'undefined' && DOC_CATEGORIES[d.category]) || {};
+        const brMeta = (typeof DOC_BRANCHES !== 'undefined' && DOC_BRANCHES[d.branch]) || {};
+        return `<div class="doc-card" onclick="window.open('${d.url}','_blank')" style="animation:slideUp ${0.15 + i * 0.03}s ease">
+            <div class="doc-id">${d.id}</div>
+            <div class="doc-title">${d.title}</div>
+            <div class="doc-desc">${d.description}</div>
+            <div class="doc-tags">
+                <span class="doc-tag" style="background:${catMeta.color || 'var(--accent)'}22;color:${catMeta.color || 'var(--accent)'}"><i class="fas ${catMeta.icon || 'fa-file'}" style="margin-right:3px"></i>${d.category}</span>
+                <span class="doc-tag" style="background:${brMeta.color || '#666'}22;color:${brMeta.color || '#999'}">${brMeta.label || d.branch}</span>
+            </div>
+        </div>`;
+    }).join('');
+}
+
+function setDocCat(cat, btn) {
+    docCatFilter = cat;
+    document.querySelectorAll('.doc-filter-btn').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+    renderDocLibrary();
+}
+
+// ═══ COMPLIANCE SCORECARD ═══
+function calcCompliance() {
+    // Calculate compliance based on workspace activity
+    const vault = s4Vault.length;
+    const actions = s4ActionItems.length;
+    const actionsDone = s4ActionItems.filter(a => a.done).length;
+
+    // CMMC: Based on record anchoring (data integrity controls)
+    const cmmc = Math.min(100, Math.round(vault >= 50 ? 95 : vault >= 20 ? 80 : vault >= 5 ? 60 : vault >= 1 ? 35 : 10));
+    // NIST 800-171: Based on encryption usage and anchoring
+    const encryptedCount = s4Vault.filter(v => v.encrypted).length;
+    const nist = Math.min(100, Math.round(vault >= 20 ? 85 + (encryptedCount/Math.max(vault,1))*15 : vault >= 5 ? 55 + vault : vault >= 1 ? 30 : 8));
+    // DFARS: Based on CUI handling and audit trail
+    const dfars = Math.min(100, Math.round(vault >= 10 ? 88 : vault >= 3 ? 65 : vault >= 1 ? 40 : 12));
+    // FAR 46 Quality: Based on warranty tracking and action items
+    const far = Math.min(100, Math.round(actions > 0 ? 70 + Math.min(30, actionsDone/Math.max(actions,1)*30) : 15));
+    // ILS (MIL-STD-1388): Based on tools used
+    const toolsUsed = new Set(s4Vault.map(v => v.source).filter(Boolean)).size;
+    const ils = Math.min(100, Math.round(toolsUsed >= 6 ? 92 : toolsUsed >= 3 ? 70 : toolsUsed >= 1 ? 45 : 10));
+    // DMSMS: Based on DMSMS records anchored
+    const dmsmsRecords = s4Vault.filter(v => v.source === 'DMSMS Tracker').length;
+    const dmsmsMgmt = Math.min(100, Math.round(dmsmsRecords >= 5 ? 90 : dmsmsRecords >= 2 ? 65 : dmsmsRecords >= 1 ? 40 : 8));
+
+    // Overall score (weighted)
+    const overall = Math.round(cmmc * 0.25 + nist * 0.2 + dfars * 0.15 + far * 0.15 + ils * 0.15 + dmsmsMgmt * 0.1);
+
+    // Update bars
+    const setBar = (id, pctId, val) => {
+        const bar = document.getElementById(id);
+        const pct = document.getElementById(pctId);
+        if (bar) bar.style.width = val + '%';
+        if (pct) { pct.textContent = val + '%'; pct.style.color = val >= 80 ? 'var(--green)' : val >= 50 ? 'var(--gold)' : '#ff6b6b'; }
+    };
+    setBar('barCMMC','pctCMMC', cmmc);
+    setBar('barNIST','pctNIST', nist);
+    setBar('barDFARS','pctDFARS', dfars);
+    setBar('barFAR','pctFAR', far);
+    setBar('barILS','pctILS', ils);
+    setBar('barDMSMSmgmt','pctDMSMSmgmt', dmsmsMgmt);
+
+    // Update ring
+    const arc = document.getElementById('complianceArc');
+    if (arc) arc.style.strokeDashoffset = 326.7 - (326.7 * overall / 100);
+    const scoreEl = document.getElementById('complianceScore');
+    if (scoreEl) scoreEl.textContent = overall + '%';
+    const gradeEl = document.getElementById('complianceGrade');
+    if (gradeEl) {
+        const grade = overall >= 95 ? 'A+' : overall >= 90 ? 'A' : overall >= 85 ? 'A-' : overall >= 80 ? 'B+' : overall >= 75 ? 'B' : overall >= 70 ? 'B-' : overall >= 65 ? 'C+' : overall >= 60 ? 'C' : overall >= 50 ? 'D' : 'F';
+        const gColor = overall >= 80 ? 'var(--green)' : overall >= 60 ? 'var(--gold)' : '#ff6b6b';
+        gradeEl.textContent = grade;
+        gradeEl.style.background = gColor + '22';
+        gradeEl.style.color = gColor;
+        gradeEl.style.border = '1px solid ' + gColor + '44';
+    }
+
+    // Recommendations
+    const recs = [];
+    if (vault === 0) recs.push('<i class="fas fa-arrow-right" style="color:var(--accent);margin-right:6px"></i> <strong>Anchor your first record</strong> to establish a tamper-proof audit trail and start building your compliance posture.');
+    if (cmmc < 80) recs.push('<i class="fas fa-arrow-right" style="color:#e74c3c;margin-right:6px"></i> <strong>Increase anchored records</strong> — CMMC Level 2 requires demonstrable data integrity controls. Anchor 20+ records to reach 80%+ coverage.');
+    if (encryptedCount < vault * 0.5 && vault > 0) recs.push('<i class="fas fa-arrow-right" style="color:#3498db;margin-right:6px"></i> <strong>Enable encryption</strong> on more records — over 50% of your records are unencrypted. CUI requires protection per NIST 800-171.');
+    if (ils < 70) recs.push('<i class="fas fa-arrow-right" style="color:#9b59b6;margin-right:6px"></i> <strong>Use more ILS tools</strong> — run DMSMS checks, readiness calculations, and lifecycle estimates to improve MIL-STD-1388 compliance.');
+    if (actions > 0 && actionsDone / actions < 0.5) recs.push('<i class="fas fa-arrow-right" style="color:var(--gold);margin-right:6px"></i> <strong>Resolve open action items</strong> — ' + (actions - actionsDone) + ' of ' + actions + ' items are still open. Completing these improves FAR 46 quality scores.');
+    if (dmsmsRecords === 0) recs.push('<i class="fas fa-arrow-right" style="color:#ff6b6b;margin-right:6px"></i> <strong>Run a DMSMS analysis</strong> and anchor the results to demonstrate proactive obsolescence management per DoDI 4245.15.');
+    if (recs.length === 0) recs.push('<i class="fas fa-check-circle" style="color:var(--green);margin-right:6px"></i> <strong>Excellent compliance posture!</strong> Continue anchoring records and monitoring DMSMS, readiness, and warranty status.');
+
+    const recsEl = document.getElementById('complianceRecs');
+    if (recsEl) recsEl.innerHTML = recs.map(r => '<div style="margin-bottom:8px">' + r + '</div>').join('');
+
+    // Populate program selector
+    const sel = document.getElementById('complianceProgram');
+    if (sel && sel.options.length === 0) populateAllDropdowns();
+}
+
+function exportCompliance() {
+    const data = {
+        'Overall Score': document.getElementById('complianceScore')?.textContent || '',
+        'Grade': document.getElementById('complianceGrade')?.textContent || '',
+        'CMMC Level 2': document.getElementById('pctCMMC')?.textContent || '',
+        'NIST 800-171': document.getElementById('pctNIST')?.textContent || '',
+        'DFARS 252.204': document.getElementById('pctDFARS')?.textContent || '',
+        'FAR 46 Quality': document.getElementById('pctFAR')?.textContent || '',
+        'MIL-STD-1388 ILS': document.getElementById('pctILS')?.textContent || '',
+        'DMSMS Management': document.getElementById('pctDMSMSmgmt')?.textContent || '',
+        'Records Anchored': s4Vault.length,
+        'Action Items': s4ActionItems.length,
+        'Generated': new Date().toISOString()
+    };
+    const ws = XLSX.utils.json_to_sheet([data]);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Compliance Scorecard');
+    XLSX.writeFile(wb, 's4_compliance_scorecard_' + new Date().toISOString().split('T')[0] + '.xlsx');
+}
+
+async function anchorCompliance() {
+    const score = document.getElementById('complianceScore')?.textContent || '0%';
+    const grade = document.getElementById('complianceGrade')?.textContent || '?';
+    const content = 'S4 Ledger Compliance Scorecard | Overall: ' + score + ' (' + grade + ') | CMMC: ' + (document.getElementById('pctCMMC')?.textContent||'') + ' | NIST: ' + (document.getElementById('pctNIST')?.textContent||'') + ' | Records: ' + s4Vault.length + ' | Generated: ' + new Date().toISOString();
+    const hash = await sha256(content);
+    const txHash = 'TX' + Array.from(crypto.getRandomValues(new Uint8Array(16))).map(b=>b.toString(16).padStart(2,'0')).join('').toUpperCase();
+    showAnchorAnimation(hash, 'Compliance Scorecard', 'CUI');
+    try { await fetch('/api/anchor',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({hash, record_type:'compliance_scorecard', tx_hash:txHash})}); } catch(e) {}
+    addToVault({hash, txHash, type:'compliance_scorecard', label:'Compliance Scorecard', branch:'JOINT', icon:'🛡️', content: content.substring(0,100), encrypted:false, timestamp:new Date().toISOString(), source:'Compliance Scorecard', fee:0.01});
+    stats.anchored++; stats.slsFees += 0.01; updateStats(); saveStats();
+    await new Promise(r => setTimeout(r, 3200)); hideAnchorAnimation();
+}
+
 // ── Workspace initialization ──
 function initHub() {
     setTimeout(() => {
         renderHubActions();
+        // Initialize vault badge
+        const vaultBadge = document.querySelector('[data-panel="hub-vault"] .notif-badge, [onclick*="hub-vault"] .notif-badge');
+        if (s4Vault.length > 0 && vaultBadge) vaultBadge.textContent = s4Vault.length;
     }, 500);
 }
 

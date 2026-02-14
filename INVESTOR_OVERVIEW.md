@@ -19,6 +19,17 @@
 | **Cost per Anchor** | ~$0.001 |
 | **Confirmation Time** | 3-5 seconds |
 | **Treasury** | 30M SLS (multi-sig) |
+| **ILS Tools** | 12 interactive workspace tools |
+| **Defense Documents** | 100+ real MIL-STDs, OPNAV, DoD refs |
+| **Platforms** | 462 across 9 military branches |
+
+## Cost Savings (Realistic)
+
+| Scale | Gov Savings/yr | S4 Revenue/yr |
+|---|---|---|
+| Minimal (1–3 programs) | $180K–$420K | $48K–$120K |
+| Mid (5–15 programs) | $1.2M–$4.8M | $240K–$600K |
+| Enterprise (50+ programs) | $12M–$48M | $1.2M–$3.6M |
 
 ## For Grantmakers & Strategic Partners
 

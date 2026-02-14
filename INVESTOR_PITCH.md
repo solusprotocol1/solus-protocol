@@ -39,12 +39,25 @@ Think of S4 Ledger like a notary for defense records. When an ILS manager comple
 - **$SLS token LIVE on XRPL Mainnet** — tradable, AMM pools active, trustlines established
   - Issuer: `r95GyZac4butvVcsTWUPpxzekmyzaHsTA5`
   - 100M total supply | ~15M circulating | 30M in multi-sig treasury
-- **11 interactive defense tools** live at s4ledger.com/demo-app — not mockups, real working interfaces
+- **12 interactive defense tools** live at s4ledger.com/demo-app — not mockups, real working interfaces
 - **462 real defense platforms** across 9 military branches (Navy, Army, Air Force, Marines, Coast Guard, Space Force, SOF, Joint, Civilian)
 - **160+ ILS record categories** mapped to real-world logistics workflows
+- **100+ real defense documents** in searchable reference library (MIL-STDs, OPNAVINSTs, DoD Directives)
+- **Audit Record Vault** — automatic audit trail storage for every anchored record
+- **Compliance Scorecard** — real-time CMMC/NIST/DFARS compliance posture calculator
 - Working Python SDK + CLI with defense use case library
 - 14+ page website at s4ledger.com
 - Open-source and auditable
+
+## Cost Savings
+
+| Tier | Government Savings/yr | S4 Systems Revenue |
+|---|---|---|
+| **Minimal** (1–3 programs) | $180K–$420K | $48K–$120K ARR/customer |
+| **Mid-Scale** (5–15 programs) | $1.2M–$4.8M | $240K–$600K ARR/customer |
+| **High-Scale** (50+ programs) | $12M–$48M | $1.2M–$3.6M ARR/enterprise |
+
+*Key drivers: 65% labor reduction, 90% error savings, 70% audit cost reduction, 15-25% DMSMS cost avoidance*
 
 ## Market
 

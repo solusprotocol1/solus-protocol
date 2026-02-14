@@ -225,11 +225,14 @@ This document tracks every requirement for taking S4 Ledger to a fully productio
 | Item | Status | Priority | Notes |
 |------|--------|----------|-------|
 | Landing page | ✅ Active | **Critical** | Trust signals, compliance badges, CTA |
-| Demo App | ✅ Active | **Critical** | 8 branches, 119 record types |
+| Demo App | ✅ Active | **Critical** | 8 branches, 119 record types, 12 ILS tools |
 | SDK Playground | ✅ Active | **Critical** | Interactive with live API |
 | Live Metrics dashboard | ✅ Active | **High** | Real-time with Chart.js |
 | Transaction browser | ✅ Active | **High** | Filters, pagination, CSV export |
 | Investor portal | ✅ Active | **High** | Market opportunity, tokenomics |
+| Audit Record Vault | ✅ Active | **High** | Auto-saves all anchored records for audit |
+| Defense Doc Library | ✅ Active | **High** | 100+ real MIL-STDs, OPNAVINSTs, DoD refs |
+| Compliance Scorecard | ✅ Active | **High** | CMMC/NIST/DFARS/FAR/ILS/DMSMS scoring |
 | Terms of Service page | ✅ Active | **Critical** | s4-terms/ |
 | Privacy Policy page | ✅ Active | **Critical** | s4-privacy/ |
 | PWA (Demo App) | ✅ Active | Medium | Service worker, manifest.json |
@@ -247,8 +250,9 @@ This document tracks every requirement for taking S4 Ledger to a fully productio
 | One-pager | ⬜ Pending | **High** | PDF download for prospects |
 | Demo video | ⬜ Pending | **High** | 2-3 min product walkthrough |
 | Case study template | ⬜ Pending | Medium | Template for pilot success stories |
-| ROI calculator | ⬜ Pending | Medium | Quantify value vs. current process |
+| ROI calculator | ✅ Active | Medium | Built into ILS Workspace |
 | Competitive analysis | ✅ Published | **High** | On landing page + INVESTOR_PITCH.md |
+| Cost savings analysis | ✅ Published | **High** | Minimal/Mid/High tiers for gov + S4 |
 
 ### 7.2 Partnerships
 | Item | Status | Priority | Notes |
@@ -319,7 +323,32 @@ This document tracks every requirement for taking S4 Ledger to a fully productio
 
 ---
 
-## 11. v3.2.0 Changelog (Latest)
+## 11. v3.7.0 Changelog (Latest)
+
+### New ILS Workspace Tools
+- [x] **Audit Record Vault** — Client-side audit trail store. Every record anchored via any workspace tool is automatically saved with content + SHA-256 hash + TX hash. Search, filter by date, re-verify, export CSV/XLSX, and clear. Zero server-side storage — all data in browser localStorage.
+- [x] **Defense Document Reference Library** — Searchable database of 100+ real defense documents loaded from `s4-assets/defense-docs.js`: MIL-STDs (810H, 882E, 881F, 1388-2B, 461G, etc.), OPNAVINSTs (4790.4F, 4441.12G, 5100.23H), DoD Directives (5000.01, 5000.02, 4140.01), NAVSEA/NAVAIR/NAVSUP manuals, FAR/DFARS clauses, NIST frameworks (800-171, 800-53, CMMC v2.0), Army/Air Force/Marine Corps/Coast Guard/Space Force regulations, DMSMS standards, CDRLs, and ILS element references. Filterable by branch (7) and category (17) with full-text search.
+- [x] **Compliance Scorecard** — Real-time multi-framework compliance calculator scoring CMMC Level 2 (25%), NIST 800-171 (20%), DFARS 252.204 (15%), FAR 46 Quality (15%), MIL-STD-1388 ILS (15%), DoDI 4245.15 DMSMS (10%). SVG ring chart with animated arc, letter grades (A+ through F), actionable recommendations, export to XLSX, and anchor scorecard to XRPL.
+
+### Vault Integration
+- [x] **Auto-Vault for All Anchors** — All 9 anchor functions (`anchorRecord`, `anchorILSReport`, `anchorDMSMS`, `anchorReadiness`, `anchorParts`, `anchorROI`, `anchorLifecycle`, `anchorWarranty`, `anchorCompliance`) now auto-save to the Audit Record Vault
+- [x] **Workspace Notifications** — Toast-style notification system for vault saves and bulk operations
+
+### UX Enhancements
+- [x] **Glassmorphism Design** — `glass-card` with backdrop-filter blur, semi-transparent backgrounds, and gradient accents
+- [x] **Enhanced Animations** — `slideUp`, `shimmer`, `pulseGlow`, `countUp` keyframes for smoother transitions
+- [x] **Gradient Borders** — Animated gradient pseudo-element borders for premium feel
+- [x] **Hover Effects** — `hover-lift` with translateY transform and enhanced box-shadows
+- [x] **Pulse Indicators** — `pulse-dot` with pulsing animation for live status indicators
+- [x] **Shimmer Text** — Animated gradient text effect for loading states
+- [x] **Enhanced Tooltips** — `tooltip-enhanced` with `data-tip` for contextual help
+
+### BAA / Agreement Updates
+- [x] **DDIA v2.0** — BAA_TEMPLATE.md updated with Audit Vault, Doc Library, Compliance Scorecard, and all 12 ILS Workspace tools listed
+
+---
+
+## 12. v3.2.0 Changelog
 
 ### New Tools & Products
 - [x] **DMSMS / Obsolescence Tracker** — Track Diminishing Manufacturing Sources and Material Shortages per DoWI 4245.14. Per-program tracking using real component data (NSNs, manufacturers, lead times). Severity assessment, alternate source identification, resolution cost estimation. Export to CSV, anchor to XRPL.

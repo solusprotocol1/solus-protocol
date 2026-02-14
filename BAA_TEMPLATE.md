@@ -1,6 +1,6 @@
 # S4 Ledger — Defense Data Integrity Agreement (DDIA)
 
-**Template — Version 1.0**
+**Template — Version 2.0**
 
 ---
 
@@ -20,6 +20,29 @@ S4 Ledger provides **hash anchoring services** for defense logistics records, in
 - Contract deliverables (CDRLs, DIDs, SOW documentation)
 - Configuration baselines (hardware/software configuration items)
 - Audit artifacts (inspection reports, compliance evidence)
+- DMSMS obsolescence tracking and resolution reports
+- Operational readiness assessments (RAM — Reliability, Availability, Maintainability)
+- Lifecycle cost estimates and warranty contract status
+- ROI analyses and cost-benefit calculations
+- ILS Gap Analysis reports (MIL-STD-1388 compliance checklists)
+- Compliance Scorecards (CMMC, NIST 800-171, DFARS, FAR 46, MIL-STD-1388)
+
+### 1.1 Audit Record Vault
+
+All anchored records are automatically stored in the **S4 Audit Record Vault**, a client-side record store that pairs the original record content with its SHA-256 hash and XRPL transaction hash. The Vault enables:
+
+- Instant search and filtering of all anchored records by type, date, or content
+- One-click re-verification of any stored record against its on-chain hash
+- CSV/XLSX export of complete audit trails for inspector review
+- Zero server-side data storage — all Vault data resides in the Customer's browser
+
+### 1.2 Defense Document Reference Library
+
+S4 Ledger includes a searchable **Defense Document Reference Library** containing 100+ real MIL-STDs, OPNAVINSTs, DoD Directives, NAVSEA/NAVAIR technical manuals, FAR/DFARS clauses, and NIST cybersecurity frameworks. This library is for reference only — no classified content is stored or transmitted.
+
+### 1.3 Compliance Scorecard
+
+The **Compliance Scorecard** tool calculates real-time compliance posture across CMMC Level 2, NIST 800-171, DFARS 252.204-7012, FAR 46 Quality, MIL-STD-1388 ILS, and DoDI 4245.15 DMSMS management — based on actual workspace activity (anchored records, action items, tool usage).
 
 ---
 
@@ -71,7 +94,24 @@ S4 Ledger's architecture aligns with NIST SP 800-171 requirements for CUI protec
 
 ### 3.3 CMMC Compatibility
 
-S4 Ledger is designed to be compatible with CMMC Level 2+ environments. The service supplements, rather than replaces, a Customer's CMMC compliance posture.
+S4 Ledger is designed to be compatible with CMMC Level 2+ environments. The service supplements, rather than replaces, a Customer's CMMC compliance posture. The built-in **Compliance Scorecard** provides real-time visibility into the Customer's compliance posture across CMMC, NIST 800-171, DFARS, FAR 46, MIL-STD-1388, and DoDI 4245.15 frameworks — based on actual anchoring and tool usage activity.
+
+### 3.4 ILS Workspace Tools
+
+S4 Ledger v3.7.0 includes a comprehensive ILS Workspace with 12 integrated tools:
+
+1. **Gap Analysis** — MIL-STD-1388 compliance checklists for 462+ defense platforms
+2. **Action Items** — Task tracking with priority, assignment, and deadline management
+3. **Calendar** — Event scheduling with anchor-date tracking
+4. **DMSMS Tracker** — Obsolescence monitoring and resolution planning
+5. **Readiness Calculator** — RAM (Reliability, Availability, Maintainability) analysis
+6. **Parts Cross-Reference** — NSN/CAGE/FSC lookup across all programs
+7. **ROI Calculator** — Cost-benefit analysis with 5-year projections
+8. **Lifecycle Estimator** — Total ownership cost modeling
+9. **Warranty Tracker** — Contract and warranty status monitoring
+10. **Audit Record Vault** — Searchable archive of all anchored records with hash verification
+11. **Defense Document Library** — 100+ real MIL-STDs, OPNAVINSTs, and DoD references
+12. **Compliance Scorecard** — Multi-framework compliance posture assessment
 
 ---
 

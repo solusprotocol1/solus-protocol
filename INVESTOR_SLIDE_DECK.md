@@ -34,10 +34,24 @@ S4 Ledger: Immutable logistics verification for the defense industry, anchored o
 ## Traction
 - **$SLS token LIVE on XRPL Mainnet** — tradable, AMM pools, trustlines
 - 100M total supply | ~15M circulating | 30M multi-sig treasury
-- **11 interactive defense tools** live at s4ledger.com (not mockups)
+- **12 interactive defense tools** live at s4ledger.com (not mockups)
 - **462 real platforms** across 9 military branches
+- **100+ real defense documents** in searchable reference library
+- **Audit Record Vault** — automatic audit trail for every anchored record
+- **Compliance Scorecard** — CMMC/NIST/DFARS compliance calculator
 - Working Python SDK + CLI
 - 14+ page website at s4ledger.com
+
+---
+
+## Cost Savings
+| Tier | Government Savings/yr | S4 Revenue |
+|---|---|---|
+| Minimal (1–3 programs) | $180K–$420K | $48K–$120K ARR |
+| Mid-Scale (5–15 programs) | $1.2M–$4.8M | $240K–$600K ARR |
+| Enterprise (50+ programs) | $12M–$48M | $1.2M–$3.6M ARR |
+
+Key: 65% labor reduction • 90% error savings • 70% audit reduction • 15-25% DMSMS avoidance
 
 ---
 

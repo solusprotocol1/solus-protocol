@@ -39,6 +39,7 @@
 31. [Enhanced Scheduling System (v2.10.4)](#31-enhanced-scheduling-system-v2104)
 32. [Platform Database & New Tools (v3.3.0)](#32-platform-database--new-tools-v330)
 33. [ILS Workspace & Cross-Tool Integration (v3.5.0)](#33-ils-intelligence-hub--cross-tool-integration-v350)
+34. [Audit Record Vault, Defense Document Library & Compliance Scorecard (v3.7.0)](#34-audit-record-vault-defense-document-library--compliance-scorecard-v370)
 
 ---
 
@@ -1961,5 +1962,96 @@ Previously, `calcLifecycle()` hardcoded `.toFixed(1) + 'B'` which displayed "$80
 
 ---
 
-*Last updated: v3.5.0 — February 2026*
+## 34. Audit Record Vault, Defense Document Library & Compliance Scorecard (v3.7.0)
+
+### 34.1 Overview
+
+v3.7.0 adds three new ILS Workspace panels and significant UX enhancements:
+
+1. **Audit Record Vault** — Every record anchored via any workspace tool is automatically saved to a client-side vault pairing the original content, SHA-256 hash, and XRPL transaction hash. Enables instant search, filtering, re-verification, and CSV/XLSX export of complete audit trails.
+2. **Defense Document Reference Library** — A searchable database of 100+ real defense documents: MIL-STDs, OPNAVINSTs, DoD Directives, NAVSEA/NAVAIR/NAVSUP technical manuals, FAR/DFARS clauses, NIST cybersecurity frameworks, service-specific regulations (Army, Air Force, Marine Corps, Coast Guard, Space Force), DMSMS standards, configuration management standards, CDRL data item descriptions, and ILS element references.
+3. **Compliance Scorecard** — Real-time multi-framework compliance assessment calculating scores for CMMC Level 2, NIST 800-171, DFARS 252.204-7012, FAR 46 Quality, MIL-STD-1388 ILS, and DoDI 4245.15 DMSMS management based on actual workspace activity.
+
+### 34.2 Architecture
+
+```
+ILS Workspace (tabILS) — v3.7.0
+├── Gap Analysis (hub-analysis)
+├── Action Items (hub-actions)
+├── Calendar (hub-calendar)
+├── DMSMS (hub-dmsms)
+├── Readiness (hub-readiness)
+├── Parts X-Ref (hub-parts)
+├── ROI (hub-roi)
+├── Lifecycle (hub-lifecycle)
+├── Warranty (hub-warranty)
+├── Audit Vault (hub-vault)         ← NEW — Client-side audit record store
+├── Doc Library (hub-docs)          ← NEW — 100+ real defense document references
+└── Compliance (hub-compliance)     ← NEW — Multi-framework compliance scorecard
+```
+
+### 34.3 Vault Auto-Save Integration
+
+All 9 anchor functions now automatically save records to the vault:
+
+| Anchor Function | Source Label | Record Type |
+|---|---|---|
+| `anchorRecord()` | Manual Anchor | (user-selected) |
+| `anchorILSReport()` | ILS Gap Analysis | ILS_GAP_ANALYSIS |
+| `anchorDMSMS()` | DMSMS Tracker | DMSMS_REPORT |
+| `anchorReadiness()` | Readiness Calculator | RAM_REPORT |
+| `anchorParts()` | Parts X-Ref | PARTS_XREF |
+| `anchorROI()` | ROI Calculator | ROI_ANALYSIS |
+| `anchorLifecycle()` | Lifecycle Estimator | LIFECYCLE_COST |
+| `anchorWarranty()` | Warranty Tracker | WARRANTY_CONTRACT |
+| `anchorCompliance()` | Compliance Scorecard | compliance_scorecard |
+
+### 34.4 Defense Document Database
+
+External JS file `s4-assets/defense-docs.js` containing:
+- **100+ documents** across 17 categories and 7 military branches
+- Categories: ILS, Readiness, Maintenance, Supply, DMSMS, Safety, Testing, Quality, Cybersecurity, Acquisition, Configuration, Technical Data, Cost Analysis, Engineering, Program Mgmt, Ordnance, Security
+- Branches: JOINT, USN (Navy), USCG, USA (Army), USAF, USMC, USSF (Space Force)
+- Searchable by ID, title, description, keywords, branch, and category
+- Links to official sources (acqnotes.com, dau.edu, nist.gov)
+
+### 34.5 Compliance Scoring Algorithm
+
+Weighted overall score (100-point scale):
+- **CMMC Level 2** (25%) — Based on record anchoring volume (data integrity controls)
+- **NIST 800-171** (20%) — Based on encryption usage and anchoring coverage
+- **DFARS 252.204** (15%) — Based on CUI handling and audit trail completeness
+- **FAR 46 Quality** (15%) — Based on warranty tracking and action item resolution rate
+- **MIL-STD-1388 ILS** (15%) — Based on diversity of ILS tools used
+- **DoDI 4245.15 DMSMS** (10%) — Based on DMSMS records anchored
+
+Letter grades: A+ (≥95) through F (<50). Color-coded with SVG ring chart visualization.
+
+### 34.6 UX Enhancements
+
+- **Glassmorphism design** — `glass-card` class with backdrop-filter blur and semi-transparent backgrounds
+- **Enhanced animations** — `slideUp`, `shimmer`, `pulseGlow`, `countUp` keyframes
+- **Gradient borders** — `gradient-border` pseudo-element with animated gradient
+- **Workspace notifications** — Toast-style notifications with auto-dismiss for vault saves
+- **Enhanced tooltips** — `tooltip-enhanced` with `data-tip` attribute
+- **Hover effects** — `hover-lift` with translateY transform and enhanced shadows
+- **Pulse indicators** — `pulse-dot` for live status indicators
+
+### 34.7 Migration Checklist for v3.7.0
+
+- [ ] Verify all 12 ILS Workspace sub-tabs render correctly
+- [ ] Test Audit Vault auto-saves records from all 9 anchor functions
+- [ ] Verify Vault search, time filter, CSV export, XLSX export, re-verify, and clear functions
+- [ ] Confirm Defense Document Library loads 100+ documents and filters by branch/category/search
+- [ ] Validate Compliance Scorecard calculates and displays scores with correct SVG ring animation
+- [ ] Test Compliance Scorecard anchor and export functions
+- [ ] Verify `s4-assets/defense-docs.js` loads without errors
+- [ ] Confirm glassmorphism and animation CSS renders correctly across browsers
+- [ ] Validate workspace notifications appear and auto-dismiss after 5 seconds
+- [ ] Test responsive layout for new panels on mobile/tablet viewport widths
+- [ ] Verify localStorage persistence for vault records across page reloads
+
+---
+
+*Last updated: v3.7.0 — February 2026*
 *See also: [DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md) | [SECURITY.md](SECURITY.md) | [NIST_COMPLIANCE.md](NIST_COMPLIANCE.md) | [WHITEPAPER.md](WHITEPAPER.md)*

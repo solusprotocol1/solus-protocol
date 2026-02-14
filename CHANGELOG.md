@@ -5,6 +5,26 @@ All notable changes to the S4 Ledger project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.7.0] - 2026-02-16
+
+### Added
+- **Audit Record Vault** — New ILS Workspace panel (`hub-vault`). Every record anchored via any tool is automatically saved to client-side localStorage with content + SHA-256 hash + TX hash. Searchable, filterable by time period, one-click re-verification of all records, CSV/XLSX export for auditor handoff. Zero server-side storage.
+- **Defense Document Reference Library** — New ILS Workspace panel (`hub-docs`). 100+ real defense documents in separate `s4-assets/defense-docs.js` database: MIL-STDs (810H, 882E, 881F, 1388-2B, 461G, 1472H, etc.), OPNAVINSTs (4790.4F, 4441.12G, 5100.23H), DoD Directives (5000.01, 5000.02, 4140.01), NAVSEA/NAVAIR/NAVSUP manuals, FAR/DFARS clauses, NIST frameworks, Army/Air Force/Marine Corps/Coast Guard/Space Force regulations, DMSMS standards, CDRLs, ILS element references. Filterable by 7 branches and 17 categories with full-text search.
+- **Compliance Scorecard** — New ILS Workspace panel (`hub-compliance`). Real-time multi-framework compliance calculator: CMMC Level 2 (25%), NIST 800-171 (20%), DFARS 252.204 (15%), FAR 46 Quality (15%), MIL-STD-1388 ILS (15%), DoDI 4245.15 DMSMS (10%). SVG ring chart with animated gradient arc, letter grades (A+ → F), color-coded bars, actionable recommendations, XLSX export, and anchor scorecard to XRPL.
+- **Vault Auto-Save Integration** — All 9 anchor functions (`anchorRecord`, `anchorILSReport`, `anchorDMSMS`, `anchorReadiness`, `anchorParts`, `anchorROI`, `anchorLifecycle`, `anchorWarranty`, `anchorCompliance`) now auto-save to Audit Vault
+- **Workspace Notification System** — Toast-style notifications for vault saves and bulk operations with auto-dismiss
+- **Glassmorphism Design System** — `glass-card` with backdrop-filter blur, `hover-lift` transforms, `gradient-border` animated pseudo-elements, `pulse-dot` live indicators, `shimmer-text` loading states
+- **Enhanced Animations** — `slideUp`, `shimmer`, `pulseGlow`, `countUp` keyframes for smoother UX
+- **Enhanced Tooltips** — `tooltip-enhanced` with `data-tip` attribute for contextual help across all tools
+- **Cost Savings Analysis** — Realistic numbers for minimal/mid/high implementation tiers for US Government ($180K–$48M) and S4 Systems ($48K–$18M ARR) added to Whitepaper, Executive Proposal, and Investor docs
+- **DDIA v2.0** — BAA_TEMPLATE.md updated with Audit Vault, Doc Library, Compliance Scorecard, and all 12 ILS Workspace tools
+
+### Changed
+- **ILS Workspace expanded to 12 panels** — added Audit Vault, Defense Doc Library, and Compliance Scorecard alongside existing 9 tools
+- **BAA_TEMPLATE.md v2.0** — Added ILS Workspace tools catalog, Audit Vault and Doc Library service descriptions, Compliance Scorecard reference
+- **MAINNET_MIGRATION.md §34** — Full migration checklist for vault, doc library, compliance scorecard, and UX enhancements
+- **PRODUCTION_READINESS.md** — Added v3.7.0 changelog, updated product readiness table with new tools, updated business development section
+
 ## [3.6.0] - 2026-02-15
 
 ### Added
@@ -235,6 +255,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Requirements and dependency management
 - MIT License
 
+[3.7.0]: https://github.com/solus-protocol/s4-ledger/compare/v3.6.0...v3.7.0
 [3.2.0]: https://github.com/solus-protocol/s4-ledger/compare/v3.1.0...v3.2.0
 [3.1.0]: https://github.com/solus-protocol/s4-ledger/compare/v3.0.0...v3.1.0
 [3.0.0]: https://github.com/solus-protocol/s4-ledger/compare/v2.0.0...v3.0.0
