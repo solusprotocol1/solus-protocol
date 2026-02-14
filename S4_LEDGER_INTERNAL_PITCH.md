@@ -172,6 +172,23 @@ It hasn't gone down in any meaningful way since 2012 (99.99%+ uptime). It's main
 **"Do we need to understand blockchain to use this?"**  
 No. Users interact with normal forms, buttons, and dashboards. The blockchain anchoring happens behind the scenes with one click. It's like using email without understanding SMTP servers.
 
+**"What's the Audit Vault? Is that still secure?"**  
+Great question. The Audit Vault is a personal logbook that lives entirely in your browser — it says "here's what I anchored, here's the hash, here's the XRPL transaction ID." It pairs the record content with the proof so you can find and verify things instantly, instead of manually searching the blockchain.
+
+Here's what's important: the vault is a **convenience layer**, not a replacement for the blockchain proof. The XRPL record is still the source of truth. If someone tampers with a vault entry locally, the hash won't match what's on the XRPL — and that mismatch is instantly detectable with one click.
+
+No data ever leaves the browser. The vault never transmits content to any server. The only thing that ever touches the network is the hash (which is irreversible). Think of it like adding a filing cabinet next to a safe — the safe (XRPL) still holds the proof, the filing cabinet (vault) just helps you find things faster. And unlike every competitor, your filing cabinet is **yours**, not theirs.
+
+| | SAP GRC | Oracle Audit Vault | S4 Ledger |
+|---|---|---|---|
+| Where audit trail lives | Their servers ($$$) | Their servers ($$$) | Your browser (free) |
+| How you verify records | Trust SAP's word | Trust Oracle's word | Verify on public ledger (trustless) |
+| Annual cost | $150K–$500K | $100K–$400K | $0.01/record |
+| Data exposure risk | High (they hold your data) | High (they hold your data) | Zero (hash-only) |
+| Vendor lock-in | Complete | Complete | None (XRPL is public) |
+
+Nobody else pairs a client-side audit trail with public blockchain hash anchoring for defense logistics. This has never been done.
+
 ---
 
 *Written to be shared with anyone at S4 Systems who wants to understand what S4 Ledger is and why it's worth pursuing.*
