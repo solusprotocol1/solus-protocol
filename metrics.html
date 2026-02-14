@@ -151,7 +151,7 @@
         <!-- ILS Workspace Cross-Link -->
         <div class="card reveal" style="border-color:rgba(0,170,255,0.3);background:linear-gradient(135deg,rgba(0,170,255,0.04),rgba(20,241,149,0.02));text-align:center;margin-top:20px;">
             <h3 style="margin-bottom:8px;"><i class="fas fa-brain" style="color:var(--accent);margin-right:8px;"></i> ILS Workspace</h3>
-            <p style="color:var(--text-secondary);font-size:0.88rem;margin-bottom:16px;">Track DMSMS obsolescence, readiness, lifecycle costs, warranties, ROI, and action items across all programs in one unified command center.</p>
+            <p style="color:var(--text-secondary);font-size:0.88rem;margin-bottom:16px;">12-tool ILS command center — gap analysis, DMSMS, readiness, lifecycle cost, ROI, warranty, parts, action items, calendar, audit vault, doc library, compliance scorecard & AI agent.</p>
             <div style="display:flex;justify-content:center;gap:10px;flex-wrap:wrap;">
                 <a href="demo-app/#tabILS" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;padding:10px 22px;border-radius:10px;text-decoration:none;font-weight:700;font-size:0.9rem;transition:all 0.3s;display:inline-flex;align-items:center;gap:6px;"><i class="fas fa-brain"></i> Open ILS Workspace</a>
                 <a href="sdk-playground/" style="background:rgba(201,168,76,0.12);color:var(--gold);border:1px solid rgba(201,168,76,0.3);padding:10px 22px;border-radius:10px;text-decoration:none;font-weight:700;font-size:0.9rem;transition:all 0.3s;display:inline-flex;align-items:center;gap:6px;"><i class="fas fa-code"></i> SDK Playground</a>
@@ -231,7 +231,59 @@
                 renderFeeChart(currentFeeView);
                 renderTxChart(currentTxView);
                 renderRecentTable();
-            } catch (err) { console.error('Failed to load metrics:', err); }
+            } catch (err) {
+                console.warn('API unavailable, loading from localStorage:', err.message);
+                // Fallback: build metrics entirely from localStorage records
+                const localRecs = getLocalRecords();
+                metricsData = { total_hashes: 0, total_fees: 0, records_by_type: {}, records_by_branch: {}, individual_records: [], hashes_today: 0, fees_today: 0, this_month: 0, hashes_by_minute: {}, hashes_by_hour: {}, hashes_by_day: {}, hashes_by_week: {}, hashes_by_month: {}, fees_by_minute: {}, fees_by_hour: {}, fees_by_day: {}, fees_by_week: {}, fees_by_month: {} };
+                const now = new Date();
+                const todayStr = now.toLocaleDateString('en-US');
+                const monthStr = now.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+                if (localRecs.length > 0) {
+                    metricsData.total_hashes = localRecs.length;
+                    metricsData.total_fees = +(localRecs.length * 0.01).toFixed(2);
+                    metricsData.individual_records = localRecs;
+                    for (const r of localRecs) {
+                        const label = r.record_label || r.record_type || 'Unknown';
+                        metricsData.records_by_type[label] = (metricsData.records_by_type[label] || 0) + 1;
+                        metricsData.records_by_branch[r.branch || 'JOINT'] = (metricsData.records_by_branch[r.branch || 'JOINT'] || 0) + 1;
+                        try {
+                            const ts = new Date(r.timestamp);
+                            const dayKey = ts.toLocaleDateString('en-US', { month: 'short', day: '2-digit' });
+                            const hourKey = ts.toLocaleTimeString('en-US', { hour: '2-digit', hour12: false }) + ':00';
+                            const minKey = ts.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false });
+                            const weekKey = 'Week ' + Math.ceil(ts.getDate() / 7);
+                            const monKey = ts.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+                            metricsData.hashes_by_day[dayKey] = (metricsData.hashes_by_day[dayKey] || 0) + 1;
+                            metricsData.hashes_by_hour[hourKey] = (metricsData.hashes_by_hour[hourKey] || 0) + 1;
+                            metricsData.hashes_by_minute[minKey] = (metricsData.hashes_by_minute[minKey] || 0) + 1;
+                            metricsData.hashes_by_week[weekKey] = (metricsData.hashes_by_week[weekKey] || 0) + 1;
+                            metricsData.hashes_by_month[monKey] = (metricsData.hashes_by_month[monKey] || 0) + 1;
+                            metricsData.fees_by_day[dayKey] = +((metricsData.fees_by_day[dayKey] || 0) + 0.01).toFixed(4);
+                            metricsData.fees_by_hour[hourKey] = +((metricsData.fees_by_hour[hourKey] || 0) + 0.01).toFixed(4);
+                            metricsData.fees_by_minute[minKey] = +((metricsData.fees_by_minute[minKey] || 0) + 0.01).toFixed(4);
+                            metricsData.fees_by_week[weekKey] = +((metricsData.fees_by_week[weekKey] || 0) + 0.01).toFixed(4);
+                            metricsData.fees_by_month[monKey] = +((metricsData.fees_by_month[monKey] || 0) + 0.01).toFixed(4);
+                            if (ts.toLocaleDateString('en-US') === todayStr) { metricsData.hashes_today++; metricsData.fees_today = +((metricsData.fees_today || 0) + 0.01).toFixed(2); }
+                            if (ts.toLocaleDateString('en-US', { month: 'short', year: 'numeric' }) === monthStr) metricsData.this_month++;
+                        } catch(e) {}
+                    }
+                }
+                document.getElementById('totalHashes').textContent = metricsData.total_hashes || 0;
+                document.getElementById('totalFees').textContent = (metricsData.total_fees || 0).toFixed(2);
+                document.getElementById('recordTypes').textContent = Object.keys(metricsData.records_by_type || {}).length;
+                document.getElementById('hashesToday').textContent = '+' + (metricsData.hashes_today || 0) + ' today';
+                document.getElementById('feesToday').textContent = '+$' + (metricsData.fees_today || 0).toFixed(2) + ' today';
+                document.getElementById('thisMonth').textContent = metricsData.this_month || 0;
+                const filterSelect2 = document.getElementById('recordTypeFilter');
+                const types2 = Object.keys(metricsData.records_by_type || {});
+                if (filterSelect2.options.length <= 1) { types2.forEach(type => { const o = document.createElement('option'); o.value = type; o.textContent = type; filterSelect2.appendChild(o); }); }
+                renderHashChart(currentHashView);
+                renderRecordChart();
+                renderFeeChart(currentFeeView);
+                renderTxChart(currentTxView);
+                renderRecentTable();
+            }
         }
 
         function filterByRecordType() { selectedRecordType = document.getElementById('recordTypeFilter').value; renderRecordChart(); renderRecentTable(); }

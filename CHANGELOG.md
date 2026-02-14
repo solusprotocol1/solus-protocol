@@ -5,6 +5,26 @@ All notable changes to the S4 Ledger project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.8.0] - 2026-02-16
+
+### Added
+- **Provisioning & PTD Manager** — New ILS Workspace panel (`hub-provisioning`) that replaces ICAPS (DAU's Interactive Computer-Aided Provisioning System). Manages Provisioning Technical Documentation (PTD) per MIL-STD-1552, generates Allowance Parts Lists (APLs), tracks NSN cataloging status via Federal Cataloging System (FCS), and monitors Provisioning Performance Schedules. Blockchain-anchored provisioning decisions. All-branch support (ICAPS is Navy/USMC only). Includes ICAPS comparison banner showing 6 competitive advantages.
+- **AI Agent — New Tool Coverage** — Added topic matchers for Audit Vault, Compliance Scorecard, Defense Document Library, Provisioning/PTD, and ICAPS comparison. 4 new quick-action buttons (Audit Vault, Compliance, Doc Library, ICAPS Comparison). Agent can now answer questions about all 13 workspace tools.
+- **SDK Provisioning Command** — New `s4-anchor provisioning` CLI command and `get_provisioning_status()` SDK method returning PTD progress, APL count, NSN cataloging, and ICAPS competitive advantages.
+
+### Changed
+- **ILS Workspace expanded to 13 panels** — added Provisioning & PTD Manager alongside existing 12 tools
+- **How It Works boxes standardized** — Vault, Doc Library, and Compliance Scorecard panels now use the same colored-background pattern (What's real / What's demo / How S4 saves money / Production mode) as all other tools
+- **Landing page renamed** — "ILS Workspace Analyzer" → "ILS Workspace", "Launch ILS Analyzer" → "Launch ILS Workspace", explore card updated with all 13 tools
+- **Metrics page fallback** — When `/api/metrics` is unavailable, the page now generates metrics from localStorage records with full time-series bucketing (minute/hour/day/week/month) instead of showing empty charts
+- **API version** → 3.8.0 with provisioning-ptd in tools list
+- **OpenAPI spec** → 3.8.0 with updated description listing all 13 tools
+
+### Fixed
+- **How It Works visual inconsistency** — New panels (vault, docs, compliance) used plain `<details>` with no background color and different icon (`fa-circle-info` vs `fa-info-circle`). Now matches existing tool pattern with colored backgrounds, structured content sections, and consistent typography.
+- **Metrics page blank on API failure** — Catch block only logged error. Now builds complete metrics dataset from localStorage with record type distribution, branch breakdown, and time-series data for all 5 chart views.
+- **Landing page CTA mismatch** — Hero still said "ILS Workspace Analyzer" and button said "Launch ILS Analyzer" despite v3.6.0 rename.
+
 ## [3.7.0] - 2026-02-16
 
 ### Added

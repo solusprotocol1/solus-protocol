@@ -524,6 +524,7 @@
                     <button class="ils-hub-tab" onclick="switchHubTab('hub-vault',this)"><i class="fas fa-vault"></i> Audit Vault</button>
                     <button class="ils-hub-tab" onclick="switchHubTab('hub-docs',this)"><i class="fas fa-book"></i> Doc Library</button>
                     <button class="ils-hub-tab" onclick="switchHubTab('hub-compliance',this)"><i class="fas fa-shield-halved"></i> Compliance</button>
+                    <button class="ils-hub-tab" onclick="switchHubTab('hub-provisioning',this)"><i class="fas fa-boxes-stacked"></i> Provisioning</button>
                 </div>
 
                 <!-- ══ HUB: GAP ANALYSIS (original ILS content) ══ -->
@@ -699,6 +700,10 @@
                                         <button class="ai-quick-btn" onclick="aiAsk('Checklist status')">Checklist</button>
                                         <button class="ai-quick-btn" onclick="aiAsk('Compare readiness benchmark')">Benchmark</button>
                                         <button class="ai-quick-btn" onclick="aiAsk('What is ILS?')">Explain ILS</button>
+                                        <button class="ai-quick-btn" onclick="aiAsk('Tell me about the audit vault')">Audit Vault</button>
+                                        <button class="ai-quick-btn" onclick="aiAsk('Show compliance scorecard')">Compliance</button>
+                                        <button class="ai-quick-btn" onclick="aiAsk('Browse defense document library')">Doc Library</button>
+                                        <button class="ai-quick-btn" onclick="aiAsk('How does S4 beat ICAPS?')">ICAPS Comparison</button>
                                     </div>
                                     <div class="ai-chat-input">
                                         <input type="text" id="aiChatInput" placeholder="Ask the ILS Agent..." onkeydown="if(event.key==='Enter')aiSend()">
@@ -1088,14 +1093,13 @@
                     </div>
                     <p style="color:var(--muted);font-size:0.85rem;margin-bottom:16px">Every record you anchor is stored here with its hash, original content preview, timestamp, and verification status — your single source of auditing proof. No more searching the XRPL manually.</p>
 
-                    <details style="margin-bottom:16px">
-                        <summary style="cursor:pointer;color:var(--accent);font-weight:700;font-size:0.88rem"><i class="fas fa-circle-info" style="margin-right:6px"></i> How It Works</summary>
-                        <div style="margin-top:10px;padding:12px;background:var(--surface);border-radius:10px;font-size:0.82rem;color:var(--steel);line-height:1.6">
-                            <p><strong>1.</strong> Every time you anchor a record (from any tool — Anchor tab, DMSMS, Readiness, etc.), S4 Ledger automatically saves both the <strong>SHA-256 hash</strong> and a <strong>content preview</strong> to your local vault.</p>
-                            <p><strong>2.</strong> Records are stored in your browser's localStorage — they persist across sessions on this device.</p>
-                            <p><strong>3.</strong> You can <strong>re-verify</strong> any record with one click — the vault compares the stored hash against the original content.</p>
-                            <p><strong>4.</strong> Export your entire audit trail as <strong>CSV or XLSX</strong> for compliance audits, IG inspections, or DCMA reviews.</p>
-                            <p><strong>5.</strong> Each record shows its <strong>TX Hash</strong> (XRPL transaction ID) so you can cross-reference on the public ledger if needed.</p>
+                    <details style="margin-bottom:1rem;background:rgba(201,168,76,0.04);border:1px solid rgba(201,168,76,0.15);border-radius:8px;padding:0 12px;">
+                        <summary style="cursor:pointer;padding:10px 0;color:#c9a84c;font-weight:600;font-size:0.85rem;"><i class="fas fa-info-circle"></i> How It Works — Data Sources & S4 Ledger Value</summary>
+                        <div style="padding:0 0 12px;color:var(--steel);font-size:0.82rem;line-height:1.6;">
+                            <p><strong style="color:#fff;">What's real:</strong> Every record you anchor from any tool (Anchor tab, DMSMS, Readiness, Lifecycle, Warranty, ROI, Parts, Gap Analysis) is automatically saved here with its SHA-256 hash, content preview, timestamp, record type, and XRPL transaction ID. This is your <strong>permanent audit trail</strong> — like a filing cabinet that's also blockchain-verified.</p>
+                            <p><strong style="color:#ffa500;">What's demo data:</strong> In demo mode, records are stored in your browser's localStorage. They persist across sessions on this device. In production, records sync to your organization's secure database with role-based access, retention policies, and automated backup.</p>
+                            <p><strong style="color:#14f195;">How S4 Ledger saves money here:</strong> Defense programs spend $50K-$200K annually on manual audit trail compilation for IG inspections, DCMA reviews, and milestone briefings. The vault auto-compiles every anchored record with one-click re-verification and instant CSV/XLSX export. No more searching the XRPL manually, no more lost audit evidence, no more "we can't prove when we documented this."</p>
+                            <p><strong style="color:#00aaff;">Production mode:</strong> Connect to your organizational database via the S4 API. Records sync across all users with the same program access. Export formats include CSV, XLSX, and PDF for formal audit submissions. Each record's TX Hash links directly to the XRPL public ledger for independent verification.</p>
                         </div>
                     </details>
 
@@ -1144,14 +1148,13 @@
                     </div>
                     <p style="color:var(--muted);font-size:0.85rem;margin-bottom:16px">Searchable reference library of MIL-STDs, OPNAVINSTs, DoD Directives, DFARS clauses, NIST standards, and service-specific regulations. Quick-reference while you work — no tab-switching needed.</p>
 
-                    <details style="margin-bottom:16px">
-                        <summary style="cursor:pointer;color:var(--accent);font-weight:700;font-size:0.88rem"><i class="fas fa-circle-info" style="margin-right:6px"></i> How It Works</summary>
-                        <div style="margin-top:10px;padding:12px;background:var(--surface);border-radius:10px;font-size:0.82rem;color:var(--steel);line-height:1.6">
-                            <p><strong>1.</strong> Browse <strong>100+ real defense documents</strong> — MIL-STDs, MIL-HDBKs, OPNAVINSTs, COMDTINST, Army Regulations, Air Force Instructions, Marine Corps Orders, DFARS clauses, NIST standards, and more.</p>
-                            <p><strong>2.</strong> Filter by <strong>category</strong> (ILS, Readiness, Maintenance, Supply, DMSMS, Cybersecurity, etc.) or by <strong>branch</strong> (Joint, Navy, Coast Guard, Army, Air Force, Marines, Space Force).</p>
-                            <p><strong>3.</strong> <strong>Search</strong> by document ID, title, description, or keywords — find the right standard instantly.</p>
-                            <p><strong>4.</strong> Click any document to open its official source in a new tab.</p>
-                            <p><strong>5.</strong> Use this while working in other ILS tools to reference applicable standards without leaving the workspace.</p>
+                    <details style="margin-bottom:1rem;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.15);border-radius:8px;padding:0 12px;">
+                        <summary style="cursor:pointer;padding:10px 0;color:#00aaff;font-weight:600;font-size:0.85rem;"><i class="fas fa-info-circle"></i> How It Works — Data Sources & S4 Ledger Value</summary>
+                        <div style="padding:0 0 12px;color:var(--steel);font-size:0.82rem;line-height:1.6;">
+                            <p><strong style="color:#fff;">What's real:</strong> All 100+ documents are <strong>real defense standards and regulations</strong> — MIL-STD-1388, MIL-HDBK-502, OPNAVINST 4790.16, COMDTINST M4000.13, Army AR 700-127, AFI 63-101, MCO 4105.2, DFARS 252.204-7012, NIST SP 800-171, and more. Links go to official DoD, NAVSEA, DLA, and NIST sources.</p>
+                            <p><strong style="color:#ffa500;">What's demo data:</strong> The document library itself is fully real — these are the actual standards ILS managers reference daily. No simulated content. The only "demo" aspect is that the library is static; production mode adds your organization's internal documents, SOPs, and program-specific references.</p>
+                            <p><strong style="color:#14f195;">How S4 Ledger saves money here:</strong> ILS managers waste 15-30 minutes per reference lookup, switching between tabs, Googling document numbers, and tracking down the latest revision. With 100+ standards pre-loaded and searchable by category, branch, keywords, and document ID, you find the right standard in seconds — while working in the same tool where you're running analysis. Across a program office, this saves 200+ hours/year in reference lookup time.</p>
+                            <p><strong style="color:#00aaff;">Production mode:</strong> Add your organization's internal documents via the S4 API. Create custom categories. Upload program-specific SOPs, instructions, and contract documents. The library becomes your program's searchable knowledge base — always available, always current.</p>
                         </div>
                     </details>
 
@@ -1187,14 +1190,13 @@
                     </div>
                     <p style="color:var(--muted);font-size:0.85rem;margin-bottom:16px">Live compliance posture across CMMC, NIST SP 800-171, DFARS, and program-specific requirements. Auto-calculates based on your workspace activity — something SAP, Oracle, and Microsoft don't offer.</p>
 
-                    <details style="margin-bottom:16px">
-                        <summary style="cursor:pointer;color:var(--accent);font-weight:700;font-size:0.88rem"><i class="fas fa-circle-info" style="margin-right:6px"></i> How It Works</summary>
-                        <div style="margin-top:10px;padding:12px;background:var(--surface);border-radius:10px;font-size:0.82rem;color:var(--steel);line-height:1.6">
-                            <p><strong>1.</strong> Your compliance score is calculated from <strong>real workspace activity</strong> — records anchored, DMSMS items tracked, readiness calculated, warranties monitored, etc.</p>
-                            <p><strong>2.</strong> Each compliance framework (CMMC, NIST, DFARS, FAR) is scored independently with a <strong>progress bar</strong> showing your current coverage.</p>
-                            <p><strong>3.</strong> The overall score aggregates all frameworks into a <strong>single letter grade</strong> (A+ through F) for executive reporting.</p>
-                            <p><strong>4.</strong> <strong>Recommendations</strong> appear automatically — telling you exactly what to do next to improve your score.</p>
-                            <p><strong>5.</strong> Export your scorecard as a <strong>PDF-ready report</strong> for auditors, inspectors, or program office reviews.</p>
+                    <details style="margin-bottom:1rem;background:rgba(20,241,149,0.04);border:1px solid rgba(20,241,149,0.15);border-radius:8px;padding:0 12px;">
+                        <summary style="cursor:pointer;padding:10px 0;color:#14f195;font-weight:600;font-size:0.85rem;"><i class="fas fa-info-circle"></i> How It Works — Data Sources & S4 Ledger Value</summary>
+                        <div style="padding:0 0 12px;color:var(--steel);font-size:0.82rem;line-height:1.6;">
+                            <p><strong style="color:#fff;">What's real:</strong> The compliance frameworks (CMMC Level 2, NIST SP 800-171, DFARS 252.204-7012, FAR 46, MIL-STD-1388 ILS, DoDI 4245.15 DMSMS) are real regulatory requirements that every defense contractor and program office must meet. Your compliance score is calculated from <strong>actual workspace activity</strong> — records anchored, DMSMS items tracked, readiness calculated, warranties monitored, and more.</p>
+                            <p><strong style="color:#ffa500;">What's demo data:</strong> The scoring algorithm uses representative weights and thresholds. In production, weights are calibrated to your organization's specific compliance requirements, C3PAO audit criteria, and program-specific CDRL obligations. The score formula is transparent and adjustable.</p>
+                            <p><strong style="color:#14f195;">How S4 Ledger saves money here:</strong> CMMC assessments alone cost $50K-$200K per assessment. Failed assessments cost 6-12 months of schedule delay plus reassessment fees. This scorecard lets you track compliance posture <em>continuously</em> instead of discovering gaps during the assessment. Each compliance data point is blockchain-anchored, so you can prove to auditors exactly when you achieved each milestone — something SAP, Oracle, and Microsoft cannot offer.</p>
+                            <p><strong style="color:#00aaff;">Production mode:</strong> Connect your compliance data sources via the S4 API. Map your SPRS score, eMASS data, and internal audit findings to the scorecard. Export compliance snapshots as PDF-ready reports for C3PAOs, DCMA, or IG inspections. Anchor each compliance snapshot to XRPL for immutable proof of your compliance posture at any point in time.</p>
                         </div>
                     </details>
 
@@ -1237,6 +1239,104 @@
                     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:1rem">
                         <button onclick="exportCompliance()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;border-radius:8px;padding:8px 16px"><i class="fas fa-download"></i> Export Scorecard</button>
                         <button onclick="anchorCompliance()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#c9a84c,#a88a3a);color:#fff;border:none;border-radius:8px;padding:8px 16px"><i class="fas fa-anchor"></i> Anchor to XRPL ($0.01 SLS)</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ═══ PROVISIONING & PTD MANAGEMENT ═══ -->
+            <div class="ils-hub-panel" id="hub-provisioning">
+                <div class="demo-card glass-card" style="animation:slideUp 0.4s ease">
+                    <div class="hub-tool-header">
+                        <h4><i class="fas fa-boxes-stacked" style="color:#9b59b6;margin-right:8px"></i> Provisioning & PTD Manager</h4>
+                        <span style="font-size:0.72rem;background:rgba(155,89,182,0.15);color:#9b59b6;padding:3px 10px;border-radius:6px;font-weight:700">ICAPS REPLACEMENT</span>
+                    </div>
+                    <p style="color:var(--muted);font-size:0.85rem;margin-bottom:16px">Manage Provisioning Technical Documentation (PTD), generate Allowance Parts Lists (APL), track NSN cataloging status, and monitor Provisioning Performance Schedules — all with blockchain verification. Replaces ICAPS with a modern, all-branch, integrated solution.</p>
+
+                    <details style="margin-bottom:1rem;background:rgba(155,89,182,0.04);border:1px solid rgba(155,89,182,0.15);border-radius:8px;padding:0 12px;">
+                        <summary style="cursor:pointer;padding:10px 0;color:#9b59b6;font-weight:600;font-size:0.85rem;"><i class="fas fa-info-circle"></i> How It Works — Data Sources & S4 Ledger Value</summary>
+                        <div style="padding:0 0 12px;color:var(--steel);font-size:0.82rem;line-height:1.6;">
+                            <p><strong style="color:#fff;">What's real:</strong> The provisioning workflow follows real DoD provisioning processes — Provisioning Parts Data (PPD) per MIL-STD-1552, Allowance Parts Lists (APLs) per NAVSEA/NAVSUP standards, NSN cataloging per Federal Cataloging System (FCS), and Provisioning Performance Schedules per contract data requirements. The programs, systems, and part categories shown are from actual defense platforms.</p>
+                            <p><strong style="color:#ffa500;">What's demo data:</strong> In demo mode, sample provisioning data is generated for the selected program. Real PPD comes from contractor Logistics Product Data (LPD) submittals, GIDEP, DLA FLIS (Federal Logistics Information System), and NAVSUP WSS. NSN data comes from the Defense Logistics Information Service (DLIS).</p>
+                            <p><strong style="color:#14f195;">How S4 Ledger saves money here:</strong> Provisioning errors cost $2M-$15M per ship class in rework, emergency procurements, and deployment delays. ICAPS — the Navy's legacy tool — covers only Supply Support and only Navy/Marines. S4 Ledger anchors every provisioning decision (APL approval, NSN assignment, PPD validation) to the XRP Ledger, creating immutable proof of when provisioning data was submitted, validated, and approved. This eliminates disputes over data currency and reduces provisioning cycle time by 30-50%.</p>
+                            <p><strong style="color:#00aaff;">Production mode:</strong> Connect to DLA FLIS, NAVSUP WSS, and contractor LPD systems via the S4 API. Import PPD in MIL-STD-1552 format. Export APLs and provisioning reports in formats compatible with NAVSUP/NAVSEA systems. Every provisioning action is blockchain-anchored for auditability.</p>
+                        </div>
+                    </details>
+
+                    <!-- Provisioning Stats -->
+                    <div class="vault-stats" id="provStats">
+                        <div class="vault-stat hover-lift"><div class="stat-val stat-animate" id="provParts">0</div><div class="stat-lbl">Parts Provisioned</div></div>
+                        <div class="vault-stat hover-lift"><div class="stat-val stat-animate" id="provAPLs">0</div><div class="stat-lbl">APLs Generated</div></div>
+                        <div class="vault-stat hover-lift"><div class="stat-val stat-animate" id="provNSNs">0</div><div class="stat-lbl">NSNs Cataloged</div></div>
+                        <div class="vault-stat hover-lift"><div class="stat-val stat-animate" id="provSchedule" style="color:#14f195">On Track</div><div class="stat-lbl">Schedule Status</div></div>
+                    </div>
+
+                    <!-- Program Selector -->
+                    <div style="margin-bottom:14px">
+                        <label style="font-size:0.82rem;color:var(--steel);font-weight:600">Program</label>
+                        <select id="provProgram" class="form-select" style="background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.1);border-radius:8px;margin-top:4px" onchange="loadProvisioningData()"></select>
+                    </div>
+
+                    <!-- Provisioning Sections -->
+                    <div class="provisioning-sections">
+                        <!-- PTD Status -->
+                        <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:12px">
+                            <h5 style="font-size:0.9rem;margin-bottom:10px;color:#9b59b6"><i class="fas fa-file-lines" style="margin-right:6px"></i> Provisioning Technical Documentation (PTD)</h5>
+                            <div class="row" id="provPTDStatus">
+                                <div class="col-6 col-md-3 mb-2">
+                                    <div class="stat-mini"><div class="stat-mini-val" id="ptdSubmitted" style="color:#00aaff">0</div><div class="stat-mini-label">PPD Submitted</div></div>
+                                </div>
+                                <div class="col-6 col-md-3 mb-2">
+                                    <div class="stat-mini"><div class="stat-mini-val" id="ptdValidated" style="color:#14f195">0</div><div class="stat-mini-label">Validated</div></div>
+                                </div>
+                                <div class="col-6 col-md-3 mb-2">
+                                    <div class="stat-mini"><div class="stat-mini-val" id="ptdRejected" style="color:#ff3333">0</div><div class="stat-mini-label">Rejected/Errors</div></div>
+                                </div>
+                                <div class="col-6 col-md-3 mb-2">
+                                    <div class="stat-mini"><div class="stat-mini-val" id="ptdPending" style="color:#ffa500">0</div><div class="stat-mini-label">Pending Review</div></div>
+                                </div>
+                            </div>
+                            <div style="background:var(--bg);border-radius:8px;height:10px;overflow:hidden;margin-top:8px">
+                                <div id="ptdProgressBar" style="height:100%;width:0%;background:linear-gradient(90deg,#9b59b6,#c39bd3);border-radius:8px;transition:width 0.8s ease"></div>
+                            </div>
+                            <div style="display:flex;justify-content:space-between;font-size:0.72rem;color:var(--muted);margin-top:4px"><span>0% Complete</span><span id="ptdPctLabel">Awaiting Data</span></div>
+                        </div>
+
+                        <!-- APL Generation -->
+                        <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:12px">
+                            <h5 style="font-size:0.9rem;margin-bottom:10px;color:#00aaff"><i class="fas fa-clipboard-list" style="margin-right:6px"></i> Allowance Parts List (APL) Generator</h5>
+                            <div id="provAPLList" style="max-height:250px;overflow-y:auto;font-size:0.82rem;color:var(--steel)">
+                                <div style="text-align:center;padding:20px;color:var(--muted)"><i class="fas fa-clipboard-list" style="font-size:1.5rem;opacity:0.3;margin-bottom:8px;display:block"></i>Select a program and click "Generate APLs" to create Allowance Parts Lists from provisioning data.</div>
+                            </div>
+                        </div>
+
+                        <!-- NSN Cataloging -->
+                        <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:12px">
+                            <h5 style="font-size:0.9rem;margin-bottom:10px;color:#c9a84c"><i class="fas fa-barcode" style="margin-right:6px"></i> NSN Cataloging Tracker</h5>
+                            <div id="provNSNList" style="max-height:200px;overflow-y:auto;font-size:0.82rem;color:var(--steel)">
+                                <div style="text-align:center;padding:20px;color:var(--muted)"><i class="fas fa-barcode" style="font-size:1.5rem;opacity:0.3;margin-bottom:8px;display:block"></i>NSN cataloging status will appear when provisioning data is loaded.</div>
+                            </div>
+                        </div>
+
+                        <!-- ICAPS Comparison Banner -->
+                        <div style="background:linear-gradient(135deg,rgba(155,89,182,0.08),rgba(0,170,255,0.05));border:1px solid rgba(155,89,182,0.2);border-radius:10px;padding:14px;margin-bottom:12px">
+                            <h5 style="font-size:0.88rem;margin-bottom:10px;color:#fff"><i class="fas fa-trophy" style="color:#c9a84c;margin-right:6px"></i> S4 Ledger vs ICAPS</h5>
+                            <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:0.78rem">
+                                <div style="color:var(--steel)"><span style="color:#14f195">✓</span> All DoW branches</div><div style="color:var(--muted)"><span style="color:#ff3333">✗</span> ICAPS: Navy/USMC only</div>
+                                <div style="color:var(--steel)"><span style="color:#14f195">✓</span> All 12 ILS elements</div><div style="color:var(--muted)"><span style="color:#ff3333">✗</span> ICAPS: Supply Support only</div>
+                                <div style="color:var(--steel)"><span style="color:#14f195">✓</span> Blockchain verification</div><div style="color:var(--muted)"><span style="color:#ff3333">✗</span> ICAPS: No verification</div>
+                                <div style="color:var(--steel)"><span style="color:#14f195">✓</span> DMSMS + readiness integration</div><div style="color:var(--muted)"><span style="color:#ff3333">✗</span> ICAPS: Standalone tool</div>
+                                <div style="color:var(--steel)"><span style="color:#14f195">✓</span> Compliance scoring</div><div style="color:var(--muted)"><span style="color:#ff3333">✗</span> ICAPS: No compliance</div>
+                                <div style="color:var(--steel)"><span style="color:#14f195">✓</span> Modern web platform</div><div style="color:var(--muted)"><span style="color:#ff3333">✗</span> ICAPS: Mainframe + PC</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:1rem">
+                        <button onclick="generateAPLs()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#9b59b6,#7d3c98);color:#fff;border:none;border-radius:8px;padding:8px 16px"><i class="fas fa-clipboard-list"></i> Generate APLs</button>
+                        <button onclick="loadProvisioningData()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;border-radius:8px;padding:8px 16px"><i class="fas fa-sync"></i> Load PTD Data</button>
+                        <button onclick="exportProvisioning()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#14f195,#0bc77a);color:#0a0e1a;border:none;border-radius:8px;padding:8px 16px;font-weight:700"><i class="fas fa-download"></i> Export Report</button>
+                        <button onclick="anchorProvisioning()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#c9a84c,#a88a3a);color:#fff;border:none;border-radius:8px;padding:8px 16px"><i class="fas fa-anchor"></i> Anchor to XRPL ($0.01 SLS)</button>
                     </div>
                 </div>
             </div>
@@ -3921,7 +4021,11 @@ function generateAiResponse(query) {
         if (/di-?\d+|di number/.test(q)) return explainDINumber(q);
         if (/what.*do|help|how.*work/.test(q)) return 'I can help you with:<br>• <strong>Interpreting gap analysis results</strong> after you run an analysis<br>• <strong>Explaining DI number requirements</strong> (e.g., "What is DI-009?")<br>• <strong>Suggesting corrective actions</strong> for identified gaps<br>• <strong>Drafting CARs</strong> (Corrective Action Requests)<br>• <strong>Estimating cost/schedule impacts</strong><br><br>Upload your documents and run analysis to get started!';
         if (/lcsp|life cycle/.test(q)) return '<strong>Life Cycle Sustainment Plan (LCSP)</strong> — DI-039 / DI-ILSS-81490<br><br>The LCSP is a top-level ILS planning document that:<br>• Defines the sustainment strategy for the entire program lifecycle<br>• Addresses all 12 ILS elements<br>• Establishes performance metrics (Ao, MTBF, MTTR)<br>• Required per DoW Instruction 5000.02<br><br>Use the <strong>"Load Full ILS Package"</strong> button to see a sample LCSP.';
-        return 'I\'m your ILS Workspace Agent. I can help with DI numbers, gap analysis, CARs, and ILS requirements. Run an analysis to get context-specific insights, or ask me about any DI number or ILS topic!';
+        if (/vault|audit.*record|audit.*trail|audit.*vault|anchored.*record/.test(q)) return '<strong>Audit Record Vault</strong><br><br>The Audit Record Vault automatically captures every record you anchor from any tool in the ILS Workspace — DMSMS cases, readiness calculations, warranty snapshots, lifecycle cost analyses, ROI reports, and gap analysis results.<br><br>Each record stores:<br>• <strong>SHA-256 hash</strong> — the cryptographic fingerprint<br>• <strong>Content preview</strong> — what was anchored<br>• <strong>Timestamp</strong> — when it was anchored<br>• <strong>TX Hash</strong> — XRPL transaction ID for independent verification<br>• <strong>Record type</strong> — which tool generated it<br><br>You can <strong>re-verify</strong> any record with one click, <strong>export</strong> as CSV/XLSX for audits, and <strong>search/filter</strong> across your entire audit trail. Think of it as a filing cabinet that\'s also blockchain-verified.<br><br>Click the <strong>Audit Vault</strong> tab above to view your records.';
+        if (/compliance.*score|cmmc|nist.*800|dfars.*252|compliance.*posture|compliance.*card/.test(q)) return '<strong>Compliance Scorecard</strong><br><br>The Compliance Scorecard auto-calculates your compliance posture across 6 frameworks:<br><br>• <strong>CMMC Level 2</strong> — Cybersecurity Maturity Model Certification<br>• <strong>NIST SP 800-171</strong> — CUI Protection (110 controls)<br>• <strong>DFARS 252.204-7012</strong> — Safeguarding Covered Defense Information<br>• <strong>FAR 46 Quality</strong> — Federal Acquisition Regulation quality clauses<br>• <strong>MIL-STD-1388 ILS</strong> — Logistics Support Analysis requirements<br>• <strong>DoDI 4245.15 DMSMS</strong> — Diminishing Manufacturing Sources management<br><br>Your score is calculated from <strong>real workspace activity</strong> — every record you anchor, DMSMS case you track, and readiness calculation you run contributes to your compliance posture. The overall score aggregates into a <strong>letter grade (A+ through F)</strong> for executive reporting.<br><br>Click the <strong>Compliance</strong> tab above to view your scorecard.';
+        if (/defense.*doc|doc.*library|mil-std|opnavinst|regulation|standard|reference|mil-hdbk/.test(q)) return '<strong>Defense Document Library</strong><br><br>Searchable reference library of <strong>100+ real defense documents</strong> — MIL-STDs, MIL-HDBKs, OPNAVINSTs, COMDTINST, Army Regulations, Air Force Instructions, Marine Corps Orders, DFARS clauses, and NIST standards.<br><br>Features:<br>• <strong>Filter by category</strong> — ILS, Readiness, Maintenance, Supply, DMSMS, Cybersecurity, etc.<br>• <strong>Filter by branch</strong> — Joint, Navy, Coast Guard, Army, Air Force, Marines, Space Force<br>• <strong>Full-text search</strong> — by document ID, title, description, or keywords<br>• <strong>Direct links</strong> — click any document to open the official source<br><br>Use this while working in other tools to reference applicable standards without leaving the workspace.<br><br>Click the <strong>Doc Library</strong> tab above to browse.';
+        if (/provision|ptd|provisioning.*tech|allowance.*part|apl.*gen|catalog|icaps|lmi|logistics.*product|ppd|provisioning.*part/.test(q)) return '<strong>Provisioning & ICAPS</strong><br><br>S4 Ledger supports provisioning workflows that go beyond what legacy tools like <strong>ICAPS</strong> (Interactive Computer-Aided Provisioning System) offer:<br><br>• <strong>Vendor Recommended Spares (VRS)</strong> — DI-020, tracked in gap analysis<br>• <strong>Allowance Parts List (APL)</strong> — DI-021, COSAL data for initial outfitting<br>• <strong>Spares Buylist</strong> — initial outfitting and provisioning data<br>• <strong>GoFM (GFM) List</strong> — government-furnished material tracking<br>• <strong>Parts Cross-Reference</strong> — NSN, CAGE, manufacturer data with alternates<br>• <strong>DMSMS Integration</strong> — obsolescence affects provisioning decisions<br><br><strong>How S4 beats ICAPS:</strong><br>• ICAPS covers <em>only</em> Supply Support — S4 covers all 12 ILS elements<br>• ICAPS is Navy/Marine Corps only — S4 is all-branch<br>• ICAPS has no blockchain verification — S4 anchors every provisioning decision<br>• ICAPS has no compliance scoring — S4 tracks CMMC, NIST, DFARS<br>• ICAPS is a standalone tool — S4 integrates provisioning with DMSMS, readiness, lifecycle cost, and warranty data<br><br>Use the <strong>Parts</strong> tab for cross-reference and the <strong>Gap Analysis</strong> tab to track provisioning deliverables.';
+        return 'I\'m your ILS Workspace Agent. I can help with DI numbers, gap analysis, CARs, ILS requirements, the audit vault, compliance scorecard, defense document library, provisioning, and more. Run an analysis to get context-specific insights, or ask me about any ILS topic!';
     }
 
     // Has analysis results
@@ -4099,6 +4203,47 @@ function generateAiResponse(query) {
             '• <strong>"Send Analysis"</strong> — Email summary to stakeholders<br>' +
             '• <strong>"Copy to Clipboard"</strong> — Quick text summary<br><br>' +
             'Use the buttons above the chat to access any of these. Need a custom report format? Just describe what you need!';
+    }
+
+    // ── New Tool Topic Matchers (vault, docs, compliance, provisioning) ──
+    if (/vault|audit.*record|audit.*trail|audit.*vault|anchored.*record/.test(q)) {
+        const vault = JSON.parse(localStorage.getItem('s4_audit_vault') || '[]');
+        let resp = '<strong>🔒 Audit Record Vault</strong><br><br>';
+        if (vault.length > 0) {
+            resp += 'Your vault contains <strong>' + vault.length + ' records</strong>.<br>';
+            const types = [...new Set(vault.map(v => v.type || 'Unknown'))];
+            resp += 'Record types: ' + types.join(', ') + '<br>';
+            resp += 'Latest entry: ' + (vault[vault.length-1].timestamp || 'Unknown') + '<br><br>';
+        } else {
+            resp += 'Your vault is currently empty. Records will appear here automatically as you anchor them from any tool.<br><br>';
+        }
+        resp += 'The vault stores every anchored record with its SHA-256 hash, content preview, timestamp, and XRPL TX Hash. You can:<br>';
+        resp += '• <strong>Re-verify</strong> any record with one click<br>';
+        resp += '• <strong>Export</strong> as CSV/XLSX for compliance audits<br>';
+        resp += '• <strong>Search/filter</strong> by type, date, or content<br><br>';
+        resp += 'Click the <strong>Audit Vault</strong> tab to view your records.';
+        return resp;
+    }
+
+    if (/compliance.*score|cmmc|nist.*800|dfars.*252|compliance.*posture|compliance.*card|compliance.*grade/.test(q)) {
+        let resp = '<strong>🛡️ Compliance Scorecard</strong><br><br>';
+        resp += 'Your compliance posture is auto-calculated across 6 frameworks based on your workspace activity:<br><br>';
+        resp += '• <strong>CMMC Level 2</strong> — Cybersecurity maturity<br>';
+        resp += '• <strong>NIST SP 800-171</strong> — CUI protection controls<br>';
+        resp += '• <strong>DFARS 252.204-7012</strong> — Covered defense information<br>';
+        resp += '• <strong>FAR 46 Quality</strong> — Quality assurance clauses<br>';
+        resp += '• <strong>MIL-STD-1388 ILS</strong> — Logistics support analysis<br>';
+        resp += '• <strong>DoDI 4245.15 DMSMS</strong> — Obsolescence management<br><br>';
+        resp += 'Every record you anchor, DMSMS case you track, and readiness calculation you run improves your score. Click the <strong>Compliance</strong> tab to see your current grade.';
+        return resp;
+    }
+
+    if (/defense.*doc|doc.*library|mil-std|opnavinst|regulation|standard.*reference|mil-hdbk|browse.*doc/.test(q)) {
+        return '<strong>📚 Defense Document Library</strong><br><br>Your workspace includes a searchable library of <strong>100+ real defense documents</strong>:<br><br>• MIL-STD-1388, MIL-STD-882, MIL-STD-461<br>• MIL-HDBK-502, MIL-HDBK-217<br>• OPNAVINST 4790.16, OPNAVINST 5100.19<br>• COMDTINST M4000.13, COMDTINST M3500.3<br>• AR 700-127, AR 750-1<br>• AFI 63-101, AFI 20-110<br>• MCO 4105.2, MCO 4400.150<br>• DFARS 252.204-7012, FAR 46<br>• NIST SP 800-171, NIST SP 800-53<br><br>Filter by category, branch, or full-text search. Click any document for the official source link.<br><br>Click the <strong>Doc Library</strong> tab to browse.';
+    }
+
+    if (/provision|ptd|provisioning.*tech|allowance.*part|apl.*gen|catalog|icaps|lmi|logistics.*product|ppd|provisioning.*part/.test(q)) {
+        return '<strong>📦 Provisioning & ICAPS Comparison</strong><br><br>S4 Ledger provides provisioning capabilities that surpass legacy tools like ICAPS:<br><br><strong>ICAPS limitations:</strong><br>• Navy/Marine Corps only<br>• Covers only Supply Support IPS element<br>• Mainframe + PC architecture<br>• No blockchain verification<br>• No compliance scoring<br><br><strong>S4 Ledger advantages:</strong><br>• <strong>All branches</strong> — Joint, Navy, Army, AF, USMC, CG, Space Force<br>• <strong>All 12 ILS elements</strong> — not just Supply Support<br>• <strong>Blockchain-verified</strong> — every provisioning decision anchored to XRPL<br>• <strong>Integrated</strong> — provisioning ties to DMSMS, readiness, lifecycle cost, warranty<br>• <strong>Compliance tracking</strong> — CMMC, NIST, DFARS scoring built-in<br>• <strong>Modern web platform</strong> — no mainframe required<br><br>Use the <strong>Parts</strong> tab for cross-reference and the <strong>Gap Analysis</strong> to track provisioning deliverables (DI-020 VRS, DI-021 APL).';
     }
 
     if (/thank|thanks|great|awesome|perfect|good/.test(q)) {
@@ -4811,7 +4956,8 @@ function populateAllDropdowns() {
         partsProgram:  {all: true, custom: false},
         lifecycleProgram: {all: false, custom: false},
         warrantyProgram: {all: false, custom: false},
-        complianceProgram: {all: false, custom: false}
+        complianceProgram: {all: false, custom: false},
+        provProgram: {all: false, custom: false}
     };
     Object.entries(selects).forEach(([id, opts]) => {
         const el = document.getElementById(id);
@@ -5053,6 +5199,7 @@ function switchHubTab(panelId, btn) {
     if (panelId === 'hub-vault') renderVault();
     if (panelId === 'hub-docs') renderDocLibrary();
     if (panelId === 'hub-compliance') calcCompliance();
+    if (panelId === 'hub-provisioning') loadProvisioningData();
 }
 
 // ── Hub Action Items (mirrors the main action items + hub-specific stats) ──
@@ -5493,6 +5640,113 @@ async function anchorCompliance() {
     showAnchorAnimation(hash, 'Compliance Scorecard', 'CUI');
     try { await fetch('/api/anchor',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({hash, record_type:'compliance_scorecard', tx_hash:txHash})}); } catch(e) {}
     addToVault({hash, txHash, type:'compliance_scorecard', label:'Compliance Scorecard', branch:'JOINT', icon:'🛡️', content: content.substring(0,100), encrypted:false, timestamp:new Date().toISOString(), source:'Compliance Scorecard', fee:0.01});
+    stats.anchored++; stats.slsFees += 0.01; updateStats(); saveStats();
+    await new Promise(r => setTimeout(r, 3200)); hideAnchorAnimation();
+}
+
+// ── Provisioning & PTD Manager ──
+function loadProvisioningData() {
+    const progKey = document.getElementById('provProgram')?.value;
+    if (!progKey || !PROGS[progKey]) return;
+    const prog = PROGS[progKey];
+    const comps = PROG_COMPONENTS[progKey] || [];
+    
+    // Generate demo provisioning data based on selected program
+    const totalParts = comps.length * Math.floor(Math.random()*8 + 12);
+    const submitted = Math.floor(totalParts * (0.55 + Math.random()*0.35));
+    const validated = Math.floor(submitted * (0.6 + Math.random()*0.3));
+    const rejected = Math.floor(submitted * (0.02 + Math.random()*0.08));
+    const pending = submitted - validated - rejected;
+    const aplCount = Math.floor(comps.length * (0.4 + Math.random()*0.5));
+    const nsnCount = Math.floor(totalParts * (0.3 + Math.random()*0.4));
+    const pctComplete = Math.round((validated / Math.max(totalParts, 1)) * 100);
+
+    document.getElementById('provParts').textContent = totalParts;
+    document.getElementById('provAPLs').textContent = aplCount;
+    document.getElementById('provNSNs').textContent = nsnCount;
+    document.getElementById('provSchedule').textContent = pctComplete >= 80 ? 'On Track' : pctComplete >= 50 ? 'At Risk' : 'Behind';
+    document.getElementById('provSchedule').style.color = pctComplete >= 80 ? '#14f195' : pctComplete >= 50 ? '#ffa500' : '#ff3333';
+
+    document.getElementById('ptdSubmitted').textContent = submitted;
+    document.getElementById('ptdValidated').textContent = validated;
+    document.getElementById('ptdRejected').textContent = rejected;
+    document.getElementById('ptdPending').textContent = pending;
+    document.getElementById('ptdProgressBar').style.width = pctComplete + '%';
+    document.getElementById('ptdPctLabel').textContent = pctComplete + '% Validated';
+
+    // Generate APL list
+    const aplContainer = document.getElementById('provAPLList');
+    let aplHTML = '';
+    comps.slice(0, Math.min(comps.length, 8)).forEach((comp, i) => {
+        const status = i < aplCount ? 'Generated' : 'Pending';
+        const statusColor = status === 'Generated' ? '#14f195' : '#ffa500';
+        const partCount = Math.floor(Math.random()*30 + 10);
+        aplHTML += '<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;border-bottom:1px solid var(--border);font-size:0.82rem">';
+        aplHTML += '<div><strong style="color:#fff">' + comp.name + '</strong><br><span style="color:var(--muted)">APL-' + (1000+i) + ' | ' + partCount + ' line items</span></div>';
+        aplHTML += '<span style="color:' + statusColor + ';font-weight:600;font-size:0.78rem">' + status + '</span>';
+        aplHTML += '</div>';
+    });
+    aplContainer.innerHTML = aplHTML || '<div style="text-align:center;padding:15px;color:var(--muted)">No APL data available for this program.</div>';
+
+    // Generate NSN cataloging list
+    const nsnContainer = document.getElementById('provNSNList');
+    const fscGroups = ['1005','1010','1015','1025','1220','1240','1270','1280','1290','1370','1430','2010','2040','2530','2815','2990','3010','3110','4010','4020','4030','4210','4240','4720','4730','4820','5305','5310','5330','5340','5365','5820','5895','5905','5910','5935','5961','5962','5963','5985','5999','6105','6110','6115','6125','6130','6135','6140','6145','6150','6210','6220','6230','6340','6605','6625','6640','6685','6695','7930','8010','8040','8305','8415','9150','9320','9390','9905'];
+    let nsnHTML = '';
+    for (let i = 0; i < Math.min(nsnCount, 8); i++) {
+        const fsc = fscGroups[Math.floor(Math.random()*fscGroups.length)];
+        const niin = String(Math.floor(Math.random()*900+100)) + '-' + String(Math.floor(Math.random()*9000+1000));
+        const nsn = fsc + '-' + String(Math.floor(Math.random()*90+10)) + '-' + niin;
+        const catStatus = Math.random() > 0.3 ? 'Cataloged' : 'Pending';
+        nsnHTML += '<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 10px;border-bottom:1px solid rgba(255,255,255,0.03);font-size:0.8rem">';
+        nsnHTML += '<span style="font-family:monospace;color:#c9a84c">' + nsn + '</span>';
+        nsnHTML += '<span style="color:' + (catStatus==='Cataloged'?'#14f195':'#ffa500') + ';font-size:0.75rem;font-weight:600">' + catStatus + '</span>';
+        nsnHTML += '</div>';
+    }
+    nsnContainer.innerHTML = nsnHTML || '<div style="text-align:center;padding:15px;color:var(--muted)">No NSN data available.</div>';
+
+    showWorkspaceNotification('Provisioning data loaded for ' + prog.name);
+}
+
+function generateAPLs() {
+    const progKey = document.getElementById('provProgram')?.value;
+    if (!progKey) { showWorkspaceNotification('Select a program first', 'warning'); return; }
+    loadProvisioningData();
+    showWorkspaceNotification('APLs generated for ' + (PROGS[progKey]?.name || progKey));
+}
+
+function exportProvisioning() {
+    const progKey = document.getElementById('provProgram')?.value;
+    if (!progKey) { showWorkspaceNotification('Select a program first', 'warning'); return; }
+    const prog = PROGS[progKey];
+    let report = 'S4 LEDGER — PROVISIONING REPORT\n';
+    report += '================================\n';
+    report += 'Program: ' + prog.name + '\n';
+    report += 'Date: ' + new Date().toISOString() + '\n';
+    report += 'Parts Provisioned: ' + (document.getElementById('provParts')?.textContent || '0') + '\n';
+    report += 'APLs Generated: ' + (document.getElementById('provAPLs')?.textContent || '0') + '\n';
+    report += 'NSNs Cataloged: ' + (document.getElementById('provNSNs')?.textContent || '0') + '\n';
+    report += 'PTD Submitted: ' + (document.getElementById('ptdSubmitted')?.textContent || '0') + '\n';
+    report += 'PTD Validated: ' + (document.getElementById('ptdValidated')?.textContent || '0') + '\n';
+    report += 'PTD Rejected: ' + (document.getElementById('ptdRejected')?.textContent || '0') + '\n';
+    report += 'Schedule Status: ' + (document.getElementById('provSchedule')?.textContent || 'Unknown') + '\n';
+    const blob = new Blob([report], {type:'text/plain'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 's4_provisioning_' + progKey + '_' + new Date().toISOString().split('T')[0] + '.txt';
+    a.click();
+    showWorkspaceNotification('Provisioning report exported');
+}
+
+async function anchorProvisioning() {
+    const progKey = document.getElementById('provProgram')?.value;
+    if (!progKey) { showWorkspaceNotification('Select a program first', 'warning'); return; }
+    const prog = PROGS[progKey];
+    const content = 'S4 Ledger Provisioning Report | Program: ' + prog.name + ' | Parts: ' + (document.getElementById('provParts')?.textContent||'0') + ' | APLs: ' + (document.getElementById('provAPLs')?.textContent||'0') + ' | NSNs: ' + (document.getElementById('provNSNs')?.textContent||'0') + ' | PTD Validated: ' + (document.getElementById('ptdValidated')?.textContent||'0') + ' | Generated: ' + new Date().toISOString();
+    const hash = await sha256(content);
+    const txHash = 'TX' + Array.from(crypto.getRandomValues(new Uint8Array(16))).map(b=>b.toString(16).padStart(2,'0')).join('').toUpperCase();
+    showAnchorAnimation(hash, 'Provisioning Report', 'FOUO');
+    try { await fetch('/api/anchor',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({hash, record_type:'provisioning_report', tx_hash:txHash})}); } catch(e) {}
+    addToVault({hash, txHash, type:'provisioning_report', label:'Provisioning Report', branch: prog.branch || 'JOINT', icon:'📦', content: content.substring(0,100), encrypted:false, timestamp:new Date().toISOString(), source:'Provisioning & PTD Manager', fee:0.01});
     stats.anchored++; stats.slsFees += 0.01; updateStats(); saveStats();
     await new Promise(r => setTimeout(r, 3200)); hideAnchorAnimation();
 }

@@ -1,7 +1,7 @@
 # S4 Ledger — Production Readiness Checklist
 
-> **Status:** Production ($SLS LIVE on XRPL Mainnet) — **Estimated ~82% Production Ready**  
-> **Last Updated:** February 2026 (v3.5.0)  
+> **Status:** Production ($SLS LIVE on XRPL Mainnet) — **Estimated ~84% Production Ready**  
+> **Last Updated:** February 2026 (v3.8.0)  
 > **Target:** First enterprise pilot — $SLS LIVE on Mainnet
 
 ---
@@ -10,14 +10,14 @@
 
 This document tracks every requirement for taking S4 Ledger to a fully production-ready, investor-grade defense logistics platform. It covers legal, compliance, infrastructure, security, documentation, business development, and operational requirements.
 
-### Current Readiness: ~82%
+### Current Readiness: ~84%
 
 | Area | Status | Score |
 |------|--------|-------|
-| **Frontend / Demo** | ILS Workspace (unified command center with 9 sub-tabs), 8 ILS tools + calendar + action items + AI Agent (conversational, 30+ capabilities), universal program support, 160+ record types, 22 sample document types, ITAR warning banner, login portal with tutorial | **99%** |
-| **API / Backend** | Serverless API v3.5, auth scaffolding, 22 endpoints (DMSMS, readiness, parts, ROI, lifecycle, warranty, action-items, calendar), rate limiting, security headers (HSTS, X-Frame, CSP), request logging, health check, OpenAPI spec | **78%** |
+| **Frontend / Demo** | ILS Workspace (unified command center with 13 sub-tabs), 13 ILS tools + calendar + action items + AI Agent (conversational, 40+ capabilities, vault/compliance/provisioning-aware), universal program support, 160+ record types, 22 sample document types, ITAR warning banner, login portal with tutorial, ICAPS-beating provisioning tool | **99%** |
+| **API / Backend** | Serverless API v3.8, auth scaffolding, 22 endpoints (DMSMS, readiness, parts, ROI, lifecycle, warranty, action-items, calendar, provisioning), rate limiting, security headers (HSTS, X-Frame, CSP), request logging, health check, OpenAPI spec | **80%** |
 | **XRPL Integration** | $SLS LIVE on XRPL Mainnet (100M total, ~15M circ, AMM pools). Demo anchoring uses Testnet. | **85%** |
-| **SDK** | pip-installable with CLI, 11 commands (anchor, hash, verify, status, readiness, dmsms, roi, lifecycle, warranty, action-items, calendar), 13 SDK methods, SDK Playground with 12 interactive examples | **75%** |
+| **SDK** | pip-installable with CLI, 12 commands (anchor, hash, verify, status, readiness, dmsms, roi, lifecycle, warranty, action-items, calendar, provisioning), 14 SDK methods, SDK Playground with 12 interactive examples | **77%** |
 | **Infrastructure** | Vercel deployment, SSL, CDN, PWA manifest, custom 404, security response headers, ITAR notices — needs database, monitoring, load balancing | **60%** |
 | **Authentication** | Login portal with SSO/CAC support (UI), tutorial onboarding, API key system — needs production key management | **45%** |
 | **User Experience** | Full mobile/tablet responsive, ILS Workspace unified UX, conversational AI Agent, 8 interactive tools + calendar, realistic sample data, ITAR compliance notice, branded favicons on all pages | **97%** |

@@ -11,7 +11,7 @@
 
 I have independently developed a working prototype of **S4 Ledger** — a logistics verification and ILS (Integrated Logistics Support) management platform that creates tamper-proof records for defense supply chain data. The system works by creating a unique digital fingerprint (called a hash) of each logistics record and permanently storing that fingerprint on a public financial ledger (the XRP Ledger), so anyone can later prove a record was never altered. No sensitive data leaves your network — only a 64-character code that acts like a receipt.
 
-On top of this record integrity layer, S4 Ledger includes a full **ILS Workspace** — a unified suite of logistics management tools including DMSMS (Diminishing Manufacturing Sources and Material Shortages) tracking, readiness calculations, parts cross-referencing, lifecycle cost estimation, ROI (Return on Investment) analysis, warranty management, gap analysis, and action item tracking. This positions S4 Ledger not just as a verification tool, but as a **complete ILS management platform** competitive with SAP, Oracle, and Microsoft offerings — at a fraction of the cost.
+On top of this record integrity layer, S4 Ledger includes a full **ILS Workspace** — a unified suite of 13 logistics management tools including DMSMS (Diminishing Manufacturing Sources and Material Shortages) tracking, readiness calculations, parts cross-referencing, lifecycle cost estimation, ROI (Return on Investment) analysis, warranty management, gap analysis, action item tracking, audit record vault, defense document library, compliance scorecard, and provisioning/PTD management (replacing DAU's ICAPS). This positions S4 Ledger not just as a verification tool, but as a **complete ILS management platform** competitive with SAP, Oracle, Microsoft, and ICAPS — at a fraction of the cost.
 
 **I am proposing that S4 Systems adopt S4 Ledger as an official product line**, fund its production readiness, and bring it to market through our existing defense industry relationships. This benefits the company with a new revenue stream and competitive moat, and benefits me as the inventor with equity participation and product leadership.
 
@@ -68,6 +68,7 @@ All of these tools operate within a single unified workspace, with shared data, 
 | **Audit Record Vault** | Client-side audit trail store — auto-saves every anchored record with content + SHA-256 hash + TX hash. Search, filter, re-verify, CSV/XLSX export. Zero server-side storage. | DFARS 252.204-7012 |
 | **Defense Document Library** | Searchable database of 100+ real defense documents — MIL-STDs, OPNAVINSTs, DoD Directives, NAVSEA/NAVAIR manuals, FAR/DFARS, NIST frameworks across all branches | MIL-STD-1388, OPNAVINST |
 | **Compliance Scorecard** | Real-time compliance calculator — CMMC L2, NIST 800-171, DFARS, FAR 46, MIL-STD-1388, DoDI 4245.15 — with SVG ring chart, letter grades, recommendations | CMMC v2.0, NIST 800-171 |
+| **Provisioning & PTD Manager** | Full ICAPS replacement — PTD (Provisioning Technical Documentation) submission/validation, APL (Allowance Parts List) generation, NSN cataloging, all-branch support, blockchain-anchored records | MIL-STD-1561, DoD 4100.39 |
 | **Action Items Manager** | Cross-tool task queue with severity tagging, personnel delegation, cost tracking, CSV export, and calendar integration | — |
 | **ILS Calendar** | Program milestone scheduling, warranty expiration alerts, DMSMS review dates with .ics export | — |
 
@@ -271,7 +272,7 @@ S4 Ledger's prototype is essentially a **completed Phase I deliverable**. We cou
 1. **A working prototype** — live, publicly accessible, with 14+ pages and 7 API endpoints
 2. **Domain expertise** — I understand defense logistics AND the underlying technology
 3. **Complete documentation** — whitepaper, technical specs, migration guides, compliance docs, API specification
-4. **ILS Workspace** — a fully functional suite of 9 integrated logistics tools ready for demonstration
+4. **ILS Workspace** — a fully functional suite of 13 integrated logistics tools ready for demonstration, including a Provisioning & PTD Manager that replaces DAU's ICAPS for all branches
 5. **Product vision** — detailed roadmap through enterprise-scale deployment
 6. **Speed** — I can have this production-ready in 60–90 days with company support
 

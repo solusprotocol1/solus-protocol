@@ -204,13 +204,16 @@ SHA-256 is not directly vulnerable to Grover's algorithm. Grover's algorithm red
 
 | Solution | Approach | Cost | Data Exposure | Defense Focus |
 |---|---|---|---|---|
-| **S4 Ledger** | Hash anchoring on XRPL | ~$0.001/anchor | Zero | Built for DoW ILS |
+| **S4 Ledger** | Hash anchoring on XRPL | ~$0.001/anchor | Zero | Built for DoW ILS — 13 tools, all branches |
+| **ICAPS** (DAU) | Mainframe + PC provisioning | Free (gov only) | Internal database | Navy/USMC only, Supply Support only |
+| SAP S/4HANA | ERP platform | $1M+ | Full database | Commercial, adapted for defense |
+| Oracle Cloud | ERP platform | $500K+ | Cloud-hosted | Commercial, adapted for defense |
 | IBM/Maersk TradeLens | Enterprise blockchain | High | On-chain data | Commercial shipping |
 | VeChain | IoT + blockchain | Moderate | On-chain data | Consumer supply chain |
 | Hyperledger Fabric | Private blockchain | High (infra) | Private chain data | Enterprise, finance |
 | Hedera Hashgraph | DLT consensus | Low-moderate | On-chain data | General enterprise |
 
-S4 Ledger is the only solution purpose-built for defense logistics that keeps zero data on-chain.
+S4 Ledger is the only solution purpose-built for defense logistics that keeps zero data on-chain. It replaces ICAPS for provisioning while adding blockchain verification, all-branch support, and integration with 12 other ILS tools that ICAPS doesn't offer.
 
 ---
 
@@ -224,11 +227,11 @@ S4 Ledger is the only solution purpose-built for defense logistics that keeps ze
 | **Phase 4 — Partner & SaaS** | Q1 – Q2 2027 | REST API, SaaS dashboard, DIU / NavalX engagement |
 | **Phase 5 — Scale & Certify** | Q3 2027+ | NIST/CMMC, FedRAMP, production deployments |
 
-### Current Toolset (v3.7.0)
+### Current Toolset (v3.8.0)
 
 | Tool | Description |
 |---|---|
-| **ILS Workspace** | Unified command center consolidating all 12 tools with cross-tool data syncing and sub-tab navigation |
+| **ILS Workspace** | Unified command center consolidating all 13 tools with cross-tool data syncing and sub-tab navigation |
 | ILS Workspace Engine | Per-program checklists for 462+ programs with DRL generation |
 | Action Items & Task Tracker | Cross-tool task queue with severity tagging, delegation, cost tracking, and source breakdown |
 | Calendar System | Month-grid calendar with auto-populated events from action item schedules and custom milestones |
@@ -241,8 +244,9 @@ S4 Ledger is the only solution purpose-built for defense logistics that keeps ze
 | **Audit Record Vault** | Client-side audit trail store — auto-saves content + SHA-256 hash + TX hash for every anchor across all tools. Search, filter, re-verify, CSV/XLSX export. |
 | **Defense Document Library** | Searchable database of 100+ real MIL-STDs, OPNAVINSTs, DoD Directives, FAR/DFARS clauses, NIST frameworks across 7 branches and 17 categories |
 | **Compliance Scorecard** | Multi-framework compliance calculator — CMMC L2, NIST 800-171, DFARS, FAR 46, MIL-STD-1388, DoDI 4245.15 — with SVG ring chart, letter grades, and actionable recommendations |
+| **Provisioning & PTD Manager** | Replaces ICAPS — Provisioning Technical Documentation (PTD) per MIL-STD-1552, Allowance Parts List (APL) generation, NSN cataloging via FCS, Provisioning Performance Schedule tracking. All-branch (ICAPS is Navy/USMC only). Blockchain-verified provisioning decisions. |
 | Record Anchoring | SHA-256 hash anchoring to XRPL ($0.01 SLS per transaction) |
-| Conversational AI | Natural language ILS question answering |
+| Conversational AI | Natural language ILS question answering with vault, compliance, provisioning, and doc library awareness |
 | Toast Alert System | Real-time severity-coded notifications for expirations, obsolescence, and threshold violations |
 
 ### Cost Savings Analysis
