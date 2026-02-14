@@ -38,6 +38,7 @@
 30. [AI Predictions & Insights Engine (v2.10.4)](#30-ai-predictions--insights-engine-v2104)
 31. [Enhanced Scheduling System (v2.10.4)](#31-enhanced-scheduling-system-v2104)
 32. [Platform Database & New Tools (v3.3.0)](#32-platform-database--new-tools-v330)
+33. [ILS Intelligence Hub & Cross-Tool Integration (v3.5.0)](#33-ils-intelligence-hub--cross-tool-integration-v350)
 
 ---
 
@@ -1894,5 +1895,71 @@ Each platform includes category-based system templates with realistic NSNs, manu
 
 ---
 
-*Last updated: v3.3.0 — February 2026*
+## 33. ILS Intelligence Hub & Cross-Tool Integration (v3.5.0)
+
+### 33.1 Overview
+
+v3.5.0 introduces the **ILS Intelligence Hub** — a unified command center that consolidates all 8 ILS tools into a single tabbed interface. The hub provides cross-tool data syncing, a calendar system with action item integration, and enhanced cross-page visibility through the SDK Playground, API, Metrics, Transactions, and Search.
+
+### 33.2 ILS Hub Architecture
+
+```
+ILS Intelligence Hub (tabILS)
+├── Gap Analysis (hub-analysis)      ← Original ILS analyzer
+├── Action Items (hub-actions)       ← Cross-tool task queue + How It Works
+├── Calendar (hub-calendar)          ← Month grid + events from action items
+├── DMSMS (hub-dmsms)                ← Mirrors standalone DMSMS tab
+├── Readiness (hub-readiness)        ← Mirrors standalone Readiness tab
+├── Parts X-Ref (hub-parts)          ← Quick NSN lookup
+├── ROI (hub-roi)                    ← Syncs with standalone ROI tab
+├── Lifecycle (hub-lifecycle)        ← Mirrors standalone Lifecycle tab
+└── Warranty (hub-warranty)          ← Mirrors standalone Warranty tab
+```
+
+### 33.3 New API Endpoints
+
+| Tool | Endpoint | SDK Method | Mainnet Notes |
+|---|---|---|---|
+| Action Items | `/api/action-items` | `get_action_items()` | Cross-tool severity queue with cost estimates |
+| Calendar | `/api/calendar` | `get_calendar_events()` | Program milestone scheduling |
+
+### 33.4 Cross-Page Integration
+
+| Component | Updates Made |
+|---|---|
+| SDK Playground | 6 new examples (DMSMS, Readiness, ROI, Lifecycle, Warranty, Action Items) + updated reference tables |
+| OpenAPI Spec | Full docs for ROI, Lifecycle, Warranty, Action Items, Calendar endpoints |
+| Metrics Page | ILS Hub cross-link card with CTA buttons |
+| Transactions Page | ILS Hub cross-link card with CTA buttons |
+| Search Index | 13 new searchable entries for all tools and pages |
+| Landing Page | Featured ILS Hub card with gradient border + Action Items card |
+
+### 33.5 Lifecycle Cost Display Fix
+
+The `formatCostM()` function was added to properly scale dollar values input in $M through K→M→B→T tiers:
+- < $1M → display as $xxxK
+- $1M–$999M → display as $x.xM
+- $1B–$999B → display as $x.xB
+- ≥ $1T → display as $x.xT
+
+Previously, `calcLifecycle()` hardcoded `.toFixed(1) + 'B'` which displayed "$8024.0B" for $8.024B.
+
+### 33.6 Migration Checklist for v3.5.0
+
+- [ ] Verify ILS Hub sub-tabs switch correctly between all 9 panels
+- [ ] Test Calendar renders month grid with navigation and event creation
+- [ ] Verify Action Items show cross-tool source breakdown
+- [ ] Test hub panel syncing (DMSMS stats, Readiness scores, Lifecycle costs, Warranty status)
+- [ ] Validate lifecycle cost displays with `formatCostM()` (no more "$8024.0B")
+- [ ] Verify SDK Playground loads and runs all 12 examples
+- [ ] Test `/api/action-items` and `/api/calendar` endpoints
+- [ ] Validate OpenAPI spec includes all 22 endpoints
+- [ ] Verify Search overlay finds ILS Hub, Action Items, Calendar entries
+- [ ] Test Metrics and Transactions pages show ILS Hub cross-link cards
+- [ ] Verify `s4_sdk.py` CLI runs `action-items` and `calendar` commands
+- [ ] Deploy to production and verify all cross-page links work
+
+---
+
+*Last updated: v3.5.0 — February 2026*
 *See also: [DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md) | [SECURITY.md](SECURITY.md) | [NIST_COMPLIANCE.md](NIST_COMPLIANCE.md) | [WHITEPAPER.md](WHITEPAPER.md)*

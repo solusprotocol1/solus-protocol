@@ -5,6 +5,32 @@ All notable changes to the S4 Ledger project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.5.0] - 2026-02-15
+
+### Added
+- **ILS Intelligence Hub** — Unified command center consolidating all 8 ILS tools (Gap Analysis, Action Items, Calendar, DMSMS, Readiness, Parts, ROI, Lifecycle, Warranty) into a single tabbed interface with sub-navigation and cross-tool data syncing
+- **Calendar System** — Full month-grid calendar with day cells, event markers, navigation, add-event form, and upcoming-events sidebar. Auto-populates from action item schedules and custom events. Persisted via localStorage
+- **Action Items "How It Works"** — Expandable details section explaining the cross-tool task queue, severity system, and delegation workflow
+- **Hub Panel Syncing** — Tools inside the ILS Hub mirror data from standalone tabs (DMSMS stats, Readiness scores, Lifecycle costs, Warranty status)
+- **Hub Action Items Breakdown** — Source-by-source breakdown showing open items per tool (DMSMS, Readiness, Warranty, etc.)
+- **SDK Playground Expansion** — 6 new interactive examples: DMSMS Check, Readiness Calculator, ROI Analysis, Lifecycle Cost, Warranty Tracker, Action Items. Updated SDK Reference table (13 methods) and API Endpoints table (12 endpoints)
+- **API Endpoints** — New `/api/action-items` and `/api/calendar` endpoints with query parameter filtering
+- **OpenAPI Spec** — Added documentation for `/api/roi`, `/api/lifecycle`, `/api/warranty`, `/api/action-items`, `/api/calendar` endpoints
+- **Python SDK Methods** — `get_action_items(severity, source)` and `get_calendar_events(month, year)` added to `S4SDK`
+- **CLI Commands** — `s4-anchor action-items` and `s4-anchor calendar` commands added
+- **Search Index** — 13 new entries for ILS Hub, Action Items, Calendar, DMSMS, Readiness, Parts, ROI, Lifecycle, Warranty, SDK Playground, Metrics, and Transactions
+- **Cross-Page Hub Links** — Metrics and Transactions pages now include ILS Hub cross-link cards
+- **Landing Page Hub Card** — ILS Intelligence explore card restyled as featured "ILS Intelligence Hub" with gradient border and Action Items card added
+
+### Changed
+- Landing page ILS Intelligence card → "ILS Intelligence Hub" with highlighted border and expanded description
+- API version bumped to 3.5.0 (11 tools, 22 endpoints)
+- OpenAPI spec fully documenting all ILS tool endpoints (was missing ROI and Warranty)
+
+### Fixed
+- **Lifecycle Cost formatting** — Values in $M now properly scale through K→M→B→T tiers via new `formatCostM()` function. Previously showed "$8024.0B" for values that should display as "$8.0B"
+- `generateLifecycleActions()` now formats costs correctly using `formatCostM()` instead of hardcoded "$XB"
+
 ## [3.4.0] - 2026-02-14
 
 ### Added

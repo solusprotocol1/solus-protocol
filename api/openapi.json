@@ -753,6 +753,165 @@
         },
         "security": [{ "ApiKeyAuth": [] }]
       }
+    },
+    "/api/roi": {
+      "get": {
+        "summary": "ROI Calculator",
+        "description": "Calculate return on investment from S4 Ledger adoption across ILS programs.",
+        "operationId": "calculateROI",
+        "tags": ["ILS Intelligence"],
+        "parameters": [
+          { "name": "programs", "in": "query", "description": "Number of programs managed", "schema": { "type": "integer", "default": 5 } },
+          { "name": "ftes", "in": "query", "description": "Number of FTEs", "schema": { "type": "number", "default": 8 } },
+          { "name": "rate", "in": "query", "description": "FTE hourly rate ($)", "schema": { "type": "number", "default": 145 } },
+          { "name": "license", "in": "query", "description": "Annual license cost ($)", "schema": { "type": "number", "default": 120000 } }
+        ],
+        "responses": {
+          "200": {
+            "description": "ROI analysis",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "programs": { "type": "integer" },
+                    "ftes": { "type": "number" },
+                    "annual_savings": { "type": "number" },
+                    "license_cost": { "type": "number" },
+                    "net_benefit": { "type": "number" },
+                    "roi_percent": { "type": "number" },
+                    "payback_months": { "type": "number" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/lifecycle": {
+      "get": {
+        "summary": "Lifecycle Cost Estimator",
+        "description": "Project total ownership cost over a weapon system's lifecycle per DoD Directive 5000.73.",
+        "operationId": "estimateLifecycleCost",
+        "tags": ["ILS Intelligence"],
+        "parameters": [
+          { "name": "acquisition", "in": "query", "description": "Unit acquisition cost ($M)", "schema": { "type": "number", "default": 85 } },
+          { "name": "fleet", "in": "query", "description": "Fleet size", "schema": { "type": "integer", "default": 20 } },
+          { "name": "life", "in": "query", "description": "Service life (years)", "schema": { "type": "integer", "default": 30 } },
+          { "name": "sustrate", "in": "query", "description": "Annual sustainment rate (%)", "schema": { "type": "number", "default": 8 } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lifecycle cost estimate",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "acquisition_m": { "type": "number" },
+                    "sustainment_m": { "type": "number" },
+                    "dmsms_m": { "type": "number" },
+                    "total_ownership_m": { "type": "number" },
+                    "service_life_years": { "type": "integer" },
+                    "fleet_size": { "type": "integer" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/warranty": {
+      "get": {
+        "summary": "Warranty & Contract Tracker",
+        "description": "Track OEM warranties, CLIN milestones, and contract expirations with 90-day alerts.",
+        "operationId": "trackWarranty",
+        "tags": ["ILS Intelligence"],
+        "parameters": [
+          { "name": "program", "in": "query", "description": "Program identifier", "schema": { "type": "string", "default": "ddg51" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Warranty tracking data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "program": { "type": "string" },
+                    "items": { "type": "array", "items": { "type": "object" } },
+                    "active": { "type": "integer" },
+                    "expiring": { "type": "integer" },
+                    "total_value": { "type": "number" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/action-items": {
+      "get": {
+        "summary": "Action Items Queue",
+        "description": "Retrieve cross-tool action items with severity tagging, cost estimates, and schedule tracking. Items are auto-generated from DMSMS, readiness, warranty, lifecycle, and parts tools.",
+        "operationId": "getActionItems",
+        "tags": ["ILS Intelligence"],
+        "parameters": [
+          { "name": "severity", "in": "query", "description": "Filter by severity", "schema": { "type": "string", "enum": ["critical", "warning", "info"] } },
+          { "name": "source", "in": "query", "description": "Filter by source tool", "schema": { "type": "string", "enum": ["dmsms", "readiness", "parts", "warranty", "lifecycle", "roi"] } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Action items list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "action_items": { "type": "array", "items": { "type": "object", "properties": { "id": { "type": "string" }, "title": { "type": "string" }, "severity": { "type": "string" }, "source": { "type": "string" }, "cost": { "type": "string" }, "schedule": { "type": "string" }, "done": { "type": "boolean" } } } },
+                    "total": { "type": "integer" },
+                    "critical": { "type": "integer" },
+                    "open": { "type": "integer" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/calendar": {
+      "get": {
+        "summary": "Calendar Events",
+        "description": "Get scheduled events for ILS program management including auto-generated deadlines from action items, warranty expirations, and DMSMS review dates.",
+        "operationId": "getCalendarEvents",
+        "tags": ["ILS Intelligence"],
+        "parameters": [
+          { "name": "month", "in": "query", "schema": { "type": "integer" } },
+          { "name": "year", "in": "query", "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Calendar events",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "month": { "type": "integer" },
+                    "year": { "type": "integer" },
+                    "events": { "type": "array", "items": { "type": "object" } },
+                    "total": { "type": "integer" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {

@@ -227,6 +227,54 @@
         .stat-mini{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center}
         .stat-mini-val{font-size:1.3rem;font-weight:800;color:var(--accent)}
         .stat-mini-label{font-size:0.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-top:2px}
+        /* ═══ ILS HUB SUB-TABS ═══ */
+        .ils-hub-tabs{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:16px;padding:4px;background:var(--surface);border:1px solid var(--border);border-radius:10px}
+        .ils-hub-tab{background:transparent;border:1px solid transparent;border-radius:8px;padding:8px 14px;font-size:0.8rem;font-weight:600;cursor:pointer;color:var(--steel);transition:all 0.2s;font-family:inherit;display:flex;align-items:center;gap:6px;white-space:nowrap}
+        .ils-hub-tab:hover{color:var(--accent);background:rgba(0,170,255,0.06)}
+        .ils-hub-tab.active{background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff!important;border-color:transparent;box-shadow:0 2px 10px rgba(0,170,255,0.3)}
+        .ils-hub-tab .tab-badge{font-size:0.65rem;padding:1px 6px;border-radius:10px;background:rgba(255,51,51,0.2);color:#ff3333;font-weight:700}
+        .ils-hub-tab.active .tab-badge{background:rgba(255,255,255,0.2);color:#fff}
+        .ils-hub-panel{display:none;animation:fadeIn 0.3s ease}
+        .ils-hub-panel.active{display:block}
+        /* ═══ CALENDAR STYLES ═══ */
+        .cal-container{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+        .cal-header{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:linear-gradient(135deg,rgba(0,170,255,0.08),rgba(201,168,76,0.05));border-bottom:1px solid var(--border)}
+        .cal-header h5{margin:0;color:#fff;font-size:0.95rem;font-weight:700}
+        .cal-nav{display:flex;gap:6px}
+        .cal-nav button{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:4px 10px;color:var(--steel);cursor:pointer;font-size:0.85rem;transition:all 0.2s;font-family:inherit}
+        .cal-nav button:hover{border-color:var(--accent);color:var(--accent)}
+        .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:1px;background:var(--border)}
+        .cal-day-header{background:var(--surface);padding:8px;text-align:center;font-size:0.72rem;font-weight:700;color:var(--muted);text-transform:uppercase}
+        .cal-day{background:var(--card);padding:6px;min-height:80px;font-size:0.78rem;cursor:pointer;transition:background 0.2s;position:relative}
+        .cal-day:hover{background:rgba(0,170,255,0.04)}
+        .cal-day.other-month{opacity:0.3}
+        .cal-day.today{background:rgba(0,170,255,0.08);box-shadow:inset 0 0 0 1px var(--accent)}
+        .cal-day-num{font-weight:700;color:var(--steel);margin-bottom:4px}
+        .cal-event{font-size:0.68rem;padding:2px 5px;border-radius:4px;margin-bottom:2px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;cursor:pointer;transition:all 0.2s}
+        .cal-event:hover{filter:brightness(1.2)}
+        .cal-event.critical{background:rgba(255,51,51,0.2);color:#ff3333;border-left:2px solid #ff3333}
+        .cal-event.warning{background:rgba(255,165,0,0.2);color:#ffa500;border-left:2px solid #ffa500}
+        .cal-event.info{background:rgba(0,170,255,0.15);color:#00aaff;border-left:2px solid #00aaff}
+        .cal-event.success{background:rgba(20,241,149,0.15);color:#14f195;border-left:2px solid #14f195}
+        .cal-event.custom{background:rgba(201,168,76,0.15);color:#c9a84c;border-left:2px solid #c9a84c}
+        .cal-add-btn{position:absolute;top:4px;right:4px;background:rgba(0,170,255,0.1);border:none;color:var(--accent);border-radius:4px;width:18px;height:18px;font-size:0.7rem;cursor:pointer;display:none;align-items:center;justify-content:center}
+        .cal-day:hover .cal-add-btn{display:flex}
+        .cal-sidebar{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px}
+        .cal-upcoming{font-size:0.82rem}
+        .cal-upcoming-item{display:flex;gap:10px;padding:10px;background:var(--card);border:1px solid var(--border);border-radius:8px;margin-bottom:6px;transition:all 0.2s}
+        .cal-upcoming-item:hover{border-color:var(--accent)}
+        .cal-upcoming-date{min-width:42px;text-align:center;font-weight:700;color:var(--accent);line-height:1.2}
+        .cal-upcoming-date .cal-month{font-size:0.65rem;text-transform:uppercase;color:var(--muted)}
+        .cal-upcoming-info{flex:1}
+        .cal-upcoming-title{font-weight:600;color:#fff;font-size:0.82rem}
+        .cal-upcoming-meta{font-size:0.72rem;color:var(--muted)}
+        /* ═══ HUB TOOL PANELS ═══ */
+        .hub-tool-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:12px}
+        .hub-tool-header{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+        .hub-tool-header h4{margin:0;font-size:1rem;font-weight:700;color:var(--accent)}
+        .hub-tool-header .tool-link{font-size:0.78rem;color:var(--muted);margin-left:auto;cursor:pointer;transition:color 0.2s;text-decoration:none}
+        .hub-tool-header .tool-link:hover{color:var(--accent)}
+        @media(max-width:768px){.ils-hub-tabs{gap:2px}.ils-hub-tab{padding:6px 10px;font-size:0.72rem}.cal-day{min-height:50px}}
     </style>
 </head>
 <body>
@@ -433,6 +481,27 @@
             </div>
 
             <div class="tab-pane fade" id="tabILS" role="tabpanel">
+                <!-- ═══ ILS INTELLIGENCE HUB ═══ -->
+                <div class="demo-card" style="padding:12px 16px;margin-bottom:8px;background:linear-gradient(135deg,rgba(0,170,255,0.06),rgba(201,168,76,0.03))">
+                    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+                        <h3 style="margin:0;font-size:1.15rem"><i class="fas fa-brain" style="color:var(--accent)"></i> ILS Intelligence Hub</h3>
+                        <span style="font-size:0.78rem;color:var(--steel)">Unified command center — all ILS tools, action tracking, calendar, and AI agent in one place</span>
+                    </div>
+                </div>
+                <div class="ils-hub-tabs" id="ilsHubTabs">
+                    <button class="ils-hub-tab active" onclick="switchHubTab('hub-analysis',this)"><i class="fas fa-chart-line"></i> Gap Analysis</button>
+                    <button class="ils-hub-tab" onclick="switchHubTab('hub-actions',this)"><i class="fas fa-tasks"></i> Action Items <span class="tab-badge" id="hubActionBadge">0</span></button>
+                    <button class="ils-hub-tab" onclick="switchHubTab('hub-calendar',this)"><i class="fas fa-calendar-alt"></i> Calendar</button>
+                    <button class="ils-hub-tab" onclick="switchHubTab('hub-dmsms',this)"><i class="fas fa-exclamation-triangle"></i> DMSMS</button>
+                    <button class="ils-hub-tab" onclick="switchHubTab('hub-readiness',this)"><i class="fas fa-chart-line"></i> Readiness</button>
+                    <button class="ils-hub-tab" onclick="switchHubTab('hub-parts',this)"><i class="fas fa-cogs"></i> Parts</button>
+                    <button class="ils-hub-tab" onclick="switchHubTab('hub-roi',this)"><i class="fas fa-dollar-sign"></i> ROI</button>
+                    <button class="ils-hub-tab" onclick="switchHubTab('hub-lifecycle',this)"><i class="fas fa-clock"></i> Lifecycle</button>
+                    <button class="ils-hub-tab" onclick="switchHubTab('hub-warranty',this)"><i class="fas fa-file-contract"></i> Warranty</button>
+                </div>
+
+                <!-- ══ HUB: GAP ANALYSIS (original ILS content) ══ -->
+                <div class="ils-hub-panel active" id="hub-analysis">
                 <div class="row">
                     <div class="col-lg-7">
                         <div class="demo-card">
@@ -614,7 +683,256 @@
                         </div>
                     </div>
                 </div>
-            </div>
+                </div><!-- /hub-analysis -->
+
+                <!-- ══ HUB: ACTION ITEMS ══ -->
+                <div class="ils-hub-panel" id="hub-actions">
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="demo-card">
+                                <h3><i class="fas fa-tasks" style="color:#00aaff"></i> Unified Action Items & Alerts</h3>
+                                <details style="margin-bottom:1rem;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.15);border-radius:8px;padding:0 12px;">
+                                    <summary style="cursor:pointer;padding:10px 0;color:#00aaff;font-weight:600;font-size:0.85rem;"><i class="fas fa-info-circle"></i> How It Works — Unified Action Tracking</summary>
+                                    <div style="padding:0 0 12px;color:var(--steel);font-size:0.82rem;line-height:1.6;">
+                                        <p><strong style="color:#fff;">What this tool does:</strong> Every tool in the S4 Ledger suite generates actionable recommendations — DMSMS obsolescence alerts, readiness failures, warranty expirations, lifecycle cost opportunities, parts shortages, and ILS gap analysis items. This panel <strong>consolidates all of them</strong> into one unified tracker so nothing falls through the cracks.</p>
+                                        <p><strong style="color:#00aaff;">How actions are created:</strong> When you use any tool (run a DMSMS check, calculate readiness, review warranties, estimate lifecycle costs, or run an ILS gap analysis), the system automatically generates action items with: (1) <strong>Severity</strong> — Critical, Warning, or Info, (2) <strong>Owner</strong> — assigned responsible party, (3) <strong>Cost impact</strong> — estimated dollar risk, (4) <strong>Schedule</strong> — recommended timeline, (5) <strong>Source tool</strong> — which analysis generated it.</p>
+                                        <p><strong style="color:#14f195;">How S4 Ledger saves money here:</strong> Missed action items are one of the biggest cost drivers in defense programs. A warranty that expires unrenewed can cost $500K+. An obsolete part discovered during production costs 10x more than one caught early. This tracker ensures every actionable finding from every tool is visible, assignable, and trackable — with the ability to export, filter, and communicate to stakeholders.</p>
+                                        <p><strong style="color:#c9a84c;">AI Recommendations:</strong> Ask the S4 ILS Agent (below) about your action items. It can prioritize them, suggest corrective actions, draft CARs, estimate total risk, and recommend next steps based on all the data from every tool.</p>
+                                    </div>
+                                </details>
+                                <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1rem">
+                                    <button class="ai-quick-btn" onclick="filterHubActions('all')" style="background:rgba(0,170,255,0.15);border-color:var(--accent)">All</button>
+                                    <button class="ai-quick-btn" onclick="filterHubActions('critical')"><span style="color:#ff3333">●</span> Critical</button>
+                                    <button class="ai-quick-btn" onclick="filterHubActions('warning')"><span style="color:#ffa500">●</span> Warning</button>
+                                    <button class="ai-quick-btn" onclick="filterHubActions('info')"><span style="color:#00aaff">●</span> Info</button>
+                                    <button class="ai-quick-btn" onclick="filterHubActions('completed')"><span style="color:#14f195">●</span> Completed</button>
+                                    <span style="flex:1"></span>
+                                    <button class="ai-quick-btn" onclick="exportActionItems()"><i class="fas fa-download"></i> Export CSV</button>
+                                    <button class="ai-quick-btn" onclick="clearCompletedActions()"><i class="fas fa-broom"></i> Clear Done</button>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-md-3 col-6 mb-2"><div class="stat-mini"><div class="stat-mini-val" id="hubAiTotal" style="color:#00aaff">0</div><div class="stat-mini-label">Total Actions</div></div></div>
+                                    <div class="col-md-3 col-6 mb-2"><div class="stat-mini"><div class="stat-mini-val" id="hubAiCritical" style="color:#ff3333">0</div><div class="stat-mini-label">Critical</div></div></div>
+                                    <div class="col-md-3 col-6 mb-2"><div class="stat-mini"><div class="stat-mini-val" id="hubAiOpen" style="color:#ffa500">0</div><div class="stat-mini-label">Open</div></div></div>
+                                    <div class="col-md-3 col-6 mb-2"><div class="stat-mini"><div class="stat-mini-val" id="hubAiDone" style="color:#14f195">0</div><div class="stat-mini-label">Completed</div></div></div>
+                                </div>
+                                <div id="hubActionItemsList" style="max-height:600px;overflow-y:auto">
+                                    <div style="color:var(--muted);text-align:center;padding:2rem;font-size:0.85rem"><i class="fas fa-clipboard-list" style="font-size:2rem;margin-bottom:12px;display:block;opacity:0.3"></i>No action items yet. Use the tools above to generate actionable tasks and recommendations.</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="demo-card">
+                                <h3 style="font-size:1rem;"><i class="fas fa-robot" style="color:var(--accent)"></i> AI Recommendations</h3>
+                                <p style="color:var(--steel);font-size:0.82rem;margin-bottom:12px">Ask the S4 Agent about your action items, priorities, risks, and next steps.</p>
+                                <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:12px">
+                                    <button class="ai-quick-btn" onclick="aiAsk('Prioritize my action items')">Prioritize</button>
+                                    <button class="ai-quick-btn" onclick="aiAsk('What should I do first?')">Next Step</button>
+                                    <button class="ai-quick-btn" onclick="aiAsk('Estimate my total risk exposure')">Total Risk</button>
+                                    <button class="ai-quick-btn" onclick="aiAsk('Draft a status update for leadership')">Status Brief</button>
+                                    <button class="ai-quick-btn" onclick="aiAsk('Which items can I delegate?')">Delegate</button>
+                                    <button class="ai-quick-btn" onclick="aiAsk('Draft CAR for critical items')">Draft CAR</button>
+                                </div>
+                                <div style="font-size:0.78rem;color:var(--muted);padding:8px;background:var(--surface);border-radius:8px;border:1px solid var(--border)">
+                                    <i class="fas fa-lightbulb" style="color:#c9a84c"></i> <strong>Tip:</strong> The agent uses data from all tools — ILS analysis, DMSMS, Readiness, Parts, ROI, Lifecycle, and Warranty — to provide contextual recommendations.
+                                </div>
+                            </div>
+                            <div class="demo-card">
+                                <h3 style="font-size:1rem;"><i class="fas fa-chart-pie" style="color:#ffa500"></i> Actions by Source</h3>
+                                <div id="hubActionsBySource" style="font-size:0.82rem">
+                                    <div style="color:var(--muted);text-align:center;padding:1rem">Run tools to see breakdown.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- /hub-actions -->
+
+                <!-- ══ HUB: CALENDAR ══ -->
+                <div class="ils-hub-panel" id="hub-calendar">
+                    <div class="row">
+                        <div class="col-lg-9">
+                            <div class="cal-container">
+                                <div class="cal-header">
+                                    <div class="cal-nav">
+                                        <button onclick="calNav(-1)"><i class="fas fa-chevron-left"></i></button>
+                                    </div>
+                                    <h5 id="calMonthYear">February 2026</h5>
+                                    <div class="cal-nav">
+                                        <button onclick="calNav(1)"><i class="fas fa-chevron-right"></i></button>
+                                        <button onclick="calToday()" style="font-size:0.78rem">Today</button>
+                                    </div>
+                                </div>
+                                <div class="cal-grid" id="calGrid">
+                                    <div class="cal-day-header">Sun</div><div class="cal-day-header">Mon</div><div class="cal-day-header">Tue</div><div class="cal-day-header">Wed</div><div class="cal-day-header">Thu</div><div class="cal-day-header">Fri</div><div class="cal-day-header">Sat</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="cal-sidebar">
+                                <h5 style="color:var(--accent);font-size:0.95rem;margin-bottom:12px"><i class="fas fa-calendar-day"></i> Upcoming</h5>
+                                <div id="calUpcoming" class="cal-upcoming">
+                                    <div style="color:var(--muted);text-align:center;padding:1rem;font-size:0.82rem">No upcoming events.</div>
+                                </div>
+                                <div style="margin-top:16px">
+                                    <h5 style="color:var(--gold);font-size:0.9rem;margin-bottom:10px"><i class="fas fa-plus-circle"></i> Add Event</h5>
+                                    <div style="margin-bottom:8px">
+                                        <input type="text" id="calEventTitle" placeholder="Event title..." style="font-size:0.82rem!important">
+                                    </div>
+                                    <div class="row mb-2">
+                                        <div class="col-7"><input type="date" id="calEventDate" style="font-size:0.82rem!important"></div>
+                                        <div class="col-5"><input type="time" id="calEventTime" value="09:00" style="font-size:0.82rem!important"></div>
+                                    </div>
+                                    <div style="margin-bottom:8px">
+                                        <select id="calEventType" style="font-size:0.82rem!important">
+                                            <option value="info">General</option>
+                                            <option value="critical">Critical Deadline</option>
+                                            <option value="warning">Review / Checkpoint</option>
+                                            <option value="success">Milestone</option>
+                                            <option value="custom">Custom</option>
+                                        </select>
+                                    </div>
+                                    <div style="margin-bottom:8px">
+                                        <textarea id="calEventNotes" placeholder="Notes (optional)..." rows="2" style="font-size:0.82rem!important;min-height:50px!important"></textarea>
+                                    </div>
+                                    <button class="btn-accent" onclick="addCalendarEvent()" style="width:100%;font-size:0.82rem;padding:8px"><i class="fas fa-plus"></i> Add to Calendar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- /hub-calendar -->
+
+                <!-- ══ HUB: TOOL PANELS (embedded mirrors) ══ -->
+                <div class="ils-hub-panel" id="hub-dmsms">
+                    <div class="hub-tool-card">
+                        <div class="hub-tool-header">
+                            <i class="fas fa-exclamation-triangle" style="color:#ff9900;font-size:1.2rem"></i>
+                            <h4>DMSMS / Obsolescence Tracker</h4>
+                            <a class="tool-link" onclick="document.querySelector('a[href=&quot;#tabDMSMS&quot;]').click()"><i class="fas fa-external-link-alt"></i> Open Full Tool</a>
+                        </div>
+                        <p style="color:var(--steel);font-size:0.85rem;margin-bottom:12px">Track obsolescence risk across programs. Results feed directly into Action Items and the AI Agent.</p>
+                        <label>Select Program</label>
+                        <select id="hubDmsmsProgram" class="form-select mb-2" style="background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.1);" onchange="document.getElementById('dmsmsProgram').value=this.value;loadDMSMSData()"></select>
+                        <div id="hubDmsmsResults" style="margin-top:8px;max-height:400px;overflow-y:auto;font-size:0.85rem;color:var(--steel)"><div style="color:var(--muted);text-align:center;padding:1rem">Select a program to load DMSMS data.</div></div>
+                        <div class="row mt-2">
+                            <div class="col-3"><div class="stat-mini"><div class="stat-mini-val" id="hubDmsmsParts">0</div><div class="stat-mini-label">Parts</div></div></div>
+                            <div class="col-3"><div class="stat-mini"><div class="stat-mini-val" id="hubDmsmsRisk" style="color:#ff3333">0</div><div class="stat-mini-label">At Risk</div></div></div>
+                            <div class="col-3"><div class="stat-mini"><div class="stat-mini-val" id="hubDmsmsOk" style="color:#14f195">0</div><div class="stat-mini-label">Resolved</div></div></div>
+                            <div class="col-3"><div class="stat-mini"><div class="stat-mini-val" id="hubDmsmsCost" style="color:#ffa500">$0</div><div class="stat-mini-label">Cost</div></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ils-hub-panel" id="hub-readiness">
+                    <div class="hub-tool-card">
+                        <div class="hub-tool-header">
+                            <i class="fas fa-chart-line" style="color:#14f195;font-size:1.2rem"></i>
+                            <h4>Operational Readiness Calculator</h4>
+                            <a class="tool-link" onclick="document.querySelector('a[href=&quot;#tabReadiness&quot;]').click()"><i class="fas fa-external-link-alt"></i> Open Full Tool</a>
+                        </div>
+                        <p style="color:var(--steel);font-size:0.85rem;margin-bottom:12px">Calculate Ao, MTBF, MTTR, MLDT per MIL-STD-1390D. Low readiness generates critical action items.</p>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label style="font-size:0.82rem">Program</label>
+                                <select id="hubReadinessProgram" class="form-select mb-2" style="background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.1);font-size:0.85rem" onchange="document.getElementById('readinessProgram').value=this.value;loadReadinessData()"></select>
+                                <label style="font-size:0.82rem">System</label>
+                                <select id="hubReadinessSystem" class="form-select mb-2" style="background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.1);font-size:0.85rem" onchange="document.getElementById('readinessSystem').value=this.value;calcReadiness()"></select>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-6"><div class="stat-mini"><div class="stat-mini-val" id="hubStatAo" style="color:#14f195">—</div><div class="stat-mini-label">Ao</div></div></div>
+                                    <div class="col-6"><div class="stat-mini"><div class="stat-mini-val" id="hubStatAi">—</div><div class="stat-mini-label">Ai</div></div></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="hubReadinessOutput" style="margin-top:8px;max-height:300px;overflow-y:auto;font-size:0.85rem"></div>
+                    </div>
+                </div>
+
+                <div class="ils-hub-panel" id="hub-parts">
+                    <div class="hub-tool-card">
+                        <div class="hub-tool-header">
+                            <i class="fas fa-cogs" style="color:#c9a84c;font-size:1.2rem"></i>
+                            <h4>NSN / Parts Cross-Reference</h4>
+                            <a class="tool-link" onclick="document.querySelector('a[href=&quot;#tabParts&quot;]').click()"><i class="fas fa-external-link-alt"></i> Open Full Tool</a>
+                        </div>
+                        <p style="color:var(--steel);font-size:0.85rem;margin-bottom:12px">NSN lookup, CAGE codes, alternate parts, and cross-program search. Low stock items generate warnings.</p>
+                        <div class="row mb-2">
+                            <div class="col-md-4"><input type="text" id="hubPartsNSN" placeholder="NSN..." style="font-size:0.85rem!important" onkeydown="if(event.key==='Enter'){document.getElementById('partsNSN').value=this.value;searchParts()}"></div>
+                            <div class="col-md-4"><input type="text" id="hubPartsName" placeholder="Part Name..." style="font-size:0.85rem!important" onkeydown="if(event.key==='Enter'){document.getElementById('partsName').value=this.value;searchParts()}"></div>
+                            <div class="col-md-4"><button class="btn-accent" onclick="document.getElementById('partsNSN').value=document.getElementById('hubPartsNSN').value;document.getElementById('partsName').value=document.getElementById('hubPartsName').value;searchParts()" style="width:100%;font-size:0.85rem;padding:8px"><i class="fas fa-search"></i> Search</button></div>
+                        </div>
+                        <div id="hubPartsResults" style="max-height:400px;overflow-y:auto;font-size:0.85rem"><div style="color:var(--muted);text-align:center;padding:1rem">Search for parts by NSN or name.</div></div>
+                    </div>
+                </div>
+
+                <div class="ils-hub-panel" id="hub-roi">
+                    <div class="hub-tool-card">
+                        <div class="hub-tool-header">
+                            <i class="fas fa-dollar-sign" style="color:#14f195;font-size:1.2rem"></i>
+                            <h4>ROI Calculator</h4>
+                            <a class="tool-link" onclick="document.querySelector('a[href=&quot;#tabROI&quot;]').click()"><i class="fas fa-external-link-alt"></i> Open Full Tool</a>
+                        </div>
+                        <p style="color:var(--steel);font-size:0.85rem;margin-bottom:12px">Calculate return on investment from S4 Ledger deployment. Positive ROI generates business case action items.</p>
+                        <div class="row mb-2">
+                            <div class="col-md-3"><label style="font-size:0.78rem">Programs</label><input type="number" id="hubRoiPrograms" placeholder="5" value="5" style="font-size:0.85rem!important" oninput="syncROIInput()"></div>
+                            <div class="col-md-3"><label style="font-size:0.78rem">Records/Mo</label><input type="number" id="hubRoiRecords" placeholder="500" value="500" style="font-size:0.85rem!important" oninput="syncROIInput()"></div>
+                            <div class="col-md-3"><label style="font-size:0.78rem">FTEs</label><input type="number" id="hubRoiFTE" placeholder="3" value="3" style="font-size:0.85rem!important" oninput="syncROIInput()"></div>
+                            <div class="col-md-3"><label style="font-size:0.78rem">&nbsp;</label><button class="btn-accent" onclick="syncROIInput();calcROI()" style="width:100%;font-size:0.82rem;padding:8px"><i class="fas fa-calculator"></i> Calc</button></div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-3"><div class="stat-mini"><div class="stat-mini-val" id="hubRoiSavings" style="color:#14f195">—</div><div class="stat-mini-label">Annual Savings</div></div></div>
+                            <div class="col-3"><div class="stat-mini"><div class="stat-mini-val" id="hubRoiPct" style="color:#00aaff">—</div><div class="stat-mini-label">ROI %</div></div></div>
+                            <div class="col-3"><div class="stat-mini"><div class="stat-mini-val" id="hubRoiPayback" style="color:#ffa500">—</div><div class="stat-mini-label">Payback</div></div></div>
+                            <div class="col-3"><div class="stat-mini"><div class="stat-mini-val" id="hubRoi5yr" style="color:#c9a84c">—</div><div class="stat-mini-label">5-Year Net</div></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ils-hub-panel" id="hub-lifecycle">
+                    <div class="hub-tool-card">
+                        <div class="hub-tool-header">
+                            <i class="fas fa-clock" style="color:#00aaff;font-size:1.2rem"></i>
+                            <h4>Lifecycle Cost Estimator</h4>
+                            <a class="tool-link" onclick="document.querySelector('a[href=&quot;#tabLifecycle&quot;]').click()"><i class="fas fa-external-link-alt"></i> Open Full Tool</a>
+                        </div>
+                        <p style="color:var(--steel);font-size:0.85rem;margin-bottom:12px">Total ownership cost projection per DoD 5000.73. High sustainment ratios generate optimization action items.</p>
+                        <div class="row mb-2">
+                            <div class="col-md-4"><label style="font-size:0.78rem">Program</label><select id="hubLifecycleProgram" class="form-select" style="background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.1);font-size:0.85rem" onchange="document.getElementById('lifecycleProgram').value=this.value;calcLifecycle()"></select></div>
+                            <div class="col-md-2"><label style="font-size:0.78rem">Unit $M</label><input type="number" id="hubLcAcq" placeholder="85" value="85" style="font-size:0.85rem!important" oninput="document.getElementById('lcAcqCost').value=this.value;calcLifecycle()"></div>
+                            <div class="col-md-2"><label style="font-size:0.78rem">Fleet</label><input type="number" id="hubLcFleet" placeholder="20" value="20" style="font-size:0.85rem!important" oninput="document.getElementById('lcFleetSize').value=this.value;calcLifecycle()"></div>
+                            <div class="col-md-2"><label style="font-size:0.78rem">Years</label><input type="number" id="hubLcYears" placeholder="30" value="30" style="font-size:0.85rem!important" oninput="document.getElementById('lcServiceLife').value=this.value;calcLifecycle()"></div>
+                            <div class="col-md-2"><label style="font-size:0.78rem">Sust%</label><input type="number" id="hubLcSust" placeholder="8" value="8" style="font-size:0.85rem!important" oninput="document.getElementById('lcSustRate').value=this.value;calcLifecycle()"></div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-3"><div class="stat-mini"><div class="stat-mini-val" id="hubLcTotal" style="color:#ff9900">—</div><div class="stat-mini-label">TOC</div></div></div>
+                            <div class="col-3"><div class="stat-mini"><div class="stat-mini-val" id="hubLcSustCost" style="color:#00aaff">—</div><div class="stat-mini-label">O&S</div></div></div>
+                            <div class="col-3"><div class="stat-mini"><div class="stat-mini-val" id="hubLcDmsms" style="color:#ff3333">—</div><div class="stat-mini-label">DMSMS</div></div></div>
+                            <div class="col-3"><div class="stat-mini"><div class="stat-mini-val" id="hubLcHr" style="color:#14f195">—</div><div class="stat-mini-label">$/Op Hr</div></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ils-hub-panel" id="hub-warranty">
+                    <div class="hub-tool-card">
+                        <div class="hub-tool-header">
+                            <i class="fas fa-file-contract" style="color:#c9a84c;font-size:1.2rem"></i>
+                            <h4>Warranty & Contract Tracker</h4>
+                            <a class="tool-link" onclick="document.querySelector('a[href=&quot;#tabWarranty&quot;]').click()"><i class="fas fa-external-link-alt"></i> Open Full Tool</a>
+                        </div>
+                        <p style="color:var(--steel);font-size:0.85rem;margin-bottom:12px">Track warranties, CLIN milestones, and contract expirations. Expiring items automatically create action items.</p>
+                        <label style="font-size:0.82rem">Select Program</label>
+                        <select id="hubWarrantyProgram" class="form-select mb-2" style="background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.1);font-size:0.85rem" onchange="document.getElementById('warrantyProgram').value=this.value;loadWarrantyData()"></select>
+                        <div id="hubWarrantyResults" style="max-height:350px;overflow-y:auto;font-size:0.85rem"><div style="color:var(--muted);text-align:center;padding:1rem">Select a program to load warranty data.</div></div>
+                        <div class="row mt-2">
+                            <div class="col-3"><div class="stat-mini"><div class="stat-mini-val" id="hubWarActive" style="color:#14f195">0</div><div class="stat-mini-label">Active</div></div></div>
+                            <div class="col-3"><div class="stat-mini"><div class="stat-mini-val" id="hubWarExpiring" style="color:#ffa500">0</div><div class="stat-mini-label">Expiring</div></div></div>
+                            <div class="col-3"><div class="stat-mini"><div class="stat-mini-val" id="hubWarExpired" style="color:#ff3333">0</div><div class="stat-mini-label">Expired</div></div></div>
+                            <div class="col-3"><div class="stat-mini"><div class="stat-mini-val" id="hubWarValue" style="color:#00aaff">$0</div><div class="stat-mini-label">Coverage</div></div></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div><!-- /tabILS -->
             <!-- ═══ DMSMS / OBSOLESCENCE TRACKER ═══ -->
             <div class="tab-pane fade" id="tabDMSMS" role="tabpanel">
                 <div class="demo-card">
@@ -1970,6 +2288,13 @@ function formatCost(costK) {
         return '$' + (m % 1 === 0 ? m.toFixed(0) : m.toFixed(1)) + 'M';
     }
     return '$' + costK + 'K';
+}
+// Format cost values: values already in $M → $85M, $1.7B, $8.0T
+function formatCostM(valM) {
+    if (valM >= 1000000) { return '$' + (valM / 1000000).toFixed(1) + 'T'; }
+    if (valM >= 1000) { return '$' + (valM / 1000).toFixed(1) + 'B'; }
+    if (valM >= 1) { return '$' + valM.toFixed(0) + 'M'; }
+    return '$' + (valM * 1000).toFixed(0) + 'K';
 }
 
 // ── Program DRL Templates ──
@@ -4309,9 +4634,9 @@ function calcLifecycle() {
     const totalCost = acqTotal + totalSust + dmsmsCost + techRefresh;
     const costPerHour = (totalCost * 1000000) / (opHours * serviceLife * fleetSize);
 
-    document.getElementById('lcTotalCost').textContent = '$' + totalCost.toFixed(1) + 'B';
-    document.getElementById('lcSustCost').textContent = '$' + totalSust.toFixed(1) + 'B';
-    document.getElementById('lcDmsmsCost').textContent = '$' + dmsmsCost.toFixed(1) + 'B';
+    document.getElementById('lcTotalCost').textContent = formatCostM(totalCost);
+    document.getElementById('lcSustCost').textContent = formatCostM(totalSust);
+    document.getElementById('lcDmsmsCost').textContent = formatCostM(dmsmsCost);
     document.getElementById('lcCostPerHr').textContent = '$' + Math.round(costPerHour).toLocaleString();
 
     const platName = (window.S4_PLATFORMS && S4_PLATFORMS[progKey]) ? S4_PLATFORMS[progKey].n : progKey.toUpperCase();
@@ -4319,14 +4644,14 @@ function calcLifecycle() {
     let html = '<div style="background:rgba(255,153,0,0.05);border:1px solid rgba(255,153,0,0.15);border-radius:10px;padding:1rem;">';
     html += '<h5 style="color:#ff9900;margin-bottom:0.8rem"><i class="fas fa-coins"></i> ' + platName + ' — Lifecycle Cost Projection</h5>';
     html += '<table style="width:100%;border-collapse:collapse;">';
-    html += '<tr style="border-bottom:1px solid rgba(255,255,255,0.05);"><td style="padding:6px;color:var(--steel);">Acquisition (RDT&E + Procurement)</td><td style="padding:6px;color:#00aaff;text-align:right;">$' + acqTotal.toFixed(1) + 'B (' + Math.round(acqTotal/totalCost*100) + '%)</td></tr>';
-    html += '<tr style="border-bottom:1px solid rgba(255,255,255,0.05);"><td style="padding:6px;color:var(--steel);">Operations & Sustainment (' + serviceLife + ' years)</td><td style="padding:6px;color:#00aaff;text-align:right;">$' + totalSust.toFixed(1) + 'B (' + Math.round(totalSust/totalCost*100) + '%)</td></tr>';
-    html += '<tr style="border-bottom:1px solid rgba(255,255,255,0.05);"><td style="padding:6px;color:var(--steel);">DMSMS & Obsolescence Resolution</td><td style="padding:6px;color:#ff3333;text-align:right;">$' + dmsmsCost.toFixed(1) + 'B (' + Math.round(dmsmsCost/totalCost*100) + '%)</td></tr>';
-    html += '<tr style="border-bottom:1px solid rgba(255,255,255,0.05);"><td style="padding:6px;color:var(--steel);">Technology Refresh Cycles (' + Math.floor(serviceLife/5) + ' cycles)</td><td style="padding:6px;color:#ffa500;text-align:right;">$' + techRefresh.toFixed(1) + 'B (' + Math.round(techRefresh/totalCost*100) + '%)</td></tr>';
-    html += '<tr><td style="padding:8px;color:#fff;font-weight:700;font-size:1.05rem;">Total Ownership Cost</td><td style="padding:8px;color:#ff9900;font-weight:700;font-size:1.05rem;text-align:right;">$' + totalCost.toFixed(1) + 'B</td></tr>';
+    html += '<tr style="border-bottom:1px solid rgba(255,255,255,0.05);"><td style="padding:6px;color:var(--steel);">Acquisition (RDT&E + Procurement)</td><td style="padding:6px;color:#00aaff;text-align:right;">' + formatCostM(acqTotal) + ' (' + Math.round(acqTotal/totalCost*100) + '%)</td></tr>';
+    html += '<tr style="border-bottom:1px solid rgba(255,255,255,0.05);"><td style="padding:6px;color:var(--steel);">Operations & Sustainment (' + serviceLife + ' years)</td><td style="padding:6px;color:#00aaff;text-align:right;">' + formatCostM(totalSust) + ' (' + Math.round(totalSust/totalCost*100) + '%)</td></tr>';
+    html += '<tr style="border-bottom:1px solid rgba(255,255,255,0.05);"><td style="padding:6px;color:var(--steel);">DMSMS & Obsolescence Resolution</td><td style="padding:6px;color:#ff3333;text-align:right;">' + formatCostM(dmsmsCost) + ' (' + Math.round(dmsmsCost/totalCost*100) + '%)</td></tr>';
+    html += '<tr style="border-bottom:1px solid rgba(255,255,255,0.05);"><td style="padding:6px;color:var(--steel);">Technology Refresh Cycles (' + Math.floor(serviceLife/5) + ' cycles)</td><td style="padding:6px;color:#ffa500;text-align:right;">' + formatCostM(techRefresh) + ' (' + Math.round(techRefresh/totalCost*100) + '%)</td></tr>';
+    html += '<tr><td style="padding:8px;color:#fff;font-weight:700;font-size:1.05rem;">Total Ownership Cost</td><td style="padding:8px;color:#ff9900;font-weight:700;font-size:1.05rem;text-align:right;">' + formatCostM(totalCost) + '</td></tr>';
     html += '</table>';
     html += '<div style="margin-top:0.8rem;padding:8px;background:rgba(0,170,255,0.06);border-radius:8px;color:var(--steel);font-size:0.85rem;">';
-    html += '<strong style="color:#00aaff;">S4 Ledger Impact:</strong> Automated DMSMS tracking can reduce obsolescence costs by 15-25% (est. savings: $' + (dmsmsCost * 0.20).toFixed(1) + 'B). ';
+    html += '<strong style="color:#00aaff;">S4 Ledger Impact:</strong> Automated DMSMS tracking can reduce obsolescence costs by 15-25% (est. savings: ' + formatCostM(dmsmsCost * 0.20) + '). ';
     html += 'Blockchain-anchored ILS records reduce audit overhead by ~70%. Fleet of ' + fleetSize + ' units × ' + serviceLife + ' years = ' + (opHours * serviceLife * fleetSize).toLocaleString() + ' total operating hours.</div>';
     html += '</div>';
     document.getElementById('lifecycleOutput').innerHTML = html;
@@ -4660,10 +4985,243 @@ function generateROIActions(netSavings, roiPct, paybackMonths) {
 function generateLifecycleActions(progKey, totalCost, dmsmsCost, sustCost) {
     const platName = (window.S4_PLATFORMS && S4_PLATFORMS[progKey]) ? S4_PLATFORMS[progKey].n : progKey;
     const dmsmsSavings = dmsmsCost * 0.20;
-    addActionItem({id:'LC-DMSMS-'+progKey, title:'Lifecycle DMSMS opportunity: ' + platName, detail:'Estimated DMSMS cost: $' + dmsmsCost.toFixed(1) + 'B. Automated tracking can save ~$' + dmsmsSavings.toFixed(1) + 'B (20%) over service life. Recommend S4 Ledger integration for obsolescence management.', severity:'info', source:'lifecycle', owner:platName + ' APML', schedule:'Plan tech refresh cycle'});
+    addActionItem({id:'LC-DMSMS-'+progKey, title:'Lifecycle DMSMS opportunity: ' + platName, detail:'Estimated DMSMS cost: ' + formatCostM(dmsmsCost) + '. Automated tracking can save ~' + formatCostM(dmsmsSavings) + ' (20%) over service life. Recommend S4 Ledger integration for obsolescence management.', severity:'info', source:'lifecycle', owner:platName + ' APML', schedule:'Plan tech refresh cycle'});
     if (sustCost > totalCost * 0.5) {
         addActionItem({id:'LC-SUST-'+progKey, title:'High sustainment ratio: ' + platName, detail:'Sustainment exceeds 50% of total ownership cost. Focus on MTTR reduction, pre-positioned spares, and PBL contracts.', severity:'warning', source:'lifecycle', owner:platName + ' PM', schedule:'Annual review'});
     }
+}
+
+// ═══ ILS INTELLIGENCE HUB ═══
+
+// ── Hub Tab Switching ──
+function switchHubTab(panelId, btn) {
+    document.querySelectorAll('.ils-hub-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.ils-hub-tab').forEach(t => t.classList.remove('active'));
+    const panel = document.getElementById(panelId);
+    if (panel) panel.classList.add('active');
+    if (btn) btn.classList.add('active');
+    // Sync hub panels with data
+    if (panelId === 'hub-actions') renderHubActions();
+    if (panelId === 'hub-calendar') renderCalendar();
+    if (panelId === 'hub-dmsms') syncHubDmsms();
+    if (panelId === 'hub-readiness') syncHubReadiness();
+    if (panelId === 'hub-lifecycle') syncHubLifecycle();
+    if (panelId === 'hub-warranty') syncHubWarranty();
+}
+
+// ── Hub Action Items (mirrors the main action items + hub-specific stats) ──
+function filterHubActions(filter) { renderHubActions(filter); }
+function renderHubActions(filter) {
+    filter = filter || 'all';
+    const container = document.getElementById('hubActionItemsList');
+    if (!container) return;
+    let items = [...s4ActionItems];
+    if (filter === 'critical') items = items.filter(a => a.severity === 'critical' && !a.done);
+    else if (filter === 'warning') items = items.filter(a => a.severity === 'warning' && !a.done);
+    else if (filter === 'info') items = items.filter(a => a.severity === 'info' && !a.done);
+    else if (filter === 'completed') items = items.filter(a => a.done);
+    items.sort((a,b) => { if (a.done !== b.done) return a.done ? 1 : -1; const sev = {critical:0,warning:1,info:2}; return (sev[a.severity]||3)-(sev[b.severity]||3); });
+    // Stats
+    const total = s4ActionItems.length, critical = s4ActionItems.filter(a => a.severity==='critical' && !a.done).length, open = s4ActionItems.filter(a => !a.done).length, done = s4ActionItems.filter(a => a.done).length;
+    const elT = document.getElementById('hubAiTotal'); if (elT) elT.textContent = total;
+    const elC = document.getElementById('hubAiCritical'); if (elC) elC.textContent = critical;
+    const elO = document.getElementById('hubAiOpen'); if (elO) elO.textContent = open;
+    const elD = document.getElementById('hubAiDone'); if (elD) elD.textContent = done;
+    // Badge
+    const badge = document.getElementById('hubActionBadge'); if (badge) badge.textContent = open > 0 ? open : '0';
+    // By-source breakdown
+    const srcEl = document.getElementById('hubActionsBySource');
+    if (srcEl && s4ActionItems.length > 0) {
+        const sources = {};
+        s4ActionItems.filter(a=>!a.done).forEach(a => { sources[a.source||'other'] = (sources[a.source||'other']||0) + 1; });
+        const srcIcons = {dmsms:'⚠️',readiness:'📈',parts:'🔩',warranty:'📋',roi:'💰',lifecycle:'⏳',ils:'🧠',checklist:'✅',drl:'📄'};
+        let sHtml = '';
+        Object.entries(sources).sort((a,b)=>b[1]-a[1]).forEach(([src,cnt]) => {
+            sHtml += '<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.03)"><span>'+(srcIcons[src]||'📌')+' '+src.toUpperCase()+'</span><span style="font-weight:700;color:var(--accent)">'+cnt+'</span></div>';
+        });
+        srcEl.innerHTML = sHtml;
+    }
+    if (!items.length) { container.innerHTML = '<div style="color:var(--muted);text-align:center;padding:2rem;font-size:0.85rem"><i class="fas fa-clipboard-list" style="font-size:2rem;margin-bottom:12px;display:block;opacity:0.3"></i>'+(filter==='all'?'No action items yet. Use the tools to generate tasks.':'No items match this filter.')+'</div>'; return; }
+    const sourceIcons = {dmsms:'<i class="fas fa-exclamation-triangle" style="color:#ff9900"></i>',readiness:'<i class="fas fa-chart-line" style="color:#14f195"></i>',parts:'<i class="fas fa-cogs" style="color:#c9a84c"></i>',warranty:'<i class="fas fa-file-contract" style="color:#c9a84c"></i>',roi:'<i class="fas fa-dollar-sign" style="color:#14f195"></i>',lifecycle:'<i class="fas fa-clock" style="color:#00aaff"></i>',ils:'<i class="fas fa-brain" style="color:#00aaff"></i>',checklist:'<i class="fas fa-check-circle" style="color:#14f195"></i>',drl:'<i class="fas fa-file-alt" style="color:#c9a84c"></i>'};
+    let html = '';
+    items.forEach(item => {
+        html += '<div class="action-item'+(item.done?' completed':'')+'"><div class="ai-check'+(item.done?' done':'')+'" onclick="toggleActionDone(\''+item.id+'\');renderHubActions()"></div><div class="ai-body"><div class="ai-title">'+(sourceIcons[item.source]||'')+' '+item.title+'</div><div class="ai-meta"><span class="ai-tag '+(item.severity||'info')+'">'+(item.severity||'info').toUpperCase()+'</span><span>'+(item.source||'').toUpperCase()+'</span>';
+        if (item.owner) html += '<span><i class="fas fa-user" style="margin-right:3px"></i>'+item.owner+'</span>';
+        if (item.cost) html += '<span style="color:#ffa500">$'+item.cost+'K</span>';
+        if (item.schedule) html += '<span><i class="fas fa-calendar" style="margin-right:3px"></i>'+item.schedule+'</span>';
+        html += '</div>';
+        if (item.detail) html += '<div style="color:var(--steel);font-size:0.78rem;margin-top:4px">'+item.detail+'</div>';
+        html += '</div></div>';
+    });
+    container.innerHTML = html;
+}
+
+// ── Calendar System ──
+let calMonth = new Date().getMonth(), calYear = new Date().getFullYear();
+let calEvents = JSON.parse(localStorage.getItem('s4CalEvents') || '[]');
+function saveCalEvents() { localStorage.setItem('s4CalEvents', JSON.stringify(calEvents)); }
+function calNav(dir) { calMonth += dir; if (calMonth < 0) { calMonth = 11; calYear--; } if (calMonth > 11) { calMonth = 0; calYear++; } renderCalendar(); }
+function calToday() { calMonth = new Date().getMonth(); calYear = new Date().getFullYear(); renderCalendar(); }
+
+function addCalendarEvent() {
+    const title = document.getElementById('calEventTitle').value.trim();
+    const date = document.getElementById('calEventDate').value;
+    const time = document.getElementById('calEventTime').value || '09:00';
+    const type = document.getElementById('calEventType').value;
+    const notes = document.getElementById('calEventNotes').value.trim();
+    if (!title || !date) { s4Notify('Missing Info', 'Please enter a title and date.', 'warning'); return; }
+    calEvents.push({ id: 'CAL-'+Date.now(), title, date, time, type, notes, source: 'custom' });
+    saveCalEvents();
+    renderCalendar();
+    document.getElementById('calEventTitle').value = '';
+    document.getElementById('calEventNotes').value = '';
+    s4Notify('Event Added', '"'+title+'" added to calendar.', 'success');
+}
+
+function getCalendarEvents(year, month) {
+    // Merge: custom events + action items with schedules
+    const events = [...calEvents];
+    // Convert action items to calendar events (use created date + schedule estimate)
+    s4ActionItems.filter(a => !a.done && a.schedule).forEach(a => {
+        const created = a.created ? new Date(a.created) : new Date();
+        let dueDate = new Date(created);
+        if (/immediate/i.test(a.schedule)) { dueDate.setDate(dueDate.getDate() + 7); }
+        else if (/(\d+)\s*days?/i.test(a.schedule)) { dueDate.setDate(dueDate.getDate() + parseInt(RegExp.$1)); }
+        else if (/(\d+)[-–](\d+)\s*months?/i.test(a.schedule)) { dueDate.setMonth(dueDate.getMonth() + parseInt(RegExp.$1)); }
+        else if (/(\d+)\s*months?/i.test(a.schedule)) { dueDate.setMonth(dueDate.getMonth() + parseInt(RegExp.$1)); }
+        else if (/quarterly|review/i.test(a.schedule)) { dueDate.setMonth(dueDate.getMonth() + 3); }
+        else if (/annual/i.test(a.schedule)) { dueDate.setFullYear(dueDate.getFullYear() + 1); }
+        else { dueDate.setMonth(dueDate.getMonth() + 2); }
+        events.push({ id: 'AI-'+a.id, title: a.title, date: dueDate.toISOString().split('T')[0], time: '09:00', type: a.severity || 'info', notes: a.detail || '', source: a.source || 'action' });
+    });
+    return events;
+}
+
+function renderCalendar() {
+    const grid = document.getElementById('calGrid');
+    const monthLabel = document.getElementById('calMonthYear');
+    if (!grid || !monthLabel) return;
+    const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    monthLabel.textContent = months[calMonth] + ' ' + calYear;
+    const firstDay = new Date(calYear, calMonth, 1).getDay();
+    const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
+    const today = new Date();
+    const allEvents = getCalendarEvents(calYear, calMonth);
+    // Clear existing day cells (keep headers)
+    grid.querySelectorAll('.cal-day').forEach(d => d.remove());
+    // Previous month padding
+    const prevDays = new Date(calYear, calMonth, 0).getDate();
+    for (let i = firstDay - 1; i >= 0; i--) {
+        const cell = document.createElement('div');
+        cell.className = 'cal-day other-month';
+        cell.innerHTML = '<div class="cal-day-num">'+(prevDays-i)+'</div>';
+        grid.appendChild(cell);
+    }
+    // Current month days
+    for (let d = 1; d <= daysInMonth; d++) {
+        const dateStr = calYear + '-' + String(calMonth+1).padStart(2,'0') + '-' + String(d).padStart(2,'0');
+        const isToday = today.getFullYear() === calYear && today.getMonth() === calMonth && today.getDate() === d;
+        const dayEvents = allEvents.filter(e => e.date === dateStr);
+        const cell = document.createElement('div');
+        cell.className = 'cal-day' + (isToday ? ' today' : '');
+        let inner = '<div class="cal-day-num">' + d + '</div>';
+        dayEvents.slice(0,3).forEach(ev => {
+            inner += '<div class="cal-event ' + (ev.type||'info') + '" title="' + ev.title + '">' + ev.title.substring(0,20) + (ev.title.length>20?'…':'') + '</div>';
+        });
+        if (dayEvents.length > 3) inner += '<div style="font-size:0.65rem;color:var(--muted)">+' + (dayEvents.length-3) + ' more</div>';
+        inner += '<button class="cal-add-btn" onclick="event.stopPropagation();document.getElementById(\'calEventDate\').value=\''+dateStr+'\';document.getElementById(\'calEventTitle\').focus()">+</button>';
+        cell.innerHTML = inner;
+        grid.appendChild(cell);
+    }
+    // Next month padding
+    const totalCells = firstDay + daysInMonth;
+    const remaining = totalCells % 7 === 0 ? 0 : 7 - (totalCells % 7);
+    for (let i = 1; i <= remaining; i++) {
+        const cell = document.createElement('div');
+        cell.className = 'cal-day other-month';
+        cell.innerHTML = '<div class="cal-day-num">'+i+'</div>';
+        grid.appendChild(cell);
+    }
+    // Upcoming sidebar
+    renderCalUpcoming(allEvents);
+}
+
+function renderCalUpcoming(events) {
+    const el = document.getElementById('calUpcoming');
+    if (!el) return;
+    const today = new Date().toISOString().split('T')[0];
+    const upcoming = events.filter(e => e.date >= today).sort((a,b) => a.date.localeCompare(b.date)).slice(0, 8);
+    if (!upcoming.length) { el.innerHTML = '<div style="color:var(--muted);text-align:center;padding:1rem;font-size:0.82rem">No upcoming events.</div>'; return; }
+    const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    let html = '';
+    upcoming.forEach(ev => {
+        const d = new Date(ev.date + 'T12:00:00');
+        const sevColors = {critical:'#ff3333',warning:'#ffa500',info:'#00aaff',success:'#14f195',custom:'#c9a84c'};
+        html += '<div class="cal-upcoming-item"><div class="cal-upcoming-date" style="color:'+(sevColors[ev.type]||'#00aaff')+'"><div>'+d.getDate()+'</div><div class="cal-month">'+months[d.getMonth()]+'</div></div><div class="cal-upcoming-info"><div class="cal-upcoming-title">'+ev.title+'</div><div class="cal-upcoming-meta">'+(ev.source||'custom').toUpperCase()+' · '+ev.time+'</div></div></div>';
+    });
+    el.innerHTML = html;
+}
+
+// ── Hub Tool Panel Syncing ──
+function syncHubDmsms() {
+    const sel = document.getElementById('hubDmsmsProgram');
+    if (sel && !sel.options.length) { sel.innerHTML = document.getElementById('dmsmsProgram').innerHTML; }
+    // Mirror stats
+    const mirror = (src,dst) => { const s = document.getElementById(src), d = document.getElementById(dst); if(s&&d)d.textContent=s.textContent; };
+    mirror('dmsmsTotalParts','hubDmsmsParts'); mirror('dmsmsAtRisk','hubDmsmsRisk'); mirror('dmsmsResolved','hubDmsmsOk'); mirror('dmsmsCost','hubDmsmsCost');
+    // Mirror results content
+    const srcRes = document.getElementById('dmsmsResults'), dstRes = document.getElementById('hubDmsmsResults');
+    if (srcRes && dstRes && srcRes.innerHTML.length > 50) dstRes.innerHTML = srcRes.innerHTML;
+}
+function syncHubReadiness() {
+    const sel = document.getElementById('hubReadinessProgram');
+    if (sel && !sel.options.length) { sel.innerHTML = document.getElementById('readinessProgram').innerHTML; }
+    const sysSel = document.getElementById('hubReadinessSystem');
+    if (sysSel) { sysSel.innerHTML = document.getElementById('readinessSystem').innerHTML; }
+    const mirror = (src,dst) => { const s = document.getElementById(src), d = document.getElementById(dst); if(s&&d)d.textContent=s.textContent; };
+    mirror('statAo','hubStatAo'); mirror('statAi','hubStatAi');
+}
+function syncHubLifecycle() {
+    const sel = document.getElementById('hubLifecycleProgram');
+    if (sel && !sel.options.length) { sel.innerHTML = document.getElementById('lifecycleProgram').innerHTML; }
+    const mirror = (src,dst) => { const s = document.getElementById(src), d = document.getElementById(dst); if(s&&d)d.textContent=s.textContent; };
+    mirror('lcTotalCost','hubLcTotal'); mirror('lcSustCost','hubLcSustCost'); mirror('lcDmsmsCost','hubLcDmsms'); mirror('lcCostPerHr','hubLcHr');
+}
+function syncHubWarranty() {
+    const sel = document.getElementById('hubWarrantyProgram');
+    if (sel && !sel.options.length) { sel.innerHTML = document.getElementById('warrantyProgram').innerHTML; }
+    const mirror = (src,dst) => { const s = document.getElementById(src), d = document.getElementById(dst); if(s&&d)d.textContent=s.textContent; };
+    mirror('warActive','hubWarActive'); mirror('warExpiring','hubWarExpiring'); mirror('warExpired','hubWarExpired'); mirror('warValue','hubWarValue');
+    const srcRes = document.getElementById('warrantyResults'), dstRes = document.getElementById('hubWarrantyResults');
+    if (srcRes && dstRes && srcRes.innerHTML.length > 50) dstRes.innerHTML = srcRes.innerHTML;
+}
+function syncROIInput() {
+    const fields = [['hubRoiPrograms','roiPrograms'],['hubRoiRecords','roiRecords'],['hubRoiFTE','roiFTE']];
+    fields.forEach(([hub,main]) => { const h = document.getElementById(hub), m = document.getElementById(main); if(h&&m) m.value = h.value; });
+}
+
+// ── Update hub stats when action items change ──
+const _origSaveActionItems = saveActionItems;
+saveActionItems = function() {
+    localStorage.setItem('s4ActionItems', JSON.stringify(s4ActionItems));
+    updateNotifBadge();
+    renderActionItemsPanel();
+    // Also update hub badge
+    const open = s4ActionItems.filter(a => !a.done).length;
+    const badge = document.getElementById('hubActionBadge'); if (badge) badge.textContent = open > 0 ? open : '0';
+};
+
+// ── Hub initialization ──
+function initHub() {
+    // Populate hub selects from main tool selects after they're loaded
+    setTimeout(() => {
+        ['dmsmsProgram:hubDmsmsProgram','readinessProgram:hubReadinessProgram','lifecycleProgram:hubLifecycleProgram','warrantyProgram:hubWarrantyProgram'].forEach(pair => {
+            const [src,dst] = pair.split(':');
+            const s = document.getElementById(src), d = document.getElementById(dst);
+            if (s && d && s.options.length) d.innerHTML = s.innerHTML;
+        });
+        renderHubActions();
+    }, 500);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -4674,6 +5232,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // Restore action items from localStorage
     renderActionItemsPanel();
     updateNotifBadge();
+    // Initialize hub
+    initHub();
+    // Set default calendar date
+    const calDate = document.getElementById('calEventDate');
+    if (calDate) calDate.value = new Date().toISOString().split('T')[0];
 });
 
 </script>

@@ -224,11 +224,14 @@ S4 Ledger is the only solution purpose-built for defense logistics that keeps ze
 | **Phase 4 — Partner & SaaS** | Q1 – Q2 2027 | REST API, SaaS dashboard, DIU / NavalX engagement |
 | **Phase 5 — Scale & Certify** | Q3 2027+ | NIST/CMMC, FedRAMP, production deployments |
 
-### Current Toolset (v3.4.0)
+### Current Toolset (v3.5.0)
 
 | Tool | Description |
 |---|---|
+| **ILS Intelligence Hub** | Unified command center consolidating all tools with cross-tool data syncing and sub-tab navigation |
 | ILS Intelligence Engine | Per-program checklists for 26+ programs with DRL generation |
+| Action Items & Task Tracker | Cross-tool task queue with severity tagging, delegation, cost tracking, and source breakdown |
+| Calendar System | Month-grid calendar with auto-populated events from action item schedules and custom milestones |
 | DMSMS Tracker | Obsolescence monitoring with severity analysis |
 | Readiness Calculator | Ao/Ai computation per MIL-STD-1390D |
 | Parts Cross-Reference | NSN lookup with alternate sourcing |
@@ -238,7 +241,6 @@ S4 Ledger is the only solution purpose-built for defense logistics that keeps ze
 | Record Anchoring | SHA-256 hash anchoring to XRPL ($0.01 SLS per transaction) |
 | Conversational AI | Natural language ILS question answering |
 | Toast Alert System | Real-time severity-coded notifications for expirations, obsolescence, and threshold violations |
-| Action Items & Task Tracker | Unified cross-tool action tracking with localStorage persistence and CSV export |
 
 ---
 

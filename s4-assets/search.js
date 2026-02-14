@@ -47,6 +47,18 @@ const searchIndex = [
     { title: 'Partner Program — System Integrators', tags: 'partner integrator SDK API logistics platform enterprise', page: 'Partners', url: 'partners' },
     { title: 'Partner Program — Government Agencies', tags: 'partner government agency program office fleet maintenance audit', page: 'Partners', url: 'partners' },
     { title: 'Partner Program — Benefits & Integration', tags: 'partner benefits early access co-marketing volume pricing Python REST', page: 'Partners', url: 'partners' },
+    { title: 'ILS Intelligence Hub', tags: 'ILS intelligence hub command center gap analysis readiness DMSMS lifecycle warranty ROI action items calendar', page: 'Demo App', url: 'demo-app' },
+    { title: 'Action Items — Cross-Tool Task Queue', tags: 'action items task queue severity critical warning delegation schedule cost', page: 'Demo App', url: 'demo-app-actions' },
+    { title: 'Calendar — ILS Program Scheduling', tags: 'calendar schedule events milestones deadlines warranty expiry DMSMS review', page: 'Demo App', url: 'demo-app-calendar' },
+    { title: 'DMSMS Tracker — Obsolescence Risk', tags: 'DMSMS obsolescence end of life diminishing manufacturing alternate sources', page: 'Demo App', url: 'demo-app-dmsms' },
+    { title: 'Readiness Calculator — Ao & Ai', tags: 'readiness availability Ao Ai MTBF MTTR MLDT RAM MIL-STD-1390', page: 'Demo App', url: 'demo-app-readiness' },
+    { title: 'Parts Cross-Reference — NSN Lookup', tags: 'parts NSN CAGE cross-reference alternate component lookup', page: 'Demo App', url: 'demo-app-parts' },
+    { title: 'ROI Calculator — Return on Investment', tags: 'ROI return investment savings FTE labor reduction analytics', page: 'Demo App', url: 'demo-app-roi' },
+    { title: 'Lifecycle Cost Estimator — DoD 5000.73', tags: 'lifecycle cost total ownership sustainment acquisition DMSMS mitigation DoD 5000.73', page: 'Demo App', url: 'demo-app-lifecycle' },
+    { title: 'Warranty & Contract Tracker', tags: 'warranty contract OEM CLIN expiration renewal 90-day alert', page: 'Demo App', url: 'demo-app-warranty' },
+    { title: 'SDK Playground — Interactive Python SDK', tags: 'SDK playground Python interactive sandbox hash anchor verify batch', page: 'SDK', url: 'sdk-playground' },
+    { title: 'Live Metrics Dashboard', tags: 'metrics dashboard charts hashes fees record types XRPL transactions', page: 'Metrics', url: 'metrics' },
+    { title: 'Transaction Browser — XRPL Explorer', tags: 'transactions XRPL explorer browser anchor verify hash ledger', page: 'Transactions', url: 'transactions' },
 ];
 
 // Detect base path (home page vs sub-page)
@@ -68,6 +80,18 @@ function resolveUrl(key) {
         'about': base + 's4-about/',
         'investors': base + 's4-investors/',
         'partners': base + 's4-partners/',
+        'demo-app': base + 'demo-app/#tabILS',
+        'demo-app-actions': base + 'demo-app/#tabActions',
+        'demo-app-dmsms': base + 'demo-app/#tabDMSMS',
+        'demo-app-readiness': base + 'demo-app/#tabReadiness',
+        'demo-app-parts': base + 'demo-app/#tabParts',
+        'demo-app-roi': base + 'demo-app/#tabROI',
+        'demo-app-lifecycle': base + 'demo-app/#tabLifecycle',
+        'demo-app-warranty': base + 'demo-app/#tabWarranty',
+        'demo-app-calendar': base + 'demo-app/#tabILS',
+        'sdk-playground': base + 'sdk-playground/',
+        'metrics': base + 'metrics.html',
+        'transactions': base + 'transactions.html',
     };
     return map[key] || base;
 }

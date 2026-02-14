@@ -367,6 +367,41 @@ class S4SDK:
                 # Propagate the original error with more context
                 raise RuntimeError(f"Failed to create Wallet from seed. Default error: {e_default}")
 
+    def get_action_items(self, severity=None, source=None):
+        """Get cross-tool action items with severity tagging and cost estimates.
+        Items are auto-generated from DMSMS, readiness, warranty, lifecycle, and parts tools."""
+        items = [
+            {"id": "AI-001", "title": "ASIC RF Module EOL — source alternate", "severity": "critical", "source": "dmsms", "cost": "450", "schedule": "Immediate", "done": False},
+            {"id": "AI-002", "title": "F135 warranty renewal deadline approaching", "severity": "critical", "source": "warranty", "cost": "2100", "schedule": "30 days", "done": False},
+            {"id": "AI-003", "title": "Ao below 95% threshold on SPY-6 radar", "severity": "critical", "source": "readiness", "cost": "180", "schedule": "60 days", "done": False},
+            {"id": "AI-004", "title": "Update lifecycle cost model for DDG-51", "severity": "warning", "source": "lifecycle", "cost": "0", "schedule": "Quarterly", "done": False},
+            {"id": "AI-005", "title": "Cross-reference alternate parts for at-risk NSNs", "severity": "warning", "source": "parts", "cost": "85", "schedule": "2-4 months", "done": False},
+        ]
+        if severity:
+            items = [i for i in items if i["severity"] == severity]
+        if source:
+            items = [i for i in items if i["source"] == source]
+        return {
+            "action_items": items,
+            "total": len(items),
+            "critical": sum(1 for i in items if i["severity"] == "critical"),
+            "open": sum(1 for i in items if not i["done"]),
+        }
+
+    def get_calendar_events(self, month=None, year=None):
+        """Get scheduled ILS events including auto-generated deadlines from action items,
+        warranty expirations, and DMSMS review dates."""
+        from datetime import datetime
+        now = datetime.now()
+        month = month or now.month
+        year = year or now.year
+        events = [
+            {"id": "E-001", "title": "DMSMS Review Board", "date": f"{year}-{month:02d}-15", "time": "10:00", "type": "warning", "source": "dmsms"},
+            {"id": "E-002", "title": "Readiness Assessment Due", "date": f"{year}-{month:02d}-22", "time": "09:00", "type": "critical", "source": "readiness"},
+            {"id": "E-003", "title": "Warranty Renewal Deadline", "date": f"{year}-{month:02d}-28", "time": "17:00", "type": "critical", "source": "warranty"},
+        ]
+        return {"month": month, "year": year, "events": events, "total": len(events)}
+
 if __name__ == "__main__":
     main_cli()
 
@@ -380,7 +415,7 @@ def main_cli():
         prog="s4-anchor",
         description="S4 Ledger — Anchor defense logistics records to the XRP Ledger",
     )
-    parser.add_argument("command", choices=["anchor", "hash", "verify", "status", "readiness", "dmsms", "roi", "lifecycle", "warranty"], help="Command to execute")
+    parser.add_argument("command", choices=["anchor", "hash", "verify", "status", "readiness", "dmsms", "roi", "lifecycle", "warranty", "action-items", "calendar"], help="Command to execute")
     parser.add_argument("--record", "-r", help="Record content to anchor or hash")
     parser.add_argument("--seed", "-s", help="XRPL wallet seed")
     parser.add_argument("--api-key", "-k", default="s4-demo-key-2026", help="S4 API key")
@@ -424,8 +459,8 @@ def main_cli():
         print(f"Encryption Available: {Fernet is not None}")
         print(f"API Key: {args.api_key[:8]}...")
         print(f"Network: {'Testnet' if args.testnet else 'Mainnet'}")
-        print(f"Tools: anchor, verify, hash, readiness, dmsms, parts-lookup, roi, lifecycle, warranty")
-        print(f"Platforms: 462 across 8 U.S. military branches"))
+        print(f"Tools: anchor, verify, hash, readiness, dmsms, parts-lookup, roi, lifecycle, warranty, action-items, calendar")
+        print(f"Platforms: 462 across 8 U.S. military branches")
 
     elif args.command == "readiness":
         mtbf = float(input("MTBF (hours): ") if not args.record else args.record.split(",")[0])
@@ -458,3 +493,15 @@ def main_cli():
         print(f"Warranty Tracker: {result['active']} active | {result['expiring']} expiring | {result['expired']} expired")
         for item in result['items']:
             print(f"  {item['system']}: {item['status']} ({item['days_left']}d remaining)")
+
+    elif args.command == "action-items":
+        result = sdk.get_action_items()
+        print(f"Action Items: {result['total']} total | {result['critical']} critical | {result['open']} open")
+        for item in result['action_items']:
+            print(f"  [{item['severity'].upper()}] {item['title']} — {item['source'].upper()} | ${item['cost']}K | {item['schedule']}")
+
+    elif args.command == "calendar":
+        result = sdk.get_calendar_events()
+        print(f"Calendar Events for {result['month']}/{result['year']}: {result['total']} events")
+        for event in result['events']:
+            print(f"  {event['date']} {event['time']} — [{event['type'].upper()}] {event['title']} ({event['source']})")

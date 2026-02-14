@@ -715,10 +715,30 @@ class handler(BaseHTTPRequestHandler):
             program = parse_qs(parsed.query).get("program", ["ddg51"])[0]
             items = [{"system": f"System {i+1}", "status": "Active" if i < 6 else "Expiring" if i < 8 else "Expired", "days_left": max(0, 365 - i * 60), "contract_type": "OEM Warranty", "value": 50000 + i * 25000} for i in range(10)]
             self._send_json({"program": program, "items": items, "active": sum(1 for i in items if i["status"] == "Active"), "expiring": sum(1 for i in items if i["status"] == "Expiring"), "total_value": sum(i["value"] for i in items)})
+        elif route == "action-items" or route == "action_items":
+            self._log_request("action-items")
+            # Return sample action items for SDK/API consumers
+            sample_items = [
+                {"id": "AI-001", "title": "ASIC RF Module EOL — source alternate", "severity": "critical", "source": "dmsms", "cost": "450", "schedule": "Immediate", "done": False},
+                {"id": "AI-002", "title": "F135 warranty renewal deadline approaching", "severity": "critical", "source": "warranty", "cost": "2100", "schedule": "30 days", "done": False},
+                {"id": "AI-003", "title": "Ao below 95% threshold on SPY-6 radar", "severity": "critical", "source": "readiness", "cost": "180", "schedule": "60 days", "done": False},
+                {"id": "AI-004", "title": "Update lifecycle cost model for DDG-51", "severity": "warning", "source": "lifecycle", "cost": "0", "schedule": "Quarterly", "done": False},
+                {"id": "AI-005", "title": "Cross-reference alternate parts for NSN 5998-01-456-7890", "severity": "warning", "source": "parts", "cost": "85", "schedule": "2-4 months", "done": False},
+            ]
+            self._send_json({"action_items": sample_items, "total": len(sample_items), "critical": sum(1 for i in sample_items if i["severity"]=="critical"), "open": sum(1 for i in sample_items if not i["done"])})
+        elif route == "calendar":
+            self._log_request("calendar")
+            qs = parse_qs(parsed.query)
+            month = int(qs.get("month", [str(datetime.now(timezone.utc).month)])[0])
+            year = int(qs.get("year", [str(datetime.now(timezone.utc).year)])[0])
+            events = [
+                {"id": "E-001", "title": "DMSMS Review Board", "date": f"{year}-{month:02d}-15", "time": "10:00", "type": "warning", "source": "dmsms"},
+                {"id": "E-002", "title": "Readiness Assessment Due", "date": f"{year}-{month:02d}-22", "time": "09:00", "type": "critical", "source": "readiness"},
+                {"id": "E-003", "title": "Warranty Renewal Deadline", "date": f"{year}-{month:02d}-28", "time": "17:00", "type": "critical", "source": "warranty"},
+            ]
+            self._send_json({"month": month, "year": year, "events": events, "total": len(events)})
         else:
             self._send_json({"error": "Not found", "path": self.path}, 404)
-
-    def do_POST(self):
         parsed = urlparse(self.path)
         route = self._route(parsed.path)
         data = self._read_body()
