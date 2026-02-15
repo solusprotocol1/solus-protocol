@@ -1,7 +1,7 @@
 """
 S4 Ledger — Defense Record Metrics API (Vercel Serverless)
 Real XRPL Testnet integration with graceful fallback.
-160+ defense record types across 9 branches, 600 pre-seeded records.
+156+ defense record types across 9 branches (supports any custom type), 600 pre-seeded records.
 Supabase integration for persistence (optional, graceful fallback).
 API key authentication support.
 Rate limiting, CORS, and request logging.
@@ -63,7 +63,7 @@ BRANCHES = {
 }
 
 # ═══════════════════════════════════════════════════════════════════════
-#  160+ DEFENSE RECORD CATEGORIES
+#  156+ DEFENSE RECORD CATEGORIES (any custom record type also supported)
 # ═══════════════════════════════════════════════════════════════════════
 
 RECORD_CATEGORIES = {

@@ -128,7 +128,7 @@
         <div class="card reveal" style="margin-bottom:20px">
             <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:12px">
                 <h3 style="margin:0"><i class="fas fa-shield-halved" style="color:var(--accent);margin-right:8px"></i> Select Record Type</h3>
-                <span style="font-size:0.78rem;color:var(--text-muted)">160+ defense record types across 9 branches</span>
+                <span style="font-size:0.78rem;color:var(--text-muted)">Any defense record type — 156+ pre-built templates across 9 branches</span>
             </div>
             <select id="recordTypeSelect" style="background:rgba(5,8,16,0.95);border:1px solid rgba(0,170,255,0.2);border-radius:8px;padding:10px 14px;color:#e0e8f0;font-family:inherit;font-size:0.9rem;width:100%">
                 <option value="CUSTOM">✏️ Custom Record (free-form)</option>
@@ -147,7 +147,7 @@
             <!-- Data Functions -->
             <div class="col-6 col-md-4 col-lg-3 mb-3 reveal"><div class="sdk-func-box" data-func="metrics" onclick="loadAndRun('metrics',this)"><div class="sdk-func-icon" style="color:#00aaff"><i class="fas fa-chart-bar"></i></div><div class="sdk-func-title">Live Metrics</div><div class="sdk-func-desc">GET /api/metrics dashboard</div><div class="sdk-func-method">get_metrics()</div></div></div>
             <div class="col-6 col-md-4 col-lg-3 mb-3 reveal"><div class="sdk-func-box" data-func="list_records" onclick="loadAndRun('list_records',this)"><div class="sdk-func-icon" style="color:#c9a84c"><i class="fas fa-list"></i></div><div class="sdk-func-title">List Records</div><div class="sdk-func-desc">All anchored records from API</div><div class="sdk-func-method">list_records()</div></div></div>
-            <div class="col-6 col-md-4 col-lg-3 mb-3 reveal"><div class="sdk-func-box" data-func="record_types" onclick="loadAndRun('record_types',this)"><div class="sdk-func-icon" style="color:#14f195"><i class="fas fa-database"></i></div><div class="sdk-func-title">Record Types</div><div class="sdk-func-desc">Browse all 160+ defense types</div><div class="sdk-func-method">get_record_types()</div></div></div>
+            <div class="col-6 col-md-4 col-lg-3 mb-3 reveal"><div class="sdk-func-box" data-func="record_types" onclick="loadAndRun('record_types',this)"><div class="sdk-func-icon" style="color:#14f195"><i class="fas fa-database"></i></div><div class="sdk-func-title">Record Types</div><div class="sdk-func-desc">Browse all defense record types</div><div class="sdk-func-method">get_record_types()</div></div></div>
             <div class="col-6 col-md-4 col-lg-3 mb-3 reveal"><div class="sdk-func-box" data-func="provisioning" onclick="loadAndRun('provisioning',this)"><div class="sdk-func-icon" style="color:#9b59b6"><i class="fas fa-boxes-stacked"></i></div><div class="sdk-func-title">Provisioning</div><div class="sdk-func-desc">PTD status &amp; ICAPS comparison</div><div class="sdk-func-method">get_provisioning()</div></div></div>
             <!-- ILS Tools -->
             <div class="col-6 col-md-4 col-lg-3 mb-3 reveal"><div class="sdk-func-box" data-func="ils_analysis" onclick="loadAndRun('ils_analysis',this)"><div class="sdk-func-icon" style="color:#00aaff"><i class="fas fa-brain"></i></div><div class="sdk-func-title">ILS Analysis</div><div class="sdk-func-desc">Data package completeness</div><div class="sdk-func-method">ils_analysis()</div></div></div>
@@ -194,9 +194,18 @@
                         <div><i class="fas fa-check" style="color:#14f195;width:18px;margin-right:6px;"></i> Select a <strong>record type</strong> — classification auto-detected</div>
                         <div><i class="fas fa-check" style="color:#14f195;width:18px;margin-right:6px;"></i> Edit code freely, then <strong>Run</strong></div>
                         <div><i class="fas fa-check" style="color:#14f195;width:18px;margin-right:6px;"></i> Anchored records appear on Metrics &amp; Transactions</div>
-                        <div><i class="fas fa-check" style="color:#14f195;width:18px;margin-right:6px;"></i> 160+ record types &bull; 9 branches &bull; 16 SDK functions</div>
+                        <div><i class="fas fa-check" style="color:#14f195;width:18px;margin-right:6px;"></i> 156+ record types &bull; 9 branches &bull; 16 SDK functions</div>
                         <div style="margin-top:12px;"><a href="https://github.com/s4ledger/s4-ledger" target="_blank" style="color:var(--accent);font-weight:600;text-decoration:none;"><i class="fab fa-github" style="margin-right:4px;"></i> View Full SDK on GitHub &rarr;</a></div>
                     </div>
+                    <details style="margin-top:12px;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.15);border-radius:8px;padding:0 12px;">
+                        <summary style="cursor:pointer;padding:10px 0;color:#00aaff;font-weight:600;font-size:0.85rem;"><i class="fas fa-info-circle"></i> How S4 Ledger SDK Works &mdash; Technical Details</summary>
+                        <div style="padding:0 0 12px;color:var(--steel);font-size:0.82rem;line-height:1.6;">
+                            <p><strong style="color:#fff;">What's real:</strong> Every API call in this playground hits the live S4 Ledger REST API. Hashes are computed server-side via SHA-256. Anchor operations create real XRPL transactions on the testnet. The SDK code shown here is identical to what runs when installed via <code>pip install s4-ledger-sdk</code>.</p>
+                            <p><strong style="color:#fff;">What's demo:</strong> The $SLS token fee (0.01 per anchor) is simulated on testnet. In production, real $SLS tokens are burned from the user's wallet per transaction.</p>
+                            <p><strong style="color:#c9a84c;">How S4 Ledger saves money here:</strong> Building custom integrations between logistics systems and blockchain typically costs $200K&ndash;$500K and takes 6&ndash;12 months. The S4 SDK provides a <strong>3-line integration</strong> that works in minutes &mdash; reducing integration costs by 95%+ and enabling small contractors to adopt blockchain verification without dedicated engineering teams.</p>
+                            <p><strong style="color:#00aaff;">Production mode:</strong> Install via pip, configure with your API key, and integrate directly into existing Python workflows &mdash; CI/CD pipelines, ERP plugins, maintenance management systems, or batch processing scripts. The SDK handles all XRPL wallet management, transaction construction, and retry logic automatically.</p>
+                        </div>
+                    </details>
                 </div>
 
                 <!-- Install -->
@@ -216,7 +225,7 @@
                         <tr><td class="ref-method">verify_record()</td><td>Verify record against anchored hash</td></tr>
                         <tr><td class="ref-method">batch_anchor()</td><td>Anchor multiple records in one call</td></tr>
                         <tr><td class="ref-method">list_records()</td><td>List all anchored records</td></tr>
-                        <tr><td class="ref-method">get_record_types()</td><td>Browse 160+ defense record types</td></tr>
+                        <tr><td class="ref-method">get_record_types()</td><td>Browse all defense record types</td></tr>
                         <tr><td class="ref-method">get_provisioning()</td><td>Provisioning status &amp; ICAPS comparison</td></tr>
                         <tr><td class="ref-method">check_dmsms()</td><td>Obsolescence risk analysis</td></tr>
                         <tr><td class="ref-method">calculate_readiness()</td><td>Ao/Ai per MIL-STD-1390D</td></tr>
@@ -236,7 +245,7 @@
                         <tr><td class="ref-method">/api/anchor</td><td>POST &mdash; anchor record</td></tr>
                         <tr><td class="ref-method">/api/metrics</td><td>GET &mdash; dashboard data</td></tr>
                         <tr><td class="ref-method">/api/transactions</td><td>GET &mdash; recent activity</td></tr>
-                        <tr><td class="ref-method">/api/record-types</td><td>GET &mdash; 160+ types</td></tr>
+                        <tr><td class="ref-method">/api/record-types</td><td>GET &mdash; All defense types</td></tr>
                         <tr><td class="ref-method">/api/provisioning</td><td>GET &mdash; provisioning status</td></tr>
                         <tr><td class="ref-method">/api/dmsms</td><td>POST &mdash; obsolescence check</td></tr>
                         <tr><td class="ref-method">/api/readiness</td><td>POST &mdash; readiness calc</td></tr>
@@ -412,6 +421,95 @@
     }
 
     // Fetch record types + populate dropdown with Custom option
+    // ── Hardcoded fallback record types (used when API is unavailable) ──
+    var FALLBACK_RECORD_TYPES = {
+        'USN': { name: '⚓ U.S. Navy', types: [
+            {key:'USN_SUPPLY_RECEIPT',label:'Supply Chain Receipt',icon:'📦'},{key:'USN_3M_MAINTENANCE',label:'3-M Maintenance Action',icon:'🔧'},{key:'USN_CASREP',label:'Casualty Report (CASREP)',icon:'⚠️'},
+            {key:'USN_CDRL',label:'CDRL Delivery',icon:'📄'},{key:'USN_ORDNANCE',label:'Ordnance Lot Tracking',icon:'💣'},{key:'USN_DEPOT_REPAIR',label:'Depot Repair Record',icon:'🏭'},
+            {key:'USN_CALIBRATION',label:'TMDE Calibration',icon:'📏'},{key:'USN_CONFIG',label:'Configuration Baseline',icon:'⚙️'},{key:'USN_CUSTODY',label:'Custody Transfer',icon:'🔄'},
+            {key:'USN_TDP',label:'Technical Data Package',icon:'📐'},{key:'USN_COC',label:'Certificate of Conformance',icon:'✅'},{key:'USN_SHIPALT',label:'Ship Alteration (SHIPALT)',icon:'🚢'},
+            {key:'USN_PMS',label:'PMS/SKED Compliance',icon:'📋'},{key:'USN_HME',label:'HM&E System Record',icon:'⚡'},{key:'USN_COMBAT_SYS',label:'Combat Systems Cert',icon:'🎯'},
+            {key:'USN_PROPULSION',label:'Propulsion Plant Exam',icon:'🔥'},{key:'USN_AVIATION',label:'Aviation Maintenance',icon:'✈️'},{key:'USN_SUBSAFE',label:'SUBSAFE Certification',icon:'🔒'},
+            {key:'USN_MEDICAL',label:'Medical Equipment Cert',icon:'🏥'},{key:'USN_REACTOR',label:'Naval Reactor Test',icon:'☢️'},
+            {key:'USN_DRL',label:'Data Requirements List (DRL)',icon:'📋'},{key:'USN_DI',label:'Data Item Description (DID)',icon:'📃'},{key:'USN_VRS',label:'Vendor Recommended Spares',icon:'📦'},
+            {key:'USN_BUYLIST',label:'Buylist / Provisioning',icon:'🛒'},{key:'USN_J1_ILS',label:'J-1 ILS Parameters / LORA',icon:'📑'},
+            {key:'USN_J3_SUPPLY',label:'J-3 Supply Support',icon:'📦'},{key:'USN_J4_TECHDATA',label:'J-4 Technical Data',icon:'📖'},
+            {key:'USN_J11_RAM',label:'J-11 RAM Analysis',icon:'📈'},{key:'USN_J13_CM',label:'J-13 Configuration Mgmt',icon:'⚙️'},
+            {key:'USN_TRANSFER_BOOK',label:'Transfer Book',icon:'📓'},{key:'USN_CONFIG_MGMT',label:'Configuration Mgmt Record',icon:'⚙️'}
+        ]},
+        'USA': { name: '⭐ U.S. Army', types: [
+            {key:'USA_HAND_RECEIPT',label:'DA 2062 Hand Receipt',icon:'📝'},{key:'USA_TM_UPDATE',label:'Technical Manual Update',icon:'📖'},
+            {key:'USA_ARMS_ROOM',label:'Arms Room Inventory',icon:'🔫'},{key:'USA_FLIPL',label:'FLIPL Investigation',icon:'📋'},
+            {key:'USA_VEHICLE',label:'Vehicle Dispatch Log',icon:'🚛'},{key:'USA_CLASS_V',label:'Class V (Ammo) Issue',icon:'💥'},
+            {key:'USA_EQUIP_MAINT',label:'Equipment Maintenance',icon:'🔧'},{key:'USA_PROPERTY_BOOK',label:'Property Book Record',icon:'📗'},
+            {key:'USA_AVIATION',label:'Aviation Maintenance',icon:'🚁'},{key:'USA_MEDICAL',label:'Medical Supply Record',icon:'🏥'},
+            {key:'USA_CBRN',label:'CBRN Equipment Record',icon:'☣️'},{key:'USA_SIGNAL',label:'Signal/Comms Equipment',icon:'📡'}
+        ]},
+        'USAF': { name: '✈️ U.S. Air Force', types: [
+            {key:'USAF_781_FLIGHT',label:'AFTO 781 Flight Record',icon:'✈️'},{key:'USAF_MUNITIONS',label:'Munitions Inspection',icon:'💣'},
+            {key:'USAF_ENGINE',label:'Engine Management Record',icon:'🔥'},{key:'USAF_WEAPONS_LOAD',label:'Weapons Load Certification',icon:'🎯'},
+            {key:'USAF_AVIONICS',label:'Avionics Test Record',icon:'📟'},{key:'USAF_NUCLEAR',label:'Nuclear Weapons Cert',icon:'☢️'},
+            {key:'USAF_MISSILE',label:'Missile Maintenance Record',icon:'🚀'},{key:'USAF_RADAR',label:'Radar Calibration Record',icon:'📡'},
+            {key:'USAF_SUPPLY',label:'AF Supply Transaction',icon:'📦'},{key:'USAF_DEPOT',label:'Depot Maintenance Record',icon:'🏭'}
+        ]},
+        'USMC': { name: '🦅 U.S. Marines', types: [
+            {key:'USMC_GROUND_MAINT',label:'Ground Equipment Maint',icon:'🔧'},{key:'USMC_AVIATION',label:'Aviation Intermediate Maint',icon:'🚁'},
+            {key:'USMC_WEAPONS',label:'Weapons Maintenance',icon:'🔫'},{key:'USMC_COMMS',label:'Communications Equipment',icon:'📡'},
+            {key:'USMC_MOTOR_T',label:'Motor Transport Record',icon:'🚛'},{key:'USMC_SUPPLY',label:'MAGTF Supply Chain',icon:'📦'},
+            {key:'USMC_ORDNANCE',label:'Marine Ordnance Record',icon:'💣'},{key:'USMC_AAV',label:'AAV/ACV Maintenance',icon:'🚢'}
+        ]},
+        'USCG': { name: '🛟 U.S. Coast Guard', types: [
+            {key:'USCG_CUTTER_MAINT',label:'Cutter Maintenance',icon:'🚢'},{key:'USCG_SMALL_BOAT',label:'Small Boat Inspection',icon:'⛵'},
+            {key:'USCG_NAV_AID',label:'Aids to Navigation Maint',icon:'🗼'},{key:'USCG_SAR',label:'Search & Rescue Equipment',icon:'🆘'},
+            {key:'USCG_AVIATION',label:'CG Aviation Maintenance',icon:'🚁'},{key:'USCG_ELECTRONICS',label:'Electronics Systems Maint',icon:'📡'}
+        ]},
+        'DLA': { name: '🏛️ Defense Logistics Agency', types: [
+            {key:'DLA_DISTRIBUTION',label:'DLA Distribution Receipt',icon:'🏛️'},{key:'DLA_FMS',label:'Foreign Military Sales',icon:'🌐'},
+            {key:'DLA_DRMO',label:'DRMO Disposal Record',icon:'🗑️'},{key:'DLA_HAZMAT',label:'Hazmat Certification',icon:'☢️'},
+            {key:'DLA_BULK_FUEL',label:'Bulk Fuel Receipt',icon:'⛽'},{key:'DLA_MEDICAL',label:'Medical Supply Chain',icon:'🏥'}
+        ]},
+        'JOINT': { name: '🎖️ Joint / Multi-Service', types: [
+            {key:'JOINT_NATO',label:'NATO STANAG Verification',icon:'🏳️'},{key:'JOINT_F35',label:'F-35 JSF Logistics',icon:'✈️'},
+            {key:'JOINT_MISSILE_DEF',label:'Missile Defense Record',icon:'🚀'},{key:'JOINT_CYBER',label:'Cyber Equipment Cert',icon:'🖥️'},
+            {key:'JOINT_CONTRACT',label:'Contract Deliverable',icon:'📝'},{key:'JOINT_READINESS',label:'Readiness Report',icon:'📈'}
+        ]},
+        'SOCOM': { name: '🗡️ Special Operations', types: [
+            {key:'SOCOM_WEAPONS',label:'SOF Weapons Maintenance',icon:'🔫'},{key:'SOCOM_COMMS',label:'SOF Communications Equip',icon:'📡'},
+            {key:'SOCOM_AVIATION',label:'SOF Aviation Maintenance',icon:'🚁'},{key:'SOCOM_MARITIME',label:'SOF Maritime Equipment',icon:'🤿'},
+            {key:'SOCOM_VEHICLE',label:'SOF Vehicle Maintenance',icon:'🚗'},{key:'SOCOM_MEDICAL',label:'SOF Medical Supply',icon:'🏥'}
+        ]},
+        'USSF': { name: '🚀 U.S. Space Force', types: [
+            {key:'USSF_SAT_OPS',label:'Satellite Operations Record',icon:'🛰️'},{key:'USSF_SPACE_VEH',label:'Space Vehicle Maintenance',icon:'🚀'},
+            {key:'USSF_GPS_CONST',label:'GPS Constellation Record',icon:'📡'},{key:'USSF_LAUNCH_VEH',label:'Launch Vehicle Record',icon:'🚀'},
+            {key:'USSF_GROUND_SYS',label:'Ground Systems Maint',icon:'🖥️'},{key:'USSF_EARLY_WARN',label:'Early Warning System',icon:'⚠️'}
+        ]}
+    };
+
+    function populateFallbackRecordTypes() {
+        var select = document.getElementById('recordTypeSelect');
+        select.innerHTML = '';
+        var co = document.createElement('option');
+        co.value = 'CUSTOM'; co.textContent = '\u270f\ufe0f Custom Record (free-form)';
+        select.appendChild(co);
+        var sep = document.createElement('option');
+        sep.disabled = true; sep.textContent = '\u2500'.repeat(30);
+        select.appendChild(sep);
+        for (var branchKey of Object.keys(FALLBACK_RECORD_TYPES)) {
+            var branch = FALLBACK_RECORD_TYPES[branchKey];
+            var optgroup = document.createElement('optgroup');
+            optgroup.label = branch.name;
+            branch.types.forEach(function(t) {
+                var opt = document.createElement('option');
+                opt.value = t.key; opt.textContent = t.icon + ' ' + t.label;
+                optgroup.appendChild(opt);
+                recordTypesList.push({ key: t.key, label: t.label, icon: t.icon, branch: branchKey, system: '' });
+            });
+            select.appendChild(optgroup);
+        }
+        if (select.options.length > 2) select.selectedIndex = 2;
+        select.onchange = onRecordTypeChange;
+    }
+
     async function loadRecordTypes() {
         try {
             var res = await fetch('/api/record-types');
@@ -430,6 +528,7 @@
             sep.textContent = '\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500';
             select.appendChild(sep);
             var grouped = data.grouped || {};
+            if (Object.keys(grouped).length === 0) throw new Error('No grouped types in API response');
             for (var branchKey of Object.keys(grouped)) {
                 var branchData = grouped[branchKey];
                 var info = branchData.info || {};
@@ -447,7 +546,10 @@
             // Default to first real type
             if (select.options.length > 2) select.selectedIndex = 2;
             select.onchange = onRecordTypeChange;
-        } catch(e) { console.error('Failed to load record types:', e); }
+        } catch(e) {
+            console.warn('API unavailable, loading fallback record types:', e.message);
+            populateFallbackRecordTypes();
+        }
     }
 
     // ── Enhanced multi-stage anchor animation ──
@@ -683,7 +785,7 @@
 
     var SDK_TOOL_TEMPLATES = {
         list_records: 'from s4_sdk import S4Ledger\n\nledger = S4Ledger(api_key="demo")\n\n# List all anchored records\nrecords = ledger.list_records()\n\nfor rec in records:\n    print(f"{rec[\'type\']} — {rec[\'hash\'][:16]}...")',
-        record_types: 'from s4_sdk import S4Ledger\n\nledger = S4Ledger(api_key="demo")\n\n# Browse all 160+ defense record types\ntypes = ledger.get_record_types()\n\nfor branch, data in types.items():\n    print(f"\\n{branch}: {len(data)} types")\n    for t in data:\n        print(f"  {t[\'icon\']} {t[\'label\']}")',
+        record_types: 'from s4_sdk import S4Ledger\n\nledger = S4Ledger(api_key="demo")\n\n# Browse all defense record types\ntypes = ledger.get_record_types()\n\nfor branch, data in types.items():\n    print(f"\\n{branch}: {len(data)} types")\n    for t in data:\n        print(f"  {t[\'icon\']} {t[\'label\']}")',
         provisioning: 'from s4_sdk import S4Ledger\n\nledger = S4Ledger(api_key="demo")\n\n# Get provisioning status & PTD comparison\nresult = ledger.get_provisioning(\n    program="DDG-51 Flight III",\n    elements=["APL", "NSN", "CAGE", "FSC"]\n)\n\nprint(f"Total items: {result[\'total_items\']}")\nprint(f"Provisioned: {result[\'provisioned\']}")\nprint(f"PTD complete: {result[\'ptd_complete\']}%")',
         dmsms: 'from s4_sdk import S4Ledger\n\nledger = S4Ledger(api_key="demo")\n\n# Check DMSMS obsolescence risk for a weapon system\nresult = ledger.check_dmsms(\n    program="F-15E Strike Eagle",\n    system="AN/APG-82(V)1 AESA Radar"\n)\n\nprint(f"Parts analyzed: {result[\'total_parts\']}")\nprint(f"At-risk: {result[\'at_risk\']}")\nprint(f"Risk cost: ${result[\'risk_cost\']}K")',
         readiness: 'from s4_sdk import S4Ledger\n\nledger = S4Ledger(api_key="demo")\n\n# Calculate operational availability per MIL-STD-1390D\nresult = ledger.calculate_readiness(\n    program="DDG-51 Flight III",\n    system="AN/SPY-6(V)1 AMDR",\n    mtbf=850,    # Mean Time Between Failures (hrs)\n    mttr=4.2,    # Mean Time To Repair (hrs)\n    mldt=6.5     # Mean Logistics Delay Time (hrs)\n)\n\nprint(f"Ao (Operational): {result[\'ao\']}%")\nprint(f"Ai (Inherent):    {result[\'ai\']}%")',

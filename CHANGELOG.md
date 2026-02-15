@@ -5,6 +5,31 @@ All notable changes to the S4 Ledger project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.8.3] - 2026-02-16
+
+### Added
+- **Audit Vault Expanded Time Filters** — Added Last Week, Last Month, This Year, and Last Year filter options to the Audit Record Vault. Each filter calculates proper date ranges (e.g., Last Month = first day of previous month to first day of current month)
+- **Audit Vault Time Savings** — New paragraph in Vault How It Works explaining how S4 Ledger reduces audit preparation labor by 85–95% (2–6 weeks → minutes)
+- **Anchor Tool How It Works** — New expandable `<details>` section in Anchor panel with What's real, What's demo, How S4 saves money (99.9% cost reduction), and Production mode integration details
+- **Verify Tool How It Works** — New expandable `<details>` section in Verify panel with What's real (cryptographic proof), How S4 saves money (90–98% verification labor reduction), and Production mode (automated batch verification via API)
+- **SDK Playground How It Works Expanded** — Added expandable technical details section to SDK Playground with What's real, What's demo, How S4 saves money (95% integration cost reduction), and Production mode (pip install, API key, CI/CD integration)
+- **SDK Playground Record Type Fallback** — 156+ hardcoded defense record types across 9 branches load automatically when the API is unavailable. Organized by branch with realistic record types, icons, and optgroups. SDK Playground now always has a populated dropdown
+- **Economic Impact & Job Creation Section** — New section on landing page with data-driven economic impact metrics ($2.1B+ DoD manual ILS spend, 85–95% audit reduction, 340+ estimated jobs at scale, 3.4× DoD multiplier, $8M–$17M total impact). Includes job breakdown per 100 programs and small business enablement callout
+- **Economic Impact in Executive Proposal** — Added full Economic Impact & Job Creation section with table and small business enablement narrative
+- **Economic Impact in Internal Pitch** — Added economic growth math summary with Year 5 projections
+- **Login Page Persistent Auth** — Auth state now uses `localStorage` instead of `sessionStorage` for 24-hour persistence across pages. All pages show logged-in user name in navbar via shared `main.js` auth-state awareness
+- **Login Dashboard Cards Updated** — Added Audit Record Vault (LIVE) and Provisioning Tool (LIVE) cards, updated all card descriptions with latest capabilities (13-tool workspace, AI agent, 40+ provisioning items, per-item anchoring). Removed Audit Trail "COMING SOON" card (it's the Vault, now LIVE)
+
+### Changed
+- **"160+ record types" → "Any defense record type"** — Updated 20 instances across 11 files. New messaging: "Supports any defense record type — 156+ pre-built templates across 9 branches." Accurate count (156 actual types in API), and emphasizes that any custom record type can also be anchored
+- **Login Page Navbar** — Now matches landing page navigation (Company dropdown, Products dropdown, Use Cases, Pricing, Roadmap, FAQ, Contact) instead of the previous simplified 5-link navbar
+- **Metrics Page Loading Fix** — Added 8-second fetch timeout with AbortController, `finally` block guarantees "Loading..." text is always cleared even if chart rendering throws, and initializes metricsData on catch path
+- **Metrics ILS Reference** — Updated from "12-tool" to "13-tool" with provisioning added to tool list
+- **Tool Count Audit** — Updated all references from "12 tools" → "13 tools" and "11 tools" → "13 tools" across index.html, WHITEPAPER.md, INVESTOR_PITCH.md, INVESTOR_SLIDE_DECK.md, BAA_TEMPLATE.md, PRODUCTION_READINESS.md, and s4-use-cases/index.html
+- **Branch Count Audit** — Fixed "6 military branches" → "9" in Executive Proposal, "8 branches" → "9" in PRODUCTION_READINESS.md
+- **BAA Template** — Updated to v3.8.3, added Provisioning Tool as 13th integrated tool
+- **Login Session Duration** — Extended from 1-hour to 24-hour sessions
+
 ## [3.8.2] - 2026-02-16
 
 ### Added
@@ -14,7 +39,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Per-Item & Batch Anchoring** — Individual anchor buttons per part row with animation + "Anchor All to XRPL" batch button that processes all items with progress feedback. Both call `/api/anchor`, `saveLocalRecord()`, and update metrics automatically
 - **SDK Playground Function Boxes** — Replaced 12 small buttons with 16 card-style function boxes in a responsive grid. Each box shows icon, title, description, and SDK method name. Clicking any box loads code and immediately executes it
 - **SDK Playground New Functions** — Added List Records, Record Types, and Provisioning runners with full output formatting. Added corresponding Python code templates
-- **Always-Visible Record Type Selector** — Record type dropdown (160+ types, 9 branches) now appears at the top of the SDK Playground instead of being hidden for some functions
+- **Always-Visible Record Type Selector** — Record type dropdown (156+ types, 9 branches) now appears at the top of the SDK Playground instead of being hidden for some functions
 
 ### Changed
 - **Provisioning panel JS** — Complete rewrite with state management (`provItems`, `provCustomItems`, `provView`), localStorage persistence, CSV export with headers, APL grouping, NSN cataloging display

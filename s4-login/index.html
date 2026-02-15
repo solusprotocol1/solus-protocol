@@ -108,12 +108,16 @@
             <a class="navbar-brand" href="../"><img src="../s4-assets/S4Ledger_logo.png" alt="S4 Ledger" class="nav-logo"><span class="brand-text">S4 Ledger</span></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"><i class="fas fa-bars" style="color:#fff"></i></button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav ms-auto" id="navLinks">
                     <li class="nav-item"><a class="nav-link" href="../">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="../demo-app/">Demo</a></li>
+                    <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Company</a><ul class="dropdown-menu" style="background:rgba(5,8,16,0.98);border:1px solid rgba(255,255,255,0.1);"><li><a class="dropdown-item" href="../s4-about/" style="color:#fff;">About Us</a></li><li><a class="dropdown-item" href="../s4-investors/" style="color:#fff;">Investors</a></li><li><a class="dropdown-item" href="../s4-partners/" style="color:#fff;">Partners</a></li></ul></li>
+                    <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Products</a><ul class="dropdown-menu" style="background:rgba(5,8,16,0.98);border:1px solid rgba(255,255,255,0.1);"><li><a class="dropdown-item" href="../demo-app/" style="color:#fff;"><i class="fas fa-play-circle" style="width:18px;margin-right:6px;color:#00aaff;"></i>Demo App</a></li><li><a class="dropdown-item" href="../sdk-playground/" style="color:#fff;"><i class="fas fa-code" style="width:18px;margin-right:6px;color:#c9a84c;"></i>SDK Playground</a></li><li><a class="dropdown-item" href="../metrics.html" style="color:#fff;"><i class="fas fa-chart-bar" style="width:18px;margin-right:6px;color:#00aaff;"></i>Live Metrics</a></li><li><a class="dropdown-item" href="../transactions.html" style="color:#fff;"><i class="fas fa-list" style="width:18px;margin-right:6px;color:#c9a84c;"></i>Transactions</a></li><li><a class="dropdown-item" href="https://github.com/s4ledger/s4-ledger" target="_blank" style="color:#fff;"><i class="fab fa-github" style="width:18px;margin-right:6px;"></i>SDK & Docs</a></li></ul></li>
+                    <li class="nav-item"><a class="nav-link" href="../s4-use-cases/">Use Cases</a></li>
                     <li class="nav-item"><a class="nav-link" href="../s4-pricing/">Pricing</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../s4-roadmap/">Roadmap</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../s4-faq/">FAQ</a></li>
                     <li class="nav-item"><a class="nav-link" href="../s4-contact/">Contact</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="./" style="color:#00aaff !important"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+                    <li class="nav-item" id="navLoginItem"><a class="nav-link active" href="./" style="color:#00aaff !important;font-weight:700"><i class="fas fa-sign-in-alt"></i> Login</a></li>
                 </ul>
             </div>
         </div>
@@ -216,7 +220,7 @@
             <div class="tutorial-step" data-step="3">
                 <div style="text-align:center;font-size:3rem;margin-bottom:12px">⚡</div>
                 <h3>Anchor & Verify Records</h3>
-                <p>Choose from 160+ defense record types across all military branches:</p>
+                <p>Choose from any defense record type — 156+ pre-built templates across all military branches:</p>
                 <div class="tutorial-feature">
                     <i class="fas fa-file-alt"></i>
                     <div><strong>Record Types</strong><br>Supply chain, maintenance, contracts, configuration, safety, cybersecurity, and more — organized by branch.</div>
@@ -272,49 +276,55 @@
             <a href="../demo-app/#tabILS" class="dash-card">
                 <div class="dash-card-icon">🧠</div>
                 <h4>ILS Workspace Analyzer</h4>
-                <p>Upload documents, run gap analysis, and generate ILS readiness reports with AI assistance.</p>
+                <p>13-tool command center — gap analysis, action items, calendar, AI agent (40+ capabilities), readiness scoring, DRL parsing, and document upload across 500+ platforms.</p>
                 <span class="dash-badge live">LIVE</span>
             </a>
             <a href="../demo-app/#tabAnchor" class="dash-card">
                 <div class="dash-card-icon">⚓</div>
                 <h4>Anchor Records</h4>
-                <p>Hash-anchor defense records to the XRPL across 160+ record types and all military branches.</p>
+                <p>Hash-anchor any defense record to the XRPL — 156+ pre-built templates across 9 branches with CUI encryption, classification banners, and instant XRPL verification links.</p>
                 <span class="dash-badge live">LIVE</span>
             </a>
             <a href="../demo-app/#tabVerify" class="dash-card">
                 <div class="dash-card-icon">🔍</div>
                 <h4>Verify Records</h4>
-                <p>Enter a SHA-256 hash to verify any previously anchored record on the XRP Ledger.</p>
+                <p>Cryptographic record verification — paste content to recompute SHA-256 hash and compare against the immutable XRPL anchor. Instant proof of integrity.</p>
+                <span class="dash-badge live">LIVE</span>
+            </a>
+            <a href="../demo-app/#hub-vault" class="dash-card">
+                <div class="dash-card-icon">🏛️</div>
+                <h4>Audit Record Vault</h4>
+                <p>Every anchored record stored with full content, hash, timestamp, branch, and XRPL link. Filterable by time period — instant audit-ready documentation.</p>
+                <span class="dash-badge live">LIVE</span>
+            </a>
+            <a href="../demo-app/#hub-provisioning" class="dash-card">
+                <div class="dash-card-icon">📦</div>
+                <h4>Provisioning Tool</h4>
+                <p>ICAPS-replacement provisioning — 40+ pre-loaded items with spares optimization, PHS&T data, cost analysis, per-item XRPL anchoring, and full export capabilities.</p>
                 <span class="dash-badge live">LIVE</span>
             </a>
             <a href="../sdk-playground/" class="dash-card">
                 <div class="dash-card-icon">🔧</div>
                 <h4>SDK Playground</h4>
-                <p>Test API calls interactively. Anchor, verify, and query records via the REST API.</p>
+                <p>Interactive Python SDK sandbox — 16 functions, card-style testing, any record type. Anchor, verify, batch process, and query records via REST API.</p>
                 <span class="dash-badge live">LIVE</span>
             </a>
             <a href="../metrics.html" class="dash-card">
                 <div class="dash-card-icon">📊</div>
                 <h4>Live Metrics</h4>
-                <p>Real-time platform statistics including anchor counts, active programs, and system health.</p>
+                <p>Real-time platform statistics — anchor counts by branch, active programs, $SLS token activity, and system health monitoring with auto-refresh.</p>
                 <span class="dash-badge live">LIVE</span>
             </a>
             <a href="#" class="dash-card" onclick="event.preventDefault()">
                 <div class="dash-card-icon">🔑</div>
                 <h4>API Keys</h4>
-                <p>Manage your API access keys, rate limits, and integration credentials.</p>
+                <p>Manage your API access keys, rate limits, and integration credentials for automated workflows.</p>
                 <span class="dash-badge beta">BETA</span>
             </a>
             <a href="#" class="dash-card" onclick="event.preventDefault()">
                 <div class="dash-card-icon">👥</div>
                 <h4>Team Management</h4>
-                <p>Invite team members, manage roles, and control access permissions.</p>
-                <span class="dash-badge soon">COMING SOON</span>
-            </a>
-            <a href="#" class="dash-card" onclick="event.preventDefault()">
-                <div class="dash-card-icon">📋</div>
-                <h4>Audit Trail</h4>
-                <p>Complete history of all anchored records with XRPL transaction verification links.</p>
+                <p>Invite team members, manage roles, and control access permissions across your organization.</p>
                 <span class="dash-badge soon">COMING SOON</span>
             </a>
         </div>
@@ -383,6 +393,15 @@
         else { pw.type = 'password'; icon.className = 'fas fa-eye'; }
     }
 
+    function updateNavForAuth(loggedIn, userName) {
+        const navLoginItem = document.getElementById('navLoginItem');
+        if (loggedIn && userName) {
+            navLoginItem.innerHTML = '<a class="nav-link" href="./" style="color:#14f195 !important;font-weight:700"><i class="fas fa-user-circle"></i> ' + userName + '</a>';
+        } else {
+            navLoginItem.innerHTML = '<a class="nav-link active" href="./" style="color:#00aaff !important;font-weight:700"><i class="fas fa-sign-in-alt"></i> Login</a>';
+        }
+    }
+
     function handleLogin(e) {
         e.preventDefault();
         const email = document.getElementById('loginEmail').value.trim();
@@ -401,7 +420,7 @@
         setTimeout(() => {
             // Demo: accept any valid-looking credentials
             const userName = email.split('@')[0].replace(/[^a-zA-Z]/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
-            sessionStorage.setItem('s4_user', JSON.stringify({ email, name: userName, loginTime: Date.now() }));
+            localStorage.setItem('s4_user', JSON.stringify({ email, name: userName, loginTime: Date.now() }));
 
             // Check if first login — show tutorial
             if (!localStorage.getItem('s4_tutorial_done')) {
@@ -423,7 +442,7 @@
         btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Connecting...';
         setTimeout(() => {
             const userName = type === 'cac' ? 'CAC User' : 'SSO User';
-            sessionStorage.setItem('s4_user', JSON.stringify({ email: userName.toLowerCase().replace(' ','') + '@mil.gov', name: userName, loginTime: Date.now() }));
+            localStorage.setItem('s4_user', JSON.stringify({ email: userName.toLowerCase().replace(' ','') + '@mil.gov', name: userName, loginTime: Date.now() }));
             if (!localStorage.getItem('s4_tutorial_done')) { showTutorial(userName); }
             else { showDashboard(userName); }
         }, 1500);
@@ -442,11 +461,12 @@
         document.getElementById('dashboardView').classList.add('active');
         document.getElementById('dashUserName').textContent = name;
         document.getElementById('dashDate').textContent = new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+        updateNavForAuth(true, name);
     }
 
     function closeTutorial() {
         localStorage.setItem('s4_tutorial_done', '1');
-        const user = JSON.parse(sessionStorage.getItem('s4_user') || '{}');
+        const user = JSON.parse(localStorage.getItem('s4_user') || '{}');
         showDashboard(user.name || 'User');
     }
 
@@ -477,12 +497,13 @@
     }
 
     function handleLogout() {
-        sessionStorage.removeItem('s4_user');
+        localStorage.removeItem('s4_user');
         document.getElementById('dashboardView').classList.remove('active');
         document.getElementById('loginView').style.display = 'block';
         document.getElementById('loginBtn').disabled = false;
         document.getElementById('loginBtn').innerHTML = '<i class="fas fa-sign-in-alt"></i> Sign In';
         document.getElementById('loginForm').reset();
+        updateNavForAuth(false);
     }
 
     function showForgotPassword(e) {
@@ -495,10 +516,10 @@
         window.location.href = '../s4-contact/';
     }
 
-    // Auto-login if session exists
+    // Auto-login if session exists (using localStorage for persistence across pages)
     document.addEventListener('DOMContentLoaded', () => {
-        const user = JSON.parse(sessionStorage.getItem('s4_user') || 'null');
-        if (user && Date.now() - user.loginTime < 3600000) { // 1 hour session
+        const user = JSON.parse(localStorage.getItem('s4_user') || 'null');
+        if (user && Date.now() - user.loginTime < 86400000) { // 24 hour session
             showDashboard(user.name);
         }
     });

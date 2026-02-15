@@ -14,10 +14,10 @@ This document tracks every requirement for taking S4 Ledger to a fully productio
 
 | Area | Status | Score |
 |------|--------|-------|
-| **Frontend / Demo** | ILS Workspace (unified command center with 13 sub-tabs), 13 ILS tools + calendar + action items + AI Agent (conversational, 40+ capabilities, vault/compliance/provisioning-aware), universal program support, 160+ record types, 22 sample document types, ITAR warning banner, login portal with tutorial, ICAPS-beating provisioning tool | **99%** |
+| **Frontend / Demo** | ILS Workspace (unified command center with 13 sub-tabs), 13 ILS tools + calendar + action items + AI Agent (conversational, 40+ capabilities, vault/compliance/provisioning-aware), universal program support, 156+ pre-built record types (any defense record type supported), 22 sample document types, ITAR warning banner, login portal with tutorial and persistent auth, ICAPS-beating provisioning tool, Anchor/Verify How It Works panels, economic impact section, expanded audit vault time filters | **99%** |
 | **API / Backend** | Serverless API v3.8, auth scaffolding, 22 endpoints (DMSMS, readiness, parts, ROI, lifecycle, warranty, action-items, calendar, provisioning), rate limiting, security headers (HSTS, X-Frame, CSP), request logging, health check, OpenAPI spec | **80%** |
 | **XRPL Integration** | $SLS LIVE on XRPL Mainnet (100M total, ~15M circ, AMM pools). Demo anchoring uses Testnet. | **85%** |
-| **SDK** | pip-installable with CLI, 12 commands (anchor, hash, verify, status, readiness, dmsms, roi, lifecycle, warranty, action-items, calendar, provisioning), 14 SDK methods, SDK Playground with 12 interactive examples | **77%** |
+| **SDK** | pip-installable with CLI, 12 commands (anchor, hash, verify, status, readiness, dmsms, roi, lifecycle, warranty, action-items, calendar, provisioning), 16 SDK Playground functions with fallback record types, How It Works expanded | **80%** |
 | **Infrastructure** | Vercel deployment, SSL, CDN, PWA manifest, custom 404, security response headers, ITAR notices — needs database, monitoring, load balancing | **60%** |
 | **Authentication** | Login portal with SSO/CAC support (UI), tutorial onboarding, API key system — needs production key management | **45%** |
 | **User Experience** | Full mobile/tablet responsive, ILS Workspace unified UX, conversational AI Agent, 8 interactive tools + calendar, realistic sample data, ITAR compliance notice, branded favicons on all pages | **97%** |
@@ -225,7 +225,7 @@ This document tracks every requirement for taking S4 Ledger to a fully productio
 | Item | Status | Priority | Notes |
 |------|--------|----------|-------|
 | Landing page | ✅ Active | **Critical** | Trust signals, compliance badges, CTA |
-| Demo App | ✅ Active | **Critical** | 8 branches, 119 record types, 12 ILS tools |
+| Demo App | ✅ Active | **Critical** | 9 branches, 156+ record types, 13 ILS tools |
 | SDK Playground | ✅ Active | **Critical** | Interactive with live API |
 | Live Metrics dashboard | ✅ Active | **High** | Real-time with Chart.js |
 | Transaction browser | ✅ Active | **High** | Filters, pagination, CSV export |
@@ -344,7 +344,7 @@ This document tracks every requirement for taking S4 Ledger to a fully productio
 - [x] **Enhanced Tooltips** — `tooltip-enhanced` with `data-tip` for contextual help
 
 ### BAA / Agreement Updates
-- [x] **DDIA v2.0** — BAA_TEMPLATE.md updated with Audit Vault, Doc Library, Compliance Scorecard, and all 12 ILS Workspace tools listed
+- [x] **DDIA v2.0** — BAA_TEMPLATE.md updated with Audit Vault, Doc Library, Compliance Scorecard, and all 13 ILS Workspace tools listed
 
 ---
 

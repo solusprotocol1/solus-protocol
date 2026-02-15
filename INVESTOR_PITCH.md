@@ -41,7 +41,7 @@ Think of S4 Ledger like a notary for defense records. When an ILS manager comple
   - 100M total supply | ~15M circulating | 30M in multi-sig treasury
 - **12 interactive defense tools** live at s4ledger.com/demo-app — not mockups, real working interfaces
 - **462 real defense platforms** across 9 military branches (Navy, Army, Air Force, Marines, Coast Guard, Space Force, SOF, Joint, Civilian)
-- **160+ ILS record categories** mapped to real-world logistics workflows
+- **156+ ILS record categories** mapped to real-world logistics workflows (supports any defense record type)
 - **100+ real defense documents** in searchable reference library (MIL-STDs, OPNAVINSTs, DoD Directives)
 - **Audit Record Vault** — automatic audit trail storage for every anchored record
 - **Compliance Scorecard** — real-time CMMC/NIST/DFARS compliance posture calculator
@@ -71,7 +71,7 @@ Think of S4 Ledger like a notary for defense records. When an ILS manager comple
 | Phase | Timeline | Focus |
 |---|---|---|
 | Foundation | Q4 2025 – Q1 2026 ✅ | SDK, $SLS token, website |
-| Defense Platform | Q1 – Q2 2026 ✅ | 462 platforms, 11 tools, toast alerts, action tracking, ROI/Lifecycle/Warranty calculators |
+| Defense Platform | Q1 – Q2 2026 ✅ | 462 platforms, 13 tools, toast alerts, action tracking, ROI/Lifecycle/Warranty calculators |
 | MVP & Pilot | Q3 – Q4 2026 | Internal pilot on real contract data |
 | Partner & SaaS | Q1 – Q2 2027 | REST API, SaaS dashboard, DIU/NavalX |
 | Scale & Certify | Q3 2027+ | NIST, FedRAMP, production deployments |

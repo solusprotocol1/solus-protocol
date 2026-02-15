@@ -151,7 +151,7 @@
         <!-- ILS Workspace Cross-Link -->
         <div class="card reveal" style="border-color:rgba(0,170,255,0.3);background:linear-gradient(135deg,rgba(0,170,255,0.04),rgba(20,241,149,0.02));text-align:center;margin-top:20px;">
             <h3 style="margin-bottom:8px;"><i class="fas fa-brain" style="color:var(--accent);margin-right:8px;"></i> ILS Workspace</h3>
-            <p style="color:var(--text-secondary);font-size:0.88rem;margin-bottom:16px;">12-tool ILS command center — gap analysis, DMSMS, readiness, lifecycle cost, ROI, warranty, parts, action items, calendar, audit vault, doc library, compliance scorecard & AI agent.</p>
+            <p style="color:var(--text-secondary);font-size:0.88rem;margin-bottom:16px;">13-tool ILS command center — gap analysis, DMSMS, readiness, lifecycle cost, ROI, warranty, parts, action items, calendar, audit vault, doc library, compliance scorecard, provisioning & AI agent.</p>
             <div style="display:flex;justify-content:center;gap:10px;flex-wrap:wrap;">
                 <a href="demo-app/#tabILS" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;padding:10px 22px;border-radius:10px;text-decoration:none;font-weight:700;font-size:0.9rem;transition:all 0.3s;display:inline-flex;align-items:center;gap:6px;"><i class="fas fa-brain"></i> Open ILS Workspace</a>
                 <a href="sdk-playground/" style="background:rgba(201,168,76,0.12);color:var(--gold);border:1px solid rgba(201,168,76,0.3);padding:10px 22px;border-radius:10px;text-decoration:none;font-weight:700;font-size:0.9rem;transition:all 0.3s;display:inline-flex;align-items:center;gap:6px;"><i class="fas fa-code"></i> SDK Playground</a>
@@ -185,7 +185,10 @@
 
         async function loadMetrics() {
             try {
-                const response = await fetch('/api/metrics');
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 8000);
+                const response = await fetch('/api/metrics', { signal: controller.signal });
+                clearTimeout(timeoutId);
                 metricsData = await response.json();
 
                 // Merge locally-anchored records from localStorage
@@ -232,10 +235,10 @@
                 renderTxChart(currentTxView);
                 renderRecentTable();
             } catch (err) {
-                console.warn('API unavailable, loading from localStorage:', err.message);
+                console.warn('Metrics load issue, loading from localStorage:', err.message);
                 // Fallback: build metrics entirely from localStorage records
                 const localRecs = getLocalRecords();
-                metricsData = { total_hashes: 0, total_fees: 0, records_by_type: {}, records_by_branch: {}, individual_records: [], hashes_today: 0, fees_today: 0, this_month: 0, hashes_by_minute: {}, hashes_by_hour: {}, hashes_by_day: {}, hashes_by_week: {}, hashes_by_month: {}, fees_by_minute: {}, fees_by_hour: {}, fees_by_day: {}, fees_by_week: {}, fees_by_month: {} };
+                if (!metricsData) metricsData = { total_hashes: 0, total_fees: 0, records_by_type: {}, records_by_branch: {}, individual_records: [], hashes_today: 0, fees_today: 0, this_month: 0, hashes_by_minute: {}, hashes_by_hour: {}, hashes_by_day: {}, hashes_by_week: {}, hashes_by_month: {}, fees_by_minute: {}, fees_by_hour: {}, fees_by_day: {}, fees_by_week: {}, fees_by_month: {} };
                 const now = new Date();
                 const todayStr = now.toLocaleDateString('en-US');
                 const monthStr = now.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
@@ -283,6 +286,17 @@
                 renderFeeChart(currentFeeView);
                 renderTxChart(currentTxView);
                 renderRecentTable();
+            } finally {
+                // Guarantee the "Loading..." text is always cleared
+                try {
+                    const tbody = document.getElementById('recentBody');
+                    if (tbody && tbody.innerHTML.includes('Loading')) {
+                        if (!metricsData) metricsData = { individual_records: [] };
+                        renderRecentTable();
+                    }
+                } catch(e) {
+                    document.getElementById('recentBody').innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--text-muted);">No records available</td></tr>';
+                }
             }
         }
 

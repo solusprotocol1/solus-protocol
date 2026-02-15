@@ -33,3 +33,21 @@ if (typeof particlesJS !== 'undefined' && document.getElementById('particles-js'
         }
     });
 }
+
+// ── Persistent Auth State (cross-page login awareness) ──
+document.addEventListener('DOMContentLoaded', () => {
+    try {
+        const user = JSON.parse(localStorage.getItem('s4_user') || 'null');
+        if (user && Date.now() - user.loginTime < 86400000) { // 24 hour session
+            // Find login link in navbar and update to show logged-in state
+            const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
+            navLinks.forEach(link => {
+                if (link.href && link.href.includes('s4-login')) {
+                    link.innerHTML = '<i class="fas fa-user-circle"></i> ' + user.name;
+                    link.style.color = '#14f195';
+                    link.style.fontWeight = '700';
+                }
+            });
+        }
+    } catch(e) { /* ignore parse errors */ }
+});

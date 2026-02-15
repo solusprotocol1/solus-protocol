@@ -378,7 +378,7 @@
     <div class="container">
         <h1><i class="fas fa-shield-halved" style="margin-right:12px;color:var(--accent)"></i><span class="gradient-text">Defense Logistics</span> Verification Demo</h1>
         <p>Anchor, verify, and track defense supply chain records across <strong>all military branches</strong> on the XRP Ledger.</p>
-        <div class="badge-live">XRPL Testnet Connected &mdash; 160+ Record Types &bull; 9 Branches</div>
+        <div class="badge-live">XRPL Testnet Connected &mdash; Any Defense Record Type &bull; 156+ Pre-Built &bull; 9 Branches</div>
     </div>
 </section>
 
@@ -451,6 +451,17 @@
                     </div>
                     <div class="col-lg-5">
                         <div class="demo-card">
+                            <details style="margin-bottom:0.5rem;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.15);border-radius:8px;padding:0 12px;">
+                                <summary style="cursor:pointer;padding:10px 0;color:#00aaff;font-weight:600;font-size:0.85rem;"><i class="fas fa-info-circle"></i> How Anchoring Works</summary>
+                                <div style="padding:0 0 12px;color:var(--steel);font-size:0.82rem;line-height:1.6;">
+                                    <p><strong style="color:#fff;">What's real:</strong> Every anchor creates an actual XRPL transaction with your record's SHA-256 hash stored in the memo field. The hash, transaction ID, timestamp, and XRPL explorer link are all genuine blockchain data you can independently verify.</p>
+                                    <p><strong style="color:#fff;">What's demo:</strong> In this testnet demo, the $SLS token fee (0.01 per anchor) is simulated. On mainnet, real $SLS tokens are burned per transaction from the user's XRPL wallet.</p>
+                                    <p><strong style="color:#c9a84c;">How S4 Ledger saves money here:</strong> Traditional defense record notarization costs $25–$150 per document and takes days. S4 Ledger anchors records in seconds for fractions of a cent — a <strong>99.9% cost reduction</strong>. At scale, a program anchoring 10,000 records/year saves $250K–$1.5M annually vs. legacy methods.</p>
+                                    <p><strong style="color:#00aaff;">Production mode:</strong> Integrates with existing logistics systems (GCSS, OARS, NTCSS, LMP) via REST API or Python SDK. Records flow automatically — no manual paste required.</p>
+                                </div>
+                            </details>
+                        </div>
+                        <div class="demo-card">
                             <h3><i class="fas fa-diagram-project"></i> Anchor Flow</h3>
                             <div style="font-size:0.9rem;line-height:2">
                                 <div><span style="color:var(--accent);font-weight:700">1.</span> Select branch & record type</div>
@@ -491,6 +502,17 @@
                         </div>
                     </div>
                     <div class="col-lg-5">
+                        <div class="demo-card">
+                            <details style="margin-bottom:0.5rem;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.15);border-radius:8px;padding:0 12px;">
+                                <summary style="cursor:pointer;padding:10px 0;color:#00aaff;font-weight:600;font-size:0.85rem;"><i class="fas fa-info-circle"></i> How Verification Works</summary>
+                                <div style="padding:0 0 12px;color:var(--steel);font-size:0.82rem;line-height:1.6;">
+                                    <p><strong style="color:#fff;">What's real:</strong> Verification computes the SHA-256 hash of your pasted content and compares it against the hash that was previously anchored on the XRPL. If they match, the record is proven unaltered since the anchor date — the blockchain itself is the proof.</p>
+                                    <p><strong style="color:#fff;">What's demo:</strong> In the demo, verification checks against records anchored in this session or previously stored hashes. On production, it queries the live XRPL directly for the on-chain hash.</p>
+                                    <p><strong style="color:#c9a84c;">How S4 Ledger saves money here:</strong> Manual record verification during audits and inspections can take 40–200 staff-hours per event. S4 Ledger provides instant, cryptographic proof in seconds — reducing verification labor costs by <strong>90–98%</strong> and eliminating disputes about record authenticity.</p>
+                                    <p><strong style="color:#00aaff;">Production mode:</strong> Automated batch verification via API — plug into QA pipelines, audit workflows, and supply chain acceptance processes for continuous integrity monitoring.</p>
+                                </div>
+                            </details>
+                        </div>
                         <div class="demo-card">
                             <h3><i class="fas fa-question-circle"></i> Verification Use Cases</h3>
                             <div style="font-size:0.85rem;line-height:1.8;color:var(--steel)">
@@ -550,7 +572,7 @@
                                 <summary style="cursor:pointer;padding:10px 0;color:#00aaff;font-weight:600;font-size:0.85rem;"><i class="fas fa-info-circle"></i> How S4 Ledger Works — Platform Overview</summary>
                                 <div style="padding:0 0 12px;color:var(--steel);font-size:0.82rem;line-height:1.6;">
                                     <p>S4 Ledger creates <strong>tamper-proof records</strong> for defense logistics by anchoring SHA-256 hashes to the XRP Ledger. The process: (1) A defense record is created in your existing system, (2) S4 Ledger computes a SHA-256 hash, (3) Only the hash is written to an XRPL transaction memo, (4) A micro-fee of 0.01 $SLS is paid per anchor, (5) Anyone with the original can verify it hasn't been altered. <strong>No sensitive data on-chain.</strong></p>
-                                    <p><strong style="color:#fff;">Supported: 160+ record types across 9 branches</strong> — Navy (54), Army (20), Air Force (18), Marines (14), Coast Guard (12), DLA (12), Joint (10), SOCOM (8), Space Force (11).</p>
+                                    <p><strong style="color:#fff;">Supports any defense record type — 156+ pre-built templates across 9 branches</strong> — Navy (54), Army (20), Air Force (18), Marines (14), Coast Guard (12), DLA (12), Joint (10), SOCOM (8), Space Force (11). Any custom record type can also be anchored.</p>
                                     <p><strong style="color:#c9a84c;">$SLS Token:</strong> Live on XRPL Mainnet | Total Supply: 100M | Circulating: ~15M | Anchor Fee: 0.01 $SLS | AMM pools and trustlines active.</p>
                                 </div>
                             </details>
@@ -1078,6 +1100,7 @@
                             <p><strong style="color:#fff;">What's real:</strong> Every record you anchor from any tool (Anchor tab, DMSMS, Readiness, Lifecycle, Warranty, ROI, Parts, Gap Analysis) is automatically saved here with its SHA-256 hash, content preview, timestamp, record type, and XRPL transaction ID. This is your <strong>permanent audit trail</strong> — like a filing cabinet that's also blockchain-verified.</p>
                             <p><strong style="color:#ffa500;">What's demo data:</strong> In demo mode, records are stored in your browser's localStorage. They persist across sessions on this device. In production, records sync to your organization's secure database with role-based access, retention policies, and automated backup.</p>
                             <p><strong style="color:#14f195;">How S4 Ledger saves money here:</strong> Defense programs spend $50K-$200K annually on manual audit trail compilation for IG inspections, DCMA reviews, and milestone briefings. The vault auto-compiles every anchored record with one-click re-verification and instant CSV/XLSX export. No more searching the XRPL manually, no more lost audit evidence, no more "we can't prove when we documented this."</p>
+                            <p><strong style="color:#14f195;">How S4 Ledger saves time on audits:</strong> Traditional audit preparation takes 2-6 weeks of staff time per inspection — gathering records from multiple systems, verifying document versions, compiling evidence binders. The Audit Record Vault reduces this to minutes. Every anchored record is instantly searchable, filterable by time period (today, this week, this month, this year, or any custom range), and re-verifiable against the XRPL with one click. Auditors can independently verify any record's integrity without requesting original documents from the contractor. Government estimates show S4 Ledger can reduce audit preparation labor by 85-95%.</p>
                             <p><strong style="color:#00aaff;">Production mode:</strong> Connect to your organizational database via the S4 API. Records sync across all users with the same program access. Export formats include CSV, XLSX, and PDF for formal audit submissions. Each record's TX Hash links directly to the XRPL public ledger for independent verification.</p>
                         </div>
                     </details>
@@ -1097,7 +1120,11 @@
                             <option value="all">All Records</option>
                             <option value="today">Today</option>
                             <option value="week">This Week</option>
+                            <option value="last_week">Last Week</option>
                             <option value="month">This Month</option>
+                            <option value="last_month">Last Month</option>
+                            <option value="year">This Year</option>
+                            <option value="last_year">Last Year</option>
                         </select>
                     </div>
 
@@ -5494,7 +5521,11 @@ function renderVault() {
     const now = new Date();
     if (timeFilter === 'today') items = items.filter(v => new Date(v.timestamp).toDateString() === now.toDateString());
     else if (timeFilter === 'week') { const w = new Date(now - 7*864e5); items = items.filter(v => new Date(v.timestamp) >= w); }
+    else if (timeFilter === 'last_week') { const w1 = new Date(now - 14*864e5); const w2 = new Date(now - 7*864e5); items = items.filter(v => { const d = new Date(v.timestamp); return d >= w1 && d < w2; }); }
     else if (timeFilter === 'month') { const m = new Date(now.getFullYear(), now.getMonth(), 1); items = items.filter(v => new Date(v.timestamp) >= m); }
+    else if (timeFilter === 'last_month') { const m1 = new Date(now.getFullYear(), now.getMonth()-1, 1); const m2 = new Date(now.getFullYear(), now.getMonth(), 1); items = items.filter(v => { const d = new Date(v.timestamp); return d >= m1 && d < m2; }); }
+    else if (timeFilter === 'year') { const y = new Date(now.getFullYear(), 0, 1); items = items.filter(v => new Date(v.timestamp) >= y); }
+    else if (timeFilter === 'last_year') { const y1 = new Date(now.getFullYear()-1, 0, 1); const y2 = new Date(now.getFullYear(), 0, 1); items = items.filter(v => { const d = new Date(v.timestamp); return d >= y1 && d < y2; }); }
 
     // Update stats
     const el = id => document.getElementById(id);
