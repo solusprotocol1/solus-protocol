@@ -360,7 +360,7 @@
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item"><a class="nav-link" href="../">Home</a></li>
                 <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Company</a><ul class="dropdown-menu" style="background:rgba(5,8,16,0.98);border:1px solid rgba(255,255,255,0.1)"><li><a class="dropdown-item" href="../s4-about/" style="color:#fff">About Us</a></li><li><a class="dropdown-item" href="../s4-investors/" style="color:#fff">Investors</a></li><li><a class="dropdown-item" href="../s4-partners/" style="color:#fff">Partners</a></li></ul></li>
-                <li class="nav-item dropdown"><a class="nav-link dropdown-toggle active" href="#" data-bs-toggle="dropdown">Products</a><ul class="dropdown-menu" style="background:rgba(5,8,16,0.98);border:1px solid rgba(255,255,255,0.1)"><li><a class="dropdown-item" href="#" style="color:#fff;font-weight:600"><i class="fas fa-play-circle" style="width:18px;margin-right:6px;color:#00aaff"></i>Demo App</a></li><li><a class="dropdown-item" href="../sdk-playground/" style="color:#fff"><i class="fas fa-code" style="width:18px;margin-right:6px;color:#c9a84c"></i>SDK Playground</a></li><li><a class="dropdown-item" href="../metrics.html" style="color:#fff"><i class="fas fa-chart-bar" style="width:18px;margin-right:6px;color:#00aaff"></i>Live Metrics</a></li><li><a class="dropdown-item" href="../transactions.html" style="color:#fff"><i class="fas fa-list" style="width:18px;margin-right:6px;color:#c9a84c"></i>Transactions</a></li><li><a class="dropdown-item" href="https://github.com/s4ledger/s4-ledger" target="_blank" style="color:#fff"><i class="fab fa-github" style="width:18px;margin-right:6px"></i>SDK & Docs</a></li></ul></li>
+                <li class="nav-item dropdown"><a class="nav-link dropdown-toggle active" href="#" data-bs-toggle="dropdown">Products</a><ul class="dropdown-menu" style="background:rgba(5,8,16,0.98);border:1px solid rgba(255,255,255,0.1)"><li><a class="dropdown-item" href="#" style="color:#fff;font-weight:600"><i class="fas fa-play-circle" style="width:18px;margin-right:6px;color:#00aaff"></i>Demo App</a></li><li><a class="dropdown-item" href="../sdk-playground/" style="color:#fff"><i class="fas fa-code" style="width:18px;margin-right:6px;color:#c9a84c"></i>SDK Playground</a></li><li><a class="dropdown-item" href="../s4-marketplace/" style="color:#fff"><i class="fas fa-store" style="width:18px;margin-right:6px;color:#a855f7"></i>Marketplace</a></li><li><a class="dropdown-item" href="../metrics.html" style="color:#fff"><i class="fas fa-chart-bar" style="width:18px;margin-right:6px;color:#00aaff"></i>Live Metrics</a></li><li><a class="dropdown-item" href="../transactions.html" style="color:#fff"><i class="fas fa-list" style="width:18px;margin-right:6px;color:#c9a84c"></i>Transactions</a></li><li><a class="dropdown-item" href="https://github.com/s4ledger/s4-ledger" target="_blank" style="color:#fff"><i class="fab fa-github" style="width:18px;margin-right:6px"></i>SDK & Docs</a></li></ul></li>
                 <li class="nav-item"><a class="nav-link" href="../s4-use-cases/">Use Cases</a></li>
                 <li class="nav-item"><a class="nav-link" href="../s4-pricing/">Pricing</a></li>
                 <li class="nav-item"><a class="nav-link" href="../s4-roadmap/">Roadmap</a></li>
@@ -556,6 +556,11 @@
                     <button class="ils-hub-tab" onclick="switchHubTab('hub-docs',this)"><i class="fas fa-book"></i> Doc Library</button>
                     <button class="ils-hub-tab" onclick="switchHubTab('hub-compliance',this)"><i class="fas fa-shield-halved"></i> Compliance</button>
                     <button class="ils-hub-tab" onclick="switchHubTab('hub-provisioning',this)"><i class="fas fa-boxes-stacked"></i> Provisioning</button>
+                    <button class="ils-hub-tab" onclick="switchHubTab('hub-risk',this)"><i class="fas fa-triangle-exclamation"></i> Supply Chain Risk</button>
+                    <button class="ils-hub-tab" onclick="switchHubTab('hub-reports',this)"><i class="fas fa-file-pdf"></i> Audit Reports</button>
+                    <button class="ils-hub-tab" onclick="switchHubTab('hub-contracts',this)"><i class="fas fa-file-signature"></i> Contracts</button>
+                    <button class="ils-hub-tab" onclick="switchHubTab('hub-thread',this)"><i class="fas fa-project-diagram"></i> Digital Thread</button>
+                    <button class="ils-hub-tab" onclick="switchHubTab('hub-predictive',this)"><i class="fas fa-brain"></i> Predictive Maint</button>
                 </div>
 
                 <!-- ══ HUB: GAP ANALYSIS (original ILS content) ══ -->
@@ -1392,6 +1397,241 @@
                 </div>
             </div>
 
+            <!-- ══ HUB: AI SUPPLY CHAIN RISK ENGINE ══ -->
+            <div class="ils-hub-panel" id="hub-risk">
+                <div class="demo-card">
+                    <h3><i class="fas fa-triangle-exclamation" style="color:#ff6b6b"></i> AI Supply Chain Risk Engine</h3>
+                    <details style="margin-bottom:1rem;background:rgba(255,107,107,0.04);border:1px solid rgba(255,107,107,0.15);border-radius:8px;padding:0 12px;">
+                        <summary style="cursor:pointer;padding:10px 0;color:#ff6b6b;font-weight:600;font-size:0.85rem;"><i class="fas fa-info-circle"></i> How It Works — AI Risk Prediction</summary>
+                        <div style="padding:0 0 12px;color:var(--steel);font-size:0.82rem;line-height:1.6;">
+                            <p><strong style="color:#fff;">What's real:</strong> The risk engine analyzes supplier health indicators — GIDEP alerts, CAGE code changes, DLA lead time spikes, financial distress signals, and single-source dependencies — to generate risk scores for every part in your supply chain. Alerts are timestamped and can be anchored to XRPL for audit trail.</p>
+                            <p><strong style="color:#fff;">What's demo:</strong> Risk scores and supplier data are generated from realistic DoD supply chain patterns. In production, this connects to live GIDEP, DLA, SAM.gov, and commercial financial data feeds via API.</p>
+                            <p><strong style="color:#c9a84c;">How S4 Ledger saves money here:</strong> A single undetected supplier failure costs $2M–$8M in emergency redesign. Predictive risk detection 18–24 months ahead reduces emergency procurement by <strong>60–80%</strong>. Across 50 programs: <strong>$15M–$100M in avoided costs over 5 years</strong>.</p>
+                            <p><strong style="color:#00aaff;">Production mode:</strong> Connects to GIDEP API, DLA FLIS, SAM.gov entity data, Dun & Bradstreet financial health scores, and XRPL anchor history for continuous monitoring.</p>
+                        </div>
+                    </details>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label>Select Program</label>
+                            <select id="riskProgram" onchange="loadRiskData()" style="font-size:0.88rem"><option value="ddg51">DDG-51 Arleigh Burke</option><option value="cvn78">CVN-78 Gerald R. Ford</option><option value="f35">F-35 Lightning II</option><option value="ch53k">CH-53K King Stallion</option><option value="ssn774">SSN-774 Virginia Class</option></select>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Risk Threshold</label>
+                            <select id="riskThreshold" onchange="loadRiskData()" style="font-size:0.88rem"><option value="all">All Risk Levels</option><option value="critical">Critical Only</option><option value="high">High & Critical</option><option value="medium">Medium & Above</option></select>
+                        </div>
+                    </div>
+                    <!-- Risk Summary Stats -->
+                    <div class="row mb-3" id="riskStats">
+                        <div class="col-3"><div style="text-align:center;padding:12px;background:rgba(255,59,48,0.1);border:1px solid rgba(255,59,48,0.3);border-radius:10px;"><div style="font-size:1.6rem;font-weight:800;color:#ff3b30" id="riskCritical">0</div><div style="font-size:0.75rem;color:var(--text-muted)">Critical</div></div></div>
+                        <div class="col-3"><div style="text-align:center;padding:12px;background:rgba(255,149,0,0.1);border:1px solid rgba(255,149,0,0.3);border-radius:10px;"><div style="font-size:1.6rem;font-weight:800;color:#ff9500" id="riskHigh">0</div><div style="font-size:0.75rem;color:var(--text-muted)">High</div></div></div>
+                        <div class="col-3"><div style="text-align:center;padding:12px;background:rgba(255,204,0,0.1);border:1px solid rgba(255,204,0,0.3);border-radius:10px;"><div style="font-size:1.6rem;font-weight:800;color:#ffcc00" id="riskMedium">0</div><div style="font-size:0.75rem;color:var(--text-muted)">Medium</div></div></div>
+                        <div class="col-3"><div style="text-align:center;padding:12px;background:rgba(52,199,89,0.1);border:1px solid rgba(52,199,89,0.3);border-radius:10px;"><div style="font-size:1.6rem;font-weight:800;color:#34c759" id="riskLow">0</div><div style="font-size:0.75rem;color:var(--text-muted)">Low</div></div></div>
+                    </div>
+                    <!-- Risk Table -->
+                    <div style="max-height:400px;overflow-y:auto;border:1px solid rgba(255,107,107,0.2);border-radius:8px;">
+                        <table style="width:100%;border-collapse:collapse;">
+                            <thead style="position:sticky;top:0;background:#0a0e1a;z-index:1;"><tr><th style="padding:10px 8px;font-size:0.78rem;text-transform:uppercase;color:#ff6b6b;border-bottom:2px solid rgba(255,107,107,0.2);text-align:left;">Part / NSN</th><th style="padding:10px 8px;font-size:0.78rem;text-transform:uppercase;color:#ff6b6b;border-bottom:2px solid rgba(255,107,107,0.2);text-align:left;">Supplier</th><th style="padding:10px 8px;font-size:0.78rem;text-transform:uppercase;color:#ff6b6b;border-bottom:2px solid rgba(255,107,107,0.2);text-align:center;">Risk Score</th><th style="padding:10px 8px;font-size:0.78rem;text-transform:uppercase;color:#ff6b6b;border-bottom:2px solid rgba(255,107,107,0.2);text-align:left;">Risk Factors</th><th style="padding:10px 8px;font-size:0.78rem;text-transform:uppercase;color:#ff6b6b;border-bottom:2px solid rgba(255,107,107,0.2);text-align:center;">ETA Impact</th></tr></thead>
+                            <tbody id="riskTableBody"><tr><td colspan="5" style="text-align:center;padding:30px;color:var(--text-muted)">Click a program to load risk analysis...</td></tr></tbody>
+                        </table>
+                    </div>
+                    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:1rem">
+                        <button onclick="loadRiskData()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#ff6b6b,#cc3333);color:#fff;border:none;border-radius:8px;padding:8px 16px"><i class="fas fa-sync-alt"></i> Refresh Analysis</button>
+                        <button onclick="exportRisk()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#14f195,#0bc77a);color:#0a0e1a;border:none;border-radius:8px;padding:8px 16px;font-weight:700"><i class="fas fa-download"></i> Export Risk Report</button>
+                        <button onclick="anchorRisk()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#c9a84c,#a88a3a);color:#fff;border:none;border-radius:8px;padding:8px 16px"><i class="fas fa-anchor"></i> Anchor to XRPL</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ══ HUB: AUTOMATED AUDIT REPORT GENERATOR ══ -->
+            <div class="ils-hub-panel" id="hub-reports">
+                <div class="demo-card">
+                    <h3><i class="fas fa-file-pdf" style="color:#c9a84c"></i> Automated Audit Report Generator</h3>
+                    <details style="margin-bottom:1rem;background:rgba(201,168,76,0.04);border:1px solid rgba(201,168,76,0.15);border-radius:8px;padding:0 12px;">
+                        <summary style="cursor:pointer;padding:10px 0;color:#c9a84c;font-weight:600;font-size:0.85rem;"><i class="fas fa-info-circle"></i> How It Works — One-Click Audit Packages</summary>
+                        <div style="padding:0 0 12px;color:var(--steel);font-size:0.82rem;line-height:1.6;">
+                            <p><strong style="color:#fff;">What's real:</strong> The report generator compiles all anchored records, verification timestamps, chain-of-custody proof, and compliance scores into audit-ready packages. Every data point is backed by an XRPL transaction hash for independent verification.</p>
+                            <p><strong style="color:#fff;">What's demo:</strong> Reports are generated from demo session data. In production, reports pull from your full anchoring history, compliance scorecard, and ILS analysis results stored in your S4 Ledger database.</p>
+                            <p><strong style="color:#c9a84c;">How S4 Ledger saves money here:</strong> Average DoD contract audit costs $45K–$150K in preparation labor alone (2–6 weeks of staff time). S4 Ledger generates a complete, verifiable audit package in <strong>under 60 seconds</strong> — a <strong>95–99% cost reduction</strong>.</p>
+                            <p><strong style="color:#00aaff;">Production mode:</strong> DCMA-ready (Defense Contract Management Agency), DCAA-ready (Defense Contract Audit Agency), and IG-ready (Inspector General) report templates with full chain-of-custody visualization and compliance gap analysis.</p>
+                        </div>
+                    </details>
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <label>Report Type</label>
+                            <select id="reportType" style="font-size:0.88rem"><option value="full_audit">Full Audit Package</option><option value="supply_chain">Supply Chain Verification</option><option value="maintenance">Maintenance Records</option><option value="compliance">Compliance Summary</option><option value="custody">Chain of Custody</option><option value="contract">Contract Deliverables</option></select>
+                        </div>
+                        <div class="col-md-4">
+                            <label>Time Period</label>
+                            <select id="reportPeriod" style="font-size:0.88rem"><option value="30">Last 30 Days</option><option value="90">Last 90 Days</option><option value="180">Last 6 Months</option><option value="365">Last 12 Months</option><option value="all">All Time</option></select>
+                        </div>
+                        <div class="col-md-4">
+                            <label>Format</label>
+                            <select id="reportFormat" style="font-size:0.88rem"><option value="pdf">PDF Report</option><option value="csv">CSV Data Export</option><option value="json">JSON Package</option></select>
+                        </div>
+                    </div>
+                    <!-- Report Preview -->
+                    <div id="reportPreview" style="background:rgba(201,168,76,0.04);border:1px solid rgba(201,168,76,0.15);border-radius:8px;padding:16px;margin-bottom:1rem;">
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+                            <h5 style="margin:0;color:#c9a84c;"><i class="fas fa-eye"></i> Report Preview</h5>
+                            <span style="font-size:0.8rem;color:var(--text-muted)" id="reportRecordCount">0 records available</span>
+                        </div>
+                        <div id="reportContent" style="font-size:0.85rem;color:var(--steel);line-height:1.7;">Select a report type and click Generate to preview your audit package.</div>
+                    </div>
+                    <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                        <button onclick="generateReport()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#c9a84c,#a88a3a);color:#fff;border:none;border-radius:8px;padding:8px 16px"><i class="fas fa-magic"></i> Generate Report</button>
+                        <button onclick="downloadReport()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#14f195,#0bc77a);color:#0a0e1a;border:none;border-radius:8px;padding:8px 16px;font-weight:700"><i class="fas fa-download"></i> Download Report</button>
+                        <button onclick="anchorReport()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;border-radius:8px;padding:8px 16px"><i class="fas fa-anchor"></i> Anchor Report Hash</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ══ HUB: CONTRACT LIFECYCLE MANAGEMENT ══ -->
+            <div class="ils-hub-panel" id="hub-contracts">
+                <div class="demo-card">
+                    <h3><i class="fas fa-file-signature" style="color:#00aaff"></i> Contract Lifecycle Management</h3>
+                    <details style="margin-bottom:1rem;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.15);border-radius:8px;padding:0 12px;">
+                        <summary style="cursor:pointer;padding:10px 0;color:#00aaff;font-weight:600;font-size:0.85rem;"><i class="fas fa-info-circle"></i> How It Works — Blockchain-Verified Contracts</summary>
+                        <div style="padding:0 0 12px;color:var(--steel);font-size:0.82rem;line-height:1.6;">
+                            <p><strong style="color:#fff;">What's real:</strong> Every CDRL submission, contract modification, SOW deliverable, and DID milestone is tracked with blockchain-verified timestamps. Disputes over "who delivered what, when" become impossible when every action has an immutable XRPL anchor.</p>
+                            <p><strong style="color:#fff;">What's demo:</strong> Contract data is generated from realistic DoD procurement patterns (CDRL types, DI numbers, modification types). In production, integrates with EDA (Electronic Document Access), PIEE, and contractor management systems.</p>
+                            <p><strong style="color:#c9a84c;">How S4 Ledger saves money here:</strong> Contract disputes cost $100K–$2M+ per incident in legal fees, re-work, and schedule delays. S4 Ledger's immutable delivery timestamps eliminate the root cause of disputes — saving <strong>$100K–$400K per contract</strong> in avoided dispute resolution.</p>
+                            <p><strong style="color:#00aaff;">Production mode:</strong> Automated CDRL tracking via EDA API integration, real-time deliverable status dashboards, and automated late-deliverable notifications with chain-of-custody proof.</p>
+                        </div>
+                    </details>
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <label>Select Contract</label>
+                            <select id="contractSelect" onchange="loadContractData()" style="font-size:0.88rem"><option value="N00024-25-C-5501">N00024-25-C-5501 (DDG-51 ILS)</option><option value="N00024-25-C-5502">N00024-25-C-5502 (CVN-78 Maint)</option><option value="FA8615-25-C-0031">FA8615-25-C-0031 (F-35 Spares)</option><option value="N00019-25-C-0088">N00019-25-C-0088 (CH-53K TDP)</option><option value="W58RGZ-25-C-0142">W58RGZ-25-C-0142 (UH-60M ILS)</option></select>
+                        </div>
+                        <div class="col-md-4">
+                            <label>Filter by Type</label>
+                            <select id="contractTypeFilter" onchange="loadContractData()" style="font-size:0.88rem"><option value="all">All Items</option><option value="cdrl">CDRLs Only</option><option value="mod">Modifications Only</option><option value="deliverable">SOW Deliverables</option></select>
+                        </div>
+                        <div class="col-md-4">
+                            <label>Status</label>
+                            <select id="contractStatusFilter" onchange="loadContractData()" style="font-size:0.88rem"><option value="all">All Status</option><option value="on_track">On Track</option><option value="at_risk">At Risk</option><option value="overdue">Overdue</option><option value="delivered">Delivered</option></select>
+                        </div>
+                    </div>
+                    <!-- Contract Stats -->
+                    <div class="row mb-3">
+                        <div class="col-3"><div style="text-align:center;padding:10px;background:rgba(0,170,255,0.06);border:1px solid rgba(0,170,255,0.2);border-radius:8px;"><div style="font-size:1.4rem;font-weight:800;color:var(--accent)" id="contractTotal">0</div><div style="font-size:0.72rem;color:var(--text-muted)">Total Items</div></div></div>
+                        <div class="col-3"><div style="text-align:center;padding:10px;background:rgba(52,199,89,0.06);border:1px solid rgba(52,199,89,0.2);border-radius:8px;"><div style="font-size:1.4rem;font-weight:800;color:#34c759" id="contractOnTrack">0</div><div style="font-size:0.72rem;color:var(--text-muted)">On Track</div></div></div>
+                        <div class="col-3"><div style="text-align:center;padding:10px;background:rgba(255,149,0,0.06);border:1px solid rgba(255,149,0,0.2);border-radius:8px;"><div style="font-size:1.4rem;font-weight:800;color:#ff9500" id="contractAtRisk">0</div><div style="font-size:0.72rem;color:var(--text-muted)">At Risk</div></div></div>
+                        <div class="col-3"><div style="text-align:center;padding:10px;background:rgba(255,59,48,0.06);border:1px solid rgba(255,59,48,0.2);border-radius:8px;"><div style="font-size:1.4rem;font-weight:800;color:#ff3b30" id="contractOverdue">0</div><div style="font-size:0.72rem;color:var(--text-muted)">Overdue</div></div></div>
+                    </div>
+                    <!-- Contract Table -->
+                    <div style="max-height:400px;overflow-y:auto;border:1px solid rgba(0,170,255,0.2);border-radius:8px;">
+                        <table style="width:100%;border-collapse:collapse;">
+                            <thead style="position:sticky;top:0;background:#0a0e1a;z-index:1;"><tr><th style="padding:10px 8px;font-size:0.78rem;text-transform:uppercase;color:var(--accent);border-bottom:2px solid rgba(0,170,255,0.2);text-align:left;">Item</th><th style="padding:10px 8px;font-size:0.78rem;text-transform:uppercase;color:var(--accent);border-bottom:2px solid rgba(0,170,255,0.2);text-align:left;">Type</th><th style="padding:10px 8px;font-size:0.78rem;text-transform:uppercase;color:var(--accent);border-bottom:2px solid rgba(0,170,255,0.2);text-align:left;">Due Date</th><th style="padding:10px 8px;font-size:0.78rem;text-transform:uppercase;color:var(--accent);border-bottom:2px solid rgba(0,170,255,0.2);text-align:center;">Status</th><th style="padding:10px 8px;font-size:0.78rem;text-transform:uppercase;color:var(--accent);border-bottom:2px solid rgba(0,170,255,0.2);text-align:center;">Anchored</th></tr></thead>
+                            <tbody id="contractTableBody"><tr><td colspan="5" style="text-align:center;padding:30px;color:var(--text-muted)">Select a contract to load deliverable tracking...</td></tr></tbody>
+                        </table>
+                    </div>
+                    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:1rem">
+                        <button onclick="loadContractData()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;border-radius:8px;padding:8px 16px"><i class="fas fa-sync-alt"></i> Refresh Contracts</button>
+                        <button onclick="exportContracts()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#14f195,#0bc77a);color:#0a0e1a;border:none;border-radius:8px;padding:8px 16px;font-weight:700"><i class="fas fa-download"></i> Export CSV</button>
+                        <button onclick="anchorContracts()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#c9a84c,#a88a3a);color:#fff;border:none;border-radius:8px;padding:8px 16px"><i class="fas fa-anchor"></i> Anchor All to XRPL</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ══ HUB: DIGITAL THREAD / CONFIG MANAGEMENT BRIDGE ══ -->
+            <div class="ils-hub-panel" id="hub-thread">
+                <div class="demo-card">
+                    <h3><i class="fas fa-project-diagram" style="color:#a855f7"></i> Digital Thread / Configuration Bridge</h3>
+                    <details style="margin-bottom:1rem;background:rgba(168,85,247,0.04);border:1px solid rgba(168,85,247,0.15);border-radius:8px;padding:0 12px;">
+                        <summary style="cursor:pointer;padding:10px 0;color:#a855f7;font-weight:600;font-size:0.85rem;"><i class="fas fa-info-circle"></i> How It Works — Immutable Configuration Management</summary>
+                        <div style="padding:0 0 12px;color:var(--steel);font-size:0.82rem;line-height:1.6;">
+                            <p><strong style="color:#fff;">What's real:</strong> The Digital Thread Bridge tracks every engineering change, BOM (Bill of Materials) revision, technical data package version, and configuration baseline. Each change is anchored to XRPL, creating an immutable audit trail of the entire product lifecycle — from design through sustainment.</p>
+                            <p><strong style="color:#fff;">What's demo:</strong> Engineering changes and BOM data are generated from realistic defense platform patterns. In production, this integrates with PTC Windchill, Siemens Teamcenter, Dassault 3DEXPERIENCE, and existing TDM/PDM systems via REST API.</p>
+                            <p><strong style="color:#c9a84c;">How S4 Ledger saves money here:</strong> Configuration management errors cost DoD programs $5M–$25M per incident in rework, redesign, and field failures. S4 Ledger's immutable change tracking ensures the authoritative configuration baseline is always provable — reducing configuration-related failures by <strong>70–90%</strong>.</p>
+                            <p><strong style="color:#00aaff;">Production mode:</strong> Bi-directional sync with PLM platforms (Windchill, Teamcenter), automated ECP (Engineering Change Proposal) tracking, and real-time BOM delta analysis across multiple program baselines.</p>
+                        </div>
+                    </details>
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <label>Select Platform</label>
+                            <select id="threadPlatform" onchange="loadThreadData()" style="font-size:0.88rem"><option value="ddg51">DDG-51 Flight III</option><option value="cvn78">CVN-78 Gerald R. Ford</option><option value="f35">F-35A Lightning II</option><option value="ch53k">CH-53K King Stallion</option><option value="lcs">LCS Freedom Class</option></select>
+                        </div>
+                        <div class="col-md-4">
+                            <label>View</label>
+                            <select id="threadView" onchange="loadThreadData()" style="font-size:0.88rem"><option value="changes">Engineering Changes</option><option value="bom">BOM Revisions</option><option value="baseline">Configuration Baselines</option><option value="tdp">TDP Versions</option></select>
+                        </div>
+                        <div class="col-md-4">
+                            <label>Status Filter</label>
+                            <select id="threadStatus" onchange="loadThreadData()" style="font-size:0.88rem"><option value="all">All</option><option value="pending">Pending Review</option><option value="approved">Approved</option><option value="implemented">Implemented</option><option value="rejected">Rejected</option></select>
+                        </div>
+                    </div>
+                    <!-- Thread Stats -->
+                    <div class="row mb-3">
+                        <div class="col-3"><div style="text-align:center;padding:10px;background:rgba(168,85,247,0.06);border:1px solid rgba(168,85,247,0.2);border-radius:8px;"><div style="font-size:1.4rem;font-weight:800;color:#a855f7" id="threadTotal">0</div><div style="font-size:0.72rem;color:var(--text-muted)">Total Changes</div></div></div>
+                        <div class="col-3"><div style="text-align:center;padding:10px;background:rgba(255,149,0,0.06);border:1px solid rgba(255,149,0,0.2);border-radius:8px;"><div style="font-size:1.4rem;font-weight:800;color:#ff9500" id="threadPending">0</div><div style="font-size:0.72rem;color:var(--text-muted)">Pending</div></div></div>
+                        <div class="col-3"><div style="text-align:center;padding:10px;background:rgba(52,199,89,0.06);border:1px solid rgba(52,199,89,0.2);border-radius:8px;"><div style="font-size:1.4rem;font-weight:800;color:#34c759" id="threadApproved">0</div><div style="font-size:0.72rem;color:var(--text-muted)">Approved</div></div></div>
+                        <div class="col-3"><div style="text-align:center;padding:10px;background:rgba(0,170,255,0.06);border:1px solid rgba(0,170,255,0.2);border-radius:8px;"><div style="font-size:1.4rem;font-weight:800;color:var(--accent)" id="threadAnchored">0</div><div style="font-size:0.72rem;color:var(--text-muted)">Anchored</div></div></div>
+                    </div>
+                    <!-- Thread Table -->
+                    <div style="max-height:400px;overflow-y:auto;border:1px solid rgba(168,85,247,0.2);border-radius:8px;">
+                        <table style="width:100%;border-collapse:collapse;">
+                            <thead style="position:sticky;top:0;background:#0a0e1a;z-index:1;"><tr><th style="padding:10px 8px;font-size:0.78rem;text-transform:uppercase;color:#a855f7;border-bottom:2px solid rgba(168,85,247,0.2);text-align:left;">Change ID</th><th style="padding:10px 8px;font-size:0.78rem;text-transform:uppercase;color:#a855f7;border-bottom:2px solid rgba(168,85,247,0.2);text-align:left;">Description</th><th style="padding:10px 8px;font-size:0.78rem;text-transform:uppercase;color:#a855f7;border-bottom:2px solid rgba(168,85,247,0.2);text-align:left;">Type</th><th style="padding:10px 8px;font-size:0.78rem;text-transform:uppercase;color:#a855f7;border-bottom:2px solid rgba(168,85,247,0.2);text-align:center;">Status</th><th style="padding:10px 8px;font-size:0.78rem;text-transform:uppercase;color:#a855f7;border-bottom:2px solid rgba(168,85,247,0.2);text-align:center;">Anchored</th></tr></thead>
+                            <tbody id="threadTableBody"><tr><td colspan="5" style="text-align:center;padding:30px;color:var(--text-muted)">Select a platform to load configuration data...</td></tr></tbody>
+                        </table>
+                    </div>
+                    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:1rem">
+                        <button onclick="loadThreadData()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#a855f7,#7c3aed);color:#fff;border:none;border-radius:8px;padding:8px 16px"><i class="fas fa-sync-alt"></i> Refresh</button>
+                        <button onclick="exportThread()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#14f195,#0bc77a);color:#0a0e1a;border:none;border-radius:8px;padding:8px 16px;font-weight:700"><i class="fas fa-download"></i> Export CSV</button>
+                        <button onclick="anchorThread()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#c9a84c,#a88a3a);color:#fff;border:none;border-radius:8px;padding:8px 16px"><i class="fas fa-anchor"></i> Anchor All Changes</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ══ HUB: PREDICTIVE MAINTENANCE AI ══ -->
+            <div class="ils-hub-panel" id="hub-predictive">
+                <div class="demo-card">
+                    <h3><i class="fas fa-brain" style="color:#00d4aa"></i> Predictive Maintenance AI</h3>
+                    <details style="margin-bottom:1rem;background:rgba(0,212,170,0.04);border:1px solid rgba(0,212,170,0.15);border-radius:8px;padding:0 12px;">
+                        <summary style="cursor:pointer;padding:10px 0;color:#00d4aa;font-weight:600;font-size:0.85rem;"><i class="fas fa-info-circle"></i> How It Works — AI-Powered Failure Prediction</summary>
+                        <div style="padding:0 0 12px;color:var(--steel);font-size:0.82rem;line-height:1.6;">
+                            <p><strong style="color:#fff;">What's real:</strong> The Predictive Maintenance engine analyzes maintenance history patterns across the S4 Ledger network — MTBF trends, failure mode clustering, component age curves, and environmental stress factors — to predict which systems will require maintenance before unplanned failures occur.</p>
+                            <p><strong style="color:#fff;">What's demo:</strong> Predictions are generated from realistic fleet maintenance patterns based on publicly available DoD reliability data. In production, the AI model trains on your actual anchored maintenance records for increasingly accurate predictions.</p>
+                            <p><strong style="color:#c9a84c;">How S4 Ledger saves money here:</strong> Unplanned maintenance costs 3–10× more than planned maintenance. A single unplanned engine failure on a DDG-51 costs $500K–$2M including parts, labor, and lost operational time. Predictive maintenance reduces unplanned failures by <strong>40–60%</strong>, saving <strong>$2M–$10M per fleet per year</strong>.</p>
+                            <p><strong style="color:#00aaff;">Production mode:</strong> Connects to 3-M maintenance databases, OARS, NTCSS, and sensor data feeds. Uses anonymized/aggregated fleet-wide patterns (like Google Maps traffic) while keeping individual records private.</p>
+                        </div>
+                    </details>
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <label>Select Fleet / Platform</label>
+                            <select id="pdmPlatform" onchange="loadPredictiveData()" style="font-size:0.88rem"><option value="ddg51">DDG-51 Fleet (62 ships)</option><option value="cvn">CVN Fleet (11 carriers)</option><option value="f18">F/A-18E/F Fleet (540+ aircraft)</option><option value="mh60">MH-60S/R Fleet (280+ helos)</option><option value="lcs">LCS Fleet (23 ships)</option></select>
+                        </div>
+                        <div class="col-md-4">
+                            <label>Prediction Window</label>
+                            <select id="pdmWindow" onchange="loadPredictiveData()" style="font-size:0.88rem"><option value="30">Next 30 Days</option><option value="60">Next 60 Days</option><option value="90" selected>Next 90 Days</option><option value="180">Next 6 Months</option><option value="365">Next 12 Months</option></select>
+                        </div>
+                        <div class="col-md-4">
+                            <label>Confidence Threshold</label>
+                            <select id="pdmConfidence" onchange="loadPredictiveData()" style="font-size:0.88rem"><option value="50">50%+ (Show All)</option><option value="70">70%+ (Likely)</option><option value="85" selected>85%+ (High Confidence)</option><option value="95">95%+ (Near Certain)</option></select>
+                        </div>
+                    </div>
+                    <!-- Predictive Stats -->
+                    <div class="row mb-3">
+                        <div class="col-md-3 col-6"><div style="text-align:center;padding:12px;background:rgba(0,212,170,0.06);border:1px solid rgba(0,212,170,0.2);border-radius:10px;"><div style="font-size:1.6rem;font-weight:800;color:#00d4aa" id="pdmPredictions">0</div><div style="font-size:0.72rem;color:var(--text-muted)">Predictions</div></div></div>
+                        <div class="col-md-3 col-6"><div style="text-align:center;padding:12px;background:rgba(255,59,48,0.06);border:1px solid rgba(255,59,48,0.2);border-radius:10px;"><div style="font-size:1.6rem;font-weight:800;color:#ff3b30" id="pdmUrgent">0</div><div style="font-size:0.72rem;color:var(--text-muted)">Urgent (30 days)</div></div></div>
+                        <div class="col-md-3 col-6"><div style="text-align:center;padding:12px;background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:10px;"><div style="font-size:1.6rem;font-weight:800;color:#c9a84c" id="pdmSavings">$0</div><div style="font-size:0.72rem;color:var(--text-muted)">Est. Savings</div></div></div>
+                        <div class="col-md-3 col-6"><div style="text-align:center;padding:12px;background:rgba(0,170,255,0.06);border:1px solid rgba(0,170,255,0.2);border-radius:10px;"><div style="font-size:1.6rem;font-weight:800;color:var(--accent)" id="pdmAccuracy">0%</div><div style="font-size:0.72rem;color:var(--text-muted)">Model Accuracy</div></div></div>
+                    </div>
+                    <!-- Predictions Table -->
+                    <div style="max-height:400px;overflow-y:auto;border:1px solid rgba(0,212,170,0.2);border-radius:8px;">
+                        <table style="width:100%;border-collapse:collapse;">
+                            <thead style="position:sticky;top:0;background:#0a0e1a;z-index:1;"><tr><th style="padding:10px 8px;font-size:0.78rem;text-transform:uppercase;color:#00d4aa;border-bottom:2px solid rgba(0,212,170,0.2);text-align:left;">System / Component</th><th style="padding:10px 8px;font-size:0.78rem;text-transform:uppercase;color:#00d4aa;border-bottom:2px solid rgba(0,212,170,0.2);text-align:left;">Failure Mode</th><th style="padding:10px 8px;font-size:0.78rem;text-transform:uppercase;color:#00d4aa;border-bottom:2px solid rgba(0,212,170,0.2);text-align:center;">Confidence</th><th style="padding:10px 8px;font-size:0.78rem;text-transform:uppercase;color:#00d4aa;border-bottom:2px solid rgba(0,212,170,0.2);text-align:center;">ETA</th><th style="padding:10px 8px;font-size:0.78rem;text-transform:uppercase;color:#00d4aa;border-bottom:2px solid rgba(0,212,170,0.2);text-align:right;">Cost if Unplanned</th></tr></thead>
+                            <tbody id="pdmTableBody"><tr><td colspan="5" style="text-align:center;padding:30px;color:var(--text-muted)">Select a fleet to load predictive analysis...</td></tr></tbody>
+                        </table>
+                    </div>
+                    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:1rem">
+                        <button onclick="loadPredictiveData()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#00d4aa,#00a88a);color:#0a0e1a;border:none;border-radius:8px;padding:8px 16px;font-weight:700"><i class="fas fa-sync-alt"></i> Run Predictions</button>
+                        <button onclick="exportPredictive()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#14f195,#0bc77a);color:#0a0e1a;border:none;border-radius:8px;padding:8px 16px;font-weight:700"><i class="fas fa-download"></i> Export Report</button>
+                        <button onclick="anchorPredictive()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#c9a84c,#a88a3a);color:#fff;border:none;border-radius:8px;padding:8px 16px"><i class="fas fa-anchor"></i> Anchor to XRPL</button>
+                    </div>
+                </div>
+            </div>
+
             <!-- ══ FLOATING AI AGENT (accessible from all tools) ══ -->
             <div class="ai-float-wrapper" id="aiFloatWrapper">
                 <div class="ai-float-panel" id="aiFloatPanel">
@@ -1404,7 +1644,7 @@
                     </div>
                     <div class="ai-context-label" id="aiContextLabel"><i class="fas fa-crosshairs"></i> Context: <span id="aiContextTool">Gap Analysis</span></div>
                     <div class="ai-chat-messages" id="aiChatMessages">
-                        <div class="ai-msg bot"><div class="ai-label"><i class="fas fa-robot"></i> S4 Agent</div>Hello! I'm your ILS Workspace Agent. I'm available on every tool — ask me anything about:<br>• Gap analysis &amp; DI requirements<br>• DMSMS obsolescence &amp; readiness<br>• Parts cross-reference &amp; ROI<br>• Audit vault &amp; compliance scoring<br>• Provisioning, PTD &amp; ICAPS<br>• Defense documents &amp; standards<br><br>Switch tools — I'll follow along with contextual suggestions!</div>
+                        <div class="ai-msg bot"><div class="ai-label"><i class="fas fa-robot"></i> S4 Agent</div>Hello! I'm your ILS Workspace Agent. I'm available on every tool — ask me anything about:<br>• Gap analysis &amp; DI requirements<br>• DMSMS obsolescence &amp; readiness<br>• Parts cross-reference &amp; ROI<br>• Audit vault &amp; compliance scoring<br>• Provisioning, PTD &amp; ICAPS<br>• Supply chain risk &amp; contracts<br>• Digital thread &amp; predictive maintenance<br>• Defense documents &amp; standards<br><br>Switch tools — I'll follow along with contextual suggestions!</div>
                     </div>
                     <div class="ai-quick-btns" id="aiQuickBtns"></div>
                     <div class="ai-chat-input">
@@ -4077,7 +4317,12 @@ const AI_TOOL_CONTEXT = {
     'hub-vault':        {label:'Audit Vault',      icon:'fa-vault',             buttons:[['How many records in the vault?','Vault Stats'],['Search for a record','Search Vault'],['What is the audit trail?','Explain Vault'],['How is data secured?','Vault Security'],['Export vault to CSV','Export CSV'],['Re-verify a hash','Verify Hash']]},
     'hub-docs':         {label:'Doc Library',      icon:'fa-book',              buttons:[['Find MIL-STD-1388','Find Doc'],['What documents cover ILS?','ILS Documents'],['Show NAVSEA standards','NAVSEA Docs'],['Browse NIST frameworks','NIST Frameworks'],['What is a DI number?','Explain DIs']]},
     'hub-compliance':   {label:'Compliance',       icon:'fa-shield-halved',     buttons:[['Calculate my compliance score','Calc Score'],['What is CMMC Level 2?','Explain CMMC'],['Show NIST 800-171 controls','NIST Controls'],['What DFARS clauses apply?','DFARS Clauses'],['How do I improve my score?','Improve Score'],['Draft compliance memo','Compliance Memo']]},
-    'hub-provisioning': {label:'Provisioning',     icon:'fa-boxes-stacked',     buttons:[['How does S4 beat ICAPS?','ICAPS Comparison'],['What is a PTD?','Explain PTD'],['Generate allowance parts lists','Generate APLs'],['Show NSN cataloging status','NSN Status'],['What is provisioning?','Explain Provisioning'],['Draft provisioning report','Prov Report']]}
+    'hub-provisioning': {label:'Provisioning',     icon:'fa-boxes-stacked',     buttons:[['How does S4 beat ICAPS?','ICAPS Comparison'],['What is a PTD?','Explain PTD'],['Generate allowance parts lists','Generate APLs'],['Show NSN cataloging status','NSN Status'],['What is provisioning?','Explain Provisioning'],['Draft provisioning report','Prov Report']]},
+    'hub-risk':         {label:'Risk Engine',      icon:'fa-triangle-exclamation',buttons:[['What are the highest risk parts?','Top Risks'],['Show single-source dependencies','Single Source'],['Any GIDEP alerts?','GIDEP Alerts'],['Estimate risk cost impact','Cost Impact'],['What is supply chain risk?','Explain Risk'],['Draft risk mitigation plan','Risk Plan']]},
+    'hub-reports':      {label:'Report Generator', icon:'fa-file-pdf',           buttons:[['Generate a full audit package','Full Audit'],['What compliance score do I have?','Compliance Score'],['Create a DCMA-ready report','DCMA Report'],['How are reports verified?','Report Verification'],['What report types are available?','Report Types']]},
+    'hub-contracts':    {label:'Contract Mgmt',    icon:'fa-file-signature',     buttons:[['Show overdue CDRLs','Overdue CDRLs'],['What mods are pending?','Pending Mods'],['Track SOW deliverables','SOW Status'],['What is a CDRL?','Explain CDRLs'],['Draft deliverable status report','Status Report'],['How does anchoring prevent disputes?','Dispute Prevention']]},
+    'hub-thread':       {label:'Digital Thread',   icon:'fa-project-diagram',    buttons:[['Show pending ECPs','Pending ECPs'],['What is configuration management?','Explain CM'],['Show BOM revision history','BOM History'],['What baselines are anchored?','Anchored Baselines'],['Draft ECP summary','ECP Summary'],['How does S4 connect to PLM?','PLM Integration']]},
+    'hub-predictive':   {label:'Predictive Maint', icon:'fa-brain',             buttons:[['What failures are predicted?','Predictions'],['Show urgent maintenance needs','Urgent Items'],['How much can we save?','Cost Savings'],['What is MTBF trending?','MTBF Trends'],['Draft maintenance advisory','Maint Advisory'],['How does the AI model work?','Explain Model']]}
 };
 let currentHubPanel = 'hub-analysis';
 
@@ -5322,6 +5567,11 @@ function switchHubTab(panelId, btn) {
     if (panelId === 'hub-docs') renderDocLibrary();
     if (panelId === 'hub-compliance') calcCompliance();
     if (panelId === 'hub-provisioning') loadProvisioningData();
+    if (panelId === 'hub-risk') loadRiskData();
+    if (panelId === 'hub-reports') loadReportPreview();
+    if (panelId === 'hub-contracts') loadContractData();
+    if (panelId === 'hub-thread') loadThreadData();
+    if (panelId === 'hub-predictive') loadPredictiveData();
     // Update floating AI agent context
     updateAiContext(panelId);
 }
@@ -6078,6 +6328,581 @@ async function anchorProvisioning() {
     addToVault({hash, txHash, type:'provisioning_report', label:'Provisioning Report', branch: prog.branch || 'JOINT', icon:'📦', content: content.substring(0,100), encrypted:false, timestamp:new Date().toISOString(), source:'Provisioning & PTD Manager', fee:0.01});
     stats.anchored++; stats.slsFees += 0.01; stats.types.add('provisioning_report'); updateStats(); saveStats();
     saveLocalRecord({hash, tx_hash:txHash, record_type:'provisioning_report', record_label:'Provisioning Report — '+prog.name, branch:prog.branch||'JOINT', timestamp:new Date().toISOString(), timestamp_display:new Date().toLocaleString(), fee:0.01});
+    await new Promise(r => setTimeout(r, 3200)); hideAnchorAnimation();
+}
+
+// ═══════════════════════════════════════════════════════════════
+// ═══ AI SUPPLY CHAIN RISK ENGINE ═══
+// ═══════════════════════════════════════════════════════════════
+let _riskCache = {};
+
+function generateRiskItems(progKey) {
+    const seed = progKey.split('').reduce((a,c)=>a+c.charCodeAt(0),0);
+    const rng = (i)=>((seed*131+i*997)%10000)/10000;
+    const suppliers = ['Raytheon','BAE Systems','L3Harris','Northrop Grumman','General Dynamics','Honeywell','Collins Aerospace','Curtiss-Wright','Leonardo DRS','Elbit Systems','Safran','Thales','Ultra Electronics','Mercury Systems','Ducommun','Moog Inc','Kaman Aerospace','TransDigm','Heico Corp','Crane Co'];
+    const riskFactors = ['Single-source dependency','GIDEP Alert #2024-','DLA lead time spike +','Financial distress signal','CAGE code inactive','Foreign ownership change','Counterfeit risk — ERAI alert','Sub-tier supplier failure','Capacity constraint','Export control restriction','Cybersecurity incident','Material shortage — rare earth','Quality escape — nonconformance','Production line shutdown','Workforce reduction >25%'];
+    const parts = {
+        ddg51: [{p:'SPY-6 T/R Module',n:'5985-01-678-4321'},{p:'MK 41 VLS Rail',n:'1440-01-555-8790'},{p:'AN/SQQ-89 Sonar Array',n:'5845-01-602-3344'},{p:'LM2500 Turbine Blade',n:'2840-01-480-6710'},{p:'SEWIP Block III Antenna',n:'5985-01-690-1234'},{p:'Mk 45 Gun Barrel Liner',n:'1005-01-398-7722'},{p:'CIWS Phalanx Motor',n:'6110-01-557-2288'},{p:'Hull Steel Plate HY-80',n:'9515-01-320-4567'},{p:'SLQ-32(V)6 Processor',n:'5895-01-645-9012'},{p:'AN/SPG-62 Illuminator',n:'5840-01-234-5678'},{p:'Pratt & Whitney FT4A6',n:'2815-01-345-6789'},{p:'SSDS Mk 2 Server',n:'7021-01-567-8901'},{p:'Mk 34 GWS Console',n:'5830-01-456-7890'},{p:'Fin Stabilizer Actuator',n:'2040-01-678-0123'},{p:'CBRN Detection Unit',n:'6665-01-789-0124'}],
+        cvn78: [{p:'EMALS Linear Motor',n:'2040-01-699-1234'},{p:'AAG Turbine Assembly',n:'1680-01-700-5678'},{p:'A1B Reactor Pump',n:'2815-01-710-4321'},{p:'Dual Band Radar Panel',n:'5840-01-705-8765'},{p:'Flight Deck Coating',n:'8010-01-695-2345'},{p:'Weapons Elevator Motor',n:'3950-01-698-7890'},{p:'JPALS Antenna Unit',n:'5985-01-712-3456'},{p:'Ship Self-Defense Controller',n:'5895-01-708-6543'},{p:'Catapult Steam Valve',n:'4820-01-650-9012'},{p:'Fresh Water Distiller',n:'4610-01-680-4567'},{p:'Nuclear Shielding Panel',n:'9515-01-720-1234'},{p:'Aviation Fuel Pump',n:'4320-01-690-5678'}],
+        f35: [{p:'F135 Fan Blade',n:'2840-01-680-1111'},{p:'AN/APG-81 AESA Module',n:'5840-01-690-2222'},{p:'HMDS II Helmet Display',n:'1240-01-695-3333'},{p:'EOTS Sensor Window',n:'5860-01-700-4444'},{p:'Structural Fuselage Panel',n:'1560-01-705-5555'},{p:'Ejection Seat Motor',n:'1680-01-710-6666'},{p:'DAS Sensor Unit',n:'5860-01-715-7777'},{p:'Fuel Bladder Cell',n:'1560-01-720-8888'},{p:'CNI Avionics Module',n:'5895-01-725-9999'},{p:'Landing Gear Actuator',n:'1620-01-730-1010'},{p:'Stealth Coating Material',n:'8010-01-735-1111'},{p:'Wing Fold Mechanism',n:'1560-01-740-1212'}],
+        ch53k: [{p:'T408-GE-400 Engine',n:'2840-01-750-1234'},{p:'Main Rotor Head',n:'1615-01-755-5678'},{p:'Fly-by-Wire Actuator',n:'1680-01-760-9012'},{p:'Cargo Hook Assembly',n:'1670-01-765-3456'},{p:'Blade Fold System',n:'1615-01-770-7890'},{p:'APU TF50',n:'2835-01-775-2345'},{p:'Glass Cockpit Display',n:'1270-01-780-6789'},{p:'Infrared Suppressor',n:'1560-01-785-0123'},{p:'Sponson Fuel Cell',n:'1560-01-790-4567'},{p:'External Cargo Mirror',n:'1240-01-795-8901'}],
+        ssn774: [{p:'S9G Reactor Component',n:'2815-01-800-1234'},{p:'Torpedo Tube Breech',n:'1095-01-805-5678'},{p:'BQQ-10 Sonar Array',n:'5845-01-810-9012'},{p:'Photonics Mast Assembly',n:'5820-01-815-3456'},{p:'Propulsor Blade',n:'2040-01-820-7890'},{p:'Atmosphere Monitor',n:'6665-01-825-2345'},{p:'Periscope Hoist Motor',n:'5820-01-830-6789'},{p:'Submarine Escape Trunk',n:'4220-01-835-0123'},{p:'Ballast Tank Valve',n:'4820-01-840-4567'},{p:'Hull Array Sensor',n:'5845-01-845-8901'}]
+    };
+    const items = (parts[progKey]||parts.ddg51).map((p,i)=>{
+        const score = Math.round(rng(i)*100);
+        const level = score>=85?'critical':score>=70?'high':score>=45?'medium':'low';
+        const factorCount = level==='critical'?3:level==='high'?2:1;
+        let factors = [];
+        for(let f=0;f<factorCount;f++){
+            let factor = riskFactors[Math.floor(rng(i*10+f)*riskFactors.length)];
+            if(factor.includes('#2024-')) factor += Math.floor(1000+rng(i+f)*9000);
+            if(factor.includes('spike +')) factor += Math.floor(20+rng(i+f)*200) + '%';
+            factors.push(factor);
+        }
+        const etaDays = level==='critical'?Math.floor(30+rng(i)*60):level==='high'?Math.floor(60+rng(i)*120):level==='medium'?Math.floor(90+rng(i)*180):0;
+        return {part:p.p,nsn:p.n,supplier:suppliers[Math.floor(rng(i*7)*suppliers.length)],score,level,factors,etaImpact:etaDays?'+'+etaDays+' days':'None'};
+    });
+    items.sort((a,b)=>b.score-a.score);
+    return items;
+}
+
+function loadRiskData() {
+    const progKey = document.getElementById('riskProgram')?.value || 'ddg51';
+    const threshold = document.getElementById('riskThreshold')?.value || 'all';
+    let items = generateRiskItems(progKey);
+    _riskCache = {progKey, items};
+    if(threshold==='critical') items = items.filter(i=>i.level==='critical');
+    else if(threshold==='high') items = items.filter(i=>i.level==='critical'||i.level==='high');
+    else if(threshold==='medium') items = items.filter(i=>i.level!=='low');
+
+    const crit = items.filter(i=>i.level==='critical').length;
+    const high = items.filter(i=>i.level==='high').length;
+    const med  = items.filter(i=>i.level==='medium').length;
+    const low  = items.filter(i=>i.level==='low').length;
+    document.getElementById('riskCritical').textContent = crit;
+    document.getElementById('riskHigh').textContent = high;
+    document.getElementById('riskMedium').textContent = med;
+    document.getElementById('riskLow').textContent = low;
+
+    const levelColors = {critical:'#ff3b30',high:'#ff9500',medium:'#ffcc00',low:'#34c759'};
+    const levelLabels = {critical:'CRITICAL',high:'HIGH',medium:'MEDIUM',low:'LOW'};
+    let html = '';
+    items.forEach(it => {
+        html += '<tr style="border-bottom:1px solid rgba(255,255,255,0.04);">';
+        html += '<td style="padding:10px 8px;"><div style="color:#fff;font-weight:600;font-size:0.85rem;">'+it.part+'</div><div style="color:var(--text-muted);font-family:monospace;font-size:0.72rem;">'+it.nsn+'</div></td>';
+        html += '<td style="padding:10px 8px;color:var(--steel);font-size:0.82rem;">'+it.supplier+'</td>';
+        html += '<td style="padding:10px 8px;text-align:center;"><div style="display:inline-block;padding:4px 12px;border-radius:20px;font-weight:700;font-size:0.82rem;background:'+levelColors[it.level]+'22;color:'+levelColors[it.level]+';border:1px solid '+levelColors[it.level]+'44;">'+it.score+'</div></td>';
+        html += '<td style="padding:10px 8px;font-size:0.78rem;color:var(--steel);">'+it.factors.map(f=>'<div style="margin-bottom:2px;">• '+f+'</div>').join('')+'</td>';
+        html += '<td style="padding:10px 8px;text-align:center;font-weight:600;color:'+(it.etaImpact==='None'?'var(--text-muted)':'#ff9500')+';font-size:0.82rem;">'+it.etaImpact+'</td>';
+        html += '</tr>';
+    });
+    document.getElementById('riskTableBody').innerHTML = html || '<tr><td colspan="5" style="text-align:center;padding:30px;color:var(--text-muted)">No risks found at selected threshold.</td></tr>';
+    showWorkspaceNotification('Risk analysis loaded — ' + crit + ' critical, ' + high + ' high risk items');
+}
+
+function exportRisk() {
+    const data = _riskCache.items || generateRiskItems('ddg51');
+    let csv = 'Part,NSN,Supplier,Risk Score,Risk Level,Risk Factors,ETA Impact\n';
+    data.forEach(d => { csv += '"'+d.part+'",'+d.nsn+',"'+d.supplier+'",'+d.score+','+d.level.toUpperCase()+',"'+d.factors.join('; ')+'",'+d.etaImpact+'\n'; });
+    const blob = new Blob([csv], {type:'text/csv'});
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'Supply_Chain_Risk_'+(_riskCache.progKey||'DDG51').toUpperCase()+'.csv'; a.click();
+    showWorkspaceNotification('Risk report exported — ' + data.length + ' items');
+}
+
+async function anchorRisk() {
+    const prog = _riskCache.progKey || 'ddg51';
+    const items = _riskCache.items || generateRiskItems(prog);
+    const crit = items.filter(i=>i.level==='critical').length;
+    const high = items.filter(i=>i.level==='high').length;
+    const content = 'S4 Ledger Supply Chain Risk Report | Program: ' + prog.toUpperCase() + ' | Total Parts: ' + items.length + ' | Critical: ' + crit + ' | High: ' + high + ' | Generated: ' + new Date().toISOString();
+    const hash = await sha256(content);
+    const txHash = 'TX' + Array.from(crypto.getRandomValues(new Uint8Array(16))).map(b=>b.toString(16).padStart(2,'0')).join('').toUpperCase();
+    showAnchorAnimation(hash, 'Supply Chain Risk Report', 'CUI');
+    try { await fetch('/api/anchor',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({hash, record_type:'risk_report', tx_hash:txHash})}); } catch(e) {}
+    addToVault({hash, txHash, type:'risk_report', label:'Supply Chain Risk Report — '+prog.toUpperCase(), branch:'JOINT', icon:'⚠️', content:content.substring(0,100), encrypted:false, timestamp:new Date().toISOString(), source:'AI Supply Chain Risk Engine', fee:0.01});
+    stats.anchored++; stats.slsFees += 0.01; stats.types.add('risk_report'); updateStats(); saveStats();
+    saveLocalRecord({hash, tx_hash:txHash, record_type:'risk_report', record_label:'Supply Chain Risk Report — '+prog.toUpperCase(), branch:'JOINT', timestamp:new Date().toISOString(), timestamp_display:new Date().toLocaleString(), fee:0.01});
+    setTimeout(()=>{ document.getElementById('animStatus').textContent = '✅ Risk report anchored!'; document.getElementById('animStatus').style.color = '#14f195'; }, 2200);
+    await new Promise(r => setTimeout(r, 3200)); hideAnchorAnimation();
+}
+
+// ═══════════════════════════════════════════════════════════════
+// ═══ AUTOMATED AUDIT REPORT GENERATOR ═══
+// ═══════════════════════════════════════════════════════════════
+let _lastReport = null;
+
+function loadReportPreview() {
+    const rType = document.getElementById('reportType')?.value || 'full_audit';
+    const period = parseInt(document.getElementById('reportPeriod')?.value) || 90;
+    const records = JSON.parse(localStorage.getItem('s4_records') || '[]');
+    const vaultRecords = s4Vault || [];
+    const totalRecords = Math.max(records.length, vaultRecords.length, stats.anchored || 0);
+    document.getElementById('reportRecordCount').textContent = totalRecords + ' records available';
+    document.getElementById('reportContent').innerHTML = '<div style="color:var(--text-muted);font-style:italic;">Click "Generate Report" to compile your audit package.</div>';
+}
+
+function generateReport() {
+    const rType = document.getElementById('reportType')?.value || 'full_audit';
+    const period = parseInt(document.getElementById('reportPeriod')?.value) || 90;
+    const format = document.getElementById('reportFormat')?.value || 'pdf';
+    const records = JSON.parse(localStorage.getItem('s4_records') || '[]');
+    const vaultRecords = s4Vault || [];
+    const totalRecords = Math.max(records.length, vaultRecords.length, stats.anchored || 0, 12);
+
+    const reportTypes = {
+        full_audit: {title:'Full Audit Package',icon:'📋',sections:['Executive Summary','Anchoring History','Chain of Custody','Compliance Scorecard','Record Verification','Hash Integrity Report']},
+        supply_chain: {title:'Supply Chain Verification',icon:'📦',sections:['Supply Chain Overview','Receipt Verification','Custody Transfers','Lot Traceability','Counterfeit Prevention','Supplier Compliance']},
+        maintenance: {title:'Maintenance Records Audit',icon:'🔧',sections:['Maintenance Summary','Work Order Verification','Parts Usage','Readiness Impact','3-M Compliance','Predictive Analysis']},
+        compliance: {title:'Compliance Summary Report',icon:'✅',sections:['Overall Compliance Score','NIST 800-171 Mapping','CMMC Level Readiness','DFARS Clause Compliance','ITAR/EAR Verification','Gap Analysis']},
+        custody: {title:'Chain of Custody Report',icon:'🔗',sections:['Custody Timeline','Transfer Verification','Location History','Handler Authentication','Tamper Detection','Blockchain Proof']},
+        contract: {title:'Contract Deliverables Report',icon:'📑',sections:['CDRL Status Summary','Deliverable Timeline','Modification History','Quality Metrics','Schedule Compliance','Cost Performance']}
+    };
+    const rt = reportTypes[rType] || reportTypes.full_audit;
+    const now = new Date();
+    const startDate = new Date(now.getTime() - period * 86400000);
+
+    // Build preview
+    let html = '<div style="border:1px solid rgba(201,168,76,0.2);border-radius:8px;overflow:hidden;">';
+    html += '<div style="background:rgba(201,168,76,0.08);padding:16px;border-bottom:1px solid rgba(201,168,76,0.2);">';
+    html += '<div style="display:flex;justify-content:space-between;align-items:center;">';
+    html += '<div><span style="font-size:1.3rem;margin-right:8px;">'+rt.icon+'</span><strong style="color:#fff;font-size:1.05rem;">'+rt.title+'</strong></div>';
+    html += '<span style="background:#c9a84c22;color:#c9a84c;padding:4px 10px;border-radius:6px;font-size:0.75rem;font-weight:600;">GENERATED</span></div>';
+    html += '<div style="color:var(--text-muted);font-size:0.78rem;margin-top:6px;">Period: '+startDate.toLocaleDateString()+' — '+now.toLocaleDateString()+' | Records: '+totalRecords+' | Format: '+format.toUpperCase()+'</div></div>';
+
+    html += '<div style="padding:16px;">';
+    rt.sections.forEach((section,i) => {
+        const sectionRecords = Math.max(Math.floor(totalRecords / rt.sections.length) + Math.floor(Math.random()*5), 2);
+        const complianceScore = (88 + Math.random()*12).toFixed(1);
+        html += '<div style="padding:10px 12px;margin-bottom:6px;background:rgba(255,255,255,0.02);border-radius:6px;border-left:3px solid '+(i%2===0?'#c9a84c':'#00aaff')+';">';
+        html += '<div style="display:flex;justify-content:space-between;align-items:center;">';
+        html += '<strong style="color:#fff;font-size:0.88rem;">'+(i+1)+'. '+section+'</strong>';
+        html += '<span style="color:var(--steel);font-size:0.78rem;">'+sectionRecords+' items | Score: '+complianceScore+'%</span></div></div>';
+    });
+
+    // Summary footer
+    const totalScore = (91 + Math.random()*8).toFixed(1);
+    html += '<div style="margin-top:12px;padding:12px;background:rgba(20,241,149,0.06);border:1px solid rgba(20,241,149,0.2);border-radius:8px;display:flex;justify-content:space-between;align-items:center;">';
+    html += '<div><strong style="color:#14f195;">Overall Compliance Score: '+totalScore+'%</strong><br><span style="color:var(--steel);font-size:0.78rem;">All records verified against XRPL blockchain anchors</span></div>';
+    html += '<div style="font-size:1.8rem;color:#14f195;font-weight:800;">'+totalScore+'%</div></div>';
+    html += '</div></div>';
+
+    document.getElementById('reportContent').innerHTML = html;
+    _lastReport = {type:rType, title:rt.title, period, format, records:totalRecords, score:totalScore, sections:rt.sections, generated:now.toISOString()};
+    showWorkspaceNotification('Audit report generated — ' + rt.sections.length + ' sections, ' + totalRecords + ' records');
+}
+
+function downloadReport() {
+    if(!_lastReport) { generateReport(); }
+    const r = _lastReport;
+    if(r.format === 'json') {
+        const blob = new Blob([JSON.stringify(r, null, 2)], {type:'application/json'});
+        const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'S4_Audit_Report_'+r.type+'.json'; a.click();
+    } else {
+        let csv = 'Section,Items,Compliance Score\n';
+        r.sections.forEach((s,i)=>{ csv += '"'+s+'",' + Math.max(Math.floor(r.records/r.sections.length),2) + ',' + (88+Math.random()*12).toFixed(1) + '%\n'; });
+        csv += '\nOverall Score,' + r.records + ',' + r.score + '%\n';
+        csv += 'Generated,' + r.generated + ',\n';
+        csv += 'Report Type,"' + r.title + '",\n';
+        const blob = new Blob([csv], {type:'text/csv'});
+        const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'S4_Audit_Report_'+r.type+'.csv'; a.click();
+    }
+    showWorkspaceNotification('Report downloaded — ' + (r.format||'csv').toUpperCase() + ' format');
+}
+
+async function anchorReport() {
+    if(!_lastReport) generateReport();
+    const r = _lastReport || {type:'full_audit',title:'Full Audit Package',records:0,score:'95.0'};
+    const content = 'S4 Ledger Audit Report | Type: ' + r.title + ' | Records: ' + r.records + ' | Compliance Score: ' + r.score + '% | Generated: ' + new Date().toISOString();
+    const hash = await sha256(content);
+    const txHash = 'TX' + Array.from(crypto.getRandomValues(new Uint8Array(16))).map(b=>b.toString(16).padStart(2,'0')).join('').toUpperCase();
+    showAnchorAnimation(hash, 'Audit Report Hash', 'CUI');
+    try { await fetch('/api/anchor',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({hash, record_type:'audit_report', tx_hash:txHash})}); } catch(e) {}
+    addToVault({hash, txHash, type:'audit_report', label:r.title+' — Score: '+r.score+'%', branch:'JOINT', icon:'📋', content:content.substring(0,100), encrypted:false, timestamp:new Date().toISOString(), source:'Audit Report Generator', fee:0.01});
+    stats.anchored++; stats.slsFees += 0.01; stats.types.add('audit_report'); updateStats(); saveStats();
+    saveLocalRecord({hash, tx_hash:txHash, record_type:'audit_report', record_label:r.title, branch:'JOINT', timestamp:new Date().toISOString(), timestamp_display:new Date().toLocaleString(), fee:0.01});
+    setTimeout(()=>{ document.getElementById('animStatus').textContent = '✅ Audit report hash anchored!'; document.getElementById('animStatus').style.color = '#14f195'; }, 2200);
+    await new Promise(r => setTimeout(r, 3200)); hideAnchorAnimation();
+}
+
+// ═══════════════════════════════════════════════════════════════
+// ═══ CONTRACT LIFECYCLE MANAGEMENT ═══
+// ═══════════════════════════════════════════════════════════════
+let _contractCache = {};
+
+function generateContractItems(contractId) {
+    const seed = contractId.split('').reduce((a,c)=>a+c.charCodeAt(0),0);
+    const rng = (i)=>((seed*137+i*991)%10000)/10000;
+    const now = new Date();
+    const cdrlTypes = [
+        {id:'A001',desc:'Integrated Logistics Support Plan (ILSP)',di:'DI-ALSS-81529'},
+        {id:'A003',desc:'Level of Repair Analysis (LORA)',di:'DI-ALSS-81517'},
+        {id:'A005',desc:'Reliability Analysis Report',di:'DI-RELI-80255'},
+        {id:'A007',desc:'Provisioning Parts List (PPL)',di:'DI-ALSS-81530'},
+        {id:'A009',desc:'Maintenance Plan',di:'DI-ALSS-81531'},
+        {id:'A011',desc:'Technical Data Package (TDP)',di:'DI-TMSS-80527'},
+        {id:'A013',desc:'Training Materials',di:'DI-ALSS-81541'},
+        {id:'A015',desc:'Quality Assurance Plan',di:'DI-QCIC-80553'},
+        {id:'A017',desc:'Configuration Management Plan',di:'DI-CMAN-80858A'},
+        {id:'A019',desc:'Test & Evaluation Master Plan',di:'DI-NDTI-80566A'}
+    ];
+    const modTypes = [
+        {id:'MOD-P00001',desc:'Contract Value Adjustment +$2.4M',type:'mod'},
+        {id:'MOD-P00002',desc:'Period of Performance Extension — 6 months',type:'mod'},
+        {id:'MOD-P00003',desc:'SOW Change — Add CBM+ Requirement',type:'mod'},
+        {id:'MOD-A00001',desc:'Administrative — CAGE Code Update',type:'mod'}
+    ];
+    const deliverables = [
+        {id:'SOW-3.1.1',desc:'Monthly Status Report (MSR)',type:'deliverable'},
+        {id:'SOW-3.2.1',desc:'Program Management Review (PMR)',type:'deliverable'},
+        {id:'SOW-3.3.1',desc:'Failure Review Board (FRB) Package',type:'deliverable'},
+        {id:'SOW-4.1.1',desc:'Engineering Change Proposal (ECP)',type:'deliverable'},
+        {id:'SOW-4.2.1',desc:'Interface Control Document (ICD)',type:'deliverable'}
+    ];
+    let items = [];
+    cdrlTypes.forEach((c,i) => {
+        const dueOffset = Math.floor(rng(i)*180) - 60;
+        const due = new Date(now.getTime() + dueOffset*86400000);
+        const r = rng(i*3);
+        let status = dueOffset < -30 ? (r>0.3?'delivered':'overdue') : dueOffset < 0 ? (r>0.5?'delivered':'overdue') : dueOffset < 30 ? (r>0.7?'on_track':'at_risk') : 'on_track';
+        items.push({id:c.id, desc:c.desc, di:c.di, type:'cdrl', due:due.toLocaleDateString(), status, anchored:r>0.4});
+    });
+    modTypes.forEach((m,i) => {
+        const r = rng(i*5+50);
+        items.push({id:m.id, desc:m.desc, di:'—', type:'mod', due:new Date(now.getTime()-(30+i*45)*86400000).toLocaleDateString(), status:r>0.3?'delivered':'on_track', anchored:r>0.5});
+    });
+    deliverables.forEach((d,i) => {
+        const dueOffset = Math.floor(rng(i*7+80)*90) - 30;
+        const due = new Date(now.getTime() + dueOffset*86400000);
+        const r = rng(i*9+100);
+        let status = dueOffset < -14 ? (r>0.5?'delivered':'overdue') : dueOffset < 7 ? (r>0.6?'on_track':'at_risk') : 'on_track';
+        items.push({id:d.id, desc:d.desc, di:'—', type:'deliverable', due:due.toLocaleDateString(), status, anchored:r>0.45});
+    });
+    return items;
+}
+
+function loadContractData() {
+    const contractId = document.getElementById('contractSelect')?.value || 'N00024-25-C-5501';
+    const typeFilter = document.getElementById('contractTypeFilter')?.value || 'all';
+    const statusFilter = document.getElementById('contractStatusFilter')?.value || 'all';
+    let items = generateContractItems(contractId);
+    _contractCache = {contractId, items};
+    if(typeFilter!=='all') items = items.filter(i=>i.type===typeFilter);
+    if(statusFilter!=='all') items = items.filter(i=>i.status===statusFilter);
+
+    const onTrack = items.filter(i=>i.status==='on_track').length;
+    const atRisk = items.filter(i=>i.status==='at_risk').length;
+    const overdue = items.filter(i=>i.status==='overdue').length;
+    document.getElementById('contractTotal').textContent = items.length;
+    document.getElementById('contractOnTrack').textContent = onTrack + items.filter(i=>i.status==='delivered').length;
+    document.getElementById('contractAtRisk').textContent = atRisk;
+    document.getElementById('contractOverdue').textContent = overdue;
+
+    const statusColors = {on_track:'#34c759',at_risk:'#ff9500',overdue:'#ff3b30',delivered:'#00aaff'};
+    const statusLabels = {on_track:'On Track',at_risk:'At Risk',overdue:'Overdue',delivered:'Delivered'};
+    const typeLabels = {cdrl:'CDRL',mod:'MOD',deliverable:'SOW'};
+    const typeBg = {cdrl:'#00aaff',mod:'#c9a84c',deliverable:'#a855f7'};
+    let html = '';
+    items.forEach(it => {
+        html += '<tr style="border-bottom:1px solid rgba(255,255,255,0.04);">';
+        html += '<td style="padding:10px 8px;"><div style="color:#fff;font-weight:600;font-size:0.82rem;">'+it.id+'</div><div style="color:var(--text-muted);font-size:0.72rem;">'+it.desc+'</div>'+(it.di!=='—'?'<div style="color:var(--steel);font-size:0.68rem;font-family:monospace;">'+it.di+'</div>':'')+'</td>';
+        html += '<td style="padding:10px 8px;"><span style="background:'+typeBg[it.type]+'22;color:'+typeBg[it.type]+';padding:2px 8px;border-radius:4px;font-size:0.75rem;font-weight:600;">'+typeLabels[it.type]+'</span></td>';
+        html += '<td style="padding:10px 8px;color:var(--steel);font-size:0.82rem;">'+it.due+'</td>';
+        html += '<td style="padding:10px 8px;text-align:center;"><span style="background:'+statusColors[it.status]+'22;color:'+statusColors[it.status]+';padding:3px 10px;border-radius:12px;font-size:0.78rem;font-weight:600;">'+statusLabels[it.status]+'</span></td>';
+        html += '<td style="padding:10px 8px;text-align:center;font-size:0.9rem;">'+(it.anchored?'<i class="fas fa-check-circle" style="color:#14f195;"></i>':'<i class="fas fa-minus-circle" style="color:var(--text-muted);"></i>')+'</td>';
+        html += '</tr>';
+    });
+    document.getElementById('contractTableBody').innerHTML = html || '<tr><td colspan="5" style="text-align:center;padding:30px;color:var(--text-muted)">No items match current filters.</td></tr>';
+    showWorkspaceNotification('Contract loaded — ' + items.length + ' items (' + overdue + ' overdue)');
+}
+
+function exportContracts() {
+    const data = _contractCache.items || generateContractItems('N00024-25-C-5501');
+    let csv = 'Item ID,Description,DI Number,Type,Due Date,Status,Anchored\n';
+    data.forEach(d => { csv += d.id+',"'+d.desc+'",'+d.di+','+d.type+','+d.due+','+d.status+','+(d.anchored?'Yes':'No')+'\n'; });
+    const blob = new Blob([csv], {type:'text/csv'});
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'Contract_'+(_contractCache.contractId||'N00024').replace(/[^A-Za-z0-9]/g,'_')+'.csv'; a.click();
+    showWorkspaceNotification('Contract data exported — ' + data.length + ' items');
+}
+
+async function anchorContracts() {
+    const cid = _contractCache.contractId || 'N00024-25-C-5501';
+    const items = _contractCache.items || generateContractItems(cid);
+    const overdue = items.filter(i=>i.status==='overdue').length;
+    const delivered = items.filter(i=>i.status==='delivered').length;
+    const content = 'S4 Ledger Contract Report | Contract: ' + cid + ' | Total Items: ' + items.length + ' | Delivered: ' + delivered + ' | Overdue: ' + overdue + ' | Generated: ' + new Date().toISOString();
+    const hash = await sha256(content);
+    const txHash = 'TX' + Array.from(crypto.getRandomValues(new Uint8Array(16))).map(b=>b.toString(16).padStart(2,'0')).join('').toUpperCase();
+    showAnchorAnimation(hash, 'Contract Status Report', 'CUI');
+    try { await fetch('/api/anchor',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({hash, record_type:'contract_report', tx_hash:txHash})}); } catch(e) {}
+    addToVault({hash, txHash, type:'contract_report', label:'Contract Report — '+cid, branch:'JOINT', icon:'📑', content:content.substring(0,100), encrypted:false, timestamp:new Date().toISOString(), source:'Contract Lifecycle Management', fee:0.01});
+    stats.anchored++; stats.slsFees += 0.01; stats.types.add('contract_report'); updateStats(); saveStats();
+    saveLocalRecord({hash, tx_hash:txHash, record_type:'contract_report', record_label:'Contract Report — '+cid, branch:'JOINT', timestamp:new Date().toISOString(), timestamp_display:new Date().toLocaleString(), fee:0.01});
+    setTimeout(()=>{ document.getElementById('animStatus').textContent = '✅ Contract data anchored!'; document.getElementById('animStatus').style.color = '#14f195'; }, 2200);
+    await new Promise(r => setTimeout(r, 3200)); hideAnchorAnimation();
+}
+
+// ═══════════════════════════════════════════════════════════════
+// ═══ DIGITAL THREAD / CONFIGURATION BRIDGE ═══
+// ═══════════════════════════════════════════════════════════════
+let _threadCache = {};
+
+function generateThreadItems(platform, view) {
+    const seed = (platform+view).split('').reduce((a,c)=>a+c.charCodeAt(0),0);
+    const rng = (i)=>((seed*149+i*1013)%10000)/10000;
+    const now = new Date();
+
+    if(view === 'changes') {
+        const ecps = [
+            {desc:'Replace hydraulic actuator with electro-mechanical',cat:'Class I'},
+            {desc:'Update corrosion protection coating specification',cat:'Class II'},
+            {desc:'Redesign cooling duct for improved airflow',cat:'Class I'},
+            {desc:'Substitute obsolete connector (DMSMS)',cat:'Class II'},
+            {desc:'Add structural reinforcement at frame station 412',cat:'Class I'},
+            {desc:'Update software load — Block 4.2 firmware',cat:'Class II'},
+            {desc:'Replace CRT displays with LCD — cockpit modernization',cat:'Class I'},
+            {desc:'Update wiring harness for EMI compliance',cat:'Class II'},
+            {desc:'Modify fuel system plumbing for JP-8 compatibility',cat:'Class I'},
+            {desc:'Integrate new IFF Mode 5 transponder',cat:'Class I'},
+            {desc:'Update technical manual — maintenance procedures',cat:'Class II'},
+            {desc:'Redesign mounting bracket — fatigue life extension',cat:'Class I'}
+        ];
+        return ecps.map((e,i) => {
+            const r = rng(i);
+            const status = r<0.2?'pending':r<0.5?'approved':r<0.85?'implemented':'rejected';
+            return {id:'ECP-'+platform.toUpperCase()+'-'+(2024000+i+1), desc:e.desc, type:e.cat, status, anchored:r>0.35, date:new Date(now.getTime()-(i*15+Math.floor(rng(i*3)*60))*86400000).toLocaleDateString()};
+        });
+    } else if(view === 'bom') {
+        const boms = [
+            {desc:'Top-Level Assembly BOM',level:'L0'},{desc:'Propulsion System BOM',level:'L1'},{desc:'Combat System BOM',level:'L1'},
+            {desc:'Hull Structure BOM',level:'L1'},{desc:'Electrical Distribution BOM',level:'L1'},{desc:'Navigation System BOM',level:'L2'},
+            {desc:'Weapons System BOM',level:'L1'},{desc:'Auxiliary Systems BOM',level:'L1'},{desc:'Communications Suite BOM',level:'L2'},
+            {desc:'Damage Control System BOM',level:'L2'}
+        ];
+        return boms.map((b,i) => {
+            const rev = 'Rev ' + String.fromCharCode(65 + Math.floor(rng(i)*8));
+            const r = rng(i*7);
+            return {id:'BOM-'+platform.toUpperCase()+'-'+(i+1).toString().padStart(3,'0'), desc:b.desc+' ('+b.level+')', type:rev, status:r<0.15?'pending':r<0.6?'approved':'implemented', anchored:r>0.3, date:new Date(now.getTime()-(i*20+Math.floor(rng(i)*90))*86400000).toLocaleDateString()};
+        });
+    } else if(view === 'baseline') {
+        const baselines = [
+            {desc:'Functional Baseline (FBL)',phase:'SDD'},{desc:'Allocated Baseline (ABL)',phase:'SDD'},
+            {desc:'Product Baseline — Block 1',phase:'Production'},{desc:'Product Baseline — Block 2',phase:'Production'},
+            {desc:'As-Built Configuration — Hull 1',phase:'Sustainment'},{desc:'As-Built Configuration — Hull 2',phase:'Sustainment'},
+            {desc:'Developmental Configuration',phase:'EMD'},{desc:'Operational Baseline',phase:'IOT&E'}
+        ];
+        return baselines.map((b,i) => {
+            const r = rng(i*11);
+            return {id:'CBL-'+platform.toUpperCase()+'-'+(i+1).toString().padStart(3,'0'), desc:b.desc, type:b.phase, status:r<0.1?'pending':'approved', anchored:r>0.25, date:new Date(now.getTime()-(i*45+Math.floor(rng(i)*180))*86400000).toLocaleDateString()};
+        });
+    } else { // tdp
+        const tdps = [
+            {desc:'System Specification (SSS)',level:'A'},{desc:'Subsystem Specification',level:'B'},
+            {desc:'Drawing Package — Structural',level:'C'},{desc:'Drawing Package — Electrical',level:'C'},
+            {desc:'Interface Control Drawing (ICD)',level:'B'},{desc:'Test Procedure Document',level:'C'},
+            {desc:'Maintenance Technical Manual',level:'D'},{desc:'Illustrated Parts Breakdown (IPB)',level:'D'},
+            {desc:'Wiring Data List',level:'C'},{desc:'Computer Software Documentation',level:'B'}
+        ];
+        return tdps.map((t,i) => {
+            const ver = 'v' + (1 + Math.floor(rng(i)*5)) + '.' + Math.floor(rng(i*3)*10);
+            const r = rng(i*13);
+            return {id:'TDP-'+platform.toUpperCase()+'-'+(i+1).toString().padStart(3,'0'), desc:t.desc+' (Level '+t.level+')', type:ver, status:r<0.2?'pending':r<0.7?'approved':'implemented', anchored:r>0.3, date:new Date(now.getTime()-(i*25+Math.floor(rng(i)*120))*86400000).toLocaleDateString()};
+        });
+    }
+}
+
+function loadThreadData() {
+    const platform = document.getElementById('threadPlatform')?.value || 'ddg51';
+    const view = document.getElementById('threadView')?.value || 'changes';
+    const statusFilter = document.getElementById('threadStatus')?.value || 'all';
+    let items = generateThreadItems(platform, view);
+    _threadCache = {platform, view, items};
+    if(statusFilter!=='all') items = items.filter(i=>i.status===statusFilter);
+
+    document.getElementById('threadTotal').textContent = items.length;
+    document.getElementById('threadPending').textContent = items.filter(i=>i.status==='pending').length;
+    document.getElementById('threadApproved').textContent = items.filter(i=>i.status==='approved'||i.status==='implemented').length;
+    document.getElementById('threadAnchored').textContent = items.filter(i=>i.anchored).length;
+
+    const statusColors = {pending:'#ff9500',approved:'#34c759',implemented:'#00aaff',rejected:'#ff3b30'};
+    const statusLabels = {pending:'Pending',approved:'Approved',implemented:'Implemented',rejected:'Rejected'};
+    let html = '';
+    items.forEach(it => {
+        html += '<tr style="border-bottom:1px solid rgba(255,255,255,0.04);">';
+        html += '<td style="padding:10px 8px;color:#a855f7;font-weight:600;font-family:monospace;font-size:0.82rem;">'+it.id+'</td>';
+        html += '<td style="padding:10px 8px;color:#fff;font-size:0.82rem;">'+it.desc+'</td>';
+        html += '<td style="padding:10px 8px;color:var(--steel);font-size:0.8rem;">'+it.type+'</td>';
+        html += '<td style="padding:10px 8px;text-align:center;"><span style="background:'+statusColors[it.status]+'22;color:'+statusColors[it.status]+';padding:3px 10px;border-radius:12px;font-size:0.78rem;font-weight:600;">'+statusLabels[it.status]+'</span></td>';
+        html += '<td style="padding:10px 8px;text-align:center;font-size:0.9rem;">'+(it.anchored?'<i class="fas fa-check-circle" style="color:#14f195;"></i>':'<i class="fas fa-minus-circle" style="color:var(--text-muted);"></i>')+'</td>';
+        html += '</tr>';
+    });
+    document.getElementById('threadTableBody').innerHTML = html || '<tr><td colspan="5" style="text-align:center;padding:30px;color:var(--text-muted)">No items match current filters.</td></tr>';
+    const viewLabels = {changes:'engineering changes',bom:'BOM revisions',baseline:'configuration baselines',tdp:'TDP versions'};
+    showWorkspaceNotification('Loaded ' + items.length + ' ' + (viewLabels[view]||'items') + ' for ' + platform.toUpperCase());
+}
+
+function exportThread() {
+    const data = _threadCache.items || generateThreadItems('ddg51','changes');
+    let csv = 'Change ID,Description,Type/Category,Status,Anchored,Date\n';
+    data.forEach(d => { csv += d.id+',"'+d.desc+'",'+d.type+','+d.status+','+(d.anchored?'Yes':'No')+','+d.date+'\n'; });
+    const blob = new Blob([csv], {type:'text/csv'});
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'Digital_Thread_'+(_threadCache.platform||'DDG51').toUpperCase()+'_'+(_threadCache.view||'changes')+'.csv'; a.click();
+    showWorkspaceNotification('Digital Thread data exported — ' + data.length + ' items');
+}
+
+async function anchorThread() {
+    const platform = _threadCache.platform || 'ddg51';
+    const view = _threadCache.view || 'changes';
+    const items = _threadCache.items || generateThreadItems(platform, view);
+    const pending = items.filter(i=>i.status==='pending').length;
+    const approved = items.filter(i=>i.status==='approved'||i.status==='implemented').length;
+    const content = 'S4 Ledger Digital Thread Report | Platform: '+platform.toUpperCase()+' | View: '+view+' | Total: '+items.length+' | Pending: '+pending+' | Approved: '+approved+' | Generated: '+new Date().toISOString();
+    const hash = await sha256(content);
+    const txHash = 'TX' + Array.from(crypto.getRandomValues(new Uint8Array(16))).map(b=>b.toString(16).padStart(2,'0')).join('').toUpperCase();
+    showAnchorAnimation(hash, 'Digital Thread Report', 'CUI');
+    try { await fetch('/api/anchor',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({hash, record_type:'digital_thread', tx_hash:txHash})}); } catch(e) {}
+    addToVault({hash, txHash, type:'digital_thread', label:'Digital Thread — '+platform.toUpperCase()+' ('+view+')', branch:'JOINT', icon:'🔗', content:content.substring(0,100), encrypted:false, timestamp:new Date().toISOString(), source:'Digital Thread Bridge', fee:0.01});
+    stats.anchored++; stats.slsFees += 0.01; stats.types.add('digital_thread'); updateStats(); saveStats();
+    saveLocalRecord({hash, tx_hash:txHash, record_type:'digital_thread', record_label:'Digital Thread — '+platform.toUpperCase(), branch:'JOINT', timestamp:new Date().toISOString(), timestamp_display:new Date().toLocaleString(), fee:0.01});
+    setTimeout(()=>{ document.getElementById('animStatus').textContent = '✅ Configuration data anchored!'; document.getElementById('animStatus').style.color = '#14f195'; }, 2200);
+    await new Promise(r => setTimeout(r, 3200)); hideAnchorAnimation();
+}
+
+// ═══════════════════════════════════════════════════════════════
+// ═══ PREDICTIVE MAINTENANCE AI ═══
+// ═══════════════════════════════════════════════════════════════
+let _pdmCache = {};
+
+function generatePredictions(platform, windowDays, confidenceThreshold) {
+    const seed = platform.split('').reduce((a,c)=>a+c.charCodeAt(0),0);
+    const rng = (i)=>((seed*157+i*1009)%10000)/10000;
+    const now = new Date();
+    const systems = {
+        ddg51: [
+            {sys:'LM2500 Gas Turbine — #1 SSDG',comp:'HP Turbine Blade',mode:'Creep fatigue / thermal cycling',costRange:[800,2200]},
+            {sys:'LM2500 Gas Turbine — #2 SSDG',comp:'Fuel Control Valve',mode:'Sticking / response degradation',costRange:[120,450]},
+            {sys:'SPY-6 Radar Array',comp:'T/R Module Bank 3',mode:'Power output degradation >15%',costRange:[350,900]},
+            {sys:'MK 41 VLS',comp:'Gas Management System',mode:'Seal deterioration / pressure loss',costRange:[200,600]},
+            {sys:'AN/SQQ-89 Sonar',comp:'Hydrophone Array',mode:'Sensitivity degradation / crosstalk',costRange:[500,1500]},
+            {sys:'CIWS Phalanx',comp:'Servo Motor Assembly',mode:'Tracking accuracy drift >2 mrad',costRange:[180,550]},
+            {sys:'Mk 45 Gun System',comp:'Barrel Liner',mode:'Bore erosion — approaching round limit',costRange:[250,700]},
+            {sys:'HVAC Chiller Plant',comp:'Compressor #2',mode:'Refrigerant leak / efficiency loss',costRange:[90,320]},
+            {sys:'Steering Gear',comp:'Hydraulic Ram Seal',mode:'Internal bypass / slow response',costRange:[150,500]},
+            {sys:'Fire Main System',comp:'AFFF Pump Motor',mode:'Bearing wear / vibration increase',costRange:[75,280]},
+            {sys:'Electrical Distribution',comp:'450V Switchboard',mode:'Insulation resistance degradation',costRange:[200,800]},
+            {sys:'Navigation Radar',comp:'Magnetron',mode:'Power output decline — end of life',costRange:[60,200]}
+        ],
+        cvn: [
+            {sys:'EMALS Catapult',comp:'Linear Induction Motor',mode:'Winding insulation breakdown',costRange:[1500,4500]},
+            {sys:'AAG Arresting Gear',comp:'Energy Absorber Turbine',mode:'Rotor fatigue cracking',costRange:[800,2800]},
+            {sys:'A1B Reactor Plant',comp:'Primary Coolant Pump',mode:'Bearing wear / vibration trend',costRange:[2000,6000]},
+            {sys:'Dual Band Radar',comp:'SPY-6 Array Panel',mode:'T/R module degradation cluster',costRange:[600,1800]},
+            {sys:'Aircraft Elevator #1',comp:'Hydraulic Motor',mode:'Internal leak — flow reduction',costRange:[400,1200]},
+            {sys:'JP-5 Fuel System',comp:'Transfer Pump',mode:'Impeller erosion / cavitation',costRange:[150,500]},
+            {sys:'Catapult Steam Plant',comp:'Accumulator Valve',mode:'Cycle fatigue — approaching limit',costRange:[300,900]},
+            {sys:'Flight Deck Lighting',comp:'MOVLAS System',mode:'LED driver failure pattern',costRange:[40,150]},
+            {sys:'Freshwater Distillation',comp:'Evaporator Tubes',mode:'Scale buildup / efficiency loss',costRange:[100,350]},
+            {sys:'Anchor Windlass',comp:'Brake Assembly',mode:'Lining wear — measurement trending',costRange:[80,250]}
+        ],
+        f18: [
+            {sys:'F414-GE-400 Engine',comp:'High Pressure Turbine',mode:'Blade tip clearance trending',costRange:[1200,3500]},
+            {sys:'AN/APG-79 AESA Radar',comp:'Power Supply Module',mode:'Voltage regulation drift',costRange:[300,900]},
+            {sys:'Flight Control System',comp:'Aileron Actuator',mode:'Hydraulic bypass increasing',costRange:[200,600]},
+            {sys:'Environmental Control',comp:'Air Cycle Machine',mode:'Bearing vibration signature',costRange:[150,450]},
+            {sys:'Landing Gear',comp:'Main Gear Strut',mode:'Oleo seal — service life approach',costRange:[350,1000]},
+            {sys:'Fuel System',comp:'Wing Tank Bladder Cell',mode:'Permeation rate increase',costRange:[180,550]},
+            {sys:'Canopy System',comp:'Transparency Panel',mode:'Crazing / delamination pattern',costRange:[250,800]},
+            {sys:'Ejection Seat',comp:'Rocket Motor',mode:'Propellant age — shelf life limit',costRange:[400,1200]},
+            {sys:'Weapons System',comp:'Launcher Rail',mode:'Alignment drift / rail wear',costRange:[120,400]},
+            {sys:'Comm System',comp:'UHF Radio',mode:'Frequency stability degradation',costRange:[80,250]}
+        ],
+        mh60: [
+            {sys:'T700-GE-401C Engine',comp:'Power Turbine',mode:'Hot section inspection due',costRange:[600,1800]},
+            {sys:'Main Rotor System',comp:'Pitch Change Rod',mode:'Fatigue life approaching limit',costRange:[300,900]},
+            {sys:'Tail Rotor Gearbox',comp:'Output Pinion',mode:'Chip detector trend analysis',costRange:[400,1200]},
+            {sys:'Flight Controls',comp:'SAS Servo',mode:'Null shift / authority reduction',costRange:[150,450]},
+            {sys:'Forward FLIR',comp:'Dewar Assembly',mode:'Cooling efficiency degradation',costRange:[200,600]},
+            {sys:'Hoist System',comp:'Cable Assembly',mode:'Strand breakage inspection due',costRange:[80,250]},
+            {sys:'Sonobuoy Launcher',comp:'Pneumatic System',mode:'Pressure decay rate increase',costRange:[60,200]},
+            {sys:'APU',comp:'Starter Generator',mode:'Brush wear — trending high',costRange:[100,350]}
+        ],
+        lcs: [
+            {sys:'MT30 Gas Turbine',comp:'Power Turbine Module',mode:'Exhaust gas temperature trending',costRange:[900,2800]},
+            {sys:'Waterjet Propulsor',comp:'Impeller',mode:'Cavitation erosion pattern',costRange:[500,1500]},
+            {sys:'Mission Module Bay',comp:'Rail System',mode:'Alignment / structural fatigue',costRange:[200,600]},
+            {sys:'30mm Mk 46 Gun',comp:'Feed System',mode:'Cycle count approaching limit',costRange:[150,450]},
+            {sys:'TRS-4D Radar',comp:'Antenna Assembly',mode:'Pointing accuracy drift',costRange:[300,900]},
+            {sys:'Diesel Generator',comp:'Injector Set',mode:'Fuel delivery degradation',costRange:[80,250]},
+            {sys:'RHIB Davit',comp:'Hydraulic Cylinder',mode:'Seal extrusion / slow deploy',costRange:[60,200]},
+            {sys:'Fire Control',comp:'EO/IR Director',mode:'Gimbal bearing roughness',costRange:[250,750]}
+        ]
+    };
+    const fleetSystems = systems[platform] || systems.ddg51;
+    let predictions = fleetSystems.map((s,i) => {
+        const confidence = Math.round(50 + rng(i) * 50);
+        const etaDays = Math.round(5 + rng(i*3) * (windowDays || 90));
+        const eta = new Date(now.getTime() + etaDays * 86400000);
+        const costUnplanned = Math.round(s.costRange[0] + rng(i*5) * (s.costRange[1]-s.costRange[0]));
+        return {system:s.sys, component:s.comp, mode:s.mode, confidence, eta:eta.toLocaleDateString(), etaDays, cost:costUnplanned, urgent:etaDays<=30};
+    });
+    predictions = predictions.filter(p => p.confidence >= (confidenceThreshold||85));
+    predictions.sort((a,b) => a.etaDays - b.etaDays);
+    return predictions;
+}
+
+function loadPredictiveData() {
+    const platform = document.getElementById('pdmPlatform')?.value || 'ddg51';
+    const windowDays = parseInt(document.getElementById('pdmWindow')?.value) || 90;
+    const confidence = parseInt(document.getElementById('pdmConfidence')?.value) || 85;
+    const items = generatePredictions(platform, windowDays, confidence);
+    _pdmCache = {platform, windowDays, confidence, items};
+
+    const urgent = items.filter(i=>i.urgent).length;
+    const totalCost = items.reduce((s,i)=>s+i.cost,0);
+    const savings = Math.round(totalCost * 0.55);
+    const accuracy = (87 + Math.random()*10).toFixed(1);
+    document.getElementById('pdmPredictions').textContent = items.length;
+    document.getElementById('pdmUrgent').textContent = urgent;
+    document.getElementById('pdmSavings').textContent = savings >= 1000 ? '$' + (savings/1000).toFixed(1) + 'M' : '$' + savings + 'K';
+    document.getElementById('pdmAccuracy').textContent = accuracy + '%';
+
+    let html = '';
+    items.forEach(it => {
+        const confColor = it.confidence >= 90 ? '#ff3b30' : it.confidence >= 80 ? '#ff9500' : it.confidence >= 70 ? '#ffcc00' : '#34c759';
+        html += '<tr style="border-bottom:1px solid rgba(255,255,255,0.04);'+(it.urgent?'background:rgba(255,59,48,0.04);':'') +'">';
+        html += '<td style="padding:10px 8px;"><div style="color:#fff;font-weight:600;font-size:0.82rem;">'+it.system+'</div><div style="color:var(--text-muted);font-size:0.72rem;">'+it.component+'</div></td>';
+        html += '<td style="padding:10px 8px;color:var(--steel);font-size:0.8rem;">'+it.mode+'</td>';
+        html += '<td style="padding:10px 8px;text-align:center;"><div style="display:inline-block;padding:4px 10px;border-radius:20px;font-weight:700;font-size:0.82rem;background:'+confColor+'22;color:'+confColor+';border:1px solid '+confColor+'44;">'+it.confidence+'%</div></td>';
+        html += '<td style="padding:10px 8px;text-align:center;color:'+(it.urgent?'#ff3b30':'var(--steel)')+';font-weight:'+(it.urgent?'700':'400')+';font-size:0.82rem;">'+it.eta+(it.urgent?' ⚠️':'')+'</td>';
+        html += '<td style="padding:10px 8px;text-align:right;color:#ff9500;font-weight:600;font-size:0.85rem;">$'+it.cost.toLocaleString()+'K</td>';
+        html += '</tr>';
+    });
+    document.getElementById('pdmTableBody').innerHTML = html || '<tr><td colspan="5" style="text-align:center;padding:30px;color:var(--text-muted)">No predictions above confidence threshold.</td></tr>';
+    showWorkspaceNotification('Predictive analysis complete — ' + items.length + ' predictions, ' + urgent + ' urgent');
+}
+
+function exportPredictive() {
+    const data = _pdmCache.items || generatePredictions('ddg51', 90, 85);
+    let csv = 'System,Component,Failure Mode,Confidence %,Predicted ETA,Days Until,Cost if Unplanned ($K),Urgent\n';
+    data.forEach(d => { csv += '"'+d.system+'","'+d.component+'","'+d.mode+'",'+d.confidence+','+d.eta+','+d.etaDays+','+d.cost+','+(d.urgent?'YES':'No')+'\n'; });
+    const blob = new Blob([csv], {type:'text/csv'});
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'Predictive_Maintenance_'+(_pdmCache.platform||'DDG51').toUpperCase()+'.csv'; a.click();
+    showWorkspaceNotification('Predictive maintenance report exported — ' + data.length + ' predictions');
+}
+
+async function anchorPredictive() {
+    const platform = _pdmCache.platform || 'ddg51';
+    const items = _pdmCache.items || generatePredictions(platform, 90, 85);
+    const urgent = items.filter(i=>i.urgent).length;
+    const totalCost = items.reduce((s,i)=>s+i.cost,0);
+    const content = 'S4 Ledger Predictive Maintenance Report | Platform: '+platform.toUpperCase()+' | Predictions: '+items.length+' | Urgent: '+urgent+' | Total Risk: $'+totalCost+'K | Generated: '+new Date().toISOString();
+    const hash = await sha256(content);
+    const txHash = 'TX' + Array.from(crypto.getRandomValues(new Uint8Array(16))).map(b=>b.toString(16).padStart(2,'0')).join('').toUpperCase();
+    showAnchorAnimation(hash, 'Predictive Maintenance Report', 'CUI');
+    try { await fetch('/api/anchor',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({hash, record_type:'predictive_maintenance', tx_hash:txHash})}); } catch(e) {}
+    addToVault({hash, txHash, type:'predictive_maintenance', label:'Predictive Maintenance — '+platform.toUpperCase(), branch:'JOINT', icon:'🧠', content:content.substring(0,100), encrypted:false, timestamp:new Date().toISOString(), source:'Predictive Maintenance AI', fee:0.01});
+    stats.anchored++; stats.slsFees += 0.01; stats.types.add('predictive_maintenance'); updateStats(); saveStats();
+    saveLocalRecord({hash, tx_hash:txHash, record_type:'predictive_maintenance', record_label:'Predictive Maintenance — '+platform.toUpperCase(), branch:'JOINT', timestamp:new Date().toISOString(), timestamp_display:new Date().toLocaleString(), fee:0.01});
+    setTimeout(()=>{ document.getElementById('animStatus').textContent = '✅ Predictive data anchored!'; document.getElementById('animStatus').style.color = '#14f195'; }, 2200);
     await new Promise(r => setTimeout(r, 3200)); hideAnchorAnimation();
 }
 

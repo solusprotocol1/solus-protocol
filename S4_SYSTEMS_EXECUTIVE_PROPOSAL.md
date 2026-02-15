@@ -272,7 +272,7 @@ S4 Ledger's prototype is essentially a **completed Phase I deliverable**. We cou
 1. **A working prototype** — live, publicly accessible, with 14+ pages and 7 API endpoints
 2. **Domain expertise** — I understand defense logistics AND the underlying technology
 3. **Complete documentation** — whitepaper, technical specs, migration guides, compliance docs, API specification
-4. **ILS Workspace** — a fully functional suite of 13 integrated logistics tools ready for demonstration, including a Provisioning & PTD Manager that replaces DAU's ICAPS for all branches
+4. **ILS Workspace** — a fully functional suite of 18 integrated logistics tools ready for demonstration, including a Provisioning & PTD Manager that replaces DAU's ICAPS for all branches
 5. **Product vision** — detailed roadmap through enterprise-scale deployment
 6. **Speed** — I can have this production-ready in 60–90 days with company support
 
@@ -347,7 +347,7 @@ Defense SaaS companies are valued at 12–20× revenue (Palantir: 27×, Anduril:
 
 ### The Math That Gets Us There
 
-**Current platform savings per program:** $316K–$815K/year (13 ILS tools + hash anchoring combined).  
+**Current platform savings per program:** $316K–$815K/year (18 ILS tools + hash anchoring combined).  
 **S4 Ledger charges 5–10% of value delivered** → $6K–$60K/year per customer → 10–50× ROI for government.
 
 | Scale | Programs | Govt Savings/Year | S4 Revenue (ARR) | Valuation (15×) |

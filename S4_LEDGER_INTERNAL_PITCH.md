@@ -86,7 +86,7 @@ S4 Ledger only puts fingerprints on-chain. All actual data stays in your control
 Everything described above is **live and working right now** at [s4ledger.com](https://s4ledger.com). It was built by Nick Frankfort on his own time at zero cost to the company. The tech stack:
 
 - **Website:** 14+ pages, fully branded
-- **Demo App:** All 13 ILS Workspace tools working, 156+ pre-built record types (supports any defense record type), 500+ pre-loaded military platforms, ICAPS-replacement provisioning tool
+- **Demo App:** All 18 ILS Workspace tools working, 156+ pre-built record types (supports any defense record type), 500+ pre-loaded military platforms, ICAPS-replacement provisioning tool
 - **Audit Record Vault:** Automatically stores every anchored record with content + hash for instant auditing
 - **Defense Document Library:** 100+ real MIL-STDs, OPNAVINSTs, DoD Directives searchable by branch and category
 - **Compliance Scorecard:** Real-time CMMC/NIST/DFARS compliance calculator with letter grades

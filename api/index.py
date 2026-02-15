@@ -534,6 +534,16 @@ class handler(BaseHTTPRequestHandler):
             return "lifecycle"
         if path == "/api/warranty":
             return "warranty"
+        if path == "/api/supply-chain-risk":
+            return "supply_chain_risk"
+        if path == "/api/audit-reports":
+            return "audit_reports"
+        if path == "/api/contracts":
+            return "contracts"
+        if path == "/api/digital-thread":
+            return "digital_thread"
+        if path == "/api/predictive-maintenance":
+            return "predictive_maintenance"
         return None
 
     def _check_rate_limit(self):
@@ -715,6 +725,49 @@ class handler(BaseHTTPRequestHandler):
             program = parse_qs(parsed.query).get("program", ["ddg51"])[0]
             items = [{"system": f"System {i+1}", "status": "Active" if i < 6 else "Expiring" if i < 8 else "Expired", "days_left": max(0, 365 - i * 60), "contract_type": "OEM Warranty", "value": 50000 + i * 25000} for i in range(10)]
             self._send_json({"program": program, "items": items, "active": sum(1 for i in items if i["status"] == "Active"), "expiring": sum(1 for i in items if i["status"] == "Expiring"), "total_value": sum(i["value"] for i in items)})
+        elif route == "supply_chain_risk":
+            self._log_request("supply-chain-risk")
+            qs = parse_qs(parsed.query)
+            program = qs.get("program", ["ddg51"])[0]
+            threshold = qs.get("threshold", ["all"])[0]
+            risk_items = []
+            parts = [("SPY-6 T/R Module","5985-01-678-4321","Raytheon",92,"critical"),("LM2500 Turbine Blade","2840-01-480-6710","General Dynamics",87,"critical"),("MK 41 VLS Rail","1440-01-555-8790","BAE Systems",78,"high"),("AN/SQQ-89 Sonar","5845-01-602-3344","L3Harris",72,"high"),("SEWIP Block III","5985-01-690-1234","Northrop Grumman",65,"medium"),("CIWS Phalanx Motor","6110-01-557-2288","Honeywell",58,"medium"),("Hull Steel HY-80","9515-01-320-4567","Curtiss-Wright",45,"medium"),("Mk 45 Barrel Liner","1005-01-398-7722","BAE Systems",38,"low"),("SSDS Mk 2 Server","7021-01-567-8901","Collins Aerospace",28,"low"),("Fin Stabilizer","2040-01-678-0123","Moog Inc",22,"low")]
+            for p in parts:
+                risk_items.append({"part":p[0],"nsn":p[1],"supplier":p[2],"score":p[3],"level":p[4],"factors":["Single-source dependency","DLA lead time spike"],"eta_impact":f"+{p[3]}d" if p[3]>50 else "None"})
+            if threshold == "critical": risk_items = [r for r in risk_items if r["level"]=="critical"]
+            elif threshold == "high": risk_items = [r for r in risk_items if r["level"] in ("critical","high")]
+            self._send_json({"program":program,"items":risk_items,"critical":sum(1 for r in risk_items if r["level"]=="critical"),"high":sum(1 for r in risk_items if r["level"]=="high"),"medium":sum(1 for r in risk_items if r["level"]=="medium"),"low":sum(1 for r in risk_items if r["level"]=="low"),"total":len(risk_items)})
+        elif route == "audit_reports":
+            self._log_request("audit-reports")
+            qs = parse_qs(parsed.query)
+            report_type = qs.get("type", ["full_audit"])[0]
+            period = int(qs.get("period", ["90"])[0])
+            sections = {"full_audit":["Executive Summary","Anchoring History","Chain of Custody","Compliance Scorecard","Record Verification","Hash Integrity"],"supply_chain":["Supply Chain Overview","Receipt Verification","Custody Transfers","Lot Traceability"],"maintenance":["Maintenance Summary","Work Order Verification","Parts Usage","Readiness Impact"],"compliance":["Overall Score","NIST 800-171","CMMC Readiness","DFARS Compliance"],"custody":["Custody Timeline","Transfer Verification","Location History","Blockchain Proof"],"contract":["CDRL Status","Deliverable Timeline","Mod History","Cost Performance"]}
+            sec = sections.get(report_type, sections["full_audit"])
+            self._send_json({"report_type":report_type,"period_days":period,"sections":sec,"record_count":42,"compliance_score":94.2,"generated":datetime.now(timezone.utc).isoformat()})
+        elif route == "contracts":
+            self._log_request("contracts")
+            qs = parse_qs(parsed.query)
+            contract_id = qs.get("contract", ["N00024-25-C-5501"])[0]
+            items = [{"id":"A001","desc":"Integrated Logistics Support Plan","type":"cdrl","di":"DI-ALSS-81529","due":"2025-06-15","status":"on_track","anchored":True},{"id":"A003","desc":"Level of Repair Analysis","type":"cdrl","di":"DI-ALSS-81517","due":"2025-05-01","status":"delivered","anchored":True},{"id":"A005","desc":"Reliability Analysis Report","type":"cdrl","di":"DI-RELI-80255","due":"2025-04-15","status":"overdue","anchored":False},{"id":"MOD-P00001","desc":"Contract Value Adjustment +$2.4M","type":"mod","di":"—","due":"2025-03-01","status":"delivered","anchored":True},{"id":"SOW-3.1.1","desc":"Monthly Status Report","type":"deliverable","di":"—","due":"2025-05-30","status":"on_track","anchored":False}]
+            self._send_json({"contract":contract_id,"items":items,"total":len(items),"on_track":sum(1 for i in items if i["status"]=="on_track"),"overdue":sum(1 for i in items if i["status"]=="overdue"),"delivered":sum(1 for i in items if i["status"]=="delivered")})
+        elif route == "digital_thread":
+            self._log_request("digital-thread")
+            qs = parse_qs(parsed.query)
+            platform = qs.get("platform", ["ddg51"])[0]
+            view = qs.get("view", ["changes"])[0]
+            items = [{"id":f"ECP-{platform.upper()}-2024001","desc":"Replace hydraulic actuator with electro-mechanical","type":"Class I","status":"approved","anchored":True},{"id":f"ECP-{platform.upper()}-2024002","desc":"Update corrosion protection coating","type":"Class II","status":"implemented","anchored":True},{"id":f"ECP-{platform.upper()}-2024003","desc":"Redesign cooling duct","type":"Class I","status":"pending","anchored":False},{"id":f"BOM-{platform.upper()}-001","desc":"Top-Level Assembly BOM Rev C","type":"Rev C","status":"approved","anchored":True}]
+            self._send_json({"platform":platform,"view":view,"items":items,"total":len(items),"pending":sum(1 for i in items if i["status"]=="pending"),"approved":sum(1 for i in items if i["status"] in ("approved","implemented")),"anchored":sum(1 for i in items if i["anchored"])})
+        elif route == "predictive_maintenance":
+            self._log_request("predictive-maintenance")
+            qs = parse_qs(parsed.query)
+            platform = qs.get("platform", ["ddg51"])[0]
+            window = int(qs.get("window", ["90"])[0])
+            confidence = int(qs.get("confidence", ["85"])[0])
+            predictions = [{"system":"LM2500 Gas Turbine","component":"HP Turbine Blade","mode":"Creep fatigue","confidence":94,"eta_days":18,"cost_unplanned":1850,"urgent":True},{"system":"SPY-6 Radar Array","component":"T/R Module Bank 3","mode":"Power degradation","confidence":91,"eta_days":34,"cost_unplanned":720,"urgent":False},{"system":"MK 41 VLS","component":"Gas Management Seal","mode":"Pressure loss","confidence":88,"eta_days":52,"cost_unplanned":380,"urgent":False},{"system":"CIWS Phalanx","component":"Servo Motor","mode":"Tracking drift","confidence":86,"eta_days":67,"cost_unplanned":420,"urgent":False}]
+            predictions = [p for p in predictions if p["confidence"] >= confidence and p["eta_days"] <= window]
+            total_cost = sum(p["cost_unplanned"] for p in predictions)
+            self._send_json({"platform":platform,"window_days":window,"confidence_threshold":confidence,"predictions":predictions,"total":len(predictions),"urgent":sum(1 for p in predictions if p["urgent"]),"total_risk_k":total_cost,"est_savings_k":int(total_cost*0.55),"model_accuracy":92.4})
         elif route == "action-items" or route == "action_items":
             self._log_request("action-items")
             # Return sample action items for SDK/API consumers

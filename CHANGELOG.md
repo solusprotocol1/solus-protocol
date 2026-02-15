@@ -5,6 +5,23 @@ All notable changes to the S4 Ledger project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.8.5] - 2026-02-15
+
+### Added
+- **AI Supply Chain Risk Engine** — New ILS Workspace tool (#14). ML-powered risk scoring across 15+ parts per program — analyzes supplier health (GIDEP alerts, DLA lead time spikes, financial distress, single-source dependency, counterfeit indicators). Generates risk scores (Critical/High/Medium/Low), ETA impact calculations, and full CSV export. Realistic data for DDG-51, CVN-78, F-35, CH-53K, SSN-774 programs with real NSN numbers
+- **Automated Audit Report Generator** — New ILS Workspace tool (#15). One-click audit package generation from anchored records. 6 report types (Full Audit, Supply Chain, Maintenance, Compliance, Custody, Contract Deliverables), configurable time periods, PDF/CSV/JSON output. Generates preview with section-by-section compliance scoring. Report hash anchoring to XRPL for immutable audit trail
+- **Contract Lifecycle Management** — New ILS Workspace tool (#16). CDRL tracking, contract modifications, and SOW deliverable status monitoring. 5 realistic DoD contracts (Navy, Air Force, Army), DI number references, deliverable status tracking (On Track/At Risk/Overdue/Delivered), type filtering (CDRLs/Mods/SOW Deliverables). Blockchain-anchored delivery timestamps eliminate contract disputes
+- **Digital Thread / Configuration Bridge** — New ILS Workspace tool (#17). 4 configuration management views: Engineering Changes (ECP tracking with Class I/II), BOM Revisions (multi-level assemblies), Configuration Baselines (FBL/ABL/Product), TDP Versions (specifications through IPBs). Status workflow (Pending→Approved→Implemented), anchoring status per item, full export capability
+- **Predictive Maintenance AI** — New ILS Workspace tool (#18). Fleet-wide failure prediction engine — analyzes MTBF trends, failure mode clustering, and component age curves. Platform-specific predictions (DDG-51: 12 systems, CVN: 10, F/A-18: 10, MH-60: 8, LCS: 8) with confidence scores, ETA predictions, and cost-if-unplanned estimates. Configurable prediction window (30d–365d) and confidence threshold (50%–95%)
+- **Developer Marketplace** — New standalone page (`/s4-marketplace/`) with 12 available extensions (7 official, 3 partner, 2 community), 3 coming-soon items, category filtering (Integrations/Analytics/Compliance/Connectors/Templates/AI), marketplace economics section (70/30 revenue share), and publish CTA. Extensions include SAP S/4HANA, PTC Windchill, Siemens Teamcenter, DCMA Compliance, GIDEP Alert Monitor, EDA/PIEE Bridge, Power BI dashboards, IBM Maximo, Splunk SIEM, NIST/CMMC templates, and SDK starter packs
+- **5 New API Endpoints** — Added `/api/supply-chain-risk`, `/api/audit-reports`, `/api/contracts`, `/api/digital-thread`, `/api/predictive-maintenance` to the serverless API with full query parameter support and realistic demo data
+
+### Changed
+- **ILS Workspace expanded** — 13 tools → 18 tools (5 new ILS panels + Marketplace page)
+- **Tool Count Audit** — Updated all references from "13 tools" → "18 tools" across index.html, WHITEPAPER.md, INVESTOR_PITCH.md, INVESTOR_SLIDE_DECK.md, BAA_TEMPLATE.md, PRODUCTION_READINESS.md, s4-use-cases/index.html, BILLION_DOLLAR_ROADMAP.md, S4_SYSTEMS_EXECUTIVE_PROPOSAL.md, INVESTOR_RELATIONS.md, S4_LEDGER_INTERNAL_PITCH.md, and api/openapi.json
+- **Landing Page** — Updated ILS Workspace description to list all 18 tools including the 5 new ones, updated Use Cases explore card to "18 ILS Use Cases"
+- **OpenAPI Spec** — Description updated to list all 18 integrated tools
+
 ## [3.8.4] - 2026-02-15
 
 ### Added
