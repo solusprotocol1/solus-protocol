@@ -5,6 +5,12 @@ All notable changes to the S4 Ledger project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.8.1] - 2026-02-16
+
+### Changed
+- **Floating AI Agent** — AI Agent extracted from Gap Analysis panel and converted to a floating widget accessible from all 13 ILS Workspace tools. Appears as a chat bubble in the bottom-right corner. Context-aware quick-action buttons update automatically when switching tools (e.g., switching to DMSMS shows "Obsolete Parts", "Alt Sources"; switching to Provisioning shows "ICAPS Comparison", "Explain PTD"). Includes tool context label showing which tool is active. Agent only appears on the ILS Workspace tab.
+- **Back-to-top button** — Moved from bottom-right to bottom-left to avoid overlap with floating AI agent
+
 ## [3.8.0] - 2026-02-16
 
 ### Added

@@ -165,6 +165,19 @@
         .ai-quick-btns{display:flex;flex-wrap:wrap;gap:4px;padding:6px 12px;background:var(--card);border-top:1px solid rgba(255,255,255,0.03)}
         .ai-quick-btn{background:rgba(0,170,255,0.06);border:1px solid rgba(0,170,255,0.15);color:var(--accent);border-radius:16px;padding:4px 10px;font-size:0.72rem;cursor:pointer;font-family:inherit;transition:all 0.2s}
         .ai-quick-btn:hover{background:rgba(0,170,255,0.15);border-color:var(--accent)}
+        /* Floating AI Agent */
+        .ai-float-wrapper{position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;flex-direction:column;align-items:flex-end;gap:12px;pointer-events:none}
+        .ai-float-toggle{pointer-events:all;width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;font-size:1.4rem;cursor:pointer;box-shadow:0 4px 20px rgba(0,170,255,0.4);transition:all 0.3s;display:flex;align-items:center;justify-content:center;position:relative}
+        .ai-float-toggle:hover{transform:scale(1.08);box-shadow:0 6px 28px rgba(0,170,255,0.5)}
+        .ai-float-toggle .ai-float-dot{position:absolute;top:4px;right:4px;width:12px;height:12px;background:#14f195;border-radius:50%;border:2px solid #0a0e1a;animation:pulse 2s infinite}
+        .ai-float-panel{pointer-events:all;width:380px;max-height:520px;background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 8px 40px rgba(0,0,0,0.5);transform:translateY(20px) scale(0.95);opacity:0;transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1);visibility:hidden}
+        .ai-float-panel.open{transform:translateY(0) scale(1);opacity:1;visibility:visible}
+        .ai-float-panel .ai-chat-header{border-radius:0;display:flex;justify-content:space-between}
+        .ai-float-panel .ai-chat-header .ai-close-btn{background:none;border:none;color:var(--muted);font-size:1.1rem;cursor:pointer;padding:4px 8px;border-radius:6px;transition:all 0.2s}
+        .ai-float-panel .ai-chat-header .ai-close-btn:hover{color:#fff;background:rgba(255,255,255,0.1)}
+        .ai-float-panel .ai-chat-messages{height:280px;flex:1}
+        .ai-float-panel .ai-context-label{font-size:0.68rem;padding:4px 12px;background:rgba(201,168,76,0.08);border-bottom:1px solid rgba(201,168,76,0.1);color:var(--gold);font-weight:600;display:flex;align-items:center;gap:6px}
+        @media(max-width:480px){.ai-float-panel{width:calc(100vw - 32px);right:0}.ai-float-wrapper{right:16px;bottom:16px}}
         /* Post-Analysis Actions */
         .post-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;padding-top:12px;border-top:1px dashed var(--border)}
         .post-action-btn{display:inline-flex;align-items:center;gap:6px;background:rgba(0,170,255,0.06);border:1px solid rgba(0,170,255,0.2);color:var(--steel);border-radius:8px;padding:8px 14px;font-size:0.8rem;font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.2s}
@@ -677,41 +690,7 @@
                                 <div style="color:var(--muted);text-align:center;padding:1rem">Analysis required to estimate impact.</div>
                             </div>
                         </div>
-                        <div class="demo-card" style="padding:0;overflow:hidden">
-                            <div style="padding:0">
-                                <div class="ai-chat-header">
-                                    <div class="ai-dot"></div>
-                                    <div><span style="font-weight:700;color:#fff;font-size:0.95rem"><i class="fas fa-robot" style="color:var(--accent);margin-right:6px"></i>S4 ILS Agent</span><span style="font-size:0.72rem;color:var(--muted);margin-left:8px">AI-Powered Analysis Assistant</span></div>
-                                </div>
-                                <div class="ai-chat-container" style="border:none;border-radius:0;height:380px">
-                                    <div class="ai-chat-messages" id="aiChatMessages">
-                                        <div class="ai-msg bot"><div class="ai-label"><i class="fas fa-robot"></i> S4 Agent</div>Hello! I'm your ILS Workspace Agent. I can help you:<br>• Interpret gap analysis results<br>• Explain DI number requirements<br>• Suggest corrective actions<br>• Draft CAR narratives<br>• Estimate cost impacts<br><br>Run an analysis or ask me anything about ILS!</div>
-                                    </div>
-                                    <div class="ai-quick-btns" id="aiQuickBtns">
-                                        <button class="ai-quick-btn" onclick="aiAsk('Summarize my gaps')">Summarize Gaps</button>
-                                        <button class="ai-quick-btn" onclick="aiAsk('What are the critical items?')">Critical Items</button>
-                                        <button class="ai-quick-btn" onclick="aiAsk('Draft a CAR')">Draft CAR</button>
-                                        <button class="ai-quick-btn" onclick="aiAsk('Estimate total risk')">Risk Estimate</button>
-                                        <button class="ai-quick-btn" onclick="aiAsk('What DI numbers am I missing?')">Missing DIs</button>
-                                        <button class="ai-quick-btn" onclick="aiAsk('Suggest next steps')">Next Steps</button>
-                                        <button class="ai-quick-btn" onclick="aiAsk('Draft a memo')">Draft Memo</button>
-                                        <button class="ai-quick-btn" onclick="aiAsk('Draft an email')">Draft Email</button>
-                                        <button class="ai-quick-btn" onclick="aiAsk('Schedule risk assessment')">Schedule Risk</button>
-                                        <button class="ai-quick-btn" onclick="aiAsk('Checklist status')">Checklist</button>
-                                        <button class="ai-quick-btn" onclick="aiAsk('Compare readiness benchmark')">Benchmark</button>
-                                        <button class="ai-quick-btn" onclick="aiAsk('What is ILS?')">Explain ILS</button>
-                                        <button class="ai-quick-btn" onclick="aiAsk('Tell me about the audit vault')">Audit Vault</button>
-                                        <button class="ai-quick-btn" onclick="aiAsk('Show compliance scorecard')">Compliance</button>
-                                        <button class="ai-quick-btn" onclick="aiAsk('Browse defense document library')">Doc Library</button>
-                                        <button class="ai-quick-btn" onclick="aiAsk('How does S4 beat ICAPS?')">ICAPS Comparison</button>
-                                    </div>
-                                    <div class="ai-chat-input">
-                                        <input type="text" id="aiChatInput" placeholder="Ask the ILS Agent..." onkeydown="if(event.key==='Enter')aiSend()">
-                                        <button onclick="aiSend()"><i class="fas fa-paper-plane"></i> Send</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+
                     </div>
                 </div>
                 </div><!-- /hub-analysis -->
@@ -1339,6 +1318,32 @@
                         <button onclick="anchorProvisioning()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#c9a84c,#a88a3a);color:#fff;border:none;border-radius:8px;padding:8px 16px"><i class="fas fa-anchor"></i> Anchor to XRPL ($0.01 SLS)</button>
                     </div>
                 </div>
+            </div>
+
+            <!-- ══ FLOATING AI AGENT (accessible from all tools) ══ -->
+            <div class="ai-float-wrapper" id="aiFloatWrapper">
+                <div class="ai-float-panel" id="aiFloatPanel">
+                    <div class="ai-chat-header">
+                        <div style="display:flex;align-items:center;gap:10px">
+                            <div class="ai-dot"></div>
+                            <div><span style="font-weight:700;color:#fff;font-size:0.92rem"><i class="fas fa-robot" style="color:var(--accent);margin-right:6px"></i>S4 ILS Agent</span></div>
+                        </div>
+                        <button class="ai-close-btn" onclick="toggleAiAgent()" title="Minimize"><i class="fas fa-chevron-down"></i></button>
+                    </div>
+                    <div class="ai-context-label" id="aiContextLabel"><i class="fas fa-crosshairs"></i> Context: <span id="aiContextTool">Gap Analysis</span></div>
+                    <div class="ai-chat-messages" id="aiChatMessages">
+                        <div class="ai-msg bot"><div class="ai-label"><i class="fas fa-robot"></i> S4 Agent</div>Hello! I'm your ILS Workspace Agent. I'm available on every tool — ask me anything about:<br>• Gap analysis &amp; DI requirements<br>• DMSMS obsolescence &amp; readiness<br>• Parts cross-reference &amp; ROI<br>• Audit vault &amp; compliance scoring<br>• Provisioning, PTD &amp; ICAPS<br>• Defense documents &amp; standards<br><br>Switch tools — I'll follow along with contextual suggestions!</div>
+                    </div>
+                    <div class="ai-quick-btns" id="aiQuickBtns"></div>
+                    <div class="ai-chat-input">
+                        <input type="text" id="aiChatInput" placeholder="Ask the ILS Agent..." onkeydown="if(event.key==='Enter')aiSend()">
+                        <button onclick="aiSend()"><i class="fas fa-paper-plane"></i> Send</button>
+                    </div>
+                </div>
+                <button class="ai-float-toggle" onclick="toggleAiAgent()" title="S4 ILS Agent">
+                    <i class="fas fa-robot"></i>
+                    <span class="ai-float-dot"></span>
+                </button>
             </div>
 
             </div><!-- /tabILS -->
@@ -3973,6 +3978,51 @@ function saveILSReport() {
 
 // ═══ S4 ILS AI AGENT ═══
 
+// ── Floating Agent Toggle ──
+let aiAgentOpen = false;
+function toggleAiAgent() {
+    aiAgentOpen = !aiAgentOpen;
+    const panel = document.getElementById('aiFloatPanel');
+    if (panel) {
+        panel.classList.toggle('open', aiAgentOpen);
+        if (aiAgentOpen) {
+            setTimeout(() => document.getElementById('aiChatInput')?.focus(), 350);
+        }
+    }
+}
+
+// ── Context-Aware Quick Actions ──
+const AI_TOOL_CONTEXT = {
+    'hub-analysis':     {label:'Gap Analysis',    icon:'fa-chart-line',         buttons:[['Summarize my gaps','Summarize Gaps'],['What are the critical items?','Critical Items'],['Draft a CAR','Draft CAR'],['Estimate total risk','Risk Estimate'],['What DI numbers am I missing?','Missing DIs'],['Suggest next steps','Next Steps'],['Draft a memo','Draft Memo'],['Draft an email','Draft Email']]},
+    'hub-actions':      {label:'Action Items',    icon:'fa-tasks',              buttons:[['How many open actions?','Open Actions'],['Show critical items','Critical Items'],['Who has the most tasks?','Task Load'],['Suggest priorities','Prioritize'],['Draft a follow-up email','Follow-Up Email'],['What is overdue?','Overdue Items']]},
+    'hub-calendar':     {label:'ILS Calendar',    icon:'fa-calendar-alt',       buttons:[['What milestones are coming up?','Upcoming Milestones'],['Show warranty expirations','Warranty Alerts'],['Schedule a DMSMS review','Schedule Review'],['Export calendar','Export .ics'],['Draft a schedule memo','Schedule Memo']]},
+    'hub-dmsms':        {label:'DMSMS Tracker',   icon:'fa-exclamation-triangle',buttons:[['What parts are obsolete?','Obsolete Parts'],['Find alternate sources','Alt Sources'],['Estimate DMSMS cost impact','Cost Impact'],['Draft a DMSMS report','DMSMS Report'],['What is DMSMS?','Explain DMSMS'],['Show risk by program','Risk by Program']]},
+    'hub-readiness':    {label:'Readiness',       icon:'fa-chart-line',         buttons:[['Calculate Ao','Calc Availability'],['What is MTBF vs MTTR?','MTBF/MTTR'],['Compare readiness benchmark','Benchmark'],['Suggest readiness improvements','Improvements'],['Draft readiness brief','Readiness Brief']]},
+    'hub-parts':        {label:'Parts Cross-Ref', icon:'fa-cogs',               buttons:[['Look up an NSN','NSN Lookup'],['Find CAGE code','CAGE Search'],['What alternates exist?','Alt Parts'],['Cross-reference this part','Cross-Ref'],['What is FLIS?','Explain FLIS']]},
+    'hub-roi':          {label:'ROI Calculator',   icon:'fa-dollar-sign',       buttons:[['Calculate ROI for my program','Calc ROI'],['What are the labor savings?','Labor Savings'],['Show 5-year projection','5-Year Projection'],['Compare vs legacy systems','Legacy Comparison'],['Draft an ROI brief','ROI Brief']]},
+    'hub-lifecycle':    {label:'Lifecycle Cost',   icon:'fa-clock',             buttons:[['Estimate total ownership cost','TOC Estimate'],['Break down sustainment costs','Sustainment Breakdown'],['What drives lifecycle cost?','Cost Drivers'],['Compare to similar platforms','Platform Comparison'],['Draft lifecycle memo','Lifecycle Memo']]},
+    'hub-warranty':     {label:'Warranty Tracker', icon:'fa-file-contract',     buttons:[['What warranties expire soon?','Expiring Soon'],['Show CLIN milestones','CLIN Status'],['Draft warranty extension request','Extension Request'],['What is FAR 46.7?','Explain FAR 46.7'],['Export warranty report','Export Report']]},
+    'hub-vault':        {label:'Audit Vault',      icon:'fa-vault',             buttons:[['How many records in the vault?','Vault Stats'],['Search for a record','Search Vault'],['What is the audit trail?','Explain Vault'],['How is data secured?','Vault Security'],['Export vault to CSV','Export CSV'],['Re-verify a hash','Verify Hash']]},
+    'hub-docs':         {label:'Doc Library',      icon:'fa-book',              buttons:[['Find MIL-STD-1388','Find Doc'],['What documents cover ILS?','ILS Documents'],['Show NAVSEA standards','NAVSEA Docs'],['Browse NIST frameworks','NIST Frameworks'],['What is a DI number?','Explain DIs']]},
+    'hub-compliance':   {label:'Compliance',       icon:'fa-shield-halved',     buttons:[['Calculate my compliance score','Calc Score'],['What is CMMC Level 2?','Explain CMMC'],['Show NIST 800-171 controls','NIST Controls'],['What DFARS clauses apply?','DFARS Clauses'],['How do I improve my score?','Improve Score'],['Draft compliance memo','Compliance Memo']]},
+    'hub-provisioning': {label:'Provisioning',     icon:'fa-boxes-stacked',     buttons:[['How does S4 beat ICAPS?','ICAPS Comparison'],['What is a PTD?','Explain PTD'],['Generate allowance parts lists','Generate APLs'],['Show NSN cataloging status','NSN Status'],['What is provisioning?','Explain Provisioning'],['Draft provisioning report','Prov Report']]}
+};
+let currentHubPanel = 'hub-analysis';
+
+function updateAiContext(panelId) {
+    currentHubPanel = panelId;
+    const ctx = AI_TOOL_CONTEXT[panelId];
+    if (!ctx) return;
+    const toolLabel = document.getElementById('aiContextTool');
+    if (toolLabel) toolLabel.textContent = ctx.label;
+    const btnContainer = document.getElementById('aiQuickBtns');
+    if (btnContainer) {
+        btnContainer.innerHTML = ctx.buttons.map(b => `<button class="ai-quick-btn" onclick="aiAsk('${b[0]}')">${b[1]}</button>`).join('');
+    }
+}
+// Initialize quick buttons on load
+document.addEventListener('DOMContentLoaded', () => updateAiContext('hub-analysis'));
+
 // ── AI Agent Conversation Memory ──
 let aiConversationHistory = [];
 const AI_MAX_HISTORY = 20;
@@ -5200,6 +5250,8 @@ function switchHubTab(panelId, btn) {
     if (panelId === 'hub-docs') renderDocLibrary();
     if (panelId === 'hub-compliance') calcCompliance();
     if (panelId === 'hub-provisioning') loadProvisioningData();
+    // Update floating AI agent context
+    updateAiContext(panelId);
 }
 
 // ── Hub Action Items (mirrors the main action items + hub-specific stats) ──
@@ -5774,6 +5826,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // Set default calendar date
     const calDate = document.getElementById('calEventDate');
     if (calDate) calDate.value = new Date().toISOString().split('T')[0];
+    // Show/hide floating AI agent based on active tab
+    const aiWrapper = document.getElementById('aiFloatWrapper');
+    if (aiWrapper) aiWrapper.style.display = 'none';
+    document.querySelectorAll('[data-bs-toggle="pill"]').forEach(tab => {
+        tab.addEventListener('shown.bs.tab', e => {
+            const target = e.target.getAttribute('href');
+            if (aiWrapper) aiWrapper.style.display = (target === '#tabILS') ? 'flex' : 'none';
+        });
+    });
 });
 
 </script>
@@ -5781,7 +5842,7 @@ document.addEventListener('DOMContentLoaded', () => {
 if(typeof particlesJS!=='undefined'&&document.getElementById('particles-js')){particlesJS('particles-js',{particles:{number:{value:35},color:{value:'#00aaff'},opacity:{value:0.12},size:{value:2},line_linked:{enable:true,distance:150,color:'#00aaff',opacity:0.06,width:1},move:{enable:true,speed:0.7}},interactivity:{events:{onhover:{enable:true,mode:'grab'}},modes:{grab:{distance:130,line_linked:{opacity:0.15}}}}});}
 </script>
 
-<button id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" style="position:fixed;bottom:30px;right:30px;width:45px;height:45px;background:linear-gradient(135deg,#00aaff,#c9a84c);border:none;border-radius:50%;color:#fff;font-size:1.3rem;cursor:pointer;opacity:0;visibility:hidden;transition:all 0.3s;z-index:999;display:flex;align-items:center;justify-content:center;">&uarr;</button>
+<button id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" style="position:fixed;bottom:30px;left:30px;width:45px;height:45px;background:linear-gradient(135deg,#00aaff,#c9a84c);border:none;border-radius:50%;color:#fff;font-size:1.3rem;cursor:pointer;opacity:0;visibility:hidden;transition:all 0.3s;z-index:999;display:flex;align-items:center;justify-content:center;">&uarr;</button>
 <script>
 // Scroll progress bar
 window.addEventListener('scroll', function() {
