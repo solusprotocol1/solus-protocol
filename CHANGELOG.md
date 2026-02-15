@@ -5,6 +5,23 @@ All notable changes to the S4 Ledger project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.8.6] - 2026-02-15
+
+### Added
+- **Nautical Anchor Background Animation** — Replaced particles.js with custom canvas-based animation featuring floating anchor icons with chain links, drifting SHA-256 hash fragments, and subtle wave patterns. Gold + blue color scheme matches brand identity. Zero external dependencies
+- **Expanded Real Defense Data** — Researched and added 35+ real DoD weapons platforms across all branches with actual NSN numbers, program offices, and fleet sizes to all new ILS tools. Supply Chain Risk Engine now covers Navy (DDG-51, CVN-78, SSN-774, SSBN-826, CG-47, LCS, LPD-17), Air Force (F-35, F-22A, F-15EX, B-21, B-52H, KC-46A, C-17A, MQ-9), Army (M1A2, M2A3, Stryker, HIMARS, Patriot, AH-64E, UH-60M), Marines (CH-53K, V-22, ACV, AH-1Z, LAV-25), Space Force/MDA (GPS III, THAAD, SBIRS), SOCOM (CV-22B, AC-130J), and Coast Guard (WMSL-750)
+- **25 Real Defense Contracts** — Contract Lifecycle Management now includes contracts from NAVSEA, NAVAIR, Army ACC (Detroit/Warren/Redstone), AF LCMC, DLA, MCSC, MDA, and Space Systems Command with authentic prefix formats
+- **32 Defense Platform Configurations** — Digital Thread Bridge expanded with variant-specific designators (DDG-51 Flight I/IIA/III, F-35A/B/C, SSN-774 Block IV/V, M1A2 SEPv3/v4, Stryker DVH, AH-64E V6, B-52H CERP, etc.)
+- **40+ Fleet Predictive Maintenance Platforms** — Predictive Maintenance AI now covers all major fleet sizes (M1A2: 2,509 tanks, Stryker: 4,466 vehicles, F-16: 936 aircraft, UH-60: 2,135 helicopters, KC-135: 396 tankers, etc.) with realistic system/component/failure mode data per platform type
+- **37 Defense Suppliers** — Expanded supplier database from 20 to 37 real defense contractors across Tier 1 primes (Lockheed Martin, Boeing, Huntington Ingalls), Tier 1.5 (Leidos, SAIC, Textron, BWX Technologies), and Tier 2 specialty (Palantir, Anduril, Kongsberg, Sierra Nevada)
+
+### Changed
+- **How It Works Repositioned** — "How Anchoring Works" box moved directly under "Anchor a Defense Record" heading; "How Verification Works" moved directly under "Verify a Defense Record" heading — more intuitive layout
+- **Compliance Letter Grade (A-F) Enhanced** — Score grade badge now 2x larger (1.3rem), includes color-coded glow effect, dynamic border/shadow based on grade value (green for A/B, gold for C, red for D/F). Much more visible at a glance
+- **API Version Updated** — Health endpoint now reports v3.8.6, tools list includes all 18 tool endpoints
+- **Marketplace Dates Fixed** — Updated "Coming Soon" items from past dates (Q3/Q4 2025, Q1 2026) to future dates (Q3/Q4 2026, Q1 2027)
+- **All Documentation Updated** — Synced WHITEPAPER, PRODUCTION_READINESS, MAINNET_MIGRATION, BILLION_DOLLAR_ROADMAP, S4_LEDGER_INTERNAL_PITCH, S4_SYSTEMS_EXECUTIVE_PROPOSAL, and INVESTOR_PITCH with 18-tool counts, new financial math, and v3.8.6 version stamps
+
 ## [3.8.5] - 2026-02-15
 
 ### Added

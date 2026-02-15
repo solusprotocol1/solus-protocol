@@ -2053,5 +2053,67 @@ Letter grades: A+ (≥95) through F (<50). Color-coded with SVG ring chart visua
 
 ---
 
-*Last updated: v3.7.0 — February 2026*
+## 35. Version 3.8.0–3.8.6 Migration
+
+### 35.1 Overview
+
+Versions 3.8.0 through 3.8.6 added **5 new ILS Workspace tools** (bringing the total to 18), expanded the API to 27 endpoints, introduced the Developer Marketplace, replaced all placeholder data with researched real DoD data, and recalculated all financial projections.
+
+### 35.2 New ILS Tools Added
+
+| Tool | Migration Notes |
+|------|----------------|
+| **AI Supply Chain Risk Engine** | New sub-tab in ILS Workspace. Requires `s4-assets/platforms.js` for platform database. 35+ platform options in 7 optgroups, 37 real defense supplier names. No server-side dependencies. |
+| **Automated Audit Report Generator** | New sub-tab. 6 report types (Full Audit, Supply Chain, Maintenance, Compliance, Chain of Custody, Contract Deliverables). Client-side generation with anchor-to-XRPL. |
+| **Contract Lifecycle Management** | New sub-tab. 25 realistic DoD contracts with real prefix formats (N00024, FA8615, W58RGZ, etc.). CDRL tracking with DI number references. |
+| **Digital Thread / Configuration Bridge** | New sub-tab. 4 configuration views (Engineering Changes, BOM Revisions, Config Baselines, TDP Versions). 32 platform configurations with variant-specific designators. |
+| **Predictive Maintenance AI** | New sub-tab. 40+ platforms with real fleet sizes. Platform-specific system/component/failure mode data in JS objects. Confidence scoring and cost-if-unplanned estimates. |
+
+### 35.3 API Expansion
+
+- 5 new endpoints: `/api/supply-chain-risk`, `/api/audit-reports`, `/api/contracts`, `/api/digital-thread`, `/api/predictive-maintenance`
+- Health endpoint updated: version `3.8.6`, tools array includes all 18 tool endpoints
+- Total endpoints: 27 (up from 22)
+
+### 35.4 Data Quality Overhaul
+
+- All dropdown selectors populated with researched real DoD data
+- Contract numbers use authentic prefix formats per contracting command
+- Platform variants include real designators (Flight I/IIA/III, Block IV/V, SEPv3/v4, etc.)
+- Fleet sizes reflect publicly reported numbers
+- 37 real Tier 1/1.5/2 defense suppliers replace generic placeholders
+
+### 35.5 Frontend Changes
+
+- particles.js CDN replaced with custom `<canvas id="anchor-canvas">` animation (zero external dependencies)
+- Compliance grade styling enhanced (1.3rem font, gradient background, glow effects)
+- How It Works collapsible boxes repositioned under Anchor/Verify headings
+- Developer Marketplace page added at `s4-marketplace/index.html`
+
+### 35.6 Financial Projections Updated
+
+- Per-program savings recalculated with 18 tools: $601K–$1.6M/year (up from $316K–$815K with 13 tools)
+- ROI: 10–100x
+- Scale projections: 10 programs ($6M–$16M), 100 programs ($60M–$160M), 1,000 programs ($601M–$1.6B)
+
+### 35.7 Migration Checklist for v3.8.6
+
+- [ ] Verify all 18 ILS Workspace sub-tabs render correctly
+- [ ] Test all 5 new tools with real dropdown data selections
+- [ ] Verify 27 API endpoints respond correctly (health, all tool endpoints)
+- [ ] Test AI Supply Chain Risk Engine with multiple platform/supplier selections
+- [ ] Verify Audit Report Generator produces all 6 report types
+- [ ] Test Contract Lifecycle Management with CDRL tracking and status updates
+- [ ] Verify Digital Thread shows all 4 configuration views
+- [ ] Test Predictive Maintenance AI with fleet-specific platform data
+- [ ] Confirm custom canvas animation renders properly (no particles.js dependency)
+- [ ] Verify Developer Marketplace page loads with correct future dates (Q3 2026–Q1 2027)
+- [ ] Validate compliance grade styling (large font, gradient, glow) on all screen sizes
+- [ ] Test How It Works collapsible boxes in new position under headings
+- [ ] Validate all financial figures in BILLION_DOLLAR_ROADMAP match 18-tool calculations
+- [ ] Verify all documentation reflects v3.8.6, 18 tools, 27 endpoints
+
+---
+
+*Last updated: v3.8.6 — February 2026*
 *See also: [DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md) | [SECURITY.md](SECURITY.md) | [NIST_COMPLIANCE.md](NIST_COMPLIANCE.md) | [WHITEPAPER.md](WHITEPAPER.md)*

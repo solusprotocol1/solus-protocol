@@ -39,7 +39,7 @@ Think of S4 Ledger like a notary for defense records. When an ILS manager comple
 - **$SLS token LIVE on XRPL Mainnet** — tradable, AMM pools active, trustlines established
   - Issuer: `r95GyZac4butvVcsTWUPpxzekmyzaHsTA5`
   - 100M total supply | ~15M circulating | 30M in multi-sig treasury
-- **12 interactive defense tools** live at s4ledger.com/demo-app — not mockups, real working interfaces
+- **18 interactive defense tools** live at s4ledger.com/demo-app — not mockups, real working interfaces
 - **462 real defense platforms** across 9 military branches (Navy, Army, Air Force, Marines, Coast Guard, Space Force, SOF, Joint, Civilian)
 - **156+ ILS record categories** mapped to real-world logistics workflows (supports any defense record type)
 - **100+ real defense documents** in searchable reference library (MIL-STDs, OPNAVINSTs, DoD Directives)

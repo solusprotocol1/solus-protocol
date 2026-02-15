@@ -1,7 +1,7 @@
 # S4 Ledger Whitepaper
 
 **Immutable Logistics Verification for the Defense Industry**  
-Version 3.4 — February 2026  
+Version 3.8.6 — February 2026  
 
 ---
 
@@ -213,7 +213,7 @@ SHA-256 is not directly vulnerable to Grover's algorithm. Grover's algorithm red
 | Hyperledger Fabric | Private blockchain | High (infra) | Private chain data | Enterprise, finance |
 | Hedera Hashgraph | DLT consensus | Low-moderate | On-chain data | General enterprise |
 
-S4 Ledger is the only solution purpose-built for defense logistics that keeps zero data on-chain. It replaces ICAPS for provisioning while adding blockchain verification, all-branch support, and integration with 12 other ILS tools that ICAPS doesn't offer.
+S4 Ledger is the only solution purpose-built for defense logistics that keeps zero data on-chain. It replaces ICAPS for provisioning while adding blockchain verification, all-branch support, and integration with 17 other ILS tools that ICAPS doesn't offer.
 
 ---
 
@@ -227,7 +227,7 @@ S4 Ledger is the only solution purpose-built for defense logistics that keeps ze
 | **Phase 4 — Partner & SaaS** | Q1 – Q2 2027 | REST API, SaaS dashboard, DIU / NavalX engagement |
 | **Phase 5 — Scale & Certify** | Q3 2027+ | NIST/CMMC, FedRAMP, production deployments |
 
-### Current Toolset (v3.8.0)
+### Current Toolset (v3.8.6)
 
 | Tool | Description |
 |---|---|
@@ -245,6 +245,11 @@ S4 Ledger is the only solution purpose-built for defense logistics that keeps ze
 | **Defense Document Library** | Searchable database of 100+ real MIL-STDs, OPNAVINSTs, DoD Directives, FAR/DFARS clauses, NIST frameworks across 7 branches and 17 categories |
 | **Compliance Scorecard** | Multi-framework compliance calculator — CMMC L2, NIST 800-171, DFARS, FAR 46, MIL-STD-1388, DoDI 4245.15 — with SVG ring chart, letter grades, and actionable recommendations |
 | **Provisioning & PTD Manager** | Replaces ICAPS — Provisioning Technical Documentation (PTD) per MIL-STD-1552, Allowance Parts List (APL) generation, NSN cataloging via FCS, Provisioning Performance Schedule tracking. All-branch (ICAPS is Navy/USMC only). Blockchain-verified provisioning decisions. |
+| **AI Supply Chain Risk Engine** | ML-powered supply chain risk scoring across 35+ defense platforms — analyzes supplier health (GIDEP alerts, DLA lead time spikes, financial distress, single-source dependency, counterfeit indicators). Risk levels (Critical/High/Medium/Low), ETA impact calculations, 37 real defense suppliers |
+| **Automated Audit Report Generator** | One-click audit package generation — 6 report types (Full Audit, Supply Chain, Maintenance, Compliance, Chain of Custody, Contract Deliverables). Configurable time periods, multi-format output, section-by-section compliance scoring. Report hashes anchored to XRPL |
+| **Contract Lifecycle Management** | CDRL tracking, contract modifications (Class I/II), and SOW deliverable status — 25 realistic DoD contracts from NAVSEA, NAVAIR, Army ACC, AF LCMC, DLA, MCSC, MDA. DI number references, status tracking (On Track/At Risk/Overdue/Delivered), blockchain-anchored delivery timestamps |
+| **Digital Thread / Configuration Bridge** | 4 configuration views: Engineering Changes (ECP Class I/II), BOM Revisions (multi-level), Configuration Baselines (FBL/ABL/Product), TDP Versions. 32 platform configurations with variant-specific designators. Status workflow with per-item anchoring |
+| **Predictive Maintenance AI** | Fleet-wide failure prediction — analyzes MTBF trends, failure mode clustering, and component age curves. 40+ platforms with real fleet sizes, platform-specific system/component/failure mode data, confidence scoring, cost-if-unplanned estimates |
 | Record Anchoring | SHA-256 hash anchoring to XRPL ($0.01 SLS per transaction) |
 | Conversational AI | Natural language ILS question answering with vault, compliance, provisioning, and doc library awareness |
 | Toast Alert System | Real-time severity-coded notifications for expirations, obsolescence, and threshold violations |

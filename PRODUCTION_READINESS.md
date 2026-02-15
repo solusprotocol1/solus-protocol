@@ -1,7 +1,7 @@
 # S4 Ledger — Production Readiness Checklist
 
 > **Status:** Production ($SLS LIVE on XRPL Mainnet) — **Estimated ~84% Production Ready**  
-> **Last Updated:** February 2026 (v3.8.0)  
+> **Last Updated:** February 2026 (v3.8.6)  
 > **Target:** First enterprise pilot — $SLS LIVE on Mainnet
 
 ---
@@ -15,13 +15,13 @@ This document tracks every requirement for taking S4 Ledger to a fully productio
 | Area | Status | Score |
 |------|--------|-------|
 | **Frontend / Demo** | ILS Workspace (unified command center with 18 sub-tabs), 18 ILS tools + calendar + action items + AI Agent (conversational, 40+ capabilities, vault/compliance/provisioning-aware), universal program support, 156+ pre-built record types (any defense record type supported), 22 sample document types, ITAR warning banner, login portal with tutorial and persistent auth, ICAPS-beating provisioning tool, Anchor/Verify How It Works panels, economic impact section, expanded audit vault time filters | **99%** |
-| **API / Backend** | Serverless API v3.8, auth scaffolding, 22 endpoints (DMSMS, readiness, parts, ROI, lifecycle, warranty, action-items, calendar, provisioning), rate limiting, security headers (HSTS, X-Frame, CSP), request logging, health check, OpenAPI spec | **80%** |
+| **API / Backend** | Serverless API v3.8.6, auth scaffolding, 27 endpoints (DMSMS, readiness, parts, ROI, lifecycle, warranty, action-items, calendar, provisioning, supply-chain-risk, audit-reports, contracts, digital-thread, predictive-maintenance), rate limiting, security headers (HSTS, X-Frame, CSP), request logging, health check, OpenAPI spec | **85%** |
 | **XRPL Integration** | $SLS LIVE on XRPL Mainnet (100M total, ~15M circ, AMM pools). Demo anchoring uses Testnet. | **85%** |
 | **SDK** | pip-installable with CLI, 12 commands (anchor, hash, verify, status, readiness, dmsms, roi, lifecycle, warranty, action-items, calendar, provisioning), 16 SDK Playground functions with fallback record types, How It Works expanded | **80%** |
 | **Infrastructure** | Vercel deployment, SSL, CDN, PWA manifest, custom 404, security response headers, ITAR notices — needs database, monitoring, load balancing | **60%** |
 | **Authentication** | Login portal with SSO/CAC support (UI), tutorial onboarding, API key system — needs production key management | **45%** |
 | **User Experience** | Full mobile/tablet responsive, ILS Workspace unified UX, conversational AI Agent, 8 interactive tools + calendar, realistic sample data, ITAR compliance notice, branded favicons on all pages | **97%** |
-| **Documentation** | OpenAPI 3.0 spec (fully documenting all 22 endpoints), CHANGELOG.md, comprehensive README, API examples, whitepaper, technical specs, security policy | **80%** |
+| **Documentation** | OpenAPI 3.0 spec (fully documenting all 27 endpoints), CHANGELOG.md, comprehensive README, API examples, whitepaper, technical specs, security policy | **85%** |
 | **Compliance** | NIST 800-171 architecture aligned, CMMC L2 roadmap, ITAR warnings, security headers, DoW branding — needs formal assessment | **35%** |
 | **Legal / Business** | Documentation complete — needs entity formation, CAGE code, SAM.gov | **15%** |
 | **Security** | Zero-data-on-chain, client-side processing, rate limiting, HSTS, security headers, ITAR warnings — needs pen test, SOC 2 | **35%** |
@@ -314,7 +314,7 @@ This document tracks every requirement for taking S4 Ledger to a fully productio
 - [x] Post-analysis workflow actions ✅ (Send, Schedule Meeting, Action Tracker, Print)
 - [x] SDK pip-installable with CLI ✅ (pyproject.toml, entry points, argparse CLI)
 - [x] Landing page ILS Analyzer showcase ✅
-- [x] OpenAPI 3.0 spec ✅ (v3.2 — all 17 endpoints documented)
+- [x] OpenAPI 3.0 spec ✅ (v3.8.6 — all 27 endpoints documented)
 - [x] Security response headers ✅ (v3.2 — HSTS, X-Frame-Options, CSP, X-XSS-Protection)
 - [x] DMSMS/Obsolescence Tracker ✅ (v3.2 — per-program tracking with real component data)
 - [x] Readiness Calculator (Ao/MTBF/MTTR) ✅ (v3.2 — full RAM analysis per MIL-STD-1390D)
@@ -323,7 +323,25 @@ This document tracks every requirement for taking S4 Ledger to a fully productio
 
 ---
 
-## 11. v3.7.0 Changelog (Latest)
+## 11. v3.8.x Changelog (Latest)
+
+### v3.8.6 — Polish, Real Data, Financial Math
+- [x] **5 New ILS Tools Integrated** — AI Supply Chain Risk Engine (35+ platforms, 37 suppliers), Automated Audit Report Generator (6 report types), Contract Lifecycle Management (25 real DoD contracts), Digital Thread / Config Bridge (32 platform configs), Predictive Maintenance AI (40+ platforms with fleet sizes)
+- [x] **Real DoD Dropdown Data** — All tool dropdowns populated with researched real platforms, contract numbers (N00024, FA8615, W58RGZ formats), platform variants (Flight IIA/III, Block IV/V, SEPv3/v4), fleet sizes, and 37 real defense suppliers
+- [x] **Custom Nautical Animation** — Replaced particles.js with zero-dependency canvas animation (floating anchors, chain links, hex hash fragments, wave lines)
+- [x] **Financial Math Updated** — 18-tool savings recalculated: $601K–$1.6M per program/year, 10–100x ROI, $601M–$1.6B at 1,000 programs
+- [x] **API v3.8.6** — 27 endpoints, 18 tool handlers, health endpoint updated
+- [x] **Compliance Grade Enhanced** — Larger font (1.3rem/900-weight), gradient background, glow effects
+- [x] **How It Works Repositioned** — Collapsible boxes moved under Anchor/Verify headings for better UX
+- [x] **Marketplace Dates Fixed** — Future roadmap items updated to Q3 2026–Q1 2027
+- [x] **All Documentation Synced** — WHITEPAPER, PRODUCTION_READINESS, MAINNET_MIGRATION, BILLION_DOLLAR_ROADMAP, Internal Pitch, Exec Proposal, Investor Pitch updated with 18-tool counts and v3.8.6 stamps
+
+### v3.8.5 — 5 New ILS Tools + Developer Marketplace
+- [x] AI Supply Chain Risk Engine, Audit Report Generator, Contract Lifecycle Management, Digital Thread/Config Bridge, Predictive Maintenance AI
+- [x] Developer Marketplace at s4-marketplace/
+- [x] 5 new API routes
+
+### v3.7.0 Changelog
 
 ### New ILS Workspace Tools
 - [x] **Audit Record Vault** — Client-side audit trail store. Every record anchored via any workspace tool is automatically saved with content + SHA-256 hash + TX hash. Search, filter by date, re-verify, export CSV/XLSX, and clear. Zero server-side storage — all data in browser localStorage.

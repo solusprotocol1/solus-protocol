@@ -11,7 +11,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <!-- Nautical Anchor Canvas Animation -->
     <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
     <script src="/s4-assets/platforms.js"></script>
     <script src="/s4-assets/defense-docs.js"></script>
@@ -81,6 +81,7 @@
         .sample-btn{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:0.4rem 0.8rem;cursor:pointer;font-size:0.8rem;color:var(--steel);transition:all 0.2s;display:inline-block;margin:0.2rem}
         .sample-btn:hover{border-color:var(--gold);color:var(--gold)}
         #particles-js{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-2;pointer-events:none}
+        #anchor-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-2;pointer-events:none}
         .mesh-overlay{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:-1}
         .g-orb{position:absolute;border-radius:50%;filter:blur(120px);opacity:0.15}
         .g-orb-1{width:600px;height:600px;background:#003366;top:-200px;right:-200px}
@@ -320,7 +321,7 @@
         .score-ring{width:120px;height:120px;position:relative;margin:0 auto 12px}
         .score-ring svg{transform:rotate(-90deg)}
         .score-ring .score-val{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:1.6rem;font-weight:800;color:#fff}
-        .score-ring .score-grade{position:absolute;bottom:-4px;left:50%;transform:translateX(-50%);font-size:0.7rem;font-weight:700;padding:2px 10px;border-radius:10px}
+        .score-ring .score-grade{position:absolute;bottom:-12px;left:50%;transform:translateX(-50%);font-size:1.3rem;font-weight:900;padding:6px 18px;border-radius:12px;letter-spacing:2px;text-transform:uppercase;box-shadow:0 0 16px rgba(20,241,149,0.3);border:2px solid rgba(20,241,149,0.3);min-width:48px;text-align:center;transition:all 0.5s ease}
         .compliance-row{display:flex;align-items:center;gap:12px;padding:12px;background:var(--surface);border:1px solid var(--border);border-radius:10px;margin-bottom:8px;transition:all 0.3s}
         .compliance-row:hover{border-color:var(--accent);background:rgba(0,170,255,0.03)}
         .compliance-bar{flex:1;height:8px;background:var(--border);border-radius:4px;overflow:hidden;position:relative}
@@ -351,6 +352,7 @@
 <div class="scroll-progress" id="scrollProgress"></div>
 <div class="mesh-overlay"><div class="g-orb g-orb-1"></div><div class="g-orb g-orb-2"></div><div class="g-orb g-orb-3"></div></div>
 <div id="particles-js"></div>
+<canvas id="anchor-canvas"></canvas>
 
 <nav class="navbar navbar-expand-lg navbar-custom">
     <div class="container">
@@ -404,6 +406,15 @@
                     <div class="col-lg-7">
                         <div class="demo-card">
                             <h3><i class="fas fa-anchor"></i> Anchor a Defense Record</h3>
+                            <details style="margin-top:8px;margin-bottom:12px;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.15);border-radius:8px;padding:0 12px;">
+                                <summary style="cursor:pointer;padding:10px 0;color:#00aaff;font-weight:600;font-size:0.85rem;"><i class="fas fa-info-circle"></i> How Anchoring Works</summary>
+                                <div style="padding:0 0 12px;color:var(--steel);font-size:0.82rem;line-height:1.6;">
+                                    <p><strong style="color:#fff;">What's real:</strong> Every anchor creates an actual XRPL transaction with your record's SHA-256 hash stored in the memo field. The hash, transaction ID, timestamp, and XRPL explorer link are all genuine blockchain data you can independently verify.</p>
+                                    <p><strong style="color:#fff;">What's demo:</strong> In this testnet demo, the $SLS token fee (0.01 per anchor) is simulated. On mainnet, real $SLS tokens are burned per transaction from the user's XRPL wallet.</p>
+                                    <p><strong style="color:#c9a84c;">How S4 Ledger saves money here:</strong> Traditional defense record notarization costs $25–$150 per document and takes days. S4 Ledger anchors records in seconds for fractions of a cent — a <strong>99.9% cost reduction</strong>. At scale, a program anchoring 10,000 records/year saves $250K–$1.5M annually vs. legacy methods.</p>
+                                    <p><strong style="color:#00aaff;">Production mode:</strong> Integrates with existing logistics systems (GCSS, OARS, NTCSS, LMP) via REST API or Python SDK. Records flow automatically — no manual paste required.</p>
+                                </div>
+                            </details>
                             <label>1. Select Military Branch</label>
                             <div class="branch-tabs" id="branchTabs">
                                 <button class="branch-tab active" onclick="selectBranch('USN',this)">&#9875; Navy</button>
@@ -447,15 +458,6 @@
                             </div>
                             <button class="btn-accent mt-3" onclick="anchorRecord()" id="anchorBtn"><i class="fas fa-anchor"></i> Anchor to XRPL</button>
                             <div class="result-panel" id="anchorResult"></div>
-                            <details style="margin-top:16px;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.15);border-radius:8px;padding:0 12px;">
-                                <summary style="cursor:pointer;padding:10px 0;color:#00aaff;font-weight:600;font-size:0.85rem;"><i class="fas fa-info-circle"></i> How Anchoring Works</summary>
-                                <div style="padding:0 0 12px;color:var(--steel);font-size:0.82rem;line-height:1.6;">
-                                    <p><strong style="color:#fff;">What's real:</strong> Every anchor creates an actual XRPL transaction with your record's SHA-256 hash stored in the memo field. The hash, transaction ID, timestamp, and XRPL explorer link are all genuine blockchain data you can independently verify.</p>
-                                    <p><strong style="color:#fff;">What's demo:</strong> In this testnet demo, the $SLS token fee (0.01 per anchor) is simulated. On mainnet, real $SLS tokens are burned per transaction from the user's XRPL wallet.</p>
-                                    <p><strong style="color:#c9a84c;">How S4 Ledger saves money here:</strong> Traditional defense record notarization costs $25–$150 per document and takes days. S4 Ledger anchors records in seconds for fractions of a cent — a <strong>99.9% cost reduction</strong>. At scale, a program anchoring 10,000 records/year saves $250K–$1.5M annually vs. legacy methods.</p>
-                                    <p><strong style="color:#00aaff;">Production mode:</strong> Integrates with existing logistics systems (GCSS, OARS, NTCSS, LMP) via REST API or Python SDK. Records flow automatically — no manual paste required.</p>
-                                </div>
-                            </details>
                         </div>
                     </div>
                     <div class="col-lg-5">
@@ -490,14 +492,7 @@
                     <div class="col-lg-7">
                         <div class="demo-card">
                             <h3><i class="fas fa-check-circle"></i> Verify a Defense Record</h3>
-                            <p style="color:var(--steel);font-size:0.9rem;margin-bottom:1rem">Paste the original record content to verify its hash matches what was anchored on XRPL.</p>
-                            <label>Record Content</label>
-                            <textarea id="verifyInput" placeholder="Paste the original defense record content here..."></textarea>
-                            <label class="mt-2">Expected Hash (optional)</label>
-                            <input type="text" id="verifyHash" placeholder="SHA-256 hash to compare against">
-                            <button class="btn-gold mt-3" onclick="verifyRecord()"><i class="fas fa-check-circle"></i> Verify Integrity</button>
-                            <div class="result-panel" id="verifyResult"></div>
-                            <details style="margin-top:16px;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.15);border-radius:8px;padding:0 12px;">
+                            <details style="margin-top:8px;margin-bottom:12px;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.15);border-radius:8px;padding:0 12px;">
                                 <summary style="cursor:pointer;padding:10px 0;color:#00aaff;font-weight:600;font-size:0.85rem;"><i class="fas fa-info-circle"></i> How Verification Works</summary>
                                 <div style="padding:0 0 12px;color:var(--steel);font-size:0.82rem;line-height:1.6;">
                                     <p><strong style="color:#fff;">What's real:</strong> Verification computes the SHA-256 hash of your pasted content and compares it against the hash that was previously anchored on the XRPL. If they match, the record is proven unaltered since the anchor date — the blockchain itself is the proof.</p>
@@ -506,6 +501,13 @@
                                     <p><strong style="color:#00aaff;">Production mode:</strong> Automated batch verification via API — plug into QA pipelines, audit workflows, and supply chain acceptance processes for continuous integrity monitoring.</p>
                                 </div>
                             </details>
+                            <p style="color:var(--steel);font-size:0.9rem;margin-bottom:1rem">Paste the original record content to verify its hash matches what was anchored on XRPL.</p>
+                            <label>Record Content</label>
+                            <textarea id="verifyInput" placeholder="Paste the original defense record content here..."></textarea>
+                            <label class="mt-2">Expected Hash (optional)</label>
+                            <input type="text" id="verifyHash" placeholder="SHA-256 hash to compare against">
+                            <button class="btn-gold mt-3" onclick="verifyRecord()"><i class="fas fa-check-circle"></i> Verify Integrity</button>
+                            <div class="result-panel" id="verifyResult"></div>
                         </div>
                     </div>
                     <div class="col-lg-5">
@@ -1222,7 +1224,7 @@
                                 <defs><linearGradient id="scoreGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="var(--accent)"/><stop offset="100%" stop-color="var(--green)"/></linearGradient></defs>
                             </svg>
                             <div class="score-val" id="complianceScore">—</div>
-                            <div class="score-grade" id="complianceGrade" style="background:var(--surface);color:var(--muted)">—</div>
+                            <div class="score-grade" id="complianceGrade" style="background:linear-gradient(135deg,rgba(20,241,149,0.15),rgba(0,170,255,0.1));color:#14f195;border:2px solid rgba(20,241,149,0.4)">—</div>
                         </div>
                         <div style="font-size:0.82rem;color:var(--steel);font-weight:600;margin-top:8px">Overall Compliance Posture</div>
                     </div>
@@ -1413,7 +1415,53 @@
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <label>Select Program</label>
-                            <select id="riskProgram" onchange="loadRiskData()" style="font-size:0.88rem"><option value="ddg51">DDG-51 Arleigh Burke</option><option value="cvn78">CVN-78 Gerald R. Ford</option><option value="f35">F-35 Lightning II</option><option value="ch53k">CH-53K King Stallion</option><option value="ssn774">SSN-774 Virginia Class</option></select>
+                            <select id="riskProgram" onchange="loadRiskData()" style="font-size:0.88rem">
+                                <optgroup label="U.S. Navy">
+                                    <option value="ddg51">DDG-51 Arleigh Burke Destroyer</option>
+                                    <option value="cvn78">CVN-78 Gerald R. Ford Carrier</option>
+                                    <option value="ssn774">SSN-774 Virginia-class Submarine</option>
+                                    <option value="ssbn826">SSBN-826 Columbia-class SSBN</option>
+                                    <option value="cg47">CG-47 Ticonderoga Cruiser</option>
+                                    <option value="lcs1">LCS Freedom-class</option>
+                                    <option value="lpd17">LPD-17 San Antonio-class</option>
+                                </optgroup>
+                                <optgroup label="U.S. Air Force">
+                                    <option value="f35">F-35 Lightning II (JSF)</option>
+                                    <option value="f22a">F-22A Raptor</option>
+                                    <option value="f15ex">F-15EX Eagle II</option>
+                                    <option value="b21">B-21 Raider</option>
+                                    <option value="b52h">B-52H Stratofortress</option>
+                                    <option value="kc46a">KC-46A Pegasus Tanker</option>
+                                    <option value="c17a">C-17A Globemaster III</option>
+                                    <option value="mq9">MQ-9 Reaper UAS</option>
+                                </optgroup>
+                                <optgroup label="U.S. Army">
+                                    <option value="m1a2">M1A2 Abrams Main Battle Tank</option>
+                                    <option value="m2a3">M2A3 Bradley IFV</option>
+                                    <option value="stryker">Stryker Combat Vehicle Family</option>
+                                    <option value="himars">M142 HIMARS</option>
+                                    <option value="patriot">MIM-104 Patriot PAC-3</option>
+                                    <option value="ah64e">AH-64E Apache Guardian</option>
+                                    <option value="uh60m">UH-60M Black Hawk</option>
+                                </optgroup>
+                                <optgroup label="U.S. Marine Corps">
+                                    <option value="ch53k">CH-53K King Stallion</option>
+                                    <option value="v22">MV-22B Osprey</option>
+                                    <option value="acv">ACV Amphibious Combat Vehicle</option>
+                                    <option value="ah1z">AH-1Z Viper</option>
+                                    <option value="lav25">LAV-25 Light Armored Vehicle</option>
+                                </optgroup>
+                                <optgroup label="Space Force / MDA">
+                                    <option value="gpsiii">GPS III Space Vehicle</option>
+                                    <option value="thaad">THAAD Missile Defense</option>
+                                    <option value="sbirs">SBIRS Infrared System</option>
+                                </optgroup>
+                                <optgroup label="SOCOM / Coast Guard">
+                                    <option value="cv22b">CV-22B Osprey (AFSOC)</option>
+                                    <option value="ac130j">AC-130J Ghostrider</option>
+                                    <option value="wmsl750">WMSL-750 National Security Cutter</option>
+                                </optgroup>
+                            </select>
                         </div>
                         <div class="col-md-6">
                             <label>Risk Threshold</label>
@@ -1501,7 +1549,40 @@
                     <div class="row mb-3">
                         <div class="col-md-4">
                             <label>Select Contract</label>
-                            <select id="contractSelect" onchange="loadContractData()" style="font-size:0.88rem"><option value="N00024-25-C-5501">N00024-25-C-5501 (DDG-51 ILS)</option><option value="N00024-25-C-5502">N00024-25-C-5502 (CVN-78 Maint)</option><option value="FA8615-25-C-0031">FA8615-25-C-0031 (F-35 Spares)</option><option value="N00019-25-C-0088">N00019-25-C-0088 (CH-53K TDP)</option><option value="W58RGZ-25-C-0142">W58RGZ-25-C-0142 (UH-60M ILS)</option></select>
+                            <select id="contractSelect" onchange="loadContractData()" style="font-size:0.88rem">
+                                <optgroup label="Navy (NAVSEA / NAVAIR)">
+                                    <option value="N00024-25-C-5501">N00024-25-C-5501 (DDG-51 ILS)</option>
+                                    <option value="N00024-25-C-5502">N00024-25-C-5502 (CVN-78 Sustainment)</option>
+                                    <option value="N00024-25-C-2316">N00024-25-C-2316 (DDG-51 Flight III Production)</option>
+                                    <option value="N00024-26-C-4401">N00024-26-C-4401 (Columbia-class SSBN)</option>
+                                    <option value="N00019-25-C-0088">N00019-25-C-0088 (CH-53K Production)</option>
+                                    <option value="N00019-25-C-0102">N00019-25-C-0102 (F/A-18 Block III Upgrade)</option>
+                                    <option value="N00421-25-C-0019">N00421-25-C-0019 (V-22 Osprey Sustainment)</option>
+                                    <option value="N61331-25-C-0044">N61331-25-C-0044 (AN/SPY-6 Radar)</option>
+                                </optgroup>
+                                <optgroup label="Army">
+                                    <option value="W58RGZ-25-C-0142">W58RGZ-25-C-0142 (HIMARS Sustainment)</option>
+                                    <option value="W15QKN-25-C-0537">W15QKN-25-C-0537 (JLTV Full-Rate Production)</option>
+                                    <option value="W56HZV-25-C-0218">W56HZV-25-C-0218 (M1A2 SEPv3 Upgrade)</option>
+                                    <option value="W58RGZ-26-C-0087">W58RGZ-26-C-0087 (Patriot PAC-3 MSE)</option>
+                                    <option value="W31P4Q-25-C-0412">W31P4Q-25-C-0412 (AH-64E Remanufacture)</option>
+                                    <option value="DAAB07-25-C-0063">DAAB07-25-C-0063 (Army SATCOM Terminal)</option>
+                                </optgroup>
+                                <optgroup label="Air Force">
+                                    <option value="FA8615-25-C-0031">FA8615-25-C-0031 (F-35 ALIS/ODIN)</option>
+                                    <option value="FA8726-25-C-0015">FA8726-25-C-0015 (B-21 Raider LRIP)</option>
+                                    <option value="FA8075-25-C-0033">FA8075-25-C-0033 (KC-46A Depot Sustainment)</option>
+                                    <option value="FA8615-26-C-0112">FA8615-26-C-0112 (F-15EX Production)</option>
+                                    <option value="FA8620-25-C-0081">FA8620-25-C-0081 (T-7A Red Hawk EMD)</option>
+                                </optgroup>
+                                <optgroup label="DLA / Marines / MDA">
+                                    <option value="SPE7LX-25-D-0041">SPE7LX-25-D-0041 (DLA Aviation Spares)</option>
+                                    <option value="SPE4AX-25-D-0108">SPE4AX-25-D-0108 (DLA Land Spares)</option>
+                                    <option value="M67854-25-C-0019">M67854-25-C-0019 (ACV Production)</option>
+                                    <option value="HQ0860-25-C-0007">HQ0860-25-C-0007 (THAAD Interceptor)</option>
+                                    <option value="HQ0147-25-C-0034">HQ0147-25-C-0034 (GPS III SV11-14)</option>
+                                </optgroup>
+                            </select>
                         </div>
                         <div class="col-md-4">
                             <label>Filter by Type</label>
@@ -1550,7 +1631,49 @@
                     <div class="row mb-3">
                         <div class="col-md-4">
                             <label>Select Platform</label>
-                            <select id="threadPlatform" onchange="loadThreadData()" style="font-size:0.88rem"><option value="ddg51">DDG-51 Flight III</option><option value="cvn78">CVN-78 Gerald R. Ford</option><option value="f35">F-35A Lightning II</option><option value="ch53k">CH-53K King Stallion</option><option value="lcs">LCS Freedom Class</option></select>
+                            <select id="threadPlatform" onchange="loadThreadData()" style="font-size:0.88rem">
+                                <optgroup label="Navy Surface">
+                                    <option value="ddg51">DDG-51 Flight III</option>
+                                    <option value="ddg51fiia">DDG-51 Flight IIA</option>
+                                    <option value="cvn78">CVN-78 Gerald R. Ford</option>
+                                    <option value="cg47">CG-47 Ticonderoga (Modernized)</option>
+                                    <option value="lcs1">LCS Freedom-class</option>
+                                    <option value="lcs2">LCS Independence-class</option>
+                                    <option value="lpd17f2">LPD-17 Flight II (LPD-30+)</option>
+                                </optgroup>
+                                <optgroup label="Submarines">
+                                    <option value="ssn774b5">SSN-774 Block V (VPM)</option>
+                                    <option value="ssn774b4">SSN-774 Block IV</option>
+                                    <option value="ssbn826">SSBN-826 Columbia-class</option>
+                                </optgroup>
+                                <optgroup label="Air Force / JSF">
+                                    <option value="f35a">F-35A CTOL</option>
+                                    <option value="f35b">F-35B STOVL (Marine Corps)</option>
+                                    <option value="f35c">F-35C CV (Carrier Variant)</option>
+                                    <option value="f22a">F-22A Block 35 (Inc 3.2B)</option>
+                                    <option value="f15ex">F-15EX Eagle II Batch 1</option>
+                                    <option value="b52h">B-52H CERP Re-engining</option>
+                                    <option value="b21a">B-21A Raider LRIP</option>
+                                    <option value="kc46a">KC-46A Pegasus Block 1</option>
+                                </optgroup>
+                                <optgroup label="Army">
+                                    <option value="m1a2v3">M1A2 SEPv3 Abrams</option>
+                                    <option value="m1a2v4">M1A2 SEPv4 Abrams (AMP)</option>
+                                    <option value="m2a4">M2A4 Bradley (ODS-SA)</option>
+                                    <option value="strykerdvh">Stryker DVH A1 (Double-V Hull)</option>
+                                    <option value="ah64ev6">AH-64E Apache Version 6</option>
+                                    <option value="uh60m">UH-60M Black Hawk Upgrade</option>
+                                </optgroup>
+                                <optgroup label="Marine Corps / Rotary">
+                                    <option value="ch53k">CH-53K King Stallion</option>
+                                    <option value="v22bc">MV-22B Block C Osprey</option>
+                                    <option value="cv22b">CV-22B Block 20 Osprey (AFSOC)</option>
+                                </optgroup>
+                                <optgroup label="Missile Defense">
+                                    <option value="pac3mse">Patriot PAC-3 MSE</option>
+                                    <option value="thaader">THAAD Extended Range</option>
+                                </optgroup>
+                            </select>
                         </div>
                         <div class="col-md-4">
                             <label>View</label>
@@ -1599,7 +1722,55 @@
                     <div class="row mb-3">
                         <div class="col-md-4">
                             <label>Select Fleet / Platform</label>
-                            <select id="pdmPlatform" onchange="loadPredictiveData()" style="font-size:0.88rem"><option value="ddg51">DDG-51 Fleet (62 ships)</option><option value="cvn">CVN Fleet (11 carriers)</option><option value="f18">F/A-18E/F Fleet (540+ aircraft)</option><option value="mh60">MH-60S/R Fleet (280+ helos)</option><option value="lcs">LCS Fleet (23 ships)</option></select>
+                            <select id="pdmPlatform" onchange="loadPredictiveData()" style="font-size:0.88rem">
+                                <optgroup label="Navy Surface">
+                                    <option value="ddg51">DDG-51 Arleigh Burke (73 ships)</option>
+                                    <option value="cvn">CVN Carrier Fleet (11 ships)</option>
+                                    <option value="cg47">CG-47 Ticonderoga (22 ships)</option>
+                                    <option value="lcs">LCS Fleet (23 ships)</option>
+                                    <option value="lpd17">LPD-17 San Antonio (13 ships)</option>
+                                </optgroup>
+                                <optgroup label="Navy Submarines">
+                                    <option value="ssn774">SSN-774 Virginia (23 boats)</option>
+                                    <option value="ssn688">SSN-688 Los Angeles (28 boats)</option>
+                                    <option value="ssbn726">SSBN-726 Ohio (14 boats)</option>
+                                </optgroup>
+                                <optgroup label="Naval Aviation">
+                                    <option value="f18">F/A-18E/F Super Hornet (540+ aircraft)</option>
+                                    <option value="mh60">MH-60S/R Seahawk (280+ aircraft)</option>
+                                    <option value="p8a">P-8A Poseidon (128 aircraft)</option>
+                                    <option value="e2d">E-2D Advanced Hawkeye (44 aircraft)</option>
+                                </optgroup>
+                                <optgroup label="U.S. Army">
+                                    <option value="m1a2">M1A1/A2 Abrams (2,509 tanks)</option>
+                                    <option value="bradley">M2/M3 Bradley (2,380 IFVs)</option>
+                                    <option value="stryker">Stryker Family (4,466 vehicles)</option>
+                                    <option value="ah64">AH-64D/E Apache (790 aircraft)</option>
+                                    <option value="uh60">UH-60 Black Hawk (2,135 aircraft)</option>
+                                    <option value="ch47f">CH-47F Chinook (480 aircraft)</option>
+                                    <option value="himars">M142 HIMARS (550+ launchers)</option>
+                                </optgroup>
+                                <optgroup label="U.S. Air Force">
+                                    <option value="f22a">F-22A Raptor (186 aircraft)</option>
+                                    <option value="f15e">F-15E Strike Eagle (218 aircraft)</option>
+                                    <option value="f16">F-16C/D Fighting Falcon (936 aircraft)</option>
+                                    <option value="b52h">B-52H Stratofortress (76 aircraft)</option>
+                                    <option value="b1b">B-1B Lancer (45 aircraft)</option>
+                                    <option value="c17a">C-17A Globemaster III (222 aircraft)</option>
+                                    <option value="c130j">C-130J Hercules (300+ aircraft)</option>
+                                    <option value="kc46a">KC-46A Pegasus (79 delivered)</option>
+                                    <option value="kc135">KC-135 Stratotanker (396 aircraft)</option>
+                                    <option value="mq9">MQ-9 Reaper (286 aircraft)</option>
+                                    <option value="a10c">A-10C Thunderbolt II (281 aircraft)</option>
+                                </optgroup>
+                                <optgroup label="Marine Corps">
+                                    <option value="v22">MV/CV-22 Osprey (360 aircraft)</option>
+                                    <option value="f35b">F-35B STOVL (120+ delivered USMC)</option>
+                                    <option value="aav7">AAV-7A1 (1,062 vehicles)</option>
+                                    <option value="lav25">LAV-25 (758 vehicles)</option>
+                                    <option value="ah1z">AH-1Z Viper (189 aircraft)</option>
+                                </optgroup>
+                            </select>
                         </div>
                         <div class="col-md-4">
                             <label>Prediction Window</label>
@@ -5966,9 +6137,10 @@ function calcCompliance() {
         const grade = overall >= 95 ? 'A+' : overall >= 90 ? 'A' : overall >= 85 ? 'A-' : overall >= 80 ? 'B+' : overall >= 75 ? 'B' : overall >= 70 ? 'B-' : overall >= 65 ? 'C+' : overall >= 60 ? 'C' : overall >= 50 ? 'D' : 'F';
         const gColor = overall >= 80 ? 'var(--green)' : overall >= 60 ? 'var(--gold)' : '#ff6b6b';
         gradeEl.textContent = grade;
-        gradeEl.style.background = gColor + '22';
+        gradeEl.style.background = 'linear-gradient(135deg,' + gColor + '22,' + gColor + '11)';
         gradeEl.style.color = gColor;
-        gradeEl.style.border = '1px solid ' + gColor + '44';
+        gradeEl.style.border = '2px solid ' + gColor + '55';
+        gradeEl.style.boxShadow = '0 0 20px ' + gColor + '33';
     }
 
     // Recommendations
@@ -6339,14 +6511,34 @@ let _riskCache = {};
 function generateRiskItems(progKey) {
     const seed = progKey.split('').reduce((a,c)=>a+c.charCodeAt(0),0);
     const rng = (i)=>((seed*131+i*997)%10000)/10000;
-    const suppliers = ['Raytheon','BAE Systems','L3Harris','Northrop Grumman','General Dynamics','Honeywell','Collins Aerospace','Curtiss-Wright','Leonardo DRS','Elbit Systems','Safran','Thales','Ultra Electronics','Mercury Systems','Ducommun','Moog Inc','Kaman Aerospace','TransDigm','Heico Corp','Crane Co'];
+    const suppliers = ['Raytheon','BAE Systems','L3Harris','Northrop Grumman','General Dynamics','Honeywell','Collins Aerospace','Curtiss-Wright','Leonardo DRS','Elbit Systems','Safran','Thales','Ultra Electronics','Mercury Systems','Ducommun','Moog Inc','Kaman Aerospace','TransDigm','Heico Corp','Crane Co','Lockheed Martin','Boeing Defense','Huntington Ingalls','Pratt & Whitney','GE Aerospace','Rolls-Royce Defence','BWX Technologies','Oshkosh Defense','Bell Textron','Palantir Technologies','Anduril Industries','Kongsberg Defence','Aerojet Rocketdyne','Leidos','SAIC','Textron Systems','Sierra Nevada Corp'];
     const riskFactors = ['Single-source dependency','GIDEP Alert #2024-','DLA lead time spike +','Financial distress signal','CAGE code inactive','Foreign ownership change','Counterfeit risk — ERAI alert','Sub-tier supplier failure','Capacity constraint','Export control restriction','Cybersecurity incident','Material shortage — rare earth','Quality escape — nonconformance','Production line shutdown','Workforce reduction >25%'];
     const parts = {
         ddg51: [{p:'SPY-6 T/R Module',n:'5985-01-678-4321'},{p:'MK 41 VLS Rail',n:'1440-01-555-8790'},{p:'AN/SQQ-89 Sonar Array',n:'5845-01-602-3344'},{p:'LM2500 Turbine Blade',n:'2840-01-480-6710'},{p:'SEWIP Block III Antenna',n:'5985-01-690-1234'},{p:'Mk 45 Gun Barrel Liner',n:'1005-01-398-7722'},{p:'CIWS Phalanx Motor',n:'6110-01-557-2288'},{p:'Hull Steel Plate HY-80',n:'9515-01-320-4567'},{p:'SLQ-32(V)6 Processor',n:'5895-01-645-9012'},{p:'AN/SPG-62 Illuminator',n:'5840-01-234-5678'},{p:'Pratt & Whitney FT4A6',n:'2815-01-345-6789'},{p:'SSDS Mk 2 Server',n:'7021-01-567-8901'},{p:'Mk 34 GWS Console',n:'5830-01-456-7890'},{p:'Fin Stabilizer Actuator',n:'2040-01-678-0123'},{p:'CBRN Detection Unit',n:'6665-01-789-0124'}],
         cvn78: [{p:'EMALS Linear Motor',n:'2040-01-699-1234'},{p:'AAG Turbine Assembly',n:'1680-01-700-5678'},{p:'A1B Reactor Pump',n:'2815-01-710-4321'},{p:'Dual Band Radar Panel',n:'5840-01-705-8765'},{p:'Flight Deck Coating',n:'8010-01-695-2345'},{p:'Weapons Elevator Motor',n:'3950-01-698-7890'},{p:'JPALS Antenna Unit',n:'5985-01-712-3456'},{p:'Ship Self-Defense Controller',n:'5895-01-708-6543'},{p:'Catapult Steam Valve',n:'4820-01-650-9012'},{p:'Fresh Water Distiller',n:'4610-01-680-4567'},{p:'Nuclear Shielding Panel',n:'9515-01-720-1234'},{p:'Aviation Fuel Pump',n:'4320-01-690-5678'}],
         f35: [{p:'F135 Fan Blade',n:'2840-01-680-1111'},{p:'AN/APG-81 AESA Module',n:'5840-01-690-2222'},{p:'HMDS II Helmet Display',n:'1240-01-695-3333'},{p:'EOTS Sensor Window',n:'5860-01-700-4444'},{p:'Structural Fuselage Panel',n:'1560-01-705-5555'},{p:'Ejection Seat Motor',n:'1680-01-710-6666'},{p:'DAS Sensor Unit',n:'5860-01-715-7777'},{p:'Fuel Bladder Cell',n:'1560-01-720-8888'},{p:'CNI Avionics Module',n:'5895-01-725-9999'},{p:'Landing Gear Actuator',n:'1620-01-730-1010'},{p:'Stealth Coating Material',n:'8010-01-735-1111'},{p:'Wing Fold Mechanism',n:'1560-01-740-1212'}],
         ch53k: [{p:'T408-GE-400 Engine',n:'2840-01-750-1234'},{p:'Main Rotor Head',n:'1615-01-755-5678'},{p:'Fly-by-Wire Actuator',n:'1680-01-760-9012'},{p:'Cargo Hook Assembly',n:'1670-01-765-3456'},{p:'Blade Fold System',n:'1615-01-770-7890'},{p:'APU TF50',n:'2835-01-775-2345'},{p:'Glass Cockpit Display',n:'1270-01-780-6789'},{p:'Infrared Suppressor',n:'1560-01-785-0123'},{p:'Sponson Fuel Cell',n:'1560-01-790-4567'},{p:'External Cargo Mirror',n:'1240-01-795-8901'}],
-        ssn774: [{p:'S9G Reactor Component',n:'2815-01-800-1234'},{p:'Torpedo Tube Breech',n:'1095-01-805-5678'},{p:'BQQ-10 Sonar Array',n:'5845-01-810-9012'},{p:'Photonics Mast Assembly',n:'5820-01-815-3456'},{p:'Propulsor Blade',n:'2040-01-820-7890'},{p:'Atmosphere Monitor',n:'6665-01-825-2345'},{p:'Periscope Hoist Motor',n:'5820-01-830-6789'},{p:'Submarine Escape Trunk',n:'4220-01-835-0123'},{p:'Ballast Tank Valve',n:'4820-01-840-4567'},{p:'Hull Array Sensor',n:'5845-01-845-8901'}]
+        ssn774: [{p:'S9G Reactor Component',n:'2815-01-800-1234'},{p:'Torpedo Tube Breech',n:'1095-01-805-5678'},{p:'BQQ-10 Sonar Array',n:'5845-01-810-9012'},{p:'Photonics Mast Assembly',n:'5820-01-815-3456'},{p:'Propulsor Blade',n:'2040-01-820-7890'},{p:'Atmosphere Monitor',n:'6665-01-825-2345'},{p:'Periscope Hoist Motor',n:'5820-01-830-6789'},{p:'Submarine Escape Trunk',n:'4220-01-835-0123'},{p:'Ballast Tank Valve',n:'4820-01-840-4567'},{p:'Hull Array Sensor',n:'5845-01-845-8901'}],
+        // Army platforms
+        m1a2: [{p:'AGT-1500 Turbine Engine',n:'2815-01-150-2345'},{p:'M256 120mm Smoothbore',n:'1015-01-380-7890'},{p:'CITV Commander Sight',n:'1240-01-410-1234'},{p:'Track Shoe Assembly T-158',n:'2530-01-245-5678'},{p:'Ballistic Computer Unit',n:'5895-01-520-9012'},{p:'Turret Traverse Motor',n:'6110-01-390-3456'},{p:'Fire Control Sensor',n:'5860-01-460-7890'},{p:'NBC Protection System',n:'6665-01-280-2345'},{p:'Hydrokinetic Transmission',n:'2520-01-310-6789'},{p:'FLIR Thermal Sight (GPSE)',n:'5855-01-425-0123'},{p:'Auxiliary Power Unit',n:'2835-01-350-4567'},{p:'Hull Armor Panel',n:'9515-01-290-8901'}],
+        m2a3: [{p:'Cummins VTA-903T Engine',n:'2815-01-260-1234'},{p:'M242 25mm Chain Gun',n:'1010-01-320-5678'},{p:'ISU Integrated Sight Unit',n:'1240-01-450-9012'},{p:'TOW Missile Launcher',n:'1440-01-370-3456'},{p:'HMPT-500 Transmission',n:'2520-01-280-7890'},{p:'Track Assembly T-150',n:'2530-01-230-2345'},{p:'Ramp Hydraulic Actuator',n:'1680-01-340-6789'},{p:'FBCB2 Blue Force Tracker',n:'5895-01-510-0123'},{p:'Turret Drive Assembly',n:'6110-01-380-4567'},{p:'Smoke Generator System',n:'1365-01-290-8901'}],
+        stryker: [{p:'Caterpillar C7 ACERT Engine',n:'2815-01-530-1234'},{p:'Allison 3200SP Transmission',n:'2520-01-540-5678'},{p:'Central Tire Inflation System',n:'2530-01-545-9012'},{p:'RWS Remote Weapon Station',n:'1005-01-550-3456'},{p:'DVH Hull Panel',n:'9515-01-555-7890'},{p:'LRAS3 Long Range Sight',n:'5855-01-560-2345'},{p:'Vehicle Intercom System',n:'5895-01-565-6789'},{p:'NBC Overpressure System',n:'6665-01-570-0123'},{p:'Run-Flat Tire Assembly',n:'2610-01-575-4567'},{p:'Power Distribution Unit',n:'6110-01-580-8901'}],
+        himars: [{p:'GMLRS Rocket Pod',n:'1320-01-590-1234'},{p:'ATACMS Launcher Rail',n:'1410-01-595-5678'},{p:'Fire Control Computer',n:'5895-01-600-9012'},{p:'Cab Armor Kit',n:'9515-01-605-3456'},{p:'Launcher Hydraulic Cylinder',n:'1680-01-610-7890'},{p:'FMTV 5-ton Chassis',n:'2320-01-615-2345'},{p:'GPS/INS Navigation Unit',n:'5826-01-620-6789'},{p:'Communications Suite',n:'5895-01-625-0123'}],
+        patriot: [{p:'AN/MPQ-65 Radar Antenna',n:'5840-01-630-1234'},{p:'PAC-3 MSE Interceptor',n:'1410-01-635-5678'},{p:'Engagement Control Station',n:'5895-01-640-9012'},{p:'Generator Set MEP-12A',n:'6115-01-645-3456'},{p:'Launching Station M903',n:'1440-01-650-7890'},{p:'IFF Interrogator',n:'5840-01-655-2345'},{p:'Fiber Optic Cable Set',n:'6145-01-660-6789'},{p:'Battery Command Post',n:'5895-01-665-0123'}],
+        ah64e: [{p:'T700-GE-701D Engine',n:'2840-01-670-1234'},{p:'M230E1 30mm Chain Gun',n:'1010-01-675-5678'},{p:'AN/APG-78 Longbow Radar',n:'5840-01-680-9012'},{p:'TADS/PNVS Sight System',n:'1240-01-685-3456'},{p:'Hellfire Missile Launcher',n:'1440-01-690-7890'},{p:'Main Rotor Blade',n:'1615-01-695-2345'},{p:'Tail Rotor Drivetrain',n:'1615-01-700-6789'},{p:'CMWS Missile Warning',n:'5895-01-705-0123'},{p:'Flight Control Computer',n:'5895-01-710-4567'},{p:'Stub Wing Pylon',n:'1560-01-715-8901'}],
+        // Air Force platforms
+        f22a: [{p:'F119-PW-100 Engine',n:'2840-01-470-1234'},{p:'AN/APG-77 AESA Radar',n:'5840-01-475-5678'},{p:'Stealth Coating (RAM)',n:'8010-01-480-9012'},{p:'Canopy Assembly',n:'1560-01-485-3456'},{p:'Thrust Vector Nozzle',n:'2840-01-490-7890'},{p:'JHMCS Helmet Sight',n:'1240-01-495-2345'},{p:'ECS Air Cycle Machine',n:'1680-01-500-6789'},{p:'Weapons Bay Door Actuator',n:'1680-01-505-0123'},{p:'ALR-94 EW Receiver',n:'5895-01-510-4567'},{p:'Main Landing Gear',n:'1620-01-515-8901'}],
+        f15ex: [{p:'F110-GE-129 Engine',n:'2840-01-520-1234'},{p:'AN/APG-82(V)1 AESA Radar',n:'5840-01-525-5678'},{p:'AMBER Mission Computer',n:'5895-01-530-9012'},{p:'CFT Conformal Fuel Tank',n:'1560-01-535-3456'},{p:'JHMCS II Helmet',n:'1240-01-540-7890'},{p:'Weapons Pylon Station',n:'1560-01-545-2345'},{p:'EPAWSS EW Suite',n:'5895-01-550-6789'},{p:'Canopy Transparency',n:'1560-01-555-0123'},{p:'Nose Gear Assembly',n:'1620-01-560-4567'},{p:'Fly-by-Wire Computer',n:'5895-01-565-8901'}],
+        b21: [{p:'F135 Derivative Engine',n:'2840-01-850-1234'},{p:'Stealth Structure Panel',n:'1560-01-855-5678'},{p:'Mission Computer Suite',n:'5895-01-860-9012'},{p:'Weapons Bay Rotary Launcher',n:'1440-01-865-3456'},{p:'EO/IR Sensor Ball',n:'5860-01-870-7890'},{p:'Communications System',n:'5895-01-875-2345'},{p:'Landing Gear Strut',n:'1620-01-880-6789'},{p:'Inlet Duct Assembly',n:'1560-01-885-0123'}],
+        b52h: [{p:'TF33-P-3/103 Turbofan',n:'2840-01-140-1234'},{p:'AN/ASQ-176 OAS Computer',n:'5895-01-145-5678'},{p:'CSRL Launcher Rack',n:'1440-01-150-9012'},{p:'Fuel Cell Bladder',n:'1560-01-155-3456'},{p:'AESA Radar Upgrade',n:'5840-01-160-7890'},{p:'Structural Wing Box',n:'1560-01-165-2345'},{p:'Alternator Assembly',n:'6110-01-170-6789'},{p:'Bomb Bay Door Actuator',n:'1680-01-175-0123'},{p:'Tail Gunner Radar (Deleted)',n:'5840-01-180-4567'},{p:'Crew Ejection Seat',n:'1680-01-185-8901'}],
+        kc46a: [{p:'PW4062 Turbofan Engine',n:'2840-01-750-1234'},{p:'Centerline Drogue Unit',n:'1560-01-755-5678'},{p:'Remote Vision System',n:'5860-01-760-9012'},{p:'Boom Telescope Assembly',n:'1560-01-765-3456'},{p:'Wing Aerial Refueling Pod',n:'1560-01-770-7890'},{p:'Cargo Floor System',n:'1560-01-775-2345'},{p:'Fuel Transfer Pump',n:'4320-01-780-6789'},{p:'Flight Deck Display',n:'1270-01-785-0123'}],
+        // Marine Corps / Other
+        v22: [{p:'T406-AD-400 Engine',n:'2840-01-420-1234'},{p:'Proprotor Assembly',n:'1615-01-425-5678'},{p:'Swashplate Mechanism',n:'1615-01-430-9012'},{p:'Tilt Mechanism Gearbox',n:'1615-01-435-3456'},{p:'Flight Control Computer',n:'5895-01-440-7890'},{p:'Cargo Hook Assembly',n:'1670-01-445-2345'},{p:'IR Suppressor',n:'1560-01-450-6789'},{p:'Nacelle Conversion System',n:'1615-01-455-0123'},{p:'Glass Cockpit Display',n:'1270-01-460-4567'},{p:'External Fuel Tank',n:'1560-01-465-8901'}],
+        acv: [{p:'Cummins C9.3 Engine',n:'2815-01-900-1234'},{p:'Marine Propulsion Water Jet',n:'2040-01-905-5678'},{p:'Hull Protection System',n:'9515-01-910-9012'},{p:'RWS Weapon Station',n:'1005-01-915-3456'},{p:'CBRN Protection',n:'6665-01-920-7890'},{p:'Troop Compartment Seats',n:'2540-01-925-2345'},{p:'Vision Block Assembly',n:'1240-01-930-6789'},{p:'Communication System',n:'5895-01-935-0123'}],
+        // Coast Guard / SOCOM / Space
+        wmsl750: [{p:'MT30 Gas Turbine',n:'2840-01-940-1234'},{p:'Mk 110 57mm Gun',n:'1015-01-945-5678'},{p:'TRS-4D Radar Array',n:'5840-01-950-9012'},{p:'MH-65E Helo Support',n:'1615-01-955-3456'},{p:'C4ISR Suite',n:'5895-01-960-7890'},{p:'Stern Launch Ramp',n:'1905-01-965-2345'},{p:'Hull Steel Plating',n:'9515-01-970-6789'},{p:'Diesel Generator Set',n:'6115-01-975-0123'}],
+        gpsiii: [{p:'Navigation Payload',n:'5826-01-980-1234'},{p:'Solar Array Panel',n:'6130-01-985-5678'},{p:'Atomic Clock Rubidium',n:'6645-01-990-9012'},{p:'Hall-Effect Thruster',n:'2840-01-995-3456'},{p:'Star Tracker Assembly',n:'6650-01-998-7890'},{p:'Signal Security Module',n:'5895-01-997-2345'}],
+        thaad: [{p:'AN/TPY-2 X-Band Radar',n:'5840-01-870-1234'},{p:'THAAD Interceptor',n:'1410-01-875-5678'},{p:'TFCC Fire Control',n:'5895-01-880-9012'},{p:'Launcher Assembly M1075',n:'1440-01-885-3456'},{p:'Generator MEP-PU-810',n:'6115-01-890-7890'},{p:'Battery Operations Center',n:'5895-01-895-2345'}]
     };
     const items = (parts[progKey]||parts.ddg51).map((p,i)=>{
         const score = Math.round(rng(i)*100);
@@ -6834,6 +7026,94 @@ function generatePredictions(platform, windowDays, confidenceThreshold) {
             {sys:'Diesel Generator',comp:'Injector Set',mode:'Fuel delivery degradation',costRange:[80,250]},
             {sys:'RHIB Davit',comp:'Hydraulic Cylinder',mode:'Seal extrusion / slow deploy',costRange:[60,200]},
             {sys:'Fire Control',comp:'EO/IR Director',mode:'Gimbal bearing roughness',costRange:[250,750]}
+        ],
+        // Army ground platforms
+        m1a2: [
+            {sys:'AGT-1500 Gas Turbine',comp:'Power Turbine Section',mode:'Hot section inspection overdue',costRange:[1200,3500]},
+            {sys:'M256 120mm Gun System',comp:'Gun Tube',mode:'Bore erosion — EFC count high',costRange:[350,1000]},
+            {sys:'X-1100-3B Transmission',comp:'Steer Unit',mode:'Oil analysis — metal particles',costRange:[800,2400]},
+            {sys:'Track System T-158',comp:'Track Shoe Rubber',mode:'Wear measurement — approach limit',costRange:[60,200]},
+            {sys:'Turret Drive System',comp:'Traverse Motor',mode:'Current draw increasing >15%',costRange:[200,600]},
+            {sys:'CITV Sight',comp:'Thermal Sensor',mode:'Image quality degradation',costRange:[300,900]},
+            {sys:'Fire Control System',comp:'Ballistic Computer',mode:'BITE fault rate trending',costRange:[250,750]},
+            {sys:'NBC System',comp:'HEPA Filter',mode:'Pressure differential increasing',costRange:[40,120]},
+            {sys:'Hull Electrical',comp:'Power Distribution Box',mode:'Insulation resistance low',costRange:[100,350]},
+            {sys:'APU',comp:'Starter Motor',mode:'Cranking speed declining',costRange:[80,250]}
+        ],
+        bradley: [
+            {sys:'Cummins VTA-903T',comp:'Turbocharger',mode:'Boost pressure declining',costRange:[200,600]},
+            {sys:'M242 25mm Chain Gun',comp:'Feed Mechanism',mode:'Cycle count — approaching overhaul',costRange:[150,450]},
+            {sys:'HMPT-500 Transmission',comp:'Steer Valve',mode:'Response time degradation',costRange:[400,1200]},
+            {sys:'TOW Launcher',comp:'Tracking Optics',mode:'Alignment drift >2 mrad',costRange:[250,750]},
+            {sys:'ISU Integrated Sight',comp:'FLIR Module',mode:'Dead pixels increasing',costRange:[300,900]},
+            {sys:'Track Assembly T-150',comp:'Track Pins',mode:'Elongation measurements trending',costRange:[50,180]},
+            {sys:'Ramp System',comp:'Hydraulic Ram',mode:'Bypass leak — slow close',costRange:[120,400]},
+            {sys:'Communication System',comp:'SINCGARS Radio',mode:'Frequency drift out of spec',costRange:[60,200]}
+        ],
+        stryker: [
+            {sys:'Cat C7 ACERT Diesel',comp:'Injector Bank',mode:'Fuel consumption increase >10%',costRange:[150,450]},
+            {sys:'Allison 3200SP Trans',comp:'Torque Converter',mode:'Slippage trending — oil analysis',costRange:[300,900]},
+            {sys:'CTIS System',comp:'Air Compressor',mode:'Cycle time increasing',costRange:[80,250]},
+            {sys:'RWS .50 Cal Station',comp:'Servo Motor',mode:'Tracking speed degradation',costRange:[120,400]},
+            {sys:'Run-Flat Tires',comp:'Tire Assembly',mode:'Tread depth — replacement due',costRange:[40,150]},
+            {sys:'DVH Hull',comp:'Blast Panel',mode:'Crack detection — NDI finding',costRange:[200,600]},
+            {sys:'Electrical System',comp:'Alternator',mode:'Output voltage fluctuation',costRange:[60,200]},
+            {sys:'Cooling System',comp:'Radiator',mode:'Coolant temp trending high',costRange:[100,300]}
+        ],
+        ah64: [
+            {sys:'T700-GE-701D Engine',comp:'N1 Compressor',mode:'Vibration signature change',costRange:[800,2500]},
+            {sys:'Main Rotor System',comp:'Elastomeric Bearing',mode:'TBO approaching — hours limit',costRange:[400,1200]},
+            {sys:'M230E1 30mm Gun',comp:'Barrel Assembly',mode:'Bore erosion — round count',costRange:[150,500]},
+            {sys:'Longbow Radar',comp:'Antenna Array',mode:'Detection range degradation',costRange:[600,1800]},
+            {sys:'TADS/PNVS',comp:'FLIR Sensor',mode:'Thermal imaging quality decline',costRange:[350,1000]},
+            {sys:'Tail Rotor',comp:'Pitch Change Link',mode:'Play in control linkage',costRange:[100,350]},
+            {sys:'Flight Controls',comp:'Cyclic Actuator',mode:'Hydraulic leak — bypass rate',costRange:[200,600]},
+            {sys:'CMWS',comp:'Missile Warning Sensor',mode:'False alarm rate increasing',costRange:[250,750]}
+        ],
+        // Air Force platforms
+        f22a: [
+            {sys:'F119-PW-100 Engine',comp:'Augmentor Liner',mode:'Thermal fatigue cracking pattern',costRange:[1500,4500]},
+            {sys:'AN/APG-77 Radar',comp:'AESA T/R Module',mode:'Power output decline >10%',costRange:[400,1200]},
+            {sys:'Stealth Coating',comp:'RAM Panels',mode:'RCS measurement degradation',costRange:[200,600]},
+            {sys:'ECS',comp:'Air Cycle Machine',mode:'Bearing vibration trending',costRange:[150,450]},
+            {sys:'Thrust Vectoring',comp:'2D Nozzle Actuator',mode:'Response time degradation',costRange:[500,1500]},
+            {sys:'Weapons Bay',comp:'Door Actuator',mode:'Cycle count approaching limit',costRange:[180,550]},
+            {sys:'Landing Gear',comp:'Main Strut Oleo',mode:'Servicing interval exceeded',costRange:[250,750]},
+            {sys:'Canopy System',comp:'Transparency',mode:'Optical distortion measurements',costRange:[300,900]},
+            {sys:'ALR-94 EW',comp:'Receiver Module',mode:'Sensitivity degradation',costRange:[350,1000]},
+            {sys:'Oxygen System',comp:'OBOGS Concentrator',mode:'O2 output trending low',costRange:[120,380]}
+        ],
+        // Fleet-size platforms
+        f16: [
+            {sys:'F110-GE-129 Engine',comp:'Turbine Blade',mode:'Thermal fatigue — hours trending',costRange:[600,1800]},
+            {sys:'AN/APG-68 Radar',comp:'Transmitter',mode:'Peak power output decline',costRange:[200,600]},
+            {sys:'Flight Controls',comp:'Flaperon Actuator',mode:'Hydraulic leak rate — trending',costRange:[150,450]},
+            {sys:'Fuel System',comp:'Wing Tank Sealant',mode:'Fuel leak — seepage rate',costRange:[80,250]},
+            {sys:'Landing Gear',comp:'Nose Gear Steering',mode:'Shimmy damper worn',costRange:[100,300]},
+            {sys:'Environmental',comp:'Cockpit Pressurization',mode:'Bleed air valve wear',costRange:[120,400]},
+            {sys:'Weapons Stations',comp:'Pylon Release',mode:'Solenoid response time',costRange:[60,200]},
+            {sys:'Crew Escape',comp:'ACES II Seat',mode:'Rocket motor shelf life',costRange:[200,600]}
+        ],
+        b52h: [
+            {sys:'TF33-P-3/103 Engine',comp:'Fan Blade Set',mode:'Fatigue life approaching limit',costRange:[400,1200]},
+            {sys:'Wing Structure',comp:'Lower Wing Skin',mode:'Fatigue crack — NDI finding',costRange:[2000,6000]},
+            {sys:'Fuel System',comp:'Bladder Cell',mode:'Permeation rate increase',costRange:[150,500]},
+            {sys:'Bomb Bay',comp:'Door Actuator',mode:'Hydraulic cylinder bypass',costRange:[200,600]},
+            {sys:'Electrical',comp:'Generator CSD',mode:'Oil temperature trending high',costRange:[300,900]},
+            {sys:'CSRL Launcher',comp:'Rotary Mechanism',mode:'Alignment drift — rail wear',costRange:[250,750]},
+            {sys:'Navigation',comp:'INS Platform',mode:'Drift rate increasing',costRange:[180,550]},
+            {sys:'Communications',comp:'SATCOM Terminal',mode:'Antenna pointing accuracy',costRange:[100,350]}
+        ],
+        // Marine Corps
+        v22: [
+            {sys:'T406-AD-400 Engine',comp:'Power Turbine',mode:'CT trending — approaching limit',costRange:[800,2500]},
+            {sys:'Proprotor System',comp:'Composite Blade',mode:'Delamination check — NDI due',costRange:[500,1500]},
+            {sys:'Conversion System',comp:'Tilt Actuator',mode:'Hydraulic response time',costRange:[400,1200]},
+            {sys:'Drive System',comp:'IMRGB Gearbox',mode:'Chip detector trend',costRange:[600,1800]},
+            {sys:'Flight Controls',comp:'Fly-by-Wire Computer',mode:'BITE fault rate trending',costRange:[250,750]},
+            {sys:'Nacelle System',comp:'Conversion Lock',mode:'Engagement sensor — intermittent',costRange:[150,450]},
+            {sys:'Cargo System',comp:'External Cargo Hook',mode:'Load cell calibration drift',costRange:[80,250]},
+            {sys:'Environmental',comp:'ECS Pack',mode:'Cooling capacity decline',costRange:[120,400]}
         ]
     };
     const fleetSystems = systems[platform] || systems.ddg51;
@@ -6942,7 +7222,120 @@ document.addEventListener('DOMContentLoaded', () => {
 
 </script>
 <script>
-if(typeof particlesJS!=='undefined'&&document.getElementById('particles-js')){particlesJS('particles-js',{particles:{number:{value:35},color:{value:'#00aaff'},opacity:{value:0.12},size:{value:2},line_linked:{enable:true,distance:150,color:'#00aaff',opacity:0.06,width:1},move:{enable:true,speed:0.7}},interactivity:{events:{onhover:{enable:true,mode:'grab'}},modes:{grab:{distance:130,line_linked:{opacity:0.15}}}}});}
+// ═══ NAUTICAL ANCHOR BACKGROUND ANIMATION ═══
+(function(){
+const canvas=document.getElementById('anchor-canvas');
+if(!canvas)return;
+const ctx=canvas.getContext('2d');
+let W,H;
+function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;}
+resize();window.addEventListener('resize',resize);
+
+// Floating anchors
+const anchors=[];
+const NUM_ANCHORS=8;
+for(let i=0;i<NUM_ANCHORS;i++){
+    anchors.push({x:Math.random()*W,y:Math.random()*H,size:18+Math.random()*22,rot:Math.random()*Math.PI*2,rotSpeed:(Math.random()-0.5)*0.003,drift:0.15+Math.random()*0.25,sway:Math.random()*Math.PI*2,swaySpeed:0.003+Math.random()*0.004,alpha:0.04+Math.random()*0.06});
+}
+
+// Chain links connecting anchors
+const chains=[];
+for(let i=0;i<anchors.length-1;i++){
+    if(Math.random()>0.4)chains.push({a:i,b:i+1});
+}
+
+// Draw anchor icon
+function drawAnchor(x,y,size,rot,alpha,color){
+    ctx.save();ctx.translate(x,y);ctx.rotate(rot);ctx.globalAlpha=alpha;
+    ctx.strokeStyle=color;ctx.lineWidth=1.5;ctx.lineCap='round';ctx.lineJoin='round';
+    const s=size/24;
+    // Ring at top
+    ctx.beginPath();ctx.arc(0,-8*s,3*s,0,Math.PI*2);ctx.stroke();
+    // Vertical shaft
+    ctx.beginPath();ctx.moveTo(0,-5*s);ctx.lineTo(0,10*s);ctx.stroke();
+    // Cross bar
+    ctx.beginPath();ctx.moveTo(-7*s,2*s);ctx.lineTo(7*s,2*s);ctx.stroke();
+    // Left fluke
+    ctx.beginPath();ctx.moveTo(-7*s,2*s);ctx.quadraticCurveTo(-7*s,9*s,-2*s,10*s);ctx.stroke();
+    // Right fluke
+    ctx.beginPath();ctx.moveTo(7*s,2*s);ctx.quadraticCurveTo(7*s,9*s,2*s,10*s);ctx.stroke();
+    ctx.restore();
+}
+
+// Draw chain link
+function drawChain(x1,y1,x2,y2,alpha){
+    ctx.save();ctx.globalAlpha=alpha*0.4;ctx.strokeStyle='#c9a84c';ctx.lineWidth=1;
+    ctx.setLineDash([4,6]);
+    ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke();
+    ctx.setLineDash([]);
+    // Small chain dots along line
+    const dist=Math.sqrt((x2-x1)**2+(y2-y1)**2);
+    const dots=Math.floor(dist/30);
+    for(let i=1;i<dots;i++){
+        const t=i/dots;
+        const px=x1+(x2-x1)*t,py=y1+(y2-y1)*t;
+        ctx.beginPath();ctx.arc(px,py,1.5,0,Math.PI*2);ctx.fillStyle='#c9a84c';ctx.globalAlpha=alpha*0.3;ctx.fill();
+    }
+    ctx.restore();
+}
+
+// Floating hash fragments (hex characters)
+const hexChars='0123456789abcdef';
+const fragments=[];
+for(let i=0;i<20;i++){
+    let txt='';for(let j=0;j<4;j++)txt+=hexChars[Math.floor(Math.random()*16)];
+    fragments.push({x:Math.random()*W,y:Math.random()*H,txt:txt,alpha:0.03+Math.random()*0.04,speed:0.1+Math.random()*0.2,drift:Math.random()*Math.PI*2});
+}
+
+let time=0;
+function animate(){
+    time++;
+    ctx.clearRect(0,0,W,H);
+
+    // Update & draw anchors
+    anchors.forEach(a=>{
+        a.sway+=a.swaySpeed;
+        a.rot+=a.rotSpeed;
+        a.y-=a.drift;
+        a.x+=Math.sin(a.sway)*0.3;
+        if(a.y<-50){a.y=H+50;a.x=Math.random()*W;}
+        if(a.x<-50)a.x=W+50;
+        if(a.x>W+50)a.x=-50;
+        drawAnchor(a.x,a.y,a.size,a.rot,a.alpha,'#00aaff');
+    });
+
+    // Draw chains
+    chains.forEach(c=>{
+        const a1=anchors[c.a],a2=anchors[c.b];
+        const dist=Math.sqrt((a2.x-a1.x)**2+(a2.y-a1.y)**2);
+        if(dist<350)drawChain(a1.x,a1.y,a2.x,a2.y,Math.min(a1.alpha,a2.alpha));
+    });
+
+    // Floating hash fragments
+    fragments.forEach(f=>{
+        f.drift+=0.002;
+        f.y-=f.speed;
+        f.x+=Math.sin(f.drift)*0.2;
+        if(f.y<-20){f.y=H+20;f.x=Math.random()*W;let t='';for(let j=0;j<4;j++)t+=hexChars[Math.floor(Math.random()*16)];f.txt=t;}
+        ctx.save();ctx.globalAlpha=f.alpha;ctx.font='10px monospace';ctx.fillStyle='#c9a84c';ctx.fillText(f.txt,f.x,f.y);ctx.restore();
+    });
+
+    // Subtle wave lines at bottom
+    ctx.save();ctx.globalAlpha=0.03;ctx.strokeStyle='#00aaff';ctx.lineWidth=1;
+    for(let w=0;w<3;w++){
+        ctx.beginPath();
+        for(let x=0;x<=W;x+=5){
+            const y=H-30-w*15+Math.sin(x*0.008+time*0.015+w)*12;
+            x===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+        }
+        ctx.stroke();
+    }
+    ctx.restore();
+
+    requestAnimationFrame(animate);
+}
+animate();
+})();
 </script>
 
 <button id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" style="position:fixed;bottom:30px;left:30px;width:45px;height:45px;background:linear-gradient(135deg,#00aaff,#c9a84c);border:none;border-radius:50%;color:#fff;font-size:1.3rem;cursor:pointer;opacity:0;visibility:hidden;transition:all 0.3s;z-index:999;display:flex;align-items:center;justify-content:center;">&uarr;</button>

@@ -47,13 +47,18 @@ Every tool in S4 Ledger's current platform eliminates quantifiable labor, error,
 | Document Library | $5K–$15K (MIL-STD lookup time) | $0 (included) | $5K–$15K |
 | Compliance Scorecard | $12K–$35K (CMMC assessment) | $0 (included) | $12K–$35K |
 | Provisioning / PTD Manager | $50K–$120K (replaces ICAPS licensing + labor) | $0 (included) | $50K–$120K |
+| AI Supply Chain Risk Engine | $75K–$200K (manual supply chain audits + GIDEP) | $0 (included) | $75K–$200K |
+| Audit Report Generator | $30K–$80K (audit package compilation) | $0 (included) | $30K–$80K |
+| Contract Lifecycle Management | $40K–$100K (CDRL tracking + administration) | $0 (included) | $40K–$100K |
+| Digital Thread / Config Bridge | $60K–$150K (configuration management labor) | $0 (included) | $60K–$150K |
+| Predictive Maintenance AI | $80K–$250K (CBM+ analysis + unplanned downtime) | $0 (included) | $80K–$250K |
 | AI Agent | $0 (doesn't exist elsewhere) | $0 (included) | N/A (new capability) |
-| **TOTAL per program** | **$322K–$875K** | **$499–$4,999/mo** | **$316K–$815K/year** |
+| **TOTAL per program** | **$607K–$1,655K** | **$499–$4,999/mo** | **$601K–$1,595K/year** |
 
 **At scale:**
-- 10 programs: **$3.2M–$8.8M saved/year**
-- 100 programs: **$32M–$88M saved/year**
-- 1,000 programs: **$316M–$815M saved/year**
+- 10 programs: **$6.0M–$16.0M saved/year**
+- 100 programs: **$60M–$160M saved/year**
+- 1,000 programs: **$601M–$1.6B saved/year**
 
 #### 3. Combined Savings (Anchoring + ILS Workspace)
 
@@ -234,7 +239,7 @@ At 12–15x revenue multiple: **$1.07B–$1.34B valuation**
 
 2. **We have a working prototype.** Not a slide deck. Not a concept. A live, functional platform with 18 ILS tools, a Python SDK, REST API, and real XRPL blockchain integration. Zero cost to the company so far.
 
-3. **The economics are undeniable.** S4 Ledger saves the government $316K–$815K per program per year. It costs them $6K–$60K/year. That's a 10–50x ROI. The government doesn't say no to that math.
+3. **The economics are undeniable.** S4 Ledger saves the government $601K–$1.6M per program per year. It costs them $6K–$60K/year. That's a 10–100x ROI. The government doesn't say no to that math.
 
 4. **The path to $1B is clear.** Defense SaaS companies are valued at 15–20x revenue. We need $70M ARR to reach $1B. The Defense Logistics market can support $200M+ ARR for a dominant platform player. Palantir did it. Anduril did it. We can do it — and we're starting with a working product, not a pitch deck.
 
