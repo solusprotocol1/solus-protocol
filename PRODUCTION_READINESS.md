@@ -23,7 +23,7 @@ This document tracks every requirement for taking S4 Ledger to a fully productio
 | **User Experience** | Full mobile/tablet responsive, ILS Workspace unified UX, conversational AI Agent, 18 interactive tools + calendar, realistic sample data, ITAR compliance notice, branded favicons on all pages | **97%** |
 | **Documentation** | OpenAPI 3.0 spec (fully documenting all 27 endpoints), CHANGELOG.md, comprehensive README, API examples, whitepaper, technical specs, security policy | **85%** |
 | **Compliance** | NIST 800-171 architecture aligned, CMMC L2 roadmap, ITAR warnings, security headers, DoW branding — needs formal assessment | **35%** |
-| **Legal / Business** | Documentation complete — needs entity formation, CAGE code, SAM.gov | **15%** |
+| **Legal / Business** | S4 Systems, LLC exists — S4 Ledger operates as a product line. Needs CAGE code, SAM.gov verification | **30%** |
 | **Security** | Zero-data-on-chain, client-side processing, rate limiting, HSTS, security headers, ITAR warnings — needs pen test, SOC 2 | **35%** |
 | **Monitoring / Ops** | Health check endpoint, request logging — needs full monitoring, CI/CD | **20%** |
 
@@ -34,7 +34,7 @@ This document tracks every requirement for taking S4 Ledger to a fully productio
 ### 1.1 Corporate Legal Structure
 | Item | Status | Priority | Notes |
 |------|--------|----------|-------|
-| Business entity formation (LLC/C-Corp) | ⬜ Pending | **Critical** | Delaware C-Corp recommended for investor compatibility |
+| S4 Ledger product line setup under S4 Systems, LLC | ✅ Complete | **Critical** | S4 Systems owns S4 Ledger as a product line — no separate entity needed |
 | EIN / Tax ID | ⬜ Pending | **Critical** | Required before any B2B contracts |
 | D-U-N-S Number | ⬜ Pending | **Critical** | Required for government contracting (SAM.gov) |
 | CAGE Code | ⬜ Pending | **Critical** | Required for DoW vendor registration |
@@ -285,7 +285,7 @@ This document tracks every requirement for taking S4 Ledger to a fully productio
 
 | Phase | Target | Key Milestones |
 |-------|--------|----------------|
-| **Phase 1: Legal Foundation** | Month 1-2 | Entity formation, CAGE/DUNS, SAM.gov, token legal opinion |
+| **Phase 1: Legal Foundation** | Month 1-2 | CAGE/DUNS verification, SAM.gov registration, token legal opinion |
 | **Phase 2: Security Hardening** | Month 2-4 | WAF, API auth, persistent DB, pentest, CMMC L1 self-assessment |
 | **Phase 3: Mainnet Migration** | Month 3-5 | Multi-sig, mainnet wallets, $SLS issuance, parallel run |
 | **Phase 4: Enterprise Readiness** | Month 4-6 | SOC 2 Type I, GovCloud option, SLA, DPA, API versioning |
@@ -296,9 +296,9 @@ This document tracks every requirement for taking S4 Ledger to a fully productio
 
 ## 10. Quick Win Checklist (Next 30 Days)
 
-- [ ] Form legal entity (Delaware C-Corp)
-- [ ] Apply for DUNS number (free via Dun & Bradstreet)
-- [ ] Register on SAM.gov
+- [x] S4 Ledger product line under S4 Systems, LLC ✅ (no separate entity needed)
+- [ ] Verify/obtain DUNS number for S4 Systems (free via Dun & Bradstreet)
+- [ ] Verify/update SAM.gov registration for S4 Systems
 - [ ] Obtain token legal opinion from crypto-friendly counsel
 - [ ] Set up GitHub Actions CI pipeline (lint + test)
 - [x] Implement API key authentication ✅ (v3.0 — scaffolded with master key + org keys)
@@ -369,7 +369,7 @@ This document tracks every requirement for taking S4 Ledger to a fully productio
 ## 12. v3.2.0 Changelog
 
 ### New Tools & Products
-- [x] **DMSMS / Obsolescence Tracker** — Track Diminishing Manufacturing Sources and Material Shortages per DoWI 4245.14. Per-program tracking using real component data (NSNs, manufacturers, lead times). Severity assessment, alternate source identification, resolution cost estimation. Export to CSV, anchor to XRPL.
+- [x] **DMSMS / Obsolescence Tracker** — Track Diminishing Manufacturing Sources and Material Shortages per DoDI 4245.14. Per-program tracking using real component data (NSNs, manufacturers, lead times). Severity assessment, alternate source identification, resolution cost estimation. Export to CSV, anchor to XRPL.
 - [x] **Operational Readiness Calculator** — Calculate Ao (Operational Availability), Ai (Inherent Availability), MTBF, MTTR, MLDT, failure rate, and mission reliability per MIL-STD-1390D. Pre-loaded defaults for DDG-51, LCS, CVN-78, FFG-62, F-35, M1A2, AH-64E, HIMARS, KC-46A. Assessment ratings from Excellent to Critical. Export RAM reports, anchor to XRPL.
 - [x] **NSN / Parts Cross-Reference** — National Stock Number lookup, CAGE code search, part name search, alternate/substitute part identification, cross-program part availability. 150+ parts from PROG_COMPONENTS database with manufacturer CAGE code mapping, FSC group classification, pricing, and stock status. Export parts lists, anchor to XRPL.
 

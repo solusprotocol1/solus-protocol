@@ -2039,7 +2039,7 @@ Letter grades: A+ (≥95) through F (<50). Color-coded with SVG ring chart visua
 
 ### 34.7 Migration Checklist for v3.7.0
 
-- [ ] Verify all 12 ILS Workspace sub-tabs render correctly
+- [ ] Verify all 18 ILS Workspace sub-tabs render correctly
 - [ ] Test Audit Vault auto-saves records from all 9 anchor functions
 - [ ] Verify Vault search, time filter, CSV export, XLSX export, re-verify, and clear functions
 - [ ] Confirm Defense Document Library loads 100+ documents and filters by branch/category/search

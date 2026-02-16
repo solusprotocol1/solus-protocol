@@ -60,13 +60,13 @@ for (let i = 0; i < NUM_ANCHORS; i++) {
         driftY: -(0.12 + Math.random() * 0.22),
         sway: Math.random() * Math.PI * 2,
         swaySpeed: 0.003 + Math.random() * 0.004,
-        alpha: 0.04 + Math.random() * 0.06,
+        alpha: 0.10 + Math.random() * 0.12,
         pulse: Math.random() * Math.PI * 2,
         color: [BLUE, CYAN, GOLD][Math.floor(Math.random() * 3)],
         chain: chain,
         chainSpacing: 12 + Math.random() * 6,
         chainLinkSize: 3 + Math.random() * 2,
-        chainAlpha: 0.02 + Math.random() * 0.03
+        chainAlpha: 0.05 + Math.random() * 0.06
     });
 }
 
@@ -81,7 +81,7 @@ for (let i = 0; i < NUM_NODES; i++) {
         drift: 0.04 + Math.random() * 0.1,
         sway: Math.random() * Math.PI * 2,
         swaySpeed: 0.001 + Math.random() * 0.003,
-        alpha: 0.03 + Math.random() * 0.05,
+        alpha: 0.07 + Math.random() * 0.10,
         pulse: Math.random() * Math.PI * 2,
         color: [BLUE, GREEN, CYAN, PURPLE][Math.floor(Math.random() * 4)]
     });
@@ -99,7 +99,7 @@ for (let i = 0; i < NUM_FRAGS; i++) {
         x: Math.random() * 3000,
         y: Math.random() * 3000,
         txt: txt,
-        alpha: 0.015 + Math.random() * 0.025,
+        alpha: 0.04 + Math.random() * 0.05,
         speed: 0.04 + Math.random() * 0.1,
         drift: Math.random() * Math.PI * 2,
         fontSize: 9 + Math.floor(Math.random() * 3)
@@ -119,7 +119,7 @@ for (let i = 0; i < NUM_STREAMS; i++) {
         chars: chars,
         charCount: count,
         spacing: 14 + Math.floor(Math.random() * 4),
-        alpha: 0.012 + Math.random() * 0.018,
+        alpha: 0.03 + Math.random() * 0.04,
         offset: Math.random() * 2000,
         color: Math.random() > 0.5 ? GREEN : CYAN
     });
@@ -137,7 +137,7 @@ for (let i = 0; i < NUM_CIRCUITS; i++) {
         seg1Dir: Math.random() > 0.5 ? 'h' : 'v',
         hasBend: hasBend,
         seg2Len: hasBend ? 40 + Math.random() * 100 : 0,
-        alpha: 0.012 + Math.random() * 0.018,
+        alpha: 0.03 + Math.random() * 0.04,
         pulsePos: 0,
         pulseSpeed: 0.004 + Math.random() * 0.006,
         color: [BLUE, GOLD, CYAN][Math.floor(Math.random() * 3)],
@@ -155,7 +155,7 @@ for (let i = 0; i < NUM_PARTICLES; i++) {
         vx: (Math.random() - 0.5) * 0.15,
         vy: (Math.random() - 0.5) * 0.15,
         radius: 0.5 + Math.random() * 1.2,
-        alpha: 0.02 + Math.random() * 0.04,
+        alpha: 0.05 + Math.random() * 0.08,
         pulse: Math.random() * Math.PI * 2,
         color: [BLUE, CYAN, WHITE, GREEN][Math.floor(Math.random() * 4)]
     });
@@ -275,7 +275,7 @@ function animate() {
 
     // ── Subtle hex grid overlay ──
     ctx.save();
-    ctx.globalAlpha = 0.008;
+    ctx.globalAlpha = 0.02;
     ctx.strokeStyle = BLUE;
     ctx.lineWidth = 0.5;
     const gridSize = 70;
@@ -489,7 +489,7 @@ function animate() {
     ctx.save();
     var scanGrad = ctx.createLinearGradient(0, scanY - 30, 0, scanY + 30);
     scanGrad.addColorStop(0, 'rgba(0,170,255,0)');
-    scanGrad.addColorStop(0.5, 'rgba(0,170,255,0.018)');
+    scanGrad.addColorStop(0.5, 'rgba(0,170,255,0.04)');
     scanGrad.addColorStop(1, 'rgba(0,170,255,0)');
     ctx.fillStyle = scanGrad;
     ctx.fillRect(0, scanY - 30, W, 60);
@@ -497,7 +497,7 @@ function animate() {
 
     // ── Wave lines at bottom (nautical) ──
     ctx.save();
-    ctx.globalAlpha = 0.018;
+    ctx.globalAlpha = 0.04;
     ctx.strokeStyle = BLUE;
     ctx.lineWidth = 1;
     for (var w = 0; w < 3; w++) {
