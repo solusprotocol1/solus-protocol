@@ -5,7 +5,7 @@
 
 - **$1.2B+ Problem:** Counterfeit parts, falsified maintenance records, and unverifiable supply chains cost the DoW billions annually. S4 Ledger fixes this with blockchain-secured, tamper-proof logistics verification.
 - **Unique Approach:** Anchors only SHA-256 hashes (never sensitive data) to the XRP Ledger — zero data on-chain, full compliance with NIST/CMMC.
-- **Traction:** Live $SLS token on XRPL mainnet, 18 interactive ILS tools, 21 SDK functions, 7 REST API endpoints, 500+ pre-loaded military entities, and a clear path to pilot deployments.
+- **Traction:** Live $SLS token on XRPL mainnet, 18 interactive ILS tools, 21 SDK functions, 27 REST API endpoints, 500+ pre-loaded military entities, and a clear path to pilot deployments.
 - **Market:** Defense logistics verification is underserved. $850B+ annual DoW budget with no common integrity layer across systems. CMMC 2.0 enforcement begins 2025–2026.
 - **Revenue Model:** SaaS subscriptions ($499–$4,999/mo), $SLS utility fees per anchor, enterprise API tiers. 10–100x ROI for government customers.
 - **Savings:** ~$600K–$1.6M per program per year from 18 ILS tools. Saves $600M–$1.6B/year at scale across all DoW programs.
@@ -24,7 +24,7 @@
 | **Treasury** | 30M SLS (multi-sig) |
 | **ILS Tools** | 18 interactive workspace tools |
 | **SDK Functions** | 21 Python SDK functions |
-| **API Endpoints** | 7 REST API endpoints |
+| **API Endpoints** | 27 REST API endpoints |
 | **Defense Documents** | 100+ real MIL-STDs, OPNAV, DoW refs |
 | **Platforms** | 462 across 9 military branches |
 | **Pre-loaded Entities** | 500+ (462 platforms + 37 suppliers + 25 contracts) |

@@ -45,12 +45,12 @@ Treasury address: `rMLmkrxpadq5z6oTDmq8GhQj9LKjf1KLqJ`
 ## Quarterly Highlights
 
 - Completed full rebrand from healthcare prototype to defense logistics platform
-- Built 14+ page website with defense use cases, pricing, FAQ, and partner information
+- Built 25+ page website with defense use cases, pricing, FAQ, and partner information
 - Established NIST 800-171 and CMMC compliance alignment documentation (CMMC 2.0 enforcement begins 2025–2026)
 - Created Defense Data Integrity Agreement (DDIA) template v2.0
 - Expanded ILS Workspace to **18 tools** including Audit Record Vault, Defense Document Library, Compliance Scorecard, Provisioning & PTD Manager (ICAPS replacement), Supply Chain Risk Engine, Audit Report Generator, Contract Lifecycle Management, Digital Thread Bridge, Predictive Maintenance AI, and Conversational AI Agent
 - **21 Python SDK functions** for defense-grade hash anchoring and verification
-- **7 REST API endpoints** for enterprise integration
+- **27 REST API endpoints** for enterprise integration
 - **500+ pre-loaded military entities** — 462 platforms, 37 suppliers, 25 contracts across 9 branches
 - **156+ pre-built ILS record categories** mapped to real-world logistics workflows
 - Added 100+ real defense document references (MIL-STDs, OPNAVINSTs, DoD Directives, NIST frameworks)
@@ -66,7 +66,7 @@ Treasury address: `rMLmkrxpadq5z6oTDmq8GhQj9LKjf1KLqJ`
 |---|---|
 | ILS Tools | 18 interactive workspace tools |
 | SDK Functions | 21 Python functions |
-| API Endpoints | 7 REST endpoints |
+| API Endpoints | 27 REST endpoints |
 | Pre-loaded Entities | 500+ (462 platforms + 37 suppliers + 25 contracts) |
 | Record Types | 156+ pre-built ILS categories |
 | Per-Program Savings | ~$600K–$1.6M/year |

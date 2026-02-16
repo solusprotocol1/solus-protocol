@@ -104,7 +104,7 @@ $SLS is consumed to pay for anchoring operations:
 | Single hash anchor | ~0.01 SLS |
 | Batch anchor (100 records) | ~0.50 SLS |
 | Verification | Free |
-| API access (per month) | TBD |
+| API access (per month) | $499–$4,999/mo ($6K–$60K/yr) |
 
 ### 3.3 Supply Distribution
 
@@ -187,12 +187,14 @@ See [SEC_COMPLIANCE.md](SEC_COMPLIANCE.md) for full analysis under the Howey tes
 - **Batch support:** Up to 1,000 records per batch
 - **CLI:** Command-line interface for scripting and automation
 
-### 5.2 API (Roadmap — Phase 4)
+### 5.2 REST API (27 Endpoints — Live)
 
-- REST API with API key authentication
+- REST API with API key authentication (master + org keys)
+- 27 production endpoints: anchor, verify, hash, categorize, status, health, metrics, transactions, record-types, xrpl-status, auth, infrastructure, and 15 ILS tool endpoints
 - Rate limits per tier (1K/10K/100K anchors per month)
 - Webhook notifications for anchor confirmations
 - Batch endpoints for high-volume operations
+- OpenAPI 3.0 specification at /api/openapi.json
 
 ### 5.3 Post-Quantum Considerations
 
@@ -285,7 +287,7 @@ At scale (Year 5, $3–5M ARR), S4 Ledger is projected to create 340+ jobs (30�
 
 ## 8. Team
 
-S4 Ledger is a product line of **S4 Systems, LLC**, created and built entirely by **Nick Frankfort** — ILS contractor and proposed Product Lead/CTO. Nick built the entire platform (18 ILS tools, 21 SDK functions, 7 REST API endpoints, $SLS token, 14+ page website, 500+ pre-loaded military entities) at zero cost to the company, on his own time, drawing on years of hands-on ILS experience across Navy and DoW programs.
+S4 Ledger is a product line of **S4 Systems, LLC**, created and built entirely by **Nick Frankfort** — ILS contractor and proposed Product Lead/CTO. Nick built the entire platform (18 ILS tools, 21 SDK functions, 27 REST API endpoints, $SLS token, 25+ page website, 500+ pre-loaded military entities) at zero cost to the company, on his own time, drawing on years of hands-on ILS experience across Navy and DoW programs.
 
 Based in Charleston, SC.
 
@@ -296,6 +298,18 @@ Based in Charleston, SC.
 Defense logistics needs an integrity layer — not another database or blockchain that stores sensitive data. S4 Ledger provides exactly that: immutable proof that a record existed, unchanged, at a specific point in time. No servers to host. No data to protect. No trust required.
 
 The math is the proof.
+
+---
+
+## DoD Database Compatibility
+
+S4 Ledger is designed for seamless integration with existing DoD and DoN logistics information systems. Rather than replacing these systems, S4 Ledger acts as the cryptographic verification layer that ensures data integrity across all of them.
+
+**13 Supported Systems:** NSERC/SE IDE, MERLIN, NAVAIR AMS PMT, COMPASS, CDMD-OA, NDE, MBPS, PEO MLB, CSPT, GCSS, DPAS, DLA FLIS/WebFLIS, and NAVSUP OneTouch.
+
+**Import Formats:** CSV, XML, JSON, and fixed-width exports from any supported system.
+
+**Value Proposition:** Data exported from CDMD-OA, MERLIN, or any supported system is imported into S4 Ledger, hashed, and anchored to the XRPL blockchain. This creates an immutable verification layer that spans all systems — if a record in CDMD-OA is modified after anchoring, S4 Ledger's tamper detection will identify the discrepancy and trigger the correction chain.
 
 ---
 

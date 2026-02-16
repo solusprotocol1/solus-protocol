@@ -46,8 +46,8 @@ Every day, the U.S. Department of War (DoW) processes millions of logistics reco
 
 | Component | Description | Status |
 |-----------|-------------|--------|
-| **Live Website** | 14+ pages at [s4ledger.com](https://s4ledger.com) with full branding | ✅ Deployed |
-| **Python API** | 7 REST endpoints, zero external dependencies | ✅ Live |
+| **Live Website** | 25+ pages at [s4ledger.com](https://s4ledger.com) with full branding | ✅ Deployed |
+| **Python API** | 27 REST endpoints, zero external dependencies | ✅ Live |
 | **Demo Application** | Interactive platform — 9 military branches, 156+ pre-built record types (any defense record type supported) | ✅ Live |
 | **SDK Playground** | Browser-based Python SDK sandbox with live API | ✅ Live |
 | **$SLS Utility Token** | LIVE on XRPL Mainnet — 100M supply, ~15M circulating, AMM (Automated Market Maker) pools active | ✅ Live |
@@ -100,6 +100,19 @@ All of these tools operate within a single unified workspace, with shared data, 
 | **OpenAPI Specification** | Complete API documentation in industry-standard format | ✅ Published |
 | **Terms of Service** | 13-section legal framework | ✅ Published |
 | **Privacy Policy** | 13-section with data handling table | ✅ Published |
+
+### DoD System Integration
+
+S4 Ledger integrates with 13+ existing DoD/DoN logistics databases:
+
+- **NAVSEA:** NSERC/SE IDE, MERLIN, CDMD-OA, CSPT
+- **NAVAIR:** AMS PMT (Aviation Maintenance Supply)
+- **DLA:** FLIS/WebFLIS (Federal Catalog)
+- **OSD:** DPAS, MBPS, COMPASS, GCSS
+- **NAVSUP:** OneTouch / ERP
+- **PEO MLB:** Mine & Littoral Warfare Logistics
+
+Data from these systems is imported via CSV/XML/JSON, hashed with SHA-256, and anchored to the XRPL blockchain. This creates a cross-system verification layer — any record modification after anchoring is automatically detected via tamper detection and flagged for correction.
 
 **Total cost to the company so far: $0.** I built this on my own time using free tools (Vercel hosting, XRPL Testnet, open-source libraries).
 
@@ -160,18 +173,18 @@ Every record anchored costs **0.01 $SLS** (approximately $0.001–$0.01 per reco
 | Tier | Monthly | Annual | Records/Month | Target Customer |
 |------|---------|--------|---------------|-----------------|
 | **Pilot** | Free | Free | 1,000 | Evaluation, proof of concept |
-| **Standard** | $499 | $4,990 | 25,000 | Small contractors, depot-level maintenance |
-| **Professional** | $1,499 | $14,990 | 100,000 | Mid-size contractors, installation-level |
-| **Enterprise** | $4,999 | $49,990 | Unlimited | Prime contractors, NAVSEA, DLA (Defense Logistics Agency) |
+| **Starter** | $499 | $6K | 25,000 | Small contractors, depot-level maintenance |
+| **Professional** | $1,999 | $24K | 100,000 | Mid-size contractors, installation-level |
+| **Enterprise** | $4,999 | $60K | Unlimited | Prime contractors, NAVSEA, DLA (Defense Logistics Agency) |
 
 ### Revenue Projections (Conservative)
 
 | Year | Customers | Avg Tier | Annual Revenue |
 |------|-----------|----------|----------------|
-| Year 1 | 5 pilots + 3 paid | Standard | ~$15K |
-| Year 2 | 15 paid + 2 enterprise | Mixed | ~$180K |
-| Year 3 | 50 paid + 10 enterprise | Mixed | ~$900K |
-| Year 5 | 200+ accounts | Scaled | $3M–$5M+ |
+| Year 1 | 6 pilots (free) + 6 paid Starter + 2 Professional | Mixed | ~$72K |
+| Year 2 | 20 paid (mixed) + 5 Enterprise | Mixed | ~$480K |
+| Year 3 | 80 paid (mixed) + 20 Enterprise | Mixed | ~$2.4M |
+| Year 5 | 300+ accounts | Scaled | $8M–$15M+ |
 
 *These projections do not include $SLS token value appreciation or government-wide contract vehicles (GSA Schedule, SEWP — Solutions for Enterprise-Wide Procurement) which could accelerate adoption dramatically.*
 
@@ -274,7 +287,7 @@ S4 Ledger's prototype is essentially a **completed Phase I deliverable**. We cou
 5. **Time allocation** for me to lead development (partial or full-time on S4 Ledger)
 
 ### What I Bring
-1. **A working prototype** — live, publicly accessible, with 14+ pages and 7 API endpoints
+1. **A working prototype** — live, publicly accessible, with 25+ pages and 27 API endpoints
 2. **Domain expertise** — I understand defense logistics AND the underlying technology
 3. **Complete documentation** — whitepaper, technical specs, migration guides, compliance docs, API specification
 4. **ILS Workspace** — a fully functional suite of 18 integrated logistics tools ready for demonstration, including a Provisioning & PTD Manager that replaces DAU's ICAPS for all branches

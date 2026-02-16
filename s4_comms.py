@@ -132,10 +132,38 @@ class S4LedgerMessenger:
         return hook
 
     def _fire_webhooks(self, msg: dict):
+        """Deliver webhook notifications via HTTP POST to all registered endpoints."""
+        import urllib.request
         for hook in self.webhooks:
             if msg["type"] in hook["events"]:
-                # In production: POST to hook["url"]
-                pass
+                payload = json.dumps({
+                    "event": msg["type"],
+                    "msg_id": msg["msg_id"],
+                    "timestamp": msg["timestamp"],
+                    "sender": msg["sender"],
+                    "subject": msg["subject"],
+                    "priority": msg["priority"],
+                    "classification": msg["classification"],
+                    "hash": msg["hash"],
+                    "anchored": msg["anchored"],
+                    "tx_hash": msg["tx_hash"],
+                }).encode("utf-8")
+                try:
+                    req = urllib.request.Request(
+                        hook["url"],
+                        data=payload,
+                        headers={
+                            "Content-Type": "application/json",
+                            "User-Agent": "S4-Ledger-Webhook/3.9.7",
+                            "X-S4-Event": msg["type"],
+                            "X-S4-Signature": hashlib.sha256(payload).hexdigest(),
+                        },
+                        method="POST",
+                    )
+                    urllib.request.urlopen(req, timeout=10)
+                except Exception:
+                    # Log failure but don't block message delivery
+                    pass
 
     def get_stats(self):
         return {
@@ -143,7 +171,61 @@ class S4LedgerMessenger:
             "by_type": {t: sum(1 for m in self.messages if m["type"] == t) for t in MESSAGE_TYPES if any(m["type"] == t for m in self.messages)},
             "by_priority": {p: sum(1 for m in self.messages if m["priority"] == p) for p in PRIORITY_LEVELS if any(m["priority"] == p for m in self.messages)},
             "anchored": sum(1 for m in self.messages if m["anchored"]),
+            "webhooks_registered": len(self.webhooks),
         }
+
+    def send_tamper_alert(self, record_hash: str, chain_hash: str, tx_hash: str = "",
+                          operator: str = "SYSTEM", details: str = "") -> dict:
+        """Send a CRITICAL tamper detection alert via the messaging + webhook system.
+        This is triggered when a verify operation detects a hash mismatch."""
+        body = (
+            f"TAMPER ALERT — Record Integrity Violation Detected\n"
+            f"Computed Hash: {record_hash[:32]}...\n"
+            f"On-Chain Hash: {chain_hash[:32]}...\n"
+            f"TX Hash: {tx_hash or 'N/A'}\n"
+            f"Detected By: {operator}\n"
+            f"Details: {details or 'Hash mismatch detected during verification'}\n"
+            f"Action Required: Investigate source of modification. On-chain record is authoritative."
+        )
+        return self.send_message(
+            sender="S4-TAMPER-DETECTION",
+            recipients=["SECURITY-OFFICER", "PROGRAM-MANAGER", "CONTRACTING-OFFICER"],
+            message_type="quality_defect",
+            subject=f"CRITICAL: Tamper Detected — {record_hash[:16]}",
+            body=body,
+            priority="04",  # Emergency
+            classification="CUI",
+            reference=tx_hash or record_hash,
+            anchor=True,
+        )
+
+    def send_correction_notice(self, original_tx: str, corrected_hash: str,
+                                corrected_tx: str, reason: str,
+                                operator: str = "SYSTEM") -> dict:
+        """Send notification that a tampered record has been corrected and re-anchored.
+        Links the correction to the original via supersedes_tx."""
+        body = (
+            f"CORRECTION NOTICE — Record Re-Anchored\n"
+            f"Original TX: {original_tx}\n"
+            f"Corrected Hash: {corrected_hash[:32]}...\n"
+            f"Correction TX: {corrected_tx}\n"
+            f"Supersedes: {original_tx}\n"
+            f"Reason: {reason}\n"
+            f"Corrected By: {operator}\n"
+            f"The corrected record has been re-anchored to the XRPL blockchain.\n"
+            f"The original transaction remains on-chain as part of the audit trail."
+        )
+        return self.send_message(
+            sender="S4-CORRECTION-ENGINE",
+            recipients=["SECURITY-OFFICER", "PROGRAM-MANAGER", "AUDIT-TEAM"],
+            message_type="config_change",
+            subject=f"Correction Anchored — supersedes {original_tx[:16]}",
+            body=body,
+            priority="02",  # Priority
+            classification="CUI",
+            reference=corrected_tx,
+            anchor=True,
+        )
 
 
 # ═══════════════════════════════════════════════════════════════════════════════

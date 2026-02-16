@@ -64,7 +64,7 @@ S4 Ledger utilizes the `Memos` field in a standard XRPL transaction to anchor da
 
 | Property | Value |
 |---|---|
-| **Endpoints** | 7 production REST API endpoints |
+| **Endpoints** | 27 production REST API endpoints |
 | **Framework** | Zero-dependency (BaseHTTPRequestHandler) |
 | **Authentication** | API key (master + org keys) |
 | **Rate Limiting** | 120 requests/minute per IP |
@@ -133,6 +133,80 @@ Private blockchains (Hyperledger, Guardtime KSI) defeat the purpose of independe
 | NIST SP 800-53 (AU) | Immutable audit trail |
 | FedRAMP | Planned (Phase 5) |
 | FIPS 180-4 | SHA-256 compliant |
+
+## DoD / DoN Database Integration
+
+S4 Ledger provides native import adapters for 13+ DoD and DoN logistics information systems. Data exported from these systems can be ingested in CSV, XML, or JSON format, automatically mapped to S4 Ledger record types, hashed with SHA-256, and optionally anchored to the XRPL blockchain.
+
+### Supported Systems
+
+| System | Agency | Formats | S4 Record Types |
+|--------|--------|---------|------------------|
+| NSERC / SE IDE | NAVSEA | CSV, XML, JSON | Configuration, TDPs, DRLs |
+| MERLIN | NAVSEA | CSV, XML | Maintenance, PMS, Depot Repair, Calibration |
+| NAVAIR AMS PMT | NAVAIR | CSV, XML, JSON | Aviation Maintenance, Flight Ops, Supply |
+| COMPASS | DoD | CSV, Fixed-Width | Personnel, Training, Readiness |
+| CDMD-OA | NAVSEA/PMS | XML, JSON | Config Baselines, CDRLs, Ship Alterations |
+| NDE | Navy | JSON, XML, CSV | Supply Chain, Custody, Quality, Fielding |
+| MBPS | OSD/DSPO | XML, JSON | Sustainment, Parts, Readiness Metrics |
+| PEO MLB | PEO MLB | CSV, XML | Littoral Combat, Mine Warfare, Ordnance |
+| CSPT | NAVSEA | XML, JSON, CSV | Combat Systems Cert, Config, Calibration |
+| GCSS | USA/JOINT | CSV, XML, JSON | Global Logistics, Inventory, Maintenance |
+| DPAS | OSD | CSV, Fixed-Width | Property Accountability, Custody, Assets |
+| DLA FLIS / WebFLIS | DLA | CSV, Fixed-Width, XML | Federal Catalog, NSN Lookup, Supply |
+| NAVSUP OneTouch | NAVSUP | CSV, XML, JSON | Supply Chain, Quality Defects, Custody |
+
+### Import Workflow
+
+1. **Export** — Extract data from the DoD system in CSV, XML, or JSON
+2. **Upload** — Load the file into S4 Ledger via the ILS Workspace "DoD Import" tool or the SDK `import_and_anchor()` method
+3. **Parse & Map** — S4 automatically detects the format and maps fields to the appropriate record types
+4. **Hash** — Each record is individually hashed with SHA-256
+5. **Anchor** — Optionally anchor each hash to the XRPL blockchain for immutable verification
+6. **Integrate** — Imported data flows into all 18 ILS tools: DMSMS tracking, readiness, parts cross-reference, audit vault, etc.
+
+### SDK Import Methods
+
+```python
+sdk = S4SDK(wallet_seed="sEd...", testnet=True)
+
+# List supported systems
+systems = sdk.list_dod_systems()
+
+# Import CSV from CDMD-OA
+result = sdk.import_csv(csv_text, "cdmd_oa")
+
+# Import and auto-anchor
+result = sdk.import_and_anchor(file_text, "merlin", file_format="csv", anchor=True)
+```
+
+## Tamper Detection & Response
+
+S4 Ledger provides a complete tamper detection, notification, and correction pipeline.
+
+### Detection
+
+Every record anchored to the XRPL includes its SHA-256 hash in the transaction memo. To verify integrity, the `POST /api/verify` endpoint (or `sdk.verify_against_chain()`) recomputes the hash of the current record and compares it against the on-chain value.
+
+- **MATCH** — Record is intact. Hash matches on-chain proof.
+- **MISMATCH** — Tamper detected. Current data differs from anchored version.
+- **NOT_FOUND** — No on-chain record found for the given transaction hash.
+
+### Response Pipeline
+
+1. **Detect** — Verification returns `tamper_detected: true`
+2. **Alert** — System sends CRITICAL priority notification via `send_tamper_alert()` to Security Officer, Program Manager, and Contracting Officer
+3. **Webhook** — All registered webhook endpoints receive the tamper alert via HTTP POST with HMAC signature
+4. **Audit Log** — Every verification attempt (pass or fail) is recorded in the verification audit trail with operator ID, timestamp, both hashes, and result
+5. **Correct** — The `correct_record()` SDK method or the correction API re-anchors the corrected record with a `supersedes_tx` link to the original, preserving the full chain of custody
+
+### Correction Chain
+
+When a tampered record is corrected:
+- The corrected version is re-anchored to the XRPL with a new transaction
+- The memo includes `CORRECTION:{new_hash}:SUPERSEDES:{original_tx}` linking the two
+- The original transaction remains on-chain as part of the immutable audit trail
+- A correction notice is sent via the comms module to all stakeholders
 
 ---
 

@@ -5,6 +5,43 @@ All notable changes to the S4 Ledger project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.9.8] - 2026-02-16
+
+### Added — Code Features
+- **`POST /api/verify` Endpoint** — New verification endpoint in `api/index.py`. Accepts `record_text` (required), `tx_hash`, and `expected_hash`. Recomputes SHA-256, compares against on-chain hash, returns structured result with `verified`, `status` (MATCH/MISMATCH/NOT_FOUND), `tamper_detected`, `explorer_url`, and `audit_id`. Tamper detections return a CRITICAL alert payload with correction instructions.
+- **Verification Audit Log** — Every `/api/verify` call is logged to `_verify_audit_log` with timestamp, operator, both hashes, TX hash, result, and tamper status. Last 50 entries are exposed in `/api/metrics` response under `verify_audit_log`.
+- **Webhook Delivery Implemented** — `s4_comms.py` `_fire_webhooks()` now performs real HTTP POST to registered webhook URLs with JSON payload, HMAC signature (`X-S4-Signature`), and `User-Agent: S4-Ledger-Webhook/3.9.7`. Previously was a no-op (`pass`).
+- **Tamper Alert System** — New `send_tamper_alert()` method in `S4LedgerMessenger`. Sends EMERGENCY priority (04) CUI-classified notifications to Security Officer, Program Manager, and Contracting Officer when hash mismatch is detected.
+- **Correction / Re-Anchor Chain** — New `correct_record()` method in `S4SDK` and `send_correction_notice()` in `S4LedgerMessenger`. Corrected records are re-anchored to XRPL with `CORRECTION:{hash}:SUPERSEDES:{original_tx}` in the memo, preserving the full audit trail. Original transaction remains on-chain.
+- **`verify_against_chain()` SDK Method** — New method in `S4SDK` for programmatic record verification. Compares current record hash against expected or on-chain hash. Returns structured result with tamper detection.
+- **DoD Database Import Adapters** — 13 DoD/DoN system adapters added to `S4SDK`: NSERC/SE IDE, MERLIN, NAVAIR AMS PMT, COMPASS, CDMD-OA, NDE, MBPS, PEO MLB, CSPT, GCSS, DPAS, DLA FLIS/WebFLIS, NAVSUP OneTouch. Each adapter includes system metadata, supported formats (CSV/XML/JSON/fixed-width), and mapped record types. Import methods: `import_csv()`, `import_xml()`, `import_json()`, `import_and_anchor()`, `list_dod_systems()`.
+- **DoD Import Tool in Demo App** — New 19th ILS tool "DoD Import" in `demo-app/index.html`. File upload (drag-and-drop) and paste support for CSV/XML/JSON. Source system selector (13 systems), format selector, auto-detect record types. Demo import generator with realistic sample data for each system. Import, hash, anchor, and export workflows.
+- **Metrics: Data Source Tracking** — `/api/metrics` now tracks `records_by_source` showing which DoD system each record was imported from (NSERC, CDMD-OA, MERLIN, etc.).
+
+### Added — Documentation
+- **DoD Database Integration Sections** — Added to TECHNICAL_SPECS.md, WHITEPAPER.md, and S4_SYSTEMS_EXECUTIVE_PROPOSAL.md. Includes 13-system compatibility table, import workflow (Export → Upload → Parse → Hash → Anchor → Integrate), SDK code examples.
+- **Tamper Detection & Response Documentation** — Added to TECHNICAL_SPECS.md. Covers detection (MATCH/MISMATCH/NOT_FOUND), response pipeline (detect → alert → webhook → audit log → correct), and correction chain with `supersedes_tx` linking.
+
+### Changed — API & Versions
+- **OpenAPI Spec Updated to v3.9.7** — `openapi.json` version bumped from 3.8.0 to 3.9.7. Status example version bumped from 3.2.0 to 3.9.7. Added 7 new endpoint definitions: `/api/verify`, `/api/supply-chain-risk`, `/api/audit-reports`, `/api/contracts`, `/api/digital-thread`, `/api/predictive-maintenance` (these 5 existed in code but were undocumented). Total: 29 documented API endpoints.
+- **API Version Strings Updated** — `api/index.py` version strings updated from 3.8.0/3.8.6/3.3.0 to 3.9.7 across status, health, and infrastructure endpoints.
+- **SDK Status Command Updated** — Now shows v3.9.7, 500+ platforms, 13 DoD import systems, 28 REST API endpoints, and 25+ platform pages.
+- **Route Table Updated** — Added `action_items`, `calendar`, and `verify` routes to the `_route()` function (were handled but not in the route lookup).
+
+### Changed — Documentation Audit
+- **API Endpoint Count** — "7 REST API endpoints" → "27 REST API endpoints" in 10+ docs (INVESTOR_PITCH, INVESTOR_OVERVIEW, INVESTOR_RELATIONS, INVESTOR_SLIDE_DECK, EXECUTIVE_PROPOSAL, WHITEPAPER, TECHNICAL_SPECS, DEVELOPER_BIO, INTERNAL_PITCH).
+- **Page Count** — "14+ pages" → "25+ pages" in 9 locations across 7 docs.
+- **Pricing Standardized** — Starter $499/mo ($6K/yr), Professional $1,999/mo ($24K/yr), Enterprise $4,999/mo ($60K/yr) across all investor docs.
+- **Revenue Projections Updated** — Year 1 ~$72K, Year 2 ~$480K, Year 3 ~$2.4M, Year 5 $8M–$15M+ (was $15K/$180K/$900K/$3-5M).
+- **BAA Template Version** — Updated from v3.8.3 to v3.9.7.
+- **WHITEPAPER API Pricing** — Changed from "TBD" to "$499–$4,999/mo".
+
+## [3.9.7] - 2026-02-15
+
+### Changed
+- **S4 Anchor Brand Mark** — New navy circle + gold S4 anchor logo deployed across all pages. Updated `s4-assets/s4-logo.svg`, `s4-assets/s4-logo.png` (192×192), `s4-assets/s4-favicon.ico`, `s4-assets/s4-icon-512.png`, `demo-app/manifest.json` icons. Fixed GitHub raw URL references that were returning 404.
+- **Navbar Logo Size** — Increased from 32px → 44px desktop, 26px → 34px mobile for better visibility.
+
 ## [3.9.6] - 2026-02-15
 
 ### Changed

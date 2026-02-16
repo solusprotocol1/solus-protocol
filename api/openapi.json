@@ -2,7 +2,7 @@
   "openapi": "3.0.3",
   "info": {
     "title": "S4 Ledger API",
-    "version": "3.8.0",
+    "version": "3.9.7",
     "description": "S4 Ledger — Defense-grade blockchain-anchored logistics and supply chain integrity platform. 18 integrated tools: cryptographic anchoring, ILS workspace, DMSMS monitoring, operational readiness, parts cross-reference, lifecycle cost, ROI analysis, warranty management, audit record vault, defense document library, compliance scorecard, provisioning/PTD management, supply chain risk engine, audit report generator, contract lifecycle management, digital thread bridge, predictive maintenance AI, and XRPL-based immutable record verification for defense and government supply chains.",
     "contact": {
       "name": "S4 Systems, LLC",
@@ -36,7 +36,7 @@
                   "type": "object",
                   "properties": {
                     "status": { "type": "string", "example": "operational" },
-                    "version": { "type": "string", "example": "3.2.0" },
+                    "version": { "type": "string", "example": "3.9.7" },
                     "uptime": { "type": "number", "description": "Uptime in seconds" },
                     "timestamp": { "type": "string", "format": "date-time" }
                   }
@@ -912,6 +912,232 @@
           }
         }
       }
+    },
+    "/api/verify": {
+      "post": {
+        "summary": "Verify record integrity",
+        "description": "Verifies the integrity of a previously anchored record by recomputing its SHA-256 hash and comparing against the on-chain XRPL memo. Returns match status, both hashes, timestamp delta, and a link to the XRPL proof transaction.",
+        "operationId": "verifyRecord",
+        "tags": ["Anchoring"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["record_text"],
+                "properties": {
+                  "record_text": { "type": "string", "description": "The original record content to verify" },
+                  "tx_hash": { "type": "string", "description": "XRPL transaction hash from original anchoring (optional — looked up if omitted)" },
+                  "expected_hash": { "type": "string", "description": "Expected SHA-256 hash to compare against (optional)" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Verification result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "verified": { "type": "boolean", "description": "True if current hash matches on-chain hash" },
+                    "status": { "type": "string", "enum": ["MATCH", "MISMATCH", "NOT_FOUND"], "description": "Verification result" },
+                    "computed_hash": { "type": "string", "description": "SHA-256 of current record_text" },
+                    "chain_hash": { "type": "string", "description": "Hash stored on XRPL (from memo)" },
+                    "tx_hash": { "type": "string", "description": "XRPL transaction hash" },
+                    "anchored_at": { "type": "string", "format": "date-time" },
+                    "verified_at": { "type": "string", "format": "date-time" },
+                    "time_delta_seconds": { "type": "number", "description": "Seconds between anchor and verify" },
+                    "explorer_url": { "type": "string", "description": "XRPL explorer link for proof" },
+                    "tamper_detected": { "type": "boolean" }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "description": "Invalid request — record_text required" },
+          "404": { "description": "Transaction not found on XRPL" }
+        },
+        "security": [{ "ApiKeyAuth": [] }]
+      }
+    },
+    "/api/supply-chain-risk": {
+      "get": {
+        "summary": "Supply Chain Risk Engine",
+        "description": "Analyzes supply chain risk factors including single-source dependency, DLA lead time spikes, foreign dependency, and obsolescence trajectories. Returns scored risk items with mitigation recommendations.",
+        "operationId": "getSupplyChainRisk",
+        "tags": ["ILS Workspace"],
+        "parameters": [
+          { "name": "program", "in": "query", "description": "Program identifier", "schema": { "type": "string", "default": "ddg51" } },
+          { "name": "threshold", "in": "query", "description": "Filter by risk level", "schema": { "type": "string", "enum": ["all", "critical", "high", "medium", "low"] } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Supply chain risk assessment",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "program": { "type": "string" },
+                    "items": { "type": "array", "items": { "type": "object", "properties": { "part": { "type": "string" }, "nsn": { "type": "string" }, "supplier": { "type": "string" }, "score": { "type": "integer" }, "level": { "type": "string" }, "factors": { "type": "array", "items": { "type": "string" } } } } },
+                    "critical": { "type": "integer" },
+                    "high": { "type": "integer" },
+                    "medium": { "type": "integer" },
+                    "low": { "type": "integer" },
+                    "total": { "type": "integer" }
+                  }
+                }
+              }
+            }
+          },
+          "401": { "description": "Unauthorized" }
+        },
+        "security": [{ "ApiKeyAuth": [] }]
+      }
+    },
+    "/api/audit-reports": {
+      "get": {
+        "summary": "Audit Report Generator",
+        "description": "Generates comprehensive audit reports including anchoring history, chain of custody, compliance scorecards, and hash integrity verification. Supports full audit, supply chain, maintenance, compliance, custody, and contract report types.",
+        "operationId": "getAuditReports",
+        "tags": ["ILS Workspace"],
+        "parameters": [
+          { "name": "type", "in": "query", "description": "Report type", "schema": { "type": "string", "enum": ["full_audit", "supply_chain", "maintenance", "compliance", "custody", "contract"] } },
+          { "name": "period", "in": "query", "description": "Report period in days", "schema": { "type": "integer", "default": 90 } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Generated audit report",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "report_type": { "type": "string" },
+                    "period_days": { "type": "integer" },
+                    "sections": { "type": "array", "items": { "type": "string" } },
+                    "record_count": { "type": "integer" },
+                    "compliance_score": { "type": "number" },
+                    "generated": { "type": "string", "format": "date-time" }
+                  }
+                }
+              }
+            }
+          },
+          "401": { "description": "Unauthorized" }
+        },
+        "security": [{ "ApiKeyAuth": [] }]
+      }
+    },
+    "/api/contracts": {
+      "get": {
+        "summary": "Contract Lifecycle Management",
+        "description": "Tracks CDRL deliverables, contract modifications, SOW milestones, and cost performance metrics. Supports blockchain-anchored delivery verification per DFARS requirements.",
+        "operationId": "getContracts",
+        "tags": ["ILS Workspace"],
+        "parameters": [
+          { "name": "contract", "in": "query", "description": "Contract number", "schema": { "type": "string", "default": "N00024-25-C-5501" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Contract tracking data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "contract": { "type": "string" },
+                    "items": { "type": "array", "items": { "type": "object", "properties": { "id": { "type": "string" }, "desc": { "type": "string" }, "type": { "type": "string" }, "di": { "type": "string" }, "due": { "type": "string" }, "status": { "type": "string" }, "anchored": { "type": "boolean" } } } },
+                    "total": { "type": "integer" },
+                    "on_track": { "type": "integer" },
+                    "overdue": { "type": "integer" },
+                    "delivered": { "type": "integer" }
+                  }
+                }
+              }
+            }
+          },
+          "401": { "description": "Unauthorized" }
+        },
+        "security": [{ "ApiKeyAuth": [] }]
+      }
+    },
+    "/api/digital-thread": {
+      "get": {
+        "summary": "Digital Thread Bridge",
+        "description": "Provides engineering change proposal (ECP) tracking, bill of materials (BOM) revision history, and configuration management data. Links design changes to logistics impact with blockchain proof of each change.",
+        "operationId": "getDigitalThread",
+        "tags": ["ILS Workspace"],
+        "parameters": [
+          { "name": "platform", "in": "query", "description": "Platform identifier", "schema": { "type": "string", "default": "ddg51" } },
+          { "name": "view", "in": "query", "description": "Data view type", "schema": { "type": "string", "enum": ["changes", "bom", "impact"], "default": "changes" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Digital thread data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "platform": { "type": "string" },
+                    "view": { "type": "string" },
+                    "items": { "type": "array", "items": { "type": "object" } },
+                    "total": { "type": "integer" },
+                    "pending": { "type": "integer" },
+                    "approved": { "type": "integer" },
+                    "anchored": { "type": "integer" }
+                  }
+                }
+              }
+            }
+          },
+          "401": { "description": "Unauthorized" }
+        },
+        "security": [{ "ApiKeyAuth": [] }]
+      }
+    },
+    "/api/predictive-maintenance": {
+      "get": {
+        "summary": "Predictive Maintenance AI",
+        "description": "AI-driven predictive maintenance engine that forecasts component failures based on operational data patterns. Returns confidence-scored predictions with cost-of-inaction estimates and recommended maintenance windows.",
+        "operationId": "getPredictiveMaintenance",
+        "tags": ["ILS Workspace"],
+        "parameters": [
+          { "name": "platform", "in": "query", "description": "Platform identifier", "schema": { "type": "string", "default": "ddg51" } },
+          { "name": "window", "in": "query", "description": "Prediction window in days", "schema": { "type": "integer", "default": 90 } },
+          { "name": "confidence", "in": "query", "description": "Minimum confidence threshold (%)", "schema": { "type": "integer", "default": 85 } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Predictive maintenance forecast",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "platform": { "type": "string" },
+                    "window_days": { "type": "integer" },
+                    "confidence_threshold": { "type": "integer" },
+                    "predictions": { "type": "array", "items": { "type": "object", "properties": { "system": { "type": "string" }, "component": { "type": "string" }, "mode": { "type": "string" }, "confidence": { "type": "integer" }, "eta_days": { "type": "integer" }, "cost_unplanned": { "type": "number" }, "urgent": { "type": "boolean" } } } },
+                    "total": { "type": "integer" },
+                    "urgent": { "type": "integer" },
+                    "total_risk_k": { "type": "number" },
+                    "est_savings_k": { "type": "number" },
+                    "model_accuracy": { "type": "number" }
+                  }
+                }
+              }
+            }
+          },
+          "401": { "description": "Unauthorized" }
+        },
+        "security": [{ "ApiKeyAuth": [] }]
+      }
     }
   },
   "components": {
@@ -942,6 +1168,7 @@
     { "name": "ILS Workspace", "description": "Integrated Logistics Support intelligence — DMSMS, readiness, parts catalog, and categorization" },
     { "name": "XRPL", "description": "XRP Ledger network status and connectivity" },
     { "name": "Authentication", "description": "API key generation and validation" },
-    { "name": "Database", "description": "Analysis storage and retrieval" }
+    { "name": "Database", "description": "Analysis storage and retrieval" },
+    { "name": "Verification", "description": "Record integrity verification and tamper detection" }
   ]
 }

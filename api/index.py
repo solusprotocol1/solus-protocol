@@ -46,6 +46,9 @@ RATE_LIMIT_MAX = 120    # requests per window
 _request_log = []
 API_START_TIME = time.time()
 
+# Verification audit log
+_verify_audit_log = []  # [{timestamp, operator, record_hash, chain_hash, tx_hash, result, tamper_detected}]
+
 # ═══════════════════════════════════════════════════════════════════════
 #  MILITARY BRANCH DEFINITIONS
 # ═══════════════════════════════════════════════════════════════════════
@@ -317,11 +320,14 @@ def _aggregate_metrics(records):
     total_fees = total * 0.01
     records_by_type = {}
     records_by_branch = {}
+    records_by_source = {}
     for r in records:
         rt = r.get("record_label", r.get("record_type", "Unknown"))
         records_by_type[rt] = records_by_type.get(rt, 0) + 1
         branch = r.get("branch", "JOINT")
         records_by_branch[branch] = records_by_branch.get(branch, 0) + 1
+        source = r.get("data_source", r.get("system", "direct"))
+        records_by_source[source] = records_by_source.get(source, 0) + 1
 
     hashes_by_minute = {}
     hashes_by_hour = {}
@@ -377,6 +383,8 @@ def _aggregate_metrics(records):
         "total_record_types": len(records_by_type),
         "records_by_type": dict(sorted(records_by_type.items(), key=lambda x: -x[1])),
         "records_by_branch": records_by_branch,
+        "records_by_source": records_by_source,
+        "verify_audit_log": _verify_audit_log[-50:],
         "hashes_today": today_count,
         "fees_today": round(today_count * 0.01, 2),
         "this_month": this_month_count,
@@ -544,6 +552,12 @@ class handler(BaseHTTPRequestHandler):
             return "digital_thread"
         if path == "/api/predictive-maintenance":
             return "predictive_maintenance"
+        if path == "/api/action-items":
+            return "action_items"
+        if path == "/api/calendar":
+            return "calendar"
+        if path == "/api/verify":
+            return "verify"
         return None
 
     def _check_rate_limit(self):
@@ -593,7 +607,7 @@ class handler(BaseHTTPRequestHandler):
                 "uptime_seconds": round(uptime, 1),
                 "requests_served": len(_request_log),
                 "timestamp": datetime.now(timezone.utc).isoformat(),
-                "version": "3.8.6",
+                "version": "3.9.7",
                 "tools": ["anchor", "verify", "ils-workspace", "dmsms-tracker", "readiness-calculator", "parts-xref", "roi-calculator", "lifecycle-cost", "warranty-tracker", "audit-vault", "doc-library", "compliance-scorecard", "provisioning-ptd", "supply-chain-risk", "audit-reports", "contracts", "digital-thread", "predictive-maintenance"],
             })
         elif route == "status":
@@ -601,7 +615,7 @@ class handler(BaseHTTPRequestHandler):
             self._send_json({
                 "status": "operational",
                 "service": "S4 Ledger Defense Metrics API",
-                "version": "3.8.0",
+                "version": "3.9.7",
                 "record_types": len(RECORD_CATEGORIES),
                 "branches": len(BRANCHES),
                 "total_records": len(_get_all_records()),
@@ -643,7 +657,7 @@ class handler(BaseHTTPRequestHandler):
         elif route == "infrastructure":
             self._send_json({
                 "infrastructure": {
-                    "api": {"status": "operational", "version": "3.3.0", "framework": "BaseHTTPRequestHandler", "tools": 9, "platforms": 462},
+                    "api": {"status": "operational", "version": "3.9.7", "framework": "BaseHTTPRequestHandler", "tools": 9, "platforms": 462},
                     "xrpl": {"available": XRPL_AVAILABLE, "network": "testnet", "endpoint": XRPL_TESTNET_URL},
                     "database": {"provider": "Supabase" if SUPABASE_AVAILABLE else "In-Memory", "connected": SUPABASE_AVAILABLE, "url": SUPABASE_URL[:30] + "..." if SUPABASE_URL else None},
                     "auth": {"enabled": True, "methods": ["API Key", "Bearer Token"], "master_key_set": bool(os.environ.get("S4_API_MASTER_KEY"))},
@@ -836,6 +850,102 @@ class handler(BaseHTTPRequestHandler):
             text = data.get("record", "")
             h = hashlib.sha256(text.encode()).hexdigest()
             self._send_json({"hash": h, "algorithm": "SHA-256"})
+
+        elif route == "verify":
+            self._log_request("verify")
+            record_text = data.get("record_text", "")
+            if not record_text:
+                self._send_json({"error": "record_text is required"}, 400)
+                return
+
+            # Compute current hash
+            computed_hash = hashlib.sha256(record_text.encode()).hexdigest()
+            tx_hash = data.get("tx_hash", "")
+            expected_hash = data.get("expected_hash", "")
+            operator = data.get("operator", self.headers.get("X-Operator", "anonymous"))
+            now = datetime.now(timezone.utc)
+
+            # Determine chain hash to compare against
+            chain_hash = None
+            anchored_at = None
+            explorer_url = None
+
+            if tx_hash:
+                # Look up on-chain memo data from the transaction
+                found = [r for r in _live_records if r.get("tx_hash") == tx_hash or r.get("hash") == tx_hash]
+                if found:
+                    chain_hash = found[0].get("hash", "")
+                    anchored_at = found[0].get("timestamp", "")
+                    explorer_url = found[0].get("explorer_url") or f"https://testnet.xrpl.org/transactions/{tx_hash}"
+            elif expected_hash:
+                chain_hash = expected_hash
+            else:
+                # Search records for matching hash
+                found = [r for r in _live_records if r.get("hash") == computed_hash]
+                if found:
+                    chain_hash = found[0].get("hash", "")
+                    tx_hash = found[0].get("tx_hash", "")
+                    anchored_at = found[0].get("timestamp", "")
+                    explorer_url = found[0].get("explorer_url") or f"https://testnet.xrpl.org/transactions/{tx_hash}"
+
+            if chain_hash is None:
+                status = "NOT_FOUND"
+                verified = False
+                tamper_detected = False
+            elif computed_hash == chain_hash:
+                status = "MATCH"
+                verified = True
+                tamper_detected = False
+            else:
+                status = "MISMATCH"
+                verified = False
+                tamper_detected = True
+
+            time_delta = None
+            if anchored_at:
+                try:
+                    anchor_dt = datetime.fromisoformat(anchored_at.replace("Z", "+00:00"))
+                    time_delta = round((now - anchor_dt).total_seconds(), 2)
+                except Exception:
+                    pass
+
+            # Log to verification audit trail
+            audit_entry = {
+                "timestamp": now.isoformat(),
+                "operator": operator,
+                "computed_hash": computed_hash,
+                "chain_hash": chain_hash,
+                "tx_hash": tx_hash or None,
+                "result": status,
+                "tamper_detected": tamper_detected,
+                "time_delta_seconds": time_delta,
+            }
+            _verify_audit_log.append(audit_entry)
+
+            result = {
+                "verified": verified,
+                "status": status,
+                "computed_hash": computed_hash,
+                "chain_hash": chain_hash,
+                "tx_hash": tx_hash or None,
+                "anchored_at": anchored_at,
+                "verified_at": now.isoformat(),
+                "time_delta_seconds": time_delta,
+                "explorer_url": explorer_url,
+                "tamper_detected": tamper_detected,
+                "audit_id": f"VRF-{hashlib.sha256(now.isoformat().encode()).hexdigest()[:12].upper()}",
+            }
+
+            # If tamper detected, flag for notification
+            if tamper_detected:
+                result["alert"] = {
+                    "severity": "CRITICAL",
+                    "message": f"TAMPER DETECTED: Record hash mismatch. Computed {computed_hash[:16]}... does not match chain {chain_hash[:16] if chain_hash else 'N/A'}...",
+                    "action_required": "Investigate source of modification. Original on-chain record is the authoritative version.",
+                    "correction_available": True,
+                }
+
+            self._send_json(result)
 
         elif route == "categorize":
             memo = data.get("memo", "").upper()

@@ -108,12 +108,12 @@ Most blockchain companies focus on cryptocurrency or consumer supply chains (tra
 
 Everything described above is **live and working right now** at [s4ledger.com](https://s4ledger.com). It was built by Nick Frankfort on his own time at zero cost to the company. The tech stack:
 
-- **Website:** 14+ pages, fully branded
+- **Website:** 25+ pages, fully branded
 - **Demo App:** All 18 ILS Workspace tools working, 156+ pre-built record types (supports any defense record type), 500+ pre-loaded military platforms, ICAPS-replacement provisioning tool, real DoW data in all dropdowns (35+ platforms, 25 contracts, 37 suppliers)
 - **Audit Record Vault:** Automatically stores every anchored record with content + hash for instant auditing
 - **Defense Document Library:** 100+ real MIL-STDs, OPNAVINSTs, DoD Directives searchable by branch and category
 - **Compliance Scorecard:** Real-time CMMC/NIST/DFARS compliance calculator with letter grades
-- **API:** 7 working endpoints that other software can connect to
+- **API:** 27 working endpoints that other software can connect to
 - **SDK:** A Python toolkit developers can use to plug S4 Ledger into existing systems
 - **$SLS Token:** A usage credit system — live on the XRP Ledger mainnet (production network)
 - **Documentation:** Whitepaper, compliance guides, migration plans, security review — all written

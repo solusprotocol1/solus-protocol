@@ -44,14 +44,14 @@ Think of S4 Ledger like a notary for defense records. When an ILS manager comple
   - 100M total supply | ~15M circulating | 30M in multi-sig treasury
 - **18 interactive defense tools** live at s4ledger.com/demo-app — not mockups, real working interfaces
 - **21 Python SDK functions** for defense-grade hash anchoring, verification, and batch operations
-- **7 REST API endpoints** for enterprise integration (anchor, verify, batch, status, health, metrics, webhook)
+- **27 REST API endpoints** for enterprise integration (anchor, verify, hash, categorize, status, health, metrics, transactions, record-types, xrpl-status, auth, infrastructure, and 15 ILS tool endpoints)
 - **500+ pre-loaded military entities** — 462 real defense platforms across 9 branches, 37 real defense suppliers, 25 real DoW contracts
 - **156+ ILS record categories** mapped to real-world logistics workflows (supports any defense record type)
 - **100+ real defense documents** in searchable reference library (MIL-STDs, OPNAVINSTs, DoD Directives)
 - **Audit Record Vault** — automatic audit trail storage for every anchored record
 - **Compliance Scorecard** — real-time CMMC/NIST/DFARS compliance posture calculator
 - Working Python SDK + CLI with defense use case library
-- 14+ page website at s4ledger.com
+- 25+ page website at s4ledger.com
 - Open-source and auditable
 - **Built entirely by one person at zero cost to the company**
 
