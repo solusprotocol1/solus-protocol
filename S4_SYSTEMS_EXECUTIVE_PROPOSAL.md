@@ -47,7 +47,7 @@ Every day, the U.S. Department of War (DoW) processes millions of logistics reco
 | Component | Description | Status |
 |-----------|-------------|--------|
 | **Live Website** | 25+ pages at [s4ledger.com](https://s4ledger.com) with full branding | ✅ Deployed |
-| **Python API** | 27 REST endpoints, zero external dependencies | ✅ Live |
+| **Python API** | 29 REST endpoints, zero external dependencies | ✅ Live |
 | **Demo Application** | Interactive platform — 9 military branches, 156+ pre-built record types (any defense record type supported) | ✅ Live |
 | **SDK Playground** | Browser-based Python SDK sandbox with live API | ✅ Live |
 | **$SLS Utility Token** | LIVE on XRPL Mainnet — 100M supply, ~15M circulating, AMM (Automated Market Maker) pools active | ✅ Live |
@@ -417,7 +417,7 @@ Every dollar saved on manual record-keeping can be redirected to:
 - **Faster procurement** of critical capabilities
 - **Reinvestment** in the domestic defense industrial base
 
-At scale (1,000+ programs), S4 Ledger saves **$600M–$1.6B per year** — real money back to the American taxpayer through efficiency, not through cuts.
+At scale (1,000+ programs), S4 Ledger saves **$900M–$2.1B per year** — real money back to the American taxpayer through efficiency, not through cuts.
 
 ### Military Readiness & Warfighter Safety
 
@@ -443,15 +443,15 @@ Defense SaaS companies are valued at 12–20× revenue (Palantir: 27×, Anduril:
 
 ### The Math That Gets Us There
 
-**Current platform savings per program:** ~$600K–$1.6M/year (18 ILS tools + hash anchoring combined).  
-**S4 Ledger charges 5–10% of value delivered** → $6K–$60K/year per customer → 10–100× ROI for government.
+**Current platform savings per program:** ~$900K–$2.1M/year (19 ILS tools + hash anchoring + defense database import combined).  
+**S4 Ledger charges 5–10% of value delivered** → $6K–$60K/year per customer → 15–100× ROI for government.
 
 | Scale | Programs | Govt Savings/Year | S4 Revenue (ARR) | Valuation (15×) |
-|---|---|---|---|---|
-| **Pilot** | 5 | $1.8M–$5.6M | $90K–$280K | $1.4M–$4.2M |
-| **Growth** | 50 | $18M–$56M | $2.4M–$6M | $36M–$90M |
-| **Scale** | 500 | $180M–$560M | $24M–$60M | $360M–$900M |
-| **DoW-Wide** | 5,000 | $1.8B–$5.6B | $200M–$600M | **$3B–$9B** |
+|---|---|---|---|
+| **Pilot** | 5 | $2.7M–$7.3M | $135K–$365K | $2.0M–$5.5M |
+| **Growth** | 50 | $27M–$73M | $3.6M–$7.8M | $54M–$117M |
+| **Scale** | 500 | $270M–$730M | $36M–$78M | $540M–$1.17B |
+| **DoW-Wide** | 5,000 | $2.7B–$7.3B | $360M–$780M | **$5.4B–$11.7B** |
 
 ### Capabilities Required for Billion-Dollar Scale
 

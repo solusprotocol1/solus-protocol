@@ -37,9 +37,9 @@ S4 Ledger: Immutable logistics verification for the defense industry, anchored o
 ## Traction
 - **$SLS token LIVE on XRPL Mainnet** — tradable, AMM pools, trustlines
 - 100M total supply | ~15M circulating | 30M multi-sig treasury
-- **18 interactive defense tools** live at s4ledger.com (not mockups)
+- **19 interactive defense tools** live at s4ledger.com (not mockups)
 - **21 Python SDK functions** for defense-grade hash anchoring and verification
-- **27 REST API endpoints** for enterprise integration
+- **29 REST API endpoints** for enterprise integration
 - **500+ pre-loaded military entities** — 462 platforms, 37 suppliers, 25 contracts
 - **156+ ILS record categories** mapped to real-world logistics workflows
 - **100+ real defense documents** in searchable reference library
@@ -58,17 +58,27 @@ S4 Ledger: Immutable logistics verification for the defense industry, anchored o
 | Mid-Scale (5–15 programs) | $1.2M–$4.8M | $240K–$600K ARR |
 | Enterprise (50+ programs) | $12M–$48M | $1.2M–$3.6M ARR |
 
-Key: 65% labor reduction • 90% error savings • 70% audit reduction • 15-25% DMSMS avoidance
-**Per-program savings: ~$600K–$1.6M/year • 10–100x ROI for government**
+Key: 65% labor reduction • 90% error savings • 70% audit reduction • 15-25% DMSMS avoidance • 70% less data reconciliation
+**Per-program savings: ~$900K–$2.1M/year • 15–100x ROI for government**
 
 ---
 
 ## National Impact
 - **$150B+ defense logistics market** directly addressable
-- **Saves $600M–$1.6B/year at scale** across all DoW programs
+- **Saves $900M–$2.1B/year at scale** across all DoW programs
 - **340+ jobs created by Year 5** (30–45 direct + 100–200 indirect)
 - **$8M–$17M economic impact** per DoW's 3.4× multiplier
 - Expands defense industrial base for Tier 2–4 small businesses
+
+---
+
+## Scalability
+- **Current:** Client-side app, zero infrastructure cost — full 19-tool demo functional today
+- **Phase 1–2:** Supabase/PostgreSQL persistence + server-side pagination → 2,000 users, 5M records ($100–$300/mo)
+- **Phase 3–4:** Web Workers + Merkle tree batch anchoring → 5,000 users, 100x cheaper XRPL costs
+- **Phase 5–6:** CDN, edge caching, microservices, FedRAMP → 50,000+ users, unlimited records
+- **Infrastructure never exceeds 6% of revenue** at any phase
+- See [SCALABILITY_ARCHITECTURE.md](SCALABILITY_ARCHITECTURE.md) for full plan
 
 ---
 
@@ -100,7 +110,7 @@ Key: 65% labor reduction • 90% error savings • 70% audit reduction • 15-25
 | **Microsoft Dynamics** | Cloud ERP / CRM | Generic add-ons | No | $150K–$800K+ | Not defense-built. No ILS tools |
 | **IBM Hyperledger** | Enterprise blockchain | None | Yes (private) | $200K–$2M+ | No ILS tools. Puts data on-chain (non-starter for defense) |
 | **Spreadsheets** | Manual tracking | None | No | "Free" + $200K+ labor | No automation, no audit trail, no compliance |
-| **S4 Ledger** | ILS + tamper-proof records | **18 built-in** | **Yes (hash-only, XRPL)** | **$6K–$60K** | **Purpose-built for defense logistics** |
+| **S4 Ledger** | ILS + tamper-proof records | **19 built-in** | **Yes (hash-only, XRPL)** | **$6K–$60K** | **Purpose-built for defense logistics** |
 
 > **Key insight:** $25B+ defense logistics software market has no unified platform with blockchain-verified records. S4 Ledger is first to market.
 
@@ -109,9 +119,9 @@ Key: 65% labor reduction • 90% error savings • 70% audit reduction • 15-25
 ## Roadmap
 - Phase 1 ✅: SDK, token, website
 - Phase 2 ✅: 462 platforms, 19 tools, alerts, action tracking
-- Phase 3: MVP pilot on real contract data
-- Phase 4: REST API, SaaS, DIU/NavalX
-- Phase 5: NIST, FedRAMP, production
+- Phase 3: MVP pilot on real contract data, server persistence, user auth
+- Phase 4: REST API, SaaS, Merkle batch anchoring, DIU/NavalX
+- Phase 5: NIST, FedRAMP, CDN/edge, microservices, production
 
 ---
 

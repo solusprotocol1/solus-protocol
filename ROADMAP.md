@@ -31,6 +31,9 @@
 
 - Internal pilot on real contract data
 - SBIR/STTR applications (Navy, DIU, NavalX)
+- Server-side persistence (Supabase/PostgreSQL) for production data
+- User authentication with SSO/CAC support
+- Server-side pagination and virtual scrolling for large datasets
 - Multi-language SDKs (JavaScript, Go, Rust)
 - Enhanced CLI with batch operations
 - Real-time audit dashboard
@@ -40,12 +43,17 @@
 - REST API with tiered access (1K / 10K / 100K anchors/month)
 - SaaS dashboard for defense contractors
 - Webhook notifications for anchor confirmations
+- Web Workers for background hash computation (zero UI freezes)
+- Batch XRPL anchoring with Merkle trees (100x cost reduction)
 - DIU / NavalX engagement
 - System integrator partnerships
 
 ## Phase 5 — Scale & Certification (Q3 2027+)
 
 - NIST / FedRAMP certification
+- CDN/edge caching for global <100ms response times
+- Microservices decomposition for independent scaling
+- Horizontally scaled API pods (10,000+ concurrent users)
 - Production deployments across defense programs
 - NATO ally partner program
 - Advanced analytics and anomaly detection

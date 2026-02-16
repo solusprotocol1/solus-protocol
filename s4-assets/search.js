@@ -151,7 +151,7 @@ const searchIndex = [
     { title: 'S4 Ledger vs IBM Hyperledger', tags: 'comparison competitive IBM Hyperledger private blockchain expensive 500K infrastructure no defense focus complex setup', page: 'Investors', url: 'investors' },
 
     // ═══ COST SAVINGS / ROI ═══
-    { title: 'Cost Savings — $600K–$1.6M per program', tags: 'cost savings per program 600K 1.6M annual labor reduction error audit compliance DMSMS ROI return 10x 100x', page: 'Investors', url: 'investors' },
+    { title: 'Cost Savings — $900K–$2.1M per program', tags: 'cost savings per program 900K 2.1M annual labor reduction error audit compliance DMSMS ROI return 15x 100x', page: 'Investors', url: 'investors' },
     { title: 'Government ROI — 10–100x Return', tags: 'government ROI return on investment 10x 100x appropriations committee savings justified defensible math economics', page: 'Investors', url: 'investors' },
     { title: 'Pricing vs Competitors', tags: '0.01 per anchor 0.001 cost per record vs 25 150 manual vs 500K SAP 1500x cheaper affordable low-cost', page: 'Pricing', url: 'pricing' },
 

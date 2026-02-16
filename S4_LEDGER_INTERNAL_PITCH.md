@@ -109,11 +109,11 @@ Most blockchain companies focus on cryptocurrency or consumer supply chains (tra
 Everything described above is **live and working right now** at [s4ledger.com](https://s4ledger.com). It was built by Nick Frankfort on his own time at zero cost to the company. The tech stack:
 
 - **Website:** 25+ pages, fully branded
-- **Demo App:** All 18 ILS Workspace tools working, 156+ pre-built record types (supports any defense record type), 500+ pre-loaded military platforms, ICAPS-replacement provisioning tool, real DoW data in all dropdowns (35+ platforms, 25 contracts, 37 suppliers)
+- **Demo App:** All 19 ILS Workspace tools working, 156+ pre-built record types (supports any defense record type), 500+ pre-loaded military platforms, ICAPS-replacement provisioning tool, real DoW data in all dropdowns (35+ platforms, 25 contracts, 37 suppliers)
 - **Audit Record Vault:** Automatically stores every anchored record with content + hash for instant auditing
 - **Defense Document Library:** 100+ real MIL-STDs, OPNAVINSTs, DoD Directives searchable by branch and category
 - **Compliance Scorecard:** Real-time CMMC/NIST/DFARS compliance calculator with letter grades
-- **API:** 27 working endpoints that other software can connect to
+- **API:** 29 working endpoints that other software can connect to
 - **SDK:** A Python toolkit developers can use to plug S4 Ledger into existing systems
 - **$SLS Token:** A usage credit system — live on the XRP Ledger mainnet (production network)
 - **Documentation:** Whitepaper, compliance guides, migration plans, security review — all written
@@ -130,7 +130,7 @@ Everything described above is **live and working right now** at [s4ledger.com](h
 - **Year 5 projection:** $3M–$5M+
 
 ### Cost Savings for Government Customers
-These are realistic, defensible numbers based on ~$600K–$1.6M per-program annual savings:
+These are realistic, defensible numbers based on ~$900K–$2.1M per-program annual savings:
 
 | Scale | Programs | Government Saves (Total) | S4 Systems Earns |
 |---|---|---|---|
@@ -269,10 +269,10 @@ Let's address this head-on, because it's the first thing everyone thinks when th
 S4 Ledger isn't just good for S4 Systems. Here's why it matters for the country:
 
 ### For Congress and Defense Budgets
-Congress gives DoW over **$850 billion per year**, with logistics eating up **$150B+** of that. Government auditors (GAO, Inspector General) find billions wasted every year on duplicate purchases, unreliable data, counterfeit parts, and manual paperwork. **S4 Ledger fixes all of this** — and when Congressional appropriations committees see 10–100x ROI, those programs get funded.
+Congress gives DoW over **$850 billion per year**, with logistics eating up **$150B+** of that. Government auditors (GAO, Inspector General) find billions wasted every year on duplicate purchases, unreliable data, counterfeit parts, and manual paperwork. **S4 Ledger fixes all of this** — and when Congressional appropriations committees see 15–100x ROI, those programs get funded.
 
 ### For Taxpayers
-Every dollar saved on manual record-keeping goes to better equipment, more training, faster procurement, and a stronger industrial base. At scale, that's **$600M–$1.6B per year in savings** — not from cuts, but from eliminating waste.
+Every dollar saved on manual record-keeping goes to better equipment, more training, faster procurement, and a stronger industrial base. At scale, that's **$900M–$2.1B per year in savings** — not from cuts, but from eliminating waste.
 
 ### For the Warfighter
 This is what matters most. **Logistics wins wars.** S4 Ledger strengthens readiness by:

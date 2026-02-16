@@ -42,9 +42,9 @@ Think of S4 Ledger like a notary for defense records. When an ILS manager comple
 - **$SLS token LIVE on XRPL Mainnet** — tradable, AMM pools active, trustlines established
   - Issuer: `r95GyZac4butvVcsTWUPpxzekmyzaHsTA5`
   - 100M total supply | ~15M circulating | 30M in multi-sig treasury
-- **18 interactive defense tools** live at s4ledger.com/demo-app — not mockups, real working interfaces
+- **19 interactive defense tools** live at s4ledger.com/demo-app — not mockups, real working interfaces
 - **21 Python SDK functions** for defense-grade hash anchoring, verification, and batch operations
-- **27 REST API endpoints** for enterprise integration (anchor, verify, hash, categorize, status, health, metrics, transactions, record-types, xrpl-status, auth, infrastructure, and 15 ILS tool endpoints)
+- **29 REST API endpoints** for enterprise integration
 - **500+ pre-loaded military entities** — 462 real defense platforms across 9 branches, 37 real defense suppliers, 25 real DoW contracts
 - **156+ ILS record categories** mapped to real-world logistics workflows (supports any defense record type)
 - **100+ real defense documents** in searchable reference library (MIL-STDs, OPNAVINSTs, DoD Directives)
@@ -63,13 +63,13 @@ Think of S4 Ledger like a notary for defense records. When an ILS manager comple
 | **Mid-Scale** (5–15 programs) | $1.2M–$4.8M | $240K–$600K ARR/customer |
 | **High-Scale** (50+ programs) | $12M–$48M | $1.2M–$3.6M ARR/enterprise |
 
-*Key drivers: 65% labor reduction, 90% error savings, 70% audit cost reduction, 15-25% DMSMS cost avoidance*
-*Per-program savings: ~$600K–$1.6M/year from 18 ILS tools — 10–100x ROI for government*
+*Key drivers: 65% labor reduction, 90% error savings, 70% audit cost reduction, 15-25% DMSMS cost avoidance, 70% less data reconciliation*
+*Per-program savings: ~$900K–$2.1M/year from 19 ILS tools — 15–100x ROI for government*
 
 ## National Impact
 
 - **$150B+ defense logistics market** directly addressable
-- **Saves $600M–$1.6B/year at scale** across all DoW programs
+- **Saves $900M–$2.1B/year at scale** across all DoW programs
 - **340+ jobs created by Year 5** (30–45 direct + 100–200 indirect at integrators/contractors)
 - **$8M–$17M economic impact** based on DoW's 3.4× economic multiplier
 - Lowers compliance barriers for Tier 2–4 suppliers, expanding the defense industrial base
@@ -90,7 +90,7 @@ Think of S4 Ledger like a notary for defense records. When an ILS manager comple
 | **SAP S/4HANA** | — | $500K–$5M+ | Generic | No |
 | **Oracle NetSuite** | — | $200K–$1M+ | Generic | No |
 | **Microsoft Dynamics** | — | $150K–$800K+ | Generic | No |
-| **S4 Ledger** | Pre-revenue | **$6K–$60K** | **18 built-in** | **Yes (XRPL)** |
+| **S4 Ledger** | Pre-revenue | **$6K–$60K** | **19 built-in** | **Yes (XRPL)** |
 
 ### Why the XRP Ledger?
 
@@ -111,15 +111,31 @@ XRPL is the only blockchain that meets all four defense requirements: speed, cos
 | Professional | $1,999/mo | $24K/yr |
 | Enterprise | $4,999/mo | $60K/yr |
 
+## Scalability Architecture
+
+S4 Ledger scales from zero infrastructure cost (today) to 50,000+ concurrent users without speculative investment. Each phase pays for itself with existing revenue:
+
+| Phase | What Changes | Capacity | Infrastructure Cost |
+|---|---|---|---|
+| **Current** | Client-side, localStorage | ~50 users, ~5K records | $0/year |
+| **Phase 1** | Server persistence (Supabase/PostgreSQL) | ~1,000 users, 500K records | $300–$1,200/year |
+| **Phase 2** | Server-side pagination, virtual scrolling | ~2,000 users, 5M records | $1,200–$3,600/year |
+| **Phase 3** | Web Workers, background processing | ~5,000 users, 50M records | Same |
+| **Phase 4** | Merkle tree batch anchoring (100x cheaper XRPL) | ~5,000 users, 50M records | Same |
+| **Phase 5** | CDN, edge caching, API gateway, replicas | ~10,000+ users, 100M+ records | $24K–$120K/year |
+| **Phase 6** | Microservices, FedRAMP, IL2/IL4 | ~50,000+ users, unlimited | $120K–$600K/year |
+
+**Infrastructure never exceeds 6% of revenue at any phase.** Starting simple was strategic — full product built at zero cost while competitors are still writing RFPs. See [SCALABILITY_ARCHITECTURE.md](SCALABILITY_ARCHITECTURE.md) for the complete plan.
+
 ## Roadmap
 
 | Phase | Timeline | Focus |
 |---|---|---|
 | Foundation | Q4 2025 – Q1 2026 ✅ | SDK, $SLS token, website |
 | Defense Platform | Q1 – Q2 2026 ✅ | 462 platforms, 19 tools, defense database import, toast alerts, action tracking, ROI/Lifecycle/Warranty calculators |
-| MVP & Pilot | Q3 – Q4 2026 | Internal pilot on real contract data |
-| Partner & SaaS | Q1 – Q2 2027 | REST API, SaaS dashboard, DIU/NavalX |
-| Scale & Certify | Q3 2027+ | NIST, FedRAMP, production deployments |
+| MVP & Pilot | Q3 – Q4 2026 | Pilot on real data, server persistence, user auth, pagination |
+| Partner & SaaS | Q1 – Q2 2027 | REST API, SaaS dashboard, Merkle batch anchoring, DIU/NavalX |
+| Scale & Certify | Q3 2027+ | NIST, FedRAMP, CDN/edge, microservices, production deployments |
 
 ## Tokenomics
 

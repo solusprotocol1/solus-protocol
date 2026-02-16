@@ -187,7 +187,7 @@ See [SEC_COMPLIANCE.md](SEC_COMPLIANCE.md) for full analysis under the Howey tes
 - **Batch support:** Up to 1,000 records per batch
 - **CLI:** Command-line interface for scripting and automation
 
-### 5.2 REST API (27 Endpoints — Live)
+### 5.2 REST API (29 Endpoints — Live)
 
 - REST API with API key authentication (master + org keys)
 - 27 production endpoints: anchor, verify, hash, categorize, status, health, metrics, transactions, record-types, xrpl-status, auth, infrastructure, and 15 ILS tool endpoints
@@ -224,10 +224,10 @@ S4 Ledger is the only solution purpose-built for defense logistics that keeps ze
 | Phase | Timeline | Milestones |
 |---|---|---|
 | **Phase 1 — Foundation** | Q4 2025 – Q1 2026 ✅ | SDK, hash anchoring, $SLS token, website |
-| **Phase 2 — Defense Platform** | Q1 – Q2 2026 ✅ | 462 real platforms, 18 interactive tools, 156+ pre-built record types, toast alerts, unified action tracking |
-| **Phase 3 — MVP & Pilot** | Q3 – Q4 2026 | Internal pilot on real contract data, SBIR/STTR applications |
-| **Phase 4 — Partner & SaaS** | Q1 – Q2 2027 | REST API, SaaS dashboard, DIU / NavalX engagement |
-| **Phase 5 — Scale & Certify** | Q3 2027+ | NIST/CMMC, FedRAMP, production deployments |
+| **Phase 2 — Defense Platform** | Q1 – Q2 2026 ✅ | 462 real platforms, 19 interactive tools, 156+ pre-built record types, toast alerts, unified action tracking |
+| **Phase 3 — MVP & Pilot** | Q3 – Q4 2026 | Internal pilot on real contract data, SBIR/STTR applications, server-side persistence, user auth |
+| **Phase 4 — Partner & SaaS** | Q1 – Q2 2027 | REST API, SaaS dashboard, DIU / NavalX engagement, Merkle tree batch anchoring |
+| **Phase 5 — Scale & Certify** | Q3 2027+ | NIST/CMMC, FedRAMP, CDN/edge caching, microservices, production deployments |
 
 ### Current Toolset (v3.9.3)
 
@@ -283,11 +283,24 @@ At scale (Year 5, $3–5M ARR), S4 Ledger is projected to create 340+ jobs (30�
 - **Enterprise API access**: $50K–$200K/year for high-volume integration
 - **SBIR/STTR potential**: $50K–$250K Phase I → $500K–$1.5M Phase II → Phase III full production transition
 
+### Scalability Architecture
+
+S4 Ledger is designed for phased scalability — from zero-cost client-side deployment (current) to enterprise-grade infrastructure supporting 50,000+ concurrent users:
+
+- **Phase 1 (Months 0–6):** Server-side persistence via Supabase/PostgreSQL with row-level security for multi-tenant isolation. User authentication with SSO/CAC support.
+- **Phase 2 (Months 6–12):** Server-side pagination and full-text search. Virtual scrolling for constant-memory UI regardless of record count.
+- **Phase 3 (Months 12–18):** Web Workers for background SHA-256 computation and XRPL transaction building. Zero UI thread blocking.
+- **Phase 4 (Months 18–24):** Merkle tree batch anchoring — combine thousands of records into a single XRPL transaction. 100x cost reduction at volume.
+- **Phase 5 (Months 24–36):** CDN/edge caching, API gateway, horizontally scaled API pods, PostgreSQL read replicas.
+- **Phase 6 (Months 36–48):** Microservices decomposition, FedRAMP authorization, IL2/IL4 classified environment deployment.
+
+Infrastructure costs scale with revenue and never exceed 6% of ARR at any phase. Full architecture details: [SCALABILITY_ARCHITECTURE.md](SCALABILITY_ARCHITECTURE.md)
+
 ---
 
 ## 8. Team
 
-S4 Ledger is a product line of **S4 Systems, LLC**, created and built entirely by **Nick Frankfort** — ILS contractor and proposed Product Lead/CTO. Nick built the entire platform (18 ILS tools, 21 SDK functions, 27 REST API endpoints, $SLS token, 25+ page website, 500+ pre-loaded military entities) at zero cost to the company, on his own time, drawing on years of hands-on ILS experience across Navy and DoW programs.
+S4 Ledger is a product line of **S4 Systems, LLC**, created and built entirely by **Nick Frankfort** — ILS contractor and proposed Product Lead/CTO. Nick built the entire platform (19 ILS tools, 21 SDK functions, 29 REST API endpoints, $SLS token, 25+ page website, 500+ pre-loaded military entities) at zero cost to the company, on his own time, drawing on years of hands-on ILS experience across Navy and DoW programs.
 
 Based in Charleston, SC.
 

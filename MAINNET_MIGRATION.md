@@ -2039,7 +2039,7 @@ Letter grades: A+ (≥95) through F (<50). Color-coded with SVG ring chart visua
 
 ### 34.7 Migration Checklist for v3.7.0
 
-- [ ] Verify all 18 ILS Workspace sub-tabs render correctly
+- [ ] Verify all 19 ILS Workspace sub-tabs render correctly
 - [ ] Test Audit Vault auto-saves records from all 9 anchor functions
 - [ ] Verify Vault search, time filter, CSV export, XLSX export, re-verify, and clear functions
 - [ ] Confirm Defense Document Library loads 100+ documents and filters by branch/category/search
@@ -2092,9 +2092,9 @@ Versions 3.8.0 through 3.8.6 added **5 new ILS Workspace tools** (bringing the t
 
 ### 35.6 Financial Projections Updated
 
-- Per-program savings recalculated with 19 tools: ~$600K–$1.6M/year (up from ~$300K–$800K with 13 tools)
-- ROI: 10–100x
-- Scale projections: 10 programs ($6M–$16M), 100 programs ($60M–$160M), 1,000 programs (~$600M–$1.6B)
+- Per-program savings recalculated with 19 tools: ~$900K–$2.1M/year (up from ~$600K–$1.6M with 18 tools)
+- ROI: 15–100x
+- Scale projections: 10 programs ($9M–$21M), 100 programs ($90M–$210M), 1,000 programs (~$900M–$2.1B)
 
 ### 35.7 Migration Checklist for v3.8.6
 
