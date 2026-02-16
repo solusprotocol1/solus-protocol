@@ -5,6 +5,19 @@ All notable changes to the S4 Ledger project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.9.15] - 2026-02-16
+
+### Changed — Professional UI Overhaul + Use Cases Expansion + Site-Wide Consistency
+
+- **Use Cases page**: Complete rewrite — now shows all 20 ILS Workspace tools, 6 additional capabilities (AI Agent, SDK, $SLS, Metrics, Classified Architecture, Marketplace), 9 service branches, and stat pills
+- **Landing page title**: "Immutable Logistics Verification" → "Immutable Defense Logistics on the XRP Ledger" (reflects broader platform scope)
+- **Landing page badges**: "Built on XRP Ledger" and "$SLS Token LIVE" now displayed side-by-side instead of stacked
+- **Emoji → FontAwesome**: Replaced 35+ emoji icons with professional FontAwesome 6 icons across landing page (How It Works, Why XRPL, Explore grid, Compliance, Built For sections)
+- **Use Cases page icons**: All emoji replaced with colored FontAwesome icons in styled containers
+- **Demo App XRPL banner**: Changed from green to blue (`#00aaff`) with white text for professional branding consistency
+- **Tool count consistency**: Fixed "18 integrated tools" → "20" and "19 Tools" → "20 Tools" across landing page and demo app
+- **ILS Workspace description**: Updated to reflect all 20 tools including Defense Database Import and ILIE
+
 ## [3.9.14] - 2026-02-16
 
 ### Changed — ILIE v2: Comprehensive Enhancement + Bug Fixes + SDK Expansion

@@ -53,7 +53,7 @@ Every tool in S4 Ledger's current platform eliminates quantifiable labor, error,
 | Digital Thread / Config Bridge | $60K–$150K (configuration management labor) | $0 (included) | $60K–$150K |
 | Predictive Maintenance AI | $80K–$250K (CBM+ analysis + unplanned downtime) | $0 (included) | $80K–$250K |
 | AI Agent | $0 (doesn't exist elsewhere) | $0 (included) | N/A (new capability) |
-| ILIE (Submission Review) | $120K–$500K (manual submission review labor + missed discrepancies) | $0 (included) | $120K–$500K |
+| ILIE (Integrated Logistics Insights Engine) | $120K–$500K (manual submission review labor + missed discrepancies) | $0 (included) | $120K–$500K |
 | Defense Database Import | $300K–$500K (manual data reconciliation across 24 systems) | $0 (included) | $300K–$500K |
 | **TOTAL per program** | **~$1.02M–$2.7M** | **$499–$4,999/mo** | **~$1.02M–$2.6M/year** |
 

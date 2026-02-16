@@ -2145,7 +2145,7 @@ The Defense Database Import tool (the 19th ILS Workspace tool) was expanded from
 7. **SDK Expansion** — `s4_sdk.py` `DOD_SYSTEMS` expanded from 13 to 24 entries with entries for all new branch systems
 8. **Anomaly Engine** — `s4_anomaly.py` `LOGISTICS_SYSTEMS` expanded from 6 to 13 entries to cover all branch monitoring endpoints
 9. **How It Works Savings** — Enhanced with specific savings figures: $450K+/year per program, 80% fewer data discrepancies, 60% faster audit preparation, $45M+/year at 100-program scale
-10. **ILS Tool Count** — All documentation updated from "18-tool" to "19-tool" across 15+ files
+10. **ILS Tool Count** — All documentation updated from "18-tool" to "20-tool" across 15+ files
 
 ### 36.4 Files Modified
 
@@ -2154,19 +2154,19 @@ The Defense Database Import tool (the 19th ILS Workspace tool) was expanded from
 | `demo-app/index.html` | Panel title, description, dropdown (13→24 with optgroups), DOD_SYSTEMS_INFO (24 entries with branch keys), demo data generators (24 systems), anchorDbImport() fix, AI_TOOL_CONTEXT, generateAiResponse(), switchHubTab(), export filename, stats counter |
 | `s4_sdk.py` | DOD_SYSTEMS dict (13→24), CLI status line |
 | `s4_anomaly.py` | LOGISTICS_SYSTEMS dict (6→13) |
-| `index.html` | "19-tool" in hero + explore card |
-| `README.md` | "19-tool ILS Workspace" |
-| `ROADMAP.md` | "19-tool" + added Defense Database Import to tool list |
+| `index.html` | "20-tool" in hero + explore card |
+| `README.md` | "20-tool ILS Workspace" |
+| `ROADMAP.md` | "20-tool" + added Defense Database Import to tool list |
 | `WHITEPAPER.md` | "19 tools" in comparison table + ILS Workspace row |
 | `INVESTOR_RELATIONS.md` | "19 tools" |
 | `INVESTOR_SLIDE_DECK.md` | "19 tools" in two locations |
 | `INVESTOR_PITCH.md` | "19 tools" + added defense database import |
 | `S4_LEDGER_INTERNAL_PITCH.md` | "19 tools" |
-| `PRODUCTION_READINESS.md` | "19-tool" in 3 locations, 29 endpoints |
+| `PRODUCTION_READINESS.md` | "20-tool" in 3 locations, 29 endpoints |
 | `MAINNET_MIGRATION.md` | "19 tools" in all references, updated checklist |
 | `CHANGELOG.md` | "19 tools" in historical references |
 | `s4-assets/search.js` | "19 Tools" in search index |
-| `s4-faq/index.html` | "19-tool ILS Workspace" in pricing FAQ |
+| `s4-faq/index.html` | "20-tool ILS Workspace" in pricing FAQ |
 
 ### 36.5 Scalability Notes
 
@@ -2190,7 +2190,7 @@ For production at scale (100+ programs, 10,000+ records/day):
 - [ ] Test CSV, XML, and JSON file uploads
 - [ ] Verify export filename uses "Defense_Import_" prefix
 - [ ] Confirm vault records show correct branch (not hardcoded 'USN')
-- [ ] Validate all documentation says "19-tool" (search for "18-tool" should return 0 results)
+- [ ] Validate all documentation says "20-tool" (search for "18-tool" should return 0 results)
 - [ ] Test SDK: `python s4_sdk.py status` shows 24 systems across all branches
 
 ---
@@ -2203,7 +2203,7 @@ For production at scale (100+ programs, 10,000+ records/day):
 The **Integrated Logistics Insights Engine (ILIE)** is the 20th ILS Workspace tool. It provides AI-powered submission review and discrepancy detection for OEM/vendor/shipbuilder data submissions across all branches and programs.
 
 ### 37.2 Capabilities
-- **24+ submission document types**: VRSL, IUID Registry, Configuration Drawings, Outfitting Lists, Purchase Order Index, PTD, APL, Technical Manuals, Maintenance Plans, Supply Support Requests, LSAR, FRACAS, Calibration Records, PHS&T, Training Equipment Lists, Support Equipment Recommendations, Warranty Submissions, ECPs, CDRLs, BOMs, Cost Estimates, Test Reports, HAZMAT/Environmental Data, Custom types
+- **24+ submission document types**: VRS, IUID Registry, Configuration Drawings, Outfitting Lists, Purchase Order Index, PTD, APL, Technical Manuals, Maintenance Plans, Supply Support Requests, LSAR, FRACAS, Calibration Records, PHS&T, Training Equipment Lists, Support Equipment Recommendations, Warranty Submissions, ECPs, CDRLs, BOMs, Cost Estimates, Test Reports, HAZMAT/Environmental Data, Custom types
 - **Discrepancy detection**: New/removed components, cost anomalies (>10–25%), CAGE code changes, source/vendor substitutions, lead time increases (>30 day threshold), configuration mismatches, quantity changes, status downgrades
 - **Severity ratings**: Critical (red), Warning (orange), Info (blue) with filterable report table
 - **AI Discrepancy Summary**: Auto-generated analysis with findings, cost impact, and leadership recommendation
@@ -2216,7 +2216,7 @@ The **Integrated Logistics Insights Engine (ILIE)** is the 20th ILS Workspace to
 - **Metrics & Transactions**: Anchored reviews auto-populate both dashboards via `record_type: 'SUBMISSION_REVIEW'`
 
 ### 37.4 Realistic Demo Data
-- **30-item VRSL**: Real NSNs (5998-01-422-7891, etc.), real part numbers (6872843-1, MS90451-1), MIL-SPEC nomenclature, real CAGE codes, production lead times
+- **30-item VRS**: Real NSNs (5998-01-422-7891, etc.), real part numbers (6872843-1, MS90451-1), MIL-SPEC nomenclature, real CAGE codes, production lead times
 - **12-item IUID**: Real UID format (0013E841AF.3501...), serial numbers, acquisition costs, fleet locations
 - **8-item Configuration Drawings**: NSTM chapter references, engineering change notices, drawing number formats
 - **20-item BOM**: Real defense vendors (GE Marine, Raytheon, L3Harris, Crane Naval), realistic pricing, make/buy designations
@@ -2233,7 +2233,7 @@ ILIE adds **$120K–$500K/year per program** in savings from:
 ### 37.6 Migration Checklist for v3.9.12
 - [ ] Verify ILIE tab renders as 20th tab in ILS Workspace
 - [ ] Verify `subProgram` dropdown populates with 462+ platforms from `S4_buildProgramOptions()`
-- [ ] Run Demo Analysis for each document type (VRSL, IUID, CONFIG_DWG, BOM)
+- [ ] Run Demo Analysis for each document type (VRS, IUID, CONFIG_DWG, BOM)
 - [ ] Verify discrepancy table shows realistic findings with severity ratings
 - [ ] Verify AI Discrepancy Summary generates with cost impact and recommendation
 - [ ] Verify Anchor to XRPL creates `SUBMISSION_REVIEW` records in Metrics and Transactions

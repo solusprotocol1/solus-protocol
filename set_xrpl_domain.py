@@ -164,7 +164,7 @@ def main():
             print("     • XPMarket (xpmarket.com)")
             print("     • XRPL Explorer (livenet.xrpl.org)")
             print()
-            print("  4. If a DEX still shows 'Solus Protocol', submit a support ticket")
+            print("  4. If a DEX still shows 'S4 Ledger', submit a support ticket")
             print("     or PR to their token metadata repository with the correct name:")
             print("     'Secure Logistics Standard ($SLS)'")
         else:

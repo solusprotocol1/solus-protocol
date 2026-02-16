@@ -79,8 +79,8 @@ const searchIndex = [
     { title: 'Partner Program — Government Agencies', tags: 'partner government agency program office fleet maintenance audit NAVSEA NAVAIR NAVSUP DLA', page: 'Partners', url: 'partners' },
     { title: 'Partner Program — Benefits & Integration', tags: 'partner benefits early access co-marketing volume pricing Python REST API SDK integration reseller', page: 'Partners', url: 'partners' },
 
-    // ═══ DEMO APP — ILS WORKSPACE (19 Tools) ═══
-    { title: 'ILS Workspace — Unified Command Center', tags: 'ILS workspace command center dashboard unified interface all tools 19 tools defense logistics management platform', page: 'Demo App', url: 'demo-app' },
+    // ═══ DEMO APP — ILS WORKSPACE (20 Tools) ═══
+    { title: 'ILS Workspace — Unified Command Center', tags: 'ILS workspace command center dashboard unified interface all tools 20 tools defense logistics management platform', page: 'Demo App', url: 'demo-app' },
     { title: 'Gap Analysis Engine', tags: 'gap analysis ILS data package completeness DRL data item J-attachment buylist vendor spares transfer book tech manual MIL-STD-1388 deficiency what is missing', page: 'Demo App', url: 'demo-app' },
     { title: 'DMSMS Tracker — Obsolescence Risk', tags: 'DMSMS diminishing manufacturing sources material shortages obsolescence end of life EOL alternate sources redesign risk parts going away discontinued', page: 'Demo App', url: 'demo-app' },
     { title: 'Readiness Calculator — Ao & Ai', tags: 'readiness availability operational Ao inherent Ai MTBF mean time between failures MTTR mean time to repair MLDT mean logistics delay time RAM reliability', page: 'Demo App', url: 'demo-app' },
@@ -99,10 +99,12 @@ const searchIndex = [
     { title: 'Contract Lifecycle Management', tags: 'contract lifecycle management CDRL tracking modifications Class I II SOW statement of work deliverable status DI number FAR DFARS expiration alert', page: 'Demo App', url: 'demo-app' },
     { title: 'Digital Thread / Config Bridge', tags: 'digital thread configuration bridge engineering change ECP BOM bill of materials revision baseline functional allocated product TDP version MIL-STD-973 IEEE 828 digital twin', page: 'Demo App', url: 'demo-app' },
     { title: 'Predictive Maintenance AI', tags: 'predictive maintenance AI failure prediction MTBF trend analysis failure mode clustering component age fleet-wide confidence scoring cost-if-unplanned MIL-STD-1629 CBM+ condition-based', page: 'Demo App', url: 'demo-app' },
+    { title: 'Defense Database Import', tags: 'defense database import GCSS-Army DPAS OMMS-NG DECKPLATE D200A REMIS DSS LMP 24 systems branch data migration', page: 'Demo App', url: 'demo-app' },
+    { title: 'ILIE — Integrated Logistics Insights Engine', tags: 'ilie submission review upload cross-reference validate discrepancy analysis ecp cdrl vrs iuid bom upload drag drop sample download', page: 'Demo App', url: 'demo-app' },
     { title: 'AI Conversational Agent', tags: 'AI conversational agent chatbot assistant natural language question answer ILS guidance help report generate', page: 'Demo App', url: 'demo-app' },
     { title: 'Toast Alert System', tags: 'toast alert notification real-time warning warranty expiration DMSMS obsolescence readiness degradation popup banner', page: 'Demo App', url: 'demo-app' },
     { title: 'Hash & Anchor Records', tags: 'hash anchor record SHA-256 XRPL transaction memo fingerprint create record immutable proof stamp timestamp', page: 'Demo App', url: 'demo-app' },
-    { title: 'Defense Platforms Database — 462+ Systems', tags: 'platforms database 462 DDG-51 CVN-78 F-35 F-22 Abrams Stryker Apache Black Hawk C-130 Navy Army Air Force Marines Coast Guard Space Force 9 branches weapon system vessel aircraft', page: 'Demo App', url: 'demo-app' },
+    { title: 'Defense Platforms Database — 500+ Systems', tags: 'platforms database 500 DDG-51 CVN-78 F-35 F-22 Abrams Stryker Apache Black Hawk C-130 Navy Army Air Force Marines Coast Guard Space Force 9 branches weapon system vessel aircraft', page: 'Demo App', url: 'demo-app' },
 
     // ═══ SDK PLAYGROUND ═══
     { title: 'SDK Playground — Interactive Python SDK', tags: 'SDK playground Python interactive sandbox hash anchor verify batch record test try code live API browser run execute', page: 'SDK', url: 'sdk-playground' },
@@ -151,7 +153,7 @@ const searchIndex = [
     { title: 'S4 Ledger vs IBM Hyperledger', tags: 'comparison competitive IBM Hyperledger private blockchain expensive 500K infrastructure no defense focus complex setup', page: 'Investors', url: 'investors' },
 
     // ═══ COST SAVINGS / ROI ═══
-    { title: 'Cost Savings — $900K–$2.1M per program', tags: 'cost savings per program 900K 2.1M annual labor reduction error audit compliance DMSMS ROI return 15x 100x', page: 'Investors', url: 'investors' },
+    { title: 'Cost Savings — $1.02M–$2.6M per program', tags: 'cost savings per program 1.02M 2.6M annual labor reduction error audit compliance DMSMS ROI return 15x 100x', page: 'Investors', url: 'investors' },
     { title: 'Government ROI — 10–100x Return', tags: 'government ROI return on investment 10x 100x appropriations committee savings justified defensible math economics', page: 'Investors', url: 'investors' },
     { title: 'Pricing vs Competitors', tags: '0.01 per anchor 0.001 cost per record vs 25 150 manual vs 500K SAP 1500x cheaper affordable low-cost', page: 'Pricing', url: 'pricing' },
 
