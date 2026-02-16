@@ -5,6 +5,48 @@ All notable changes to the S4 Ledger project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.9.13] - 2026-02-16
+
+### Changed — ILIE Enhancement: 500+ Platform Selector + Realistic Demo Data
+- **ILIE platform dropdown upgraded** — Replaced static 13-platform dropdown with dynamic `S4_buildProgramOptions()` selector (462 platforms, 37 suppliers, 25 contracts, 9 branches). Added `subProgram` to `populateAllDropdowns()` selects object. Auto-sets branch dropdown from selected platform's branch data.
+- **Realistic demo data** — Replaced random generators with authentic defense ILS submission data:
+  - **30-item VRSL**: Real NSNs, MIL-SPEC part numbers, CAGE codes, production lead times, mixed Active/DMSMS Watch/Obsolete statuses
+  - **12-item IUID Registry**: Real UID format, serial numbers, acquisition costs ($2K–$945K), fleet locations
+  - **8-item Configuration Drawings**: NSTM chapter references, ECN numbers, drawing revision tracking
+  - **20-item BOM**: Real defense vendors (GE Marine, Raytheon, L3Harris), make/buy designations, line pricing
+- **Baseline generator improved** — More realistic "previous submission" differences with specific price increase patterns, vendor changes, and status transitions
+- **All documentation updated** — ILIE mentioned by name across README, DEVELOPER_BIO, S4_SYSTEMS_EXECUTIVE_PROPOSAL, BILLION_DOLLAR_ROADMAP, BILLION_DOLLAR_ROADMAP_SIMPLE, S4_LEDGER_INTERNAL_PITCH, INVESTOR_RELATIONS, INVESTOR_PITCH, MAINNET_MIGRATION (new Section 37)
+- **Revenue recalculated** — Per-program: ~$1.02M–$2.6M/year. Scale: $1.02B–$2.6B/year (1,000 programs). Billion dollar roadmaps updated with ILIE row ($120K–$500K/program/year savings).
+
+## [3.9.12] - 2026-02-16
+
+### Added — Integrated Logistics Insights Engine (ILIE) — Tool #20
+- **Integrated Logistics Insights Engine (ILIE)** — 20th ILS Workspace tool. AI-powered submission review and discrepancy detection engine that ingests OEM/vendor/shipbuilder submissions across all branches and programs. Compares new submissions against previous baselines to automatically flag:
+  - **New components** not in previous submission
+  - **Removed components** that were previously listed
+  - **Cost anomalies** (unit price increases >10–25%, total cost variance)
+  - **Vendor/source changes** (CAGE code, manufacturer, make/buy shifts)
+  - **Configuration mismatches** (drawing rev vs parts list rev)
+  - **IUID discrepancies** (serial/lot traceability gaps)
+  - **Lead time increases** (>30 day threshold alerts)
+  - **Red flags** (sole-source substitutions, cost spikes, quantity changes)
+- **24+ submission document types** supported: VRSL, IUID Registry, Configuration Drawings, Outfitting Lists, Purchase Order Index, PTD, APL, Technical Manuals (IETM/TM), Maintenance Plans, Supply Support Requests, LSAR, FRACAS, Calibration Records, PHS&T, Training Equipment Lists, Support Equipment Recommendations, Warranty Submissions, ECPs, CDRLs, BOMs, Cost Estimates/ROM, Test Reports, HAZMAT/Environmental Data, plus custom types
+- **All branches and programs** — 9 branch selector (USN, USA, USAF, USMC, USCG, DLA, JOINT, SOCOM, USSF) with 13 pre-loaded platforms and custom platform input
+- **File upload + paste** — CSV, Excel, XML, JSON, PDF upload with drag-and-drop; manual data paste option
+- **Discrepancy severity ratings** — Critical (red), Warning (orange), Info (blue) with filterable report table
+- **AI Discrepancy Summary** — Auto-generated analysis with findings count, cost impact, and leadership recommendation
+- **Submission History** — Tracks all analyses in localStorage with hash verification
+- **Full platform integration** — saveLocalRecord(), addToVault(), sessionRecords, updateTxLog(), showAnchorAnimation(), fetch('/api/anchor'), AI_TOOL_CONTEXT quick actions, switchHubTab() initialization
+- **SDK/API compatible** — Anchored reviews auto-populate Metrics and Transactions pages; record_type: SUBMISSION_REVIEW
+
+### Changed — 19→20 Tool Count Update
+- **All documentation updated** from "19-tool" to "20-tool" across: MAINNET_MIGRATION.md, PRODUCTION_READINESS.md, ROADMAP.md, INVESTOR_PITCH.md, INVESTOR_OVERVIEW.md, INVESTOR_RELATIONS.md, INVESTOR_SLIDE_DECK.md, TECHNICAL_SPECS.md, WHITEPAPER.md, metrics.html
+- **Financial figures recalculated** — ILIE adds $120K–$500K/year per program in eliminated submission review labor, prevented procurement errors, and avoided readiness shortfalls. New per-program total: ~$1.02M–$2.6M/year (was ~$900K–$2.1M). Scale projection (1,000 programs): $1.02B–$2.6B/year.
+- **WHITEPAPER.md** — Added ILIE row to Current Toolset table
+- **ROADMAP.md** — Added ILIE to Phase 2 tool list
+- **demo-app/index.html** — Tab button, panel HTML, AI_TOOL_CONTEXT entry, switchHubTab block, full JavaScript engine (8180 lines total)
+- **metrics.html** — ILS cross-link updated to 20-tool with ILIE listed
+
 ## [3.9.10] - 2026-02-16
 
 ### Added — Scalability Architecture, CEO Guide, Financial Recalculation

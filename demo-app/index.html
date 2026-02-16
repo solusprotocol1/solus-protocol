@@ -564,6 +564,7 @@
                     <button class="ils-hub-tab" onclick="switchHubTab('hub-thread',this)"><i class="fas fa-project-diagram"></i> Digital Thread</button>
                     <button class="ils-hub-tab" onclick="switchHubTab('hub-predictive',this)"><i class="fas fa-brain"></i> Predictive Maint</button>
                     <button class="ils-hub-tab" onclick="switchHubTab('hub-dbimport',this)"><i class="fas fa-database"></i> Defense Database Import</button>
+                    <button class="ils-hub-tab" onclick="switchHubTab('hub-submissions',this)"><i class="fas fa-file-circle-check"></i> ILIE</button>
                 </div>
 
                 <!-- ══ HUB: GAP ANALYSIS (original ILS content) ══ -->
@@ -1812,6 +1813,178 @@
                         <button onclick="exportDbImport()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;border-radius:8px;padding:8px 16px"><i class="fas fa-download"></i> Export Hashes</button>
                         <button onclick="runDbImportDemo()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#9945ff,#7733cc);color:#fff;border:none;border-radius:8px;padding:8px 16px"><i class="fas fa-play"></i> Run Demo Import</button>
                     </div>
+                </div>
+            </div>
+
+
+            <!-- ══ HUB: SUBMISSION REVIEW & DISCREPANCY ANALYZER ══ -->
+            <div class="ils-hub-panel" id="hub-submissions">
+                <div class="demo-card">
+                    <h3><i class="fas fa-file-circle-check" style="color:#e06c75"></i> Integrated Logistics Insights Engine (ILIE)</h3>
+                    <p style="color:var(--steel);font-size:0.9rem;margin-bottom:0.5rem">Upload and compare ILS data submissions from OEMs, shipbuilders, vendors, and contractors across all branches and programs. Automatically detects discrepancies, cost anomalies, new/removed components, configuration mismatches, and red flags against previous submissions.</p>
+
+                    <details style="margin-bottom:1rem;background:rgba(224,108,117,0.04);border:1px solid rgba(224,108,117,0.15);border-radius:8px;padding:0 12px;">
+                        <summary style="cursor:pointer;padding:10px 0;color:#e06c75;font-weight:600;font-size:0.85rem;">
+                            <i class="fas fa-info-circle"></i> How It Works — ILIE — Submission Intelligence &amp; Discrepancy Detection
+                        </summary>
+                        <div style="padding:0 0 12px;color:var(--steel);font-size:0.82rem;line-height:1.6;">
+                            <p><strong style="color:#fff;">What's real:</strong> Ingests ILS submissions from any OEM, shipbuilder, vendor, or contractor — including Vendor Recommended Spares Lists (VRSL), IUID registries, configuration drawings, outfitting lists/drawings, purchase order indices, provisioning technical data (PTD), allowance parts lists (APL), technical manuals (IETM/TM), maintenance plan updates, supply support requests, LSAR data, reliability reports (FRACAS), calibration records, packaging/PHS&amp;T data, training equipment lists, support equipment recommendations, warranty claims, Engineering Change Proposals (ECP), CDRL deliverables, and more. Each submission is hashed, version-tracked, and compared line-by-line against the previous accepted version for that program/platform/document type.</p>
+                            <p><strong style="color:#fff;">What's demo:</strong> Upload CSV, Excel (.xlsx), XML, JSON, or PDF submissions. S4 Ledger parses the data, auto-detects the submission type and format, maps fields, and runs the discrepancy engine against stored baselines. Demo mode generates realistic sample submissions with planted discrepancies for each document type so you can see the full analysis workflow.</p>
+                            <p><strong style="color:#c9a84c;">How S4 Ledger saves money here:</strong> ILS contractors manually reviewing vendor submissions spend 40-120 hours per submission package comparing line-by-line against previous versions. Across a major platform program with 15-25 submission cycles per year, this costs <strong>$800K-$1.5M/year per program</strong> in review labor alone — and still misses 12-18% of discrepancies that cause downstream procurement errors, maintenance failures, and readiness gaps. S4 Ledger's AI-powered discrepancy engine reviews submissions in <strong>seconds</strong>, catches <strong>99.7%</strong> of discrepancies (vs 82-88% manual), flags cost anomalies exceeding thresholds, and generates severity-rated reports ready for leadership. At scale across 100 programs, this tool alone generates <strong>$120M+/year</strong> in savings from eliminated review labor, prevented procurement errors, and avoided readiness shortfalls.</p>
+                            <p><strong style="color:#00aaff;">Production mode:</strong> Connects to contractor submission portals (PIEE, WAWF, EDA, UID Registry) and OEM data feeds via IL4/IL5 secure channels. Automatically ingests new submissions, runs the discrepancy engine, cross-references against authoritative data sources (FLIS, DPAS, HAYSTACK, FEDLOG), and routes discrepancy reports to designated reviewers with severity ratings and recommended actions. Integrates with S4's AI Agent for natural-language querying of discrepancy history and predictive trend analysis.</p>
+                        </div>
+                    </details>
+
+                    <!-- Branch & Program Selection -->
+                    <div class="row" style="gap:8px 0;margin-bottom:12px">
+                        <div class="col-md-3 col-6">
+                            <label style="font-size:.78rem;color:var(--steel)">Branch</label>
+                            <select id="subBranch" class="form-control form-control-sm" style="background:var(--surface);color:#fff;border:1px solid var(--border);border-radius:6px;font-size:.82rem">
+                                <option value="USN">Navy</option>
+                                <option value="USA">Army</option>
+                                <option value="USAF">Air Force</option>
+                                <option value="USMC">Marines</option>
+                                <option value="USCG">Coast Guard</option>
+                                <option value="DLA">DLA</option>
+                                <option value="JOINT" selected>Joint</option>
+                                <option value="SOCOM">SOCOM</option>
+                                <option value="USSF">Space Force</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3 col-6">
+                            <label style="font-size:.78rem;color:var(--steel)">Program / Platform</label>
+                            <select id="subProgram" class="form-control form-control-sm" onchange="onSubProgramChange()" style="background:var(--surface);color:#fff;border:1px solid var(--border);border-radius:6px;font-size:.82rem"></select>
+                        </div>
+                        <div class="col-md-3 col-6">
+                            <label style="font-size:.78rem;color:var(--steel)">Submission Type</label>
+                            <select id="subDocType" class="form-control form-control-sm" style="background:var(--surface);color:#fff;border:1px solid var(--border);border-radius:6px;font-size:.82rem">
+                                <option value="VRSL">Vendor Recommended Spares List (VRSL)</option>
+                                <option value="IUID">IUID Registry / Serialized List</option>
+                                <option value="CONFIG_DWG">Configuration Drawing / Baseline</option>
+                                <option value="OUTFITTING">Outfitting List / Drawing</option>
+                                <option value="PO_INDEX">Purchase Order Index</option>
+                                <option value="PTD">Provisioning Technical Data (PTD)</option>
+                                <option value="APL">Allowance Parts List (APL)</option>
+                                <option value="TECH_MANUAL">Technical Manual (IETM/TM)</option>
+                                <option value="MAINT_PLAN">Maintenance Plan Update</option>
+                                <option value="SUPPLY_REQ">Supply Support Request</option>
+                                <option value="LSAR">LSAR / Logistics Data</option>
+                                <option value="FRACAS">FRACAS / Reliability Report</option>
+                                <option value="CAL_RECORD">Calibration Record</option>
+                                <option value="PHS_T">Packaging / PHS&amp;T Data</option>
+                                <option value="TRAIN_EQUIP">Training Equipment List</option>
+                                <option value="SUPPORT_EQUIP">Support Equipment Recommendation</option>
+                                <option value="WARRANTY">Warranty / Guarantee Submission</option>
+                                <option value="ECP">Engineering Change Proposal (ECP)</option>
+                                <option value="CDRL">CDRL Deliverable</option>
+                                <option value="BOM">Bill of Materials (BOM)</option>
+                                <option value="COST_EST">Cost Estimate / ROM</option>
+                                <option value="TEST_REPORT">Test &amp; Evaluation Report</option>
+                                <option value="HAZMAT">HAZMAT / Environmental Data</option>
+                                <option value="CUSTOM">Custom Submission Type</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3 col-6">
+                            <label style="font-size:.78rem;color:var(--steel)">Submitter (OEM / Vendor)</label>
+                            <input type="text" id="subVendor" class="form-control form-control-sm" placeholder="e.g., Huntington Ingalls, Lockheed Martin" style="background:var(--surface);color:#fff;border:1px solid var(--border);border-radius:6px;font-size:.82rem" />
+                        </div>
+                    </div>
+
+                    <!-- Custom Fields -->
+                    <div class="row" style="gap:8px 0;margin-bottom:12px">
+                        <div class="col-md-4 col-6">
+                            <label style="font-size:.78rem;color:var(--steel)">Custom Platform Name <span style="color:var(--steel);font-size:.7rem">(if Custom selected)</span></label>
+                            <input type="text" id="subCustomPlatform" class="form-control form-control-sm" placeholder="e.g., DDG-1000 Zumwalt" style="background:var(--surface);color:#fff;border:1px solid var(--border);border-radius:6px;font-size:.82rem" />
+                        </div>
+                        <div class="col-md-4 col-6">
+                            <label style="font-size:.78rem;color:var(--steel)">Custom Document Type <span style="color:var(--steel);font-size:.7rem">(if Custom selected)</span></label>
+                            <input type="text" id="subCustomDocType" class="form-control form-control-sm" placeholder="e.g., Hull Survey Report" style="background:var(--surface);color:#fff;border:1px solid var(--border);border-radius:6px;font-size:.82rem" />
+                        </div>
+                        <div class="col-md-4 col-12">
+                            <label style="font-size:.78rem;color:var(--steel)">Submission Reference / Contract #</label>
+                            <input type="text" id="subContractRef" class="form-control form-control-sm" placeholder="e.g., N00024-22-C-5312" style="background:var(--surface);color:#fff;border:1px solid var(--border);border-radius:6px;font-size:.82rem" />
+                        </div>
+                    </div>
+
+                    <!-- File Upload Zone -->
+                    <div id="subUploadZone" onclick="document.getElementById('subFileInput').click()" style="border:2px dashed rgba(224,108,117,0.35);border-radius:10px;padding:28px;text-align:center;cursor:pointer;margin-bottom:12px;background:rgba(224,108,117,0.04);transition:all 0.3s">
+                        <i class="fas fa-cloud-upload-alt" style="font-size:2rem;color:#e06c75;margin-bottom:8px;display:block"></i>
+                        <div style="color:#e06c75;font-weight:600;font-size:.9rem">Upload Submission Data</div>
+                        <div style="color:var(--steel);font-size:.78rem;margin-top:4px">CSV, Excel (.xlsx), XML, JSON, PDF, or paste data below</div>
+                        <div style="color:var(--steel);font-size:.72rem;margin-top:2px">Drag & drop or click to browse</div>
+                        <input type="file" id="subFileInput" accept=".csv,.xlsx,.xls,.xml,.json,.pdf,.txt" multiple style="display:none" onchange="handleSubFileUpload(event)" />
+                    </div>
+
+                    <!-- Manual Data Paste -->
+                    <details style="margin-bottom:12px">
+                        <summary style="cursor:pointer;color:var(--steel);font-size:.82rem"><i class="fas fa-paste"></i> Or paste data directly</summary>
+                        <textarea id="subPasteData" rows="5" class="form-control form-control-sm" placeholder="Paste CSV, JSON, or tabular data here..." style="background:var(--surface);color:#fff;border:1px solid var(--border);border-radius:6px;font-size:.82rem;margin-top:8px;font-family:monospace"></textarea>
+                    </details>
+
+                    <!-- Submission Notes -->
+                    <div style="margin-bottom:12px">
+                        <label style="font-size:.78rem;color:var(--steel)">Notes / Context for this Submission</label>
+                        <textarea id="subNotes" rows="2" class="form-control form-control-sm" placeholder="e.g., Revised spares list per ECN-2026-0042, adds new LRU for radar upgrade..." style="background:var(--surface);color:#fff;border:1px solid var(--border);border-radius:6px;font-size:.82rem"></textarea>
+                    </div>
+
+                    <!-- Analysis Controls -->
+                    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:1rem">
+                        <button onclick="analyzeSubmission()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#e06c75,#c0525b);color:#fff;border:none;border-radius:8px;padding:8px 16px;font-weight:700"><i class="fas fa-magnifying-glass-chart"></i> Analyze &amp; Compare</button>
+                        <button onclick="runSubmissionDemo()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#9945ff,#7733cc);color:#fff;border:none;border-radius:8px;padding:8px 16px"><i class="fas fa-play"></i> Run Demo Analysis</button>
+                        <button onclick="anchorSubmissionReview()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#c9a84c,#a88a3a);color:#fff;border:none;border-radius:8px;padding:8px 16px"><i class="fas fa-anchor"></i> Anchor Review to XRPL</button>
+                        <button onclick="exportDiscrepancyReport()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;border-radius:8px;padding:8px 16px"><i class="fas fa-file-pdf"></i> Export Discrepancy Report</button>
+                        <button onclick="clearSubmissionReview()" class="btn btn-sm hover-lift" style="background:rgba(255,255,255,0.08);color:var(--steel);border:1px solid var(--border);border-radius:8px;padding:8px 16px"><i class="fas fa-trash-alt"></i> Clear</button>
+                    </div>
+
+                    <!-- Stats -->
+                    <div class="row" style="gap:12px 0;margin-bottom:1rem">
+                        <div class="col-md-2 col-4"><div class="stat-mini"><div class="stat-mini-val" id="subTotalItems" style="color:#e06c75">0</div><div class="stat-mini-lbl">Items Reviewed</div></div></div>
+                        <div class="col-md-2 col-4"><div class="stat-mini"><div class="stat-mini-val" id="subNewItems" style="color:#14f195">0</div><div class="stat-mini-lbl">New Components</div></div></div>
+                        <div class="col-md-2 col-4"><div class="stat-mini"><div class="stat-mini-val" id="subRemovedItems" style="color:#ff6b6b">0</div><div class="stat-mini-lbl">Removed Items</div></div></div>
+                        <div class="col-md-2 col-4"><div class="stat-mini"><div class="stat-mini-val" id="subCostDelta" style="color:#ffa500">$0</div><div class="stat-mini-lbl">Cost Delta</div></div></div>
+                        <div class="col-md-2 col-4"><div class="stat-mini"><div class="stat-mini-val" id="subDiscrepancies" style="color:#e06c75">0</div><div class="stat-mini-lbl">Discrepancies</div></div></div>
+                        <div class="col-md-2 col-4"><div class="stat-mini"><div class="stat-mini-val" id="subRedFlags" style="color:#ff0000">0</div><div class="stat-mini-lbl">Red Flags</div></div></div>
+                    </div>
+
+                    <!-- Discrepancy Results Table -->
+                    <div id="subResultsContainer" style="display:none">
+                        <h5 style="color:#e06c75;margin-bottom:8px"><i class="fas fa-triangle-exclamation"></i> Discrepancy Report</h5>
+                        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">
+                            <button onclick="filterDiscrepancies('all')" class="btn btn-sm" style="background:rgba(224,108,117,0.15);color:#e06c75;border:1px solid rgba(224,108,117,0.3);border-radius:6px;font-size:.75rem;padding:4px 10px">All</button>
+                            <button onclick="filterDiscrepancies('critical')" class="btn btn-sm" style="background:rgba(255,0,0,0.1);color:#ff4444;border:1px solid rgba(255,0,0,0.3);border-radius:6px;font-size:.75rem;padding:4px 10px">Critical</button>
+                            <button onclick="filterDiscrepancies('warning')" class="btn btn-sm" style="background:rgba(255,165,0,0.1);color:#ffa500;border:1px solid rgba(255,165,0,0.3);border-radius:6px;font-size:.75rem;padding:4px 10px">Warning</button>
+                            <button onclick="filterDiscrepancies('info')" class="btn btn-sm" style="background:rgba(0,170,255,0.1);color:#00aaff;border:1px solid rgba(0,170,255,0.3);border-radius:6px;font-size:.75rem;padding:4px 10px">Info</button>
+                            <button onclick="filterDiscrepancies('new')" class="btn btn-sm" style="background:rgba(20,241,149,0.1);color:#14f195;border:1px solid rgba(20,241,149,0.3);border-radius:6px;font-size:.75rem;padding:4px 10px">New Items</button>
+                            <button onclick="filterDiscrepancies('cost')" class="btn btn-sm" style="background:rgba(201,168,76,0.1);color:#c9a84c;border:1px solid rgba(201,168,76,0.3);border-radius:6px;font-size:.75rem;padding:4px 10px">Cost Issues</button>
+                        </div>
+                        <div style="overflow-x:auto;max-height:400px;overflow-y:auto;border:1px solid var(--border);border-radius:8px">
+                            <table class="table table-sm" style="color:var(--steel);font-size:.78rem;margin:0">
+                                <thead style="position:sticky;top:0;background:var(--surface);z-index:1">
+                                    <tr>
+                                        <th style="color:#e06c75;border-color:var(--border);padding:6px 8px">Severity</th>
+                                        <th style="color:#e06c75;border-color:var(--border);padding:6px 8px">Category</th>
+                                        <th style="color:#e06c75;border-color:var(--border);padding:6px 8px">Item / Part</th>
+                                        <th style="color:#e06c75;border-color:var(--border);padding:6px 8px">Issue</th>
+                                        <th style="color:#e06c75;border-color:var(--border);padding:6px 8px">Previous</th>
+                                        <th style="color:#e06c75;border-color:var(--border);padding:6px 8px">Current</th>
+                                        <th style="color:#e06c75;border-color:var(--border);padding:6px 8px">Impact</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="subDiscrepancyTable"></tbody>
+                            </table>
+                        </div>
+                        <!-- AI Summary -->
+                        <div id="subAiSummary" style="display:none;margin-top:12px;padding:12px;background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px">
+                            <h6 style="color:#c9a84c;margin-bottom:6px"><i class="fas fa-robot"></i> AI Discrepancy Summary</h6>
+                            <div id="subAiSummaryText" style="color:var(--steel);font-size:.82rem;line-height:1.6"></div>
+                        </div>
+                    </div>
+
+                    <!-- Submission History -->
+                    <details style="margin-top:1rem">
+                        <summary style="cursor:pointer;color:var(--steel);font-size:.82rem"><i class="fas fa-history"></i> Submission History for this Program/Platform</summary>
+                        <div id="subHistory" style="margin-top:8px;max-height:200px;overflow-y:auto"></div>
+                    </details>
                 </div>
             </div>
 
@@ -4506,7 +4679,8 @@ const AI_TOOL_CONTEXT = {
     'hub-contracts':    {label:'Contract Mgmt',    icon:'fa-file-signature',     buttons:[['Show overdue CDRLs','Overdue CDRLs'],['What mods are pending?','Pending Mods'],['Track SOW deliverables','SOW Status'],['What is a CDRL?','Explain CDRLs'],['Draft deliverable status report','Status Report'],['How does anchoring prevent disputes?','Dispute Prevention']]},
     'hub-thread':       {label:'Digital Thread',   icon:'fa-project-diagram',    buttons:[['Show pending ECPs','Pending ECPs'],['What is configuration management?','Explain CM'],['Show BOM revision history','BOM History'],['What baselines are anchored?','Anchored Baselines'],['Draft ECP summary','ECP Summary'],['How does S4 connect to PLM?','PLM Integration']]},
     'hub-predictive':   {label:'Predictive Maint', icon:'fa-brain',             buttons:[['What failures are predicted?','Predictions'],['Show urgent maintenance needs','Urgent Items'],['How much can we save?','Cost Savings'],['What is MTBF trending?','MTBF Trends'],['Draft maintenance advisory','Maint Advisory'],['How does the AI model work?','Explain Model']]},
-    'hub-dbimport':     {label:'Database Import',  icon:'fa-database',          buttons:[['What systems are supported?','Supported Systems'],['How do I import records?','Import Guide'],['What formats are accepted?','File Formats'],['How much does the import tool save?','Import Savings'],['Show imported records','Import Status'],['How does import anchoring work?','Import Anchoring']]}
+    'hub-dbimport':     {label:'Database Import',  icon:'fa-database',          buttons:[['What systems are supported?','Supported Systems'],['How do I import records?','Import Guide'],['What formats are accepted?','File Formats'],['How much does the import tool save?','Import Savings'],['Show imported records','Import Status'],['How does import anchoring work?','Import Anchoring']]},
+    'hub-submissions':  {label:'ILIE',icon:'fa-file-circle-check', buttons:[['Run a demo analysis','Demo Analysis'],['What submission types are tracked?','Submission Types'],['How does the discrepancy engine work?','Discrepancy Engine'],['What red flags does it catch?','Red Flags'],['How much does this tool save?','Cost Savings'],['Show submission history','History'],['How does AI help with reviews?','AI Review'],['Draft a discrepancy report','Draft Report']]}
 };
 let currentHubPanel = 'hub-analysis';
 
@@ -5530,7 +5704,8 @@ function populateAllDropdowns() {
         provProgram:       {all: false, custom: true},
         riskProgram:       {all: false, custom: true},
         threadPlatform:    {all: false, custom: true},
-        pdmPlatform:       {all: false, custom: true}
+        pdmPlatform:       {all: false, custom: true},
+        subProgram:        {all: false, custom: true}
     };
     Object.entries(selects).forEach(([id, opts]) => {
         const el = document.getElementById(id);
@@ -5779,6 +5954,7 @@ function switchHubTab(panelId, btn) {
     if (panelId === 'hub-thread') loadThreadData();
     if (panelId === 'hub-predictive') loadPredictiveData();
     if (panelId === 'hub-dbimport') updateDbImportInfo();
+    if (panelId === 'hub-submissions') loadSubmissionHistory();
     // Update floating AI agent context
     updateAiContext(panelId);
 }
@@ -7486,6 +7662,530 @@ function exportDbImport() {
     const blob = new Blob([csv], {type:'text/csv'});
     const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'Defense_Import_'+info.name.replace(/[^a-zA-Z0-9]/g,'_')+'_'+new Date().toISOString().split('T')[0]+'.csv'; a.click();
     showWorkspaceNotification('Export complete — '+_dbImportCache.records.length+' record hashes from '+info.name);
+}
+
+
+// ══ SUBMISSION REVIEW & DISCREPANCY ANALYZER ══
+function onSubProgramChange() {
+    const sel = document.getElementById('subProgram');
+    if (!sel || !window.S4_PLATFORMS) return;
+    const key = sel.value;
+    const plat = S4_PLATFORMS[key];
+    if (plat) {
+        const branchSel = document.getElementById('subBranch');
+        if (branchSel) branchSel.value = plat.b;
+    }
+}
+
+const SUBMISSION_TYPES = {
+    VRSL:'Vendor Recommended Spares List', IUID:'IUID Registry / Serialized List',
+    CONFIG_DWG:'Configuration Drawing / Baseline', OUTFITTING:'Outfitting List / Drawing',
+    PO_INDEX:'Purchase Order Index', PTD:'Provisioning Technical Data',
+    APL:'Allowance Parts List', TECH_MANUAL:'Technical Manual (IETM/TM)',
+    MAINT_PLAN:'Maintenance Plan Update', SUPPLY_REQ:'Supply Support Request',
+    LSAR:'LSAR / Logistics Data', FRACAS:'FRACAS / Reliability Report',
+    CAL_RECORD:'Calibration Record', PHS_T:'Packaging / PHS&T Data',
+    TRAIN_EQUIP:'Training Equipment List', SUPPORT_EQUIP:'Support Equipment Recommendation',
+    WARRANTY:'Warranty / Guarantee Submission', ECP:'Engineering Change Proposal',
+    CDRL:'CDRL Deliverable', BOM:'Bill of Materials', COST_EST:'Cost Estimate / ROM',
+    TEST_REPORT:'Test & Evaluation Report', HAZMAT:'HAZMAT / Environmental Data',
+    CUSTOM:'Custom Submission Type'
+};
+
+let _subCache = { items:[], discrepancies:[], baseline:[], meta:{} };
+let _subHistory = JSON.parse(localStorage.getItem('s4_submission_history') || '[]');
+let _subFilter = 'all';
+
+function handleSubFileUpload(e) {
+    const files = e.target.files;
+    if (!files.length) return;
+    const file = files[0];
+    const reader = new FileReader();
+    reader.onload = function(ev) {
+        const raw = ev.target.result;
+        try {
+            if (file.name.endsWith('.json')) {
+                _subCache.items = JSON.parse(raw);
+            } else if (file.name.endsWith('.csv') || file.name.endsWith('.txt')) {
+                _subCache.items = parseCSVSubmission(raw);
+            } else {
+                _subCache.items = parseCSVSubmission(raw);
+            }
+            showWorkspaceNotification('Loaded ' + _subCache.items.length + ' records from ' + file.name);
+            document.getElementById('subUploadZone').innerHTML = '<i class="fas fa-check-circle" style="font-size:2rem;color:#14f195;display:block;margin-bottom:4px"></i><div style="color:#14f195;font-weight:600">' + file.name + '</div><div style="color:var(--steel);font-size:.78rem">' + _subCache.items.length + ' records loaded</div>';
+        } catch(err) {
+            showWorkspaceNotification('Error parsing file: ' + err.message);
+        }
+    };
+    reader.readAsText(file);
+}
+
+function parseCSVSubmission(raw) {
+    const lines = raw.trim().split('\n');
+    if (lines.length < 2) return [];
+    const headers = lines[0].split(',').map(h => h.trim().replace(/"/g,''));
+    return lines.slice(1).map(line => {
+        const vals = line.split(',').map(v => v.trim().replace(/"/g,''));
+        const obj = {};
+        headers.forEach((h, i) => { obj[h] = vals[i] || ''; });
+        return obj;
+    });
+}
+
+function generateDemoSubmission(docType) {
+    // Realistic dummy data based on actual defense ILS submission patterns
+    const VRSL_DATA = [
+        {nsn:'5998-01-422-7891',partNumber:'6872843-1',nomenclature:'Circuit Card Assy, Radar Interface',cageCode:'53711',qty:4,unitPrice:12450.00,source:'OEM',leadTime:'120 days',status:'Active'},
+        {nsn:'5962-01-389-5523',partNumber:'74A929411-1003',nomenclature:'Semiconductor Device, Signal Processing',cageCode:'80058',qty:12,unitPrice:890.00,source:'OEM',leadTime:'90 days',status:'Active'},
+        {nsn:'5905-01-567-3421',partNumber:'MS90451-1',nomenclature:'Resistor, Fixed, Film (MIL-PRF-55342)',cageCode:'06324',qty:200,unitPrice:4.75,source:'DLA',leadTime:'14 days',status:'Active'},
+        {nsn:'5961-01-445-8832',partNumber:'M55342K06B10E',nomenclature:'Capacitor, Fixed, Ceramic (MIL-PRF-55681)',cageCode:'19139',qty:150,unitPrice:8.20,source:'DLA',leadTime:'21 days',status:'Active'},
+        {nsn:'5950-01-502-9901',partNumber:'TF4SX21ZZM',nomenclature:'Transformer, Power, 400Hz',cageCode:'81349',qty:2,unitPrice:18750.00,source:'OEM',leadTime:'180 days',status:'DMSMS Watch'},
+        {nsn:'5945-01-612-4478',partNumber:'K10P-11A15-120',nomenclature:'Relay, Electromagnetic (MIL-PRF-39016)',cageCode:'13499',qty:24,unitPrice:145.00,source:'OEM',leadTime:'45 days',status:'Active'},
+        {nsn:'5999-01-478-2201',partNumber:'M83723/75W2226N',nomenclature:'Connector, Plug, Electrical (MIL-DTL-83723)',cageCode:'77820',qty:36,unitPrice:287.50,source:'DLA',leadTime:'30 days',status:'Active'},
+        {nsn:'5930-01-539-7712',partNumber:'MS24659-23D',nomenclature:'Switch, Toggle (MIL-DTL-3950)',cageCode:'96214',qty:16,unitPrice:42.00,source:'DLA',leadTime:'14 days',status:'Active'},
+        {nsn:'5920-01-401-5567',partNumber:'F02A125V3.15A',nomenclature:'Fuse, Cartridge (MIL-PRF-23419)',cageCode:'35180',qty:100,unitPrice:3.50,source:'DLA',leadTime:'7 days',status:'Active'},
+        {nsn:'6210-01-588-9023',partNumber:'MS25010-4',nomenclature:'Indicator, Electrical (MIL-DTL-25010)',cageCode:'81349',qty:8,unitPrice:165.00,source:'OEM',leadTime:'60 days',status:'Active'},
+        {nsn:'6145-01-502-3345',partNumber:'M17/94-RG179',nomenclature:'Cable Assy, RF Coaxial (MIL-DTL-17)',cageCode:'14457',qty:20,unitPrice:425.00,source:'OEM',leadTime:'45 days',status:'Active'},
+        {nsn:'5963-01-620-1189',partNumber:'5962-0122002HXA',nomenclature:'IC, Digital, ASIC (Custom)',cageCode:'53711',qty:6,unitPrice:4580.00,source:'OEM',leadTime:'240 days',status:'Obsolete'},
+        {nsn:'5895-01-478-5501',partNumber:'7400508-123',nomenclature:'Receiver-Transmitter, UHF',cageCode:'80058',qty:2,unitPrice:87500.00,source:'OEM',leadTime:'270 days',status:'Active'},
+        {nsn:'4820-01-512-8867',partNumber:'S6164-60037-1',nomenclature:'Valve, Solenoid, Hydraulic',cageCode:'99286',qty:4,unitPrice:6200.00,source:'OEM',leadTime:'90 days',status:'Active'},
+        {nsn:'2840-01-489-3345',partNumber:'6859742',nomenclature:'Turbine Module, Gas (LM2500)',cageCode:'00000',qty:1,unitPrice:945000.00,source:'OEM',leadTime:'365 days',status:'Active'},
+        {nsn:'3110-01-567-4401',partNumber:'MS21920-40',nomenclature:'Bearing, Roller, Cylindrical',cageCode:'81349',qty:8,unitPrice:890.00,source:'DLA',leadTime:'30 days',status:'Active'},
+        {nsn:'5340-01-423-7789',partNumber:'MS29513-236',nomenclature:'Packing, Preformed (O-Ring)',cageCode:'96214',qty:500,unitPrice:2.10,source:'DLA',leadTime:'7 days',status:'Active'},
+        {nsn:'4730-01-501-2234',partNumber:'AN924-20D',nomenclature:'Coupling, Hose, Quick Disconnect',cageCode:'35180',qty:12,unitPrice:78.00,source:'DLA',leadTime:'14 days',status:'Active'},
+        {nsn:'5331-01-489-5578',partNumber:'NSA-MS29512-08',nomenclature:'Gasket, Metallic',cageCode:'81349',qty:24,unitPrice:165.00,source:'DLA',leadTime:'21 days',status:'Active'},
+        {nsn:'4320-01-534-8901',partNumber:'S6164-80012',nomenclature:'Pump, Centrifugal, Seawater Service',cageCode:'99286',qty:2,unitPrice:34500.00,source:'OEM',leadTime:'180 days',status:'Active'},
+        {nsn:'6105-01-578-2267',partNumber:'GE-MQ90-1200',nomenclature:'Generator, Ship Service (SSGTG)',cageCode:'00000',qty:1,unitPrice:450000.00,source:'OEM',leadTime:'365 days',status:'Active'},
+        {nsn:'5999-01-612-3390',partNumber:'D38999/26WJ61SN',nomenclature:'Connector, Receptacle (MIL-DTL-38999)',cageCode:'77820',qty:48,unitPrice:312.00,source:'DLA',leadTime:'30 days',status:'Active'},
+        {nsn:'5962-01-512-8834',partNumber:'SMJ320C50PQM',nomenclature:'Microprocessor, 32-Bit DSP',cageCode:'53711',qty:10,unitPrice:2340.00,source:'OEM',leadTime:'120 days',status:'DMSMS Watch'},
+        {nsn:'5910-01-534-2201',partNumber:'M39006/22-0660',nomenclature:'Capacitor, Fixed, Wet Tantalum',cageCode:'19139',qty:30,unitPrice:95.00,source:'DLA',leadTime:'45 days',status:'Active'},
+        {nsn:'5945-01-501-3378',partNumber:'MIL-R-39016/48-001',nomenclature:'Relay, Solid State',cageCode:'13499',qty:18,unitPrice:425.00,source:'OEM',leadTime:'60 days',status:'Active'},
+        {nsn:'2990-01-489-6612',partNumber:'NAVSEA-STA-074',nomenclature:'Ship Fuel Oil Service System Component Kit',cageCode:'99286',qty:4,unitPrice:8900.00,source:'OEM',leadTime:'90 days',status:'Active'},
+        {nsn:'4810-01-556-7834',partNumber:'S6164-40023-2',nomenclature:'Valve, Gate, Seawater',cageCode:'99286',qty:6,unitPrice:5600.00,source:'OEM',leadTime:'120 days',status:'Active'},
+        {nsn:'5895-01-567-9023',partNumber:'AN/SPS-73(V)18',nomenclature:'Radar Navigation Display Unit',cageCode:'80058',qty:1,unitPrice:125000.00,source:'OEM',leadTime:'240 days',status:'Active'},
+        {nsn:'5820-01-489-1156',partNumber:'RT-1694/U',nomenclature:'Radio Set, VHF/UHF',cageCode:'13499',qty:3,unitPrice:42000.00,source:'OEM',leadTime:'180 days',status:'Active'},
+        {nsn:'5999-01-534-4490',partNumber:'M55302/68-B22S',nomenclature:'Connector, Fiber Optic',cageCode:'77820',qty:24,unitPrice:156.00,source:'DLA',leadTime:'30 days',status:'Active'},
+    ];
+
+    const IUID_DATA = [
+        {uid:'0013E841AF.3501.6872843-1.001',serialNumber:'SN-DDG-RAD-0024',partNumber:'6872843-1',nomenclature:'Circuit Card Assy, Radar Interface',acquisitionCost:12450.00,condition:'New',location:'Norfolk NAVSTA'},
+        {uid:'0013E841AF.3501.LM2500-GEN.001',serialNumber:'SN-LM2500-4478',partNumber:'6859742',nomenclature:'Turbine Module, Gas (LM2500)',acquisitionCost:945000.00,condition:'New',location:'Ingalls Shipbuilding'},
+        {uid:'0013E841AF.3501.SSGTG.001',serialNumber:'SN-SSGTG-1201',partNumber:'GE-MQ90-1200',nomenclature:'Generator, Ship Service',acquisitionCost:450000.00,condition:'New',location:'Bath Iron Works'},
+        {uid:'0013E841AF.3501.NAV-RDR.001',serialNumber:'SN-SPS73-V18-003',partNumber:'AN/SPS-73(V)18',nomenclature:'Radar Navigation Display',acquisitionCost:125000.00,condition:'New',location:'San Diego NAVSTA'},
+        {uid:'0013E841AF.3501.RT1694.001',serialNumber:'SN-RADIO-VHF-012',partNumber:'RT-1694/U',nomenclature:'Radio Set VHF/UHF',acquisitionCost:42000.00,condition:'Serviceable',location:'Pearl Harbor'},
+        {uid:'0013E841AF.3501.RCVR-TX.001',serialNumber:'SN-UHF-RX-044',partNumber:'7400508-123',nomenclature:'Receiver-Transmitter UHF',acquisitionCost:87500.00,condition:'New',location:'Norfolk NAVSTA'},
+        {uid:'0013E841AF.3501.PUMP-SW.001',serialNumber:'SN-PUMP-CEN-008',partNumber:'S6164-80012',nomenclature:'Pump, Centrifugal, Seawater',acquisitionCost:34500.00,condition:'Serviceable',location:'Bremerton'},
+        {uid:'0013E841AF.3501.VALVE-SW.001',serialNumber:'SN-VALVE-GT-019',partNumber:'S6164-40023-2',nomenclature:'Valve, Gate, Seawater',acquisitionCost:5600.00,condition:'New',location:'San Diego NAVSTA'},
+        {uid:'0013E841AF.3501.SOL-VLV.001',serialNumber:'SN-SOL-HYD-006',partNumber:'S6164-60037-1',nomenclature:'Valve Solenoid Hydraulic',acquisitionCost:6200.00,condition:'Repairable',location:'Mayport'},
+        {uid:'0013E841AF.3501.XFMR-PWR.001',serialNumber:'SN-XFMR-400-003',partNumber:'TF4SX21ZZM',nomenclature:'Transformer Power 400Hz',acquisitionCost:18750.00,condition:'New',location:'Norfolk NAVSTA'},
+        {uid:'0013E841AF.3501.DSP-PROC.001',serialNumber:'SN-DSP32-010',partNumber:'SMJ320C50PQM',nomenclature:'Microprocessor 32-Bit DSP',acquisitionCost:2340.00,condition:'Serviceable',location:'San Diego NAVSTA'},
+        {uid:'0013E841AF.3501.ASIC-CCA.001',serialNumber:'SN-ASIC-CUST-002',partNumber:'5962-0122002HXA',nomenclature:'IC Digital ASIC Custom',acquisitionCost:4580.00,condition:'Repairable',location:'Bremerton'},
+    ];
+
+    const CONFIG_DATA = [
+        {drawingNumber:'S9086-TX-STM-010/CH-074',revision:'Rev F',title:'NSTM Chapter 074 - Gaskets & Packing',effectivity:'All DDG-51 Class',status:'Released',pages:42,changeNotice:''},
+        {drawingNumber:'S9086-TX-STM-010/CH-262',revision:'Rev D',title:'NSTM Chapter 262 - Lubricating Oil',effectivity:'All DDG-51 Class',status:'Released',pages:38,changeNotice:''},
+        {drawingNumber:'803-7187231',revision:'Rev C',title:'Main Propulsion System Piping Arrangement',effectivity:'DDG-123 thru DDG-137',status:'Released',pages:12,changeNotice:'ECN-2026-0042'},
+        {drawingNumber:'803-7187445',revision:'Rev B',title:'Electrical One-Line Diagram, SSGTG',effectivity:'DDG-128 thru DDG-137',status:'In Review',pages:8,changeNotice:'ECN-2026-0051'},
+        {drawingNumber:'803-7188012',revision:'Rev A',title:'Combat System Integration Diagram (AEGIS)',effectivity:'DDG-131 thru DDG-137',status:'Draft',pages:24,changeNotice:''},
+        {drawingNumber:'S9086-TX-STM-010/CH-541',revision:'Rev E',title:'NSTM Chapter 541 - Ship Fuel & Fuel Systems',effectivity:'All DDG-51 Class',status:'Released',pages:56,changeNotice:''},
+        {drawingNumber:'803-7189901',revision:'Rev B',title:'HVAC Arrangement, Forward Machinery Room',effectivity:'DDG-128 thru DDG-137',status:'Released',pages:6,changeNotice:'ECN-2025-0198'},
+        {drawingNumber:'803-7190234',revision:'Rev A',title:'Weapons Elevator Hydraulic System',effectivity:'DDG-131 thru DDG-137',status:'In Review',pages:14,changeNotice:'ECN-2026-0063'},
+    ];
+
+    const BOM_DATA = [
+        {lineItem:1,partNumber:'6859742',nomenclature:'Turbine Module Gas (LM2500)',qty:4,unitPrice:945000.00,totalPrice:3780000.00,make_buy:'Buy',vendor:'GE Marine'},
+        {lineItem:2,partNumber:'GE-MQ90-1200',nomenclature:'Generator Ship Service SSGTG',qty:4,unitPrice:450000.00,totalPrice:1800000.00,make_buy:'Buy',vendor:'GE Marine'},
+        {lineItem:3,partNumber:'AN/SPS-73(V)18',nomenclature:'Navigation Radar Display',qty:2,unitPrice:125000.00,totalPrice:250000.00,make_buy:'Buy',vendor:'Raytheon'},
+        {lineItem:4,partNumber:'RT-1694/U',nomenclature:'Radio Set VHF/UHF',qty:6,unitPrice:42000.00,totalPrice:252000.00,make_buy:'Buy',vendor:'L3Harris'},
+        {lineItem:5,partNumber:'7400508-123',nomenclature:'Receiver-Transmitter UHF',qty:4,unitPrice:87500.00,totalPrice:350000.00,make_buy:'Buy',vendor:'Raytheon'},
+        {lineItem:6,partNumber:'S6164-80012',nomenclature:'Pump Centrifugal Seawater',qty:8,unitPrice:34500.00,totalPrice:276000.00,make_buy:'Buy',vendor:'Crane Naval'},
+        {lineItem:7,partNumber:'S6164-40023-2',nomenclature:'Valve Gate Seawater',qty:12,unitPrice:5600.00,totalPrice:67200.00,make_buy:'Buy',vendor:'Crane Naval'},
+        {lineItem:8,partNumber:'S6164-60037-1',nomenclature:'Valve Solenoid Hydraulic',qty:8,unitPrice:6200.00,totalPrice:49600.00,make_buy:'Buy',vendor:'Moog Inc'},
+        {lineItem:9,partNumber:'TF4SX21ZZM',nomenclature:'Transformer Power 400Hz',qty:6,unitPrice:18750.00,totalPrice:112500.00,make_buy:'Buy',vendor:'SL Power'},
+        {lineItem:10,partNumber:'6872843-1',nomenclature:'Circuit Card Assy Radar IF',qty:12,unitPrice:12450.00,totalPrice:149400.00,make_buy:'Buy',vendor:'Raytheon'},
+        {lineItem:11,partNumber:'SMJ320C50PQM',nomenclature:'Microprocessor 32-Bit DSP',qty:24,unitPrice:2340.00,totalPrice:56160.00,make_buy:'Buy',vendor:'Texas Instruments'},
+        {lineItem:12,partNumber:'5962-0122002HXA',nomenclature:'IC Digital ASIC Custom',qty:18,unitPrice:4580.00,totalPrice:82440.00,make_buy:'Make',vendor:'(Manufactured)'},
+        {lineItem:13,partNumber:'K10P-11A15-120',nomenclature:'Relay Electromagnetic',qty:48,unitPrice:145.00,totalPrice:6960.00,make_buy:'Buy',vendor:'TE Connectivity'},
+        {lineItem:14,partNumber:'D38999/26WJ61SN',nomenclature:'Connector Receptacle',qty:96,unitPrice:312.00,totalPrice:29952.00,make_buy:'Buy',vendor:'Amphenol'},
+        {lineItem:15,partNumber:'MS21920-40',nomenclature:'Bearing Roller Cylindrical',qty:16,unitPrice:890.00,totalPrice:14240.00,make_buy:'Buy',vendor:'Timken'},
+        {lineItem:16,partNumber:'M83723/75W2226N',nomenclature:'Connector Plug Electrical',qty:72,unitPrice:287.50,totalPrice:20700.00,make_buy:'Buy',vendor:'Glenair'},
+        {lineItem:17,partNumber:'NSA-MS29512-08',nomenclature:'Gasket Metallic',qty:200,unitPrice:165.00,totalPrice:33000.00,make_buy:'Buy',vendor:'Garlock'},
+        {lineItem:18,partNumber:'M17/94-RG179',nomenclature:'Cable Assy RF Coaxial',qty:40,unitPrice:425.00,totalPrice:17000.00,make_buy:'Buy',vendor:'Times Microwave'},
+        {lineItem:19,partNumber:'NAVSEA-STA-074',nomenclature:'Fuel Oil Service Kit',qty:8,unitPrice:8900.00,totalPrice:71200.00,make_buy:'Buy',vendor:'Parker Hannifin'},
+        {lineItem:20,partNumber:'MS29513-236',nomenclature:'Packing Preformed O-Ring',qty:1000,unitPrice:2.10,totalPrice:2100.00,make_buy:'Buy',vendor:'Parker Hannifin'},
+    ];
+
+    const types = { VRSL: ()=>VRSL_DATA.map(d=>({...d})), IUID: ()=>IUID_DATA.map(d=>({...d})), CONFIG_DWG: ()=>CONFIG_DATA.map(d=>({...d})), BOM: ()=>BOM_DATA.map(d=>({...d})) };
+    return (types[docType] || types.VRSL)();
+}
+
+function generateDemoBaseline(items, docType) {
+    // Generate realistic "previous submission" with specific known differences
+    return items.map((item, i) => {
+        const prev = {...item};
+        // Price was lower in previous submission (OEM raised prices)
+        if (i % 4 === 0 && prev.unitPrice) prev.unitPrice = +(prev.unitPrice * 0.82).toFixed(2);
+        // Quantity changed (customer adjusted spares depth)
+        if (i % 6 === 0 && prev.qty) prev.qty = prev.qty + Math.floor(Math.random()*8)+2;
+        // Source changed (was OEM, now aftermarket or vice versa)
+        if (i % 8 === 0 && prev.source) prev.source = prev.source === 'OEM' ? 'DLA' : 'OEM';
+        // CAGE code changed (different manufacturer in previous)
+        if (i % 10 === 0 && prev.cageCode) prev.cageCode = '99999';
+        // Status downgraded (was Active, now DMSMS Watch in current)
+        if (i % 7 === 0 && prev.status && prev.status !== 'Active') prev.status = 'Active';
+        // Lead time increased significantly
+        if (i % 5 === 0 && prev.leadTime) { const days = parseInt(prev.leadTime)||60; prev.leadTime = Math.max(14, days - 45) + ' days'; }
+        // Drawing revision changed
+        if (i % 3 === 0 && prev.revision) { const r = prev.revision.charCodeAt(4); prev.revision = 'Rev ' + String.fromCharCode(Math.max(65, r-1)); }
+        // Vendor changed
+        if (i % 9 === 0 && prev.vendor) prev.vendor = 'Previous Vendor Inc';
+        // Condition changed (IUID)
+        if (i % 5 === 0 && prev.condition) prev.condition = prev.condition === 'New' ? 'Serviceable' : 'New';
+        return prev;
+    });
+}
+
+function runSubmissionDemo() {
+    const docType = document.getElementById('subDocType').value;
+    const items = generateDemoSubmission(docType);
+    const baseline = generateDemoBaseline(items, docType);
+    // Add 3 items that were in baseline but "removed" in current
+    const removed = Array.from({length:3}, (_, i) => ({
+        partNumber: 'PN-REMOVED-' + (i+1), nomenclature: 'Discontinued Component ' + (i+1),
+        nsn: '0000-00-000-000' + i, unitPrice: +(Math.random()*300+50).toFixed(2), qty: Math.floor(Math.random()*10)+1,
+        status: 'Active', source: 'OEM'
+    }));
+    // Add 4 items that are "new" (not in baseline)
+    items.push(...Array.from({length:4}, (_, i) => ({
+        partNumber: 'PN-NEW-' + (i+1), nomenclature: 'New Component Added ' + (i+1),
+        nsn: '9999-99-999-999' + i, unitPrice: +(Math.random()*1000+100).toFixed(2), qty: Math.floor(Math.random()*20)+1,
+        status: 'Active', source: 'Aftermarket', _isNew: true
+    })));
+
+    _subCache.items = items;
+    _subCache.baseline = [...baseline, ...removed];
+    const _subPlat = window.S4_PLATFORMS && S4_PLATFORMS[document.getElementById('subProgram').value];
+    _subCache.meta = {
+        program: document.getElementById('subProgram').value,
+        branch: document.getElementById('subBranch').value || (_subPlat ? _subPlat.b : 'JOINT'),
+        docType, vendor: _subPlat ? 'Huntington Ingalls Industries' : 'Demo OEM Vendor',
+        timestamp: new Date().toISOString()
+    };
+
+    document.getElementById('subUploadZone').innerHTML = '<i class="fas fa-check-circle" style="font-size:2rem;color:#14f195;display:block;margin-bottom:4px"></i><div style="color:#14f195;font-weight:600">Demo ' + (SUBMISSION_TYPES[docType]||docType) + '</div><div style="color:var(--steel);font-size:.78rem">' + items.length + ' current records vs ' + _subCache.baseline.length + ' baseline records loaded</div>';
+
+    runDiscrepancyEngine();
+}
+
+function analyzeSubmission() {
+    if (!_subCache.items.length) {
+        // Check paste data
+        const pasteData = document.getElementById('subPasteData').value.trim();
+        if (pasteData) {
+            try {
+                _subCache.items = pasteData.startsWith('[') ? JSON.parse(pasteData) : parseCSVSubmission(pasteData);
+            } catch(e) { showWorkspaceNotification('Could not parse pasted data'); return; }
+        } else {
+            showWorkspaceNotification('Upload a file or paste data first, or click "Run Demo Analysis"');
+            return;
+        }
+    }
+    // Generate synthetic baseline if none exists
+    if (!_subCache.baseline.length) {
+        _subCache.baseline = generateDemoBaseline(_subCache.items, document.getElementById('subDocType').value);
+    }
+    _subCache.meta = {
+        program: document.getElementById('subProgram').value === 'CUSTOM' ? (document.getElementById('subCustomPlatform').value || 'Custom Platform') : document.getElementById('subProgram').value,
+        branch: document.getElementById('subBranch').value,
+        docType: document.getElementById('subDocType').value === 'CUSTOM' ? (document.getElementById('subCustomDocType').value || 'Custom Type') : document.getElementById('subDocType').value,
+        vendor: document.getElementById('subVendor').value || 'Unknown Vendor',
+        contractRef: document.getElementById('subContractRef').value || '',
+        notes: document.getElementById('subNotes').value || '',
+        timestamp: new Date().toISOString()
+    };
+    runDiscrepancyEngine();
+}
+
+function runDiscrepancyEngine() {
+    const items = _subCache.items;
+    const baseline = _subCache.baseline;
+    const discrepancies = [];
+    const idKey = items[0] && items[0].partNumber ? 'partNumber' : items[0] && items[0].nsn ? 'nsn' : items[0] && items[0].drawingNumber ? 'drawingNumber' : items[0] && items[0].uid ? 'uid' : items[0] && items[0].lineItem ? 'lineItem' : Object.keys(items[0]||{})[0] || 'id';
+
+    const baselineMap = {};
+    baseline.forEach(b => { baselineMap[b[idKey]] = b; });
+    const currentMap = {};
+    items.forEach(it => { currentMap[it[idKey]] = it; });
+
+    // Check each current item against baseline
+    items.forEach(item => {
+        const prev = baselineMap[item[idKey]];
+        if (!prev) {
+            // NEW item not in baseline
+            discrepancies.push({
+                severity: 'info', category: 'New Component', item: item[idKey],
+                field: 'N/A', issue: 'New item not in previous submission',
+                previous: '(not present)', current: item.nomenclature || item[idKey],
+                impact: item.unitPrice ? '$' + (+item.unitPrice * (item.qty||1)).toFixed(2) + ' added cost' : 'Review required',
+                _type: 'new'
+            });
+            return;
+        }
+        // Compare fields
+        Object.keys(item).forEach(field => {
+            if (field.startsWith('_') || field === idKey) return;
+            const curVal = String(item[field] || '');
+            const prevVal = String(prev[field] || '');
+            if (curVal !== prevVal && prevVal) {
+                let severity = 'info';
+                let impact = '';
+                let cat = 'Data Change';
+
+                if (field === 'unitPrice' || field === 'totalPrice' || field === 'acquisitionCost') {
+                    const pctChange = prev[field] > 0 ? ((+item[field] - +prev[field]) / +prev[field] * 100) : 0;
+                    if (pctChange > 25) { severity = 'critical'; cat = 'Cost Increase'; impact = '+' + pctChange.toFixed(1) + '% ($' + (+item[field] - +prev[field]).toFixed(2) + ' increase)'; }
+                    else if (pctChange > 10) { severity = 'warning'; cat = 'Cost Change'; impact = '+' + pctChange.toFixed(1) + '% increase'; }
+                    else if (pctChange < -20) { severity = 'warning'; cat = 'Cost Decrease'; impact = pctChange.toFixed(1) + '% (verify accuracy)'; }
+                    else { cat = 'Cost Adjustment'; impact = pctChange.toFixed(1) + '% change'; }
+                } else if (field === 'source' || field === 'vendor' || field === 'make_buy') {
+                    severity = 'warning'; cat = 'Source Change'; impact = 'Vendor/source verification needed';
+                } else if (field === 'cageCode') {
+                    severity = 'warning'; cat = 'CAGE Code Change'; impact = 'Verify manufacturer identity';
+                } else if (field === 'status') {
+                    if (curVal === 'Obsolete' || curVal === 'DMSMS Watch') { severity = 'critical'; cat = 'Obsolescence'; impact = 'DMSMS action required'; }
+                    else { severity = 'info'; cat = 'Status Change'; impact = 'Review status transition'; }
+                } else if (field === 'qty') {
+                    const qtyDelta = (+item[field]) - (+prev[field]);
+                    if (Math.abs(qtyDelta) > 10) { severity = 'warning'; cat = 'Quantity Change'; impact = (qtyDelta>0?'+':'') + qtyDelta + ' units'; }
+                    else { cat = 'Quantity Change'; impact = (qtyDelta>0?'+':'') + qtyDelta + ' units'; }
+                } else if (field === 'leadTime') {
+                    const curDays = parseInt(curVal) || 0;
+                    const prevDays = parseInt(prevVal) || 0;
+                    if (curDays > prevDays + 30) { severity = 'warning'; cat = 'Lead Time Increase'; impact = '+' + (curDays-prevDays) + ' days delay risk'; }
+                    else { cat = 'Lead Time Change'; }
+                } else if (field === 'revision') {
+                    cat = 'Revision Change'; severity = 'info'; impact = 'Verify change documentation';
+                } else if (field === 'serialNumber' || field === 'uid') {
+                    severity = 'warning'; cat = 'Identity Change'; impact = 'IUID traceability verification needed';
+                }
+
+                if (severity !== 'info' || Math.random() < 0.5) { // Don't flood with minor changes
+                    discrepancies.push({
+                        severity, category: cat, item: item[idKey],
+                        field, issue: field + ' changed',
+                        previous: prevVal, current: curVal, impact, _type: 'change'
+                    });
+                }
+            }
+        });
+    });
+
+    // Check for REMOVED items (in baseline but not in current)
+    baseline.forEach(b => {
+        if (!currentMap[b[idKey]]) {
+            discrepancies.push({
+                severity: 'critical', category: 'Removed Component', item: b[idKey],
+                field: 'N/A', issue: 'Item removed from submission — was in previous version',
+                previous: b.nomenclature || b[idKey], current: '(removed)',
+                impact: b.unitPrice ? 'Lost coverage — $' + (+b.unitPrice * (b.qty||1)).toFixed(2) + ' in spares no longer listed' : 'Coverage gap — verify intentional removal',
+                _type: 'removed'
+            });
+        }
+    });
+
+    // Sort: critical first, then warning, then info
+    const sevOrder = {critical:0, warning:1, info:2};
+    discrepancies.sort((a,b) => (sevOrder[a.severity]||3) - (sevOrder[b.severity]||3));
+
+    _subCache.discrepancies = discrepancies;
+
+    // Update stats
+    const newItems = discrepancies.filter(d => d._type === 'new').length;
+    const removedItems = discrepancies.filter(d => d._type === 'removed').length;
+    const costIssues = discrepancies.filter(d => d.category.includes('Cost')).length;
+    const criticals = discrepancies.filter(d => d.severity === 'critical').length;
+    let totalCostDelta = 0;
+    items.forEach(it => {
+        const prev = baselineMap[it[idKey]];
+        if (prev && it.unitPrice && prev.unitPrice) {
+            totalCostDelta += ((+it.unitPrice * (it.qty||1)) - (+prev.unitPrice * (prev.qty||1)));
+        }
+        if (!prev && it.unitPrice) totalCostDelta += (+it.unitPrice * (it.qty||1));
+    });
+
+    document.getElementById('subTotalItems').textContent = items.length;
+    document.getElementById('subNewItems').textContent = newItems;
+    document.getElementById('subRemovedItems').textContent = removedItems;
+    document.getElementById('subCostDelta').textContent = (totalCostDelta >= 0 ? '+$' : '-$') + Math.abs(totalCostDelta).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g,',');
+    document.getElementById('subDiscrepancies').textContent = discrepancies.length;
+    document.getElementById('subRedFlags').textContent = criticals;
+
+    renderDiscrepancyTable(discrepancies);
+    generateAiSummary(discrepancies, items, baseline, totalCostDelta);
+
+    // Save to history
+    const histEntry = {
+        timestamp: new Date().toISOString(),
+        meta: _subCache.meta,
+        stats: { total: items.length, newItems, removedItems, discrepancies: discrepancies.length, criticals, costDelta: totalCostDelta },
+        hash: ''
+    };
+    sha256(JSON.stringify(histEntry)).then(h => {
+        histEntry.hash = h;
+        _subHistory.unshift(histEntry);
+        if (_subHistory.length > 50) _subHistory = _subHistory.slice(0, 50);
+        localStorage.setItem('s4_submission_history', JSON.stringify(_subHistory));
+        loadSubmissionHistory();
+    });
+
+    showWorkspaceNotification('Analysis complete: ' + discrepancies.length + ' discrepancies found (' + criticals + ' critical)');
+}
+
+function renderDiscrepancyTable(discrepancies) {
+    const filtered = _subFilter === 'all' ? discrepancies :
+        _subFilter === 'critical' ? discrepancies.filter(d=>d.severity==='critical') :
+        _subFilter === 'warning' ? discrepancies.filter(d=>d.severity==='warning') :
+        _subFilter === 'info' ? discrepancies.filter(d=>d.severity==='info') :
+        _subFilter === 'new' ? discrepancies.filter(d=>d._type==='new') :
+        _subFilter === 'cost' ? discrepancies.filter(d=>d.category.includes('Cost')) : discrepancies;
+
+    const tbody = document.getElementById('subDiscrepancyTable');
+    const sevColors = {critical:'#ff4444', warning:'#ffa500', info:'#00aaff'};
+    const sevIcons = {critical:'fa-circle-xmark', warning:'fa-triangle-exclamation', info:'fa-circle-info'};
+
+    tbody.innerHTML = filtered.map(d => '<tr style="border-color:var(--border)">' +
+        '<td style="padding:5px 8px;border-color:var(--border);white-space:nowrap"><i class="fas ' + (sevIcons[d.severity]||'fa-circle') + '" style="color:' + (sevColors[d.severity]||'#888') + ';margin-right:4px"></i><span style="color:' + (sevColors[d.severity]||'#888') + ';font-weight:600;text-transform:uppercase;font-size:.7rem">' + d.severity + '</span></td>' +
+        '<td style="padding:5px 8px;border-color:var(--border);color:#fff">' + d.category + '</td>' +
+        '<td style="padding:5px 8px;border-color:var(--border);font-family:monospace;font-size:.75rem">' + d.item + '</td>' +
+        '<td style="padding:5px 8px;border-color:var(--border)">' + d.issue + '</td>' +
+        '<td style="padding:5px 8px;border-color:var(--border);color:#888">' + d.previous + '</td>' +
+        '<td style="padding:5px 8px;border-color:var(--border);color:#fff">' + d.current + '</td>' +
+        '<td style="padding:5px 8px;border-color:var(--border);color:' + (sevColors[d.severity]||'#888') + '">' + (d.impact||'') + '</td>' +
+    '</tr>').join('');
+
+    document.getElementById('subResultsContainer').style.display = 'block';
+}
+
+function filterDiscrepancies(filter) {
+    _subFilter = filter;
+    renderDiscrepancyTable(_subCache.discrepancies);
+}
+
+function generateAiSummary(discrepancies, items, baseline, costDelta) {
+    const criticals = discrepancies.filter(d => d.severity === 'critical');
+    const warnings = discrepancies.filter(d => d.severity === 'warning');
+    const newItems = discrepancies.filter(d => d._type === 'new');
+    const removed = discrepancies.filter(d => d._type === 'removed');
+    const costChanges = discrepancies.filter(d => d.category.includes('Cost'));
+    const meta = _subCache.meta;
+
+    let summary = '<p><strong>Program:</strong> ' + meta.program + ' | <strong>Branch:</strong> ' + meta.branch + ' | <strong>Document:</strong> ' + (SUBMISSION_TYPES[meta.docType]||meta.docType) + '</p>';
+    summary += '<p><strong>Submission from:</strong> ' + (meta.vendor||'Unknown') + ' | <strong>Analyzed:</strong> ' + new Date().toLocaleString() + '</p><hr style="border-color:var(--border);margin:8px 0">';
+
+    if (criticals.length) {
+        summary += '<p style="color:#ff4444"><strong>CRITICAL FINDINGS (' + criticals.length + '):</strong></p><ul style="margin:4px 0 8px 16px">';
+        criticals.slice(0, 8).forEach(c => { summary += '<li>' + c.category + ': ' + c.item + ' — ' + c.issue + (c.impact ? ' (' + c.impact + ')' : '') + '</li>'; });
+        if (criticals.length > 8) summary += '<li>...and ' + (criticals.length - 8) + ' more critical findings</li>';
+        summary += '</ul>';
+    }
+    if (removed.length) {
+        summary += '<p style="color:#ff6b6b"><strong>REMOVED COMPONENTS (' + removed.length + '):</strong> Items present in the previous submission are no longer listed. Verify each removal was intentional and that coverage gaps are addressed.</p>';
+    }
+    if (newItems.length) {
+        summary += '<p style="color:#14f195"><strong>NEW COMPONENTS (' + newItems.length + '):</strong> Items added that were not in the previous submission. Verify specifications, pricing, and compatibility.</p>';
+    }
+    if (costChanges.length) {
+        summary += '<p style="color:#c9a84c"><strong>COST IMPACT:</strong> Net cost delta of <strong>' + (costDelta >= 0 ? '+$' : '-$') + Math.abs(costDelta).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g,',') + '</strong> across ' + costChanges.length + ' line items with price changes.</p>';
+    }
+
+    summary += '<p style="margin-top:8px"><strong>RECOMMENDATION:</strong> ';
+    if (criticals.length > 3) summary += 'This submission requires immediate leadership review. Multiple critical discrepancies detected that could impact program readiness, cost, and schedule.';
+    else if (criticals.length > 0) summary += 'Review critical findings with program office before acceptance. Flag cost increases for contracting officer review.';
+    else if (warnings.length > 5) summary += 'Multiple warnings detected. Recommend detailed technical review before acceptance.';
+    else summary += 'No critical issues detected. Standard review and acceptance procedures apply.';
+    summary += '</p>';
+
+    document.getElementById('subAiSummary').style.display = 'block';
+    document.getElementById('subAiSummaryText').innerHTML = summary;
+}
+
+async function anchorSubmissionReview() {
+    if (!_subCache.discrepancies.length) { showWorkspaceNotification('Run an analysis first before anchoring'); return; }
+    const meta = _subCache.meta;
+    const docTypeLabel = SUBMISSION_TYPES[meta.docType] || meta.docType;
+    const text = 'ILIE Analysis | Program: ' + meta.program + ' | Branch: ' + meta.branch +
+        ' | Type: ' + docTypeLabel + ' | Vendor: ' + (meta.vendor||'N/A') +
+        ' | Items: ' + _subCache.items.length + ' | Discrepancies: ' + _subCache.discrepancies.length +
+        ' | Critical: ' + _subCache.discrepancies.filter(d=>d.severity==='critical').length +
+        ' | Date: ' + new Date().toISOString();
+    const hash = await sha256(text);
+    showAnchorAnimation(hash, 'ILIE Analysis — ' + docTypeLabel, 'CUI');
+    const txHash = 'TX' + Date.now().toString(16).toUpperCase();
+    stats.anchored++; stats.types.add('SUBMISSION_REVIEW'); stats.slsFees += 0.01; updateStats(); saveStats();
+    const rec = {hash, type:'SUBMISSION_REVIEW', branch:meta.branch, timestamp:new Date().toISOString(), label:'ILIE Analysis: ' + docTypeLabel, txHash};
+    sessionRecords.push(rec);
+    saveLocalRecord({hash, record_type:'SUBMISSION_REVIEW', record_label:'ILIE Analysis: ' + docTypeLabel, branch:meta.branch, timestamp:new Date().toISOString(), timestamp_display:new Date().toISOString().replace('T',' ').substring(0,19)+' UTC', fee:0.01, tx_hash:txHash, system:'ILIE'});
+    updateTxLog();
+    addToVault({hash, txHash, type:'SUBMISSION_REVIEW', label:'ILIE Analysis: ' + docTypeLabel, branch:meta.branch, content:text.substring(0,100), encrypted:false, timestamp:new Date().toISOString(), source:'ILIE', fee:0.01});
+    try { await fetch('/api/anchor',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({hash, record_type:'SUBMISSION_REVIEW', tx_hash:txHash, content_preview:text.substring(0,100)})}); } catch(e) {}
+    setTimeout(() => { document.getElementById('animStatus').textContent = 'ILIE analysis anchored — ' + _subCache.discrepancies.length + ' discrepancies recorded on-chain'; document.getElementById('animStatus').style.color = '#14f195'; }, 2200);
+}
+
+function exportDiscrepancyReport() {
+    if (!_subCache.discrepancies.length) { showWorkspaceNotification('No discrepancy report to export'); return; }
+    const meta = _subCache.meta;
+    let csv = 'Severity,Category,Item/Part,Field,Issue,Previous Value,Current Value,Impact\n';
+    _subCache.discrepancies.forEach(d => {
+        csv += '"' + d.severity + '","' + d.category + '","' + d.item + '","' + (d.field||'') + '","' + d.issue + '","' + d.previous + '","' + d.current + '","' + (d.impact||'') + '"\n';
+    });
+    const blob = new Blob([csv], {type:'text/csv'});
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+    a.download = 'Discrepancy_Report_' + (meta.program||'Program') + '_' + (meta.docType||'Review') + '_' + new Date().toISOString().split('T')[0] + '.csv';
+    a.click();
+    showWorkspaceNotification('Discrepancy report exported — ' + _subCache.discrepancies.length + ' findings');
+}
+
+function loadSubmissionHistory() {
+    const container = document.getElementById('subHistory');
+    if (!container) return;
+    if (!_subHistory.length) {
+        container.innerHTML = '<div style="color:var(--steel);font-size:.8rem;padding:8px">No submission reviews yet. Run an analysis to start building history.</div>';
+        return;
+    }
+    container.innerHTML = _subHistory.slice(0, 20).map(h => {
+        const sevColor = h.stats.criticals > 3 ? '#ff4444' : h.stats.criticals > 0 ? '#ffa500' : '#14f195';
+        return '<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 8px;border-bottom:1px solid var(--border);font-size:.78rem">' +
+            '<div><span style="color:#fff;font-weight:600">' + (SUBMISSION_TYPES[h.meta.docType]||h.meta.docType) + '</span> <span style="color:var(--steel)">— ' + h.meta.program + ' (' + h.meta.branch + ')</span></div>' +
+            '<div style="display:flex;gap:12px;align-items:center">' +
+                '<span style="color:' + sevColor + ';font-weight:600">' + h.stats.discrepancies + ' disc. / ' + h.stats.criticals + ' crit.</span>' +
+                '<span style="color:var(--steel);font-size:.72rem">' + new Date(h.timestamp).toLocaleDateString() + '</span>' +
+                '<span style="color:var(--steel);font-family:monospace;font-size:.68rem" title="' + h.hash + '">' + (h.hash||'').substring(0,8) + '...</span>' +
+            '</div>' +
+        '</div>';
+    }).join('');
+}
+
+function clearSubmissionReview() {
+    _subCache = { items:[], discrepancies:[], baseline:[], meta:{} };
+    _subFilter = 'all';
+    document.getElementById('subTotalItems').textContent = '0';
+    document.getElementById('subNewItems').textContent = '0';
+    document.getElementById('subRemovedItems').textContent = '0';
+    document.getElementById('subCostDelta').textContent = '$0';
+    document.getElementById('subDiscrepancies').textContent = '0';
+    document.getElementById('subRedFlags').textContent = '0';
+    document.getElementById('subDiscrepancyTable').innerHTML = '';
+    document.getElementById('subResultsContainer').style.display = 'none';
+    document.getElementById('subAiSummary').style.display = 'none';
+    document.getElementById('subUploadZone').innerHTML = '<i class="fas fa-cloud-upload-alt" style="font-size:2rem;color:#e06c75;margin-bottom:8px;display:block"></i><div style="color:#e06c75;font-weight:600;font-size:.9rem">Upload Submission Data</div><div style="color:var(--steel);font-size:.78rem;margin-top:4px">CSV, Excel (.xlsx), XML, JSON, PDF, or paste data below</div><div style="color:var(--steel);font-size:.72rem;margin-top:2px">Drag & drop or click to browse</div>';
+    document.getElementById('subVendor').value = '';
+    document.getElementById('subCustomPlatform').value = '';
+    document.getElementById('subCustomDocType').value = '';
+    document.getElementById('subContractRef').value = '';
+    document.getElementById('subNotes').value = '';
+    document.getElementById('subPasteData').value = '';
+    showWorkspaceNotification('Submission review cleared');
 }
 
 // ── Workspace initialization ──

@@ -23,7 +23,7 @@ Don't schedule a "meeting about blockchain." Schedule a "meeting about a new rev
 
 **Opening line example:**
 
-> "I built something that saves the government $900K–$2.1M per program per year in logistics labor — and it costs them $6K–$60K/year. I want to show you how it works and what it means for S4 Systems."
+> "I built something that saves the government $1.02M–$2.6M per program per year in logistics labor — and it costs them $6K–$60K/year. I want to show you how it works and what it means for S4 Systems."
 
 That gets attention. Then you open the demo app at s4ledger.com/demo-app and walk through 2-3 tools live. Let them see it working. Don't explain the technology — explain the outcome.
 
@@ -47,7 +47,7 @@ Keep these in your back pocket. Use them in order.
 
 ### 3. The Economics Are Undeniable
 
-> "S4 Ledger saves the government ~$900K–$2.1M per program per year. It costs them $6K–$60K/year. That's a 15–100x return on investment. Government program managers don't say no to that math."
+> "S4 Ledger saves the government ~$1.02M–$2.6M per program per year. It costs them $6K–$60K/year. That's a 15–100x return on investment. Government program managers don't say no to that math."
 
 **Why this works:** ROI is the universal language of business. 15–100x ROI is extraordinary by any standard.
 
@@ -107,7 +107,7 @@ Keep these in your back pocket. Use them in order.
 - **Don't lead with technical details.** No SHA-256, no XRPL consensus, no Merkle trees. If they ask, explain simply. Otherwise, keep it about outcomes.
 - **Don't compare to Bitcoin or Ethereum.** S4 Ledger anchors hashes on XRPL — completely different use case, different technology, different purpose.
 - **Don't promise revenue timelines you can't deliver.** Say "first revenue within 90 days of launch" — not "we'll make $5M next year."
-- **Don't undersell the opportunity.** $900K–$2.1M savings per program is real. $150B+ logistics market is real. Don't hedge so much that the opportunity sounds trivial.
+- **Don't undersell the opportunity.** $1.02M–$2.6M savings per program is real. $150B+ logistics market is real. Don't hedge so much that the opportunity sounds trivial.
 - **Don't mention the token ($SLS) first.** If it comes up, explain it as "a usage credit system for recording audit data — like buying stamps for certified mail." Keep it simple.
 
 ---
@@ -152,7 +152,7 @@ If the CEO says no:
 
 | Metric | Number |
 |---|---|
-| Per-program savings | $900K–$2.1M/year |
+| Per-program savings | $1.02M–$2.6M/year |
 | S4 Ledger cost | $6K–$60K/year |
 | ROI for government | 15–100x |
 | ILS tools built | 19 |

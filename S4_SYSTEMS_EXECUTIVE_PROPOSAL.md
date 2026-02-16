@@ -11,7 +11,7 @@
 
 I have independently developed a working prototype of **S4 Ledger** — a logistics verification and ILS (Integrated Logistics Support) management platform that creates tamper-proof records for defense supply chain data. The system works by creating a unique digital fingerprint (called a hash) of each logistics record and permanently storing that fingerprint on a public financial ledger (the XRP Ledger), so anyone can later prove a record was never altered. No sensitive data leaves your network — only a 64-character code that acts like a receipt.
 
-On top of this record integrity layer, S4 Ledger includes a full **ILS Workspace** — a unified suite of 18 logistics management tools including DMSMS (Diminishing Manufacturing Sources and Material Shortages) tracking, readiness calculations, parts cross-referencing, lifecycle cost estimation, ROI (Return on Investment) analysis, warranty management, gap analysis, action item tracking, audit record vault, defense document library, compliance scorecard, provisioning/PTD management (replacing DAU's ICAPS), AI supply chain risk engine, automated audit report generator, contract lifecycle management, digital thread/configuration bridge, and predictive maintenance AI. This positions S4 Ledger not just as a verification tool, but as a **complete ILS management platform** competitive with SAP, Oracle, Microsoft, and ICAPS — at a fraction of the cost.
+On top of this record integrity layer, S4 Ledger includes a full **ILS Workspace** — a unified suite of 20 logistics management tools including DMSMS (Diminishing Manufacturing Sources and Material Shortages) tracking, readiness calculations, parts cross-referencing, lifecycle cost estimation, ROI (Return on Investment) analysis, warranty management, gap analysis, action item tracking, audit record vault, defense document library, compliance scorecard, provisioning/PTD management (replacing DAU's ICAPS), AI supply chain risk engine, automated audit report generator, contract lifecycle management, digital thread/configuration bridge, and predictive maintenance AI. This positions S4 Ledger not just as a verification tool, but as a **complete ILS management platform** competitive with SAP, Oracle, Microsoft, and ICAPS — at a fraction of the cost.
 
 **I am proposing that S4 Systems adopt S4 Ledger as an official product line**, fund its production readiness, and bring it to market through our existing defense industry relationships. This benefits the company with a new revenue stream and competitive moat, and benefits me as the inventor with equity participation and product leadership.
 
@@ -74,6 +74,7 @@ All of these tools operate within a single unified workspace, with shared data, 
 | **Contract Lifecycle Management** | CDRL tracking, contract modifications (Class I/II), SOW deliverable status — 25 realistic DoW contracts with real prefix formats, DI number references, status tracking, blockchain-anchored delivery timestamps | FAR/DFARS, CDRL Requirements |
 | **Digital Thread / Config Bridge** | 4 configuration views: Engineering Changes (ECP I/II), BOM Revisions, Configuration Baselines (FBL/ABL/Product), TDP Versions — 32 platform configurations with variant-specific designators | MIL-STD-973, IEEE 828 |
 | **Predictive Maintenance AI** | Fleet-wide failure prediction — MTBF trend analysis, failure mode clustering, component age curves, 40+ platforms with real fleet sizes, confidence scoring, cost-if-unplanned estimates | MIL-STD-1629, MIL-HDBK-217 |
+| **Integrated Logistics Insights Engine (ILIE)** | AI-powered submission review: ingests OEM/vendor submissions (VRSL, IUID, config drawings, BOMs, ECPs, CDRLs, 24+ document types), compares against previous baselines, flags cost anomalies, new/removed components, CAGE code changes, lead time increases; severity-rated discrepancy reports for leadership review | MIL-STD-1388, DLAD 4145.41, FAR 42.302 |
 | **Action Items Manager** | Cross-tool task queue with severity tagging, personnel delegation, cost tracking, CSV export, and calendar integration | — |
 | **ILS Calendar** | Program milestone scheduling, warranty expiration alerts, DMSMS review dates with .ics export | — |
 
@@ -443,7 +444,7 @@ Defense SaaS companies are valued at 12–20× revenue (Palantir: 27×, Anduril:
 
 ### The Math That Gets Us There
 
-**Current platform savings per program:** ~$900K–$2.1M/year (19 ILS tools + hash anchoring + defense database import combined).  
+**Current platform savings per program:** ~$1.02M–$2.6M/year (20 ILS tools + hash anchoring + defense database import + ILIE submission intelligence combined).  
 **S4 Ledger charges 5–10% of value delivered** → $6K–$60K/year per customer → 15–100× ROI for government.
 
 | Scale | Programs | Govt Savings/Year | S4 Revenue (ARR) | Valuation (15×) |

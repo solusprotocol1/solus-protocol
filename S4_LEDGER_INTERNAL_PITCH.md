@@ -49,7 +49,9 @@ This is where it gets really practical for day-to-day ILS work. Instead of maint
 | Emailing around to figure out what configuration a platform is in | **Digital Thread / Config Bridge** — engineering changes, BOM revisions, config baselines, TDP versions. 32 platform configs with real variant designators. One screen shows you what version of what is where | $60K–$150K/yr |
 | Guessing when equipment will fail based on gut feeling | **Predictive Maintenance AI** — analyzes failure patterns across 40+ platforms with real fleet sizes. Tells you what's likely to fail, when, and what it'll cost if you don't act. Turns reactive maintenance into proactive planning | $80K–$250K/yr |
 
-All 19 tools talk to each other. When the DMSMS Tracker finds an obsolete part, it automatically creates an action item. When a warranty is about to expire, it shows up on the calendar AND triggers an alert. When Supply Chain Risk flags a supplier issue, it connects to the affected contracts and parts.
+| Contractors manually reviewing every vendor submission line-by-line for errors | **Integrated Logistics Insights Engine (ILIE)** — Upload vendor submissions (spares lists, config drawings, BOMs, ECPs, 24+ types), auto-compare against previous versions, get severity-rated discrepancy reports with cost anomalies, new/removed components, and red flags. Leadership-ready reports in seconds. | $120K–$500K/yr |
+
+All 20 tools talk to each other. When the DMSMS Tracker finds an obsolete part, it automatically creates an action item. When a warranty is about to expire, it shows up on the calendar AND triggers an alert. When Supply Chain Risk flags a supplier issue, it connects to the affected contracts and parts.
 
 ---
 
@@ -75,7 +77,7 @@ All 19 tools talk to each other. When the DMSMS Tracker finds an obsolete part, 
 | Capability | S4 Ledger | Palantir Foundry | Anduril Lattice | SAP S/4HANA | Oracle NetSuite | Spreadsheets / SharePoint |
 |---|---|---|---|---|---|---|
 | **What they do** | ILS platform + tamper-proof records | Data analytics / AI | Autonomous systems / C2 | Enterprise ERP | Cloud ERP / SCM | Manual tracking |
-| **Defense ILS tools** | 18 purpose-built tools | None — analytics only | None — hardware/autonomy | Generic — not ILS-specific | Generic — not ILS-specific | None |
+| **Defense ILS tools** | 20 purpose-built tools | None — analytics only | None — hardware/autonomy | Generic — not ILS-specific | Generic — not ILS-specific | None |
 | **Tamper-proof records** | Yes — SHA-256 on XRPL blockchain | No blockchain | No blockchain | No blockchain | No blockchain | No |
 | **Data stays off-chain** | Yes — only fingerprints on-chain | N/A | N/A | N/A | N/A | N/A |
 | **CMMC/NIST compliance built-in** | Yes — Compliance Scorecard | Partial | No | Partial (add-on) | Partial (add-on) | No |
@@ -109,7 +111,7 @@ Most blockchain companies focus on cryptocurrency or consumer supply chains (tra
 Everything described above is **live and working right now** at [s4ledger.com](https://s4ledger.com). It was built by Nick Frankfort on his own time at zero cost to the company. The tech stack:
 
 - **Website:** 25+ pages, fully branded
-- **Demo App:** All 19 ILS Workspace tools working, 156+ pre-built record types (supports any defense record type), 500+ pre-loaded military platforms, ICAPS-replacement provisioning tool, real DoW data in all dropdowns (35+ platforms, 25 contracts, 37 suppliers)
+- **Demo App:** All 20 ILS Workspace tools working, 156+ pre-built record types (supports any defense record type), 500+ pre-loaded military platforms, ICAPS-replacement provisioning tool, real DoW data in all dropdowns (35+ platforms, 25 contracts, 37 suppliers)
 - **Audit Record Vault:** Automatically stores every anchored record with content + hash for instant auditing
 - **Defense Document Library:** 100+ real MIL-STDs, OPNAVINSTs, DoD Directives searchable by branch and category
 - **Compliance Scorecard:** Real-time CMMC/NIST/DFARS compliance calculator with letter grades
@@ -130,7 +132,7 @@ Everything described above is **live and working right now** at [s4ledger.com](h
 - **Year 5 projection:** $3M–$5M+
 
 ### Cost Savings for Government Customers
-These are realistic, defensible numbers based on ~$900K–$2.1M per-program annual savings:
+These are realistic, defensible numbers based on ~$1.02M–$2.6M per-program annual savings:
 
 | Scale | Programs | Government Saves (Total) | S4 Systems Earns |
 |---|---|---|---|

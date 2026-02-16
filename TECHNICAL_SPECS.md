@@ -74,7 +74,7 @@ S4 Ledger utilizes the `Memos` field in a standard XRPL transaction to anchor da
 
 | Property | Value |
 |---|---|
-| **Tools** | 19 interactive ILS management tools |
+| **Tools** | 20 interactive ILS management tools |
 | **Platforms** | 500+ pre-loaded (462 platforms, 37 suppliers, 25 contracts) |
 | **Record Types** | 156+ pre-built ILS record categories |
 | **Standards** | MIL-STD-1388, DoDI 4245.15, DoD 5000.73, FAR 46.7, MIL-STD-1390D |
@@ -163,7 +163,7 @@ S4 Ledger provides native import adapters for 13+ DoD and DoN logistics informat
 3. **Parse & Map** — S4 automatically detects the format and maps fields to the appropriate record types
 4. **Hash** — Each record is individually hashed with SHA-256
 5. **Anchor** — Optionally anchor each hash to the XRPL blockchain for immutable verification
-6. **Integrate** — Imported data flows into all 19 ILS tools: DMSMS tracking, readiness, parts cross-reference, audit vault, etc.
+6. **Integrate** — Imported data flows into all 20 ILS tools: DMSMS tracking, readiness, parts cross-reference, audit vault, etc.
 
 ### SDK Import Methods
 

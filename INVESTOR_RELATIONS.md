@@ -48,13 +48,13 @@ Treasury address: `rMLmkrxpadq5z6oTDmq8GhQj9LKjf1KLqJ`
 - Built 25+ page website with defense use cases, pricing, FAQ, and partner information
 - Established NIST 800-171 and CMMC compliance alignment documentation (CMMC 2.0 enforcement begins 2025–2026)
 - Created Defense Data Integrity Agreement (DDIA) template v2.0
-- Expanded ILS Workspace to **19 tools** including Audit Record Vault, Defense Document Library, Compliance Scorecard, Provisioning & PTD Manager (ICAPS replacement), Supply Chain Risk Engine, Audit Report Generator, Contract Lifecycle Management, Digital Thread Bridge, Predictive Maintenance AI, and Conversational AI Agent
+- Expanded ILS Workspace to **20 tools** including Integrated Logistics Insights Engine (ILIE), Audit Record Vault, Defense Document Library, Compliance Scorecard, Provisioning & PTD Manager (ICAPS replacement), Supply Chain Risk Engine, Audit Report Generator, Contract Lifecycle Management, Digital Thread Bridge, Predictive Maintenance AI, and Conversational AI Agent
 - **21 Python SDK functions** for defense-grade hash anchoring and verification
 - **29 REST API endpoints** for enterprise integration
 - **500+ pre-loaded military entities** — 462 platforms, 37 suppliers, 25 contracts across 9 branches
 - **156+ pre-built ILS record categories** mapped to real-world logistics workflows
 - Added 100+ real defense document references (MIL-STDs, OPNAVINSTs, DoD Directives, NIST frameworks)
-- Developed realistic cost savings model: ~$900K–$2.1M per program per year, $180K–$48M government savings, $48K–$3.6M S4 revenue per tier
+- Developed realistic cost savings model: ~$1.02M–$2.6M per program per year, $180K–$48M government savings, $48K–$3.6M S4 revenue per tier
 - **15–100x ROI for government** at every implementation tier
 - Integrated glassmorphism design system with enhanced futuristic animations and UX
 - All 9 anchor functions now auto-save to Audit Record Vault for complete audit trail
@@ -64,12 +64,12 @@ Treasury address: `rMLmkrxpadq5z6oTDmq8GhQj9LKjf1KLqJ`
 
 | Metric | Value |
 |---|---|
-| ILS Tools | 19 interactive workspace tools |
+| ILS Tools | 20 interactive workspace tools |
 | SDK Functions | 21 Python functions |
 | API Endpoints | 29 REST endpoints |
 | Pre-loaded Entities | 500+ (462 platforms + 37 suppliers + 25 contracts) |
 | Record Types | 156+ pre-built ILS categories |
-| Per-Program Savings | ~$900K–$2.1M/year |
+| Per-Program Savings | ~$1.02M–$2.6M/year |
 | ROI | 15–100x for government |
 | Jobs Created (Year 5) | 340+ (30–45 direct, 100–200 indirect) |
 | Pricing | $499–$4,999/mo ($6K–$60K/year) |

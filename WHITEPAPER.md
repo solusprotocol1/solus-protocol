@@ -206,7 +206,7 @@ SHA-256 is not directly vulnerable to Grover's algorithm. Grover's algorithm red
 
 | Solution | Approach | Cost | Data Exposure | Defense Focus |
 |---|---|---|---|---|
-| **S4 Ledger** | Hash anchoring on XRPL | ~$0.001/anchor | Zero | Built for DoW ILS — 19 tools, all branches |
+| **S4 Ledger** | Hash anchoring on XRPL | ~$0.001/anchor | Zero | Built for DoW ILS — 20 tools, all branches |
 | **ICAPS** (DAU) | Mainframe + PC provisioning | Free (gov only) | Internal database | Navy/USMC only, Supply Support only |
 | SAP S/4HANA | ERP platform | $1M+ | Full database | Commercial, adapted for defense |
 | Oracle Cloud | ERP platform | $500K+ | Cloud-hosted | Commercial, adapted for defense |
@@ -215,7 +215,7 @@ SHA-256 is not directly vulnerable to Grover's algorithm. Grover's algorithm red
 | Hyperledger Fabric | Private blockchain | High (infra) | Private chain data | Enterprise, finance |
 | Hedera Hashgraph | DLT consensus | Low-moderate | On-chain data | General enterprise |
 
-S4 Ledger is the only solution purpose-built for defense logistics that keeps zero data on-chain. It replaces ICAPS for provisioning while adding blockchain verification, all-branch support, and integration with 17 other ILS tools that ICAPS doesn't offer.
+S4 Ledger is the only solution purpose-built for defense logistics that keeps zero data on-chain. It replaces ICAPS for provisioning while adding blockchain verification, all-branch support, and integration with 18 other ILS tools that ICAPS doesn't offer.
 
 ---
 
@@ -224,7 +224,7 @@ S4 Ledger is the only solution purpose-built for defense logistics that keeps ze
 | Phase | Timeline | Milestones |
 |---|---|---|
 | **Phase 1 — Foundation** | Q4 2025 – Q1 2026 ✅ | SDK, hash anchoring, $SLS token, website |
-| **Phase 2 — Defense Platform** | Q1 – Q2 2026 ✅ | 462 real platforms, 19 interactive tools, 156+ pre-built record types, toast alerts, unified action tracking |
+| **Phase 2 — Defense Platform** | Q1 – Q2 2026 ✅ | 462 real platforms, 20 interactive tools, 156+ pre-built record types, toast alerts, unified action tracking |
 | **Phase 3 — MVP & Pilot** | Q3 – Q4 2026 | Internal pilot on real contract data, SBIR/STTR applications, server-side persistence, user auth |
 | **Phase 4 — Partner & SaaS** | Q1 – Q2 2027 | REST API, SaaS dashboard, DIU / NavalX engagement, Merkle tree batch anchoring |
 | **Phase 5 — Scale & Certify** | Q3 2027+ | NIST/CMMC, FedRAMP, CDN/edge caching, microservices, production deployments |
@@ -233,7 +233,7 @@ S4 Ledger is the only solution purpose-built for defense logistics that keeps ze
 
 | Tool | Description |
 |---|---|
-| **ILS Workspace** | Unified command center consolidating all 19 tools with cross-tool data syncing and sub-tab navigation |
+| **ILS Workspace** | Unified command center consolidating all 20 tools with cross-tool data syncing and sub-tab navigation |
 | ILS Workspace Engine | Per-program checklists for 462+ programs with DRL generation |
 | Action Items & Task Tracker | Cross-tool task queue with severity tagging, delegation, cost tracking, and source breakdown |
 | Calendar System | Month-grid calendar with auto-populated events from action item schedules and custom milestones |
@@ -252,6 +252,7 @@ S4 Ledger is the only solution purpose-built for defense logistics that keeps ze
 | **Contract Lifecycle Management** | CDRL tracking, contract modifications (Class I/II), and SOW deliverable status — 25 realistic DoW contracts from NAVSEA, NAVAIR, Army ACC, AF LCMC, DLA, MCSC, MDA. DI number references, status tracking (On Track/At Risk/Overdue/Delivered), blockchain-anchored delivery timestamps. Custom contract number input for real identifiers |
 | **Digital Thread / Configuration Bridge** | 4 configuration views: Engineering Changes (ECP Class I/II), BOM Revisions (multi-level), Configuration Baselines (FBL/ABL/Product), TDP Versions. 500+ platforms (dynamically populated) with variant-specific designators. Custom hull/designation + program office input. Status workflow with per-item anchoring |
 | **Predictive Maintenance AI** | Fleet-wide failure prediction — analyzes MTBF trends, failure mode clustering, and component age curves. 500+ platforms (dynamically populated) with real fleet sizes, platform-specific system/component/failure mode data, confidence scoring, cost-if-unplanned estimates. Custom hull/designation + program office input |
+| **Integrated Logistics Insights Engine (ILIE)** | AI-powered submission review and discrepancy detection — ingests OEM/vendor submissions (VRSL, IUID, config drawings, outfitting lists, PO indices, PTD, APL, tech manuals, maintenance plans, LSAR, FRACAS, ECPs, CDRLs, BOMs, cost estimates, and 24+ document types), compares against previous baselines, flags new/removed components, cost anomalies, CAGE code changes, source substitutions, lead time increases, and configuration mismatches. Severity-rated discrepancy reports for leadership. All reviews hashed and anchored to XRPL. |
 | Record Anchoring | SHA-256 hash anchoring to XRPL ($0.01 SLS per transaction) |
 | Conversational AI | Natural language ILS question answering with vault, compliance, provisioning, and doc library awareness |
 | Toast Alert System | Real-time severity-coded notifications for expirations, obsolescence, and threshold violations |
@@ -300,7 +301,7 @@ Infrastructure costs scale with revenue and never exceed 6% of ARR at any phase.
 
 ## 8. Team
 
-S4 Ledger is a product line of **S4 Systems, LLC**, created and built entirely by **Nick Frankfort** — ILS contractor and proposed Product Lead/CTO. Nick built the entire platform (19 ILS tools, 21 SDK functions, 29 REST API endpoints, $SLS token, 25+ page website, 500+ pre-loaded military entities) at zero cost to the company, on his own time, drawing on years of hands-on ILS experience across Navy and DoW programs.
+S4 Ledger is a product line of **S4 Systems, LLC**, created and built entirely by **Nick Frankfort** — ILS contractor and proposed Product Lead/CTO. Nick built the entire platform (20 ILS tools, 21 SDK functions, 29 REST API endpoints, $SLS token, 25+ page website, 500+ pre-loaded military entities) at zero cost to the company, on his own time, drawing on years of hands-on ILS experience across Navy and DoW programs.
 
 Based in Charleston, SC.
 

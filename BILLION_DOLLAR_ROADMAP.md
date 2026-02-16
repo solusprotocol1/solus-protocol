@@ -31,7 +31,7 @@ Every tool in S4 Ledger's current platform eliminates quantifiable labor, error,
 - 100 programs: **$25M–$150M saved/year**
 - 1,000 programs (DoW-wide): **$250M–$1.5B saved/year**
 
-#### 2. ILS Workspace (19 Tools Replacing Manual Processes)
+#### 2. ILS Workspace (20 Tools Replacing Manual Processes)
 
 | Tool | Manual Cost (per program/year) | S4 Ledger Cost | Annual Savings |
 |---|---|---|---|
@@ -53,13 +53,14 @@ Every tool in S4 Ledger's current platform eliminates quantifiable labor, error,
 | Digital Thread / Config Bridge | $60K–$150K (configuration management labor) | $0 (included) | $60K–$150K |
 | Predictive Maintenance AI | $80K–$250K (CBM+ analysis + unplanned downtime) | $0 (included) | $80K–$250K |
 | AI Agent | $0 (doesn't exist elsewhere) | $0 (included) | N/A (new capability) |
+| ILIE (Submission Review) | $120K–$500K (manual submission review labor + missed discrepancies) | $0 (included) | $120K–$500K |
 | Defense Database Import | $300K–$500K (manual data reconciliation across 24 systems) | $0 (included) | $300K–$500K |
-| **TOTAL per program** | **~$900K–$2.2M** | **$499–$4,999/mo** | **~$900K–$2.1M/year** |
+| **TOTAL per program** | **~$1.02M–$2.7M** | **$499–$4,999/mo** | **~$1.02M–$2.6M/year** |
 
 **At scale:**
-- 10 programs: **$9.0M–$21.0M saved/year**
-- 100 programs: **$90M–$210M saved/year**
-- 1,000 programs: **$900M–$2.1B saved/year**
+- 10 programs: **$10.2M–$26.0M saved/year**
+- 100 programs: **$102M–$260M saved/year**
+- 1,000 programs: **$1.02B–$2.6B saved/year**
 
 #### 3. Combined Savings (Anchoring + ILS Workspace)
 
@@ -238,9 +239,9 @@ At 12–15x revenue multiple: **$1.07B–$1.34B valuation**
 
 1. **The market is massive.** DoW spends $150B+/year on logistics. The software tools serving this market are fragmented, overpriced, and 10–20 years behind commercial tech. No one has built a unified ILS platform with blockchain-verified records.
 
-2. **We have a working prototype.** Not a slide deck. Not a concept. A live, functional platform with 19 ILS tools, a Python SDK, REST API, and real XRPL blockchain integration. Zero cost to the company so far.
+2. **We have a working prototype.** Not a slide deck. Not a concept. A live, functional platform with 20 ILS tools, a Python SDK, REST API, and real XRPL blockchain integration. Zero cost to the company so far.
 
-3. **The economics are undeniable.** S4 Ledger saves the government ~$900K–$2.1M per program per year. It costs them $6K–$60K/year. That's a 15–100x ROI. The government doesn't say no to that math.
+3. **The economics are undeniable.** S4 Ledger saves the government ~$1.02M–$2.6M per program per year. It costs them $6K–$60K/year. That's a 15–100x ROI. The government doesn't say no to that math.
 
 4. **The path to $1B is clear.** Defense SaaS companies are valued at 15–20x revenue. We need $70M ARR to reach $1B. The Defense Logistics market can support $200M+ ARR for a dominant platform player. Palantir did it. Anduril did it. We can do it — and we're starting with a working product, not a pitch deck.
 
