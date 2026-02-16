@@ -27,7 +27,7 @@ S4 Ledger: Immutable logistics verification for the defense industry, anchored o
 ## How It Works (Plain English)
 - **The tools are the interface. The audit trail is the product.**
 - S4 Ledger = a notary for defense records (SHA-256 hash → XRPL stamp)
-- 18 tools calculate readiness, track obsolescence, monitor warranties, estimate costs
+- 19 tools calculate readiness, track obsolescence, monitor warranties, estimate costs, import defense databases
 - Every tool generates real-time alerts: warranty expirations, DMSMS flags, readiness violations
 - Unified Action Items tracker consolidates tasks across all tools
 - One interface replaces juggling spreadsheets across 5 siloed systems
@@ -108,7 +108,7 @@ Key: 65% labor reduction • 90% error savings • 70% audit reduction • 15-25
 
 ## Roadmap
 - Phase 1 ✅: SDK, token, website
-- Phase 2 ✅: 462 platforms, 18 tools, alerts, action tracking
+- Phase 2 ✅: 462 platforms, 19 tools, alerts, action tracking
 - Phase 3: MVP pilot on real contract data
 - Phase 4: REST API, SaaS, DIU/NavalX
 - Phase 5: NIST, FedRAMP, production

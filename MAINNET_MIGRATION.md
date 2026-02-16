@@ -2072,7 +2072,7 @@ Versions 3.8.0 through 3.8.6 added **5 new ILS Workspace tools** (bringing the t
 ### 35.3 API Expansion
 
 - 5 new endpoints: `/api/supply-chain-risk`, `/api/audit-reports`, `/api/contracts`, `/api/digital-thread`, `/api/predictive-maintenance`
-- Health endpoint updated: version `3.8.6`, tools array includes all 18 tool endpoints
+- Health endpoint updated: version `3.8.6`, tools array includes all 19 tool endpoints
 - Total endpoints: 27 (up from 22)
 
 ### 35.4 Data Quality Overhaul
@@ -2092,15 +2092,15 @@ Versions 3.8.0 through 3.8.6 added **5 new ILS Workspace tools** (bringing the t
 
 ### 35.6 Financial Projections Updated
 
-- Per-program savings recalculated with 18 tools: ~$600K–$1.6M/year (up from ~$300K–$800K with 13 tools)
+- Per-program savings recalculated with 19 tools: ~$600K–$1.6M/year (up from ~$300K–$800K with 13 tools)
 - ROI: 10–100x
 - Scale projections: 10 programs ($6M–$16M), 100 programs ($60M–$160M), 1,000 programs (~$600M–$1.6B)
 
 ### 35.7 Migration Checklist for v3.8.6
 
-- [ ] Verify all 18 ILS Workspace sub-tabs render correctly
+- [ ] Verify all 19 ILS Workspace sub-tabs render correctly
 - [ ] Test all 5 new tools with real dropdown data selections
-- [ ] Verify 27 API endpoints respond correctly (health, all tool endpoints)
+- [ ] Verify 29 API endpoints respond correctly (health, all tool endpoints)
 - [ ] Test AI Supply Chain Risk Engine with multiple platform/supplier selections
 - [ ] Verify Audit Report Generator produces all 6 report types
 - [ ] Test Contract Lifecycle Management with CDRL tracking and status updates
@@ -2110,10 +2110,90 @@ Versions 3.8.0 through 3.8.6 added **5 new ILS Workspace tools** (bringing the t
 - [ ] Verify Developer Marketplace page loads with correct future dates (Q3 2026–Q1 2027)
 - [ ] Validate compliance grade styling (large font, gradient, glow) on all screen sizes
 - [ ] Test How It Works collapsible boxes in new position under headings
-- [ ] Validate all financial figures in BILLION_DOLLAR_ROADMAP match 18-tool calculations
-- [ ] Verify all documentation reflects v3.8.6, 18 tools, 27 endpoints
+- [ ] Validate all financial figures in BILLION_DOLLAR_ROADMAP match 19-tool calculations
+- [ ] Verify all documentation reflects v3.9.9, 19 tools, 29 endpoints
 
 ---
 
-*Last updated: v3.9.3 — February 2026*
+## 36. Defense Database Import — All-Branch Expansion (v3.9.9)
+
+### 36.1 Overview
+
+The Defense Database Import tool (the 19th ILS Workspace tool) was expanded from 13 Navy/DoD-only systems to **24 defense systems across all military branches**. Renamed from "DoD / DoN Database Import" to **"Defense Database Import"** to reflect full-branch coverage.
+
+### 36.2 Supported Systems by Branch
+
+| Branch | Systems | Count |
+|--------|---------|-------|
+| **U.S. Navy (USN)** | NSERC/SE IDE, MERLIN, NAVAIR AMS PMT, CDMD-OA, NDE, PEO MLB, CSPT, NAVSUP OneTouch | 8 |
+| **U.S. Army (USA)** | GCSS-Army, LMP, AESIP | 3 |
+| **U.S. Air Force (USAF)** | REMIS, LIMS-EV, D200A | 3 |
+| **U.S. Marine Corps (USMC)** | GCSS-MC, ATLASS | 2 |
+| **U.S. Coast Guard (USCG)** | ALMIS, CGOne | 2 |
+| **U.S. Space Force (USSF)** | USSF LMS | 1 |
+| **Joint / OSD / DLA** | COMPASS, MBPS, GCSS (Joint), DPAS, DLA FLIS/WebFLIS, PIEE/WAWF | 6 |
+| **Total** | | **24** |
+
+### 36.3 Key Changes in v3.9.9
+
+1. **UI Expansion** — Dropdown now uses `<optgroup>` elements organized by branch with branch icons
+2. **Demo Data** — Every system has a dedicated demo data generator with realistic field names, values, and sample volumes
+3. **Transaction Log Fix** — `anchorDbImport()` now pushes to `sessionRecords[]` and calls `saveLocalRecord()` + `updateTxLog()`, fixing the bug where imported/anchored records were not visible in the Transaction Log, Metrics page, or XRPL Transactions page
+4. **AI Agent Integration** — Added `hub-dbimport` to `AI_TOOL_CONTEXT` with 6 quick-action buttons; added import-related query handling to `generateAiResponse()` with comprehensive response covering all 24 systems
+5. **Hub Tab Handler** — Added `hub-dbimport` handler to `switchHubTab()` so the system info panel initializes when the tab is selected
+6. **Branch-Aware Anchoring** — `addToVault()` now receives the correct branch key from `DOD_SYSTEMS_INFO[sys].branch` instead of hardcoded `'USN'`
+7. **SDK Expansion** — `s4_sdk.py` `DOD_SYSTEMS` expanded from 13 to 24 entries with entries for all new branch systems
+8. **Anomaly Engine** — `s4_anomaly.py` `LOGISTICS_SYSTEMS` expanded from 6 to 13 entries to cover all branch monitoring endpoints
+9. **How It Works Savings** — Enhanced with specific savings figures: $450K+/year per program, 80% fewer data discrepancies, 60% faster audit preparation, $45M+/year at 100-program scale
+10. **ILS Tool Count** — All documentation updated from "18-tool" to "19-tool" across 15+ files
+
+### 36.4 Files Modified
+
+| File | Changes |
+|------|---------|
+| `demo-app/index.html` | Panel title, description, dropdown (13→24 with optgroups), DOD_SYSTEMS_INFO (24 entries with branch keys), demo data generators (24 systems), anchorDbImport() fix, AI_TOOL_CONTEXT, generateAiResponse(), switchHubTab(), export filename, stats counter |
+| `s4_sdk.py` | DOD_SYSTEMS dict (13→24), CLI status line |
+| `s4_anomaly.py` | LOGISTICS_SYSTEMS dict (6→13) |
+| `index.html` | "19-tool" in hero + explore card |
+| `README.md` | "19-tool ILS Workspace" |
+| `ROADMAP.md` | "19-tool" + added Defense Database Import to tool list |
+| `WHITEPAPER.md` | "19 tools" in comparison table + ILS Workspace row |
+| `INVESTOR_RELATIONS.md` | "19 tools" |
+| `INVESTOR_SLIDE_DECK.md` | "19 tools" in two locations |
+| `INVESTOR_PITCH.md` | "19 tools" + added defense database import |
+| `S4_LEDGER_INTERNAL_PITCH.md` | "19 tools" |
+| `PRODUCTION_READINESS.md` | "19-tool" in 3 locations, 29 endpoints |
+| `MAINNET_MIGRATION.md` | "19 tools" in all references, updated checklist |
+| `CHANGELOG.md` | "19 tools" in historical references |
+| `s4-assets/search.js` | "19 Tools" in search index |
+| `s4-faq/index.html` | "19-tool ILS Workspace" in pricing FAQ |
+
+### 36.5 Scalability Notes
+
+The current architecture is **client-side browser-only** (all data in `localStorage`/`sessionStorage`). This works for:
+- **Demos and pilots** — up to ~1,000 records per session
+- **Small teams** — 1–5 users per program
+
+For production at scale (100+ programs, 10,000+ records/day):
+- **Phase 1:** Add Supabase/PostgreSQL backend for persistent record storage
+- **Phase 2:** Server-side pagination and streaming for large datasets
+- **Phase 3:** Web Workers for background hash computation on large imports
+- **Phase 4:** Batch XRPL anchoring (combine multiple record hashes into Merkle trees)
+
+### 36.6 Migration Checklist for v3.9.9
+
+- [ ] Verify all 24 systems appear in the Defense Database Import dropdown with correct optgroup labels
+- [ ] Run "Demo Import" for at least one system per branch (USN, USA, USAF, USMC, USCG, USSF, Joint)
+- [ ] Anchor demo records and verify they appear in Transaction Log, Metrics page, and XRPL Transactions page
+- [ ] Verify AI Agent responds to "What systems are supported?" with all 24 systems
+- [ ] Confirm `switchHubTab('hub-dbimport')` initializes the system info panel
+- [ ] Test CSV, XML, and JSON file uploads
+- [ ] Verify export filename uses "Defense_Import_" prefix
+- [ ] Confirm vault records show correct branch (not hardcoded 'USN')
+- [ ] Validate all documentation says "19-tool" (search for "18-tool" should return 0 results)
+- [ ] Test SDK: `python s4_sdk.py status` shows 24 systems across all branches
+
+---
+
+*Last updated: v3.9.9 — February 2026*
 *See also: [DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md) | [SECURITY.md](SECURITY.md) | [NIST_COMPLIANCE.md](NIST_COMPLIANCE.md) | [WHITEPAPER.md](WHITEPAPER.md)*

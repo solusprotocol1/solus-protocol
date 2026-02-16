@@ -47,6 +47,13 @@ LOGISTICS_SYSTEMS = {
     "dpas":       {"name": "DPAS",             "api": "/api/v1/dpas/metrics"},
     "fedmall":    {"name": "FedMall",          "api": "/api/v1/fedmall/metrics"},
     "piee":       {"name": "PIEE/WAWF",        "api": "/api/v1/piee/metrics"},
+    "nserc_ide":  {"name": "NSERC/SE IDE",     "api": "/api/v1/nserc/metrics"},
+    "merlin":     {"name": "MERLIN",           "api": "/api/v1/merlin/metrics"},
+    "remis":      {"name": "REMIS",            "api": "/api/v1/remis/metrics"},
+    "lims_ev":    {"name": "LIMS-EV",          "api": "/api/v1/lims_ev/metrics"},
+    "gcss_mc":    {"name": "GCSS-MC",          "api": "/api/v1/gcss_mc/metrics"},
+    "almis":      {"name": "ALMIS",            "api": "/api/v1/almis/metrics"},
+    "ussf_lms":   {"name": "USSF LMS",         "api": "/api/v1/ussf_lms/metrics"},
 }
 
 

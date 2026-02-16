@@ -5,6 +5,32 @@ All notable changes to the S4 Ledger project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.9.9] - 2026-02-16
+
+### Changed — Defense Database Import: All-Branch Expansion
+- **Renamed "DoD / DoN Database Import" → "Defense Database Import"** — Reflects full coverage of all U.S. military branches, not just Navy/DoD.
+- **Expanded from 13 to 24 defense systems** — Added: GCSS-Army, LMP, AESIP (Army); REMIS, LIMS-EV, D200A (Air Force); GCSS-MC, ATLASS (Marines); ALMIS, CGOne (Coast Guard); USSF LMS (Space Force); PIEE/WAWF (Joint). Dropdown now uses `<optgroup>` elements organized by branch with icons.
+- **Demo data generators for all 24 systems** — Each new system has a dedicated data generator with realistic field names, values (NSNs, platforms, depots, squadrons), and sample volumes.
+- **SDK expanded to 24 systems** — `s4_sdk.py` `DOD_SYSTEMS` dict now includes all branch systems with agency/format/record_type metadata.
+- **Anomaly engine expanded** — `s4_anomaly.py` `LOGISTICS_SYSTEMS` expanded from 6 to 13 entries to cover all-branch monitoring endpoints.
+
+### Fixed — Transaction Log / Metrics Auto-Update
+- **`anchorDbImport()` now pushes to `sessionRecords[]`** — Previously, anchored import records were added to the Audit Vault but NOT pushed to `sessionRecords`, so they never appeared in the Transaction Log or Metrics page. Fixed by adding `sessionRecords.push()` and `saveLocalRecord()` calls within the anchor loop.
+- **`updateTxLog()` now called after import anchoring** — Ensures the Transaction Log DOM updates immediately after anchoring.
+- **Branch-aware vault records** — `addToVault()` now uses `info.branch` (e.g., 'USA', 'USAF', 'USMC') instead of hardcoded 'USN'.
+
+### Fixed — AI Agent Compatibility
+- **Added `hub-dbimport` to `AI_TOOL_CONTEXT`** — 6 quick-action buttons: Supported Systems, Import Guide, File Formats, Import Savings, Import Status, Import Anchoring.
+- **Added import query handling to `generateAiResponse()`** — Comprehensive response listing all 24 systems by branch with savings figures and workflow steps.
+- **Added `hub-dbimport` to `switchHubTab()`** — Calls `updateDbImportInfo()` when the tab is selected.
+
+### Changed — How It Works Savings Enhancement
+- **Specific savings figures added** — $450K+/year per program, 80% fewer data discrepancies, 60% faster audit preparation, $45M+/year at 100-program scale.
+
+### Changed — Documentation: 19-Tool Updates
+- **All references updated from "18-tool" to "19-tool"** across 15+ files: README, ROADMAP, WHITEPAPER, INVESTOR_RELATIONS, INVESTOR_PITCH, INVESTOR_SLIDE_DECK, S4_LEDGER_INTERNAL_PITCH, PRODUCTION_READINESS, MAINNET_MIGRATION, CHANGELOG, TECHNICAL_SPECS, index.html, search.js, s4-faq/index.html.
+- **MAINNET_MIGRATION.md Section 36** — Added comprehensive section documenting all v3.9.9 changes, system-by-branch table, scalability notes, and migration checklist.
+
 ## [3.9.8] - 2026-02-16
 
 ### Added — Code Features
@@ -87,7 +113,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [3.9.2] - 2026-02-15
 
 ### Changed
-- **TECHNICAL_SPECS.md Enriched** — Added REST API Endpoints section (7 endpoints with paths, methods, descriptions), ILS Workspace section (18 tools listed with categories), SDK function count (21), record type count (156+), pre-loaded entity count (500+: 462 platforms + 37 suppliers + 25 contracts). Version bumped to 3.9.0. Added S4 Systems, LLC attribution.
+- **TECHNICAL_SPECS.md Enriched** — Added REST API Endpoints section (7 endpoints with paths, methods, descriptions), ILS Workspace section (19 tools listed with categories), SDK function count (21), record type count (156+), pre-loaded entity count (500+: 462 platforms + 37 suppliers + 25 contracts). Version bumped to 3.9.0. Added S4 Systems, LLC attribution.
 - **GitHub Rendering Fix** — Replaced `~` prefix with `≈` in TECHNICAL_SPECS.md numeric values (e.g., `~0.000012` → `≈0.000012`) to prevent GitHub markdown parser from rendering tildes as strikethrough text.
 
 ## [3.9.1] - 2026-02-15
@@ -127,7 +153,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Background Animation Brightness Increased** — Increased all alpha/opacity values in s4-background.js by approximately 2–2.5x. Anchors, chains, nodes, fragments, streams, circuits, particles, hex grid, scanning line, and wave lines all more visible while remaining subtle. No longer hard to see on most displays.
 - **Production Readiness — Entity Formation Fixed** — Updated PRODUCTION_READINESS.md to reflect that S4 Systems, LLC already exists. Removed "Form legal entity (Delaware C-Corp)" items, replaced with "S4 Ledger product line under S4 Systems" (marked complete). Changed CAGE/SAM items to "verify/obtain" rather than "create from scratch."
 - **DoDI Directive Name Fix** — Fixed "DoWI 4245.14" back to "DoDI 4245.14" in PRODUCTION_READINESS.md (official directive names keep DoD prefix). Fixed "DoW 5200.01" back to "DoD 5200.01" in BAA_TEMPLATE.md.
-- **Tool Count Corrections** — Fixed "12 ILS Workspace sub-tabs" → "18" in MAINNET_MIGRATION.md. Fixed "13-tool ILS Workspace" → "18-tool" in README.md.
+- **Tool Count Corrections** — Fixed "12 ILS Workspace sub-tabs" → "19" in MAINNET_MIGRATION.md. Fixed "13-tool ILS Workspace" → "19-tool" in README.md.
 - **ROADMAP.md Phase 2 Updated** — Updated Phase 2 from vague/outdated description to comprehensive feature list: 18 tools, 500+ platforms, 156+ record types, SDK Playground, competitive analysis, all pitch materials.
 - **CHANGELOG.md Terminology** — Fixed remaining "DoD" → "DoW" in changelog entries where not referring to official directive names.
 

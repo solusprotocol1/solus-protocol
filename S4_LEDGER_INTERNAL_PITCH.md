@@ -49,7 +49,7 @@ This is where it gets really practical for day-to-day ILS work. Instead of maint
 | Emailing around to figure out what configuration a platform is in | **Digital Thread / Config Bridge** — engineering changes, BOM revisions, config baselines, TDP versions. 32 platform configs with real variant designators. One screen shows you what version of what is where | $60K–$150K/yr |
 | Guessing when equipment will fail based on gut feeling | **Predictive Maintenance AI** — analyzes failure patterns across 40+ platforms with real fleet sizes. Tells you what's likely to fail, when, and what it'll cost if you don't act. Turns reactive maintenance into proactive planning | $80K–$250K/yr |
 
-All 18 tools talk to each other. When the DMSMS Tracker finds an obsolete part, it automatically creates an action item. When a warranty is about to expire, it shows up on the calendar AND triggers an alert. When Supply Chain Risk flags a supplier issue, it connects to the affected contracts and parts.
+All 19 tools talk to each other. When the DMSMS Tracker finds an obsolete part, it automatically creates an action item. When a warranty is about to expire, it shows up on the calendar AND triggers an alert. When Supply Chain Risk flags a supplier issue, it connects to the affected contracts and parts.
 
 ---
 

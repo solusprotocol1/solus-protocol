@@ -658,6 +658,96 @@ class S4SDK:
             "record_types": ["USN_SUPPLY_RECEIPT", "USN_QDR", "USN_CUSTODY", "USN_FIELDING"],
             "description": "Navy supply chain management, ordering, receiving, quality defects, and distribution",
         },
+        # ── U.S. Army (USA) ──
+        "gcss_army": {
+            "name": "GCSS-Army (Global Combat Support System — Army)",
+            "agency": "USA AMC",
+            "formats": ["csv", "xml", "json"],
+            "record_types": ["USA_SUPPLY", "USA_MAINTENANCE", "USA_PROPERTY", "USA_READINESS"],
+            "description": "Army enterprise logistics — supply, maintenance, property accountability, and financial management",
+        },
+        "lmp": {
+            "name": "LMP (Logistics Modernization Program)",
+            "agency": "USA AMC",
+            "formats": ["csv", "xml"],
+            "record_types": ["USA_DEPOT_MAINTENANCE", "USA_SUPPLY", "USA_ASSET_MGMT"],
+            "description": "Depot maintenance, supply chain, and asset management (SAP-based)",
+        },
+        "aesip": {
+            "name": "AESIP (Army Enterprise Systems Integration Program)",
+            "agency": "USA PEO EIS",
+            "formats": ["csv", "xml", "json"],
+            "record_types": ["USA_PERSONNEL", "USA_FINANCE", "USA_LOGISTICS"],
+            "description": "Army HR, finance, and logistics enterprise integration",
+        },
+        # ── U.S. Air Force (USAF) ──
+        "remis": {
+            "name": "REMIS (Reliability & Maintainability Information System)",
+            "agency": "AFLCMC",
+            "formats": ["csv", "xml"],
+            "record_types": ["USAF_MAINTENANCE", "USAF_COMPONENT", "USAF_RELIABILITY"],
+            "description": "Aircraft maintenance, component data, and reliability/maintainability tracking",
+        },
+        "lims_ev": {
+            "name": "LIMS-EV (Logistics, Installations & Mission Support — ERP)",
+            "agency": "AFLCMC",
+            "formats": ["csv", "xml", "json"],
+            "record_types": ["USAF_SUPPLY", "USAF_ASSET_MGMT", "USAF_MAINTENANCE"],
+            "description": "Air Force ERP for supply chain, asset management, and maintenance",
+        },
+        "d200a": {
+            "name": "D200A (Air Force Supply Control Study)",
+            "agency": "AFMC",
+            "formats": ["csv", "fixed_width"],
+            "record_types": ["USAF_SUPPLY_CONTROL", "USAF_DEMAND", "USAF_INVENTORY"],
+            "description": "Demand forecasting, stockage computations, and item management",
+        },
+        # ── U.S. Marine Corps (USMC) ──
+        "gcss_mc": {
+            "name": "GCSS-MC (Global Combat Support System — Marine Corps)",
+            "agency": "USMC LOGCOM",
+            "formats": ["csv", "xml", "json"],
+            "record_types": ["USMC_SUPPLY", "USMC_MAINTENANCE", "USMC_TRANSPORT", "USMC_READINESS"],
+            "description": "Marine Corps global logistics — supply, maintenance, transportation, and financial",
+        },
+        "atlass": {
+            "name": "ATLASS (Aviation Tracking & Logistics and Supply)",
+            "agency": "USMC NAVAIR",
+            "formats": ["csv", "xml"],
+            "record_types": ["USMC_AVIATION", "USMC_MAINTENANCE", "USMC_SUPPLY"],
+            "description": "Marine aviation maintenance and parts tracking",
+        },
+        # ── U.S. Coast Guard (USCG) ──
+        "almis": {
+            "name": "ALMIS (Aviation Logistics Management Information System)",
+            "agency": "CG-41",
+            "formats": ["csv", "xml"],
+            "record_types": ["USCG_AVIATION", "USCG_MAINTENANCE", "USCG_COMPONENT"],
+            "description": "Coast Guard aircraft maintenance and component tracking",
+        },
+        "cgone": {
+            "name": "CGOne (Coast Guard ERP)",
+            "agency": "CG-6",
+            "formats": ["csv", "xml", "json"],
+            "record_types": ["USCG_SUPPLY", "USCG_MAINTENANCE", "USCG_ASSET_MGMT"],
+            "description": "Coast Guard financial, supply, maintenance, HR, and asset management",
+        },
+        # ── U.S. Space Force (USSF) ──
+        "ussf_lms": {
+            "name": "USSF LMS (Space Force Logistics Management System)",
+            "agency": "SSC",
+            "formats": ["csv", "xml", "json"],
+            "record_types": ["USSF_LOGISTICS", "USSF_SATELLITE", "USSF_COMPONENT"],
+            "description": "Satellite ground systems, launch logistics, and component tracking",
+        },
+        # ── Joint / OSD / DLA ──
+        "piee": {
+            "name": "PIEE / WAWF (Procurement Integrated Enterprise Environment)",
+            "agency": "DLA/DCMA",
+            "formats": ["csv", "xml", "json"],
+            "record_types": ["JOINT_INVOICE", "JOINT_RECEIVING", "JOINT_CONTRACT"],
+            "description": "Invoicing, receiving reports, and contract payment processing",
+        },
     }
 
     def list_dod_systems(self):
@@ -956,8 +1046,8 @@ def main_cli():
         print(f"Network: {'Testnet' if args.testnet else 'Mainnet'}")
         print(f"Tools: anchor, verify, hash, readiness, dmsms, parts-lookup, roi, lifecycle, warranty, action-items, calendar, provisioning")
         print(f"Platforms: 500+ across 8 U.S. military branches")
-        print(f"DoD Import Systems: {len(S4SDK.DOD_SYSTEMS)} (NSERC, MERLIN, PMT, COMPASS, CDMD-OA, NDE, MBPS, PEO MLB, CSPT, GCSS, DPAS, FLIS, NAVSUP)")
-        print(f"28 REST API Endpoints | 25+ Platform Pages")
+        print(f"DoD Import Systems: {len(S4SDK.DOD_SYSTEMS)} across all branches (USN, USA, USAF, USMC, USCG, USSF, Joint/OSD)")
+        print(f"29 REST API Endpoints | 25+ Platform Pages")
 
     elif args.command == "readiness":
         mtbf = float(input("MTBF (hours): ") if not args.record else args.record.split(",")[0])
