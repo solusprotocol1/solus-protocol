@@ -1,4 +1,5 @@
 # S4 Ledger: Technical Specifications
+*Version 3.9.0 — A product line of S4 Systems, LLC*
 
 **Architecture: Hash Anchoring via XRP Ledger (XRPL)**
 
@@ -44,6 +45,8 @@ S4 Ledger utilizes the `Memos` field in a standard XRPL transaction to anchor da
 | `batch_coc` | Batch certificate of conformance | 24x transmission assemblies |
 | `audit_artifact` | Audit evidence / inspection report | INSURV finding |
 
+*S4 Ledger supports **156+ pre-built ILS record categories** mapped to real-world defense logistics workflows. The table above shows core examples — any defense record type can be anchored.*
+
 ## 4. SDK Specifications
 
 | Property | Value |
@@ -55,8 +58,28 @@ S4 Ledger utilizes the `Memos` field in a standard XRPL transaction to anchor da
 | **Transport** | WebSocket (wss://) to XRPL nodes |
 | **Encryption** | TLS 1.3 |
 | **Batch Size** | Up to 1,000 records |
+| **SDK Functions** | 21 (anchor, verify, batch, status, readiness, dmsms, roi, lifecycle, warranty, supply-chain-risk, audit-reports, contracts, digital-thread, predictive-maintenance, and more) |
 
-## 5. XRPL Network
+## 5. REST API
+
+| Property | Value |
+|---|---|
+| **Endpoints** | 7 production REST API endpoints |
+| **Framework** | Zero-dependency (BaseHTTPRequestHandler) |
+| **Authentication** | API key (master + org keys) |
+| **Rate Limiting** | 120 requests/minute per IP |
+| **Spec** | OpenAPI 3.0 at /api/openapi.json |
+
+## 6. ILS Workspace
+
+| Property | Value |
+|---|---|
+| **Tools** | 18 interactive ILS management tools |
+| **Platforms** | 500+ pre-loaded (462 platforms, 37 suppliers, 25 contracts) |
+| **Record Types** | 156+ pre-built ILS record categories |
+| **Standards** | MIL-STD-1388, DoDI 4245.15, DoD 5000.73, FAR 46.7, MIL-STD-1390D |
+
+## 7. XRPL Network
 
 | Property | Value |
 |---|---|
@@ -67,7 +90,7 @@ S4 Ledger utilizes the `Memos` field in a standard XRPL transaction to anchor da
 | **Uptime** | 99.99%+ since 2012 |
 | **Explorer** | livenet.xrpl.org |
 
-## 6. $SLS Token
+## 8. $SLS Token
 
 | Property | Value |
 |---|---|
@@ -77,7 +100,7 @@ S4 Ledger utilizes the `Memos` field in a standard XRPL transaction to anchor da
 | **Treasury** | 30,000,000 (multi-sig) |
 | **Fee per Anchor** | ~0.01 SLS |
 
-## 7. Security
+## 9. Security
 
 - **No data on-chain** — only SHA-256 hashes
 - **No CUI/CDI exposure** — architecture makes it impossible
@@ -85,7 +108,7 @@ S4 Ledger utilizes the `Memos` field in a standard XRPL transaction to anchor da
 - **No telemetry** — SDK does not collect usage data
 - **Input validation** — all inputs sanitized before processing
 
-## 8. Compliance Alignment
+## 10. Compliance Alignment
 
 | Standard | Status |
 |---|---|
@@ -97,5 +120,7 @@ S4 Ledger utilizes the `Memos` field in a standard XRPL transaction to anchor da
 | FIPS 180-4 | SHA-256 compliant |
 
 ---
+
+*Created by Nick Frankfort — S4 Systems, LLC — Charleston, SC*
 
 For technical inquiries: info@s4ledger.com | [s4ledger.com](https://s4ledger.com)
