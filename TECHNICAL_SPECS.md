@@ -86,7 +86,7 @@ S4 Ledger utilizes the `Memos` field in a standard XRPL transaction to anchor da
 | **Consensus** | XRP Ledger Consensus Protocol |
 | **Validators** | 150+ independent validators |
 | **Finality** | 3-5 seconds |
-| **Cost** | ~0.000012 XRP per transaction (~$0.000024) |
+| **Cost** | ≈0.000012 XRP per transaction (≈$0.000024) |
 | **Uptime** | 99.99%+ since 2012 |
 | **Explorer** | livenet.xrpl.org |
 
