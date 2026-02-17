@@ -226,8 +226,8 @@
                     <details style="margin-top:12px;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.15);border-radius:8px;padding:0 12px;">
                         <summary style="cursor:pointer;padding:10px 0;color:#00aaff;font-weight:600;font-size:0.85rem;"><i class="fas fa-info-circle"></i> How S4 Ledger SDK Works &mdash; Technical Details</summary>
                         <div style="padding:0 0 12px;color:var(--steel);font-size:0.82rem;line-height:1.6;">
-                            <p><strong style="color:#fff;">What's real:</strong> Every API call in this playground hits the live S4 Ledger REST API. Hashes are computed server-side via SHA-256. Anchor operations create real XRPL transactions on the testnet. The SDK code shown here is identical to what runs when installed via <code>pip install s4-ledger-sdk</code>.</p>
-                            <p><strong style="color:#fff;">What's demo:</strong> The $SLS token fee (0.01 per anchor) is simulated on testnet. In production, real $SLS tokens are burned from the user's wallet per transaction.</p>
+                            <p><strong style="color:#fff;">What's real:</strong> Every API call in this playground hits the live S4 Ledger REST API. Hashes are computed server-side via SHA-256. Anchor operations create real XRPL transactions on mainnet. The SDK code shown here is identical to what runs when installed via <code>pip install s4-ledger-sdk</code>.</p>
+                            <p><strong style="color:#fff;">What's demo:</strong> The $SLS token fee (0.01 per anchor) is live on mainnet. Each anchor costs 0.01 SLS, paid from the operational wallet to the treasury.</p>
                             <p><strong style="color:#c9a84c;">How S4 Ledger saves money here:</strong> Building custom integrations between logistics systems and blockchain typically costs $200K&ndash;$500K and takes 6&ndash;12 months. The S4 SDK provides a <strong>3-line integration</strong> that works in minutes &mdash; reducing integration costs by 95%+ and enabling small contractors to adopt blockchain verification without dedicated engineering teams.</p>
                             <p><strong style="color:#00aaff;">Production mode:</strong> Install via pip, configure with your API key, and integrate directly into existing Python workflows &mdash; CI/CD pipelines, ERP plugins, maintenance management systems, or batch processing scripts. The SDK handles all XRPL wallet management, transaction construction, and retry logic automatically.</p>
                         </div>
@@ -1259,7 +1259,7 @@
         var fakeHash = await computeHash('ILIE Analysis DDG-51 VRS ' + Date.now());
         output += '\u2500'.repeat(55) + '\n';
         output += '  Hash: ' + fakeHash.substring(0,32) + '...\n';
-        output += '  \u2713 Anchored to XRPL Testnet\n';
+        output += '  \u2713 Anchored to XRPL Mainnet\n';
         output += '  \u2713 Full ILIE in Demo App > ILS Workspace';
         return output;
     }

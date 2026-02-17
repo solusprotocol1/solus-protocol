@@ -1,6 +1,6 @@
 /* ============================================================
    S4 Ledger — PDF & CSV Export Engine
-   v3.9.17 — Context-aware export for every ILS Workspace tool
+   v4.0.0 — Context-aware export for every ILS Workspace tool
    Uses html2canvas approach (no external deps) + native print API
    ============================================================ */
 
@@ -167,7 +167,7 @@ ${contentHTML ? '<div class="section"><div class="section-title">' + toolLabel +
     <div style="margin-top:4px">&copy; 2026 S4 Ledger. All Rights Reserved. | s4ledger.com</div>
 </div>
 <div class="clf-banner" style="position:fixed;bottom:0;left:0;right:0">UNCLASSIFIED // FOR OFFICIAL USE ONLY</div>
-<div class="watermark">S4 Ledger v3.9.17</div>
+<div class="watermark">S4 Ledger v4.0.0</div>
 </body></html>`;
 
         const printWindow = window.open('', '_blank', 'width=800,height=1100');
@@ -340,7 +340,7 @@ ${vaultRecords.length ? `
 
 ${includeClassification ? '<div class="clf-banner" style="position:fixed;bottom:0;left:0;right:0">UNCLASSIFIED // FOR OFFICIAL USE ONLY</div>' : ''}
 
-<div class="watermark">S4 Ledger v3.9.17</div>
+<div class="watermark">S4 Ledger v4.0.0</div>
 </body>
 </html>`;
 

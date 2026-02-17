@@ -27,7 +27,7 @@ Notes: AI model trained on 12,000+ LM2500 failure cases. Anchored for fleet-wide
 
 sdk = S4SDK(
     wallet_seed=wallet_seed,
-    testnet=True,
+    testnet=False,
     api_key="valid_mock_key"
 )
 

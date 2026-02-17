@@ -131,7 +131,7 @@ We have existing relationships with DoW entities, prime contractors, and the def
 S4 Systems likely already has the government registrations (CAGE Code — our unique identifier for government contracting, SAM.gov registration, and D-U-N-S number) that a startup would spend months obtaining. We can move immediately.
 
 ### 4. CMMC Compliance Path
-S4 Systems holds CMMC Level 2 certification, S4 Ledger inherits that compliance posture. This dramatically reduces the cost and timeline to bring the product to market.
+S4 Systems is pursuing CMMC Level 2 certification. S4 Ledger architecture is CMMC-aligned, which will dramatically reduce the cost and timeline to bring the product to market once certification is achieved.
 
 ### 5. Name Alignment
 "S4 Ledger" was designed to align with "S4 Systems." The brand reinforces our company identity.

@@ -6,7 +6,7 @@ from flask import Flask, request, jsonify
 from s4_sdk import S4SDK
 
 app = Flask(__name__)
-sdk = S4SDK(wallet_seed="sEdT9vPQ4QCA4TtDSZqAGTv9ABL2uLS", testnet=True)
+sdk = S4SDK(wallet_seed="sEdT9vPQ4QCA4TtDSZqAGTv9ABL2uLS", testnet=False)
 
 
 @app.route("/anchor", methods=["POST"])

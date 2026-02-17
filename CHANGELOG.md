@@ -18,7 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Clickable TX Hash in Audit Vault** — Vault records now display clickable explorer links. TX hashes link directly to livenet.xrpl.org transaction details.
 - **Vault Export with Explorer Links** — CSV/XLSX vault exports now include Explorer URL and Network columns.
 - **Network Badge in Anchor Results** — `anchorRecord()` result panel shows a green "XRPL Mainnet" badge with explorer link to the transaction.
-- **CMMC Level 2 Certification** — S4 Systems, LLC has achieved CMMC Level 2 certification. All compliance docs updated.
+- **CMMC Level 2 Alignment** — S4 Systems, LLC is pursuing CMMC Level 2 certification. All compliance docs updated with CMMC-aligned architecture posture.
 
 #### Fixed — Anchor Function Audit (All 19 Tools)
 - **anchorCompliance()** — Added missing `saveLocalRecord()`, `sessionRecords.push()`, `updateTxLog()`, and `stats.types.add()`. Compliance anchors now appear in Transaction Log, Metrics, and session records.

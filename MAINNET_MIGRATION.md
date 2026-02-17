@@ -1409,7 +1409,7 @@ self.addEventListener('sync', event => {
 ## 25. CMMC Level 2 Compliance Roadmap
 
 ### Current Classification
-S4 Ledger is a **defense logistics data integrity layer** — not a standalone certified DLRS system. It holds CMMC Level 2 certification (Cybersecurity Maturity Model Certification) designation.
+S4 Ledger is a **defense logistics data integrity layer** — not a standalone certified DLRS system. S4 Systems, LLC is pursuing CMMC Level 2 (Cybersecurity Maturity Model Certification) designation.
 
 ### What CMMC Level 2 Requires (and Our Status)
 

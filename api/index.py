@@ -665,7 +665,7 @@ class handler(BaseHTTPRequestHandler):
                 "uptime_seconds": round(uptime, 1),
                 "requests_served": len(_request_log),
                 "timestamp": datetime.now(timezone.utc).isoformat(),
-                "version": "3.9.17",
+                "version": "4.0.0",
                 "tools": ["anchor", "verify", "ils-workspace", "dmsms-tracker", "readiness-calculator", "parts-xref", "roi-calculator", "lifecycle-cost", "warranty-tracker", "audit-vault", "doc-library", "compliance-scorecard", "provisioning-ptd", "supply-chain-risk", "audit-reports", "contracts", "digital-thread", "predictive-maintenance"],
             })
         elif route == "status":
@@ -673,7 +673,7 @@ class handler(BaseHTTPRequestHandler):
             self._send_json({
                 "status": "operational",
                 "service": "S4 Ledger Defense Metrics API",
-                "version": "3.9.17",
+                "version": "4.0.0",
                 "record_types": len(RECORD_CATEGORIES),
                 "branches": len(BRANCHES),
                 "total_records": len(_get_all_records()),
@@ -718,7 +718,7 @@ class handler(BaseHTTPRequestHandler):
         elif route == "infrastructure":
             self._send_json({
                 "infrastructure": {
-                    "api": {"status": "operational", "version": "3.9.17", "framework": "BaseHTTPRequestHandler", "tools": 9, "platforms": 462},
+                    "api": {"status": "operational", "version": "4.0.0", "framework": "BaseHTTPRequestHandler", "tools": 19, "platforms": 462},
                     "xrpl": {"available": XRPL_AVAILABLE, "network": XRPL_NETWORK, "endpoint": XRPL_MAINNET_URL if XRPL_NETWORK == "mainnet" else XRPL_TESTNET_URL},
                     "database": {"provider": "Supabase" if SUPABASE_AVAILABLE else "In-Memory", "connected": SUPABASE_AVAILABLE, "url": SUPABASE_URL[:30] + "..." if SUPABASE_URL else None},
                     "auth": {"enabled": True, "methods": ["API Key", "Bearer Token"], "master_key_set": bool(os.environ.get("S4_API_MASTER_KEY"))},

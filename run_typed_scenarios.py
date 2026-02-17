@@ -4,7 +4,7 @@
 from s4_sdk import S4SDK
 import time
 
-sdk = S4SDK(wallet_seed="sEdT9vPQ4QCA4TtDSZqAGTv9ABL2uLS", testnet=True)
+sdk = S4SDK(wallet_seed="sEdT9vPQ4QCA4TtDSZqAGTv9ABL2uLS", testnet=False)
 
 scenarios = [
     ("SUPPLY_CHAIN",     "NSN 5340-01-234-5678 | Valve, Gate | Qty: 50 | Condition: A | NNSY"),

@@ -32,7 +32,7 @@ PRIORITY_LEVELS = {"01": "Routine", "02": "Priority", "03": "Urgent", "04": "Eme
 class S4LedgerMessenger:
     """Encrypted defense logistics messaging with XRPL hash anchoring."""
 
-    def __init__(self, sdk: S4SDK | None = None, wallet_seed: str | None = None, testnet: bool = True):
+    def __init__(self, sdk: S4SDK | None = None, wallet_seed: str | None = None, testnet: bool = False):
         self.sdk = sdk or S4SDK(wallet_seed=wallet_seed, testnet=testnet)
         self.wallet_seed = wallet_seed or getattr(self.sdk, "wallet_seed", None)
         self.messages: list[dict] = []
@@ -234,7 +234,7 @@ if __name__ == "__main__":
     print("  S4 LEDGER — DEFENSE COMMS MODULE SELF-TEST")
     print("=" * 60)
 
-    sdk = S4SDK(wallet_seed="sEdT9vPQ4QCA4TtDSZqAGTv9ABL2uLS", testnet=True)
+    sdk = S4SDK(wallet_seed="sEdT9vPQ4QCA4TtDSZqAGTv9ABL2uLS", testnet=False)
     comms = S4LedgerMessenger(sdk=sdk, wallet_seed="sEdT9vPQ4QCA4TtDSZqAGTv9ABL2uLS")
 
     # Send supply status

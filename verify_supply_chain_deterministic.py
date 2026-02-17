@@ -7,7 +7,7 @@ encrypted_text = "REPLACE_WITH_ACTUAL_ENCRYPTED_OUTPUT"
 tx_hash = "REPLACE_WITH_ACTUAL_TX_HASH"
 wseed = "sEdT9vPQ4QCA4TtDSZqAGTv9ABL2uLS"
 
-sdk = S4SDK(wallet_seed=wseed, testnet=True)
+sdk = S4SDK(wallet_seed=wseed, testnet=False)
 
 # 1. Decrypt
 decrypted = sdk.decrypt(encrypted_text)
@@ -17,8 +17,8 @@ print("Decrypted record:\n", decrypted)
 recomputed_hash = sdk.create_record_hash(decrypted)
 print("Recomputed SHA-256 hash:", recomputed_hash.upper())
 
-# 3. Fetch memo from XRPL Testnet
-url = f"https://testnet.xrpl.org/api/v1/transactions/{tx_hash}"
+# 3. Fetch memo from XRPL Mainnet
+url = f"https://livenet.xrpl.org/api/v1/transactions/{tx_hash}"
 resp = requests.get(url)
 data = resp.json()
 

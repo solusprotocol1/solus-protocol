@@ -28,7 +28,7 @@ Notes: Full lot accepted. Zero recalls on this manufacturer lot series."""
 
 sdk = S4SDK(
     wallet_seed=wallet_seed,
-    testnet=True,
+    testnet=False,
     api_key="valid_mock_key"
 )
 

@@ -18,7 +18,7 @@ BACKUP_VERSION = "2.0"
 class S4LedgerBackup:
     """Encrypted backup/restore system for defense logistics record wallets."""
 
-    def __init__(self, sdk: S4SDK | None = None, wallet_seed: str | None = None, testnet: bool = True):
+    def __init__(self, sdk: S4SDK | None = None, wallet_seed: str | None = None, testnet: bool = False):
         self.sdk = sdk or S4SDK(wallet_seed=wallet_seed, testnet=testnet)
         self.wallet_seed = wallet_seed or getattr(self.sdk, "wallet_seed", None)
 

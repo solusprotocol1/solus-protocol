@@ -25,7 +25,7 @@ Notes: Full lot accepted per MIL-STD-1916. Stored in controlled humidity warehou
 
 sdk = S4SDK(
     wallet_seed=wallet_seed,
-    testnet=True,
+    testnet=False,
     api_key="valid_mock_key"
 )
 

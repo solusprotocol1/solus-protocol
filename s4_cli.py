@@ -20,7 +20,7 @@ def main():
     p_anchor.add_argument("--encrypt", action="store_true", help="Encrypt before hashing")
     p_anchor.add_argument("--type", dest="record_type", default=None,
                           help="Record type (e.g., SUPPLY_CHAIN, CDRL, MAINTENANCE_3M)")
-    p_anchor.add_argument("--testnet", action="store_true", default=True, help="Use XRPL testnet")
+    p_anchor.add_argument("--testnet", action="store_true", default=False, help="Use XRPL testnet")
 
     # verify sub-command
     p_verify = sub.add_parser("verify", help="Verify a record's SHA-256 hash")
@@ -46,7 +46,7 @@ def main():
         print(f"TX:      {result['tx_results']}")
 
     elif args.command == "verify":
-        sdk = S4SDK(testnet=True)
+        sdk = S4SDK(testnet=False)
         computed = sdk.create_record_hash(args.record)
         print(f"Computed: {computed}")
         if args.expected:
@@ -56,7 +56,7 @@ def main():
 
     elif args.command == "hash":
         record_text = sys.stdin.read() if args.record == "-" else args.record
-        sdk = S4SDK(testnet=True)
+        sdk = S4SDK(testnet=False)
         print(sdk.create_record_hash(record_text))
 
     else:
