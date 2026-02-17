@@ -2,7 +2,7 @@
 
 ## Defense System Integration
 
-S4 Ledger is designed to integrate with existing defense logistics systems through its Python SDK and upcoming REST API:
+S4 Ledger is designed to integrate with existing defense logistics systems through its Python SDK and live REST API:
 
 ### Supported Integration Targets
 
@@ -15,7 +15,7 @@ S4 Ledger is designed to integrate with existing defense logistics systems throu
 | **Contractor ERPs** | Various logistics | SDK + REST API (Phase 4) |
 | **CDRL submittal** | Deliverable tracking | SDK + file hash anchoring |
 
-## Partner API (Roadmap — Phase 4)
+## Partner REST API (Live)
 
 - RESTful endpoints for partner onboarding, record anchoring, and audit log retrieval
 - API key authentication with tiered rate limits

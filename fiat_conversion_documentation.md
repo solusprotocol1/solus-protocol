@@ -22,7 +22,7 @@ See fiat_conversion_test.py for a test script.
 - No sensitive or defense data is involved in conversion.
 
 ## Customization
-- Update gateway_issuer for production/testnet.
+- Gateway issuer is set for production (mainnet).
 - Add KYC checks via APIs if needed.
 
 ## Contact

@@ -15,10 +15,10 @@ This report documents the security audit of S4 Ledger's hash anchoring infrastru
 
 | Component | Version | Audited |
 |---|---|---|
-| S4 Ledger Python SDK | 0.28.x | ✅ |
+| S4 Ledger Python SDK | 4.0.0 | ✅ |
 | SHA-256 hash generation | FIPS 180-4 | ✅ |
 | XRPL transaction anchoring | xrpl-py 3.x | ✅ |
-| CLI interface | 0.28.x | ✅ |
+| CLI interface | 4.0.0 | ✅ |
 | Website (s4ledger.com) | Current | ✅ |
 | XRP Ledger (external) | N/A | Reviewed (not controlled) |
 

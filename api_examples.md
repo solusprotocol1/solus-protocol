@@ -31,14 +31,14 @@ print(f"Timestamp: {result['timestamp']}")
 
 ```python
 import requests
-response = requests.get('http://localhost:5050/audit')
+response = requests.get('http://s4ledger.com/audit')
 print(response.json())
 ```
 
 ## Anchor a CDRL Delivery (cURL)
 
 ```bash
-curl -X POST http://localhost:5050/anchor \
+curl -X POST http://s4ledger.com/anchor \
   -H "Content-Type: application/json" \
   -d '{
     "data": "CDRL-A003-DI-MGMT-81466-Rev3-2026-02-12.pdf",
@@ -50,7 +50,7 @@ curl -X POST http://localhost:5050/anchor \
 ## Verify a Record (cURL)
 
 ```bash
-curl -X POST http://localhost:5050/verify \
+curl -X POST http://s4ledger.com/verify \
   -H "Content-Type: application/json" \
   -d '{
     "data": "CDRL-A003-DI-MGMT-81466-Rev3-2026-02-12.pdf",

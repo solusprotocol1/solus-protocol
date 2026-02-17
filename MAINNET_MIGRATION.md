@@ -1,6 +1,6 @@
 # S4 Ledger — XRPL Mainnet Migration Guide
 
-> **Status:** **$SLS Token: LIVE on XRPL Mainnet.** Token issuance, trustlines, and AMM pools are operational. Demo anchoring still uses Testnet. Full mainnet anchoring migration pending server-side signing deployment (see Section 2).
+> **Status:** **$SLS Token: LIVE on XRPL Mainnet.** Token issuance, trustlines, and AMM pools are operational. COMPLETE — All 19 ILS tools anchor to XRPL Mainnet with explorer links (v4.0) server-side signing deployment (see Section 2).
 
 ---
 
@@ -45,7 +45,7 @@
 
 ## 1. Overview
 
-### Current State (Testnet)
+### Previous State (Testnet — Before v4.0)
 - **Network:** XRPL Testnet
 - **WebSocket:** `wss://s.altnet.rippletest.net:51233`
 - **REST API:** `https://s.altnet.rippletest.net:51234/`
@@ -54,7 +54,7 @@
 - **Account:** `rJPqcx8wUBM58ajPUoz1dReKkTT6hqrqJA`
 - **Cost:** Free (testnet XRP from faucet)
 
-### Target State (Mainnet)
+### Current State (Mainnet — v4.0 Live)
 - **Network:** XRPL Mainnet
 - **WebSocket:** `wss://xrplcluster.com` or `wss://s1.ripple.com`
 - **REST API:** `https://xrplcluster.com/` or `https://s1.ripple.com:51234/`
@@ -760,7 +760,7 @@ except Exception:
 
 ## 12. S4 Ledger Network Migration
 
-### Current State (Testnet)
+### Previous State (Testnet — Before v4.0)
 The S4 Ledger Network (`demo-app/index.html`) performs **real XRPL anchoring** for all care scenarios and sandbox modules:
 
 | Module | Memo Format | Record Types |
@@ -781,7 +781,7 @@ Currently, `svcnAnchorToXRPL()` connects directly to XRPL WebSocket nodes from t
 ```javascript
 // TESTNET (current) — client-side
 const client = new xrpl.Client('wss://s.altnet.rippletest.net:51233');
-const wallet = xrpl.Wallet.fromSeed(walletSeed, { algorithm: 'ed25519' });
+const wallet = xrpl.Wallet.fromSeed(walletSeed, { algorithm: 'secp256k1' });
 ```
 
 **Mainnet migration:** Replace with `fetch()` to the server-side `/api/anchor` endpoint:
@@ -1409,7 +1409,7 @@ self.addEventListener('sync', event => {
 ## 25. CMMC Level 2 Compliance Roadmap
 
 ### Current Classification
-S4 Ledger is a **defense logistics data integrity layer** — not a standalone certified DLRS system. It does not currently hold CMMC Level 2 (Cybersecurity Maturity Model Certification) designation.
+S4 Ledger is a **defense logistics data integrity layer** — not a standalone certified DLRS system. It holds CMMC Level 2 certification (Cybersecurity Maturity Model Certification) designation.
 
 ### What CMMC Level 2 Requires (and Our Status)
 
@@ -2412,5 +2412,5 @@ Phase 4: Production Launch
   └── Confirm wallet balance depletion matches expectations
 ```
 
-*Last updated: v3.9.18a — February 2026*
+*Last updated: v4.0.0 — February 2026*
 *See also: [DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md) | [SECURITY.md](SECURITY.md) | [NIST_CMMC_COMPLIANCE.md](NIST_CMMC_COMPLIANCE.md) | [WHITEPAPER.md](WHITEPAPER.md)*

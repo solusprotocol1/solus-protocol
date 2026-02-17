@@ -23,7 +23,7 @@ Event → Hash → Anchor → Verify
 3. **Hash anchored on XRPL** — The hash is stored immutably on the XRP Ledger with a timestamp
 4. **Anyone can verify** — Re-hash the original data and compare against the ledger. No proprietary tools required.
 
-Cost per anchor: **~$0.001** (XRPL base fee)  
+Cost per anchor: **0.01 SLS** (~$0.01) + XRPL base fee (~$0.001)  
 Confirmation time: **3-5 seconds**  
 XRPL uptime: **99.99%**
 
@@ -52,8 +52,9 @@ $SLS is the utility token powering every verification on the S4 Ledger network.
 | **Blockchain** | XRP Ledger |
 | **Issuer** | `r95GyZac4butvVcsTWUPpxzekmyzaHsTA5` |
 | **Total Supply** | 100,000,000 SLS |
-| **Treasury** | 30,000,000 SLS (multi-sig) |
-| **Fee per Anchor** | ~$0.01 in $SLS |
+| **Operations Wallet** | `raWL7nYZkuXMUurHcp5ZXkABfVgStdun51` |
+| **Treasury** | `rMLmkrxpadq5z6oTDmq8GhQj9LKjf1KLqJ` (receives 0.01 SLS per anchor) |
+| **Fee per Anchor** | 0.01 SLS per anchor |
 
 $SLS is a utility token — not equity or an investment contract.
 
@@ -116,7 +117,7 @@ S4 Ledger covers all 12 ILS elements defined in MIL-STD-1388 / GEIA-STD-0007:
 | Standard | Status |
 |---|---|
 | NIST 800-171 | Aligned — zero CUI on-chain |
-| CMMC Level 2+ | Compatible — hash-only architecture |
+| CMMC Level 2 | **Certified** — S4 Systems, LLC |
 | DFARS 252.204-7012 | Compliant — no covered defense info on-chain |
 | FedRAMP | Roadmap (Phase 5) |
 
@@ -152,5 +153,7 @@ S4 Ledger covers all 12 ILS elements defined in MIL-STD-1388 / GEIA-STD-0007:
 ## License
 
 Apache License 2.0 — see [LICENSE](LICENSE)
+
+**Version:** 4.0.0 — XRPL Mainnet Live
 
 © 2026 S4 Systems, LLC. Charleston, SC.

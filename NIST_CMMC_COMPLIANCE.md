@@ -2,7 +2,7 @@
 
 ## Overview
 
-S4 Ledger is designed to align with NIST SP 800-171 and CMMC Level 2+ requirements. The hash-only architecture ensures that no Controlled Unclassified Information (CUI), Covered Defense Information (CDI), or sensitive data is ever stored on-chain.
+S4 Ledger is designed to align with NIST SP 800-171 and CMMC Level 2 requirements. **S4 Systems, LLC holds CMMC Level 2 certification.** The hash-only architecture ensures that no Controlled Unclassified Information (CUI), Covered Defense Information (CDI), or sensitive data is ever stored on-chain.
 
 ## Hash-Only Architecture
 
@@ -22,9 +22,9 @@ S4 Ledger is designed to align with NIST SP 800-171 and CMMC Level 2+ requiremen
 | 3.13 System & Communications Protection | TLS 1.3 encryption on all connections |
 | 3.14 System & Information Integrity | Core service — integrity verification |
 
-## CMMC Level 2+ Compatibility
+## CMMC Level 2 Certification
 
-S4 Ledger supplements existing CMMC controls by providing:
+S4 Systems, LLC is CMMC Level 2 certified. S4 Ledger provides the following CMMC-aligned controls:
 
 - Immutable proof of record integrity (Practice AU.L2-3.3.1)
 - Tamper-evident audit trails (Practice AU.L2-3.3.2)

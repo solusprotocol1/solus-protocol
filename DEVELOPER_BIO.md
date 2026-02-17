@@ -16,7 +16,7 @@ Nick built the entire platform — 20 ILS tools, 27 SDK functions, 29 REST API e
 ### What He Built
 
 - **20 interactive ILS tools** covering every ILS element — readiness, DMSMS, lifecycle cost, provisioning, supply chain risk, predictive maintenance, contract management, audit reporting, submission review & discrepancy analysis (ILIE), and more
-- **21 Python SDK functions** for defense-grade hash anchoring and verification
+- **27 Python SDK functions** for defense-grade hash anchoring and verification
 - **29 REST API endpoints** for enterprise integration
 - **462 real defense platforms** across 9 military branches with real program data
 - **156+ pre-built ILS record types** mapped to real-world logistics workflows

@@ -20,7 +20,7 @@ S4 Ledger: Immutable logistics verification for the defense industry, anchored o
 ## Solution
 - Anchor only SHA-256 hashes (never sensitive data) to XRPL
 - Zero data on-chain — NIST/CMMC compliant
-- 3-5s confirmation, ~$0.001 per anchor
+- 3-5s confirmation, 0.01 SLS per anchor (~$0.01)
 
 ---
 
@@ -38,7 +38,7 @@ S4 Ledger: Immutable logistics verification for the defense industry, anchored o
 - **$SLS token LIVE on XRPL Mainnet** — tradable, AMM pools, trustlines
 - 100M total supply | ~15M circulating | 30M multi-sig treasury
 - **20 interactive defense tools** live at s4ledger.com (not mockups)
-- **21 Python SDK functions** for defense-grade hash anchoring and verification
+- **27 Python SDK functions** for defense-grade hash anchoring and verification
 - **29 REST API endpoints** for enterprise integration
 - **500+ pre-loaded military entities** — 462 platforms, 37 suppliers, 25 contracts
 - **156+ ILS record categories** mapped to real-world logistics workflows
@@ -132,7 +132,7 @@ Key: 65% labor reduction • 90% error savings • 70% audit reduction • 15-25
 ---
 
 ## Team
-- Created and built entirely by **Nick Frankfort**, ILS contractor and proposed Product Lead/CTO
+- Created and built entirely by **Nick Frankfort**, ILS contractor and founder and CEO
 - Years of hands-on Navy and DoW program experience
 - S4 Systems, LLC — Charleston, SC
 

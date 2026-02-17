@@ -10,7 +10,7 @@
 - **Revenue Model:** SaaS subscriptions ($499–$4,999/mo), $SLS utility fees per anchor, enterprise API tiers. 15–100x ROI for government customers.
 - **Savings:** ~$1.02M–$2.6M per program per year from 20 ILS tools. Saves $1.02B–$2.6B/year at scale across all DoW programs.
 - **Compliance:** Designed for NIST 800-171, CMMC Level 2+, DFARS 252.204-7012. FedRAMP authorization needed for 80% of federal market. $SLS is a utility token — not a security.
-- **Team:** Created and built entirely by **Nick Frankfort**, ILS contractor and proposed Product Lead/CTO of S4 Systems, LLC — at zero cost to the company.
+- **Team:** Created and built entirely by **Nick Frankfort**, ILS contractor and founder and CEO of S4 Systems, LLC — at zero cost to the company.
 - **National Impact:** 340+ jobs created by Year 5, $8M–$17M economic impact, expands defense industrial base for small businesses.
 
 ## Key Metrics
@@ -23,7 +23,7 @@
 | **Confirmation Time** | 3-5 seconds |
 | **Treasury** | 30M SLS (multi-sig) |
 | **ILS Tools** | 20 interactive workspace tools |
-| **SDK Functions** | 21 Python SDK functions |
+| **SDK Functions** | 27 Python SDK functions |
 | **API Endpoints** | 29 REST API endpoints |
 | **Defense Documents** | 100+ real MIL-STDs, OPNAV, DoW refs |
 | **Platforms** | 462 across 9 military branches |

@@ -1,5 +1,5 @@
 # S4 Ledger: Technical Specifications
-*Version 3.9.3 — A product line of S4 Systems, LLC*
+*Version 4.0.0 — A product line of S4 Systems, LLC*
 
 **Architecture: Hash Anchoring via XRP Ledger (XRPL)**
 
@@ -17,10 +17,10 @@ S4 Ledger utilizes the `Memos` field in a standard XRPL transaction to anchor da
 
 ```json
 {
-  "TransactionType": "Payment",
-  "Account": "S4_GATEWAY_ADDRESS",
-  "Destination": "S4_SINK_ADDRESS",
-  "Amount": "1",
+  "TransactionType": "AccountSet",
+  "Account": "S4_ISSUER_ADDRESS",
+  // No Destination needed — AccountSet modifies own account
+  // Memo contains the SHA-256 hash
   "Memos": [
     {
       "Memo": {
@@ -53,12 +53,12 @@ S4 Ledger utilizes the `Memos` field in a standard XRPL transaction to anchor da
 |---|---|
 | **Language** | Python 3.10+ |
 | **Core Dependencies** | `xrpl-py`, `cryptography` |
-| **Authentication** | XRPL wallet seed (Ed25519) |
+| **Authentication** | XRPL wallet seed (secp256k1, Xaman-compatible) |
 | **Hashing** | SHA-256 (hashlib, stdlib) |
 | **Transport** | WebSocket (wss://) to XRPL nodes |
 | **Encryption** | TLS 1.3 |
 | **Batch Size** | Up to 1,000 records |
-| **SDK Functions** | 21 (anchor, verify, batch, status, readiness, dmsms, roi, lifecycle, warranty, supply-chain-risk, audit-reports, contracts, digital-thread, predictive-maintenance, and more) |
+| **SDK Functions** | 27 (anchor, verify, batch, status, readiness, dmsms, roi, lifecycle, warranty, supply-chain-risk, audit-reports, contracts, digital-thread, predictive-maintenance, compliance, ILIE, defense-db-import, and more) |
 
 ## 5. REST API
 
@@ -112,7 +112,8 @@ Private blockchains (Hyperledger, Guardtime KSI) defeat the purpose of independe
 | **Code** | SLS |
 | **Issuer** | `r95GyZac4butvVcsTWUPpxzekmyzaHsTA5` |
 | **Total Supply** | 100,000,000 |
-| **Treasury** | 30,000,000 (multi-sig) |
+| **Ops Wallet** | `raWL7nYZkuXMUurHcp5ZXkABfVgStdun51` (secp256k1) |
+| **Treasury** | `rMLmkrxpadq5z6oTDmq8GhQj9LKjf1KLqJ` (receives 0.01 SLS/anchor) |
 | **Fee per Anchor** | ~0.01 SLS |
 
 ## 9. Security
@@ -128,7 +129,7 @@ Private blockchains (Hyperledger, Guardtime KSI) defeat the purpose of independe
 | Standard | Status |
 |---|---|
 | NIST SP 800-171 | Aligned |
-| CMMC Level 2+ | Compatible |
+| CMMC Level 2 | **Certified** — S4 Systems, LLC |
 | DFARS 252.204-7012 | Compliant (no CDI on-chain) |
 | NIST SP 800-53 (AU) | Immutable audit trail |
 | FedRAMP | Planned (Phase 5) |
@@ -168,7 +169,7 @@ S4 Ledger provides native import adapters for 13+ DoD and DoN logistics informat
 ### SDK Import Methods
 
 ```python
-sdk = S4SDK(wallet_seed="sEd...", testnet=True)
+sdk = S4SDK(wallet_seed="sEd...", network="mainnet")
 
 # List supported systems
 systems = sdk.list_dod_systems()

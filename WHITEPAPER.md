@@ -1,7 +1,7 @@
 # S4 Ledger Whitepaper
 
 **Immutable Logistics Verification for the Defense Industry**  
-Version 3.9.3 — February 2026  
+Version 4.0.0 — February 2026  
 
 ---
 
@@ -182,7 +182,7 @@ See [SEC_COMPLIANCE.md](SEC_COMPLIANCE.md) for full analysis under the Howey tes
 
 - **Language:** Python 3.10+
 - **Dependencies:** `xrpl-py`, `cryptography`
-- **Authentication:** XRPL wallet seed (Ed25519)
+- **Authentication:** XRPL wallet seed (secp256k1, Xaman-compatible)
 - **Output:** SHA-256 hash, XRPL transaction hash, ledger index, timestamp
 - **Batch support:** Up to 1,000 records per batch
 - **CLI:** Command-line interface for scripting and automation
@@ -206,7 +206,7 @@ SHA-256 is not directly vulnerable to Grover's algorithm. Grover's algorithm red
 
 | Solution | Approach | Cost | Data Exposure | Defense Focus |
 |---|---|---|---|---|
-| **S4 Ledger** | Hash anchoring on XRPL | ~$0.001/anchor | Zero | Built for DoW ILS — 20 tools, all branches |
+| **S4 Ledger** | Hash anchoring on XRPL | 0.01 SLS/anchor | Zero | Built for DoW ILS — 20 tools, all branches |
 | **ICAPS** (DAU) | Mainframe + PC provisioning | Free (gov only) | Internal database | Navy/USMC only, Supply Support only |
 | SAP S/4HANA | ERP platform | $1M+ | Full database | Commercial, adapted for defense |
 | Oracle Cloud | ERP platform | $500K+ | Cloud-hosted | Commercial, adapted for defense |
@@ -229,7 +229,7 @@ S4 Ledger is the only solution purpose-built for defense logistics that keeps ze
 | **Phase 4 — Partner & SaaS** | Q1 – Q2 2027 | REST API, SaaS dashboard, DIU / NavalX engagement, Merkle tree batch anchoring |
 | **Phase 5 — Scale & Certify** | Q3 2027+ | NIST/CMMC, FedRAMP, CDN/edge caching, microservices, production deployments |
 
-### Current Toolset (v3.9.3)
+### Current Toolset (v4.0)
 
 | Tool | Description |
 |---|---|
@@ -301,7 +301,7 @@ Infrastructure costs scale with revenue and never exceed 6% of ARR at any phase.
 
 ## 8. Team
 
-S4 Ledger is a product line of **S4 Systems, LLC**, created and built entirely by **Nick Frankfort** — ILS contractor and proposed Product Lead/CTO. Nick built the entire platform (20 ILS tools, 27 SDK functions, 29 REST API endpoints, $SLS token, 25+ page website, 500+ pre-loaded military entities) at zero cost to the company, on his own time, drawing on years of hands-on ILS experience across Navy and DoW programs.
+S4 Ledger is a product line of **S4 Systems, LLC**, created and built entirely by **Nick Frankfort** — ILS contractor and founder and CEO. Nick built the entire platform (20 ILS tools, 27 SDK functions, 29 REST API endpoints, $SLS token, 25+ page website, 500+ pre-loaded military entities) at zero cost to the company, on his own time, drawing on years of hands-on ILS experience across Navy and DoW programs.
 
 Based in Charleston, SC.
 

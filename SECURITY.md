@@ -55,7 +55,7 @@ A SHA-256 hash is a one-way mathematical fingerprint. It **cannot be reversed** 
 | Control Framework | S4 Ledger Alignment |
 |---|---|
 | **NIST 800-171** | Zero CUI on-chain. Hash-only architecture ensures no controlled unclassified information is exposed. |
-| **CMMC Level 2+** | Compatible with CMMC practices. S4 Ledger supplements existing controls with integrity verification. |
+| **CMMC Level 2+** | S4 Systems, LLC is CMMC Level 2 Certified. S4 Ledger supplements existing controls with integrity verification. |
 | **DFARS 252.204-7012** | No covered defense information is stored, processed, or transmitted on-chain. |
 | **NIST 800-53 (AU family)** | Provides immutable audit trail (AU-3, AU-6, AU-10, AU-11). |
 | **FedRAMP** | Planned for Phase 5 roadmap. |

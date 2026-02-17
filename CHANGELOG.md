@@ -5,6 +5,31 @@ All notable changes to the S4 Ledger project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.0.0] - 2026-02-18
+
+### XRPL Mainnet Migration Complete — Full Production Anchoring
+
+**S4 Ledger v4.0 marks the transition from testnet demo anchoring to fully operational XRPL Mainnet anchoring.** Every anchor across all 19 ILS workspace tools now creates a real, verifiable transaction on the XRP Ledger mainnet.
+
+#### Added — Mainnet Anchoring & SLS Fee Payments
+- **Full Mainnet Anchoring** — All 19 ILS workspace tools now anchor SHA-256 hashes to XRPL Mainnet via `AccountSet` + Memo transactions. Every anchor is verifiable on [livenet.xrpl.org](https://livenet.xrpl.org).
+- **0.01 SLS Fee per Anchor** — Each anchor triggers a real 0.01 SLS payment from the Ops wallet (`raWL7nYZkuXMUurHcp5ZXkABfVgStdun51`) to the Treasury (`rMLmkrxpadq5z6oTDmq8GhQj9LKjf1KLqJ`). No new SLS is created — fees come from circulating supply.
+- **Explorer Links on Every Anchor** — All 19 anchor functions now destructure `{txHash, explorerUrl, network}` and pass explorer links to the Audit Vault, local records, and session tracking.
+- **Clickable TX Hash in Audit Vault** — Vault records now display clickable explorer links. TX hashes link directly to livenet.xrpl.org transaction details.
+- **Vault Export with Explorer Links** — CSV/XLSX vault exports now include Explorer URL and Network columns.
+- **Network Badge in Anchor Results** — `anchorRecord()` result panel shows a green "XRPL Mainnet" badge with explorer link to the transaction.
+- **CMMC Level 2 Certification** — S4 Systems, LLC has achieved CMMC Level 2 certification. All compliance docs updated.
+
+#### Fixed — Anchor Function Audit (All 19 Tools)
+- **anchorCompliance()** — Added missing `saveLocalRecord()`, `sessionRecords.push()`, `updateTxLog()`, and `stats.types.add()`. Compliance anchors now appear in Transaction Log, Metrics, and session records.
+- **8 functions missing sessionRecords.push** — Added `sessionRecords.push()` + `updateTxLog()` to: `anchorProvItem`, `anchorAllProvisioning`, `anchorProvisioning`, `anchorRisk`, `anchorReport`, `anchorContracts`, `anchorThread`, `anchorPredictive`. All anchors now tracked in session TX log.
+- **secp256k1 Wallet Algorithm** — Fixed wallet derivation to use `CryptoAlgorithm.SECP256K1` (Xaman-compatible) instead of xrpl-py's ed25519 default. Resilient 3-level import fallback.
+
+#### Changed — Architecture
+- **3-Wallet Architecture** — Issuer (`r95GyZac...TA5`), Ops (`raWL7nYZ...un51`, holds circulating SLS), Treasury (`rMLmkrxp...f1KLqJ`, receives fees). Issuer anchors hashes; Ops pays SLS fees; Treasury accumulates fees.
+- **Transaction Type** — Anchoring uses `AccountSet` + Memo (cheaper, no trust line required) instead of `Payment`.
+- **Vercel Serverless Deployment** — Production API at `/api/anchor` running on Vercel with environment variables for wallet seeds and network selection.
+
 ## [3.9.17] - 2026-02-17
 
 ### Added — Context-Aware Export, XRPL Mainnet Support, Production Hardening

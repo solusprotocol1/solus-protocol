@@ -1,6 +1,6 @@
 # S4 Ledger: Investor Relations & Transparency Summary
 *A product line of S4 Systems, LLC — Charleston, SC*
-*Created by Nick Frankfort, ILS contractor and proposed Product Lead/CTO*
+*Created by Nick Frankfort, ILS contractor and founder and CEO*
 
 *Quarterly Update: Q1 2026*
 
@@ -49,7 +49,7 @@ Treasury address: `rMLmkrxpadq5z6oTDmq8GhQj9LKjf1KLqJ`
 - Established NIST 800-171 and CMMC compliance alignment documentation (CMMC 2.0 enforcement begins 2025–2026)
 - Created Defense Data Integrity Agreement (DDIA) template v2.0
 - Expanded ILS Workspace to **20 tools** including Integrated Logistics Insights Engine (ILIE), Audit Record Vault, Defense Document Library, Compliance Scorecard, Provisioning & PTD Manager (ICAPS replacement), Supply Chain Risk Engine, Audit Report Generator, Contract Lifecycle Management, Digital Thread Bridge, Predictive Maintenance AI, and Conversational AI Agent
-- **21 Python SDK functions** for defense-grade hash anchoring and verification
+- **27 Python SDK functions** for defense-grade hash anchoring and verification
 - **29 REST API endpoints** for enterprise integration
 - **500+ pre-loaded military entities** — 462 platforms, 37 suppliers, 25 contracts across 9 branches
 - **156+ pre-built ILS record categories** mapped to real-world logistics workflows

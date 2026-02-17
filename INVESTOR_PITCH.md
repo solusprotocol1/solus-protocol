@@ -3,7 +3,7 @@
 
 ## Vision
 
-S4 Ledger is building the integrity layer for defense logistics — immutable verification of supply chains, maintenance records, technical data, and contract deliverables, anchored on the XRPL and powered by the $SLS utility token. Created and built entirely by **Nick Frankfort**, ILS contractor and proposed Product Lead/CTO, at zero cost to the company.
+S4 Ledger is building the integrity layer for defense logistics — immutable verification of supply chains, maintenance records, technical data, and contract deliverables, anchored on the XRPL and powered by the $SLS utility token. Created and built entirely by **Nick Frankfort**, ILS contractor and founder and CEO, at zero cost to the company.
 
 ## Problem & Opportunity
 
@@ -19,7 +19,7 @@ S4 Ledger is building the integrity layer for defense logistics — immutable ve
 
 - Anchor only SHA-256 hashes (never sensitive data) to the XRP Ledger
 - Zero data on-chain — full NIST/CMMC compliance
-- 3-5 second confirmation, ~$0.001 per anchor
+- 3-5 second confirmation, 0.01 SLS per anchor (~$0.01)
 - Python SDK integrates in 10 lines of code
 
 ## How It Actually Works (Plain English)
@@ -43,7 +43,7 @@ Think of S4 Ledger like a notary for defense records. When an ILS manager comple
   - Issuer: `r95GyZac4butvVcsTWUPpxzekmyzaHsTA5`
   - 100M total supply | ~15M circulating | 30M in multi-sig treasury
 - **20 interactive defense tools** live at s4ledger.com/demo-app — not mockups, real working interfaces
-- **21 Python SDK functions** for defense-grade hash anchoring, verification, and batch operations
+- **27 Python SDK functions** for defense-grade hash anchoring, verification, and batch operations
 - **29 REST API endpoints** for enterprise integration
 - **500+ pre-loaded military entities** — 462 real defense platforms across 9 branches, 37 real defense suppliers, 25 real DoW contracts
 - **156+ ILS record categories** mapped to real-world logistics workflows (supports any defense record type)

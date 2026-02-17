@@ -157,7 +157,7 @@ If the CEO says no:
 | ROI for government | 15–100x |
 | ILS tools built | 19 |
 | Defense database integrations | 24 systems across all branches |
-| SDK functions | 21 |
+| SDK functions | 27 |
 | API endpoints | 29 |
 | Pre-loaded platforms | 462 across 9 branches |
 | Cost to build so far | $0 to the company |
