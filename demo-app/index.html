@@ -2163,10 +2163,10 @@ const CLASSIFICATION = {
 };
 
 const CLF_META = {
-    U:    {label:'UNCLASSIFIED',  icon:'<i class="fas fa-circle" style="color:#14f195;font-size:0.7em"></i>', color:'#00cc66', desc:'No special handling required'},
-    CUI:  {label:'CUI',           icon:'<i class="fas fa-circle" style="color:#c9a84c;font-size:0.7em"></i>', color:'#c9a84c', desc:'Controlled Unclassified Information — NIST 800-171 handling required'},
-    SECRET:{label:'SECRET',       icon:'<i class="fas fa-circle" style="color:#ff3333;font-size:0.7em"></i>', color:'#ff5555', desc:'Requires SIPRNet or equivalent classified network'},
-    TS:   {label:'TOP SECRET',    icon:'<i class="fas fa-circle" style="color:#ffa500;font-size:0.7em"></i>', color:'#ffa500', desc:'Requires JWICS or equivalent TS/SCI network'}
+    U:    {label:'UNCLASSIFIED',  icon:'fa-circle', color:'#00cc66', desc:'No special handling required'},
+    CUI:  {label:'CUI',           icon:'fa-circle', color:'#c9a84c', desc:'Controlled Unclassified Information — NIST 800-171 handling required'},
+    SECRET:{label:'SECRET',       icon:'fa-circle', color:'#ff5555', desc:'Requires SIPRNet or equivalent classified network'},
+    TS:   {label:'TOP SECRET',    icon:'fa-circle', color:'#ffa500', desc:'Requires JWICS or equivalent TS/SCI network'}
 };
 
 function getClassification(typeKey) { return CLASSIFICATION[typeKey] || 'CUI'; }
