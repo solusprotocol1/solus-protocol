@@ -458,6 +458,8 @@ def _init_xrpl():
         _xrpl_init_error = str(e)
 
 _xrpl_init_error = None
+
+def _anchor_xrpl(hash_value, record_type="", branch=""):
     """Submit a real anchor transaction to XRPL. Returns tx info or None."""
     _init_xrpl()
     if not _xrpl_client or not _xrpl_wallet:
