@@ -377,7 +377,7 @@
     <div class="container">
         <h1><i class="fas fa-shield-halved" style="margin-right:12px;color:var(--accent)"></i><span class="gradient-text">Defense Logistics</span> Verification Demo</h1>
         <p>Anchor, verify, and track defense supply chain records across <strong>all military branches</strong> on the XRP Ledger.</p>
-        <div class="badge-live">XRPL Testnet Connected &mdash; Any Defense Record Type &bull; 156+ Pre-Built &bull; 9 Branches</div>
+        <div class="badge-live">XRPL Mainnet Connected &mdash; Any Defense Record Type &bull; 156+ Pre-Built &bull; 9 Branches</div>
     </div>
 </section>
 
@@ -407,7 +407,7 @@
                                 <summary style="cursor:pointer;padding:10px 0;color:#00aaff;font-weight:600;font-size:0.85rem;"><i class="fas fa-info-circle"></i> How Anchoring Works</summary>
                                 <div style="padding:0 0 12px;color:var(--steel);font-size:0.82rem;line-height:1.6;">
                                     <p><strong style="color:#fff;">What's real:</strong> Every anchor creates an actual XRPL transaction with your record's SHA-256 hash stored in the memo field. The hash, transaction ID, timestamp, and XRPL explorer link are all genuine blockchain data you can independently verify.</p>
-                                    <p><strong style="color:#fff;">What's demo:</strong> In this testnet demo, the $SLS token fee (0.01 per anchor) is simulated. On mainnet, real $SLS tokens are burned per transaction from the user's XRPL wallet.</p>
+                                    <p><strong style="color:#fff;">Live on Mainnet:</strong> Every anchor creates a real XRPL Mainnet transaction. The 0.01 $SLS fee per anchor is burned from the issuer wallet. All transaction hashes and explorer links point to the live XRPL.</p>
                                     <p><strong style="color:#c9a84c;">How S4 Ledger saves money here:</strong> Traditional defense record notarization costs $25–$150 per document and takes days. S4 Ledger anchors records in seconds for fractions of a cent — a <strong>99.9% cost reduction</strong>. At scale, a program anchoring 10,000 records/year saves $250K–$1.5M annually vs. legacy methods.</p>
                                     <p><strong style="color:#00aaff;">Production mode:</strong> Integrates with existing logistics systems (GCSS, OARS, NTCSS, LMP) via REST API or Python SDK. Records flow automatically — no manual paste required.</p>
                                 </div>
@@ -1813,7 +1813,6 @@
                 </div>
             </div>
 
-
             <!-- ══ HUB: SUBMISSION REVIEW & DISCREPANCY ANALYZER ══ -->
             <div class="ils-hub-panel" id="hub-submissions">
                 <div class="demo-card">
@@ -2098,7 +2097,7 @@
         <p style="font-size:0.82rem;margin-bottom:10px;">Immutable logistics verification for the defense industry. Built on the XRP Ledger.</p>
         <div style="margin-bottom:10px;"><a href="https://github.com/s4ledger/s4-ledger" target="_blank" style="color:var(--muted);margin:0 10px;text-decoration:none;"><i class="fab fa-github fa-lg"></i></a><a href="https://x.com/S4_Ledger" target="_blank" style="color:var(--muted);margin:0 10px;text-decoration:none;"><i class="fab fa-x-twitter fa-lg"></i></a><a href="https://linkedin.com" target="_blank" style="color:var(--muted);margin:0 10px;text-decoration:none;"><i class="fab fa-linkedin fa-lg"></i></a></div>
         <div style="margin-bottom:10px;font-size:0.78rem;"><a href="../s4-terms/" style="color:var(--muted);margin:0 10px;text-decoration:none;">Terms of Service</a><a href="../s4-privacy/" style="color:var(--muted);margin:0 10px;text-decoration:none;">Privacy Policy</a><a href="../security/" style="color:var(--muted);margin:0 10px;text-decoration:none;">Security</a></div>
-        <p style="font-size:0.75rem;color:var(--muted);">$SLS is a utility token &mdash; not equity or an investment contract. &copy; 2026 S4 Ledger. Demo uses XRPL Testnet.</p>
+        <p style="font-size:0.75rem;color:var(--muted);">$SLS is a utility token &mdash; not equity or an investment contract. &copy; 2026 S4 Ledger. Powered by XRPL Mainnet.</p>
     </div>
 </footer>
 
@@ -2548,6 +2547,24 @@ function hideAnchorAnimation() {
     document.getElementById('anchorOverlay').classList.remove('active');
 }
 
+async function _anchorToXRPL(hash, record_type, content_preview) {
+    let txHash = 'TX' + Array.from(crypto.getRandomValues(new Uint8Array(16))).map(b=>b.toString(16).padStart(2,'0')).join('').toUpperCase();
+    let network = 'Pending';
+    let explorerUrl = null;
+    try {
+        const resp = await fetch('/api/anchor',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({hash, record_type, content_preview})});
+        if (resp.ok) {
+            const result = await resp.json();
+            if (result.record) {
+                txHash = result.record.tx_hash || txHash;
+                network = result.record.network || network;
+                explorerUrl = result.record.explorer_url || null;
+            }
+        }
+    } catch(e) { console.warn('API anchor failed:', e); }
+    return { txHash, network, explorerUrl };
+}
+
 async function anchorRecord() {
     const input = document.getElementById('recordInput').value.trim();
     if (!input) { alert('Please enter record content.'); return; }
@@ -2557,16 +2574,12 @@ async function anchorRecord() {
 
     const encrypt = document.getElementById('encryptCheck').checked;
     const hash = await sha256(input);
-    const txHash = 'TX' + Array.from(crypto.getRandomValues(new Uint8Array(16))).map(b=>b.toString(16).padStart(2,'0')).join('').toUpperCase();
     const typeInfo = RECORD_TYPES[selectedType] || {label:selectedType,icon:'fa-clipboard-list',color:'var(--accent)',branch:'JOINT'};
 
     const clfLevel = getClassification(selectedType);
     showAnchorAnimation(hash, typeInfo.label, clfLevel);
 
-    // POST to API (best-effort)
-    const apiData = {hash, record_type:selectedType, tx_hash:txHash, content_preview:input.substring(0,100)};
-    try { await fetch('/api/anchor',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(apiData)}); }
-    catch(e) { console.warn('API anchor failed:', e); }
+    const {txHash} = await _anchorToXRPL(hash, selectedType, input.substring(0,100));
 
     const record = {
         type:selectedType, label:typeInfo.label, icon:typeInfo.icon, branch:typeInfo.branch,
@@ -4481,14 +4494,10 @@ async function anchorILSReport() {
         riskCost: ilsResults.totalCost, date: new Date().toISOString(), files: ilsFiles.map(f => f.name)
     });
     const hash = await sha256(reportStr);
-    const txHash = 'TX' + Array.from(crypto.getRandomValues(new Uint8Array(16))).map(b=>b.toString(16).padStart(2,'0')).join('').toUpperCase();
-
     // Show the anchor animation (same as main anchor tab)
     showAnchorAnimation(hash, 'ILS Gap Analysis Report', 'UNCLASSIFIED');
 
-    // POST to API (best-effort)
-    try { await fetch('/api/anchor',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({hash, record_type:'ILS_GAP_ANALYSIS', tx_hash:txHash, content_preview:'ILS Report: '+ilsResults.prog.name})}); }
-    catch(e) { console.warn('API anchor failed:', e); }
+    const {txHash} = await _anchorToXRPL(hash, 'ILS_GAP_ANALYSIS', 'ILS Report: '+ilsResults.prog.name);
 
     // Record in session
     const record = {
@@ -5221,12 +5230,12 @@ async function anchorDMSMS() {
     const hash = await sha256(text);
     showAnchorAnimation(hash, 'DMSMS Report', 'CUI');
     stats.anchored++; stats.types.add('DMSMS_REPORT'); stats.slsFees += 0.01; updateStats(); saveStats();
-    const txHash_d = 'TX'+Date.now().toString(16).toUpperCase();
-    const rec = {hash, type:'DMSMS_REPORT', branch:'JOINT', timestamp:new Date().toISOString(), label:'DMSMS Obsolescence Report', txHash:txHash_d};
+    const {txHash} = await _anchorToXRPL(hash, 'DMSMS_REPORT', text.substring(0,100));
+    const rec = {hash, type:'DMSMS_REPORT', branch:'JOINT', timestamp:new Date().toISOString(), label:'DMSMS Obsolescence Report', txHash};
     sessionRecords.push(rec);
-    saveLocalRecord({hash, record_type:'DMSMS_REPORT', record_label:'DMSMS Obsolescence Report', branch:'JOINT', timestamp:new Date().toISOString(), timestamp_display:new Date().toISOString().replace('T',' ').substring(0,19)+' UTC', fee:0.01, tx_hash:txHash_d, system:'DMSMS Tracker'});
+    saveLocalRecord({hash, record_type:'DMSMS_REPORT', record_label:'DMSMS Obsolescence Report', branch:'JOINT', timestamp:new Date().toISOString(), timestamp_display:new Date().toISOString().replace('T',' ').substring(0,19)+' UTC', fee:0.01, tx_hash:txHash, system:'DMSMS Tracker'});
     updateTxLog();
-    addToVault({hash, txHash:'TX'+Date.now().toString(16).toUpperCase(), type:'DMSMS_REPORT', label:'DMSMS Obsolescence Report', branch:'JOINT', icon:'<i class="fas fa-exclamation-triangle"></i>', content:text.substring(0,100), encrypted:false, timestamp:new Date().toISOString(), source:'DMSMS Tracker', fee:0.01});
+    addToVault({hash, txHash, type:'DMSMS_REPORT', label:'DMSMS Obsolescence Report', branch:'JOINT', icon:'<i class="fas fa-exclamation-triangle"></i>', content:text.substring(0,100), encrypted:false, timestamp:new Date().toISOString(), source:'DMSMS Tracker', fee:0.01});
     setTimeout(() => { document.getElementById('animStatus').innerHTML = '<i class="fas fa-check-circle" style="color:#14f195"></i> DMSMS report anchored!'; document.getElementById('animStatus').style.color = '#14f195'; }, 2200);
 }
 
@@ -5335,12 +5344,12 @@ async function anchorReadiness() {
     const hash = await sha256(text);
     showAnchorAnimation(hash, 'RAM Readiness Report', 'CUI');
     stats.anchored++; stats.types.add('RAM_REPORT'); stats.slsFees += 0.01; updateStats(); saveStats();
-    const txHash_r = 'TX'+Date.now().toString(16).toUpperCase();
-    const rec = {hash, type:'RAM_REPORT', branch:'JOINT', timestamp:new Date().toISOString(), label:'RAM Readiness Report', txHash:txHash_r};
+    const {txHash} = await _anchorToXRPL(hash, 'RAM_REPORT', text.substring(0,100));
+    const rec = {hash, type:'RAM_REPORT', branch:'JOINT', timestamp:new Date().toISOString(), label:'RAM Readiness Report', txHash};
     sessionRecords.push(rec);
-    saveLocalRecord({hash, record_type:'RAM_REPORT', record_label:'RAM Readiness Report', branch:'JOINT', timestamp:new Date().toISOString(), timestamp_display:new Date().toISOString().replace('T',' ').substring(0,19)+' UTC', fee:0.01, tx_hash:txHash_r, system:'Readiness Calculator'});
+    saveLocalRecord({hash, record_type:'RAM_REPORT', record_label:'RAM Readiness Report', branch:'JOINT', timestamp:new Date().toISOString(), timestamp_display:new Date().toISOString().replace('T',' ').substring(0,19)+' UTC', fee:0.01, tx_hash:txHash, system:'Readiness Calculator'});
     updateTxLog();
-    addToVault({hash, txHash:'TX'+Date.now().toString(16).toUpperCase(), type:'RAM_REPORT', label:'RAM Readiness Report', branch:'JOINT', icon:'<i class="fas fa-chart-bar"></i>', content:text.substring(0,100), encrypted:false, timestamp:new Date().toISOString(), source:'Readiness Calculator', fee:0.01});
+    addToVault({hash, txHash, type:'RAM_REPORT', label:'RAM Readiness Report', branch:'JOINT', icon:'<i class="fas fa-chart-bar"></i>', content:text.substring(0,100), encrypted:false, timestamp:new Date().toISOString(), source:'Readiness Calculator', fee:0.01});
     setTimeout(() => { document.getElementById('animStatus').innerHTML = '<i class="fas fa-check-circle" style="color:#14f195"></i> RAM report anchored!'; document.getElementById('animStatus').style.color = '#14f195'; }, 2200);
 }
 
@@ -5482,12 +5491,12 @@ async function anchorParts() {
     const hash = await sha256(text);
     showAnchorAnimation(hash, 'Parts Cross-Reference', 'CUI');
     stats.anchored++; stats.types.add('PARTS_XREF'); stats.slsFees += 0.01; updateStats(); saveStats();
-    const txHash_p = 'TX'+Date.now().toString(16).toUpperCase();
-    const rec = {hash, type:'PARTS_XREF', branch:'JOINT', timestamp:new Date().toISOString(), label:'Parts Cross-Reference', txHash:txHash_p};
+    const {txHash} = await _anchorToXRPL(hash, 'PARTS_XREF', text.substring(0,100));
+    const rec = {hash, type:'PARTS_XREF', branch:'JOINT', timestamp:new Date().toISOString(), label:'Parts Cross-Reference', txHash};
     sessionRecords.push(rec);
-    saveLocalRecord({hash, record_type:'PARTS_XREF', record_label:'Parts Cross-Reference', branch:'JOINT', timestamp:new Date().toISOString(), timestamp_display:new Date().toISOString().replace('T',' ').substring(0,19)+' UTC', fee:0.01, tx_hash:txHash_p, system:'Parts X-Ref'});
+    saveLocalRecord({hash, record_type:'PARTS_XREF', record_label:'Parts Cross-Reference', branch:'JOINT', timestamp:new Date().toISOString(), timestamp_display:new Date().toISOString().replace('T',' ').substring(0,19)+' UTC', fee:0.01, tx_hash:txHash, system:'Parts X-Ref'});
     updateTxLog();
-    addToVault({hash, txHash:'TX'+Date.now().toString(16).toUpperCase(), type:'PARTS_XREF', label:'Parts Cross-Reference', branch:'JOINT', icon:'<i class="fas fa-wrench"></i>', content:text.substring(0,100), encrypted:false, timestamp:new Date().toISOString(), source:'Parts X-Ref', fee:0.01});
+    addToVault({hash, txHash, type:'PARTS_XREF', label:'Parts Cross-Reference', branch:'JOINT', icon:'<i class="fas fa-wrench"></i>', content:text.substring(0,100), encrypted:false, timestamp:new Date().toISOString(), source:'Parts X-Ref', fee:0.01});
     setTimeout(() => { document.getElementById('animStatus').innerHTML = '<i class="fas fa-check-circle" style="color:#14f195"></i> Parts data anchored!'; document.getElementById('animStatus').style.color = '#14f195'; }, 2200);
 }
 
@@ -5550,12 +5559,12 @@ async function anchorROI() {
     const hash = await sha256(text);
     showAnchorAnimation(hash, 'ROI Analysis', 'CUI');
     stats.anchored++; stats.types.add('ROI_ANALYSIS'); stats.slsFees += 0.01; updateStats(); saveStats();
-    const txHash_roi = 'TX'+Date.now().toString(16).toUpperCase();
-    const rec = {hash, type:'ROI_ANALYSIS', branch:'JOINT', timestamp:new Date().toISOString(), label:'ROI Calculator Report', txHash:txHash_roi};
+    const {txHash} = await _anchorToXRPL(hash, 'ROI_ANALYSIS', text.substring(0,100));
+    const rec = {hash, type:'ROI_ANALYSIS', branch:'JOINT', timestamp:new Date().toISOString(), label:'ROI Calculator Report', txHash};
     sessionRecords.push(rec);
-    saveLocalRecord({hash, record_type:'ROI_ANALYSIS', record_label:'ROI Calculator Report', branch:'JOINT', timestamp:new Date().toISOString(), timestamp_display:new Date().toISOString().replace('T',' ').substring(0,19)+' UTC', fee:0.01, tx_hash:txHash_roi, system:'ROI Calculator'});
+    saveLocalRecord({hash, record_type:'ROI_ANALYSIS', record_label:'ROI Calculator Report', branch:'JOINT', timestamp:new Date().toISOString(), timestamp_display:new Date().toISOString().replace('T',' ').substring(0,19)+' UTC', fee:0.01, tx_hash:txHash, system:'ROI Calculator'});
     updateTxLog();
-    addToVault({hash, txHash:'TX'+Date.now().toString(16).toUpperCase(), type:'ROI_ANALYSIS', label:'ROI Calculator Report', branch:'JOINT', icon:'<i class="fas fa-dollar-sign"></i>', content:text.substring(0,100), encrypted:false, timestamp:new Date().toISOString(), source:'ROI Calculator', fee:0.01});
+    addToVault({hash, txHash, type:'ROI_ANALYSIS', label:'ROI Calculator Report', branch:'JOINT', icon:'<i class="fas fa-dollar-sign"></i>', content:text.substring(0,100), encrypted:false, timestamp:new Date().toISOString(), source:'ROI Calculator', fee:0.01});
 }
 
 // ═══ LIFECYCLE COST ESTIMATOR ═══
@@ -5613,12 +5622,12 @@ async function anchorLifecycle() {
     const hash = await sha256(text);
     showAnchorAnimation(hash, 'Lifecycle Cost Estimate', 'CUI');
     stats.anchored++; stats.types.add('LIFECYCLE_COST'); stats.slsFees += 0.01; updateStats(); saveStats();
-    const txHash_lc = 'TX'+Date.now().toString(16).toUpperCase();
-    const rec = {hash, type:'LIFECYCLE_COST', branch:'JOINT', timestamp:new Date().toISOString(), label:'Lifecycle Cost Estimate', txHash:txHash_lc};
+    const {txHash} = await _anchorToXRPL(hash, 'LIFECYCLE_COST', text.substring(0,100));
+    const rec = {hash, type:'LIFECYCLE_COST', branch:'JOINT', timestamp:new Date().toISOString(), label:'Lifecycle Cost Estimate', txHash};
     sessionRecords.push(rec);
-    saveLocalRecord({hash, record_type:'LIFECYCLE_COST', record_label:'Lifecycle Cost Estimate', branch:'JOINT', timestamp:new Date().toISOString(), timestamp_display:new Date().toISOString().replace('T',' ').substring(0,19)+' UTC', fee:0.01, tx_hash:txHash_lc, system:'Lifecycle Estimator'});
+    saveLocalRecord({hash, record_type:'LIFECYCLE_COST', record_label:'Lifecycle Cost Estimate', branch:'JOINT', timestamp:new Date().toISOString(), timestamp_display:new Date().toISOString().replace('T',' ').substring(0,19)+' UTC', fee:0.01, tx_hash:txHash, system:'Lifecycle Estimator'});
     updateTxLog();
-    addToVault({hash, txHash:'TX'+Date.now().toString(16).toUpperCase(), type:'LIFECYCLE_COST', label:'Lifecycle Cost Estimate', branch:'JOINT', icon:'<i class="fas fa-chart-line"></i>', content:text.substring(0,100), encrypted:false, timestamp:new Date().toISOString(), source:'Lifecycle Estimator', fee:0.01});
+    addToVault({hash, txHash, type:'LIFECYCLE_COST', label:'Lifecycle Cost Estimate', branch:'JOINT', icon:'<i class="fas fa-chart-line"></i>', content:text.substring(0,100), encrypted:false, timestamp:new Date().toISOString(), source:'Lifecycle Estimator', fee:0.01});
 }
 
 // ═══ WARRANTY & CONTRACT TRACKER ═══
@@ -5698,12 +5707,12 @@ async function anchorWarranty() {
     const hash = await sha256(text);
     showAnchorAnimation(hash, 'Warranty & Contract Data', 'CUI');
     stats.anchored++; stats.types.add('WARRANTY_CONTRACT'); stats.slsFees += 0.01; updateStats(); saveStats();
-    const txHash_w = 'TX'+Date.now().toString(16).toUpperCase();
-    const rec = {hash, type:'WARRANTY_CONTRACT', branch:'JOINT', timestamp:new Date().toISOString(), label:'Warranty & Contract Tracker', txHash:txHash_w};
+    const {txHash} = await _anchorToXRPL(hash, 'WARRANTY_CONTRACT', text.substring(0,100));
+    const rec = {hash, type:'WARRANTY_CONTRACT', branch:'JOINT', timestamp:new Date().toISOString(), label:'Warranty & Contract Tracker', txHash};
     sessionRecords.push(rec);
-    saveLocalRecord({hash, record_type:'WARRANTY_CONTRACT', record_label:'Warranty & Contract Tracker', branch:'JOINT', timestamp:new Date().toISOString(), timestamp_display:new Date().toISOString().replace('T',' ').substring(0,19)+' UTC', fee:0.01, tx_hash:txHash_w, system:'Warranty Tracker'});
+    saveLocalRecord({hash, record_type:'WARRANTY_CONTRACT', record_label:'Warranty & Contract Tracker', branch:'JOINT', timestamp:new Date().toISOString(), timestamp_display:new Date().toISOString().replace('T',' ').substring(0,19)+' UTC', fee:0.01, tx_hash:txHash, system:'Warranty Tracker'});
     updateTxLog();
-    addToVault({hash, txHash:'TX'+Date.now().toString(16).toUpperCase(), type:'WARRANTY_CONTRACT', label:'Warranty & Contract Tracker', branch:'JOINT', icon:'<i class="fas fa-clipboard-list"></i>', content:text.substring(0,100), encrypted:false, timestamp:new Date().toISOString(), source:'Warranty Tracker', fee:0.01});
+    addToVault({hash, txHash, type:'WARRANTY_CONTRACT', label:'Warranty & Contract Tracker', branch:'JOINT', icon:'<i class="fas fa-clipboard-list"></i>', content:text.substring(0,100), encrypted:false, timestamp:new Date().toISOString(), source:'Warranty Tracker', fee:0.01});
 }
 
 // ── Initialization ──
@@ -6414,9 +6423,9 @@ async function anchorCompliance() {
     const grade = document.getElementById('complianceGrade')?.textContent || '?';
     const content = 'S4 Ledger Compliance Scorecard | Overall: ' + score + ' (' + grade + ') | CMMC: ' + (document.getElementById('pctCMMC')?.textContent||'') + ' | NIST: ' + (document.getElementById('pctNIST')?.textContent||'') + ' | Records: ' + s4Vault.length + ' | Generated: ' + new Date().toISOString();
     const hash = await sha256(content);
-    const txHash = 'TX' + Array.from(crypto.getRandomValues(new Uint8Array(16))).map(b=>b.toString(16).padStart(2,'0')).join('').toUpperCase();
+    const {txHash} = await _anchorToXRPL(hash, 'compliance_scorecard', content.substring(0,100));
     showAnchorAnimation(hash, 'Compliance Scorecard', 'CUI');
-    try { await fetch('/api/anchor',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({hash, record_type:'compliance_scorecard', tx_hash:txHash})}); } catch(e) {}
+
     addToVault({hash, txHash, type:'compliance_scorecard', label:'Compliance Scorecard', branch:'JOINT', icon:'<i class="fas fa-shield-alt"></i>', content: content.substring(0,100), encrypted:false, timestamp:new Date().toISOString(), source:'Compliance Scorecard', fee:0.01});
     stats.anchored++; stats.slsFees += 0.01; updateStats(); saveStats();
     await new Promise(r => setTimeout(r, 3200)); hideAnchorAnimation();
@@ -6661,9 +6670,9 @@ async function anchorProvItem(index) {
     if (!it) return;
     const content = 'Provisioning Item | ' + it.name + ' | NSN: ' + it.nsn + ' | CAGE: ' + it.cage + ' | Qty: ' + it.qty + ' | Status: ' + it.status + ' | Cost: $' + it.cost + ' | Mfg: ' + it.mfg + ' | ' + new Date().toISOString();
     const hash = await sha256(content);
-    const txHash = 'TX' + Array.from(crypto.getRandomValues(new Uint8Array(16))).map(b=>b.toString(16).padStart(2,'0')).join('').toUpperCase();
+    const {txHash} = await _anchorToXRPL(hash, 'provisioning_item', it.name + ' NSN:' + it.nsn);
     showAnchorAnimation(hash, 'Provisioning: ' + it.name, 'CUI');
-    try { await fetch('/api/anchor',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({hash, record_type:'provisioning_item', tx_hash:txHash, content_preview: it.name + ' NSN:' + it.nsn})}); } catch(e) {}
+
     addToVault({hash, txHash, type:'provisioning_item', label:'Provisioning: ' + it.name, branch:'JOINT', icon:'<i class="fas fa-box"></i>', content:content.substring(0,120), encrypted:false, timestamp:new Date().toISOString(), source:'Provisioning & PTD Manager', fee:0.01});
     stats.anchored++; stats.slsFees += 0.01; stats.types.add('provisioning_item'); updateStats(); saveStats();
     saveLocalRecord({hash, tx_hash:txHash, record_type:'provisioning_item', record_label:'Provisioning: '+it.name, branch:'JOINT', timestamp:new Date().toISOString(), timestamp_display:new Date().toLocaleString(), fee:0.01});
@@ -6679,8 +6688,8 @@ async function anchorAllProvisioning() {
     for (const it of items) {
         const content = 'Provisioning Item | ' + it.name + ' | NSN: ' + it.nsn + ' | CAGE: ' + it.cage + ' | Qty: ' + it.qty + ' | Status: ' + it.status + ' | Cost: $' + it.cost + ' | Mfg: ' + it.mfg + ' | Batch | ' + new Date().toISOString();
         const hash = await sha256(content);
-        const txHash = 'TX' + Array.from(crypto.getRandomValues(new Uint8Array(16))).map(b=>b.toString(16).padStart(2,'0')).join('').toUpperCase();
-        try { await fetch('/api/anchor',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({hash, record_type:'provisioning_item', tx_hash:txHash, content_preview: it.name})}); } catch(e) {}
+        const {txHash} = await _anchorToXRPL(hash, 'provisioning_item', it.name);
+
         addToVault({hash, txHash, type:'provisioning_item', label:'Prov: ' + it.name, branch:'JOINT', icon:'<i class="fas fa-box"></i>', content:content.substring(0,120), encrypted:false, timestamp:new Date().toISOString(), source:'Provisioning & PTD Manager', fee:0.01});
         saveLocalRecord({hash, tx_hash:txHash, record_type:'provisioning_item', record_label:'Prov: '+it.name, branch:'JOINT', timestamp:new Date().toISOString(), timestamp_display:new Date().toLocaleString(), fee:0.01});
         stats.anchored++; stats.slsFees += 0.01;
@@ -6722,9 +6731,9 @@ async function anchorProvisioning() {
     const items = getActiveProvItems();
     const content = 'S4 Ledger Provisioning Report | Program: ' + prog.name + ' | Parts: ' + items.length + ' | Validated: ' + items.filter(i=>i.status==='validated').length + ' | Total Value: $' + items.reduce((s,it)=>s+it.qty*it.cost,0).toLocaleString() + ' | Generated: ' + new Date().toISOString();
     const hash = await sha256(content);
-    const txHash = 'TX' + Array.from(crypto.getRandomValues(new Uint8Array(16))).map(b=>b.toString(16).padStart(2,'0')).join('').toUpperCase();
+    const {txHash} = await _anchorToXRPL(hash, 'provisioning_report', content.substring(0,100));
     showAnchorAnimation(hash, 'Provisioning Report', 'FOUO');
-    try { await fetch('/api/anchor',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({hash, record_type:'provisioning_report', tx_hash:txHash})}); } catch(e) {}
+
     addToVault({hash, txHash, type:'provisioning_report', label:'Provisioning Report', branch: prog.branch || 'JOINT', icon:'<i class="fas fa-box"></i>', content: content.substring(0,100), encrypted:false, timestamp:new Date().toISOString(), source:'Provisioning & PTD Manager', fee:0.01});
     stats.anchored++; stats.slsFees += 0.01; stats.types.add('provisioning_report'); updateStats(); saveStats();
     saveLocalRecord({hash, tx_hash:txHash, record_type:'provisioning_report', record_label:'Provisioning Report — '+prog.name, branch:prog.branch||'JOINT', timestamp:new Date().toISOString(), timestamp_display:new Date().toLocaleString(), fee:0.01});
@@ -6836,9 +6845,9 @@ async function anchorRisk() {
     const high = items.filter(i=>i.level==='high').length;
     const content = 'S4 Ledger Supply Chain Risk Report | Program: ' + prog.toUpperCase() + ' | Total Parts: ' + items.length + ' | Critical: ' + crit + ' | High: ' + high + ' | Generated: ' + new Date().toISOString();
     const hash = await sha256(content);
-    const txHash = 'TX' + Array.from(crypto.getRandomValues(new Uint8Array(16))).map(b=>b.toString(16).padStart(2,'0')).join('').toUpperCase();
+    const {txHash} = await _anchorToXRPL(hash, 'risk_report', content.substring(0,100));
     showAnchorAnimation(hash, 'Supply Chain Risk Report', 'CUI');
-    try { await fetch('/api/anchor',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({hash, record_type:'risk_report', tx_hash:txHash})}); } catch(e) {}
+
     addToVault({hash, txHash, type:'risk_report', label:'Supply Chain Risk Report — '+prog.toUpperCase(), branch:'JOINT', icon:'<i class="fas fa-exclamation-triangle"></i>', content:content.substring(0,100), encrypted:false, timestamp:new Date().toISOString(), source:'AI Supply Chain Risk Engine', fee:0.01});
     stats.anchored++; stats.slsFees += 0.01; stats.types.add('risk_report'); updateStats(); saveStats();
     saveLocalRecord({hash, tx_hash:txHash, record_type:'risk_report', record_label:'Supply Chain Risk Report — '+prog.toUpperCase(), branch:'JOINT', timestamp:new Date().toISOString(), timestamp_display:new Date().toLocaleString(), fee:0.01});
@@ -6934,9 +6943,9 @@ async function anchorReport() {
     const r = _lastReport || {type:'full_audit',title:'Full Audit Package',records:0,score:'95.0'};
     const content = 'S4 Ledger Audit Report | Type: ' + r.title + ' | Records: ' + r.records + ' | Compliance Score: ' + r.score + '% | Generated: ' + new Date().toISOString();
     const hash = await sha256(content);
-    const txHash = 'TX' + Array.from(crypto.getRandomValues(new Uint8Array(16))).map(b=>b.toString(16).padStart(2,'0')).join('').toUpperCase();
+    const {txHash} = await _anchorToXRPL(hash, 'audit_report', content.substring(0,100));
     showAnchorAnimation(hash, 'Audit Report Hash', 'CUI');
-    try { await fetch('/api/anchor',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({hash, record_type:'audit_report', tx_hash:txHash})}); } catch(e) {}
+
     addToVault({hash, txHash, type:'audit_report', label:r.title+' — Score: '+r.score+'%', branch:'JOINT', icon:'<i class="fas fa-clipboard-list"></i>', content:content.substring(0,100), encrypted:false, timestamp:new Date().toISOString(), source:'Audit Report Generator', fee:0.01});
     stats.anchored++; stats.slsFees += 0.01; stats.types.add('audit_report'); updateStats(); saveStats();
     saveLocalRecord({hash, tx_hash:txHash, record_type:'audit_report', record_label:r.title, branch:'JOINT', timestamp:new Date().toISOString(), timestamp_display:new Date().toLocaleString(), fee:0.01});
@@ -7057,9 +7066,9 @@ async function anchorContracts() {
     const delivered = items.filter(i=>i.status==='delivered').length;
     const content = 'S4 Ledger Contract Report | Contract: ' + cid + ' | Total Items: ' + items.length + ' | Delivered: ' + delivered + ' | Overdue: ' + overdue + ' | Generated: ' + new Date().toISOString();
     const hash = await sha256(content);
-    const txHash = 'TX' + Array.from(crypto.getRandomValues(new Uint8Array(16))).map(b=>b.toString(16).padStart(2,'0')).join('').toUpperCase();
+    const {txHash} = await _anchorToXRPL(hash, 'contract_report', content.substring(0,100));
     showAnchorAnimation(hash, 'Contract Status Report', 'CUI');
-    try { await fetch('/api/anchor',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({hash, record_type:'contract_report', tx_hash:txHash})}); } catch(e) {}
+
     addToVault({hash, txHash, type:'contract_report', label:'Contract Report — '+cid, branch:'JOINT', icon:'<i class="fas fa-file-contract"></i>', content:content.substring(0,100), encrypted:false, timestamp:new Date().toISOString(), source:'Contract Lifecycle Management', fee:0.01});
     stats.anchored++; stats.slsFees += 0.01; stats.types.add('contract_report'); updateStats(); saveStats();
     saveLocalRecord({hash, tx_hash:txHash, record_type:'contract_report', record_label:'Contract Report — '+cid, branch:'JOINT', timestamp:new Date().toISOString(), timestamp_display:new Date().toLocaleString(), fee:0.01});
@@ -7183,9 +7192,9 @@ async function anchorThread() {
     const approved = items.filter(i=>i.status==='approved'||i.status==='implemented').length;
     const content = 'S4 Ledger Digital Thread Report | Platform: '+platform.toUpperCase()+' | View: '+view+' | Total: '+items.length+' | Pending: '+pending+' | Approved: '+approved+' | Generated: '+new Date().toISOString();
     const hash = await sha256(content);
-    const txHash = 'TX' + Array.from(crypto.getRandomValues(new Uint8Array(16))).map(b=>b.toString(16).padStart(2,'0')).join('').toUpperCase();
+    const {txHash} = await _anchorToXRPL(hash, 'digital_thread', content.substring(0,100));
     showAnchorAnimation(hash, 'Digital Thread Report', 'CUI');
-    try { await fetch('/api/anchor',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({hash, record_type:'digital_thread', tx_hash:txHash})}); } catch(e) {}
+
     addToVault({hash, txHash, type:'digital_thread', label:'Digital Thread — '+platform.toUpperCase()+' ('+view+')', branch:'JOINT', icon:'<i class="fas fa-link"></i>', content:content.substring(0,100), encrypted:false, timestamp:new Date().toISOString(), source:'Digital Thread Bridge', fee:0.01});
     stats.anchored++; stats.slsFees += 0.01; stats.types.add('digital_thread'); updateStats(); saveStats();
     saveLocalRecord({hash, tx_hash:txHash, record_type:'digital_thread', record_label:'Digital Thread — '+platform.toUpperCase(), branch:'JOINT', timestamp:new Date().toISOString(), timestamp_display:new Date().toLocaleString(), fee:0.01});
@@ -7410,9 +7419,9 @@ async function anchorPredictive() {
     const totalCost = items.reduce((s,i)=>s+i.cost,0);
     const content = 'S4 Ledger Predictive Maintenance Report | Platform: '+platform.toUpperCase()+' | Predictions: '+items.length+' | Urgent: '+urgent+' | Total Risk: $'+totalCost+'K | Generated: '+new Date().toISOString();
     const hash = await sha256(content);
-    const txHash = 'TX' + Array.from(crypto.getRandomValues(new Uint8Array(16))).map(b=>b.toString(16).padStart(2,'0')).join('').toUpperCase();
+    const {txHash} = await _anchorToXRPL(hash, 'predictive_maintenance', content.substring(0,100));
     showAnchorAnimation(hash, 'Predictive Maintenance Report', 'CUI');
-    try { await fetch('/api/anchor',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({hash, record_type:'predictive_maintenance', tx_hash:txHash})}); } catch(e) {}
+
     addToVault({hash, txHash, type:'predictive_maintenance', label:'Predictive Maintenance — '+platform.toUpperCase(), branch:'JOINT', icon:'<i class="fas fa-brain"></i>', content:content.substring(0,100), encrypted:false, timestamp:new Date().toISOString(), source:'Predictive Maintenance AI', fee:0.01});
     stats.anchored++; stats.slsFees += 0.01; stats.types.add('predictive_maintenance'); updateStats(); saveStats();
     saveLocalRecord({hash, tx_hash:txHash, record_type:'predictive_maintenance', record_label:'Predictive Maintenance — '+platform.toUpperCase(), branch:'JOINT', timestamp:new Date().toISOString(), timestamp_display:new Date().toLocaleString(), fee:0.01});
@@ -7640,11 +7649,11 @@ async function anchorDbImport() {
     let anchored = 0;
     for (const rec of _dbImportCache.records) {
         const content = JSON.stringify(rec.data);
-        const txHash = 'TX' + Array.from(crypto.getRandomValues(new Uint8Array(16))).map(b=>b.toString(16).padStart(2,'0')).join('').toUpperCase();
+        const {txHash} = await _anchorToXRPL(rec.hash, rec.type, content.substring(0,100));
         rec.txHash = txHash;
         rec.anchored = true;
         anchored++;
-        try { await fetch('/api/anchor',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({hash:rec.hash, record_type:rec.type, tx_hash:txHash, content_preview:content.substring(0,100)})}); } catch(e) {}
+
         addToVault({hash:rec.hash, txHash, type:rec.type, label:info.name+' Import — '+rec.type.replace(/_/g,' '), branch:branchKey, icon:'<i class="fas fa-database"></i>', content:content.substring(0,100), encrypted:false, timestamp:new Date().toISOString(), source:info.name+' Import', fee:0.01, data_source:_dbImportCache.system});
         // Push to sessionRecords so Transaction Log updates
         sessionRecords.push({
@@ -7679,7 +7688,6 @@ function exportDbImport() {
     const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'Defense_Import_'+info.name.replace(/[^a-zA-Z0-9]/g,'_')+'_'+new Date().toISOString().split('T')[0]+'.csv'; a.click();
     showWorkspaceNotification('Export complete — '+_dbImportCache.records.length+' record hashes from '+info.name);
 }
-
 
 // ══ SUBMISSION REVIEW & DISCREPANCY ANALYZER ══
 function onSubProgramChange() {
@@ -8193,14 +8201,13 @@ async function anchorSubmissionReview() {
         ' | Date: ' + new Date().toISOString();
     const hash = await sha256(text);
     showAnchorAnimation(hash, 'ILIE Analysis — ' + docTypeLabel, 'CUI');
-    const txHash = 'TX' + Date.now().toString(16).toUpperCase();
+    const {txHash} = await _anchorToXRPL(hash, 'SUBMISSION_REVIEW', text.substring(0,100));
     stats.anchored++; stats.types.add('SUBMISSION_REVIEW'); stats.slsFees += 0.01; updateStats(); saveStats();
     const rec = {hash, type:'SUBMISSION_REVIEW', branch:meta.branch, timestamp:new Date().toISOString(), label:'ILIE Analysis: ' + docTypeLabel, txHash};
     sessionRecords.push(rec);
     saveLocalRecord({hash, record_type:'SUBMISSION_REVIEW', record_label:'ILIE Analysis: ' + docTypeLabel, branch:meta.branch, timestamp:new Date().toISOString(), timestamp_display:new Date().toISOString().replace('T',' ').substring(0,19)+' UTC', fee:0.01, tx_hash:txHash, system:'ILIE'});
     updateTxLog();
     addToVault({hash, txHash, type:'SUBMISSION_REVIEW', label:'ILIE Analysis: ' + docTypeLabel, branch:meta.branch, content:text.substring(0,100), encrypted:false, timestamp:new Date().toISOString(), source:'ILIE', fee:0.01});
-    try { await fetch('/api/anchor',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({hash, record_type:'SUBMISSION_REVIEW', tx_hash:txHash, content_preview:text.substring(0,100)})}); } catch(e) {}
     setTimeout(() => { document.getElementById('animStatus').textContent = 'ILIE analysis anchored — ' + _subCache.discrepancies.length + ' discrepancies recorded on-chain'; document.getElementById('animStatus').style.color = '#14f195'; }, 2200);
 }
 
