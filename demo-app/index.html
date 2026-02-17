@@ -414,15 +414,15 @@
                             </details>
                             <label>1. Select Military Branch</label>
                             <div class="branch-tabs" id="branchTabs">
-                                <button class="branch-tab active" onclick="selectBranch('USN',this)">&#9875; Navy</button>
-                                <button class="branch-tab" onclick="selectBranch('USA',this)">&#11088; Army</button>
-                                <button class="branch-tab" onclick="selectBranch('USAF',this)">&#9992;&#65039; Air Force</button>
-                                <button class="branch-tab" onclick="selectBranch('USMC',this)">&#129413; Marines</button>
-                                <button class="branch-tab" onclick="selectBranch('USCG',this)">&#128735;&#65039; Coast Guard</button>
-                                <button class="branch-tab" onclick="selectBranch('DLA',this)">&#127963;&#65039; DLA</button>
-                                <button class="branch-tab" onclick="selectBranch('JOINT',this)">&#127894;&#65039; Joint</button>
-                                <button class="branch-tab" onclick="selectBranch('SOCOM',this)">&#128481;&#65039; SOCOM</button>
-                                <button class="branch-tab" onclick="selectBranch('USSF',this)">&#128640; Space Force</button>
+                                <button class="branch-tab active" onclick="selectBranch('USN',this)"><i class="fas fa-anchor"></i> Navy</button>
+                                <button class="branch-tab" onclick="selectBranch('USA',this)"><i class="fas fa-star"></i> Army</button>
+                                <button class="branch-tab" onclick="selectBranch('USAF',this)"><i class="fas fa-jet-fighter"></i> Air Force</button>
+                                <button class="branch-tab" onclick="selectBranch('USMC',this)"><i class="fas fa-shield-halved"></i> Marines</button>
+                                <button class="branch-tab" onclick="selectBranch('USCG',this)"><i class="fas fa-life-ring"></i> Coast Guard</button>
+                                <button class="branch-tab" onclick="selectBranch('DLA',this)"><i class="fas fa-landmark"></i> DLA</button>
+                                <button class="branch-tab" onclick="selectBranch('JOINT',this)"><i class="fas fa-medal"></i> Joint</button>
+                                <button class="branch-tab" onclick="selectBranch('SOCOM',this)"><i class="fas fa-crosshairs"></i> SOCOM</button>
+                                <button class="branch-tab" onclick="selectBranch('USSF',this)"><i class="fas fa-rocket"></i> Space Force</button>
                             </div>
                             <label>2. Choose Record Type <span class="branch-count" id="branchTypeCount"></span></label>
                             <input class="type-search" type="text" id="typeSearch" placeholder="Search record types..." oninput="renderTypeGrid()">
@@ -8336,6 +8336,32 @@ document.addEventListener('DOMContentLoaded', () => {
             const target = e.target.getAttribute('href');
             if (aiWrapper) aiWrapper.style.display = (target === '#tabILS') ? 'flex' : 'none';
         });
+
+    // ═══ Hash routing for login dashboard deep links ═══
+    function handleHash() {
+        var h = location.hash.replace('#','');
+        if (!h) return;
+        // Main tab activation: #tabAnchor, #tabVerify, #tabLog, #tabILS
+        if (/^tab(Anchor|Verify|Log|ILS)$/.test(h)) {
+            var pill = document.querySelector('a[href="#' + h + '"]');
+            if (pill) { var tab = new bootstrap.Tab(pill); tab.show(); }
+            return;
+        }
+        // ILS hub panel activation: #hub-vault, #hub-provisioning, etc.
+        if (/^hub-/.test(h)) {
+            var ilsPill = document.querySelector('a[href="#tabILS"]');
+            if (ilsPill) { var ilsTab = new bootstrap.Tab(ilsPill); ilsTab.show(); }
+            setTimeout(function() {
+                var btn = null;
+                document.querySelectorAll('.ils-hub-tab').forEach(function(t) {
+                    if (t.getAttribute('onclick') && t.getAttribute('onclick').indexOf("'" + h + "'") !== -1) btn = t;
+                });
+                if (typeof switchHubTab === 'function') switchHubTab(h, btn);
+            }, 150);
+        }
+    }
+    handleHash();
+    window.addEventListener('hashchange', handleHash);
     });
 });
 
