@@ -24,7 +24,16 @@ try:
     from xrpl.wallet import generate_faucet_wallet, Wallet
     from xrpl.models import Memo, Payment, AccountSet, IssuedCurrencyAmount
     from xrpl.transaction import submit_and_wait
-    from xrpl.core.keypairs.main import CryptoAlgorithm
+    try:
+        from xrpl.core.keypairs.main import CryptoAlgorithm
+    except ImportError:
+        try:
+            from xrpl.core.keypairs import CryptoAlgorithm
+        except ImportError:
+            from enum import Enum
+            class CryptoAlgorithm(Enum):
+                ED25519 = "ed25519"
+                SECP256K1 = "secp256k1"
     XRPL_AVAILABLE = True
 except ImportError:
     XRPL_AVAILABLE = False
