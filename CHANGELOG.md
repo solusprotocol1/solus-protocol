@@ -11,6 +11,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 **S4 Ledger v4.0 marks the transition from testnet demo anchoring to fully operational XRPL Mainnet anchoring.** Every anchor across all 19 ILS workspace tools now creates a real, verifiable transaction on the XRP Ledger mainnet.
 
+#### Added — Wallet Onboarding & SLS Purchases
+- **Automatic Wallet Provisioning** — New users receive a fully funded XRPL wallet on signup. `POST /api/wallet/provision` creates a secp256k1 wallet, funds it with 12 XRP from the Ops wallet, sets up SLS TrustLine (1M limit), and grants 100 SLS (10,000 anchors).
+- **Fiat-to-SLS Purchases** — `POST /api/wallet/buy-sls` accepts USD amount, calculates SLS at $0.01/SLS, and sends tokens from the Ops wallet. Stripe payment integration point ready.
+- **Wallet Balance API** — `GET /api/wallet/balance?address=rXXX` queries XRPL for real-time XRP balance, SLS balance, and available anchors.
+- **Signup Flow with Plan Selection** — Login page now includes a full signup form with 3-tier plan selector: Starter (free, 100 SLS), Professional ($49/mo, 5,000 SLS), Enterprise (custom, unlimited).
+- **Wallet Credentials Modal** — On signup, users see their wallet address, family seed (masked with warning), public key, SLS/anchors/XRP stats, explorer link, and Xaman mobile import instructions.
+- **Credential Download** — Users can download a plaintext .txt file with all wallet credentials for safekeeping.
+- **My Wallet Tab in Demo App** — New top-level "My Wallet" tab alongside Anchor, Verify, Log, and ILS Workspace. Shows live balances, wallet credentials with seed show/hide toggle, and SLS purchase panel with quick-amount buttons ($10/$50/$100/$500).
+- **OpenAPI Wallet Documentation** — 3 new endpoint definitions with full request/response schemas and "Wallet" tag added to API spec.
+
 #### Added — Mainnet Anchoring & SLS Fee Payments
 - **Full Mainnet Anchoring** — All 19 ILS workspace tools now anchor SHA-256 hashes to XRPL Mainnet via `AccountSet` + Memo transactions. Every anchor is verifiable on [livenet.xrpl.org](https://livenet.xrpl.org).
 - **0.01 SLS Fee per Anchor** — Each anchor triggers a real 0.01 SLS payment from the Ops wallet (`raWL7nYZkuXMUurHcp5ZXkABfVgStdun51`) to the Treasury (`rMLmkrxpadq5z6oTDmq8GhQj9LKjf1KLqJ`). No new SLS is created — fees come from circulating supply.

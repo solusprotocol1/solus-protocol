@@ -165,6 +165,18 @@
         {
             "source": "/api/calendar",
             "destination": "/api"
+        },
+        {
+            "source": "/api/wallet/provision",
+            "destination": "/api"
+        },
+        {
+            "source": "/api/wallet/buy-sls",
+            "destination": "/api"
+        },
+        {
+            "source": "/api/wallet/balance",
+            "destination": "/api"
         }
     ]
 }

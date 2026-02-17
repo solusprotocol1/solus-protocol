@@ -50,6 +50,39 @@
         .signup-link a{color:var(--accent);font-weight:600;text-decoration:none}
         .signup-link a:hover{text-decoration:underline}
 
+        /* Signup Form */
+        .signup-view{display:none}
+        .signup-view.active{display:block}
+        .plan-selector{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:1rem 0}
+        .plan-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 10px;text-align:center;cursor:pointer;transition:all 0.2s;position:relative}
+        .plan-card:hover{border-color:var(--accent)}
+        .plan-card.selected{border-color:#14f195;background:rgba(20,241,149,0.05)}
+        .plan-card.selected::after{content:'\f00c';font-family:'Font Awesome 6 Free';font-weight:900;position:absolute;top:6px;right:8px;color:#14f195;font-size:0.7rem}
+        .plan-card h5{font-size:0.82rem;font-weight:700;color:#fff;margin:0 0 4px 0}
+        .plan-card .plan-price{font-size:1.1rem;font-weight:800;color:var(--accent);margin:4px 0}
+        .plan-card .plan-detail{font-size:0.7rem;color:var(--muted)}
+        .plan-card .plan-sls{font-size:0.72rem;color:#c9a84c;margin-top:4px}
+
+        /* Wallet Credentials Modal */
+        .wallet-modal{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(5,8,16,0.96);z-index:10000;display:none;align-items:center;justify-content:center;padding:1rem}
+        .wallet-modal.active{display:flex}
+        .wallet-card{background:var(--card);border:1px solid #14f195;border-radius:16px;max-width:560px;width:100%;padding:2rem;position:relative;overflow:hidden;animation:fadeIn 0.3s ease;max-height:90vh;overflow-y:auto}
+        .wallet-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#14f195,#00aaff)}
+        .cred-field{margin:10px 0;padding:12px;background:var(--surface);border:1px solid var(--border);border-radius:8px;position:relative}
+        .cred-field label{display:block;font-size:0.72rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px}
+        .cred-field .cred-value{font-family:'Fira Code',monospace;font-size:0.82rem;color:#fff;word-break:break-all;user-select:all;cursor:text}
+        .cred-field .copy-btn{position:absolute;top:10px;right:10px;background:rgba(0,170,255,0.1);border:1px solid rgba(0,170,255,0.3);color:var(--accent);border-radius:6px;padding:4px 10px;font-size:0.7rem;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif}
+        .cred-field .copy-btn:hover{background:rgba(0,170,255,0.2)}
+        .wallet-warning{background:rgba(255,170,0,0.08);border:1px solid rgba(255,170,0,0.3);border-radius:10px;padding:14px;margin:14px 0}
+        .wallet-warning i{color:#ffaa00;margin-right:8px}
+        .wallet-warning strong{color:#ffaa00}
+        .wallet-warning p{color:var(--steel);font-size:0.82rem;margin:6px 0 0 0;line-height:1.5}
+        .wallet-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}
+        .wallet-stat{text-align:center;padding:12px;background:var(--surface);border-radius:8px;border:1px solid var(--border)}
+        .wallet-stat .stat-val{font-size:1.3rem;font-weight:800;color:#14f195}
+        .wallet-stat .stat-lbl{font-size:0.7rem;color:var(--muted);margin-top:2px}
+        @media(max-width:768px){.plan-selector{grid-template-columns:1fr}.wallet-stats{grid-template-columns:1fr}}
+
         /* Tutorial Overlay */
         .tutorial-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(5,8,16,0.96);z-index:9999;display:none;align-items:center;justify-content:center;padding:1rem}
         .tutorial-overlay.active{display:flex}
@@ -172,7 +205,145 @@
             </div>
 
             <div class="signup-link">
-                Don't have an account? <a href="#" onclick="showContactSales(event)">Contact Sales</a>
+                Don't have an account? <a href="#" onclick="showSignup(event)">Create Account</a>
+            </div>
+        </div>
+
+        <!-- SIGNUP FORM -->
+        <div class="signup-view" id="signupView">
+            <div class="login-logo">
+                <img src="../s4-assets/S4Ledger_logo.png" alt="S4 Ledger" style="height:50px;width:50px;margin-bottom:8px">
+                <h2>Create Your Account</h2>
+                <p>Get your XRPL wallet + SLS tokens automatically</p>
+            </div>
+
+            <form id="signupForm" onsubmit="handleSignup(event)">
+                <div class="form-group">
+                    <label><i class="fas fa-envelope" style="margin-right:6px;color:var(--accent)"></i>Work Email</label>
+                    <div class="input-icon-wrap">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" class="form-input" id="signupEmail" placeholder="you@organization.mil" required autocomplete="email">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fas fa-building" style="margin-right:6px;color:var(--accent)"></i>Organization</label>
+                    <div class="input-icon-wrap">
+                        <i class="fas fa-building"></i>
+                        <input type="text" class="form-input" id="signupOrg" placeholder="e.g. NAVSEA, Lockheed Martin" autocomplete="organization">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fas fa-lock" style="margin-right:6px;color:var(--accent)"></i>Password</label>
+                    <div class="input-icon-wrap">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" class="form-input" id="signupPassword" placeholder="Min 8 characters" required minlength="8" autocomplete="new-password">
+                    </div>
+                </div>
+
+                <label style="display:block;font-weight:600;color:var(--steel);font-size:0.88rem;margin-bottom:8px"><i class="fas fa-cube" style="margin-right:6px;color:#c9a84c"></i>Select Plan</label>
+                <div class="plan-selector">
+                    <div class="plan-card selected" onclick="selectPlan(this,'starter')" data-plan="starter">
+                        <h5>Starter</h5>
+                        <div class="plan-price">Free</div>
+                        <div class="plan-detail">100 SLS included</div>
+                        <div class="plan-sls">10,000 anchors</div>
+                    </div>
+                    <div class="plan-card" onclick="selectPlan(this,'professional')" data-plan="professional">
+                        <h5>Professional</h5>
+                        <div class="plan-price">$49/mo</div>
+                        <div class="plan-detail">5,000 SLS/mo</div>
+                        <div class="plan-sls">500,000 anchors</div>
+                    </div>
+                    <div class="plan-card" onclick="selectPlan(this,'enterprise')" data-plan="enterprise">
+                        <h5>Enterprise</h5>
+                        <div class="plan-price">Custom</div>
+                        <div class="plan-detail">Unlimited SLS</div>
+                        <div class="plan-sls">Volume pricing</div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-login" id="signupBtn" style="margin-top:12px;background:linear-gradient(135deg,#14f195,#00cc77)">
+                    <i class="fas fa-wallet"></i> Create Account & Wallet
+                </button>
+
+                <div id="signupError" style="display:none;margin-top:12px;padding:10px;background:rgba(255,51,51,0.08);border:1px solid rgba(255,51,51,0.2);border-radius:8px;font-size:0.85rem;color:#ff6b6b;text-align:center"></div>
+                <div id="signupProgress" style="display:none;margin-top:12px;padding:12px;background:rgba(0,170,255,0.05);border:1px solid rgba(0,170,255,0.15);border-radius:8px;font-size:0.82rem;color:var(--steel);line-height:1.8"></div>
+            </form>
+
+            <div class="security-info" style="margin-top:1.2rem">
+                <i class="fas fa-shield-alt"></i>
+                <span>XRPL Mainnet wallet + SLS TrustLine created automatically. secp256k1 (Xaman compatible).</span>
+            </div>
+
+            <div class="signup-link">
+                Already have an account? <a href="#" onclick="showLogin(event)">Sign In</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- WALLET CREDENTIALS MODAL -->
+    <div class="wallet-modal" id="walletModal">
+        <div class="wallet-card">
+            <h3 style="color:#14f195;font-size:1.2rem;margin-bottom:4px"><i class="fas fa-wallet" style="margin-right:8px"></i>Your XRPL Wallet Is Ready</h3>
+            <p style="color:var(--muted);font-size:0.82rem;margin-bottom:16px">Save these credentials securely — they cannot be recovered if lost.</p>
+
+            <div class="wallet-warning">
+                <i class="fas fa-exclamation-triangle"></i><strong>CRITICAL: Save Your Family Seed</strong>
+                <p>Your family seed (secret key) is the ONLY way to access your wallet. Write it down and store it in a secure location. S4 Ledger cannot recover it for you.</p>
+            </div>
+
+            <div class="cred-field">
+                <label>Wallet Address (Public)</label>
+                <div class="cred-value" id="credAddress">Loading...</div>
+                <button class="copy-btn" onclick="copyCredential('credAddress')"><i class="fas fa-copy"></i> Copy</button>
+            </div>
+
+            <div class="cred-field" style="border-color:rgba(255,170,0,0.3);background:rgba(255,170,0,0.03)">
+                <label style="color:#ffaa00">Family Seed (SECRET — Keep Private!)</label>
+                <div class="cred-value" id="credSeed" style="color:#ffaa00">Loading...</div>
+                <button class="copy-btn" onclick="copyCredential('credSeed')" style="border-color:rgba(255,170,0,0.3);color:#ffaa00"><i class="fas fa-copy"></i> Copy</button>
+            </div>
+
+            <div class="cred-field">
+                <label>Public Key</label>
+                <div class="cred-value" id="credPubKey">Loading...</div>
+                <button class="copy-btn" onclick="copyCredential('credPubKey')"><i class="fas fa-copy"></i> Copy</button>
+            </div>
+
+            <div class="wallet-stats">
+                <div class="wallet-stat">
+                    <div class="stat-val" id="credSLS">100</div>
+                    <div class="stat-lbl">SLS Balance</div>
+                </div>
+                <div class="wallet-stat">
+                    <div class="stat-val" id="credAnchors">10,000</div>
+                    <div class="stat-lbl">Anchors Available</div>
+                </div>
+                <div class="wallet-stat">
+                    <div class="stat-val" id="credXRP">12</div>
+                    <div class="stat-lbl">XRP Reserve</div>
+                </div>
+            </div>
+
+            <div class="cred-field">
+                <label>Network</label>
+                <div class="cred-value" id="credNetwork" style="color:#14f195">XRPL Mainnet</div>
+            </div>
+
+            <div class="cred-field">
+                <label>Explorer</label>
+                <div class="cred-value"><a id="credExplorer" href="#" target="_blank" style="color:var(--accent);text-decoration:none">View on XRPL Explorer <i class="fas fa-external-link-alt" style="font-size:0.7rem"></i></a></div>
+            </div>
+
+            <div style="margin-top:14px;padding:12px;background:rgba(0,170,255,0.05);border:1px solid rgba(0,170,255,0.15);border-radius:8px">
+                <p style="font-size:0.82rem;color:var(--steel);margin:0"><i class="fas fa-mobile-alt" style="color:var(--accent);margin-right:6px"></i><strong>Mobile Access:</strong> Import your family seed into <a href="https://xaman.app" target="_blank" style="color:var(--accent)">Xaman (formerly XUMM)</a> to manage your wallet on mobile.</p>
+            </div>
+
+            <div style="display:flex;gap:10px;margin-top:16px">
+                <button class="btn-login" onclick="downloadCredentials()" style="flex:1;background:linear-gradient(135deg,#c9a84c,#b8943d)"><i class="fas fa-download"></i> Download Credentials</button>
+                <button class="btn-login" onclick="closeWalletModal()" style="flex:1"><i class="fas fa-check"></i> I've Saved My Seed</button>
             </div>
         </div>
     </div>
@@ -529,6 +700,194 @@
     function showContactSales(e) {
         e.preventDefault();
         window.location.href = '../s4-contact/';
+    }
+
+    // ── Signup & Wallet Provisioning ──
+    let selectedPlan = 'starter';
+
+    function showSignup(e) {
+        e.preventDefault();
+        document.getElementById('loginView').querySelector('.login-card').style.display = 'none';
+        document.getElementById('signupView').classList.add('active');
+    }
+
+    function showLogin(e) {
+        e.preventDefault();
+        document.getElementById('signupView').classList.remove('active');
+        document.getElementById('loginView').querySelector('.login-card').style.display = 'block';
+    }
+
+    function selectPlan(el, plan) {
+        document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('selected'));
+        el.classList.add('selected');
+        selectedPlan = plan;
+    }
+
+    async function handleSignup(e) {
+        e.preventDefault();
+        const email = document.getElementById('signupEmail').value.trim();
+        const org = document.getElementById('signupOrg').value.trim();
+        const pw = document.getElementById('signupPassword').value;
+        const errorEl = document.getElementById('signupError');
+        const progressEl = document.getElementById('signupProgress');
+        const btn = document.getElementById('signupBtn');
+
+        if (!email || !pw) { errorEl.textContent = 'Please fill in all required fields.'; errorEl.style.display = 'block'; return; }
+        if (pw.length < 8) { errorEl.textContent = 'Password must be at least 8 characters.'; errorEl.style.display = 'block'; return; }
+
+        errorEl.style.display = 'none';
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating your wallet...';
+        progressEl.style.display = 'block';
+
+        // Show progress steps
+        const steps = [
+            '<i class="fas fa-spinner fa-spin" style="color:var(--accent);margin-right:6px"></i> Generating secp256k1 XRPL wallet...',
+            '<i class="fas fa-spinner fa-spin" style="color:var(--accent);margin-right:6px"></i> Funding wallet with XRP reserve...',
+            '<i class="fas fa-spinner fa-spin" style="color:var(--accent);margin-right:6px"></i> Setting up SLS TrustLine...',
+            '<i class="fas fa-spinner fa-spin" style="color:var(--accent);margin-right:6px"></i> Granting initial SLS tokens...',
+        ];
+
+        let stepIdx = 0;
+        progressEl.innerHTML = steps[0];
+        const stepInterval = setInterval(() => {
+            stepIdx++;
+            if (stepIdx < steps.length) {
+                let completed = '';
+                for (let i = 0; i < stepIdx; i++) {
+                    completed += '<div><i class="fas fa-check" style="color:#14f195;margin-right:6px"></i>' + steps[i].replace(/<i.*?<\/i>\s*/, '') + '</div>';
+                }
+                progressEl.innerHTML = completed + steps[stepIdx];
+            }
+        }, 2000);
+
+        try {
+            const resp = await fetch('/api/wallet/provision', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, organization: org, plan: selectedPlan })
+            });
+            const result = await resp.json();
+            clearInterval(stepInterval);
+
+            if (result.error) {
+                // Show error but also create local account
+                errorEl.textContent = 'Wallet provisioning unavailable: ' + result.error + '. Account created — wallet will be provisioned when you first anchor a record.';
+                errorEl.style.display = 'block';
+                progressEl.style.display = 'none';
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-wallet"></i> Create Account & Wallet';
+
+                // Still create local session
+                const userName = email.split('@')[0].replace(/[^a-zA-Z]/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+                localStorage.setItem('s4_user', JSON.stringify({
+                    email, name: userName, loginTime: Date.now(),
+                    organization: org, plan: selectedPlan, walletPending: true
+                }));
+                setTimeout(() => {
+                    if (!localStorage.getItem('s4_tutorial_done')) showTutorial(userName);
+                    else showDashboard(userName);
+                }, 2000);
+                return;
+            }
+
+            // Success! Show all steps complete
+            progressEl.innerHTML = [
+                '<div><i class="fas fa-check" style="color:#14f195;margin-right:6px"></i>Wallet generated (secp256k1)</div>',
+                '<div><i class="fas fa-check" style="color:#14f195;margin-right:6px"></i>Funded with ' + result.funding.xrp_funded + ' XRP</div>',
+                '<div><i class="fas fa-check" style="color:#14f195;margin-right:6px"></i>SLS TrustLine active</div>',
+                '<div><i class="fas fa-check" style="color:#14f195;margin-right:6px"></i>' + result.sls_grant.amount + ' SLS granted (' + result.anchors_available.toLocaleString() + ' anchors)</div>',
+            ].join('');
+
+            // Save session with wallet info
+            const userName = email.split('@')[0].replace(/[^a-zA-Z]/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+            localStorage.setItem('s4_user', JSON.stringify({
+                email, name: userName, loginTime: Date.now(),
+                organization: org, plan: selectedPlan,
+                wallet: result.wallet.address
+            }));
+            // Save wallet info separately (user can view later)
+            localStorage.setItem('s4_wallet', JSON.stringify(result));
+
+            // Show wallet credentials modal
+            setTimeout(() => {
+                showWalletCredentials(result);
+            }, 1500);
+
+        } catch (err) {
+            clearInterval(stepInterval);
+            errorEl.textContent = 'Network error: ' + err.message;
+            errorEl.style.display = 'block';
+            progressEl.style.display = 'none';
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fas fa-wallet"></i> Create Account & Wallet';
+        }
+    }
+
+    function showWalletCredentials(data) {
+        document.getElementById('credAddress').textContent = data.wallet.address;
+        document.getElementById('credSeed').textContent = data.wallet.seed;
+        document.getElementById('credPubKey').textContent = data.wallet.public_key;
+        document.getElementById('credSLS').textContent = data.sls_grant.amount || '100';
+        document.getElementById('credAnchors').textContent = (data.anchors_available || 10000).toLocaleString();
+        document.getElementById('credXRP').textContent = data.funding.xrp_funded || '12';
+        document.getElementById('credNetwork').textContent = 'XRPL ' + (data.wallet.network || 'mainnet').charAt(0).toUpperCase() + (data.wallet.network || 'mainnet').slice(1);
+        document.getElementById('credExplorer').href = data.instructions.explorer_url || '#';
+        document.getElementById('walletModal').classList.add('active');
+    }
+
+    function copyCredential(id) {
+        const text = document.getElementById(id).textContent;
+        navigator.clipboard.writeText(text).then(() => {
+            const btn = document.getElementById(id).parentElement.querySelector('.copy-btn');
+            btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+            setTimeout(() => { btn.innerHTML = '<i class="fas fa-copy"></i> Copy'; }, 1500);
+        });
+    }
+
+    function downloadCredentials() {
+        const data = JSON.parse(localStorage.getItem('s4_wallet') || '{}');
+        if (!data.wallet) return;
+        const text = [
+            '=== S4 LEDGER — XRPL WALLET CREDENTIALS ===',
+            'Generated: ' + new Date().toISOString(),
+            'KEEP THIS FILE SECURE \u2014 DO NOT SHARE',
+            '',
+            'WALLET ADDRESS (Public):',
+            data.wallet.address,
+            '',
+            'FAMILY SEED (SECRET \u2014 Keep Private!):',
+            data.wallet.seed,
+            '',
+            'PUBLIC KEY:',
+            data.wallet.public_key,
+            '',
+            'ALGORITHM: ' + data.wallet.algorithm,
+            'NETWORK: XRPL ' + data.wallet.network,
+            '',
+            'SLS BALANCE: ' + (data.sls_grant.amount || '100'),
+            'ANCHORS AVAILABLE: ' + (data.anchors_available || 10000),
+            'XRP RESERVE: ' + (data.funding.xrp_funded || '12'),
+            '',
+            'EXPLORER: ' + (data.instructions.explorer_url || ''),
+            '',
+            'MOBILE: Import your family seed into Xaman (https://xaman.app)',
+            '',
+            '=== END CREDENTIALS ===',
+        ].join('\n');
+        const blob = new Blob([text], { type: 'text/plain' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 's4-ledger-wallet-' + data.wallet.address.slice(0, 8) + '.txt';
+        a.click();
+    }
+
+    function closeWalletModal() {
+        document.getElementById('walletModal').classList.remove('active');
+        const user = JSON.parse(localStorage.getItem('s4_user') || '{}');
+        document.getElementById('signupView').classList.remove('active');
+        if (!localStorage.getItem('s4_tutorial_done')) showTutorial(user.name || 'User');
+        else showDashboard(user.name || 'User');
     }
 
     // Auto-login if session exists (using localStorage for persistence across pages)

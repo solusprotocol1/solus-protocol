@@ -455,6 +455,143 @@ def _init_xrpl():
         _xrpl_client = None
         _xrpl_wallet = None
 
+# ═══════════════════════════════════════════════════════════════════════
+#  WALLET PROVISIONING & SLS PURCHASE
+# ═══════════════════════════════════════════════════════════════════════
+
+# SLS pricing (USD per SLS token)
+SLS_PRICE_USD = 0.01  # $0.01 per SLS — enterprise bulk pricing available
+SLS_INITIAL_GRANT = "100"   # Free SLS granted to new accounts (covers 10,000 anchors)
+XRP_ACCOUNT_RESERVE = "12"  # Minimum XRP to activate + TrustLine reserve
+
+def _provision_wallet():
+    """Create a new XRPL wallet, fund it, set up SLS TrustLine, and grant initial SLS.
+    Returns wallet credentials and setup status, or None on failure."""
+    _init_xrpl()
+    if not _xrpl_client or not _xrpl_ops_wallet or not XRPL_AVAILABLE:
+        return None
+    try:
+        from xrpl.wallet import Wallet as W
+        from xrpl.models.transactions import TrustSet, Payment as Pay
+        from xrpl.models.amounts import IssuedCurrencyAmount as ICA
+        from xrpl.models.requests import AccountInfo
+
+        # 1. Generate a new secp256k1 wallet
+        new_wallet = W.create(algorithm=CryptoAlgorithm.SECP256K1)
+
+        # 2. Fund the new wallet with XRP from Ops wallet (covers account reserve + TrustLine reserve)
+        fund_tx = Pay(
+            account=_xrpl_ops_wallet.address,
+            destination=new_wallet.address,
+            amount=str(int(float(XRP_ACCOUNT_RESERVE) * 1_000_000))  # drops
+        )
+        fund_resp = submit_and_wait(fund_tx, _xrpl_client, _xrpl_ops_wallet)
+        if not fund_resp.is_successful():
+            return {"error": "Failed to fund new wallet", "detail": fund_resp.result.get("engine_result_message", "unknown")}
+
+        # 3. Set up SLS TrustLine on the new wallet
+        trust_tx = TrustSet(
+            account=new_wallet.address,
+            limit_amount=ICA(
+                currency="SLS",
+                issuer=SLS_ISSUER_ADDRESS,
+                value="1000000"  # 1M SLS trust limit
+            )
+        )
+        trust_resp = submit_and_wait(trust_tx, _xrpl_client, new_wallet)
+        if not trust_resp.is_successful():
+            return {"error": "Failed to set TrustLine", "detail": trust_resp.result.get("engine_result_message", "unknown")}
+
+        # 4. Grant initial SLS from Ops wallet
+        grant_tx = Pay(
+            account=_xrpl_ops_wallet.address,
+            destination=new_wallet.address,
+            amount=ICA(
+                currency="SLS",
+                issuer=SLS_ISSUER_ADDRESS,
+                value=SLS_INITIAL_GRANT
+            ),
+            memos=[Memo(
+                memo_type=bytes("s4/onboard", "utf-8").hex(),
+                memo_data=bytes(json.dumps({"type": "initial_grant", "amount": SLS_INITIAL_GRANT}), "utf-8").hex()
+            )]
+        )
+        grant_resp = submit_and_wait(grant_tx, _xrpl_client, _xrpl_ops_wallet)
+        sls_granted = grant_resp.is_successful()
+
+        explorer_base = XRPL_EXPLORER_MAINNET if XRPL_NETWORK == "mainnet" else XRPL_EXPLORER_TESTNET
+
+        return {
+            "success": True,
+            "wallet": {
+                "address": new_wallet.address,
+                "seed": new_wallet.seed,
+                "public_key": new_wallet.public_key,
+                "algorithm": "secp256k1",
+                "network": XRPL_NETWORK,
+            },
+            "funding": {
+                "xrp_funded": XRP_ACCOUNT_RESERVE,
+                "fund_tx": fund_resp.result.get("hash", ""),
+                "explorer_url": explorer_base + fund_resp.result.get("hash", ""),
+            },
+            "trustline": {
+                "currency": "SLS",
+                "issuer": SLS_ISSUER_ADDRESS,
+                "limit": "1000000",
+                "trust_tx": trust_resp.result.get("hash", ""),
+            },
+            "sls_grant": {
+                "amount": SLS_INITIAL_GRANT if sls_granted else "0",
+                "granted": sls_granted,
+                "grant_tx": grant_resp.result.get("hash", "") if sls_granted else None,
+            },
+            "anchors_available": int(float(SLS_INITIAL_GRANT) / float(SLS_ANCHOR_FEE)) if sls_granted else 0,
+        }
+    except Exception as e:
+        print(f"Wallet provisioning failed: {e}")
+        return {"error": str(e)}
+
+
+def _send_sls_to_wallet(destination_address, sls_amount):
+    """Send SLS tokens to a customer wallet (for fiat purchases).
+    Returns transaction result or None."""
+    _init_xrpl()
+    if not _xrpl_client or not _xrpl_ops_wallet:
+        return None
+    try:
+        from xrpl.models.transactions import Payment as Pay
+        from xrpl.models.amounts import IssuedCurrencyAmount as ICA
+
+        payment = Pay(
+            account=_xrpl_ops_wallet.address,
+            destination=destination_address,
+            amount=ICA(
+                currency="SLS",
+                issuer=SLS_ISSUER_ADDRESS,
+                value=str(sls_amount)
+            ),
+            memos=[Memo(
+                memo_type=bytes("s4/purchase", "utf-8").hex(),
+                memo_data=bytes(json.dumps({"type": "fiat_purchase", "amount": str(sls_amount)}), "utf-8").hex()
+            )]
+        )
+        resp = submit_and_wait(payment, _xrpl_client, _xrpl_ops_wallet)
+        if resp.is_successful():
+            explorer_base = XRPL_EXPLORER_MAINNET if XRPL_NETWORK == "mainnet" else XRPL_EXPLORER_TESTNET
+            return {
+                "success": True,
+                "tx_hash": resp.result["hash"],
+                "amount": str(sls_amount),
+                "explorer_url": explorer_base + resp.result["hash"],
+            }
+        else:
+            return {"error": resp.result.get("engine_result_message", "unknown")}
+    except Exception as e:
+        print(f"SLS send failed: {e}")
+        return {"error": str(e)}
+
+
 def _anchor_xrpl(hash_value, record_type="", branch=""):
     """Submit a real anchor transaction to XRPL. Returns tx info or None."""
     _init_xrpl()
@@ -616,6 +753,12 @@ class handler(BaseHTTPRequestHandler):
             return "calendar"
         if path == "/api/verify":
             return "verify"
+        if path == "/api/wallet/provision":
+            return "wallet_provision"
+        if path == "/api/wallet/buy-sls":
+            return "wallet_buy_sls"
+        if path == "/api/wallet/balance":
+            return "wallet_balance"
         return None
 
     def _check_rate_limit(self):
@@ -865,6 +1008,45 @@ class handler(BaseHTTPRequestHandler):
                 {"id": "E-003", "title": "Warranty Renewal Deadline", "date": f"{year}-{month:02d}-28", "time": "17:00", "type": "critical", "source": "warranty"},
             ]
             self._send_json({"month": month, "year": year, "events": events, "total": len(events)})
+        elif route == "wallet_balance":
+            self._log_request("wallet-balance")
+            qs = parse_qs(parsed.query)
+            address = qs.get("address", [""])[0]
+            if not address:
+                self._send_json({"error": "address parameter required"}, 400)
+                return
+            # Query XRPL for account balances
+            _init_xrpl()
+            if not _xrpl_client or not XRPL_AVAILABLE:
+                self._send_json({"error": "XRPL not available"}, 503)
+                return
+            try:
+                from xrpl.models.requests import AccountInfo, AccountLines
+                acc_info = _xrpl_client.request(AccountInfo(account=address))
+                xrp_drops = int(acc_info.result.get("account_data", {}).get("Balance", "0"))
+                xrp_balance = xrp_drops / 1_000_000
+
+                acc_lines = _xrpl_client.request(AccountLines(account=address))
+                sls_balance = "0"
+                for line in acc_lines.result.get("lines", []):
+                    if line.get("currency") == "SLS" and line.get("account") == SLS_ISSUER_ADDRESS:
+                        sls_balance = line.get("balance", "0")
+                        break
+
+                anchors_available = int(float(sls_balance) / float(SLS_ANCHOR_FEE)) if float(sls_balance) > 0 else 0
+                explorer_base = (XRPL_EXPLORER_MAINNET if XRPL_NETWORK == "mainnet" else XRPL_EXPLORER_TESTNET).replace("/transactions/", "/accounts/")
+
+                self._send_json({
+                    "address": address,
+                    "xrp_balance": round(xrp_balance, 6),
+                    "sls_balance": sls_balance,
+                    "anchors_available": anchors_available,
+                    "sls_price_usd": SLS_PRICE_USD,
+                    "network": XRPL_NETWORK,
+                    "explorer_url": explorer_base + address,
+                })
+            except Exception as e:
+                self._send_json({"error": f"Account lookup failed: {str(e)}"}, 404)
         else:
             self._send_json({"error": "Not found", "path": self.path}, 404)
 
@@ -1072,6 +1254,86 @@ class handler(BaseHTTPRequestHandler):
             # Return ILS analyses (in production: query Supabase)
             analyses = [r for r in _live_records if "id" in r and r.get("id", "").startswith("ILS-")]
             self._send_json({"analyses": analyses, "total": len(analyses)})
+
+        elif route == "wallet_provision":
+            self._log_request("wallet-provision")
+            # Provision a new XRPL wallet with SLS TrustLine + initial SLS grant
+            email = data.get("email", "")
+            organization = data.get("organization", "")
+            plan = data.get("plan", "starter")  # starter, professional, enterprise
+
+            if not email:
+                self._send_json({"error": "Email is required"}, 400)
+                return
+
+            result = _provision_wallet()
+            if result is None:
+                self._send_json({"error": "XRPL not available — wallet provisioning requires mainnet connection"}, 503)
+                return
+            if "error" in result:
+                self._send_json(result, 500)
+                return
+
+            # Attach account metadata
+            result["account"] = {
+                "email": email,
+                "organization": organization,
+                "plan": plan,
+                "created": datetime.now(timezone.utc).isoformat(),
+                "sls_price_usd": SLS_PRICE_USD,
+            }
+            result["instructions"] = {
+                "important": "SAVE YOUR WALLET SEED SECURELY — it cannot be recovered if lost.",
+                "seed_warning": "Your family seed is the ONLY way to access your wallet. Store it offline in a secure location.",
+                "next_steps": [
+                    f"Your wallet has been funded with {SLS_INITIAL_GRANT} SLS ({result.get('anchors_available', 0):,} anchors included)",
+                    "You can purchase additional SLS at any time from your account dashboard",
+                    "Each anchor costs 0.01 SLS — records are permanently verified on XRPL mainnet",
+                    "Install Xaman (formerly XUMM) to manage your wallet on mobile — import using your family seed",
+                ],
+                "xaman_url": "https://xaman.app",
+                "explorer_url": (XRPL_EXPLORER_MAINNET if XRPL_NETWORK == 'mainnet' else XRPL_EXPLORER_TESTNET).replace('/transactions/', '/accounts/') + result['wallet']['address'],
+            }
+            self._send_json(result)
+
+        elif route == "wallet_buy_sls":
+            self._log_request("wallet-buy-sls")
+            # Purchase SLS with fiat (Stripe integration point)
+            wallet_address = data.get("wallet_address", "")
+            usd_amount = data.get("usd_amount", 0)
+            payment_method = data.get("payment_method", "")  # stripe_token, invoice, etc.
+
+            if not wallet_address:
+                self._send_json({"error": "wallet_address is required"}, 400)
+                return
+            if not usd_amount or float(usd_amount) <= 0:
+                self._send_json({"error": "usd_amount must be positive"}, 400)
+                return
+
+            usd = float(usd_amount)
+            sls_amount = round(usd / SLS_PRICE_USD, 2)
+            anchors = int(sls_amount / float(SLS_ANCHOR_FEE))
+
+            # In production: validate Stripe payment here before sending SLS
+            # stripe.PaymentIntent.create(amount=int(usd*100), currency='usd', ...)
+
+            result = _send_sls_to_wallet(wallet_address, sls_amount)
+            if result is None:
+                self._send_json({"error": "XRPL not available"}, 503)
+                return
+            if "error" in result:
+                self._send_json(result, 500)
+                return
+
+            result["purchase"] = {
+                "usd_paid": usd,
+                "sls_received": sls_amount,
+                "sls_price_usd": SLS_PRICE_USD,
+                "anchors_purchased": anchors,
+                "payment_method": payment_method or "pending",
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+            }
+            self._send_json(result)
 
         else:
             self._send_json({"error": "Not found", "path": self.path}, 404)

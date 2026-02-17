@@ -1138,6 +1138,157 @@
         },
         "security": [{ "ApiKeyAuth": [] }]
       }
+    },
+    "/api/wallet/provision": {
+      "post": {
+        "summary": "Provision a new XRPL wallet",
+        "description": "Creates a new secp256k1 XRPL wallet, funds it with XRP, sets up SLS TrustLine, and grants initial SLS tokens. Automatically executed on account creation.",
+        "operationId": "provisionWallet",
+        "tags": ["Wallet"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["email"],
+                "properties": {
+                  "email": { "type": "string", "format": "email", "description": "User email address" },
+                  "organization": { "type": "string", "description": "Organization name" },
+                  "plan": { "type": "string", "enum": ["starter", "professional", "enterprise"], "default": "starter" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Wallet provisioned successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean" },
+                    "wallet": {
+                      "type": "object",
+                      "properties": {
+                        "address": { "type": "string", "description": "XRPL wallet address" },
+                        "seed": { "type": "string", "description": "Family seed (secret key)" },
+                        "public_key": { "type": "string" },
+                        "algorithm": { "type": "string", "example": "secp256k1" },
+                        "network": { "type": "string", "example": "mainnet" }
+                      }
+                    },
+                    "sls_grant": {
+                      "type": "object",
+                      "properties": {
+                        "amount": { "type": "string", "example": "100" },
+                        "granted": { "type": "boolean" }
+                      }
+                    },
+                    "anchors_available": { "type": "integer", "example": 10000 }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "description": "Missing required fields" },
+          "503": { "description": "XRPL not available" }
+        }
+      }
+    },
+    "/api/wallet/buy-sls": {
+      "post": {
+        "summary": "Purchase SLS tokens with fiat",
+        "description": "Purchase SLS tokens using a credit card or other payment method. SLS is sent to the specified wallet address on XRPL.",
+        "operationId": "buySLS",
+        "tags": ["Wallet"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["wallet_address", "usd_amount"],
+                "properties": {
+                  "wallet_address": { "type": "string", "description": "XRPL wallet address to receive SLS" },
+                  "usd_amount": { "type": "number", "description": "USD amount to spend", "minimum": 0.01 },
+                  "payment_method": { "type": "string", "description": "Payment method identifier" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "SLS purchase successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean" },
+                    "tx_hash": { "type": "string" },
+                    "explorer_url": { "type": "string", "format": "uri" },
+                    "purchase": {
+                      "type": "object",
+                      "properties": {
+                        "usd_paid": { "type": "number" },
+                        "sls_received": { "type": "number" },
+                        "sls_price_usd": { "type": "number" },
+                        "anchors_purchased": { "type": "integer" }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "description": "Invalid request" },
+          "503": { "description": "XRPL not available" }
+        }
+      }
+    },
+    "/api/wallet/balance": {
+      "get": {
+        "summary": "Check wallet SLS and XRP balance",
+        "description": "Query XRPL for the SLS token balance, XRP balance, and available anchors for a wallet address.",
+        "operationId": "getWalletBalance",
+        "tags": ["Wallet"],
+        "parameters": [
+          {
+            "name": "address",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "XRPL wallet address to check"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Wallet balance",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "address": { "type": "string" },
+                    "xrp_balance": { "type": "number" },
+                    "sls_balance": { "type": "string" },
+                    "anchors_available": { "type": "integer" },
+                    "sls_price_usd": { "type": "number" },
+                    "network": { "type": "string" },
+                    "explorer_url": { "type": "string", "format": "uri" }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "description": "Missing address parameter" },
+          "404": { "description": "Account not found on XRPL" }
+        }
+      }
     }
   },
   "components": {
@@ -1169,6 +1320,7 @@
     { "name": "XRPL", "description": "XRP Ledger network status and connectivity" },
     { "name": "Authentication", "description": "API key generation and validation" },
     { "name": "Database", "description": "Analysis storage and retrieval" },
-    { "name": "Verification", "description": "Record integrity verification and tamper detection" }
+    { "name": "Verification", "description": "Record integrity verification and tamper detection" },
+    { "name": "Wallet", "description": "XRPL wallet provisioning, SLS token purchases, and balance queries" }
   ]
 }
