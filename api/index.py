@@ -454,10 +454,6 @@ def _init_xrpl():
         print(f"XRPL init failed: {e}")
         _xrpl_client = None
         _xrpl_wallet = None
-        global _xrpl_init_error
-        _xrpl_init_error = str(e)
-
-_xrpl_init_error = None
 
 def _anchor_xrpl(hash_value, record_type="", branch=""):
     """Submit a real anchor transaction to XRPL. Returns tx info or None."""
@@ -717,9 +713,7 @@ class handler(BaseHTTPRequestHandler):
                 "network": XRPL_NETWORK,
                 "endpoint": endpoint,
                 "explorer": explorer_base,
-                "note": f"Real XRPL {XRPL_NETWORK.capitalize()} transactions. Verify at {'livenet' if XRPL_NETWORK == 'mainnet' else 'testnet'}.xrpl.org",
-                "init_error": _xrpl_init_error,
-                "ops_wallet": _xrpl_ops_wallet.address if _xrpl_ops_wallet else None
+                "note": f"Real XRPL {XRPL_NETWORK.capitalize()} transactions. Verify at {'livenet' if XRPL_NETWORK == 'mainnet' else 'testnet'}.xrpl.org"
             })
         elif route == "infrastructure":
             self._send_json({
