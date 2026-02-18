@@ -22,11 +22,11 @@ S4 Ledger is designed to integrate with existing defense logistics systems throu
 - Batch endpoints for high-volume operations
 - Webhook notifications for anchor confirmations
 
-## Fiat Conversion
+## SLS Token Delivery
 
-- $SLS acquisition via XRPL DEX
-- Gateway IOU support (USD, EUR, GBP)
-- See [fiat_conversion_documentation.md](fiat_conversion_documentation.md) for details
+- $SLS delivered from S4 Treasury as part of subscription
+- Automatic monthly renewal via Stripe webhook
+- 0.01 SLS anchor fee returns to Treasury (circular economy)
 
 ## Compliance Modules
 

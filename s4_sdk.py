@@ -60,11 +60,12 @@ except Exception:
 
 # Mock fiat gateway (e.g., simulate Stripe + crypto purchase; in real: use Stripe API + MoonPay/Ramp for USD to $SLS)
 
-# Real fiat conversion using XRPL DEX/gateways
+# Real fiat conversion using XRPL DEX/gateways (legacy — SLS now delivered from Treasury)
 def real_fiat_to_sls_conversion(client, wallet, usd_amount, sls_issuer, gateway_issuer, destination):
     """
-    Convert USD.IOU to $SLS using XRPL DEX/gateway. Requires USD.IOU trustline and gateway issuer.
-    Returns response from XRPL transaction.
+    Legacy: Convert USD.IOU to $SLS using XRPL DEX/gateway.
+    Note: In production, SLS is delivered directly from the S4 Treasury as part of the subscription.
+    This function is retained for SDK completeness and third-party integrations.
     """
     from xrpl.models.transactions import Payment
     from xrpl.transaction import submit_and_wait
@@ -164,7 +165,7 @@ class S4SDK:
         - record_type: Optional category prepended to memo (e.g., 'DEPOT_REPAIR:hash...')
         """
         if fiat_mode:
-            # Real fiat conversion via XRPL DEX/gateway
+            # Legacy fiat conversion via XRPL DEX/gateway (SLS now delivered from Treasury)
             if gateway_issuer is None:
                 raise ValueError("gateway_issuer required for real fiat conversion.")
             wallet = self.wallet_from_seed(wallet_seed)

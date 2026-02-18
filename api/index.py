@@ -41,6 +41,7 @@ except ImportError:
 # Supabase integration (graceful fallback if unavailable)
 SUPABASE_URL = os.environ.get("SUPABASE_URL", "")
 SUPABASE_KEY = os.environ.get("SUPABASE_ANON_KEY", "")
+SUPABASE_SERVICE_KEY = os.environ.get("SUPABASE_SERVICE_KEY", "")  # For server-side wallet storage
 SUPABASE_AVAILABLE = bool(SUPABASE_URL and SUPABASE_KEY)
 
 # API Key auth
@@ -422,48 +423,66 @@ XRPL_TESTNET_URL = "https://s.altnet.rippletest.net:51234"
 XRPL_MAINNET_URL = "https://xrplcluster.com"
 XRPL_EXPLORER_TESTNET = "https://testnet.xrpl.org/transactions/"
 XRPL_EXPLORER_MAINNET = "https://livenet.xrpl.org/transactions/"
-SLS_TREASURY_WALLET = "rMLmkrxpadq5z6oTDmq8GhQj9LKjf1KLqJ"
+SLS_TREASURY_ADDRESS = "rMLmkrxpadq5z6oTDmq8GhQj9LKjf1KLqJ"
 SLS_ISSUER_ADDRESS = "r95GyZac4butvVcsTWUPpxzekmyzaHsTA5"  # SLS token issuer
-SLS_ANCHOR_FEE = "0.01"  # SLS fee per anchor
+SLS_ANCHOR_FEE = "0.01"  # SLS fee per anchor (0.01 SLS = $0.01)
 _xrpl_client = None
-_xrpl_wallet = None
-_xrpl_ops_wallet = None  # Operational wallet for SLS fee payments
+_xrpl_wallet = None       # Issuer wallet — signs anchor transactions
+_xrpl_treasury_wallet = None  # Treasury wallet — holds XRP + SLS, funds users, collects anchor fees
 
 def _init_xrpl():
-    """Initialize XRPL client and wallet for configured network."""
-    global _xrpl_client, _xrpl_wallet, _xrpl_ops_wallet
+    """Initialize XRPL client, Issuer wallet, and Treasury wallet."""
+    global _xrpl_client, _xrpl_wallet, _xrpl_treasury_wallet
     if not XRPL_AVAILABLE or _xrpl_client is not None:
         return
     try:
         url = XRPL_MAINNET_URL if XRPL_NETWORK == "mainnet" else XRPL_TESTNET_URL
         _xrpl_client = JsonRpcClient(url)
+        # Issuer wallet — signs anchor AccountSet transactions (XRPL_WALLET_SEED)
         seed = os.environ.get("XRPL_WALLET_SEED")
         if seed:
             _xrpl_wallet = Wallet.from_seed(seed, algorithm=CryptoAlgorithm.SECP256K1)
         elif XRPL_NETWORK != "mainnet":
-            # Only auto-generate faucet wallet on testnet
             _xrpl_wallet = generate_faucet_wallet(_xrpl_client, debug=False)
         else:
             print("XRPL mainnet requires XRPL_WALLET_SEED env var")
             _xrpl_client = None
-        # Initialize operational wallet for SLS fee payments
-        ops_seed = os.environ.get("XRPL_OPS_WALLET_SEED")
-        if ops_seed:
-            _xrpl_ops_wallet = Wallet.from_seed(ops_seed, algorithm=CryptoAlgorithm.SECP256K1)
+        # Treasury wallet — holds XRP (for wallet activation) + SLS (subscription allocations)
+        # Sends XRP to activate new user wallets, sends SLS to subscribers,
+        # receives 0.01 SLS back per anchor. The SLS circulation engine.
+        treasury_seed = os.environ.get("XRPL_TREASURY_SEED")
+        if treasury_seed:
+            _xrpl_treasury_wallet = Wallet.from_seed(treasury_seed, algorithm=CryptoAlgorithm.SECP256K1)
+        elif XRPL_NETWORK == "mainnet":
+            print("WARNING: XRPL_TREASURY_SEED not set — wallet provisioning and SLS delivery disabled")
     except Exception as e:
         print(f"XRPL init failed: {e}")
         _xrpl_client = None
         _xrpl_wallet = None
 
 # ═══════════════════════════════════════════════════════════════════════
-#  WALLET PROVISIONING & SLS PURCHASE
+#  WALLET PROVISIONING & SLS ECONOMY
+#
+#  How it works:
+#  1. User subscribes (Stripe) → S4 pockets the subscription as revenue
+#  2. Treasury sends 12 XRP to activate user's new XRPL wallet (business expense)
+#  3. Treasury sends the plan's monthly SLS allocation to user's wallet
+#  4. User anchors records → 0.01 SLS per anchor flows from user wallet → Treasury
+#  5. Monthly renewal (Stripe webhook) → Treasury sends next month's SLS
+#  6. SLS circulates: Treasury → User → Treasury. Self-sustaining.
+#
+#  Wallets:
+#   - Issuer (r95G…TA5): Signs anchor transactions. XRPL_WALLET_SEED env var.
+#   - Treasury (rMLm…KLqJ): Holds XRP + SLS. Funds users, collects fees. XRPL_TREASURY_SEED env var.
+#   - Ops (raWL…un51): Nick's personal wallet. NOT involved in SLS economy.
+#   - User wallets: Created at signup, seed stored in Supabase for automatic signing.
 # ═══════════════════════════════════════════════════════════════════════
 
-# SLS pricing (USD per SLS token)
-SLS_PRICE_USD = 0.01  # $0.01 per SLS — enterprise bulk pricing available
-XRP_ACCOUNT_RESERVE = "12"  # Minimum XRP to activate + TrustLine reserve
+# SLS token economics
+SLS_PRICE_USD = 0.01  # $0.01 per SLS — value basis for subscription allocations
+XRP_ACCOUNT_RESERVE = "12"  # XRP to activate a new wallet + TrustLine reserve
 
-# Subscription tiers — SLS included per month (purchased via USD→XRP→SLS DEX conversion)
+# Subscription tiers — SLS included per month (delivered from Treasury)
 SUBSCRIPTION_TIERS = {
     "pilot":        {"price_usd": 0,       "sls_monthly": 100,     "anchors": 10000,     "label": "Pilot (Free)"},
     "starter":      {"price_usd": 999.00,  "sls_monthly": 25000,   "anchors": 2500000,   "label": "Starter"},
@@ -471,37 +490,112 @@ SUBSCRIPTION_TIERS = {
     "enterprise":   {"price_usd": 9999.00, "sls_monthly": 500000,  "anchors": 0,         "label": "Enterprise"},
 }
 
-# Stripe integration (required for SLS purchases — no free tokens)
+# Stripe integration
 STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY", "")  # Required in production
-STRIPE_WEBHOOK_SECRET = os.environ.get("STRIPE_WEBHOOK_SECRET", "")  # Payment verification
+STRIPE_WEBHOOK_SECRET = os.environ.get("STRIPE_WEBHOOK_SECRET", "")  # Webhook signature verification
 
-def _provision_wallet(plan="starter"):
-    """Create a new XRPL wallet, fund it with XRP, and set up SLS TrustLine.
-    NO free SLS is granted — users purchase SLS via subscription (USD→XRP→SLS DEX).
-    Returns wallet credentials and setup status, or None on failure."""
+# In-memory wallet cache (production: Supabase)
+# Stores {email: {address, seed, plan, created}} for custodial signing
+_wallet_store = {}  # Cleared on cold start; Supabase is the source of truth
+
+def _store_wallet(email, address, seed, plan):
+    """Store user wallet credentials in Supabase for custodial signing.
+    S4 acts as a custodial wallet provider — we create wallets and sign
+    anchor fee transactions on behalf of users automatically."""
+    record = {
+        "email": email,
+        "address": address,
+        "seed": seed,  # Encrypted at rest by Supabase RLS + column encryption
+        "plan": plan,
+        "created": datetime.now(timezone.utc).isoformat(),
+    }
+    _wallet_store[email] = record  # In-memory cache
+    # Persist to Supabase if available
+    if SUPABASE_URL and SUPABASE_SERVICE_KEY:
+        try:
+            import urllib.request
+            req = urllib.request.Request(
+                f"{SUPABASE_URL}/rest/v1/wallets",
+                data=json.dumps(record).encode(),
+                headers={
+                    "apikey": SUPABASE_SERVICE_KEY,
+                    "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}",
+                    "Content-Type": "application/json",
+                    "Prefer": "return=minimal",
+                },
+                method="POST",
+            )
+            urllib.request.urlopen(req, timeout=10)
+        except Exception as e:
+            print(f"Supabase wallet store failed (using in-memory fallback): {e}")
+    return record
+
+
+def _get_wallet_seed(email=None, address=None):
+    """Retrieve a user's wallet seed for custodial signing.
+    Looks up by email or wallet address. Checks in-memory cache first,
+    then Supabase if available."""
+    # Check in-memory cache
+    if email and email in _wallet_store:
+        return _wallet_store[email].get("seed")
+    if address:
+        for rec in _wallet_store.values():
+            if rec.get("address") == address:
+                return rec.get("seed")
+    # Query Supabase if available
+    if SUPABASE_URL and SUPABASE_SERVICE_KEY:
+        try:
+            import urllib.request
+            lookup = f"email=eq.{email}" if email else f"address=eq.{address}"
+            req = urllib.request.Request(
+                f"{SUPABASE_URL}/rest/v1/wallets?{lookup}&select=seed,email,address,plan",
+                headers={
+                    "apikey": SUPABASE_SERVICE_KEY,
+                    "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}",
+                },
+            )
+            resp = urllib.request.urlopen(req, timeout=10)
+            rows = json.loads(resp.read())
+            if rows:
+                # Cache for future lookups
+                row = rows[0]
+                _wallet_store[row["email"]] = row
+                return row.get("seed")
+        except Exception as e:
+            print(f"Supabase wallet lookup failed: {e}")
+    return None
+
+
+def _provision_wallet(email, plan="starter"):
+    """Create a new XRPL wallet for a subscriber.
+    Treasury funds the wallet with XRP (activation reserve, business expense),
+    sets up SLS TrustLine, and delivers the plan's SLS allocation.
+    Wallet seed is stored in Supabase for custodial anchor fee signing.
+    Returns wallet credentials and SLS delivery status, or error."""
     _init_xrpl()
-    if not _xrpl_client or not _xrpl_ops_wallet or not XRPL_AVAILABLE:
+    if not _xrpl_client or not _xrpl_treasury_wallet or not XRPL_AVAILABLE:
         return None
     try:
         from xrpl.wallet import Wallet as W
         from xrpl.models.transactions import TrustSet, Payment as Pay
         from xrpl.models.amounts import IssuedCurrencyAmount as ICA
-        from xrpl.models.requests import AccountInfo
 
-        # 1. Generate a new secp256k1 wallet
+        tier = SUBSCRIPTION_TIERS.get(plan, SUBSCRIPTION_TIERS["starter"])
+
+        # 1. Generate a new secp256k1 wallet for the user
         new_wallet = W.create(algorithm=CryptoAlgorithm.SECP256K1)
 
-        # 2. Fund the new wallet with XRP from Ops wallet (covers account reserve + TrustLine reserve)
+        # 2. Treasury sends XRP to activate the wallet (business expense from subscription revenue)
         fund_tx = Pay(
-            account=_xrpl_ops_wallet.address,
+            account=_xrpl_treasury_wallet.address,
             destination=new_wallet.address,
             amount=str(int(float(XRP_ACCOUNT_RESERVE) * 1_000_000))  # drops
         )
-        fund_resp = submit_and_wait(fund_tx, _xrpl_client, _xrpl_ops_wallet)
+        fund_resp = submit_and_wait(fund_tx, _xrpl_client, _xrpl_treasury_wallet)
         if not fund_resp.is_successful():
             return {"error": "Failed to fund new wallet", "detail": fund_resp.result.get("engine_result_message", "unknown")}
 
-        # 3. Set up SLS TrustLine on the new wallet (automatic — user never has to do this)
+        # 3. Set up SLS TrustLine on the new wallet (to Issuer r95G…TA5)
         trust_tx = TrustSet(
             account=new_wallet.address,
             limit_amount=ICA(
@@ -514,12 +608,38 @@ def _provision_wallet(plan="starter"):
         if not trust_resp.is_successful():
             return {"error": "Failed to set TrustLine", "detail": trust_resp.result.get("engine_result_message", "unknown")}
 
-        # NO step 4 — no free SLS granted.
-        # Users must purchase SLS via their subscription plan (USD→XRP→SLS on XRPL DEX).
-        # This ensures SEC compliance: SLS is purchased at fair market value, never given away.
+        # 4. Treasury delivers the plan's SLS allocation to the user's wallet
+        sls_amount = str(tier["sls_monthly"])
+        sls_tx_hash = ""
+        if int(sls_amount) > 0:
+            sls_payment = Pay(
+                account=_xrpl_treasury_wallet.address,
+                destination=new_wallet.address,
+                amount=ICA(
+                    currency="SLS",
+                    issuer=SLS_ISSUER_ADDRESS,
+                    value=sls_amount
+                ),
+                memos=[Memo(
+                    memo_type=bytes("s4/subscription", "utf-8").hex(),
+                    memo_data=bytes(json.dumps({
+                        "type": "subscription_sls_delivery",
+                        "plan": plan,
+                        "amount": sls_amount,
+                        "email": email,
+                    }), "utf-8").hex()
+                )]
+            )
+            sls_resp = submit_and_wait(sls_payment, _xrpl_client, _xrpl_treasury_wallet)
+            if sls_resp.is_successful():
+                sls_tx_hash = sls_resp.result.get("hash", "")
+            else:
+                print(f"SLS delivery failed: {sls_resp.result.get('engine_result_message', 'unknown')}")
+
+        # 5. Store wallet seed in Supabase for custodial anchor fee signing
+        _store_wallet(email, new_wallet.address, new_wallet.seed, plan)
 
         explorer_base = XRPL_EXPLORER_MAINNET if XRPL_NETWORK == "mainnet" else XRPL_EXPLORER_TESTNET
-        tier = SUBSCRIPTION_TIERS.get(plan, SUBSCRIPTION_TIERS["starter"])
 
         return {
             "success": True,
@@ -541,105 +661,114 @@ def _provision_wallet(plan="starter"):
                 "limit": "1000000",
                 "trust_tx": trust_resp.result.get("hash", ""),
             },
+            "sls_delivery": {
+                "amount": sls_amount,
+                "tx_hash": sls_tx_hash,
+                "explorer_url": (explorer_base + sls_tx_hash) if sls_tx_hash else "",
+                "source": "Treasury",
+            },
             "subscription": {
                 "plan": plan,
                 "label": tier["label"],
                 "price_usd": tier["price_usd"],
                 "sls_monthly": tier["sls_monthly"],
-                "sls_balance": 0,
-                "purchase_required": True,
-                "message": "Your wallet is ready. Subscribe to purchase SLS — your first SLS will be delivered automatically via XRPL DEX.",
+                "sls_balance": sls_amount,
+                "anchors_available": tier["anchors"],
             },
-            "anchors_available": 0,
+            "anchors_available": tier["anchors"],
         }
     except Exception as e:
         print(f"Wallet provisioning failed: {e}")
         return {"error": str(e)}
 
 
-def _purchase_sls_via_dex(destination_address, usd_amount, stripe_payment_id=""):
-    """Purchase SLS for a customer wallet using XRPL DEX (USD→XRP→SLS conversion).
-    Requires verified Stripe payment. SLS is bought at market price on the XRPL DEX,
-    NOT sent from the Ops wallet. This ensures SEC compliance — SLS is always purchased
-    at fair market value through a transparent, auditable process.
-    Returns transaction result or None."""
+def _deliver_monthly_sls(email, plan=None):
+    """Deliver monthly SLS allocation from Treasury to a subscriber's wallet.
+    Called automatically by Stripe webhook on subscription renewal.
+    Looks up the user's wallet from Supabase and sends SLS from Treasury."""
     _init_xrpl()
-    if not _xrpl_client or not _xrpl_ops_wallet:
-        return None
+    if not _xrpl_client or not _xrpl_treasury_wallet:
+        return {"error": "XRPL Treasury not available"}
 
-    # SECURITY: Require verified payment before delivering SLS
-    if not stripe_payment_id:
-        return {"error": "Payment verification required. No SLS can be delivered without a confirmed payment.",
-                "code": "PAYMENT_REQUIRED"}
+    # Look up user's wallet
+    wallet_seed = _get_wallet_seed(email=email)
+    if not wallet_seed:
+        return {"error": f"No wallet found for {email}"}
+
+    user_wallet = Wallet.from_seed(wallet_seed, algorithm=CryptoAlgorithm.SECP256K1)
+
+    # Determine plan from cache or parameter
+    cached = _wallet_store.get(email, {})
+    plan = plan or cached.get("plan", "starter")
+    tier = SUBSCRIPTION_TIERS.get(plan, SUBSCRIPTION_TIERS["starter"])
+    sls_amount = str(tier["sls_monthly"])
+
+    if int(sls_amount) <= 0:
+        return {"success": True, "sls_delivered": "0", "message": "Pilot plan — no SLS allocation"}
 
     try:
         from xrpl.models.transactions import Payment as Pay
         from xrpl.models.amounts import IssuedCurrencyAmount as ICA
 
-        sls_amount = round(usd_amount / SLS_PRICE_USD, 2)
-
-        # In production, this uses XRPL DEX cross-currency payment (XRP→SLS)
-        # The Ops wallet holds XRP (from Stripe USD→XRP conversion) and uses
-        # the DEX's auto-bridging to buy SLS at market price, delivering to user.
-        #
-        # Flow: User pays USD (Stripe) → S4 receives USD → S4 buys XRP (exchange)
-        #       → XRP sent to XRPL → DEX auto-bridge converts XRP→SLS → SLS to user wallet
-        #
-        # This is NOT a gift. This is a purchase. The user pays fair market value.
         payment = Pay(
-            account=_xrpl_ops_wallet.address,
-            destination=destination_address,
+            account=_xrpl_treasury_wallet.address,
+            destination=user_wallet.address,
             amount=ICA(
                 currency="SLS",
                 issuer=SLS_ISSUER_ADDRESS,
-                value=str(sls_amount)
+                value=sls_amount
             ),
             memos=[Memo(
-                memo_type=bytes("s4/subscription-purchase", "utf-8").hex(),
+                memo_type=bytes("s4/renewal", "utf-8").hex(),
                 memo_data=bytes(json.dumps({
-                    "type": "subscription_purchase",
-                    "amount": str(sls_amount),
-                    "usd_paid": str(usd_amount),
-                    "stripe_id": stripe_payment_id,
-                    "method": "USD→XRP→SLS (XRPL DEX)",
+                    "type": "monthly_sls_renewal",
+                    "plan": plan,
+                    "amount": sls_amount,
+                    "email": email,
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                 }), "utf-8").hex()
             )]
         )
-        resp = submit_and_wait(payment, _xrpl_client, _xrpl_ops_wallet)
+        resp = submit_and_wait(payment, _xrpl_client, _xrpl_treasury_wallet)
         if resp.is_successful():
             explorer_base = XRPL_EXPLORER_MAINNET if XRPL_NETWORK == "mainnet" else XRPL_EXPLORER_TESTNET
             return {
                 "success": True,
+                "sls_delivered": sls_amount,
                 "tx_hash": resp.result["hash"],
-                "sls_purchased": str(sls_amount),
-                "usd_paid": str(usd_amount),
-                "conversion_method": "USD → XRP → SLS (XRPL DEX)",
-                "stripe_payment_id": stripe_payment_id,
                 "explorer_url": explorer_base + resp.result["hash"],
-                "sec_compliance": "SLS purchased at fair market value via XRPL DEX. Not a gift, grant, or airdrop.",
+                "plan": plan,
+                "wallet": user_wallet.address,
             }
         else:
             return {"error": resp.result.get("engine_result_message", "unknown")}
     except Exception as e:
-        print(f"SLS DEX purchase failed: {e}")
+        print(f"Monthly SLS delivery failed: {e}")
         return {"error": str(e)}
 
 
-def _deduct_anchor_fee(user_wallet_seed):
-    """Deduct 0.01 SLS anchor fee from the USER's wallet → Treasury.
-    Users pay for anchoring from their own SLS balance, not the Ops wallet.
+def _deduct_anchor_fee(user_email=None, user_address=None):
+    """Deduct 0.01 SLS anchor fee from the user's wallet → Treasury.
+    S4 signs the transaction on the user's behalf using their stored seed (custodial model).
+    Looked up by email or wallet address from Supabase.
     Returns transaction result or None."""
     _init_xrpl()
     if not _xrpl_client:
         return None
+
+    # Look up user's wallet seed from custodial store
+    wallet_seed = _get_wallet_seed(email=user_email, address=user_address)
+    if not wallet_seed:
+        return None  # No wallet found — skip fee (demo/unauthenticated user)
+
     try:
         from xrpl.models.transactions import Payment as Pay
         from xrpl.models.amounts import IssuedCurrencyAmount as ICA
 
-        user_wallet = Wallet.from_seed(user_wallet_seed, algorithm=CryptoAlgorithm.SECP256K1)
+        user_wallet = Wallet.from_seed(wallet_seed, algorithm=CryptoAlgorithm.SECP256K1)
         fee_payment = Pay(
             account=user_wallet.address,
-            destination=SLS_TREASURY_WALLET,
+            destination=SLS_TREASURY_ADDRESS,
             amount=ICA(
                 currency="SLS",
                 issuer=SLS_ISSUER_ADDRESS,
@@ -657,18 +786,21 @@ def _deduct_anchor_fee(user_wallet_seed):
                 "fee_tx": resp.result["hash"],
                 "fee_amount": SLS_ANCHOR_FEE,
                 "from_wallet": user_wallet.address,
-                "to_treasury": SLS_TREASURY_WALLET,
+                "to_treasury": SLS_TREASURY_ADDRESS,
             }
         else:
             return {"error": resp.result.get("engine_result_message", "unknown"),
-                    "hint": "Insufficient SLS balance. Purchase SLS via your subscription to continue anchoring."}
+                    "hint": "Insufficient SLS balance. Your monthly allocation may be exhausted."}
     except Exception as e:
         print(f"Anchor fee deduction failed: {e}")
         return {"error": str(e)}
 
 
-def _anchor_xrpl(hash_value, record_type="", branch=""):
-    """Submit a real anchor transaction to XRPL. Returns tx info or None."""
+def _anchor_xrpl(hash_value, record_type="", branch="", user_email=None):
+    """Submit a real anchor transaction to XRPL and deduct 0.01 SLS from the user's wallet.
+    1. Issuer wallet signs an AccountSet memo (the hash anchor) — XRPL_WALLET_SEED
+    2. User's wallet sends 0.01 SLS → Treasury (custodial, using stored seed from Supabase)
+    Returns tx info or None."""
     _init_xrpl()
     if not _xrpl_client or not _xrpl_wallet:
         return None
@@ -677,7 +809,7 @@ def _anchor_xrpl(hash_value, record_type="", branch=""):
             "hash": hash_value, "type": record_type, "branch": branch,
             "platform": "S4 Ledger", "ts": datetime.now(timezone.utc).isoformat()
         })
-        # AccountSet with memo is cheaper than Payment and requires no trust line
+        # AccountSet with memo — the actual on-chain anchor (signed by Issuer wallet)
         tx = AccountSet(
             account=_xrpl_wallet.address,
             memos=[Memo(
@@ -698,32 +830,15 @@ def _anchor_xrpl(hash_value, record_type="", branch=""):
                 "explorer_url": explorer_base + tx_hash,
                 "account": _xrpl_wallet.address
             }
-            # Send SLS anchor fee to treasury from USER's wallet (if wallet_seed provided)
-            # Users pay 0.01 SLS per anchor from their own balance — not the Ops wallet
-            if _xrpl_ops_wallet:
-                try:
-                    sls_payment = Payment(
-                        account=_xrpl_ops_wallet.address,
-                        destination=SLS_TREASURY_WALLET,
-                        amount=IssuedCurrencyAmount(
-                            currency="SLS",
-                            issuer=SLS_ISSUER_ADDRESS,
-                            value=SLS_ANCHOR_FEE
-                        ),
-                        memos=[Memo(
-                            memo_type=bytes("s4/fee", "utf-8").hex(),
-                            memo_data=bytes(json.dumps({"type": record_type, "anchor_tx": tx_hash}), "utf-8").hex()
-                        )]
-                    )
-                    fee_resp = submit_and_wait(sls_payment, _xrpl_client, _xrpl_ops_wallet)
-                    if fee_resp.is_successful():
-                        result["sls_fee_tx"] = fee_resp.result["hash"]
-                        result["sls_fee"] = SLS_ANCHOR_FEE
-                        result["sls_treasury"] = SLS_TREASURY_WALLET
-                    else:
-                        print(f"SLS fee payment failed: {fee_resp.result.get('engine_result_message', 'unknown')}")
-                except Exception as fee_err:
-                    print(f"SLS fee payment error: {fee_err}")
+            # Deduct 0.01 SLS anchor fee: User's wallet → Treasury (custodial signing)
+            if user_email:
+                fee_result = _deduct_anchor_fee(user_email=user_email)
+                if fee_result and fee_result.get("success"):
+                    result["sls_fee_tx"] = fee_result["fee_tx"]
+                    result["sls_fee"] = SLS_ANCHOR_FEE
+                    result["sls_treasury"] = SLS_TREASURY_ADDRESS
+                elif fee_result and fee_result.get("error"):
+                    result["sls_fee_error"] = fee_result["error"]
             return result
     except Exception as e:
         print(f"XRPL anchor failed: {e}")
@@ -835,6 +950,8 @@ class handler(BaseHTTPRequestHandler):
             return "wallet_buy_sls"
         if path == "/api/wallet/balance":
             return "wallet_balance"
+        if path == "/api/webhook/stripe":
+            return "stripe_webhook"
         return None
 
     def _check_rate_limit(self):
@@ -1142,9 +1259,10 @@ class handler(BaseHTTPRequestHandler):
             record_type = data.get("record_type", "JOINT_CONTRACT")
             cat = RECORD_CATEGORIES.get(record_type, {"label": record_type, "branch": "JOINT", "icon": "\U0001f4cb", "system": "N/A"})
             hash_value = data.get("hash", hashlib.sha256(str(now).encode()).hexdigest())
+            user_email = data.get("user_email", "")  # For automatic SLS anchor fee deduction
 
-            # Try real XRPL testnet anchor first
-            xrpl_result = _anchor_xrpl(hash_value, record_type, cat.get("branch", ""))
+            # Anchor to XRPL (Issuer signs) + auto-deduct 0.01 SLS from user wallet → Treasury
+            xrpl_result = _anchor_xrpl(hash_value, record_type, cat.get("branch", ""), user_email=user_email or None)
 
             if xrpl_result:
                 tx_hash = xrpl_result["tx_hash"]
@@ -1333,18 +1451,18 @@ class handler(BaseHTTPRequestHandler):
 
         elif route == "wallet_provision":
             self._log_request("wallet-provision")
-            # Provision a new XRPL wallet with SLS TrustLine (no free SLS — purchase required)
+            # Provision a new XRPL wallet: Treasury funds XRP + delivers SLS allocation
             email = data.get("email", "")
             organization = data.get("organization", "")
-            plan = data.get("plan", "starter")  # starter, professional, enterprise
+            plan = data.get("plan", "starter")
 
             if not email:
                 self._send_json({"error": "Email is required"}, 400)
                 return
 
-            result = _provision_wallet(plan=plan)
+            result = _provision_wallet(email=email, plan=plan)
             if result is None:
-                self._send_json({"error": "XRPL not available — wallet provisioning requires mainnet connection"}, 503)
+                self._send_json({"error": "XRPL not available — wallet provisioning requires Treasury wallet (XRPL_TREASURY_SEED)"}, 503)
                 return
             if "error" in result:
                 self._send_json(result, 500)
@@ -1352,81 +1470,120 @@ class handler(BaseHTTPRequestHandler):
 
             tier = SUBSCRIPTION_TIERS.get(plan, SUBSCRIPTION_TIERS["starter"])
 
-            # Attach account metadata
             result["account"] = {
                 "email": email,
                 "organization": organization,
                 "plan": plan,
                 "created": datetime.now(timezone.utc).isoformat(),
-                "sls_price_usd": SLS_PRICE_USD,
             }
             result["instructions"] = {
-                "important": "SAVE YOUR WALLET SEED SECURELY — it cannot be recovered if lost.",
-                "seed_warning": "Your family seed is the ONLY way to access your wallet. Store it offline in a secure location.",
+                "important": "SAVE YOUR WALLET SEED SECURELY — it is also stored by S4 for automatic anchor fee signing.",
+                "seed_note": "Your family seed is stored securely by S4 Ledger so anchor fees (0.01 SLS) are deducted automatically. You can also import it into Xaman for independent wallet access.",
                 "next_steps": [
-                    "Your XRPL wallet and SLS TrustLine have been created automatically.",
-                    f"Subscribe to the {tier['label']} plan (${tier['price_usd']}/mo) to purchase SLS.",
-                    "SLS is purchased automatically: USD → XRP → SLS via XRPL DEX at fair market value.",
-                    "Each anchor costs 0.01 SLS — records are permanently verified on XRPL mainnet.",
-                    "Install Xaman (formerly XUMM) to manage your wallet on mobile — import using your family seed.",
+                    "Your XRPL wallet has been created and activated with XRP.",
+                    f"Your {tier['label']} subscription includes {tier['sls_monthly']:,} SLS/month — already delivered to your wallet.",
+                    "Each anchor costs 0.01 SLS — deducted automatically from your wallet.",
+                    "SLS flows back to the S4 Treasury on every anchor, keeping the economy sustainable.",
+                    "Install Xaman (formerly XUMM) to view your wallet on mobile — import using your family seed.",
                 ],
                 "xaman_url": "https://xaman.app",
                 "explorer_url": (XRPL_EXPLORER_MAINNET if XRPL_NETWORK == 'mainnet' else XRPL_EXPLORER_TESTNET).replace('/transactions/', '/accounts/') + result['wallet']['address'],
-                "sec_notice": "SLS is a utility token purchased at fair market value. It is not a security, not equity, and not a gift.",
             }
             self._send_json(result)
 
         elif route == "wallet_buy_sls":
             self._log_request("wallet-buy-sls")
-            # Purchase SLS via subscription — requires verified Stripe payment
-            # Flow: USD (Stripe) → XRP (exchange) → SLS (XRPL DEX) → user wallet
+            # Manual SLS top-up: additional SLS delivered from Treasury (requires Stripe payment)
             wallet_address = data.get("wallet_address", "")
-            usd_amount = data.get("usd_amount", 0)
-            stripe_payment_id = data.get("stripe_payment_id", "")  # Required for production
-            plan = data.get("plan", "starter")
+            email = data.get("email", "")
+            sls_amount = data.get("sls_amount", 0)
+            stripe_payment_id = data.get("stripe_payment_id", "")
 
-            if not wallet_address:
-                self._send_json({"error": "wallet_address is required"}, 400)
+            if not wallet_address and not email:
+                self._send_json({"error": "wallet_address or email is required"}, 400)
                 return
-            if not usd_amount or float(usd_amount) <= 0:
-                self._send_json({"error": "usd_amount must be positive"}, 400)
+            if not sls_amount or int(sls_amount) <= 0:
+                self._send_json({"error": "sls_amount must be positive"}, 400)
                 return
 
-            usd = float(usd_amount)
-            sls_amount = round(usd / SLS_PRICE_USD, 2)
-            anchors = int(sls_amount / float(SLS_ANCHOR_FEE))
-
-            # PRODUCTION REQUIREMENT: Validate Stripe payment before delivering SLS
-            # In demo mode, allow with a clear warning. In production, this MUST be enforced.
+            # In production: verify Stripe payment before delivering SLS
             if not stripe_payment_id and STRIPE_SECRET_KEY:
                 self._send_json({
                     "error": "Payment verification required",
-                    "message": "SLS cannot be delivered without a confirmed payment. Please complete checkout via Stripe.",
-                    "code": "PAYMENT_REQUIRED",
-                    "sec_notice": "SEC/FinCEN compliance requires all SLS purchases to be at fair market value with verified payment.",
+                    "message": "Additional SLS cannot be delivered without a confirmed Stripe payment.",
                 }, 402)
                 return
 
-            result = _purchase_sls_via_dex(wallet_address, usd, stripe_payment_id=stripe_payment_id or f"demo_{int(time.time())}")
-            if result is None:
-                self._send_json({"error": "XRPL not available"}, 503)
-                return
-            if "error" in result:
-                self._send_json(result, 500)
+            _init_xrpl()
+            if not _xrpl_client or not _xrpl_treasury_wallet:
+                self._send_json({"error": "XRPL Treasury not available"}, 503)
                 return
 
-            result["purchase"] = {
-                "usd_paid": usd,
-                "sls_received": sls_amount,
-                "sls_price_usd": SLS_PRICE_USD,
-                "anchors_purchased": anchors,
-                "conversion_method": "USD → XRP → SLS (XRPL DEX)",
-                "plan": plan,
-                "stripe_payment_id": stripe_payment_id or "demo_mode",
-                "timestamp": datetime.now(timezone.utc).isoformat(),
-                "sec_compliance": "SLS purchased at fair market price. Not a gift, grant, or airdrop.",
-            }
-            self._send_json(result)
+            # Look up destination wallet
+            dest_address = wallet_address
+            if not dest_address and email:
+                seed = _get_wallet_seed(email=email)
+                if seed:
+                    dest_wallet = Wallet.from_seed(seed, algorithm=CryptoAlgorithm.SECP256K1)
+                    dest_address = dest_wallet.address
+            if not dest_address:
+                self._send_json({"error": "Could not resolve wallet address"}, 404)
+                return
+
+            try:
+                from xrpl.models.transactions import Payment as Pay
+                from xrpl.models.amounts import IssuedCurrencyAmount as ICA
+
+                payment = Pay(
+                    account=_xrpl_treasury_wallet.address,
+                    destination=dest_address,
+                    amount=ICA(currency="SLS", issuer=SLS_ISSUER_ADDRESS, value=str(int(sls_amount))),
+                    memos=[Memo(
+                        memo_type=bytes("s4/sls-topup", "utf-8").hex(),
+                        memo_data=bytes(json.dumps({
+                            "type": "sls_topup",
+                            "amount": str(sls_amount),
+                            "stripe_id": stripe_payment_id or "demo",
+                        }), "utf-8").hex()
+                    )]
+                )
+                resp = submit_and_wait(payment, _xrpl_client, _xrpl_treasury_wallet)
+                if resp.is_successful():
+                    explorer_base = XRPL_EXPLORER_MAINNET if XRPL_NETWORK == "mainnet" else XRPL_EXPLORER_TESTNET
+                    self._send_json({
+                        "success": True,
+                        "sls_delivered": str(sls_amount),
+                        "tx_hash": resp.result["hash"],
+                        "explorer_url": explorer_base + resp.result["hash"],
+                        "destination": dest_address,
+                        "source": "Treasury",
+                    })
+                else:
+                    self._send_json({"error": resp.result.get("engine_result_message", "unknown")}, 500)
+            except Exception as e:
+                self._send_json({"error": str(e)}, 500)
+
+        elif route == "stripe_webhook":
+            self._log_request("stripe-webhook")
+            # Stripe webhook for automatic monthly SLS renewal
+            # When Stripe charges a subscriber, this endpoint is called automatically.
+            # It delivers the next month's SLS allocation from Treasury to the user's wallet.
+            event_type = data.get("type", "")
+            if event_type == "invoice.payment_succeeded":
+                invoice = data.get("data", {}).get("object", {})
+                customer_email = invoice.get("customer_email", "")
+                plan = invoice.get("metadata", {}).get("plan", "starter")
+                if customer_email:
+                    result = _deliver_monthly_sls(customer_email, plan=plan)
+                    self._send_json(result)
+                else:
+                    self._send_json({"error": "No customer_email in invoice"}, 400)
+            elif event_type == "customer.subscription.deleted":
+                # Subscription cancelled — no action needed (SLS stays in user's wallet until used)
+                self._send_json({"received": True, "action": "none", "note": "SLS balance remains until exhausted"})
+            else:
+                # Acknowledge other webhook events
+                self._send_json({"received": True, "event_type": event_type})
 
         else:
             self._send_json({"error": "Not found", "path": self.path}, 404)

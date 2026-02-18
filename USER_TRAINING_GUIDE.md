@@ -163,13 +163,13 @@ The assistant reads your analysis results and gives you specific answers based o
 You'll see:
 - **SLS Balance** — How many SLS credits you have left
 - **Usage Chart** — How you've been using the platform over time (toggle by hour, day, week, month, year)
-- **Purchase SLS** — Buy more through your subscription (Admin and Manager roles only)
+- **Request SLS** — Request additional SLS from your Admin (Admin and Manager roles manage allocation)
 - **Network** — Confirms you're on the live production network
 
-**Who can buy SLS:**
-- **Admins and Leadership** — Full purchase access
-- **Program Managers** — Can purchase with approval limits
-- **Standard Users** — Can use SLS but cannot purchase (this prevents unauthorized spending)
+**Who manages SLS:**
+- **Admins and Leadership** — Full SLS allocation and management access
+- **Program Managers** — Can manage allocations with approval limits
+- **Standard Users** — Can use SLS but cannot manage allocations (this prevents unauthorized spending)
 
 ---
 
@@ -178,10 +178,9 @@ You'll see:
 SLS stands for **Secure Logistics Standard**. It's the "fuel" that powers every action on S4 Ledger.
 
 - Each stamp costs **0.01 SLS** (about $0.0001)
-- You buy SLS through your subscription plan
-- Your USD payment is automatically converted: **Dollars → XRP → SLS**
-- The conversion happens through a public exchange, so the price is always fair and transparent
-- Every SLS purchase is recorded on the blockchain — fully auditable
+- SLS is delivered from the S4 Treasury as part of your subscription
+- Your plan allocation is refreshed automatically each billing cycle
+- Every SLS delivery is recorded on the blockchain — fully auditable
 
 **SLS is NOT:**
 - An investment
@@ -192,7 +191,7 @@ SLS stands for **Secure Logistics Standard**. It's the "fuel" that powers every 
 **SLS IS:**
 - A usage credit — like buying stamps at the post office
 - Consumed when you use the platform
-- Purchased at fair market value through your subscription
+- Delivered as part of your subscription from the S4 Treasury
 - Fully compliant with SEC and FinCEN regulations
 
 ---
@@ -223,7 +222,7 @@ Use "Encrypt First" for CUI and FOUO. For classified data, consult your security
 CSV, Excel (XLSX/XLS), PDF, Word (DOCX), TXT, and TSV files. The system reads and analyzes the content automatically.
 
 **Q: How do I get more SLS?**
-Ask your Admin or Program Manager to purchase through the Wallet tab. Or upgrade your subscription plan for a higher monthly SLS allowance.
+Ask your Admin or Program Manager to request additional allocation through the Wallet tab. Or upgrade your subscription plan for a higher monthly SLS allowance.
 
 **Q: Can other people see my records?**
 They can see that a transaction happened and see the fingerprint, but the fingerprint reveals nothing about the original content. Only someone with the original text can verify it.
@@ -241,4 +240,4 @@ NSERC-IDE, MERLIN, NAVAIR AMS-PMT, COMPASS, CDMD-OA, NDE, MBPS, PEO-MLB, CSPT, G
 
 ---
 
-*S4 Ledger v4.0 | S4 Systems, LLC. SLS (Secure Logistics Standard) is a utility token purchased at fair market value — not equity or an investment.*
+*S4 Ledger v4.0 | S4 Systems, LLC. SLS (Secure Logistics Standard) is a utility token delivered as part of your subscription — not equity or an investment.*

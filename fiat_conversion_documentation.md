@@ -1,12 +1,20 @@
 # S4 Ledger Fiat Conversion Integration
 
 ## Overview
-This document describes the integration of real fiat conversion for $SLS fees and rebates using XRPL's DEX and gateway IOUs.
+This document describes the legacy fiat conversion integration for $SLS.
 
-## How It Works
+> **Note (v4.0.7+):** SLS is now delivered directly from the S4 Treasury as part of subscription plans. The DEX conversion flow described below is retained for SDK completeness and third-party integrations only.
+
+## How It Works (Legacy)
 - Users deposit USD with a gateway (e.g., GateHub, Bitstamp) and receive USD.IOU tokens on XRPL.
-- The SDK uses XRPL's DEX to convert USD.IOU to $SLS for protocol fees.
+- The SDK can use XRPL's DEX to convert USD.IOU to $SLS for protocol fees.
 - Payments are submitted using xrpl-py, specifying send_max in USD.IOU and amount in $SLS.
+
+## Current Model (v4.0.7+)
+- SLS is delivered from the S4 Treasury directly to user wallets on signup
+- Monthly allocations are refreshed automatically via Stripe webhook
+- 0.01 SLS anchor fee returns to Treasury (circular economy)
+- No user-facing fiat conversion required
 
 ## Example Usage
 See fiat_conversion_test.py for a test script.

@@ -11,7 +11,7 @@ S4 Ledger is a data integrity tool for defense logistics and $SLS is a utility t
 - **Disclaimers:** All documentation and the SDK include clear disclaimers about non-investment status.
 
 ## Howey Test Analysis
-- **Investment of money:** $SLS can be purchased, but it is consumed as fuel for anchoring — not held as an investment.
+- **Investment of money:** $SLS is delivered as part of a subscription and consumed as fuel for anchoring — not held as an investment.
 - **Common enterprise:** No pooled funds or profit-sharing mechanism exists.
 - **Expectation of profit:** $SLS value derives from utility in the S4 Ledger network, not from speculative investment.
 - **Efforts of others:** The token's utility is not dependent on S4 Ledger's managerial efforts.

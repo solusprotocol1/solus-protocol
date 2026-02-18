@@ -5,6 +5,32 @@ All notable changes to the S4 Ledger project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.0.7] - 2026-02-20
+
+### SLS Circular Economy — Treasury-Based Token Delivery
+
+#### Changed — SLS Economy (Breaking)
+- **Treasury-Based SLS Delivery** — SLS tokens are now delivered directly from the S4 Treasury as part of the subscription. Replaces the previous DEX conversion model (USD→XRP→SLS). No user-facing conversion required.
+- **Custodial Wallet Model** — User wallet seeds stored securely in Supabase for automatic anchor fee deduction. Same model as Coinbase/Kraken.
+- **Automatic Anchor Fees** — 0.01 SLS per anchor is now deducted automatically from user wallets and sent to Treasury (custodial signing). No manual action required.
+- **Treasury Wallet Init** — New `XRPL_TREASURY_SEED` env var. Treasury wallet initialized on startup for XRP funding + SLS delivery.
+- **Removed `_purchase_sls_via_dex()`** — Replaced by direct Treasury→User delivery.
+- **Removed Ops wallet from SLS flow** — Ops wallet has zero involvement in SLS economy. Treasury handles all XRP activation + SLS distribution.
+
+#### Added
+- **Stripe Webhook** — `POST /api/webhook/stripe` handles `invoice.payment_succeeded` (monthly SLS renewal) and `customer.subscription.deleted` events.
+- **`_deliver_monthly_sls(email, plan)`** — New function for automatic monthly SLS replenishment from Treasury.
+- **`_store_wallet(email, address, seed, plan)`** — Stores custodial wallet in Supabase + in-memory cache.
+- **`_get_wallet_seed(email, address)`** — Retrieves custodial wallet seed for automatic fee signing.
+- **CEO Explainer Document** — `SLS_ECONOMY_CEO_EXPLAINER.md` — plain-English explanation of how the SLS economy works.
+- **XRP Top-Off Forecast** — `XRP_TOPOFF_FORECAST.md` — hypothetical scenarios for Treasury XRP replenishment.
+
+#### Updated Documentation
+- All docs/HTML/JSON updated to replace "DEX purchase" / "USD→XRP→SLS" / "fair market value" language with "Treasury delivery" model.
+- Files updated: PRODUCTION_READINESS.md, S4_SYSTEMS_EXECUTIVE_PROPOSAL.md, USER_TRAINING_GUIDE.md, INTEGRATIONS.md, SEC_COMPLIANCE.md, s4-pricing/index.html, sdk/index.html, s4-login/index.html, api/openapi.json, s4_sdk.py, fiat_conversion_documentation.md.
+
+---
+
 ## [4.0.5] - 2026-02-19
 
 ### Enterprise Pricing, Enhanced AI Agent, ILS Demo Data

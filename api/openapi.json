@@ -1200,8 +1200,8 @@
     },
     "/api/wallet/buy-sls": {
       "post": {
-        "summary": "Purchase SLS tokens with fiat",
-        "description": "Purchase SLS tokens using a credit card or other payment method. SLS is sent to the specified wallet address on XRPL.",
+        "summary": "Request additional SLS tokens",
+        "description": "Request additional SLS tokens delivered from the S4 Treasury to the specified wallet address on XRPL.",
         "operationId": "buySLS",
         "tags": ["Wallet"],
         "requestBody": {
@@ -1222,7 +1222,7 @@
         },
         "responses": {
           "200": {
-            "description": "SLS purchase successful",
+            "description": "SLS delivery successful",
             "content": {
               "application/json": {
                 "schema": {
@@ -1237,7 +1237,7 @@
                         "usd_paid": { "type": "number" },
                         "sls_received": { "type": "number" },
                         "sls_price_usd": { "type": "number" },
-                        "anchors_purchased": { "type": "integer" }
+                        "anchors_delivered": { "type": "integer" }
                       }
                     }
                   }

@@ -178,7 +178,7 @@ Every record anchored costs **0.01 $SLS** ($0.01 per record). The $SLS token act
 | **Professional** | $2,499/mo | 100,000 | 10,000,000 | Program offices, fleet sustainment |
 | **Enterprise** | $9,999/mo | 500,000 | Unlimited | DoD agencies, OEMs, FedRAMP pathway |
 
-> Every subscription includes automatic XRPL wallet provisioning, SLS TrustLine, and SLS delivery via USD → XRP → SLS DEX conversion.
+> Every subscription includes automatic XRPL wallet provisioning, SLS TrustLine, and SLS delivery from the S4 Treasury.
 
 ### Revenue Projections (Conservative)
 

@@ -281,7 +281,7 @@
 
             <div class="security-info" style="margin-top:1.2rem">
                 <i class="fas fa-shield-alt"></i>
-                <span>XRPL Mainnet wallet + SLS TrustLine created automatically. secp256k1 (Xaman compatible).</span>
+                <span>XRPL Mainnet wallet + SLS TrustLine created automatically. SLS delivered from Treasury. secp256k1 (Xaman compatible).</span>
             </div>
 
             <div class="signup-link">
@@ -808,7 +808,7 @@
                 '<div><i class="fas fa-check" style="color:#14f195;margin-right:6px"></i>XRPL wallet generated (secp256k1)</div>',
                 '<div><i class="fas fa-check" style="color:#14f195;margin-right:6px"></i>Funded with ' + result.funding.xrp_funded + ' XRP</div>',
                 '<div><i class="fas fa-check" style="color:#14f195;margin-right:6px"></i>SLS TrustLine active — ' + slsAmt + ' SLS delivered</div>',
-                '<div style="margin-top:6px;color:#c9a84c"><i class="fas fa-info-circle" style="margin-right:6px"></i>SLS purchased via XRPL DEX (USD → XRP → SLS). 0.01 SLS per anchor.</div>',
+                '<div style="margin-top:6px;color:#c9a84c"><i class="fas fa-info-circle" style="margin-right:6px"></i>SLS delivered from S4 Treasury with your subscription. 0.01 SLS per anchor.</div>',
             ].join('');
 
             // Save session with wallet info
@@ -892,9 +892,9 @@
             'XRP RESERVE: ' + (data.funding.xrp_funded || '12'),
             '',
             'HOW SLS WORKS:',
-            '  - Your subscription payment (USD) is converted to XRP, then to SLS via the XRPL DEX.',
-            '  - SLS is delivered automatically to your wallet each billing cycle.',
-            '  - Each anchor costs 0.01 SLS ($0.01). Fee is sent to the S4 Treasury.',
+            '  - SLS tokens are delivered from the S4 Treasury as part of your subscription.',
+            '  - Your plan allocation is refreshed automatically each billing cycle.',
+            '  - Each anchor costs 0.01 SLS ($0.01). Fee returns to the S4 Treasury.',
             '',
             'EXPLORER: ' + (data.instructions.explorer_url || ''),
             '',
