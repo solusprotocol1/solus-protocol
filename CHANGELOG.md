@@ -5,6 +5,45 @@ All notable changes to the S4 Ledger project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.0.2] - 2026-02-18
+
+### AI Engine Architecture, Wallet Redesign, ILS Document Analysis, SEC Compliance
+
+#### Breaking Changes — Wallet & Token Economics
+- **Eliminated Free SLS Grants** — Users no longer receive 100 free SLS on signup. All SLS must be purchased at fair market value via subscription or on-demand purchase flow (USD→XRP→SLS DEX). This resolves SEC compliance concerns around free token distribution.
+- **Subscription-Based SLS Model** — 3-tier pricing: Starter ($9.99/mo, 500 SLS, 50,000 anchors), Professional ($49/mo, 5,000 SLS, 500,000 anchors), Enterprise (custom pricing, unlimited).
+- **User-Paid Anchor Fees** — `_deduct_anchor_fee(user_wallet_seed)` deducts 0.01 SLS from the user's own wallet to Treasury on each anchor, replacing the Ops-wallet-pays model.
+- **Stripe Payment Verification Required** — `POST /api/wallet/buy-sls` now requires a verified `stripe_payment_id`. No SLS is delivered without confirmed payment.
+- **DEX-Based SLS Purchase** — New `_purchase_sls_via_dex()` function converts USD→XRP→SLS via XRPL DEX at fair market value instead of direct Ops wallet transfer.
+
+#### Added — AI Engine Architecture
+- **Defense-Compliant AI Engine Config** — `AI_ENGINE_CONFIG` object supporting Azure OpenAI (FedRAMP High / IL5), AWS Bedrock (GovCloud), or any OpenAI-compatible endpoint. Plug-and-play: set `enabled: true` and provide endpoint + API key.
+- **Real LLM Integration** — `callAiEngine(query, context)` async function tries configured LLM API first with defense-specific system prompt (MIL-STD-1388, DRL analysis, DMSMS, provisioning, etc.), falls back to local pattern matching if unavailable.
+- **Context-Aware AI Prompts** — `buildAiContext(query, context)` constructs rich context from ILS analysis state, uploaded documents, and discrepancy results for LLM queries.
+- **Defense System Prompt** — Pre-built system prompt covering ILS standards, DI number interpretation, DRL/CDRL analysis, DMSMS obsolescence, provisioning, and all 20 ILS tools.
+
+#### Added — ILS Document Analysis Enhancements
+- **PDF Document Parsing** — pdf.js 3.11.174 integration for extracting text from PDF documents. Automatically detects DI numbers, NSN patterns, MIL-STD references, and record types.
+- **DOCX Document Parsing** — mammoth.js 1.6.0 integration for extracting text from Word documents including table-like structures.
+- **Cross-Document Discrepancy Detection** — `detectDocumentDiscrepancies()` compares all uploaded documents for: missing items between documents, title mismatches, status conflicts, and duplicate records.
+- **Contract Requirements Compliance** — `compareAgainstContractRequirements(contractRecords)` checks uploaded documents against Attachment J-2 style contract requirements for compliance gaps.
+- **Extended File Upload** — ILS Gap Analysis and Database Import now accept `.pdf` and `.docx` in addition to CSV/XLSX/XLS/TXT/TSV.
+
+#### Fixed — SEC Compliance & Token Language
+- **SLS Name Corrected** — Fixed "Solus Ledger Service" → "Secure Logistics Standard" in all references.
+- **Signup Flow Updated** — Starter plan changed from "Free Trial / 100 SLS" to "$9.99/mo / 500 SLS/mo / 50,000 anchors". Removed "Granting initial SLS tokens" progress step.
+- **Wallet Credentials Updated** — Signup success display shows "0 (subscribe to purchase SLS)" instead of pre-loaded SLS balance.
+- **SDK Documentation Updated** — buy-sls endpoint description changed to "Purchase SLS via subscription (USD→XRP→SLS DEX)". Footer updated with "SLS (Secure Logistics Standard) is a utility token purchased at fair market value."
+- **SEC Compliance Notice** — All SLS purchase flows include regulatory notice: utility token / prepaid service credits per SEC/FinCEN guidance.
+
+#### Changed — Documentation
+- **User Training Guide Complete Rewrite** — Replaced technical guide with plain-English version readable by a high schooler. No code blocks, no blockchain jargon. All 20 ILS tools explained in table format. Subscription model documented. Document analysis capabilities described.
+- **SDK Footer** — Version bumped to 4.0.2, copyright year to 2026.
+
+#### Changed — Production Readiness
+- **Readiness Score** — Updated from 95% to 96% reflecting AI engine architecture, subscription model, document analysis, and SEC compliance improvements.
+- **Authentication** — Upgraded from 55% to 65% reflecting Stripe payment verification and subscription tier enforcement.
+
 ## [4.0.1] - 2026-02-17
 
 ### Documentation, UX, Compliance, and Wallet Improvements

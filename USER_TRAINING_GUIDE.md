@@ -1,397 +1,243 @@
-# S4 Ledger User Training Guide v4.0
+# S4 Ledger — User Training Guide
 
-> Complete step-by-step guide for every tool, feature, and workflow in S4 Ledger.
-
----
-
-## Table of Contents
-
-1. [Getting Started](#1-getting-started)
-2. [Wallet Setup](#2-wallet-setup)
-3. [Anchor Records (Tab 1)](#3-anchor-records)
-4. [Verify Records (Tab 2)](#4-verify-records)
-5. [Transaction Log (Tab 3)](#5-transaction-log)
-6. [ILS Workspace — 20 Tools (Tab 4)](#6-ils-workspace)
-7. [My Wallet (Tab 5)](#7-my-wallet)
-8. [CLI and SDK Usage](#8-cli-sdk)
-9. [Security Best Practices](#9-security)
-10. [Troubleshooting / FAQ](#10-faq)
+> Everything you need to know to start using S4 Ledger. Written in plain English — no technical background required.
 
 ---
 
-## 1. Getting Started
+## What is S4 Ledger?
 
-### Step 1: Navigate to the Login Page
-Go to **s4ledger.com/s4-login/** and click **Create Account**.
+S4 Ledger is a tool that **proves your records haven't been changed**. Think of it like a notary for digital files — once you "stamp" a record, anyone can verify it's authentic.
 
-### Step 2: Create Your Account
-Fill in the required fields:
-- **Full Name** — Your legal name (used for audit records)
-- **Organization** — Your company, agency, or command
-- **Email** — Official/work email address
-- **Password** — Minimum 12 characters with uppercase, lowercase, number, and symbol
-- **Role** — Select your access level:
-  - **Admin / Leadership** — Full access including SLS purchases
-  - **Program Manager** — Full tools access with purchase approval limits
-  - **Standard User** — View and use tools; cannot purchase SLS
+It was built for defense and government teams who need to track parts, maintenance, deliverables, and compliance — and prove that nothing was altered after the fact.
 
-### Step 3: Welcome
-- Your account is provisioned with **100 SLS service credits** (Free Trial)
-- An XRPL wallet is automatically created for you
-- You are redirected to the **Demo App** with all 5 tabs active
-
-### What Are SLS Service Credits?
-SLS (Solus Ledger Service) credits are **prepaid utility tokens** — similar to AWS credits or Azure tokens. Each anchor operation costs **0.01 SLS** ($0.0001 USD). Your initial 100 SLS allows approximately **10,000 anchoring operations**.
-
-> **Important:** SLS credits are NOT equity, NOT an investment, and NOT a security. They are prepaid service credits for blockchain anchoring operations per SEC/FinCEN compliance.
+**Key idea:** S4 Ledger doesn't store your actual data publicly. It creates a digital fingerprint (called a "hash") and saves that fingerprint on a secure public ledger. Only someone with the original record can match it.
 
 ---
 
-## 2. Wallet Setup
+## Getting Started
 
-### Your XRPL Wallet
-When your account is created, S4 Ledger provisions:
-- An **XRPL mainnet wallet** with a unique address (starts with `r...`)
-- A **trust line** to the SLS token issuer
-- **100 SLS service credits** transferred from the S4 Operations wallet
+### Step 1 — Create Your Account
 
-### Viewing Your Wallet
-1. Click the **My Wallet** tab in the Demo App
-2. You will see:
-   - **SLS Balance** — Your current service credit balance
-   - **Network** — XRPL Mainnet (live blockchain)
-   - **Wallet Address** — Your unique XRPL address
-   - **Usage Chart** — SLS usage over time
+1. Go to **s4ledger.com/s4-login** and click **Create Account**
+2. Fill in your **work email**, **organization**, and **password**
+3. Pick a subscription plan:
+   - **Starter** ($9.99/month) — 500 SLS, good for 50,000 record stamps
+   - **Professional** ($49/month) — 5,000 SLS, good for 500,000 stamps
+   - **Enterprise** (custom pricing) — unlimited, contact sales
+4. Click **Create Account & Wallet**
 
-### Purchasing Additional SLS
-> Only **Admin/Leadership** and **Program Manager** roles can purchase SLS.
+### Step 2 — What Happens Automatically
 
-**How it works (no direct USD/SLS pair exists):**
-1. **You pay with USD** — Via Stripe payment processing
-2. **S4 processes the order** — Allocates SLS from the Operations wallet
-3. **SLS delivered on-chain** — Transferred to your XRPL wallet
-4. **Ready to use** — Credits appear in your balance immediately
+When you create your account, the system does three things for you behind the scenes:
 
-**Pricing:** $0.01 per SLS credit. Subscription plans include monthly SLS allocations.
+1. **Creates a digital wallet** — This is your personal account on the XRPL network. Think of it like an online account number.
+2. **Funds it with a small reserve** — A small amount is set aside to keep your wallet active (this is handled for you).
+3. **Sets up your SLS connection** — Your wallet is linked to the SLS token so you can receive and use it.
 
-### Role-Based Purchase Controls
+You don't need to do any of this manually — it all happens in seconds when you sign up.
 
-| Role | Permissions |
-|------|------------|
-| **Admin / Leadership** | Full purchase access, unlimited amounts |
-| **Program Manager** | Purchase with approval limits (configurable) |
-| **Standard User** | View balance only, use allocated SLS, cannot purchase |
+### Step 3 — Get SLS (Your Usage Credits)
+
+SLS stands for **Secure Logistics Standard**. It's what powers every action you take on S4 Ledger — like fuel for the platform.
+
+- Each time you stamp a record, it costs **0.01 SLS** (about one-hundredth of a penny)
+- You get SLS through your subscription — the system buys it for you automatically
+- **You never handle cryptocurrency directly** — you pay in dollars, and the system converts it for you behind the scenes
+
+**How it works:** Your subscription payment (USD) is automatically converted to SLS through a secure exchange. The SLS is delivered straight to your wallet. You just use the platform — the conversion happens automatically.
 
 ---
 
-## 3. Anchor Records (Tab 1)
+## The 5 Main Tabs
 
-### What Is Anchoring?
-Anchoring creates an **immutable, tamper-proof record** on the XRP Ledger blockchain. The record content is:
-1. **Hashed** (SHA-256) — The content becomes a fixed-length fingerprint
-2. **Stored on-chain** — The hash is embedded in an XRPL transaction memo
-3. **Permanently verifiable** — Anyone can verify the record was not altered
-
-### How to Anchor a Record
-
-1. **Click the "Anchor" tab** (anchor icon)
-2. **Enter your record** in the text area. Examples:
-   - `Part received: NSN 5340-01-123-4567 Qty 50 from DLA`
-   - `Maintenance completed: Engine overhaul Hull 72`
-   - `Custody transfer: Lot AAE-2024-0847 to USS Gerald Ford`
-3. **Select Record Type** (dropdown):
-   - `SUPPLY_CHAIN` — Parts receipt, inventory, shipping
-   - `MAINTENANCE` — Repairs, overhauls, inspections
-   - `CUSTODY_TRANSFER` — Transfer of custody/ownership
-   - `ORDNANCE` — Ammunition lot tracking
-   - `PREDICTIVE_MAINTENANCE` — Sensor-based predictions
-   - `CROSS_COMMAND` — Multi-command logistics
-4. **Optional: Toggle "Encrypt First"** — Encrypts the record before hashing (for CUI/FOUO data)
-5. **Click "Anchor to XRPL"**
-6. **Result panel shows:**
-   - SHA-256 Hash (64-character hex string)
-   - XRPL Transaction Hash (link to explorer)
-   - SLS Fee Paid (0.01 SLS)
-   - Timestamp (UTC)
-   - Record Type tag
-   - Link to view on XRPL Explorer
-
-### Understanding the Result
-- The **SHA-256 hash** is your record's unique fingerprint — if even one character changes, the hash changes completely
-- The **XRPL Explorer link** lets you independently verify the transaction on the public blockchain
-- Records are **append-only** — you cannot delete an anchored record (this is by design for audit integrity)
-- Use **"Encrypt First"** for any sensitive data (CUI, FOUO, classified summaries)
+When you open S4 Ledger, you'll see five tabs across the top. Here's what each one does:
 
 ---
 
-## 4. Verify Records (Tab 2)
+### Tab 1 — Anchor (Stamp a Record)
 
-### What Is Verification?
-Verification proves that a record has **not been tampered with** since it was anchored. It works by:
-1. Re-hashing the original text
-2. Comparing it to the hash stored on the blockchain
-3. Reporting **MATCH** (verified) or **MISMATCH** (tampered)
+**What it does:** Takes any text or record and creates a permanent, tamper-proof stamp on the blockchain.
 
-### How to Verify a Record
+**How to use it:**
+1. Click the **Anchor** tab
+2. Type or paste the record you want to stamp (examples below)
+3. Pick a **Record Type** from the dropdown — like "Supply Chain," "Maintenance," or "Custody Transfer"
+4. Click **Anchor to XRPL**
+5. You'll see a confirmation with a link to verify it anytime
 
-1. **Click the "Verify" tab** (magnifying glass icon)
-2. **Enter the original record text** — must be character-for-character identical to what was anchored
-3. **Enter either:**
-   - **XRPL Transaction Hash** — The TX hash from when it was anchored
-   - **Expected SHA-256 Hash** — The known-good hash to compare against
-4. **Click "Verify"**
-5. **Result shows:**
-   - **MATCH** — Record is authentic and untampered
-   - **MISMATCH** — Record has been altered since anchoring
-   - **NOT_FOUND** — Transaction hash not found on XRPL
+**Example records you might stamp:**
+- "Part received: NSN 5340-01-123-4567, Qty 50, from DLA"
+- "Maintenance completed: Engine overhaul, Hull 72"
+- "Custody transfer: Lot AAE-2024-0847 to USS Gerald Ford"
 
-### Verification Use Cases
-- **Audit response** — Prove to auditors that records have not changed
-- **Custody disputes** — Verify transfer records are authentic
-- **Compliance checks** — Confirm maintenance records match what was filed
-- **Supply chain integrity** — Verify parts receipts against original
+**Why it matters:** Once stamped, nobody can change that record without it being obvious. If someone tries, the verification will show a mismatch. This is critical for audits, inspections, and accountability.
+
+**Tip:** If your record contains sensitive information (like CUI or FOUO), toggle on **Encrypt First** before stamping. This encrypts the data before creating the fingerprint — extra protection.
 
 ---
 
-## 5. Transaction Log (Tab 3)
+### Tab 2 — Verify (Check a Record)
 
-A chronological record of all your anchoring operations in the current session. Each entry shows:
-- **Timestamp** — When the operation occurred
-- **Record Type** — SUPPLY_CHAIN, MAINTENANCE, etc.
-- **SHA-256 Hash** — The hash that was anchored
-- **TX Hash** — Link to the XRPL transaction
-- **Status** — Success/Failed
-- **SLS Fee** — Amount of SLS spent
+**What it does:** Proves that a record hasn't been changed since it was stamped.
 
-You can **export as CSV**, **search** by record type/date/hash, and **click any TX hash** to open XRPL Explorer.
+**How to use it:**
+1. Click the **Verify** tab
+2. Paste the **exact original text** of the record
+3. Enter the **transaction ID** you got when you first stamped it
+4. Click **Verify**
+5. You'll get one of two results:
+   - **MATCH** — The record is authentic and hasn't been changed
+   - **MISMATCH** — Something is different from the original
 
----
-
-## 6. ILS Workspace — 20 Tools (Tab 4)
-
-The ILS (Integrated Logistics Support) Workspace is a comprehensive suite of **20 defense logistics analysis tools**. Click the **ILS Workspace** tab to access them.
-
-### Tool 1: Gap Analysis
-**What:** Comprehensive ILS program assessment with scored categories (0-100): Reliability, Maintainability, Supply Support, Technical Data, Support Equipment.
-**How:** Click Gap Analysis, review scored categories, expand for detailed findings.
-
-### Tool 2: Action Items
-**What:** Cross-tool action items aggregated with severity ratings (Critical/Warning/Info) and cost estimates.
-**How:** Click Action Items, view by severity, filter by source tool.
-
-### Tool 3: Calendar
-**What:** Scheduled ILS events: DMSMS reviews, warranty expirations, readiness assessments, audit dates.
-**How:** Click Calendar, navigate months, click any date to see events.
-
-### Tool 4: DMSMS
-**What:** Check parts for Diminishing Manufacturing Sources and Material Shortages risk per DoDI 4245.14.
-**How:** Enter NSN(s) (format: XXXX-XX-XXX-XXXX), click Check DMSMS. Results show per-part risk: Active, At Risk, or Obsolete.
-
-### Tool 5: Readiness Calculator
-**What:** Calculate Operational Availability (Ao) and RAM metrics per MIL-STD-1390D.
-**How:** Enter MTBF (hours), MTTR (hours), MLDT (hours), click Calculate. Returns Ao%, failure rate, annual failures, letter grade.
-
-**Example:** MTBF=500, MTTR=4, MLDT=2 → Ao = 98.8% (Grade: A)
-
-### Tool 6: Parts Lookup (NSN)
-**What:** Look up National Stock Numbers in the Federal Logistics system.
-**How:** Enter an NSN (e.g., 5340-01-123-4567), click Lookup. Returns FSC, NIIN, nomenclature, status, price, hash.
-
-### Tool 7: ROI Calculator
-**What:** Calculate return on investment for S4 Ledger deployment. Estimates labor savings (65%), error reduction (90%), and audit savings (70%).
-**How:** Adjust parameters (programs, FTEs, rates, costs), click Calculate ROI.
-
-### Tool 8: Lifecycle Cost Estimator
-**What:** Estimate total ownership cost per DoD 5000.73 / MIL-STD-881F.
-**How:** Enter acquisition cost, fleet size, service life, sustainment rate. Returns full cost breakdown.
-
-### Tool 9: Warranty Tracker
-**What:** Track warranty/contract status per FAR 46.7 / DFARS 246.7.
-**How:** View items categorized as Active (green), Expiring Soon (yellow), Expired (red).
-
-### Tool 10: Audit Vault
-**What:** Secure repository for audit-ready documentation with blockchain verification.
-**How:** View stored documents, click Verify on any document to confirm integrity against chain.
-
-### Tool 11: Document Library
-**What:** Organized ILS documentation: Technical Manuals, IPBs, Provisioning Docs.
-**How:** Browse by category, search by keyword or document number.
-
-### Tool 12: Compliance Dashboard
-**What:** Track compliance across NIST 800-171, CMMC, DFARS, ITAR.
-**How:** View score ring (percentage and letter grade), expand categories for detailed assessments.
-
-### Tool 13: Provisioning Status
-**What:** Track provisioning: PTD submissions, APL generation, NSN cataloging.
-**How:** View completion percentage by program and step.
-
-### Tool 14: Supply Chain Risk
-**What:** Assess supply chain risk by supplier, geography, and single-source dependency.
-**How:** View color-coded risk matrix with mitigation recommendations.
-
-### Tool 15: Audit Reports
-**What:** Generate formal audit reports anchored to XRPL for tamper-proof storage.
-**How:** Select report type, configure scope, generate. Report is auto-anchored.
-
-### Tool 16: Contracts
-**What:** Manage contract data with blockchain verification. Track modifications and milestones.
-**How:** View active contracts, track amendments, each milestone is anchored.
-
-### Tool 17: Digital Thread
-**What:** Visualize the end-to-end digital thread from design through sustainment.
-**How:** Click nodes to see records and anchors. Verify any point against the chain.
-
-### Tool 18: Predictive Maintenance
-**What:** Analyze maintenance patterns to predict future failures.
-**How:** View predictions with confidence levels, dates, and recommended actions.
-
-### Tool 19: Defense Database Import
-**What:** Import data from 22 DoD logistics databases in CSV, XML, or JSON format.
-**How:**
-1. Select source system from dropdown
-2. Select file format (CSV/XML/JSON)
-3. Paste data or upload file
-4. Click Import and Preview
-5. Optionally click Anchor All to anchor every record to XRPL
-
-**Supported systems (22):** NSERC-IDE, MERLIN, NAVAIR AMS-PMT, COMPASS, CDMD-OA, NDE, MBPS, PEO-MLB, CSPT, GCSS, DPAS, DLA/FLIS, NAVSUP, GCSS-Army, LMP, AESIP, REMIS, LIMS-EV, D200A, GCSS-MC, ATLASS, ALMIS
-
-### Tool 20: ILIE (ILS Information Exchange)
-**What:** Formal ILS data exchange submissions with blockchain verification.
-**How:** Create submission, add records, set approval chain, submit. Auto-anchored to XRPL.
+**Important:** Verification is character-exact. Even an extra space or different capitalization will show as a mismatch. This isn't a bug — it's a feature. It proves nothing was altered.
 
 ---
 
-## 7. My Wallet (Tab 5)
+### Tab 3 — Transaction Log
 
-### What You See
-- **SLS Balance** — Current service credit count (displayed in gold)
-- **Network Badge** — XRPL Mainnet
-- **Wallet Address** — Your unique XRPL address
-- **Usage Chart** — Toggle: Hour / Day / Week / Month / Year
-- **Purchase SLS** button (Admin/PM roles only)
-- **SEC Regulatory Notice** — SLS utility token compliance statement
+**What it does:** Shows a history of everything you've stamped in the current session.
 
-### How to Purchase SLS
-1. Click **Purchase SLS**
-2. Enter amount of SLS to purchase
-3. Pay with USD via Stripe
-4. S4 allocates SLS from Ops wallet and delivers on-chain
-5. Credits appear immediately
-
-### Role Restrictions
-- **Admins**: Purchase any amount
-- **Program Managers**: Purchase up to configured limit
-- **Standard Users**: Cannot purchase — view and use only
+Each entry shows the time, type of record, the fingerprint (hash), a link to the transaction, and how much SLS was used. You can search, filter, and export the log as a spreadsheet.
 
 ---
 
-## 8. CLI and SDK Usage
+### Tab 4 — ILS Workspace (20 Analysis Tools)
 
-### Python SDK
-```python
-from s4_sdk import S4SDK
+This is the powerhouse of S4 Ledger. It contains **20 specialized tools** designed for defense logistics professionals. Here's what each one does in plain English:
 
-sdk = S4SDK(wallet_seed="sEdXXX", api_key="your_key", testnet=False)
+| # | Tool | What It Does |
+|---|------|-------------|
+| 1 | **Gap Analysis** | Upload your program documents (DRL spreadsheets, PDFs, Word docs). The system checks them against what's required and scores your coverage. It tells you exactly what's missing, what's critical, and what to fix first. |
+| 2 | **Action Items** | Shows all the things that need attention — sorted by urgency (critical, warning, info) with cost estimates. |
+| 3 | **Calendar** | Tracks upcoming deadlines — DMSMS reviews, warranty expirations, audits. Like a planner for logistics milestones. |
+| 4 | **DMSMS Checker** | Enter part numbers (NSNs) and find out if they're still being manufactured, at risk, or obsolete. Helps prevent supply problems. |
+| 5 | **Readiness Calculator** | Plug in equipment reliability numbers and calculate how "available" your system will be. Uses standard DoD formulas. |
+| 6 | **Parts Lookup** | Search for any part by its National Stock Number (NSN). See pricing, availability, alternates. |
+| 7 | **ROI Calculator** | Calculate how much money and time S4 Ledger saves your organization. Generates briefing-ready numbers. |
+| 8 | **Lifecycle Cost** | Estimate the total cost of owning and maintaining a system over its entire life — from purchase through sustainment. |
+| 9 | **Warranty Tracker** | Track which warranties are active, expiring soon, or expired. Color-coded for quick scanning. |
+| 10 | **Audit Vault** | Every record you stamp is saved here with its blockchain verification. Export for audits anytime. |
+| 11 | **Document Library** | Searchable reference library of defense standards — MIL-STDs, regulations, instructions. |
+| 12 | **Compliance Dashboard** | See your compliance score across NIST 800-171, CMMC, DFARS, and more. Letter grade for executives. |
+| 13 | **Provisioning Status** | Track provisioning progress — parts lists, NSN cataloging, allowance lists. |
+| 14 | **Supply Chain Risk** | See which parts have single-source suppliers, geographic risks, or other vulnerabilities. |
+| 15 | **Audit Reports** | Generate formal audit reports automatically — stamped to the blockchain for tamper-proof storage. |
+| 16 | **Contracts** | Track contract milestones, modifications, and deliverables. |
+| 17 | **Digital Thread** | Visualize the full history of a system from design through sustainment — every change, every version. |
+| 18 | **Predictive Maintenance** | Analyze patterns to predict when equipment will need maintenance before it fails. |
+| 19 | **Database Import** | Import records from 24+ DoD logistics systems (GCSS, DPAS, NAVSUP, REMIS, and more) in CSV, XML, JSON, PDF, or Word format. Every imported record gets stamped automatically. |
+| 20 | **ILIE** | Formal logistics data exchange with blockchain verification. |
 
-# Anchor a record
-result = sdk.anchor_record(
-    "Part received: NSN 5340-01-123-4567 Qty 50",
-    record_type="SUPPLY_CHAIN"
-)
+#### How Document Analysis Works
 
-# Verify a record
-check = sdk.verify_against_chain(
-    "Part received: NSN 5340-01-123-4567 Qty 50",
-    tx_hash=result["tx_results"]["fee_tx"]["hash"]
-)
+The system can read your actual files — spreadsheets, PDFs, and Word documents — and automatically:
 
-# ILS Tools
-readiness = sdk.calculate_readiness(mtbf=500, mttr=4, mldt=2)
-dmsms = sdk.check_dmsms(["5340-01-123-4567"])
-roi = sdk.calculate_roi(programs=5, ftes=8)
-```
+- **Find what's there** — Scans for DI numbers, part numbers, deliverable titles
+- **Find what's missing** — Compares your documents against what your program requires
+- **Detect discrepancies** — When you upload multiple documents, it cross-references them to find conflicts, mismatches, or duplicate entries
+- **Score your readiness** — Gives you a percentage score and letter grade showing how complete your program is
+- **Generate action items** — Tells you exactly what to fix, in order of importance
 
-### Command Line
-```bash
-# Anchor
-python s4_sdk.py anchor --record "Part received" --seed "sEdXXX" --type SUPPLY_CHAIN
+**Real-world example:** Upload your DRL spreadsheet and your tech manual index. The system will automatically check if every required deliverable has a matching entry, flag any DI numbers that appear in one document but not the other, and highlight any descriptions that don't match.
 
-# Verify
-python s4_cli.py verify "Part received" --expected abc123...
+#### The AI Assistant
 
-# Hash only (no blockchain)
-python s4_cli.py hash "Record content"
+Every tool page has a floating **AI Assistant** button in the bottom-right corner. Click it to ask questions in plain English:
 
-# ILS analysis
-python s4_sdk.py readiness --record "500,4,2"
-python s4_sdk.py dmsms --record "5340-01-123-4567"
-python s4_sdk.py roi
-```
+- "What are my critical gaps?"
+- "Draft a corrective action request"
+- "Compare my documents for discrepancies"
+- "What DI numbers am I missing?"
+- "Explain what DMSMS means"
+- "Suggest my next steps"
 
-### REST API
-```bash
-# Anchor via API
-curl -X POST https://s4ledger.com/api/anchor \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer YOUR_API_KEY" \
-  -d '{"record": "Part received", "wallet_seed": "sEdXXX"}'
-
-# Verify via API
-curl -X POST https://s4ledger.com/api/verify \
-  -H "Content-Type: application/json" \
-  -d '{"record": "Part received", "tx_hash": "ABC123..."}'
-```
-
-Full SDK documentation: **[s4ledger.com/sdk](https://s4ledger.com/sdk/)**
+The assistant reads your analysis results and gives you specific answers based on your actual data — not generic responses.
 
 ---
 
-## 9. Security Best Practices
+### Tab 5 — My Wallet
 
-- **Never share your wallet seed** — it controls your entire wallet
-- Store seeds in environment variables or a secrets manager
-- Never commit seeds to version control (Git)
-- Use **Encrypt First** for any CUI/FOUO data before anchoring
-- The hash is stored publicly on XRPL; the original content stays with you
-- Assign roles appropriately — not everyone needs Admin access
-- Only Admin/Leadership should manage SLS purchases
+**What it does:** Shows your account balance and subscription status.
+
+You'll see:
+- **SLS Balance** — How many SLS credits you have left
+- **Usage Chart** — How you've been using the platform over time (toggle by hour, day, week, month, year)
+- **Purchase SLS** — Buy more through your subscription (Admin and Manager roles only)
+- **Network** — Confirms you're on the live production network
+
+**Who can buy SLS:**
+- **Admins and Leadership** — Full purchase access
+- **Program Managers** — Can purchase with approval limits
+- **Standard Users** — Can use SLS but cannot purchase (this prevents unauthorized spending)
+
+---
+
+## How SLS Works (In Plain English)
+
+SLS stands for **Secure Logistics Standard**. It's the "fuel" that powers every action on S4 Ledger.
+
+- Each stamp costs **0.01 SLS** (about $0.0001)
+- You buy SLS through your subscription plan
+- Your USD payment is automatically converted: **Dollars → XRP → SLS**
+- The conversion happens through a public exchange, so the price is always fair and transparent
+- Every SLS purchase is recorded on the blockchain — fully auditable
+
+**SLS is NOT:**
+- An investment
+- A stock or equity
+- Something that can gain or lose value for you
+- A security of any kind
+
+**SLS IS:**
+- A usage credit — like buying stamps at the post office
+- Consumed when you use the platform
+- Purchased at fair market value through your subscription
+- Fully compliant with SEC and FinCEN regulations
+
+---
+
+## Security Tips
+
+- **Never share your wallet seed** (secret key) — it controls your wallet like a password
+- Store your seed in a secure place (password manager, safe, offline)
+- Never put your seed in an email, chat, or shared document
+- Use **Encrypt First** for any sensitive information before stamping
+- Assign user roles carefully — not everyone needs admin access
 - Review user access quarterly
-- All operations are logged with blockchain hashes for audit
-- Records cannot be deleted or modified (append-only by design)
-- Corrections create a new supersession record — both remain on-chain
 
 ---
 
-## 10. Troubleshooting / FAQ
+## Frequently Asked Questions
 
-**Q: My anchor failed — what happened?**
-Check: (1) SLS balance — need at least 0.01 SLS, (2) network connectivity, (3) valid wallet seed format.
+**Q: Can I delete a stamped record?**
+No — and that's by design. Stamped records are permanent. If you need to correct something, you create a new "correction" record. Both the original and the correction stay on the ledger, creating a complete audit trail.
 
-**Q: Verification shows MISMATCH — is the record tampered?**
-Not necessarily. Verification is character-exact. Even an extra space or different line ending causes mismatch. Ensure text is identical to what was originally anchored.
-
-**Q: Can I delete an anchored record?**
-No — by design. Use `correct_record()` to create a supersession record. Both remain on-chain for full audit trail.
-
-**Q: How much does anchoring cost?**
-0.01 SLS per anchor ($0.0001 USD). Your initial 100 SLS allows ~10,000 operations.
-
-**Q: What XRPL network are we on?**
-XRPL Mainnet — the live, production blockchain. Not a test network.
+**Q: What if verification shows MISMATCH?**
+It doesn't always mean tampering. Even an extra space or different line ending will cause a mismatch. Make sure the text is exactly identical to what was originally stamped — character for character.
 
 **Q: Can I use S4 Ledger for classified data?**
-Use Encrypt First for CUI/FOUO. For classified, consult your security officer — the hash reveals nothing about content, but policies may restrict.
+Use "Encrypt First" for CUI and FOUO. For classified data, consult your security officer. The fingerprint itself reveals nothing about the content, but your organization's policies still apply.
 
-**Q: Who can see my records?**
-Anyone can see the transaction and hash on XRPL Explorer. But the hash reveals nothing about the original content — only someone with the original text can verify it.
+**Q: What file types can I upload?**
+CSV, Excel (XLSX/XLS), PDF, Word (DOCX), TXT, and TSV files. The system reads and analyzes the content automatically.
 
-**Q: What are the 22 supported DoD databases?**
+**Q: How do I get more SLS?**
+Ask your Admin or Program Manager to purchase through the Wallet tab. Or upgrade your subscription plan for a higher monthly SLS allowance.
+
+**Q: Can other people see my records?**
+They can see that a transaction happened and see the fingerprint, but the fingerprint reveals nothing about the original content. Only someone with the original text can verify it.
+
+**Q: What are the 24+ supported DoD databases?**
 NSERC-IDE, MERLIN, NAVAIR AMS-PMT, COMPASS, CDMD-OA, NDE, MBPS, PEO-MLB, CSPT, GCSS, DPAS, DLA/FLIS, NAVSUP, GCSS-Army, LMP, AESIP, REMIS, LIMS-EV, D200A, GCSS-MC, ATLASS, ALMIS, CG-ONE, USSF-LMS, PIEE.
-
-**Q: How do I get more SLS credits?**
-Ask your Admin or Program Manager to purchase via the Wallet tab. Standard users cannot purchase directly.
 
 ---
 
-*S4 Ledger v4.0.0 | 2026 S4 Systems, LLC. SLS is a utility token (prepaid service credit), not equity or an investment contract.*
+## Need Help?
+
+- **Email:** support@s4ledger.com
+- **Website:** s4ledger.com/s4-contact
+- **SDK Documentation:** s4ledger.com/sdk
+
+---
+
+*S4 Ledger v4.0 | S4 Systems, LLC. SLS (Secure Logistics Standard) is a utility token purchased at fair market value — not equity or an investment.*

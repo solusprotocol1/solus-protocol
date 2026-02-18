@@ -214,7 +214,7 @@
             <div class="login-logo">
                 <img src="../s4-assets/S4Ledger_logo.png" alt="S4 Ledger" style="height:50px;width:50px;margin-bottom:8px">
                 <h2>Create Your Account</h2>
-                <p>Get your XRPL wallet + SLS tokens automatically</p>
+                <p>Get your XRPL wallet automatically</p>
             </div>
 
             <form id="signupForm" onsubmit="handleSignup(event)">
@@ -246,9 +246,9 @@
                 <div class="plan-selector">
                     <div class="plan-card selected" onclick="selectPlan(this,'starter')" data-plan="starter">
                         <h5>Starter</h5>
-                        <div class="plan-price">Free Trial</div>
-                        <div class="plan-detail">100 SLS service credits</div>
-                        <div class="plan-sls">10,000 anchors</div>
+                        <div class="plan-price">$9.99/mo</div>
+                        <div class="plan-detail">500 SLS/mo</div>
+                        <div class="plan-sls">50,000 anchors</div>
                     </div>
                     <div class="plan-card" onclick="selectPlan(this,'professional')" data-plan="professional">
                         <h5>Professional</h5>
@@ -745,7 +745,6 @@
             '<i class="fas fa-spinner fa-spin" style="color:var(--accent);margin-right:6px"></i> Generating secp256k1 XRPL wallet...',
             '<i class="fas fa-spinner fa-spin" style="color:var(--accent);margin-right:6px"></i> Funding wallet with XRP reserve...',
             '<i class="fas fa-spinner fa-spin" style="color:var(--accent);margin-right:6px"></i> Setting up SLS TrustLine...',
-            '<i class="fas fa-spinner fa-spin" style="color:var(--accent);margin-right:6px"></i> Granting initial SLS tokens...',
         ];
 
         let stepIdx = 0;
@@ -796,7 +795,7 @@
                 '<div><i class="fas fa-check" style="color:#14f195;margin-right:6px"></i>Wallet generated (secp256k1)</div>',
                 '<div><i class="fas fa-check" style="color:#14f195;margin-right:6px"></i>Funded with ' + result.funding.xrp_funded + ' XRP</div>',
                 '<div><i class="fas fa-check" style="color:#14f195;margin-right:6px"></i>SLS TrustLine active</div>',
-                '<div><i class="fas fa-check" style="color:#14f195;margin-right:6px"></i>' + result.sls_grant.amount + ' SLS granted (' + result.anchors_available.toLocaleString() + ' anchors)</div>',
+                '<div style="margin-top:6px;color:#c9a84c"><i class="fas fa-info-circle" style="margin-right:6px"></i>Subscribe to purchase SLS — SLS delivered automatically via XRPL DEX.</div>',
             ].join('');
 
             // Save session with wallet info
@@ -828,8 +827,8 @@
         document.getElementById('credAddress').textContent = data.wallet.address;
         document.getElementById('credSeed').textContent = data.wallet.seed;
         document.getElementById('credPubKey').textContent = data.wallet.public_key;
-        document.getElementById('credSLS').textContent = data.sls_grant.amount || '100';
-        document.getElementById('credAnchors').textContent = (data.anchors_available || 10000).toLocaleString();
+        document.getElementById('credSLS').textContent = '0 (subscribe to purchase SLS)';
+        document.getElementById('credAnchors').textContent = 'Purchase SLS to start anchoring';
         document.getElementById('credXRP').textContent = data.funding.xrp_funded || '12';
         document.getElementById('credNetwork').textContent = 'XRPL ' + (data.wallet.network || 'mainnet').charAt(0).toUpperCase() + (data.wallet.network || 'mainnet').slice(1);
         document.getElementById('credExplorer').href = data.instructions.explorer_url || '#';
@@ -865,9 +864,12 @@
             'ALGORITHM: ' + data.wallet.algorithm,
             'NETWORK: XRPL ' + data.wallet.network,
             '',
-            'SLS BALANCE: ' + (data.sls_grant.amount || '100'),
-            'ANCHORS AVAILABLE: ' + (data.anchors_available || 10000),
+            'SLS BALANCE: 0 (subscribe to purchase SLS)',
+            'ANCHORS AVAILABLE: Purchase SLS to start',
             'XRP RESERVE: ' + (data.funding.xrp_funded || '12'),
+            '',
+            'NEXT STEP: Subscribe to your plan to purchase SLS.',
+            'SLS is delivered automatically: USD → XRP → SLS via XRPL DEX.',
             '',
             'EXPLORER: ' + (data.instructions.explorer_url || ''),
             '',

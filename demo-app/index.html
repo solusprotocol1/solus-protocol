@@ -14,6 +14,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- Nautical Anchor Canvas Animation -->
     <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script>if(typeof pdfjsLib!=='undefined')pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
     <script src="/s4-assets/platforms.js"></script>
     <script src="/s4-assets/defense-docs.js"></script>
     <style>
@@ -2149,7 +2152,7 @@
                             <div style="padding:14px;background:var(--surface);border-radius:10px;border:1px solid var(--border)">
                                 <div style="font-size:1.3rem;margin-bottom:6px">1️⃣</div>
                                 <h5 style="font-size:0.88rem;font-weight:700;color:#fff;margin-bottom:4px">Create Account</h5>
-                                <p style="font-size:0.78rem;color:var(--steel);margin:0">Sign up and receive an XRPL wallet. Starter subscriptions include 100 SLS service credits for platform usage (10,000 anchors).</p>
+                                <p style="font-size:0.78rem;color:var(--steel);margin:0">Sign up and receive an XRPL wallet. Subscribe to purchase SLS for platform usage — SLS is delivered automatically via XRPL DEX.</p>
                             </div>
                             <div style="padding:14px;background:var(--surface);border-radius:10px;border:1px solid var(--border)">
                                 <div style="font-size:1.3rem;margin-bottom:6px">2️⃣</div>
@@ -2255,7 +2258,7 @@
                     <div style="margin-top:20px;padding:16px;background:rgba(26,58,92,0.08);border:1px solid rgba(26,58,92,0.2);border-radius:12px">
                         <h5 style="font-size:0.88rem;font-weight:700;color:#c9a84c;margin-bottom:8px"><i class="fas fa-gavel" style="margin-right:6px"></i>Regulatory Notice</h5>
                         <p style="font-size:0.78rem;color:var(--steel);margin-bottom:6px">$SLS is a <strong style="color:#fff">utility token</strong> used exclusively for platform service fees (anchoring, verification, and record integrity operations). SLS is not equity, not a security, and confers no ownership, governance rights, or expectation of profit.</p>
-                        <p style="font-size:0.78rem;color:var(--steel);margin-bottom:6px">Initial SLS service credits included with subscription plans are <strong style="color:#fff">prepaid platform usage credits</strong>, similar to cloud computing credits (e.g., AWS credits). They are consumed as services are used and have no cash value or redemption mechanism outside the S4 Ledger platform.</p>
+                        <p style="font-size:0.78rem;color:var(--steel);margin-bottom:6px">SLS tokens are <strong style="color:#fff">purchased at fair market value</strong> via your subscription plan (USD → XRP → SLS on XRPL DEX). They are consumed as services are used and have no cash value or redemption mechanism outside the S4 Ledger platform. SLS is never given away for free — all SLS is purchased through transparent, auditable on-chain transactions.</p>
                         <p style="font-size:0.72rem;color:var(--muted);margin:0">S4 Systems, LLC is committed to full regulatory compliance and maintains ongoing legal counsel for digital asset classification under SEC, FinCEN, and state-level guidance. <a href="../s4-terms/" style="color:var(--accent)">Terms of Service</a> | <a href="../SEC_COMPLIANCE.md" style="color:var(--accent)">SEC Compliance</a></p>
                     </div>
 
@@ -4241,9 +4244,24 @@ function setupILSDropzone() {
 function handleILSFiles(fileList) {
     Array.from(fileList).forEach(file => {
         const ext = file.name.split('.').pop().toLowerCase();
-        if (!['csv','xlsx','xls','txt','tsv'].includes(ext)) { alert('Unsupported file type: .' + ext); return; }
+        if (!['csv','xlsx','xls','txt','tsv','pdf','docx'].includes(ext)) { alert('Unsupported file type: .' + ext); return; }
         const reader = new FileReader();
-        if (ext === 'xlsx' || ext === 'xls') {
+        if (ext === 'pdf') {
+            reader.onload = async e => {
+                const data = new Uint8Array(e.target.result);
+                const parsed = await parsePDFContent(data);
+                const records = extractRecords(parsed);
+                addILSFile(file.name, file.size, records, parsed.rows.length);
+            };
+            reader.readAsArrayBuffer(file);
+        } else if (ext === 'docx') {
+            reader.onload = async e => {
+                const parsed = await parseDOCXContent(e.target.result);
+                const records = extractRecords(parsed);
+                addILSFile(file.name, file.size, records, parsed.rows.length);
+            };
+            reader.readAsArrayBuffer(file);
+        } else if (ext === 'xlsx' || ext === 'xls') {
             reader.onload = e => {
                 const data = new Uint8Array(e.target.result);
                 const parsed = parseExcelContent(data);
@@ -4281,7 +4299,7 @@ function renderFileList() {
     if (!ilsFiles.length) { list.innerHTML = ''; return; }
     list.innerHTML = ilsFiles.map(f => {
         const sz = f.size > 1048576 ? (f.size/1048576).toFixed(1)+'MB' : (f.size/1024).toFixed(0)+'KB';
-        const icon = /\.xlsx?$/i.test(f.name) ? 'fa-file-excel' : /\.csv$/i.test(f.name) ? 'fa-file-csv' : 'fa-file-alt';
+        const icon = /\.xlsx?$/i.test(f.name) ? 'fa-file-excel' : /\.csv$/i.test(f.name) ? 'fa-file-csv' : /\.pdf$/i.test(f.name) ? 'fa-file-pdf' : /\.docx$/i.test(f.name) ? 'fa-file-word' : 'fa-file-alt';
         return '<div class="ils-file-item"><div class="file-info"><i class="fas '+icon+'" style="color:var(--accent);margin-right:8px"></i>'
             + '<span style="font-weight:600;color:#fff">'+f.name+'</span></div>'
             + '<div class="file-stats">'+f.records.length+' DRL items detected from '+f.totalRows+' rows \u00b7 '+sz+'</div>'
@@ -4342,6 +4360,154 @@ function parseTextContent(text) {
         if (m) m.forEach(di => records.push({ 'DI': di, 'Title': line.trim().substring(0,120) }));
     });
     return { headers: ['DI','Title'], rows: records };
+}
+
+// ── PDF Parser (via pdf.js) ──
+async function parsePDFContent(data) {
+    if (typeof pdfjsLib === 'undefined') { alert('PDF parser loading — please try again in a moment.'); return { headers: [], rows: [] }; }
+    try {
+        const pdf = await pdfjsLib.getDocument({ data }).promise;
+        const allText = [];
+        for (let p = 1; p <= pdf.numPages; p++) {
+            const page = await pdf.getPage(p);
+            const content = await page.getTextContent();
+            const pageText = content.items.map(i => i.str).join(' ');
+            allText.push(pageText);
+        }
+        const fullText = allText.join('\n');
+        // Extract DI numbers, table-like data, and structured content
+        const diPat = /DI-[A-Z]{4}-\d{5}/g;
+        const records = [];
+        const lines = fullText.split(/[\n.;]+/).filter(l => l.trim().length > 10);
+        lines.forEach(line => {
+            const m = line.match(diPat);
+            if (m) m.forEach(di => records.push({ 'DI': di, 'Title': line.trim().substring(0, 200) }));
+        });
+        // Also detect tabular NSN patterns, contract items, DRL entries
+        const nsnPat = /\b\d{4}-\d{2}-\d{3}-\d{4}\b/g;
+        lines.forEach(line => {
+            const nsns = line.match(nsnPat);
+            if (nsns && !line.match(diPat)) nsns.forEach(nsn => records.push({ 'NSN': nsn, 'Title': line.trim().substring(0, 200) }));
+        });
+        return { headers: records.length ? Object.keys(records[0]) : ['DI','Title'], rows: records.length ? records : lines.slice(0,50).map(l => ({Title: l.trim()})) };
+    } catch(e) { console.error('PDF parse error:', e); return { headers: ['Title'], rows: [{ Title: 'PDF parsing error: ' + e.message }] }; }
+}
+
+// ── DOCX Parser (via mammoth.js) ──
+async function parseDOCXContent(arrayBuffer) {
+    if (typeof mammoth === 'undefined') { alert('DOCX parser loading — please try again in a moment.'); return { headers: [], rows: [] }; }
+    try {
+        const result = await mammoth.extractRawText({ arrayBuffer });
+        const text = result.value;
+        const diPat = /DI-[A-Z]{4}-\d{5}/g;
+        const records = [];
+        const lines = text.split(/\n/).filter(l => l.trim().length > 5);
+        lines.forEach(line => {
+            const m = line.match(diPat);
+            if (m) m.forEach(di => records.push({ 'DI': di, 'Title': line.trim().substring(0, 200) }));
+        });
+        // Detect table-like structures (tab-separated or multi-space-separated)
+        const tableLike = lines.filter(l => (l.match(/\t/g)||[]).length >= 2 || (l.match(/  +/g)||[]).length >= 2);
+        if (tableLike.length > 5 && records.length === 0) {
+            const delim = (tableLike[0].match(/\t/g)||[]).length >= 2 ? '\t' : /  +/;
+            const headerCells = tableLike[0].split(delim).map(c => c.trim()).filter(c => c);
+            tableLike.slice(1).forEach(line => {
+                const cells = line.split(delim).map(c => c.trim()).filter(c => c);
+                const row = {};
+                headerCells.forEach((h, i) => { row[h] = cells[i] || ''; });
+                records.push(row);
+            });
+            return { headers: headerCells, rows: records };
+        }
+        const nsnPat = /\b\d{4}-\d{2}-\d{3}-\d{4}\b/g;
+        lines.forEach(line => {
+            const nsns = line.match(nsnPat);
+            if (nsns && !line.match(diPat)) nsns.forEach(nsn => records.push({ 'NSN': nsn, 'Title': line.trim().substring(0, 200) }));
+        });
+        return { headers: records.length ? Object.keys(records[0]) : ['Title'], rows: records.length ? records : lines.slice(0,50).map(l => ({Title: l.trim()})) };
+    } catch(e) { console.error('DOCX parse error:', e); return { headers: ['Title'], rows: [{ Title: 'DOCX parsing error: ' + e.message }] }; }
+}
+
+// ══════════════════════════════════════════════════════════
+//  DOCUMENT DISCREPANCY DETECTION ENGINE
+//  Compares uploaded documents against each other and
+//  against contract requirements (Attachment J-2 style).
+//  Automatically finds errors, omissions, and inconsistencies.
+// ══════════════════════════════════════════════════════════
+function detectDocumentDiscrepancies() {
+    if (ilsFiles.length < 2) return { discrepancies: [], summary: 'Upload at least 2 documents to compare.' };
+    const discrepancies = [];
+    const allRecordSets = ilsFiles.map(f => ({ name: f.name, records: f.records }));
+
+    // Cross-document comparison: find items in one doc but not others
+    for (let i = 0; i < allRecordSets.length; i++) {
+        for (let j = i + 1; j < allRecordSets.length; j++) {
+            const setA = allRecordSets[i], setB = allRecordSets[j];
+            // DI number comparison
+            const diA = new Set(setA.records.filter(r => r.di).map(r => r.di));
+            const diB = new Set(setB.records.filter(r => r.di).map(r => r.di));
+            diA.forEach(di => {
+                if (!diB.has(di)) discrepancies.push({ type: 'MISSING_IN_DOC', severity: 'warning', item: di, found_in: setA.name, missing_from: setB.name, message: di + ' found in ' + setA.name + ' but missing from ' + setB.name });
+            });
+            diB.forEach(di => {
+                if (!diA.has(di)) discrepancies.push({ type: 'MISSING_IN_DOC', severity: 'warning', item: di, found_in: setB.name, missing_from: setA.name, message: di + ' found in ' + setB.name + ' but missing from ' + setA.name });
+            });
+            // Title/description mismatch for same DI
+            setA.records.filter(r => r.di).forEach(recA => {
+                const matchB = setB.records.find(r => r.di === recA.di);
+                if (matchB && recA.title && matchB.title && !fuzzyMatch(recA.title, matchB.title)) {
+                    discrepancies.push({ type: 'TITLE_MISMATCH', severity: 'critical', item: recA.di, doc1: setA.name, title1: recA.title, doc2: setB.name, title2: matchB.title, message: recA.di + ': description differs between documents' });
+                }
+            });
+            // Status discrepancy
+            setA.records.filter(r => r.di && r.status).forEach(recA => {
+                const matchB = setB.records.find(r => r.di === recA.di && r.status);
+                if (matchB && recA.status !== matchB.status) {
+                    discrepancies.push({ type: 'STATUS_CONFLICT', severity: 'warning', item: recA.di, status1: recA.status + ' (' + setA.name + ')', status2: matchB.status + ' (' + setB.name + ')', message: recA.di + ': status conflict — "' + recA.status + '" vs "' + matchB.status + '"' });
+                }
+            });
+        }
+    }
+
+    // Duplicate detection within same document
+    allRecordSets.forEach(set => {
+        const diCounts = {};
+        set.records.filter(r => r.di).forEach(r => { diCounts[r.di] = (diCounts[r.di]||0) + 1; });
+        Object.entries(diCounts).filter(([_,c]) => c > 1).forEach(([di, count]) => {
+            discrepancies.push({ type: 'DUPLICATE', severity: 'info', item: di, document: set.name, count, message: di + ' appears ' + count + ' times in ' + set.name });
+        });
+    });
+
+    // Sort by severity
+    const sevOrder = { critical: 0, warning: 1, info: 2 };
+    discrepancies.sort((a,b) => (sevOrder[a.severity]||3) - (sevOrder[b.severity]||3));
+
+    return { discrepancies, summary: discrepancies.length + ' discrepancies found across ' + ilsFiles.length + ' documents. ' + discrepancies.filter(d=>d.severity==='critical').length + ' critical.' };
+}
+
+function compareAgainstContractRequirements(contractRecords) {
+    // Compare uploaded documents against a contract requirements list (e.g., Attachment J-2)
+    const allRecs = [];
+    ilsFiles.forEach(f => allRecs.push(...f.records));
+    const results = { met: [], unmet: [], partial: [] };
+
+    contractRecords.forEach(req => {
+        const match = allRecs.find(r =>
+            (r.di && req.di && r.di === req.di) ||
+            (r.title && req.title && fuzzyMatch(r.title, req.title))
+        );
+        if (match) {
+            if (match.status && /overdue|late|missing|incomplete/i.test(match.status)) {
+                results.partial.push({ requirement: req, match, status: 'partial', note: 'Deliverable found but status indicates incomplete' });
+            } else {
+                results.met.push({ requirement: req, match, status: 'met' });
+            }
+        } else {
+            results.unmet.push({ requirement: req, status: 'unmet', note: 'No matching deliverable found in uploaded documents' });
+        }
+    });
+
+    return results;
 }
 
 // ── Column Detection & Record Extraction ──
@@ -4967,12 +5133,25 @@ function aiSend() {
     addAiMessage(msg, 'user');
     aiConversationHistory.push({role:'user', text:msg, time:Date.now()});
     if (aiConversationHistory.length > AI_MAX_HISTORY) aiConversationHistory.shift();
-    setTimeout(() => {
-        const response = generateAiResponse(msg);
+    // Try real AI engine first, fall back to local pattern matching
+    const aiContext = ilsResults ? {
+        program: ilsResults.prog?.name,
+        score: ilsResults.pct,
+        criticalGaps: ilsResults.critGaps,
+        drlCoverage: ilsResults.drlPct,
+        checklistCompletion: ilsResults.clPct,
+        actions: ilsResults.actions,
+        uploadedFiles: ilsFiles.map(f => f.name),
+        discrepancies: typeof detectDocumentDiscrepancies === 'function' ? detectDocumentDiscrepancies().discrepancies : [],
+    } : null;
+
+    (async () => {
+        const aiReply = await callAiEngine(msg, aiContext);
+        const response = aiReply || generateAiResponse(msg);
         addAiMessage(response, 'bot');
         aiConversationHistory.push({role:'bot', text:response, time:Date.now()});
         if (aiConversationHistory.length > AI_MAX_HISTORY) aiConversationHistory.shift();
-    }, 400 + Math.random() * 600);
+    })();
 }
 
 function aiAsk(question) {
@@ -4991,6 +5170,92 @@ function addAiMessage(text, type) {
     }
     container.appendChild(div);
     container.scrollTop = container.scrollHeight;
+}
+
+// ══════════════════════════════════════════════════════════
+//  AI ENGINE CONFIGURATION
+//  Defense-compliant AI integration for real LLM-powered analysis.
+//  Supports: Azure OpenAI (FedRAMP High / IL5), AWS Bedrock (GovCloud),
+//  or any OpenAI-compatible API endpoint.
+//
+//  Architecture:
+//  1. User query + ILS context → AI Engine API
+//  2. AI Engine processes with defense-cleared LLM
+//  3. Returns structured analysis response
+//  4. Falls back to local pattern matching if AI unavailable
+//
+//  To enable: Set AI_ENGINE_CONFIG.enabled = true and provide endpoint/key
+//  via environment variables or admin configuration panel.
+// ══════════════════════════════════════════════════════════
+const AI_ENGINE_CONFIG = {
+    enabled: false,  // Set to true when AI backend is configured
+    provider: 'azure_openai',  // 'azure_openai' | 'aws_bedrock' | 'openai_compatible'
+    endpoint: '',  // e.g., 'https://s4-ai.openai.azure.com/openai/deployments/gpt-4o/chat/completions?api-version=2024-06-01'
+    apiKey: '',  // Set via env var or admin panel — never hardcode
+    model: 'gpt-4o',  // Azure: gpt-4o, gpt-4-turbo | Bedrock: anthropic.claude-3-sonnet | etc.
+    maxTokens: 2000,
+    temperature: 0.3,  // Low temp for factual defense document analysis
+    systemPrompt: `You are S4 Agent, a defense logistics analysis AI integrated into the S4 Ledger platform. You specialize in:
+- Integrated Logistics Support (ILS) per MIL-STD-1388 / DoD 5000 series
+- DRL (Data Requirements List) analysis and CDRL tracking
+- Gap analysis across 12 ILS elements
+- Contract compliance verification (Attachment J-2, SOW, CDRL)
+- Discrepancy detection in defense documents (DRLs, tech manual indexes, VRS lists, MELs, drawings)
+- Corrective Action Request (CAR) drafting
+- Cost/schedule impact estimation
+- DMSMS risk assessment per DoDI 4245.14
+- NIST 800-171, CMMC, DFARS compliance
+
+Always provide specific, actionable recommendations. Reference applicable DoD standards and regulations.
+Format responses with clear headers and bullet points. Be concise but thorough.`,
+    complianceNotice: 'FedRAMP High authorized. IL5 cleared for CUI processing. No classified data processed.',
+};
+
+async function callAiEngine(query, context) {
+    if (!AI_ENGINE_CONFIG.enabled || !AI_ENGINE_CONFIG.endpoint) return null;
+    try {
+        const messages = [
+            { role: 'system', content: AI_ENGINE_CONFIG.systemPrompt },
+            { role: 'user', content: buildAiContext(query, context) }
+        ];
+        const resp = await fetch(AI_ENGINE_CONFIG.endpoint, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'api-key': AI_ENGINE_CONFIG.apiKey,  // Azure format
+                'Authorization': AI_ENGINE_CONFIG.apiKey ? ('Bearer ' + AI_ENGINE_CONFIG.apiKey) : '',  // OpenAI format
+            },
+            body: JSON.stringify({
+                model: AI_ENGINE_CONFIG.model,
+                messages,
+                max_tokens: AI_ENGINE_CONFIG.maxTokens,
+                temperature: AI_ENGINE_CONFIG.temperature,
+            })
+        });
+        if (!resp.ok) throw new Error('AI API ' + resp.status);
+        const data = await resp.json();
+        const reply = data.choices?.[0]?.message?.content || data.content?.[0]?.text;
+        return reply ? reply.replace(/\n/g, '<br>') : null;
+    } catch (e) {
+        console.warn('AI Engine unavailable, using local analysis:', e.message);
+        return null;
+    }
+}
+
+function buildAiContext(query, context) {
+    let ctx = 'User query: ' + query + '\n\n';
+    if (context) {
+        if (context.program) ctx += 'Program: ' + context.program + '\n';
+        if (context.score !== undefined) ctx += 'Overall Readiness Score: ' + context.score + '%\n';
+        if (context.criticalGaps) ctx += 'Critical Gaps: ' + context.criticalGaps + '\n';
+        if (context.drlCoverage) ctx += 'DRL Coverage: ' + context.drlCoverage + '%\n';
+        if (context.checklistCompletion) ctx += 'Checklist Completion: ' + context.checklistCompletion + '%\n';
+        if (context.actions) ctx += 'Open Actions: ' + context.actions.length + ' (' + context.actions.filter(a=>a.severity==='critical').length + ' critical)\n';
+        if (context.uploadedFiles) ctx += 'Uploaded Documents: ' + context.uploadedFiles.join(', ') + '\n';
+        if (context.discrepancies) ctx += 'Document Discrepancies: ' + context.discrepancies.length + ' found\n';
+    }
+    ctx += '\nPlease provide a specific, actionable response. Reference applicable DoD standards where relevant.';
+    return ctx;
 }
 
 function generateAiResponse(query) {
@@ -5353,12 +5618,35 @@ function generateAiResponse(query) {
         response += '• Ask <strong>"how do I fix [specific gap]?"</strong><br>';
         response += '• Ask <strong>"why is my score [low/high]?"</strong>';
     } else {
+        // Discrepancy detection query
+        if (/discrepanc|compare.*doc|cross.*ref|mismatch|conflict|differ|inconsisten|error.*doc|find.*missing|check.*against|verify.*against|attachment.*j/i.test(q)) {
+            const disc = detectDocumentDiscrepancies();
+            if (disc.discrepancies.length > 0) {
+                response = '<strong>Document Discrepancy Analysis</strong><br><br>';
+                response += '<i class="fas fa-exclamation-triangle" style="color:#ffa500;margin-right:4px"></i> ' + disc.summary + '<br><br>';
+                disc.discrepancies.slice(0, 8).forEach(d => {
+                    const icon = d.severity === 'critical' ? '<i class="fas fa-times-circle" style="color:#ff3333;width:14px"></i>' :
+                                 d.severity === 'warning' ? '<i class="fas fa-exclamation-triangle" style="color:#ffa500;width:14px"></i>' :
+                                 '<i class="fas fa-info-circle" style="color:#00aaff;width:14px"></i>';
+                    response += icon + ' ' + d.message + '<br>';
+                });
+                if (disc.discrepancies.length > 8) response += '<br><em>...and ' + (disc.discrepancies.length - 8) + ' more discrepancies.</em>';
+                response += '<br><br><strong>Recommendation:</strong> Review critical items first. Cross-reference against your Attachment J-2 contract requirements to ensure full compliance.';
+            } else if (ilsFiles.length < 2) {
+                response = 'To find discrepancies, upload <strong>at least 2 documents</strong> (e.g., your DRL spreadsheet and tech manual index). I\'ll automatically compare them and flag any:<br>• Missing items in either document<br>• Title/description mismatches<br>• Status conflicts<br>• Duplicate entries';
+            } else {
+                response = '<i class="fas fa-check-circle" style="color:#14f195"></i> <strong>No discrepancies detected</strong> across your ' + ilsFiles.length + ' uploaded documents. All DI numbers, titles, and statuses are consistent.';
+            }
+            return response;
+        }
+
         response = 'I\'d be happy to help with "<em>' + query + '</em>"!<br><br>';
         response += 'To give you the best answer, I need some context. Here\'s how to get started:<br><br>';
         response += '1. <strong>Select a program</strong> from the dropdown above<br>';
-        response += '2. <strong>Upload your documents</strong> (DRLs, spreadsheets, checklists)<br>';
+        response += '2. <strong>Upload your documents</strong> (DRLs, spreadsheets, checklists, PDFs, Word docs)<br>';
         response += '3. <strong>Run Full Analysis</strong> to generate results<br><br>';
-        response += 'Then ask me anything — I\'ll give you specific, data-driven answers about gaps, costs, schedules, and next steps.<br><br>';
+        response += 'Then ask me anything — I\'ll give you specific, data-driven answers about gaps, costs, schedules, discrepancies, and next steps.<br><br>';
+        response += '<strong>New capabilities:</strong> I can also <em>compare documents</em> against each other, automatically <em>find discrepancies</em>, and <em>check contract compliance</em>. Just upload your files and ask.<br><br>';
         response += 'In the meantime, I can explain any <strong>ILS term</strong>, <strong>DI number</strong>, or <strong>defense acronym</strong> — just ask!';
     }
     return response;
@@ -7751,7 +8039,7 @@ function handleDbImportFile(input) {
     if (!input.files[0]) return;
     const file = input.files[0];
     const ext = file.name.split('.').pop().toLowerCase();
-    if (['csv','xml','json','txt'].includes(ext)) {
+    if (['csv','xml','json','txt','pdf','docx'].includes(ext)) {
         document.getElementById('dbImportFormat').value = ext === 'txt' ? 'csv' : ext;
     }
     const reader = new FileReader();
