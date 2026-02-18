@@ -15,6 +15,9 @@
     <!-- Nautical Anchor Canvas Animation -->
     <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script>if(window.pdfjsLib)pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <script>if(typeof pdfjsLib!=='undefined')pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';</script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
     <script src="/s4-assets/platforms.js"></script>
@@ -411,7 +414,7 @@
                                 <summary style="cursor:pointer;padding:10px 0;color:#00aaff;font-weight:600;font-size:0.85rem;"><i class="fas fa-info-circle"></i> How Anchoring Works</summary>
                                 <div style="padding:0 0 12px;color:var(--steel);font-size:0.82rem;line-height:1.6;">
                                     <p><strong style="color:#fff;">What's real:</strong> Every anchor creates an actual XRPL transaction with your record's SHA-256 hash stored in the memo field. The hash, transaction ID, timestamp, and XRPL explorer link are all genuine blockchain data you can independently verify.</p>
-                                    <p><strong style="color:#fff;">Live on Mainnet:</strong> Every anchor creates a real XRPL Mainnet transaction. The 0.01 $SLS fee per anchor is burned from the issuer wallet. All transaction hashes and explorer links point to the live XRPL.</p>
+                                    <p><strong style="color:#fff;">Live on Mainnet:</strong> Every anchor creates a real XRPL Mainnet transaction. Each anchor costs 0.01 $SLS paid from your wallet to the S4 Treasury. All transaction hashes and explorer links point to the live XRPL.</p>
                                     <p><strong style="color:#c9a84c;">How S4 Ledger saves money here:</strong> Traditional defense record notarization costs $25–$150 per document and takes days. S4 Ledger anchors records in seconds for fractions of a cent — a <strong>99.9% cost reduction</strong>. At scale, a program anchoring 10,000 records/year saves $250K–$1.5M annually vs. legacy methods.</p>
                                     <p><strong style="color:#00aaff;">Production mode:</strong> Integrates with existing logistics systems (GCSS, OARS, NTCSS, LMP) via REST API or Python SDK. Records flow automatically — no manual paste required.</p>
                                 </div>
@@ -612,13 +615,13 @@
                                 </div>
                             </div>
 
-                            <label>2. Upload Documents <span style="color:var(--muted);font-weight:400">(DRLs, spreadsheets, checklists, text files)</span></label>
+                            <label>2. Upload Documents <span style="color:var(--muted);font-weight:400">(DRLs, spreadsheets, PDFs, Word docs, checklists)</span></label>
                             <div class="ils-dropzone" id="ilsDropzone" onclick="document.getElementById('ilsFileInput').click()">
                                 <i class="fas fa-cloud-upload-alt"></i>
                                 <div style="font-weight:600;color:#fff;margin-bottom:4px">Drag & drop files here or click to browse</div>
-                                <div style="font-size:0.82rem;color:var(--muted)">Accepts .csv, .xlsx, .xls, .txt — all processing done locally in your browser</div>
+                                <div style="font-size:0.82rem;color:var(--muted)">Accepts .csv, .xlsx, .xls, .pdf, .docx, .txt — all processing done locally in your browser</div>
                             </div>
-                            <input type="file" id="ilsFileInput" multiple accept=".csv,.xlsx,.xls,.txt,.tsv" style="display:none" onchange="handleILSFiles(this.files)">
+                            <input type="file" id="ilsFileInput" multiple accept=".csv,.xlsx,.xls,.txt,.tsv,.pdf,.docx,.doc" style="display:none" onchange="handleILSFiles(this.files)">
                             <div style="margin:8px 0;display:flex;align-items:center;gap:8px;flex-wrap:wrap">
                                 <div style="position:relative;display:inline-block">
                                     <select id="sampleDocSelect" onchange="loadSelectedSampleDoc(this.value)" style="background:linear-gradient(135deg,rgba(0,170,255,0.12),rgba(201,168,76,0.12))!important;border:1px solid rgba(0,170,255,0.25)!important;color:var(--accent)!important;border-radius:6px!important;padding:6px 14px!important;cursor:pointer;font-family:inherit!important;font-size:0.82rem!important;font-weight:600!important;min-width:260px">
@@ -2032,8 +2035,9 @@
             <!-- ═══════════════════════════════════════════════════════════ -->
             <div class="tab-pane fade" id="tabWallet" role="tabpanel">
                 <div style="max-width:900px;margin:0 auto;padding:1rem 0">
-                    <h3 style="font-size:1.3rem;font-weight:800;margin-bottom:4px"><i class="fas fa-wallet" style="color:#c9a84c;margin-right:8px"></i>My Wallet & SLS Tokens</h3>
-                    <p style="color:var(--muted);font-size:0.85rem;margin-bottom:20px">Manage your XRPL wallet, purchase SLS tokens, and track anchor usage.</p>
+                    <h3 style="font-size:1.3rem;font-weight:800;margin-bottom:4px"><i class="fas fa-wallet" style="color:#c9a84c;margin-right:8px"></i>My Wallet & SLS</h3>
+                    <p style="color:var(--muted);font-size:0.85rem;margin-bottom:4px"><strong style="color:#c9a84c">SLS</strong> = <strong>Secure Logistics Standard</strong> — the utility token that powers every action on S4 Ledger.</p>
+                    <p style="color:var(--muted);font-size:0.82rem;margin-bottom:20px">Manage your XRPL wallet, purchase SLS through your subscription, and track anchor usage. Each anchor costs 0.01 SLS (~$0.0001).</p>
 
                     <!-- Wallet Overview Cards -->
                     <div id="walletOverview" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:20px">
@@ -2152,7 +2156,7 @@
                             <div style="padding:14px;background:var(--surface);border-radius:10px;border:1px solid var(--border)">
                                 <div style="font-size:1.3rem;margin-bottom:6px">1️⃣</div>
                                 <h5 style="font-size:0.88rem;font-weight:700;color:#fff;margin-bottom:4px">Create Account</h5>
-                                <p style="font-size:0.78rem;color:var(--steel);margin:0">Sign up and receive an XRPL wallet. Subscribe to purchase SLS for platform usage — SLS is delivered automatically via XRPL DEX.</p>
+                                <p style="font-size:0.78rem;color:var(--steel);margin:0">Sign up to get your XRPL wallet. Choose a subscription plan and SLS is purchased for you automatically — SLS is delivered automatically via XRPL DEX.</p>
                             </div>
                             <div style="padding:14px;background:var(--surface);border-radius:10px;border:1px solid var(--border)">
                                 <div style="font-size:1.3rem;margin-bottom:6px">2️⃣</div>
@@ -4244,7 +4248,7 @@ function setupILSDropzone() {
 function handleILSFiles(fileList) {
     Array.from(fileList).forEach(file => {
         const ext = file.name.split('.').pop().toLowerCase();
-        if (!['csv','xlsx','xls','txt','tsv','pdf','docx'].includes(ext)) { alert('Unsupported file type: .' + ext); return; }
+        if (!['csv','xlsx','xls','txt','tsv','pdf','docx','doc'].includes(ext)) { alert('Unsupported file type: .' + ext); return; }
         const reader = new FileReader();
         if (ext === 'pdf') {
             reader.onload = async e => {
@@ -4252,6 +4256,7 @@ function handleILSFiles(fileList) {
                 const parsed = await parsePDFContent(data);
                 const records = extractRecords(parsed);
                 addILSFile(file.name, file.size, records, parsed.rows.length);
+                runAutoAnalysisOnUpload(file.name, parsed, records);
             };
             reader.readAsArrayBuffer(file);
         } else if (ext === 'docx') {
@@ -4259,6 +4264,7 @@ function handleILSFiles(fileList) {
                 const parsed = await parseDOCXContent(e.target.result);
                 const records = extractRecords(parsed);
                 addILSFile(file.name, file.size, records, parsed.rows.length);
+                runAutoAnalysisOnUpload(file.name, parsed, records);
             };
             reader.readAsArrayBuffer(file);
         } else if (ext === 'xlsx' || ext === 'xls') {
@@ -4267,6 +4273,7 @@ function handleILSFiles(fileList) {
                 const parsed = parseExcelContent(data);
                 const records = extractRecords(parsed);
                 addILSFile(file.name, file.size, records, parsed.rows.length);
+                runAutoAnalysisOnUpload(file.name, parsed, records);
             };
             reader.readAsArrayBuffer(file);
         } else {
@@ -4275,6 +4282,7 @@ function handleILSFiles(fileList) {
                 const parsed = (ext === 'csv' || ext === 'tsv') ? parseCSVContent(text) : parseTextContent(text);
                 const records = extractRecords(parsed);
                 addILSFile(file.name, file.size, records, parsed.rows.length);
+                runAutoAnalysisOnUpload(file.name, parsed, records);
             };
             reader.readAsText(file);
         }
@@ -5133,7 +5141,12 @@ function aiSend() {
     addAiMessage(msg, 'user');
     aiConversationHistory.push({role:'user', text:msg, time:Date.now()});
     if (aiConversationHistory.length > AI_MAX_HISTORY) aiConversationHistory.shift();
-    // Try real AI engine first, fall back to local pattern matching
+
+    // Show thinking indicator
+    const thinkingId = 'ai-thinking-' + Date.now();
+    addAiMessage('<div id="' + thinkingId + '" style="display:flex;align-items:center;gap:8px;"><div style="width:8px;height:8px;background:#c9a84c;border-radius:50%;animation:pulse 1s infinite;"></div><span style="color:#aaa;font-style:italic;">S4 Agent analyzing...</span></div>', 'bot');
+
+    // Build comprehensive AI context with ILS analysis findings
     const aiContext = ilsResults ? {
         program: ilsResults.prog?.name,
         score: ilsResults.pct,
@@ -5143,14 +5156,55 @@ function aiSend() {
         actions: ilsResults.actions,
         uploadedFiles: ilsFiles.map(f => f.name),
         discrepancies: typeof detectDocumentDiscrepancies === 'function' ? detectDocumentDiscrepancies().discrepancies : [],
+        analysisFindings: ilsAnalysisFindings || [],
+        documentTypes: uploadedDocumentStore.map(d => ({ name: d.filename, type: d.docType })),
     } : null;
 
     (async () => {
-        const aiReply = await callAiEngine(msg, aiContext);
-        const response = aiReply || generateAiResponse(msg);
-        addAiMessage(response, 'bot');
-        aiConversationHistory.push({role:'bot', text:response, time:Date.now()});
-        if (aiConversationHistory.length > AI_MAX_HISTORY) aiConversationHistory.shift();
+        try {
+            // Check if query is about analysis findings
+            const q = msg.toLowerCase();
+            let findingsResponse = null;
+
+            if (/finding|result|what.*(found|detect|discover|analyz)|show.*(issue|problem|warning|critical)|summar/i.test(q)) {
+                if (ilsAnalysisFindings.length > 0) {
+                    findingsResponse = formatAnalysisFindings(ilsAnalysisFindings);
+                }
+            }
+            if (/milestone.*ready|readiness|ms[_\s-]?[abc]|ioc|foc/i.test(q)) {
+                const phase = q.match(/ms[_\s-]?([abc])/i)?.[1] ? 'ms_' + q.match(/ms[_\s-]?([abc])/i)[1].toLowerCase() : q.includes('ioc') ? 'ioc' : q.includes('foc') ? 'foc' : 'ms_c';
+                const milestoneFindings = assessMilestoneReadiness(phase);
+                if (milestoneFindings.length > 0) {
+                    findingsResponse = formatAnalysisFindings(milestoneFindings);
+                }
+            }
+            if (/cross.?ref|compare.*doc|discrepanc|conflict|mismatch/i.test(q) && uploadedDocumentStore.length >= 2) {
+                const crossRef = crossReferenceAllDocuments();
+                if (crossRef.length > 0) {
+                    findingsResponse = formatAnalysisFindings(crossRef);
+                }
+            }
+
+            // Try real AI engine first
+            const aiReply = await callAiEngine(msg, aiContext);
+
+            // Remove thinking indicator
+            const thinkingEl = document.getElementById(thinkingId);
+            if (thinkingEl) thinkingEl.closest('.ai-message, [class*="message"]')?.remove() || thinkingEl.parentElement?.remove();
+
+            // Use AI reply, findings response, or local fallback
+            const response = aiReply || findingsResponse || generateAiResponse(msg);
+            addAiMessage(response, 'bot');
+            aiConversationHistory.push({role:'bot', text:response, time:Date.now()});
+            if (aiConversationHistory.length > AI_MAX_HISTORY) aiConversationHistory.shift();
+        } catch (err) {
+            console.warn('AI processing error:', err);
+            const thinkingEl = document.getElementById(thinkingId);
+            if (thinkingEl) thinkingEl.closest('.ai-message, [class*="message"]')?.remove() || thinkingEl.parentElement?.remove();
+            const response = generateAiResponse(msg);
+            addAiMessage(response, 'bot');
+            aiConversationHistory.push({role:'bot', text:response, time:Date.now()});
+        }
     })();
 }
 
@@ -5171,6 +5225,925 @@ function addAiMessage(text, type) {
     container.appendChild(div);
     container.scrollTop = container.scrollHeight;
 }
+
+// ══════════════════════════════════════════════════════════
+//  COMPREHENSIVE ILS ANALYSIS ENGINE
+//  Automated document analysis covering all 12 ILS elements.
+//  Provides auto-analysis on upload, document type detection,
+//  data quality validation, type-specific deep analysis,
+//  cross-document referencing, contract compliance checking,
+//  and milestone readiness assessment.
+//
+//  Covers: MIL-STD-1388-1A/2B (LSA/LSAR), MIL-STD-1629A (FMECA),
+//  DoDI 5000.02, DoDI 4245.14 (DMSMS), NAVSEA TS9090-310 (PMS),
+//  MIL-STD-3034 (RAM), S9081-AB-GIB-010 (LORA), and more.
+// ══════════════════════════════════════════════════════════
+
+const uploadedDocumentStore = [];
+const ilsAnalysisFindings = [];
+
+// ── Document Type Detection ──────────────────────────────
+function detectDocumentType(filename, records, rawText) {
+    const fn = (filename || '').toLowerCase();
+    const txt = (rawText || '').toLowerCase();
+    const headers = records.length > 0 ? Object.keys(records[0]).join(' ').toLowerCase() : '';
+    const allText = fn + ' ' + txt + ' ' + headers;
+
+    const patterns = [
+        { type: 'drl', patterns: ['data requirements list', 'drl', 'cdrl', 'data item description', 'did ', 'contract data', 'di-'], weight: 0 },
+        { type: 'vrs', patterns: ['voyage repair', 'vrs', 'vr-', 'casualty report', 'casrep', 'repair parts', 'voyage spares'], weight: 0 },
+        { type: 'mel', patterns: ['maintenance equipment list', 'mel ', 'allowance equipage', 'ael ', 'equipment list'], weight: 0 },
+        { type: 'mrc', patterns: ['maintenance requirement card', 'mrc', 'mip ', 'planned maintenance', 'pms ', 'maintenance index page', '3-m', 'preventive maintenance'], weight: 0 },
+        { type: 'lcsp', patterns: ['life cycle sustainment', 'lcsp', 'sustainment plan', 'logistics support plan', 'life cycle support', 'lsp '], weight: 0 },
+        { type: 'fmeca', patterns: ['failure mode', 'fmeca', 'fmea', 'criticality analysis', 'failure effect', 'risk priority', 'rpn', 'severity.*occurrence.*detection'], weight: 0 },
+        { type: 'ram', patterns: ['reliability.*availability.*maintainability', 'ram ', 'r&m ', 'mtbf', 'mttr', 'operational availability', 'ao ', 'inherent availability', 'mttf'], weight: 0 },
+        { type: 'dmsms', patterns: ['diminishing manufacturing', 'dmsms', 'obsolescence', 'lifecycle risk', 'end of life', 'eol', 'alternate source', 'last time buy', 'ltb'], weight: 0 },
+        { type: 'training', patterns: ['training', 'ntsp', 'courseware', 'curriculum', 'lesson plan', 'training plan', 'training device', 'simulator', 'instructional'], weight: 0 },
+        { type: 'tdp', patterns: ['technical data package', 'tdp', 'drawing index', 'drawing list', 'engineering drawing', 'technical publication', 'tm index', 'ietm', 'technical manual'], weight: 0 },
+        { type: 'config_mgmt', patterns: ['configuration management', 'configuration item', 'ecp ', 'engineering change', 'configuration baseline', 'config control', 'ecn ', 'deviation waiver'], weight: 0 },
+        { type: 'support_equipment', patterns: ['support equipment', 'se ', 'serd', 'test equipment', 'tmde', 'calibration', 'ate ', 'automatic test'], weight: 0 },
+        { type: 'contract_j2', patterns: ['attachment j', 'j-2', 'contract line', 'clin', 'statement of work', 'sow ', 'contract deliverable', 'delivery schedule'], weight: 0 },
+        { type: 'phs_t', patterns: ['packaging', 'handling', 'storage', 'transportation', 'phs&t', 'phst', 'mil-std-2073', 'shipping container', 'preservation'], weight: 0 },
+        { type: 'lora', patterns: ['level of repair', 'lora', 'repair analysis', 'repair vs replace', 'maintenance level'], weight: 0 },
+        { type: 'rcm', patterns: ['reliability centered maintenance', 'rcm ', 'failure consequence', 'maintenance strategy', 'rcm analysis'], weight: 0 },
+        { type: 'cosal', patterns: ['cosal', 'coordinated shipboard allowance', 'allowance list', 'apl ', 'initial outfitting', 'range and depth'], weight: 0 },
+        { type: 'fracas', patterns: ['failure report', 'fracas', 'corrective action system', 'failure analysis', 'failure trending', 'dr report', 'deficiency report'], weight: 0 },
+        { type: 'niin_data', patterns: ['niin', 'national item identification', 'nsn ', 'national stock number', 'federal supply', 'fsc ', 'nsc ', 'item identification'], weight: 0 },
+        { type: 'spare_parts', patterns: ['spare part', 'provisioning', 'buylist', 'buy list', 'repair part', 'consumable', 'repairable', 'allowance part', 'initial spares'], weight: 0 },
+        { type: 'drawing_index', patterns: ['drawing index', 'drawing list', 'drawing tree', 'assembly drawing', 'parts list', 'bill of material', 'bom ', 'indentured'], weight: 0 },
+        { type: 'lsa_task', patterns: ['logistics support analysis', 'lsa task', 'lsar', 'lsa record', 'task analysis', 'mil-std-1388'], weight: 0 },
+        { type: 'manpower', patterns: ['manpower', 'personnel', 'mpt ', 'manning', 'billet', 'skill level', 'mos ', 'nec ', 'rating'], weight: 0 },
+        { type: 'facilities', patterns: ['facility', 'facilities', 'shore infrastructure', 'depot', 'maintenance facility', 'repair facility'], weight: 0 },
+        { type: 'warranty', patterns: ['warranty', 'guarantee', 'warranty claim', 'warranty tracking', 'defect liability', 'latent defect'], weight: 0 },
+        { type: 'gfe_gfm', patterns: ['government furnished', 'gfe', 'gfm', 'gfp', 'government property', 'gfe/gfm', 'furnished equipment'], weight: 0 },
+        { type: 'cost_analysis', patterns: ['life cycle cost', 'lcc ', 'o&s cost', 'operating and support', 'cost estimate', 'cost analysis', 'should cost', 'cost breakdown'], weight: 0 },
+        { type: 'schedule', patterns: ['milestone', 'schedule', 'ims ', 'integrated master', 'program schedule', 'critical path', 'gantt'], weight: 0 },
+        { type: 'safety', patterns: ['safety assessment', 'hazard analysis', 'pha ', 'preliminary hazard', 'safety review', 'mishap', 'mil-std-882'], weight: 0 },
+    ];
+
+    patterns.forEach(p => {
+        p.weight = p.patterns.reduce((w, pat) => {
+            const regex = new RegExp(pat.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/\\\*/g, '.*'), 'gi');
+            const matches = (allText.match(regex) || []).length;
+            return w + matches * (pat.length > 5 ? 2 : 1);
+        }, 0);
+    });
+
+    patterns.sort((a, b) => b.weight - a.weight);
+    if (patterns[0].weight >= 2) return patterns[0].type;
+
+    // Content-based fallback checks
+    if (records.some(r => r.di || r.seq)) return 'drl';
+    if (records.some(r => r.nsn || r.niin)) return 'spare_parts';
+    if (records.some(r => r.mtbf || r.mttr)) return 'ram';
+    if (records.some(r => r.rpn || r.severity)) return 'fmeca';
+    return 'general';
+}
+
+// ── NSN/NIIN Format Validation ───────────────────────────
+function validateNSNFormat(value) {
+    if (!value) return { valid: false, reason: 'Empty' };
+    const nsn = String(value).replace(/[\s-]/g, '');
+    if (/^\d{13}$/.test(nsn)) return { valid: true, fsc: nsn.slice(0,4), niin: nsn.slice(4) };
+    if (/^\d{9}$/.test(nsn)) return { valid: true, niin: nsn, note: 'NIIN only, no FSC' };
+    return { valid: false, reason: 'Invalid format: expected 13-digit NSN (####-##-###-####) or 9-digit NIIN' };
+}
+
+function validateCAGECode(value) {
+    if (!value) return { valid: false, reason: 'Empty' };
+    const cage = String(value).trim().toUpperCase();
+    if (/^[A-Z0-9]{5}$/.test(cage)) return { valid: true };
+    return { valid: false, reason: 'CAGE code must be exactly 5 alphanumeric characters' };
+}
+
+// ── Data Quality Checking ────────────────────────────────
+function checkDataQuality(records, filename) {
+    const findings = [];
+    if (!records || records.length === 0) {
+        findings.push({ severity: 'warning', category: 'data_quality', message: 'No tabular data extracted from ' + filename, recommendation: 'Verify document format and content structure.' });
+        return findings;
+    }
+
+    const headers = Object.keys(records[0]);
+
+    // Empty/sparse row detection
+    const emptyRows = records.filter(r => headers.every(h => !r[h] || String(r[h]).trim() === ''));
+    if (emptyRows.length > 0) {
+        findings.push({ severity: 'info', category: 'data_quality', message: emptyRows.length + ' empty rows detected in ' + filename, recommendation: 'Review and remove empty rows to improve analysis accuracy.' });
+    }
+
+    // Duplicate detection
+    const seen = new Set();
+    const duplicates = [];
+    records.forEach((r, i) => {
+        const key = headers.map(h => String(r[h] || '').trim()).join('|');
+        if (seen.has(key)) duplicates.push(i + 1);
+        seen.add(key);
+    });
+    if (duplicates.length > 0) {
+        findings.push({ severity: 'warning', category: 'data_quality', message: duplicates.length + ' potential duplicate rows in ' + filename + ' (rows: ' + duplicates.slice(0, 10).join(', ') + (duplicates.length > 10 ? '...' : '') + ')', recommendation: 'Review duplicate entries for data integrity.' });
+    }
+
+    // NSN validation
+    const nsnFields = headers.filter(h => /nsn|niin|stock.?number|national.?item/i.test(h));
+    nsnFields.forEach(field => {
+        const invalids = [];
+        records.forEach((r, i) => {
+            if (r[field] && String(r[field]).trim()) {
+                const v = validateNSNFormat(r[field]);
+                if (!v.valid) invalids.push({ row: i + 1, value: r[field], reason: v.reason });
+            }
+        });
+        if (invalids.length > 0) {
+            findings.push({ severity: 'warning', category: 'nsn_validation', message: invalids.length + ' invalid NSN/NIIN formats in ' + filename + ' column "' + field + '"', details: invalids.slice(0, 5), recommendation: 'Correct NSN formats to standard 13-digit (####-##-###-####) format.' });
+        }
+    });
+
+    // CAGE code validation
+    const cageFields = headers.filter(h => /cage|manufacturer.?code/i.test(h));
+    cageFields.forEach(field => {
+        const invalids = [];
+        records.forEach((r, i) => {
+            if (r[field] && String(r[field]).trim()) {
+                const v = validateCAGECode(r[field]);
+                if (!v.valid) invalids.push({ row: i + 1, value: r[field] });
+            }
+        });
+        if (invalids.length > 0) {
+            findings.push({ severity: 'warning', category: 'cage_validation', message: invalids.length + ' invalid CAGE codes in ' + filename, recommendation: 'Verify CAGE codes against DLA CAGE directory.' });
+        }
+    });
+
+    // Date anomaly detection
+    const dateFields = headers.filter(h => /date|due|submit|deliver|schedul|complet|approv/i.test(h));
+    dateFields.forEach(field => {
+        const now = Date.now();
+        let overdue = 0, future = 0, invalid = 0;
+        records.forEach(r => {
+            if (r[field] && String(r[field]).trim()) {
+                const d = new Date(r[field]);
+                if (isNaN(d.getTime())) invalid++;
+                else if (d.getTime() < now - 86400000 * 90) overdue++;
+                else if (d.getTime() > now + 86400000 * 365 * 5) future++;
+            }
+        });
+        if (overdue > 0) findings.push({ severity: 'warning', category: 'schedule', message: overdue + ' items overdue by >90 days in ' + filename + ' ("' + field + '")', recommendation: 'Review overdue items and update status or request deadline extensions.' });
+        if (invalid > 0) findings.push({ severity: 'info', category: 'data_quality', message: invalid + ' unrecognizable date values in "' + field + '"', recommendation: 'Standardize date formats (YYYY-MM-DD recommended).' });
+    });
+
+    // Status field analysis
+    const statusFields = headers.filter(h => /status|state|disposition|condition/i.test(h));
+    statusFields.forEach(field => {
+        const statCounts = {};
+        records.forEach(r => {
+            const s = String(r[field] || 'blank').trim().toLowerCase();
+            statCounts[s] = (statCounts[s] || 0) + 1;
+        });
+        const rejected = Object.entries(statCounts).filter(([k]) => /reject|disapprov|fail|deficien|nonconform/i.test(k));
+        if (rejected.length > 0) {
+            const total = rejected.reduce((s, [, c]) => s + c, 0);
+            findings.push({ severity: 'critical', category: 'status', message: total + ' items with rejected/failed status in ' + filename, details: rejected.map(([k, v]) => k + ': ' + v), recommendation: 'Prioritize resolution of rejected/failed items. Draft CARs as needed.' });
+        }
+        const blank = statCounts['blank'] || statCounts[''] || 0;
+        if (blank > records.length * 0.3) {
+            findings.push({ severity: 'warning', category: 'data_quality', message: blank + ' of ' + records.length + ' items have no status in ' + filename, recommendation: 'Update status fields to track deliverable progress.' });
+        }
+    });
+
+    // Completeness scoring
+    const completeness = {};
+    headers.forEach(h => {
+        const filled = records.filter(r => r[h] && String(r[h]).trim()).length;
+        completeness[h] = Math.round((filled / records.length) * 100);
+    });
+    const sparseColumns = Object.entries(completeness).filter(([, pct]) => pct < 30 && pct > 0);
+    if (sparseColumns.length > 0) {
+        findings.push({ severity: 'info', category: 'completeness', message: 'Sparse columns detected in ' + filename + ': ' + sparseColumns.map(([k, v]) => k + ' (' + v + '% filled)').join(', '), recommendation: 'Populate sparse fields or remove unnecessary columns.' });
+    }
+
+    return findings;
+}
+
+// ── Type-Specific Deep Analysis ──────────────────────────
+function analyzeByDocType(docType, records, filename, rawText) {
+    const findings = [];
+    const txt = (rawText || '').toLowerCase();
+
+    switch (docType) {
+        case 'drl': {
+            // DRL/CDRL Analysis
+            const withDI = records.filter(r => r.di || r.seq);
+            const withStatus = records.filter(r => r.status);
+            const withDates = records.filter(r => r.due || r.date || r.submit_date);
+            findings.push({ severity: 'info', category: 'drl_analysis', message: 'DRL Summary for ' + filename + ': ' + records.length + ' items, ' + withDI.length + ' with DI numbers, ' + withStatus.length + ' with status, ' + withDates.length + ' with dates' });
+
+            // Check for required DRL elements
+            const elements = new Set(records.map(r => r.element || r.ils_element || '').filter(Boolean));
+            const requiredElements = ['Maintenance Planning', 'Supply Support', 'Support Equipment', 'Technical Data', 'Training', 'Manpower & Personnel', 'PHS&T', 'Facilities', 'Computer Resources', 'Design Interface'];
+            const missingElements = requiredElements.filter(el => ![...elements].some(e => e.toLowerCase().includes(el.toLowerCase().split(' ')[0])));
+            if (missingElements.length > 0) {
+                findings.push({ severity: 'warning', category: 'drl_coverage', message: missingElements.length + ' ILS elements may lack DRL coverage: ' + missingElements.join(', '), recommendation: 'Verify that all 12 ILS elements have appropriate CDRL coverage per DoDI 5000.02.' });
+            }
+
+            // Status progression check
+            const statusGroups = {};
+            records.forEach(r => {
+                const s = String(r.status || '').toLowerCase();
+                if (!statusGroups[s]) statusGroups[s] = 0;
+                statusGroups[s]++;
+            });
+            if (statusGroups['draft'] && (statusGroups['approved'] || statusGroups['accepted'])) {
+                findings.push({ severity: 'info', category: 'drl_progress', message: 'DRL Status Distribution: ' + Object.entries(statusGroups).map(([k, v]) => k + '=' + v).join(', ') });
+            }
+            break;
+        }
+
+        case 'vrs': {
+            // Voyage Repair Spares Analysis
+            const withNSN = records.filter(r => r.nsn || r.niin);
+            const withQty = records.filter(r => r.qty || r.quantity);
+            const withCage = records.filter(r => r.cage);
+            findings.push({ severity: 'info', category: 'vrs_analysis', message: 'VRS Summary: ' + records.length + ' items, ' + withNSN.length + ' with NSN, ' + withQty.length + ' with quantity, ' + withCage.length + ' with CAGE' });
+
+            // Single-source vendor risk
+            if (withCage.length > 0) {
+                const cageCounts = {};
+                records.forEach(r => { if (r.cage) cageCounts[r.cage] = (cageCounts[r.cage] || 0) + 1; });
+                const singleSource = Object.entries(cageCounts).filter(([, c]) => c >= 5);
+                if (singleSource.length > 0) {
+                    findings.push({ severity: 'warning', category: 'supply_risk', message: 'Potential single-source vendor concentration: ' + singleSource.map(([k, v]) => 'CAGE ' + k + ' supplies ' + v + ' items').join('; '), recommendation: 'Assess supply chain risk per DoDI 4245.14. Identify alternate sources where possible.' });
+                }
+            }
+
+            // Zero quantity items
+            const zeroQty = records.filter(r => (r.qty || r.quantity) && parseInt(r.qty || r.quantity) === 0);
+            if (zeroQty.length > 0) {
+                findings.push({ severity: 'warning', category: 'provisioning', message: zeroQty.length + ' VRS items with zero quantity', recommendation: 'Review zero-quantity items. May indicate incomplete allowance computation.' });
+            }
+            break;
+        }
+
+        case 'mel': {
+            // Maintenance Equipment List Analysis
+            const withPartNum = records.filter(r => r.part_number || r.pn || r.part_no);
+            findings.push({ severity: 'info', category: 'mel_analysis', message: 'MEL Summary: ' + records.length + ' equipment items, ' + withPartNum.length + ' with part numbers' });
+
+            // Missing TM references
+            const noTMRef = records.filter(r => !r.tm && !r.technical_manual && !r.reference);
+            if (noTMRef.length > 0) {
+                findings.push({ severity: 'warning', category: 'mel_coverage', message: noTMRef.length + ' MEL items lack technical manual references', recommendation: 'Assign applicable TM references to all MEL items for maintainer use.' });
+            }
+            break;
+        }
+
+        case 'mrc': {
+            // Maintenance Requirement Card / PMS Analysis
+            const periodicities = {};
+            records.forEach(r => {
+                const p = String(r.periodicity || r.frequency || r.interval || '').toUpperCase();
+                if (p) periodicities[p] = (periodicities[p] || 0) + 1;
+            });
+            findings.push({ severity: 'info', category: 'mrc_analysis', message: 'MRC/PMS Summary: ' + records.length + ' maintenance tasks. Periodicities: ' + Object.entries(periodicities).map(([k, v]) => k + '=' + v).join(', ') });
+
+            // Manhour reasonableness
+            const manhourField = Object.keys(records[0] || {}).find(h => /manhour|man.?hour|labor|hour|time|duration/i.test(h));
+            if (manhourField) {
+                const hours = records.map(r => parseFloat(r[manhourField])).filter(h => !isNaN(h));
+                const outliers = hours.filter(h => h > 40 || h < 0.1);
+                if (outliers.length > 0) {
+                    findings.push({ severity: 'warning', category: 'mrc_validation', message: outliers.length + ' MRC tasks with unusual manhour estimates (>40hrs or <0.1hrs)', recommendation: 'Review manhour estimates for reasonableness per NAVSEA maintenance standards.' });
+                }
+            }
+
+            // Missing skill level requirements
+            const noSkill = records.filter(r => !r.skill && !r.skill_level && !r.mos && !r.nec && !r.rating);
+            if (noSkill.length > records.length * 0.5) {
+                findings.push({ severity: 'warning', category: 'manpower', message: noSkill.length + ' MRC tasks lack skill level/rating requirements', recommendation: 'Assign required skill levels for manpower planning per MIL-STD-1388-2B.' });
+            }
+            break;
+        }
+
+        case 'lcsp': {
+            // Life Cycle Sustainment Plan Analysis
+            const requiredSections = ['maintenance concept', 'supply support', 'support equipment', 'training', 'technical data', 'manpower', 'facilities', 'phs&t', 'computer resources'];
+            const foundSections = requiredSections.filter(s => txt.includes(s));
+            const missingSections = requiredSections.filter(s => !txt.includes(s));
+            findings.push({ severity: 'info', category: 'lcsp_analysis', message: 'LCSP covers ' + foundSections.length + '/' + requiredSections.length + ' required ILS elements' });
+            if (missingSections.length > 0) {
+                findings.push({ severity: 'warning', category: 'lcsp_completeness', message: 'LCSP missing sections: ' + missingSections.join(', '), recommendation: 'Address all ILS elements per DoDI 5000.02 LCSP requirements.' });
+            }
+
+            // Life cycle cost references
+            if (!txt.includes('life cycle cost') && !txt.includes('lcc') && !txt.includes('o&s cost')) {
+                findings.push({ severity: 'warning', category: 'lcsp_cost', message: 'LCSP does not reference Life Cycle Cost or O&S cost analysis', recommendation: 'Include LCC/O&S cost considerations per DAU LCSP guidance.' });
+            }
+            break;
+        }
+
+        case 'fmeca': {
+            // FMECA Analysis per MIL-STD-1629A
+            const withRPN = records.filter(r => r.rpn || (r.severity && r.occurrence && r.detection));
+            findings.push({ severity: 'info', category: 'fmeca_analysis', message: 'FMECA Summary: ' + records.length + ' failure modes analyzed, ' + withRPN.length + ' with RPN/criticality data' });
+
+            // Calculate RPNs where possible
+            records.forEach((r, i) => {
+                const sev = parseInt(r.severity || r.sev || 0);
+                const occ = parseInt(r.occurrence || r.occ || r.probability || 0);
+                const det = parseInt(r.detection || r.det || 0);
+                if (sev && occ && det) {
+                    const rpn = sev * occ * det;
+                    if (rpn > 200) {
+                        findings.push({ severity: 'critical', category: 'fmeca_risk', message: 'High RPN (' + rpn + ') at row ' + (i + 1) + ': ' + (r.failure_mode || r.description || r.title || 'Unknown mode'), recommendation: 'Implement corrective action to reduce RPN below 200. Consider design change, added detection, or reduced occurrence.' });
+                    }
+                }
+            });
+
+            // Criticality category distribution
+            const critCategories = {};
+            records.forEach(r => {
+                const cat = String(r.criticality || r.category || r.crit_cat || '').toUpperCase();
+                if (cat) critCategories[cat] = (critCategories[cat] || 0) + 1;
+            });
+            if (Object.keys(critCategories).length > 0) {
+                findings.push({ severity: 'info', category: 'fmeca_distribution', message: 'Criticality distribution: ' + Object.entries(critCategories).map(([k, v]) => 'Cat ' + k + '=' + v).join(', ') });
+            }
+
+            // Missing compensating provisions
+            const noComp = records.filter(r => !r.compensating && !r.mitigation && !r.corrective_action && !r.recommendation);
+            if (noComp.length > records.length * 0.3) {
+                findings.push({ severity: 'warning', category: 'fmeca_completeness', message: noComp.length + ' failure modes lack compensating provisions or corrective actions', recommendation: 'Per MIL-STD-1629A, all failure modes should have documented compensating provisions.' });
+            }
+            break;
+        }
+
+        case 'ram': {
+            // RAM Analysis per MIL-STD-3034
+            const mtbfValues = records.map(r => parseFloat(r.mtbf || r.mttf || 0)).filter(v => v > 0);
+            const mttrValues = records.map(r => parseFloat(r.mttr || 0)).filter(v => v > 0);
+
+            if (mtbfValues.length > 0) {
+                const avgMTBF = mtbfValues.reduce((a, b) => a + b, 0) / mtbfValues.length;
+                const minMTBF = Math.min(...mtbfValues);
+                findings.push({ severity: 'info', category: 'ram_analysis', message: 'RAM Summary: Avg MTBF=' + avgMTBF.toFixed(1) + 'hrs, Min MTBF=' + minMTBF.toFixed(1) + 'hrs across ' + mtbfValues.length + ' items' });
+
+                // Ao calculation
+                if (mttrValues.length > 0) {
+                    const avgMTTR = mttrValues.reduce((a, b) => a + b, 0) / mttrValues.length;
+                    const ao = avgMTBF / (avgMTBF + avgMTTR);
+                    findings.push({ severity: ao >= 0.90 ? 'info' : 'warning', category: 'ram_availability', message: 'Estimated Operational Availability (Ao): ' + (ao * 100).toFixed(1) + '% (MTBF=' + avgMTBF.toFixed(1) + ', MTTR=' + avgMTTR.toFixed(1) + ')', recommendation: ao < 0.90 ? 'Ao below 90% threshold. Review high-MTTR items for maintainability improvements.' : 'Ao meets or exceeds typical 90% threshold.' });
+                }
+
+                // Low-reliability items
+                const lowRel = records.filter(r => parseFloat(r.mtbf || r.mttf || 999999) < 100);
+                if (lowRel.length > 0) {
+                    findings.push({ severity: 'warning', category: 'ram_risk', message: lowRel.length + ' items with MTBF < 100 hours — potential reliability drivers', recommendation: 'Focus reliability improvement efforts on low-MTBF items. Consider redesign or additional redundancy.' });
+                }
+            }
+
+            // Spare quantity assessment
+            records.forEach((r, i) => {
+                const mtbf = parseFloat(r.mtbf || 0);
+                const qty = parseInt(r.spare_qty || r.spares || r.quantity || 0);
+                if (mtbf > 0 && mtbf < 500 && qty === 0) {
+                    findings.push({ severity: 'warning', category: 'ram_spares', message: 'Row ' + (i + 1) + ': Low-MTBF item (' + mtbf + 'hrs) with no spares provisioned — ' + (r.nomenclature || r.description || r.name || 'Unknown'), recommendation: 'Provision spares for low-MTBF items to maintain operational availability.' });
+                }
+            });
+            break;
+        }
+
+        case 'dmsms': {
+            // DMSMS/Obsolescence Analysis per DoDI 4245.14
+            const riskLevels = { high: 0, medium: 0, low: 0, unknown: 0 };
+            records.forEach(r => {
+                const risk = String(r.risk || r.risk_level || r.dmsms_risk || '').toLowerCase();
+                if (/high|critical|red/.test(risk)) riskLevels.high++;
+                else if (/med|moderate|yellow|amber/.test(risk)) riskLevels.medium++;
+                else if (/low|green|minimal/.test(risk)) riskLevels.low++;
+                else riskLevels.unknown++;
+            });
+            findings.push({ severity: riskLevels.high > 0 ? 'critical' : 'info', category: 'dmsms_analysis', message: 'DMSMS Risk Summary: ' + riskLevels.high + ' HIGH, ' + riskLevels.medium + ' MEDIUM, ' + riskLevels.low + ' LOW, ' + riskLevels.unknown + ' UNASSESSED' });
+
+            if (riskLevels.unknown > records.length * 0.3) {
+                findings.push({ severity: 'warning', category: 'dmsms_coverage', message: riskLevels.unknown + ' items have no DMSMS risk assessment', recommendation: 'Complete DMSMS risk assessment for all items per DoDI 4245.14.' });
+            }
+
+            // Check for resolution plans
+            const noResolution = records.filter(r => {
+                const risk = String(r.risk || r.risk_level || '').toLowerCase();
+                const hasResolution = r.resolution || r.mitigation || r.plan || r.action;
+                return /high|critical|med/.test(risk) && !hasResolution;
+            });
+            if (noResolution.length > 0) {
+                findings.push({ severity: 'critical', category: 'dmsms_mitigation', message: noResolution.length + ' medium/high-risk DMSMS items lack resolution plans', recommendation: 'Develop resolution plans (redesign, alternate source, LTB, etc.) for all medium/high-risk items.' });
+            }
+            break;
+        }
+
+        case 'training': {
+            // Training Analysis per NTSP requirements
+            const courseTypes = {};
+            records.forEach(r => {
+                const type = String(r.type || r.course_type || r.training_type || 'unspecified').toLowerCase();
+                courseTypes[type] = (courseTypes[type] || 0) + 1;
+            });
+            findings.push({ severity: 'info', category: 'training_analysis', message: 'Training Summary: ' + records.length + ' items. Types: ' + Object.entries(courseTypes).map(([k, v]) => k + '=' + v).join(', ') });
+
+            // Check for required training categories
+            const requiredCategories = ['operator', 'maintainer', 'supervisor', 'instructor'];
+            const foundCategories = requiredCategories.filter(c => txt.includes(c) || Object.keys(courseTypes).some(k => k.includes(c)));
+            if (foundCategories.length < requiredCategories.length) {
+                findings.push({ severity: 'warning', category: 'training_coverage', message: 'Training may lack coverage for: ' + requiredCategories.filter(c => !foundCategories.includes(c)).join(', '), recommendation: 'Ensure training plan covers all operator, maintainer, supervisor, and instructor categories per NTSP.' });
+            }
+
+            // Courseware status
+            const noCourseware = records.filter(r => !r.courseware && !r.material && !r.content_status);
+            if (noCourseware.length > records.length * 0.5) {
+                findings.push({ severity: 'warning', category: 'training_material', message: noCourseware.length + ' training items lack courseware/material status', recommendation: 'Track courseware development status for all training requirements.' });
+            }
+            break;
+        }
+
+        case 'tdp': case 'drawing_index': {
+            // Technical Data Package / Drawing Index Analysis
+            const withRevision = records.filter(r => r.revision || r.rev || r.version);
+            const withDate = records.filter(r => r.date || r.revision_date || r.release_date);
+            findings.push({ severity: 'info', category: 'tdp_analysis', message: 'TDP Summary: ' + records.length + ' documents/drawings, ' + withRevision.length + ' with revision tracking, ' + withDate.length + ' with dates' });
+
+            // Revision control
+            if (withRevision.length < records.length * 0.5) {
+                findings.push({ severity: 'warning', category: 'tdp_revision', message: (records.length - withRevision.length) + ' TDP items lack revision identifiers', recommendation: 'All technical data should have revision/version control per MIL-STD-31000.' });
+            }
+
+            // Check for drawing tree completeness
+            const assemblyLevels = {};
+            records.forEach(r => {
+                const level = r.level || r.indent || r.assembly_level || '';
+                if (level) assemblyLevels[level] = (assemblyLevels[level] || 0) + 1;
+            });
+            if (Object.keys(assemblyLevels).length > 0) {
+                findings.push({ severity: 'info', category: 'tdp_structure', message: 'Drawing indenture levels: ' + Object.entries(assemblyLevels).map(([k, v]) => 'L' + k + '=' + v).join(', ') });
+            }
+            break;
+        }
+
+        case 'config_mgmt': {
+            // Configuration Management Analysis
+            const ecpStatus = {};
+            records.forEach(r => {
+                const s = String(r.status || r.ecp_status || '').toLowerCase();
+                if (s) ecpStatus[s] = (ecpStatus[s] || 0) + 1;
+            });
+            findings.push({ severity: 'info', category: 'config_analysis', message: 'Configuration Items: ' + records.length + '. ECP Status: ' + Object.entries(ecpStatus).map(([k, v]) => k + '=' + v).join(', ') });
+
+            const openECPs = records.filter(r => /open|pending|review|draft/i.test(r.status || r.ecp_status || ''));
+            if (openECPs.length > 0) {
+                findings.push({ severity: 'warning', category: 'config_open', message: openECPs.length + ' open/pending ECPs require resolution', recommendation: 'Review and disposition open ECPs before milestone review.' });
+            }
+            break;
+        }
+
+        case 'support_equipment': {
+            // Support Equipment Analysis
+            const withSERD = records.filter(r => r.serd || r.serd_number);
+            findings.push({ severity: 'info', category: 'se_analysis', message: 'Support Equipment: ' + records.length + ' items, ' + withSERD.length + ' with SERD references' });
+
+            // Calibration tracking
+            const calItems = records.filter(r => /calibrat|tmde|measure|test/i.test(String(r.type || r.category || r.description || '')));
+            if (calItems.length > 0) {
+                const noCal = calItems.filter(r => !r.calibration_date && !r.cal_due);
+                if (noCal.length > 0) {
+                    findings.push({ severity: 'warning', category: 'se_calibration', message: noCal.length + ' TMDE/calibration items lack calibration tracking', recommendation: 'Maintain calibration records per applicable TMDE standards.' });
+                }
+            }
+            break;
+        }
+
+        case 'contract_j2': {
+            // Contract / Attachment J-2 Compliance Analysis
+            const withCLIN = records.filter(r => r.clin || r.contract_line);
+            const withDelivery = records.filter(r => r.delivery || r.delivery_date || r.due_date);
+            findings.push({ severity: 'info', category: 'contract_analysis', message: 'Contract Items: ' + records.length + ', ' + withCLIN.length + ' with CLIN, ' + withDelivery.length + ' with delivery dates' });
+
+            // Overdue deliverables
+            const now = Date.now();
+            const overdue = records.filter(r => {
+                const d = new Date(r.delivery || r.delivery_date || r.due_date || '');
+                return !isNaN(d.getTime()) && d.getTime() < now && !/complet|deliver|accept|approv/i.test(r.status || '');
+            });
+            if (overdue.length > 0) {
+                findings.push({ severity: 'critical', category: 'contract_overdue', message: overdue.length + ' contract deliverables are past due', recommendation: 'Expedite overdue deliverables. Consider contract modification or waiver request.' });
+            }
+            break;
+        }
+
+        case 'phs_t': {
+            // PHS&T Analysis
+            const categories = {};
+            records.forEach(r => {
+                const cat = String(r.category || r.shipping_category || r.preservation || '').toUpperCase();
+                if (cat) categories[cat] = (categories[cat] || 0) + 1;
+            });
+            findings.push({ severity: 'info', category: 'phst_analysis', message: 'PHS&T: ' + records.length + ' items. Categories: ' + Object.entries(categories).map(([k, v]) => k + '=' + v).join(', ') });
+
+            // Special handling requirements
+            const specialHandling = records.filter(r => /hazmat|hazardous|special|esd|sensitive|classified|fragile|explosive/i.test(String(r.handling || r.special || r.notes || r.description || '')));
+            if (specialHandling.length > 0) {
+                findings.push({ severity: 'warning', category: 'phst_handling', message: specialHandling.length + ' items require special handling (HAZMAT, ESD, fragile, etc.)', recommendation: 'Ensure special handling procedures are documented per MIL-STD-2073-1.' });
+            }
+            break;
+        }
+
+        case 'lora': {
+            // Level of Repair Analysis
+            const decisions = { repair: 0, replace: 0, discard: 0, undetermined: 0 };
+            records.forEach(r => {
+                const d = String(r.decision || r.lora_decision || r.maintenance_level || '').toLowerCase();
+                if (/repair|fix|overhaul/.test(d)) decisions.repair++;
+                else if (/replace|swap/.test(d)) decisions.replace++;
+                else if (/discard|throw|condemn|disposal/.test(d)) decisions.discard++;
+                else decisions.undetermined++;
+            });
+            findings.push({ severity: 'info', category: 'lora_analysis', message: 'LORA Decisions: Repair=' + decisions.repair + ', Replace=' + decisions.replace + ', Discard=' + decisions.discard + ', Undetermined=' + decisions.undetermined });
+
+            if (decisions.undetermined > records.length * 0.3) {
+                findings.push({ severity: 'warning', category: 'lora_completeness', message: decisions.undetermined + ' items lack LORA decisions', recommendation: 'Complete LORA analysis per S9081-AB-GIB-010 for all repairable candidates.' });
+            }
+            break;
+        }
+
+        case 'cosal': case 'spare_parts': {
+            // COSAL / Spare Parts / Provisioning Analysis
+            const withNSN = records.filter(r => r.nsn || r.niin);
+            const withQty = records.filter(r => r.qty || r.quantity || r.allowance);
+            const withCost = records.filter(r => r.cost || r.price || r.unit_cost);
+            findings.push({ severity: 'info', category: 'spares_analysis', message: 'Spares/Provisioning: ' + records.length + ' items, ' + withNSN.length + ' with NSN, ' + withQty.length + ' with quantities, ' + withCost.length + ' with cost data' });
+
+            // High-cost items
+            if (withCost.length > 0) {
+                const costs = records.map(r => parseFloat(String(r.cost || r.price || r.unit_cost || '').replace(/[$,]/g, ''))).filter(v => !isNaN(v) && v > 0);
+                const highCost = costs.filter(c => c > 10000);
+                if (highCost.length > 0) {
+                    findings.push({ severity: 'info', category: 'spares_cost', message: highCost.length + ' items exceed $10,000 unit cost — flag for management review', recommendation: 'High-cost spares may require source approval or management review per provisioning procedures.' });
+                }
+            }
+
+            // Range/depth analysis
+            const essentialNoStock = records.filter(r => {
+                const essential = /essential|critical|vital|safety/i.test(r.essentiality || r.category || r.criticality || '');
+                const noStock = !parseInt(r.qty || r.quantity || r.allowance || 0);
+                return essential && noStock;
+            });
+            if (essentialNoStock.length > 0) {
+                findings.push({ severity: 'critical', category: 'spares_gap', message: essentialNoStock.length + ' essential/critical items have zero allowance quantity', recommendation: 'Provision initial stocking quantities for all essential items to avoid system downtime.' });
+            }
+            break;
+        }
+
+        case 'fracas': {
+            // FRACAS Analysis
+            const failureModes = {};
+            records.forEach(r => {
+                const mode = String(r.failure_mode || r.mode || r.defect || 'unclassified').toLowerCase();
+                failureModes[mode] = (failureModes[mode] || 0) + 1;
+            });
+            const topFailures = Object.entries(failureModes).sort((a, b) => b[1] - a[1]).slice(0, 5);
+            findings.push({ severity: 'info', category: 'fracas_analysis', message: 'FRACAS: ' + records.length + ' failure reports. Top failure modes: ' + topFailures.map(([k, v]) => k + ' (' + v + ')').join(', ') });
+
+            // Open corrective actions
+            const openCAs = records.filter(r => /open|pending|in.?progress/i.test(r.ca_status || r.corrective_status || r.status || ''));
+            if (openCAs.length > 0) {
+                findings.push({ severity: 'warning', category: 'fracas_open', message: openCAs.length + ' failure reports have open corrective actions', recommendation: 'Close open corrective actions and verify effectiveness.' });
+            }
+
+            // Repeat failures
+            const repeats = Object.entries(failureModes).filter(([, count]) => count >= 3);
+            if (repeats.length > 0) {
+                findings.push({ severity: 'critical', category: 'fracas_trending', message: 'Repeat failure modes detected: ' + repeats.map(([k, v]) => k + ' (' + v + 'x)').join(', '), recommendation: 'Investigate repeat failure modes for systemic root cause. Consider design change or preventive maintenance adjustment.' });
+            }
+            break;
+        }
+
+        case 'manpower': {
+            // Manpower & Personnel Analysis
+            const billets = {};
+            records.forEach(r => {
+                const rate = String(r.rating || r.mos || r.nec || r.role || 'unspecified').toUpperCase();
+                billets[rate] = (billets[rate] || 0) + 1;
+            });
+            findings.push({ severity: 'info', category: 'manpower_analysis', message: 'Manpower: ' + records.length + ' positions. Ratings: ' + Object.entries(billets).map(([k, v]) => k + '=' + v).join(', ') });
+
+            // Skill level distribution
+            const skillLevels = {};
+            records.forEach(r => {
+                const sl = String(r.skill_level || r.grade || r.paygrade || '');
+                if (sl) skillLevels[sl] = (skillLevels[sl] || 0) + 1;
+            });
+            if (Object.keys(skillLevels).length > 0) {
+                findings.push({ severity: 'info', category: 'manpower_skills', message: 'Skill levels: ' + Object.entries(skillLevels).map(([k, v]) => k + '=' + v).join(', ') });
+            }
+            break;
+        }
+
+        case 'safety': {
+            // Safety / Hazard Analysis per MIL-STD-882
+            const hazardCategories = { I: 0, II: 0, III: 0, IV: 0, unknown: 0 };
+            records.forEach(r => {
+                const cat = String(r.category || r.hazard_category || r.severity || '').toUpperCase();
+                if (/I{3}|III|3/.test(cat)) hazardCategories['III']++;
+                else if (/II|2/.test(cat)) hazardCategories['II']++;
+                else if (/IV|4/.test(cat)) hazardCategories['IV']++;
+                else if (/I|1/.test(cat) && !/II|III|IV/.test(cat)) hazardCategories['I']++;
+                else hazardCategories.unknown++;
+            });
+            findings.push({ severity: hazardCategories['I'] > 0 ? 'critical' : 'info', category: 'safety_analysis', message: 'Hazard Summary: Cat I (catastrophic)=' + hazardCategories['I'] + ', Cat II (critical)=' + hazardCategories['II'] + ', Cat III (marginal)=' + hazardCategories['III'] + ', Cat IV (negligible)=' + hazardCategories['IV'] });
+
+            if (hazardCategories['I'] > 0 || hazardCategories['II'] > 0) {
+                findings.push({ severity: 'critical', category: 'safety_risk', message: (hazardCategories['I'] + hazardCategories['II']) + ' Category I/II hazards require mandatory mitigation', recommendation: 'Per MIL-STD-882E, all Cat I and Cat II hazards must have documented risk mitigation and acceptance authority.' });
+            }
+            break;
+        }
+
+        case 'warranty': {
+            // Warranty Analysis
+            const now = Date.now();
+            const expiring = records.filter(r => {
+                const d = new Date(r.expiry || r.end_date || r.warranty_end || '');
+                return !isNaN(d.getTime()) && d.getTime() > now && d.getTime() < now + 86400000 * 90;
+            });
+            if (expiring.length > 0) {
+                findings.push({ severity: 'warning', category: 'warranty_expiring', message: expiring.length + ' warranties expiring within 90 days', recommendation: 'Review expiring warranties for extension or replacement coverage.' });
+            }
+            break;
+        }
+
+        case 'cost_analysis': {
+            // Life Cycle Cost Analysis
+            const costElements = {};
+            records.forEach(r => {
+                const elem = String(r.element || r.cost_element || r.category || 'other').toLowerCase();
+                const val = parseFloat(String(r.cost || r.amount || r.value || '').replace(/[$,]/g, '')) || 0;
+                costElements[elem] = (costElements[elem] || 0) + val;
+            });
+            const totalCost = Object.values(costElements).reduce((a, b) => a + b, 0);
+            findings.push({ severity: 'info', category: 'cost_analysis', message: 'LCC Total: $' + totalCost.toLocaleString() + '. Breakdown: ' + Object.entries(costElements).map(([k, v]) => k + '=$' + v.toLocaleString()).join(', ') });
+
+            // O&S vs acquisition ratio
+            const osRatio = (costElements['o&s'] || costElements['operating'] || costElements['sustainment'] || 0) / (totalCost || 1);
+            if (osRatio > 0) {
+                findings.push({ severity: 'info', category: 'cost_ratio', message: 'O&S cost ratio: ' + (osRatio * 100).toFixed(1) + '% of total LCC', recommendation: osRatio > 0.7 ? 'O&S costs exceed 70% of LCC. Review sustainment strategy for cost reduction opportunities.' : 'O&S ratio within normal range for defense systems.' });
+            }
+            break;
+        }
+
+        default: {
+            // General analysis for unclassified documents
+            findings.push({ severity: 'info', category: 'general', message: 'Document ' + filename + ' analyzed as general type with ' + records.length + ' records.' });
+
+            // Look for any ILS-relevant patterns
+            if (records.some(r => r.di || r.cdrl)) findings.push({ severity: 'info', category: 'general', message: 'Contains DI/CDRL references — may be a DRL or deliverable tracker.' });
+            if (records.some(r => r.nsn || r.niin)) findings.push({ severity: 'info', category: 'general', message: 'Contains NSN/NIIN data — may be provisioning or supply data.' });
+            if (records.some(r => r.mtbf || r.mttr)) findings.push({ severity: 'info', category: 'general', message: 'Contains MTBF/MTTR data — may be RAM analysis data.' });
+            break;
+        }
+    }
+
+    return findings;
+}
+
+// ── Cross-Document Analysis ──────────────────────────────
+function crossReferenceAllDocuments() {
+    if (uploadedDocumentStore.length < 2) return [];
+    const findings = [];
+    const allDocs = uploadedDocumentStore;
+
+    // 1. DI number consistency across documents
+    const diByDoc = {};
+    allDocs.forEach(doc => {
+        const dis = doc.records.filter(r => r.di).map(r => ({ di: r.di, status: r.status, title: r.title }));
+        if (dis.length > 0) diByDoc[doc.filename] = dis;
+    });
+    const allDIs = new Set();
+    Object.values(diByDoc).forEach(dis => dis.forEach(d => allDIs.add(d.di)));
+    allDIs.forEach(di => {
+        const appearances = {};
+        Object.entries(diByDoc).forEach(([doc, dis]) => {
+            const match = dis.find(d => d.di === di);
+            if (match) appearances[doc] = match;
+        });
+        const statuses = Object.values(appearances).map(a => (a.status || '').toLowerCase()).filter(Boolean);
+        const uniqueStatuses = [...new Set(statuses)];
+        if (uniqueStatuses.length > 1) {
+            findings.push({ severity: 'critical', category: 'cross_ref_status', message: di + ' has conflicting statuses across documents: ' + Object.entries(appearances).map(([doc, a]) => doc + '="' + (a.status || 'none') + '"').join(' vs '), recommendation: 'Reconcile ' + di + ' status across all documents.' });
+        }
+    });
+
+    // 2. NSN cross-referencing
+    const nsnByDoc = {};
+    allDocs.forEach(doc => {
+        const nsns = doc.records.filter(r => r.nsn || r.niin).map(r => ({ nsn: r.nsn || r.niin, cage: r.cage, qty: r.qty || r.quantity, desc: r.description || r.nomenclature }));
+        if (nsns.length > 0) nsnByDoc[doc.filename] = nsns;
+    });
+    if (Object.keys(nsnByDoc).length >= 2) {
+        const allNSNs = new Set();
+        Object.values(nsnByDoc).forEach(nsns => nsns.forEach(n => allNSNs.add(n.nsn)));
+        const singleDocNSNs = [];
+        allNSNs.forEach(nsn => {
+            const inDocs = Object.entries(nsnByDoc).filter(([, nsns]) => nsns.some(n => n.nsn === nsn));
+            if (inDocs.length === 1) singleDocNSNs.push({ nsn, doc: inDocs[0][0] });
+        });
+        if (singleDocNSNs.length > 0 && singleDocNSNs.length <= allNSNs.size * 0.5) {
+            findings.push({ severity: 'info', category: 'cross_ref_nsn', message: singleDocNSNs.length + ' NSNs appear in only one document — verify coverage across provisioning/VRS/COSAL', recommendation: 'Cross-check single-document NSNs against all supply/provisioning documents.' });
+        }
+
+        // Quantity discrepancies for same NSN
+        allNSNs.forEach(nsn => {
+            const qtys = {};
+            Object.entries(nsnByDoc).forEach(([doc, nsns]) => {
+                const match = nsns.find(n => n.nsn === nsn);
+                if (match && match.qty) qtys[doc] = parseInt(match.qty);
+            });
+            const vals = Object.values(qtys);
+            if (vals.length >= 2 && Math.max(...vals) > Math.min(...vals) * 2) {
+                findings.push({ severity: 'warning', category: 'cross_ref_qty', message: 'NSN ' + nsn + ' quantity discrepancy: ' + Object.entries(qtys).map(([d, q]) => d + '=' + q).join(' vs '), recommendation: 'Verify quantity requirements across documents for NSN ' + nsn });
+            }
+        });
+    }
+
+    // 3. Part number / CAGE cross-referencing
+    const partsByDoc = {};
+    allDocs.forEach(doc => {
+        const parts = doc.records.filter(r => r.part_number || r.pn || r.part_no).map(r => ({ pn: r.part_number || r.pn || r.part_no, cage: r.cage }));
+        if (parts.length > 0) partsByDoc[doc.filename] = parts;
+    });
+    if (Object.keys(partsByDoc).length >= 2) {
+        // Check for same part number with different CAGE codes
+        const pnCage = {};
+        Object.entries(partsByDoc).forEach(([doc, parts]) => {
+            parts.forEach(p => {
+                if (!pnCage[p.pn]) pnCage[p.pn] = {};
+                if (p.cage) pnCage[p.pn][doc] = p.cage;
+            });
+        });
+        Object.entries(pnCage).forEach(([pn, docCages]) => {
+            const cages = [...new Set(Object.values(docCages))];
+            if (cages.length > 1) {
+                findings.push({ severity: 'warning', category: 'cross_ref_cage', message: 'Part ' + pn + ' has different CAGE codes: ' + Object.entries(docCages).map(([d, c]) => d + '=' + c).join(' vs '), recommendation: 'Verify correct manufacturer/CAGE code for ' + pn });
+            }
+        });
+    }
+
+    // 4. Drawing/document reference integrity
+    const allRefs = new Set();
+    const allDocNums = new Set();
+    allDocs.forEach(doc => {
+        doc.records.forEach(r => {
+            if (r.reference || r.ref) allRefs.add(String(r.reference || r.ref).trim());
+            if (r.document_number || r.doc_num || r.drawing) allDocNums.add(String(r.document_number || r.doc_num || r.drawing).trim());
+        });
+    });
+    const brokenRefs = [...allRefs].filter(ref => !allDocNums.has(ref) && ref.length > 3);
+    if (brokenRefs.length > 0 && brokenRefs.length < 50) {
+        findings.push({ severity: 'info', category: 'cross_ref_integrity', message: brokenRefs.length + ' document references could not be resolved in uploaded documents', recommendation: 'These references may point to documents not yet uploaded: ' + brokenRefs.slice(0, 10).join(', ') });
+    }
+
+    return findings;
+}
+
+// ── Milestone Readiness Assessment ───────────────────────
+function assessMilestoneReadiness(phase) {
+    const findings = [];
+    if (uploadedDocumentStore.length === 0) return findings;
+
+    const milestoneRequirements = {
+        'ms_a': { label: 'Milestone A (MDD)', required: ['lcsp', 'ram', 'cost_analysis', 'schedule'], recommended: ['drl', 'training', 'manpower'] },
+        'ms_b': { label: 'Milestone B (EMD)', required: ['lcsp', 'drl', 'ram', 'fmeca', 'training', 'tdp', 'spare_parts', 'support_equipment'], recommended: ['lora', 'phs_t', 'config_mgmt', 'safety'] },
+        'ms_c': { label: 'Milestone C (P&D)', required: ['lcsp', 'drl', 'ram', 'fmeca', 'training', 'tdp', 'spare_parts', 'support_equipment', 'phs_t', 'lora', 'config_mgmt', 'mrc', 'cosal', 'safety'], recommended: ['dmsms', 'warranty', 'facilities', 'manpower'] },
+        'ioc': { label: 'IOC', required: ['lcsp', 'drl', 'training', 'tdp', 'spare_parts', 'mrc', 'cosal', 'support_equipment', 'phs_t', 'config_mgmt'], recommended: ['fracas', 'warranty', 'dmsms'] },
+        'foc': { label: 'FOC', required: ['lcsp', 'drl', 'training', 'tdp', 'spare_parts', 'mrc', 'cosal', 'support_equipment', 'phs_t', 'config_mgmt', 'fracas', 'dmsms'], recommended: ['cost_analysis'] },
+    };
+
+    const p = phase ? String(phase).toLowerCase().replace(/[\s-]/g, '_') : null;
+    const milestone = milestoneRequirements[p];
+    if (!milestone) return findings;
+
+    const uploadedTypes = uploadedDocumentStore.map(d => d.docType);
+    const missingRequired = milestone.required.filter(t => !uploadedTypes.includes(t));
+    const missingRecommended = milestone.recommended.filter(t => !uploadedTypes.includes(t));
+    const readinessPct = Math.round(((milestone.required.length - missingRequired.length) / milestone.required.length) * 100);
+
+    findings.push({ severity: readinessPct >= 80 ? 'info' : 'critical', category: 'milestone_readiness', message: milestone.label + ' Readiness: ' + readinessPct + '% (' + (milestone.required.length - missingRequired.length) + '/' + milestone.required.length + ' required document types uploaded)' });
+
+    if (missingRequired.length > 0) {
+        findings.push({ severity: 'critical', category: 'milestone_gap', message: 'Missing required documents for ' + milestone.label + ': ' + missingRequired.join(', '), recommendation: 'Obtain and upload these documents before milestone review.' });
+    }
+    if (missingRecommended.length > 0) {
+        findings.push({ severity: 'info', category: 'milestone_recommended', message: 'Recommended but not uploaded for ' + milestone.label + ': ' + missingRecommended.join(', ') });
+    }
+
+    return findings;
+}
+
+// ── Auto-Analysis on Upload ──────────────────────────────
+function runAutoAnalysisOnUpload(filename, parsed, records) {
+    const rawText = parsed.rows ? parsed.rows.flat().join(' ') : '';
+    const docType = detectDocumentType(filename, records, rawText);
+    const qualityFindings = checkDataQuality(records, filename);
+    const typeFindings = analyzeByDocType(docType, records, filename, rawText);
+
+    // Store document for cross-referencing
+    uploadedDocumentStore.push({ filename, docType, records, rawText, timestamp: Date.now() });
+
+    // Cross-reference with all other uploaded documents
+    const crossRefFindings = crossReferenceAllDocuments();
+
+    // Combine all findings
+    const allFindings = [
+        { severity: 'info', category: 'document_type', message: 'Detected document type: <strong>' + docType.replace(/_/g, ' ').toUpperCase() + '</strong> (' + records.length + ' records)' },
+        ...qualityFindings,
+        ...typeFindings,
+        ...crossRefFindings
+    ];
+
+    // Store findings
+    allFindings.forEach(f => { f.document = filename; f.timestamp = Date.now(); });
+    ilsAnalysisFindings.push(...allFindings);
+
+    // Display findings in AI chat
+    displayAnalysisNotifications(filename, docType, allFindings);
+
+    return allFindings;
+}
+
+// ── Display Analysis Notifications in AI Chat ────────────
+function displayAnalysisNotifications(filename, docType, findings) {
+    const critical = findings.filter(f => f.severity === 'critical');
+    const warnings = findings.filter(f => f.severity === 'warning');
+    const infos = findings.filter(f => f.severity === 'info');
+
+    let html = '<div style="border-left:3px solid #c9a84c;padding:8px 12px;margin:4px 0;background:rgba(201,168,76,0.08);border-radius:4px;">';
+    html += '<div style="font-weight:600;color:#c9a84c;margin-bottom:6px;">📋 Auto-Analysis: ' + filename + '</div>';
+    html += '<div style="font-size:0.85em;color:#aaa;margin-bottom:8px;">Type: ' + docType.replace(/_/g, ' ').toUpperCase() + ' | ' + findings.length + ' findings</div>';
+
+    if (critical.length > 0) {
+        html += '<div style="color:#ff6b6b;margin:4px 0;font-weight:600;">⚠ ' + critical.length + ' CRITICAL:</div>';
+        critical.forEach(f => { html += '<div style="margin-left:12px;font-size:0.9em;color:#ff6b6b;">• ' + f.message + '</div>'; });
+    }
+    if (warnings.length > 0) {
+        html += '<div style="color:#ffa726;margin:4px 0;font-weight:600;">⚡ ' + warnings.length + ' Warnings:</div>';
+        warnings.forEach(f => { html += '<div style="margin-left:12px;font-size:0.9em;color:#ffa726;">• ' + f.message + '</div>'; });
+    }
+    if (infos.length > 0) {
+        html += '<div style="color:#4fc3f7;margin:4px 0;">ℹ ' + infos.length + ' Info items</div>';
+        infos.slice(0, 5).forEach(f => { html += '<div style="margin-left:12px;font-size:0.85em;color:#4fc3f7;">• ' + f.message + '</div>'; });
+        if (infos.length > 5) html += '<div style="margin-left:12px;font-size:0.85em;color:#888;">...and ' + (infos.length - 5) + ' more</div>';
+    }
+
+    if (critical.length > 0 || warnings.length > 0) {
+        html += '<div style="margin-top:8px;font-size:0.85em;color:#ccc;">💡 Ask me about any finding for detailed recommendations.</div>';
+    }
+    html += '</div>';
+
+    addAiMessage(html, 'bot');
+}
+
+// ── Format Analysis Findings for Display ─────────────────
+function formatAnalysisFindings(findings) {
+    if (!findings || findings.length === 0) return 'No analysis findings available yet. Upload documents to begin.';
+
+    const critical = findings.filter(f => f.severity === 'critical');
+    const warnings = findings.filter(f => f.severity === 'warning');
+    const infos = findings.filter(f => f.severity === 'info');
+
+    let html = '<div style="border-left:3px solid #c9a84c;padding:8px 12px;margin:4px 0;">';
+    html += '<strong style="color:#c9a84c;">Analysis Summary</strong><br>';
+    html += '<span style="font-size:0.9em;">' + findings.length + ' total findings across ' + [...new Set(findings.map(f => f.document))].length + ' documents</span><br><br>';
+
+    if (critical.length > 0) {
+        html += '<strong style="color:#ff6b6b;">CRITICAL (' + critical.length + '):</strong><br>';
+        critical.forEach(f => {
+            html += '<div style="margin:4px 0 4px 8px;font-size:0.9em;">⚠ ' + f.message;
+            if (f.recommendation) html += '<br><em style="color:#aaa;font-size:0.9em;">→ ' + f.recommendation + '</em>';
+            html += '</div>';
+        });
+    }
+    if (warnings.length > 0) {
+        html += '<strong style="color:#ffa726;">WARNINGS (' + warnings.length + '):</strong><br>';
+        warnings.forEach(f => {
+            html += '<div style="margin:4px 0 4px 8px;font-size:0.9em;">⚡ ' + f.message;
+            if (f.recommendation) html += '<br><em style="color:#aaa;font-size:0.9em;">→ ' + f.recommendation + '</em>';
+            html += '</div>';
+        });
+    }
+    if (infos.length > 0) {
+        html += '<strong style="color:#4fc3f7;">INFO (' + infos.length + '):</strong><br>';
+        infos.slice(0, 10).forEach(f => { html += '<div style="margin:2px 0 2px 8px;font-size:0.85em;">ℹ ' + f.message + '</div>'; });
+        if (infos.length > 10) html += '<div style="font-size:0.85em;color:#888;">...and ' + (infos.length - 10) + ' more info items</div>';
+    }
+    html += '</div>';
+    return html;
+}
+
+
 
 // ══════════════════════════════════════════════════════════
 //  AI ENGINE CONFIGURATION
@@ -5253,6 +6226,15 @@ function buildAiContext(query, context) {
         if (context.actions) ctx += 'Open Actions: ' + context.actions.length + ' (' + context.actions.filter(a=>a.severity==='critical').length + ' critical)\n';
         if (context.uploadedFiles) ctx += 'Uploaded Documents: ' + context.uploadedFiles.join(', ') + '\n';
         if (context.discrepancies) ctx += 'Document Discrepancies: ' + context.discrepancies.length + ' found\n';
+    }
+    if (context.analysisFindings && context.analysisFindings.length > 0) {
+            const critFindings = context.analysisFindings.filter(f => f.severity === 'critical');
+            const warnFindings = context.analysisFindings.filter(f => f.severity === 'warning');
+            ctx += 'Auto-Analysis Findings: ' + context.analysisFindings.length + ' total (' + critFindings.length + ' critical, ' + warnFindings.length + ' warnings)\n';
+            critFindings.slice(0, 5).forEach(f => { ctx += '  CRITICAL: ' + f.message + '\n'; });
+            warnFindings.slice(0, 5).forEach(f => { ctx += '  WARNING: ' + f.message + '\n'; });
+        }
+        if (context.documentTypes && context.documentTypes.length > 0) ctx += 'Document Types: ' + context.documentTypes.map(d => d.name + ' (' + d.type + ')').join(', ') + '\n';
     }
     ctx += '\nPlease provide a specific, actionable response. Reference applicable DoD standards where relevant.';
     return ctx;
