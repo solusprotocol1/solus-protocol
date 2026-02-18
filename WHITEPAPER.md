@@ -366,7 +366,17 @@ The ILS Analysis Engine is an 18-function real-time document analysis system bui
 
 ### AI Agent Architecture
 
-The AI Agent operates in a hybrid local+cloud model:
-- **Local pattern library**: 115+ defense-specific response patterns covering gap analysis, DI numbers, readiness scoring, cost estimation, CAR drafting, and program management.
-- **Cloud AI (optional)**: Routes to OpenAI, Anthropic, Mistral, or Groq APIs when configured. The `AI_ENGINE_CONFIG` object manages provider selection, API keys, model preferences, and fallback chains.
-- **Context enrichment**: `buildAiContext()` passes analysis findings, document types, readiness scores, action items, and discrepancies to the LLM for informed responses.
+The AI Agent operates in a hybrid local+cloud model with server-side LLM integration:
+- **Server-side LLM endpoint** (`/api/ai-chat`): Routes to Azure OpenAI (FedRAMP eligible) → OpenAI GPT-4o → Anthropic Claude, with automatic fallback between providers. The backend builds a comprehensive defense-logistics system prompt (~150 lines) covering all 12 ILS elements, 30+ defense acronyms, 24+ weapon systems, 6 compliance frameworks, and all 20 S4 Ledger tools.
+- **Local pattern library (fallback)**: 115+ defense-specific response patterns covering gap analysis, DI numbers, readiness scoring, cost estimation, CAR drafting, and program management. Used when no cloud LLM is configured or when LLM providers are unreachable.
+- **Context enrichment**: The frontend passes the current tool context, conversation history (last 20 messages), and analysis summaries (readiness scores, gap findings, action items) to the LLM for informed, context-aware responses.
+- **Environment variables**: `AZURE_OPENAI_ENDPOINT`, `AZURE_OPENAI_KEY`, `AZURE_OPENAI_DEPLOYMENT` for FedRAMP-eligible Azure; `OPENAI_API_KEY` for OpenAI; `ANTHROPIC_API_KEY` for Anthropic Claude. All optional — the system degrades gracefully to local patterns.
+
+### SLS Token Economy (v4.0.7+)
+
+S4 Ledger uses a Treasury-based delivery model for its native SLS token:
+- **No DEX or exchange trading** — SLS tokens are delivered directly from the S4 Treasury wallet to subscriber custodial wallets.
+- **Subscription tiers** (Pilot: 500 SLS/mo, Starter: 2,500 SLS/mo, Professional: 10,000 SLS/mo, Enterprise: 50,000 SLS/mo) provide monthly allocations for anchoring operations.
+- **Each XRPL anchor costs 0.01 SLS** — creating an immutable SHA-256 hash record on the XRP Ledger.
+- **Custodial wallets** are auto-provisioned per subscriber, with optional self-custody migration for advanced users.
+- **Stripe integration** handles USD subscription billing; SLS delivery is triggered automatically upon payment confirmation via webhooks.

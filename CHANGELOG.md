@@ -5,6 +5,37 @@ All notable changes to the S4 Ledger project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.0.8] - 2026-02-21
+
+### AI Agent Overhaul, File Upload Expansion & Product Audit
+
+#### Changed — AI Agent (Major)
+- **Real LLM Backend** — AI Agent now routes to Azure OpenAI (FedRAMP eligible) → OpenAI GPT-4o → Anthropic Claude with automatic fallback. Previously was 100% client-side regex pattern matching.
+- **`/api/ai-chat` endpoint** — New POST endpoint accepts message, conversation history (last 20), tool context, and analysis data. Returns LLM response or fallback signal.
+- **Defense-specific system prompt** — ~150 lines covering all 12 ILS elements, 30+ defense acronyms, 24+ weapon systems, 6 compliance frameworks, and all 20 S4 Ledger tools.
+- **Async frontend** — `aiSend()` rewritten as async function. LLM-first with pattern-matching fallback. Markdown→HTML conversion for responses.
+- **Context enrichment** — Frontend passes current tool context, gap analysis results (readiness %, critical gaps, top actions), and conversation history to LLM.
+- **New env vars**: `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, `AZURE_OPENAI_ENDPOINT`, `AZURE_OPENAI_KEY`, `AZURE_OPENAI_DEPLOYMENT`
+
+#### Added — File Upload Expansion
+- **PDF support** — pdf.js v3.11.174 CDN loaded. Extracts text from all PDF pages via `pdfjsLib.getDocument()`.
+- **DOCX support** — mammoth.js v1.6.0 CDN loaded. Extracts raw text from Word documents via `mammoth.extractRawText()`.
+- **DMSMS upload area** — New drag-and-drop dropzone for uploading DMSMS case files, parts lists, GIDEP notices.
+- **Parts Cross-Ref upload area** — New dropzone for APLs, COSALs, provisioning lists, BOM exports.
+- **Contracts upload area** — New dropzone for CDRL logs, mod packages, SOW deliverables.
+- **`handleToolUpload()`** — Universal file upload handler for DMSMS, Parts, and Contracts tools. Supports CSV, XLSX, XLS, PDF, DOCX, TXT, TSV.
+- **`setupToolDropzones()`** — Initializes drag-and-drop event handlers for all new upload areas.
+- **`renderToolFileList()`** / **`removeToolFile()`** — File list rendering and removal for tool-specific uploads.
+
+#### Added — Documentation
+- **SUBSCRIPTION_GUIDE.md** — Complete subscription brochure: tier comparison, feature matrix, onboarding steps, FAQ, enterprise contracting info.
+- **PRODUCT_AUDIT.md** — Honest full-platform audit: route-by-route API assessment, tool-by-tool ILS workspace review, website status, SDK evaluation, and priority fix list.
+- **CEO_PITCH_READINESS.md** — CEO briefing document with competitive analysis (Palantir, Govini, PRISM, SAP, Rune, etc.), positioning matrix, pitch structure, and realistic revenue timeline.
+
+#### Fixed — Whitepaper Accuracy
+- **WHITEPAPER.md** — Replaced false AI Agent claims (non-existent `AI_ENGINE_CONFIG`, `buildAiContext()`) with accurate description of the new `/api/ai-chat` endpoint, LLM fallback chain, and env var configuration.
+- **Added SLS Token Economy section** — Documents Treasury-based delivery model, subscription tiers, custodial wallets, and Stripe integration.
+
 ## [4.0.7] - 2026-02-20
 
 ### SLS Circular Economy — Treasury-Based Token Delivery

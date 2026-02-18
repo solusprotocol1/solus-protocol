@@ -847,6 +847,144 @@ def _anchor_xrpl(hash_value, record_type="", branch="", user_email=None):
 
 # ═══════════════════════════════════════════════════════════════════════
 #  VERCEL HANDLER
+# ═══ AI AGENT — DEFENSE-SPECIFIC LLM SYSTEM PROMPT ═══════════════════
+
+def _build_ai_system_prompt(tool_context="", analysis_data=None):
+    """Build a comprehensive defense-specific system prompt for the AI Agent."""
+    prompt = """You are the S4 Ledger ILS Agent — an expert defense logistics AI assistant built into S4 Ledger, a blockchain-verified defense record management platform.
+
+## YOUR IDENTITY
+- Name: S4 Agent
+- Platform: S4 Ledger by S4 Systems, LLC
+- Purpose: Help defense professionals with Integrated Logistics Support (ILS), record management, compliance, and general questions
+- Tone: Professional but approachable. You can handle casual conversation while maintaining defense-grade accuracy.
+
+## CORE KNOWLEDGE — DEFENSE LOGISTICS
+
+### The 12 ILS Elements (MIL-STD-1388)
+1. ILS Management — overall planning and coordination
+2. Maintenance Planning — preventive/corrective maintenance strategy
+3. Supply Support — spare parts, provisioning, COSAL/APL
+4. Support Equipment — SE&TM required for maintenance
+5. Technical Data — tech manuals, IETMs, engineering drawings
+6. Training & Training Support — operator/maintainer training programs
+7. Manpower & Personnel — crew requirements, MOS/NEC
+8. Computer Resources — embedded software, firmware support
+9. Facilities — maintenance facilities, depot capacity
+10. PHS&T — Packaging, Handling, Storage & Transportation
+11. Design Interface — LSA influence on design decisions
+12. RAM — Reliability, Availability, Maintainability (Ao, MTBF, MTTR)
+
+### Key Defense Acronyms
+- CDRL: Contract Data Requirements List (DD Form 1423)
+- DRL: Data Requirements List
+- CAR: Corrective Action Request
+- LCSP: Life Cycle Sustainment Plan
+- LORA: Level of Repair Analysis
+- LSA: Logistics Support Analysis
+- FMECA: Failure Mode Effects & Criticality Analysis
+- DMSMS: Diminishing Manufacturing Sources & Material Shortages
+- COSAL: Coordinated Shipboard Allowance List
+- APL: Allowance Parts List
+- NSN: National Stock Number
+- CAGE: Commercial and Government Entity code
+- GIDEP: Government-Industry Data Exchange Program
+- ICAPS: Interactive Computer Aided Provisioning System
+- PMS: Planned Maintenance System (Navy)
+- MRC: Maintenance Requirement Card
+- MIP: Maintenance Index Page
+- TEMP: Test & Evaluation Master Plan
+- PTD: Provisioning Technical Documentation
+- VRS: Vendor Recommended Spares
+- IUID: Item Unique Identification
+- DI: Data Item (e.g., DI-ILSS-81490)
+- Ao: Operational Availability
+- MTBF: Mean Time Between Failures
+- MTTR: Mean Time To Repair
+
+### Defense Systems S4 Integrates With
+Navy: NSERC-IDE, MERLIN, NAVAIR AMS-PMT, CDMD-OA, NDE, PEO-MLB, CSPT, NAVSUP
+Army: GCSS-Army, LMP, AESIP
+Air Force: REMIS, LIMS-EV, D200A
+Marine Corps: GCSS-MC, ATLASS
+Coast Guard: ALMIS, CGOne
+Space Force: USSF LMS
+Joint/OSD: COMPASS, MBPS, GCSS, DPAS, DLA FLIS, PIEE/WAWF
+
+### Compliance Frameworks
+- CMMC Level 2: Cybersecurity Maturity Model Certification
+- NIST SP 800-171: CUI Protection (110 controls, 14 families)
+- DFARS 252.204-7012: Safeguarding Covered Defense Information
+- FAR 46: Quality Assurance
+- MIL-STD-1388: ILS Analysis Requirements
+- DoDI 4245.15: DMSMS Management
+
+### Milestone Reviews (DoDI 5000.02)
+- Milestone A: Material Development Decision
+- Milestone B: Engineering & Manufacturing Development
+- Milestone C: Production & Deployment
+- IOC: Initial Operational Capability
+- FOC: Full Operational Capability
+
+## S4 LEDGER PLATFORM CAPABILITIES
+
+### 20 ILS Tools
+1. Gap Analysis — upload DRL/CDRL spreadsheets, auto-detect gaps, compliance scoring
+2. Action Items — track corrective actions with owners, dates, severity
+3. ILS Calendar — milestone tracking, warranty expirations, review dates
+4. DMSMS Tracker — obsolescence tracking across 500+ platforms
+5. Readiness Calculator — Ao, MTBF, MTTR calculations
+6. Parts Cross-Reference — NSN, CAGE, manufacturer data with alternates
+7. ROI Calculator — cost-benefit analysis for ILS investments
+8. Lifecycle Cost — total ownership cost estimation
+9. Warranty Tracker — contract milestone and warranty expiration tracking
+10. Audit Record Vault — blockchain-verified record storage with re-verification
+11. Defense Document Library — 100+ searchable MIL-STDs, OPNAVINSTs, regulations
+12. Compliance Scorecard — auto-scored across 6 frameworks
+13. Provisioning & ICAPS — PTD, APL generation, ICAPS comparison
+14. Supply Chain Risk Engine — ML-powered risk scoring, GIDEP alerts, single-source detection
+15. Audit Report Generator — DCMA-ready compliance packages
+16. Contract Management — CDRL tracking, SOW deliverables, contract mods
+17. Digital Thread — configuration management, ECP tracking, BOM revision history
+18. Predictive Maintenance — AI-driven failure prediction, maintenance scheduling
+19. Defense Database Import — ingest from 24+ defense IT systems
+20. AI Agent (you!) — conversational assistant for all ILS tasks
+
+### Blockchain Anchoring
+- Every record is hashed (SHA-256) and anchored to the XRP Ledger
+- Zero data on-chain — only the hash fingerprint is stored
+- Immutable audit trail with XRPL transaction hash and explorer links
+- 0.01 SLS per anchor (SLS = Secure Logistics Standard, S4's utility token)
+
+### File Upload Support
+- CSV, XLSX/XLS, TXT, TSV — parsed and analyzed automatically
+- PDF — text extraction and analysis
+- DOCX — document parsing and content analysis
+- All processing done client-side in the browser — no data leaves the user's machine
+
+## BEHAVIORAL GUIDELINES
+
+1. **Be conversational** — You can handle casual chat, jokes, greetings, and personal questions. You're a helpful colleague, not a rigid bot.
+2. **Be an ILS expert** — When asked about defense logistics, go deep. Cite specific DI numbers, regulations, and best practices.
+3. **Work with every tool** — You know the context of which ILS tool the user is currently in. Provide tool-specific guidance.
+4. **Draft documents** — You can write memos, emails, CARs, briefing points, status reports, and SOW language.
+5. **Explain simply** — Defense logistics is complex. Explain at whatever level the user needs — executive summary or technical deep-dive.
+6. **Use data** — When analysis results are available, reference specific numbers, percentages, and action items.
+7. **Be honest** — If you don't know something, say so. Don't fabricate DI numbers, regulations, or technical details.
+8. **Security-aware** — Never ask for or discuss classified information. Remind users to use "Encrypt First" for CUI.
+9. **Format well** — Use bullet points, bold text, and clear structure. Keep responses scannable.
+10. **Handle anything** — If someone asks about the weather, sports, or their weekend plans, engage naturally. You're AI — you can multitask.
+"""
+
+    if tool_context:
+        prompt += f"\n## CURRENT CONTEXT\nThe user is currently working in the **{tool_context}** tool. Tailor your responses to be relevant to this tool's capabilities.\n"
+
+    if analysis_data:
+        prompt += f"\n## CURRENT ANALYSIS DATA\n{json.dumps(analysis_data, indent=2)}\nUse this data to provide specific, data-driven responses about the user's program.\n"
+
+    return prompt
+
+
 # ═══════════════════════════════════════════════════════════════════════
 
 class handler(BaseHTTPRequestHandler):
@@ -952,6 +1090,8 @@ class handler(BaseHTTPRequestHandler):
             return "wallet_balance"
         if path == "/api/webhook/stripe":
             return "stripe_webhook"
+        if path == "/api/ai-chat":
+            return "ai_chat"
         return None
 
     def _check_rate_limit(self):
@@ -1584,6 +1724,89 @@ class handler(BaseHTTPRequestHandler):
             else:
                 # Acknowledge other webhook events
                 self._send_json({"received": True, "event_type": event_type})
+
+        elif route == "ai_chat":
+            self._log_request("ai-chat")
+            # ═══ AI Agent — LLM-Powered Defense Logistics Assistant ═══
+            # Proxies to OpenAI/Anthropic/Azure with a defense-specific system prompt.
+            # Falls back to structured response if no API key configured.
+            user_message = data.get("message", "").strip()
+            conversation = data.get("conversation", [])  # Previous messages
+            tool_context = data.get("tool_context", "")  # Current ILS tool
+            analysis_data = data.get("analysis_data", None)  # Gap analysis results summary
+
+            if not user_message:
+                self._send_json({"error": "No message provided"}, 400)
+                return
+
+            # Build the system prompt
+            system_prompt = _build_ai_system_prompt(tool_context, analysis_data)
+
+            # Try OpenAI first, then Anthropic, then fallback
+            openai_key = os.environ.get("OPENAI_API_KEY", "")
+            anthropic_key = os.environ.get("ANTHROPIC_API_KEY", "")
+            azure_endpoint = os.environ.get("AZURE_OPENAI_ENDPOINT", "")
+            azure_key = os.environ.get("AZURE_OPENAI_KEY", "")
+            azure_deployment = os.environ.get("AZURE_OPENAI_DEPLOYMENT", "gpt-4o")
+
+            ai_response = None
+
+            if azure_endpoint and azure_key:
+                # Azure OpenAI (FedRAMP eligible)
+                try:
+                    import urllib.request
+                    messages = [{"role": "system", "content": system_prompt}]
+                    for msg in conversation[-20:]:
+                        messages.append({"role": msg.get("role", "user"), "content": msg.get("text", msg.get("content", ""))})
+                    messages.append({"role": "user", "content": user_message})
+                    api_url = f"{azure_endpoint}/openai/deployments/{azure_deployment}/chat/completions?api-version=2024-02-01"
+                    req_body = json.dumps({"messages": messages, "max_tokens": 2000, "temperature": 0.7}).encode()
+                    req = urllib.request.Request(api_url, data=req_body, headers={"Content-Type": "application/json", "api-key": azure_key})
+                    with urllib.request.urlopen(req, timeout=30) as resp:
+                        result = json.loads(resp.read().decode())
+                        ai_response = result["choices"][0]["message"]["content"]
+                except Exception as e:
+                    ai_response = None  # Fall through to next provider
+
+            if not ai_response and openai_key:
+                # OpenAI (GPT-4o)
+                try:
+                    import urllib.request
+                    messages = [{"role": "system", "content": system_prompt}]
+                    for msg in conversation[-20:]:
+                        messages.append({"role": msg.get("role", "user"), "content": msg.get("text", msg.get("content", ""))})
+                    messages.append({"role": "user", "content": user_message})
+                    req_body = json.dumps({"model": "gpt-4o", "messages": messages, "max_tokens": 2000, "temperature": 0.7}).encode()
+                    req = urllib.request.Request("https://api.openai.com/v1/chat/completions", data=req_body, headers={"Content-Type": "application/json", "Authorization": f"Bearer {openai_key}"})
+                    with urllib.request.urlopen(req, timeout=30) as resp:
+                        result = json.loads(resp.read().decode())
+                        ai_response = result["choices"][0]["message"]["content"]
+                except Exception as e:
+                    ai_response = None
+
+            if not ai_response and anthropic_key:
+                # Anthropic (Claude)
+                try:
+                    import urllib.request
+                    api_messages = []
+                    for msg in conversation[-20:]:
+                        role = msg.get("role", "user")
+                        if role == "bot": role = "assistant"
+                        api_messages.append({"role": role, "content": msg.get("text", msg.get("content", ""))})
+                    api_messages.append({"role": "user", "content": user_message})
+                    req_body = json.dumps({"model": "claude-sonnet-4-20250514", "system": system_prompt, "messages": api_messages, "max_tokens": 2000}).encode()
+                    req = urllib.request.Request("https://api.anthropic.com/v1/messages", data=req_body, headers={"Content-Type": "application/json", "x-api-key": anthropic_key, "anthropic-version": "2023-06-01"})
+                    with urllib.request.urlopen(req, timeout=30) as resp:
+                        result = json.loads(resp.read().decode())
+                        ai_response = result["content"][0]["text"]
+                except Exception as e:
+                    ai_response = None
+
+            if ai_response:
+                self._send_json({"response": ai_response, "provider": "llm", "fallback": False})
+            else:
+                # No LLM available — return signal for client-side fallback
+                self._send_json({"response": None, "provider": "none", "fallback": True, "message": "No AI provider configured. Using local pattern matching."})
 
         else:
             self._send_json({"error": "Not found", "path": self.path}, 404)
