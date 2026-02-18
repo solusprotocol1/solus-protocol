@@ -117,7 +117,9 @@ S4 Ledger v4.0 includes a comprehensive ILS Workspace with 20 integrated tools:
 15. **Audit Report Generator** — One-click audit report generation with blockchain-verified evidence packages
 16. **Contract Lifecycle Management** — End-to-end contract tracking from solicitation through closeout
 17. **Digital Thread Bridge** — Cross-system data linkage connecting engineering, logistics, and sustainment records
-18. **Predictive Maintenance AI** — AI-driven failure prediction and maintenance scheduling optimization
+18. **Predictive Maintenance
+19. Defense Database Import
+20. ILIE (Integrated Logistics Item Explorer) Submissions AI** — AI-driven failure prediction and maintenance scheduling optimization
 
 ---
 
@@ -155,7 +157,7 @@ S4 Ledger is designed for **unclassified** defense logistics data only. This ser
 
 ### 6.2 Customer Obligation
 
-The Customer warrants that no classified data will be processed through the S4 Ledger service.
+The Customer warrants that no classified data will be processed through the S4 Ledger platform.
 
 ---
 

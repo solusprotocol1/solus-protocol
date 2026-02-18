@@ -126,7 +126,7 @@ Everything described above is **live and working right now** at [s4ledger.com](h
 
 ### Revenue
 - **Subscription fees:** $499–$4,999/month per customer
-- **Per-record fees:** $0.001 per anchored record (tiny per record, massive at scale)
+- **Per-record fees:** $0.01 per anchored record (tiny per record, massive at scale)
 - **Year 1 projection:** ~$15K (pilot phase)
 - **Year 3 projection:** ~$900K
 - **Year 5 projection:** $3M–$5M+

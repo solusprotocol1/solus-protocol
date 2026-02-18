@@ -65,7 +65,7 @@ Treasury address: `rMLmkrxpadq5z6oTDmq8GhQj9LKjf1KLqJ`
 | Metric | Value |
 |---|---|
 | ILS Tools | 20 interactive workspace tools |
-| SDK Functions | 21 Python functions |
+| SDK Functions | 27 Python functions |
 | API Endpoints | 29 REST endpoints |
 | Pre-loaded Entities | 500+ (462 platforms + 37 suppliers + 25 contracts) |
 | Record Types | 156+ pre-built ILS categories |

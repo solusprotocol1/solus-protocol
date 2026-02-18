@@ -52,7 +52,7 @@ $SLS is the utility token powering every verification on the S4 Ledger network.
 | **Blockchain** | XRP Ledger |
 | **Issuer** | `r95GyZac4butvVcsTWUPpxzekmyzaHsTA5` |
 | **Total Supply** | 100,000,000 SLS |
-| **Operations Wallet** | `raWL7nYZkuXMUurHcp5ZXkABfVgStdun51` |
+| **Treasury Wallet** | `raWL7nYZkuXMUurHcp5ZXkABfVgStdun51` |
 | **Treasury** | `rMLmkrxpadq5z6oTDmq8GhQj9LKjf1KLqJ` (receives 0.01 SLS per anchor) |
 | **Fee per Anchor** | 0.01 SLS per anchor |
 
@@ -117,7 +117,7 @@ S4 Ledger covers all 12 ILS elements defined in MIL-STD-1388 / GEIA-STD-0007:
 | Standard | Status |
 |---|---|
 | NIST 800-171 | Aligned — zero CUI on-chain |
-| CMMC Level 2 | **Certified** — S4 Systems, LLC |
+| CMMC Level 2 | **In Progress** — S4 Systems, LLC |
 | DFARS 252.204-7012 | Compliant — no covered defense info on-chain |
 | FedRAMP | Roadmap (Phase 5) |
 
@@ -157,7 +157,7 @@ S4 Ledger covers all 12 ILS elements defined in MIL-STD-1388 / GEIA-STD-0007:
 | [API Examples](api_examples.md) | Python, cURL, JavaScript code samples |
 | [Technical Specifications](TECHNICAL_SPECS.md) | Architecture, security, and performance |
 | [Whitepaper](WHITEPAPER.md) | Full protocol and token economics |
-| [Production Readiness](PRODUCTION_READINESS.md) | ~95% production readiness checklist |
+| [Production Readiness](PRODUCTION_READINESS.md) | ~97% production readiness checklist |
 | [Deployment Guide](DEPLOYMENT_GUIDE.md) | Self-hosting and cloud deployment |
 | [Security Policy](SECURITY.md) | Vulnerability reporting and controls |
 
@@ -167,6 +167,6 @@ S4 Ledger covers all 12 ILS elements defined in MIL-STD-1388 / GEIA-STD-0007:
 
 Apache License 2.0 — see [LICENSE](LICENSE)
 
-**Version:** 4.0.1 — XRPL Mainnet Live
+**Version:** 4.0.4 — XRPL Mainnet Live | ILS Analysis Engine | Subscription Wallet Provisioning
 
 © 2026 S4 Systems, LLC. Charleston, SC.

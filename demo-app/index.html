@@ -17,9 +17,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <script>if(window.pdfjsLib)pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';</script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-    <script>if(typeof pdfjsLib!=='undefined')pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';</script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
     <script src="/s4-assets/platforms.js"></script>
     <script src="/s4-assets/defense-docs.js"></script>
     <style>
@@ -2211,7 +2208,7 @@
                             <div style="padding:14px;background:rgba(26,58,92,0.1);border:1px solid rgba(26,58,92,0.25);border-radius:10px;text-align:center">
                                 <div style="font-size:1.3rem;margin-bottom:6px"><i class="fas fa-server" style="color:#c9a84c"></i></div>
                                 <h5 style="font-size:0.82rem;font-weight:700;color:#fff;margin-bottom:4px">2. S4 Processes</h5>
-                                <p style="font-size:0.72rem;color:var(--steel);margin:0">S4 Ledger receives your payment and allocates SLS from the Ops wallet to your account.</p>
+                                <p style="font-size:0.72rem;color:var(--steel);margin:0">S4 Ledger receives your payment and allocates SLS from the Treasury to your account.</p>
                             </div>
                             <div style="padding:14px;background:rgba(26,58,92,0.1);border:1px solid rgba(26,58,92,0.25);border-radius:10px;text-align:center">
                                 <div style="font-size:1.3rem;margin-bottom:6px"><i class="fas fa-paper-plane" style="color:#c9a84c"></i></div>
@@ -6226,7 +6223,6 @@ function buildAiContext(query, context) {
         if (context.actions) ctx += 'Open Actions: ' + context.actions.length + ' (' + context.actions.filter(a=>a.severity==='critical').length + ' critical)\n';
         if (context.uploadedFiles) ctx += 'Uploaded Documents: ' + context.uploadedFiles.join(', ') + '\n';
         if (context.discrepancies) ctx += 'Document Discrepancies: ' + context.discrepancies.length + ' found\n';
-    }
     if (context.analysisFindings && context.analysisFindings.length > 0) {
             const critFindings = context.analysisFindings.filter(f => f.severity === 'critical');
             const warnFindings = context.analysisFindings.filter(f => f.severity === 'warning');

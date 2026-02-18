@@ -153,3 +153,13 @@ Key: 65% labor reduction • 90% error savings • 70% audit reduction • 15-25
 
 ## Contact
 info@s4ledger.com | s4ledger.com
+
+
+### Technology Differentiator: ILS Analysis Engine
+
+- **18-function real-time document analysis** — auto-detects 30+ DoD document types on upload
+- **Cross-reference engine** — catches DI conflicts, NSN discrepancies, and CAGE mismatches across documents
+- **Milestone readiness assessment** — MS A/B/C, IOC, FOC scoring based on document completeness
+- **AI Agent** — hybrid local (115+ defense patterns) + cloud AI (OpenAI/Anthropic/Mistral/Groq) for context-aware analysis
+- **Zero-knowledge architecture** — all document processing client-side; no CUI/ITAR data leaves the browser
+

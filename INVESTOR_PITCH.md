@@ -144,7 +144,7 @@ S4 Ledger scales from zero infrastructure cost (today) to 50,000+ concurrent use
 | Public circulation | 30,000,000 SLS | Market liquidity |
 | Operating treasury | 30,000,000 SLS | Platform operations (multi-sig) |
 | Development reserve | 20,000,000 SLS | Team, advisors |
-| Ecosystem incentives | 20,000,000 SLS | Early adopter grants, pilots |
+| Ecosystem incentives | 20,000,000 SLS | Subscriber rewards, integration incentives |
 
 $SLS is a utility token — not equity or a security.
 

@@ -167,25 +167,27 @@ S4 Systems is pursuing CMMC Level 2 certification. S4 Ledger architecture is CMM
 ## Revenue Model
 
 ### Per-Transaction Micro-Fees
-Every record anchored costs **0.01 $SLS** (approximately $0.001–$0.01 per record). The $SLS token acts as a usage credit — similar to buying postage stamps for each record you verify. With DoW processing millions of records daily, even modest adoption creates significant transaction volume.
+Every record anchored costs **0.01 $SLS** ($0.01 per record). The $SLS token acts as a usage credit — similar to buying postage stamps for each record you verify. With DoW processing millions of records daily, even modest adoption creates significant transaction volume.
 
 ### Subscription Tiers
 
-| Tier | Monthly | Annual | Records/Month | Target Customer |
-|------|---------|--------|---------------|-----------------|
-| **Pilot** | Free | Free | 1,000 | Evaluation, proof of concept |
-| **Starter** | $499 | $6K | 25,000 | Small contractors, depot-level maintenance |
-| **Professional** | $1,999 | $24K | 100,000 | Mid-size contractors, installation-level |
-| **Enterprise** | $4,999 | $60K | Unlimited | Prime contractors, NAVSEA, DLA (Defense Logistics Agency) |
+| Tier | Monthly | SLS/Month | Anchors/Month | Target Customer |
+|------|---------|-----------|---------------|------------------|
+| **Starter** | $9.99 | 500 | 50,000 | Individual analysts, small teams |
+| **Professional** | $49 | 5,000 | 500,000 | Contractors, depot-level maintenance |
+| **Enterprise** | Custom | Unlimited | Unlimited | Prime contractors, NAVSEA, DLA |
+| **Government** | Custom | Site license | Per-agency | NIST 800-171, FedRAMP pathway |
+
+> Every subscription includes automatic XRPL wallet provisioning, SLS TrustLine, and SLS delivery via USD → XRP → SLS DEX conversion.
 
 ### Revenue Projections (Conservative)
 
 | Year | Customers | Avg Tier | Annual Revenue |
 |------|-----------|----------|----------------|
-| Year 1 | 6 pilots (free) + 6 paid Starter + 2 Professional | Mixed | ~$72K |
-| Year 2 | 20 paid (mixed) + 5 Enterprise | Mixed | ~$480K |
-| Year 3 | 80 paid (mixed) + 20 Enterprise | Mixed | ~$2.4M |
-| Year 5 | 300+ accounts | Scaled | $8M–$15M+ |
+| Year 1 | 50 Starter + 10 Professional + 2 Enterprise | Mixed | ~$192K |
+| Year 2 | 200 Starter + 50 Professional + 10 Enterprise | Mixed | ~$960K |
+| Year 3 | 500 Starter + 150 Professional + 30 Enterprise | Mixed | ~$3.6M |
+| Year 5 | 2,000+ accounts | Scaled | $12M–$25M+ |
 
 *These projections do not include $SLS token value appreciation or government-wide contract vehicles (GSA Schedule, SEWP — Solutions for Enterprise-Wide Procurement) which could accelerate adoption dramatically.*
 
@@ -291,7 +293,7 @@ S4 Ledger's prototype is essentially a **completed Phase I deliverable**. We cou
 1. **A working prototype** — live, publicly accessible, with 25+ pages and 27 API endpoints
 2. **Domain expertise** — I understand defense logistics AND the underlying technology
 3. **Complete documentation** — whitepaper, technical specs, migration guides, compliance docs, API specification
-4. **ILS Workspace** — a fully functional suite of 18 integrated logistics tools ready for demonstration, including a Provisioning & PTD Manager that replaces DAU's ICAPS for all branches
+4. **ILS Workspace** — a fully functional suite of 20 integrated logistics tools ready for demonstration, including a Provisioning & PTD Manager that replaces DAU's ICAPS for all branches
 5. **Product vision** — detailed roadmap through enterprise-scale deployment
 6. **Speed** — I can have this production-ready in 60–90 days with company support
 
@@ -418,7 +420,7 @@ Every dollar saved on manual record-keeping can be redirected to:
 - **Faster procurement** of critical capabilities
 - **Reinvestment** in the domestic defense industrial base
 
-At scale (1,000+ programs), S4 Ledger saves **$900M–$2.1B per year** — real money back to the American taxpayer through efficiency, not through cuts.
+At scale (1,000+ programs), S4 Ledger saves **$1.02B–$2.6B per year** — real money back to the American taxpayer through efficiency, not through cuts.
 
 ### Military Readiness & Warfighter Safety
 

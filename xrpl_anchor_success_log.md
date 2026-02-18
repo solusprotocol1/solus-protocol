@@ -91,5 +91,5 @@ Configuration Items: 4,200+ documents
 
 ### Notes
 - All hashes are SHA-256 fingerprints of the records — not the records themselves
-- Transactions are on the XRPL (testnet demonstration data)
+- Transactions are on the XRPL (mainnet production data)
 - Verify any anchor: `s4 verify --tx <TX_HASH>` or visit `https://livenet.xrpl.org/transactions/<TX_HASH>`

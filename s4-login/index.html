@@ -242,25 +242,26 @@
                     </div>
                 </div>
 
-                <label style="display:block;font-weight:600;color:var(--steel);font-size:0.88rem;margin-bottom:8px"><i class="fas fa-cube" style="margin-right:6px;color:#c9a84c"></i>Select Plan</label>
+                <label style="display:block;font-weight:600;color:var(--steel);font-size:0.88rem;margin-bottom:8px"><i class="fas fa-cube" style="margin-right:6px;color:#c9a84c"></i>Select Subscription Plan</label>
+                <p style="font-size:0.75rem;color:var(--muted);margin:-4px 0 10px 0"><i class="fas fa-wallet" style="margin-right:4px;color:#14f195"></i>Every plan includes automatic XRPL wallet provisioning + SLS TrustLine</p>
                 <div class="plan-selector">
                     <div class="plan-card selected" onclick="selectPlan(this,'starter')" data-plan="starter">
                         <h5>Starter</h5>
                         <div class="plan-price">$9.99/mo</div>
-                        <div class="plan-detail">500 SLS/mo</div>
-                        <div class="plan-sls">50,000 anchors</div>
+                        <div class="plan-detail">500 SLS/mo • 50K anchors</div>
+                        <div class="plan-sls"><i class="fas fa-wallet" style="font-size:0.65rem"></i> Wallet + TrustLine</div>
                     </div>
                     <div class="plan-card" onclick="selectPlan(this,'professional')" data-plan="professional">
                         <h5>Professional</h5>
                         <div class="plan-price">$49/mo</div>
-                        <div class="plan-detail">5,000 SLS/mo</div>
-                        <div class="plan-sls">500,000 anchors</div>
+                        <div class="plan-detail">5,000 SLS/mo • 500K anchors</div>
+                        <div class="plan-sls"><i class="fas fa-wallet" style="font-size:0.65rem"></i> Wallet + TrustLine</div>
                     </div>
                     <div class="plan-card" onclick="selectPlan(this,'enterprise')" data-plan="enterprise">
                         <h5>Enterprise</h5>
                         <div class="plan-price">Custom</div>
-                        <div class="plan-detail">Unlimited SLS</div>
-                        <div class="plan-sls">Volume pricing</div>
+                        <div class="plan-detail">Unlimited SLS + anchors</div>
+                        <div class="plan-sls"><i class="fas fa-wallet" style="font-size:0.65rem"></i> Dedicated wallets</div>
                     </div>
                 </div>
 
@@ -741,10 +742,13 @@
         progressEl.style.display = 'block';
 
         // Show progress steps
+        const tierLabels = {starter:'Starter ($9.99/mo)',professional:'Professional ($49/mo)',enterprise:'Enterprise (Custom)'};
+        const tierSLS = {starter:'500',professional:'5,000',enterprise:'Unlimited'};
         const steps = [
+            '<i class="fas fa-spinner fa-spin" style="color:var(--accent);margin-right:6px"></i> Activating ' + (tierLabels[selectedPlan]||'Starter') + ' subscription...',
             '<i class="fas fa-spinner fa-spin" style="color:var(--accent);margin-right:6px"></i> Generating secp256k1 XRPL wallet...',
             '<i class="fas fa-spinner fa-spin" style="color:var(--accent);margin-right:6px"></i> Funding wallet with XRP reserve...',
-            '<i class="fas fa-spinner fa-spin" style="color:var(--accent);margin-right:6px"></i> Setting up SLS TrustLine...',
+            '<i class="fas fa-spinner fa-spin" style="color:var(--accent);margin-right:6px"></i> Setting up SLS TrustLine + delivering ' + (tierSLS[selectedPlan]||'500') + ' SLS...',
         ];
 
         let stepIdx = 0;
@@ -791,11 +795,14 @@
             }
 
             // Success! Show all steps complete
+            const tierLabel = tierLabels[selectedPlan] || 'Starter';
+            const slsAmt = tierSLS[selectedPlan] || '500';
             progressEl.innerHTML = [
-                '<div><i class="fas fa-check" style="color:#14f195;margin-right:6px"></i>Wallet generated (secp256k1)</div>',
+                '<div><i class="fas fa-check" style="color:#14f195;margin-right:6px"></i>' + tierLabel + ' subscription activated</div>',
+                '<div><i class="fas fa-check" style="color:#14f195;margin-right:6px"></i>XRPL wallet generated (secp256k1)</div>',
                 '<div><i class="fas fa-check" style="color:#14f195;margin-right:6px"></i>Funded with ' + result.funding.xrp_funded + ' XRP</div>',
-                '<div><i class="fas fa-check" style="color:#14f195;margin-right:6px"></i>SLS TrustLine active</div>',
-                '<div style="margin-top:6px;color:#c9a84c"><i class="fas fa-info-circle" style="margin-right:6px"></i>Subscribe to purchase SLS — SLS delivered automatically via XRPL DEX.</div>',
+                '<div><i class="fas fa-check" style="color:#14f195;margin-right:6px"></i>SLS TrustLine active — ' + slsAmt + ' SLS delivered</div>',
+                '<div style="margin-top:6px;color:#c9a84c"><i class="fas fa-info-circle" style="margin-right:6px"></i>SLS purchased via XRPL DEX (USD → XRP → SLS). 0.01 SLS per anchor.</div>',
             ].join('');
 
             // Save session with wallet info
@@ -824,11 +831,14 @@
     }
 
     function showWalletCredentials(data) {
+        const tierLabels = {starter:'Starter',professional:'Professional',enterprise:'Enterprise'};
+        const tierSLS = {starter:'500',professional:'5,000',enterprise:'Unlimited'};
+        const tierAnchors = {starter:'50,000',professional:'500,000',enterprise:'Unlimited'};
         document.getElementById('credAddress').textContent = data.wallet.address;
         document.getElementById('credSeed').textContent = data.wallet.seed;
         document.getElementById('credPubKey').textContent = data.wallet.public_key;
-        document.getElementById('credSLS').textContent = '0 (subscribe to purchase SLS)';
-        document.getElementById('credAnchors').textContent = 'Purchase SLS to start anchoring';
+        document.getElementById('credSLS').textContent = (tierSLS[selectedPlan]||'500') + ' SLS (' + (tierLabels[selectedPlan]||'Starter') + ' plan)';
+        document.getElementById('credAnchors').textContent = (tierAnchors[selectedPlan]||'50,000') + ' anchors/mo';
         document.getElementById('credXRP').textContent = data.funding.xrp_funded || '12';
         document.getElementById('credNetwork').textContent = 'XRPL ' + (data.wallet.network || 'mainnet').charAt(0).toUpperCase() + (data.wallet.network || 'mainnet').slice(1);
         document.getElementById('credExplorer').href = data.instructions.explorer_url || '#';
@@ -847,10 +857,19 @@
     function downloadCredentials() {
         const data = JSON.parse(localStorage.getItem('s4_wallet') || '{}');
         if (!data.wallet) return;
+        const user = JSON.parse(localStorage.getItem('s4_user') || '{}');
+        const tierLabels = {starter:'Starter ($9.99/mo)',professional:'Professional ($49/mo)',enterprise:'Enterprise (Custom)'};
+        const tierSLS = {starter:'500 SLS/mo',professional:'5,000 SLS/mo',enterprise:'Unlimited SLS'};
+        const tierAnchors = {starter:'50,000 anchors/mo',professional:'500,000 anchors/mo',enterprise:'Unlimited anchors'};
+        const plan = user.plan || 'starter';
         const text = [
             '=== S4 LEDGER — XRPL WALLET CREDENTIALS ===',
             'Generated: ' + new Date().toISOString(),
             'KEEP THIS FILE SECURE \u2014 DO NOT SHARE',
+            '',
+            'SUBSCRIPTION PLAN: ' + (tierLabels[plan] || 'Starter'),
+            'SLS ALLOCATION: ' + (tierSLS[plan] || '500 SLS/mo'),
+            'ANCHOR CAPACITY: ' + (tierAnchors[plan] || '50,000 anchors/mo'),
             '',
             'WALLET ADDRESS (Public):',
             data.wallet.address,
@@ -864,12 +883,12 @@
             'ALGORITHM: ' + data.wallet.algorithm,
             'NETWORK: XRPL ' + data.wallet.network,
             '',
-            'SLS BALANCE: 0 (subscribe to purchase SLS)',
-            'ANCHORS AVAILABLE: Purchase SLS to start',
             'XRP RESERVE: ' + (data.funding.xrp_funded || '12'),
             '',
-            'NEXT STEP: Subscribe to your plan to purchase SLS.',
-            'SLS is delivered automatically: USD → XRP → SLS via XRPL DEX.',
+            'HOW SLS WORKS:',
+            '  - Your subscription payment (USD) is converted to XRP, then to SLS via the XRPL DEX.',
+            '  - SLS is delivered automatically to your wallet each billing cycle.',
+            '  - Each anchor costs 0.01 SLS ($0.01). Fee is sent to the S4 Treasury.',
             '',
             'EXPLORER: ' + (data.instructions.explorer_url || ''),
             '',

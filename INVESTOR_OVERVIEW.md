@@ -19,7 +19,7 @@
 |---|---|
 | **Token** | $SLS (utility, not security) |
 | **Network** | XRPL Mainnet |
-| **Cost per Anchor** | ~$0.001 |
+| **Cost per Anchor** | ~$0.01 (0.01 SLS) |
 | **Confirmation Time** | 3-5 seconds |
 | **Treasury** | 30M SLS (multi-sig) |
 | **ILS Tools** | 20 interactive workspace tools |
@@ -30,7 +30,7 @@
 | **Pre-loaded Entities** | 500+ (462 platforms + 37 suppliers + 25 contracts) |
 | **Record Types** | 156+ pre-built ILS record categories |
 | **Savings/Program** | ~$1.02M–$2.6M/year |
-| **ROI** | 10–100x for government |
+| **ROI** | 15–100x for government |
 
 ## Cost Savings (Realistic)
 

@@ -64,7 +64,7 @@ S4 Ledger utilizes the `Memos` field in a standard XRPL transaction to anchor da
 
 | Property | Value |
 |---|---|
-| **Endpoints** | 27 production REST API endpoints |
+| **Endpoints** | 29 production REST API endpoints |
 | **Framework** | Zero-dependency (BaseHTTPRequestHandler) |
 | **Authentication** | API key (master + org keys) |
 | **Rate Limiting** | 120 requests/minute per IP |
@@ -112,7 +112,7 @@ Private blockchains (Hyperledger, Guardtime KSI) defeat the purpose of independe
 | **Code** | SLS |
 | **Issuer** | `r95GyZac4butvVcsTWUPpxzekmyzaHsTA5` |
 | **Total Supply** | 100,000,000 |
-| **Ops Wallet** | `raWL7nYZkuXMUurHcp5ZXkABfVgStdun51` (secp256k1) |
+| **Treasury Wallet** | `raWL7nYZkuXMUurHcp5ZXkABfVgStdun51` (secp256k1) |
 | **Treasury** | `rMLmkrxpadq5z6oTDmq8GhQj9LKjf1KLqJ` (receives 0.01 SLS/anchor) |
 | **Fee per Anchor** | ~0.01 SLS |
 
@@ -129,7 +129,7 @@ Private blockchains (Hyperledger, Guardtime KSI) defeat the purpose of independe
 | Standard | Status |
 |---|---|
 | NIST SP 800-171 | Aligned |
-| CMMC Level 2 | **Certified** — S4 Systems, LLC |
+| CMMC Level 2 | **In Progress** — S4 Systems, LLC |
 | DFARS 252.204-7012 | Compliant (no CDI on-chain) |
 | NIST SP 800-53 (AU) | Immutable audit trail |
 | FedRAMP | Planned (Phase 5) |

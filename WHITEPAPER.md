@@ -340,3 +340,33 @@ S4 Ledger is designed for seamless integration with existing DoD and DoN logisti
 ---
 
 © 2026 S4 Systems, LLC. Charleston, SC.
+
+
+## ILS Analysis Engine (v4.0.3+)
+
+The ILS Analysis Engine is an 18-function real-time document analysis system built directly into the S4 Ledger demo application. It provides automated quality assessment of defense logistics documents upon upload.
+
+### Core Capabilities
+
+| Feature | Description |
+|---------|-------------|
+| **Document Type Detection** | Automatically identifies 30+ DoD document types (DRL, LSAR, PHS&T, FRACAS, DMSMS, LORA, etc.) |
+| **Data Quality Checks** | Validates NSN/NIIN formats, CAGE codes, date consistency, duplicate detection, status fields |
+| **Type-Specific Analysis** | 20+ specialized analyzers tuned to each document type's requirements |
+| **Cross-Reference Engine** | Detects DI number conflicts, NSN discrepancies, and CAGE code mismatches across all uploaded documents |
+| **Milestone Readiness** | Assesses readiness for MS A, MS B, MS C, IOC, and FOC based on document completeness |
+| **Auto-Analysis on Upload** | Every file upload (PDF, DOCX, XLSX, CSV) triggers automatic analysis with real-time notifications |
+| **AI Agent Integration** | Analysis findings are passed to the AI Agent for context-aware responses and recommendations |
+
+### Architecture
+
+- **Client-side only** — all document processing happens in the browser. No classified data leaves the user's machine.
+- **18 JavaScript functions** including `detectDocumentType`, `checkDataQuality`, `analyzeByDocType`, `crossReferenceAllDocuments`, `assessMilestoneReadiness`, `runAutoAnalysisOnUpload`, and `displayAnalysisNotifications`.
+- **File format support**: PDF (via pdf.js), DOCX (via mammoth.js), XLSX (via SheetJS), and CSV.
+
+### AI Agent Architecture
+
+The AI Agent operates in a hybrid local+cloud model:
+- **Local pattern library**: 115+ defense-specific response patterns covering gap analysis, DI numbers, readiness scoring, cost estimation, CAR drafting, and program management.
+- **Cloud AI (optional)**: Routes to OpenAI, Anthropic, Mistral, or Groq APIs when configured. The `AI_ENGINE_CONFIG` object manages provider selection, API keys, model preferences, and fallback chains.
+- **Context enrichment**: `buildAiContext()` passes analysis findings, document types, readiness scores, action items, and discrepancies to the LLM for informed responses.

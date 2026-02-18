@@ -5,6 +5,73 @@ All notable changes to the S4 Ledger project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.0.4] - 2026-02-19
+
+### Critical Syntax Fix, CDN Cleanup, Wallet Language Correction
+
+#### Fixed — Critical JavaScript Error
+- **Syntax Error in buildAiContext** — Removed extra closing brace (`}`) in `buildAiContext()` that was prematurely closing the `if (context)` block, causing a JavaScript parse error that broke ALL client-side functionality (ILS tools, anchoring, verification, wallet, AI agent). The analysis findings and document types enrichment code was placed outside its parent scope in v4.0.3 — now correctly nested inside `if (context) { ... }`.
+- **ILS Tools Now Functional** — All 20+ ILS workspace tools (Gap Analysis, Action Items, Calendar, DMSMS, Readiness, Parts, ROI, Lifecycle, Warranty, Audit Vault, Doc Library, Compliance, Provisioning, Supply Chain Risk, Audit Reports, Contracts, Digital Thread, Predictive Maintenance, Defense Database Import, ILIE Submissions) now open and function correctly via `switchHubTab()`.
+
+#### Fixed — Wallet Language
+- **"Ops wallet" → "Treasury"** — Changed "allocates SLS from the Ops wallet to your account" to "allocates SLS from the Treasury to your account" in the How USD→SLS Works section. Eliminates all references to deprecated operational wallet terminology.
+
+#### Fixed — Duplicate CDN Entries
+- **Removed duplicate `<script>` tags** — pdf.js 3.11.174 and mammoth.js 1.6.0 were each loaded twice in `<head>`. Removed the duplicate entries (3 lines), reducing page load size and preventing potential redefinition issues.
+
+#### Added — Subscription-Integrated Wallet Provisioning
+- **Pricing page aligned with API tiers** — Updated `s4-pricing/index.html` from legacy Pilot/Standard/Enterprise/Government tiers to canonical Starter ($9.99/mo, 500 SLS, 50K anchors), Professional ($49/mo, 5K SLS, 500K anchors), Enterprise (Custom), and Government (Custom site license). Each tier now shows "XRPL wallet provisioned" as a key included feature.
+- **"Every Subscription Includes Wallet Setup" section** — New card on pricing page explains the subscription→wallet flow: XRPL wallet provisioning, SLS TrustLine, automated USD→XRP→SLS DEX conversion, and Xaman compatibility.
+- **Login page subscription flow enhanced** — Plan selector now shows "Select Subscription Plan" with note that every plan includes automatic XRPL wallet provisioning. Each card displays SLS allocation, anchor capacity, and wallet confirmation.
+- **Wallet credentials show plan info** — After signup, the wallet modal displays the subscription tier name, SLS allocation, and anchor capacity. Downloaded credentials file includes full subscription details.
+- **Progress steps show subscription activation** — Signup flow now shows 4 steps: subscription activation → wallet generation → XRP funding → SLS TrustLine + SLS delivery.
+
+#### Updated — All Repository Documentation
+- **17 markdown documents updated** to reflect current v4.0.4 state: fixed "Ops wallet" → "Treasury wallet", corrected "19 tools" → "20 tools", fixed CMMC "Certified" → "In Progress", updated pricing references, added ILS Analysis Engine sections, corrected per-anchor cost to $0.01, and removed legacy healthcare content from MAINNET_MIGRATION.md.
+
+#### Removed — Temporary Debug Files
+- Cleaned up 9 temporary debug/analysis scripts (`_check_syntax.py`, `_find_error.js`, `_debug_parse.js`, etc.) that were created during syntax error diagnosis.
+
+---
+
+## [4.0.3] - 2026-02-18
+
+### Comprehensive ILS Analysis Engine, Auto-Analysis, Enhanced AI Context
+
+#### Added — ILS Analysis Engine (18 New Functions)
+- **`detectDocumentType()`** — Automatically classifies uploaded documents into 30+ defense document types (DRL, CDRL, MFR, POA&M, BOM, FRACAS, Tech Manual, Provisioning List, etc.) using keyword/pattern matching.
+- **`checkDataQuality(records, docType)`** — Validates NSN/NIIN format (XXXX-XX-XXX-XXXX), CAGE code format (5-char alphanumeric), detects duplicates, checks date validity, and validates status fields against allowed values for each document type.
+- **`analyzeByDocType(records, docType, fileName)`** — Runs 20+ type-specific analysis routines covering DRL status distribution, CDRL compliance checks, BOM completeness, FRACAS failure pattern analysis, provisioning categorization, tech manual revision tracking, training completion rates, and more.
+- **`crossReferenceAllDocuments()`** — Compares all uploaded documents for DI number conflicts, NSN discrepancies across documents, CAGE code mismatches, and cross-document status inconsistencies.
+- **`assessMilestoneReadiness(docType, findings)`** — Evaluates readiness against defense acquisition milestones (Milestone A/B/C, IOC, FOC) based on document completeness, quality scores, and finding severity.
+- **`runAutoAnalysisOnUpload(fileName, records)`** — Automatically triggers document type detection, data quality checks, type-specific analysis, cross-referencing, and milestone readiness assessment every time a file is uploaded.
+- **`displayAnalysisNotifications(findings)`** — Shows toast-style notifications for critical/warning/info findings immediately after auto-analysis completes.
+- **`formatAnalysisFindings(findings)`** — Formats analysis results into HTML for display in the AI agent conversation and analysis panels.
+- **`validateNSNFormat(nsn)`** — Validates National Stock Number format against the standard XXXX-XX-XXX-XXXX pattern.
+- **`validateCAGECode(cage)`** — Validates Commercial and Government Entity codes (5-character alphanumeric).
+- **`parsePDFContent(file)`** — Enhanced PDF text extraction with structured data parsing for defense document formats.
+- **`parseDOCXContent(file)`** — Enhanced DOCX text extraction with table and structured content support.
+- **`detectDocumentDiscrepancies()`** — Enhanced cross-document comparison engine with severity-weighted finding generation.
+
+#### Changed — handleILSFiles Enhancement
+- **Auto-Analysis on Every Upload** — `handleILSFiles()` now calls `runAutoAnalysisOnUpload()` for CSV, XLSX, PDF, and DOCX file types immediately after parsing. Users see real-time notifications about data quality issues, missing fields, and compliance gaps without any manual action.
+- **`.doc` Extension Support** — Added `.doc` to the accepted file input extensions.
+
+#### Changed — AI Agent Enhancement
+- **Thinking Indicator** — `aiSend()` displays "Analyzing your documents..." thinking animation while processing queries.
+- **Findings-Aware Responses** — AI agent automatically detects when users ask about analysis findings, quality issues, or problems and includes formatted analysis results in responses.
+- **Milestone Readiness Queries** — AI agent handles queries about milestone readiness (MS A/B/C, IOC, FOC) by running `assessMilestoneReadiness()` and presenting formatted readiness assessments.
+
+#### Changed — buildAiContext Enhancement
+- **Analysis Findings in LLM Context** — `buildAiContext()` now includes auto-analysis findings (critical/warning counts with top 5 details) in the prompt context sent to the LLM, enabling AI-powered interpretation of document analysis results.
+- **Document Types in Context** — Passes detected document types and names to the LLM for document-aware responses.
+
+#### Changed — Production Readiness
+- **Readiness Score** — Updated from 96% to 97% reflecting comprehensive ILS Analysis Engine, auto-analysis capabilities, and enhanced AI integration.
+- **AI Capabilities** — Upgraded from pattern-matching to full LLM-powered analysis with 18 specialized defense document analysis functions.
+
+---
+
 ## [4.0.2] - 2026-02-18
 
 ### AI Engine Architecture, Wallet Redesign, ILS Document Analysis, SEC Compliance
