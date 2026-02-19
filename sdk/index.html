@@ -4,571 +4,179 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-    <title>S4 Ledger SDK Documentation</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <title>SDK | S4 Ledger</title>
+    <meta name="description" content="S4 Ledger Python SDK documentation — hash, anchor, and verify defense logistics records.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/s4-assets/style.css">
-    
 </head>
 <body>
-    <div class="mesh-bg"><div class="gradient-orb orb-1"></div><div class="gradient-orb orb-2"></div><div class="gradient-orb orb-3"></div></div>
-
-    <nav class="navbar navbar-expand-lg">
-    <div class="container">
-        <a class="navbar-brand" href="/">
-            <img src="/s4-assets/S4Ledger_logo.png" alt="S4" class="nav-logo">
-            <span class="brand-text">S4 Ledger</span>
+<nav class="nav" id="mainNav">
+    <div class="nav-inner">
+        <a href="/" class="nav-brand">
+            <img src="/s4-assets/S4Ledger_logo.png" alt="S4 Ledger">
+            <span>S4 Ledger</span>
         </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navContent">
+        <ul class="nav-links" id="navLinks">
+            <li><a href="/demo-app/">Platform</a></li>
+            <li><a href="/s4-use-cases/">Use Cases</a></li>
+            <li><a href="/s4-pricing/">Pricing</a></li>
+            <li><a href="/s4-investors/">Company</a></li>
+            <li><a href="https://github.com/s4ledger/s4-ledger" target="_blank">Docs</a></li>
+            <li><a href="/s4-contact/" class="nav-cta">Request Demo</a></li>
+        </ul>
+        <button class="nav-mobile-toggle" onclick="document.getElementById('navLinks').classList.toggle('open')" aria-label="Menu">
             <i class="fas fa-bars"></i>
         </button>
-        <div class="collapse navbar-collapse justify-content-end" id="navContent">
-            <ul class="navbar-nav align-items-center gap-1">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Company</a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="/s4-about/"><i class="fas fa-building dd-accent"></i> About</a></li>
-                        <li><a class="dropdown-item" href="/s4-investors/"><i class="fas fa-chart-line dd-accent"></i> Investors</a></li>
-                        <li><a class="dropdown-item" href="/s4-partners/"><i class="fas fa-handshake dd-accent"></i> Partners</a></li>
-                        <li><a class="dropdown-item" href="/s4-contact/"><i class="fas fa-envelope dd-accent"></i> Contact</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle active" href="#" data-bs-toggle="dropdown">Products</a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="/demo-app/"><i class="fas fa-terminal dd-green"></i> ILS Workspace</a></li>
-                        <li><a class="dropdown-item" href="/sdk-playground/"><i class="fas fa-code dd-gold"></i> SDK Playground</a></li>
-                        <li><a class="dropdown-item" href="/sdk/"><i class="fas fa-book dd-gold"></i> SDK Docs</a></li>
-                        <li><a class="dropdown-item" href="/s4-marketplace/"><i class="fas fa-store dd-purple"></i> Marketplace</a></li>
-                        <li><a class="dropdown-item" href="/metrics.html"><i class="fas fa-chart-bar dd-accent"></i> Metrics</a></li>
-                        <li><a class="dropdown-item" href="/transactions.html"><i class="fas fa-exchange-alt dd-accent"></i> Transactions</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">More</a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="/s4-use-cases/"><i class="fas fa-boxes-stacked dd-orange"></i> Use Cases</a></li>
-                        <li><a class="dropdown-item" href="/s4-pricing/"><i class="fas fa-tags dd-accent"></i> Pricing</a></li>
-                        <li><a class="dropdown-item" href="/s4-roadmap/"><i class="fas fa-road dd-accent"></i> Roadmap</a></li>
-                        <li><a class="dropdown-item" href="/s4-faq/"><i class="fas fa-question-circle dd-accent"></i> FAQ</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <button class="nav-link search-btn" onclick="openSearch()"><i class="fas fa-search"></i></button>
-                </li>
-                <li class="nav-item ms-2">
-                    <a class="btn-accent" href="/s4-login/">Sign In</a>
-                </li>
-            </ul>
-        </div>
     </div>
 </nav>
 
-    <div class="sdk-hero">
-        <div class="container">
-            <h1 style="font-size:2rem;font-weight:800">S4 Ledger <span style="color:#c9a84c">SDK Documentation</span></h1>
-            <p style="color:var(--text-muted);max-width:600px;margin:12px auto 0">Complete Python SDK reference for defense-grade blockchain anchoring, ILS analysis, and XRPL integration.</p>
-            <div style="margin-top:20px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
-                <span class="badge-util" style="font-size:0.78rem;padding:6px 14px">v4.0.0</span>
-                <span style="font-size:0.78rem;color:var(--text-muted)">27 Functions</span>
-                <span style="font-size:0.78rem;color:var(--text-muted)">15 CLI Commands</span>
-                <span style="font-size:0.78rem;color:var(--text-muted)">22 DoD Systems</span>
+<div class="page-hero">
+    <div class="container">
+        <div class="section-label">SDK</div>
+        <h1>Python SDK</h1>
+        <p>Hash, anchor, and verify defense logistics records with a few lines of Python.</p>
+    </div>
+</div>
+<div class="container"><div class="divider"></div></div>
+
+<section class="section">
+    <div class="container-narrow">
+        <div class="reveal">
+            <div class="section-label">Installation</div>
+            <div class="code-block">pip install s4-ledger</div>
+        </div>
+    </div>
+</section>
+
+<div class="container-narrow"><div class="divider"></div></div>
+
+<section class="section">
+    <div class="container-narrow">
+        <div class="reveal">
+            <div class="section-label">Quick Start</div>
+            <h2 class="section-heading">Three steps to immutable proof</h2>
+        </div>
+        <div class="card-grid card-grid-3 reveal" style="margin-top:32px;">
+            <div class="card">
+                <h4>1. Hash</h4>
+                <p>Compute a SHA-256 hash of any defense record &mdash; a parts receipt, maintenance log, or CDRL.</p>
+                <div class="code-block" style="margin-top:12px;font-size:0.75rem;">from s4_sdk import S4SDK
+h = S4SDK.hash_data("record")</div>
+            </div>
+            <div class="card">
+                <h4>2. Anchor</h4>
+                <p>Write the hash to the XRP Ledger. Confirmed in 3&ndash;5 seconds. Cost: $0.01 in $SLS.</p>
+                <div class="code-block" style="margin-top:12px;font-size:0.75rem;">result = S4SDK.anchor_hash(h)
+print(result["tx_hash"])</div>
+            </div>
+            <div class="card">
+                <h4>3. Verify</h4>
+                <p>Re-hash the original and compare. Anyone can verify &mdash; no vendor required.</p>
+                <div class="code-block" style="margin-top:12px;font-size:0.75rem;">match = S4SDK.verify_hash(
+  h, result["tx_hash"]
+)</div>
             </div>
         </div>
     </div>
+</section>
 
-    <div class="container" style="padding-bottom:60px">
-        <div class="row">
-            <div class="col-lg-3 d-none d-lg-block">
-                <div class="sdk-nav">
-                    <div class="nav-section">Getting Started</div>
-                    <a href="#install">Installation</a>
-                    <a href="#quickstart">Quick Start</a>
-                    <a href="#auth">Authentication</a>
-                    <div class="nav-section">Core Functions</div>
-                    <a href="#anchor_record">anchor_record()</a>
-                    <a href="#create_record_hash">create_record_hash()</a>
-                    <a href="#verify_against_chain">verify_against_chain()</a>
-                    <a href="#correct_record">correct_record()</a>
-                    <div class="nav-section">XRPL Operations</div>
-                    <a href="#setup_trust_line">setup_trust_line()</a>
-                    <a href="#store_hash">store_hash_with_sls_fee()</a>
-                    <a href="#wallet_from_seed">wallet_from_seed()</a>
-                    <div class="nav-section">Encryption</div>
-                    <a href="#encrypt">encrypt_data() / decrypt_data()</a>
-                    <div class="nav-section">ILS Tools</div>
-                    <a href="#calc_readiness">calculate_readiness()</a>
-                    <a href="#check_dmsms">check_dmsms()</a>
-                    <a href="#lookup_nsn">lookup_nsn()</a>
-                    <a href="#calc_roi">calculate_roi()</a>
-                    <a href="#lifecycle">estimate_lifecycle_cost()</a>
-                    <a href="#action_items">get_action_items()</a>
-                    <div class="nav-section">Data Import</div>
-                    <a href="#import_csv">import_csv()</a>
-                    <a href="#import_xml">import_xml()</a>
-                    <a href="#import_json">import_json()</a>
-                    <a href="#import_anchor">import_and_anchor()</a>
-                    <a href="#list_dod">list_dod_systems()</a>
-                    <div class="nav-section">CLI Reference</div>
-                    <a href="#cli">s4-anchor CLI</a>
-                    <a href="#cli2">s4-cli</a>
-                    <div class="nav-section">API</div>
-                    <a href="#api">REST API Endpoints</a>
-                </div>
-            </div>
+<div class="container-narrow"><div class="divider"></div></div>
 
-            <div class="col-lg-9">
-
-                <div id="install" class="install-box">
-                    <h3 style="font-size:1.1rem;font-weight:700;margin-bottom:12px"><i class="fas fa-download" style="color:#c9a84c;margin-right:8px"></i>Installation</h3>
-                    <div class="code-block"># Install from PyPI
-pip install s4-ledger
-
-# Or clone from GitHub
-git clone https://github.com/s4ledger/s4-ledger.git
-cd s4-ledger
-pip install -r requirements.txt</div>
-                    <p style="font-size:0.82rem;color:var(--text-secondary);margin-top:12px"><strong>Requirements:</strong> Python 3.10+, xrpl-py, cryptography, requests</p>
-                </div>
-
-                <div id="quickstart" class="method-card" style="border-color:rgba(201,168,76,0.3)">
-                    <h3 style="font-size:1.1rem;margin-bottom:12px"><i class="fas fa-rocket" style="color:#c9a84c;margin-right:8px"></i>Quick Start</h3>
-                    <div class="code-block">from s4_sdk import S4SDK
-
-# Initialize the SDK
-sdk = S4SDK(
-    wallet_seed="sEdxxxxxxxxxxxxxxx",   # Your XRPL wallet seed
-    api_key="your_api_key",
-    testnet=False                        # Use mainnet
-)
-
-# Anchor a defense record
-result = sdk.anchor_record(
-    record_text="Part received: NSN 5340-01-123-4567 Qty 50",
-    wallet_seed="sEdxxxxxxxxxxxxxxx",
-    record_type="SUPPLY_CHAIN"
-)
-print(result["hash"])          # SHA-256 hash anchored on XRPL
-print(result["explorer_url"])  # Link to XRPL explorer
-
-# Verify a record against the chain
-verification = sdk.verify_against_chain(
-    record_text="Part received: NSN 5340-01-123-4567 Qty 50",
-    tx_hash=result["tx_results"]["fee_tx"]["hash"]
-)
-print(verification["status"])  # "MATCH" — verified!</div>
-                </div>
-
-                <div id="auth" class="method-card">
-                    <h3 style="font-size:1.1rem;margin-bottom:12px"><i class="fas fa-key" style="color:#c9a84c;margin-right:8px"></i>Authentication</h3>
-                    <p style="font-size:0.85rem;color:var(--text-secondary)">The SDK uses two forms of authentication:</p>
-                    <ul style="font-size:0.85rem;color:var(--text-secondary)">
-                        <li><strong style="color:#fff">API Key</strong> — For S4 Ledger platform features (subscription validation, API access)</li>
-                        <li><strong style="color:#fff">XRPL Wallet Seed</strong> — For blockchain operations (anchoring, fee payments). Your seed never leaves your local environment.</li>
-                    </ul>
-                    <div style="padding:10px;background:rgba(255,170,0,0.05);border:1px solid rgba(255,170,0,0.15);border-radius:8px;font-size:0.82rem;color:#ffaa00;margin-top:10px">
-                        <i class="fas fa-exclamation-triangle" style="margin-right:6px"></i><strong>Security:</strong> Never expose your wallet seed in client-side code or version control. Use environment variables.
-                    </div>
-                </div>
-
-                <hr style="border-color:var(--border);margin:30px 0">
-                <h2 style="font-size:1.3rem;font-weight:800;margin-bottom:20px"><i class="fas fa-anchor" style="color:#c9a84c;margin-right:8px"></i>Core Functions</h2>
-
-                <div id="anchor_record" class="method-card">
-                    <h4><span class="badge-post">CORE</span> anchor_record()</h4>
-                    <div class="method-sig">sdk.anchor_record(record_text, wallet_seed=None, encrypt_first=False, fiat_mode=False, gateway_issuer=None, record_type=None)</div>
-                    <p style="font-size:0.85rem;color:var(--text-secondary);margin-bottom:12px">Full anchoring workflow: optionally encrypt, hash, and store on XRPL with 0.01 SLS micro-fee. The central function for creating immutable records.</p>
-                    <table class="param-table">
-                        <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
-                        <tr><td><code>record_text</code></td><td>str</td><td>The record content to hash and anchor</td></tr>
-                        <tr><td><code>wallet_seed</code></td><td>str</td><td>XRPL wallet seed for signing transactions</td></tr>
-                        <tr><td><code>encrypt_first</code></td><td>bool</td><td>Encrypt record before hashing (for CUI/FOUO data)</td></tr>
-                        <tr><td><code>fiat_mode</code></td><td>bool</td><td>Use USD-to-SLS conversion instead of direct SLS payment</td></tr>
-                        <tr><td><code>record_type</code></td><td>str</td><td>Classification: SUPPLY_CHAIN, MAINTENANCE, CUSTODY_TRANSFER, etc.</td></tr>
-                    </table>
-                    <div class="returns"><strong>Returns:</strong> <code>dict</code> with <code>hash</code>, <code>tx_results</code>, <code>record_type</code>, <code>explorer_url</code></div>
-                </div>
-
-                <div id="create_record_hash" class="method-card">
-                    <h4><span class="badge-util">UTIL</span> create_record_hash()</h4>
-                    <div class="method-sig">sdk.create_record_hash(record_text)</div>
-                    <p style="font-size:0.85rem;color:var(--text-secondary)">Create a SHA-256 hash of any record text for later on-chain verification.</p>
-                    <table class="param-table">
-                        <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
-                        <tr><td><code>record_text</code></td><td>str</td><td>Record content to hash</td></tr>
-                    </table>
-                    <div class="returns"><strong>Returns:</strong> <code>str</code> — 64-character SHA-256 hex digest</div>
-                </div>
-
-                <div id="verify_against_chain" class="method-card">
-                    <h4><span class="badge-get">VERIFY</span> verify_against_chain()</h4>
-                    <div class="method-sig">sdk.verify_against_chain(record_text, tx_hash=None, expected_hash=None)</div>
-                    <p style="font-size:0.85rem;color:var(--text-secondary)">Verify record integrity against the XRPL. Recomputes SHA-256 and compares to the hash stored in the transaction memo.</p>
-                    <table class="param-table">
-                        <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
-                        <tr><td><code>record_text</code></td><td>str</td><td>Record content to verify</td></tr>
-                        <tr><td><code>tx_hash</code></td><td>str</td><td>XRPL transaction hash to look up</td></tr>
-                        <tr><td><code>expected_hash</code></td><td>str</td><td>Or compare against a known hash directly</td></tr>
-                    </table>
-                    <div class="returns"><strong>Returns:</strong> <code>dict</code> with <code>verified</code>, <code>status</code> (MATCH / MISMATCH / NOT_FOUND), <code>explorer_url</code>, <code>tamper_detected</code></div>
-                </div>
-
-                <div id="correct_record" class="method-card">
-                    <h4><span class="badge-post">CORE</span> correct_record()</h4>
-                    <div class="method-sig">sdk.correct_record(corrected_text, original_tx_hash, wallet_seed=None, reason="", record_type=None)</div>
-                    <p style="font-size:0.85rem;color:var(--text-secondary)">Re-anchor a corrected record with a supersession link. Both original and correction stay on-chain forever for full audit trail.</p>
-                    <table class="param-table">
-                        <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
-                        <tr><td><code>corrected_text</code></td><td>str</td><td>Updated record content</td></tr>
-                        <tr><td><code>original_tx_hash</code></td><td>str</td><td>TX hash of the original (incorrect) record</td></tr>
-                        <tr><td><code>reason</code></td><td>str</td><td>Reason for the correction</td></tr>
-                    </table>
-                    <div class="returns"><strong>Returns:</strong> <code>dict</code> with <code>corrected_hash</code>, <code>correction_tx</code>, <code>supersedes</code>, <code>timestamp</code></div>
-                </div>
-
-                <hr style="border-color:var(--border);margin:30px 0">
-                <h2 style="font-size:1.3rem;font-weight:800;margin-bottom:20px"><i class="fas fa-link" style="color:#c9a84c;margin-right:8px"></i>XRPL Operations</h2>
-
-                <div id="setup_trust_line" class="method-card">
-                    <h4><span class="badge-post">XRPL</span> setup_trust_line()</h4>
-                    <div class="method-sig">sdk.setup_trust_line(wallet_seed, limit="1000000")</div>
-                    <p style="font-size:0.85rem;color:var(--text-secondary)">One-time setup of the SLS trust line so a wallet can hold and use SLS tokens. Required before any anchoring.</p>
-                    <table class="param-table">
-                        <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
-                        <tr><td><code>wallet_seed</code></td><td>str</td><td>XRPL wallet seed (sEdXXX or sXXX format)</td></tr>
-                        <tr><td><code>limit</code></td><td>str</td><td>Maximum SLS the wallet can hold (default: 1,000,000)</td></tr>
-                    </table>
-                    <div class="returns"><strong>Returns:</strong> <code>dict</code> with <code>status</code>, <code>tx_hash</code></div>
-                </div>
-
-                <div id="store_hash" class="method-card">
-                    <h4><span class="badge-post">XRPL</span> store_hash_with_sls_fee()</h4>
-                    <div class="method-sig">sdk.store_hash_with_sls_fee(hash_value, wallet_seed, fee_sls="0.01", destination=None, record_type=None)</div>
-                    <p style="font-size:0.85rem;color:var(--text-secondary)">Low-level: pay 0.01 SLS micro-fee and store a hash in an XRPL transaction memo. Called internally by anchor_record().</p>
-                    <table class="param-table">
-                        <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
-                        <tr><td><code>hash_value</code></td><td>str</td><td>SHA-256 hash to store in memo</td></tr>
-                        <tr><td><code>wallet_seed</code></td><td>str</td><td>XRPL wallet seed for signing</td></tr>
-                        <tr><td><code>fee_sls</code></td><td>str</td><td>SLS fee amount (default 0.01)</td></tr>
-                        <tr><td><code>record_type</code></td><td>str</td><td>Record type tag for the memo</td></tr>
-                    </table>
-                    <div class="returns"><strong>Returns:</strong> <code>dict</code> with <code>fee_tx</code>, <code>memo_tx</code>, <code>explorer_url</code></div>
-                </div>
-
-                <div id="wallet_from_seed" class="method-card">
-                    <h4><span class="badge-util">XRPL</span> wallet_from_seed()</h4>
-                    <div class="method-sig">sdk.wallet_from_seed(seed)</div>
-                    <p style="font-size:0.85rem;color:var(--text-secondary)">Create an XRPL Wallet object from a family seed. Auto-detects ED25519 seeds (starting with sEd) and falls back to secp256k1.</p>
-                    <div class="returns"><strong>Returns:</strong> <code>xrpl.wallet.Wallet</code></div>
-                </div>
-
-                <hr style="border-color:var(--border);margin:30px 0">
-                <h2 style="font-size:1.3rem;font-weight:800;margin-bottom:20px"><i class="fas fa-lock" style="color:#c9a84c;margin-right:8px"></i>Encryption</h2>
-
-                <div id="encrypt" class="method-card">
-                    <h4><span class="badge-util">CRYPTO</span> encrypt_data() / decrypt_data()</h4>
-                    <div class="method-sig">sdk.encrypt_data(data: str) -&gt; str
-sdk.decrypt_data(encrypted_data: str) -&gt; str</div>
-                    <p style="font-size:0.85rem;color:var(--text-secondary)">Encrypt/decrypt sensitive data using Fernet symmetric encryption (AES-128-CBC + HMAC-SHA256). Use for CUI/FOUO content before hashing so the hash reveals nothing about the original data.</p>
-                    <div class="code-block"># Encrypt-then-anchor workflow
-encrypted = sdk.encrypt_data("CUI: Propulsion system deficiency report")
-result = sdk.anchor_record(encrypted, wallet_seed="sEdXXX")
-
-# Later, decrypt
-original = sdk.decrypt_data(encrypted)  # Original text restored</div>
-                </div>
-
-                <hr style="border-color:var(--border);margin:30px 0">
-                <h2 style="font-size:1.3rem;font-weight:800;margin-bottom:20px"><i class="fas fa-brain" style="color:#c9a84c;margin-right:8px"></i>ILS Analysis Tools</h2>
-                <p style="font-size:0.85rem;color:var(--text-secondary);margin-bottom:20px">Integrated Logistics Support tools per MIL-STD-1390D, DoDI 4245.14, DoD 5000.73, FAR 46.7, and DFARS 246.7.</p>
-
-                <div id="calc_readiness" class="method-card">
-                    <h4><span class="badge-get">ILS</span> calculate_readiness()</h4>
-                    <div class="method-sig">sdk.calculate_readiness(mtbf, mttr, mldt=0)</div>
-                    <p style="font-size:0.85rem;color:var(--text-secondary)">Calculate Operational Availability (Ao) and RAM metrics per MIL-STD-1390D.</p>
-                    <table class="param-table">
-                        <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
-                        <tr><td><code>mtbf</code></td><td>float</td><td>Mean Time Between Failures (hours)</td></tr>
-                        <tr><td><code>mttr</code></td><td>float</td><td>Mean Time To Repair (hours)</td></tr>
-                        <tr><td><code>mldt</code></td><td>float</td><td>Mean Logistics Delay Time (hours)</td></tr>
-                    </table>
-                    <div class="returns"><strong>Returns:</strong> <code>dict</code> with <code>Ao</code>, <code>Ai</code>, <code>failure_rate</code>, <code>annual_failures</code>, <code>grade</code></div>
-                </div>
-
-                <div id="check_dmsms" class="method-card">
-                    <h4><span class="badge-get">ILS</span> check_dmsms()</h4>
-                    <div class="method-sig">sdk.check_dmsms(nsn_list: list[str])</div>
-                    <p style="font-size:0.85rem;color:var(--text-secondary)">Check NSNs for Diminishing Manufacturing Sources &amp; Material Shortages risk per DoDI 4245.14.</p>
-                    <div class="returns"><strong>Returns:</strong> <code>dict</code> with per-NSN risk ratings, overall risk score, recommended actions</div>
-                </div>
-
-                <div id="lookup_nsn" class="method-card">
-                    <h4><span class="badge-get">ILS</span> lookup_nsn()</h4>
-                    <div class="method-sig">sdk.lookup_nsn(nsn: str)</div>
-                    <p style="font-size:0.85rem;color:var(--text-secondary)">Look up a National Stock Number in the Federal Logistics system. Returns FSC, NIIN, nomenclature, status, and hash.</p>
-                    <div class="returns"><strong>Returns:</strong> <code>dict</code> with <code>fsc</code>, <code>niin</code>, <code>nomenclature</code>, <code>status</code>, <code>hash</code></div>
-                </div>
-
-                <div id="calc_roi" class="method-card">
-                    <h4><span class="badge-get">ILS</span> calculate_roi()</h4>
-                    <div class="method-sig">sdk.calculate_roi(programs=5, ftes=8, rate=145.0, license_cost=120000.0, audit_cost=250000.0, error_cost=8500.0, incidents=35)</div>
-                    <p style="font-size:0.85rem;color:var(--text-secondary)">Calculate ROI for S4 Ledger deployment. Estimates labor savings (65%), error reduction (90%), audit savings (70%).</p>
-                    <table class="param-table">
-                        <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
-                        <tr><td><code>programs</code></td><td>int</td><td>Number of programs using S4 Ledger</td></tr>
-                        <tr><td><code>ftes</code></td><td>int</td><td>Full-time equivalents doing logistics work</td></tr>
-                        <tr><td><code>rate</code></td><td>float</td><td>Fully burdened labor rate ($/hr)</td></tr>
-                        <tr><td><code>license_cost</code></td><td>float</td><td>Current legacy system licensing costs</td></tr>
-                        <tr><td><code>audit_cost</code></td><td>float</td><td>Current annual audit costs</td></tr>
-                        <tr><td><code>error_cost</code></td><td>float</td><td>Average cost per data error</td></tr>
-                        <tr><td><code>incidents</code></td><td>int</td><td>Annual data error incidents</td></tr>
-                    </table>
-                    <div class="returns"><strong>Returns:</strong> <code>dict</code> with <code>net_benefit</code>, <code>roi_pct</code>, <code>payback_months</code>, <code>five_year_projection</code></div>
-                </div>
-
-                <div id="lifecycle" class="method-card">
-                    <h4><span class="badge-get">ILS</span> estimate_lifecycle_cost()</h4>
-                    <div class="method-sig">sdk.estimate_lifecycle_cost(acquisition_m=85.0, fleet_size=20, service_life=30, sustainment_rate=8.0)</div>
-                    <p style="font-size:0.85rem;color:var(--text-secondary)">Estimate total ownership cost per DoD 5000.73 / MIL-STD-881F. Includes acquisition, sustainment, DMSMS, and tech refresh costs.</p>
-                    <div class="returns"><strong>Returns:</strong> <code>dict</code> with cost breakdowns, annual sustainment, total lifecycle cost</div>
-                </div>
-
-                <div id="warranty" class="method-card">
-                    <h4><span class="badge-get">ILS</span> track_warranty()</h4>
-                    <div class="method-sig">sdk.track_warranty(program="ddg51", systems=None)</div>
-                    <p style="font-size:0.85rem;color:var(--text-secondary)">Track warranty and contract status per FAR 46.7 / DFARS 246.7. <em>Note: This method is now available through <strong style="color:#a855f7">HarborLink</strong>.</em></p>
-                    <div class="returns"><strong>Returns:</strong> <code>dict</code> with <code>active</code>, <code>expiring_soon</code>, <code>expired</code> arrays, <code>total_value</code></div>
-                </div>
-
-                <div id="action_items" class="method-card">
-                    <h4><span class="badge-get">ILS</span> get_action_items()</h4>
-                    <div class="method-sig">sdk.get_action_items(severity=None, source=None)</div>
-                    <p style="font-size:0.85rem;color:var(--text-secondary)">Get cross-tool action items with severity tagging and estimated costs. Filter by severity (critical/warning) or source (dmsms/warranty/readiness).</p>
-                </div>
-
-                <div class="method-card" style="border-color:rgba(168,85,247,0.3);margin-top:16px">
-                    <h4 style="margin-bottom:10px"><i class="fas fa-arrow-up-right-from-square" style="color:#a855f7;margin-right:8px"></i>Additional ILS Methods via HarborLink</h4>
-                    <p style="font-size:0.85rem;color:var(--text-secondary)">The following SDK methods are available through <strong style="color:#a855f7">HarborLink</strong>, S4 Systems' collaboration portal: <code>track_warranty()</code>, <code>get_calendar_events()</code>, <code>get_provisioning_status()</code>, <code>manage_contracts()</code>, <code>get_digital_thread()</code>, <code>import_defense_data()</code>, and <code>cross_reference_parts()</code>.</p>
-                </div>
-
-                <hr style="border-color:var(--border);margin:30px 0">
-                <h2 style="font-size:1.3rem;font-weight:800;margin-bottom:20px"><i class="fas fa-database" style="color:#c9a84c;margin-right:8px"></i>Data Import</h2>
-                <p style="font-size:0.85rem;color:var(--text-secondary);margin-bottom:20px">Import records from 22+ DoD logistics systems in CSV, XML, or JSON and optionally anchor each record to the XRPL in a single pipeline.</p>
-
-                <div id="import_csv" class="method-card">
-                    <h4><span class="badge-post">IMPORT</span> import_csv()</h4>
-                    <div class="method-sig">sdk.import_csv(csv_text, source_system, record_type=None, delimiter=",")</div>
-                    <p style="font-size:0.85rem;color:var(--text-secondary)">Import records from CSV data exported from any supported DoD system.</p>
-                    <table class="param-table">
-                        <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
-                        <tr><td><code>csv_text</code></td><td>str</td><td>Raw CSV string</td></tr>
-                        <tr><td><code>source_system</code></td><td>str</td><td>System ID (e.g., "nserc-ide", "gcss-army")</td></tr>
-                        <tr><td><code>record_type</code></td><td>str</td><td>Record classification</td></tr>
-                        <tr><td><code>delimiter</code></td><td>str</td><td>CSV delimiter (default comma)</td></tr>
-                    </table>
-                    <div class="returns"><strong>Returns:</strong> <code>list[dict]</code> — parsed records with hashes</div>
-                </div>
-
-                <div id="import_xml" class="method-card">
-                    <h4><span class="badge-post">IMPORT</span> import_xml()</h4>
-                    <div class="method-sig">sdk.import_xml(xml_text, source_system, record_type=None, row_tag=None)</div>
-                    <p style="font-size:0.85rem;color:var(--text-secondary)">Import records from XML data. Auto-detects row elements if row_tag not specified.</p>
-                </div>
-
-                <div id="import_json" class="method-card">
-                    <h4><span class="badge-post">IMPORT</span> import_json()</h4>
-                    <div class="method-sig">sdk.import_json(json_text, source_system, record_type=None, records_key=None)</div>
-                    <p style="font-size:0.85rem;color:var(--text-secondary)">Import records from JSON data. Auto-detects the records array.</p>
-                </div>
-
-                <div id="import_anchor" class="method-card">
-                    <h4><span class="badge-post">IMPORT</span> import_and_anchor()</h4>
-                    <div class="method-sig">sdk.import_and_anchor(file_text, source_system, file_format="csv", wallet_seed=None, record_type=None, anchor=True)</div>
-                    <p style="font-size:0.85rem;color:var(--text-secondary)">Full pipeline: parse file (CSV/XML/JSON), hash each record, and anchor to XRPL. One function to import and immutably verify an entire dataset.</p>
-                    <div class="code-block"># Import and anchor a GCSS-Army CSV export
-with open("gcss_export.csv") as f:
-    results = sdk.import_and_anchor(
-        file_text=f.read(),
-        source_system="gcss-army",
-        file_format="csv",
-        wallet_seed="sEdXXX",
-        record_type="SUPPLY_CHAIN"
-    )
-print(f"Anchored {len(results)} records")</div>
-                </div>
-
-                <div id="list_dod" class="method-card">
-                    <h4><span class="badge-get">IMPORT</span> list_dod_systems()</h4>
-                    <div class="method-sig">sdk.list_dod_systems()</div>
-                    <p style="font-size:0.85rem;color:var(--text-secondary)">List all 22 supported DoD database systems:</p>
-                    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px">
-                        <span style="font-size:0.72rem;padding:3px 8px;border-radius:4px;background:var(--surface);border:1px solid var(--border);color:var(--text-secondary)">NSERC-IDE</span>
-                        <span style="font-size:0.72rem;padding:3px 8px;border-radius:4px;background:var(--surface);border:1px solid var(--border);color:var(--text-secondary)">MERLIN</span>
-                        <span style="font-size:0.72rem;padding:3px 8px;border-radius:4px;background:var(--surface);border:1px solid var(--border);color:var(--text-secondary)">NAVAIR AMS-PMT</span>
-                        <span style="font-size:0.72rem;padding:3px 8px;border-radius:4px;background:var(--surface);border:1px solid var(--border);color:var(--text-secondary)">COMPASS</span>
-                        <span style="font-size:0.72rem;padding:3px 8px;border-radius:4px;background:var(--surface);border:1px solid var(--border);color:var(--text-secondary)">CDMD-OA</span>
-                        <span style="font-size:0.72rem;padding:3px 8px;border-radius:4px;background:var(--surface);border:1px solid var(--border);color:var(--text-secondary)">NDE</span>
-                        <span style="font-size:0.72rem;padding:3px 8px;border-radius:4px;background:var(--surface);border:1px solid var(--border);color:var(--text-secondary)">MBPS</span>
-                        <span style="font-size:0.72rem;padding:3px 8px;border-radius:4px;background:var(--surface);border:1px solid var(--border);color:var(--text-secondary)">PEO-MLB</span>
-                        <span style="font-size:0.72rem;padding:3px 8px;border-radius:4px;background:var(--surface);border:1px solid var(--border);color:var(--text-secondary)">CSPT</span>
-                        <span style="font-size:0.72rem;padding:3px 8px;border-radius:4px;background:var(--surface);border:1px solid var(--border);color:var(--text-secondary)">GCSS</span>
-                        <span style="font-size:0.72rem;padding:3px 8px;border-radius:4px;background:var(--surface);border:1px solid var(--border);color:var(--text-secondary)">DPAS</span>
-                        <span style="font-size:0.72rem;padding:3px 8px;border-radius:4px;background:var(--surface);border:1px solid var(--border);color:var(--text-secondary)">DLA/FLIS</span>
-                        <span style="font-size:0.72rem;padding:3px 8px;border-radius:4px;background:var(--surface);border:1px solid var(--border);color:var(--text-secondary)">NAVSUP</span>
-                        <span style="font-size:0.72rem;padding:3px 8px;border-radius:4px;background:var(--surface);border:1px solid var(--border);color:var(--text-secondary)">GCSS-Army</span>
-                        <span style="font-size:0.72rem;padding:3px 8px;border-radius:4px;background:var(--surface);border:1px solid var(--border);color:var(--text-secondary)">LMP</span>
-                        <span style="font-size:0.72rem;padding:3px 8px;border-radius:4px;background:var(--surface);border:1px solid var(--border);color:var(--text-secondary)">AESIP</span>
-                        <span style="font-size:0.72rem;padding:3px 8px;border-radius:4px;background:var(--surface);border:1px solid var(--border);color:var(--text-secondary)">REMIS</span>
-                        <span style="font-size:0.72rem;padding:3px 8px;border-radius:4px;background:var(--surface);border:1px solid var(--border);color:var(--text-secondary)">LIMS-EV</span>
-                        <span style="font-size:0.72rem;padding:3px 8px;border-radius:4px;background:var(--surface);border:1px solid var(--border);color:var(--text-secondary)">D200A</span>
-                        <span style="font-size:0.72rem;padding:3px 8px;border-radius:4px;background:var(--surface);border:1px solid var(--border);color:var(--text-secondary)">GCSS-MC</span>
-                        <span style="font-size:0.72rem;padding:3px 8px;border-radius:4px;background:var(--surface);border:1px solid var(--border);color:var(--text-secondary)">ATLASS</span>
-                        <span style="font-size:0.72rem;padding:3px 8px;border-radius:4px;background:var(--surface);border:1px solid var(--border);color:var(--text-secondary)">ALMIS</span>
-                    </div>
-                </div>
-
-                <hr style="border-color:var(--border);margin:30px 0">
-                <h2 id="cli" style="font-size:1.3rem;font-weight:800;margin-bottom:20px"><i class="fas fa-terminal" style="color:#c9a84c;margin-right:8px"></i>CLI Reference</h2>
-
-                <div class="method-card">
-                    <h4>s4-anchor CLI (12 Commands)</h4>
-                    <p style="font-size:0.85rem;color:var(--text-secondary);margin-bottom:10px">The embedded CLI accessed via <code>python s4_sdk.py [command]</code>:</p>
-                    <div class="code-block"># Anchor a record
-python s4_sdk.py anchor --record "Part received NSN 1234" --seed "sEdXXX" --type SUPPLY_CHAIN
-
-# Hash only (no blockchain)
-python s4_sdk.py hash --record "Maintenance completed"
-
-# Verify record
-python s4_sdk.py verify --record "Part received" --type expected:abc123...
-
-# SDK status
-python s4_sdk.py status
-
-# ILS commands
-python s4_sdk.py readiness --record "500,4,2"    # MTBF,MTTR,MLDT
-python s4_sdk.py dmsms --record "5340-01-123-4567,5340-01-234-5678"
-python s4_sdk.py roi
-python s4_sdk.py lifecycle
-python s4_sdk.py warranty
-python s4_sdk.py action-items
-python s4_sdk.py calendar      # Available via HarborLink
-python s4_sdk.py provisioning   # Available via HarborLink</div>
-                </div>
-
-                <div id="cli2" class="method-card">
-                    <h4>s4-cli (3 Commands)</h4>
-                    <p style="font-size:0.85rem;color:var(--text-secondary);margin-bottom:10px">Standalone CLI via <code>python s4_cli.py [command]</code>:</p>
-                    <div class="code-block"># Anchor with optional encryption
-python s4_cli.py anchor "CUI record content" --seed "sEdXXX" --encrypt --type MAINTENANCE
-
-# Verify against expected hash
-python s4_cli.py verify "Part received NSN 1234" --expected abc123def456...
-
-# Quick hash
-python s4_cli.py hash "Record content"
-
-# Pipe from stdin
-cat document.txt | python s4_cli.py anchor - --seed "sEdXXX"</div>
-                </div>
-
-                <hr style="border-color:var(--border);margin:30px 0">
-                <h2 id="api" style="font-size:1.3rem;font-weight:800;margin-bottom:20px"><i class="fas fa-cloud" style="color:#c9a84c;margin-right:8px"></i>REST API Endpoints</h2>
-
-                <div class="method-card">
-                    <p style="font-size:0.85rem;color:var(--text-secondary)">S4 Ledger also provides a REST API at <code>https://s4ledger.com/api/</code>. Full specification: <a href="../api/openapi.json" style="color:var(--accent)">OpenAPI JSON</a>.</p>
-                    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin-top:14px">
-                        <div style="padding:10px;background:var(--surface);border-radius:8px;border:1px solid var(--border)"><span class="badge-post">POST</span> <code>/api/anchor</code><br><small style="color:var(--text-muted)">Hash and anchor a record to XRPL</small></div>
-                        <div style="padding:10px;background:var(--surface);border-radius:8px;border:1px solid var(--border)"><span class="badge-post">POST</span> <code>/api/hash</code><br><small style="color:var(--text-muted)">Create SHA-256 hash of record</small></div>
-                        <div style="padding:10px;background:var(--surface);border-radius:8px;border:1px solid var(--border)"><span class="badge-post">POST</span> <code>/api/verify</code><br><small style="color:var(--text-muted)">Verify record against chain</small></div>
-                        <div style="padding:10px;background:var(--surface);border-radius:8px;border:1px solid var(--border)"><span class="badge-get">GET</span> <code>/api/health</code><br><small style="color:var(--text-muted)">Check API and chain health</small></div>
-                        <div style="padding:10px;background:var(--surface);border-radius:8px;border:1px solid var(--border)"><span class="badge-post">POST</span> <code>/api/wallet/provision</code><br><small style="color:var(--text-muted)">Create and fund new wallet</small></div>
-                        <div style="padding:10px;background:var(--surface);border-radius:8px;border:1px solid var(--border)"><span class="badge-post">POST</span> <code>/api/wallet/buy-sls</code><br><small style="color:var(--text-muted)">Request additional SLS (delivered from Treasury)</small></div>
-                        <div style="padding:10px;background:var(--surface);border-radius:8px;border:1px solid var(--border)"><span class="badge-get">GET</span> <code>/api/wallet/balance</code><br><small style="color:var(--text-muted)">Check SLS and XRP balances</small></div>
-                    </div>
-                </div>
-
-                <div class="method-card" style="border-color:rgba(201,168,76,0.3);margin-top:30px">
-                    <h4 style="margin-bottom:10px"><i class="fas fa-book" style="color:#c9a84c;margin-right:8px"></i>Additional Resources</h4>
-                    <ul style="font-size:0.85rem;color:var(--text-secondary);margin:0">
-                        <li><a href="../api_examples.md" style="color:var(--accent)">API Code Examples</a> — Python, cURL, JavaScript samples</li>
-                        <li><a href="../TECHNICAL_SPECS.md" style="color:var(--accent)">Technical Specifications</a> — Architecture, security, and performance</li>
-                        <li><a href="../WHITEPAPER.md" style="color:var(--accent)">Whitepaper</a> — Full protocol and token economics</li>
-                        <li><a href="../SECURITY.md" style="color:var(--accent)">Security Policy</a> — Vulnerability reporting and security controls</li>
-                        <li><a href="../sdk-playground/" style="color:var(--accent)">SDK Playground</a> — Interactive testing environment</li>
-                    </ul>
-                </div>
-
-            </div>
+<section class="section">
+    <div class="container-narrow">
+        <div class="reveal">
+            <div class="section-label">API Reference</div>
+            <h2 class="section-heading">Core functions</h2>
+        </div>
+        <div style="margin-top:32px;" class="reveal">
+            <table class="data-table">
+                <thead>
+                    <tr><th>Function</th><th>Description</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td style="color:var(--accent);font-family:monospace;">hash_data()</td><td>SHA-256 hash of any string or record</td></tr>
+                    <tr><td style="color:var(--accent);font-family:monospace;">anchor_hash()</td><td>Anchor a hash to XRPL Mainnet</td></tr>
+                    <tr><td style="color:var(--accent);font-family:monospace;">verify_hash()</td><td>Verify a hash against an XRPL transaction</td></tr>
+                    <tr><td style="color:var(--accent);font-family:monospace;">batch_anchor()</td><td>Anchor multiple hashes in parallel</td></tr>
+                    <tr><td style="color:var(--accent);font-family:monospace;">analyze_supply_chain_risk()</td><td>AI-powered supplier risk scoring</td></tr>
+                    <tr><td style="color:var(--accent);font-family:monospace;">generate_audit_report()</td><td>One-click audit package generation</td></tr>
+                    <tr><td style="color:var(--accent);font-family:monospace;">predict_maintenance()</td><td>AI failure prediction and MTBF analysis</td></tr>
+                </tbody>
+            </table>
         </div>
     </div>
+</section>
 
-    <footer class="site-footer">
-    <div class="footer-grid">
-        <div>
-            <a href="/" class="footer-brand-link">
-                <img src="/s4-assets/S4Ledger_logo.png" alt="S4">
-                S4 Ledger
-            </a>
-            <p class="footer-tagline">Immutable logistics verification anchored to the XRP Ledger. The secure standard for defense and enterprise supply chains.</p>
-            <div class="footer-social">
-                <a href="https://github.com/S4-Ledger" aria-label="GitHub"><i class="fab fa-github"></i></a>
-                <a href="https://x.com/S4Ledger" aria-label="X"><i class="fab fa-x-twitter"></i></a>
-                <a href="https://discord.gg/s4ledger" aria-label="Discord"><i class="fab fa-discord"></i></a>
-            </div>
-        </div>
-        <div class="footer-col">
-            <h5>Product</h5>
-            <a href="/demo-app/">ILS Workspace</a>
-            <a href="/sdk/">SDK Docs</a>
-            <a href="/sdk-playground/">SDK Playground</a>
-            <a href="/s4-marketplace/">Marketplace</a>
-            <a href="/s4-pricing/">Pricing</a>
-        </div>
-        <div class="footer-col">
-            <h5>Company</h5>
-            <a href="/s4-about/">About</a>
-            <a href="/s4-investors/">Investors</a>
-            <a href="/s4-partners/">Partners</a>
-            <a href="/s4-roadmap/">Roadmap</a>
-            <a href="/s4-contact/">Contact</a>
-        </div>
-        <div class="footer-col">
-            <h5>Resources</h5>
-            <a href="/s4-use-cases/">Use Cases</a>
-            <a href="/s4-faq/">FAQ</a>
-            <a href="/metrics.html">Metrics</a>
-            <a href="/transactions.html">Transactions</a>
-            <a href="/security/">Security</a>
+<section class="cta-section">
+    <div class="container-narrow reveal">
+        <h2>Try it live</h2>
+        <p>The SDK Playground lets you run every function directly in your browser.</p>
+        <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+            <a href="/sdk-playground/" class="btn-primary">SDK Playground</a> <a href="https://github.com/s4ledger/s4-ledger" class="btn-ghost">View on GitHub</a>
         </div>
     </div>
-    <div class="footer-bottom">
-        <span>&copy; 2025 S4 Ledger. All rights reserved.</span>
-        <div class="footer-bottom-links">
-            <a href="/s4-terms/">Terms</a>
-            <a href="/s4-privacy/">Privacy</a>
-            <a href="/security/">Security</a>
+</section>
+
+<footer class="footer">
+    <div class="container">
+        <div class="footer-inner">
+            <div>
+                <a href="/" class="footer-brand">
+                    <img src="/s4-assets/S4Ledger_logo.png" alt="S4 Ledger">
+                    <span>S4 Ledger</span>
+                </a>
+                <div class="footer-tagline">Immutable defense logistics. Built on the XRP Ledger.</div>
+            </div>
+            <div class="footer-links">
+                <div class="footer-col">
+                    <h5>Product</h5>
+                    <a href="/demo-app/">Platform</a>
+                    <a href="/sdk-playground/">SDK Playground</a>
+                    <a href="/metrics.html">Live Metrics</a>
+                    <a href="/transactions.html">Transactions</a>
+                </div>
+                <div class="footer-col">
+                    <h5>Company</h5>
+                    <a href="/s4-about/">About</a>
+                    <a href="/s4-investors/">Investors</a>
+                    <a href="/s4-partners/">Partners</a>
+                    <a href="/s4-roadmap/">Roadmap</a>
+                </div>
+                <div class="footer-col">
+                    <h5>Resources</h5>
+                    <a href="/s4-use-cases/">Use Cases</a>
+                    <a href="/s4-faq/">FAQ</a>
+                    <a href="/s4-pricing/">Pricing</a>
+                    <a href="/security/">Security</a>
+                </div>
+                <div class="footer-col">
+                    <h5>Connect</h5>
+                    <a href="/s4-contact/">Contact</a>
+                    <a href="https://github.com/s4ledger/s4-ledger" target="_blank">GitHub</a>
+                    <a href="https://x.com" target="_blank">X / Twitter</a>
+                    <a href="https://linkedin.com" target="_blank">LinkedIn</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>&copy; 2025 S4 Systems, LLC. $SLS is a utility token &mdash; not equity or an investment contract.</span>
+            <div class="footer-bottom-links">
+                <a href="/s4-terms/">Terms</a>
+                <a href="/s4-privacy/">Privacy</a>
+                <a href="/security-policy/">Security Policy</a>
+            </div>
         </div>
     </div>
 </footer>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-    const navLinks=document.querySelectorAll(".sdk-nav a[href^='#']");
-    window.addEventListener("scroll",()=>{let c="";document.querySelectorAll("[id]").forEach(s=>{if(s.offsetTop-120<=window.scrollY)c=s.id});navLinks.forEach(l=>{l.classList.toggle("active",l.getAttribute("href")==="#"+c)})});
-    </script>
-<link rel="stylesheet" href="/s4-assets/s4-mobile.css">
-<!-- Search Modal -->
-<div id="searchOverlay" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.8);backdrop-filter:blur(8px);justify-content:center;align-items:flex-start;padding-top:20vh;">
-    <div style="width:90%;max-width:560px;">
-        <input id="searchInput" type="text" placeholder="Search S4 Ledger..." style="width:100%;padding:18px 24px;border-radius:14px;border:1px solid rgba(0,170,255,0.3);background:rgba(17,17,24,0.95);color:#f0f0f5;font-size:1.1rem;outline:none;font-family:'Inter',sans-serif;">
-    </div>
-</div>
+
 <script>
-function openSearch(){const o=document.getElementById('searchOverlay');o.style.display='flex';document.getElementById('searchInput').focus();}
-document.addEventListener('keydown',e=>{if(e.key==='Escape')document.getElementById('searchOverlay').style.display='none';if((e.metaKey||e.ctrlKey)&&e.key==='k'){e.preventDefault();openSearch();}});
-document.getElementById('searchOverlay')?.addEventListener('click',function(e){if(e.target===this)this.style.display='none';});
+var nav=document.getElementById('mainNav');
+if(nav){window.addEventListener('scroll',function(){nav.classList.toggle('scrolled',window.scrollY>40);});}
+var obs=new IntersectionObserver(function(e){e.forEach(function(x){if(x.isIntersecting)x.target.classList.add('visible');});},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(function(el){obs.observe(el);});
 </script>
-<script src="/s4-assets/s4-background.js"></script>
 </body>
 </html>

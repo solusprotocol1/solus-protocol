@@ -7,257 +7,170 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <title>About | S4 Ledger</title>
-    <meta name="description" content="S4 Ledger — built by defense logistics professionals who see supply chain, maintenance, and data integrity problems firsthand.">
+    <meta name="description" content="S4 Ledger — built by defense logistics professionals in Charleston, SC.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/s4-assets/style.css">
 </head>
 <body>
-<div class="mesh-bg"><div class="gradient-orb orb-1"></div><div class="gradient-orb orb-2"></div><div class="gradient-orb orb-3"></div></div>
-<nav class="navbar navbar-expand-lg">
-    <div class="container">
-        <a class="navbar-brand" href="/">
-            <img src="/s4-assets/S4Ledger_logo.png" alt="S4" class="nav-logo">
-            <span class="brand-text">S4 Ledger</span>
+<nav class="nav" id="mainNav">
+    <div class="nav-inner">
+        <a href="/" class="nav-brand">
+            <img src="/s4-assets/S4Ledger_logo.png" alt="S4 Ledger">
+            <span>S4 Ledger</span>
         </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navContent">
+        <ul class="nav-links" id="navLinks">
+            <li><a href="/demo-app/">Platform</a></li>
+            <li><a href="/s4-use-cases/">Use Cases</a></li>
+            <li><a href="/s4-pricing/">Pricing</a></li>
+            <li><a href="/s4-investors/">Company</a></li>
+            <li><a href="https://github.com/s4ledger/s4-ledger" target="_blank">Docs</a></li>
+            <li><a href="/s4-contact/" class="nav-cta">Request Demo</a></li>
+        </ul>
+        <button class="nav-mobile-toggle" onclick="document.getElementById('navLinks').classList.toggle('open')" aria-label="Menu">
             <i class="fas fa-bars"></i>
         </button>
-        <div class="collapse navbar-collapse justify-content-end" id="navContent">
-            <ul class="navbar-nav align-items-center gap-1">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle active" href="#" data-bs-toggle="dropdown">Company</a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="/s4-about/"><i class="fas fa-building dd-accent"></i> About</a></li>
-                        <li><a class="dropdown-item" href="/s4-investors/"><i class="fas fa-chart-line dd-accent"></i> Investors</a></li>
-                        <li><a class="dropdown-item" href="/s4-partners/"><i class="fas fa-handshake dd-accent"></i> Partners</a></li>
-                        <li><a class="dropdown-item" href="/s4-contact/"><i class="fas fa-envelope dd-accent"></i> Contact</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Products</a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="/demo-app/"><i class="fas fa-terminal dd-green"></i> ILS Workspace</a></li>
-                        <li><a class="dropdown-item" href="/sdk-playground/"><i class="fas fa-code dd-gold"></i> SDK Playground</a></li>
-                        <li><a class="dropdown-item" href="/sdk/"><i class="fas fa-book dd-gold"></i> SDK Docs</a></li>
-                        <li><a class="dropdown-item" href="/s4-marketplace/"><i class="fas fa-store dd-purple"></i> Marketplace</a></li>
-                        <li><a class="dropdown-item" href="/metrics.html"><i class="fas fa-chart-bar dd-accent"></i> Metrics</a></li>
-                        <li><a class="dropdown-item" href="/transactions.html"><i class="fas fa-exchange-alt dd-accent"></i> Transactions</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">More</a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="/s4-use-cases/"><i class="fas fa-boxes-stacked dd-orange"></i> Use Cases</a></li>
-                        <li><a class="dropdown-item" href="/s4-pricing/"><i class="fas fa-tags dd-accent"></i> Pricing</a></li>
-                        <li><a class="dropdown-item" href="/s4-roadmap/"><i class="fas fa-road dd-accent"></i> Roadmap</a></li>
-                        <li><a class="dropdown-item" href="/s4-faq/"><i class="fas fa-question-circle dd-accent"></i> FAQ</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <button class="nav-link search-btn" onclick="openSearch()"><i class="fas fa-search"></i></button>
-                </li>
-                <li class="nav-item ms-2">
-                    <a class="btn-accent" href="/s4-login/">Sign In</a>
-                </li>
-            </ul>
-        </div>
     </div>
 </nav>
 
-    <div class="page-hero">
-        <div class="container">
-            <h1>About <span class="gradient-text">S4 Ledger</span></h1>
-            <p>Built by defense logistics professionals. Solving problems we see firsthand.</p>
+<div class="page-hero">
+    <div class="container">
+        <div class="section-label">About</div>
+        <h1>Built by defense logistics professionals</h1>
+        <p>We see supply chain, maintenance, and data integrity problems firsthand. S4 Ledger exists because we lived the pain.</p>
+    </div>
+</div>
+<div class="container"><div class="divider"></div></div>
+
+<section class="section">
+    <div class="container-narrow">
+        <div class="reveal">
+            <div class="section-label">Our Mission</div>
+            <h2 class="section-heading">Make audit trails impossible to fake</h2>
+            <p class="section-sub">Defense logistics runs on trust. Parts receipts, maintenance records, contract deliverables &mdash; every document is only as reliable as the system that stores it. S4 Ledger anchors cryptographic proof to the XRP Ledger so records can be independently verified by anyone, without vendor lock-in.</p>
         </div>
     </div>
+</section>
 
-    <!-- MISSION -->
-    <div class="container" style="max-width: 800px;">
-        <div class="card reveal" style="border-left: 3px solid var(--accent);">
-            <h3 style="margin-bottom: 12px;">Our <span class="gradient-text">Mission</span></h3>
-            <p style="font-size: 1.05rem; line-height: 1.8;">Bring <strong style="color:#fff;">immutable, independently verifiable audit trails</strong> to defense logistics — making counterfeit parts traceable, maintenance records tamper-proof, and contract deliverables dispute-free. Without replacing a single existing system.</p>
+<div class="container-narrow"><div class="divider"></div></div>
+
+<section class="section">
+    <div class="container-narrow">
+        <div class="section-center reveal">
+            <div class="section-label">Technology</div>
+            <h2 class="section-heading">Four pillars</h2>
         </div>
-    </div>
-
-    <!-- OUR STORY -->
-    <div class="section">
-        <div class="container" style="max-width: 800px;">
-            <div class="card reveal" style="border-left: 3px solid var(--accent);">
-                <h3 style="margin-bottom: 12px;">Our <span class="gradient-text">Story</span></h3>
-                <p style="line-height: 1.85; margin-bottom: 15px;">S4 Ledger was born from frustration — the kind you only get from years of experience inside the defense logistics ecosystem.</p>
-                <p style="line-height: 1.85; margin-bottom: 15px;">Our team has spent years <strong style="color:#fff;">deep in the world of Integrated Logistics Support</strong> — working across Navy and DoW programs, seeing the real problems up close. We've watched technical data packages fall into version disputes nobody can resolve. Maintenance records questioned months after the fact with no way to prove what happened. Contract deliverables devolve into he-said-she-said between government and contractor. Suspect counterfeit parts entering the supply chain with no reliable way to trace them back to the source.</p>
-                <p style="line-height: 1.85; margin-bottom: 15px;">We looked for a solution. There wasn't one — not at a price point that makes sense, not without vendor lock-in, and not built by people who actually understand ILS. The enterprise blockchain companies charge $500K+ for proprietary systems that the government can't independently verify. Manual audits cost $15-50 per record. Neither scales.</p>
-                <p style="line-height: 1.85; margin-bottom: 15px;">So we built S4 Ledger: <strong style="color:#fff;">SHA-256 hash anchoring on the XRP Ledger</strong>. The hash proves the data hasn't been altered. The XRPL timestamp proves when it was created. The public ledger means anyone can verify it — no proprietary software required, no vendor dependency, no trust assumptions. Cost: <strong style="color: var(--accent);">$0.01 per anchor</strong>. That's 1,500× cheaper than doing it the old way.</p>
-                <p style="line-height: 1.85;">We're based in <strong style="color:#fff;">Charleston, South Carolina</strong> — one of the densest defense contractor hubs on the East Coast. We didn't build this in a Silicon Valley lab. We built it next to the shipyards, the program offices, and the fleet.</p>
+        <div class="card-grid card-grid-2 reveal" style="max-width:700px;margin:48px auto 0;">
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-anchor"></i></div>
+                <h4>XRP Ledger</h4>
+                <p>Public, decentralized, 3&ndash;5 second finality. 99.99% uptime since 2012.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-lock"></i></div>
+                <h4>SHA-256 Hashing</h4>
+                <p>Industry-standard cryptographic fingerprints. Zero data on-chain.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-code"></i></div>
+                <h4>Python SDK</h4>
+                <p>Open-source, pip installable. Integrate in minutes.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-globe"></i></div>
+                <h4>REST API</h4>
+                <p>Language-agnostic endpoints for any system or platform.</p>
             </div>
         </div>
     </div>
+</section>
 
-    <!-- WHAT MAKES US DIFFERENT -->
-    <div class="container" style="max-width: 800px;">
-        <div class="card reveal" style="border-left: 3px solid var(--gold); margin-bottom: 20px;">
-            <h3 style="margin-bottom: 0;">What Makes Us <span class="gradient-text">Different</span></h3>
+<div class="container-narrow"><div class="divider"></div></div>
+
+<section class="section">
+    <div class="container-narrow">
+        <div class="card-grid card-grid-2 reveal">
+            <div class="card" style="text-align:center;">
+                <div style="font-size:1.5rem;color:var(--accent);margin-bottom:16px;"><i class="fas fa-map-marker-alt"></i></div>
+                <h4>Charleston, SC</h4>
+                <p>Home to SPAWAR/NAVWAR, the Charleston Naval Weapons Station, and dozens of defense contractors supporting NAVSEA, NAVAIR, and fleet maintenance.</p>
+            </div>
+            <div class="card" style="text-align:center;">
+                <div style="font-size:1.5rem;color:var(--accent);margin-bottom:16px;"><i class="fas fa-users"></i></div>
+                <h4>The Team</h4>
+                <p>Defense logistics professionals, software engineers, and blockchain architects united by one goal: making audit trails impossible to fake.</p>
+            </div>
         </div>
-        <div class="row">
-            <div class="col-md-6 mb-3 reveal">
-                <div class="card" style="height: 100%;">
-                    <h5><i class="fas fa-hard-hat" style="color: var(--accent); margin-right: 8px;"></i> Built by ILS Professionals</h5>
-                    <p style="font-size: 0.9rem;">Not a generic tech company pivoting to defense. We've lived defense logistics — 3-M, CDRLs, TDPs, configuration management, and supply chain provenance. We built S4 Ledger because we understand the problems firsthand.</p>
+    </div>
+</section>
+
+<section class="cta-section">
+    <div class="container-narrow reveal">
+        <h2>Ready to talk?</h2>
+        <p>Whether you're a partner, investor, or customer &mdash; we'd love to hear from you.</p>
+        <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+            <a href="/s4-contact/" class="btn-primary">Contact Us</a> <a href="/s4-investors/" class="btn-ghost">Investor Portal</a>
+        </div>
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="container">
+        <div class="footer-inner">
+            <div>
+                <a href="/" class="footer-brand">
+                    <img src="/s4-assets/S4Ledger_logo.png" alt="S4 Ledger">
+                    <span>S4 Ledger</span>
+                </a>
+                <div class="footer-tagline">Immutable defense logistics. Built on the XRP Ledger.</div>
+            </div>
+            <div class="footer-links">
+                <div class="footer-col">
+                    <h5>Product</h5>
+                    <a href="/demo-app/">Platform</a>
+                    <a href="/sdk-playground/">SDK Playground</a>
+                    <a href="/metrics.html">Live Metrics</a>
+                    <a href="/transactions.html">Transactions</a>
+                </div>
+                <div class="footer-col">
+                    <h5>Company</h5>
+                    <a href="/s4-about/">About</a>
+                    <a href="/s4-investors/">Investors</a>
+                    <a href="/s4-partners/">Partners</a>
+                    <a href="/s4-roadmap/">Roadmap</a>
+                </div>
+                <div class="footer-col">
+                    <h5>Resources</h5>
+                    <a href="/s4-use-cases/">Use Cases</a>
+                    <a href="/s4-faq/">FAQ</a>
+                    <a href="/s4-pricing/">Pricing</a>
+                    <a href="/security/">Security</a>
+                </div>
+                <div class="footer-col">
+                    <h5>Connect</h5>
+                    <a href="/s4-contact/">Contact</a>
+                    <a href="https://github.com/s4ledger/s4-ledger" target="_blank">GitHub</a>
+                    <a href="https://x.com" target="_blank">X / Twitter</a>
+                    <a href="https://linkedin.com" target="_blank">LinkedIn</a>
                 </div>
             </div>
-            <div class="col-md-6 mb-3 reveal">
-                <div class="card" style="height: 100%;">
-                    <h5><i class="fas fa-globe" style="color: var(--accent); margin-right: 8px;"></i> Public Blockchain</h5>
-                    <p style="font-size: 0.9rem;">Competitors use proprietary chains that require their software to verify. S4 Ledger uses the XRP Ledger — a public, decentralized ledger anyone can verify independently. No vendor lock-in. Ever.</p>
-                </div>
-            </div>
-            <div class="col-md-6 mb-3 reveal">
-                <div class="card" style="height: 100%;">
-                    <h5><i class="fas fa-dollar-sign" style="color: var(--accent); margin-right: 8px;"></i> 1,500× More Cost-Effective</h5>
-                    <p style="font-size: 0.9rem;">Enterprise blockchain competitors charge $500K+ per contract. Legacy manual verification costs $15-50 per record. S4 Ledger: $0.01 per anchor. The math speaks for itself.</p>
-                </div>
-            </div>
-            <div class="col-md-6 mb-3 reveal">
-                <div class="card" style="height: 100%;">
-                    <h5><i class="fas fa-shield-alt" style="color: var(--accent); margin-right: 8px;"></i> Zero Data On-Chain</h5>
-                    <p style="font-size: 0.9rem;">Only SHA-256 hashes touch the blockchain. No documents, part numbers, serial numbers, PII, or classified information. The hash is a one-way mathematical fingerprint — it cannot be reversed.</p>
-                </div>
-            </div>
         </div>
-    </div>
-
-    <!-- TECHNOLOGY -->
-    <div class="section">
-        <div class="container" style="max-width: 800px;">
-            <div class="card reveal" style="border-left: 3px solid var(--accent); margin-bottom: 20px;">
-                <h3 style="margin-bottom: 0;">Technology <span class="gradient-text">Stack</span></h3>
+        <div class="footer-bottom">
+            <span>&copy; 2025 S4 Systems, LLC. $SLS is a utility token &mdash; not equity or an investment contract.</span>
+            <div class="footer-bottom-links">
+                <a href="/s4-terms/">Terms</a>
+                <a href="/s4-privacy/">Privacy</a>
+                <a href="/security-policy/">Security Policy</a>
             </div>
-            <div class="card reveal">
-                <div class="row text-center">
-                    <div class="col-md-3 col-6 mb-3">
-                        <div style="font-size: 2rem; margin-bottom: 5px;"><i class="fas fa-anchor" style="color:var(--accent)"></i></div>
-                        <div style="font-weight: 600; color: #fff; font-size: 0.9rem;">XRP Ledger</div>
-                        <div style="font-size: 0.78rem; color: var(--text-muted);">Public, decentralized, 3-5s finality</div>
-                    </div>
-                    <div class="col-md-3 col-6 mb-3">
-                        <div style="font-size: 2rem; margin-bottom: 5px;"><i class="fas fa-lock" style="color:var(--accent)"></i></div>
-                        <div style="font-weight: 600; color: #fff; font-size: 0.9rem;">SHA-256</div>
-                        <div style="font-size: 0.78rem; color: var(--text-muted);">Industry-standard cryptographic hashing</div>
-                    </div>
-                    <div class="col-md-3 col-6 mb-3">
-                        <div style="font-size: 2rem; margin-bottom: 5px;"><i class="fab fa-python" style="color:var(--accent)"></i></div>
-                        <div style="font-weight: 600; color: #fff; font-size: 0.9rem;">Python SDK</div>
-                        <div style="font-size: 0.78rem; color: var(--text-muted);">Open-source, pip installable</div>
-                    </div>
-                    <div class="col-md-3 col-6 mb-3">
-                        <div style="font-size: 2rem; margin-bottom: 5px;"><i class="fas fa-globe" style="color:var(--accent)"></i></div>
-                        <div style="font-weight: 600; color: #fff; font-size: 0.9rem;">REST API</div>
-                        <div style="font-size: 0.78rem; color: var(--text-muted);">Integrate from any language or system</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- LOCATION & TEAM -->
-    <div class="container" style="max-width: 800px;">
-        <div class="row mb-4">
-            <div class="col-md-6 mb-3 reveal">
-                <div class="card text-center" style="height: 100%; padding: 25px;">
-                    <i class="fas fa-map-marker-alt" style="font-size: 2.5rem; color: var(--accent); margin-bottom: 12px;"></i>
-                    <h4>Charleston, SC</h4>
-                    <p style="font-size: 0.9rem; margin: 0;">Home to SPAWAR/NAVWAR, the Charleston Naval Weapons Station, and dozens of defense contractors supporting NAVSEA, NAVAIR, and fleet maintenance programs.</p>
-                </div>
-            </div>
-            <div class="col-md-6 mb-3 reveal">
-                <div class="card text-center" style="height: 100%; padding: 25px;">
-                    <i class="fas fa-users" style="font-size: 2.5rem; color: var(--gold); margin-bottom: 12px;"></i>
-                    <h4>The Team</h4>
-                    <p style="font-size: 0.9rem; margin: 0;">Defense logistics professionals, software engineers, and blockchain architects united by one goal: making audit trails impossible to fake and cheap enough to use everywhere.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- CTA -->
-    <div class="container mb-5" style="max-width: 800px;">
-        <div class="cta-box reveal">
-            <h3>Ready to talk?</h3>
-            <p>Whether you're a potential partner, investor, or customer — we'd love to hear from you.</p>
-            <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
-                <a href="../s4-contact/" class="btn-primary-custom"><i class="fas fa-envelope"></i> &nbsp;Contact Us</a>
-                <a href="../s4-investors/" class="btn-secondary-custom"><i class="fas fa-chart-line"></i> &nbsp;Investor Portal</a>
-            </div>
-        </div>
-    </div>
-
-    <footer class="site-footer">
-    <div class="footer-grid">
-        <div>
-            <a href="/" class="footer-brand-link">
-                <img src="/s4-assets/S4Ledger_logo.png" alt="S4">
-                S4 Ledger
-            </a>
-            <p class="footer-tagline">Immutable logistics verification anchored to the XRP Ledger. The secure standard for defense and enterprise supply chains.</p>
-            <div class="footer-social">
-                <a href="https://github.com/S4-Ledger" aria-label="GitHub"><i class="fab fa-github"></i></a>
-                <a href="https://x.com/S4Ledger" aria-label="X"><i class="fab fa-x-twitter"></i></a>
-                <a href="https://discord.gg/s4ledger" aria-label="Discord"><i class="fab fa-discord"></i></a>
-            </div>
-        </div>
-        <div class="footer-col">
-            <h5>Product</h5>
-            <a href="/demo-app/">ILS Workspace</a>
-            <a href="/sdk/">SDK Docs</a>
-            <a href="/sdk-playground/">SDK Playground</a>
-            <a href="/s4-marketplace/">Marketplace</a>
-            <a href="/s4-pricing/">Pricing</a>
-        </div>
-        <div class="footer-col">
-            <h5>Company</h5>
-            <a href="/s4-about/">About</a>
-            <a href="/s4-investors/">Investors</a>
-            <a href="/s4-partners/">Partners</a>
-            <a href="/s4-roadmap/">Roadmap</a>
-            <a href="/s4-contact/">Contact</a>
-        </div>
-        <div class="footer-col">
-            <h5>Resources</h5>
-            <a href="/s4-use-cases/">Use Cases</a>
-            <a href="/s4-faq/">FAQ</a>
-            <a href="/metrics.html">Metrics</a>
-            <a href="/transactions.html">Transactions</a>
-            <a href="/security/">Security</a>
-        </div>
-    </div>
-    <div class="footer-bottom">
-        <span>&copy; 2025 S4 Ledger. All rights reserved.</span>
-        <div class="footer-bottom-links">
-            <a href="/s4-terms/">Terms</a>
-            <a href="/s4-privacy/">Privacy</a>
-            <a href="/security/">Security</a>
         </div>
     </div>
 </footer>
 
-    <button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="/s4-assets/main.js"></script>
-    <script src="/s4-assets/search.js"></script>
-<link rel="stylesheet" href="/s4-assets/s4-mobile.css">
-<script src="/s4-assets/s4-background.js"></script>
-<!-- Search Modal -->
-<div id="searchOverlay" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.8);backdrop-filter:blur(8px);justify-content:center;align-items:flex-start;padding-top:20vh;">
-    <div style="width:90%;max-width:560px;">
-        <input id="searchInput" type="text" placeholder="Search S4 Ledger..." style="width:100%;padding:18px 24px;border-radius:14px;border:1px solid rgba(0,170,255,0.3);background:rgba(17,17,24,0.95);color:#f0f0f5;font-size:1.1rem;outline:none;font-family:'Inter',sans-serif;">
-    </div>
-</div>
 <script>
-function openSearch(){const o=document.getElementById('searchOverlay');o.style.display='flex';document.getElementById('searchInput').focus();}
-document.addEventListener('keydown',e=>{if(e.key==='Escape')document.getElementById('searchOverlay').style.display='none';if((e.metaKey||e.ctrlKey)&&e.key==='k'){e.preventDefault();openSearch();}});
-document.getElementById('searchOverlay')?.addEventListener('click',function(e){if(e.target===this)this.style.display='none';});
+var nav=document.getElementById('mainNav');
+if(nav){window.addEventListener('scroll',function(){nav.classList.toggle('scrolled',window.scrollY>40);});}
+var obs=new IntersectionObserver(function(e){e.forEach(function(x){if(x.isIntersecting)x.target.classList.add('visible');});},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(function(el){obs.observe(el);});
 </script>
 </body>
 </html>

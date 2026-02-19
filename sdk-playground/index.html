@@ -18,7 +18,7 @@
         .example-btn.active{background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border-color:transparent;box-shadow:0 5px 20px rgba(0,170,255,0.3)}
         .code-editor{background:rgba(5,8,16,0.95);border:1px solid rgba(0,170,255,0.2);border-radius:12px;font-family:'Monaco','Menlo','Courier New',monospace;font-size:0.9rem;color:#e0e8f0;min-height:240px;width:100%;resize:vertical;padding:20px;line-height:1.6}
         .code-editor:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,170,255,0.15);outline:none}
-        .output-panel{background:rgba(5,8,16,0.95);border:1px solid rgba(201,168,76,0.2);border-radius:12px;padding:20px;font-family:'Monaco','Menlo',monospace;font-size:0.85rem;color:var(--text-secondary);min-height:150px;max-height:500px;overflow-y:auto;white-space:pre-wrap;line-height:1.6}
+        .output-panel{background:rgba(5,8,16,0.95);border:1px solid rgba(0,170,255,0.2);border-radius:12px;padding:20px;font-family:'Monaco','Menlo',monospace;font-size:0.85rem;color:var(--text-secondary);min-height:150px;max-height:500px;overflow-y:auto;white-space:pre-wrap;line-height:1.6}
         .run-btn{background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;border-radius:10px;padding:12px 28px;cursor:pointer;font-weight:700;font-size:1rem;transition:all 0.3s;display:inline-flex;align-items:center;gap:8px;font-family:inherit}
         .run-btn:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(0,170,255,0.3)}
         .run-btn:disabled{opacity:0.5;cursor:not-allowed;transform:none}
@@ -28,10 +28,10 @@
         .ref-table tr:hover td{background:rgba(0,170,255,0.03)}
         .ref-method{font-family:'Monaco',monospace;color:var(--accent);font-weight:600}
         .editor-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:10px}
-        .lang-badge{background:rgba(201,168,76,0.15);color:var(--gold);padding:4px 12px;border-radius:6px;font-size:0.8rem;font-weight:600}
-        .output-header{display:flex;align-items:center;gap:8px;margin-bottom:12px;color:var(--gold);font-weight:700}
-        .status-dot{width:8px;height:8px;border-radius:50%;background:#4ADE80}
-        .status-dot.error{background:#ff6b6b}
+        .lang-badge{background:var(--accent-dim);color:var(--accent);padding:4px 12px;border-radius:6px;font-size:0.8rem;font-weight:600}
+        .output-header{display:flex;align-items:center;gap:8px;margin-bottom:12px;color:var(--accent);font-weight:700}
+        .status-dot{width:8px;height:8px;border-radius:50%;background:var(--accent)}
+        .status-dot.error{background:var(--text-muted)}
         .install-box{background:rgba(5,8,16,0.95);border:1px solid var(--border);border-radius:8px;padding:12px 16px;font-family:'Monaco',monospace;font-size:0.9rem;color:var(--accent)}
         /* Anchor animation */
         .anchor-anim-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:9999;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.3s}
@@ -43,8 +43,8 @@
         @keyframes anchorDrop{0%{transform:translateY(-80px) scale(0.5);opacity:0}40%{transform:translateY(10px) scale(1.15);opacity:1}60%{transform:translateY(-8px) scale(0.95)}80%{transform:translateY(3px) scale(1.02)}100%{transform:translateY(0) scale(1)}}
         .anchor-anim-chain{width:3px;height:0;background:linear-gradient(to bottom,#00aaff,rgba(0,170,255,0.2));margin:0 auto;transition:height 0.5s ease-out}
         .anchor-anim-hash{font-family:'Monaco','Menlo',monospace;color:var(--accent);font-size:0.78rem;margin-top:12px;word-break:break-all;background:rgba(0,170,255,0.08);padding:10px 14px;border-radius:8px;border:1px solid rgba(0,170,255,0.2);max-width:500px;margin-left:auto;margin-right:auto;opacity:0;transition:opacity 0.4s}
-        .anchor-anim-fee{font-size:0.9rem;color:#c9a84c;margin-top:8px;font-weight:600;opacity:0;transition:opacity 0.4s}
-        .anchor-anim-success{font-size:1.2rem;font-weight:800;color:#14f195;margin-top:12px;opacity:0;transition:all 0.4s;transform:scale(0)}
+        .anchor-anim-fee{font-size:0.9rem;color:var(--accent);margin-top:8px;font-weight:600;opacity:0;transition:opacity 0.4s}
+        .anchor-anim-success{font-size:1.2rem;font-weight:800;color:var(--accent);margin-top:12px;opacity:0;transition:all 0.4s;transform:scale(0)}
         .anchor-anim-success.show{opacity:1;transform:scale(1)}
         .record-select-area{margin-bottom:12px}
         .record-select-area select{background:rgba(5,8,16,0.95);border:1px solid rgba(0,170,255,0.2);border-radius:8px;padding:8px 12px;color:#e0e8f0;font-family:inherit;font-size:0.9rem;width:100%;max-width:400px}
@@ -54,17 +54,17 @@
         .sdk-clf-banner.show{display:inline-flex}
         .sdk-clf-badge{padding:3px 10px;border-radius:6px;font-size:0.75rem;font-weight:800;letter-spacing:0.5px;text-transform:uppercase}
         .sdk-clf-U .sdk-clf-badge{background:rgba(0,170,0,0.15);color:#00cc66;border:1px solid rgba(0,170,0,0.3)}
-        .sdk-clf-CUI .sdk-clf-badge{background:rgba(201,168,76,0.15);color:#c9a84c;border:1px solid rgba(201,168,76,0.3)}
+        .sdk-clf-CUI .sdk-clf-badge{background:var(--accent-dim);color:var(--accent);border:1px solid rgba(0,170,255,0.2)}
         .sdk-clf-SECRET .sdk-clf-badge{background:rgba(255,50,50,0.15);color:#ff5555;border:1px solid rgba(255,50,50,0.3)}
         .sdk-clf-TS .sdk-clf-badge{background:rgba(255,165,0,0.15);color:#ffa500;border:1px solid rgba(255,165,0,0.35)}
         .sdk-clf-U{background:rgba(0,170,0,0.04);border:1px solid rgba(0,170,0,0.15)}
-        .sdk-clf-CUI{background:rgba(201,168,76,0.04);border:1px solid rgba(201,168,76,0.15)}
+        .sdk-clf-CUI{background:rgba(201,168,76,0.04);border:1px solid rgba(0,170,255,0.2)}
         .sdk-clf-SECRET{background:rgba(255,50,50,0.04);border:1px solid rgba(255,50,50,0.15)}
         .sdk-clf-TS{background:rgba(255,165,0,0.04);border:1px solid rgba(255,165,0,0.15)}
         .sdk-clf-text{font-size:0.78rem;color:var(--text-secondary);font-weight:400}
         .record-select-area optgroup{color:var(--accent);font-weight:700}
-        .api-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(20,241,149,0.1);border:1px solid rgba(20,241,149,0.3);color:#14f195;padding:3px 10px;border-radius:12px;font-size:0.75rem;font-weight:600}
-        .api-badge::before{content:'';width:6px;height:6px;background:#14f195;border-radius:50%;animation:pulse 2s infinite}
+        .api-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(20,241,149,0.1);border:1px solid rgba(20,241,149,0.3);color:var(--accent);padding:3px 10px;border-radius:12px;font-size:0.75rem;font-weight:600}
+        .api-badge::before{content:'';width:6px;height:6px;background:var(--accent);border-radius:50%;animation:pulse 2s infinite}
         @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
         /* SDK Function Boxes */
         .sdk-func-box{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:18px 14px;text-align:center;cursor:pointer;transition:all 0.3s ease;height:100%;position:relative;overflow:hidden}
@@ -79,144 +79,6 @@
     </style>
 </head>
 <body>
-<div class="mesh-bg"><div class="gradient-orb orb-1"></div><div class="gradient-orb orb-2"></div><div class="gradient-orb orb-3"></div></div>
-<!-- ANCHOR ANIMATION OVERLAY -->
-    <div class="anchor-anim-overlay" id="anchorOverlay">
-        <div class="anchor-anim-box">
-            <div class="anchor-anim-chain" id="anchorChain"></div>
-            <div class="anchor-anim-icon"><i class="fas fa-anchor"></i></div>
-            <div class="anchor-anim-text" id="anchorAnimText">Anchoring to XRPL...</div>
-            <div class="anchor-anim-sub" id="anchorAnimSub">Computing SHA-256 hash</div>
-            <div class="anchor-anim-hash" id="anchorAnimHash"></div>
-            <div class="anchor-anim-fee" id="anchorAnimFee"></div>
-            <div class="anchor-anim-success" id="anchorAnimSuccess"></div>
-        </div>
-    </div>
-
-    <!-- NAVBAR -->
-    <nav class="navbar navbar-expand-lg">
-    <div class="container">
-        <a class="navbar-brand" href="/">
-            <img src="/s4-assets/S4Ledger_logo.png" alt="S4" class="nav-logo">
-            <span class="brand-text">S4 Ledger</span>
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navContent">
-            <i class="fas fa-bars"></i>
-        </button>
-        <div class="collapse navbar-collapse justify-content-end" id="navContent">
-            <ul class="navbar-nav align-items-center gap-1">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Company</a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="/s4-about/"><i class="fas fa-building dd-accent"></i> About</a></li>
-                        <li><a class="dropdown-item" href="/s4-investors/"><i class="fas fa-chart-line dd-accent"></i> Investors</a></li>
-                        <li><a class="dropdown-item" href="/s4-partners/"><i class="fas fa-handshake dd-accent"></i> Partners</a></li>
-                        <li><a class="dropdown-item" href="/s4-contact/"><i class="fas fa-envelope dd-accent"></i> Contact</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle active" href="#" data-bs-toggle="dropdown">Products</a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="/demo-app/"><i class="fas fa-terminal dd-green"></i> ILS Workspace</a></li>
-                        <li><a class="dropdown-item" href="/sdk-playground/"><i class="fas fa-code dd-gold"></i> SDK Playground</a></li>
-                        <li><a class="dropdown-item" href="/sdk/"><i class="fas fa-book dd-gold"></i> SDK Docs</a></li>
-                        <li><a class="dropdown-item" href="/s4-marketplace/"><i class="fas fa-store dd-purple"></i> Marketplace</a></li>
-                        <li><a class="dropdown-item" href="/metrics.html"><i class="fas fa-chart-bar dd-accent"></i> Metrics</a></li>
-                        <li><a class="dropdown-item" href="/transactions.html"><i class="fas fa-exchange-alt dd-accent"></i> Transactions</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">More</a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="/s4-use-cases/"><i class="fas fa-boxes-stacked dd-orange"></i> Use Cases</a></li>
-                        <li><a class="dropdown-item" href="/s4-pricing/"><i class="fas fa-tags dd-accent"></i> Pricing</a></li>
-                        <li><a class="dropdown-item" href="/s4-roadmap/"><i class="fas fa-road dd-accent"></i> Roadmap</a></li>
-                        <li><a class="dropdown-item" href="/s4-faq/"><i class="fas fa-question-circle dd-accent"></i> FAQ</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <button class="nav-link search-btn" onclick="openSearch()"><i class="fas fa-search"></i></button>
-                </li>
-                <li class="nav-item ms-2">
-                    <a class="btn-accent" href="/s4-login/">Sign In</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
-
-    <!-- HERO -->
-    <div class="page-hero">
-        <h1><i class="fas fa-code" style="margin-right:12px;color:var(--gold)"></i><span class="gradient-text">SDK</span> Playground</h1>
-        <p>Explore the S4 Ledger Python SDK &mdash; hash, anchor, and verify defense records with <strong>live API calls</strong></p>
-        <div style="margin-top:12px;"><span class="api-badge">Connected to /api</span></div>
-    </div>
-
-    <div class="container">
-        <!-- ═══ RECORD TYPE SELECTOR (always visible) ═══ -->
-        <div class="card reveal" style="margin-bottom:20px">
-            <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:12px">
-                <h3 style="margin:0"><i class="fas fa-shield-halved" style="color:var(--accent);margin-right:8px"></i> Select Record Type</h3>
-                <span style="font-size:0.78rem;color:var(--text-muted)">Any defense record type — 156+ pre-built templates across 9 branches</span>
-            </div>
-            <select id="recordTypeSelect" style="background:rgba(5,8,16,0.95);border:1px solid rgba(0,170,255,0.2);border-radius:8px;padding:10px 14px;color:#e0e8f0;font-family:inherit;font-size:0.9rem;width:100%">
-                <option value="CUSTOM"><i class="fas fa-edit"></i> Custom Record (free-form)</option>
-            </select>
-            <div class="sdk-clf-banner" id="sdkClfBanner"><span class="sdk-clf-badge" id="sdkClfBadge"></span><span class="sdk-clf-text" id="sdkClfText"></span></div>
-        </div>
-
-        <!-- ═══ PLATFORM / PROGRAM SELECTOR ═══ -->
-        <div class="card reveal" style="margin-bottom:20px">
-            <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:12px">
-                <h3 style="margin:0"><i class="fas fa-ship" style="color:var(--gold);margin-right:8px"></i> Select Platform / Program</h3>
-                <span style="font-size:0.78rem;color:var(--text-muted)">500+ platforms across all branches — or define your own</span>
-            </div>
-            <select id="sdkPlatformSelect" style="background:rgba(5,8,16,0.95);border:1px solid rgba(0,170,255,0.2);border-radius:8px;padding:10px 14px;color:#e0e8f0;font-family:inherit;font-size:0.9rem;width:100%">
-                <option value="">— Select a platform (optional) —</option>
-            </select>
-            <div class="row" style="margin-top:8px">
-                <div class="col-md-4 mb-2"><input type="text" id="sdkHull" placeholder="Hull # / Tail # / Designation" style="width:100%;background:rgba(5,8,16,0.95);border:1px solid rgba(255,255,255,0.08);border-radius:6px;padding:8px 12px;color:#e0e8f0;font-size:0.85rem"></div>
-                <div class="col-md-4 mb-2"><input type="text" id="sdkOffice" placeholder="Program Office (e.g. PMS 300)" style="width:100%;background:rgba(5,8,16,0.95);border:1px solid rgba(255,255,255,0.08);border-radius:6px;padding:8px 12px;color:#e0e8f0;font-size:0.85rem"></div>
-                <div class="col-md-4 mb-2"><input type="text" id="sdkContract" placeholder="Contract # (optional)" style="width:100%;background:rgba(5,8,16,0.95);border:1px solid rgba(255,255,255,0.08);border-radius:6px;padding:8px 12px;color:#e0e8f0;font-size:0.85rem"></div>
-            </div>
-        </div>
-
-        <!-- ═══ SDK FUNCTION BOXES ═══ -->
-        <h3 class="reveal" style="margin-bottom:16px;font-size:1.1rem"><i class="fas fa-cubes" style="color:var(--accent);margin-right:8px"></i> SDK Functions (20) <span style="font-size:0.78rem;color:var(--text-muted);font-weight:400">— click any box to load &amp; run</span></h3>
-        <div class="row mb-4">
-            <!-- Core Functions -->
-            <div class="col-6 col-md-4 col-lg-3 mb-3 reveal"><div class="sdk-func-box" data-func="hash" onclick="loadAndRun('hash',this)"><div class="sdk-func-icon" style="color:#00aaff"><i class="fas fa-hashtag"></i></div><div class="sdk-func-title">Hash Record</div><div class="sdk-func-desc">SHA-256 hash via POST /api/hash</div><div class="sdk-func-method">hash_record()</div></div></div>
-            <div class="col-6 col-md-4 col-lg-3 mb-3 reveal"><div class="sdk-func-box" data-func="anchor" onclick="loadAndRun('anchor',this)"><div class="sdk-func-icon" style="color:#c9a84c"><i class="fas fa-anchor"></i></div><div class="sdk-func-title">Anchor Record</div><div class="sdk-func-desc">Anchor to XRPL — 0.01 $SLS</div><div class="sdk-func-method">anchor_record()</div></div></div>
-            <div class="col-6 col-md-4 col-lg-3 mb-3 reveal"><div class="sdk-func-box" data-func="verify" onclick="loadAndRun('verify',this)"><div class="sdk-func-icon" style="color:#14f195"><i class="fas fa-check-circle"></i></div><div class="sdk-func-title">Verify Record</div><div class="sdk-func-desc">Compare hash against anchor</div><div class="sdk-func-method">verify_record()</div></div></div>
-            <div class="col-6 col-md-4 col-lg-3 mb-3 reveal"><div class="sdk-func-box" data-func="batch" onclick="loadAndRun('batch',this)"><div class="sdk-func-icon" style="color:#ff6b6b"><i class="fas fa-layer-group"></i></div><div class="sdk-func-title">Batch Anchor</div><div class="sdk-func-desc">Multi-record batch anchoring</div><div class="sdk-func-method">batch_anchor()</div></div></div>
-            <!-- Data Functions -->
-            <div class="col-6 col-md-4 col-lg-3 mb-3 reveal"><div class="sdk-func-box" data-func="metrics" onclick="loadAndRun('metrics',this)"><div class="sdk-func-icon" style="color:#00aaff"><i class="fas fa-chart-bar"></i></div><div class="sdk-func-title">Live Metrics</div><div class="sdk-func-desc">GET /api/metrics dashboard</div><div class="sdk-func-method">get_metrics()</div></div></div>
-            <div class="col-6 col-md-4 col-lg-3 mb-3 reveal"><div class="sdk-func-box" data-func="list_records" onclick="loadAndRun('list_records',this)"><div class="sdk-func-icon" style="color:#c9a84c"><i class="fas fa-list"></i></div><div class="sdk-func-title">List Records</div><div class="sdk-func-desc">All anchored records from API</div><div class="sdk-func-method">list_records()</div></div></div>
-            <div class="col-6 col-md-4 col-lg-3 mb-3 reveal"><div class="sdk-func-box" data-func="record_types" onclick="loadAndRun('record_types',this)"><div class="sdk-func-icon" style="color:#14f195"><i class="fas fa-database"></i></div><div class="sdk-func-title">Record Types</div><div class="sdk-func-desc">Browse all defense record types</div><div class="sdk-func-method">get_record_types()</div></div></div>
-
-            <!-- ILS Tools -->
-            <div class="col-6 col-md-4 col-lg-3 mb-3 reveal"><div class="sdk-func-box" data-func="ils_analysis" onclick="loadAndRun('ils_analysis',this)"><div class="sdk-func-icon" style="color:#00aaff"><i class="fas fa-brain"></i></div><div class="sdk-func-title">ILS Analysis</div><div class="sdk-func-desc">Data package completeness</div><div class="sdk-func-method">ils_analysis()</div></div></div>
-            <div class="col-6 col-md-4 col-lg-3 mb-3 reveal"><div class="sdk-func-box" data-func="dmsms" onclick="loadAndRun('dmsms',this)"><div class="sdk-func-icon" style="color:#ffa500"><i class="fas fa-exclamation-triangle"></i></div><div class="sdk-func-title">DMSMS Check</div><div class="sdk-func-desc">Obsolescence risk analysis</div><div class="sdk-func-method">check_dmsms()</div></div></div>
-            <div class="col-6 col-md-4 col-lg-3 mb-3 reveal"><div class="sdk-func-box" data-func="readiness" onclick="loadAndRun('readiness',this)"><div class="sdk-func-icon" style="color:#00aaff"><i class="fas fa-chart-line"></i></div><div class="sdk-func-title">Readiness Calc</div><div class="sdk-func-desc">Ao/Ai per MIL-STD-1390D</div><div class="sdk-func-method">calculate_readiness()</div></div></div>
-            <div class="col-6 col-md-4 col-lg-3 mb-3 reveal"><div class="sdk-func-box" data-func="roi" onclick="loadAndRun('roi',this)"><div class="sdk-func-icon" style="color:#14f195"><i class="fas fa-dollar-sign"></i></div><div class="sdk-func-title">ROI Calculator</div><div class="sdk-func-desc">S4 Ledger ROI projection</div><div class="sdk-func-method">calculate_roi()</div></div></div>
-            <div class="col-6 col-md-4 col-lg-3 mb-3 reveal"><div class="sdk-func-box" data-func="lifecycle" onclick="loadAndRun('lifecycle',this)"><div class="sdk-func-icon" style="color:#c9a84c"><i class="fas fa-clock"></i></div><div class="sdk-func-title">Lifecycle Cost</div><div class="sdk-func-desc">Total ownership per DoD 5000.73</div><div class="sdk-func-method">estimate_lifecycle_cost()</div></div></div>
-
-            <div class="col-6 col-md-4 col-lg-3 mb-3 reveal"><div class="sdk-func-box" data-func="action_items" onclick="loadAndRun('action_items',this)"><div class="sdk-func-icon" style="color:#ffa500"><i class="fas fa-clipboard-list"></i></div><div class="sdk-func-title">Action Items</div><div class="sdk-func-desc">Cross-tool task queue</div><div class="sdk-func-method">get_action_items()</div></div></div>
-            <!-- v3.8.5 New Tools -->
-            <div class="col-6 col-md-4 col-lg-3 mb-3 reveal"><div class="sdk-func-box" data-func="supply_chain_risk" onclick="loadAndRun('supply_chain_risk',this)"><div class="sdk-func-icon" style="color:#ff6b6b"><i class="fas fa-shield-halved"></i></div><div class="sdk-func-title">Supply Chain Risk</div><div class="sdk-func-desc">AI-powered risk scoring</div><div class="sdk-func-method">analyze_supply_chain_risk()</div></div></div>
-            <div class="col-6 col-md-4 col-lg-3 mb-3 reveal"><div class="sdk-func-box" data-func="audit_reports" onclick="loadAndRun('audit_reports',this)"><div class="sdk-func-icon" style="color:#14f195"><i class="fas fa-file-shield"></i></div><div class="sdk-func-title">Audit Reports</div><div class="sdk-func-desc">One-click audit packages</div><div class="sdk-func-method">generate_audit_report()</div></div></div>
-
-
-            <div class="col-6 col-md-4 col-lg-3 mb-3 reveal"><div class="sdk-func-box" data-func="predictive_maintenance" onclick="loadAndRun('predictive_maintenance',this)"><div class="sdk-func-icon" style="color:#00e5ff"><i class="fas fa-gears"></i></div><div class="sdk-func-title">Predictive Maint.</div><div class="sdk-func-desc">AI failure prediction</div><div class="sdk-func-method">predict_maintenance()</div></div></div>
-            <div class="col-6 col-md-4 col-lg-3 mb-3 reveal"><div class="sdk-func-box" data-func="ilie" onclick="loadAndRun('ilie',this)"><div class="sdk-func-icon" style="color:#e06c75"><i class="fas fa-file-circle-check"></i></div><div class="sdk-func-title">ILIE</div><div class="sdk-func-desc">Submission review &amp; discrepancy engine</div><div class="sdk-func-method">analyze_submission()</div></div></div>
-
-            <div class="col-6 col-md-4 col-lg-3 mb-3 reveal"><div class="sdk-func-box" data-func="compliance" onclick="loadAndRun('compliance',this)"><div class="sdk-func-icon" style="color:#34c759"><i class="fas fa-shield-halved"></i></div><div class="sdk-func-title">Compliance Score</div><div class="sdk-func-desc">MIL-STD / FAR compliance calc</div><div class="sdk-func-method">calculate_compliance()</div></div></div>
-
-
-            <div class="col-6 col-md-4 col-lg-3 mb-3 reveal"><div class="sdk-func-box" data-func="doc_library" onclick="loadAndRun('doc_library',this)"><div class="sdk-func-icon" style="color:#00aaff"><i class="fas fa-book"></i></div><div class="sdk-func-title">Doc Library</div><div class="sdk-func-desc">Defense standards &amp; references</div><div class="sdk-func-method">search_documents()</div></div></div>
-            <div class="col-6 col-md-4 col-lg-3 mb-3 reveal"><div class="sdk-func-box" style="border-color:rgba(168,85,247,0.3);background:rgba(168,85,247,0.04);cursor:default;"><div class="sdk-func-icon" style="color:#a855f7"><i class="fas fa-arrow-up-right-from-square"></i></div><div class="sdk-func-title">HarborLink Tools</div><div class="sdk-func-desc">Parts X-Ref, Contracts, Digital Thread, Warranty, Calendar, Provisioning &amp; DB Import available via HarborLink</div><div class="sdk-func-method" style="color:#a855f7">harborlink.s4systems.com</div></div></div>
-            <div class="col-6 col-md-4 col-lg-3 mb-3 reveal"><div class="sdk-func-box" data-func="audit_vault" onclick="loadAndRun('audit_vault',this)"><div class="sdk-func-icon" style="color:#9b59b6"><i class="fas fa-vault"></i></div><div class="sdk-func-title">Audit Vault</div><div class="sdk-func-desc">Encrypted record storage</div><div class="sdk-func-method">store_in_vault()</div></div></div>
-        </div>
 
         <div class="row">
             <div class="col-lg-7 mb-4">
@@ -238,7 +100,7 @@
                     <div class="output-header">
                         <span class="status-dot" id="statusDot"></span>
                         <span>Output</span>
-                        <button onclick="copyOutput()" id="copyOutputBtn" style="margin-left:auto;background:rgba(201,168,76,0.15);color:var(--gold);border:1px solid rgba(201,168,76,0.3);border-radius:6px;padding:4px 10px;font-size:0.75rem;cursor:pointer;font-family:inherit;transition:all 0.2s;"><i class="fas fa-copy"></i> Copy</button>
+                        <button onclick="copyOutput()" id="copyOutputBtn" style="margin-left:auto;background:var(--accent-dim);color:var(--accent);border:1px solid rgba(0,170,255,0.2);border-radius:6px;padding:4px 10px;font-size:0.75rem;cursor:pointer;font-family:inherit;transition:all 0.2s;"><i class="fas fa-copy"></i> Copy</button>
                     </div>
                     <div class="output-panel" id="outputPanel">Select an SDK function above to load code, then click "Run" to execute...</div>
                 </div>
@@ -247,13 +109,13 @@
             <div class="col-lg-5 mb-4">
                 <!-- How It Works -->
                 <div class="card reveal">
-                    <h3 style="margin-bottom:12px;"><i class="fas fa-lightbulb" style="color:var(--gold);margin-right:8px;"></i> How It Works</h3>
+                    <h3 style="margin-bottom:12px;"><i class="fas fa-lightbulb" style="color:var(--accent);margin-right:8px;"></i> How It Works</h3>
                     <div style="font-size:0.9rem;line-height:1.8;color:var(--text-secondary);">
-                        <div><i class="fas fa-check" style="color:#14f195;width:18px;margin-right:6px;"></i> Click any function box to load &amp; run with live API</div>
-                        <div><i class="fas fa-check" style="color:#14f195;width:18px;margin-right:6px;"></i> Select a <strong>record type</strong> — classification auto-detected</div>
-                        <div><i class="fas fa-check" style="color:#14f195;width:18px;margin-right:6px;"></i> Edit code freely, then <strong>Run</strong></div>
-                        <div><i class="fas fa-check" style="color:#14f195;width:18px;margin-right:6px;"></i> Anchored records appear on Metrics &amp; Transactions</div>
-                        <div><i class="fas fa-check" style="color:#14f195;width:18px;margin-right:6px;"></i> 156+ record types &bull; 9 branches &bull; 27 SDK functions</div>
+                        <div><i class="fas fa-check" style="color:var(--accent);width:18px;margin-right:6px;"></i> Click any function box to load &amp; run with live API</div>
+                        <div><i class="fas fa-check" style="color:var(--accent);width:18px;margin-right:6px;"></i> Select a <strong>record type</strong> — classification auto-detected</div>
+                        <div><i class="fas fa-check" style="color:var(--accent);width:18px;margin-right:6px;"></i> Edit code freely, then <strong>Run</strong></div>
+                        <div><i class="fas fa-check" style="color:var(--accent);width:18px;margin-right:6px;"></i> Anchored records appear on Metrics &amp; Transactions</div>
+                        <div><i class="fas fa-check" style="color:var(--accent);width:18px;margin-right:6px;"></i> 156+ record types &bull; 9 branches &bull; 27 SDK functions</div>
                         <div style="margin-top:12px;"><a href="https://github.com/s4ledger/s4-ledger" target="_blank" style="color:var(--accent);font-weight:600;text-decoration:none;"><i class="fab fa-github" style="margin-right:4px;"></i> View Full SDK on GitHub &rarr;</a></div>
                     </div>
                     <details style="margin-top:12px;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.15);border-radius:8px;padding:0 12px;">
@@ -261,7 +123,7 @@
                         <div style="padding:0 0 12px;color:var(--steel);font-size:0.82rem;line-height:1.6;">
                             <p><strong style="color:#fff;">What's real:</strong> Every API call in this playground hits the live S4 Ledger REST API. Hashes are computed server-side via SHA-256. Anchor operations create real XRPL transactions on mainnet. The SDK code shown here is identical to what runs when installed via <code>pip install s4-ledger-sdk</code>.</p>
                             <p><strong style="color:#fff;">What's demo:</strong> The $SLS token fee (0.01 per anchor) is live on mainnet. Each anchor costs 0.01 SLS, paid from the operational wallet to the treasury.</p>
-                            <p><strong style="color:#c9a84c;">How S4 Ledger saves money here:</strong> Building custom integrations between logistics systems and blockchain typically costs $200K&ndash;$500K and takes 6&ndash;12 months. The S4 SDK provides a <strong>3-line integration</strong> that works in minutes &mdash; reducing integration costs by 95%+ and enabling small contractors to adopt blockchain verification without dedicated engineering teams.</p>
+                            <p><strong style="color:var(--accent);">How S4 Ledger saves money here:</strong> Building custom integrations between logistics systems and blockchain typically costs $200K&ndash;$500K and takes 6&ndash;12 months. The S4 SDK provides a <strong>3-line integration</strong> that works in minutes &mdash; reducing integration costs by 95%+ and enabling small contractors to adopt blockchain verification without dedicated engineering teams.</p>
                             <p><strong style="color:#00aaff;">Production mode:</strong> Install via pip, configure with your API key, and integrate directly into existing Python workflows &mdash; CI/CD pipelines, ERP plugins, maintenance management systems, or batch processing scripts. The SDK handles all XRPL wallet management, transaction construction, and retry logic automatically.</p>
                         </div>
                     </details>
@@ -343,58 +205,60 @@
     </div>
 
     <!-- FOOTER -->
-    <footer class="site-footer">
-    <div class="footer-grid">
-        <div>
-            <a href="/" class="footer-brand-link">
-                <img src="/s4-assets/S4Ledger_logo.png" alt="S4">
-                S4 Ledger
-            </a>
-            <p class="footer-tagline">Immutable logistics verification anchored to the XRP Ledger. The secure standard for defense and enterprise supply chains.</p>
-            <div class="footer-social">
-                <a href="https://github.com/S4-Ledger" aria-label="GitHub"><i class="fab fa-github"></i></a>
-                <a href="https://x.com/S4Ledger" aria-label="X"><i class="fab fa-x-twitter"></i></a>
-                <a href="https://discord.gg/s4ledger" aria-label="Discord"><i class="fab fa-discord"></i></a>
+    <footer class="footer">
+    <div class="container">
+        <div class="footer-inner">
+            <div>
+                <a href="/" class="footer-brand">
+                    <img src="/s4-assets/S4Ledger_logo.png" alt="S4 Ledger">
+                    <span>S4 Ledger</span>
+                </a>
+                <div class="footer-tagline">Immutable defense logistics. Built on the XRP Ledger.</div>
+            </div>
+            <div class="footer-links">
+                <div class="footer-col">
+                    <h5>Product</h5>
+                    <a href="/demo-app/">Platform</a>
+                    <a href="/sdk-playground/">SDK Playground</a>
+                    <a href="/metrics.html">Live Metrics</a>
+                    <a href="/transactions.html">Transactions</a>
+                </div>
+                <div class="footer-col">
+                    <h5>Company</h5>
+                    <a href="/s4-about/">About</a>
+                    <a href="/s4-investors/">Investors</a>
+                    <a href="/s4-partners/">Partners</a>
+                    <a href="/s4-roadmap/">Roadmap</a>
+                </div>
+                <div class="footer-col">
+                    <h5>Resources</h5>
+                    <a href="/s4-use-cases/">Use Cases</a>
+                    <a href="/s4-faq/">FAQ</a>
+                    <a href="/s4-pricing/">Pricing</a>
+                    <a href="/security/">Security</a>
+                </div>
+                <div class="footer-col">
+                    <h5>Connect</h5>
+                    <a href="/s4-contact/">Contact</a>
+                    <a href="https://github.com/s4ledger/s4-ledger" target="_blank">GitHub</a>
+                    <a href="https://x.com" target="_blank">X / Twitter</a>
+                    <a href="https://linkedin.com" target="_blank">LinkedIn</a>
+                </div>
             </div>
         </div>
-        <div class="footer-col">
-            <h5>Product</h5>
-            <a href="/demo-app/">ILS Workspace</a>
-            <a href="/sdk/">SDK Docs</a>
-            <a href="/sdk-playground/">SDK Playground</a>
-            <a href="/s4-marketplace/">Marketplace</a>
-            <a href="/s4-pricing/">Pricing</a>
-        </div>
-        <div class="footer-col">
-            <h5>Company</h5>
-            <a href="/s4-about/">About</a>
-            <a href="/s4-investors/">Investors</a>
-            <a href="/s4-partners/">Partners</a>
-            <a href="/s4-roadmap/">Roadmap</a>
-            <a href="/s4-contact/">Contact</a>
-        </div>
-        <div class="footer-col">
-            <h5>Resources</h5>
-            <a href="/s4-use-cases/">Use Cases</a>
-            <a href="/s4-faq/">FAQ</a>
-            <a href="/metrics.html">Metrics</a>
-            <a href="/transactions.html">Transactions</a>
-            <a href="/security/">Security</a>
-        </div>
-    </div>
-    <div class="footer-bottom">
-        <span>&copy; 2025 S4 Ledger. All rights reserved.</span>
-        <div class="footer-bottom-links">
-            <a href="/s4-terms/">Terms</a>
-            <a href="/s4-privacy/">Privacy</a>
-            <a href="/security/">Security</a>
+        <div class="footer-bottom">
+            <span>&copy; 2025 S4 Systems, LLC. $SLS is a utility token &mdash; not equity or an investment contract.</span>
+            <div class="footer-bottom-links">
+                <a href="/s4-terms/">Terms</a>
+                <a href="/s4-privacy/">Privacy</a>
+                <a href="/security-policy/">Security Policy</a>
+            </div>
         </div>
     </div>
 </footer>
 
-    <button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">&#8593;</button>
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="/s4-assets/main.js"></script>
     <script>
     // ═══════════════════════════════════════════════════════
     //  S4 LEDGER — SDK PLAYGROUND (FULLY INTERACTIVE v2)
@@ -450,7 +314,7 @@
     };
     var SDK_CLF_META = {
         U:    {label:'UNCLASSIFIED', icon:'\uD83D\uDFE2', color:'#00cc66', desc:'No special handling required'},
-        CUI:  {label:'CUI',          icon:'\uD83D\uDFE1', color:'#c9a84c', desc:'Controlled Unclassified — NIST 800-171'},
+        CUI:  {label:'CUI',          icon:'\uD83D\uDFE1', color:'var(--accent)', desc:'Controlled Unclassified — NIST 800-171'},
         SECRET:{label:'SECRET',      icon:'\uD83D\uDD34', color:'#ff5555', desc:'SIPRNet or equivalent classified network'},
         TS:   {label:'TOP SECRET',   icon:'\uD83D\uDFE0', color:'#ffa500', desc:'JWICS or equivalent TS/SCI network'}
     };
@@ -549,7 +413,7 @@
             {key:'USN_SUPPLY_RECEIPT',label:'Supply Chain Receipt',icon:'<i class="fas fa-box"></i>'},{key:'USN_3M_MAINTENANCE',label:'3-M Maintenance Action',icon:'<i class="fas fa-wrench"></i>'},{key:'USN_CASREP',label:'Casualty Report (CASREP)',icon:'<i class="fas fa-exclamation-triangle"></i>'},
             {key:'USN_CDRL',label:'CDRL Delivery',icon:'<i class="fas fa-file-alt"></i>'},{key:'USN_ORDNANCE',label:'Ordnance Lot Tracking',icon:'<i class="fas fa-bomb"></i>'},{key:'USN_DEPOT_REPAIR',label:'Depot Repair Record',icon:'<i class="fas fa-industry"></i>'},
             {key:'USN_CALIBRATION',label:'TMDE Calibration',icon:'<i class="fas fa-ruler"></i>'},{key:'USN_CONFIG',label:'Configuration Baseline',icon:'<i class="fas fa-cog"></i>'},{key:'USN_CUSTODY',label:'Custody Transfer',icon:'<i class="fas fa-exchange-alt"></i>'},
-            {key:'USN_TDP',label:'Technical Data Package',icon:'<i class="fas fa-drafting-compass"></i>'},{key:'USN_COC',label:'Certificate of Conformance',icon:'<i class="fas fa-check-circle" style="color:#14f195"></i>'},{key:'USN_SHIPALT',label:'Ship Alteration (SHIPALT)',icon:'<i class="fas fa-ship"></i>'},
+            {key:'USN_TDP',label:'Technical Data Package',icon:'<i class="fas fa-drafting-compass"></i>'},{key:'USN_COC',label:'Certificate of Conformance',icon:'<i class="fas fa-check-circle" style="color:var(--accent)"></i>'},{key:'USN_SHIPALT',label:'Ship Alteration (SHIPALT)',icon:'<i class="fas fa-ship"></i>'},
             {key:'USN_PMS',label:'PMS/SKED Compliance',icon:'<i class="fas fa-clipboard-list"></i>'},{key:'USN_HME',label:'HM&E System Record',icon:'<i class="fas fa-bolt"></i>'},{key:'USN_COMBAT_SYS',label:'Combat Systems Cert',icon:'<i class="fas fa-bullseye"></i>'},
             {key:'USN_PROPULSION',label:'Propulsion Plant Exam',icon:'<i class="fas fa-fire"></i>'},{key:'USN_AVIATION',label:'Aviation Maintenance',icon:'<i class="fas fa-plane"></i>'},{key:'USN_SUBSAFE',label:'SUBSAFE Certification',icon:'<i class="fas fa-lock"></i>'},
             {key:'USN_MEDICAL',label:'Medical Equipment Cert',icon:'<i class="fas fa-hospital"></i>'},{key:'USN_REACTOR',label:'Naval Reactor Test',icon:'<i class="fas fa-radiation"></i>'},
@@ -559,11 +423,11 @@
             {key:'USN_J11_RAM',label:'J-11 RAM Analysis',icon:'<i class="fas fa-chart-line"></i>'},{key:'USN_J13_CM',label:'J-13 Configuration Mgmt',icon:'<i class="fas fa-cog"></i>'},
             {key:'USN_TRANSFER_BOOK',label:'Transfer Book',icon:'<i class="fas fa-book"></i>'},{key:'USN_CONFIG_MGMT',label:'Configuration Mgmt Record',icon:'<i class="fas fa-cog"></i>'}
         ]},
-        'USA': { name: '<i class="fas fa-star" style="color:#c9a84c"></i> U.S. Army', types: [
+        'USA': { name: '<i class="fas fa-star" style="color:var(--accent)"></i> U.S. Army', types: [
             {key:'USA_HAND_RECEIPT',label:'DA 2062 Hand Receipt',icon:'<i class="fas fa-edit"></i>'},{key:'USA_TM_UPDATE',label:'Technical Manual Update',icon:'<i class="fas fa-book-open"></i>'},
             {key:'USA_ARMS_ROOM',label:'Arms Room Inventory',icon:'<i class="fas fa-crosshairs"></i>'},{key:'USA_FLIPL',label:'FLIPL Investigation',icon:'<i class="fas fa-clipboard-list"></i>'},
             {key:'USA_VEHICLE',label:'Vehicle Dispatch Log',icon:'<i class="fas fa-truck"></i>'},{key:'USA_CLASS_V',label:'Class V (Ammo) Issue',icon:'<i class="fas fa-explosion"></i>'},
-            {key:'USA_EQUIP_MAINT',label:'Equipment Maintenance',icon:'<i class="fas fa-wrench"></i>'},{key:'USA_PROPERTY_BOOK',label:'Property Book Record',icon:'<i class="fas fa-book" style="color:#14f195"></i>'},
+            {key:'USA_EQUIP_MAINT',label:'Equipment Maintenance',icon:'<i class="fas fa-wrench"></i>'},{key:'USA_PROPERTY_BOOK',label:'Property Book Record',icon:'<i class="fas fa-book" style="color:var(--accent)"></i>'},
             {key:'USA_AVIATION',label:'Aviation Maintenance',icon:'<i class="fas fa-helicopter"></i>'},{key:'USA_MEDICAL',label:'Medical Supply Record',icon:'<i class="fas fa-hospital"></i>'},
             {key:'USA_CBRN',label:'CBRN Equipment Record',icon:'<i class="fas fa-biohazard"></i>'},{key:'USA_SIGNAL',label:'Signal/Comms Equipment',icon:'<i class="fas fa-satellite-dish"></i>'}
         ]},
@@ -574,7 +438,7 @@
             {key:'USAF_MISSILE',label:'Missile Maintenance Record',icon:'<i class="fas fa-rocket"></i>'},{key:'USAF_RADAR',label:'Radar Calibration Record',icon:'<i class="fas fa-satellite-dish"></i>'},
             {key:'USAF_SUPPLY',label:'AF Supply Transaction',icon:'<i class="fas fa-box"></i>'},{key:'USAF_DEPOT',label:'Depot Maintenance Record',icon:'<i class="fas fa-industry"></i>'}
         ]},
-        'USMC': { name: '<i class="fas fa-shield-alt" style="color:#c9a84c"></i> U.S. Marines', types: [
+        'USMC': { name: '<i class="fas fa-shield-alt" style="color:var(--accent)"></i> U.S. Marines', types: [
             {key:'USMC_GROUND_MAINT',label:'Ground Equipment Maint',icon:'<i class="fas fa-wrench"></i>'},{key:'USMC_AVIATION',label:'Aviation Intermediate Maint',icon:'<i class="fas fa-helicopter"></i>'},
             {key:'USMC_WEAPONS',label:'Weapons Maintenance',icon:'<i class="fas fa-crosshairs"></i>'},{key:'USMC_COMMS',label:'Communications Equipment',icon:'<i class="fas fa-satellite-dish"></i>'},
             {key:'USMC_MOTOR_T',label:'Motor Transport Record',icon:'<i class="fas fa-truck"></i>'},{key:'USMC_SUPPLY',label:'MAGTF Supply Chain',icon:'<i class="fas fa-box"></i>'},
@@ -700,7 +564,7 @@
         var animSuccess = document.getElementById('anchorAnimSuccess');
         if (hash && animHash) { animHash.textContent = hash; animHash.style.opacity = '1'; }
         if (animFee) { animFee.textContent = '0.01 $SLS \u2192 Treasury'; animFee.style.opacity = '1'; }
-        if (successText && animText) { animText.textContent = '\u2705 ' + successText; animText.style.color = '#14f195'; }
+        if (successText && animText) { animText.textContent = '\u2705 ' + successText; animText.style.color = 'var(--accent)'; }
         if (successText && animSuccess) { animSuccess.textContent = '\u2713 Record secured on XRPL'; animSuccess.className = 'anchor-anim-success show'; }
     }
     function hideAnchorAnimation() {
@@ -1332,20 +1196,8 @@
     });
     </script>
 <script src="/s4-assets/platforms.js"></script>
-<script src="/s4-assets/s4-background.js"></script>
-<link rel="stylesheet" href="/s4-assets/s4-mobile.css">
 <script src="/s4-assets/s4-auth.js"></script>
 <script src="/s4-assets/s4-data.js"></script>
-<!-- Search Modal -->
-<div id="searchOverlay" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.8);backdrop-filter:blur(8px);justify-content:center;align-items:flex-start;padding-top:20vh;">
-    <div style="width:90%;max-width:560px;">
-        <input id="searchInput" type="text" placeholder="Search S4 Ledger..." style="width:100%;padding:18px 24px;border-radius:14px;border:1px solid rgba(0,170,255,0.3);background:rgba(17,17,24,0.95);color:#f0f0f5;font-size:1.1rem;outline:none;font-family:'Inter',sans-serif;">
-    </div>
-</div>
-<script>
-function openSearch(){const o=document.getElementById('searchOverlay');o.style.display='flex';document.getElementById('searchInput').focus();}
-document.addEventListener('keydown',e=>{if(e.key==='Escape')document.getElementById('searchOverlay').style.display='none';if((e.metaKey||e.ctrlKey)&&e.key==='k'){e.preventDefault();openSearch();}});
-document.getElementById('searchOverlay')?.addEventListener('click',function(e){if(e.target===this)this.style.display='none';});
-</script>
+
 </body>
 </html>

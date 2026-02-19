@@ -16,9 +16,9 @@
     <style>
         .stat-box{background:linear-gradient(135deg,rgba(0,170,255,0.08),rgba(26,58,92,0.15));border:1px solid rgba(0,170,255,0.2);border-radius:16px;padding:28px 20px;text-align:center;transition:all 0.4s ease;margin-bottom:20px}
         .stat-box:hover{transform:translateY(-5px);border-color:rgba(0,170,255,0.5);box-shadow:0 15px 40px rgba(0,170,255,0.15)}
-        .stat-value{font-size:2.5rem;font-weight:800;background:linear-gradient(135deg,#00aaff,#c9a84c);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.1}
+        .stat-value{font-size:2.5rem;font-weight:800;background:#00aaff;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.1}
         .stat-label{font-size:0.9rem;color:var(--text-secondary);margin-top:8px;font-weight:500}
-        .stat-delta{font-size:0.85rem;color:#4ADE80;margin-top:6px;font-weight:600}
+        .stat-delta{font-size:0.85rem;color:var(--accent);margin-top:6px;font-weight:600}
         .live-indicator{display:inline-flex;align-items:center;gap:10px;background:rgba(0,170,255,0.1);padding:10px 20px;border-radius:30px;font-size:0.9rem;font-weight:600;color:var(--accent);border:1px solid rgba(0,170,255,0.3);animation:indicatorGlow 2s ease-in-out infinite}
         @keyframes indicatorGlow{0%,100%{box-shadow:0 0 10px rgba(0,170,255,0.2)}50%{box-shadow:0 0 25px rgba(0,170,255,0.4)}}
         .live-dot{width:10px;height:10px;background:var(--accent);border-radius:50%;box-shadow:0 0 10px var(--accent)}
@@ -28,7 +28,7 @@
         .filter-select{background:rgba(0,170,255,0.08);color:#fff;border:1px solid rgba(0,170,255,0.25);border-radius:10px;padding:10px 15px;font-weight:500;cursor:pointer;font-family:inherit}
         .filter-select:focus{outline:none;border-color:var(--accent)}
         .filter-select option{background:#0a0a0f}
-        .export-btn{background:rgba(201,168,76,0.1);color:var(--gold);border:1px solid rgba(201,168,76,0.3);border-radius:12px;padding:12px 24px;cursor:pointer;font-weight:600;font-size:0.9rem;transition:all 0.3s;display:inline-flex;align-items:center;gap:8px;font-family:inherit}
+        .export-btn{background:var(--accent-dim);color:var(--accent);border:1px solid rgba(0,170,255,0.2);border-radius:12px;padding:12px 24px;cursor:pointer;font-weight:600;font-size:0.9rem;transition:all 0.3s;display:inline-flex;align-items:center;gap:8px;font-family:inherit}
         .export-btn:hover{background:rgba(201,168,76,0.2);transform:translateY(-3px);box-shadow:0 10px 30px rgba(201,168,76,0.2)}
         .recent-table{width:100%;margin-top:20px;border-collapse:collapse}
         .recent-table th{color:var(--accent);padding:15px 12px;border-bottom:2px solid rgba(0,170,255,0.2);text-align:left;font-weight:700;font-size:0.85rem;text-transform:uppercase;letter-spacing:0.5px}
@@ -39,77 +39,6 @@
     </style>
 </head>
 <body>
-<div class="mesh-bg"><div class="gradient-orb orb-1"></div><div class="gradient-orb orb-2"></div><div class="gradient-orb orb-3"></div></div>
-<!-- NAVBAR -->
-    <nav class="navbar navbar-expand-lg">
-    <div class="container">
-        <a class="navbar-brand" href="/">
-            <img src="/s4-assets/S4Ledger_logo.png" alt="S4" class="nav-logo">
-            <span class="brand-text">S4 Ledger</span>
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navContent">
-            <i class="fas fa-bars"></i>
-        </button>
-        <div class="collapse navbar-collapse justify-content-end" id="navContent">
-            <ul class="navbar-nav align-items-center gap-1">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Company</a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="/s4-about/"><i class="fas fa-building dd-accent"></i> About</a></li>
-                        <li><a class="dropdown-item" href="/s4-investors/"><i class="fas fa-chart-line dd-accent"></i> Investors</a></li>
-                        <li><a class="dropdown-item" href="/s4-partners/"><i class="fas fa-handshake dd-accent"></i> Partners</a></li>
-                        <li><a class="dropdown-item" href="/s4-contact/"><i class="fas fa-envelope dd-accent"></i> Contact</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle active" href="#" data-bs-toggle="dropdown">Products</a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="/demo-app/"><i class="fas fa-terminal dd-green"></i> ILS Workspace</a></li>
-                        <li><a class="dropdown-item" href="/sdk-playground/"><i class="fas fa-code dd-gold"></i> SDK Playground</a></li>
-                        <li><a class="dropdown-item" href="/sdk/"><i class="fas fa-book dd-gold"></i> SDK Docs</a></li>
-                        <li><a class="dropdown-item" href="/s4-marketplace/"><i class="fas fa-store dd-purple"></i> Marketplace</a></li>
-                        <li><a class="dropdown-item" href="/metrics.html"><i class="fas fa-chart-bar dd-accent"></i> Metrics</a></li>
-                        <li><a class="dropdown-item" href="/transactions.html"><i class="fas fa-exchange-alt dd-accent"></i> Transactions</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">More</a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="/s4-use-cases/"><i class="fas fa-boxes-stacked dd-orange"></i> Use Cases</a></li>
-                        <li><a class="dropdown-item" href="/s4-pricing/"><i class="fas fa-tags dd-accent"></i> Pricing</a></li>
-                        <li><a class="dropdown-item" href="/s4-roadmap/"><i class="fas fa-road dd-accent"></i> Roadmap</a></li>
-                        <li><a class="dropdown-item" href="/s4-faq/"><i class="fas fa-question-circle dd-accent"></i> FAQ</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <button class="nav-link search-btn" onclick="openSearch()"><i class="fas fa-search"></i></button>
-                </li>
-                <li class="nav-item ms-2">
-                    <a class="btn-accent" href="/s4-login/">Sign In</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
-
-    <!-- HERO -->
-    <div class="page-hero">
-        <h1><i class="fas fa-chart-line" style="margin-right:12px;color:var(--accent)"></i><span class="gradient-text">Network Metrics</span> & Activity</h1>
-        <p>Real-time defense logistics analytics from the XRP Ledger</p>
-    </div>
-
-    <div class="container">
-        <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
-            <span class="live-indicator"><span class="live-dot"></span> Live &mdash; Auto-refreshing every 5s</span>
-            <button class="export-btn" onclick="exportCSV()"><i class="fas fa-download"></i> Export Data</button>
-        </div>
-
-        <div class="row mb-4">
-            <div class="col-md-3 col-6 mb-3"><div class="stat-box"><div class="stat-value" id="totalHashes">&mdash;</div><div class="stat-label">Total Hashes Anchored</div><div class="stat-delta" id="hashesToday">+0 today</div></div></div>
-            <div class="col-md-3 col-6 mb-3"><div class="stat-box"><div class="stat-value" id="totalFees">&mdash;</div><div class="stat-label">Total $SLS Fees</div><div class="stat-delta" id="feesToday">+$0 today</div></div></div>
-            <div class="col-md-3 col-6 mb-3"><div class="stat-box"><div class="stat-value" id="recordTypes">&mdash;</div><div class="stat-label">Record Types</div></div></div>
-            <div class="col-md-3 col-6 mb-3"><div class="stat-box"><div class="stat-value" id="thisMonth">&mdash;</div><div class="stat-label">Records This Month</div><div class="stat-delta" id="monthGrowth"></div></div></div>
-        </div>
 
         <div class="card reveal">
             <h3 style="margin-bottom:5px;"><i class="fas fa-bolt" style="color:var(--accent);margin-right:8px;"></i> Hash Anchoring Over Time</h3>
@@ -125,7 +54,7 @@
         </div>
 
         <div class="card reveal">
-            <h3 style="margin-bottom:5px;"><i class="fas fa-shield-halved" style="color:var(--gold);margin-right:8px;"></i> Records Secured Breakdown</h3>
+            <h3 style="margin-bottom:5px;"><i class="fas fa-shield-halved" style="color:var(--accent);margin-right:8px;"></i> Records Secured Breakdown</h3>
             <p style="color:var(--text-secondary);font-size:0.9rem;">Distribution of record types anchored to XRPL
                 <select class="filter-select" id="recordTypeFilter" onchange="filterByRecordType()">
                     <option value="all">All Record Types</option>
@@ -138,7 +67,7 @@
         </div>
 
         <div class="card reveal">
-            <h3 style="margin-bottom:5px;"><i class="fas fa-coins" style="color:var(--gold);margin-right:8px;"></i> $SLS Fee Activity</h3>
+            <h3 style="margin-bottom:5px;"><i class="fas fa-coins" style="color:var(--accent);margin-right:8px;"></i> $SLS Fee Activity</h3>
             <p style="color:var(--text-secondary);font-size:0.9rem;">Fees collected per time period (0.01 $SLS per anchor)</p>
             <div class="mb-3" id="feeBtns">
                 <button class="filter-btn active" data-view="minute">Per Minute</button>
@@ -151,7 +80,7 @@
         </div>
 
         <div class="card reveal">
-            <h3 style="margin-bottom:5px;"><i class="fas fa-arrow-trend-up" style="color:#ff6b6b;margin-right:8px;"></i> XRPL Transaction Volume</h3>
+            <h3 style="margin-bottom:5px;"><i class="fas fa-arrow-trend-up" style="color:var(--text-muted);margin-right:8px;"></i> XRPL Transaction Volume</h3>
             <p style="color:var(--text-secondary);font-size:0.9rem;">Number of transactions per time period</p>
             <div class="mb-3" id="txBtns">
                 <button class="filter-btn active" data-view="minute">Per Minute</button>
@@ -177,7 +106,7 @@
 
         <div style="text-align:center;padding:30px 20px;margin-top:30px;border-top:1px solid var(--border);color:var(--text-secondary);font-size:0.9rem;">
             <p><i class="fas fa-satellite-dish" style="color:var(--accent);margin-right:6px;"></i> Data sourced from XRPL public ledger via account <a href="https://livenet.xrpl.org/accounts/r95GyZac4butvVcsTWUPpxzekmyzaHsTA5" target="_blank" style="color:var(--accent);font-family:monospace;">r95GyZac...TA5</a></p>
-            <p style="margin-top:5px;">All metrics are real-time and verifiable on-chain. <a href="https://xrpl.org" target="_blank" style="color:var(--gold);">Learn about XRPL &rarr;</a></p>
+            <p style="margin-top:5px;">All metrics are real-time and verifiable on-chain. <a href="https://xrpl.org" target="_blank" style="color:var(--accent);">Learn about XRPL &rarr;</a></p>
         </div>
 
         <!-- ILS Workspace Cross-Link -->
@@ -186,64 +115,66 @@
             <p style="color:var(--text-secondary);font-size:0.88rem;margin-bottom:16px;">13-tool ILS command center &mdash; gap analysis, DMSMS, readiness, lifecycle cost, ROI, action items, audit vault, doc library, compliance scorecard, supply chain risk, audit reports, predictive maintenance, integrated logistics insights engine (ILIE) &amp; AI agent.</p>
             <div style="display:flex;justify-content:center;gap:10px;flex-wrap:wrap;">
                 <a href="/demo-app/#tabILS" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;padding:10px 22px;border-radius:10px;text-decoration:none;font-weight:700;font-size:0.9rem;transition:all 0.3s;display:inline-flex;align-items:center;gap:6px;"><i class="fas fa-brain"></i> Open ILS Workspace</a>
-                <a href="/sdk-playground/" style="background:rgba(201,168,76,0.12);color:var(--gold);border:1px solid rgba(201,168,76,0.3);padding:10px 22px;border-radius:10px;text-decoration:none;font-weight:700;font-size:0.9rem;transition:all 0.3s;display:inline-flex;align-items:center;gap:6px;"><i class="fas fa-code"></i> SDK Playground</a>
+                <a href="/sdk-playground/" style="background:var(--accent-dim);color:var(--accent);border:1px solid rgba(0,170,255,0.2);padding:10px 22px;border-radius:10px;text-decoration:none;font-weight:700;font-size:0.9rem;transition:all 0.3s;display:inline-flex;align-items:center;gap:6px;"><i class="fas fa-code"></i> SDK Playground</a>
             </div>
         </div>
     </div>
 
     <!-- FOOTER -->
-    <footer class="site-footer">
-    <div class="footer-grid">
-        <div>
-            <a href="/" class="footer-brand-link">
-                <img src="/s4-assets/S4Ledger_logo.png" alt="S4">
-                S4 Ledger
-            </a>
-            <p class="footer-tagline">Immutable logistics verification anchored to the XRP Ledger. The secure standard for defense and enterprise supply chains.</p>
-            <div class="footer-social">
-                <a href="https://github.com/S4-Ledger" aria-label="GitHub"><i class="fab fa-github"></i></a>
-                <a href="https://x.com/S4Ledger" aria-label="X"><i class="fab fa-x-twitter"></i></a>
-                <a href="https://discord.gg/s4ledger" aria-label="Discord"><i class="fab fa-discord"></i></a>
+    <footer class="footer">
+    <div class="container">
+        <div class="footer-inner">
+            <div>
+                <a href="/" class="footer-brand">
+                    <img src="/s4-assets/S4Ledger_logo.png" alt="S4 Ledger">
+                    <span>S4 Ledger</span>
+                </a>
+                <div class="footer-tagline">Immutable defense logistics. Built on the XRP Ledger.</div>
+            </div>
+            <div class="footer-links">
+                <div class="footer-col">
+                    <h5>Product</h5>
+                    <a href="/demo-app/">Platform</a>
+                    <a href="/sdk-playground/">SDK Playground</a>
+                    <a href="/metrics.html">Live Metrics</a>
+                    <a href="/transactions.html">Transactions</a>
+                </div>
+                <div class="footer-col">
+                    <h5>Company</h5>
+                    <a href="/s4-about/">About</a>
+                    <a href="/s4-investors/">Investors</a>
+                    <a href="/s4-partners/">Partners</a>
+                    <a href="/s4-roadmap/">Roadmap</a>
+                </div>
+                <div class="footer-col">
+                    <h5>Resources</h5>
+                    <a href="/s4-use-cases/">Use Cases</a>
+                    <a href="/s4-faq/">FAQ</a>
+                    <a href="/s4-pricing/">Pricing</a>
+                    <a href="/security/">Security</a>
+                </div>
+                <div class="footer-col">
+                    <h5>Connect</h5>
+                    <a href="/s4-contact/">Contact</a>
+                    <a href="https://github.com/s4ledger/s4-ledger" target="_blank">GitHub</a>
+                    <a href="https://x.com" target="_blank">X / Twitter</a>
+                    <a href="https://linkedin.com" target="_blank">LinkedIn</a>
+                </div>
             </div>
         </div>
-        <div class="footer-col">
-            <h5>Product</h5>
-            <a href="/demo-app/">ILS Workspace</a>
-            <a href="/sdk/">SDK Docs</a>
-            <a href="/sdk-playground/">SDK Playground</a>
-            <a href="/s4-marketplace/">Marketplace</a>
-            <a href="/s4-pricing/">Pricing</a>
-        </div>
-        <div class="footer-col">
-            <h5>Company</h5>
-            <a href="/s4-about/">About</a>
-            <a href="/s4-investors/">Investors</a>
-            <a href="/s4-partners/">Partners</a>
-            <a href="/s4-roadmap/">Roadmap</a>
-            <a href="/s4-contact/">Contact</a>
-        </div>
-        <div class="footer-col">
-            <h5>Resources</h5>
-            <a href="/s4-use-cases/">Use Cases</a>
-            <a href="/s4-faq/">FAQ</a>
-            <a href="/metrics.html">Metrics</a>
-            <a href="/transactions.html">Transactions</a>
-            <a href="/security/">Security</a>
-        </div>
-    </div>
-    <div class="footer-bottom">
-        <span>&copy; 2025 S4 Ledger. All rights reserved.</span>
-        <div class="footer-bottom-links">
-            <a href="/s4-terms/">Terms</a>
-            <a href="/s4-privacy/">Privacy</a>
-            <a href="/security/">Security</a>
+        <div class="footer-bottom">
+            <span>&copy; 2025 S4 Systems, LLC. $SLS is a utility token &mdash; not equity or an investment contract.</span>
+            <div class="footer-bottom-links">
+                <a href="/s4-terms/">Terms</a>
+                <a href="/s4-privacy/">Privacy</a>
+                <a href="/security-policy/">Security Policy</a>
+            </div>
         </div>
     </div>
 </footer>
 
-    <button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">&#8593;</button>
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="/s4-assets/main.js"></script>
     <script>
         // ── localStorage cross-page record sync ──
         const S4_STORAGE_KEY = 's4_anchored_records';
@@ -418,7 +349,7 @@
             let data = metricsData.records_by_type || {};
             if (selectedRecordType !== 'all') { data = { [selectedRecordType]: data[selectedRecordType] || 0 }; }
             const labels = Object.keys(data), values = Object.values(data);
-            const colors = ['#00aaff', '#c9a84c', '#ff6b6b', '#ffa502', '#3742fa', '#2ed573', '#ff6b81', '#70a1ff', '#eccc68', '#a29bfe', '#fd79a8', '#00cec9', '#55efc4', '#74b9ff', '#fab1a0', '#8ea4b8', '#ffeaa7', '#81ecec'];
+            const colors = ['#00aaff', 'var(--accent)', 'var(--text-muted)', '#ffa502', '#3742fa', '#2ed573', '#ff6b81', '#70a1ff', '#eccc68', '#a29bfe', '#fd79a8', '#00cec9', '#55efc4', '#74b9ff', '#fab1a0', '#8ea4b8', '#ffeaa7', '#81ecec'];
             const ctx = document.getElementById('recordChart').getContext('2d');
             if (recordChart) recordChart.destroy();
             recordChart = new Chart(ctx, { type: 'doughnut', data: { labels: labels.length ? labels : ['No records'], datasets: [{ data: values.length ? values : [1], backgroundColor: labels.length ? colors.slice(0, labels.length) : ['#333'], borderWidth: 0 }] }, options: { responsive: true, plugins: { legend: { display: true, position: 'right', labels: { color: '#fff' } } } } });
@@ -429,7 +360,7 @@
             const labels = Object.keys(data), values = Object.values(data);
             const ctx = document.getElementById('feeChart').getContext('2d');
             if (feeChart) feeChart.destroy();
-            feeChart = new Chart(ctx, { type: 'line', data: { labels: labels.length ? labels : ['No data'], datasets: [{ label: '$SLS Fees', data: values.length ? values : [0], borderColor: '#c9a84c', backgroundColor: 'rgba(201,168,76,0.2)', fill: true, tension: 0.3, pointRadius: 6, pointBackgroundColor: '#c9a84c' }] }, options: { responsive: true, plugins: { legend: { display: false } }, scales: { x: { grid: { color: chartGrid }, ticks: { color: chartTick } }, y: { grid: { color: chartGrid }, ticks: { color: chartTick }, beginAtZero: true } } } });
+            feeChart = new Chart(ctx, { type: 'line', data: { labels: labels.length ? labels : ['No data'], datasets: [{ label: '$SLS Fees', data: values.length ? values : [0], borderColor: 'var(--accent)', backgroundColor: 'rgba(201,168,76,0.2)', fill: true, tension: 0.3, pointRadius: 6, pointBackgroundColor: 'var(--accent)' }] }, options: { responsive: true, plugins: { legend: { display: false } }, scales: { x: { grid: { color: chartGrid }, ticks: { color: chartTick } }, y: { grid: { color: chartGrid }, ticks: { color: chartTick }, beginAtZero: true } } } });
         }
 
         function renderTxChart(view) {
@@ -437,7 +368,7 @@
             const labels = Object.keys(data), values = Object.values(data);
             const ctx = document.getElementById('txChart').getContext('2d');
             if (txChart) txChart.destroy();
-            txChart = new Chart(ctx, { type: 'line', data: { labels: labels.length ? labels : ['No data'], datasets: [{ label: 'Transactions', data: values.length ? values : [0], borderColor: '#ff6b6b', backgroundColor: 'rgba(255,107,107,0.2)', fill: true, tension: 0.3, pointRadius: 6, pointBackgroundColor: '#ff6b6b' }] }, options: { responsive: true, plugins: { legend: { display: false } }, scales: { x: { grid: { color: chartGrid }, ticks: { color: chartTick } }, y: { grid: { color: chartGrid }, ticks: { color: chartTick, stepSize: 1 }, beginAtZero: true } } } });
+            txChart = new Chart(ctx, { type: 'line', data: { labels: labels.length ? labels : ['No data'], datasets: [{ label: 'Transactions', data: values.length ? values : [0], borderColor: 'var(--text-muted)', backgroundColor: 'rgba(255,107,107,0.2)', fill: true, tension: 0.3, pointRadius: 6, pointBackgroundColor: 'var(--text-muted)' }] }, options: { responsive: true, plugins: { legend: { display: false } }, scales: { x: { grid: { color: chartGrid }, ticks: { color: chartTick } }, y: { grid: { color: chartGrid }, ticks: { color: chartTick, stepSize: 1 }, beginAtZero: true } } } });
         }
 
         function renderRecentTable() {
@@ -447,7 +378,7 @@
             if (selectedRecordType !== 'all') { records = records.filter(r => (r.record_label || r.record_type) === selectedRecordType); }
             const recent = [...records].reverse().slice(0, 50);
             if (recent.length === 0) { tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--text-muted);">No records for selected type</td></tr>'; return; }
-            tbody.innerHTML = recent.map(r => { const label = r.record_label || r.record_type || 'Unknown'; return '<tr><td style="color:#00aaff;">' + (r.timestamp_display || '') + '</td><td><span class="badge-type">' + label + '</span></td><td style="font-family:monospace;font-size:0.85rem;color:var(--text-secondary);">' + (r.hash || '').substring(0,24) + '...</td><td style="color:#c9a84c;">$' + (r.fee || 0.01).toFixed(2) + '</td></tr>'; }).join('');
+            tbody.innerHTML = recent.map(r => { const label = r.record_label || r.record_type || 'Unknown'; return '<tr><td style="color:#00aaff;">' + (r.timestamp_display || '') + '</td><td><span class="badge-type">' + label + '</span></td><td style="font-family:monospace;font-size:0.85rem;color:var(--text-secondary);">' + (r.hash || '').substring(0,24) + '...</td><td style="color:var(--accent);">$' + (r.fee || 0.01).toFixed(2) + '</td></tr>'; }).join('');
         }
 
         document.getElementById('hashBtns').addEventListener('click', e => { if (e.target.dataset.view) { currentHashView = e.target.dataset.view; document.querySelectorAll('#hashBtns .filter-btn').forEach(b => b.classList.toggle('active', b.dataset.view === currentHashView)); renderHashChart(currentHashView); } });
@@ -462,18 +393,6 @@
         window.addEventListener('DOMContentLoaded', loadMetrics);
         setInterval(loadMetrics, 5000);
     </script>
-<link rel="stylesheet" href="/s4-assets/s4-mobile.css">
-<script src="/s4-assets/s4-background.js"></script>
-<!-- Search Modal -->
-<div id="searchOverlay" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.8);backdrop-filter:blur(8px);justify-content:center;align-items:flex-start;padding-top:20vh;">
-    <div style="width:90%;max-width:560px;">
-        <input id="searchInput" type="text" placeholder="Search S4 Ledger..." style="width:100%;padding:18px 24px;border-radius:14px;border:1px solid rgba(0,170,255,0.3);background:rgba(17,17,24,0.95);color:#f0f0f5;font-size:1.1rem;outline:none;font-family:'Inter',sans-serif;">
-    </div>
-</div>
-<script>
-function openSearch(){const o=document.getElementById('searchOverlay');o.style.display='flex';document.getElementById('searchInput').focus();}
-document.addEventListener('keydown',e=>{if(e.key==='Escape')document.getElementById('searchOverlay').style.display='none';if((e.metaKey||e.ctrlKey)&&e.key==='k'){e.preventDefault();openSearch();}});
-document.getElementById('searchOverlay')?.addEventListener('click',function(e){if(e.target===this)this.style.display='none';});
-</script>
+
 </body>
 </html>

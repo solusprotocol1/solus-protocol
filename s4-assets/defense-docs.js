@@ -46,11 +46,6 @@ const S4_DEFENSE_DOCS = [
 { id:'OPNAVINST 5510.1J', title:'Department of the Navy Information Security Program', category:'Security', branch:'USN', description:'Policy for classified information security including handling, storage, destruction, and transmission.', url:'https://www.secnav.navy.mil/', keywords:'classified information security CUI NOFORN handling storage' },
 
 // ══════════════ COMDTINST — Coast Guard Instructions ══════════════
-{ id:'COMDTINST M4000.15A', title:'Coast Guard Logistics Handbook', category:'ILS', branch:'USCG', description:'Comprehensive logistics policy for Coast Guard asset management and sustainment.', url:'https://www.dcms.uscg.mil/', keywords:'logistics asset management sustainment Coast Guard' },
-{ id:'COMDTINST M16000.6B', title:'Coast Guard Damage Control Manual', category:'Maintenance', branch:'USCG', description:'Damage control procedures for Coast Guard cutters and shore units.', url:'https://www.dcms.uscg.mil/', keywords:'damage control DC procedures cutters shore units' },
-{ id:'COMDTINST M9000.6', title:'Coast Guard Naval Engineering Manual', category:'Maintenance', branch:'USCG', description:'Governs engineering maintenance, inspections, and technical management for Coast Guard assets.', url:'https://www.dcms.uscg.mil/', keywords:'engineering maintenance inspection technical management cutter' },
-{ id:'COMDTINST M5100.47A', title:'Safety and Environmental Health Manual', category:'Safety', branch:'USCG', description:'Coast Guard safety program policy including workplace safety and environmental compliance.', url:'https://www.dcms.uscg.mil/', keywords:'safety environmental health workplace compliance Coast Guard' },
-
 // ══════════════ DoD Directives & Instructions ══════════════
 { id:'DoDD 5000.01', title:'The Defense Acquisition System', category:'Acquisition', branch:'JOINT', description:'Top-level policy for the management of DoD acquisition programs.', url:'https://www.esd.whs.mil/Directives/', keywords:'acquisition program management ACAT milestone defense' },
 { id:'DoDI 5000.02', title:'Operation of the Adaptive Acquisition Framework', category:'Acquisition', branch:'JOINT', description:'Implements the Adaptive Acquisition Framework (AAF) with six acquisition pathways.', url:'https://www.esd.whs.mil/Directives/', keywords:'AAF adaptive acquisition framework pathway MCA urgent MDAP' },
@@ -86,25 +81,6 @@ const S4_DEFENSE_DOCS = [
 { id:'NIST SP 800-37 Rev. 2', title:'Risk Management Framework (RMF)', category:'Cybersecurity', branch:'JOINT', description:'Framework for applying risk management to information systems including authorization.', url:'https://csrc.nist.gov/publications/detail/sp/800-37/rev-2/final', keywords:'RMF risk management framework ATO authorization assessment' },
 { id:'NIST SP 800-82 Rev. 3', title:'Guide to OT Security', category:'Cybersecurity', branch:'JOINT', description:'Security guidance for Operational Technology (OT) including SCADA and industrial control systems.', url:'https://csrc.nist.gov/publications/detail/sp/800-82/rev-3/final', keywords:'OT operational technology SCADA ICS industrial control security' },
 { id:'CMMC Model v2.0', title:'Cybersecurity Maturity Model Certification', category:'Cybersecurity', branch:'JOINT', description:'Three-level certification model for defense contractor cybersecurity — required for CUI handling.', url:'https://dodcio.defense.gov/CMMC/', keywords:'CMMC certification maturity model Level 1 Level 2 Level 3 assessment' },
-
-// ══════════════ Army Regulations ══════════════
-{ id:'AR 750-1', title:'Army Materiel Maintenance Policy', category:'Maintenance', branch:'USA', description:'Establishes Army maintenance policy across all echelons — field, sustainment, and depot.', url:'https://armypubs.army.mil/', keywords:'maintenance policy field sustainment depot echelon Army' },
-{ id:'AR 710-2', title:'Supply Policy Below the National Level', category:'Supply', branch:'USA', description:'Governs Army supply procedures at unit, direct support, and general support levels.', url:'https://armypubs.army.mil/', keywords:'supply policy unit direct support general support Army' },
-{ id:'AR 700-138', title:'Army Logistics Readiness and Sustainability', category:'Readiness', branch:'USA', description:'Policy for logistics readiness reporting and sustainability assessments.', url:'https://armypubs.army.mil/', keywords:'logistics readiness sustainability assessment reporting Army' },
-{ id:'DA PAM 750-8', title:'The Army Maintenance Management System (TAMMS)', category:'Maintenance', branch:'USA', description:'Procedures for the Army maintenance management system including forms and records.', url:'https://armypubs.army.mil/', keywords:'TAMMS maintenance management system forms records Army' },
-{ id:'AR 740-1', title:'Storage and Supply Activity Operations', category:'Supply', branch:'USA', description:'Policy for operation of Army depots and supply storage activities.', url:'https://armypubs.army.mil/', keywords:'depot storage supply activity operations Army' },
-
-// ══════════════ Air Force Instructions ══════════════
-{ id:'AFI 21-101', title:'Aircraft and Equipment Maintenance Management', category:'Maintenance', branch:'USAF', description:'Primary Air Force instruction governing aircraft maintenance management.', url:'https://www.e-publishing.af.mil/', keywords:'aircraft maintenance management AFMC depot PDM Air Force' },
-{ id:'AFI 23-101', title:'Air Force Materiel Management', category:'Supply', branch:'USAF', description:'Governs Air Force supply chain and materiel management procedures.', url:'https://www.e-publishing.af.mil/', keywords:'materiel management supply chain Air Force' },
-{ id:'TO 00-20-1', title:'NRFI/RFI Inspection and Acceptance Criteria', category:'Quality', branch:'USAF', description:'Air Force technical order for inspection criteria and aerospace sustainment.', url:'https://www.e-publishing.af.mil/', keywords:'inspection acceptance NRFI RFI technical order Air Force' },
-{ id:'TO 00-25-195', title:'AF Technical Order System Source, Maintenance, and Recoverability Codes', category:'Supply', branch:'USAF', description:'Source, Maintenance, and Recoverability (SM&R) coding for Air Force assets.', url:'https://www.e-publishing.af.mil/', keywords:'SMR source maintenance recoverability codes technical order' },
-
-// ══════════════ Marine Corps Orders ══════════════
-{ id:'MCO 4790.2', title:'Marine Corps Integrated Maintenance Management System (MIMMS)', category:'Maintenance', branch:'USMC', description:'Governs Marine Corps maintenance management system for ground equipment.', url:'https://www.marines.mil/', keywords:'MIMMS maintenance management ground equipment Marine Corps' },
-{ id:'MCO 4400.201', title:'Management of Property in the Possession of the Marine Corps', category:'Supply', branch:'USMC', description:'Supply management policy for Marine Corps property accountability.', url:'https://www.marines.mil/', keywords:'property accountability supply management Marine Corps' },
-{ id:'MCO P4790.2C', title:'MIMMS Field Procedures Manual', category:'Maintenance', branch:'USMC', description:'Field-level maintenance procedures for Marine Corps equipment.', url:'https://www.marines.mil/', keywords:'field maintenance procedures MIMMS Marine Corps equipment' },
-
 // ══════════════ DMSMS-Specific ══════════════
 { id:'SD-22', title:'DMSMS Program Manager Guidebook', category:'DMSMS', branch:'JOINT', description:'Comprehensive guide for establishing and managing DMSMS programs including case resolution.', url:'https://www.dau.edu/', keywords:'DMSMS program manager guidebook obsolescence case resolution' },
 { id:'SD-19', title:'Parts Management Guide', category:'DMSMS', branch:'JOINT', description:'DoD guide for parts selection, management, and standardization to reduce obsolescence risk.', url:'https://www.dau.edu/', keywords:'parts management standardization selection obsolescence reduction' },
@@ -115,11 +91,6 @@ const S4_DEFENSE_DOCS = [
 { id:'MIL-HDBK-61A', title:'Configuration Management Guidance', category:'Configuration', branch:'JOINT', description:'Handbook for implementing configuration management including identification, control, status accounting, and audit.', url:'https://quicksearch.dla.mil/', keywords:'configuration management CM identification control status accounting audit' },
 { id:'EIA-649-1', title:'Configuration Management Requirements', category:'Configuration', branch:'JOINT', description:'Industry standard (adopted by DoD) for CM principles and requirements.', url:'https://www.sae.org/', keywords:'EIA-649 configuration management requirements industry standard' },
 { id:'ANSI/EIA-632', title:'Processes for Engineering a System', category:'Engineering', branch:'JOINT', description:'Standard defining systems engineering processes applicable to defense programs.', url:'https://www.sae.org/', keywords:'systems engineering processes requirements analysis design' },
-
-// ══════════════ Space Force ══════════════
-{ id:'USSF SMC-S-016', title:'Test Requirements for Launch Vehicles', category:'Testing', branch:'USSF', description:'Space Force standard for test requirements on launch vehicle systems.', url:'https://www.spaceforce.mil/', keywords:'space launch vehicle testing requirements Space Force' },
-{ id:'SMC-S-011', title:'Space System Software Development', category:'Engineering', branch:'USSF', description:'Standard for software development processes for space systems.', url:'https://www.spaceforce.mil/', keywords:'software development space system engineering Space Force' },
-
 // ══════════════ Packaging, Handling, Storage, Transportation ══════════════
 { id:'ASTM D3951', title:'Commercial Packaging Standard', category:'Supply', branch:'JOINT', description:'Standard practice for commercial packaging of supplies and equipment.', url:'https://www.astm.org/', keywords:'commercial packaging standard supplies equipment' },
 { id:'MIL-STD-1366E', title:'Transportability Criteria', category:'Supply', branch:'JOINT', description:'Design criteria for military equipment transportability by air, land, and sea.', url:'https://quicksearch.dla.mil/', keywords:'transportability design criteria air land sea military' },
@@ -148,31 +119,26 @@ const S4_DEFENSE_DOCS = [
 // Category metadata for display
 const DOC_CATEGORIES = {
     'ILS':           { icon:'fa-cubes',         color:'#00aaff', label:'Integrated Logistics Support' },
-    'Readiness':     { icon:'fa-heartbeat',      color:'#14f195', label:'Readiness & Reliability' },
-    'Maintenance':   { icon:'fa-wrench',         color:'#ffa500', label:'Maintenance' },
-    'Supply':        { icon:'fa-boxes-stacked',  color:'#c9a84c', label:'Supply Chain & Materiel' },
-    'DMSMS':         { icon:'fa-exclamation-triangle', color:'#ff3333', label:'DMSMS / Obsolescence' },
-    'Safety':        { icon:'fa-shield-halved',  color:'#ff6b6b', label:'Safety' },
-    'Testing':       { icon:'fa-vial',           color:'#9b59b6', label:'Testing & Evaluation' },
-    'Quality':       { icon:'fa-certificate',    color:'#2ecc71', label:'Quality Assurance' },
-    'Cybersecurity': { icon:'fa-lock',           color:'#e74c3c', label:'Cybersecurity & Compliance' },
-    'Acquisition':   { icon:'fa-file-contract',  color:'#3498db', label:'Acquisition & Contracts' },
-    'Configuration': { icon:'fa-sitemap',        color:'#1abc9c', label:'Configuration Management' },
-    'Technical Data':{ icon:'fa-book-open',       color:'#e67e22', label:'Technical Data & Publications' },
-    'Cost Analysis': { icon:'fa-calculator',      color:'#f1c40f', label:'Cost Analysis' },
-    'Engineering':   { icon:'fa-gears',          color:'#95a5a6', label:'Systems Engineering' },
-    'Program Mgmt':  { icon:'fa-diagram-project', color:'#8e44ad', label:'Program Management' },
-    'Ordnance':      { icon:'fa-bomb',           color:'#e74c3c', label:'Ordnance & Ammunition' },
-    'Security':      { icon:'fa-user-shield',    color:'#c0392b', label:'Information Security' },
+    'Readiness':     { icon:'fa-heartbeat',      color:'#00aaff', label:'Readiness & Reliability' },
+    'Maintenance':   { icon:'fa-wrench',         color:'#00aaff', label:'Maintenance' },
+    'Supply':        { icon:'fa-boxes-stacked',  color:'#00aaff', label:'Supply Chain & Materiel' },
+    'DMSMS':         { icon:'fa-exclamation-triangle', color:'#00aaff', label:'DMSMS / Obsolescence' },
+    'Safety':        { icon:'fa-shield-halved',  color:'#00aaff', label:'Safety' },
+    'Testing':       { icon:'fa-vial',           color:'#00aaff', label:'Testing & Evaluation' },
+    'Quality':       { icon:'fa-certificate',    color:'#00aaff', label:'Quality Assurance' },
+    'Cybersecurity': { icon:'fa-lock',           color:'#00aaff', label:'Cybersecurity & Compliance' },
+    'Acquisition':   { icon:'fa-file-contract',  color:'#00aaff', label:'Acquisition & Contracts' },
+    'Configuration': { icon:'fa-sitemap',        color:'#00aaff', label:'Configuration Management' },
+    'Technical Data':{ icon:'fa-book-open',       color:'#00aaff', label:'Technical Data & Publications' },
+    'Cost Analysis': { icon:'fa-calculator',      color:'#00aaff', label:'Cost Analysis' },
+    'Engineering':   { icon:'fa-gears',          color:'#8b8fa3', label:'Systems Engineering' },
+    'Program Mgmt':  { icon:'fa-diagram-project', color:'#00aaff', label:'Program Management' },
+    'Ordnance':      { icon:'fa-bomb',           color:'#00aaff', label:'Ordnance & Ammunition' },
+    'Security':      { icon:'fa-user-shield',    color:'#00aaff', label:'Information Security' },
 };
 
 // Branch metadata
 const DOC_BRANCHES = {
     'JOINT': { label:'Joint / DoD-Wide', color:'#00aaff' },
     'USN':   { label:'U.S. Navy',        color:'#003f87' },
-    'USCG':  { label:'U.S. Coast Guard', color:'#ff6600' },
-    'USA':   { label:'U.S. Army',        color:'#4b5320' },
-    'USAF':  { label:'U.S. Air Force',   color:'#00308f' },
-    'USMC':  { label:'U.S. Marine Corps',color:'#c62828' },
-    'USSF':  { label:'U.S. Space Force', color:'#0b3d91' },
 };

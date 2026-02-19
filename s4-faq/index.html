@@ -7,275 +7,146 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <title>FAQ | S4 Ledger</title>
-    <meta name="description" content="Frequently asked questions about S4 Ledger — security, NIST compliance, $SLS token, XRPL, and defense integration.">
+    <meta name="description" content="Frequently asked questions about S4 Ledger &mdash; security, compliance, integration, and pricing.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/s4-assets/style.css">
 </head>
 <body>
-<div class="mesh-bg"><div class="gradient-orb orb-1"></div><div class="gradient-orb orb-2"></div><div class="gradient-orb orb-3"></div></div>
-<nav class="navbar navbar-expand-lg">
-    <div class="container">
-        <a class="navbar-brand" href="/">
-            <img src="/s4-assets/S4Ledger_logo.png" alt="S4" class="nav-logo">
-            <span class="brand-text">S4 Ledger</span>
+<nav class="nav" id="mainNav">
+    <div class="nav-inner">
+        <a href="/" class="nav-brand">
+            <img src="/s4-assets/S4Ledger_logo.png" alt="S4 Ledger">
+            <span>S4 Ledger</span>
         </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navContent">
+        <ul class="nav-links" id="navLinks">
+            <li><a href="/demo-app/">Platform</a></li>
+            <li><a href="/s4-use-cases/">Use Cases</a></li>
+            <li><a href="/s4-pricing/">Pricing</a></li>
+            <li><a href="/s4-investors/">Company</a></li>
+            <li><a href="https://github.com/s4ledger/s4-ledger" target="_blank">Docs</a></li>
+            <li><a href="/s4-contact/" class="nav-cta">Request Demo</a></li>
+        </ul>
+        <button class="nav-mobile-toggle" onclick="document.getElementById('navLinks').classList.toggle('open')" aria-label="Menu">
             <i class="fas fa-bars"></i>
         </button>
-        <div class="collapse navbar-collapse justify-content-end" id="navContent">
-            <ul class="navbar-nav align-items-center gap-1">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Company</a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="/s4-about/"><i class="fas fa-building dd-accent"></i> About</a></li>
-                        <li><a class="dropdown-item" href="/s4-investors/"><i class="fas fa-chart-line dd-accent"></i> Investors</a></li>
-                        <li><a class="dropdown-item" href="/s4-partners/"><i class="fas fa-handshake dd-accent"></i> Partners</a></li>
-                        <li><a class="dropdown-item" href="/s4-contact/"><i class="fas fa-envelope dd-accent"></i> Contact</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Products</a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="/demo-app/"><i class="fas fa-terminal dd-green"></i> ILS Workspace</a></li>
-                        <li><a class="dropdown-item" href="/sdk-playground/"><i class="fas fa-code dd-gold"></i> SDK Playground</a></li>
-                        <li><a class="dropdown-item" href="/sdk/"><i class="fas fa-book dd-gold"></i> SDK Docs</a></li>
-                        <li><a class="dropdown-item" href="/s4-marketplace/"><i class="fas fa-store dd-purple"></i> Marketplace</a></li>
-                        <li><a class="dropdown-item" href="/metrics.html"><i class="fas fa-chart-bar dd-accent"></i> Metrics</a></li>
-                        <li><a class="dropdown-item" href="/transactions.html"><i class="fas fa-exchange-alt dd-accent"></i> Transactions</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle active" href="#" data-bs-toggle="dropdown">More</a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="/s4-use-cases/"><i class="fas fa-boxes-stacked dd-orange"></i> Use Cases</a></li>
-                        <li><a class="dropdown-item" href="/s4-pricing/"><i class="fas fa-tags dd-accent"></i> Pricing</a></li>
-                        <li><a class="dropdown-item" href="/s4-roadmap/"><i class="fas fa-road dd-accent"></i> Roadmap</a></li>
-                        <li><a class="dropdown-item" href="/s4-faq/"><i class="fas fa-question-circle dd-accent"></i> FAQ</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <button class="nav-link search-btn" onclick="openSearch()"><i class="fas fa-search"></i></button>
-                </li>
-                <li class="nav-item ms-2">
-                    <a class="btn-accent" href="/s4-login/">Sign In</a>
-                </li>
-            </ul>
-        </div>
     </div>
 </nav>
 
-    <div class="page-hero">
-        <div class="container">
-            <h1>Frequently Asked <span class="gradient-text">Questions</span></h1>
-            <p>Common questions about S4 Ledger, security, and integration</p>
+<div class="page-hero">
+    <div class="container">
+        <div class="section-label">FAQ</div>
+        <h1>Frequently asked questions</h1>
+        <p>Everything you need to know about S4 Ledger, blockchain verification, and defense integration.</p>
+    </div>
+</div>
+<div class="container"><div class="divider"></div></div>
+<section class="section"><div class="faq-list reveal">
+    <div class="faq-item">
+        <button class="faq-question" onclick="this.parentElement.classList.toggle('active')">Does sensitive data go on the blockchain?<span class="faq-toggle">+</span></button>
+        <div class="faq-answer">No. Only SHA-256 hashes (cryptographic fingerprints) are stored on-chain. The hash is a one-way function &mdash; the original data cannot be recovered from it. No CUI, no ITAR content, no PII ever touches the blockchain.</div>
+    </div>
+    <div class="faq-item">
+        <button class="faq-question" onclick="this.parentElement.classList.toggle('active')">How does it integrate with existing DoD systems?<span class="faq-toggle">+</span></button>
+        <div class="faq-answer">Via Python SDK or REST API. S4 Ledger connects to existing logistics systems like 3-M/SCLSIS, OARS, NTCSS, CDMD-OA, and NAVSUP OneTouch. Records flow automatically &mdash; no manual data entry required.</div>
+    </div>
+    <div class="faq-item">
+        <button class="faq-question" onclick="this.parentElement.classList.toggle('active')">What is the $SLS token?<span class="faq-toggle">+</span></button>
+        <div class="faq-answer">$SLS (Secure Logistics Standard) is a utility token on the XRP Ledger. It functions like postage stamps &mdash; each anchor costs $0.01 in $SLS. It is not equity, not a security, and not a cryptocurrency. Pure utility for blockchain verification fees.</div>
+    </div>
+    <div class="faq-item">
+        <button class="faq-question" onclick="this.parentElement.classList.toggle('active')">Is S4 Ledger NIST 800-171 / CMMC compliant?<span class="faq-toggle">+</span></button>
+        <div class="faq-answer">S4 Ledger is designed to align with NIST SP 800-171, CMMC Level 2, and DFARS 252.204-7012. The architecture ensures zero sensitive data on-chain, supports on-premises deployment for classified environments, and maintains full audit trails.</div>
+    </div>
+    <div class="faq-item">
+        <button class="faq-question" onclick="this.parentElement.classList.toggle('active')">Why the XRP Ledger instead of Ethereum or a private chain?<span class="faq-toggle">+</span></button>
+        <div class="faq-answer">XRPL offers 3&ndash;5 second finality at fractions of a cent per transaction, with 99.99% uptime since 2012. Ethereum costs $5&ndash;50+ per transaction. Private chains create vendor lock-in. XRPL is public, neutral, and independently verifiable.</div>
+    </div>
+    <div class="faq-item">
+        <button class="faq-question" onclick="this.parentElement.classList.toggle('active')">Can I try it for free?<span class="faq-toggle">+</span></button>
+        <div class="faq-answer">Yes. The Pilot tier includes up to 1,000 free anchors on XRPL Mainnet, full SDK access, and ILS Workspace demo. No credit card required.</div>
+    </div>
+    <div class="faq-item">
+        <button class="faq-question" onclick="this.parentElement.classList.toggle('active')">Can I use real platform and program data?<span class="faq-toggle">+</span></button>
+        <div class="faq-answer">Yes. 500+ pre-loaded defense platforms are available, plus a custom entry option for any platform, vessel, hull number, or program not yet in the database. Works with your actual data.</div>
+    </div>
+    <div class="faq-item">
+        <button class="faq-question" onclick="this.parentElement.classList.toggle('active')">What networks can it deploy on?<span class="faq-toggle">+</span></button>
+        <div class="faq-answer">Unclassified, CUI, Secret (SIPRNet), and Top Secret (JWICS). Cloud deployment for unclassified environments, on-premises for classified. The architecture supports air-gapped operation.</div>
+    </div>
+    <div class="faq-item">
+        <button class="faq-question" onclick="this.parentElement.classList.toggle('active')">How is S4 Ledger funded?<span class="faq-toggle">+</span></button>
+        <div class="faq-answer">Self-funded (IRAD). Pursuing SBIR/STTR opportunities, strategic investment, and government pilot program funding.</div>
+    </div>
+</div></section>
+
+<section class="cta-section">
+    <div class="container-narrow reveal">
+        <h2>Still have questions?</h2>
+        <p>Reach out directly and we'll get back to you within 24 hours.</p>
+        <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+            <a href="/s4-contact/" class="btn-primary">Contact Us</a> <a href="/demo-app/" class="btn-ghost">Launch Platform</a>
         </div>
     </div>
+</section>
 
-    <div class="container" style="max-width: 700px;">
-        <div class="faq-item reveal">
-            <div class="faq-question" onclick="this.parentElement.classList.toggle('active')">
-                <span>Does S4 Ledger store classified or sensitive data on the blockchain?</span>
-                <span class="faq-toggle">+</span>
+<footer class="footer">
+    <div class="container">
+        <div class="footer-inner">
+            <div>
+                <a href="/" class="footer-brand">
+                    <img src="/s4-assets/S4Ledger_logo.png" alt="S4 Ledger">
+                    <span>S4 Ledger</span>
+                </a>
+                <div class="footer-tagline">Immutable defense logistics. Built on the XRP Ledger.</div>
             </div>
-            <div class="faq-answer">Absolutely not. S4 Ledger only anchors SHA-256 cryptographic hashes — mathematical fingerprints — to the XRPL. No actual documents, part numbers, serial numbers, PII, or classified information ever touches the blockchain. The hash is a one-way function: you cannot reverse-engineer the original data from it.</div>
-        </div>
-        <div class="faq-item reveal">
-            <div class="faq-question" onclick="this.parentElement.classList.toggle('active')">
-                <span>How does this integrate with existing DoW systems?</span>
-                <span class="faq-toggle">+</span>
-            </div>
-            <div class="faq-answer">S4 Ledger doesn't replace 3-M, GCSS-Army, DPAS, or any existing system. It adds an immutable verification layer on top. Via our REST API and Python SDK, any system that can make an HTTP call or run a Python script can anchor and verify records. It's designed to sit alongside, not replace, your current logistics infrastructure.</div>
-        </div>
-        <div class="faq-item reveal">
-            <div class="faq-question" onclick="this.parentElement.classList.toggle('active')">
-                <span>What is $SLS and why is a token needed?</span>
-                <span class="faq-toggle">+</span>
-            </div>
-            <div class="faq-answer">$SLS (Secure Logistics Standard) is a utility token on the XRP Ledger. It powers the micro-transaction fee (~$0.01) for each anchor. The token ensures the network is self-sustaining and spam-resistant. Organizations can pay in USD — our fiat mode auto-converts to $SLS behind the scenes so users never need to interact with cryptocurrency directly.</div>
-        </div>
-        <div class="faq-item reveal">
-            <div class="faq-question" onclick="this.parentElement.classList.toggle('active')">
-                <span>Is this NIST 800-171 / CMMC compliant?</span>
-                <span class="faq-toggle">+</span>
-            </div>
-            <div class="faq-answer">S4 Ledger is architected to support NIST 800-171 compliance. Since no CUI or sensitive data is stored on-chain (only hashes), the attack surface is minimal. Our roadmap includes formal NIST 800-171 certification and a FedRAMP pathway for government deployment.</div>
-        </div>
-        <div class="faq-item reveal">
-            <div class="faq-question" onclick="this.parentElement.classList.toggle('active')">
-                <span>Why the XRP Ledger instead of Ethereum or a private blockchain?</span>
-                <span class="faq-toggle">+</span>
-            </div>
-            <div class="faq-answer">XRPL settles transactions in 3-5 seconds at ~$0.001 per transaction. Ethereum costs $5-50+ per transaction. Private blockchains defeat the purpose — they're controlled by a single entity and aren't independently verifiable. XRPL provides the speed, cost, and neutrality required for defense-grade audit trails.</div>
-        </div>
-        <div class="faq-item reveal">
-            <div class="faq-question" onclick="this.parentElement.classList.toggle('active')">
-                <span>How is S4 Ledger funded?</span>
-                <span class="faq-toggle">+</span>
-            </div>
-            <div class="faq-answer">S4 Ledger is self-funded with a live $SLS token on XRPL mainnet, backed by a 100M-token supply with structured vesting. We are pursuing IRAD funding, SBIR/STTR applications, and strategic partnerships with defense organizations. Contact us to discuss investment or partnership opportunities.</div>
-        </div>
-        <div class="faq-item reveal">
-            <div class="faq-question" onclick="this.parentElement.classList.toggle('active')">
-                <span>Can my organization try S4 Ledger before committing?</span>
-                <span class="faq-toggle">+</span>
-            </div>
-            <div class="faq-answer">Yes. Our Pilot tier is free during beta. You'll get SDK access, up to 1,000 anchors, and a basic dashboard. This lets you test the technology on real (non-sensitive) logistics data before subscribing. Contact us to get started.</div>
-        </div>
-        <div class="faq-item reveal">
-            <div class="faq-question" onclick="this.parentElement.classList.toggle('active')">
-                <span>What ILS tools are included?</span>
-                <span class="faq-toggle">+</span>
-            </div>
-            <div class="faq-answer">S4 Ledger includes 13 ILS Workspace tools: Gap Analysis, DMSMS Risk Tracker, Readiness Calculator, ROI Calculator, Lifecycle Cost Estimator, Action Items & Task Tracker, Audit Record Vault, Defense Document Library, Compliance Scorecard, AI Supply Chain Risk Engine, Audit Report Generator, Predictive Maintenance AI, and Submission Review & Discrepancy Analyzer (ILIE). All tools share data, sync automatically, and anchor results to the XRPL. Additional tools — including Parts Cross-Reference, Contract Lifecycle Management, Digital Thread, Warranty Tracker, ILS Calendar, Provisioning & PTD Manager, and Defense Database Import — are available through <a href='../harborlink/' style='color:var(--accent)'>HarborLink</a>, S4 Systems' collaboration portal.</div>
-        </div>
-        <div class="faq-item reveal">
-            <div class="faq-question" onclick="this.parentElement.classList.toggle('active')">
-                <span>Can I use my own platform, hull number, or program office?</span>
-                <span class="faq-toggle">+</span>
-            </div>
-            <div class="faq-answer">Yes. Every tool that uses a platform selector includes 500+ pre-loaded defense platforms across all branches — plus a "Custom Program" option for entering any platform, vessel, or aircraft not yet in the database. You can also input real hull numbers, tail numbers, designations, program offices, and contract numbers. This ensures S4 Ledger works with your actual program data, not just demo samples.</div>
-        </div>
-        <div class="faq-item reveal">
-            <div class="faq-question" onclick="this.parentElement.classList.toggle('active')">
-                <span>What is the SDK Playground?</span>
-                <span class="faq-toggle">+</span>
-            </div>
-            <div class="faq-answer">The SDK Playground is an interactive sandbox where you can test all 21 Python SDK functions directly in your browser with live API calls. It includes a platform/program selector with 500+ platforms, hull/designation input, program office input, and contract number input — so you can test SDK functions against specific programs before writing any code.</div>
-        </div>
-
-        <div class="faq-item reveal">
-            <div class="faq-question" onclick="this.parentElement.classList.toggle('active')">
-                <span>What does the Compliance Scorecard measure?</span>
-                <span class="faq-toggle">+</span>
-            </div>
-            <div class="faq-answer">The Compliance Scorecard auto-calculates your compliance posture across 6 frameworks: CMMC Level 2, NIST SP 800-171 (110 controls), DFARS 252.204-7012, FAR 46 Quality, MIL-STD-1388 ILS, and DoDI 4245.15 DMSMS. Your score is calculated from real workspace activity — every record you anchor, DMSMS case you track, and readiness calculation you run contributes to your score. It outputs a letter grade (A+ through F) for executive reporting.</div>
-        </div>
-        <div class="faq-item reveal">
-            <div class="faq-question" onclick="this.parentElement.classList.toggle('active')">
-                <span>What are the pricing tiers?</span>
-                <span class="faq-toggle">+</span>
-            </div>
-            <div class="faq-answer">S4 Ledger offers four tiers: <strong>Pilot</strong> (Free — 100 SLS/month, 10,000 anchors, SDK access), <strong>Starter</strong> ($999/month — 25,000 SLS, 2,500,000 anchors, full API), <strong>Professional</strong> ($2,499/month — 100,000 SLS, 10,000,000 anchors, priority support, SLA), and <strong>Enterprise</strong> ($9,999/month — 500,000 SLS, unlimited anchors, FedRAMP pathway, dedicated CSM). All tiers include the full 13-tool ILS Workspace and SDK Playground.</div>
-        </div>
-        <div class="faq-item reveal">
-            <div class="faq-question" onclick="this.parentElement.classList.toggle('active')">
-                <span>How does the AI Supply Chain Risk Engine work?</span>
-                <span class="faq-toggle">+</span>
-            </div>
-            <div class="faq-answer">The risk engine analyzes supply chain health across 500+ defense platforms using ML-powered scoring. It evaluates supplier health indicators including GIDEP alerts, DLA lead time spikes, financial distress signals, single-source dependency, and counterfeit risk indicators. Each component receives a risk level (Critical/High/Medium/Low) with ETA impact calculations, sourced from 37 real Tier 1/1.5/2 defense suppliers.</div>
-        </div>
-        <div class="faq-item reveal">
-            <div class="faq-question" onclick="this.parentElement.classList.toggle('active')">
-                <span>Is our actual data safe?</span>
-                <span class="faq-toggle">+</span>
-            </div>
-            <div class="faq-answer">Yes. S4 Ledger processes everything client-side in your browser. No documents, part numbers, serial numbers, or sensitive information are ever sent to our servers or the blockchain. The only thing that leaves your browser is a SHA-256 hash — a 64-character mathematical fingerprint. Even if someone intercepted the hash, they cannot reverse-engineer any data from it.</div>
-        </div>
-        <div class="faq-item reveal">
-            <div class="faq-question" onclick="this.parentElement.classList.toggle('active')">
-                <span>Can I export or download my data?</span>
-                <span class="faq-toggle">+</span>
-            </div>
-            <div class="faq-answer">Yes. The Audit Record Vault stores every anchored record locally and supports CSV and XLSX export. The Compliance Scorecard exports scorecard reports. The Audit Report Generator produces multi-section audit packages. Transaction logs support CSV export with platform, date, and type filters. Calendar events export to .ics format.</div>
-        </div>
-        <div class="faq-item reveal">
-            <div class="faq-question" onclick="this.parentElement.classList.toggle('active')">
-                <span>What programming languages does the SDK support?</span>
-                <span class="faq-toggle">+</span>
-            </div>
-            <div class="faq-answer">The current SDK is Python-based with 27 functions and a 12-command CLI. It's pip-installable and works with Python 3.7+. JavaScript, Go, and Rust SDKs are planned for Phase 3. In the meantime, any language that can make HTTP requests can use our REST API directly — the 7 API endpoints accept standard JSON.</div>
-        </div>
-        <div class="faq-item reveal">
-            <div class="faq-question" onclick="this.parentElement.classList.toggle('active')">
-                <span>How much does each anchor transaction cost?</span>
-                <span class="faq-toggle">+</span>
-            </div>
-            <div class="faq-answer">Each anchor transaction costs approximately $0.01 in $SLS tokens. The underlying XRPL transaction fee is ~$0.001. Organizations can pay in USD — our fiat conversion mode handles the $SLS acquisition automatically, so users never need to interact with cryptocurrency. Batch anchoring supports up to 1,000 records per batch for high-volume operations.</div>
-        </div>
-        <div class="faq-item reveal">
-            <div class="faq-question" onclick="this.parentElement.classList.toggle('active')">
-                <span>Who built S4 Ledger?</span>
-                <span class="faq-toggle">+</span>
-            </div>
-            <div class="faq-answer">S4 Ledger was created by Nick Frankfort, built as a product line of S4 Systems, LLC. The entire platform — 13 ILS tools, 27 SDK functions, 29 REST API endpoints, 500+ pre-loaded military entities, 156+ record types, and the complete website — was designed, engineered, and deployed as a zero-external-cost build. S4 Systems provides business development, legal, compliance, and corporate infrastructure.</div>
-        </div>
-
-        <div class="cta-box reveal" style="margin-top: 30px;">
-            <h3>Still have questions?</h3>
-            <p>We're happy to walk you through a demo</p>
-            <a href="../s4-contact/" class="btn-primary-custom"><i class="fas fa-envelope"></i> &nbsp;Contact Us</a>
-        </div>
-    </div>
-
-    <div style="height: 60px;"></div>
-
-    <footer class="site-footer">
-    <div class="footer-grid">
-        <div>
-            <a href="/" class="footer-brand-link">
-                <img src="/s4-assets/S4Ledger_logo.png" alt="S4">
-                S4 Ledger
-            </a>
-            <p class="footer-tagline">Immutable logistics verification anchored to the XRP Ledger. The secure standard for defense and enterprise supply chains.</p>
-            <div class="footer-social">
-                <a href="https://github.com/S4-Ledger" aria-label="GitHub"><i class="fab fa-github"></i></a>
-                <a href="https://x.com/S4Ledger" aria-label="X"><i class="fab fa-x-twitter"></i></a>
-                <a href="https://discord.gg/s4ledger" aria-label="Discord"><i class="fab fa-discord"></i></a>
+            <div class="footer-links">
+                <div class="footer-col">
+                    <h5>Product</h5>
+                    <a href="/demo-app/">Platform</a>
+                    <a href="/sdk-playground/">SDK Playground</a>
+                    <a href="/metrics.html">Live Metrics</a>
+                    <a href="/transactions.html">Transactions</a>
+                </div>
+                <div class="footer-col">
+                    <h5>Company</h5>
+                    <a href="/s4-about/">About</a>
+                    <a href="/s4-investors/">Investors</a>
+                    <a href="/s4-partners/">Partners</a>
+                    <a href="/s4-roadmap/">Roadmap</a>
+                </div>
+                <div class="footer-col">
+                    <h5>Resources</h5>
+                    <a href="/s4-use-cases/">Use Cases</a>
+                    <a href="/s4-faq/">FAQ</a>
+                    <a href="/s4-pricing/">Pricing</a>
+                    <a href="/security/">Security</a>
+                </div>
+                <div class="footer-col">
+                    <h5>Connect</h5>
+                    <a href="/s4-contact/">Contact</a>
+                    <a href="https://github.com/s4ledger/s4-ledger" target="_blank">GitHub</a>
+                    <a href="https://x.com" target="_blank">X / Twitter</a>
+                    <a href="https://linkedin.com" target="_blank">LinkedIn</a>
+                </div>
             </div>
         </div>
-        <div class="footer-col">
-            <h5>Product</h5>
-            <a href="/demo-app/">ILS Workspace</a>
-            <a href="/sdk/">SDK Docs</a>
-            <a href="/sdk-playground/">SDK Playground</a>
-            <a href="/s4-marketplace/">Marketplace</a>
-            <a href="/s4-pricing/">Pricing</a>
-        </div>
-        <div class="footer-col">
-            <h5>Company</h5>
-            <a href="/s4-about/">About</a>
-            <a href="/s4-investors/">Investors</a>
-            <a href="/s4-partners/">Partners</a>
-            <a href="/s4-roadmap/">Roadmap</a>
-            <a href="/s4-contact/">Contact</a>
-        </div>
-        <div class="footer-col">
-            <h5>Resources</h5>
-            <a href="/s4-use-cases/">Use Cases</a>
-            <a href="/s4-faq/">FAQ</a>
-            <a href="/metrics.html">Metrics</a>
-            <a href="/transactions.html">Transactions</a>
-            <a href="/security/">Security</a>
-        </div>
-    </div>
-    <div class="footer-bottom">
-        <span>&copy; 2025 S4 Ledger. All rights reserved.</span>
-        <div class="footer-bottom-links">
-            <a href="/s4-terms/">Terms</a>
-            <a href="/s4-privacy/">Privacy</a>
-            <a href="/security/">Security</a>
+        <div class="footer-bottom">
+            <span>&copy; 2025 S4 Systems, LLC. $SLS is a utility token &mdash; not equity or an investment contract.</span>
+            <div class="footer-bottom-links">
+                <a href="/s4-terms/">Terms</a>
+                <a href="/s4-privacy/">Privacy</a>
+                <a href="/security-policy/">Security Policy</a>
+            </div>
         </div>
     </div>
 </footer>
 
-    <button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="/s4-assets/main.js"></script>
-    <script src="/s4-assets/search.js"></script>
-<link rel="stylesheet" href="/s4-assets/s4-mobile.css">
-<script src="/s4-assets/s4-background.js"></script>
-<!-- Search Modal -->
-<div id="searchOverlay" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.8);backdrop-filter:blur(8px);justify-content:center;align-items:flex-start;padding-top:20vh;">
-    <div style="width:90%;max-width:560px;">
-        <input id="searchInput" type="text" placeholder="Search S4 Ledger..." style="width:100%;padding:18px 24px;border-radius:14px;border:1px solid rgba(0,170,255,0.3);background:rgba(17,17,24,0.95);color:#f0f0f5;font-size:1.1rem;outline:none;font-family:'Inter',sans-serif;">
-    </div>
-</div>
 <script>
-function openSearch(){const o=document.getElementById('searchOverlay');o.style.display='flex';document.getElementById('searchInput').focus();}
-document.addEventListener('keydown',e=>{if(e.key==='Escape')document.getElementById('searchOverlay').style.display='none';if((e.metaKey||e.ctrlKey)&&e.key==='k'){e.preventDefault();openSearch();}});
-document.getElementById('searchOverlay')?.addEventListener('click',function(e){if(e.target===this)this.style.display='none';});
+var nav=document.getElementById('mainNav');
+if(nav){window.addEventListener('scroll',function(){nav.classList.toggle('scrolled',window.scrollY>40);});}
+var obs=new IntersectionObserver(function(e){e.forEach(function(x){if(x.isIntersecting)x.target.classList.add('visible');});},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(function(el){obs.observe(el);});
 </script>
 </body>
 </html>

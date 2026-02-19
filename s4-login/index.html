@@ -6,998 +6,125 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <meta name="description" content="S4 Ledger — Secure Login Portal for authorized defense logistics users.">
-    <title>S4 Ledger | Login</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Sign In | S4 Ledger</title>
+    <meta name="description" content="Sign in to S4 Ledger.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/s4-assets/style.css">
-    <style>
-        .login-container{max-width:460px;margin:0 auto;padding-top:8rem}
-        .login-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:2.5rem;position:relative;overflow:hidden}
-        .login-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#00aaff,#c9a84c)}
-        .login-logo{text-align:center;margin-bottom:2rem}
-        .login-logo img{height:60px;width:60px;margin-bottom:12px;animation:logoFloat 3s ease-in-out infinite}
-        .login-logo h2{font-size:1.4rem;font-weight:800;background:linear-gradient(135deg,#00aaff,#ffffff,#c9a84c);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-        .login-logo p{color:var(--muted);font-size:0.85rem;margin-top:4px}
-        @keyframes logoFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
-        .form-group{margin-bottom:1.2rem}
-        .form-group label{display:block;font-weight:600;color:var(--steel);margin-bottom:6px;font-size:0.88rem}
-        .form-input{width:100%;background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:10px;padding:12px 14px;font-family:'Inter',sans-serif;font-size:0.92rem;transition:all 0.2s}
-        .form-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,170,255,0.15);outline:none}
-        .form-input::placeholder{color:var(--muted)}
-        .input-icon-wrap{position:relative}
-        .input-icon-wrap i{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:0.9rem}
-        .input-icon-wrap .form-input{padding-left:40px}
-        .toggle-pw{position:absolute;right:14px;top:50%;transform:translateY(-50%);color:var(--muted);cursor:pointer;font-size:0.9rem;background:none;border:none}
-        .toggle-pw:hover{color:var(--accent)}
-        .remember-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;font-size:0.85rem}
-        .remember-row label{color:var(--steel);cursor:pointer;display:flex;align-items:center;gap:6px}
-        .remember-row a{color:var(--accent);text-decoration:none;font-weight:600}
-        .remember-row a:hover{text-decoration:underline}
-        .btn-login{width:100%;background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;border-radius:10px;padding:13px;font-weight:700;font-size:1rem;cursor:pointer;transition:all 0.2s;font-family:'Inter',sans-serif}
-        .btn-login:hover{background:linear-gradient(135deg,#0099ee,#0077bb);transform:translateY(-1px);box-shadow:0 6px 20px rgba(0,170,255,0.3)}
-        .btn-login:disabled{opacity:0.5;cursor:not-allowed;transform:none;box-shadow:none}
-        .divider{display:flex;align-items:center;gap:12px;margin:1.5rem 0;color:var(--muted);font-size:0.82rem}
-        .divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--border)}
-        .sso-buttons{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1.5rem}
-        .btn-sso{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px;cursor:pointer;font-family:'Inter',sans-serif;font-size:0.82rem;font-weight:600;color:var(--steel);transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:8px}
-        .btn-sso:hover{border-color:var(--accent);color:var(--accent);background:rgba(0,170,255,0.05)}
-        .security-info{text-align:center;margin-top:1.5rem;padding:12px;background:rgba(20,241,149,0.04);border:1px solid rgba(20,241,149,0.15);border-radius:10px}
-        .security-info i{color:#14f195;margin-right:6px}
-        .security-info span{color:var(--steel);font-size:0.78rem}
-        .signup-link{text-align:center;margin-top:1.2rem;font-size:0.88rem;color:var(--muted)}
-        .signup-link a{color:var(--accent);font-weight:600;text-decoration:none}
-        .signup-link a:hover{text-decoration:underline}
-
-        /* Signup Form */
-        .signup-view{display:none}
-        .signup-view.active{display:block}
-        .plan-selector{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:1rem 0}
-        .plan-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 10px;text-align:center;cursor:pointer;transition:all 0.2s;position:relative}
-        .plan-card:hover{border-color:var(--accent)}
-        .plan-card.selected{border-color:#14f195;background:rgba(20,241,149,0.05)}
-        .plan-card.selected::after{content:'\f00c';font-family:'Font Awesome 6 Free';font-weight:900;position:absolute;top:6px;right:8px;color:#14f195;font-size:0.7rem}
-        .plan-card h5{font-size:0.82rem;font-weight:700;color:#fff;margin:0 0 4px 0}
-        .plan-card .plan-price{font-size:1.1rem;font-weight:800;color:var(--accent);margin:4px 0}
-        .plan-card .plan-detail{font-size:0.7rem;color:var(--muted)}
-        .plan-card .plan-sls{font-size:0.72rem;color:#c9a84c;margin-top:4px}
-
-        /* Wallet Credentials Modal */
-        .wallet-modal{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(5,8,16,0.96);z-index:10000;display:none;align-items:center;justify-content:center;padding:1rem}
-        .wallet-modal.active{display:flex}
-        .wallet-card{background:var(--card);border:1px solid #14f195;border-radius:16px;max-width:560px;width:100%;padding:2rem;position:relative;overflow:hidden;animation:fadeIn 0.3s ease;max-height:90vh;overflow-y:auto}
-        .wallet-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#14f195,#00aaff)}
-        .cred-field{margin:10px 0;padding:12px;background:var(--surface);border:1px solid var(--border);border-radius:8px;position:relative}
-        .cred-field label{display:block;font-size:0.72rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px}
-        .cred-field .cred-value{font-family:'Fira Code',monospace;font-size:0.82rem;color:#fff;word-break:break-all;user-select:all;cursor:text}
-        .cred-field .copy-btn{position:absolute;top:10px;right:10px;background:rgba(0,170,255,0.1);border:1px solid rgba(0,170,255,0.3);color:var(--accent);border-radius:6px;padding:4px 10px;font-size:0.7rem;cursor:pointer;font-family:'Inter',sans-serif}
-        .cred-field .copy-btn:hover{background:rgba(0,170,255,0.2)}
-        .wallet-warning{background:rgba(255,170,0,0.08);border:1px solid rgba(255,170,0,0.3);border-radius:10px;padding:14px;margin:14px 0}
-        .wallet-warning i{color:#ffaa00;margin-right:8px}
-        .wallet-warning strong{color:#ffaa00}
-        .wallet-warning p{color:var(--steel);font-size:0.82rem;margin:6px 0 0 0;line-height:1.5}
-        .wallet-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}
-        .wallet-stat{text-align:center;padding:12px;background:var(--surface);border-radius:8px;border:1px solid var(--border)}
-        .wallet-stat .stat-val{font-size:1.3rem;font-weight:800;color:#14f195}
-        .wallet-stat .stat-lbl{font-size:0.7rem;color:var(--muted);margin-top:2px}
-        @media(max-width:768px){.plan-selector{grid-template-columns:1fr}.wallet-stats{grid-template-columns:1fr}}
-
-        /* Tutorial Overlay */
-        .tutorial-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(5,8,16,0.96);z-index:9999;display:none;align-items:center;justify-content:center;padding:1rem}
-        .tutorial-overlay.active{display:flex}
-        .tutorial-card{background:var(--card);border:1px solid var(--border);border-radius:16px;max-width:600px;width:100%;padding:2.5rem;position:relative;overflow:hidden;animation:fadeIn 0.3s ease}
-        .tutorial-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#00aaff,#c9a84c)}
-        @keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-        .tutorial-step{display:none}
-        .tutorial-step.active{display:block}
-        .tutorial-step h3{color:#00aaff;font-size:1.2rem;margin-bottom:12px}
-        .tutorial-step p{color:var(--steel);font-size:0.9rem;line-height:1.7}
-        .tutorial-feature{display:flex;align-items:flex-start;gap:12px;margin:12px 0;padding:10px;background:rgba(0,170,255,0.04);border-radius:8px;border:1px solid rgba(0,170,255,0.1)}
-        .tutorial-feature i{color:var(--accent);font-size:1.1rem;margin-top:3px;min-width:20px}
-        .tutorial-feature div{font-size:0.85rem;color:var(--steel)}
-        .tutorial-feature strong{color:#fff}
-        .tutorial-dots{display:flex;justify-content:center;gap:8px;margin:1.5rem 0}
-        .tutorial-dot{width:10px;height:10px;border-radius:50%;background:var(--border);cursor:pointer;transition:all 0.2s}
-        .tutorial-dot.active{background:var(--accent);transform:scale(1.2)}
-        .tutorial-nav{display:flex;justify-content:space-between;align-items:center;margin-top:1rem}
-        .btn-tut{background:rgba(0,170,255,0.1);border:1px solid rgba(0,170,255,0.3);color:var(--accent);border-radius:8px;padding:8px 20px;font-weight:600;font-size:0.88rem;cursor:pointer;font-family:'Inter',sans-serif;transition:all 0.2s}
-        .btn-tut:hover{background:rgba(0,170,255,0.2);border-color:var(--accent)}
-        .btn-tut.primary{background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border-color:transparent}
-        .btn-tut.primary:hover{background:linear-gradient(135deg,#0099ee,#0077bb)}
-        .btn-skip{background:none;border:none;color:var(--muted);font-size:0.82rem;cursor:pointer;font-family:'Inter',sans-serif;position:absolute;top:15px;right:20px}
-        .btn-skip:hover{color:var(--accent)}
-
-        /* Dashboard Preview (post-login) */
-        .dashboard-preview{display:none;padding-top:6rem}
-        .dashboard-preview.active{display:block}
-        .dash-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;flex-wrap:wrap;gap:12px}
-        .dash-welcome h2{font-size:1.5rem;font-weight:800;margin-bottom:4px}
-        .dash-welcome p{color:var(--muted);font-size:0.88rem}
-        .dash-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;margin-bottom:2rem}
-        .dash-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.5rem;transition:all 0.2s;cursor:pointer;text-decoration:none;color:inherit}
-        .dash-card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 8px 25px rgba(0,170,255,0.12)}
-        .dash-card-icon{font-size:2rem;margin-bottom:10px}
-        .dash-card h4{font-size:1rem;font-weight:700;color:#fff;margin-bottom:6px}
-        .dash-card p{font-size:0.82rem;color:var(--steel);margin:0}
-        .dash-card .dash-badge{display:inline-block;font-size:0.7rem;padding:2px 8px;border-radius:4px;font-weight:700;margin-top:8px}
-        .dash-badge.live{background:rgba(20,241,149,0.15);color:#14f195}
-        .dash-badge.beta{background:rgba(0,170,255,0.15);color:#00aaff}
-        .dash-badge.soon{background:rgba(201,168,76,0.15);color:#c9a84c}
-        .activity-log{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.5rem}
-        .activity-log h4{font-size:1rem;font-weight:700;margin-bottom:12px}
-        .activity-item{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.03);font-size:0.82rem}
-        .activity-item:last-child{border:none}
-        .activity-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:0.85rem}
-        .activity-time{color:var(--muted);font-size:0.75rem;margin-left:auto;white-space:nowrap}
-        @media(max-width:768px){.login-container{padding-top:5rem}.login-card{padding:1.5rem}.sso-buttons{grid-template-columns:1fr}.dash-grid{grid-template-columns:1fr}.tutorial-card{padding:1.5rem}}
-    </style>
 </head>
 <body>
-<div class="mesh-bg"><div class="gradient-orb orb-1"></div><div class="gradient-orb orb-2"></div><div class="gradient-orb orb-3"></div></div>
-<!-- NAVBAR -->
-    <nav class="navbar navbar-expand-lg">
-    <div class="container">
-        <a class="navbar-brand" href="/">
-            <img src="/s4-assets/S4Ledger_logo.png" alt="S4" class="nav-logo">
-            <span class="brand-text">S4 Ledger</span>
+<nav class="nav" id="mainNav">
+    <div class="nav-inner">
+        <a href="/" class="nav-brand">
+            <img src="/s4-assets/S4Ledger_logo.png" alt="S4 Ledger">
+            <span>S4 Ledger</span>
         </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <ul class="nav-links" id="navLinks">
+            <li><a href="/demo-app/">Platform</a></li>
+            <li><a href="/s4-use-cases/">Use Cases</a></li>
+            <li><a href="/s4-pricing/">Pricing</a></li>
+            <li><a href="/s4-investors/">Company</a></li>
+            <li><a href="https://github.com/s4ledger/s4-ledger" target="_blank">Docs</a></li>
+            <li><a href="/s4-contact/" class="nav-cta">Request Demo</a></li>
+        </ul>
+        <button class="nav-mobile-toggle" onclick="document.getElementById('navLinks').classList.toggle('open')" aria-label="Menu">
             <i class="fas fa-bars"></i>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto align-items-center gap-1" id="navLinks">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Company</a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="/s4-about/"><i class="fas fa-building dd-accent"></i> About</a></li>
-                        <li><a class="dropdown-item" href="/s4-investors/"><i class="fas fa-chart-line dd-accent"></i> Investors</a></li>
-                        <li><a class="dropdown-item" href="/s4-partners/"><i class="fas fa-handshake dd-accent"></i> Partners</a></li>
-                        <li><a class="dropdown-item" href="/s4-contact/"><i class="fas fa-envelope dd-accent"></i> Contact</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Products</a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="/demo-app/"><i class="fas fa-terminal dd-green"></i> ILS Workspace</a></li>
-                        <li><a class="dropdown-item" href="/sdk-playground/"><i class="fas fa-code dd-gold"></i> SDK Playground</a></li>
-                        <li><a class="dropdown-item" href="/sdk/"><i class="fas fa-book dd-gold"></i> SDK Docs</a></li>
-                        <li><a class="dropdown-item" href="/s4-marketplace/"><i class="fas fa-store dd-purple"></i> Marketplace</a></li>
-                        <li><a class="dropdown-item" href="/metrics.html"><i class="fas fa-chart-bar dd-accent"></i> Metrics</a></li>
-                        <li><a class="dropdown-item" href="/transactions.html"><i class="fas fa-exchange-alt dd-accent"></i> Transactions</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">More</a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="/s4-use-cases/"><i class="fas fa-boxes-stacked dd-orange"></i> Use Cases</a></li>
-                        <li><a class="dropdown-item" href="/s4-pricing/"><i class="fas fa-tags dd-accent"></i> Pricing</a></li>
-                        <li><a class="dropdown-item" href="/s4-roadmap/"><i class="fas fa-road dd-accent"></i> Roadmap</a></li>
-                        <li><a class="dropdown-item" href="/s4-faq/"><i class="fas fa-question-circle dd-accent"></i> FAQ</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item" id="navLoginItem">
-                    <a class="nav-link active" href="/s4-login/" style="color:#00aaff !important;font-weight:700"><i class="fas fa-sign-in-alt"></i> Login</a>
-                </li>
-            </ul>
-        </div>
     </div>
 </nav>
 
-    <!-- LOGIN FORM -->
-    <div id="loginView" class="login-container">
-        <div class="login-card">
-            <div class="login-logo">
-                <img src="/s4-assets/S4Ledger_logo.png" alt="S4 Ledger">
-                <h2>Welcome Back</h2>
-                <p>Sign in to your S4 Ledger account</p>
-            </div>
-
-            <form id="loginForm" onsubmit="handleLogin(event)">
+<section style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:120px 24px 80px;">
+    <div style="width:100%;max-width:400px;">
+        <div style="text-align:center;margin-bottom:40px;">
+            <img src="/s4-assets/S4Ledger_logo.png" alt="S4" style="height:48px;width:48px;margin-bottom:16px;">
+            <h2 style="font-size:1.5rem;font-weight:700;">Sign in to S4 Ledger</h2>
+            <p style="color:var(--text-muted);font-size:0.875rem;margin-top:8px;">Access your ILS Workspace and verification tools.</p>
+        </div>
+        <div class="card-bordered" style="padding:32px;">
+            <form onsubmit="event.preventDefault();handleLogin();">
                 <div class="form-group">
-                    <label for="loginEmail"><i class="fas fa-envelope" style="margin-right:6px;color:var(--accent)"></i>Email Address</label>
-                    <div class="input-icon-wrap">
-                        <i class="fas fa-envelope"></i>
-                        <input type="email" class="form-input" id="loginEmail" placeholder="you@organization.mil" required autocomplete="email">
-                    </div>
+                    <label class="form-label">Email</label>
+                    <input type="email" id="loginEmail" placeholder="you@organization.com" required>
                 </div>
-
                 <div class="form-group">
-                    <label for="loginPassword"><i class="fas fa-lock" style="margin-right:6px;color:var(--accent)"></i>Password</label>
-                    <div class="input-icon-wrap">
-                        <i class="fas fa-lock"></i>
-                        <input type="password" class="form-input" id="loginPassword" placeholder="••••••••••" required autocomplete="current-password">
-                        <button type="button" class="toggle-pw" onclick="togglePassword()"><i class="fas fa-eye"></i></button>
-                    </div>
+                    <label class="form-label">Password</label>
+                    <input type="password" id="loginPass" placeholder="Password" required>
                 </div>
-
-                <div class="remember-row">
-                    <label><input type="checkbox" id="rememberMe" checked> Remember me</label>
-                    <a href="#" onclick="showForgotPassword(event)">Forgot password?</a>
-                </div>
-
-                <button type="submit" class="btn-login" id="loginBtn">
-                    <i class="fas fa-sign-in-alt"></i> Sign In
-                </button>
-
-                <div id="loginError" style="display:none;margin-top:12px;padding:10px;background:rgba(255,51,51,0.08);border:1px solid rgba(255,51,51,0.2);border-radius:8px;font-size:0.85rem;color:#ff6b6b;text-align:center"></div>
+                <button type="submit" class="btn-primary" style="width:100%;justify-content:center;margin-top:8px;">Sign In</button>
             </form>
-
-            <div class="divider">or continue with</div>
-
-            <div class="sso-buttons">
-                <button class="btn-sso" onclick="ssoLogin('cac')"><i class="fas fa-id-card" style="color:#14f195"></i> CAC / PIV Card</button>
-                <button class="btn-sso" onclick="ssoLogin('microsoft')"><i class="fab fa-microsoft" style="color:#00aaff"></i> Microsoft SSO</button>
-            </div>
-
-            <div class="security-info">
-                <i class="fas fa-shield-alt"></i>
-                <span>256-bit TLS encryption • FIPS 140-2 compliant • NIST 800-171 aligned</span>
-            </div>
-
-            <div class="signup-link">
-                Don't have an account? <a href="#" onclick="showSignup(event)">Create Account</a>
-            </div>
+            <div id="loginMsg" style="display:none;margin-top:16px;padding:12px;border-radius:var(--radius);background:var(--accent-dim);border:1px solid rgba(0,170,255,0.2);text-align:center;color:var(--accent);font-size:0.875rem;"></div>
         </div>
-
-        <!-- SIGNUP FORM -->
-        <div class="signup-view" id="signupView">
-            <div class="login-logo">
-                <img src="/s4-assets/S4Ledger_logo.png" alt="S4 Ledger" style="height:50px;width:50px;margin-bottom:8px">
-                <h2>Create Your Account</h2>
-                <p>Get your XRPL wallet automatically</p>
-            </div>
-
-            <form id="signupForm" onsubmit="handleSignup(event)">
-                <div class="form-group">
-                    <label><i class="fas fa-envelope" style="margin-right:6px;color:var(--accent)"></i>Work Email</label>
-                    <div class="input-icon-wrap">
-                        <i class="fas fa-envelope"></i>
-                        <input type="email" class="form-input" id="signupEmail" placeholder="you@organization.mil" required autocomplete="email">
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label><i class="fas fa-building" style="margin-right:6px;color:var(--accent)"></i>Organization</label>
-                    <div class="input-icon-wrap">
-                        <i class="fas fa-building"></i>
-                        <input type="text" class="form-input" id="signupOrg" placeholder="e.g. NAVSEA, Lockheed Martin" autocomplete="organization">
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label><i class="fas fa-lock" style="margin-right:6px;color:var(--accent)"></i>Password</label>
-                    <div class="input-icon-wrap">
-                        <i class="fas fa-lock"></i>
-                        <input type="password" class="form-input" id="signupPassword" placeholder="Min 8 characters" required minlength="8" autocomplete="new-password">
-                    </div>
-                </div>
-
-                <label style="display:block;font-weight:600;color:var(--steel);font-size:0.88rem;margin-bottom:8px"><i class="fas fa-cube" style="margin-right:6px;color:#c9a84c"></i>Select Subscription Plan</label>
-
-                <div class="plan-selector">
-                    <div class="plan-card" onclick="selectPlan(this,'pilot')" data-plan="pilot">
-                        <h5>Pilot</h5>
-                        <div class="plan-price">FREE</div>
-                        <div class="plan-detail">100 SLS/mo • 10K anchors</div>
-                        <div class="plan-sls"><i class="fas fa-wallet" style="font-size:0.65rem"></i> Wallet + TrustLine</div>
-                    </div>
-                    <div class="plan-card selected" onclick="selectPlan(this,'starter')" data-plan="starter">
-                        <h5>Starter</h5>
-                        <div class="plan-price">$999/mo</div>
-                        <div class="plan-detail">25,000 SLS/mo • 2.5M anchors</div>
-                        <div class="plan-sls"><i class="fas fa-wallet" style="font-size:0.65rem"></i> Wallet + TrustLine</div>
-                    </div>
-                    <div class="plan-card" onclick="selectPlan(this,'professional')" data-plan="professional">
-                        <h5>Professional</h5>
-                        <div class="plan-price">$2,499/mo</div>
-                        <div class="plan-detail">100,000 SLS/mo • 10M anchors</div>
-                        <div class="plan-sls"><i class="fas fa-wallet" style="font-size:0.65rem"></i> Wallet + TrustLine</div>
-                    </div>
-                    <div class="plan-card" onclick="selectPlan(this,'enterprise')" data-plan="enterprise">
-                        <h5>Enterprise</h5>
-                        <div class="plan-price">$9,999/mo</div>
-                        <div class="plan-detail">500,000 SLS/mo • Unlimited anchors</div>
-                        <div class="plan-sls"><i class="fas fa-wallet" style="font-size:0.65rem"></i> Dedicated wallets</div>
-                    </div>
-                </div>
-
-                <button type="submit" class="btn-login" id="signupBtn" style="margin-top:12px;background:linear-gradient(135deg,#14f195,#00cc77)">
-                    <i class="fas fa-wallet"></i> Create Account & Wallet
-                </button>
-
-                <div id="signupError" style="display:none;margin-top:12px;padding:10px;background:rgba(255,51,51,0.08);border:1px solid rgba(255,51,51,0.2);border-radius:8px;font-size:0.85rem;color:#ff6b6b;text-align:center"></div>
-                <div id="signupProgress" style="display:none;margin-top:12px;padding:12px;background:rgba(0,170,255,0.05);border:1px solid rgba(0,170,255,0.15);border-radius:8px;font-size:0.82rem;color:var(--steel);line-height:1.8"></div>
-            </form>
-
-            <div class="security-info" style="margin-top:1.2rem">
-                <i class="fas fa-shield-alt"></i>
-                <span>XRPL Mainnet wallet + SLS TrustLine created automatically. SLS delivered from Treasury. secp256k1 (Xaman compatible).</span>
-            </div>
-
-            <div class="signup-link">
-                Already have an account? <a href="#" onclick="showLogin(event)">Sign In</a>
-            </div>
-        </div>
+        <p style="text-align:center;margin-top:24px;color:var(--text-muted);font-size:0.8125rem;">
+            Don't have an account? <a href="/s4-contact/">Request access</a>
+        </p>
     </div>
+</section>
 
-    <!-- WALLET CREDENTIALS MODAL -->
-    <div class="wallet-modal" id="walletModal">
-        <div class="wallet-card">
-            <h3 style="color:#14f195;font-size:1.2rem;margin-bottom:4px"><i class="fas fa-wallet" style="margin-right:8px"></i>Your XRPL Wallet Is Ready</h3>
-            <p style="color:var(--muted);font-size:0.82rem;margin-bottom:16px">Save these credentials securely — they cannot be recovered if lost.</p>
-
-            <div class="wallet-warning">
-                <i class="fas fa-exclamation-triangle"></i><strong>CRITICAL: Save Your Family Seed</strong>
-                <p>Your family seed (secret key) is the ONLY way to access your wallet. Write it down and store it in a secure location. S4 Ledger cannot recover it for you.</p>
+<footer class="footer">
+    <div class="container">
+        <div class="footer-inner">
+            <div>
+                <a href="/" class="footer-brand">
+                    <img src="/s4-assets/S4Ledger_logo.png" alt="S4 Ledger">
+                    <span>S4 Ledger</span>
+                </a>
+                <div class="footer-tagline">Immutable defense logistics. Built on the XRP Ledger.</div>
             </div>
-
-            <div class="cred-field">
-                <label>Wallet Address (Public)</label>
-                <div class="cred-value" id="credAddress">Loading...</div>
-                <button class="copy-btn" onclick="copyCredential('credAddress')"><i class="fas fa-copy"></i> Copy</button>
-            </div>
-
-            <div class="cred-field" style="border-color:rgba(255,170,0,0.3);background:rgba(255,170,0,0.03)">
-                <label style="color:#ffaa00">Family Seed (SECRET — Keep Private!)</label>
-                <div class="cred-value" id="credSeed" style="color:#ffaa00">Loading...</div>
-                <button class="copy-btn" onclick="copyCredential('credSeed')" style="border-color:rgba(255,170,0,0.3);color:#ffaa00"><i class="fas fa-copy"></i> Copy</button>
-            </div>
-
-            <div class="cred-field">
-                <label>Public Key</label>
-                <div class="cred-value" id="credPubKey">Loading...</div>
-                <button class="copy-btn" onclick="copyCredential('credPubKey')"><i class="fas fa-copy"></i> Copy</button>
-            </div>
-
-            <div class="wallet-stats">
-                <div class="wallet-stat">
-                    <div class="stat-val" id="credSLS">0</div>
-                    <div class="stat-lbl">SLS Balance</div>
+            <div class="footer-links">
+                <div class="footer-col">
+                    <h5>Product</h5>
+                    <a href="/demo-app/">Platform</a>
+                    <a href="/sdk-playground/">SDK Playground</a>
+                    <a href="/metrics.html">Live Metrics</a>
+                    <a href="/transactions.html">Transactions</a>
                 </div>
-                <div class="wallet-stat">
-                    <div class="stat-val" id="credAnchors">&mdash;</div>
-                    <div class="stat-lbl">Anchors Available</div>
+                <div class="footer-col">
+                    <h5>Company</h5>
+                    <a href="/s4-about/">About</a>
+                    <a href="/s4-investors/">Investors</a>
+                    <a href="/s4-partners/">Partners</a>
+                    <a href="/s4-roadmap/">Roadmap</a>
                 </div>
-                <div class="wallet-stat">
-                    <div class="stat-val" id="credXRP">&mdash;</div>
-                    <div class="stat-lbl">XRP Reserve</div>
+                <div class="footer-col">
+                    <h5>Resources</h5>
+                    <a href="/s4-use-cases/">Use Cases</a>
+                    <a href="/s4-faq/">FAQ</a>
+                    <a href="/s4-pricing/">Pricing</a>
+                    <a href="/security/">Security</a>
                 </div>
-            </div>
-
-            <div class="cred-field">
-                <label>Network</label>
-                <div class="cred-value" id="credNetwork" style="color:#14f195">XRPL Mainnet</div>
-            </div>
-
-            <div class="cred-field">
-                <label>Explorer</label>
-                <div class="cred-value"><a id="credExplorer" href="#" target="_blank" style="color:var(--accent);text-decoration:none">View on XRPL Explorer <i class="fas fa-external-link-alt" style="font-size:0.7rem"></i></a></div>
-            </div>
-
-            <div style="margin-top:14px;padding:12px;background:rgba(0,170,255,0.05);border:1px solid rgba(0,170,255,0.15);border-radius:8px">
-                <p style="font-size:0.82rem;color:var(--steel);margin:0"><i class="fas fa-mobile-alt" style="color:var(--accent);margin-right:6px"></i><strong>Mobile Access:</strong> Import your family seed into <a href="https://xaman.app" target="_blank" style="color:var(--accent)">Xaman (formerly XUMM)</a> to manage your wallet on mobile.</p>
-            </div>
-
-            <div style="display:flex;gap:10px;margin-top:16px">
-                <button class="btn-login" onclick="downloadCredentials()" style="flex:1;background:linear-gradient(135deg,#c9a84c,#b8943d)"><i class="fas fa-download"></i> Download Credentials</button>
-                <button class="btn-login" onclick="closeWalletModal()" style="flex:1"><i class="fas fa-check"></i> I've Saved My Seed</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- TUTORIAL OVERLAY -->
-    <div class="tutorial-overlay" id="tutorialOverlay">
-        <div class="tutorial-card">
-            <button class="btn-skip" onclick="closeTutorial()">Skip Tutorial ×</button>
-
-            <div class="tutorial-step active" data-step="1">
-                <div style="text-align:center;font-size:3rem;margin-bottom:12px"><i class="fas fa-rocket" style="color:var(--accent)"></i></div>
-                <h3>Welcome to S4 Ledger</h3>
-                <p>Your hash-verified defense logistics platform. Let's take a quick tour of what you can do.</p>
-                <div class="tutorial-feature">
-                    <i class="fas fa-lock"></i>
-                    <div><strong>Zero-Knowledge Security</strong><br>All document processing happens locally in your browser. We never see your data — only SHA-256 hashes are stored.</div>
-                </div>
-                <div class="tutorial-feature">
-                    <i class="fas fa-anchor"></i>
-                    <div><strong>XRPL Anchoring</strong><br>Every record gets an immutable hash on the XRP Ledger. Permanent, tamper-proof, and verifiable by anyone.</div>
-                </div>
-            </div>
-
-            <div class="tutorial-step" data-step="2">
-                <div style="text-align:center;font-size:3rem;margin-bottom:12px"><i class="fas fa-brain" style="color:var(--accent)"></i></div>
-                <h3>ILS Workspace Analyzer</h3>
-                <p>The flagship tool. Upload your ILS documents and instantly get:</p>
-                <div class="tutorial-feature">
-                    <i class="fas fa-chart-line"></i>
-                    <div><strong>Gap Analysis & Readiness Scoring</strong><br>Cross-references your documents against program-specific checklists compatible with any DoW program.</div>
-                </div>
-                <div class="tutorial-feature">
-                    <i class="fas fa-robot"></i>
-                    <div><strong>AI Agent</strong><br>Ask questions, draft CARs, get cost estimates, and generate reports — all in real-time.</div>
-                </div>
-                <div class="tutorial-feature">
-                    <i class="fas fa-paper-plane"></i>
-                    <div><strong>Post-Analysis Actions</strong><br>Send results via email, schedule review meetings, export action trackers, and print reports.</div>
-                </div>
-            </div>
-
-            <div class="tutorial-step" data-step="3">
-                <div style="text-align:center;font-size:3rem;margin-bottom:12px"><i class="fas fa-bolt" style="color:var(--accent)"></i></div>
-                <h3>Anchor & Verify Records</h3>
-                <p>Choose from any defense record type — 156+ pre-built templates across all military branches:</p>
-                <div class="tutorial-feature">
-                    <i class="fas fa-file-alt"></i>
-                    <div><strong>Record Types</strong><br>Supply chain, maintenance, contracts, configuration, safety, cybersecurity, and more — organized by branch.</div>
-                </div>
-                <div class="tutorial-feature">
-                    <i class="fas fa-check-double"></i>
-                    <div><strong>Verification</strong><br>Enter any hash to verify it against the XRPL. Instant proof of record integrity for audits, disputes, and compliance.</div>
-                </div>
-            </div>
-
-            <div class="tutorial-step" data-step="4">
-                <div style="text-align:center;font-size:3rem;margin-bottom:12px"><i class="fas fa-chart-bar" style="color:var(--accent)"></i></div>
-                <h3>Dashboard & Reporting</h3>
-                <p>Your command center for all S4 Ledger activity:</p>
-                <div class="tutorial-feature">
-                    <i class="fas fa-tachometer-alt"></i>
-                    <div><strong>Live Dashboard</strong><br>Real-time metrics, recent activity, and anchor history — all in one view.</div>
-                </div>
-                <div class="tutorial-feature">
-                    <i class="fas fa-cogs"></i>
-                    <div><strong>API & SDK Access</strong><br>Integrate S4 Ledger into your existing workflows with our REST API and Python SDK.</div>
-                </div>
-                <div style="text-align:center;margin-top:1rem;padding:12px;background:rgba(20,241,149,0.06);border-radius:10px;border:1px solid rgba(20,241,149,0.15)">
-                    <span style="color:#14f195;font-weight:700;font-size:0.95rem">You're all set! <i class="fas fa-bullseye" style="color:#14f195"></i></span><br>
-                    <span style="color:var(--steel);font-size:0.82rem">Start exploring from your dashboard below.</span>
-                </div>
-            </div>
-
-            <div class="tutorial-dots">
-                <span class="tutorial-dot active" onclick="goToStep(1)"></span>
-                <span class="tutorial-dot" onclick="goToStep(2)"></span>
-                <span class="tutorial-dot" onclick="goToStep(3)"></span>
-                <span class="tutorial-dot" onclick="goToStep(4)"></span>
-            </div>
-            <div class="tutorial-nav">
-                <button class="btn-tut" id="tutPrev" onclick="prevStep()" style="visibility:hidden">← Back</button>
-                <button class="btn-tut primary" id="tutNext" onclick="nextStep()">Next →</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- DASHBOARD (post-login) -->
-    <div id="dashboardView" class="dashboard-preview container">
-        <div class="dash-header">
-            <div class="dash-welcome">
-                <h2>Welcome, <span id="dashUserName" style="color:var(--accent)">Commander</span></h2>
-                <p>S4 Ledger Command Center — <span id="dashDate"></span></p>
-            </div>
-            <button class="btn-tut" onclick="handleLogout()"><i class="fas fa-sign-out-alt"></i> Sign Out</button>
-        </div>
-
-        <div class="dash-grid">
-            <a href="/demo-app/#tabILS" class="dash-card">
-                <div class="dash-card-icon"><i class="fas fa-brain" style="color:var(--accent)"></i></div>
-                <h4>ILS Workspace</h4>
-                <p>13-tool command center — gap analysis, action items, DMSMS, readiness, ROI, lifecycle cost, audit vault, doc library, compliance, supply chain risk, audit reports, predictive maintenance, and ILIE — all across 500+ platforms.</p>
-                <span class="dash-badge live">LIVE</span>
-            </a>
-            <a href="/demo-app/#tabAnchor" class="dash-card">
-                <div class="dash-card-icon"><i class="fas fa-anchor" style="color:var(--accent)"></i></div>
-                <h4>Anchor Records</h4>
-                <p>Hash-anchor any defense record to the XRPL — 156+ pre-built templates across 9 branches with CUI encryption, classification banners, and XRPL verification links.</p>
-                <span class="dash-badge live">LIVE</span>
-            </a>
-            <a href="/demo-app/#tabVerify" class="dash-card">
-                <div class="dash-card-icon"><i class="fas fa-search" style="color:var(--accent)"></i></div>
-                <h4>Verify Records</h4>
-                <p>Cryptographic verification — paste content to recompute SHA-256 hash and compare against the immutable XRPL anchor. Instant proof of integrity.</p>
-                <span class="dash-badge live">LIVE</span>
-            </a>
-            <a href="/demo-app/#hub-vault" class="dash-card">
-                <div class="dash-card-icon"><i class="fas fa-landmark" style="color:var(--accent)"></i></div>
-                <h4>Audit Record Vault</h4>
-                <p>Auto-stored anchored records with full content, hash, timestamp, branch, and XRPL TX link. Filterable, searchable, and exportable. Persists to IndexedDB.</p>
-                <span class="dash-badge live">LIVE</span>
-            </a>
-            <a href="/demo-app/" class="dash-card">
-                <div class="dash-card-icon"><i class="fas fa-arrow-up-right-from-square" style="color:#a855f7"></i></div>
-                <h4>HarborLink Tools</h4>
-                <p>Additional ILS tools — Parts Cross-Reference, Contracts, Digital Thread, Warranty Tracker, ILS Calendar, Provisioning, and Defense Database Import — are available through HarborLink, S4 Systems' collaboration portal.</p>
-                <span class="dash-badge beta">HARBORLINK</span>
-            </a>
-            <a href="/demo-app/" class="dash-card">
-                <div class="dash-card-icon"><i class="fas fa-file-pdf" style="color:#ff6b6b"></i></div>
-                <h4>PDF & CSV Export</h4>
-                <p>Generate professional PDF reports with classification banners, executive summary, gap analysis, action items, and vault records. Export vault & action items as CSV.</p>
-                <span class="dash-badge live">LIVE</span>
-            </a>
-            <a href="/demo-app/" class="dash-card">
-                <div class="dash-card-icon"><i class="fas fa-user-plus" style="color:#14f195"></i></div>
-                <h4>Task Assignment & Collaboration</h4>
-                <p>Assign action items to team members with priority, due dates, and status tracking. Comment threads, notification toasts, and team roster management.</p>
-                <span class="dash-badge live">LIVE</span>
-            </a>
-            <a href="/demo-app/" class="dash-card">
-                <div class="dash-card-icon"><i class="fas fa-user-shield" style="color:#c9a84c"></i></div>
-                <h4>Authentication & Sessions</h4>
-                <p>Role-based access control (admin, manager, analyst, auditor, viewer), session management, user preferences, and activity tracking with auto-save.</p>
-                <span class="dash-badge live">LIVE</span>
-            </a>
-            <a href="/sdk-playground/" class="dash-card">
-                <div class="dash-card-icon"><i class="fas fa-code" style="color:var(--accent)"></i></div>
-                <h4>SDK Playground</h4>
-                <p>Interactive Python SDK sandbox — 27 functions with card-style testing, any record type. Anchor, verify, batch process, and query records programmatically.</p>
-                <span class="dash-badge live">LIVE</span>
-            </a>
-            <a href="/s4-marketplace/" class="dash-card">
-                <div class="dash-card-icon"><i class="fas fa-store" style="color:#a855f7"></i></div>
-                <h4>Marketplace</h4>
-                <p>Browse and deploy S4 Ledger integrations, templates, and connectors for defense logistics systems — GCSS-Army, NALCOMIS, CDMD-OA, and more.</p>
-                <span class="dash-badge live">LIVE</span>
-            </a>
-            <a href="/metrics.html" class="dash-card">
-                <div class="dash-card-icon"><i class="fas fa-chart-bar" style="color:var(--accent)"></i></div>
-                <h4>Live Metrics</h4>
-                <p>Real-time platform statistics — anchor counts by branch, active programs, $SLS token activity, and system health monitoring with auto-refresh.</p>
-                <span class="dash-badge live">LIVE</span>
-            </a>
-            <a href="#" class="dash-card" onclick="event.preventDefault()">
-                <div class="dash-card-icon"><i class="fas fa-key" style="color:var(--accent)"></i></div>
-                <h4>API Keys</h4>
-                <p>Manage your API access keys, rate limits, and integration credentials for automated workflows and CI/CD pipeline integration.</p>
-                <span class="dash-badge beta">BETA</span>
-            </a>
-        </div>
-
-        <div class="activity-log">
-            <h4><i class="fas fa-clock" style="color:var(--accent);margin-right:8px"></i>Recent Activity</h4>
-            <div id="activityFeed">
-                <div class="activity-item">
-                    <div class="activity-icon" style="background:rgba(20,241,149,0.1);color:#14f195"><i class="fas fa-check"></i></div>
-                    <div>
-                        <div style="color:#fff;font-weight:600">ILS Analysis Completed</div>
-                        <div style="color:var(--muted)">YRBM — PMS 300 | 78% readiness</div>
-                    </div>
-                    <span class="activity-time">2 hours ago</span>
-                </div>
-                <div class="activity-item">
-                    <div class="activity-icon" style="background:rgba(0,170,255,0.1);color:#00aaff"><i class="fas fa-anchor"></i></div>
-                    <div>
-                        <div style="color:#fff;font-weight:600">Record Anchored to XRPL</div>
-                        <div style="color:var(--muted)">Supply Chain Receipt | SHA-256 verified</div>
-                    </div>
-                    <span class="activity-time">5 hours ago</span>
-                </div>
-                <div class="activity-item">
-                    <div class="activity-icon" style="background:rgba(201,168,76,0.1);color:#c9a84c"><i class="fas fa-file-export"></i></div>
-                    <div>
-                        <div style="color:#fff;font-weight:600">Report Generated</div>
-                        <div style="color:var(--muted)">Gap Analysis — DDG-51 Flight III</div>
-                    </div>
-                    <span class="activity-time">Yesterday</span>
-                </div>
-                <div class="activity-item">
-                    <div class="activity-icon" style="background:rgba(20,241,149,0.1);color:#14f195"><i class="fas fa-user-plus"></i></div>
-                    <div>
-                        <div style="color:#fff;font-weight:600">Account Created</div>
-                        <div style="color:var(--muted)">Welcome to S4 Ledger</div>
-                    </div>
-                    <span class="activity-time">3 days ago</span>
+                <div class="footer-col">
+                    <h5>Connect</h5>
+                    <a href="/s4-contact/">Contact</a>
+                    <a href="https://github.com/s4ledger/s4-ledger" target="_blank">GitHub</a>
+                    <a href="https://x.com" target="_blank">X / Twitter</a>
+                    <a href="https://linkedin.com" target="_blank">LinkedIn</a>
                 </div>
             </div>
         </div>
-    </div>
-
-    <footer class="site-footer">
-    <div class="footer-grid">
-        <div>
-            <a href="/" class="footer-brand-link">
-                <img src="/s4-assets/S4Ledger_logo.png" alt="S4">
-                S4 Ledger
-            </a>
-            <p class="footer-tagline">Immutable logistics verification anchored to the XRP Ledger. The secure standard for defense and enterprise supply chains.</p>
-            <div class="footer-social">
-                <a href="https://github.com/S4-Ledger" aria-label="GitHub"><i class="fab fa-github"></i></a>
-                <a href="https://x.com/S4Ledger" aria-label="X"><i class="fab fa-x-twitter"></i></a>
-                <a href="https://discord.gg/s4ledger" aria-label="Discord"><i class="fab fa-discord"></i></a>
+        <div class="footer-bottom">
+            <span>&copy; 2025 S4 Systems, LLC. $SLS is a utility token &mdash; not equity or an investment contract.</span>
+            <div class="footer-bottom-links">
+                <a href="/s4-terms/">Terms</a>
+                <a href="/s4-privacy/">Privacy</a>
+                <a href="/security-policy/">Security Policy</a>
             </div>
-        </div>
-        <div class="footer-col">
-            <h5>Product</h5>
-            <a href="/demo-app/">ILS Workspace</a>
-            <a href="/sdk/">SDK Docs</a>
-            <a href="/sdk-playground/">SDK Playground</a>
-            <a href="/s4-marketplace/">Marketplace</a>
-            <a href="/s4-pricing/">Pricing</a>
-        </div>
-        <div class="footer-col">
-            <h5>Company</h5>
-            <a href="/s4-about/">About</a>
-            <a href="/s4-investors/">Investors</a>
-            <a href="/s4-partners/">Partners</a>
-            <a href="/s4-roadmap/">Roadmap</a>
-            <a href="/s4-contact/">Contact</a>
-        </div>
-        <div class="footer-col">
-            <h5>Resources</h5>
-            <a href="/s4-use-cases/">Use Cases</a>
-            <a href="/s4-faq/">FAQ</a>
-            <a href="/metrics.html">Metrics</a>
-            <a href="/transactions.html">Transactions</a>
-            <a href="/security/">Security</a>
-        </div>
-    </div>
-    <div class="footer-bottom">
-        <span>&copy; 2025 S4 Ledger. All rights reserved.</span>
-        <div class="footer-bottom-links">
-            <a href="/s4-terms/">Terms</a>
-            <a href="/s4-privacy/">Privacy</a>
-            <a href="/security/">Security</a>
         </div>
     </div>
 </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    // Particles
-
-    // ── Login Logic ──
-    let currentStep = 1;
-    const TOTAL_STEPS = 4;
-
-    function togglePassword() {
-        const pw = document.getElementById('loginPassword');
-        const icon = document.querySelector('.toggle-pw i');
-        if (pw.type === 'password') { pw.type = 'text'; icon.className = 'fas fa-eye-slash'; }
-        else { pw.type = 'password'; icon.className = 'fas fa-eye'; }
-    }
-
-    function updateNavForAuth(loggedIn, userName) {
-        const navLoginItem = document.getElementById('navLoginItem');
-        if (loggedIn && userName) {
-            navLoginItem.innerHTML = '<a class="nav-link" href="/s4-login/" style="color:#14f195 !important;font-weight:700"><i class="fas fa-user-circle"></i> ' + userName + '</a>';
-        } else {
-            navLoginItem.innerHTML = '<a class="nav-link active" href="/s4-login/" style="color:#00aaff !important;font-weight:700"><i class="fas fa-sign-in-alt"></i> Login</a>';
-        }
-    }
-
-    function handleLogin(e) {
-        e.preventDefault();
-        const email = document.getElementById('loginEmail').value.trim();
-        const pw = document.getElementById('loginPassword').value;
-        const errorEl = document.getElementById('loginError');
-
-        if (!email || !pw) { showError('Please enter both email and password.'); return; }
-        if (pw.length < 6) { showError('Invalid credentials. Please try again.'); return; }
-
-        // Simulate authentication
-        const btn = document.getElementById('loginBtn');
-        btn.disabled = true;
-        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing in...';
-        errorEl.style.display = 'none';
-
-        setTimeout(() => {
-            // Demo: accept any valid-looking credentials
-            const userName = email.split('@')[0].replace(/[^a-zA-Z]/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
-            localStorage.setItem('s4_user', JSON.stringify({ email, name: userName, loginTime: Date.now() }));
-
-            // Check if first login — show tutorial
-            if (!localStorage.getItem('s4_tutorial_done')) {
-                showTutorial(userName);
-            } else {
-                showDashboard(userName);
-            }
-        }, 1200);
-    }
-
-    function showError(msg) {
-        const el = document.getElementById('loginError');
-        el.textContent = msg;
-        el.style.display = 'block';
-    }
-
-    function ssoLogin(type) {
-        const btn = event.target.closest('.btn-sso');
-        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Connecting...';
-        setTimeout(() => {
-            const userName = type === 'cac' ? 'CAC User' : 'SSO User';
-            localStorage.setItem('s4_user', JSON.stringify({ email: userName.toLowerCase().replace(' ','') + '@mil.gov', name: userName, loginTime: Date.now() }));
-            if (!localStorage.getItem('s4_tutorial_done')) { showTutorial(userName); }
-            else { showDashboard(userName); }
-        }, 1500);
-    }
-
-    function showTutorial(name) {
-        document.getElementById('loginView').style.display = 'none';
-        document.getElementById('tutorialOverlay').classList.add('active');
-        currentStep = 1;
-        updateStepUI();
-    }
-
-    function showDashboard(name) {
-        document.getElementById('loginView').style.display = 'none';
-        document.getElementById('tutorialOverlay').classList.remove('active');
-        document.getElementById('dashboardView').classList.add('active');
-        document.getElementById('dashUserName').textContent = name;
-        document.getElementById('dashDate').textContent = new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-        updateNavForAuth(true, name);
-    }
-
-    function closeTutorial() {
-        localStorage.setItem('s4_tutorial_done', '1');
-        const user = JSON.parse(localStorage.getItem('s4_user') || '{}');
-        showDashboard(user.name || 'User');
-    }
-
-    function nextStep() {
-        if (currentStep >= TOTAL_STEPS) { closeTutorial(); return; }
-        currentStep++;
-        updateStepUI();
-    }
-
-    function prevStep() {
-        if (currentStep <= 1) return;
-        currentStep--;
-        updateStepUI();
-    }
-
-    function goToStep(n) {
-        currentStep = n;
-        updateStepUI();
-    }
-
-    function updateStepUI() {
-        document.querySelectorAll('.tutorial-step').forEach(s => s.classList.remove('active'));
-        document.querySelectorAll('.tutorial-dot').forEach(d => d.classList.remove('active'));
-        document.querySelector('.tutorial-step[data-step="'+currentStep+'"]').classList.add('active');
-        document.querySelectorAll('.tutorial-dot')[currentStep-1].classList.add('active');
-        document.getElementById('tutPrev').style.visibility = currentStep > 1 ? 'visible' : 'hidden';
-        document.getElementById('tutNext').textContent = currentStep >= TOTAL_STEPS ? 'Get Started →' : 'Next →';
-    }
-
-    function handleLogout() {
-        localStorage.removeItem('s4_user');
-        document.getElementById('dashboardView').classList.remove('active');
-        document.getElementById('loginView').style.display = 'block';
-        document.getElementById('loginBtn').disabled = false;
-        document.getElementById('loginBtn').innerHTML = '<i class="fas fa-sign-in-alt"></i> Sign In';
-        document.getElementById('loginForm').reset();
-        updateNavForAuth(false);
-    }
-
-    function showForgotPassword(e) {
-        e.preventDefault();
-        alert('Password reset functionality will be available in the next release. Please contact your administrator.');
-    }
-
-    function showContactSales(e) {
-        e.preventDefault();
-        window.location.href = '../s4-contact/';
-    }
-
-    // ── Signup & Wallet Provisioning ──
-    let selectedPlan = 'starter';
-
-    function showSignup(e) {
-        e.preventDefault();
-        document.getElementById('loginView').querySelector('.login-card').style.display = 'none';
-        document.getElementById('signupView').classList.add('active');
-    }
-
-    function showLogin(e) {
-        e.preventDefault();
-        document.getElementById('signupView').classList.remove('active');
-        document.getElementById('loginView').querySelector('.login-card').style.display = 'block';
-    }
-
-    function selectPlan(el, plan) {
-        document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('selected'));
-        el.classList.add('selected');
-        selectedPlan = plan;
-    }
-
-    async function handleSignup(e) {
-        e.preventDefault();
-        const email = document.getElementById('signupEmail').value.trim();
-        const org = document.getElementById('signupOrg').value.trim();
-        const pw = document.getElementById('signupPassword').value;
-        const errorEl = document.getElementById('signupError');
-        const progressEl = document.getElementById('signupProgress');
-        const btn = document.getElementById('signupBtn');
-
-        if (!email || !pw) { errorEl.textContent = 'Please fill in all required fields.'; errorEl.style.display = 'block'; return; }
-        if (pw.length < 8) { errorEl.textContent = 'Password must be at least 8 characters.'; errorEl.style.display = 'block'; return; }
-
-        errorEl.style.display = 'none';
-        btn.disabled = true;
-        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating your wallet...';
-        progressEl.style.display = 'block';
-
-        // Show progress steps
-        const tierLabels = {pilot:'Pilot (Free)',starter:'Starter ($999/mo)',professional:'Professional ($2,499/mo)',enterprise:'Enterprise ($9,999/mo)'};
-        const tierSLS = {pilot:'100',starter:'25,000',professional:'100,000',enterprise:'500,000'};
-        const steps = [
-            '<i class="fas fa-spinner fa-spin" style="color:var(--accent);margin-right:6px"></i> Activating ' + (tierLabels[selectedPlan]||'Starter') + ' subscription...',
-            '<i class="fas fa-spinner fa-spin" style="color:var(--accent);margin-right:6px"></i> Generating secp256k1 XRPL wallet...',
-            '<i class="fas fa-spinner fa-spin" style="color:var(--accent);margin-right:6px"></i> Funding wallet with XRP reserve...',
-            '<i class="fas fa-spinner fa-spin" style="color:var(--accent);margin-right:6px"></i> Setting up SLS TrustLine + delivering ' + (tierSLS[selectedPlan]||'500') + ' SLS...',
-        ];
-
-        let stepIdx = 0;
-        progressEl.innerHTML = steps[0];
-        const stepInterval = setInterval(() => {
-            stepIdx++;
-            if (stepIdx < steps.length) {
-                let completed = '';
-                for (let i = 0; i < stepIdx; i++) {
-                    completed += '<div><i class="fas fa-check" style="color:#14f195;margin-right:6px"></i>' + steps[i].replace(/<i.*?<\/i>\s*/, '') + '</div>';
-                }
-                progressEl.innerHTML = completed + steps[stepIdx];
-            }
-        }, 2000);
-
-        try {
-            const resp = await fetch('/api/wallet/provision', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, organization: org, plan: selectedPlan })
-            });
-            const result = await resp.json();
-            clearInterval(stepInterval);
-
-            if (result.error) {
-                // Show error but also create local account
-                errorEl.textContent = 'Wallet provisioning unavailable: ' + result.error + '. Account created — wallet will be provisioned when you first anchor a record.';
-                errorEl.style.display = 'block';
-                progressEl.style.display = 'none';
-                btn.disabled = false;
-                btn.innerHTML = '<i class="fas fa-wallet"></i> Create Account & Wallet';
-
-                // Still create local session
-                const userName = email.split('@')[0].replace(/[^a-zA-Z]/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
-                localStorage.setItem('s4_user', JSON.stringify({
-                    email, name: userName, loginTime: Date.now(),
-                    organization: org, plan: selectedPlan, walletPending: true
-                }));
-                setTimeout(() => {
-                    if (!localStorage.getItem('s4_tutorial_done')) showTutorial(userName);
-                    else showDashboard(userName);
-                }, 2000);
-                return;
-            }
-
-            // Success! Show all steps complete
-            const tierLabel = tierLabels[selectedPlan] || 'Starter';
-            const slsAmt = tierSLS[selectedPlan] || '500';
-            progressEl.innerHTML = [
-                '<div><i class="fas fa-check" style="color:#14f195;margin-right:6px"></i>' + tierLabel + ' subscription activated</div>',
-                '<div><i class="fas fa-check" style="color:#14f195;margin-right:6px"></i>XRPL wallet generated (secp256k1)</div>',
-                '<div><i class="fas fa-check" style="color:#14f195;margin-right:6px"></i>Funded with ' + result.funding.xrp_funded + ' XRP</div>',
-                '<div><i class="fas fa-check" style="color:#14f195;margin-right:6px"></i>SLS TrustLine active — ' + slsAmt + ' SLS delivered</div>',
-                '<div style="margin-top:6px;color:#c9a84c"><i class="fas fa-info-circle" style="margin-right:6px"></i>SLS delivered from S4 Treasury with your subscription. 0.01 SLS per anchor.</div>',
-            ].join('');
-
-            // Save session with wallet info
-            const userName = email.split('@')[0].replace(/[^a-zA-Z]/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
-            localStorage.setItem('s4_user', JSON.stringify({
-                email, name: userName, loginTime: Date.now(),
-                organization: org, plan: selectedPlan,
-                wallet: result.wallet.address
-            }));
-            // Save wallet info separately (user can view later)
-            localStorage.setItem('s4_wallet', JSON.stringify(result));
-
-            // Show wallet credentials modal
-            setTimeout(() => {
-                showWalletCredentials(result);
-            }, 1500);
-
-        } catch (err) {
-            clearInterval(stepInterval);
-            errorEl.textContent = 'Network error: ' + err.message;
-            errorEl.style.display = 'block';
-            progressEl.style.display = 'none';
-            btn.disabled = false;
-            btn.innerHTML = '<i class="fas fa-wallet"></i> Create Account & Wallet';
-        }
-    }
-
-    function showWalletCredentials(data) {
-        const tierLabels = {pilot:'Pilot',starter:'Starter',professional:'Professional',enterprise:'Enterprise'};
-        const tierSLS = {pilot:'100',starter:'25,000',professional:'100,000',enterprise:'500,000'};
-        const tierAnchors = {pilot:'10,000',starter:'2,500,000',professional:'10,000,000',enterprise:'Unlimited'};
-        document.getElementById('credAddress').textContent = data.wallet.address;
-        document.getElementById('credSeed').textContent = data.wallet.seed;
-        document.getElementById('credPubKey').textContent = data.wallet.public_key;
-        document.getElementById('credSLS').textContent = (tierSLS[selectedPlan]||'500') + ' SLS (' + (tierLabels[selectedPlan]||'Starter') + ' plan)';
-        document.getElementById('credAnchors').textContent = (tierAnchors[selectedPlan]||'50,000') + ' anchors/mo';
-        document.getElementById('credXRP').textContent = data.funding.xrp_funded || '12';
-        document.getElementById('credNetwork').textContent = 'XRPL ' + (data.wallet.network || 'mainnet').charAt(0).toUpperCase() + (data.wallet.network || 'mainnet').slice(1);
-        document.getElementById('credExplorer').href = data.instructions.explorer_url || '#';
-        document.getElementById('walletModal').classList.add('active');
-    }
-
-    function copyCredential(id) {
-        const text = document.getElementById(id).textContent;
-        navigator.clipboard.writeText(text).then(() => {
-            const btn = document.getElementById(id).parentElement.querySelector('.copy-btn');
-            btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
-            setTimeout(() => { btn.innerHTML = '<i class="fas fa-copy"></i> Copy'; }, 1500);
-        });
-    }
-
-    function downloadCredentials() {
-        const data = JSON.parse(localStorage.getItem('s4_wallet') || '{}');
-        if (!data.wallet) return;
-        const user = JSON.parse(localStorage.getItem('s4_user') || '{}');
-        const tierLabels = {pilot:'Pilot (Free)',starter:'Starter ($999/mo)',professional:'Professional ($2,499/mo)',enterprise:'Enterprise ($9,999/mo)'};
-        const tierSLS = {pilot:'100 SLS/mo',starter:'25,000 SLS/mo',professional:'100,000 SLS/mo',enterprise:'500,000 SLS/mo'};
-        const tierAnchors = {pilot:'10,000 anchors/mo',starter:'2,500,000 anchors/mo',professional:'10,000,000 anchors/mo',enterprise:'Unlimited anchors'};
-        const plan = user.plan || 'starter';
-        const text = [
-            '=== S4 LEDGER — XRPL WALLET CREDENTIALS ===',
-            'Generated: ' + new Date().toISOString(),
-            'KEEP THIS FILE SECURE \u2014 DO NOT SHARE',
-            '',
-            'SUBSCRIPTION PLAN: ' + (tierLabels[plan] || 'Starter'),
-            'SLS ALLOCATION: ' + (tierSLS[plan] || '500 SLS/mo'),
-            'ANCHOR CAPACITY: ' + (tierAnchors[plan] || '50,000 anchors/mo'),
-            '',
-            'WALLET ADDRESS (Public):',
-            data.wallet.address,
-            '',
-            'FAMILY SEED (SECRET \u2014 Keep Private!):',
-            data.wallet.seed,
-            '',
-            'PUBLIC KEY:',
-            data.wallet.public_key,
-            '',
-            'ALGORITHM: ' + data.wallet.algorithm,
-            'NETWORK: XRPL ' + data.wallet.network,
-            '',
-            'XRP RESERVE: ' + (data.funding.xrp_funded || '12'),
-            '',
-            'HOW SLS WORKS:',
-            '  - SLS tokens are delivered from the S4 Treasury as part of your subscription.',
-            '  - Your plan allocation is refreshed automatically each billing cycle.',
-            '  - Each anchor costs 0.01 SLS ($0.01). Fee returns to the S4 Treasury.',
-            '',
-            'EXPLORER: ' + (data.instructions.explorer_url || ''),
-            '',
-            'MOBILE: Import your family seed into Xaman (https://xaman.app)',
-            '',
-            '=== END CREDENTIALS ===',
-        ].join('\n');
-        const blob = new Blob([text], { type: 'text/plain' });
-        const a = document.createElement('a');
-        a.href = URL.createObjectURL(blob);
-        a.download = 's4-ledger-wallet-' + data.wallet.address.slice(0, 8) + '.txt';
-        a.click();
-    }
-
-    function closeWalletModal() {
-        document.getElementById('walletModal').classList.remove('active');
-        const user = JSON.parse(localStorage.getItem('s4_user') || '{}');
-        document.getElementById('signupView').classList.remove('active');
-        if (!localStorage.getItem('s4_tutorial_done')) showTutorial(user.name || 'User');
-        else showDashboard(user.name || 'User');
-    }
-
-    // Auto-login if session exists (using localStorage for persistence across pages)
-    document.addEventListener('DOMContentLoaded', () => {
-        const user = JSON.parse(localStorage.getItem('s4_user') || 'null');
-        if (user && Date.now() - user.loginTime < 86400000) { // 24 hour session
-            showDashboard(user.name);
-        }
-    });
-    </script>
-<script src="/s4-assets/s4-background.js"></script>
-<link rel="stylesheet" href="/s4-assets/s4-mobile.css">
-<script src="/s4-assets/s4-auth.js"></script>
-<script src="/s4-assets/s4-data.js"></script>
+var nav=document.getElementById('mainNav');
+if(nav){window.addEventListener('scroll',function(){nav.classList.toggle('scrolled',window.scrollY>40);});}
+function handleLogin(){
+    var email=document.getElementById('loginEmail').value;
+    var name=email.split('@')[0].replace(/[^a-zA-Z]/g,' ').replace(/\b\w/g,function(l){return l.toUpperCase();});
+    var user={name:name,email:email,role:'ILS Analyst',loginTime:Date.now()};
+    localStorage.setItem('s4_user',JSON.stringify(user));
+    var msg=document.getElementById('loginMsg');
+    msg.style.display='block';
+    msg.textContent='Welcome, '+name+'. Redirecting...';
+    setTimeout(function(){window.location.href='/demo-app/';},1200);
+}
+</script>
 </body>
 </html>

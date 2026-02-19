@@ -15,118 +15,6 @@
 
 </head>
 <body>
-<div class="mesh-bg"><div class="gradient-orb orb-1"></div><div class="gradient-orb orb-2"></div><div class="gradient-orb orb-3"></div></div>
-<nav class="navbar navbar-expand-lg">
-    <div class="container">
-        <a class="navbar-brand" href="/">
-            <img src="/s4-assets/S4Ledger_logo.png" alt="S4" class="nav-logo">
-            <span class="brand-text">S4 Ledger</span>
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navContent">
-            <i class="fas fa-bars"></i>
-        </button>
-        <div class="collapse navbar-collapse justify-content-end" id="navContent">
-            <ul class="navbar-nav align-items-center gap-1">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Company</a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="/s4-about/"><i class="fas fa-building dd-accent"></i> About</a></li>
-                        <li><a class="dropdown-item" href="/s4-investors/"><i class="fas fa-chart-line dd-accent"></i> Investors</a></li>
-                        <li><a class="dropdown-item" href="/s4-partners/"><i class="fas fa-handshake dd-accent"></i> Partners</a></li>
-                        <li><a class="dropdown-item" href="/s4-contact/"><i class="fas fa-envelope dd-accent"></i> Contact</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle active" href="#" data-bs-toggle="dropdown">Products</a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="/demo-app/"><i class="fas fa-terminal dd-green"></i> ILS Workspace</a></li>
-                        <li><a class="dropdown-item" href="/sdk-playground/"><i class="fas fa-code dd-gold"></i> SDK Playground</a></li>
-                        <li><a class="dropdown-item" href="/sdk/"><i class="fas fa-book dd-gold"></i> SDK Docs</a></li>
-                        <li><a class="dropdown-item" href="/s4-marketplace/"><i class="fas fa-store dd-purple"></i> Marketplace</a></li>
-                        <li><a class="dropdown-item" href="/metrics.html"><i class="fas fa-chart-bar dd-accent"></i> Metrics</a></li>
-                        <li><a class="dropdown-item" href="/transactions.html"><i class="fas fa-exchange-alt dd-accent"></i> Transactions</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">More</a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="/s4-use-cases/"><i class="fas fa-boxes-stacked dd-orange"></i> Use Cases</a></li>
-                        <li><a class="dropdown-item" href="/s4-pricing/"><i class="fas fa-tags dd-accent"></i> Pricing</a></li>
-                        <li><a class="dropdown-item" href="/s4-roadmap/"><i class="fas fa-road dd-accent"></i> Roadmap</a></li>
-                        <li><a class="dropdown-item" href="/s4-faq/"><i class="fas fa-question-circle dd-accent"></i> FAQ</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <button class="nav-link search-btn" onclick="openSearch()"><i class="fas fa-search"></i></button>
-                </li>
-                <li class="nav-item ms-2">
-                    <a class="btn-accent" href="/s4-login/">Sign In</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
-
-    <div class="page-hero">
-        <div class="container">
-            <h1>Developer <span class="gradient-text">Marketplace</span></h1>
-            <p>Plugins, integrations, and community extensions for S4 Ledger</p>
-        </div>
-    </div>
-
-    <div class="container" style="max-width: 1100px;">
-
-        <!-- MARKETPLACE STATS -->
-        <div class="marketplace-stats reveal">
-            <div class="stat-box">
-                <div class="num">24</div>
-                <div class="label">Available Extensions</div>
-            </div>
-            <div class="stat-box">
-                <div class="num" style="color:#c9a84c;">12</div>
-                <div class="label">Official Plugins</div>
-            </div>
-            <div class="stat-box">
-                <div class="num" style="color:#a855f7;">8</div>
-                <div class="label">Partner Integrations</div>
-            </div>
-            <div class="stat-box">
-                <div class="num" style="color:#14f195;">4</div>
-                <div class="label">Community Extensions</div>
-            </div>
-        </div>
-
-        <!-- CATEGORY FILTERS -->
-        <div class="category-filter reveal">
-            <button class="active" onclick="filterMarketplace('all',this)">All</button>
-            <button onclick="filterMarketplace('integration',this)">Integrations</button>
-            <button onclick="filterMarketplace('analytics',this)">Analytics</button>
-            <button onclick="filterMarketplace('compliance',this)">Compliance</button>
-            <button onclick="filterMarketplace('connector',this)">Connectors</button>
-            <button onclick="filterMarketplace('template',this)">Templates</button>
-            <button onclick="filterMarketplace('ai',this)">AI / ML</button>
-        </div>
-
-        <!-- FEATURED EXTENSIONS -->
-        <h2 class="section-title" style="font-size:1.3rem;margin-bottom:1.5rem;"><i class="fas fa-star" style="color:#c9a84c;margin-right:8px;font-size:1rem;"></i>Featured Extensions</h2>
-
-        <div class="row mb-4" id="marketplaceGrid">
-            <!-- SAP Integration -->
-            <div class="col-md-4 col-sm-6 mb-4 reveal mp-card" data-category="integration connector">
-                <div class="marketplace-card">
-                    <div class="card-icon" style="background:rgba(0,170,255,0.1);color:#00aaff;"><i class="fas fa-plug"></i></div>
-                    <div style="display:flex;gap:6px;margin-bottom:10px;">
-                        <span class="card-badge badge-official">Official</span>
-                        <span class="card-badge" style="background:rgba(20,241,149,0.1);color:#14f195;border:1px solid rgba(20,241,149,0.3);">Featured</span>
-                    </div>
-                    <h5 style="color:#fff;font-size:1rem;margin-bottom:6px;">SAP S/4HANA Connector</h5>
-                    <p style="font-size:0.82rem;color:var(--steel);margin-bottom:12px;">Bi-directional sync between S4 Ledger and SAP Material Management (MM), Plant Maintenance (PM), and Quality Management (QM) modules. Auto-anchor SAP goods receipts.</p>
-                    <div style="display:flex;justify-content:space-between;align-items:center;">
-                        <div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i> 4.7</div>
-                        <div class="install-count"><i class="fas fa-download"></i> 1,240</div>
-                    </div>
-                </div>
-            </div>
 
             <!-- PTC Windchill -->
             <div class="col-md-4 col-sm-6 mb-4 reveal mp-card" data-category="integration connector">
@@ -448,7 +336,6 @@
     }
     </script>
 <link rel="stylesheet" href="/s4-assets/s4-mobile.css">
-<script src="/s4-assets/s4-background.js"></script>
 <!-- Search Modal -->
 <div id="searchOverlay" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.8);backdrop-filter:blur(8px);justify-content:center;align-items:flex-start;padding-top:20vh;">
     <div style="width:90%;max-width:560px;">

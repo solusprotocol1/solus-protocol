@@ -7,371 +7,202 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <title>Use Cases | S4 Ledger</title>
-    <meta name="description" content="S4 Ledger covers all 12 IPS elements — supply chain provenance, TDP integrity, maintenance verification, CDRL tracking, configuration management, 13 ILS Workspace tools, and more.">
+    <meta name="description" content="S4 Ledger use cases — Navy supply chain, maintenance records, contract deliverables, and more.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/s4-assets/style.css">
-
 </head>
 <body>
-<div class="mesh-bg"><div class="gradient-orb orb-1"></div><div class="gradient-orb orb-2"></div><div class="gradient-orb orb-3"></div></div>
-<nav class="navbar navbar-expand-lg">
-    <div class="container">
-        <a class="navbar-brand" href="/">
-            <img src="/s4-assets/S4Ledger_logo.png" alt="S4" class="nav-logo">
-            <span class="brand-text">S4 Ledger</span>
+<nav class="nav" id="mainNav">
+    <div class="nav-inner">
+        <a href="/" class="nav-brand">
+            <img src="/s4-assets/S4Ledger_logo.png" alt="S4 Ledger">
+            <span>S4 Ledger</span>
         </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navContent">
+        <ul class="nav-links" id="navLinks">
+            <li><a href="/demo-app/">Platform</a></li>
+            <li><a href="/s4-use-cases/">Use Cases</a></li>
+            <li><a href="/s4-pricing/">Pricing</a></li>
+            <li><a href="/s4-investors/">Company</a></li>
+            <li><a href="https://github.com/s4ledger/s4-ledger" target="_blank">Docs</a></li>
+            <li><a href="/s4-contact/" class="nav-cta">Request Demo</a></li>
+        </ul>
+        <button class="nav-mobile-toggle" onclick="document.getElementById('navLinks').classList.toggle('open')" aria-label="Menu">
             <i class="fas fa-bars"></i>
         </button>
-        <div class="collapse navbar-collapse justify-content-end" id="navContent">
-            <ul class="navbar-nav align-items-center gap-1">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Company</a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="/s4-about/"><i class="fas fa-building dd-accent"></i> About</a></li>
-                        <li><a class="dropdown-item" href="/s4-investors/"><i class="fas fa-chart-line dd-accent"></i> Investors</a></li>
-                        <li><a class="dropdown-item" href="/s4-partners/"><i class="fas fa-handshake dd-accent"></i> Partners</a></li>
-                        <li><a class="dropdown-item" href="/s4-contact/"><i class="fas fa-envelope dd-accent"></i> Contact</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Products</a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="/demo-app/"><i class="fas fa-terminal dd-green"></i> ILS Workspace</a></li>
-                        <li><a class="dropdown-item" href="/sdk-playground/"><i class="fas fa-code dd-gold"></i> SDK Playground</a></li>
-                        <li><a class="dropdown-item" href="/sdk/"><i class="fas fa-book dd-gold"></i> SDK Docs</a></li>
-                        <li><a class="dropdown-item" href="/s4-marketplace/"><i class="fas fa-store dd-purple"></i> Marketplace</a></li>
-                        <li><a class="dropdown-item" href="/metrics.html"><i class="fas fa-chart-bar dd-accent"></i> Metrics</a></li>
-                        <li><a class="dropdown-item" href="/transactions.html"><i class="fas fa-exchange-alt dd-accent"></i> Transactions</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle active" href="#" data-bs-toggle="dropdown">More</a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="/s4-use-cases/"><i class="fas fa-boxes-stacked dd-orange"></i> Use Cases</a></li>
-                        <li><a class="dropdown-item" href="/s4-pricing/"><i class="fas fa-tags dd-accent"></i> Pricing</a></li>
-                        <li><a class="dropdown-item" href="/s4-roadmap/"><i class="fas fa-road dd-accent"></i> Roadmap</a></li>
-                        <li><a class="dropdown-item" href="/s4-faq/"><i class="fas fa-question-circle dd-accent"></i> FAQ</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <button class="nav-link search-btn" onclick="openSearch()"><i class="fas fa-search"></i></button>
-                </li>
-                <li class="nav-item ms-2">
-                    <a class="btn-accent" href="/s4-login/">Sign In</a>
-                </li>
-            </ul>
-        </div>
     </div>
 </nav>
 
-    <div class="page-hero">
-        <div class="container">
-            <h1>S4 Ledger <span class="gradient-text">Use Cases</span></h1>
-            <p style="max-width:700px;margin:0 auto 16px;">Immutable verification across all 12 Integrated Product Support elements, 13 ILS Workspace tools, 500+ defense platforms, and 156+ pre-built record types</p>
-            <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
-                <span class="stat-pill"><i class="fas fa-tools" style="color:#00aaff;"></i> 13 ILS Tools</span>
-                <span class="stat-pill"><i class="fas fa-database" style="color:#14f195;"></i> 500+ Platforms</span>
-                <span class="stat-pill"><i class="fas fa-file-alt" style="color:#c9a84c;"></i> 156+ Record Types</span>
-                <span class="stat-pill"><i class="fas fa-flag" style="color:#ff6b6b;"></i> 9 Branches</span>
-            </div>
-        </div>
-    </div>
-
-    <!-- CORE VERIFICATION USE CASES -->
+<div class="page-hero">
     <div class="container">
-        <div class="section-divider"><span>Core Verification Capabilities</span></div>
-        <div class="row">
-            <div class="col-md-6 mb-4 reveal">
-                <div class="uc-card">
-                    <div class="uc-icon blue"><i class="fas fa-link"></i></div>
-                    <h4>Supply Chain Provenance & Counterfeit Prevention</h4>
-                    <p>Every part transaction — manufacture, QA inspection, shipment, receipt, installation — gets hashed and anchored. Creates an immutable chain of custody from OEM to fleet. Instantly trace suspect parts across every hand they've passed through.</p>
-                    <div><span class="uc-tag">DFARS 252.246-7007</span><span class="uc-tag">GIDEP</span><span class="uc-tag">IUID/UII</span><span class="uc-tag">DLA</span></div>
-                </div>
-            </div>
-            <div class="col-md-6 mb-4 reveal">
-                <div class="uc-card">
-                    <div class="uc-icon green"><i class="fas fa-drafting-compass"></i></div>
-                    <h4>Technical Data Package (TDP) Integrity</h4>
-                    <p>Every drawing revision, ECP, tech manual update, and engineering change gets anchored at the moment of approval. Anyone across any service verifies they hold the current, unaltered version. Creates an immutable revision timeline.</p>
-                    <div><span class="uc-tag">ECPs</span><span class="uc-tag">IETMs</span><span class="uc-tag">Drawing Rev Control</span><span class="uc-tag">TDMIS</span></div>
-                </div>
-            </div>
-            <div class="col-md-6 mb-4 reveal">
-                <div class="uc-card">
-                    <div class="uc-icon gold"><i class="fas fa-wrench"></i></div>
-                    <h4>Maintenance Record Verification (3-M / PMCS)</h4>
-                    <p>When maintenance is performed and logged, the record gets hashed and anchored immediately. The XRPL timestamp proves exactly when it was created — it cannot be backdated. Eliminates gundecking and provides irrefutable evidence.</p>
-                    <div><span class="uc-tag">3-M / SCLSIS</span><span class="uc-tag">PMCS</span><span class="uc-tag">GCSS-Army</span><span class="uc-tag">INSURV</span></div>
-                </div>
-            </div>
-            <div class="col-md-6 mb-4 reveal">
-                <div class="uc-card">
-                    <div class="uc-icon purple"><i class="fas fa-file-contract"></i></div>
-                    <h4>CDRL & Contract Deliverable Tracking</h4>
-                    <p>Every CDRL submission gets hashed and anchored at delivery. Both contractor and Government independently verify what was delivered, when, and which version. Acceptance, rejection, resubmission — each action gets its own anchor.</p>
-                    <div><span class="uc-tag">DD-1423</span><span class="uc-tag">DI-ILSS</span><span class="uc-tag">DI-SESS</span><span class="uc-tag">DCMA</span></div>
-                </div>
-            </div>
-            <div class="col-md-6 mb-4 reveal">
-                <div class="uc-card">
-                    <div class="uc-icon red"><i class="fas fa-cogs"></i></div>
-                    <h4>Configuration Management & Baseline Verification</h4>
-                    <p>Every baseline update, ECP implementation, and configuration change gets anchored. Creates an immutable configuration history. INSURV teams verify current baselines in real-time. Traces discrepancies to specific change events.</p>
-                    <div><span class="uc-tag">CDMD-OA</span><span class="uc-tag">CSA</span><span class="uc-tag">PDREP</span><span class="uc-tag">ECP Tracking</span></div>
-                </div>
-            </div>
-            <div class="col-md-6 mb-4 reveal">
-                <div class="uc-card">
-                    <div class="uc-icon steel"><i class="fas fa-clipboard-check"></i></div>
-                    <h4>Audit Readiness & Compliance</h4>
-                    <p>Every anchored record contributes to audit readiness. Auditors independently verify any record against its anchor — no need to trust the source system. DCMA verifies contractor deliverables and quality records with cryptographic proof.</p>
-                    <div><span class="uc-tag">DoW Audit</span><span class="uc-tag">DCMA</span><span class="uc-tag">Inspector General</span><span class="uc-tag">JAGMAN</span></div>
-                </div>
-            </div>
-        </div>
+        <div class="section-label">Use Cases</div>
+        <h1>Defense logistics verification</h1>
+        <p>Every use case where tamper-proof records prevent fraud, save money, and ensure readiness.</p>
+    </div>
+</div>
+<div class="container"><div class="divider"></div></div>
 
-        <!-- ADDITIONAL VERIFICATION USE CASES -->
-        <div class="text-center mb-4">
-            <button class="btn-secondary-custom" onclick="var el=document.getElementById('moreUseCases'); el.style.display = el.style.display==='none'?'block':'none'; this.innerHTML = this.innerHTML.includes('More') ? '<i class=\'fas fa-chevron-up\'></i> &nbsp;Show Less' : '<i class=\'fas fa-chevron-down\'></i> &nbsp;More Verification Use Cases';">
-                <i class="fas fa-chevron-down"></i> &nbsp;More Verification Use Cases
-            </button>
+<section class="section">
+    <div class="container">
+        <div class="section-center reveal">
+            <div class="section-label">Core Use Cases</div>
+            <h2 class="section-heading">Where S4 Ledger makes an impact</h2>
         </div>
-        <div id="moreUseCases" style="display: none;">
-            <div class="row">
-                <div class="col-md-4 mb-4 reveal">
-                    <div class="uc-card">
-                        <div class="uc-icon blue"><i class="fas fa-microscope"></i></div>
-                        <h4>TMDE Calibration Tracking</h4>
-                        <p>Calibration events, certifications, and due dates anchored immutably. Investigation boards verify equipment was in calibration when tests were performed.</p>
-                        <div><span class="uc-tag">METCAL</span><span class="uc-tag">MEASURE</span></div>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-4 reveal">
-                    <div class="uc-card">
-                        <div class="uc-icon green"><i class="fas fa-user-graduate"></i></div>
-                        <h4>Training & Certification Verification</h4>
-                        <p>PQS completions, NEC/MOS certifications, and mandatory training anchored when earned. Proves personnel qualification at any point in time.</p>
-                        <div><span class="uc-tag">PQS</span><span class="uc-tag">FLTMPS</span><span class="uc-tag">ATRRS</span></div>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-4 reveal">
-                    <div class="uc-card">
-                        <div class="uc-icon gold"><i class="fas fa-box-open"></i></div>
-                        <h4>PHS&T & Shelf-Life Tracking</h4>
-                        <p>Storage conditions, shelf-life inspections, and hazmat handling events anchored. Trace-back for failed items proves compliance through the entire chain.</p>
-                        <div><span class="uc-tag">MIL-STD-2073</span><span class="uc-tag">Shelf-Life</span></div>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-4 reveal">
-                    <div class="uc-card">
-                        <div class="uc-icon red"><i class="fas fa-trash-alt"></i></div>
-                        <h4>Disposal & DEMIL Verification</h4>
-                        <p>Every step of the disposal chain anchored — turn-in, receipt, DEMIL action, destruction. Proof that controlled items were disposed of, not diverted.</p>
-                        <div><span class="uc-tag">DLA Disposition</span><span class="uc-tag">DEMIL</span></div>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-4 reveal">
-                    <div class="uc-card">
-                        <div class="uc-icon purple"><i class="fas fa-clipboard-list"></i></div>
-                        <h4>LSA & Provisioning Data Integrity</h4>
-                        <p>LSA outputs anchored when finalized. Verifiable hand-offs between NAVSEA, NAVSUP, DLA, and contractors. Provisioning and PTD management tools available through <a href="../harborlink/" style="color:#a855f7;">HarborLink</a>.</p>
-                        <div><span class="uc-tag">LSAR</span><span class="uc-tag">GEIA-STD-0007</span></div>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-4 reveal">
-                    <div class="uc-card">
-                        <div class="uc-icon steel"><i class="fas fa-landmark"></i></div>
-                        <h4>Milestone & Decision Gate Verification</h4>
-                        <p>Documents submitted for milestone reviews anchored at submission. Approved versions anchored separately. Permanent proof of what was briefed and approved.</p>
-                        <div><span class="uc-tag">DoDI 5000.02</span><span class="uc-tag">MS A/B/C</span></div>
-                    </div>
-                </div>
+        <div class="card-grid card-grid-3 reveal">
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-box"></i></div>
+                <h4>Supply Chain Provenance</h4>
+                <p>Anchor parts receipts, track custody transfers, and prevent counterfeit components from entering the supply chain. DFARS and GIDEP compliant.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-wrench"></i></div>
+                <h4>Maintenance Records</h4>
+                <p>Verify 3-M/SCLSIS maintenance actions, prevent gundecking, and create immutable proof that planned and corrective maintenance was actually performed.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-file-contract"></i></div>
+                <h4>Contract Deliverables</h4>
+                <p>Anchor CDRLs, DRLs, and contract data deliverables. Prove submission timing, content integrity, and compliance with DD-1423 requirements.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-book-open"></i></div>
+                <h4>Technical Data Packages</h4>
+                <p>Verify TDP integrity, track engineering change proposals, and ensure revision control across the configuration management lifecycle.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-clipboard-check"></i></div>
+                <h4>Audit Readiness</h4>
+                <p>Generate one-click audit packages with full chain of custody, compliance scoring, and blockchain-verified evidence for Inspector General reviews.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-shield-halved"></i></div>
+                <h4>Compliance Scoring</h4>
+                <p>Automated scoring against CMMC, NIST 800-171, DFARS, FAR 46, and MIL-STD-1388. Identify gaps before auditors do.</p>
             </div>
         </div>
     </div>
+</section>
 
-    <!-- ILS WORKSPACE TOOLS -->
-    <div class="container mt-3">
-        <div class="section-divider"><span>13 ILS Workspace Tools</span></div>
-        <p class="text-center" style="color:var(--text-secondary);font-size:0.9rem;max-width:700px;margin:0 auto 24px;">Every tool in the ILS Workspace is purpose-built for defense logistics program managers. All 13 tools are integrated, platform-aware, and backed by XRPL blockchain verification.</p>
-        <div class="tools-grid">
-            <div class="tool-mini reveal"><i class="fas fa-chart-line" style="color:#00aaff;"></i><div><h5>Gap Analysis</h5><p>Automated ILS deliverables gap detection across all 12 IPS elements with risk scoring</p></div></div>
-            <div class="tool-mini reveal"><i class="fas fa-tasks" style="color:#14f195;"></i><div><h5>Action Items</h5><p>Track corrective actions, assign owners, set deadlines, and auto-escalate overdue items</p></div></div>
+<div class="container"><div class="divider"></div></div>
 
-            <div class="tool-mini reveal"><i class="fas fa-exclamation-triangle" style="color:#ff6b6b;"></i><div><h5>DMSMS</h5><p>Diminishing Manufacturing Sources & Material Shortages tracking with risk alerts</p></div></div>
-            <div class="tool-mini reveal"><i class="fas fa-tachometer-alt" style="color:#00aaff;"></i><div><h5>Readiness</h5><p>Operational readiness scoring across all IPS elements with trend analysis</p></div></div>
-
-            <div class="tool-mini reveal"><i class="fas fa-dollar-sign" style="color:#c9a84c;"></i><div><h5>ROI Analysis</h5><p>Return on investment modeling for ILS automation with labor savings projections</p></div></div>
-            <div class="tool-mini reveal"><i class="fas fa-clock" style="color:#a855f7;"></i><div><h5>Lifecycle Cost</h5><p>Total ownership cost modeling from acquisition through disposal</p></div></div>
-
-            <div class="tool-mini reveal"><i class="fas fa-vault" style="color:#00aaff;"></i><div><h5>Audit Vault</h5><p>Secure, hash-verified document vault for audit records with tamper detection</p></div></div>
-            <div class="tool-mini reveal"><i class="fas fa-book" style="color:#14f195;"></i><div><h5>Doc Library</h5><p>Centralized defense document library with version control and access tracking</p></div></div>
-            <div class="tool-mini reveal"><i class="fas fa-shield-halved" style="color:#c9a84c;"></i><div><h5>Compliance</h5><p>Real-time compliance scorecard against NIST, CMMC, DFARS, and MIL-STDs</p></div></div>
-
-            <div class="tool-mini reveal"><i class="fas fa-triangle-exclamation" style="color:#ff6b6b;"></i><div><h5>Supply Chain Risk</h5><p>Multi-tier supply chain risk engine with geopolitical and single-source alerts</p></div></div>
-            <div class="tool-mini reveal"><i class="fas fa-file-pdf" style="color:#00aaff;"></i><div><h5>Audit Reports</h5><p>Auto-generated audit reports with blockchain-verified evidence packages</p></div></div>
-
-
-            <div class="tool-mini reveal"><i class="fas fa-brain" style="color:#a855f7;"></i><div><h5>Predictive Maintenance</h5><p>AI-powered predictive maintenance with failure probability modeling</p></div></div>
-
-            <div class="tool-mini reveal"><i class="fas fa-file-circle-check" style="color:#00aaff;"></i><div><h5>ILIE</h5><p>Integrated Logistics Insights Engine — upload, cross-reference, and validate ILS submissions with AI analysis</p></div></div>
-            <div class="tool-mini reveal" style="border-color:rgba(168,85,247,0.25);background:rgba(168,85,247,0.03);"><i class="fas fa-arrow-up-right-from-square" style="color:#a855f7;"></i><div><h5>More Tools via HarborLink</h5><p>Parts Cross-Reference, Contract Lifecycle, Digital Thread, Warranty Tracker, ILS Calendar, Provisioning, and Defense Database Import are available through <a href="../harborlink/" style="color:#a855f7;">HarborLink</a> — S4 Systems' collaboration portal.</p></div></div>
+<section class="section">
+    <div class="container">
+        <div class="section-center reveal">
+            <div class="section-label">Platform Tools</div>
+            <h2 class="section-heading">13 ILS tools, one platform</h2>
+            <p class="section-sub">Every tool a Navy ILS professional needs &mdash; gap analysis, DMSMS tracking, readiness calculations, provisioning, and more.</p>
+        </div>
+        <div class="card-grid card-grid-3 reveal" style="margin-top:48px;">
+            <div class="card"><h4>Gap Analysis Engine</h4><p>Identify missing ILS data elements across DRLs, tech manuals, buylist, and spares.</p></div>
+            <div class="card"><h4>DMSMS Tracker</h4><p>Obsolescence risk monitoring with alternate source identification.</p></div>
+            <div class="card"><h4>Readiness Calculator</h4><p>Operational availability (Ao) and inherent availability (Ai) modeling.</p></div>
+            <div class="card"><h4>Lifecycle Cost Estimator</h4><p>Total ownership cost analysis across acquisition, sustainment, and disposal.</p></div>
+            <div class="card"><h4>Compliance Scorecard</h4><p>CMMC, NIST, DFARS, FAR, and MIL-STD compliance grading.</p></div>
+            <div class="card"><h4>AI Risk Engine</h4><p>Machine learning supplier health scoring and counterfeit prediction.</p></div>
+            <div class="card"><h4>Defense Doc Library</h4><p>100+ searchable MIL-STDs, OPNAVINSTs, and DoD directives.</p></div>
+            <div class="card"><h4>Audit Report Generator</h4><p>One-click audit packages with blockchain-verified evidence.</p></div>
+            <div class="card"><h4>Provisioning Manager</h4><p>APL management, NSN cataloging, and spares depth analysis.</p></div>
         </div>
     </div>
+</section>
 
-    <!-- ADDITIONAL CAPABILITIES -->
-    <div class="container mt-3">
-        <div class="section-divider"><span>Additional Capabilities</span></div>
-        <div class="row">
-            <div class="col-md-4 mb-4 reveal">
-                <div class="uc-card">
-                    <div class="uc-icon blue"><i class="fas fa-robot"></i></div>
-                    <h4>AI Agent</h4>
-                    <p>Built-in AI agent that understands defense logistics context, answers ILS questions, generates analysis, and provides real-time guidance across all 13 workspace tools.</p>
-                </div>
+<div class="container"><div class="divider"></div></div>
+
+<section class="section">
+    <div class="container-narrow">
+        <div class="section-center reveal">
+            <div class="section-label">Navy Focus</div>
+            <h2 class="section-heading">Built for Navy logistics</h2>
+            <p class="section-sub">Deep integration with Navy systems and workflows. Designed by professionals who work with NAVSEA, NAVAIR, and fleet maintenance programs daily.</p>
+        </div>
+        <div class="trust-row reveal">
+            <div class="trust-item">
+                <div class="trust-label">Systems</div>
+                <div class="trust-value">3-M / SCLSIS / OARS</div>
             </div>
-            <div class="col-md-4 mb-4 reveal">
-                <div class="uc-card">
-                    <div class="uc-icon green"><i class="fas fa-code"></i></div>
-                    <h4>SDK Playground</h4>
-                    <p>27 interactive SDK functions — hash data, anchor to XRPL, verify records, batch operations, supply chain risk analysis, compliance scoring, and more. Try them live in your browser.</p>
-                </div>
+            <div class="trust-item">
+                <div class="trust-label">Config</div>
+                <div class="trust-value">CDMD-OA / NTCSS</div>
             </div>
-            <div class="col-md-4 mb-4 reveal">
-                <div class="uc-card">
-                    <div class="uc-icon gold"><i class="fas fa-coins"></i></div>
-                    <h4>$SLS Token Economics</h4>
-                    <p>Utility token on XRPL powering per-anchor fees ($0.01 SLS). 100M total supply, deflationary burn mechanism, transparent on-chain economics. Not equity — pure utility.</p>
-                </div>
+            <div class="trust-item">
+                <div class="trust-label">Supply</div>
+                <div class="trust-value">NAVSUP / OneTouch</div>
             </div>
-            <div class="col-md-4 mb-4 reveal">
-                <div class="uc-card">
-                    <div class="uc-icon purple"><i class="fas fa-chart-bar"></i></div>
-                    <h4>Live Metrics & Transactions</h4>
-                    <p>Real-time dashboards showing anchor volume, verification rates, network uptime, and transaction history. Filter by platform, branch, and record type.</p>
-                </div>
-            </div>
-            <div class="col-md-4 mb-4 reveal">
-                <div class="uc-card">
-                    <div class="uc-icon red"><i class="fas fa-shield-halved"></i></div>
-                    <h4>Classified-Ready Architecture</h4>
-                    <p>Deployable across Unclassified, CUI, Secret (SIPRNet), and Top Secret (JWICS) networks. On-premises deployment for classified environments. Zero data on-chain.</p>
-                </div>
-            </div>
-            <div class="col-md-4 mb-4 reveal">
-                <div class="uc-card">
-                    <div class="uc-icon steel"><i class="fas fa-store"></i></div>
-                    <h4>Marketplace</h4>
-                    <p>Browse and discover third-party integrations, templates, and extensions built for the S4 Ledger ecosystem. Standardized connectors for enterprise defense systems.</p>
-                </div>
+            <div class="trust-item">
+                <div class="trust-label">Readiness</div>
+                <div class="trust-value">INSURV / CASREP</div>
             </div>
         </div>
     </div>
+</section>
 
-    <!-- SERVICE BRANCHES -->
-    <div class="container mt-3 mb-4">
-        <div class="section-divider"><span>Cross-Service Application</span></div>
-        <p class="text-center" style="max-width:650px;margin:0 auto 24px;color:var(--text-secondary);font-size:0.9rem;">S4 Ledger integrates with existing logistics systems across all military branches and defense agencies</p>
-        <div class="branch-grid">
-            <div class="branch-item reveal"><i class="fas fa-anchor" style="color:#00aaff;"></i><h5>U.S. Navy</h5><ul><li>3-M / SCLSIS / OARS</li><li>CDMD-OA / NTCSS</li><li>NAVSUP / NAVSEA</li><li>INSURV readiness</li></ul></div>
-            <div class="branch-item reveal"><i class="fas fa-star" style="color:#c9a84c;"></i><h5>U.S. Army</h5><ul><li>GCSS-Army / LMP</li><li>PMCS verification</li><li>TACOM supply chain</li><li>Property accountability</li></ul></div>
-            <div class="branch-item reveal"><i class="fas fa-jet-fighter" style="color:#00aaff;"></i><h5>U.S. Air Force</h5><ul><li>REMIS / D200A</li><li>PDM / phase tracking</li><li>AFMC supply chain</li><li>TMDE calibration</li></ul></div>
-            <div class="branch-item reveal"><i class="fas fa-shield-halved" style="color:#14f195;"></i><h5>U.S. Marines</h5><ul><li>GCSS-MC / MIMMS</li><li>Equipment readiness</li><li>Maintenance records</li><li>Expeditionary logistics</li></ul></div>
-            <div class="branch-item reveal"><i class="fas fa-life-ring" style="color:#ff6b6b;"></i><h5>Coast Guard</h5><ul><li>Asset management</li><li>Cutter readiness</li><li>Supply chain tracking</li><li>Compliance records</li></ul></div>
-            <div class="branch-item reveal"><i class="fas fa-rocket" style="color:#a855f7;"></i><h5>Space Force</h5><ul><li>Satellite sustainment</li><li>Launch readiness</li><li>Ground systems</li><li>Space logistics</li></ul></div>
-            <div class="branch-item reveal"><i class="fas fa-building-columns" style="color:#c9a84c;"></i><h5>DLA / DCMA</h5><ul><li>Distribution Standard System</li><li>Supply chain provenance</li><li>Contractor audit</li><li>Disposal / DEMIL</li></ul></div>
-            <div class="branch-item reveal"><i class="fas fa-crosshairs" style="color:#ff6b6b;"></i><h5>SOCOM</h5><ul><li>Special ops logistics</li><li>Rapid acquisition</li><li>Equipment tracking</li><li>Mission readiness</li></ul></div>
-            <div class="branch-item reveal"><i class="fas fa-globe" style="color:#00aaff;"></i><h5>NATO</h5><ul><li>Interoperability</li><li>Coalition logistics</li><li>Standardization</li><li>Cross-national audit</li></ul></div>
-        </div>
-        <div class="row text-center mt-4">
-            <div class="col-md-3 col-6 mb-2 reveal"><div style="font-size:0.85rem;color:var(--accent);font-weight:600;">Program Offices</div><div style="font-size:0.78rem;color:var(--text-muted);">PEOs, NAVSEA, NAVAIR</div></div>
-            <div class="col-md-3 col-6 mb-2 reveal"><div style="font-size:0.85rem;color:var(--accent);font-weight:600;">ILS Managers</div><div style="font-size:0.78rem;color:var(--text-muted);">Logistics engineers & planners</div></div>
-            <div class="col-md-3 col-6 mb-2 reveal"><div style="font-size:0.85rem;color:var(--accent);font-weight:600;">Supply Chain Teams</div><div style="font-size:0.78rem;color:var(--text-muted);">Logistics & readiness</div></div>
-            <div class="col-md-3 col-6 mb-2 reveal"><div style="font-size:0.85rem;color:var(--accent);font-weight:600;">Compliance Officers</div><div style="font-size:0.78rem;color:var(--text-muted);">Audit & regulatory teams</div></div>
+<section class="cta-section">
+    <div class="container-narrow reveal">
+        <h2>See it in action</h2>
+        <p>Launch the platform to explore all 13 tools with real defense data.</p>
+        <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+            <a href="/demo-app/" class="btn-primary">Launch Platform</a> <a href="/s4-contact/" class="btn-ghost">Request Demo</a>
         </div>
     </div>
+</section>
 
-    <!-- CTA -->
-    <div class="container mb-5">
-        <div class="cta-box reveal">
-            <h3><i class="fas fa-rocket" style="color:var(--accent);margin-right:8px;"></i>Ready to see S4 Ledger in action?</h3>
-            <p>Request a demo or join the free Pilot Program</p>
-            <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
-                <a href="../s4-contact/" class="btn-primary-custom"><i class="fas fa-calendar-check"></i> &nbsp;Schedule a Demo</a>
-                <a href="../demo-app/" class="btn-secondary-custom"><i class="fas fa-play-circle"></i> &nbsp;Try the Demo App</a>
+<footer class="footer">
+    <div class="container">
+        <div class="footer-inner">
+            <div>
+                <a href="/" class="footer-brand">
+                    <img src="/s4-assets/S4Ledger_logo.png" alt="S4 Ledger">
+                    <span>S4 Ledger</span>
+                </a>
+                <div class="footer-tagline">Immutable defense logistics. Built on the XRP Ledger.</div>
+            </div>
+            <div class="footer-links">
+                <div class="footer-col">
+                    <h5>Product</h5>
+                    <a href="/demo-app/">Platform</a>
+                    <a href="/sdk-playground/">SDK Playground</a>
+                    <a href="/metrics.html">Live Metrics</a>
+                    <a href="/transactions.html">Transactions</a>
+                </div>
+                <div class="footer-col">
+                    <h5>Company</h5>
+                    <a href="/s4-about/">About</a>
+                    <a href="/s4-investors/">Investors</a>
+                    <a href="/s4-partners/">Partners</a>
+                    <a href="/s4-roadmap/">Roadmap</a>
+                </div>
+                <div class="footer-col">
+                    <h5>Resources</h5>
+                    <a href="/s4-use-cases/">Use Cases</a>
+                    <a href="/s4-faq/">FAQ</a>
+                    <a href="/s4-pricing/">Pricing</a>
+                    <a href="/security/">Security</a>
+                </div>
+                <div class="footer-col">
+                    <h5>Connect</h5>
+                    <a href="/s4-contact/">Contact</a>
+                    <a href="https://github.com/s4ledger/s4-ledger" target="_blank">GitHub</a>
+                    <a href="https://x.com" target="_blank">X / Twitter</a>
+                    <a href="https://linkedin.com" target="_blank">LinkedIn</a>
+                </div>
             </div>
         </div>
-    </div>
-
-    <footer class="site-footer">
-    <div class="footer-grid">
-        <div>
-            <a href="/" class="footer-brand-link">
-                <img src="/s4-assets/S4Ledger_logo.png" alt="S4">
-                S4 Ledger
-            </a>
-            <p class="footer-tagline">Immutable logistics verification anchored to the XRP Ledger. The secure standard for defense and enterprise supply chains.</p>
-            <div class="footer-social">
-                <a href="https://github.com/S4-Ledger" aria-label="GitHub"><i class="fab fa-github"></i></a>
-                <a href="https://x.com/S4Ledger" aria-label="X"><i class="fab fa-x-twitter"></i></a>
-                <a href="https://discord.gg/s4ledger" aria-label="Discord"><i class="fab fa-discord"></i></a>
+        <div class="footer-bottom">
+            <span>&copy; 2025 S4 Systems, LLC. $SLS is a utility token &mdash; not equity or an investment contract.</span>
+            <div class="footer-bottom-links">
+                <a href="/s4-terms/">Terms</a>
+                <a href="/s4-privacy/">Privacy</a>
+                <a href="/security-policy/">Security Policy</a>
             </div>
-        </div>
-        <div class="footer-col">
-            <h5>Product</h5>
-            <a href="/demo-app/">ILS Workspace</a>
-            <a href="/sdk/">SDK Docs</a>
-            <a href="/sdk-playground/">SDK Playground</a>
-            <a href="/s4-marketplace/">Marketplace</a>
-            <a href="/s4-pricing/">Pricing</a>
-        </div>
-        <div class="footer-col">
-            <h5>Company</h5>
-            <a href="/s4-about/">About</a>
-            <a href="/s4-investors/">Investors</a>
-            <a href="/s4-partners/">Partners</a>
-            <a href="/s4-roadmap/">Roadmap</a>
-            <a href="/s4-contact/">Contact</a>
-        </div>
-        <div class="footer-col">
-            <h5>Resources</h5>
-            <a href="/s4-use-cases/">Use Cases</a>
-            <a href="/s4-faq/">FAQ</a>
-            <a href="/metrics.html">Metrics</a>
-            <a href="/transactions.html">Transactions</a>
-            <a href="/security/">Security</a>
-        </div>
-    </div>
-    <div class="footer-bottom">
-        <span>&copy; 2025 S4 Ledger. All rights reserved.</span>
-        <div class="footer-bottom-links">
-            <a href="/s4-terms/">Terms</a>
-            <a href="/s4-privacy/">Privacy</a>
-            <a href="/security/">Security</a>
         </div>
     </div>
 </footer>
 
-    <button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">&#8593;</button>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="/s4-assets/main.js"></script>
-    <script src="/s4-assets/search.js"></script>
-    <link rel="stylesheet" href="/s4-assets/s4-mobile.css">
-    <script src="/s4-assets/s4-background.js"></script>
-<!-- Search Modal -->
-<div id="searchOverlay" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.8);backdrop-filter:blur(8px);justify-content:center;align-items:flex-start;padding-top:20vh;">
-    <div style="width:90%;max-width:560px;">
-        <input id="searchInput" type="text" placeholder="Search S4 Ledger..." style="width:100%;padding:18px 24px;border-radius:14px;border:1px solid rgba(0,170,255,0.3);background:rgba(17,17,24,0.95);color:#f0f0f5;font-size:1.1rem;outline:none;font-family:'Inter',sans-serif;">
-    </div>
-</div>
 <script>
-function openSearch(){const o=document.getElementById('searchOverlay');o.style.display='flex';document.getElementById('searchInput').focus();}
-document.addEventListener('keydown',e=>{if(e.key==='Escape')document.getElementById('searchOverlay').style.display='none';if((e.metaKey||e.ctrlKey)&&e.key==='k'){e.preventDefault();openSearch();}});
-document.getElementById('searchOverlay')?.addEventListener('click',function(e){if(e.target===this)this.style.display='none';});
+var nav=document.getElementById('mainNav');
+if(nav){window.addEventListener('scroll',function(){nav.classList.toggle('scrolled',window.scrollY>40);});}
+var obs=new IntersectionObserver(function(e){e.forEach(function(x){if(x.isIntersecting)x.target.classList.add('visible');});},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(function(el){obs.observe(el);});
 </script>
 </body>
 </html>

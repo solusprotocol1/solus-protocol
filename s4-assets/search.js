@@ -18,7 +18,7 @@ const searchIndex = [
     // ═══ USE CASES ═══
     { title: 'Supply Chain Provenance & Counterfeit Prevention', tags: 'supply chain counterfeit DFARS GIDEP IUID UII DLA parts OEM fraud fake suspect prevention provenance traceability', page: 'Use Cases', url: 'use-cases' },
     { title: 'Technical Data Package (TDP) Integrity', tags: 'TDP technical data package drawings ECP engineering change proposal tech manual IETM TDMIS revision configuration', page: 'Use Cases', url: 'use-cases' },
-    { title: 'Maintenance Record Verification (3-M / PMCS)', tags: '3-M maintenance SCLSIS PMCS GCSS-Army INSURV gundecking timestamps falsified records preventive corrective', page: 'Use Cases', url: 'use-cases' },
+    { title: 'Maintenance Record Verification (3-M / PMCS)', tags: '3-M maintenance SCLSIS OARS INSURV gundecking timestamps falsified records preventive corrective', page: 'Use Cases', url: 'use-cases' },
     { title: 'CDRL & Contract Deliverable Tracking', tags: 'CDRL contract data requirements list DD-1423 DI-ILSS DI-SESS DCMA deliverable tracking SOW disputes', page: 'Use Cases', url: 'use-cases' },
     { title: 'Configuration Management & Baseline Verification', tags: 'configuration management baseline CDMD-OA CSA PDREP ECP functional allocated product CM', page: 'Use Cases', url: 'use-cases' },
     { title: 'Audit Readiness & Compliance', tags: 'audit readiness compliance DCMA Inspector General JAGMAN CMMC NIST DFARS prepared evidence', page: 'Use Cases', url: 'use-cases' },
@@ -29,13 +29,6 @@ const searchIndex = [
     { title: 'LSA & Provisioning Data Integrity', tags: 'LSA logistic support analysis LSAR GEIA-STD-0007 provisioning NAVSEA NAVSUP ICAPS PTD spares allowance', page: 'Use Cases', url: 'use-cases' },
     { title: 'Milestone & Decision Gate Verification', tags: 'milestone decision gate DoDI 5000.02 MS A B C IOC FOC acquisition lifecycle review', page: 'Use Cases', url: 'use-cases' },
     { title: 'U.S. Navy Systems', tags: 'Navy 3-M SCLSIS OARS CDMD-OA NTCSS NAVSUP NAVSEA INSURV DDG CVN SSN LCS ship submarine surface', page: 'Use Cases', url: 'use-cases' },
-    { title: 'U.S. Army Systems', tags: 'Army GCSS-Army LMP PMCS TACOM property Abrams Bradley Stryker Apache Black Hawk', page: 'Use Cases', url: 'use-cases' },
-    { title: 'U.S. Air Force Systems', tags: 'Air Force REMIS D200A PDM AFMC TMDE F-35 F-22 C-130 KC-46 B-21', page: 'Use Cases', url: 'use-cases' },
-    { title: 'U.S. Marines Systems', tags: 'Marines GCSS-MC MIMMS expeditionary AAV ACV LAV MAGTF MEU', page: 'Use Cases', url: 'use-cases' },
-    { title: 'DLA / DCMA', tags: 'DLA Defense Logistics Agency DCMA Defense Contract Management Agency distribution disposal DEMIL contractor audit oversight', page: 'Use Cases', url: 'use-cases' },
-    { title: 'Coast Guard Systems', tags: 'Coast Guard USCG cutter NSC WMSL buoy Maritime Security', page: 'Use Cases', url: 'use-cases' },
-    { title: 'Space Force Systems', tags: 'Space Force USSF satellite GPS constellation launch range', page: 'Use Cases', url: 'use-cases' },
-
     // ═══ PRICING ═══
     { title: 'Pricing — Pilot (Free)', tags: 'pricing free pilot beta test trial evaluation 1000 anchors SDK zero cost proof of concept POC', page: 'Pricing', url: 'pricing' },
     { title: 'Pricing — Standard ($499/mo)', tags: 'pricing standard 499 monthly 4990 annual 25000 anchors REST API CDRL supply chain small contractor', page: 'Pricing', url: 'pricing' },
@@ -53,7 +46,7 @@ const searchIndex = [
 
     // ═══ FAQ ═══
     { title: 'FAQ — Does sensitive data go on blockchain?', tags: 'FAQ classified sensitive SHA-256 hash one-way CUI controlled unclassified no data on-chain zero privacy', page: 'FAQ', url: 'faq' },
-    { title: 'FAQ — How does it integrate with DoD systems?', tags: 'FAQ 3-M GCSS DPAS REST API Python SDK integrate integration existing systems ERP OARS', page: 'FAQ', url: 'faq' },
+    { title: 'FAQ — How does it integrate with DoD systems?', tags: 'FAQ 3-M OARS DPAS REST API Python SDK integrate integration existing systems ERP OARS', page: 'FAQ', url: 'faq' },
     { title: 'FAQ — What is $SLS?', tags: 'FAQ SLS token utility micro-fee fiat USD usage credit stamps postage not cryptocurrency not security', page: 'FAQ', url: 'faq' },
     { title: 'FAQ — Is it NIST 800-171 / CMMC compliant?', tags: 'FAQ NIST 800-171 CMMC Level 2 CUI FedRAMP compliance DFARS 252.204-7012 cybersecurity', page: 'FAQ', url: 'faq' },
     { title: 'FAQ — Why XRP Ledger?', tags: 'FAQ XRPL XRP Ledger why not Ethereum Bitcoin private blockchain cost speed 3-5 seconds public decentralized', page: 'FAQ', url: 'faq' },
@@ -93,18 +86,18 @@ const searchIndex = [
     { title: 'Audit Record Vault', tags: 'audit record vault browser local storage evidence proof hash SHA-256 transaction ID XRPL search filter verify re-verify CSV XLSX export client-side secure', page: 'Demo App', url: 'demo-app' },
     { title: 'Defense Document Library', tags: 'defense document library MIL-STD OPNAVINST DoD directive NAVSEA NAVAIR FAR DFARS NIST framework reference manual regulation standard', page: 'Demo App', url: 'demo-app' },
     { title: 'Compliance Scorecard — CMMC/NIST/DFARS', tags: 'compliance scorecard CMMC Level 2 NIST 800-171 DFARS FAR 46 MIL-STD-1388 DoDI 4245.15 grade A B C D F ring chart recommendations assessment', page: 'Demo App', url: 'demo-app' },
-    { title: 'Provisioning & PTD Manager — ICAPS Replacement', tags: 'provisioning PTD provisioning technical documentation ICAPS replacement APL allowance parts list NSN cataloging all-branch Navy Army Air Force Marines DAU MIL-STD-1561', page: 'Demo App', url: 'demo-app' },
+    { title: 'Provisioning & PTD Manager — ICAPS Replacement', tags: 'provisioning PTD provisioning technical documentation ICAPS replacement APL allowance parts list NSN cataloging Navy DAU MIL-STD-1561', page: 'Demo App', url: 'demo-app' },
     { title: 'AI Supply Chain Risk Engine', tags: 'AI artificial intelligence supply chain risk engine ML machine learning supplier health GIDEP alerts DLA lead times financial distress single-source counterfeit prediction scoring', page: 'Demo App', url: 'demo-app' },
     { title: 'Audit Report Generator', tags: 'audit report generator one-click package full audit supply chain maintenance compliance chain of custody contract deliverables PDF time period configurable multi-format', page: 'Demo App', url: 'demo-app' },
     { title: 'Contract Lifecycle Management', tags: 'contract lifecycle management CDRL tracking modifications Class I II SOW statement of work deliverable status DI number FAR DFARS expiration alert', page: 'Demo App', url: 'demo-app' },
     { title: 'Digital Thread / Config Bridge', tags: 'digital thread configuration bridge engineering change ECP BOM bill of materials revision baseline functional allocated product TDP version MIL-STD-973 IEEE 828 digital twin', page: 'Demo App', url: 'demo-app' },
     { title: 'Predictive Maintenance AI', tags: 'predictive maintenance AI failure prediction MTBF trend analysis failure mode clustering component age fleet-wide confidence scoring cost-if-unplanned MIL-STD-1629 CBM+ condition-based', page: 'Demo App', url: 'demo-app' },
-    { title: 'Defense Database Import', tags: 'defense database import GCSS-Army DPAS OMMS-NG DECKPLATE D200A REMIS DSS LMP 24 systems branch data migration', page: 'Demo App', url: 'demo-app' },
+    { title: 'Defense Database Import', tags: 'defense database import DPAS OMMS-NG DECKPLATE OARS 3-M SCLSIS Navy systems data migration', page: 'Demo App', url: 'demo-app' },
     { title: 'ILIE — Integrated Logistics Insights Engine', tags: 'ilie submission review upload cross-reference validate discrepancy analysis ecp cdrl vrs iuid bom upload drag drop sample download', page: 'Demo App', url: 'demo-app' },
     { title: 'AI Conversational Agent', tags: 'AI conversational agent chatbot assistant natural language question answer ILS guidance help report generate', page: 'Demo App', url: 'demo-app' },
     { title: 'Toast Alert System', tags: 'toast alert notification real-time warning warranty expiration DMSMS obsolescence readiness degradation popup banner', page: 'Demo App', url: 'demo-app' },
     { title: 'Hash & Anchor Records', tags: 'hash anchor record SHA-256 XRPL transaction memo fingerprint create record immutable proof stamp timestamp', page: 'Demo App', url: 'demo-app' },
-    { title: 'Defense Platforms Database — 500+ Systems', tags: 'platforms database 500 DDG-51 CVN-78 F-35 F-22 Abrams Stryker Apache Black Hawk C-130 Navy Army Air Force Marines Coast Guard Space Force 9 branches weapon system vessel aircraft', page: 'Demo App', url: 'demo-app' },
+    { title: 'Defense Platforms Database — 500+ Systems', tags: 'platforms database 500 DDG-51 CVN-78 F-35 LCS SSN LPD LHA Navy weapon system vessel aircraft', page: 'Demo App', url: 'demo-app' },
 
     // ═══ SDK PLAYGROUND ═══
     { title: 'SDK Playground — Interactive Python SDK', tags: 'SDK playground Python interactive sandbox hash anchor verify batch record test try code live API browser run execute', page: 'SDK', url: 'sdk-playground' },
@@ -165,7 +158,7 @@ const searchIndex = [
     { title: 'MIL-STD-1388 — ILS Elements', tags: 'MIL-STD-1388 ILS elements logistic support analysis LSA 12 elements defense standard requirements', page: 'Use Cases', url: 'use-cases' },
 
     // ═══ FUNDING & GRANTS ═══
-    { title: 'SBIR/STTR Opportunity', tags: 'SBIR Small Business Innovation Research STTR Small Business Technology Transfer Phase I II III grant funding non-dilutive federal Navy Air Force DIU', page: 'Investors', url: 'investors' },
+    { title: 'SBIR/STTR Opportunity', tags: 'SBIR Small Business Innovation Research STTR Small Business Technology Transfer Phase I II III grant funding non-dilutive federal Navy DIU', page: 'Investors', url: 'investors' },
     { title: 'SBIR Phase I — Feasibility ($50K–$250K)', tags: 'SBIR Phase I feasibility proof concept 50K 250K grant award prototype completed already done', page: 'Investors', url: 'investors' },
     { title: 'SBIR Phase II — Development ($500K–$1.5M)', tags: 'SBIR Phase II development production build scale 500K 1.5M grant funding', page: 'Investors', url: 'investors' },
     { title: 'Defense Accelerators — AFWERX, NavalX, DIU', tags: 'AFWERX NavalX DIU Defense Innovation Unit accelerator defense innovation program application commercial technology bridge', page: 'Roadmap', url: 'roadmap' },
@@ -276,10 +269,10 @@ function runSearch(q) {
         return;
     }
     var pageColors = {
-        'Home': '#00aaff', 'About': '#00aaff', 'Use Cases': '#14f195', 'Pricing': '#c9a84c',
-        'Roadmap': '#9b59b6', 'FAQ': '#00e5ff', 'Contact': '#c9a84c', 'Investors': '#14f195',
-        'Partners': '#00aaff', 'Demo App': '#00aaff', 'SDK': '#c9a84c', 'Metrics': '#14f195',
-        'Transactions': '#00e5ff', 'Security': '#9b59b6', 'Marketplace': '#c9a84c',
+        'Home': '#00aaff', 'About': '#00aaff', 'Use Cases': '#00aaff', 'Pricing': '#00aaff',
+        'Roadmap': '#00aaff', 'FAQ': '#00aaff', 'Contact': '#00aaff', 'Investors': '#00aaff',
+        'Partners': '#00aaff', 'Demo App': '#00aaff', 'SDK': '#00aaff', 'Metrics': '#00aaff',
+        'Transactions': '#00aaff', 'Security': '#00aaff', 'Marketplace': '#00aaff',
         'Terms': '#666', 'Privacy': '#666', 'Login': '#00aaff'
     };
     results.innerHTML = scored.slice(0, 20).map(function(s) {

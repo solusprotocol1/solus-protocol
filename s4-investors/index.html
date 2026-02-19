@@ -7,458 +7,217 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <title>Investors | S4 Ledger</title>
-    <meta name="description" content="S4 Ledger investor portal — market opportunity, $SLS tokenomics, revenue model, competitive position, and growth timeline for the defense logistics verification platform.">
+    <meta name="description" content="S4 Ledger investor portal — market opportunity, revenue model, and growth timeline.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/s4-assets/style.css">
 </head>
 <body>
-<div class="mesh-bg"><div class="gradient-orb orb-1"></div><div class="gradient-orb orb-2"></div><div class="gradient-orb orb-3"></div></div>
-<nav class="navbar navbar-expand-lg">
-    <div class="container">
-        <a class="navbar-brand" href="/">
-            <img src="/s4-assets/S4Ledger_logo.png" alt="S4" class="nav-logo">
-            <span class="brand-text">S4 Ledger</span>
+<nav class="nav" id="mainNav">
+    <div class="nav-inner">
+        <a href="/" class="nav-brand">
+            <img src="/s4-assets/S4Ledger_logo.png" alt="S4 Ledger">
+            <span>S4 Ledger</span>
         </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navContent">
+        <ul class="nav-links" id="navLinks">
+            <li><a href="/demo-app/">Platform</a></li>
+            <li><a href="/s4-use-cases/">Use Cases</a></li>
+            <li><a href="/s4-pricing/">Pricing</a></li>
+            <li><a href="/s4-investors/">Company</a></li>
+            <li><a href="https://github.com/s4ledger/s4-ledger" target="_blank">Docs</a></li>
+            <li><a href="/s4-contact/" class="nav-cta">Request Demo</a></li>
+        </ul>
+        <button class="nav-mobile-toggle" onclick="document.getElementById('navLinks').classList.toggle('open')" aria-label="Menu">
             <i class="fas fa-bars"></i>
         </button>
-        <div class="collapse navbar-collapse justify-content-end" id="navContent">
-            <ul class="navbar-nav align-items-center gap-1">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle active" href="#" data-bs-toggle="dropdown">Company</a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="/s4-about/"><i class="fas fa-building dd-accent"></i> About</a></li>
-                        <li><a class="dropdown-item" href="/s4-investors/"><i class="fas fa-chart-line dd-accent"></i> Investors</a></li>
-                        <li><a class="dropdown-item" href="/s4-partners/"><i class="fas fa-handshake dd-accent"></i> Partners</a></li>
-                        <li><a class="dropdown-item" href="/s4-contact/"><i class="fas fa-envelope dd-accent"></i> Contact</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Products</a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="/demo-app/"><i class="fas fa-terminal dd-green"></i> ILS Workspace</a></li>
-                        <li><a class="dropdown-item" href="/sdk-playground/"><i class="fas fa-code dd-gold"></i> SDK Playground</a></li>
-                        <li><a class="dropdown-item" href="/sdk/"><i class="fas fa-book dd-gold"></i> SDK Docs</a></li>
-                        <li><a class="dropdown-item" href="/s4-marketplace/"><i class="fas fa-store dd-purple"></i> Marketplace</a></li>
-                        <li><a class="dropdown-item" href="/metrics.html"><i class="fas fa-chart-bar dd-accent"></i> Metrics</a></li>
-                        <li><a class="dropdown-item" href="/transactions.html"><i class="fas fa-exchange-alt dd-accent"></i> Transactions</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">More</a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="/s4-use-cases/"><i class="fas fa-boxes-stacked dd-orange"></i> Use Cases</a></li>
-                        <li><a class="dropdown-item" href="/s4-pricing/"><i class="fas fa-tags dd-accent"></i> Pricing</a></li>
-                        <li><a class="dropdown-item" href="/s4-roadmap/"><i class="fas fa-road dd-accent"></i> Roadmap</a></li>
-                        <li><a class="dropdown-item" href="/s4-faq/"><i class="fas fa-question-circle dd-accent"></i> FAQ</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <button class="nav-link search-btn" onclick="openSearch()"><i class="fas fa-search"></i></button>
-                </li>
-                <li class="nav-item ms-2">
-                    <a class="btn-accent" href="/s4-login/">Sign In</a>
-                </li>
-            </ul>
-        </div>
     </div>
 </nav>
 
-    <div class="page-hero">
-        <div class="container">
-            <h1>Investor <span class="gradient-text">Portal</span></h1>
-            <p>The investment case for immutable defense logistics verification</p>
+<div class="page-hero">
+    <div class="container">
+        <div class="section-label">Investors</div>
+        <h1>The defense logistics verification market</h1>
+        <p>An $800B+ annual DoD budget with $2&ndash;3B in counterfeit parts losses. Manual audit processes costing $15&ndash;50 per record. We replace all of it for $0.01.</p>
+    </div>
+</div>
+<div class="container"><div class="divider"></div></div>
+
+<section class="section">
+    <div class="container">
+        <div class="stats-row reveal">
+            <div class="stat">
+                <div class="stat-value">$800B+</div>
+                <div class="stat-label">Annual DoD budget</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">$2&ndash;3B</div>
+                <div class="stat-label">Counterfeit parts losses/yr</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">$0.01</div>
+                <div class="stat-label">S4 cost per verification</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">~90%</div>
+                <div class="stat-label">Gross margin per anchor</div>
+            </div>
         </div>
     </div>
+</section>
 
-    <div class="container" style="max-width: 900px;">
-
-        <!-- OPPORTUNITY -->
-        <div class="card reveal" style="border-left: 3px solid var(--gold);">
-            <h3 style="margin-bottom: 12px;"><i class="fas fa-bullseye" style="color: var(--gold); margin-right: 8px;"></i> The Opportunity</h3>
-            <p style="font-size: 1.02rem; line-height: 1.8;">The U.S. Department of War spends over <strong style="color:#fff;">$400 billion annually</strong> on contracts, logistics, and supply chain management. Counterfeit parts alone cost the DoW an estimated <strong style="color:#fff;">$2-3 billion per year</strong>. Failed audits, version disputes, maintenance falsification, and contract deliverable disagreements add billions more in waste, rework, and risk.</p>
-            <p style="font-size: 1.02rem; line-height: 1.8;">There is currently <strong style="color:var(--accent);">no widely adopted, cost-effective, independently verifiable</strong> solution for immutable logistics record verification in defense. S4 Ledger fills that gap.</p>
+<section class="section">
+    <div class="container">
+        <div class="section-center reveal">
+            <div class="section-label">Revenue Model</div>
+            <h2 class="section-heading">Multiple recurring revenue streams</h2>
         </div>
-
-        <!-- MARKET SIZE -->
-        <h2 class="section-title" style="margin-top: 40px;">Market <span class="gradient-text">Size</span></h2>
-        <div class="row mb-4">
-            <div class="col-md-4 mb-3 reveal">
-                <div class="metric-card">
-                    <div class="metric-value">$400B+</div>
-                    <div class="metric-label">Annual DoW Contract & Logistics Spend</div>
-                </div>
+        <div class="card-grid card-grid-2 reveal">
+            <div class="card">
+                <h4>SaaS Subscriptions</h4>
+                <p>$499&ndash;$4,999/month per organization. Tiered by anchor volume and tool access. Government site licenses for agency-wide deployment.</p>
             </div>
-            <div class="col-md-4 mb-3 reveal">
-                <div class="metric-card">
-                    <div class="metric-value">$2-3B</div>
-                    <div class="metric-label">Annual Cost of Counterfeit Parts to DoW</div>
-                </div>
+            <div class="card">
+                <h4>Per-Anchor Fees</h4>
+                <p>$0.01 in $SLS per anchor. Usage scales with adoption. Cost to anchor on XRPL is ~$0.001 &mdash; approximately 90% gross margin.</p>
             </div>
-            <div class="col-md-4 mb-3 reveal">
-                <div class="metric-card">
-                    <div class="metric-value">$8.1B</div>
-                    <div class="metric-label">Defense Blockchain Market by 2030 (est.)</div>
-                </div>
+            <div class="card">
+                <h4>Integration Services</h4>
+                <p>Paid API and SDK integration support for legacy defense systems. Custom connectors for GCSS, OARS, NTCSS, and other platforms.</p>
             </div>
-        </div>
-
-        <!-- REVENUE MODEL -->
-        <h2 class="section-title">Revenue <span class="gradient-text">Model</span></h2>
-        <div class="card reveal">
-            <div class="row">
-                <div class="col-md-6">
-                    <h5 style="color: var(--accent); margin-bottom: 10px;">Recurring Revenue Streams</h5>
-                    <ul style="font-size: 0.92rem; line-height: 1.8;">
-                        <li><strong style="color:#fff;">SaaS Subscriptions:</strong> $5K–$200K/yr per organization depending on tier</li>
-                        <li><strong style="color:#fff;">Per-Anchor Fees:</strong> $0.01 in $SLS per anchor — scales with usage</li>
-                        <li><strong style="color:#fff;">Government Site Licenses:</strong> Custom pricing per agency deployment</li>
-                        <li><strong style="color:#fff;">Integration Services:</strong> Paid API/SDK integration support for legacy systems</li>
-                    </ul>
-                </div>
-                <div class="col-md-6">
-                    <h5 style="color: var(--gold); margin-bottom: 10px;">Unit Economics</h5>
-                    <ul style="font-size: 0.92rem; line-height: 1.8;">
-                        <li><strong style="color:#fff;">Cost to anchor:</strong> ~$0.001 (XRPL base fee)</li>
-                        <li><strong style="color:#fff;">Revenue per anchor:</strong> $0.01 ($SLS utility fee)</li>
-                        <li><strong style="color:#fff;">Gross margin per anchor:</strong> ~90%</li>
-                        <li><strong style="color:#fff;">Breakeven:</strong> ~50 Standard-tier subscribers</li>
-                    </ul>
-                </div>
+            <div class="card">
+                <h4>Breakeven Analysis</h4>
+                <p>Approximately 50 Standard-tier subscribers. Low infrastructure costs &mdash; XRPL transactions and static hosting. No expensive infrastructure required.</p>
             </div>
-        </div>
-
-        <!-- COMPETITIVE LANDSCAPE -->
-        <h2 class="section-title" style="margin-top: 40px;">Competitive <span class="gradient-text">Landscape</span></h2>
-        <div class="card reveal">
-            <p style="font-size: 0.85rem; color: var(--muted); margin-bottom: 15px;">How S4 Ledger compares to blockchain, enterprise, and traditional defense solutions</p>
-
-            <!-- Row 1: Blockchain Competitors -->
-            <div style="font-size:0.72rem;color:var(--accent);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;"><i class="fas fa-link" style="margin-right:4px"></i> Blockchain Solutions</div>
-            <div class="row mb-2">
-                <div class="col-md-3 col-6 mb-3">
-                    <div style="text-align:center;padding:12px;border:1px solid rgba(255,255,255,0.06);border-radius:12px;background:rgba(255,255,255,0.02);">
-                        <div style="font-size:0.75rem;color:var(--muted);margin-bottom:4px;">Guardtime (KSI)</div>
-                        <div style="font-size:0.82rem;color:#ff6b6b;">Proprietary chain</div>
-                        <div style="font-size:0.75rem;color:var(--muted);">$500K+ contracts</div>
-                    </div>
-                </div>
-                <div class="col-md-3 col-6 mb-3">
-                    <div style="text-align:center;padding:12px;border:1px solid rgba(255,255,255,0.06);border-radius:12px;background:rgba(255,255,255,0.02);">
-                        <div style="font-size:0.75rem;color:var(--muted);margin-bottom:4px;">SIMBA Chain</div>
-                        <div style="font-size:0.82rem;color:#ff6b6b;">Proprietary platform</div>
-                        <div style="font-size:0.75rem;color:var(--muted);">Gov enterprise pricing</div>
-                    </div>
-                </div>
-                <div class="col-md-3 col-6 mb-3">
-                    <div style="text-align:center;padding:12px;border:1px solid rgba(255,255,255,0.06);border-radius:12px;background:rgba(255,255,255,0.02);">
-                        <div style="font-size:0.75rem;color:var(--muted);margin-bottom:4px;">Hyperledger / R3 Corda</div>
-                        <div style="font-size:0.82rem;color:#ff6b6b;">Private / permissioned</div>
-                        <div style="font-size:0.75rem;color:var(--muted);">$1M+ infrastructure</div>
-                    </div>
-                </div>
-                <div class="col-md-3 col-6 mb-3">
-                    <div style="text-align:center;padding:12px;border:1px solid rgba(255,255,255,0.06);border-radius:12px;background:rgba(255,255,255,0.02);">
-                        <div style="font-size:0.75rem;color:var(--muted);margin-bottom:4px;">Ethereum / Polygon</div>
-                        <div style="font-size:0.82rem;color:#ff6b6b;">$5-$50+ per tx</div>
-                        <div style="font-size:0.75rem;color:var(--muted);">Energy / cost concerns</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Row 2: Enterprise / Defense Tech Competitors -->
-            <div style="font-size:0.72rem;color:var(--gold);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;"><i class="fas fa-building" style="margin-right:4px"></i> Enterprise & Defense Tech</div>
-            <div class="row mb-2">
-                <div class="col-md-3 col-6 mb-3">
-                    <div style="text-align:center;padding:12px;border:1px solid rgba(255,255,255,0.06);border-radius:12px;background:rgba(255,255,255,0.02);">
-                        <div style="font-size:0.75rem;color:var(--muted);margin-bottom:4px;">Palantir Foundry</div>
-                        <div style="font-size:0.82rem;color:#ff6b6b;">Data analytics focus</div>
-                        <div style="font-size:0.75rem;color:var(--muted);">No immutable anchoring</div>
-                    </div>
-                </div>
-                <div class="col-md-3 col-6 mb-3">
-                    <div style="text-align:center;padding:12px;border:1px solid rgba(255,255,255,0.06);border-radius:12px;background:rgba(255,255,255,0.02);">
-                        <div style="font-size:0.75rem;color:var(--muted);margin-bottom:4px;">IBM / Accenture</div>
-                        <div style="font-size:0.82rem;color:#ff6b6b;">Custom SI builds</div>
-                        <div style="font-size:0.75rem;color:var(--muted);">$10M+ multi-year</div>
-                    </div>
-                </div>
-                <div class="col-md-3 col-6 mb-3">
-                    <div style="text-align:center;padding:12px;border:1px solid rgba(255,255,255,0.06);border-radius:12px;background:rgba(255,255,255,0.02);">
-                        <div style="font-size:0.75rem;color:var(--muted);margin-bottom:4px;">GCSS / GFEBS / LMP</div>
-                        <div style="font-size:0.82rem;color:#ff6b6b;">Legacy mainframe</div>
-                        <div style="font-size:0.75rem;color:var(--muted);">No blockchain verif.</div>
-                    </div>
-                </div>
-                <div class="col-md-3 col-6 mb-3">
-                    <div style="text-align:center;padding:12px;border:1px solid rgba(255,255,255,0.06);border-radius:12px;background:rgba(255,255,255,0.02);">
-                        <div style="font-size:0.75rem;color:var(--muted);margin-bottom:4px;">Manual Audit / Excel</div>
-                        <div style="font-size:0.82rem;color:#ff6b6b;">$15-50 per record</div>
-                        <div style="font-size:0.75rem;color:var(--muted);">Days-weeks latency</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- S4 Ledger highlight -->
-            <div class="row mb-3">
-                <div class="col-12">
-                    <div style="text-align:center;padding:14px 20px;border:1px solid rgba(0,170,255,0.25);border-radius:12px;background:rgba(0,170,255,0.06);display:flex;align-items:center;justify-content:center;gap:24px;flex-wrap:wrap;">
-                        <div style="font-size:0.82rem;color:var(--accent);font-weight:700;"><i class="fas fa-check-circle" style="color:#14f195;margin-right:4px"></i> S4 Ledger</div>
-                        <div style="font-size:0.82rem;color:#14f195;">Public XRPL — $0.01/anchor</div>
-                        <div style="font-size:0.82rem;color:var(--muted);">13 ILS Tools Built-In</div>
-                        <div style="font-size:0.82rem;color:var(--muted);">Defense-First Architecture</div>
-                        <div style="font-size:0.82rem;color:var(--muted);">No Vendor Lock-In</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Detailed comparison table -->
-            <h5 style="color:var(--accent);margin-bottom:10px;font-size:0.9rem;"><i class="fas fa-table" style="margin-right:6px"></i>Detailed Feature Comparison</h5>
-            <div style="overflow-x:auto;">
-            <table class="comparison-table">
-                <tr>
-                    <th></th>
-                    <th style="color: var(--accent);">S4 Ledger</th>
-                    <th>Guardtime</th>
-                    <th>SIMBA</th>
-                    <th>Hyperledger</th>
-                    <th>Palantir</th>
-                    <th>Manual</th>
-                </tr>
-                <tr>
-                    <td><strong style="color:#fff;">Blockchain</strong></td>
-                    <td class="check">Public (XRPL)</td>
-                    <td class="cross">Proprietary</td>
-                    <td class="cross">Proprietary</td>
-                    <td class="cross">Private</td>
-                    <td class="cross">None</td>
-                    <td class="cross">None</td>
-                </tr>
-                <tr>
-                    <td><strong style="color:#fff;">Independently Verifiable</strong></td>
-                    <td class="check">Yes — anyone</td>
-                    <td class="cross">Vendor only</td>
-                    <td class="cross">Vendor only</td>
-                    <td class="cross">Consortium only</td>
-                    <td class="cross">No</td>
-                    <td class="cross">Subjective</td>
-                </tr>
-                <tr>
-                    <td><strong style="color:#fff;">Cost per Verification</strong></td>
-                    <td class="check">$0.01</td>
-                    <td class="cross">$500K+ contracts</td>
-                    <td class="cross">Enterprise pricing</td>
-                    <td class="cross">$1M+ infra</td>
-                    <td class="cross">$10M+ contracts</td>
-                    <td class="cross">$15-50</td>
-                </tr>
-                <tr>
-                    <td><strong style="color:#fff;">Settlement Speed</strong></td>
-                    <td class="check">3-5 seconds</td>
-                    <td class="cross">Minutes</td>
-                    <td class="cross">Seconds-min</td>
-                    <td class="cross">Seconds</td>
-                    <td class="cross">N/A</td>
-                    <td class="cross">Days-weeks</td>
-                </tr>
-                <tr>
-                    <td><strong style="color:#fff;">Vendor Lock-in</strong></td>
-                    <td class="check">None</td>
-                    <td class="cross">Complete</td>
-                    <td class="cross">Complete</td>
-                    <td class="cross">Consortium</td>
-                    <td class="cross">Complete</td>
-                    <td class="cross">N/A</td>
-                </tr>
-                <tr>
-                    <td><strong style="color:#fff;">Defense ILS Focus</strong></td>
-                    <td class="check">Purpose-built</td>
-                    <td class="cross">General gov</td>
-                    <td class="cross">General chain</td>
-                    <td class="cross">Enterprise</td>
-                    <td class="cross">Analytics</td>
-                    <td class="cross">Generic</td>
-                </tr>
-                <tr>
-                    <td><strong style="color:#fff;">ILS Workspace Tools</strong></td>
-                    <td class="check">13 tools</td>
-                    <td class="cross">0</td>
-                    <td class="cross">0</td>
-                    <td class="cross">0</td>
-                    <td class="cross">Analytics only</td>
-                    <td class="cross">Excel</td>
-                </tr>
-            </table>
-            </div>
-        </div>
-
-        <!-- $SLS TOKENOMICS -->
-        <h2 class="section-title" style="margin-top: 40px;">$SLS <span class="gradient-text">Tokenomics</span></h2>
-        <div class="card reveal" style="border: 1px solid rgba(201,168,76,0.3);">
-            <div class="text-center" style="margin-bottom:10px;"><img src="/s4-assets/SLS_logo.png" alt="$SLS Token" class="token-logo"></div>
-            <div class="row">
-                <div class="col-md-6">
-                    <h5 style="color: var(--gold); margin-bottom: 12px;">Token Allocation</h5>
-                    <ul style="font-size: 0.92rem; line-height: 1.9;">
-                        <li><strong style="color:#fff;">Total Supply:</strong> 100,000,000 $SLS</li>
-                        <li><strong style="color:#fff;">Public / Community:</strong> 60% (60M SLS)</li>
-                        <li><strong style="color:#fff;">Ecosystem & Grants:</strong> 15% (15M SLS)</li>
-                        <li><strong style="color:#fff;">Team & Founders:</strong> 15% (15M SLS)</li>
-                        <li><strong style="color:#fff;">Strategic Reserves:</strong> 10% (10M SLS)</li>
-                    </ul>
-                </div>
-                <div class="col-md-6">
-                    <h5 style="color: var(--accent); margin-bottom: 12px;">Vesting & Lockups</h5>
-                    <ul style="font-size: 0.92rem; line-height: 1.9;">
-                        <li><strong style="color:#fff;">Team tokens:</strong> 12-month cliff + 24-month linear vest</li>
-                        <li><strong style="color:#fff;">Strategic reserves:</strong> DAO-governed release schedule</li>
-                        <li><strong style="color:#fff;">Ecosystem grants:</strong> Milestone-based disbursement</li>
-                        <li><strong style="color:#fff;">Treasury:</strong> 30M SLS in multi-sig wallet</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="text-center mt-3">
-                <a href="https://xmagnetic.org/tokens/SLS+r95GyZac4butvVcsTWUPpxzekmyzaHsTA5" target="_blank" class="btn-secondary-custom" style="font-size: 0.88rem;"><i class="fas fa-chart-line"></i> &nbsp;View $SLS on xMagnetic</a>
-            </div>
-        </div>
-
-        <!-- GROWTH TIMELINE -->
-        <h2 class="section-title" style="margin-top: 40px;">Growth <span class="gradient-text">Timeline</span></h2>
-        <div class="row mb-4">
-            <div class="col-md-3 col-6 mb-3 reveal">
-                <div class="card text-center" style="height: 100%;">
-                    <div style="color: var(--accent); font-weight: 700; font-size: 0.85rem; margin-bottom: 8px;">Q1 2026</div>
-                    <h5 style="font-size: 0.95rem;">Platform Launch</h5>
-                    <p style="font-size: 0.82rem; margin: 0;">Public website, defense use case docs, SDK development, CEO pitch</p>
-                </div>
-            </div>
-            <div class="col-md-3 col-6 mb-3 reveal">
-                <div class="card text-center" style="height: 100%;">
-                    <div style="color: var(--accent); font-weight: 700; font-size: 0.85rem; margin-bottom: 8px;">Q2 2026</div>
-                    <h5 style="font-size: 0.95rem;">MVP & Internal Pilot</h5>
-                    <p style="font-size: 0.82rem; margin: 0;">Defense SDK complete, internal pilot on real contract data, NAVSEA demo</p>
-                </div>
-            </div>
-            <div class="col-md-3 col-6 mb-3 reveal">
-                <div class="card text-center" style="height: 100%;">
-                    <div style="color: var(--gold); font-weight: 700; font-size: 0.85rem; margin-bottom: 8px;">Q3 2026</div>
-                    <h5 style="font-size: 0.95rem;">First Revenue</h5>
-                    <p style="font-size: 0.82rem; margin: 0;">SaaS launch, first external subscribers, DIU/NavalX engagement</p>
-                </div>
-            </div>
-            <div class="col-md-3 col-6 mb-3 reveal">
-                <div class="card text-center" style="height: 100%;">
-                    <div style="color: var(--gold); font-weight: 700; font-size: 0.85rem; margin-bottom: 8px;">2027+</div>
-                    <h5 style="font-size: 0.95rem;">Scale</h5>
-                    <p style="font-size: 0.82rem; margin: 0;">NIST certification, FedRAMP, SBIR/STTR, cross-service DoW expansion</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- WHY INVEST -->
-        <div class="card reveal" style="border: 1px solid rgba(0,170,255,0.3); margin-bottom: 20px;">
-            <h3 class="text-center" style="margin-bottom: 15px;">Why Invest in <span class="gradient-text">S4 Ledger</span></h3>
-            <div class="row">
-                <div class="col-md-6">
-                    <ul style="font-size: 0.92rem; line-height: 2;">
-                        <li>First-mover in defense-specific hash anchoring on public blockchain</li>
-                        <li>$SLS token live on XRPL mainnet — infrastructure operational</li>
-                        <li>90%+ gross margin on per-anchor revenue</li>
-                        <li>Recurring SaaS revenue model with enterprise tiers</li>
-                    </ul>
-                </div>
-                <div class="col-md-6">
-                    <ul style="font-size: 0.92rem; line-height: 2;">
-                        <li>$400B+ addressable market with no dominant solution</li>
-                        <li>Team with hands-on defense logistics experience</li>
-                        <li>No vendor lock-in = easier government adoption</li>
-                        <li>100× cheaper than closest blockchain competitor</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <!-- CTA -->
-        <div class="cta-box reveal" style="margin-bottom: 40px;">
-            <h3>Interested in investing?</h3>
-            <p>Schedule a call to discuss the opportunity, tokenomics, and growth roadmap</p>
-            <a href="../s4-contact/" class="btn-primary-custom"><i class="fas fa-calendar"></i> &nbsp;Schedule a Conversation</a>
-        </div>
-
-        <div class="card text-center reveal" style="padding: 20px; border: 1px solid rgba(201,168,76,0.2);">
-            <p style="font-size: 0.82rem; color: var(--text-muted); margin: 0;"><strong>Disclaimer:</strong> $SLS is a utility token. It does not represent equity, ownership, profit-sharing rights, or an investment contract. This page is for informational purposes only and does not constitute financial advice, a solicitation, or an offer to sell securities. Token purchases involve risk. Consult your financial and legal advisors.</p>
         </div>
     </div>
+</section>
 
-    <div style="height: 40px;"></div>
+<div class="container"><div class="divider"></div></div>
 
-    <footer class="site-footer">
-    <div class="footer-grid">
-        <div>
-            <a href="/" class="footer-brand-link">
-                <img src="/s4-assets/S4Ledger_logo.png" alt="S4">
-                S4 Ledger
-            </a>
-            <p class="footer-tagline">Immutable logistics verification anchored to the XRP Ledger. The secure standard for defense and enterprise supply chains.</p>
-            <div class="footer-social">
-                <a href="https://github.com/S4-Ledger" aria-label="GitHub"><i class="fab fa-github"></i></a>
-                <a href="https://x.com/S4Ledger" aria-label="X"><i class="fab fa-x-twitter"></i></a>
-                <a href="https://discord.gg/s4ledger" aria-label="Discord"><i class="fab fa-discord"></i></a>
+<section class="section">
+    <div class="container">
+        <div class="section-center reveal">
+            <div class="section-label">Competitive Position</div>
+            <h2 class="section-heading">Why S4 Ledger wins</h2>
+            <p class="section-sub">Public blockchain verification at a fraction of the cost. No vendor lock-in. Defense-first architecture.</p>
+        </div>
+        <div class="card-grid card-grid-3 reveal">
+            <div class="card">
+                <h4>vs. Guardtime / SIMBA</h4>
+                <p>Proprietary chains with $500K+ contracts and complete vendor lock-in. S4 uses public XRPL &mdash; anyone can verify independently.</p>
+            </div>
+            <div class="card">
+                <h4>vs. Palantir / IBM</h4>
+                <p>$10M+ enterprise contracts focused on analytics, not immutable verification. No blockchain anchoring capability.</p>
+            </div>
+            <div class="card">
+                <h4>vs. Manual Audit</h4>
+                <p>$15&ndash;50 per record, days to weeks of latency. S4 Ledger: $0.01, 3&ndash;5 seconds, tamper-proof.</p>
             </div>
         </div>
-        <div class="footer-col">
-            <h5>Product</h5>
-            <a href="/demo-app/">ILS Workspace</a>
-            <a href="/sdk/">SDK Docs</a>
-            <a href="/sdk-playground/">SDK Playground</a>
-            <a href="/s4-marketplace/">Marketplace</a>
-            <a href="/s4-pricing/">Pricing</a>
+    </div>
+</section>
+
+<div class="container"><div class="divider"></div></div>
+
+<section class="section">
+    <div class="container-narrow">
+        <div class="section-center reveal">
+            <div class="section-label">Growth Timeline</div>
+            <h2 class="section-heading">Path to scale</h2>
         </div>
-        <div class="footer-col">
-            <h5>Company</h5>
-            <a href="/s4-about/">About</a>
-            <a href="/s4-investors/">Investors</a>
-            <a href="/s4-partners/">Partners</a>
-            <a href="/s4-roadmap/">Roadmap</a>
-            <a href="/s4-contact/">Contact</a>
-        </div>
-        <div class="footer-col">
-            <h5>Resources</h5>
-            <a href="/s4-use-cases/">Use Cases</a>
-            <a href="/s4-faq/">FAQ</a>
-            <a href="/metrics.html">Metrics</a>
-            <a href="/transactions.html">Transactions</a>
-            <a href="/security/">Security</a>
+        <div class="roadmap-list reveal">
+            <div class="roadmap-item completed">
+                <span class="roadmap-tag">Complete</span>
+                <h4>Phase 1 &mdash; Foundation</h4>
+                <p>SDK, CLI, XRPL integration, 13 ILS tools, 500+ platforms, website, demo app.</p>
+            </div>
+            <div class="roadmap-item current">
+                <span class="roadmap-tag">In Progress</span>
+                <h4>Phase 2 &mdash; Navy Pilot</h4>
+                <p>First customer engagement. Real contract data. NAVSEA / NAVAIR program office demos.</p>
+            </div>
+            <div class="roadmap-item">
+                <span class="roadmap-tag">2026</span>
+                <h4>Phase 3 &mdash; Revenue</h4>
+                <p>First paying customers. SBIR/STTR applications. Partner onboarding.</p>
+            </div>
+            <div class="roadmap-item">
+                <span class="roadmap-tag">2027</span>
+                <h4>Phase 4 &mdash; Scale</h4>
+                <p>Multi-branch expansion. FedRAMP pursuit. SaaS dashboard. International opportunities.</p>
+            </div>
         </div>
     </div>
-    <div class="footer-bottom">
-        <span>&copy; 2025 S4 Ledger. All rights reserved.</span>
-        <div class="footer-bottom-links">
-            <a href="/s4-terms/">Terms</a>
-            <a href="/s4-privacy/">Privacy</a>
-            <a href="/security/">Security</a>
+</section>
+
+<section class="cta-section">
+    <div class="container-narrow reveal">
+        <h2>Interested in S4 Ledger?</h2>
+        <p>We're open to strategic investment, SBIR/STTR partnerships, and government pilot programs.</p>
+        <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+            <a href="/s4-contact/" class="btn-primary">Contact Us</a> <a href="/demo-app/" class="btn-ghost">Launch Platform</a>
+        </div>
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="container">
+        <div class="footer-inner">
+            <div>
+                <a href="/" class="footer-brand">
+                    <img src="/s4-assets/S4Ledger_logo.png" alt="S4 Ledger">
+                    <span>S4 Ledger</span>
+                </a>
+                <div class="footer-tagline">Immutable defense logistics. Built on the XRP Ledger.</div>
+            </div>
+            <div class="footer-links">
+                <div class="footer-col">
+                    <h5>Product</h5>
+                    <a href="/demo-app/">Platform</a>
+                    <a href="/sdk-playground/">SDK Playground</a>
+                    <a href="/metrics.html">Live Metrics</a>
+                    <a href="/transactions.html">Transactions</a>
+                </div>
+                <div class="footer-col">
+                    <h5>Company</h5>
+                    <a href="/s4-about/">About</a>
+                    <a href="/s4-investors/">Investors</a>
+                    <a href="/s4-partners/">Partners</a>
+                    <a href="/s4-roadmap/">Roadmap</a>
+                </div>
+                <div class="footer-col">
+                    <h5>Resources</h5>
+                    <a href="/s4-use-cases/">Use Cases</a>
+                    <a href="/s4-faq/">FAQ</a>
+                    <a href="/s4-pricing/">Pricing</a>
+                    <a href="/security/">Security</a>
+                </div>
+                <div class="footer-col">
+                    <h5>Connect</h5>
+                    <a href="/s4-contact/">Contact</a>
+                    <a href="https://github.com/s4ledger/s4-ledger" target="_blank">GitHub</a>
+                    <a href="https://x.com" target="_blank">X / Twitter</a>
+                    <a href="https://linkedin.com" target="_blank">LinkedIn</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>&copy; 2025 S4 Systems, LLC. $SLS is a utility token &mdash; not equity or an investment contract.</span>
+            <div class="footer-bottom-links">
+                <a href="/s4-terms/">Terms</a>
+                <a href="/s4-privacy/">Privacy</a>
+                <a href="/security-policy/">Security Policy</a>
+            </div>
         </div>
     </div>
 </footer>
 
-    <button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="/s4-assets/main.js"></script>
-    <script src="/s4-assets/search.js"></script>
-<link rel="stylesheet" href="/s4-assets/s4-mobile.css">
-<script src="/s4-assets/s4-background.js"></script>
-<!-- Search Modal -->
-<div id="searchOverlay" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.8);backdrop-filter:blur(8px);justify-content:center;align-items:flex-start;padding-top:20vh;">
-    <div style="width:90%;max-width:560px;">
-        <input id="searchInput" type="text" placeholder="Search S4 Ledger..." style="width:100%;padding:18px 24px;border-radius:14px;border:1px solid rgba(0,170,255,0.3);background:rgba(17,17,24,0.95);color:#f0f0f5;font-size:1.1rem;outline:none;font-family:'Inter',sans-serif;">
-    </div>
-</div>
 <script>
-function openSearch(){const o=document.getElementById('searchOverlay');o.style.display='flex';document.getElementById('searchInput').focus();}
-document.addEventListener('keydown',e=>{if(e.key==='Escape')document.getElementById('searchOverlay').style.display='none';if((e.metaKey||e.ctrlKey)&&e.key==='k'){e.preventDefault();openSearch();}});
-document.getElementById('searchOverlay')?.addEventListener('click',function(e){if(e.target===this)this.style.display='none';});
+var nav=document.getElementById('mainNav');
+if(nav){window.addEventListener('scroll',function(){nav.classList.toggle('scrolled',window.scrollY>40);});}
+var obs=new IntersectionObserver(function(e){e.forEach(function(x){if(x.isIntersecting)x.target.classList.add('visible');});},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(function(el){obs.observe(el);});
 </script>
 </body>
 </html>
