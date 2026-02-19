@@ -54,7 +54,7 @@ All 13 tools talk to each other. When the DMSMS Tracker finds an obsolete part, 
 
 **Primary users:**
 - ILS managers and engineers at defense contractors
-- Program logistics offices at Navy, Coast Guard, and other service commands
+- Program logistics offices at Navy, and other service commands
 - Depot-level maintenance facilities tracking parts and readiness
 - Any organization that needs to prove their supply chain records are legitimate
 
@@ -106,7 +106,7 @@ Most blockchain companies focus on cryptocurrency or consumer supply chains (tra
 Everything described above is **live and working right now** at [s4ledger.com](https://s4ledger.com). It was built by Nick Frankfort on his own time at zero cost to the company. The tech stack:
 
 - **Website:** 25+ pages, fully branded
-- **Demo App:** All 13 ILS Workspace tools working, 156+ pre-built record types (supports any defense record type), 500+ pre-loaded military platforms, real DoW data in all dropdowns (35+ platforms, 25 contracts, 37 suppliers)
+- **Demo App:** All 13 ILS Workspace tools working, 54+ pre-built record types (supports any defense record type), 500+ pre-loaded military platforms, real DoW data in all dropdowns (35+ platforms, 25 contracts, 37 suppliers)
 - **Audit Record Vault:** Automatically stores every anchored record with content + hash for instant auditing
 - **Defense Document Library:** 100+ real MIL-STDs, OPNAVINSTs, DoD Directives searchable by branch and category
 - **Compliance Scorecard:** Real-time CMMC/NIST/DFARS compliance calculator with letter grades
@@ -152,7 +152,7 @@ The SBIR (Small Business Innovation Research) program exists specifically for th
 - **Phase II:** $500K–$1.5M to develop the product
 - **Phase III:** Full production — no further competition required
 
-The Navy, Air Force, and Defense Innovation Unit all solicit proposals for exactly this type of capability.
+The Navy, and Defense Innovation Unit all solicit proposals for exactly this type of capability.
 
 ---
 

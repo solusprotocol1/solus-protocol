@@ -307,7 +307,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed — Emoji Removal, UI Fixes, Pricing & Content Accuracy
 
-- **Demo-App Emoji Elimination (164+ lines)** — Replaced ALL remaining emojis in demo-app JavaScript: 4 CLF_META icons, 9 BRANCHES icons, 150+ record type icons (`_RT` object), srcIcons, vault icons, audit report type icons, AI chatbot greeting strings, optgroup labels, and all `animStatus` messages. All now use FontAwesome 6 class names rendered via `innerHTML` with `<i class="fas">` elements. Zero emojis remain.
+- **Demo-App Emoji Elimination (164+ lines)** — Replaced ALL remaining emojis in demo-app JavaScript: 4 CLF_META icons, U.S. Navy icons, 150+ record type icons (`_RT` object), srcIcons, vault icons, audit report type icons, AI chatbot greeting strings, optgroup labels, and all `animStatus` messages. All now use FontAwesome 6 class names rendered via `innerHTML` with `<i class="fas">` elements. Zero emojis remain.
 - **CUI Rendering Bug Fix** — CLF icon element was using `textContent` to set FontAwesome class names (displaying "fa-shield-alt" as text). Fixed to use `innerHTML` with proper `<i>` elements.
 - **Landing Page Title** — Changed from "XRP Ledger" focus to "Immutable Defense Logistics on the S4 Ledger". Meta title/description updated accordingly.
 - **Badge Alignment** — Added `white-space:nowrap` to "Built on XRP Ledger" and "$SLS Token LIVE" badges to prevent misalignment.
@@ -374,7 +374,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [3.9.13] - 2026-02-16
 
 ### Changed — ILIE Enhancement: 500+ Platform Selector + Realistic Demo Data
-- **ILIE platform dropdown upgraded** — Replaced static 13-platform dropdown with dynamic `S4_buildProgramOptions()` selector (462 platforms, 37 suppliers, 25 contracts, 9 branches). Added `subProgram` to `populateAllDropdowns()` selects object. Auto-sets branch dropdown from selected platform's branch data.
+- **ILIE platform dropdown upgraded** — Replaced static 13-platform dropdown with dynamic `S4_buildProgramOptions()` selector (462 platforms, 37 suppliers, 25 contracts, U.S. Navy). Added `subProgram` to `populateAllDropdowns()` selects object. Auto-sets branch dropdown from selected platform's branch data.
 - **Realistic demo data** — Replaced random generators with authentic defense ILS submission data:
   - **30-item VRSL**: Real NSNs, MIL-SPEC part numbers, CAGE codes, production lead times, mixed Active/DMSMS Watch/Obsolete statuses
   - **12-item IUID Registry**: Real UID format, serial numbers, acquisition costs ($2K–$945K), fleet locations
@@ -387,7 +387,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [3.9.12] - 2026-02-16
 
 ### Added — Integrated Logistics Insights Engine (ILIE) — Tool #20
-- **Integrated Logistics Insights Engine (ILIE)** — 20th ILS Workspace tool. AI-powered submission review and discrepancy detection engine that ingests OEM/vendor/shipbuilder submissions across all branches and programs. Compares new submissions against previous baselines to automatically flag:
+- **Integrated Logistics Insights Engine (ILIE)** — 20th ILS Workspace tool. AI-powered submission review and discrepancy detection engine that ingests OEM/vendor/shipbuilder submissions across the U.S. Navy and programs. Compares new submissions against previous baselines to automatically flag:
   - **New components** not in previous submission
   - **Removed components** that were previously listed
   - **Cost anomalies** (unit price increases >10–25%, total cost variance)
@@ -397,7 +397,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - **Lead time increases** (>30 day threshold alerts)
   - **Red flags** (sole-source substitutions, cost spikes, quantity changes)
 - **24+ submission document types** supported: VRSL, IUID Registry, Configuration Drawings, Outfitting Lists, Purchase Order Index, PTD, APL, Technical Manuals (IETM/TM), Maintenance Plans, Supply Support Requests, LSAR, FRACAS, Calibration Records, PHS&T, Training Equipment Lists, Support Equipment Recommendations, Warranty Submissions, ECPs, CDRLs, BOMs, Cost Estimates/ROM, Test Reports, HAZMAT/Environmental Data, plus custom types
-- **All branches and programs** — 9 branch selector (USN, USA, USAF, USMC, USCG, DLA, JOINT, SOCOM, USSF) with 13 pre-loaded platforms and custom platform input
+- **U.S. Navy and programs** — 9 branch selector (USN, USA, USAF, USMC, USCG, DLA, JOINT, SOCOM, USSF) with 13 pre-loaded platforms and custom platform input
 - **File upload + paste** — CSV, Excel, XML, JSON, PDF upload with drag-and-drop; manual data paste option
 - **Discrepancy severity ratings** — Critical (red), Warning (orange), Info (blue) with filterable report table
 - **AI Discrepancy Summary** — Auto-generated analysis with findings count, cost impact, and leadership recommendation
@@ -442,7 +442,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [3.9.9] - 2026-02-16
 
 ### Changed — Defense Database Import: All-Branch Expansion
-- **Renamed "DoD / DoN Database Import" → "Defense Database Import"** — Reflects full coverage of all U.S. military branches, not just Navy/DoD.
+- **Renamed "DoD / DoN Database Import" → "Defense Database Import"** — Reflects full coverage of the U.S. Navy, not just Navy/DoD.
 - **Expanded from 13 to 24 defense systems** — Added: GCSS-Army, LMP, AESIP (Army); REMIS, LIMS-EV, D200A (Air Force); GCSS-MC, ATLASS (Marines); ALMIS, CGOne (Coast Guard); USSF LMS (Space Force); PIEE/WAWF (Joint). Dropdown now uses `<optgroup>` elements organized by branch with icons.
 - **Demo data generators for all 24 systems** — Each new system has a dedicated data generator with realistic field names, values (NSNs, platforms, depots, squadrons), and sample volumes.
 - **SDK expanded to 24 systems** — `s4_sdk.py` `DOD_SYSTEMS` dict now includes all branch systems with agency/format/record_type metadata.
@@ -562,7 +562,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - **Comprehensive Repo-Wide Documentation Audit** — Audited all 23 remaining markdown files against current key facts. Fixed every inconsistency found across investor docs, whitepaper, developer bio, and compliance documents.
 - **National Impact & Job Creation Sections** — Added to all 4 investor documents: 340+ jobs by Year 5, $8M–$17M economic impact, $150B+ addressable market, $600M–$1.6B/yr savings at scale, defense industrial base expansion.
-- **Key Metrics Enrichment** — All investor documents now include: 21 SDK functions, 7 REST API endpoints, 500+ pre-loaded military entities (462 platforms + 37 suppliers + 25 contracts), 156+ record types, ~$600K–$1.6M per-program savings, 10–100x ROI, pricing tiers ($499–$4,999/mo).
+- **Key Metrics Enrichment** — All investor documents now include: 21 SDK functions, 7 REST API endpoints, 500+ pre-loaded military entities (462 platforms + 37 suppliers + 25 contracts), 54+ record types, ~$600K–$1.6M per-program savings, 10–100x ROI, pricing tiers ($499–$4,999/mo).
 - **Competitive Landscape Enhancement** — Added competitor valuations (Palantir $60B+/$2.2B rev, Anduril $14B/~$800M rev), Microsoft Dynamics ($150K–$800K+) to all competitor tables. SBIR Phase I/II/III dollar ranges ($50K–$250K/$500K–$1.5M/full production) added everywhere.
 - **Funding Path Sections** — Added explicit SBIR Phase I/II/III dollar ranges to INVESTOR_PITCH, INVESTOR_OVERVIEW, and INVESTOR_SLIDE_DECK.
 
@@ -588,7 +588,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Production Readiness — Entity Formation Fixed** — Updated PRODUCTION_READINESS.md to reflect that S4 Systems, LLC already exists. Removed "Form legal entity (Delaware C-Corp)" items, replaced with "S4 Ledger product line under S4 Systems" (marked complete). Changed CAGE/SAM items to "verify/obtain" rather than "create from scratch."
 - **DoDI Directive Name Fix** — Fixed "DoWI 4245.14" back to "DoDI 4245.14" in PRODUCTION_READINESS.md (official directive names keep DoD prefix). Fixed "DoW 5200.01" back to "DoD 5200.01" in BAA_TEMPLATE.md.
 - **Tool Count Corrections** — Fixed "12 ILS Workspace sub-tabs" → "19" in MAINNET_MIGRATION.md. Fixed "13-tool ILS Workspace" → "19-tool" in README.md.
-- **ROADMAP.md Phase 2 Updated** — Updated Phase 2 from vague/outdated description to comprehensive feature list: 18 tools, 500+ platforms, 156+ record types, SDK Playground, competitive analysis, all pitch materials.
+- **ROADMAP.md Phase 2 Updated** — Updated Phase 2 from vague/outdated description to comprehensive feature list: 18 tools, 500+ platforms, 54+ record types, SDK Playground, competitive analysis, all pitch materials.
 - **CHANGELOG.md Terminology** — Fixed remaining "DoD" → "DoW" in changelog entries where not referring to official directive names.
 
 ## [3.8.8] - 2026-02-15
@@ -620,7 +620,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - **Nautical Anchor Background Animation** — Replaced particles.js with custom canvas-based animation featuring floating anchor icons with chain links, drifting SHA-256 hash fragments, and subtle wave patterns. Gold + blue color scheme matches brand identity. Zero external dependencies
-- **Expanded Real Defense Data** — Researched and added 35+ real DoW weapons platforms across all branches with actual NSN numbers, program offices, and fleet sizes to all new ILS tools. Supply Chain Risk Engine now covers Navy (DDG-51, CVN-78, SSN-774, SSBN-826, CG-47, LCS, LPD-17), Air Force (F-35, F-22A, F-15EX, B-21, B-52H, KC-46A, C-17A, MQ-9), Army (M1A2, M2A3, Stryker, HIMARS, Patriot, AH-64E, UH-60M), Marines (CH-53K, V-22, ACV, AH-1Z, LAV-25), Space Force/MDA (GPS III, THAAD, SBIRS), SOCOM (CV-22B, AC-130J), and Coast Guard (WMSL-750)
+- **Expanded Real Defense Data** — Researched and added 35+ real DoW weapons platforms across the U.S. Navy with actual NSN numbers, program offices, and fleet sizes to all new ILS tools. Supply Chain Risk Engine now covers Navy (DDG-51, CVN-78, SSN-774, SSBN-826, CG-47, LCS, LPD-17), Air Force (F-35, F-22A, F-15EX, B-21, B-52H, KC-46A, C-17A, MQ-9), Army (M1A2, M2A3, Stryker, HIMARS, Patriot, AH-64E, UH-60M), Marines (CH-53K, V-22, ACV, AH-1Z, LAV-25), Space Force/MDA (GPS III, THAAD, SBIRS), SOCOM (CV-22B, AC-130J), and Coast Guard (WMSL-750)
 - **25 Real Defense Contracts** — Contract Lifecycle Management now includes contracts from NAVSEA, NAVAIR, Army ACC (Detroit/Warren/Redstone), AF LCMC, DLA, MCSC, MDA, and Space Systems Command with authentic prefix formats
 - **32 Defense Platform Configurations** — Digital Thread Bridge expanded with variant-specific designators (DDG-51 Flight I/IIA/III, F-35A/B/C, SSN-774 Block IV/V, M1A2 SEPv3/v4, Stryker DVH, AH-64E V6, B-52H CERP, etc.)
 - **40+ Fleet Predictive Maintenance Platforms** — Predictive Maintenance AI now covers all major fleet sizes (M1A2: 2,509 tanks, Stryker: 4,466 vehicles, F-16: 936 aircraft, UH-60: 2,135 helicopters, KC-135: 396 tankers, etc.) with realistic system/component/failure mode data per platform type
@@ -638,7 +638,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - **AI Supply Chain Risk Engine** — New ILS Workspace tool (#14). ML-powered risk scoring across 15+ parts per program — analyzes supplier health (GIDEP alerts, DLA lead time spikes, financial distress, single-source dependency, counterfeit indicators). Generates risk scores (Critical/High/Medium/Low), ETA impact calculations, and full CSV export. Realistic data for DDG-51, CVN-78, F-35, CH-53K, SSN-774 programs with real NSN numbers
 - **Automated Audit Report Generator** — New ILS Workspace tool (#15). One-click audit package generation from anchored records. 6 report types (Full Audit, Supply Chain, Maintenance, Compliance, Custody, Contract Deliverables), configurable time periods, PDF/CSV/JSON output. Generates preview with section-by-section compliance scoring. Report hash anchoring to XRPL for immutable audit trail
-- **Contract Lifecycle Management** — New ILS Workspace tool (#16). CDRL tracking, contract modifications, and SOW deliverable status monitoring. 5 realistic DoW contracts (Navy, Air Force, Army), DI number references, deliverable status tracking (On Track/At Risk/Overdue/Delivered), type filtering (CDRLs/Mods/SOW Deliverables). Blockchain-anchored delivery timestamps eliminate contract disputes
+- **Contract Lifecycle Management** — New ILS Workspace tool (#16). CDRL tracking, contract modifications, and SOW deliverable status monitoring. 5 realistic DoW contracts (Navy), DI number references, deliverable status tracking (On Track/At Risk/Overdue/Delivered), type filtering (CDRLs/Mods/SOW Deliverables). Blockchain-anchored delivery timestamps eliminate contract disputes
 - **Digital Thread / Configuration Bridge** — New ILS Workspace tool (#17). 4 configuration management views: Engineering Changes (ECP tracking with Class I/II), BOM Revisions (multi-level assemblies), Configuration Baselines (FBL/ABL/Product), TDP Versions (specifications through IPBs). Status workflow (Pending→Approved→Implemented), anchoring status per item, full export capability
 - **Predictive Maintenance AI** — New ILS Workspace tool (#18). Fleet-wide failure prediction engine — analyzes MTBF trends, failure mode clustering, and component age curves. Platform-specific predictions (DDG-51: 12 systems, CVN: 10, F/A-18: 10, MH-60: 8, LCS: 8) with confidence scores, ETA predictions, and cost-if-unplanned estimates. Configurable prediction window (30d–365d) and confidence threshold (50%–95%)
 - **Developer Marketplace** — New standalone page (`/s4-marketplace/`) with 12 available extensions (7 official, 3 partner, 2 community), 3 coming-soon items, category filtering (Integrations/Analytics/Compliance/Connectors/Templates/AI), marketplace economics section (70/30 revenue share), and publish CTA. Extensions include SAP S/4HANA, PTC Windchill, Siemens Teamcenter, DCMA Compliance, GIDEP Alert Monitor, EDA/PIEE Bridge, Power BI dashboards, IBM Maximo, Splunk SIEM, NIST/CMMC templates, and SDK starter packs
@@ -677,7 +677,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Anchor Tool How It Works** — New expandable `<details>` section in Anchor panel with What's real, What's demo, How S4 saves money (99.9% cost reduction), and Production mode integration details
 - **Verify Tool How It Works** — New expandable `<details>` section in Verify panel with What's real (cryptographic proof), How S4 saves money (90–98% verification labor reduction), and Production mode (automated batch verification via API)
 - **SDK Playground How It Works Expanded** — Added expandable technical details section to SDK Playground with What's real, What's demo, How S4 saves money (95% integration cost reduction), and Production mode (pip install, API key, CI/CD integration)
-- **SDK Playground Record Type Fallback** — 156+ hardcoded defense record types across 9 branches load automatically when the API is unavailable. Organized by branch with realistic record types, icons, and optgroups. SDK Playground now always has a populated dropdown
+- **SDK Playground Record Type Fallback** — 156+ hardcoded defense record types across U.S. Navy load automatically when the API is unavailable. Organized by branch with realistic record types, icons, and optgroups. SDK Playground now always has a populated dropdown
 - **Economic Impact & Job Creation Section** — New section on landing page with data-driven economic impact metrics ($2.1B+ DoW manual ILS spend, 85–95% audit reduction, 340+ estimated jobs at scale, 3.4× DoW multiplier, $8M–$17M total impact). Includes job breakdown per 100 programs and small business enablement callout
 - **Economic Impact in Executive Proposal** — Added full Economic Impact & Job Creation section with table and small business enablement narrative
 - **Economic Impact in Internal Pitch** — Added economic growth math summary with Year 5 projections
@@ -685,12 +685,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Login Dashboard Cards Updated** — Added Audit Record Vault (LIVE) and Provisioning Tool (LIVE) cards, updated all card descriptions with latest capabilities (13-tool workspace, AI agent, 40+ provisioning items, per-item anchoring). Removed Audit Trail "COMING SOON" card (it's the Vault, now LIVE)
 
 ### Changed
-- **"160+ record types" → "Any defense record type"** — Updated 20 instances across 11 files. New messaging: "Supports any defense record type — 156+ pre-built templates across 9 branches." Accurate count (156 actual types in API), and emphasizes that any custom record type can also be anchored
+- **"160+ record types" → "Any defense record type"** — Updated 20 instances across 11 files. New messaging: "Supports any defense record type — 54+ pre-built templates across U.S. Navy." Accurate count (156 actual types in API), and emphasizes that any custom record type can also be anchored
 - **Login Page Navbar** — Now matches landing page navigation (Company dropdown, Products dropdown, Use Cases, Pricing, Roadmap, FAQ, Contact) instead of the previous simplified 5-link navbar
 - **Metrics Page Loading Fix** — Added 8-second fetch timeout with AbortController, `finally` block guarantees "Loading..." text is always cleared even if chart rendering throws, and initializes metricsData on catch path
 - **Metrics ILS Reference** — Updated from "12-tool" to "13-tool" with provisioning added to tool list
 - **Tool Count Audit** — Updated all references from "12 tools" → "13 tools" and "11 tools" → "13 tools" across index.html, WHITEPAPER.md, INVESTOR_PITCH.md, INVESTOR_SLIDE_DECK.md, BAA_TEMPLATE.md, PRODUCTION_READINESS.md, and s4-use-cases/index.html
-- **Branch Count Audit** — Fixed "6 military branches" → "9" in Executive Proposal, "8 branches" → "9" in PRODUCTION_READINESS.md
+- **Branch Count Audit** — Fixed "the U.S. Navy" → "9" in Executive Proposal, "8 branches" → "9" in PRODUCTION_READINESS.md
 - **BAA Template** — Updated to v3.8.3, added Provisioning Tool as 13th integrated tool
 - **Login Session Duration** — Extended from 1-hour to 24-hour sessions
 
@@ -703,7 +703,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Per-Item & Batch Anchoring** — Individual anchor buttons per part row with animation + "Anchor All to XRPL" batch button that processes all items with progress feedback. Both call `/api/anchor`, `saveLocalRecord()`, and update metrics automatically
 - **SDK Playground Function Boxes** — Replaced 12 small buttons with 16 card-style function boxes in a responsive grid. Each box shows icon, title, description, and SDK method name. Clicking any box loads code and immediately executes it
 - **SDK Playground New Functions** — Added List Records, Record Types, and Provisioning runners with full output formatting. Added corresponding Python code templates
-- **Always-Visible Record Type Selector** — Record type dropdown (156+ types, 9 branches) now appears at the top of the SDK Playground instead of being hidden for some functions
+- **Always-Visible Record Type Selector** — Record type dropdown (156+ types, U.S. Navy) now appears at the top of the SDK Playground instead of being hidden for some functions
 
 ### Changed
 - **Provisioning panel JS** — Complete rewrite with state management (`provItems`, `provCustomItems`, `provView`), localStorage persistence, CSV export with headers, APL grouping, NSN cataloging display
@@ -834,7 +834,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [3.3.0] - 2026-02-14
 
 ### Added
-- **462 real defense platforms** across all 8 U.S. military branches (Navy, Army, Air Force, Space Force, Coast Guard, Marines, SOCOM, Joint)
+- **462 real defense platforms** across all 8 U.S. military branches (Navy, Marines, SOCOM, Joint)
 - Master platform database (`s4-assets/platforms.js`) with category templates, component data, and deterministic NSN generation
 - **ROI Calculator** — calculates annual savings, ROI %, payback period, and 5-year net benefit from S4 Ledger implementation
 - **Lifecycle Cost Estimator** — projects total ownership cost (TOC) per DoD 5000.73 / MIL-STD-881F (acquisition, O&S, DMSMS, tech refresh)

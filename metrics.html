@@ -39,6 +39,34 @@
     </style>
 </head>
 <body>
+<nav class="nav" id="mainNav">
+    <div class="nav-inner">
+        <a href="/" class="nav-brand">
+            <img src="/s4-assets/S4Ledger_logo.png" alt="S4 Ledger">
+            <span>S4 Ledger</span>
+        </a>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="/demo-app/">Platform</a></li>
+            <li><a href="/s4-use-cases/">Use Cases</a></li>
+            <li><a href="/s4-pricing/">Pricing</a></li>
+            <li><a href="/s4-investors/">Company</a></li>
+            <li><a href="https://github.com/s4ledger/s4-ledger" target="_blank">Docs</a></li>
+            <li><a href="/s4-contact/" class="nav-cta">Request Demo</a></li>
+        </ul>
+        <button class="nav-mobile-toggle" onclick="document.getElementById('navLinks').classList.toggle('open')" aria-label="Menu">
+            <i class="fas fa-bars"></i>
+        </button>
+    </div>
+</nav>
+<div class="page-hero">
+    <div class="container">
+        <div class="section-label">Live Metrics</div>
+        <h1>Network Analytics</h1>
+        <p>Real-time hash anchoring volume, $SLS fee activity, and network stats from the XRP Ledger.</p>
+    </div>
+</div>
+<div class="container"><div class="divider"></div></div>
+<section class="section"><div class="container">
 
         <div class="card reveal">
             <h3 style="margin-bottom:5px;"><i class="fas fa-bolt" style="color:var(--accent);margin-right:8px;"></i> Hash Anchoring Over Time</h3>
@@ -394,5 +422,32 @@
         setInterval(loadMetrics, 5000);
     </script>
 
+</div></section>
+<footer class="footer">
+    <div class="container">
+        <div class="footer-inner">
+            <div>
+                <a href="/" class="footer-brand"><img src="/s4-assets/S4Ledger_logo.png" alt="S4 Ledger"><span>S4 Ledger</span></a>
+                <div class="footer-tagline">Immutable defense logistics. Built on the XRP Ledger.</div>
+            </div>
+            <div class="footer-links">
+                <div class="footer-col"><h5>Product</h5><a href="/demo-app/">Platform</a><a href="/sdk-playground/">SDK Playground</a><a href="/metrics.html">Live Metrics</a><a href="/transactions.html">Transactions</a></div>
+                <div class="footer-col"><h5>Company</h5><a href="/s4-about/">About</a><a href="/s4-investors/">Investors</a><a href="/s4-partners/">Partners</a><a href="/s4-roadmap/">Roadmap</a></div>
+                <div class="footer-col"><h5>Resources</h5><a href="/s4-use-cases/">Use Cases</a><a href="/s4-faq/">FAQ</a><a href="/s4-pricing/">Pricing</a><a href="/security/">Security</a></div>
+                <div class="footer-col"><h5>Connect</h5><a href="/s4-contact/">Contact</a><a href="https://github.com/s4ledger/s4-ledger" target="_blank">GitHub</a></div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>&copy; 2025 S4 Systems, LLC. $SLS is a utility token &mdash; not equity or an investment contract.</span>
+            <div class="footer-bottom-links"><a href="/s4-terms/">Terms</a><a href="/s4-privacy/">Privacy</a><a href="/security-policy/">Security Policy</a></div>
+        </div>
+    </div>
+</footer>
+<script>
+var nav=document.getElementById('mainNav');
+if(nav){window.addEventListener('scroll',function(){nav.classList.toggle('scrolled',window.scrollY>40);});}
+var obs=new IntersectionObserver(function(e){e.forEach(function(x){if(x.isIntersecting)x.target.classList.add('visible');});},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(function(el){obs.observe(el);});
+</script>
 </body>
 </html>

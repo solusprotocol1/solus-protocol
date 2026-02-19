@@ -51,8 +51,8 @@ Treasury address: `rMLmkrxpadq5z6oTDmq8GhQj9LKjf1KLqJ`
 - Expanded ILS Workspace to **13 tools** including Integrated Logistics Insights Engine (ILIE), Audit Record Vault, Defense Document Library, Compliance Scorecard, Supply Chain Risk Engine, Audit Report Generator, Predictive Maintenance AI, and Conversational AI Agent
 - **27 Python SDK functions** for defense-grade hash anchoring and verification
 - **29 REST API endpoints** for enterprise integration
-- **500+ pre-loaded military entities** — 462 platforms, 37 suppliers, 25 contracts across 9 branches
-- **156+ pre-built ILS record categories** mapped to real-world logistics workflows
+- **500+ pre-loaded military entities** — 462 platforms, 37 suppliers, 25 contracts across U.S. Navy
+- **54+ pre-built ILS record categories** mapped to real-world logistics workflows
 - Added 100+ real defense document references (MIL-STDs, OPNAVINSTs, DoD Directives, NIST frameworks)
 - Developed realistic cost savings model: ~$1.02M–$2.6M per program per year, $180K–$48M government savings, $48K–$3.6M S4 revenue per tier
 - **15–100x ROI for government** at every implementation tier
@@ -68,7 +68,7 @@ Treasury address: `rMLmkrxpadq5z6oTDmq8GhQj9LKjf1KLqJ`
 | SDK Functions | 27 Python functions |
 | API Endpoints | 29 REST endpoints |
 | Pre-loaded Entities | 500+ (462 platforms + 37 suppliers + 25 contracts) |
-| Record Types | 156+ pre-built ILS categories |
+| Record Types | 54+ pre-built ILS categories |
 | Per-Program Savings | ~$1.02M–$2.6M/year |
 | ROI | 15–100x for government |
 | Jobs Created (Year 5) | 340+ (30–45 direct, 100–200 indirect) |

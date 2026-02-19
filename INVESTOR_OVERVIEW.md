@@ -27,9 +27,9 @@
 | **SDK Functions** | 27 Python SDK functions |
 | **API Endpoints** | 29 REST API endpoints |
 | **Defense Documents** | 100+ real MIL-STDs, OPNAV, DoW refs |
-| **Platforms** | 462 across 9 military branches |
+| **Platforms** | 462 across the U.S. Navy |
 | **Pre-loaded Entities** | 500+ (462 platforms + 37 suppliers + 25 contracts) |
-| **Record Types** | 156+ pre-built ILS record categories |
+| **Record Types** | 54+ pre-built ILS record categories |
 | **Savings/Program** | ~$1.02M–$2.6M/year |
 | **ROI** | 15–100x for government |
 

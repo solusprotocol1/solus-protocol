@@ -43,7 +43,7 @@ S4 Ledger occupies a unique niche at the intersection of **blockchain-anchored a
 |---|---|
 | **Stage** | Private, VC-backed defense software company. Founded ~2011 in Arlington, VA |
 | **Funding** | Estimated $100M+ total raised (Series C+). Investors include venture firms focused on defense/government tech |
-| **Key Customers** | "Every branch of the military" + civilian agencies + national security organizations (per website). Navy-sponsored IL5 Provisional Authorization from DISA. |
+| **Key Customers** | "the U.S. Navy" + civilian agencies + national security organizations (per website). Navy-sponsored IL5 Provisional Authorization from DISA. |
 | **Key Product** | **Ark** — AI-enabled defense acquisition platform with 6 application areas: Supply Chain, Science & Technology, Production, Sustainment, Logistics, Modernization |
 | **ILS Capabilities** | **Closest competitor to S4 Ledger's value proposition.** Ark's Logistics Application targets logistics officers for "battlefield awareness, maximize lethality, and operational effectiveness." Sustainment application covers maintenance/support. Supply Chain application covers supplier risk. However: no blockchain anchoring, no CDRL management, no DMSMS-specific tooling, no provisioning calculations per MIL-STD-1561. |
 | **Security** | FedRAMP High + IL5 PA (DISA) — highest security clearances for cloud services |
@@ -106,7 +106,7 @@ S4 Ledger occupies a unique niche at the intersection of **blockchain-anchored a
 |---|---|
 | **Stage** | Public company (NYSE: SAP). ~€250B+ market cap. Founded 1972. |
 | **Revenue** | **~€31B** (FY2024 total SAP revenue) |
-| **Key Customers** | U.S. Department of Defense (massive ERP modernization), U.S. Army, Navy, Air Force, multiple NATO allies |
+| **Key Customers** | U.S. Department of Defense (massive ERP modernization), U.S. Navy, multiple NATO allies |
 | **Key Product** | **S/4HANA** with defense industry modules. Capabilities: financial management, defense force management, supply chain management, human resources, procurement, maintenance scheduling. |
 | **ILS Capabilities** | SAP covers maintenance/repair (PM module), materials management, supply chain. The DoD has spent **$billions** on SAP implementations (often troubled). SAP addresses *enterprise resource planning* — not ILS-specific tools. No DMSMS, no CDRL management, no Ao calculations, no provisioning formulas, no blockchain. |
 | **Pricing Model** | Enterprise licensing: $1M–$100M+/year depending on user count and modules. Defense implementations commonly $50M–$500M+ programs. |
@@ -127,7 +127,7 @@ S4 Ledger occupies a unique niche at the intersection of **blockchain-anchored a
 |---|---|
 | **Stage** | Public company (NYSE: ORCL). ~$400B+ market cap. |
 | **Revenue** | **~$53B** (FY2024 total Oracle revenue). Federal/defense is a growing segment. |
-| **Key Customers** | U.S. Army, Navy, Air Force, DHS, DoD agencies. Won major cloud infrastructure contracts (JWCC). |
+| **Key Customers** | U.S. Navy, DHS, DoD agencies. Won major cloud infrastructure contracts (JWCC). |
 | **Key Product** | Oracle Cloud ERP, Oracle Cloud SCM (Supply Chain Management), Oracle Fusion. FedRAMP authorized. |
 | **ILS Capabilities** | Enterprise ERP/SCM, not ILS-specific. Maintenance management modules exist but are generic. No DMSMS, CDRLs, provisioning, or blockchain. |
 | **Pricing Model** | Enterprise SaaS licensing, comparable to SAP pricing ranges. |
@@ -206,7 +206,7 @@ S4 Ledger occupies a unique niche at the intersection of **blockchain-anchored a
 | Attribute | Detail |
 |---|---|
 | **Stage** | Multiple companies use this name. Most notable: various small defense logistics consultancies and a data analytics company. No major defense logistics software platform found under this exact name. |
-| **Assessment** | Not a significant competitor. The defense logistics software space is dominated by the players listed above, plus legacy government systems (GCSS-Army, Navy ERP, etc.). |
+| **Assessment** | Not a significant competitor. The defense logistics software space is dominated by the players listed above, plus legacy government systems (GCSS-Navy ERP, etc.). |
 
 ---
 

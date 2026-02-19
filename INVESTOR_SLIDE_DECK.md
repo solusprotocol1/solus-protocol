@@ -41,7 +41,7 @@ S4 Ledger: Immutable logistics verification for the defense industry, anchored o
 - **27 Python SDK functions** for defense-grade hash anchoring and verification
 - **29 REST API endpoints** for enterprise integration
 - **500+ pre-loaded military entities** — 462 platforms, 37 suppliers, 25 contracts
-- **156+ ILS record categories** mapped to real-world logistics workflows
+- **54+ Navy ILS record categories** mapped to real-world logistics workflows
 - **100+ real defense documents** in searchable reference library
 - **Audit Record Vault** — automatic audit trail for every anchored record
 - **Compliance Scorecard** — CMMC/NIST/DFARS compliance calculator

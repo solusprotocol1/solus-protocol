@@ -48,7 +48,7 @@ Every day, the U.S. Department of War (DoW) processes millions of logistics reco
 |-----------|-------------|--------|
 | **Live Website** | 25+ pages at [s4ledger.com](https://s4ledger.com) with full branding | ✅ Deployed |
 | **Python API** | 29 REST endpoints, zero external dependencies | ✅ Live |
-| **Demo Application** | Interactive platform — 9 military branches, 156+ pre-built record types (any defense record type supported) | ✅ Live |
+| **Demo Application** | Interactive platform — the U.S. Navy, 54+ pre-built record types (any defense record type supported) | ✅ Live |
 | **SDK Playground** | Browser-based Python SDK sandbox with live API | ✅ Live |
 | **$SLS Utility Token** | LIVE on XRPL Mainnet — 100M supply, ~15M circulating, AMM (Automated Market Maker) pools active | ✅ Live |
 
@@ -64,7 +64,7 @@ All of these tools operate within a single unified workspace, with shared data, 
 | **ROI Calculator** | Calculates return on investment from S4 Ledger adoption — labor savings, error reduction, audit cost avoidance, with 5-year projections | OMB A-94 |
 | **Lifecycle Cost Estimator** | Projects total ownership cost over a weapon system's lifecycle — acquisition, sustainment, DMSMS mitigation, disposal | DoD 5000.73 |
 | **Audit Record Vault** | Client-side audit trail store — auto-saves every anchored record with content + SHA-256 hash + TX hash. Search, filter, re-verify, CSV/XLSX export. Zero server-side storage. | DFARS 252.204-7012 |
-| **Defense Document Library** | Searchable database of 100+ real defense documents — MIL-STDs, OPNAVINSTs, DoD Directives, NAVSEA/NAVAIR manuals, FAR/DFARS, NIST frameworks across all branches | MIL-STD-1388, OPNAVINST |
+| **Defense Document Library** | Searchable database of 100+ real defense documents — MIL-STDs, OPNAVINSTs, DoD Directives, NAVSEA/NAVAIR manuals, FAR/DFARS, NIST frameworks across the U.S. Navy | MIL-STD-1388, OPNAVINST |
 | **Compliance Scorecard** | Real-time compliance calculator — CMMC L2, NIST 800-171, DFARS, FAR 46, MIL-STD-1388, DoDI 4245.15 — with SVG ring chart, letter grades, recommendations | CMMC v2.0, NIST 800-171 |
 | **AI Supply Chain Risk Engine** | ML-powered supply chain risk scoring across 35+ defense platforms — supplier health analysis (GIDEP alerts, DLA lead times, financial distress, single-source dependency, counterfeit indicators), 37 real defense suppliers, risk-level scoring | GIDEP, DLA |
 | **Audit Report Generator** | One-click audit package generation — 6 report types (Full Audit, Supply Chain, Maintenance, Compliance, Chain of Custody, Contract Deliverables), configurable time periods, multi-format output, section-by-section compliance scoring | DFARS 252.204-7012, NIST 800-171 |
@@ -81,7 +81,7 @@ All of these tools operate within a single unified workspace, with shared data, 
 | **Live Metrics Dashboard** | Real-time network statistics with interactive charts | ✅ Live |
 | **Transaction Browser** | Filterable, paginated, with CSV export | ✅ Live |
 | **Investor Portal** | Market opportunity, tokenomics, revenue model | ✅ Live |
-| **500+ Platform Database** | Pre-loaded with Navy, Army, Air Force, Marine Corps, Coast Guard, and Space Force weapon systems, vessels, and aircraft | ✅ Live |
+| **500+ Platform Database** | Pre-loaded with Navy weapon systems, vessels, and aircraft | ✅ Live |
 
 ### Documentation & Compliance
 

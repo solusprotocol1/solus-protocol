@@ -79,6 +79,34 @@
     </style>
 </head>
 <body>
+<nav class="nav" id="mainNav">
+    <div class="nav-inner">
+        <a href="/" class="nav-brand">
+            <img src="/s4-assets/S4Ledger_logo.png" alt="S4 Ledger">
+            <span>S4 Ledger</span>
+        </a>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="/demo-app/">Platform</a></li>
+            <li><a href="/s4-use-cases/">Use Cases</a></li>
+            <li><a href="/s4-pricing/">Pricing</a></li>
+            <li><a href="/s4-investors/">Company</a></li>
+            <li><a href="https://github.com/s4ledger/s4-ledger" target="_blank">Docs</a></li>
+            <li><a href="/s4-contact/" class="nav-cta">Request Demo</a></li>
+        </ul>
+        <button class="nav-mobile-toggle" onclick="document.getElementById('navLinks').classList.toggle('open')" aria-label="Menu">
+            <i class="fas fa-bars"></i>
+        </button>
+    </div>
+</nav>
+<div class="page-hero">
+    <div class="container">
+        <div class="section-label">SDK Playground</div>
+        <h1>Interactive Python SDK</h1>
+        <p>Explore, test, and validate the S4 Ledger Python SDK. Hash, anchor, and verify defense records in your browser.</p>
+    </div>
+</div>
+<div class="container"><div class="divider"></div></div>
+<section class="section"><div class="container">
 
         <div class="row">
             <div class="col-lg-7 mb-4">
@@ -115,7 +143,7 @@
                         <div><i class="fas fa-check" style="color:var(--accent);width:18px;margin-right:6px;"></i> Select a <strong>record type</strong> — classification auto-detected</div>
                         <div><i class="fas fa-check" style="color:var(--accent);width:18px;margin-right:6px;"></i> Edit code freely, then <strong>Run</strong></div>
                         <div><i class="fas fa-check" style="color:var(--accent);width:18px;margin-right:6px;"></i> Anchored records appear on Metrics &amp; Transactions</div>
-                        <div><i class="fas fa-check" style="color:var(--accent);width:18px;margin-right:6px;"></i> 156+ record types &bull; 9 branches &bull; 27 SDK functions</div>
+                        <div><i class="fas fa-check" style="color:var(--accent);width:18px;margin-right:6px;"></i> 54+ Navy record types &bull; 27 SDK functions</div>
                         <div style="margin-top:12px;"><a href="https://github.com/s4ledger/s4-ledger" target="_blank" style="color:var(--accent);font-weight:600;text-decoration:none;"><i class="fab fa-github" style="margin-right:4px;"></i> View Full SDK on GitHub &rarr;</a></div>
                     </div>
                     <details style="margin-top:12px;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.15);border-radius:8px;padding:0 12px;">
@@ -1199,5 +1227,32 @@
 <script src="/s4-assets/s4-auth.js"></script>
 <script src="/s4-assets/s4-data.js"></script>
 
+</div></section>
+<footer class="footer">
+    <div class="container">
+        <div class="footer-inner">
+            <div>
+                <a href="/" class="footer-brand"><img src="/s4-assets/S4Ledger_logo.png" alt="S4 Ledger"><span>S4 Ledger</span></a>
+                <div class="footer-tagline">Immutable defense logistics. Built on the XRP Ledger.</div>
+            </div>
+            <div class="footer-links">
+                <div class="footer-col"><h5>Product</h5><a href="/demo-app/">Platform</a><a href="/sdk-playground/">SDK Playground</a><a href="/metrics.html">Live Metrics</a><a href="/transactions.html">Transactions</a></div>
+                <div class="footer-col"><h5>Company</h5><a href="/s4-about/">About</a><a href="/s4-investors/">Investors</a><a href="/s4-partners/">Partners</a><a href="/s4-roadmap/">Roadmap</a></div>
+                <div class="footer-col"><h5>Resources</h5><a href="/s4-use-cases/">Use Cases</a><a href="/s4-faq/">FAQ</a><a href="/s4-pricing/">Pricing</a><a href="/security/">Security</a></div>
+                <div class="footer-col"><h5>Connect</h5><a href="/s4-contact/">Contact</a><a href="https://github.com/s4ledger/s4-ledger" target="_blank">GitHub</a></div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>&copy; 2025 S4 Systems, LLC. $SLS is a utility token &mdash; not equity or an investment contract.</span>
+            <div class="footer-bottom-links"><a href="/s4-terms/">Terms</a><a href="/s4-privacy/">Privacy</a><a href="/security-policy/">Security Policy</a></div>
+        </div>
+    </div>
+</footer>
+<script>
+var nav=document.getElementById('mainNav');
+if(nav){window.addEventListener('scroll',function(){nav.classList.toggle('scrolled',window.scrollY>40);});}
+var obs=new IntersectionObserver(function(e){e.forEach(function(x){if(x.isIntersecting)x.target.classList.add('visible');});},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(function(el){obs.observe(el);});
+</script>
 </body>
 </html>

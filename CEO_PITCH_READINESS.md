@@ -23,9 +23,9 @@ S4 Ledger is ready to pitch as a **working prototype with real blockchain integr
 | **File upload** | ✅ Yes | Drag-and-drop CSV, XLSX, PDF, DOCX — parsed client-side, no data leaves the browser |
 | **SLS token economy** | ✅ Yes | Real XRPL wallet provisioning, TrustLine setup, SLS delivery from Treasury |
 | **AI Agent** | ✅ Yes | LLM-powered defense logistics assistant (if API keys configured) with regex fallback |
-| **500+ platforms** | ✅ Yes | Real defense platform database (Navy, Army, USAF, USMC, Coast Guard, NATO, Five Eyes) |
+| **500+ platforms** | ✅ Yes | Real defense platform database (Navy, USAF, USMC, Coast Guard, NATO, Five Eyes) |
 | **Export reports** | ✅ Yes | All 15 export buttons produce real downloadable CSV files |
-| **Defense domain depth** | ✅ Yes | 156 record types, correct DI numbers, MIL-STD references, CAGE codes |
+| **Defense domain depth** | ✅ Yes | 54+ record types, correct DI numbers, MIL-STD references, CAGE codes |
 
 ### What You Should NOT Claim
 

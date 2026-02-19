@@ -886,8 +886,8 @@ function buildProgramOptions(includeAll, includeCustom) {
     let html = '';
     if (includeAll) html += '<option value="all">All Programs</option>';
 
-    // Define branch order
-    const branchOrder = ['USN','USMC','USA','USAF','USSF','USCG','SOCOM','JOINT'];
+    // Define branch order — Navy-focused
+    const branchOrder = ['USN'];
     const catOrder = Object.keys(CL);
 
     branchOrder.forEach(branch => {

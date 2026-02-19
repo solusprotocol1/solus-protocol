@@ -8,7 +8,7 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="manifest" href="/manifest.json">
     <meta name="description" content="S4 Ledger Defense Logistics Demo — Anchor, verify, and track U.S. Navy logistics records on the XRP Ledger.">
-    <title>S4 Ledger | Defense Logistics Demo</title>
+    <title>S4 Ledger | Platform</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -356,14 +356,87 @@
         .tooltip-enhanced{position:relative}.tooltip-enhanced::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%) scale(0.8);opacity:0;background:rgba(15,22,48,0.95);border:1px solid var(--accent);color:#fff;padding:6px 12px;border-radius:8px;font-size:0.72rem;white-space:nowrap;pointer-events:none;transition:all 0.2s;z-index:999}
         .tooltip-enhanced:hover::after{opacity:1;transform:translateX(-50%) scale(1)}
         @media(max-width:768px){.ils-hub-tabs{gap:2px}.ils-hub-tab{padding:6px 10px;font-size:0.72rem}.cal-day{min-height:50px}.vault-stats{grid-template-columns:repeat(2,1fr)}.compliance-label{min-width:100px;font-size:0.75rem}}
-    </style>
+    .active-link{color:#00aaff !important;font-weight:600 !important;}
+</style>
 </head>
 <body>
 <div style="background:rgba(10,10,15,0.95);border-bottom:1px solid rgba(255,255,255,0.06);padding:4px 0;text-align:center;font-size:0.72rem;color:#8b8fa3;"><i class="fas fa-exclamation-triangle" style="margin-right:4px;"></i> NOTICE: Do not submit ITAR-controlled, classified, or export-controlled data to this platform. This system processes UNCLASSIFIED and CUI data only. <a href="/security/" style="color:#00aaff;text-decoration:underline;">Security Policy</a></div>
+<nav class="nav" id="mainNav">
+    <div class="nav-inner">
+        <a href="../" class="nav-brand"><img src="../s4-assets/S4Ledger_logo.png" alt="S4 Ledger"><span>S4 Ledger</span></a>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="../demo-app/" class="active-link">Platform</a></li>
+            <li><a href="../s4-use-cases/">Use Cases</a></li>
+            <li><a href="../s4-pricing/">Pricing</a></li>
+            <li><a href="../s4-investors/">Company</a></li>
+            <li><a href="https://github.com/s4ledger/s4-ledger" target="_blank">Docs</a></li>
+            <li><a href="../s4-contact/" class="nav-cta">Request Demo</a></li>
+        </ul>
+        <button class="nav-mobile-toggle" onclick="document.getElementById('navLinks').classList.toggle('open')" aria-label="Menu"><i class="fas fa-bars"></i></button>
+    </div>
+</nav>
 
-            <div class="col-6 col-md-3 mb-3"><div class="stat-card"><div class="stat-value" id="statVerified">0</div><div class="stat-label">Records Verified</div></div></div>
-            <div class="col-6 col-md-3 mb-3"><div class="stat-card"><div class="stat-value" id="statTypes">0</div><div class="stat-label">Record Types Used</div></div></div>
-            <div class="col-6 col-md-3 mb-3"><div class="stat-card"><div class="stat-value" id="statSlsFees">0.000</div><div class="stat-label">$SLS Fees</div></div></div>
+<section class="hero" style="padding:4rem 0 2rem;text-align:center;">
+    <div class="container">
+        <h1 style="font-size:2.4rem;font-weight:800;margin-bottom:0.75rem;color:#fff;">S4 Ledger <span style="color:var(--accent);">Platform</span></h1>
+        <p style="color:var(--steel);font-size:1.05rem;">Anchor, verify, and track Navy logistics records on the XRP Ledger with blockchain-grade integrity.</p>
+        <div class="badge-live" style="display:inline-block;margin-top:12px;background:rgba(0,170,255,0.08);border:1px solid rgba(0,170,255,0.25);color:var(--accent);padding:6px 16px;border-radius:20px;font-size:0.8rem;font-weight:600;">XRPL Mainnet Connected &mdash; Navy Record Types &bull; 54+ Pre-Built Templates</div>
+    </div>
+</section>
+
+<section id="platformLanding" style="padding:3rem 0 4rem;">
+    <div class="container">
+        <div style="text-align:center;margin-bottom:3rem;">
+            <h2 style="font-size:1.8rem;font-weight:800;color:#fff;margin-bottom:0.75rem;">The Complete Defense Logistics Toolkit</h2>
+            <p style="color:var(--steel);font-size:1.05rem;max-width:640px;margin:0 auto;">20+ integrated tools for anchoring, verifying, and managing Navy logistics records on the XRP Ledger. Built by ILS professionals, for ILS professionals.</p>
+        </div>
+        <div class="row" style="margin-bottom:2rem;">
+            <div class="col-md-4 mb-3"><div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:2rem 1.5rem;text-align:center;height:100%;">
+                <i class="fas fa-anchor" style="font-size:2rem;color:var(--accent);margin-bottom:1rem;display:block;"></i>
+                <h4 style="font-size:1rem;font-weight:700;color:#fff;margin-bottom:0.5rem;">Anchor &amp; Verify</h4>
+                <p style="color:var(--steel);font-size:0.88rem;line-height:1.6;">Hash any defense record with SHA-256 and anchor the fingerprint to the XRP Ledger. Verify integrity at any time.</p>
+            </div></div>
+            <div class="col-md-4 mb-3"><div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:2rem 1.5rem;text-align:center;height:100%;">
+                <i class="fas fa-cubes" style="font-size:2rem;color:var(--accent);margin-bottom:1rem;display:block;"></i>
+                <h4 style="font-size:1rem;font-weight:700;color:#fff;margin-bottom:0.5rem;">ILS Workspace</h4>
+                <p style="color:var(--steel);font-size:0.88rem;line-height:1.6;">Gap analysis, DMSMS tracking, readiness scoring, lifecycle cost estimation, compliance scorecards, and 15+ more tools.</p>
+            </div></div>
+            <div class="col-md-4 mb-3"><div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:2rem 1.5rem;text-align:center;height:100%;">
+                <i class="fas fa-shield-halved" style="font-size:2rem;color:var(--accent);margin-bottom:1rem;display:block;"></i>
+                <h4 style="font-size:1rem;font-weight:700;color:#fff;margin-bottom:0.5rem;">Audit &amp; Compliance</h4>
+                <p style="color:var(--steel);font-size:0.88rem;line-height:1.6;">CMMC, NIST 800-171, DFARS &mdash; automated compliance scoring with blockchain-anchored evidence.</p>
+            </div></div>
+        </div>
+        <div class="row" style="margin-bottom:2rem;">
+            <div class="col-md-4 mb-3"><div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:2rem 1.5rem;text-align:center;height:100%;">
+                <i class="fas fa-brain" style="font-size:2rem;color:var(--accent);margin-bottom:1rem;display:block;"></i>
+                <h4 style="font-size:1rem;font-weight:700;color:#fff;margin-bottom:0.5rem;">AI-Powered Analysis</h4>
+                <p style="color:var(--steel);font-size:0.88rem;line-height:1.6;">Supply chain risk engine, predictive maintenance AI, and a conversational agent for ILS guidance.</p>
+            </div></div>
+            <div class="col-md-4 mb-3"><div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:2rem 1.5rem;text-align:center;height:100%;">
+                <i class="fas fa-database" style="font-size:2rem;color:var(--accent);margin-bottom:1rem;display:block;"></i>
+                <h4 style="font-size:1rem;font-weight:700;color:#fff;margin-bottom:0.5rem;">Defense Data Import</h4>
+                <p style="color:var(--steel);font-size:0.88rem;line-height:1.6;">Import from DPAS, OARS, OMMS-NG, DECKPLATE, and other Navy systems. 500+ defense platforms database.</p>
+            </div></div>
+            <div class="col-md-4 mb-3"><div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:2rem 1.5rem;text-align:center;height:100%;">
+                <i class="fas fa-file-contract" style="font-size:2rem;color:var(--accent);margin-bottom:1rem;display:block;"></i>
+                <h4 style="font-size:1rem;font-weight:700;color:#fff;margin-bottom:0.5rem;">Contract &amp; Config Mgmt</h4>
+                <p style="color:var(--steel);font-size:0.88rem;line-height:1.6;">Track warranties, CDRL deliverables, contract modifications, and engineering change proposals.</p>
+            </div></div>
+        </div>
+        <div style="text-align:center;">
+            <button onclick="document.getElementById('platformLanding').style.display='none';document.getElementById('platformWorkspace').style.display='block';" style="background:var(--accent);color:#fff;border:none;padding:14px 36px;border-radius:10px;font-weight:700;font-size:1rem;cursor:pointer;">Enter Platform <i class="fas fa-arrow-right" style="margin-left:8px;"></i></button>
+        </div>
+    </div>
+</section>
+
+<div id="platformWorkspace" style="display:none;">
+<section class="tab-section">
+    <div class="container">
+        <div class="row mb-4" id="statsRow">
+            <div class="col-md-4 mb-3"><div class="stat-card"><div class="stat-value" id="statVerified">0</div><div class="stat-label">Records Verified</div></div></div>
+            <div class="col-md-4 mb-3"><div class="stat-card"><div class="stat-value" id="statTypes">0</div><div class="stat-label">Record Types Used</div></div></div>
+            <div class="col-md-4 mb-3"><div class="stat-card"><div class="stat-value" id="statSlsFees">0.000</div><div class="stat-label">$SLS Fees</div></div></div>
         </div>
 
         <ul class="nav nav-pills mb-2" role="tablist">
@@ -1082,7 +1155,8 @@
                             <div class="score-val" id="complianceScore">—</div>
                             <div class="score-grade" id="complianceGrade" style="background:linear-gradient(135deg,rgba(20,241,149,0.15),rgba(0,170,255,0.1));color:#00aaff;border:2px solid rgba(20,241,149,0.4)">—</div>
                         </div>
-                        <div style="font-size:0.82rem;color:var(--steel);font-weight:600;margin-top:8px">Overall Compliance Posture</div>
+                        <div id="complianceGradeBelow" style="text-align:center;margin:16px 0 4px"><span id="complianceGradeLetter" style="display:inline-block;font-size:1.4rem;font-weight:900;padding:8px 24px;border-radius:12px;letter-spacing:2px;background:rgba(0,170,255,0.1);color:#00aaff;border:2px solid rgba(0,170,255,0.3);min-width:52px;text-align:center;transition:all 0.5s ease">—</span></div>
+                        <div style="font-size:0.82rem;color:var(--steel);font-weight:600;margin-top:4px">Overall Compliance Posture</div>
                     </div>
 
                     <!-- Framework Breakdown -->
@@ -2092,7 +2166,7 @@ function animateValue(el, end, decimals) {
 }
 
 function updateStats() {
-    animateValue(document.getElementById('statAnchored'), stats.anchored);
+    // statAnchored removed from UI
     animateValue(document.getElementById('statVerified'), stats.verified);
     animateValue(document.getElementById('statTypes'), stats.types.size);
     animateValue(document.getElementById('statSlsFees'), stats.slsFees, 3);
@@ -4678,7 +4752,7 @@ function generateAiResponse(query) {
     if (/di-?\d+|di number/.test(q)) return explainDINumber(q) + demoNote;
 
     // ── S4 LEDGER PRODUCT ──
-    if (/what is s4|what.*s4 ledger|tell.*about s4|explain s4/.test(q)) return '<strong>S4 Ledger</strong> \u2014 Secure Logistics Standard<br><br>S4 Ledger is a blockchain-verified Integrated Logistics Support (ILS) platform built for defense organizations. It provides:<br><br>\u2022 <strong>13 ILS tools</strong> covering all 12 ILS elements per MIL-STD-1388<br>\u2022 <strong>XRPL blockchain anchoring</strong> \u2014 every record gets a tamper-proof SHA-256 hash on the XRP Ledger<br>\u2022 <strong>$SLS utility token</strong> \u2014 $0.01 per anchor, purchased automatically via USD\u2192XRP\u2192SLS<br>\u2022 <strong>AI Agent</strong> \u2014 context-aware analysis across all tools<br>\u2022 <strong>156+ defense record types</strong> for Navy programs<br>\u2022 <strong>Compliance scoring</strong> for CMMC, NIST 800-171, DFARS, FAR 46<br><br>S4 replaces legacy tools like ICAPS, COMPASS, and spreadsheet-based tracking with a single, auditable platform.' + demoNote;
+    if (/what is s4|what.*s4 ledger|tell.*about s4|explain s4/.test(q)) return '<strong>S4 Ledger</strong> \u2014 Secure Logistics Standard<br><br>S4 Ledger is a blockchain-verified Integrated Logistics Support (ILS) platform built for defense organizations. It provides:<br><br>\u2022 <strong>13 ILS tools</strong> covering all 12 ILS elements per MIL-STD-1388<br>\u2022 <strong>XRPL blockchain anchoring</strong> \u2014 every record gets a tamper-proof SHA-256 hash on the XRP Ledger<br>\u2022 <strong>$SLS utility token</strong> \u2014 $0.01 per anchor, purchased automatically via USD\u2192XRP\u2192SLS<br>\u2022 <strong>AI Agent</strong> \u2014 context-aware analysis across all tools<br>\u2022 <strong>54+ Navy record types</strong> for Navy programs<br>\u2022 <strong>Compliance scoring</strong> for CMMC, NIST 800-171, DFARS, FAR 46<br><br>S4 replaces legacy tools like ICAPS, COMPASS, and spreadsheet-based tracking with a single, auditable platform.' + demoNote;
 
     if (/how.*work|how.*anchor|how.*hash|how.*blockchain/.test(q)) return '<strong>How S4 Ledger Works:</strong><br><br>1. <strong>Upload or create a record</strong> \u2014 any ILS document, analysis, or data point<br>2. <strong>SHA-256 hash computed</strong> \u2014 a unique 64-character fingerprint of the content<br>3. <strong>Hash anchored to XRPL</strong> \u2014 written as a Memo on an XRP Ledger transaction<br>4. <strong>Transaction verified</strong> \u2014 XRPL validates within 3-5 seconds at ~$0.001 tx fee<br>5. <strong>SLS fee applied</strong> \u2014 0.01 SLS ($0.01) per anchor for network access<br><br>The original data stays on your device (never sent to blockchain). Only the hash is anchored. Anyone can independently verify a record by recomputing the hash and checking the XRPL transaction.<br><br><strong>Result:</strong> Tamper-proof, independently verifiable audit trail \u2014 1,500x cheaper than legacy verification.' + demoNote;
 
@@ -5582,7 +5656,7 @@ function calcCompliance() {
     if (arc) arc.style.strokeDashoffset = 326.7 - (326.7 * overall / 100);
     const scoreEl = document.getElementById('complianceScore');
     if (scoreEl) scoreEl.textContent = overall + '%';
-    const gradeEl = document.getElementById('complianceGrade');
+    const gradeEl = document.getElementById('complianceGrade'); const gradeBelow = document.getElementById('complianceGradeLetter');
     if (gradeEl) {
         const grade = overall >= 95 ? 'A+' : overall >= 90 ? 'A' : overall >= 85 ? 'A-' : overall >= 80 ? 'B+' : overall >= 75 ? 'B' : overall >= 70 ? 'B-' : overall >= 65 ? 'C+' : overall >= 60 ? 'C' : overall >= 50 ? 'D' : 'F';
         const gColor = overall >= 80 ? 'var(--green)' : overall >= 60 ? 'var(--gold)' : '#ff6b6b';
@@ -5591,6 +5665,7 @@ function calcCompliance() {
         gradeEl.style.color = gColor;
         gradeEl.style.border = '2px solid ' + gColor + '55';
         gradeEl.style.boxShadow = '0 0 20px ' + gColor + '33';
+    if (gradeBelow) { gradeBelow.textContent = grade; gradeBelow.style.background = 'linear-gradient(135deg,' + gColor + '22,' + gColor + '11)'; gradeBelow.style.color = gColor; gradeBelow.style.border = '2px solid ' + gColor + '55'; gradeBelow.style.boxShadow = '0 0 20px ' + gColor + '33'; }
     }
 
     // Recommendations
@@ -6992,5 +7067,10 @@ if (window.location.hash === '#tabWallet') {
     document.addEventListener('DOMContentLoaded', () => setTimeout(loadWalletData, 500));
 }
 </script>
+
+    </div>
+</section>
+</div><!-- /platformWorkspace -->
+
 </body>
 </html>
