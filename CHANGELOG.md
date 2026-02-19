@@ -5,6 +5,30 @@ All notable changes to the S4 Ledger project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.0.1] - 2026-02-19
+
+### QA Fixes & SDK Playground Overhaul
+
+#### Fixed — Demo App
+- **Treasury Wallet widget** — `$SLS Fees` stat card replaced with Treasury Wallet display showing `rMLm…KLqJ` address, green pulse animation on successful anchor, and running fee total
+- **Icon rendering in Transaction Log** — FontAwesome class names (e.g., `fa-shopping-cart`, `fa-clipboard-list`) now properly wrapped in `<i>` elements instead of rendering as raw text. New `_renderIcon()` utility handles emojis, FA classes, and HTML icon strings
+- **Anchor result panel** — Record type icons now rendered via `_renderIcon()` for consistent display
+
+#### Fixed — Metrics Page
+- **Records Secured Breakdown dropdowns** — Replaced inline `<p>` + `<select>` with flex-aligned row; record type and platform filter dropdowns now vertically aligned
+- **Auto-refresh visibility** — Added live pulse indicator and "Last updated: HH:MM:SS" timestamp below Recent Anchored Records table; updates on every 5-second refresh cycle
+
+#### Fixed — SDK Playground
+- **Function boxes restored** — Added 20 clickable function boxes in a responsive grid above the code editor: hash, anchor, verify, batch, metrics, list_records, record_types, ils_analysis, dmsms, readiness, roi, lifecycle, supply_chain_risk, predictive_maintenance, compliance, audit_reports, action_items, doc_library, audit_vault, ilie
+- **"How It Works" text updated** — Now accurately references "click any function box above" and shows "20 SDK functions" count
+
+#### Changed — Documentation
+- **PRODUCTION_READINESS.md** — Recalibrated readiness scores: ~88% MVP/Pilot, ~75% Enterprise. Added separate MVP vs Enterprise columns. Added critical path section (persistent DB → security audit → monitoring → compliance)
+- **HARBORLINK_INTEGRATION.md** — Section 11 updated: 8/10 S4 endpoints now marked ✅ Built (webhook, composite, proof chain, custody, file hash, batch, org tagging, bulk verify). Remaining: audit export package + persistent storage
+- **CHANGELOG.md** — This entry
+
+---
+
 ## [5.0.0] - 2026-02-18
 
 ### HarborLink Integration — Full API Surface Built

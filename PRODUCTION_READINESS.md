@@ -1,7 +1,7 @@
 # S4 Ledger — Production Readiness Checklist
 
-> **Status:** Production ($SLS LIVE on XRPL Mainnet) — **Estimated ~96% Production Ready**  
-> **Last Updated:** February 2026 (v4.0.4)  
+> **Status:** Production ($SLS LIVE on XRPL Mainnet) — **Estimated ~88% MVP/Pilot Ready | ~75% Enterprise Production Ready**  
+> **Last Updated:** February 2026 (v5.0.0)  
 > **Target:** First enterprise pilot — $SLS LIVE on Mainnet
 
 > **Note:** S4 Ledger operates as a product line of S4 Systems, LLC. Many corporate infrastructure items below (CAGE Code, SAM.gov, EIN, D-U-N-S, legal counsel, compliance posture) may already be in place through S4 Systems. Items marked 🟡 should be verified with S4 Systems leadership rather than obtained from scratch. Nick Frankfort leads product/technology; S4 Systems provides business development, legal, compliance, hiring, and corporate infrastructure.
@@ -12,22 +12,28 @@
 
 This document tracks every requirement for taking S4 Ledger to a fully production-ready, investor-grade defense logistics platform. It covers legal, compliance, infrastructure, security, documentation, business development, and operational requirements.
 
-### Current Readiness: ~96%
+### Current Readiness: ~88% MVP/Pilot | ~75% Enterprise
 
-| Area | Status | Score |
-|------|--------|-------|
-| **Frontend / Demo** | ILS Workspace (unified command center with 13 sub-tabs), 13 ILS tools + action items + AI Agent (defense-compliant LLM engine with Azure OpenAI/AWS Bedrock support + local fallback, 40+ capabilities, vault/compliance-aware), universal program support with custom hull/designation + program office input on all tools, all 11 platform dropdowns dynamically populated from platforms.js (500+), custom contract number input, 54+ pre-built record types (any defense record type supported), 22 sample document types, **PDF/DOCX document parsing** (pdf.js + mammoth.js), **cross-document discrepancy detection**, **contract requirements compliance checking**, ITAR warning banner, login portal with tutorial and persistent auth, Anchor/Verify How It Works panels, economic impact section, expanded audit vault time filters, Metrics + Transactions platform filters, site-wide blockchain anchor canvas animation (zero external deps) | **99%** |
-| **API / Backend** | Serverless API v4.0.4, auth scaffolding, 29 endpoints (DMSMS, readiness, parts, ROI, lifecycle, action-items, supply-chain-risk, audit-reports, predictive-maintenance), **subscription-based SLS provisioning** (Pilot Free/Starter $999/Professional $2,499/Enterprise $9,999), **Stripe payment verification**, **Treasury-based SLS delivery** (included with subscription), **automatic anchor fees** (0.01 SLS per anchor, custodial), rate limiting, security headers (HSTS, X-Frame, CSP), request logging, health check, OpenAPI spec | **88%** |
-| **XRPL Integration** | $SLS LIVE on XRPL Mainnet (100M total). **Full mainnet anchoring live** — all 13 ILS tools anchor to mainnet with explorer links. 3-wallet architecture (Issuer, Treasury, Ops). secp256k1 (Xaman-compatible). 0.01 SLS fee per anchor (User→Treasury, custodial). | **100%** |
-| **SDK** | pip-installable with CLI, 12 commands (anchor, hash, verify, status, readiness, dmsms, roi, lifecycle, action-items), 27 SDK Playground functions (incl. supply-chain-risk, audit-reports, predictive-maintenance), SDK Playground platform/program selector with 500+ platforms, How It Works expanded, **full SDK documentation page** (27 functions, 15 CLI commands, REST API reference), User Training Guide v4.0.4 (plain-English rewrite, all 13 ILS tools, subscription model) | **95%** |
-| **Infrastructure** | Vercel deployment, SSL, CDN, PWA manifest, custom 404, security response headers, ITAR notices — phased scalability plan documented (Supabase/PostgreSQL → server-side pagination → Web Workers → Merkle batch anchoring → CDN/edge → microservices/FedRAMP). See [SCALABILITY_ARCHITECTURE.md](SCALABILITY_ARCHITECTURE.md) | **65%** |
-| **Authentication** | Login portal with SSO/CAC support (UI), tutorial onboarding, API key system, **wallet provisioning API** (auto-create XRPL wallet + trust line on signup), **subscription-gated SLS delivery** (Stripe payment verification required), role-based access controls (Admin/PM/Standard) — needs production key management | **65%** |
-| **User Experience** | Full mobile/tablet responsive, ILS Workspace unified UX, conversational AI Agent (defense-compliant LLM architecture), 13 interactive tools + calendar, **PDF/DOCX upload + discrepancy detection**, realistic sample data, ITAR compliance notice, branded favicons on all pages | **98%** |
-| **Documentation** | OpenAPI 3.0 spec (fully documenting all 29 endpoints), CHANGELOG.md (v1.0–v4.0.4), comprehensive README, API examples, whitepaper, technical specs, security policy, investor docs, deployment guide, **full SDK reference** (27 functions documented with params/returns/examples), **User Training Guide v4.0.4** (plain-English rewrite, high-school-readable, subscription model) | **98%** |
-| **Compliance** | NIST 800-171 architecture aligned, **CMMC Level 2 Assessment Pending** (S4 Systems pursuing certification), ITAR warnings, security headers, DoW branding — needs formal FedRAMP assessment | **65%** |
-| **Legal / Business** | S4 Systems, LLC exists — S4 Ledger operates as a product line. S4 Systems likely has CAGE, SAM.gov, EIN, D-U-N-S — verify with leadership | **40%** |
-| **Security** | Zero-data-on-chain, client-side processing, rate limiting, HSTS, security headers, ITAR warnings — needs pen test, SOC 2 | **35%** |
-| **Monitoring / Ops** | Health check endpoint, request logging, GitHub Actions CI/CD (pytest + Docker build on push) — needs full monitoring (APM, SIEM) | **30%** |
+| Area | Status | MVP Score | Enterprise Score |
+|------|--------|-----------|-----------------|
+| **Frontend / Demo** | ILS Workspace (unified command center with 13 sub-tabs), 13 ILS tools + action items + AI Agent, universal program support, 130+ pre-built record types, PDF/DOCX document parsing, cross-document discrepancy detection, ITAR warning banner, login portal, SDK Playground with 20 interactive function boxes, Metrics dashboard auto-refresh (5s), Transactions page with filters, Treasury Wallet widget, classification banners | **95%** | **90%** |
+| **API / Backend** | Serverless API v5.0.0, 44 endpoints including 12 HarborLink integration endpoints (webhooks, composite anchor, Merkle batch, proof chain, custody chain, file hash, bulk verify, org isolation), subscription-based SLS provisioning, Stripe payment verification, rate limiting, security headers, health check, OpenAPI 3.0 spec | **88%** | **80%** |
+| **XRPL Integration** | $SLS LIVE on XRPL Mainnet (100M total). Full mainnet anchoring live — all 13 ILS tools anchor to mainnet with explorer links. 3-wallet architecture (Issuer, Treasury, Ops). secp256k1 (Xaman-compatible). 0.01 SLS fee per anchor. | **100%** | **98%** |
+| **SDK** | Python SDK with 38+ methods including 11 new HarborLink methods (webhooks, composite, batch, custody, proof chain, file hash, bulk verify, org records), CLI tool, CSV/XML/JSON import, encryption, SDK Playground with 20 clickable function boxes | **92%** | **90%** |
+| **Infrastructure** | Vercel deployment, SSL, CDN, PWA manifest, custom 404, security headers — **no persistent database** (in-memory only), no monitoring/APM, no GovCloud, no multi-region | **65%** | **50%** |
+| **Authentication** | Login portal, API key system, wallet provisioning, subscription-gated SLS delivery, role-based access controls (UI) — no MFA, no JWT, no key rotation | **65%** | **50%** |
+| **Documentation** | OpenAPI 3.0 spec (44 endpoints), SDK reference (38+ methods), whitepaper, technical specs, security policy, investor docs, deployment guide, User Training Guide, HarborLink Integration doc v2.0 | **95%** | **95%** |
+| **Compliance** | NIST 800-171 architecture aligned, ITAR warnings, security headers — zero certifications (no CMMC, no FedRAMP, no SOC 2) | **40%** | **40%** |
+| **Legal / Business** | S4 Systems LLC exists, TOS + Privacy Policy published — token legal opinion, EULA, DPA, SLA pending | **40%** | **35%** |
+| **Security** | Zero-data-on-chain, HMAC-SHA256 webhook signing, rate limiting, HSTS, security headers — no pen test, no SOC 2, no WAF | **35%** | **30%** |
+| **Monitoring / Ops** | Health check, request logging, GitHub Actions CI/CD — no APM, no SIEM, no alerting | **30%** | **25%** |
+
+### Critical Path to Enterprise Production
+
+1. **Deploy persistent storage** (Supabase/PostgreSQL) — eliminates data loss risk on cold start
+2. **Security audit** — penetration test + SOC 2 Type I
+3. **Monitoring stack** — APM + error tracking + alerting
+4. **CMMC/FedRAMP assessment** — required for DoD contracts
 
 ---
 

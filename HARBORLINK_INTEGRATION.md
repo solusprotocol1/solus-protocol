@@ -780,20 +780,22 @@ X-API-Key: harborlink-org-key
 
 ## 11. What Needs to Be Built
 
-### S4 Ledger — New Endpoints / Features
+### S4 Ledger — Endpoints / Features Status
 
-| # | Feature | Endpoint | Effort | Priority |
+| # | Feature | Endpoint | Status | Notes |
 |---|---|---|---|---|
-| 1 | **Webhook system** | `POST /api/webhooks/register`, callback engine | 2 weeks | P0 |
-| 2 | **Composite anchor** | `POST /api/anchor/composite` (file + metadata hashes) | 3 days | P0 |
-| 3 | **Proof chain retrieval** | `GET /api/proof-chain?record_id=` | 1 week | P0 |
-| 4 | **Custody chain anchor** | `POST /api/anchor/chain` (linked custody events) | 1 week | P1 |
-| 5 | **Audit export package** | `GET /api/audit-reports/export` | 1 week | P1 |
-| 6 | **File binary hashing** | `POST /api/hash/file` (accept multipart file upload) | 3 days | P1 |
-| 7 | **Merkle batch anchor** | `POST /api/anchor/batch` (Merkle tree, single XRPL tx) | 3 weeks | P1 |
-| 8 | **Multi-tenant org tagging** | Tag records with org_id from API key | 1 week | P1 |
-| 9 | **Persistent storage** | Supabase/PostgreSQL for records (currently in-memory) | 2 weeks | P1 |
-| 10 | **Bulk verification** | `POST /api/verify/batch` | 3 days | P2 |
+| 1 | **Webhook system** | `POST /api/webhooks/register`, `/list`, `/deliveries`, `/test` | ✅ Built | HMAC-SHA256 signed, 8 event types, delivery logging |
+| 2 | **Composite anchor** | `POST /api/anchor/composite` | ✅ Built | file_hash + metadata_hash in single XRPL tx |
+| 3 | **Proof chain retrieval** | `GET /api/proof-chain?record_id=` | ✅ Built | Full sequential event history per record |
+| 4 | **Custody chain anchor** | `POST /api/custody/transfer`, `GET /api/custody/chain` | ✅ Built | Blockchain-anchored custody transfers |
+| 5 | **Audit export package** | `GET /api/audit-reports/export` | ❌ Not Built | Self-contained verification package for IG/GAO — P1 |
+| 6 | **File binary hashing** | `POST /api/hash/file` | ✅ Built | Base64 or UTF-8 content hashing |
+| 7 | **Merkle batch anchor** | `POST /api/anchor/batch` | ✅ Built | Up to 1,000 records in 1 XRPL tx, 0.01 SLS total |
+| 8 | **Multi-tenant org tagging** | `GET /api/org/records` | ✅ Built | Records tagged with org_id from API key |
+| 9 | **Persistent storage** | Supabase/PostgreSQL | ❌ Not Built | Currently in-memory; records lost on cold start — P1 |
+| 10 | **Bulk verification** | `POST /api/verify/batch` | ✅ Built | Up to 100 records per call |
+
+> **S4 Ledger Integration Score: 8/10 endpoints built (80%). Remaining: audit export package + persistent storage.**
 
 ### HarborLink — Integration Points to Build
 

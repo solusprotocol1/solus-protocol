@@ -455,7 +455,18 @@
         <div class="row mb-4" id="statsRow">
             <div class="col-md-4 mb-3"><div class="stat-card"><div class="stat-value" id="statVerified">0</div><div class="stat-label">Records Verified</div></div></div>
             <div class="col-md-4 mb-3"><div class="stat-card"><div class="stat-value" id="statTypes">0</div><div class="stat-label">Record Types Used</div></div></div>
-            <div class="col-md-4 mb-3"><div class="stat-card"><div class="stat-value" id="statSlsFees">0.000</div><div class="stat-label">$SLS Fees</div></div></div>
+            <div class="col-md-4 mb-3">
+                <div class="stat-card" style="position:relative;overflow:hidden">
+                    <div id="treasuryPulse" style="position:absolute;inset:0;background:radial-gradient(circle,rgba(20,241,149,0.15),transparent 70%);opacity:0;transition:opacity 0.6s"></div>
+                    <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+                        <span style="width:8px;height:8px;border-radius:50%;background:#14f195;display:inline-block;animation:pulse 2s infinite"></span>
+                        <span style="font-size:0.72rem;color:var(--green);font-weight:700;letter-spacing:1px">TREASURY WALLET</span>
+                    </div>
+                    <div style="font-family:monospace;font-size:0.7rem;color:var(--steel);margin-bottom:4px;word-break:break-all">rMLm...KLqJ</div>
+                    <div class="stat-value" id="statSlsFees" style="color:var(--green)">0.000</div>
+                    <div class="stat-label">$SLS Collected</div>
+                </div>
+            </div>
         </div>
 
         <ul class="nav nav-pills mb-2" role="tablist">
@@ -2278,6 +2289,9 @@ async function anchorRecord() {
     stats.slsFees += 0.01;
     updateStats();
     saveStats();
+    // Treasury pulse flash
+    const tp = document.getElementById('treasuryPulse');
+    if (tp) { tp.style.opacity = '1'; setTimeout(() => tp.style.opacity = '0', 1200); }
 
     await new Promise(r => setTimeout(r, 3200));
     hideAnchorAnimation();
@@ -2285,7 +2299,7 @@ async function anchorRecord() {
 
     const panel = document.getElementById('anchorResult');
     panel.innerHTML = '<div class="result-label">STATUS</div><div class="result-value" style="font-size:1rem;margin-bottom:0.8rem">\u2705 Record anchored successfully</div>'
-        + '<div class="result-label">RECORD TYPE</div><div style="margin-bottom:0.5rem">' + record.icon + ' ' + typeInfo.label + ' (' + typeInfo.branch + ')</div>'
+        + '<div class="result-label">RECORD TYPE</div><div style="margin-bottom:0.5rem">' + _renderIcon(record.icon) + ' ' + typeInfo.label + ' (' + typeInfo.branch + ')</div>'
         + '<div class="result-label">CLASSIFICATION</div><div style="margin-bottom:0.5rem"><span style="padding:3px 12px;border-radius:6px;font-size:0.8rem;font-weight:800;letter-spacing:0.5px;color:' + CLF_META[clfLevel].color + ';border:1px solid ' + CLF_META[clfLevel].color + '30;background:' + CLF_META[clfLevel].color + '15">' + '<i class="fas ' + CLF_META[clfLevel].icon + '" style="margin-right:4px"></i>' + CLF_META[clfLevel].label + '</span> <span style="color:var(--muted);font-size:0.8rem;margin-left:6px">' + CLF_META[clfLevel].desc + '</span></div>'
         + '<div class="result-label">SHA-256 HASH</div><div class="hash-display">' + hash + '</div>'
         + '<div class="result-label">TX HASH</div><div style="margin-bottom:0.5rem;word-break:break-all">' + (explorerUrl ? '<a href="'+explorerUrl+'" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none">'+txHash+' <i class="fas fa-external-link-alt" style="font-size:0.7rem"></i></a>' : '<span style="color:var(--muted)">'+txHash+'</span>') + '</div>'
@@ -2326,6 +2340,12 @@ async function verifyRecord() {
     panel.classList.add('show');
 }
 
+function _renderIcon(ic) {
+    if (!ic) return '<i class="fas fa-clipboard-list"></i>';
+    if (ic.startsWith('fa-')) return '<i class="fas ' + ic + '"></i>';
+    return ic;
+}
+
 function updateTxLog() {
     const log = document.getElementById('txLog');
     if (!sessionRecords.length) return;
@@ -2333,7 +2353,7 @@ function updateTxLog() {
     for (let i = sessionRecords.length - 1; i >= 0; i--) {
         const r = sessionRecords[i];
         const time = new Date(r.timestamp).toLocaleTimeString('en-US',{hour12:false});
-        log.innerHTML += '<div class="tx-entry"><div class="tx-icon">' + r.icon + '</div><div class="tx-info"><div class="tx-type">' + r.label + ' <span style="color:var(--muted);font-size:0.75rem">(' + r.branch + ')</span></div><div class="tx-hash">' + r.hash.substring(0,32) + '...</div></div><div><span class="tx-badge anchored">Anchored</span><div class="tx-time">' + time + '</div></div></div>';
+        log.innerHTML += '<div class="tx-entry"><div class="tx-icon">' + _renderIcon(r.icon) + '</div><div class="tx-info"><div class="tx-type">' + r.label + ' <span style="color:var(--muted);font-size:0.75rem">(' + r.branch + ')</span></div><div class="tx-hash">' + r.hash.substring(0,32) + '...</div></div><div><span class="tx-badge anchored">Anchored</span><div class="tx-time">' + time + '</div></div></div>';
     }
 }
 

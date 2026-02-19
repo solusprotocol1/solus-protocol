@@ -154,7 +154,7 @@ S4 Ledger covers all 12 ILS elements defined in MIL-STD-1388 / GEIA-STD-0007:
 | Phase | Status | Focus |
 |---|---|---|
 | Phase 1 — Foundation | ✅ Complete | SDK, hashing, XRPL anchoring, $SLS token live |
-| Phase 2 — Defense Platform | ✅ Complete | 13-tool ILS Workspace, 500+ platforms (dynamically loaded), ILIE, 27 SDK functions (dynamically loaded), custom hull/designation + program office input on all tools, AI agent, audit vault, 54+ record types, SDK Playground platform selector, Metrics + Transactions platform filters |
+| Phase 2 — Defense Platform | ✅ Complete | 13-tool ILS Workspace, 500+ platforms, 38+ SDK methods (incl. 11 HarborLink), 44 API endpoints, 130+ record types, AI agent, audit vault, SDK Playground with 20 function boxes |
 | Phase 3 — MVP & Pilot | Upcoming | Internal pilot on real contract data |
 | Phase 4 — Partner Onboarding | Planned | SaaS launch, DIU/NavalX engagement |
 | Phase 5 — Scale & Certification | Planned | NIST, FedRAMP, SBIR/STTR |
@@ -163,12 +163,12 @@ S4 Ledger covers all 12 ILS elements defined in MIL-STD-1388 / GEIA-STD-0007:
 
 | Document | Description |
 |---|---|
-| [SDK Documentation](sdk/) | Full Python SDK reference — 27 functions, 15 CLI commands, REST API |
+| [SDK Documentation](sdk/) | Full Python SDK reference — 38+ functions, 15 CLI commands, REST API |
 | [User Training Guide](USER_TRAINING_GUIDE.md) | Step-by-step guide for every tool, feature, and workflow |
 | [API Examples](api_examples.md) | Python, cURL, JavaScript code samples |
 | [Technical Specifications](TECHNICAL_SPECS.md) | Architecture, security, and performance |
 | [Whitepaper](WHITEPAPER.md) | Full protocol and token economics |
-| [Production Readiness](PRODUCTION_READINESS.md) | ~97% production readiness checklist |
+| [Production Readiness](PRODUCTION_READINESS.md) | ~88% MVP / ~75% enterprise readiness checklist |
 | [Deployment Guide](DEPLOYMENT_GUIDE.md) | Self-hosting and cloud deployment |
 | [Security Policy](SECURITY.md) | Vulnerability reporting and controls |
 
@@ -178,6 +178,6 @@ S4 Ledger covers all 12 ILS elements defined in MIL-STD-1388 / GEIA-STD-0007:
 
 Apache License 2.0 — see [LICENSE](LICENSE)
 
-**Version:** 4.0.4 — XRPL Mainnet Live | ILS Analysis Engine | Subscription Wallet Provisioning
+**Version:** 5.0.1 — XRPL Mainnet Live | HarborLink Integration | 44 API Endpoints | 38+ SDK Methods
 
 © 2026 S4 Systems, LLC. Charleston, SC.
