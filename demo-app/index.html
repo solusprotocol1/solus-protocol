@@ -381,11 +381,20 @@
         .tooltip-enhanced:hover::after{opacity:1;transform:translateX(-50%) scale(1)}
         @media(max-width:768px){.ils-hub-tabs{gap:2px}.ils-hub-tab{padding:6px 10px;font-size:0.72rem}.cal-day{min-height:50px}.vault-stats{grid-template-columns:repeat(2,1fr)}.compliance-label{min-width:100px;font-size:0.75rem}#demoSteps{grid-template-columns:repeat(2,1fr)!important}}
     .active-link{color:#00aaff !important;font-weight:600 !important;}
-</style>
+
+        #dropZone.drag-over{border-color:var(--accent)!important;background:rgba(0,170,255,0.08)!important;box-shadow:0 0 20px rgba(0,170,255,0.15)}
+    
+        .ils-hub-panel .demo-card{border:1px solid var(--border);border-radius:12px;background:var(--card);padding:20px 24px}
+        .ils-hub-panel .demo-card h3{font-size:1rem;font-weight:700;color:#fff;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+        .ils-hub-panel .demo-card h3 i{color:var(--accent);font-size:0.9rem}
+        .ils-hub-panel .form-control,.ils-hub-panel select,.ils-hub-panel .form-select{background:var(--surface);border:1px solid var(--border);color:#fff;border-radius:8px;padding:8px 12px;font-size:0.85rem;font-family:inherit}
+        .ils-hub-panel .form-control:focus,.ils-hub-panel select:focus{border-color:var(--accent);outline:none;box-shadow:0 0 0 2px rgba(0,170,255,0.15)}
+        .ils-hub-panel label{color:var(--steel);font-size:0.78rem;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px}
+    </style>
 </head>
 <body>
 <div style="background:rgba(10,10,15,0.95);border-bottom:1px solid rgba(255,255,255,0.06);padding:4px 0;text-align:center;font-size:0.72rem;color:#8b8fa3;"><i class="fas fa-exclamation-triangle" style="margin-right:4px;"></i> NOTICE: Do not submit ITAR-controlled, classified, or export-controlled data to this platform. This system processes UNCLASSIFIED and CUI data only. <a href="/security/" style="color:#00aaff;text-decoration:underline;">Security Policy</a></div>
-<div id="demoBanner" style="display:block;background:linear-gradient(90deg,rgba(0,170,255,0.12),rgba(201,168,76,0.12),rgba(20,241,149,0.08));border-bottom:1px solid rgba(0,170,255,0.3);padding:8px 0;text-align:center;font-size:0.82rem;color:#8ea4b8;cursor:pointer;" onclick="document.getElementById('demoPanel').scrollIntoView({behavior:'smooth'})"><i class="fas fa-flask" style="color:#00aaff;margin-right:6px;"></i> <strong style="color:#fff;">DEMO MODE</strong> &mdash; You are using S4 Ledger in demo mode. XRP and SLS balances shown are <strong style="color:#c9a84c;">hypothetical</strong>. All anchoring is real on XRPL. <span style="color:#14f195;">&#9660; View Demo Details</span></div>
+<div id="demoBanner" style="display:block;background:linear-gradient(90deg,rgba(0,170,255,0.10),rgba(201,168,76,0.08));border-bottom:1px solid rgba(0,170,255,0.3);padding:8px 0;text-align:center;font-size:0.82rem;color:#8ea4b8;cursor:pointer;" onclick="document.getElementById('demoPanel').scrollIntoView({behavior:'smooth'})"><i class="fas fa-flask" style="color:#00aaff;margin-right:6px;"></i> <strong style="color:#fff;">DEMO MODE</strong> &mdash; You are using S4 Ledger in demo mode. Steps 1-3 are simulated. <strong style="color:#c9a84c;">Anchoring and SLS fee transfers are real on XRPL.</strong> <span style="color:#00aaff;">&#9660; View Details</span></div>
 <div id="demoStatusBar" style="display:none;background:rgba(0,170,255,0.06);border-bottom:1px solid rgba(0,170,255,0.15);padding:5px 0;text-align:center;font-size:0.75rem;color:#8ea4b8;letter-spacing:0.3px;"></div>
 <nav id="mainNav" style="position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(5,8,16,0.95);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.06);height:64px;">
     <div style="max-width:1200px;margin:0 auto;padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:100%;">
@@ -412,14 +421,32 @@
     #navLinks.open{display:flex !important;}
     #mainNav button[aria-label="Menu"]{display:block !important;}
 }
-</style>
+
+        #dropZone.drag-over{border-color:var(--accent)!important;background:rgba(0,170,255,0.08)!important;box-shadow:0 0 20px rgba(0,170,255,0.15)}
+    
+        .ils-hub-panel .demo-card{border:1px solid var(--border);border-radius:12px;background:var(--card);padding:20px 24px}
+        .ils-hub-panel .demo-card h3{font-size:1rem;font-weight:700;color:#fff;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+        .ils-hub-panel .demo-card h3 i{color:var(--accent);font-size:0.9rem}
+        .ils-hub-panel .form-control,.ils-hub-panel select,.ils-hub-panel .form-select{background:var(--surface);border:1px solid var(--border);color:#fff;border-radius:8px;padding:8px 12px;font-size:0.85rem;font-family:inherit}
+        .ils-hub-panel .form-control:focus,.ils-hub-panel select:focus{border-color:var(--accent);outline:none;box-shadow:0 0 0 2px rgba(0,170,255,0.15)}
+        .ils-hub-panel label{color:var(--steel);font-size:0.78rem;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px}
+    </style>
 <style>
 @media(max-width:768px){
     #navLinks{display:none !important;flex-direction:column !important;position:absolute !important;top:64px !important;left:0 !important;right:0 !important;background:rgba(5,8,16,0.98) !important;padding:1rem !important;border-bottom:1px solid rgba(255,255,255,0.06) !important;gap:0.25rem !important;}
     #navLinks.open{display:flex !important;}
     #mainNav button[aria-label="Menu"]{display:block !important;}
 }
-</style>
+
+        #dropZone.drag-over{border-color:var(--accent)!important;background:rgba(0,170,255,0.08)!important;box-shadow:0 0 20px rgba(0,170,255,0.15)}
+    
+        .ils-hub-panel .demo-card{border:1px solid var(--border);border-radius:12px;background:var(--card);padding:20px 24px}
+        .ils-hub-panel .demo-card h3{font-size:1rem;font-weight:700;color:#fff;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+        .ils-hub-panel .demo-card h3 i{color:var(--accent);font-size:0.9rem}
+        .ils-hub-panel .form-control,.ils-hub-panel select,.ils-hub-panel .form-select{background:var(--surface);border:1px solid var(--border);color:#fff;border-radius:8px;padding:8px 12px;font-size:0.85rem;font-family:inherit}
+        .ils-hub-panel .form-control:focus,.ils-hub-panel select:focus{border-color:var(--accent);outline:none;box-shadow:0 0 0 2px rgba(0,170,255,0.15)}
+        .ils-hub-panel label{color:var(--steel);font-size:0.78rem;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px}
+    </style>
 
 <section class="hero" style="padding:4rem 0 2rem;text-align:center;">
     <div class="container">
@@ -563,22 +590,22 @@
 
                 <!-- Step 4: How SLS Works -->
                 <div class="onboard-step" id="onboardStep4">
-                    <h4 style="color:#fff;margin:0 0 12px;font-size:1rem"><i class="fas fa-arrow-right" style="color:var(--green);margin-right:8px"></i>Step 4: How Your $SLS Is Used</h4>
+                    <h4 style="color:#fff;margin:0 0 12px;font-size:1rem"><i class="fas fa-coins" style="color:var(--gold);margin-right:8px"></i>Step 4: How Your $SLS Is Used</h4>
                     <p style="color:var(--steel);font-size:0.82rem;margin-bottom:16px">Every time you anchor a record, a tiny SLS fee flows to the S4 Treasury on the XRP Ledger.</p>
                     <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:16px">
                         <div style="display:flex;align-items:center;gap:12px;justify-content:center;flex-wrap:wrap">
                             <div style="text-align:center;padding:10px"><div style="font-size:0.72rem;color:var(--steel);margin-bottom:6px">Your Wallet</div><div style="width:44px;height:44px;border-radius:50%;background:rgba(0,170,255,0.1);display:inline-flex;align-items:center;justify-content:center;color:var(--accent)"><i class="fas fa-wallet"></i></div></div>
                             <div style="color:var(--gold);font-weight:700;font-size:0.85rem"><i class="fas fa-long-arrow-alt-right"></i> 0.01 SLS</div>
-                            <div style="text-align:center;padding:10px"><div style="font-size:0.72rem;color:var(--steel);margin-bottom:6px">S4 Treasury</div><div style="width:44px;height:44px;border-radius:50%;background:rgba(20,241,149,0.1);display:inline-flex;align-items:center;justify-content:center;color:var(--green)"><i class="fas fa-landmark"></i></div></div>
-                            <div style="color:var(--green);font-weight:700;font-size:0.85rem"><i class="fas fa-long-arrow-alt-right"></i> XRPL</div>
+                            <div style="text-align:center;padding:10px"><div style="font-size:0.72rem;color:var(--steel);margin-bottom:6px">S4 Treasury</div><div style="width:44px;height:44px;border-radius:50%;background:rgba(201,168,76,0.1);display:inline-flex;align-items:center;justify-content:center;color:var(--gold)"><i class="fas fa-landmark"></i></div></div>
+                            <div style="color:var(--accent);font-weight:700;font-size:0.85rem"><i class="fas fa-long-arrow-alt-right"></i> XRPL</div>
                             <div style="text-align:center;padding:10px"><div style="font-size:0.72rem;color:var(--steel);margin-bottom:6px">Immutable Record</div><div style="width:44px;height:44px;border-radius:50%;background:rgba(167,139,250,0.1);display:inline-flex;align-items:center;justify-content:center;color:#a78bfa"><i class="fas fa-lock"></i></div></div>
                         </div>
                     </div>
                     <div style="font-size:0.82rem;color:var(--steel);line-height:1.6;margin-bottom:12px">
-                        <div style="margin-bottom:8px"><i class="fas fa-check" style="color:var(--green);margin-right:8px;width:14px"></i><strong style="color:#fff">Steps 1-3</strong> are simulated in demo mode</div>
-                        <div style="margin-bottom:8px"><i class="fas fa-check" style="color:var(--green);margin-right:8px;width:14px"></i><strong style="color:var(--green)">Step 4 (0.01 SLS → Treasury)</strong> is REAL on-chain via XRPL</div>
-                        <div style="margin-bottom:8px"><i class="fas fa-check" style="color:var(--green);margin-right:8px;width:14px"></i>All hash anchoring produces real XRPL transaction hashes</div>
-                        <div><i class="fas fa-check" style="color:var(--green);margin-right:8px;width:14px"></i>Anyone can independently verify records on <a href="https://livenet.xrpl.org" target="_blank" style="color:var(--accent)">XRPL Explorer</a></div>
+                        <div style="margin-bottom:8px"><i class="fas fa-check" style="color:var(--accent);margin-right:8px;width:14px"></i><strong style="color:#fff">Steps 1-3</strong> are simulated in demo mode</div>
+                        <div style="margin-bottom:8px"><i class="fas fa-check" style="color:var(--gold);margin-right:8px;width:14px"></i><strong style="color:var(--gold)">Step 4 (0.01 SLS → Treasury)</strong> is a REAL on-chain transfer via XRPL</div>
+                        <div style="margin-bottom:8px"><i class="fas fa-check" style="color:var(--accent);margin-right:8px;width:14px"></i>Every anchor produces a real, verifiable XRPL transaction hash</div>
+                        <div><i class="fas fa-check" style="color:var(--accent);margin-right:8px;width:14px"></i>Anyone can independently verify records on <a href="https://livenet.xrpl.org" target="_blank" style="color:var(--accent)">XRPL Explorer</a></div>
                     </div>
                     <div style="text-align:center;margin-top:20px;display:flex;gap:10px;justify-content:center">
                         <button class="onboard-btn" onclick="closeOnboarding()"><i class="fas fa-rocket" style="margin-right:6px"></i>Enter Platform</button>
@@ -594,17 +621,17 @@
             <div style="background:linear-gradient(135deg,rgba(0,170,255,0.06),rgba(201,168,76,0.04));border:1px solid rgba(0,170,255,0.25);border-radius:14px;padding:20px 24px;position:relative;overflow:hidden;">
                 <div style="position:absolute;top:0;right:0;background:linear-gradient(135deg,#00aaff,#c9a84c);padding:4px 16px;border-radius:0 14px 0 10px;font-size:0.68rem;font-weight:700;color:#050810;letter-spacing:0.5px;">DEMO MODE</div>
                 <h3 style="margin:0 0 4px;font-size:1.1rem;color:#fff;"><i class="fas fa-flask" style="color:#00aaff;margin-right:8px;"></i> SLS Economic Flow &mdash; Live Demo</h3>
-                <p style="color:#8ea4b8;font-size:0.8rem;margin:0 0 16px;">Experience the full $SLS token economics. Steps 1-3 are simulated. <strong style="color:#14f195;">Step 4 is REAL on-chain.</strong></p>
+                <p style="color:#8ea4b8;font-size:0.8rem;margin:0 0 16px;">Experience the full $SLS token economics. Steps 1-3 are simulated. <strong style="color:#c9a84c;">Step 4 is REAL on-chain.</strong></p>
                 <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;" id="demoSteps">
                     <div id="demoStep1" style="background:rgba(0,170,255,0.08);border:1px solid rgba(0,170,255,0.2);border-radius:10px;padding:14px;text-align:center;transition:all 0.4s;"><div style="width:36px;height:36px;border-radius:50%;background:rgba(0,170,255,0.15);display:inline-flex;align-items:center;justify-content:center;margin-bottom:8px;"><i class="fas fa-user-plus" style="color:#00aaff;font-size:0.9rem;"></i></div><div style="font-size:0.72rem;font-weight:700;color:#fff;margin-bottom:4px;">1. Account Created</div><div style="font-size:0.68rem;color:#8ea4b8;" id="demoStep1Status">Waiting...</div></div>
                     <div id="demoStep2" style="background:rgba(0,170,255,0.08);border:1px solid rgba(0,170,255,0.2);border-radius:10px;padding:14px;text-align:center;transition:all 0.4s;"><div style="width:36px;height:36px;border-radius:50%;background:rgba(0,170,255,0.15);display:inline-flex;align-items:center;justify-content:center;margin-bottom:8px;"><i class="fas fa-wallet" style="color:#00aaff;font-size:0.9rem;"></i></div><div style="font-size:0.72rem;font-weight:700;color:#fff;margin-bottom:4px;">2. Wallet Funded</div><div style="font-size:0.68rem;color:#8ea4b8;" id="demoStep2Status">12 XRP reserve</div></div>
                     <div id="demoStep3" style="background:rgba(0,170,255,0.08);border:1px solid rgba(0,170,255,0.2);border-radius:10px;padding:14px;text-align:center;transition:all 0.4s;"><div style="width:36px;height:36px;border-radius:50%;background:rgba(201,168,76,0.15);display:inline-flex;align-items:center;justify-content:center;margin-bottom:8px;"><i class="fas fa-coins" style="color:#c9a84c;font-size:0.9rem;"></i></div><div style="font-size:0.72rem;font-weight:700;color:#fff;margin-bottom:4px;">3. $SLS Allocated</div><div style="font-size:0.68rem;color:#8ea4b8;" id="demoStep3Status">Based on plan tier</div></div>
-                    <div id="demoStep4" style="background:rgba(20,241,149,0.06);border:1px solid rgba(20,241,149,0.2);border-radius:10px;padding:14px;text-align:center;transition:all 0.4s;"><div style="width:36px;height:36px;border-radius:50%;background:rgba(20,241,149,0.15);display:inline-flex;align-items:center;justify-content:center;margin-bottom:8px;"><i class="fas fa-arrow-right" style="color:#14f195;font-size:0.9rem;"></i></div><div style="font-size:0.72rem;font-weight:700;color:#14f195;margin-bottom:4px;">4. 0.01 $SLS &rarr; Treasury</div><div style="font-size:0.68rem;color:#8ea4b8;" id="demoStep4Status">Real on-chain transfer</div></div>
+                    <div id="demoStep4" style="background:rgba(0,170,255,0.08);border:1px solid rgba(0,170,255,0.2);border-radius:10px;padding:14px;text-align:center;transition:all 0.4s;"><div style="width:36px;height:36px;border-radius:50%;background:rgba(0,170,255,0.15);display:inline-flex;align-items:center;justify-content:center;margin-bottom:8px;"><i class="fas fa-arrow-right" style="color:#00aaff;font-size:0.9rem;"></i></div><div style="font-size:0.72rem;font-weight:700;color:#00aaff;margin-bottom:4px;">4. 0.01 $SLS &rarr; Treasury</div><div style="font-size:0.68rem;color:#8ea4b8;" id="demoStep4Status">Real on-chain transfer</div></div>
                 </div>
                 <div id="demoSessionInfo" style="display:none;margin-top:14px;padding:12px 16px;background:rgba(0,0,0,0.25);border-radius:8px;font-size:0.76rem;">
                     <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;">
                         <div><span style="color:#8ea4b8;">Session:</span> <span style="color:#00aaff;font-family:monospace;" id="demoSessionId">&mdash;</span></div>
-                        <div><span style="color:#8ea4b8;">Wallet:</span> <span style="color:#14f195;font-family:monospace;" id="demoWalletAddr">&mdash;</span></div>
+                        <div><span style="color:#8ea4b8;">Wallet:</span> <span style="color:#00aaff;font-family:monospace;" id="demoWalletAddr">&mdash;</span></div>
                         <div><span style="color:#8ea4b8;">Plan:</span> <span style="color:#c9a84c;font-weight:600;" id="demoPlanLabel">&mdash;</span></div>
                         <div><span style="color:#8ea4b8;">SLS Balance:</span> <span style="color:#c9a84c;font-weight:700;" id="demoSlsBalance">&mdash;</span></div>
                     </div>
@@ -612,7 +639,7 @@
                         <button onclick="document.querySelector('a[href=&quot;#tabAnchor&quot;]').click();" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;padding:6px 16px;border-radius:8px;font-size:0.76rem;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:5px;"><i class="fas fa-anchor"></i> Anchor a Record</button>
                         <button onclick="document.querySelector('a[href=&quot;#tabILS&quot;]').click();" style="background:rgba(0,170,255,0.12);color:#00aaff;border:1px solid rgba(0,170,255,0.3);padding:6px 16px;border-radius:8px;font-size:0.76rem;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:5px;"><i class="fas fa-brain"></i> ILS Workspace</button>
                         <button onclick="_checkDemoStatus();" style="background:rgba(201,168,76,0.12);color:#c9a84c;border:1px solid rgba(201,168,76,0.3);padding:6px 16px;border-radius:8px;font-size:0.76rem;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:5px;"><i class="fas fa-sync-alt"></i> Refresh Status</button>
-                        <a href="https://livenet.xrpl.org/accounts/rMLmkrxpadq5z6oTDmq8GhQj9LKjf1KLqJ" target="_blank" style="background:rgba(20,241,149,0.1);color:#14f195;border:1px solid rgba(20,241,149,0.3);padding:6px 16px;border-radius:8px;font-size:0.76rem;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:5px;"><i class="fas fa-external-link-alt"></i> View Treasury on XRPL</a>
+                        <a href="https://livenet.xrpl.org/accounts/rMLmkrxpadq5z6oTDmq8GhQj9LKjf1KLqJ" target="_blank" style="background:rgba(201,168,76,0.1);color:#c9a84c;border:1px solid rgba(201,168,76,0.3);padding:6px 16px;border-radius:8px;font-size:0.76rem;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:5px;"><i class="fas fa-external-link-alt"></i> View Treasury on XRPL</a>
                     </div>
                 </div>
                 <div id="demoProvSpinner" style="text-align:center;padding:12px;margin-top:10px;display:none;"><i class="fas fa-spinner fa-spin" style="color:#00aaff;margin-right:6px;"></i><span style="color:#8ea4b8;font-size:0.8rem;">Provisioning demo session...</span></div>
@@ -620,7 +647,7 @@
         </div>
 
         <ul class="nav nav-pills mb-2" role="tablist">
-            <li class="nav-item"><a class="nav-link active" data-bs-toggle="pill" href="#tabAnchor" role="tab"><i class="fas fa-anchor"></i> Anchor</a></li>
+            <li class="nav-item"><a class="nav-link" data-bs-toggle="pill" href="#tabAnchor" role="tab"><i class="fas fa-anchor"></i> Anchor</a></li>
             <li class="nav-item"><a class="nav-link" data-bs-toggle="pill" href="#tabVerify" role="tab"><i class="fas fa-check-circle"></i> Verify</a></li>
             <li class="nav-item"><a class="nav-link" data-bs-toggle="pill" href="#tabLog" role="tab"><i class="fas fa-list"></i> Transaction Log</a></li>
             <li class="nav-item"><a class="nav-link" data-bs-toggle="pill" href="#tabILS" role="tab"><i class="fas fa-brain"></i> ILS Workspace</a></li>
@@ -630,7 +657,7 @@
         </ul>
 
         <div class="tab-content">
-            <div class="tab-pane fade show active" id="tabAnchor" role="tabpanel">
+            <div class="tab-pane fade" id="tabAnchor" role="tabpanel">
                 <div class="row">
                     <div class="col-lg-7">
                         <div class="demo-card">
@@ -654,8 +681,9 @@
 
                             <div class="clf-banner" id="clfBanner"><span class="clf-icon"></span><span class="clf-badge" id="clfBadge"></span><span class="clf-text" id="clfText"></span></div>
 
-                            <label>3. Enter Record Content</label>
-                            <textarea id="recordInput" placeholder="Paste or type your defense logistics record here..." oninput="this.dataset.autoFilled='false'"></textarea>
+                            <label>3. Upload file or enter record content</label>
+                            <div id="dropZone" ondragover="event.preventDefault();this.classList.add('drag-over')" ondragleave="this.classList.remove('drag-over')" ondrop="handleFileDrop(event)" onclick="document.getElementById('fileUploadInput').click()" style="border:2px dashed rgba(0,170,255,0.3);border-radius:10px;padding:20px;text-align:center;cursor:pointer;margin-bottom:10px;background:rgba(0,170,255,0.03);transition:all 0.3s;"><i class="fas fa-cloud-upload-alt" style="font-size:1.5rem;color:var(--accent);margin-bottom:6px;display:block;"></i><div style="color:var(--steel);font-size:0.82rem;">Drag &amp; drop a file here or <span style="color:var(--accent);text-decoration:underline;">click to browse</span></div><div style="color:var(--muted);font-size:0.72rem;margin-top:4px;">PDF, Excel, Word, CSV, JSON, TXT &mdash; any file type</div><input type="file" id="fileUploadInput" style="display:none" onchange="handleFileSelect(event)"><div id="dropFileName" style="display:none;margin-top:8px;color:var(--accent);font-weight:600;font-size:0.82rem;"></div></div>
+                            <textarea id="recordInput" placeholder="Or paste/type your defense logistics record here..." oninput="this.dataset.autoFilled='false'"></textarea>
                             <div class="mt-2 mb-3">
                                 <span style="color:var(--muted);font-size:0.8rem">Try a sample:</span>
                                 <span class="sample-btn" onclick="loadSample('supply')">Supply Receipt</span>
@@ -855,17 +883,17 @@
                 </div>
                 <div class="ils-hub-tabs" id="ilsHubTabs">
                     <button class="ils-hub-tab active" onclick="switchHubTab('hub-analysis',this)"><i class="fas fa-chart-line"></i> Gap Analysis</button>
-                    <button class="ils-hub-tab" onclick="switchHubTab('hub-actions',this)"><i class="fas fa-tasks"></i> Action Items <span class="tab-badge" id="hubActionBadge">0</span></button>
                     <button class="ils-hub-tab" onclick="switchHubTab('hub-dmsms',this)"><i class="fas fa-exclamation-triangle"></i> DMSMS</button>
                     <button class="ils-hub-tab" onclick="switchHubTab('hub-readiness',this)"><i class="fas fa-chart-line"></i> Readiness</button>
-                    <button class="ils-hub-tab" onclick="switchHubTab('hub-roi',this)"><i class="fas fa-dollar-sign"></i> ROI</button>
-                    <button class="ils-hub-tab" onclick="switchHubTab('hub-lifecycle',this)"><i class="fas fa-clock"></i> Lifecycle</button>
-                    <button class="ils-hub-tab" onclick="switchHubTab('hub-vault',this)"><i class="fas fa-vault"></i> Audit Vault</button>
-                    <button class="ils-hub-tab" onclick="switchHubTab('hub-docs',this)"><i class="fas fa-book"></i> Doc Library</button>
                     <button class="ils-hub-tab" onclick="switchHubTab('hub-compliance',this)"><i class="fas fa-shield-halved"></i> Compliance</button>
                     <button class="ils-hub-tab" onclick="switchHubTab('hub-risk',this)"><i class="fas fa-triangle-exclamation"></i> Supply Chain Risk</button>
-                    <button class="ils-hub-tab" onclick="switchHubTab('hub-reports',this)"><i class="fas fa-file-pdf"></i> Audit Reports</button>
+                    <button class="ils-hub-tab" onclick="switchHubTab('hub-actions',this)"><i class="fas fa-tasks"></i> Action Items <span class="tab-badge" id="hubActionBadge">0</span></button>
                     <button class="ils-hub-tab" onclick="switchHubTab('hub-predictive',this)"><i class="fas fa-brain"></i> Predictive Maint</button>
+                    <button class="ils-hub-tab" onclick="switchHubTab('hub-lifecycle',this)"><i class="fas fa-clock"></i> Lifecycle</button>
+                    <button class="ils-hub-tab" onclick="switchHubTab('hub-roi',this)"><i class="fas fa-dollar-sign"></i> ROI</button>
+                    <button class="ils-hub-tab" onclick="switchHubTab('hub-vault',this)"><i class="fas fa-vault"></i> Audit Vault</button>
+                    <button class="ils-hub-tab" onclick="switchHubTab('hub-docs',this)"><i class="fas fa-book"></i> Doc Library</button>
+                    <button class="ils-hub-tab" onclick="switchHubTab('hub-reports',this)"><i class="fas fa-file-pdf"></i> Audit Reports</button>
                     <button class="ils-hub-tab" onclick="switchHubTab('hub-submissions',this)"><i class="fas fa-file-circle-check"></i> ILIE</button>
                 </div>
 
@@ -2751,6 +2779,8 @@ async function anchorRecord() {
     updateTxLog();
     btn.disabled = false;
     btn.innerHTML = '<i class="fas fa-anchor"></i> Anchor to XRPL';
+    // Auto-refresh metrics after anchor
+    if (typeof loadPerformanceMetrics === 'function') try { loadPerformanceMetrics(); } catch(e) {}
 }
 
 async function verifyRecord() {
@@ -5091,11 +5121,30 @@ function updateAiContext(panelId) {
     }
 }
 // Initialize quick buttons on load
-document.addEventListener('DOMContentLoaded', () => updateAiContext('hub-analysis'));
+document.addEventListener('DOMContentLoaded', () => {
+    updateAiContext('hub-analysis');
+    // Ensure AI agent is visible on every tab (not just ILS)
+    const aiW = document.getElementById('aiFloatWrapper');
+    if (aiW) aiW.style.display = 'flex';
+    // Auto-open AI panel on page load for demo
+    if (!aiAgentOpen) {
+        setTimeout(() => { toggleAiAgent(); }, 1500);
+    }
+});
 
 // ── AI Agent Conversation Memory ──
 let aiConversationHistory = [];
 const AI_MAX_HISTORY = 20;
+
+function aiAsk(question) {
+    // Open the AI panel if not already open
+    if (!aiAgentOpen) toggleAiAgent();
+    const input = document.getElementById('aiChatInput');
+    if (input) {
+        input.value = question;
+        setTimeout(() => aiSend(), 150);
+    }
+}
 
 async function aiSend() {
     const input = document.getElementById('aiChatInput');
@@ -5501,6 +5550,29 @@ function generateAiResponse(query) {
 
     // ── HELP / CAPABILITIES ──
     if (/help|what\s*can\s*you\s*do|capabilities|features/i.test(q)) return '<strong>S4 Agent Capabilities:</strong><br><br><strong>\uD83D\uDD27 ILS & Defense:</strong><br>\u2022 Gap analysis interpretation & critical item triage<br>\u2022 DI number explanations (DI-001 through DI-044)<br>\u2022 CAR drafting, compliance checks, cost estimation<br>\u2022 Defense acronym definitions (CDRL, LCSP, DMSMS, etc.)<br>\u2022 MIL-STD and regulation guidance<br><br><strong>\uD83D\uDCCA Platform:</strong><br>\u2022 Anchoring help, verification, XRPL questions<br>\u2022 SLS token and pricing info<br>\u2022 Demo mode status and balance tracking<br>\u2022 Tool-specific guidance for all 13+ ILS tools<br><br><strong>\uD83E\uDD16 General:</strong><br>\u2022 Math calculations and unit conversions<br>\u2022 Date/time queries<br>\u2022 Recommendations and best practices<br>\u2022 General conversation and Q&A<br><br><em>For full conversational AI (like ChatGPT/Claude), add an <strong>OPENAI_API_KEY</strong> or <strong>ANTHROPIC_API_KEY</strong> in Vercel environment variables.</em>' + demoNote;
+
+    // ── GENERAL KNOWLEDGE PATTERNS ──
+    // These make the agent useful even without an LLM API key
+
+    if (/what\s*(is|are|does)\s/i.test(q) && q.length > 10) {
+        // General "what is" questions — provide helpful context
+        if (/blockchain|distributed ledger|dlt/i.test(q)) return '<strong>Blockchain / Distributed Ledger Technology</strong><br><br>A blockchain is a distributed, immutable ledger that records transactions across a peer-to-peer network. Key properties:<br><br>\u2022 <strong>Immutability</strong> \u2014 once written, records cannot be altered<br>\u2022 <strong>Transparency</strong> \u2014 all participants can verify the ledger<br>\u2022 <strong>Decentralization</strong> \u2014 no single point of failure<br>\u2022 <strong>Cryptographic security</strong> \u2014 SHA-256 hashing ensures integrity<br><br>S4 Ledger uses the <strong>XRP Ledger</strong> (XRPL) \u2014 a high-speed, energy-efficient blockchain with 3-5 second settlement and minimal fees.' + demoNote;
+        if (/xrp|xrpl|xrp ledger|ripple/i.test(q)) return '<strong>XRP Ledger (XRPL)</strong><br><br>The XRP Ledger is an open-source, decentralized blockchain:<br><br>\u2022 <strong>Speed:</strong> 3-5 second transaction settlement<br>\u2022 <strong>Cost:</strong> ~$0.0002 per transaction<br>\u2022 <strong>Energy:</strong> 61,000x more efficient than Bitcoin<br>\u2022 <strong>Reliability:</strong> 10+ years of operation, 80M+ ledgers closed<br>\u2022 <strong>Tokens:</strong> Native issued currency support (like $SLS)<br><br>S4 Ledger anchors defense records to XRPL Mainnet, making them independently verifiable by anyone.' + demoNote;
+        if (/sha.?256|hash function|hashing|cryptograph/i.test(q)) return '<strong>SHA-256 Hashing</strong><br><br>SHA-256 (Secure Hash Algorithm 256-bit) produces a unique 64-character fingerprint of any data:<br><br>\u2022 <strong>Deterministic:</strong> Same input always produces the same hash<br>\u2022 <strong>One-way:</strong> Cannot reverse the hash to get original data<br>\u2022 <strong>Collision-resistant:</strong> Virtually impossible for two inputs to produce the same hash<br>\u2022 <strong>Avalanche effect:</strong> Changing one bit changes ~50% of the output<br><br>S4 Ledger uses SHA-256 to create tamper-proof fingerprints of defense records before anchoring to XRPL.' + demoNote;
+        if (/s4\s*(ledger|systems|platform)|this platform/i.test(q)) return '<strong>S4 Ledger</strong><br><br>S4 Ledger is a blockchain-verified defense record management platform built by S4 Systems, LLC.<br><br><strong>What it does:</strong><br>\u2022 Anchors defense logistics records to the XRP Ledger<br>\u2022 Creates tamper-proof audit trails for CDRL, maintenance, supply chain, and ordnance records<br>\u2022 Provides 13 integrated ILS (Integrated Logistics Support) analysis tools<br>\u2022 Supports 156+ military record types across all service branches<br><br><strong>Key value:</strong> 99.9% cost reduction vs. traditional notarization ($0.0001 vs. $25-$150 per record).<br><br><strong>Technology:</strong> XRPL Mainnet, $SLS utility token, SHA-256 hashing, AI-powered analysis.' + demoNote;
+    }
+
+    if (/who\s*(made|built|created|founded|is behind)/i.test(q)) return '<strong>S4 Systems, LLC</strong><br><br>S4 Ledger is built by <strong>S4 Systems, LLC</strong>, founded by <strong>Nick Frankfort</strong>. The platform combines blockchain technology with defense logistics expertise to create tamper-proof audit trails for the Department of Defense.<br><br>\u2022 Website: <a href="https://s4ledger.com" target="_blank" style="color:var(--accent)">s4ledger.com</a><br>\u2022 Treasury: <a href="https://livenet.xrpl.org/accounts/rMLmkrxpadq5z6oTDmq8GhQj9LKjf1KLqJ" target="_blank" style="color:var(--accent)">View on XRPL</a>' + demoNote;
+
+    if (/thank|thanks|appreciate|great job|nice work|good bot/i.test(q)) return 'You\u2019re welcome! I\u2019m here to help with anything \u2014 defense logistics, platform questions, or general inquiries. Just ask!' + demoNote;
+
+    if (/weather|temperature outside|forecast/i.test(q)) return 'I don\u2019t have access to live weather data, but I can help with anything related to defense logistics, S4 Ledger, ILS analysis, or blockchain verification. What would you like to know?' + demoNote;
+
+    if (/joke|funny|humor|make me laugh/i.test(q)) return 'Why did the logistics officer bring a ladder to the supply depot?<br><br>Because the readiness score was through the roof! \ud83d\ude04<br><br>But seriously, if your readiness score IS through the roof, I can help you analyze what\u2019s driving it. Just load a program in Gap Analysis!' + demoNote;
+
+    if (/compare|vs|versus|difference between/i.test(q)) {
+        if (/s4.*vs|vs.*s4|compared.*s4|s4.*compar/i.test(q)) return '<strong>S4 Ledger vs. Traditional Methods</strong><br><br>| Feature | S4 Ledger | Traditional |<br>|---|---|---|<br>| Cost per record | $0.0001 | $25-$150 |<br>| Speed | 3-5 seconds | Days-weeks |<br>| Verification | Anyone, anytime | Request from custodian |<br>| Tamper detection | Automatic (hash mismatch) | Manual audit |<br>| Audit trail | Immutable blockchain | Paper/database |<br>| Interoperability | REST API + Python SDK | Manual integration |<br><br>S4 Ledger reduces defense record management costs by <strong>99.9%</strong> while adding blockchain-grade security.' + demoNote;
+    }
 
     // ── CATCH-ALL ──
     var response = 'I\'m the S4 Agent \u2014 your defense logistics AI assistant. ';
@@ -5990,6 +6062,10 @@ function generateLifecycleActions(progKey, totalCost, dmsmsCost, sustCost) {
 
 // ── Hub Tab Switching ──
 function switchHubTab(panelId, btn) {
+    // Auto-open AI agent when switching ILS tools
+    if (!aiAgentOpen) {
+        toggleAiAgent();
+    }
     document.querySelectorAll('.ils-hub-panel').forEach(p => p.classList.remove('active'));
     document.querySelectorAll('.ils-hub-tab').forEach(t => t.classList.remove('active'));
     const panel = document.getElementById(panelId);
@@ -7961,6 +8037,58 @@ function _showNotif(msg, type) {
 }
 
 document.addEventListener('DOMContentLoaded', function() { refreshOfflineQueueUI(); });
+
+// ═══ FILE DRAG-DROP & UPLOAD ═══
+function handleFileDrop(e) {
+    e.preventDefault();
+    var dropZone = document.getElementById('dropZone');
+    if (dropZone) dropZone.classList.remove('drag-over');
+    var files = e.dataTransfer.files;
+    if (files.length > 0) processUploadedFile(files[0]);
+}
+
+function handleFileSelect(e) {
+    var files = e.target.files;
+    if (files.length > 0) processUploadedFile(files[0]);
+}
+
+function processUploadedFile(file) {
+    var nameEl = document.getElementById('dropFileName');
+    if (nameEl) {
+        nameEl.style.display = 'block';
+        nameEl.innerHTML = '<i class="fas fa-file" style="margin-right:6px;"></i>' + file.name + ' (' + (file.size / 1024).toFixed(1) + ' KB)';
+    }
+    var reader = new FileReader();
+    reader.onload = function(ev) {
+        var content = ev.target.result;
+        if (typeof content === 'string') {
+            document.getElementById('recordInput').value = content.substring(0, 10000);
+        } else {
+            // Binary file — hash the ArrayBuffer
+            var arr = new Uint8Array(content);
+            var hex = Array.from(arr.slice(0, 500)).map(function(b) { return b.toString(16).padStart(2, '0'); }).join('');
+            document.getElementById('recordInput').value = 'FILE:' + file.name + '|SIZE:' + file.size + '|BINARY_PREFIX:' + hex;
+        }
+    };
+    if (file.type.startsWith('text/') || file.name.match(/\.(txt|csv|json|xml|md|html|log|yaml|yml)$/i)) {
+        reader.readAsText(file);
+    } else {
+        reader.readAsArrayBuffer(file);
+    }
+}
+
+// Auto-open AI when entering ILS workspace tab
+document.addEventListener('DOMContentLoaded', function() {
+    var ilsTabLink = document.querySelector('a[href="#tabILS"]');
+    if (ilsTabLink) {
+        ilsTabLink.addEventListener('shown.bs.tab', function() {
+            if (!aiAgentOpen) {
+                setTimeout(function() { toggleAiAgent(); }, 300);
+            }
+            updateAiContext(currentHubPanel || 'hub-analysis');
+        });
+    }
+});
 </script>
 </body>
 </html>
