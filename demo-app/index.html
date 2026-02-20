@@ -98,7 +98,7 @@
         
         
         
-        .anchor-overlay{display:none!important}
+        .anchor-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(5,8,16,0.92);display:none;align-items:center;justify-content:center;z-index:9990;backdrop-filter:blur(8px)}.anchor-overlay.active{display:flex!important}
         
         .anchor-anim-box{text-align:center;max-width:500px;padding:2rem}
         .chain-segment{width:3px;height:0;background:linear-gradient(to bottom,#00aaff,rgba(0,170,255,0.2));margin:0 auto;animation:chainGrow 0.5s ease-out 0.15s forwards}
@@ -362,6 +362,7 @@
 <body>
 <div style="background:rgba(10,10,15,0.95);border-bottom:1px solid rgba(255,255,255,0.06);padding:4px 0;text-align:center;font-size:0.72rem;color:#8b8fa3;"><i class="fas fa-exclamation-triangle" style="margin-right:4px;"></i> NOTICE: Do not submit ITAR-controlled, classified, or export-controlled data to this platform. This system processes UNCLASSIFIED and CUI data only. <a href="/security/" style="color:#00aaff;text-decoration:underline;">Security Policy</a></div>
 <div id="demoBanner" style="display:none;background:linear-gradient(90deg,rgba(0,170,255,0.12),rgba(201,168,76,0.12));border-bottom:1px solid rgba(0,170,255,0.3);padding:6px 0;text-align:center;font-size:0.78rem;color:#8ea4b8;cursor:pointer;" onclick="document.getElementById('demoPanel').scrollIntoView({behavior:'smooth'})"></div>
+<div id="demoStatusBar" style="display:none;background:rgba(0,170,255,0.06);border-bottom:1px solid rgba(0,170,255,0.15);padding:5px 0;text-align:center;font-size:0.75rem;color:#8ea4b8;letter-spacing:0.3px;"></div>
 <nav id="mainNav" style="position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(5,8,16,0.95);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.06);height:64px;">
     <div style="max-width:1200px;margin:0 auto;padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:100%;">
         <a href="../" style="display:flex;align-items:center;gap:10px;text-decoration:none;color:#fff;font-weight:700;font-size:1rem;">
@@ -1631,8 +1632,8 @@
                             <div id="walletCredentials" style="display:none">
                                 <div style="margin-bottom:10px;padding:10px;background:var(--surface);border-radius:8px;border:1px solid var(--border);position:relative">
                                     <div style="font-size:0.68rem;color:var(--accent);text-transform:uppercase;letter-spacing:0.5px;font-weight:700;margin-bottom:3px">Wallet Address</div>
-                                    <div id="demoWalletAddr" style="font-size:0.78rem;font-family:'Fira Code',monospace;color:#fff;word-break:break-all;cursor:text;user-select:all">--</div>
-                                    <button onclick="copyWalletField('demoWalletAddr')" style="position:absolute;top:8px;right:8px;background:rgba(0,170,255,0.1);border:1px solid rgba(0,170,255,0.2);color:var(--accent);border-radius:5px;padding:3px 8px;font-size:0.65rem;cursor:pointer"><i class="fas fa-copy"></i></button>
+                                    <div id="walletAddress" style="font-size:0.78rem;font-family:'Fira Code',monospace;color:#fff;word-break:break-all;cursor:text;user-select:all">--</div>
+                                    <button onclick="copyWalletField('walletAddress')" style="position:absolute;top:8px;right:8px;background:rgba(0,170,255,0.1);border:1px solid rgba(0,170,255,0.2);color:var(--accent);border-radius:5px;padding:3px 8px;font-size:0.65rem;cursor:pointer"><i class="fas fa-copy"></i></button>
                                 </div>
 
                                 <div style="margin-bottom:10px;padding:10px;background:rgba(255,170,0,0.03);border-radius:8px;border:1px solid rgba(255,170,0,0.2);position:relative">
@@ -2079,6 +2080,41 @@ let selectedType = 'USN_SUPPLY_RECEIPT';
 let sessionRecords = [];
 let stats = {anchored:0,verified:0,types:new Set(),slsFees:0};
 
+// ── Demo SLS Balance Tracker ──
+function _updateDemoSlsBalance() {
+    if (!_demoMode) return;
+    var allocation = _demoSession ? (_demoSession.subscription?.sls_allocation || 25000) : 25000;
+    var spent = stats.slsFees || 0;
+    var remaining = allocation - spent;
+    var bal = document.getElementById('demoSlsBalance');
+    if (bal) {
+        bal.textContent = remaining.toLocaleString(undefined,{maximumFractionDigits:2}) + ' SLS';
+        bal.style.color = remaining < 100 ? '#ff3333' : '#c9a84c';
+    }
+    // Update persistent demo status bar
+    var bar = document.getElementById('demoStatusBar');
+    if (bar) {
+        bar.innerHTML = '<i class="fas fa-flask" style="margin-right:6px;color:#00aaff;"></i>'
+            + '<strong style="color:#00aaff;">DEMO MODE</strong> '
+            + '<span style="margin:0 8px;color:rgba(255,255,255,0.2);">|</span>'
+            + '<span style="color:#c9a84c;">' + remaining.toLocaleString(undefined,{maximumFractionDigits:2}) + ' SLS remaining</span>'
+            + '<span style="margin:0 8px;color:rgba(255,255,255,0.2);">|</span>'
+            + '<span style="color:#14f195;">' + stats.anchored + ' anchor' + (stats.anchored !== 1 ? 's' : '') + '</span>'
+            + '<span style="margin:0 8px;color:rgba(255,255,255,0.2);">|</span>'
+            + '<span style="color:#8ea4b8;">0.01 SLS/anchor (real on-chain)</span>';
+    }
+    // Update banner too
+    var banner = document.getElementById('demoBanner');
+    if (banner && banner.style.display !== 'none') {
+        var addr = _demoSession?.wallet?.address || '';
+        banner.innerHTML = '<i class="fas fa-flask"></i> <strong>Demo Mode</strong> &mdash; '
+            + remaining.toLocaleString(undefined,{maximumFractionDigits:2}) + ' SLS &bull; '
+            + stats.anchored + ' anchor' + (stats.anchored !== 1 ? 's' : '') + ' &bull; '
+            + '0.01 SLS per anchor (real on-chain) &bull; '
+            + '<span style="color:#14f195">' + (addr ? addr.substring(0,6) + '...' + addr.slice(-4) : '') + '</span>';
+    }
+}
+
 // ── localStorage cross-page record sync ──
 const S4_STORAGE_KEY = 's4_anchored_records';
 const S4_STATS_KEY = 's4_demo_stats';
@@ -2353,6 +2389,8 @@ function _animateDemoSteps(data) {
         if (wal) wal.textContent = (data.wallet?.address?.substring(0,8) || '') + '...' + (data.wallet?.address?.slice(-4) || '');
         if (plan) plan.textContent = data.subscription?.label || 'Starter';
         if (bal) bal.textContent = (data.subscription?.sls_allocation?.toLocaleString() || '25,000') + ' SLS';
+        // Initialize status bar
+        _updateDemoSlsBalance();
     }, 2200);
 }
 
@@ -2372,18 +2410,6 @@ async function _checkDemoStatus() {
         }
     } catch(e) { console.warn('Demo status check failed:', e); }
 }
-
-
-// ══════════════════════════════════════════════════════════════
-//  DEMO MODE — SLS Economic Flow
-// ══════════════════════════════════════════════════════════════
-//  TO DISABLE DEMO MODE (when Stripe is live):
-//    1. Set _demoMode = false  (line below)
-//    2. The demo panel, banner, and demo routing will all auto-hide
-//    3. Anchor calls will route to /api/anchor with user_email auth
-//    4. Optionally remove: #demoPanel HTML block, #demoBanner div
-// ══════════════════════════════════════════════════════════════
-let _demoSession = null;
 async function _anchorToXRPL(hash, record_type, content_preview) {
     let txHash = 'TX' + Array.from(crypto.getRandomValues(new Uint8Array(16))).map(b=>b.toString(16).padStart(2,'0')).join('').toUpperCase();
     let network = 'Pending';
@@ -2462,11 +2488,13 @@ async function anchorRecord() {
     stats.slsFees += 0.01;
     updateStats();
     saveStats();
-    // Pulse Demo Step 4 on each anchor
+    // Pulse Demo Step 4 on each anchor & update SLS balance
     var s4el = document.getElementById('demoStep4');
     var s4s = document.getElementById('demoStep4Status');
     if (s4el) { s4el.style.boxShadow = '0 0 20px rgba(20,241,149,0.4)'; setTimeout(function(){ s4el.style.boxShadow = 'none'; }, 2000); }
     if (s4s) { s4s.innerHTML = '<i class="fas fa-bolt" style="color:#14f195;margin-right:3px;"></i> ' + stats.anchored + ' anchor' + (stats.anchored > 1 ? 's' : '') + ' (' + stats.slsFees.toFixed(2) + ' SLS)'; }
+    // Auto-update demo SLS balance display
+    _updateDemoSlsBalance();
 
     await new Promise(r => setTimeout(r, 3200));
     hideAnchorAnimation();
@@ -4905,6 +4933,9 @@ async function aiSend() {
     }
     chatBody.scrollTop = chatBody.scrollHeight;
 }
+// AI Engine Config — tracks whether LLM backend succeeded
+var AI_ENGINE_CONFIG = { enabled: false };
+
 function generateAiResponse(query) {
     const q = query.toLowerCase();
     const r = ilsResults;
@@ -5083,24 +5114,147 @@ function generateAiResponse(query) {
         if (/gap|analysis|result|score|status/.test(q)) return 'I don\'t have analysis results yet. Upload documents and click <strong>"Run Full Analysis"</strong> to generate results I can help interpret.' + demoNote;
     }
 
+    // ═══════════════════════════════════════════════════════
+    //  GENERAL-PURPOSE AI — Conversational, Math, Recommendations
+    // ═══════════════════════════════════════════════════════
+
+    // ── GREETINGS & SMALL TALK ──
+    if (/^(hi|hello|hey|sup|yo|howdy|greetings|good\s*(morning|afternoon|evening|day))\b/i.test(q)) {
+        var greetings = [
+            'Hey there! \uD83D\uDC4B I\'m your S4 Agent — ready to help with ILS, anchoring, compliance, or really anything. What\'s on your mind?',
+            'Hello! Welcome to S4 Ledger. I can help with defense logistics, run analysis, answer questions, or just chat. What can I do for you?',
+            'Hi! I\'m here to help — whether it\'s ILS gap analysis, record anchoring, XRPL questions, or general conversation. Fire away!'
+        ];
+        return greetings[Math.floor(Math.random() * greetings.length)] + demoNote;
+    }
+
+    if (/how\s*are\s*you|how\'s\s*it\s*going|what\'s\s*up/i.test(q)) return 'Running at full capacity! All systems operational. \uD83D\uDE80 How can I help you today?' + demoNote;
+
+    if (/thank|thanks|thx|appreciate/i.test(q)) return 'You\'re welcome! Happy to help. Let me know if you need anything else. \uD83D\uDE4F' + demoNote;
+
+    if (/who\s*(are|r)\s*you|what\s*(are|r)\s*you|your\s*name/i.test(q)) return '<strong>I\'m the S4 Agent</strong> — an AI assistant built into S4 Ledger by S4 Systems, LLC.<br><br>I specialize in defense logistics and Integrated Logistics Support (ILS), but I can also help with general questions, math, recommendations, and conversation. I\'m designed to be defense-compliant while being as capable as the AI assistants you\'re used to.<br><br>When connected to an LLM backend (OpenAI, Anthropic, or Azure), I have full conversational AI capabilities. In local mode, I use pattern matching with deep ILS domain knowledge.' + demoNote;
+
+    // ── MATH & CALCULATIONS ──
+    if (/^\s*(?:what\s*is\s*|calculate\s*|compute\s*|solve\s*)?([\d\s+\-*/().^%]+)\s*[=?]?\s*$/i.test(q) || /^(?:what\s*is\s*|calculate\s*)?\d+\s*[+\-*/^%]\s*\d+/i.test(q)) {
+        try {
+            var mathExpr = q.replace(/what\s*is\s*|calculate\s*|compute\s*|solve\s*|=|\?/gi, '').trim();
+            mathExpr = mathExpr.replace(/\^/g, '**');
+            mathExpr = mathExpr.replace(/x/gi, '*');
+            if (/^[\d\s+\-*/().%]*$/.test(mathExpr)) {
+                var mathResult = Function('"use strict"; return (' + mathExpr + ')')();
+                if (typeof mathResult === 'number' && isFinite(mathResult)) {
+                    return '<strong>' + q.trim() + '</strong><br><br>= <strong style="color:#00aaff;font-size:1.2em">' + mathResult.toLocaleString(undefined, {maximumFractionDigits: 10}) + '</strong>' + demoNote;
+                }
+            }
+        } catch(e) { /* not a math expression, continue */ }
+    }
+
+    if (/square\s*root|sqrt/i.test(q)) {
+        var sqMatch = q.match(/(\d+\.?\d*)/);
+        if (sqMatch) { var sqVal = Math.sqrt(parseFloat(sqMatch[1])); return '\u221A' + sqMatch[1] + ' = <strong style="color:#00aaff">' + sqVal.toLocaleString(undefined, {maximumFractionDigits: 6}) + '</strong>' + demoNote; }
+    }
+
+    if (/percent|%\s*of/i.test(q)) {
+        var pctMatch = q.match(/(\d+\.?\d*)\s*%\s*of\s*(\d+\.?\d*)/i) || q.match(/what\s*is\s*(\d+\.?\d*)\s*percent\s*of\s*(\d+\.?\d*)/i);
+        if (pctMatch) { var pctResult = (parseFloat(pctMatch[1]) / 100) * parseFloat(pctMatch[2]); return pctMatch[1] + '% of ' + pctMatch[2] + ' = <strong style="color:#00aaff">' + pctResult.toLocaleString(undefined, {maximumFractionDigits: 4}) + '</strong>' + demoNote; }
+    }
+
+    if (/convert|how\s*many\s*(inches|feet|meters|cm|mm|kg|lbs|pounds|miles|km|celsius|fahrenheit|gallons|liters)/i.test(q)) {
+        var convMatch = q.match(/(\d+\.?\d*)\s*(inches?|feet|foot|ft|meters?|m|cm|mm|kg|kilograms?|lbs?|pounds?|miles?|mi|km|kilometers?|celsius|c|fahrenheit|f|gallons?|gal|liters?|l)\s*(?:to|in|into)\s*(inches?|feet|foot|ft|meters?|m|cm|mm|kg|kilograms?|lbs?|pounds?|miles?|mi|km|kilometers?|celsius|c|fahrenheit|f|gallons?|gal|liters?|l)/i);
+        if (convMatch) {
+            var cVal = parseFloat(convMatch[1]);
+            var cFrom = convMatch[2].toLowerCase().replace(/s$/,'');
+            var cTo = convMatch[3].toLowerCase().replace(/s$/,'');
+            var conversions = {
+                'inch_cm':2.54,'cm_inch':1/2.54,'foot_meter':0.3048,'ft_meter':0.3048,'meter_foot':3.28084,'meter_ft':3.28084,
+                'mile_km':1.60934,'mi_km':1.60934,'km_mile':0.621371,'km_mi':0.621371,
+                'kg_lb':2.20462,'kg_pound':2.20462,'lb_kg':0.453592,'pound_kg':0.453592,
+                'gallon_liter':3.78541,'gal_liter':3.78541,'gal_l':3.78541,'liter_gallon':0.264172,'l_gal':0.264172,'l_gallon':0.264172,
+                'cm_mm':10,'mm_cm':0.1,'m_cm':100,'cm_m':0.01,'m_mm':1000,'mm_m':0.001,
+                'celsius_fahrenheit':null,'c_f':null,'fahrenheit_celsius':null,'f_c':null
+            };
+            var cKey = cFrom + '_' + cTo;
+            if (cKey in conversions) {
+                var cResult;
+                if (cKey === 'celsius_fahrenheit' || cKey === 'c_f') cResult = cVal * 9/5 + 32;
+                else if (cKey === 'fahrenheit_celsius' || cKey === 'f_c') cResult = (cVal - 32) * 5/9;
+                else cResult = cVal * conversions[cKey];
+                return '<strong>' + cVal + ' ' + convMatch[2] + '</strong> = <strong style="color:#00aaff">' + cResult.toLocaleString(undefined, {maximumFractionDigits: 4}) + ' ' + convMatch[3] + '</strong>' + demoNote;
+            }
+        }
+    }
+
+    // ── DATE & TIME ──
+    if (/what\s*(time|day|date)|current\s*(time|date)|today/i.test(q)) {
+        var now = new Date();
+        return 'It\'s <strong>' + now.toLocaleDateString('en-US', {weekday:'long', year:'numeric', month:'long', day:'numeric'}) + '</strong> at <strong>' + now.toLocaleTimeString('en-US', {hour:'2-digit', minute:'2-digit', hour12:true}) + '</strong> (your local time).' + demoNote;
+    }
+
+    // ── S4 PLATFORM QUESTIONS ──
+    if (/pricing|how\s*much|cost|subscription|plan/i.test(q)) return '<strong>S4 Ledger Pricing</strong><br><br>\u2022 <strong>Starter</strong> — $29/mo: 25,000 SLS tokens, 5 users, all 13 ILS tools<br>\u2022 <strong>Professional</strong> — $99/mo: 100,000 SLS, 25 users, API access, HarborLink<br>\u2022 <strong>Enterprise</strong> — $299/mo: 500,000 SLS, unlimited users, dedicated support, SSO<br>\u2022 <strong>Government</strong> — Custom: FedRAMP, IL4/5, on-prem option<br><br>Each anchor costs 0.01 SLS (~$0.0001). SLS = Secure Logistics Standard, our utility token on XRPL.<br><br><a href="../s4-pricing/" style="color:#00aaff">View full pricing →</a>' + demoNote;
+
+    if (/what\s*is\s*sls|sls\s*token|what.*sls/i.test(q)) return '<strong>SLS — Secure Logistics Standard</strong><br><br>SLS is S4 Ledger\'s utility token on the XRP Ledger (XRPL). It powers every action on the platform:<br>\u2022 <strong>0.01 SLS per anchor</strong> — ~$0.0001 per record<br>\u2022 100M fixed supply — deflationary model<br>\u2022 Issued on XRPL — fast, transparent, low-cost<br>\u2022 Purchased through your subscription plan<br>\u2022 Each anchor sends 0.01 SLS from your operational wallet to the Treasury wallet<br><br>In <strong>Demo Mode</strong>, anchors use the demo operational wallet for real on-chain SLS transfers so you can see the full flow.' + demoNote;
+
+    if (/xrpl|xrp\s*ledger|blockchain|how.*anchor/i.test(q)) return '<strong>XRPL Blockchain Anchoring</strong><br><br>S4 Ledger uses the XRP Ledger for tamper-proof record verification:<br>\u2022 Your record content is hashed (SHA-256) client-side — <strong>zero data on-chain</strong><br>\u2022 The hash fingerprint is anchored as a Memo in an XRPL transaction<br>\u2022 Each anchor costs 0.01 SLS (transferred Ops Wallet → Treasury)<br>\u2022 The XRPL transaction hash is your immutable proof<br>\u2022 Anyone can verify: re-hash the content and compare to the on-chain Memo<br><br>XRPL was chosen for speed (~3-5 sec finality), low cost, and energy efficiency.' + demoNote;
+
+    if (/demo\s*mode|am\s*i\s*in\s*demo|what\s*mode/i.test(q)) {
+        var demoInfo = _demoMode ? 'You are currently in <strong style="color:#00aaff">DEMO MODE</strong>. ' : 'Demo mode is <strong>disabled</strong>. ';
+        if (_demoMode && _demoSession) {
+            var allocation = _demoSession.subscription?.sls_allocation || 25000;
+            var spent = stats.slsFees || 0;
+            var remaining = allocation - spent;
+            demoInfo += '<br><br><strong>Your Demo Session:</strong><br>';
+            demoInfo += '\u2022 Plan: ' + (_demoSession.subscription?.label || 'Starter') + '<br>';
+            demoInfo += '\u2022 SLS Allocated: ' + allocation.toLocaleString() + '<br>';
+            demoInfo += '\u2022 SLS Spent: ' + spent.toFixed(2) + ' (' + stats.anchored + ' anchors × 0.01 SLS)<br>';
+            demoInfo += '\u2022 SLS Remaining: <strong style="color:#c9a84c">' + remaining.toLocaleString(undefined,{maximumFractionDigits:2}) + '</strong><br>';
+            demoInfo += '\u2022 Wallet: ' + (_demoSession.wallet?.address?.substring(0,8) || '') + '...<br>';
+            demoInfo += '<br>Anchors in demo mode use <strong>real SLS on XRPL</strong> — 0.01 SLS transfers from the demo ops wallet to treasury. The SLS balance shown is your hypothetical allocation tracking.';
+        }
+        return demoInfo + demoNote;
+    }
+
+    // ── RECOMMENDATIONS ──
+    if (/recommend|suggest|should\s*i|best\s*(practice|way|approach)|advice/i.test(q)) {
+        if (/anchor|record/i.test(q)) return '<strong>Anchoring Best Practices:</strong><br><br>1. <strong>Include context</strong> — Add metadata like date, system, contract #<br>2. <strong>Enable encryption</strong> for CUI/sensitive records<br>3. <strong>Use specific record types</strong> — helps with search and compliance<br>4. <strong>Verify after anchoring</strong> — confirms integrity immediately<br>5. <strong>Save explorer links</strong> — bookmark the XRPL transaction<br>6. <strong>Batch related records</strong> — anchor reports after they\'re complete rather than in-progress' + demoNote;
+        if (/ils|logistics|supply/i.test(q)) return '<strong>ILS Recommendations:</strong><br><br>1. <strong>Start with Gap Analysis</strong> — upload your DRL/CDRL to identify missing deliverables<br>2. <strong>Address critical gaps first</strong> — focus on items with highest cost/schedule risk<br>3. <strong>Use Action Items</strong> — assign owners and deadlines to every gap<br>4. <strong>Run DMSMS checks</strong> — obsolescence can derail a program<br>5. <strong>Track readiness quarterly</strong> — compare Ao/MTBF/MTTR trends<br>6. <strong>Anchor compliance artifacts</strong> — creates immutable audit trail' + demoNote;
+        return '<strong>General Recommendations:</strong><br><br>Tell me what area you\'d like recommendations for and I\'ll give you specific, actionable advice. I can help with:<br>\u2022 ILS strategy and gap remediation<br>\u2022 Record anchoring workflows<br>\u2022 Compliance (CMMC, NIST, DFARS)<br>\u2022 Platform configuration and setup<br>\u2022 AI agent configuration' + demoNote;
+    }
+
+    // ── FUN / PERSONALITY ──
+    if (/joke|funny|make\s*me\s*laugh/i.test(q)) {
+        var jokes = [
+            'Why did the logistician bring a ladder to the meeting? Because they heard the readiness scores were through the roof! \uD83D\uDE02',
+            'What\'s a supply chain manager\'s favorite song? "Chain of Fools" by Aretha Franklin! \uD83C\uDFB5',
+            'How many ILS managers does it take to change a light bulb? One to change it, three to document it, and five to review the CDRL. \uD83D\uDCA1',
+            'Why did the NSN cross the road? To get to the other CAGE code! \uD83D\uDCE6'
+        ];
+        return jokes[Math.floor(Math.random() * jokes.length)] + demoNote;
+    }
+
+    if (/weather/i.test(q)) return 'I don\'t have access to live weather data, but I can tell you the <strong>forecast for your ILS program</strong> looks much brighter after a gap analysis! &#x2600;&#xFE0F Try asking me about readiness scores instead.' + demoNote;
+
+    if (/meaning\s*of\s*life|42/i.test(q)) return 'The answer is <strong>42</strong> — but in defense logistics, the real answer is <strong>keeping Ao above 90%</strong>. \uD83D\uDE04' + demoNote;
+
+    // ── HELP / CAPABILITIES ──
+    if (/help|what\s*can\s*you\s*do|capabilities|features/i.test(q)) return '<strong>S4 Agent Capabilities:</strong><br><br><strong>\uD83D\uDD27 ILS & Defense:</strong><br>\u2022 Gap analysis interpretation & critical item triage<br>\u2022 DI number explanations (DI-001 through DI-044)<br>\u2022 CAR drafting, compliance checks, cost estimation<br>\u2022 Defense acronym definitions (CDRL, LCSP, DMSMS, etc.)<br>\u2022 MIL-STD and regulation guidance<br><br><strong>\uD83D\uDCCA Platform:</strong><br>\u2022 Anchoring help, verification, XRPL questions<br>\u2022 SLS token and pricing info<br>\u2022 Demo mode status and balance tracking<br>\u2022 Tool-specific guidance for all 13+ ILS tools<br><br><strong>\uD83E\uDD16 General:</strong><br>\u2022 Math calculations and unit conversions<br>\u2022 Date/time queries<br>\u2022 Recommendations and best practices<br>\u2022 General conversation and Q&A<br><br><em>For full conversational AI (like ChatGPT/Claude), add an <strong>OPENAI_API_KEY</strong> or <strong>ANTHROPIC_API_KEY</strong> in Vercel environment variables.</em>' + demoNote;
+
     // ── CATCH-ALL ──
     var response = 'I\'m the S4 Agent \u2014 your defense logistics AI assistant. ';
     if (r) {
         response += 'I have analysis data loaded for <strong>' + r.prog.name + '</strong> (' + r.pct + '% readiness). ';
-        response += 'Ask me about gaps, critical items, costs, CARs, or next steps.<br><br>';
+        response += 'Try asking about gaps, critical items, costs, CARs, or next steps.<br><br>';
     } else {
-        response += 'To get the most out of me:<br><br>';
-        response += '1. <strong>Select a program</strong> from the dropdown<br>';
-        response += '2. <strong>Upload documents</strong> (PDFs, Word, Excel, CSV)<br>';
-        response += '3. <strong>Run Full Analysis</strong> to generate results<br><br>';
+        response += 'Here are some things I can help with:<br><br>';
     }
-    response += '<strong>I can also answer questions about:</strong><br>';
-    response += '\u2022 Any of the <strong>13 ILS tools</strong> (type the tool name)<br>';
-    response += '\u2022 <strong>S4 Ledger</strong> \u2014 pricing, wallets, SLS token, XRPL<br>';
-    response += '\u2022 <strong>Defense standards</strong> \u2014 MIL-STD-1388, NIST, CMMC, DFARS<br>';
-    response += '\u2022 <strong>DI numbers</strong> \u2014 "What is DI-009?"<br>';
-    response += '\u2022 <strong>Acronyms</strong> \u2014 LCSP, LSAR, PHS&T, FLIS, CDRL, CBM+, ITAR<br>';
-    response += '\u2022 <strong>Getting started</strong>, API/SDK integration, AI configuration';
+    response += '\u2022 <strong>ILS analysis</strong> — "summarize gaps", "show critical items"<br>';
+    response += '\u2022 <strong>Defense terms</strong> — "what is CDRL?", "explain DI-009"<br>';
+    response += '\u2022 <strong>Platform help</strong> — "what is SLS?", "pricing", "how to anchor"<br>';
+    response += '\u2022 <strong>Math</strong> — "500 * 0.01", "sqrt of 144", "15% of 2000"<br>';
+    response += '\u2022 <strong>Conversions</strong> — "10 miles to km", "72 fahrenheit to celsius"<br>';
+    response += '\u2022 <strong>Demo mode</strong> — "am I in demo mode?", "what is demo mode?"<br>';
+    response += '\u2022 <strong>Recommendations</strong> — "best practices for ILS"<br>';
+    response += '<br><em>Tip: For full AI conversations, add <strong>OPENAI_API_KEY</strong> or <strong>ANTHROPIC_API_KEY</strong> to your Vercel environment variables.</em>';
     return response + demoNote;
 }
 
@@ -7105,7 +7259,7 @@ function loadWalletData() {
     if (creds) creds.style.display = 'block';
 
     // Display credentials
-    document.getElementById('demoWalletAddr').textContent = walletData.wallet.address;
+    document.getElementById('walletAddress').textContent = walletData.wallet.address;
     document.getElementById('seedRevealed').textContent = walletData.wallet.seed;
 
     const explorerBase = (walletData.wallet.network === 'mainnet')
