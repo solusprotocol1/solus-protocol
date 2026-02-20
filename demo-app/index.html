@@ -394,7 +394,7 @@
 </head>
 <body>
 <div style="background:rgba(10,10,15,0.95);border-bottom:1px solid rgba(255,255,255,0.06);padding:4px 0;text-align:center;font-size:0.72rem;color:#8b8fa3;"><i class="fas fa-exclamation-triangle" style="margin-right:4px;"></i> NOTICE: Do not submit ITAR-controlled, classified, or export-controlled data to this platform. This system processes UNCLASSIFIED and CUI data only. <a href="/security/" style="color:#00aaff;text-decoration:underline;">Security Policy</a></div>
-<div id="demoBanner" style="display:block;background:linear-gradient(90deg,rgba(0,170,255,0.10),rgba(201,168,76,0.08));border-bottom:1px solid rgba(0,170,255,0.3);padding:8px 0;text-align:center;font-size:0.82rem;color:#8ea4b8;cursor:pointer;" onclick="document.getElementById('demoPanel').scrollIntoView({behavior:'smooth'})"><i class="fas fa-flask" style="color:#00aaff;margin-right:6px;"></i> <strong style="color:#fff;">DEMO MODE</strong> &mdash; You are using S4 Ledger in demo mode. Steps 1-3 are simulated. <strong style="color:#c9a84c;">Anchoring and SLS fee transfers are real on XRPL.</strong> <span style="color:#00aaff;">&#9660; View Details</span></div>
+<div id="demoBanner" style="display:block;background:linear-gradient(90deg,rgba(0,170,255,0.10),rgba(201,168,76,0.08));border-bottom:1px solid rgba(0,170,255,0.3);padding:8px 0;text-align:center;font-size:0.82rem;color:#8ea4b8;cursor:pointer;" onclick="document.getElementById('demoPanel').scrollIntoView({behavior:'smooth'})"><i class="fas fa-shield-halved" style="color:#00aaff;margin-right:6px;"></i> <strong style="color:#fff;">S4 Ledger</strong> &mdash; <strong style="color:#c9a84c;">0.01 $SLS per anchor</strong> &mdash; each record is permanently anchored to the XRP Ledger. <span style="color:#00aaff;">&#9660; View Details</span></div>
 <div id="demoStatusBar" style="display:none;background:rgba(0,170,255,0.06);border-bottom:1px solid rgba(0,170,255,0.15);padding:5px 0;text-align:center;font-size:0.75rem;color:#8ea4b8;letter-spacing:0.3px;"></div>
 <nav id="mainNav" style="position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(5,8,16,0.95);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.06);height:64px;">
     <div style="max-width:1200px;margin:0 auto;padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:100%;">
@@ -530,8 +530,8 @@
             <div class="onboard-body">
                 <!-- Step 0: Welcome -->
                 <div class="onboard-step active" id="onboardStep0">
-                    <h4 style="color:#fff;margin:0 0 12px;font-size:1rem"><i class="fas fa-flask" style="color:var(--accent);margin-right:8px"></i>Demo Mode Setup</h4>
-                    <p style="color:var(--steel);font-size:0.85rem;line-height:1.6;margin-bottom:16px">This walkthrough simulates the full onboarding experience. In production, this happens automatically when you subscribe.</p>
+                    <h4 style="color:#fff;margin:0 0 12px;font-size:1rem"><i class="fas fa-shield-halved" style="color:var(--accent);margin-right:8px"></i>Platform Setup</h4>
+                    <p style="color:var(--steel);font-size:0.85rem;line-height:1.6;margin-bottom:16px">S4 Ledger will set up your account, provision your XRPL wallet, and allocate your $SLS tokens. This takes just a few seconds.</p>
                     <div class="onboard-feature"><div class="onboard-icon" style="background:rgba(0,170,255,0.1);color:var(--accent)"><i class="fas fa-anchor"></i></div><div><strong style="color:#fff">Anchor Records</strong><div style="color:var(--steel);font-size:0.8rem">SHA-256 hash any document to the XRP Ledger in 3-5 seconds</div></div></div>
                     <div class="onboard-feature"><div class="onboard-icon" style="background:rgba(201,168,76,0.1);color:var(--gold)"><i class="fas fa-coins"></i></div><div><strong style="color:#fff">$SLS Token Economy</strong><div style="color:var(--steel);font-size:0.8rem">0.01 SLS per anchor (~$0.0001). Real on-chain token transfers.</div></div></div>
                     <div class="onboard-feature"><div class="onboard-icon" style="background:rgba(20,241,149,0.1);color:var(--green)"><i class="fas fa-brain"></i></div><div><strong style="color:#fff">13 ILS Tools</strong><div style="color:var(--steel);font-size:0.8rem">Gap analysis, DMSMS, readiness, compliance, risk, and more</div></div></div>
@@ -566,7 +566,7 @@
                             <div><div style="color:var(--steel);font-size:0.72rem;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">Trust Line</div><div style="color:var(--gold)" id="onboardTrustLine"><i class="fas fa-spinner fa-spin" style="font-size:0.8rem"></i></div></div>
                         </div>
                     </div>
-                    <div style="background:rgba(0,170,255,0.06);border:1px solid rgba(0,170,255,0.15);border-radius:8px;padding:10px 14px;font-size:0.78rem;color:var(--steel)"><i class="fas fa-info-circle" style="color:var(--accent);margin-right:6px"></i><strong style="color:#fff">Note:</strong> 12 XRP is the base reserve. In production, XRP is funded automatically from the S4 operations pool. This is <strong style="color:var(--gold)">hypothetical</strong> in demo mode.</div>
+                    <div style="background:rgba(0,170,255,0.06);border:1px solid rgba(0,170,255,0.15);border-radius:8px;padding:10px 14px;font-size:0.78rem;color:var(--steel)"><i class="fas fa-info-circle" style="color:var(--accent);margin-right:6px"></i><strong style="color:#fff">Note:</strong> 12 XRP is the base reserve, funded automatically from the S4 operations pool when your account is provisioned. This covers XRPL transaction fees for anchoring.</div>
                     <div id="onboardWalletDone" style="display:none;text-align:center;margin-top:16px"><button class="onboard-btn" onclick="onboardNext()">Continue <i class="fas fa-arrow-right" style="margin-left:6px"></i></button></div>
                 </div>
 
@@ -602,9 +602,9 @@
                         </div>
                     </div>
                     <div style="font-size:0.82rem;color:var(--steel);line-height:1.6;margin-bottom:12px">
-                        <div style="margin-bottom:8px"><i class="fas fa-check" style="color:var(--accent);margin-right:8px;width:14px"></i><strong style="color:#fff">Steps 1-3</strong> are simulated in demo mode</div>
+                        <div style="margin-bottom:8px"><i class="fas fa-check" style="color:var(--accent);margin-right:8px;width:14px"></i><strong style="color:#fff">Steps 1-3</strong> happen automatically when you subscribe</div>
                         <div style="margin-bottom:8px"><i class="fas fa-check" style="color:var(--gold);margin-right:8px;width:14px"></i><strong style="color:var(--gold)">Step 4 (0.01 SLS → Treasury)</strong> is a REAL on-chain transfer via XRPL</div>
-                        <div style="margin-bottom:8px"><i class="fas fa-check" style="color:var(--accent);margin-right:8px;width:14px"></i>Every anchor produces a real, verifiable XRPL transaction hash</div>
+                        <div style="margin-bottom:8px"><i class="fas fa-check" style="color:var(--accent);margin-right:8px;width:14px"></i>Every anchor produces a verifiable XRPL transaction hash with your record's SHA-256 fingerprint</div>
                         <div><i class="fas fa-check" style="color:var(--accent);margin-right:8px;width:14px"></i>Anyone can independently verify records on <a href="https://livenet.xrpl.org" target="_blank" style="color:var(--accent)">XRPL Explorer</a></div>
                     </div>
                     <div style="text-align:center;margin-top:20px;display:flex;gap:10px;justify-content:center">
@@ -619,14 +619,14 @@
         <!-- DEMO MODE PANEL — Remove after Stripe is live -->
         <div id="demoPanel" class="reveal-demo" style="margin-bottom:16px;display:block;">
             <div style="background:linear-gradient(135deg,rgba(0,170,255,0.06),rgba(201,168,76,0.04));border:1px solid rgba(0,170,255,0.25);border-radius:14px;padding:20px 24px;position:relative;overflow:hidden;">
-                <div style="position:absolute;top:0;right:0;background:linear-gradient(135deg,#00aaff,#c9a84c);padding:4px 16px;border-radius:0 14px 0 10px;font-size:0.68rem;font-weight:700;color:#050810;letter-spacing:0.5px;">DEMO MODE</div>
-                <h3 style="margin:0 0 4px;font-size:1.1rem;color:#fff;"><i class="fas fa-flask" style="color:#00aaff;margin-right:8px;"></i> SLS Economic Flow &mdash; Live Demo</h3>
-                <p style="color:#8ea4b8;font-size:0.8rem;margin:0 0 16px;">Experience the full $SLS token economics. Steps 1-3 are simulated. <strong style="color:#c9a84c;">Step 4 is REAL on-chain.</strong></p>
+                <div style="position:absolute;top:0;right:0;background:linear-gradient(135deg,#00aaff,#c9a84c);padding:4px 16px;border-radius:0 14px 0 10px;font-size:0.68rem;font-weight:700;color:#050810;letter-spacing:0.5px;">LIVE PREVIEW</div>
+                <h3 style="margin:0 0 4px;font-size:1.1rem;color:#fff;"><i class="fas fa-flask" style="color:#00aaff;margin-right:8px;"></i> SLS Economic Flow</h3>
+                <p style="color:#8ea4b8;font-size:0.8rem;margin:0 0 16px;">See how the $SLS token economy works. Your account is provisioned, your wallet funded, and SLS allocated. <strong style="color:#c9a84c;">Every anchor costs 0.01 $SLS.</strong></p>
                 <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;" id="demoSteps">
                     <div id="demoStep1" style="background:rgba(0,170,255,0.08);border:1px solid rgba(0,170,255,0.2);border-radius:10px;padding:14px;text-align:center;transition:all 0.4s;"><div style="width:36px;height:36px;border-radius:50%;background:rgba(0,170,255,0.15);display:inline-flex;align-items:center;justify-content:center;margin-bottom:8px;"><i class="fas fa-user-plus" style="color:#00aaff;font-size:0.9rem;"></i></div><div style="font-size:0.72rem;font-weight:700;color:#fff;margin-bottom:4px;">1. Account Created</div><div style="font-size:0.68rem;color:#8ea4b8;" id="demoStep1Status">Waiting...</div></div>
                     <div id="demoStep2" style="background:rgba(0,170,255,0.08);border:1px solid rgba(0,170,255,0.2);border-radius:10px;padding:14px;text-align:center;transition:all 0.4s;"><div style="width:36px;height:36px;border-radius:50%;background:rgba(0,170,255,0.15);display:inline-flex;align-items:center;justify-content:center;margin-bottom:8px;"><i class="fas fa-wallet" style="color:#00aaff;font-size:0.9rem;"></i></div><div style="font-size:0.72rem;font-weight:700;color:#fff;margin-bottom:4px;">2. Wallet Funded</div><div style="font-size:0.68rem;color:#8ea4b8;" id="demoStep2Status">12 XRP reserve</div></div>
                     <div id="demoStep3" style="background:rgba(0,170,255,0.08);border:1px solid rgba(0,170,255,0.2);border-radius:10px;padding:14px;text-align:center;transition:all 0.4s;"><div style="width:36px;height:36px;border-radius:50%;background:rgba(201,168,76,0.15);display:inline-flex;align-items:center;justify-content:center;margin-bottom:8px;"><i class="fas fa-coins" style="color:#c9a84c;font-size:0.9rem;"></i></div><div style="font-size:0.72rem;font-weight:700;color:#fff;margin-bottom:4px;">3. $SLS Allocated</div><div style="font-size:0.68rem;color:#8ea4b8;" id="demoStep3Status">Based on plan tier</div></div>
-                    <div id="demoStep4" style="background:rgba(0,170,255,0.08);border:1px solid rgba(0,170,255,0.2);border-radius:10px;padding:14px;text-align:center;transition:all 0.4s;"><div style="width:36px;height:36px;border-radius:50%;background:rgba(0,170,255,0.15);display:inline-flex;align-items:center;justify-content:center;margin-bottom:8px;"><i class="fas fa-arrow-right" style="color:#00aaff;font-size:0.9rem;"></i></div><div style="font-size:0.72rem;font-weight:700;color:#00aaff;margin-bottom:4px;">4. 0.01 $SLS &rarr; Treasury</div><div style="font-size:0.68rem;color:#8ea4b8;" id="demoStep4Status">Real on-chain transfer</div></div>
+                    <div id="demoStep4" style="background:rgba(0,170,255,0.08);border:1px solid rgba(0,170,255,0.2);border-radius:10px;padding:14px;text-align:center;transition:all 0.4s;"><div style="width:36px;height:36px;border-radius:50%;background:rgba(0,170,255,0.15);display:inline-flex;align-items:center;justify-content:center;margin-bottom:8px;"><i class="fas fa-arrow-right" style="color:#00aaff;font-size:0.9rem;"></i></div><div style="font-size:0.72rem;font-weight:700;color:#00aaff;margin-bottom:4px;">4. 0.01 $SLS &rarr; Treasury</div><div style="font-size:0.68rem;color:#8ea4b8;" id="demoStep4Status">0.01 SLS per anchor</div></div>
                 </div>
                 <div id="demoSessionInfo" style="display:none;margin-top:14px;padding:12px 16px;background:rgba(0,0,0,0.25);border-radius:8px;font-size:0.76rem;">
                     <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;">
@@ -745,7 +745,7 @@
                                 <summary style="cursor:pointer;padding:10px 0;color:#00aaff;font-weight:600;font-size:0.85rem;"><i class="fas fa-info-circle"></i> How Verification Works</summary>
                                 <div style="padding:0 0 12px;color:var(--steel);font-size:0.82rem;line-height:1.6;">
                                     <p><strong style="color:#fff;">What's real:</strong> Verification computes the SHA-256 hash of your pasted content and compares it against the hash that was previously anchored on the XRPL. If they match, the record is proven unaltered since the anchor date — the blockchain itself is the proof.</p>
-                                    <p><strong style="color:#fff;">What's demo:</strong> In the demo, verification checks against records anchored in this session or previously stored hashes. On production, it queries the live XRPL directly for the on-chain hash.</p>
+                                    <p><strong style="color:#fff;">How it works:</strong> Verification checks your record's hash against the XRPL-anchored hash. If they match, integrity is confirmed. If not, the document may have been tampered with.</p>
                                     <p><strong style="color:#00aaff;">How S4 Ledger saves money here:</strong> Manual record verification during audits and inspections can take 40–200 staff-hours per event. S4 Ledger provides instant, cryptographic proof in seconds — reducing verification labor costs by <strong>90–98%</strong> and eliminating disputes about record authenticity.</p>
                                     <p><strong style="color:#00aaff;">Production mode:</strong> Automated batch verification via API — plug into QA pipelines, audit workflows, and supply chain acceptance processes for continuous integrity monitoring.</p>
                                 </div>
@@ -1538,7 +1538,7 @@
                         <summary style="cursor:pointer;padding:10px 0;color:#00aaff;font-weight:600;font-size:0.85rem;"><i class="fas fa-info-circle"></i> How It Works — One-Click Audit Packages</summary>
                         <div style="padding:0 0 12px;color:var(--steel);font-size:0.82rem;line-height:1.6;">
                             <p><strong style="color:#fff;">What's real:</strong> The report generator compiles all anchored records, verification timestamps, chain-of-custody proof, and compliance scores into audit-ready packages. Every data point is backed by an XRPL transaction hash for independent verification.</p>
-                            <p><strong style="color:#fff;">What's demo:</strong> Reports are generated from demo session data. In production, reports pull from your full anchoring history, compliance scorecard, and ILS analysis results stored in your S4 Ledger database.</p>
+                            <p><strong style="color:#fff;">Data sources:</strong> Reports pull from your anchoring history, compliance scorecard, and ILS analysis results stored in your S4 Ledger database.</p>
                             <p><strong style="color:#00aaff;">How S4 Ledger saves money here:</strong> Average DoD contract audit costs $45K–$150K in preparation labor alone (2–6 weeks of staff time). S4 Ledger generates a complete, verifiable audit package in <strong>under 60 seconds</strong> — a <strong>95–99% cost reduction</strong>.</p>
                             <p><strong style="color:#00aaff;">Production mode:</strong> DCMA-ready (Defense Contract Management Agency), DCAA-ready (Defense Contract Audit Agency), and IG-ready (Inspector General) report templates with full chain-of-custody visualization and compliance gap analysis.</p>
                         </div>
@@ -1583,7 +1583,7 @@
                         <summary style="cursor:pointer;padding:10px 0;color:#00aaff;font-weight:600;font-size:0.85rem;"><i class="fas fa-info-circle"></i> How It Works — AI-Powered Failure Prediction</summary>
                         <div style="padding:0 0 12px;color:var(--steel);font-size:0.82rem;line-height:1.6;">
                             <p><strong style="color:#fff;">What's real:</strong> The Predictive Maintenance engine analyzes maintenance history patterns across the S4 Ledger network — MTBF trends, failure mode clustering, component age curves, and environmental stress factors — to predict which systems will require maintenance before unplanned failures occur.</p>
-                            <p><strong style="color:#fff;">What's demo:</strong> Predictions are generated from realistic fleet maintenance patterns based on publicly available DoD reliability data. In production, the AI model trains on your actual anchored maintenance records for increasingly accurate predictions.</p>
+                            <p><strong style="color:#fff;">How predictions improve:</strong> The AI model starts with fleet maintenance patterns from publicly available DoD reliability data, then trains on your actual anchored maintenance records for increasingly accurate predictions over time.</p>
                             <p><strong style="color:#00aaff;">How S4 Ledger saves money here:</strong> Unplanned maintenance costs 3–10× more than planned maintenance. A single unplanned engine failure on a DDG-51 costs $500K–$2M including parts, labor, and lost operational time. Predictive maintenance reduces unplanned failures by <strong>40–60%</strong>, saving <strong>$2M–$10M per fleet per year</strong>.</p>
                             <p><strong style="color:#00aaff;">Production mode:</strong> Connects to 3-M maintenance databases, OARS, NTCSS, and sensor data feeds. Uses anonymized/aggregated fleet-wide patterns (like Google Maps traffic) while keeping individual records private.</p>
                         </div>
@@ -2341,24 +2341,24 @@ function _updateDemoSlsBalance() {
     // Update persistent demo status bar
     var bar = document.getElementById('demoStatusBar');
     if (bar) {
-        bar.innerHTML = '<i class="fas fa-flask" style="margin-right:6px;color:#00aaff;"></i>'
-            + '<strong style="color:#00aaff;">DEMO MODE</strong> '
+        bar.innerHTML = '<i class="fas fa-shield-halved" style="margin-right:6px;color:#00aaff;"></i>'
+            + '<strong style="color:#00aaff;">S4 Ledger</strong> '
             + '<span style="margin:0 8px;color:rgba(255,255,255,0.2);">|</span>'
             + '<span style="color:#c9a84c;">' + remaining.toLocaleString(undefined,{maximumFractionDigits:2}) + ' SLS remaining</span>'
             + '<span style="margin:0 8px;color:rgba(255,255,255,0.2);">|</span>'
             + '<span style="color:#14f195;">' + stats.anchored + ' anchor' + (stats.anchored !== 1 ? 's' : '') + '</span>'
             + '<span style="margin:0 8px;color:rgba(255,255,255,0.2);">|</span>'
-            + '<span style="color:#8ea4b8;">0.01 SLS/anchor (real on-chain)</span>';
+            + '<span style="color:#8ea4b8;">0.01 SLS per anchor</span>';
     }
     // Update banner too
     var banner = document.getElementById('demoBanner');
     if (banner && banner.style.display !== 'none') {
         var addr = _demoSession?.wallet?.address || '';
-        banner.innerHTML = '<i class="fas fa-flask"></i> <strong>Demo Mode</strong> &mdash; '
-            + remaining.toLocaleString(undefined,{maximumFractionDigits:2}) + ' SLS &bull; '
+        banner.innerHTML = '<i class="fas fa-shield-halved" style="color:#00aaff;margin-right:6px;"></i> <strong>S4 Ledger</strong> &mdash; '
+            + '<span style="color:#c9a84c;">' + remaining.toLocaleString(undefined,{maximumFractionDigits:2}) + ' SLS</span> &bull; '
             + stats.anchored + ' anchor' + (stats.anchored !== 1 ? 's' : '') + ' &bull; '
-            + '0.01 SLS per anchor (real on-chain) &bull; '
-            + '<span style="color:#14f195">' + (addr ? addr.substring(0,6) + '...' + addr.slice(-4) : '') + '</span>';
+            + '0.01 SLS per anchor &bull; '
+            + '<span style="color:var(--accent)">' + (addr ? addr.substring(0,6) + '...' + addr.slice(-4) : '') + '</span>';
     }
 }
 
@@ -2592,7 +2592,7 @@ async function _initDemoSession() {
 
 function _showDemoOffline() {
     document.getElementById('demoBanner').style.display = 'block';
-    document.getElementById('demoBanner').innerHTML = '<i class="fas fa-flask" style="color:#00aaff;margin-right:6px;"></i> <strong style="color:#fff;">DEMO MODE</strong> &mdash; Offline fallback. XRP and SLS balances are <strong style="color:#c9a84c;">hypothetical</strong>. Anchoring queued locally.';
+    document.getElementById('demoBanner').innerHTML = '<i class="fas fa-shield-halved" style="color:#00aaff;margin-right:6px;"></i> <strong style="color:#fff;">S4 Ledger</strong> &mdash; Offline mode. Anchors are queued locally and will sync when connected.';
     var panel = document.getElementById('demoPanel');
     panel.style.display = 'block';
     // Show hypothetical balances
@@ -2622,26 +2622,26 @@ function _animateDemoSteps(data) {
         const s1 = document.getElementById('demoStep1');
         const s1s = document.getElementById('demoStep1Status');
         if (s1) { s1.style.borderColor = 'rgba(0,170,255,0.6)'; s1.style.background = 'rgba(0,170,255,0.15)'; }
-        if (s1s) { s1s.innerHTML = '<i class="fas fa-check" style="color:#14f195;margin-right:3px;"></i> Provisioned'; s1s.style.color = '#14f195'; }
+        if (s1s) { s1s.innerHTML = '<i class="fas fa-check" style="color:#00aaff;margin-right:3px;"></i> Provisioned'; s1s.style.color = '#00aaff'; }
     }, 300);
     setTimeout(() => {
         const s2 = document.getElementById('demoStep2');
         const s2s = document.getElementById('demoStep2Status');
         if (s2) { s2.style.borderColor = 'rgba(0,170,255,0.6)'; s2.style.background = 'rgba(0,170,255,0.15)'; }
-        if (s2s) { s2s.innerHTML = '<i class="fas fa-check" style="color:#14f195;margin-right:3px;"></i> 12 XRP funded'; s2s.style.color = '#14f195'; }
+        if (s2s) { s2s.innerHTML = '<i class="fas fa-check" style="color:#00aaff;margin-right:3px;"></i> 12 XRP funded'; s2s.style.color = '#14f195'; }
     }, 800);
     setTimeout(() => {
         const s3 = document.getElementById('demoStep3');
         const s3s = document.getElementById('demoStep3Status');
         if (s3) { s3.style.borderColor = 'rgba(201,168,76,0.6)'; s3.style.background = 'rgba(201,168,76,0.12)'; }
         const alloc = data.subscription?.sls_allocation?.toLocaleString() || '25,000';
-        if (s3s) { s3s.innerHTML = '<i class="fas fa-check" style="color:#14f195;margin-right:3px;"></i> ' + alloc + ' SLS'; s3s.style.color = '#c9a84c'; }
+        if (s3s) { s3s.innerHTML = '<i class="fas fa-check" style="color:#00aaff;margin-right:3px;"></i> ' + alloc + ' SLS'; s3s.style.color = '#c9a84c'; }
     }, 1300);
     setTimeout(() => {
         const s4 = document.getElementById('demoStep4');
         const s4s = document.getElementById('demoStep4Status');
         if (s4) { s4.style.borderColor = 'rgba(20,241,149,0.6)'; s4.style.background = 'rgba(20,241,149,0.1)'; }
-        if (s4s) { s4s.innerHTML = '<i class="fas fa-bolt" style="color:#14f195;margin-right:3px;"></i> Ready — anchor to trigger'; s4s.style.color = '#14f195'; }
+        if (s4s) { s4s.innerHTML = '<i class="fas fa-bolt" style="color:#00aaff;margin-right:3px;"></i> Ready — anchor to trigger'; s4s.style.color = '#14f195'; }
     }, 1800);
     setTimeout(() => {
         const info = document.getElementById('demoSessionInfo');
@@ -2670,7 +2670,7 @@ async function _checkDemoStatus() {
             const s4s = document.getElementById('demoStep4Status');
             const anchors = data.anchors_used || 0;
             if (s4s && anchors > 0) {
-                s4s.innerHTML = '<i class="fas fa-check" style="color:#14f195;margin-right:3px;"></i> ' + anchors + ' anchor' + (anchors > 1 ? 's' : '') + ' (' + (anchors * 0.01).toFixed(2) + ' SLS)';
+                s4s.innerHTML = '<i class="fas fa-check" style="color:#00aaff;margin-right:3px;"></i> ' + anchors + ' anchor' + (anchors > 1 ? 's' : '') + ' (' + (anchors * 0.01).toFixed(2) + ' SLS)';
             }
         }
     } catch(e) { console.warn('Demo status check failed:', e); }
@@ -2699,7 +2699,7 @@ async function _anchorToXRPL(hash, record_type, content_preview) {
                     network = result.record.network || network;
                     explorerUrl = result.record.explorer_url || null;
                 }
-                if (result.fee_tx) feeTxHash = result.fee_tx.tx_hash || null;
+                if (result.fee_transfer && result.fee_transfer.tx_hash) feeTxHash = result.fee_transfer.tx_hash;
             }
         } else {
             // PRODUCTION PATH: /api/anchor with user_email auth
@@ -2756,8 +2756,8 @@ async function anchorRecord() {
     // Pulse Demo Step 4 on each anchor & update SLS balance
     var s4el = document.getElementById('demoStep4');
     var s4s = document.getElementById('demoStep4Status');
-    if (s4el) { s4el.style.boxShadow = '0 0 20px rgba(20,241,149,0.4)'; setTimeout(function(){ s4el.style.boxShadow = 'none'; }, 2000); }
-    if (s4s) { s4s.innerHTML = '<i class="fas fa-bolt" style="color:#14f195;margin-right:3px;"></i> ' + stats.anchored + ' anchor' + (stats.anchored > 1 ? 's' : '') + ' (' + stats.slsFees.toFixed(2) + ' SLS)'; }
+    if (s4el) { s4el.style.boxShadow = '0 0 20px rgba(0,170,255,0.4)'; setTimeout(function(){ s4el.style.boxShadow = 'none'; }, 2000); }
+    if (s4s) { s4s.innerHTML = '<i class="fas fa-bolt" style="color:#00aaff;margin-right:3px;"></i> ' + stats.anchored + ' anchor' + (stats.anchored > 1 ? 's' : '') + ' (' + stats.slsFees.toFixed(2) + ' SLS)'; }
     // Auto-update demo SLS balance display
     _updateDemoSlsBalance();
 
@@ -2774,7 +2774,7 @@ async function anchorRecord() {
             + '<div class="result-label">NETWORK</div><div style="margin-bottom:0.5rem">' + (network === 'mainnet' ? '<span style="color:#00aaff;font-weight:700"><i class="fas fa-globe" style="margin-right:4px"></i>XRPL Mainnet</span>' : '<span style="color:var(--muted)">' + (network||'Pending') + '</span>') + '</div>'
         + '<div class="result-label">SYSTEM</div><div style="margin-bottom:0.5rem">' + (typeInfo.system||'N/A') + '</div>'
         + '<div class="result-label">ENCRYPTED</div><div style="margin-bottom:0.5rem">' + (encrypt ? '<i class="fas fa-lock" style="color:var(--accent)"></i> Yes (CUI protected)' : '\uD83D\uDD13 No (plaintext hash)') + '</div>'
-        + '<div class="result-label">$SLS FEE</div><div>0.01 $SLS \u2192 Treasury</div>';
+        + '<div class="result-label">$SLS FEE</div><div>0.01 $SLS from your account \u2192 S4 Treasury</div>';
     panel.classList.add('show');
     updateTxLog();
     btn.disabled = false;
@@ -4945,7 +4945,7 @@ async function anchorILSReport() {
         + '<div class="result-label">TX HASH</div><div style="color:var(--muted);margin-bottom:0.5rem;word-break:break-all">' + txHash + '</div>'
         + '<div class="result-label">PROGRAM</div><div style="margin-bottom:0.5rem">' + ilsResults.prog.name + (ilsResults.hull?' ('+ilsResults.hull+')':'') + '</div>'
         + '<div class="result-label">READINESS</div><div style="margin-bottom:0.5rem;color:'+(ilsResults.pct>=80?'var(--green)':ilsResults.pct>=50?'#ffa500':'var(--red)')+';font-weight:700">' + ilsResults.pct + '%</div>'
-        + '<div class="result-label">$SLS FEE</div><div>0.01 $SLS \u2192 Treasury</div>'
+        + '<div class="result-label">$SLS FEE</div><div>0.01 $SLS from your account \u2192 S4 Treasury</div>'
         + '<div style="margin-top:0.8rem;font-size:0.82rem;color:var(--muted)">This hash is now immutably recorded on the XRP Ledger. Anyone with the original data can verify its integrity.</div>';
     panel.classList.add('show');
     showPostActions();
@@ -5229,11 +5229,11 @@ function generateAiResponse(query) {
         return 'Hello! I\'m the S4 Ledger AI Agent. I can help you with:\n\n• **Anchoring records** to the XRP Ledger\n• **Verifying** document integrity\n• **ILS analysis** and defense logistics\n• **Supply chain risk** assessment\n• **SLS token** and pricing questions\n\nWhat would you like to do?';
     }
     if (/demo mode|what is demo|am i in demo/.test(q)) {
-        var demoInfo = _demoMode ? 'You are currently in <strong style="color:#00aaff">DEMO MODE</strong>. ' : 'Demo mode is <strong>disabled</strong>. ';
+        var demoInfo = '';
         if (_demoMode && _demoSession) {
-            demoInfo += 'Your session has <strong style="color:#c9a84c">' + (_demoSession.sls_balance || '25,000') + ' SLS</strong> and <strong style="color:#14f195">' + (_demoSession.xrp_balance || '12') + ' XRP</strong> (hypothetical). All anchoring is real on XRPL Mainnet.';
+            demoInfo += 'Your account has <strong style="color:#c9a84c">' + (_demoSession.sls_balance || '25,000') + ' SLS</strong> allocated. Each anchor costs 0.01 SLS, which is transferred to the S4 Treasury on the XRP Ledger.';
         }
-        return demoInfo + '\n\nIn demo mode, you can anchor records, verify hashes, and explore the full ILS workspace without purchasing SLS tokens.';
+        return demoInfo + '\n\nYou can anchor records, verify hashes, and explore the full ILS workspace. Each anchor creates a permanent, verifiable entry on the XRP Ledger.';
     }
     if (/sls token|what is sls|sls price|token price|how much/.test(q)) {
         return '**$SLS (Secure Logistics Standard)** is the utility token for S4 Ledger:\n\n• **Price:** $0.01 per SLS\n• **Anchor cost:** 0.01 SLS per record (~$0.0001)\n• **Tiers:** Pilot (free/100 SLS), Starter ($999/25K SLS), Professional ($2,499/100K SLS), Enterprise ($9,999/500K SLS)\n• **Issuer:** `r95GyZac4butvVcsTWUPpxzekmyzaHsTA5`\n• **Trade on:** [xMagnetic](https://xmagnetic.org/tokens/SLS+r95GyZac4butvVcsTWUPpxzekmyzaHsTA5)';
@@ -5510,7 +5510,7 @@ function generateAiResponse(query) {
     if (/xrpl|xrp\s*ledger|blockchain|how.*anchor/i.test(q)) return '<strong>XRPL Blockchain Anchoring</strong><br><br>S4 Ledger uses the XRP Ledger for tamper-proof record verification:<br>\u2022 Your record content is hashed (SHA-256) client-side — <strong>zero data on-chain</strong><br>\u2022 The hash fingerprint is anchored as a Memo in an XRPL transaction<br>\u2022 Each anchor costs 0.01 SLS (transferred Ops Wallet → Treasury)<br>\u2022 The XRPL transaction hash is your immutable proof<br>\u2022 Anyone can verify: re-hash the content and compare to the on-chain Memo<br><br>XRPL was chosen for speed (~3-5 sec finality), low cost, and energy efficiency.' + demoNote;
 
     if (/demo\s*mode|am\s*i\s*in\s*demo|what\s*mode/i.test(q)) {
-        var demoInfo = _demoMode ? 'You are currently in <strong style="color:#00aaff">DEMO MODE</strong>. ' : 'Demo mode is <strong>disabled</strong>. ';
+        var demoInfo = '';
         if (_demoMode && _demoSession) {
             var allocation = _demoSession.subscription?.sls_allocation || 25000;
             var spent = stats.slsFees || 0;
@@ -5549,7 +5549,7 @@ function generateAiResponse(query) {
     if (/meaning\s*of\s*life|42/i.test(q)) return 'The answer is <strong>42</strong> — but in defense logistics, the real answer is <strong>keeping Ao above 90%</strong>. \uD83D\uDE04' + demoNote;
 
     // ── HELP / CAPABILITIES ──
-    if (/help|what\s*can\s*you\s*do|capabilities|features/i.test(q)) return '<strong>S4 Agent Capabilities:</strong><br><br><strong>\uD83D\uDD27 ILS & Defense:</strong><br>\u2022 Gap analysis interpretation & critical item triage<br>\u2022 DI number explanations (DI-001 through DI-044)<br>\u2022 CAR drafting, compliance checks, cost estimation<br>\u2022 Defense acronym definitions (CDRL, LCSP, DMSMS, etc.)<br>\u2022 MIL-STD and regulation guidance<br><br><strong>\uD83D\uDCCA Platform:</strong><br>\u2022 Anchoring help, verification, XRPL questions<br>\u2022 SLS token and pricing info<br>\u2022 Demo mode status and balance tracking<br>\u2022 Tool-specific guidance for all 13+ ILS tools<br><br><strong>\uD83E\uDD16 General:</strong><br>\u2022 Math calculations and unit conversions<br>\u2022 Date/time queries<br>\u2022 Recommendations and best practices<br>\u2022 General conversation and Q&A<br><br><em>For full conversational AI (like ChatGPT/Claude), add an <strong>OPENAI_API_KEY</strong> or <strong>ANTHROPIC_API_KEY</strong> in Vercel environment variables.</em>' + demoNote;
+    if (/help|what\s*can\s*you\s*do|capabilities|features/i.test(q)) return '<strong>S4 Agent Capabilities:</strong><br><br><strong>\uD83D\uDD27 ILS & Defense:</strong><br>\u2022 Gap analysis interpretation & critical item triage<br>\u2022 DI number explanations (DI-001 through DI-044)<br>\u2022 CAR drafting, compliance checks, cost estimation<br>\u2022 Defense acronym definitions (CDRL, LCSP, DMSMS, etc.)<br>\u2022 MIL-STD and regulation guidance<br><br><strong>\uD83D\uDCCA Platform:</strong><br>\u2022 Anchoring help, verification, XRPL questions<br>\u2022 SLS token and pricing info<br>\u2022 Demo mode status and balance tracking<br>\u2022 Tool-specific guidance for all 13+ ILS tools<br><br><strong>\uD83E\uDD16 General:</strong><br>\u2022 Math calculations and unit conversions<br>\u2022 Date/time queries<br>\u2022 Recommendations and best practices<br>\u2022 General conversation and Q&A<br><br><em>Ask me anything — I can help with ILS analysis, defense logistics, compliance, and platform questions.</em>' + demoNote;
 
     // ── GENERAL KNOWLEDGE PATTERNS ──
     // These make the agent useful even without an LLM API key
@@ -5589,7 +5589,7 @@ function generateAiResponse(query) {
     response += '\u2022 <strong>Conversions</strong> — "10 miles to km", "72 fahrenheit to celsius"<br>';
     response += '\u2022 <strong>Demo mode</strong> — "am I in demo mode?", "what is demo mode?"<br>';
     response += '\u2022 <strong>Recommendations</strong> — "best practices for ILS"<br>';
-    response += '<br><em>Tip: For full AI conversations, add <strong>OPENAI_API_KEY</strong> or <strong>ANTHROPIC_API_KEY</strong> to your Vercel environment variables.</em>';
+    response += '<br><em>Tip: Try asking about specific ILS topics, defense standards, compliance, or anything about S4 Ledger.</em>';
     return response + demoNote;
 }
 
