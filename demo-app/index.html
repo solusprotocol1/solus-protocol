@@ -445,8 +445,13 @@
     </style>
 </head>
 <body>
+<script>
+/* Global drag/drop prevention — stops browser from navigating away on stray drops */
+document.addEventListener('dragover', function(e) { e.preventDefault(); e.stopPropagation(); }, false);
+document.addEventListener('drop', function(e) { e.preventDefault(); e.stopPropagation(); }, false);
+</script>
 <div style="background:rgba(10,10,15,0.95);border-bottom:1px solid rgba(255,255,255,0.06);padding:4px 0;text-align:center;font-size:0.72rem;color:#8b8fa3;"><i class="fas fa-exclamation-triangle" style="margin-right:4px;"></i> NOTICE: Do not submit ITAR-controlled, classified, or export-controlled data to this platform. This system processes UNCLASSIFIED and CUI data only. <a href="/security/" style="color:#00aaff;text-decoration:underline;">Security Policy</a></div>
-<div id="demoBanner" style="display:block;background:linear-gradient(90deg,rgba(0,170,255,0.10),rgba(201,168,76,0.08));border-bottom:1px solid rgba(0,170,255,0.3);padding:8px 0;text-align:center;font-size:0.82rem;color:#8ea4b8;cursor:pointer;" onclick="document.getElementById('demoPanel').scrollIntoView({behavior:'smooth'})"><i class="fas fa-shield-halved" style="color:#00aaff;margin-right:6px;"></i> <strong style="color:#fff;">S4 Ledger</strong> &mdash; <strong style="color:#c9a84c;">0.01 $SLS per anchor</strong> &mdash; each record is permanently anchored to the XRP Ledger. <span style="color:#00aaff;">&#9660; View Details</span></div>
+<div id="demoBanner" style="display:none;background:linear-gradient(90deg,rgba(0,170,255,0.10),rgba(201,168,76,0.08));border-bottom:1px solid rgba(0,170,255,0.3);padding:8px 0;text-align:center;font-size:0.82rem;color:#8ea4b8;cursor:pointer;" onclick="document.getElementById('demoPanel').scrollIntoView({behavior:'smooth'})"><i class="fas fa-shield-halved" style="color:#00aaff;margin-right:6px;"></i> <strong style="color:#fff;">S4 Ledger</strong> &mdash; <strong style="color:#c9a84c;">0.01 $SLS per anchor</strong> &mdash; each record is permanently anchored to the XRP Ledger. <span style="color:#00aaff;">&#9660; View Details</span></div>
 <div id="demoStatusBar" style="display:none;background:rgba(0,170,255,0.06);border-bottom:1px solid rgba(0,170,255,0.15);padding:5px 0;text-align:center;font-size:0.75rem;color:#8ea4b8;letter-spacing:0.3px;"></div>
 <nav id="mainNav" style="position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(5,8,16,0.95);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.06);height:64px;">
     <div style="max-width:1200px;margin:0 auto;padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:100%;">
@@ -638,7 +643,7 @@
     </div>
 
         <!-- SLS Economic Flow — Account Setup -->
-        <div id="demoPanel" class="reveal-demo" style="margin-bottom:16px;display:block;">
+        <div id="demoPanel" class="reveal-demo" style="margin-bottom:16px;display:none;">
             <div style="background:linear-gradient(135deg,rgba(0,170,255,0.06),rgba(201,168,76,0.04));border:1px solid rgba(0,170,255,0.25);border-radius:14px;padding:20px 24px;position:relative;overflow:hidden;">
                 <div style="position:absolute;top:0;right:0;background:linear-gradient(135deg,#00aaff,#c9a84c);padding:4px 16px;border-radius:0 14px 0 10px;font-size:0.68rem;font-weight:700;color:#050810;letter-spacing:0.5px;">LIVE PREVIEW</div>
                 <h3 style="margin:0 0 4px;font-size:1.1rem;color:#fff;"><i class="fas fa-flask" style="color:#00aaff;margin-right:8px;"></i> SLS Economic Flow</h3>
@@ -676,6 +681,27 @@
             <li class="nav-item"><a class="nav-link" data-bs-toggle="pill" href="#tabOffline" role="tab"><i class="fas fa-wifi" id="offlineTabIcon"></i> Offline Queue</a></li>
             <li class="nav-item"><a class="nav-link" data-bs-toggle="pill" href="#tabWallet" role="tab"><i class="fas fa-wallet"></i> My Wallet</a></li>
         </ul>
+        <script>
+        // Show SLS Economic Flow panel only when Wallet tab is active
+        document.addEventListener('DOMContentLoaded', function() {
+            var walletTab = document.querySelector('a[href="#tabWallet"]');
+            if (walletTab) {
+                walletTab.addEventListener('shown.bs.tab', function() {
+                    var p = document.getElementById('demoPanel');
+                    if (p) p.style.display = 'block';
+                });
+            }
+            // Hide panel when any OTHER tab is activated
+            document.querySelectorAll('.nav-link[data-bs-toggle="pill"]').forEach(function(tab) {
+                if (tab.getAttribute('href') !== '#tabWallet') {
+                    tab.addEventListener('shown.bs.tab', function() {
+                        var p = document.getElementById('demoPanel');
+                        if (p) p.style.display = 'none';
+                    });
+                }
+            });
+        });
+        </script>
 
         
 
@@ -1747,7 +1773,7 @@
                         </div>
                         <div style="font-size:.7rem;color:var(--steel);margin-top:4px">Download these, then upload to test the ILIE discrepancy engine with realistic data.</div>
                     </div>
-                    <div id="subUploadZone" onclick="document.getElementById('subFileInput').click()" style="border:2px dashed rgba(224,108,117,0.35);border-radius:10px;padding:28px;text-align:center;cursor:pointer;margin-bottom:12px;background:rgba(224,108,117,0.04);transition:all 0.3s" ondragover="event.preventDefault();this.style.borderColor='#e06c75'" ondragleave="this.style.borderColor='rgba(224,108,117,0.35)'" ondrop="handleSubFileDrop(event)">
+                    <div id="subUploadZone" onclick="document.getElementById('subFileInput').click()" style="border:2px dashed rgba(224,108,117,0.35);border-radius:10px;padding:28px;text-align:center;cursor:pointer;margin-bottom:12px;background:rgba(224,108,117,0.04);transition:all 0.3s" ondragover="event.preventDefault();event.stopPropagation();this.style.borderColor='#e06c75'" ondragleave="this.style.borderColor='rgba(224,108,117,0.35)'" ondrop="handleSubFileDrop(event)">
                         <i class="fas fa-cloud-upload-alt" style="font-size:2rem;color:#e06c75;margin-bottom:8px;display:block"></i>
                         <div style="color:#e06c75;font-weight:600;font-size:.9rem">Upload Submission Data</div>
                         <div style="color:var(--steel);font-size:.78rem;margin-top:4px">CSV, Excel (.xlsx), XML, JSON, PDF, or paste data below</div>
@@ -2775,7 +2801,7 @@ async function _initDemoSession() {
     if (_demoSession) return _demoSession;
     const panel = document.getElementById('demoPanel');
     const spinner = document.getElementById('demoProvSpinner');
-    if (panel) panel.style.display = 'block';
+    // Panel visibility is controlled by wallet tab listener — don't force-show here
     if (spinner) spinner.style.display = 'block';
     try {
         const resp = await fetch('/api/demo/provision', {
@@ -2789,11 +2815,11 @@ async function _initDemoSession() {
             console.log('Demo session:', data.session_id);
             const banner = document.getElementById('demoBanner');
             if (banner) {
-                banner.style.display = 'block';
+                banner.style.display = 'none';
                 banner.innerHTML = '<i class="fas fa-shield-halved" style="color:#00aaff;margin-right:6px;"></i> <strong style="color:#fff;">S4 Ledger</strong> &mdash; '
                     + (data.subscription?.label || 'Starter') + ' plan &bull; '
                     + 'Per-anchor fee: 0.01 $SLS (real on-chain) &bull; '
-                    + '<span style="color:#00aaff">' + (data.wallet?.address?.substring(0,8) || '') + '...' + (data.wallet?.address?.slice(-4) || '') + '</span> '
+                    + '<span style="color:#00aaff">rYourOrg...Prod</span> '
                     + '&bull; <span style="text-decoration:underline;cursor:pointer">&#9660; View Details</span>';
             }
             _animateDemoSteps(data);
@@ -2817,10 +2843,10 @@ function _showDemoOffline() {
     var _tierLookup = (typeof _onboardTiers !== 'undefined') ? _onboardTiers : {pilot:{label:'Pilot',sls:100},starter:{label:'Starter',sls:25000},professional:{label:'Professional',sls:100000},enterprise:{label:'Enterprise',sls:500000}};
     var _tierData = _tierLookup[_savedTier] || _tierLookup['starter'];
     if (!_demoSession.subscription) _demoSession.subscription = {label:_tierData.label,sls_allocation:_tierData.sls};
-    document.getElementById('demoBanner').style.display = 'block';
+    document.getElementById('demoBanner').style.display = 'none';
     document.getElementById('demoBanner').innerHTML = '<i class="fas fa-shield-halved" style="color:#00aaff;margin-right:6px;"></i> <strong style="color:#fff;">S4 Ledger</strong> &mdash; Offline mode. Anchors are queued locally and will sync when connected.';
     var panel = document.getElementById('demoPanel');
-    panel.style.display = 'block';
+    // Panel visibility controlled by wallet tab — don't force-show
     // Show hypothetical balances
     var xrpEl = document.getElementById('demoXrp');
     var slsEl = document.getElementById('demoSls');
@@ -2860,7 +2886,7 @@ function _animateDemoSteps(data) {
         const s3 = document.getElementById('demoStep3');
         const s3s = document.getElementById('demoStep3Status');
         if (s3) { s3.style.borderColor = 'rgba(201,168,76,0.6)'; s3.style.background = 'rgba(201,168,76,0.12)'; }
-        const alloc = data.subscription?.sls_allocation?.toLocaleString() || '25,000';
+        const alloc = data.subscription?.sls_allocation?.toLocaleString() || ((typeof _onboardTiers !== 'undefined' && typeof _onboardTier !== 'undefined' && _onboardTiers[_onboardTier]) ? _onboardTiers[_onboardTier].sls.toLocaleString() : '25,000');
         if (s3s) { s3s.innerHTML = '<i class="fas fa-check" style="color:#00aaff;margin-right:3px;"></i> ' + alloc + ' SLS'; s3s.style.color = '#c9a84c'; }
     }, 1300);
     setTimeout(() => {
@@ -2877,9 +2903,9 @@ function _animateDemoSteps(data) {
         const plan = document.getElementById('demoPlanLabel');
         const bal = document.getElementById('demoSlsBalance');
         if (sid) sid.textContent = (data.session_id || '').substring(0, 12) + '...';
-        if (wal) wal.textContent = (data.wallet?.address?.substring(0,8) || '') + '...' + (data.wallet?.address?.slice(-4) || '');
+        if (wal) wal.textContent = 'rYourOrg...Prod';
         if (plan) plan.textContent = data.subscription?.label || 'Starter';
-        if (bal) bal.textContent = (data.subscription?.sls_allocation?.toLocaleString() || '25,000') + ' SLS';
+        if (bal) bal.textContent = (data.subscription?.sls_allocation?.toLocaleString() || ((typeof _onboardTiers !== 'undefined' && typeof _onboardTier !== 'undefined' && _onboardTiers[_onboardTier]) ? _onboardTiers[_onboardTier].sls.toLocaleString() : '25,000')) + ' SLS';
         // Initialize status bar
         _updateDemoSlsBalance();
     }, 2200);
@@ -2902,12 +2928,12 @@ async function _checkDemoStatus() {
     } catch(e) { console.warn('Demo status check failed:', e); }
 }
 async function _anchorToXRPL(hash, record_type, content_preview) {
-    let txHash = 'TX' + Array.from(crypto.getRandomValues(new Uint8Array(16))).map(b=>b.toString(16).padStart(2,'0')).join('').toUpperCase();
+    let txHash = null;
     let network = 'Pending';
     let explorerUrl = null;
     let feeTxHash = null;
+    let anchorError = null;
     try {
-        // Route through /api/demo/anchor endpoint (real 0.01 SLS transfer)
         if (_demoMode && _demoSession) {
             const resp = await fetch('/api/demo/anchor', {
                 method: 'POST',
@@ -2921,25 +2947,41 @@ async function _anchorToXRPL(hash, record_type, content_preview) {
             if (resp.ok) {
                 const result = await resp.json();
                 if (result.record) {
-                    txHash = result.record.tx_hash || txHash;
+                    txHash = result.record.tx_hash || null;
                     network = result.record.network || network;
                     explorerUrl = result.record.explorer_url || null;
                 }
                 if (result.fee_transfer && result.fee_transfer.tx_hash) feeTxHash = result.fee_transfer.tx_hash;
+            } else {
+                const errBody = await resp.json().catch(() => ({}));
+                anchorError = errBody.error || ('Anchor API returned ' + resp.status);
+                console.error('Anchor API error:', resp.status, anchorError);
             }
         } else {
-            // PRODUCTION PATH: /api/anchor with user_email auth
             const resp = await fetch('/api/anchor',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({hash, record_type, content_preview})});
             if (resp.ok) {
                 const result = await resp.json();
                 if (result.record) {
-                    txHash = result.record.tx_hash || txHash;
+                    txHash = result.record.tx_hash || null;
                     network = result.record.network || network;
                     explorerUrl = result.record.explorer_url || null;
                 }
+            } else {
+                anchorError = 'Anchor API returned ' + resp.status;
             }
         }
-    } catch(e) { console.warn('API anchor failed:', e); }
+    } catch(e) {
+        console.error('Anchor fetch failed:', e);
+        anchorError = e.message || 'Network error';
+    }
+    // If no real tx hash came back, generate a local placeholder but flag it
+    if (!txHash) {
+        txHash = 'LOCAL_' + Array.from(crypto.getRandomValues(new Uint8Array(16))).map(b=>b.toString(16).padStart(2,'0')).join('').toUpperCase();
+        network = anchorError ? 'FAILED' : 'Pending';
+        if (anchorError && typeof _showNotif === 'function') {
+            _showNotif('Anchor may not have reached XRPL: ' + anchorError, 'warning');
+        }
+    }
     return { txHash, network, explorerUrl, feeTxHash };
 }
 
@@ -8104,6 +8146,19 @@ function animateWalletFunding() {
 
 function selectOnboardTier(el, tier) {
     _onboardTier = tier;
+    // Live-update SLS Allocated in flow box
+    var _tierAlloc = (_onboardTiers[tier] || _onboardTiers['starter']).sls;
+    var _s3s = document.getElementById('demoStep3Status');
+    if (_s3s && _s3s.innerHTML.indexOf('SLS') !== -1) {
+        _s3s.innerHTML = '<i class="fas fa-check" style="color:#00aaff;margin-right:3px;"></i> ' + _tierAlloc.toLocaleString() + ' SLS';
+    }
+    var _balEl = document.getElementById('demoSlsBalance');
+    if (_balEl) _balEl.textContent = _tierAlloc.toLocaleString() + ' SLS';
+    // Also update the session object
+    if (_demoSession && _demoSession.subscription) {
+        _demoSession.subscription.sls_allocation = _tierAlloc;
+        _demoSession.subscription.label = (_onboardTiers[tier] || _onboardTiers['starter']).label;
+    }
     document.querySelectorAll('.onboard-tier').forEach(function(t) { t.classList.remove('selected'); });
     el.classList.add('selected');
     var info = _onboardTiers[tier];

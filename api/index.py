@@ -2378,9 +2378,21 @@ class handler(BaseHTTPRequestHandler):
             record_type = data.get("record_type", "JOINT_CONTRACT")
             content_preview = data.get("content_preview", "")
 
-            if not session_id or session_id not in _demo_sessions:
-                self._send_json({"error": "Invalid demo session. Call /api/demo/provision first."}, 400)
+            if not session_id:
+                self._send_json({"error": "Missing session_id. Call /api/demo/provision first."}, 400)
                 return
+            # Auto-create session if not found (Vercel cold-start resilience)
+            if session_id not in _demo_sessions:
+                _demo_sessions[session_id] = {
+                    "session_id": session_id,
+                    "name": "Demo User",
+                    "plan": "starter",
+                    "anchors": 0,
+                    "total_fees": 0.0,
+                    "subscription": {"label": "Starter", "sls_allocation": 25000},
+                    "wallet": {"address": "rAutoSession"},
+                    "auto_created": True
+                }
 
             cat = RECORD_CATEGORIES.get(record_type, {"label": record_type, "branch": "JOINT", "icon": "\U0001f4cb", "system": "N/A"})
             now = datetime.now(timezone.utc)
