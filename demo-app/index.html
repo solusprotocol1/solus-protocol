@@ -21,7 +21,7 @@
     <script src="/s4-assets/defense-docs.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
     <style>
-        :root{--bg:#0a0a0f;--surface:#111118;--card:#16161f;--border:rgba(255,255,255,0.08);--accent:#00aaff;--gold:#00aaff;--steel:#8ea4b8;--green:#00aaff;--red:#ff6b6b;--text:#f0f0f5;--muted:#5a5e72}
+        :root{--bg:#0a0a0f;--surface:#111118;--card:#16161f;--border:rgba(255,255,255,0.08);--accent:#00aaff;--gold:#c9a84c;--steel:#8ea4b8;--green:#14f195;--red:#ff6b6b;--text:#f0f0f5;--muted:#5a5e72}
         *{box-sizing:border-box;margin:0;padding:0}
         body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
         .navbar-custom{display:none}
@@ -33,7 +33,7 @@
         .dropdown-item{color:var(--steel)!important;padding:8px 18px;font-size:0.875rem;transition:all 0.2s}
         .dropdown-item:hover,.dropdown-item:focus{background:rgba(0,170,255,0.08)!important;color:var(--accent)!important}
         .dropdown-item i{width:18px;margin-right:6px;display:inline-block;text-align:center}
-        .dd-accent{color:var(--accent)}.dd-gold{color:var(--accent)}.dd-green{color:var(--accent)}.dd-purple{color:#00aaff}.dd-orange{color:#ffa500}
+        .dd-accent{color:var(--accent)}.dd-gold{color:var(--gold)}.dd-green{color:var(--green)}.dd-purple{color:#a78bfa}.dd-orange{color:#ffa500}
         .btn-accent{background:var(--accent);color:#fff;border:none;padding:10px 24px;border-radius:8px;font-weight:600;cursor:pointer;display:inline-block;transition:all 0.2s;font-size:0.9rem;text-decoration:none}
         .btn-accent:hover{background:#0099ee;color:#fff}
         .search-btn{background:none;border:none;cursor:pointer;padding:8px 12px;color:var(--steel);transition:color 0.2s}
@@ -59,7 +59,7 @@
         .btn-accent{background:var(--accent);color:#fff;border:none;border-radius:8px;padding:0.65rem 1.5rem;font-weight:700;font-size:0.95rem;transition:all 0.2s;cursor:pointer}
         .btn-accent:hover{background:#0099ee;transform:translateY(-1px);color:#fff}
         .btn-accent:disabled{opacity:0.5;cursor:not-allowed;transform:none}
-        .btn-gold{background:var(--accent);color:#fff;border:none;border-radius:8px;padding:0.65rem 1.5rem;font-weight:700;font-size:0.95rem;cursor:pointer}
+        .btn-gold{background:var(--gold);color:#050810;border:none;border-radius:8px;padding:0.65rem 1.5rem;font-weight:700;font-size:0.95rem;cursor:pointer}
         .btn-gold:hover{background:#0099dd;color:#fff}
         .result-panel{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:1.2rem;margin-top:1rem;display:none;font-family:'Courier New',monospace;font-size:0.85rem}
         .result-panel.show{display:block;animation:fadeIn 0.3s ease}
@@ -190,6 +190,29 @@
         .ai-float-panel .ai-chat-header .ai-close-btn:hover{color:#fff;background:rgba(255,255,255,0.1)}
         .ai-float-panel .ai-chat-messages{height:280px;flex:1}
         .ai-float-panel .ai-context-label{font-size:0.68rem;padding:4px 12px;background:rgba(0,170,255,0.06);border-bottom:1px solid rgba(201,168,76,0.1);color:var(--accent);font-weight:600;display:flex;align-items:center;gap:6px}
+
+        /* ── Demo Onboarding Wizard ── */
+        .onboard-overlay{position:fixed;inset:0;background:rgba(5,8,16,0.85);z-index:10000;display:flex;align-items:center;justify-content:center;animation:fadeIn 0.4s ease;backdrop-filter:blur(6px)}
+        .onboard-modal{background:var(--card);border:1px solid var(--border);border-radius:16px;width:560px;max-width:94vw;max-height:90vh;overflow-y:auto;box-shadow:0 12px 60px rgba(0,0,0,0.6);animation:slideUp 0.4s ease}
+        @keyframes slideUp{from{transform:translateY(30px);opacity:0}to{transform:translateY(0);opacity:1}}
+        .onboard-header{background:linear-gradient(135deg,rgba(0,170,255,0.12),rgba(201,168,76,0.08));padding:24px 28px 16px;border-bottom:1px solid var(--border);text-align:center}
+        .onboard-body{padding:24px 28px}
+        .onboard-step{display:none;animation:fadeIn 0.3s ease}
+        .onboard-step.active{display:block}
+        .onboard-progress{display:flex;gap:6px;justify-content:center;margin:16px 0 8px}
+        .onboard-dot{width:10px;height:10px;border-radius:50%;background:var(--border);transition:all 0.3s}
+        .onboard-dot.active{background:var(--accent);box-shadow:0 0 8px rgba(0,170,255,0.4)}
+        .onboard-dot.done{background:var(--green)}
+        .onboard-btn{background:var(--accent);color:#fff;border:none;border-radius:10px;padding:10px 28px;font-weight:700;font-size:0.9rem;cursor:pointer;transition:all 0.2s}
+        .onboard-btn:hover{background:#0099ee;transform:translateY(-1px)}
+        .onboard-btn-outline{background:transparent;color:var(--steel);border:1px solid var(--border);border-radius:10px;padding:10px 28px;font-weight:600;font-size:0.9rem;cursor:pointer;transition:all 0.2s}
+        .onboard-btn-outline:hover{border-color:var(--accent);color:var(--accent)}
+        .onboard-feature{display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.03)}
+        .onboard-feature:last-child{border-bottom:none}
+        .onboard-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:0.9rem}
+        .onboard-tier{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center;cursor:pointer;transition:all 0.2s}
+        .onboard-tier:hover,.onboard-tier.selected{border-color:var(--accent);background:rgba(0,170,255,0.06)}
+        .onboard-tier.selected{box-shadow:0 0 12px rgba(0,170,255,0.2)}
         @media(max-width:480px){.ai-float-panel{width:calc(100vw - 32px);right:0}.ai-float-wrapper{right:16px;bottom:16px}}
         /* Post-Analysis Actions */
         .post-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;padding-top:12px;border-top:1px dashed var(--border)}
@@ -460,6 +483,111 @@
             <div class="col-md-4 mb-3"><div class="stat-card"><div class="stat-value" id="statTypes">0</div><div class="stat-label">Record Types Used</div></div></div>
             <div class="col-md-4 mb-3"><div class="stat-card"><div class="stat-value" id="statSlsFees">0.000</div><div class="stat-label">$SLS Fees</div></div></div>
         </div>
+
+
+    <!-- ═══ DEMO ONBOARDING WIZARD ═══ -->
+    <div class="onboard-overlay" id="onboardOverlay" style="display:none">
+        <div class="onboard-modal">
+            <div class="onboard-header">
+                <div style="font-size:2rem;margin-bottom:8px"><i class="fas fa-shield-halved" style="color:var(--accent)"></i></div>
+                <h2 style="margin:0;font-size:1.3rem;color:#fff;font-weight:800">Welcome to S4 Ledger</h2>
+                <p style="color:var(--steel);font-size:0.82rem;margin:6px 0 0">Immutable Defense Logistics on the XRP Ledger</p>
+                <div class="onboard-progress" id="onboardProgress">
+                    <div class="onboard-dot active" data-step="0"></div>
+                    <div class="onboard-dot" data-step="1"></div>
+                    <div class="onboard-dot" data-step="2"></div>
+                    <div class="onboard-dot" data-step="3"></div>
+                    <div class="onboard-dot" data-step="4"></div>
+                </div>
+            </div>
+            <div class="onboard-body">
+                <!-- Step 0: Welcome -->
+                <div class="onboard-step active" id="onboardStep0">
+                    <h4 style="color:#fff;margin:0 0 12px;font-size:1rem"><i class="fas fa-flask" style="color:var(--accent);margin-right:8px"></i>Demo Mode Setup</h4>
+                    <p style="color:var(--steel);font-size:0.85rem;line-height:1.6;margin-bottom:16px">This walkthrough simulates the full onboarding experience. In production, this happens automatically when you subscribe.</p>
+                    <div class="onboard-feature"><div class="onboard-icon" style="background:rgba(0,170,255,0.1);color:var(--accent)"><i class="fas fa-anchor"></i></div><div><strong style="color:#fff">Anchor Records</strong><div style="color:var(--steel);font-size:0.8rem">SHA-256 hash any document to the XRP Ledger in 3-5 seconds</div></div></div>
+                    <div class="onboard-feature"><div class="onboard-icon" style="background:rgba(201,168,76,0.1);color:var(--gold)"><i class="fas fa-coins"></i></div><div><strong style="color:#fff">$SLS Token Economy</strong><div style="color:var(--steel);font-size:0.8rem">0.01 SLS per anchor (~$0.0001). Real on-chain token transfers.</div></div></div>
+                    <div class="onboard-feature"><div class="onboard-icon" style="background:rgba(20,241,149,0.1);color:var(--green)"><i class="fas fa-brain"></i></div><div><strong style="color:#fff">13 ILS Tools</strong><div style="color:var(--steel);font-size:0.8rem">Gap analysis, DMSMS, readiness, compliance, risk, and more</div></div></div>
+                    <div class="onboard-feature"><div class="onboard-icon" style="background:rgba(167,139,250,0.1);color:#a78bfa"><i class="fas fa-robot"></i></div><div><strong style="color:#fff">AI Agent</strong><div style="color:var(--steel);font-size:0.8rem">Context-aware assistant available on every tool and tab</div></div></div>
+                    <div style="text-align:center;margin-top:20px"><button class="onboard-btn" onclick="onboardNext()"><i class="fas fa-arrow-right" style="margin-right:6px"></i>Start Setup</button></div>
+                </div>
+
+                <!-- Step 1: Create Account -->
+                <div class="onboard-step" id="onboardStep1">
+                    <h4 style="color:#fff;margin:0 0 12px;font-size:1rem"><i class="fas fa-user-plus" style="color:var(--accent);margin-right:8px"></i>Step 1: Account Created</h4>
+                    <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:16px">
+                        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px"><div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--accent),#0088cc);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:1.1rem">DU</div><div><div style="color:#fff;font-weight:700">Demo User</div><div style="color:var(--steel);font-size:0.78rem">demo@s4ledger.com</div></div></div>
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:0.78rem">
+                            <div style="color:var(--steel)">Account ID: <span style="color:var(--accent);font-family:monospace" id="onboardAcctId">—</span></div>
+                            <div style="color:var(--steel)">Org: <span style="color:#fff">S4 Demo Corp</span></div>
+                            <div style="color:var(--steel)">Role: <span style="color:#fff">Admin</span></div>
+                            <div style="color:var(--steel)">Status: <span style="color:var(--green)" id="onboardAcctStatus"><i class="fas fa-spinner fa-spin"></i> Creating...</span></div>
+                        </div>
+                    </div>
+                    <div id="onboardAcctDone" style="display:none;text-align:center;margin-top:16px"><button class="onboard-btn" onclick="onboardNext()">Continue <i class="fas fa-arrow-right" style="margin-left:6px"></i></button></div>
+                </div>
+
+                <!-- Step 2: Wallet Funded -->
+                <div class="onboard-step" id="onboardStep2">
+                    <h4 style="color:#fff;margin:0 0 12px;font-size:1rem"><i class="fas fa-wallet" style="color:var(--accent);margin-right:8px"></i>Step 2: XRP Wallet Funded</h4>
+                    <p style="color:var(--steel);font-size:0.82rem;margin-bottom:16px">Your XRPL wallet has been provisioned and funded with the base reserve required for on-chain operations.</p>
+                    <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:16px">
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:0.82rem">
+                            <div><div style="color:var(--steel);font-size:0.72rem;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">Wallet Address</div><div style="color:var(--green);font-family:monospace;font-size:0.75rem" id="onboardWalletAddr">—</div></div>
+                            <div><div style="color:var(--steel);font-size:0.72rem;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">XRP Balance</div><div style="font-size:1.3rem;font-weight:700;color:var(--green)" id="onboardXrpBal"><i class="fas fa-spinner fa-spin" style="font-size:0.8rem"></i></div></div>
+                            <div><div style="color:var(--steel);font-size:0.72rem;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">Network</div><div style="color:#fff">XRPL Mainnet</div></div>
+                            <div><div style="color:var(--steel);font-size:0.72rem;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">Trust Line</div><div style="color:var(--gold)" id="onboardTrustLine"><i class="fas fa-spinner fa-spin" style="font-size:0.8rem"></i></div></div>
+                        </div>
+                    </div>
+                    <div style="background:rgba(0,170,255,0.06);border:1px solid rgba(0,170,255,0.15);border-radius:8px;padding:10px 14px;font-size:0.78rem;color:var(--steel)"><i class="fas fa-info-circle" style="color:var(--accent);margin-right:6px"></i><strong style="color:#fff">Note:</strong> 12 XRP is the base reserve. In production, XRP is funded automatically from the S4 operations pool. This is <strong style="color:var(--gold)">hypothetical</strong> in demo mode.</div>
+                    <div id="onboardWalletDone" style="display:none;text-align:center;margin-top:16px"><button class="onboard-btn" onclick="onboardNext()">Continue <i class="fas fa-arrow-right" style="margin-left:6px"></i></button></div>
+                </div>
+
+                <!-- Step 3: SLS Allocation -->
+                <div class="onboard-step" id="onboardStep3">
+                    <h4 style="color:#fff;margin:0 0 12px;font-size:1rem"><i class="fas fa-coins" style="color:var(--gold);margin-right:8px"></i>Step 3: $SLS Token Allocation</h4>
+                    <p style="color:var(--steel);font-size:0.82rem;margin-bottom:16px">Your SLS allocation is based on your subscription tier. Select a plan:</p>
+                    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:16px">
+                        <div class="onboard-tier" onclick="selectOnboardTier(this,'pilot')" data-tier="pilot"><div style="font-size:0.72rem;color:var(--steel);text-transform:uppercase;letter-spacing:0.5px">Pilot</div><div style="font-size:1.1rem;font-weight:800;color:#fff;margin:4px 0">Free</div><div style="color:var(--gold);font-weight:700;font-size:0.85rem">100 SLS</div></div>
+                        <div class="onboard-tier selected" onclick="selectOnboardTier(this,'starter')" data-tier="starter"><div style="font-size:0.72rem;color:var(--steel);text-transform:uppercase;letter-spacing:0.5px">Starter</div><div style="font-size:1.1rem;font-weight:800;color:#fff;margin:4px 0">$999/mo</div><div style="color:var(--gold);font-weight:700;font-size:0.85rem">25,000 SLS</div></div>
+                        <div class="onboard-tier" onclick="selectOnboardTier(this,'professional')" data-tier="professional"><div style="font-size:0.72rem;color:var(--steel);text-transform:uppercase;letter-spacing:0.5px">Professional</div><div style="font-size:1.1rem;font-weight:800;color:#fff;margin:4px 0">$2,499/mo</div><div style="color:var(--gold);font-weight:700;font-size:0.85rem">100,000 SLS</div></div>
+                        <div class="onboard-tier" onclick="selectOnboardTier(this,'enterprise')" data-tier="enterprise"><div style="font-size:0.72rem;color:var(--steel);text-transform:uppercase;letter-spacing:0.5px">Enterprise</div><div style="font-size:1.1rem;font-weight:800;color:#fff;margin:4px 0">$9,999/mo</div><div style="color:var(--gold);font-weight:700;font-size:0.85rem">500,000 SLS</div></div>
+                    </div>
+                    <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center">
+                        <div style="color:var(--steel);font-size:0.78rem;margin-bottom:4px">Your SLS Balance</div>
+                        <div style="font-size:1.6rem;font-weight:800;color:var(--gold)" id="onboardSlsBal">25,000</div>
+                        <div style="color:var(--steel);font-size:0.72rem">= <span id="onboardSlsAnchors">2,500,000</span> anchors at 0.01 SLS each</div>
+                    </div>
+                    <div style="text-align:center;margin-top:16px"><button class="onboard-btn" onclick="onboardNext()">Continue <i class="fas fa-arrow-right" style="margin-left:6px"></i></button></div>
+                </div>
+
+                <!-- Step 4: How SLS Works -->
+                <div class="onboard-step" id="onboardStep4">
+                    <h4 style="color:#fff;margin:0 0 12px;font-size:1rem"><i class="fas fa-arrow-right" style="color:var(--green);margin-right:8px"></i>Step 4: How Your $SLS Is Used</h4>
+                    <p style="color:var(--steel);font-size:0.82rem;margin-bottom:16px">Every time you anchor a record, a tiny SLS fee flows to the S4 Treasury on the XRP Ledger.</p>
+                    <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:16px">
+                        <div style="display:flex;align-items:center;gap:12px;justify-content:center;flex-wrap:wrap">
+                            <div style="text-align:center;padding:10px"><div style="font-size:0.72rem;color:var(--steel);margin-bottom:6px">Your Wallet</div><div style="width:44px;height:44px;border-radius:50%;background:rgba(0,170,255,0.1);display:inline-flex;align-items:center;justify-content:center;color:var(--accent)"><i class="fas fa-wallet"></i></div></div>
+                            <div style="color:var(--gold);font-weight:700;font-size:0.85rem"><i class="fas fa-long-arrow-alt-right"></i> 0.01 SLS</div>
+                            <div style="text-align:center;padding:10px"><div style="font-size:0.72rem;color:var(--steel);margin-bottom:6px">S4 Treasury</div><div style="width:44px;height:44px;border-radius:50%;background:rgba(20,241,149,0.1);display:inline-flex;align-items:center;justify-content:center;color:var(--green)"><i class="fas fa-landmark"></i></div></div>
+                            <div style="color:var(--green);font-weight:700;font-size:0.85rem"><i class="fas fa-long-arrow-alt-right"></i> XRPL</div>
+                            <div style="text-align:center;padding:10px"><div style="font-size:0.72rem;color:var(--steel);margin-bottom:6px">Immutable Record</div><div style="width:44px;height:44px;border-radius:50%;background:rgba(167,139,250,0.1);display:inline-flex;align-items:center;justify-content:center;color:#a78bfa"><i class="fas fa-lock"></i></div></div>
+                        </div>
+                    </div>
+                    <div style="font-size:0.82rem;color:var(--steel);line-height:1.6;margin-bottom:12px">
+                        <div style="margin-bottom:8px"><i class="fas fa-check" style="color:var(--green);margin-right:8px;width:14px"></i><strong style="color:#fff">Steps 1-3</strong> are simulated in demo mode</div>
+                        <div style="margin-bottom:8px"><i class="fas fa-check" style="color:var(--green);margin-right:8px;width:14px"></i><strong style="color:var(--green)">Step 4 (0.01 SLS → Treasury)</strong> is REAL on-chain via XRPL</div>
+                        <div style="margin-bottom:8px"><i class="fas fa-check" style="color:var(--green);margin-right:8px;width:14px"></i>All hash anchoring produces real XRPL transaction hashes</div>
+                        <div><i class="fas fa-check" style="color:var(--green);margin-right:8px;width:14px"></i>Anyone can independently verify records on <a href="https://livenet.xrpl.org" target="_blank" style="color:var(--accent)">XRPL Explorer</a></div>
+                    </div>
+                    <div style="text-align:center;margin-top:20px;display:flex;gap:10px;justify-content:center">
+                        <button class="onboard-btn" onclick="closeOnboarding()"><i class="fas fa-rocket" style="margin-right:6px"></i>Enter Platform</button>
+                        <a href="https://livenet.xrpl.org/accounts/rMLmkrxpadq5z6oTDmq8GhQj9LKjf1KLqJ" target="_blank" class="onboard-btn-outline"><i class="fas fa-external-link-alt" style="margin-right:6px"></i>View Treasury</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
         <!-- DEMO MODE PANEL — Remove after Stripe is live -->
         <div id="demoPanel" class="reveal-demo" style="margin-bottom:16px;display:block;">
@@ -886,7 +1014,7 @@
                             </div>
                         </div>
                         <div class="demo-card">
-                            <h3><i class="fas fa-dollar-sign" style="color:#00aaff"></i> Cost & Schedule Impact</h3>
+                            <h3><i class="fas fa-dollar-sign" style="color:var(--accent)"></i> Cost & Schedule Impact</h3>
                             <div id="ilsCostSchedule" style="font-size:0.85rem">
                                 <div style="color:var(--muted);text-align:center;padding:1rem">Analysis required to estimate impact.</div>
                             </div>
@@ -901,7 +1029,7 @@
                     <div class="row">
                         <div class="col-lg-8">
                             <div class="demo-card">
-                                <h3><i class="fas fa-tasks" style="color:#00aaff"></i> Unified Action Items & Alerts</h3>
+                                <h3><i class="fas fa-tasks" style="color:var(--accent)"></i> Unified Action Items & Alerts</h3>
                                 <details style="margin-bottom:1rem;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.15);border-radius:8px;padding:0 12px;">
                                     <summary style="cursor:pointer;padding:10px 0;color:#00aaff;font-weight:600;font-size:0.85rem;"><i class="fas fa-info-circle"></i> How It Works — Unified Action Tracking</summary>
                                     <div style="padding:0 0 12px;color:var(--steel);font-size:0.82rem;line-height:1.6;">
@@ -945,7 +1073,7 @@
                                     <button class="ai-quick-btn" onclick="aiAsk('Draft CAR for critical items')">Draft CAR</button>
                                 </div>
                                 <div style="font-size:0.78rem;color:var(--muted);padding:8px;background:var(--surface);border-radius:8px;border:1px solid var(--border)">
-                                    <i class="fas fa-lightbulb" style="color:#00aaff"></i> <strong>Tip:</strong> The agent uses data from all tools — ILS analysis, DMSMS, Readiness, Parts, ROI, Lifecycle, and Warranty — to provide contextual recommendations.
+                                    <i class="fas fa-lightbulb" style="color:var(--accent)"></i> <strong>Tip:</strong> The agent uses data from all tools — ILS analysis, DMSMS, Readiness, Parts, ROI, Lifecycle, and Warranty — to provide contextual recommendations.
                                 </div>
                             </div>
                             <div class="demo-card">
@@ -962,7 +1090,7 @@
                 <!-- ══ WORKSPACE TOOLS (full embedded) ══ -->
                 <div class="ils-hub-panel" id="hub-dmsms">
                     <div class="demo-card">
-                        <h3><i class="fas fa-exclamation-triangle" style="color:#00aaff"></i> DMSMS / Obsolescence Tracker</h3>
+                        <h3><i class="fas fa-exclamation-triangle" style="color:var(--accent)"></i> DMSMS / Obsolescence Tracker</h3>
                         <p style="color:var(--steel);font-size:0.9rem;margin-bottom:0.5rem">Track Diminishing Manufacturing Sources and Material Shortages (DMSMS). Identify parts at risk of obsolescence, find alternates, and estimate resolution costs. Per DoWI 4245.14.</p>
                         <details style="margin-bottom:1rem;background:rgba(0,170,255,0.06);border:1px solid rgba(255,153,0,0.15);border-radius:8px;padding:0 12px;">
                             <summary style="cursor:pointer;padding:10px 0;color:#00aaff;font-weight:600;font-size:0.85rem;"><i class="fas fa-info-circle"></i> How It Works — Data Sources & S4 Ledger Value</summary>
@@ -981,7 +1109,7 @@
                         </div>
                                                 <label style="font-size:0.82rem;margin-top:0.5rem">Upload DMSMS Data <span style="color:var(--muted);font-weight:400">(parts lists, GIDEP notices, vendor EOL notices)</span></label>
                         <div class="ils-dropzone" id="dmsmsDropzone" onclick="document.getElementById('dmsmsFileInput').click()" style="border-color:rgba(0,170,255,0.15)">
-                            <i class="fas fa-cloud-upload-alt" style="color:#00aaff"></i>
+                            <i class="fas fa-cloud-upload-alt" style="color:var(--accent)"></i>
                             <div style="font-weight:600;color:#fff;margin-bottom:4px">Drag & drop DMSMS files or click to browse</div>
                             <div style="font-size:0.82rem;color:var(--muted)">Accepts .csv, .xlsx, .xls, .pdf, .docx, .txt — identifies NSNs, CAGE codes, part statuses</div>
                         </div>
@@ -1003,7 +1131,7 @@
 
                 <div class="ils-hub-panel" id="hub-readiness">
                     <div class="demo-card">
-                        <h3><i class="fas fa-chart-line" style="color:#00aaff"></i> Operational Readiness Calculator</h3>
+                        <h3><i class="fas fa-chart-line" style="color:var(--accent)"></i> Operational Readiness Calculator</h3>
                         <p style="color:var(--steel);font-size:0.9rem;margin-bottom:0.5rem">Calculate Operational Availability (Ao), Mean Time Between Failures (MTBF), Mean Time To Repair (MTTR), and Mean Logistics Delay Time (MLDT). Per MIL-STD-1390D and DoWI 5000.02.</p>
                         <details style="margin-bottom:1rem;background:rgba(0,170,255,0.06);border:1px solid rgba(20,241,149,0.15);border-radius:8px;padding:0 12px;">
                             <summary style="cursor:pointer;padding:10px 0;color:#00aaff;font-weight:600;font-size:0.85rem;"><i class="fas fa-info-circle"></i> How It Works — Data Sources & S4 Ledger Value</summary>
@@ -1051,7 +1179,7 @@
 
                 <div class="ils-hub-panel" id="hub-roi">
                     <div class="demo-card">
-                        <h3><i class="fas fa-dollar-sign" style="color:#00aaff"></i> S4 Ledger ROI Calculator</h3>
+                        <h3><i class="fas fa-dollar-sign" style="color:var(--accent)"></i> S4 Ledger ROI Calculator</h3>
                         <p style="color:var(--steel);font-size:0.9rem;margin-bottom:0.5rem">Calculate the return on investment from implementing S4 Ledger across your ILS, DMSMS, and readiness programs. Compare manual processes vs. automated blockchain-backed document management.</p>
                         <details style="margin-bottom:1rem;background:rgba(0,170,255,0.06);border:1px solid rgba(20,241,149,0.15);border-radius:8px;padding:0 12px;">
                             <summary style="cursor:pointer;padding:10px 0;color:#00aaff;font-weight:600;font-size:0.85rem;"><i class="fas fa-info-circle"></i> How It Works — What These Numbers Mean</summary>
@@ -1105,7 +1233,7 @@
 
                 <div class="ils-hub-panel" id="hub-lifecycle">
                     <div class="demo-card">
-                        <h3><i class="fas fa-clock" style="color:#00aaff"></i> Lifecycle Cost Estimator</h3>
+                        <h3><i class="fas fa-clock" style="color:var(--accent)"></i> Lifecycle Cost Estimator</h3>
                         <p style="color:var(--steel);font-size:0.9rem;margin-bottom:0.5rem">Project total ownership cost (TOC) over a weapon system's lifecycle. Factors in sustainment, DMSMS resolution, tech refresh, and depot maintenance per DoD 5000.73 and MIL-STD-881F.</p>
                         <details style="margin-bottom:1rem;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.15);border-radius:8px;padding:0 12px;">
                             <summary style="cursor:pointer;padding:10px 0;color:#00aaff;font-weight:600;font-size:0.85rem;"><i class="fas fa-info-circle"></i> How It Works — Understanding Total Ownership Cost</summary>
@@ -1377,7 +1505,7 @@
             <!-- ══ HUB: AUTOMATED AUDIT REPORT GENERATOR ══ -->
             <div class="ils-hub-panel" id="hub-reports">
                 <div class="demo-card">
-                    <h3><i class="fas fa-file-pdf" style="color:#00aaff"></i> Automated Audit Report Generator</h3>
+                    <h3><i class="fas fa-file-pdf" style="color:var(--accent)"></i> Automated Audit Report Generator</h3>
                     <details style="margin-bottom:1rem;background:rgba(0,170,255,0.06);border:1px solid rgba(201,168,76,0.15);border-radius:8px;padding:0 12px;">
                         <summary style="cursor:pointer;padding:10px 0;color:#00aaff;font-weight:600;font-size:0.85rem;"><i class="fas fa-info-circle"></i> How It Works — One-Click Audit Packages</summary>
                         <div style="padding:0 0 12px;color:var(--steel);font-size:0.82rem;line-height:1.6;">
@@ -1422,7 +1550,7 @@
             <!-- ══ HUB: PREDICTIVE MAINTENANCE AI ══ -->
             <div class="ils-hub-panel" id="hub-predictive">
                 <div class="demo-card">
-                    <h3><i class="fas fa-brain" style="color:#00aaff"></i> Predictive Maintenance AI</h3>
+                    <h3><i class="fas fa-brain" style="color:var(--accent)"></i> Predictive Maintenance AI</h3>
                     <details style="margin-bottom:1rem;background:rgba(0,170,255,0.06);border:1px solid rgba(0,170,255,0.15);border-radius:8px;padding:0 12px;">
                         <summary style="cursor:pointer;padding:10px 0;color:#00aaff;font-weight:600;font-size:0.85rem;"><i class="fas fa-info-circle"></i> How It Works — AI-Powered Failure Prediction</summary>
                         <div style="padding:0 0 12px;color:var(--steel);font-size:0.82rem;line-height:1.6;">
@@ -1827,12 +1955,12 @@
                         <p style="font-size:0.82rem;color:var(--steel);margin-bottom:10px">SLS token purchases are role-controlled. Only <strong style="color:#fff">Program Administrators</strong>, <strong style="color:#fff">Managers</strong>, and <strong style="color:#fff">Leadership</strong> can purchase additional SLS tokens for their organization. This prevents unauthorized spending and ensures budget oversight.</p>
                         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px">
                             <div style="padding:12px;background:var(--surface);border-radius:8px;border:1px solid var(--border);text-align:center">
-                                <div style="font-size:1.1rem;margin-bottom:4px"><i class="fas fa-crown" style="color:#00aaff"></i></div>
+                                <div style="font-size:1.1rem;margin-bottom:4px"><i class="fas fa-crown" style="color:var(--accent)"></i></div>
                                 <div style="font-size:0.82rem;font-weight:700;color:#fff">Admin / Leadership</div>
                                 <div style="font-size:0.72rem;color:#00aaff">Full purchase & management</div>
                             </div>
                             <div style="padding:12px;background:var(--surface);border-radius:8px;border:1px solid var(--border);text-align:center">
-                                <div style="font-size:1.1rem;margin-bottom:4px"><i class="fas fa-user-tie" style="color:#00aaff"></i></div>
+                                <div style="font-size:1.1rem;margin-bottom:4px"><i class="fas fa-user-tie" style="color:var(--accent)"></i></div>
                                 <div style="font-size:0.82rem;font-weight:700;color:#fff">Program Manager</div>
                                 <div style="font-size:0.72rem;color:#00aaff">Purchase with approval limits</div>
                             </div>
@@ -1850,22 +1978,22 @@
                         <p style="font-size:0.82rem;color:var(--steel);margin-bottom:14px">There is currently no direct USD/SLS trading pair. S4 Ledger handles the conversion seamlessly behind the scenes so you never have to interact with cryptocurrency exchanges.</p>
                         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px">
                             <div style="padding:14px;background:rgba(26,58,92,0.1);border:1px solid rgba(26,58,92,0.25);border-radius:10px;text-align:center">
-                                <div style="font-size:1.3rem;margin-bottom:6px"><i class="fas fa-credit-card" style="color:#00aaff"></i></div>
+                                <div style="font-size:1.3rem;margin-bottom:6px"><i class="fas fa-credit-card" style="color:var(--accent)"></i></div>
                                 <h5 style="font-size:0.82rem;font-weight:700;color:#fff;margin-bottom:4px">1. Pay with USD</h5>
                                 <p style="font-size:0.72rem;color:var(--steel);margin:0">Credit card, ACH, or wire via Stripe. Included in plan subscriptions.</p>
                             </div>
                             <div style="padding:14px;background:rgba(26,58,92,0.1);border:1px solid rgba(26,58,92,0.25);border-radius:10px;text-align:center">
-                                <div style="font-size:1.3rem;margin-bottom:6px"><i class="fas fa-server" style="color:#00aaff"></i></div>
+                                <div style="font-size:1.3rem;margin-bottom:6px"><i class="fas fa-server" style="color:var(--accent)"></i></div>
                                 <h5 style="font-size:0.82rem;font-weight:700;color:#fff;margin-bottom:4px">2. S4 Processes</h5>
                                 <p style="font-size:0.72rem;color:var(--steel);margin:0">S4 Ledger receives your payment and allocates SLS from the Treasury to your account.</p>
                             </div>
                             <div style="padding:14px;background:rgba(26,58,92,0.1);border:1px solid rgba(26,58,92,0.25);border-radius:10px;text-align:center">
-                                <div style="font-size:1.3rem;margin-bottom:6px"><i class="fas fa-paper-plane" style="color:#00aaff"></i></div>
+                                <div style="font-size:1.3rem;margin-bottom:6px"><i class="fas fa-paper-plane" style="color:var(--accent)"></i></div>
                                 <h5 style="font-size:0.82rem;font-weight:700;color:#fff;margin-bottom:4px">3. SLS Delivered</h5>
                                 <p style="font-size:0.72rem;color:var(--steel);margin:0">SLS tokens are sent directly to your XRPL wallet. Verified on-chain instantly.</p>
                             </div>
                             <div style="padding:14px;background:rgba(26,58,92,0.1);border:1px solid rgba(26,58,92,0.25);border-radius:10px;text-align:center">
-                                <div style="font-size:1.3rem;margin-bottom:6px"><i class="fas fa-check-circle" style="color:#00aaff"></i></div>
+                                <div style="font-size:1.3rem;margin-bottom:6px"><i class="fas fa-check-circle" style="color:var(--accent)"></i></div>
                                 <h5 style="font-size:0.82rem;font-weight:700;color:#fff;margin-bottom:4px">4. Ready to Use</h5>
                                 <p style="font-size:0.72rem;color:var(--steel);margin:0">Anchor records immediately. Each 0.01 SLS = 1 anchor on XRPL mainnet.</p>
                             </div>
@@ -2458,7 +2586,6 @@ function _showDemoOffline() {
     // Set a local demo session so AI agent works
     _demoSession = { session_id: 'demo_offline_' + Date.now(), xrp_balance: 12, sls_balance: 25000 };
 }
-}
 
 function _animateDemoSteps(data) {
     const spinner = document.getElementById('demoProvSpinner');
@@ -2618,7 +2745,7 @@ async function anchorRecord() {
         + '<div class="result-label">TX HASH</div><div style="margin-bottom:0.5rem;word-break:break-all">' + (explorerUrl ? '<a href="'+explorerUrl+'" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none">'+txHash+' <i class="fas fa-external-link-alt" style="font-size:0.7rem"></i></a>' : '<span style="color:var(--muted)">'+txHash+'</span>') + '</div>'
             + '<div class="result-label">NETWORK</div><div style="margin-bottom:0.5rem">' + (network === 'mainnet' ? '<span style="color:#00aaff;font-weight:700"><i class="fas fa-globe" style="margin-right:4px"></i>XRPL Mainnet</span>' : '<span style="color:var(--muted)">' + (network||'Pending') + '</span>') + '</div>'
         + '<div class="result-label">SYSTEM</div><div style="margin-bottom:0.5rem">' + (typeInfo.system||'N/A') + '</div>'
-        + '<div class="result-label">ENCRYPTED</div><div style="margin-bottom:0.5rem">' + (encrypt ? '<i class="fas fa-lock" style="color:#00aaff"></i> Yes (CUI protected)' : '\uD83D\uDD13 No (plaintext hash)') + '</div>'
+        + '<div class="result-label">ENCRYPTED</div><div style="margin-bottom:0.5rem">' + (encrypt ? '<i class="fas fa-lock" style="color:var(--accent)"></i> Yes (CUI protected)' : '\uD83D\uDD13 No (plaintext hash)') + '</div>'
         + '<div class="result-label">$SLS FEE</div><div>0.01 $SLS \u2192 Treasury</div>';
     panel.classList.add('show');
     updateTxLog();
@@ -4975,7 +5102,7 @@ async function aiSend() {
     const msg = input.value.trim();
     if (!msg) return;
     input.value = '';
-    const chatBody = document.getElementById('aiChatBody');
+    const chatBody = document.getElementById('aiChatMessages');
 
     // Add user message
     chatBody.innerHTML += '<div class="ai-msg ai-user"><div class="ai-bubble">' + msg.replace(/</g,'&lt;') + '</div></div>';
@@ -4987,7 +5114,7 @@ async function aiSend() {
     chatBody.scrollTop = chatBody.scrollHeight;
 
     // Build context from current tool and analysis
-    const toolLabel = document.querySelector('.hub-tab.active')?.textContent?.trim() || 'General';
+    const toolLabel = document.querySelector('.ils-hub-tab.active')?.textContent?.trim() || 'General';
     let analysisSummary = null;
     if (typeof ilsResults !== 'undefined' && ilsResults) {
         analysisSummary = {
@@ -5074,7 +5201,6 @@ function generateAiResponse(query) {
     if (/what is s4|about s4|platform|overview|what can you do|capabilities/.test(q)) {
         return '**S4 Ledger** — Immutable Defense Logistics on the XRP Ledger\n\n• **63 REST API endpoints** for anchoring, verification, ILS, AI, and security\n• **156+ record types** across 9 military branches\n• **13 ILS tools** (DMSMS, readiness, supply chain risk, digital thread, etc.)\n• **AI-powered** logistics intelligence with audit trails\n• **$SLS token** economy — $0.01/SLS, 0.01 SLS per anchor\n• **XRPL Mainnet** — 3-5 second finality, 99.99% uptime\n• **Python SDK** with 38+ functions + REST API\n\nAsk me about any specific feature!';
     }
-    const q = query.toLowerCase();
     const r = ilsResults;
     const demoNote = !AI_ENGINE_CONFIG.enabled ? '<div style="margin-top:8px;font-size:0.7rem;color:#666;border-top:1px solid rgba(255,255,255,0.05);padding-top:6px"><i class="fas fa-info-circle"></i> Demo Mode — Configure AI API key in settings for enhanced responses</div>' : '';
 
@@ -5507,7 +5633,7 @@ async function anchorDMSMS() {
     saveLocalRecord({hash, record_type:'DMSMS_REPORT', record_label:'DMSMS Obsolescence Report', branch:'JOINT', timestamp:new Date().toISOString(), timestamp_display:new Date().toISOString().replace('T',' ').substring(0,19)+' UTC', fee:0.01, tx_hash:txHash, system:'DMSMS Tracker', explorer_url: explorerUrl, network});
     updateTxLog();
     addToVault({hash, txHash, type:'DMSMS_REPORT', label:'DMSMS Obsolescence Report', branch:'JOINT', icon:'<i class="fas fa-exclamation-triangle"></i>', content:text.substring(0,100), encrypted:false, timestamp:new Date().toISOString(), source:'DMSMS Tracker', fee:0.01, explorerUrl, network});
-    setTimeout(() => { document.getElementById('animStatus').innerHTML = '<i class="fas fa-check-circle" style="color:#00aaff"></i> DMSMS report anchored!'; document.getElementById('animStatus').style.color = '#00aaff'; }, 2200);
+    setTimeout(() => { document.getElementById('animStatus').innerHTML = '<i class="fas fa-check-circle" style="color:var(--accent)"></i> DMSMS report anchored!'; document.getElementById('animStatus').style.color = '#00aaff'; }, 2200);
 }
 
 // ═══ OPERATIONAL READINESS CALCULATOR ═══
@@ -5621,7 +5747,7 @@ async function anchorReadiness() {
     saveLocalRecord({hash, record_type:'RAM_REPORT', record_label:'RAM Readiness Report', branch:'JOINT', timestamp:new Date().toISOString(), timestamp_display:new Date().toISOString().replace('T',' ').substring(0,19)+' UTC', fee:0.01, tx_hash:txHash, system:'Readiness Calculator', explorer_url: explorerUrl, network});
     updateTxLog();
     addToVault({hash, txHash, type:'RAM_REPORT', label:'RAM Readiness Report', branch:'JOINT', icon:'<i class="fas fa-chart-bar"></i>', content:text.substring(0,100), encrypted:false, timestamp:new Date().toISOString(), source:'Readiness Calculator', fee:0.01, explorerUrl, network});
-    setTimeout(() => { document.getElementById('animStatus').innerHTML = '<i class="fas fa-check-circle" style="color:#00aaff"></i> RAM report anchored!'; document.getElementById('animStatus').style.color = '#00aaff'; }, 2200);
+    setTimeout(() => { document.getElementById('animStatus').innerHTML = '<i class="fas fa-check-circle" style="color:var(--accent)"></i> RAM report anchored!'; document.getElementById('animStatus').style.color = '#00aaff'; }, 2200);
 }
 
 function populateAllDropdowns() {
@@ -5673,7 +5799,7 @@ function s4Notify(title, msg, type, actions, duration) {
     type = type || 'info'; duration = duration || 8000;
     const container = document.getElementById('s4ToastContainer');
     if (!container) return;
-    const icons = {info:'<i class="fas fa-info-circle" style="color:#00aaff"></i>', warning:'<i class="fas fa-exclamation-triangle" style="color:#ffa500"></i>', danger:'<i class="fas fa-times-circle" style="color:#ff3333"></i>', success:'<i class="fas fa-check-circle" style="color:#00aaff"></i>'};
+    const icons = {info:'<i class="fas fa-info-circle" style="color:var(--accent)"></i>', warning:'<i class="fas fa-exclamation-triangle" style="color:#ffa500"></i>', danger:'<i class="fas fa-times-circle" style="color:#ff3333"></i>', success:'<i class="fas fa-check-circle" style="color:var(--accent)"></i>'};
     const toast = document.createElement('div');
     toast.className = 's4-toast ' + type;
     let actionsHtml = '';
@@ -5765,7 +5891,7 @@ function renderActionItemsPanel(filter) {
         return;
     }
     let html = '';
-    const sourceIcons = {dmsms:'<i class="fas fa-exclamation-triangle" style="color:#00aaff"></i>', readiness:'<i class="fas fa-chart-line" style="color:#00aaff"></i>', parts:'<i class="fas fa-cogs" style="color:#00aaff"></i>', warranty:'<i class="fas fa-file-contract" style="color:#00aaff"></i>', roi:'<i class="fas fa-dollar-sign" style="color:#00aaff"></i>', lifecycle:'<i class="fas fa-clock" style="color:#00aaff"></i>', ils:'<i class="fas fa-brain" style="color:#00aaff"></i>'};
+    const sourceIcons = {dmsms:'<i class="fas fa-exclamation-triangle" style="color:var(--accent)"></i>', readiness:'<i class="fas fa-chart-line" style="color:var(--accent)"></i>', parts:'<i class="fas fa-cogs" style="color:var(--accent)"></i>', warranty:'<i class="fas fa-file-contract" style="color:var(--accent)"></i>', roi:'<i class="fas fa-dollar-sign" style="color:var(--accent)"></i>', lifecycle:'<i class="fas fa-clock" style="color:var(--accent)"></i>', ils:'<i class="fas fa-brain" style="color:var(--accent)"></i>'};
     items.forEach(item => {
         html += '<div class="action-item' + (item.done ? ' completed' : '') + '">';
         html += '<div class="ai-check' + (item.done ? ' done' : '') + '" onclick="toggleActionDone(\'' + item.id + '\')"></div>';
@@ -5907,7 +6033,7 @@ function renderHubActions(filter) {
     if (srcEl && s4ActionItems.length > 0) {
         const sources = {};
         s4ActionItems.filter(a=>!a.done).forEach(a => { sources[a.source||'other'] = (sources[a.source||'other']||0) + 1; });
-        const srcIcons = {dmsms:'<i class="fas fa-exclamation-triangle"></i>',readiness:'<i class="fas fa-chart-line"></i>',parts:'<i class="fas fa-cog"></i>',warranty:'<i class="fas fa-clipboard-list"></i>',roi:'<i class="fas fa-dollar-sign"></i>',lifecycle:'<i class="fas fa-hourglass-half"></i>',ils:'<i class="fas fa-brain"></i>',checklist:'<i class="fas fa-check-circle" style="color:#00aaff"></i>',drl:'<i class="fas fa-file-alt"></i>'};
+        const srcIcons = {dmsms:'<i class="fas fa-exclamation-triangle"></i>',readiness:'<i class="fas fa-chart-line"></i>',parts:'<i class="fas fa-cog"></i>',warranty:'<i class="fas fa-clipboard-list"></i>',roi:'<i class="fas fa-dollar-sign"></i>',lifecycle:'<i class="fas fa-hourglass-half"></i>',ils:'<i class="fas fa-brain"></i>',checklist:'<i class="fas fa-check-circle" style="color:var(--accent)"></i>',drl:'<i class="fas fa-file-alt"></i>'};
         let sHtml = '';
         Object.entries(sources).sort((a,b)=>b[1]-a[1]).forEach(([src,cnt]) => {
             sHtml += '<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.03)"><span>'+(srcIcons[src]||'<i class="fas fa-thumbtack"></i>')+' '+src.toUpperCase()+'</span><span style="font-weight:700;color:var(--accent)">'+cnt+'</span></div>';
@@ -5915,7 +6041,7 @@ function renderHubActions(filter) {
         srcEl.innerHTML = sHtml;
     }
     if (!items.length) { container.innerHTML = '<div style="color:var(--muted);text-align:center;padding:2rem;font-size:0.85rem"><i class="fas fa-clipboard-list" style="font-size:2rem;margin-bottom:12px;display:block;opacity:0.3"></i>'+(filter==='all'?'No action items yet. Use the tools to generate tasks.':'No items match this filter.')+'</div>'; return; }
-    const sourceIcons = {dmsms:'<i class="fas fa-exclamation-triangle" style="color:#00aaff"></i>',readiness:'<i class="fas fa-chart-line" style="color:#00aaff"></i>',parts:'<i class="fas fa-cogs" style="color:#00aaff"></i>',warranty:'<i class="fas fa-file-contract" style="color:#00aaff"></i>',roi:'<i class="fas fa-dollar-sign" style="color:#00aaff"></i>',lifecycle:'<i class="fas fa-clock" style="color:#00aaff"></i>',ils:'<i class="fas fa-brain" style="color:#00aaff"></i>',checklist:'<i class="fas fa-check-circle" style="color:#00aaff"></i>',drl:'<i class="fas fa-file-alt" style="color:#00aaff"></i>'};
+    const sourceIcons = {dmsms:'<i class="fas fa-exclamation-triangle" style="color:var(--accent)"></i>',readiness:'<i class="fas fa-chart-line" style="color:var(--accent)"></i>',parts:'<i class="fas fa-cogs" style="color:var(--accent)"></i>',warranty:'<i class="fas fa-file-contract" style="color:var(--accent)"></i>',roi:'<i class="fas fa-dollar-sign" style="color:var(--accent)"></i>',lifecycle:'<i class="fas fa-clock" style="color:var(--accent)"></i>',ils:'<i class="fas fa-brain" style="color:var(--accent)"></i>',checklist:'<i class="fas fa-check-circle" style="color:var(--accent)"></i>',drl:'<i class="fas fa-file-alt" style="color:var(--accent)"></i>'};
     let html = '';
     items.forEach(item => {
         html += '<div class="action-item'+(item.done?' completed':'')+'"><div class="ai-check'+(item.done?' done':'')+'" onclick="toggleActionDone(\''+item.id+'\');renderHubActions()"></div><div class="ai-body"><div class="ai-title">'+(sourceIcons[item.source]||'')+' '+item.title+'</div><div class="ai-meta"><span class="ai-tag '+(item.severity||'info')+'">'+(item.severity||'info').toUpperCase()+'</span><span>'+(item.source||'').toUpperCase()+'</span>';
@@ -6341,7 +6467,7 @@ async function anchorRisk() {
     saveLocalRecord({hash, tx_hash:txHash, record_type:'risk_report', record_label:'Supply Chain Risk Report — '+prog.toUpperCase(), branch:'JOINT', timestamp:new Date().toISOString(), timestamp_display:new Date().toLocaleString(), fee:0.01, explorer_url: explorerUrl, network});
     sessionRecords.push({hash, type:'risk_report', branch:'JOINT', timestamp:new Date().toISOString(), label:'Supply Chain Risk Report', txHash});
     updateTxLog();
-    setTimeout(()=>{ document.getElementById('animStatus').innerHTML = '<i class="fas fa-check-circle" style="color:#00aaff"></i> Risk report anchored!'; document.getElementById('animStatus').style.color = '#00aaff'; }, 2200);
+    setTimeout(()=>{ document.getElementById('animStatus').innerHTML = '<i class="fas fa-check-circle" style="color:var(--accent)"></i> Risk report anchored!'; document.getElementById('animStatus').style.color = '#00aaff'; }, 2200);
     await new Promise(r => setTimeout(r, 3200)); hideAnchorAnimation();
 }
 
@@ -6372,7 +6498,7 @@ function generateReport() {
         full_audit: {title:'Full Audit Package',icon:'<i class="fas fa-clipboard-list"></i>',sections:['Executive Summary','Anchoring History','Chain of Custody','Compliance Scorecard','Record Verification','Hash Integrity Report']},
         supply_chain: {title:'Supply Chain Verification',icon:'<i class="fas fa-box"></i>',sections:['Supply Chain Overview','Receipt Verification','Custody Transfers','Lot Traceability','Counterfeit Prevention','Supplier Compliance']},
         maintenance: {title:'Maintenance Records Audit',icon:'<i class="fas fa-wrench"></i>',sections:['Maintenance Summary','Work Order Verification','Parts Usage','Readiness Impact','3-M Compliance','Predictive Analysis']},
-        compliance: {title:'Compliance Summary Report',icon:'<i class="fas fa-check-circle" style="color:#00aaff"></i>',sections:['Overall Compliance Score','NIST 800-171 Mapping','CMMC Level Readiness','DFARS Clause Compliance','ITAR/EAR Verification','Gap Analysis']},
+        compliance: {title:'Compliance Summary Report',icon:'<i class="fas fa-check-circle" style="color:var(--accent)"></i>',sections:['Overall Compliance Score','NIST 800-171 Mapping','CMMC Level Readiness','DFARS Clause Compliance','ITAR/EAR Verification','Gap Analysis']},
         custody: {title:'Chain of Custody Report',icon:'<i class="fas fa-link"></i>',sections:['Custody Timeline','Transfer Verification','Location History','Handler Authentication','Tamper Detection','Blockchain Proof']},
         contract: {title:'Contract Deliverables Report',icon:'<i class="fas fa-file-contract"></i>',sections:['CDRL Status Summary','Deliverable Timeline','Modification History','Quality Metrics','Schedule Compliance','Cost Performance']}
     };
@@ -6441,7 +6567,7 @@ async function anchorReport() {
     saveLocalRecord({hash, tx_hash:txHash, record_type:'audit_report', record_label:r.title, branch:'JOINT', timestamp:new Date().toISOString(), timestamp_display:new Date().toLocaleString(), fee:0.01, explorer_url: explorerUrl, network});
     sessionRecords.push({hash, type:'audit_report', branch:'JOINT', timestamp:new Date().toISOString(), label:'Audit Report', txHash});
     updateTxLog();
-    setTimeout(()=>{ document.getElementById('animStatus').innerHTML = '<i class="fas fa-check-circle" style="color:#00aaff"></i> Audit report hash anchored!'; document.getElementById('animStatus').style.color = '#00aaff'; }, 2200);
+    setTimeout(()=>{ document.getElementById('animStatus').innerHTML = '<i class="fas fa-check-circle" style="color:var(--accent)"></i> Audit report hash anchored!'; document.getElementById('animStatus').style.color = '#00aaff'; }, 2200);
     await new Promise(r => setTimeout(r, 3200)); hideAnchorAnimation();
 }
 
@@ -6670,7 +6796,7 @@ async function anchorPredictive() {
     saveLocalRecord({hash, tx_hash:txHash, record_type:'predictive_maintenance', record_label:'Predictive Maintenance — '+platform.toUpperCase(), branch:'JOINT', timestamp:new Date().toISOString(), timestamp_display:new Date().toLocaleString(), fee:0.01, explorer_url: explorerUrl, network});
     sessionRecords.push({hash, type:'predictive_maintenance', branch:'JOINT', timestamp:new Date().toISOString(), label:'Predictive Maintenance', txHash});
     updateTxLog();
-    setTimeout(()=>{ document.getElementById('animStatus').innerHTML = '<i class="fas fa-check-circle" style="color:#00aaff"></i> Predictive data anchored!'; document.getElementById('animStatus').style.color = '#00aaff'; }, 2200);
+    setTimeout(()=>{ document.getElementById('animStatus').innerHTML = '<i class="fas fa-check-circle" style="color:var(--accent)"></i> Predictive data anchored!'; document.getElementById('animStatus').style.color = '#00aaff'; }, 2200);
     await new Promise(r => setTimeout(r, 3200)); hideAnchorAnimation();
 }
 
@@ -7335,17 +7461,16 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
+    });
     // ═══ Hash routing for login dashboard deep links ═══
     function handleHash() {
         var h = location.hash.replace('#','');
         if (!h) return;
-        // Main tab activation: #tabAnchor, #tabVerify, #tabLog, #tabILS
         if (/^tab(Anchor|Verify|Log|ILS|Metrics|Offline|Wallet)$/.test(h)) {
             var pill = document.querySelector('a[href="#' + h + '"]');
             if (pill) { var tab = new bootstrap.Tab(pill); tab.show(); }
             return;
         }
-        // ILS hub panel activation: #hub-vault, #hub-analysis, etc.
         if (/^hub-/.test(h)) {
             var ilsPill = document.querySelector('a[href="#tabILS"]');
             if (ilsPill) { var ilsTab = new bootstrap.Tab(ilsPill); ilsTab.show(); }
@@ -7360,7 +7485,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     handleHash();
     window.addEventListener('hashchange', handleHash);
-    });
     // Demo Mode init — Remove after Stripe is live
     if (typeof _demoMode !== 'undefined' && _demoMode) { _initDemoSession(); }
 });
@@ -7585,6 +7709,106 @@ if (window.location.hash === '#tabWallet') {
 </section>
 </div><!-- /platformWorkspace -->
 
+
+
+<!-- ═══ DEMO ONBOARDING WIZARD JS ═══ -->
+<script>
+var _onboardStep = 0;
+var _onboardTier = 'starter';
+var _onboardTiers = {
+    pilot: { label: 'Pilot (Free)', sls: 100, price: 'Free' },
+    starter: { label: 'Starter ($999/mo)', sls: 25000, price: '$999/mo' },
+    professional: { label: 'Professional ($2,499/mo)', sls: 100000, price: '$2,499/mo' },
+    enterprise: { label: 'Enterprise ($9,999/mo)', sls: 500000, price: '$9,999/mo' }
+};
+
+function showOnboarding() {
+    var overlay = document.getElementById('onboardOverlay');
+    if (overlay) overlay.style.display = 'flex';
+    _onboardStep = 0;
+    updateOnboardStep();
+}
+
+function closeOnboarding() {
+    var overlay = document.getElementById('onboardOverlay');
+    if (overlay) overlay.style.display = 'none';
+    sessionStorage.setItem('s4_onboard_done', '1');
+    // Trigger demo session init
+    if (typeof _initDemoSession === 'function') _initDemoSession();
+}
+
+function onboardNext() {
+    _onboardStep++;
+    if (_onboardStep > 4) { closeOnboarding(); return; }
+    updateOnboardStep();
+    // Animate step content
+    if (_onboardStep === 1) animateAccountCreation();
+    if (_onboardStep === 2) animateWalletFunding();
+}
+
+function updateOnboardStep() {
+    for (var i = 0; i <= 4; i++) {
+        var step = document.getElementById('onboardStep' + i);
+        if (step) step.classList.toggle('active', i === _onboardStep);
+    }
+    var dots = document.querySelectorAll('#onboardProgress .onboard-dot');
+    dots.forEach(function(dot, idx) {
+        dot.classList.remove('active', 'done');
+        if (idx === _onboardStep) dot.classList.add('active');
+        else if (idx < _onboardStep) dot.classList.add('done');
+    });
+}
+
+function animateAccountCreation() {
+    var statusEl = document.getElementById('onboardAcctStatus');
+    var acctIdEl = document.getElementById('onboardAcctId');
+    var doneEl = document.getElementById('onboardAcctDone');
+    if (acctIdEl) acctIdEl.textContent = 'demo_' + Date.now().toString(36);
+    setTimeout(function() {
+        if (statusEl) statusEl.innerHTML = '<i class="fas fa-check-circle" style="color:var(--green)"></i> Active';
+        if (doneEl) doneEl.style.display = 'block';
+    }, 1200);
+}
+
+function animateWalletFunding() {
+    var addrEl = document.getElementById('onboardWalletAddr');
+    var xrpEl = document.getElementById('onboardXrpBal');
+    var trustEl = document.getElementById('onboardTrustLine');
+    var doneEl = document.getElementById('onboardWalletDone');
+    // Simulate wallet address
+    var chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    var addr = 'r';
+    for (var i = 0; i < 28; i++) addr += chars[Math.floor(Math.random() * chars.length)];
+    setTimeout(function() {
+        if (addrEl) addrEl.textContent = addr.substring(0,8) + '...' + addr.slice(-4);
+    }, 500);
+    setTimeout(function() {
+        if (xrpEl) xrpEl.textContent = '12.000000 XRP';
+    }, 1200);
+    setTimeout(function() {
+        if (trustEl) trustEl.innerHTML = 'SLS <i class="fas fa-check-circle" style="color:var(--green);margin-left:4px"></i>';
+        if (doneEl) doneEl.style.display = 'block';
+    }, 1800);
+}
+
+function selectOnboardTier(el, tier) {
+    _onboardTier = tier;
+    document.querySelectorAll('.onboard-tier').forEach(function(t) { t.classList.remove('selected'); });
+    el.classList.add('selected');
+    var info = _onboardTiers[tier];
+    var balEl = document.getElementById('onboardSlsBal');
+    var anchorsEl = document.getElementById('onboardSlsAnchors');
+    if (balEl) balEl.textContent = info.sls.toLocaleString();
+    if (anchorsEl) anchorsEl.textContent = (info.sls * 100).toLocaleString();
+}
+
+// Auto-show onboarding on first visit
+document.addEventListener('DOMContentLoaded', function() {
+    if (!sessionStorage.getItem('s4_onboard_done')) {
+        setTimeout(showOnboarding, 600);
+    }
+});
+</script>
 
 <!-- ═══ PERFORMANCE METRICS DASHBOARD + OFFLINE QUEUE JS ═══ -->
 <script>
