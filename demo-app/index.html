@@ -9533,8 +9533,8 @@ function showSection(sectionId) {
     };
     
     if (sectionId === 'sectionSystems') {
-        // Show Systems hub
-        if (sh) { sh.style.display = 'block'; sh.style.animation = 'fadeIn 0.3s ease'; }
+        // Show Systems hub — must add show/active for Bootstrap fade to work
+        if (sh) { sh.style.display = 'block'; sh.classList.add('show','active'); sh.style.animation = 'fadeIn 0.3s ease'; }
     } else {
         var tabId = tabMap[sectionId] || sectionId;
         var pane = document.getElementById(tabId);
