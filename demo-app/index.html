@@ -1143,7 +1143,7 @@ document.addEventListener('drop', function(e) { e.preventDefault(); e.stopPropag
             <div class="tab-pane fade" id="tabAnchor" role="tabpanel">
                 <div class="subpage-back">
                     <button class="back-btn" onclick="showHub()"><i class="fas fa-arrow-left"></i> Back</button>
-                    <div class="breadcrumb-text"><span>Platform</span> / Anchor Records</div>
+                    <div class="breadcrumb-text">Anchor Records</div>
                 </div>
                 <div class="row">
                     <div class="col-lg-7">
@@ -1226,7 +1226,7 @@ document.addEventListener('drop', function(e) { e.preventDefault(); e.stopPropag
             <div class="tab-pane fade" id="tabVerify" role="tabpanel">
                 <div class="subpage-back">
                     <button class="back-btn" onclick="showHub()"><i class="fas fa-arrow-left"></i> Back</button>
-                    <div class="breadcrumb-text"><span>Platform</span> / Verify Records</div>
+                    <div class="breadcrumb-text">Verify Records</div>
                 </div>
                 <div class="row">
                     <div class="col-lg-7">
@@ -1287,7 +1287,7 @@ document.addEventListener('drop', function(e) { e.preventDefault(); e.stopPropag
             <div class="tab-pane fade" id="tabLog" role="tabpanel">
                 <div class="subpage-back">
                     <button class="back-btn" onclick="showHub()"><i class="fas fa-arrow-left"></i> Back</button>
-                    <div class="breadcrumb-text"><span>Platform</span> / Transaction Log</div>
+                    <div class="breadcrumb-text">Transaction Log</div>
                 </div>
                 <div class="demo-card">
                     <h3><i class="fas fa-list"></i> Transaction Log</h3>
@@ -1304,7 +1304,7 @@ document.addEventListener('drop', function(e) { e.preventDefault(); e.stopPropag
             <div class="tab-pane fade" id="sectionSystems" role="tabpanel" style="display:none;">
                 <div class="subpage-back">
                     <button class="back-btn" onclick="showHub()"><i class="fas fa-arrow-left"></i> Back</button>
-                    <div class="breadcrumb-text"><span>Platform</span> / Systems</div>
+                    <div class="breadcrumb-text">Systems</div>
                 </div>
                 <div style="max-width:900px;margin:0 auto;padding:1rem 0;">
                     <h3 style="font-size:1.3rem;font-weight:800;margin-bottom:6px;color:#fff;"><i class="fas fa-server" style="color:var(--accent);margin-right:8px;"></i>Systems</h3>
@@ -1329,7 +1329,7 @@ document.addEventListener('drop', function(e) { e.preventDefault(); e.stopPropag
             <div class="tab-pane fade" id="tabMetrics" role="tabpanel">
                 <div class="subpage-back">
                     <button class="back-btn" onclick="showSection('sectionSystems')"><i class="fas fa-arrow-left"></i> Back</button>
-                    <div class="breadcrumb-text"><span>Platform</span> / <span>Systems</span> / Metrics</div>
+                    <div class="breadcrumb-text">Systems / Metrics</div>
                 </div>
                 <div class="demo-card">
                     <h3><i class="fas fa-chart-line" style="color:var(--accent)"></i> Performance Metrics Dashboard</h3>
@@ -1390,7 +1390,7 @@ document.addEventListener('drop', function(e) { e.preventDefault(); e.stopPropag
             <div class="tab-pane fade" id="tabOffline" role="tabpanel">
                 <div class="subpage-back">
                     <button class="back-btn" onclick="showSection('sectionSystems')"><i class="fas fa-arrow-left"></i> Back</button>
-                    <div class="breadcrumb-text"><span>Platform</span> / <span>Systems</span> / Offline Queue</div>
+                    <div class="breadcrumb-text">Systems / Offline Queue</div>
                 </div>
                 <div class="demo-card">
                     <h3><i class="fas fa-wifi" style="color:var(--accent)"></i> Offline Queue &amp; Batch Sync</h3>
@@ -1424,7 +1424,7 @@ document.addEventListener('drop', function(e) { e.preventDefault(); e.stopPropag
             <div class="tab-pane fade" id="tabILS" role="tabpanel">
                 <div class="subpage-back">
                     <button class="back-btn" onclick="showHub()"><i class="fas fa-arrow-left"></i> Back</button>
-                    <div class="breadcrumb-text"><span>Platform</span> / Anchor-S4</div>
+                    <div class="breadcrumb-text">Anchor-S4</div>
                 </div>
                 <!-- ═══ ILS WORKSPACE ═══ -->
                 <div class="anchor-s4-header">
@@ -1481,9 +1481,9 @@ document.addEventListener('drop', function(e) { e.preventDefault(); e.stopPropag
                         <div class="itc-title">Supply Chain Risk</div>
                         <div class="itc-desc">AI-powered supply chain risk assessment with threat scoring and mitigation.</div>
                     </div>
-                    <div class="ils-tool-card" onclick="openILSTool('hub-actions')">
+                    <div class="ils-tool-card" onclick="openILSTool('hub-actions')" style="position:relative">
                         <span class="itc-icon"><i class="fas fa-tasks" style="color:var(--accent);"></i></span>
-                        <div class="itc-title">Action Items</div>
+                        <div class="itc-title">Action Items <span id="actionItemBadge" style="display:inline-flex;align-items:center;justify-content:center;background:#ff4444;color:#fff;font-size:0.65rem;font-weight:800;min-width:20px;height:20px;border-radius:10px;padding:0 6px;margin-left:6px;vertical-align:middle"></span></div>
                         <div class="itc-desc">Track ILS action items, corrective actions, and follow-ups with deadlines.</div>
                     </div>
                     <div class="ils-tool-card" onclick="openILSTool('hub-predictive')">
@@ -1522,7 +1522,7 @@ document.addEventListener('drop', function(e) { e.preventDefault(); e.stopPropag
                         <div class="itc-desc">Manage provisioning technical data and CDRL submissions.</div>
                     </div>
                 </div>
-                <div id="ilsToolBackBar" style="display:none;margin-bottom:12px;"><button class="back-btn" onclick="closeILSTool()" style="background:rgba(0,170,255,0.08);border:1px solid rgba(0,170,255,0.2);color:var(--accent);border-radius:8px;padding:6px 14px;font-size:0.8rem;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px;"><i class="fas fa-arrow-left"></i> Back to Tools</button></div>
+                <div id="ilsToolBackBar" style="display:none;margin-bottom:12px;display:none;"><div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap"><button class="back-btn" onclick="closeILSTool()" style="background:rgba(0,170,255,0.08);border:1px solid rgba(0,170,255,0.2);color:var(--accent);border-radius:8px;padding:6px 14px;font-size:0.8rem;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px;"><i class="fas fa-arrow-left"></i> Back to Tools</button><div id="toolSlsStrip" style="display:flex;align-items:center;gap:14px;padding:6px 16px;background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.15);border-radius:8px;font-size:0.78rem"><span style="color:var(--steel)"><i class="fas fa-coins" style="color:#c9a84c;margin-right:4px"></i>SLS: <strong id="toolSlsBal" style="color:#c9a84c">25,000</strong></span><span style="color:var(--steel)"><i class="fas fa-anchor" style="color:var(--accent);margin-right:4px"></i>Anchors: <strong id="toolSlsAnch" style="color:var(--accent)">0</strong></span><span style="color:var(--steel)"><i class="fas fa-bolt" style="color:var(--accent);margin-right:4px"></i>Spent: <strong id="toolSlsSpent" style="color:var(--accent)">0.00</strong> SLS</span></div></div></div>
                 </div>
 
                 <!-- ══ HUB: GAP ANALYSIS (original ILS content) ══ -->
@@ -5864,6 +5864,112 @@ function generateILSReport() {
     panel.classList.add('show');
 }
 
+
+// ═══ ROI CALCULATOR ═══
+function calcROI() {
+    var programs = parseFloat(document.getElementById('roiPrograms').value) || 0;
+    var records = parseFloat(document.getElementById('roiRecords').value) || 0;
+    var ftes = parseFloat(document.getElementById('roiFTEs').value) || 0;
+    var rate = parseFloat(document.getElementById('roiRate').value) || 0;
+    var auditCost = parseFloat(document.getElementById('roiAudit').value) || 0;
+    var errorCost = parseFloat(document.getElementById('roiError').value) || 0;
+    var incidents = parseFloat(document.getElementById('roiIncidents').value) || 0;
+    var license = parseFloat(document.getElementById('roiLicense').value) || 0;
+
+    // Labor savings: 65% automation of manual work
+    var annualLaborHours = ftes * 2080; // full-time hours
+    var manualCost = annualLaborHours * rate;
+    var laborSavings = manualCost * 0.65;
+
+    // Error reduction savings: 90% fewer incidents
+    var errorSavings = incidents * errorCost * 0.90;
+
+    // Audit savings: 70% reduction
+    var auditSavings = auditCost * 0.70;
+
+    // Per-record efficiency
+    var monthlyRecords = programs * records;
+    var perRecordSavings = monthlyRecords > 0 ? (laborSavings / 12) / monthlyRecords : 0;
+
+    var totalAnnualSavings = laborSavings + errorSavings + auditSavings;
+    var netSavings = totalAnnualSavings - license;
+    var roiPct = license > 0 ? ((netSavings / license) * 100) : 0;
+    var paybackMonths = totalAnnualSavings > 0 ? Math.ceil((license / totalAnnualSavings) * 12) : 0;
+    var fiveYearNet = (totalAnnualSavings * 5) - (license * 5);
+
+    // Update stat-mini cards
+    var el = function(id){ return document.getElementById(id); };
+    if (el('roiSavings')) el('roiSavings').textContent = '$' + formatNum(Math.round(netSavings));
+    if (el('roiSavings')) el('roiSavings').style.color = netSavings > 0 ? '#00cc66' : '#ff4444';
+    if (el('roiPercent')) { el('roiPercent').textContent = roiPct.toFixed(0) + '%'; el('roiPercent').style.color = roiPct > 0 ? '#00cc66' : '#ff4444'; }
+    if (el('roiPayback')) el('roiPayback').textContent = paybackMonths + ' mo';
+    if (el('roi5Year')) { el('roi5Year').textContent = '$' + formatNum(Math.round(fiveYearNet)); el('roi5Year').style.color = fiveYearNet > 0 ? '#00cc66' : '#ff4444'; }
+
+    // Build output HTML
+    var output = el('roiOutput');
+    if (output) {
+        output.innerHTML = '<div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;margin-top:12px">'
+            + '<div class="section-label"><i class="fas fa-chart-line"></i> ROI BREAKDOWN</div>'
+            + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:0.85rem;margin-bottom:16px">'
+            + '<div><span style="color:var(--steel)">Labor Automation (65%)</span><br><strong style="color:#00cc66">$' + formatNum(Math.round(laborSavings)) + '</strong></div>'
+            + '<div><span style="color:var(--steel)">Error Reduction (90%)</span><br><strong style="color:#00cc66">$' + formatNum(Math.round(errorSavings)) + '</strong></div>'
+            + '<div><span style="color:var(--steel)">Audit Cost Reduction (70%)</span><br><strong style="color:#00cc66">$' + formatNum(Math.round(auditSavings)) + '</strong></div>'
+            + '<div><span style="color:var(--steel)">S4 Ledger License</span><br><strong style="color:#ff6b6b">-$' + formatNum(Math.round(license)) + '</strong></div>'
+            + '</div>'
+            + '<hr style="border-color:var(--border);margin:12px 0">'
+            + '<div style="display:flex;justify-content:space-between;align-items:center">'
+            + '<div><span style="color:var(--steel);font-size:0.82rem">Net Annual Savings</span><br><span style="font-size:1.5rem;font-weight:800;color:' + (netSavings > 0 ? '#00cc66' : '#ff4444') + '">$' + formatNum(Math.round(netSavings)) + '</span></div>'
+            + '<div><span style="color:var(--steel);font-size:0.82rem">Per-Record Savings</span><br><span style="font-size:1.1rem;font-weight:700;color:var(--accent)">$' + perRecordSavings.toFixed(2) + '/record</span></div>'
+            + '</div>'
+            + '</div>';
+    }
+
+    // Trigger ROI chart update
+    if (typeof renderROICharts === 'function') setTimeout(renderROICharts, 200);
+}
+
+function formatNum(n) {
+    return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+
+function exportROI() {
+    var programs = document.getElementById('roiPrograms').value;
+    var ftes = document.getElementById('roiFTEs').value;
+    var rate = document.getElementById('roiRate').value;
+    var savings = document.getElementById('roiSavings')?.textContent || '';
+    var roi = document.getElementById('roiPercent')?.textContent || '';
+    var payback = document.getElementById('roiPayback')?.textContent || '';
+    var fiveYear = document.getElementById('roi5Year')?.textContent || '';
+    var csv = 'S4 Ledger ROI Analysis\nGenerated,' + new Date().toISOString() + '\n\n'
+        + 'Programs Managed,' + programs + '\n'
+        + 'ILS FTEs,' + ftes + '\n'
+        + 'Labor Rate/hr,$' + rate + '\n\n'
+        + 'Annual Savings,' + savings + '\n'
+        + 'ROI %,' + roi + '\n'
+        + 'Payback Period,' + payback + '\n'
+        + '5-Year Net Savings,' + fiveYear + '\n';
+    var blob = new Blob([csv], {type:'text/csv'});
+    var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 's4_roi_report_' + new Date().toISOString().split('T')[0] + '.csv'; a.click();
+}
+
+async function anchorROI() {
+    var savings = document.getElementById('roiSavings')?.textContent || '';
+    var roi = document.getElementById('roiPercent')?.textContent || '';
+    var text = 'ROI Analysis | Net Savings: ' + savings + ' | ROI: ' + roi + ' | Date: ' + new Date().toISOString();
+    var hash = await sha256(text);
+    showAnchorAnimation(hash, 'ROI Analysis Report', 'CUI');
+    stats.anchored++; stats.types.add('ROI_REPORT'); stats.slsFees += 0.01; updateStats(); saveStats();
+    var result = await _anchorToXRPL(hash, 'ROI_REPORT', text.substring(0,100));
+    var rec = {hash:hash, type:'ROI_REPORT', branch:'JOINT', timestamp:new Date().toISOString(), label:'S4 Ledger ROI Analysis', txHash:result.txHash};
+    sessionRecords.push(rec);
+    saveLocalRecord({hash:hash, record_type:'ROI_REPORT', record_label:'S4 Ledger ROI Analysis', branch:'JOINT', timestamp:new Date().toISOString(), timestamp_display:new Date().toISOString().replace('T',' ').substring(0,19)+' UTC', fee:0.01, tx_hash:result.txHash, system:'ROI Calculator', explorer_url:result.explorerUrl, network:result.network});
+    updateTxLog();
+    addToVault({hash:hash, txHash:result.txHash, type:'ROI_REPORT', label:'S4 Ledger ROI Analysis', branch:'JOINT', icon:'<i class="fas fa-dollar-sign"></i>', content:text.substring(0,100), encrypted:false, timestamp:new Date().toISOString(), source:'ROI Calculator', fee:0.01, explorerUrl:result.explorerUrl, network:result.network});
+    // Update SLS display
+    if (typeof updateSlsDisplay === 'function') updateSlsDisplay();
+    setTimeout(function(){ document.getElementById('animStatus').innerHTML = '<i class="fas fa-check-circle" style="color:var(--accent)"></i> ROI Report anchored!'; }, 2200);
+}
+
 async function anchorILSReport() {
     if (!ilsResults) { runFullILSAnalysis(); }
     if (!ilsResults) return;
@@ -6090,10 +6196,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Ensure AI agent is visible on every tab (not just ILS)
     const aiW = document.getElementById('aiFloatWrapper');
     if (aiW) aiW.style.display = 'flex';
-    // Auto-open AI panel on page load for demo
-    if (!aiAgentOpen) {
-        setTimeout(() => { toggleAiAgent(); }, 1500);
-    }
+    // AI agent stays closed until user clicks it
+    // (removed auto-open on page load)
 });
 
 // ── AI Agent Conversation Memory ──
@@ -7027,10 +7131,7 @@ function generateLifecycleActions(progKey, totalCost, dmsmsCost, sustCost) {
 
 // ── Hub Tab Switching ──
 function switchHubTab(panelId, btn) {
-    // Auto-open AI agent when switching ILS tools
-    if (!aiAgentOpen) {
-        toggleAiAgent();
-    }
+    // AI agent stays closed when switching tools (user can open manually)
     document.querySelectorAll('.ils-hub-panel').forEach(p => p.classList.remove('active'));
     document.querySelectorAll('.ils-hub-tab').forEach(t => t.classList.remove('active'));
     const panel = document.getElementById(panelId);
@@ -7214,6 +7315,9 @@ function clearVault() {
 
 // Workspace notification system
 function showWorkspaceNotification(title, detail) {
+    // Don't show notifications until user has navigated to a tool
+    if (!_currentSection && !_currentILSTool) return;
+
     const existing = document.querySelectorAll('.workspace-notification');
     existing.forEach(n => n.remove());
     const notif = document.createElement('div');
@@ -9587,76 +9691,47 @@ function renderLifecycleCharts() {
 
 // ═══ Inject Chart Canvases into Panels ═══
 function injectChartContainers() {
-    // Gap Analysis charts
-    var gapOutput = document.getElementById('ilsAnalysisOutput');
-    if (gapOutput && !document.getElementById('gapRadarChart')) {
-        var chartDiv = document.createElement('div');
-        chartDiv.className = 'row mt-3';
-        chartDiv.id = 'gapChartsRow';
-        chartDiv.style.display = 'none';
-        chartDiv.innerHTML = '<div class="col-md-6"><div class="chart-container"><div class="chart-title"><i class="fas fa-chart-radar"></i> ILS Element Coverage</div><canvas id="gapRadarChart" height="240"></canvas></div></div><div class="col-md-6"><div class="chart-container"><div class="chart-title"><i class="fas fa-chart-bar"></i> Element Scores</div><canvas id="gapBarChart" height="240"></canvas></div></div>';
-        gapOutput.parentNode.insertBefore(chartDiv, gapOutput.nextSibling);
-    }
+    // Inject chart containers into panels — VISIBLE by default
+    var panels = {
+        'hub-analysis': {target:'ilsResult', charts:'<div class="row mt-3" id="gapChartsRow"><div class="col-md-6"><div class="chart-container"><div class="chart-title"><i class="fas fa-chart-radar"></i> ILS Element Coverage</div><canvas id="gapRadarChart" height="240"></canvas></div></div><div class="col-md-6"><div class="chart-container"><div class="chart-title"><i class="fas fa-chart-bar"></i> Element Scores</div><canvas id="gapBarChart" height="240"></canvas></div></div></div>'},
+        'hub-dmsms': {target:null, charts:'<div class="chart-container mt-3" id="dmsmsChartArea"><div class="chart-title"><i class="fas fa-chart-pie"></i> Obsolescence Risk Distribution</div><canvas id="dmsmsPieChart" height="200"></canvas></div>'},
+        'hub-readiness': {target:null, charts:'<div class="chart-container mt-3" style="max-width:300px" id="readinessGaugeArea"><div class="chart-title"><i class="fas fa-gauge-high"></i> Operational Availability</div><canvas id="readinessGauge" height="160"></canvas></div>'},
+        'hub-compliance': {target:null, charts:'<div class="chart-container mt-3" id="complianceChartArea"><div class="chart-title"><i class="fas fa-shield-halved"></i> Compliance Framework Radar</div><canvas id="complianceRadarChart" height="250"></canvas></div>'},
+        'hub-roi': {target:null, charts:'<div class="chart-container mt-3" id="roiChartArea"><div class="chart-title"><i class="fas fa-chart-line"></i> ROI Projection — 5 Year Cumulative</div><canvas id="roiLineChart" height="220"></canvas></div>'},
+        'hub-risk': {target:null, charts:'<div class="chart-container mt-3" id="riskChartArea"><div class="chart-title"><i class="fas fa-triangle-exclamation"></i> Risk Category Assessment</div><canvas id="riskHeatChart" height="220"></canvas></div>'},
+        'hub-lifecycle': {target:null, charts:'<div class="chart-container mt-3" id="lifecycleChartArea"><div class="chart-title"><i class="fas fa-chart-pie"></i> Total Ownership Cost Breakdown</div><canvas id="lifecyclePieChart" height="220"></canvas></div>'}
+    };
     
-    // DMSMS chart
-    var dmsmsResults = document.getElementById('dmsmsResults');
-    if (dmsmsResults && !document.getElementById('dmsmsPieChart')) {
-        var d = document.createElement('div');
-        d.className = 'chart-container mt-3';
-        d.id = 'dmsmsChartArea';
-        d.innerHTML = '<div class="chart-title"><i class="fas fa-chart-pie"></i> Obsolescence Risk Distribution</div><canvas id="dmsmsPieChart" height="200"></canvas>';
-        dmsmsResults.parentNode.insertBefore(d, dmsmsResults.nextSibling);
-    }
-    
-    // Readiness gauge
-    var readinessOutput = document.getElementById('readinessOutput');
-    if (readinessOutput && !document.getElementById('readinessGauge')) {
-        var d = document.createElement('div');
-        d.className = 'chart-container mt-3';
-        d.style.maxWidth = '300px';
-        d.innerHTML = '<div class="chart-title"><i class="fas fa-gauge-high"></i> Operational Availability</div><canvas id="readinessGauge" height="160"></canvas>';
-        readinessOutput.parentNode.insertBefore(d, readinessOutput.nextSibling);
-    }
-    
-    // Compliance radar
-    var compPanel = document.getElementById('hub-compliance');
-    if (compPanel && !document.getElementById('complianceRadarChart')) {
-        var d = document.createElement('div');
-        d.className = 'chart-container mt-3';
-        d.innerHTML = '<div class="chart-title"><i class="fas fa-shield-halved"></i> Compliance Framework Radar</div><canvas id="complianceRadarChart" height="250"></canvas>';
-        compPanel.querySelector('.demo-card').appendChild(d);
-    }
-    
-    // ROI line chart
-    var roiPanel = document.getElementById('hub-roi');
-    if (roiPanel && !document.getElementById('roiLineChart')) {
-        var d = document.createElement('div');
-        d.className = 'chart-container mt-3';
-        d.id = 'roiChartArea';
-        d.innerHTML = '<div class="chart-title"><i class="fas fa-chart-line"></i> ROI Projection — 5 Year Cumulative</div><canvas id="roiLineChart" height="220"></canvas>';
-        roiPanel.querySelector('.demo-card').appendChild(d);
-    }
-    
-    // Risk bar chart
-    var riskPanel = document.getElementById('hub-risk');
-    if (riskPanel && !document.getElementById('riskHeatChart')) {
-        var d = document.createElement('div');
-        d.className = 'chart-container mt-3';
-        d.id = 'riskChartArea';
-        d.innerHTML = '<div class="chart-title"><i class="fas fa-triangle-exclamation"></i> Risk Category Assessment</div><canvas id="riskHeatChart" height="220"></canvas>';
-        riskPanel.querySelector('.demo-card').appendChild(d);
-    }
-    
-    // Lifecycle doughnut
-    var lcPanel = document.getElementById('hub-lifecycle');
-    if (lcPanel && !document.getElementById('lifecyclePieChart')) {
-        var d = document.createElement('div');
-        d.className = 'chart-container mt-3';
-        d.id = 'lifecycleChartArea';
-        d.innerHTML = '<div class="chart-title"><i class="fas fa-chart-pie"></i> Total Ownership Cost Breakdown</div><canvas id="lifecyclePieChart" height="220"></canvas>';
-        lcPanel.querySelector('.demo-card').appendChild(d);
-    }
-}
+    Object.keys(panels).forEach(function(panelId) {
+        var conf = panels[panelId];
+        var panel = document.getElementById(panelId);
+        if (!panel) return;
+        
+        // Check if charts already injected
+        var firstCanvasId = conf.charts.match(/id="([^"]+)"/);
+        if (firstCanvasId && document.getElementById(firstCanvasId[1])) return;
+        
+        var card = panel.querySelector('.demo-card');
+        if (!card) return;
+        
+        // For gap analysis, insert after the result panel
+        if (conf.target) {
+            var target = document.getElementById(conf.target);
+            if (target) {
+                var wrapper = document.createElement('div');
+                wrapper.innerHTML = conf.charts;
+                target.parentNode.insertBefore(wrapper.firstElementChild, target.nextSibling);
+                return;
+            }
+        }
+        
+        // For others, append to the first demo-card
+        var wrapper = document.createElement('div');
+        wrapper.innerHTML = conf.charts;
+        card.appendChild(wrapper.firstElementChild);
+    });
+
+
 
 // ═══ Hook into tool opening to render charts ═══
 var _origOpenILSTool = openILSTool;
@@ -9986,6 +10061,11 @@ function showHub() {
     // Show stat strip
     var sr = document.getElementById('statsRow');
     if (sr) sr.style.display = 'flex';
+    // Show hero + landing (only visible on hub)
+    var hero = document.querySelector('.hero');
+    if (hero) hero.style.display = 'block';
+    var landing = document.getElementById('platformLanding');
+    if (landing) landing.style.display = 'block';
     _currentSection = null;
     // Update URL
     history.replaceState(null, '', window.location.pathname);
@@ -9994,6 +10074,11 @@ function showHub() {
 function showSection(sectionId) {
     var hub = document.getElementById('platformHub');
     if (hub) hub.style.display = 'none';
+    // Hide hero + landing when inside any tool section
+    var hero = document.querySelector('.hero');
+    if (hero) hero.style.display = 'none';
+    var landing = document.getElementById('platformLanding');
+    if (landing) landing.style.display = 'none';
     
     // Hide all tab panes and systems hub
     document.querySelectorAll('.tab-pane').forEach(function(p) { p.classList.remove('show','active'); p.style.display = 'none'; });
@@ -10078,6 +10163,7 @@ function openILSTool(toolId) {
     if (toolId === 'hub-docs') { if (typeof renderDocLibrary === 'function') renderDocLibrary(); }
     if (toolId === 'hub-compliance') { if (typeof calcCompliance === 'function') calcCompliance(); }
     if (toolId === 'hub-risk') { if (typeof loadRiskData === 'function') loadRiskData(); }
+    if (toolId === 'hub-roi') { if (typeof calcROI === 'function') calcROI(); }
     if (toolId === 'hub-reports') { if (typeof loadReportPreview === 'function') loadReportPreview(); }
     if (toolId === 'hub-predictive') { if (typeof loadPredictiveData === 'function') loadPredictiveData(); }
     if (toolId === 'hub-submissions') { if (typeof loadSubmissionHistory === 'function') loadSubmissionHistory(); }
@@ -10154,6 +10240,105 @@ document.addEventListener('DOMContentLoaded', function() {
 document.addEventListener('shown.bs.tab', function(e) {
     updateWalletTrigger();
 });
+
+
+// ═══ Action Item Badge Updater ═══
+(function() {
+    function updateActionBadge() {
+        var badge = document.getElementById('actionItemBadge');
+        if (!badge) return;
+        var openItems = 0;
+        if (typeof s4ActionItems !== 'undefined' && Array.isArray(s4ActionItems)) {
+            openItems = s4ActionItems.filter(function(a){ return !a.done; }).length;
+        }
+        if (openItems > 0) {
+            badge.textContent = openItems;
+            badge.style.display = 'inline-flex';
+        } else {
+            badge.style.display = 'none';
+        }
+    }
+    
+    // Update on various events
+    setInterval(updateActionBadge, 3000);
+    document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(updateActionBadge, 2000);
+    });
+    
+    // Hook showSection to update badge when entering ILS
+    var _origShowSec2 = showSection;
+    showSection = function(id) {
+        _origShowSec2(id);
+        setTimeout(updateActionBadge, 500);
+    };
+})();
+
+
+
+// ═══ Tool SLS Balance Sync ═══
+(function() {
+    function syncToolSls() {
+        var mainBal = document.getElementById('slsBarBalance');
+        var mainAnch = document.getElementById('slsBarAnchors');
+        var mainSpent = document.getElementById('slsBarSpent');
+        var toolBal = document.getElementById('toolSlsBal');
+        var toolAnch = document.getElementById('toolSlsAnch');
+        var toolSpent = document.getElementById('toolSlsSpent');
+        if (toolBal && mainBal) toolBal.textContent = mainBal.textContent.replace(' SLS','');
+        if (toolAnch && mainAnch) toolAnch.textContent = mainAnch.textContent;
+        if (toolSpent && mainSpent) toolSpent.textContent = mainSpent.textContent.replace(' SLS','');
+    }
+    setInterval(syncToolSls, 2000);
+    // Also hook openILSTool
+    var _origOpen3 = openILSTool;
+    openILSTool = function(toolId) {
+        _origOpen3(toolId);
+        setTimeout(syncToolSls, 200);
+    };
+})();
+
+
+
+// ═══ Post-Anchor Confirmation Display ═══
+(function() {
+    var _origHideAnchor = hideAnchorAnimation;
+    hideAnchorAnimation = function() {
+        _origHideAnchor();
+        // Show confirmation in the active tool panel
+        if (_currentILSTool) {
+            var panel = document.getElementById(_currentILSTool);
+            if (!panel) return;
+            var existing = panel.querySelector('.anchor-confirm-banner');
+            if (existing) existing.remove();
+            
+            // Get the last vault record for details
+            var lastRec = s4Vault.length > 0 ? s4Vault[0] : null;
+            if (!lastRec) return;
+            
+            var banner = document.createElement('div');
+            banner.className = 'anchor-confirm-banner';
+            banner.style.cssText = 'background:linear-gradient(135deg,rgba(0,204,102,0.08),rgba(0,170,255,0.06));border:1px solid rgba(0,204,102,0.2);border-radius:12px;padding:16px 20px;margin-bottom:16px;animation:panelSlideIn 0.4s ease;position:relative';
+            banner.innerHTML = '<button onclick="this.parentElement.remove()" style="position:absolute;top:8px;right:12px;background:none;border:none;color:var(--muted);cursor:pointer;font-size:0.85rem">&times;</button>'
+                + '<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px"><i class="fas fa-check-circle" style="color:#00cc66;font-size:1.1rem"></i><strong style="color:#fff;font-size:0.9rem">Record Anchored Successfully</strong></div>'
+                + '<div style="font-size:0.78rem;color:var(--steel);display:grid;grid-template-columns:80px 1fr;gap:4px 12px">'
+                + '<span style="color:var(--muted)">Type:</span><span>' + (lastRec.label || lastRec.type) + '</span>'
+                + '<span style="color:var(--muted)">Hash:</span><span style="font-family:monospace;color:var(--accent);font-size:0.72rem;word-break:break-all">' + (lastRec.hash || '').substring(0,32) + '...</span>'
+                + '<span style="color:var(--muted)">TX:</span><span>' + (lastRec.txHash ? '<a href="' + (lastRec.explorerUrl || '#') + '" target="_blank" style="color:var(--accent);text-decoration:none">' + lastRec.txHash.substring(0,16) + '... <i class="fas fa-external-link-alt" style="font-size:0.6rem"></i></a>' : 'Pending') + '</span>'
+                + '<span style="color:var(--muted)">Fee:</span><span style="color:#c9a84c">0.01 $SLS</span>'
+                + '<span style="color:var(--muted)">Time:</span><span>' + new Date().toLocaleTimeString() + '</span>'
+                + '</div>';
+            
+            var firstCard = panel.querySelector('.demo-card');
+            if (firstCard) {
+                firstCard.insertBefore(banner, firstCard.firstChild);
+            }
+            
+            // Auto-remove after 15 seconds
+            setTimeout(function(){ if (banner.parentElement) banner.remove(); }, 15000);
+        }
+    };
+})();
+
 </script>
 
 </body>
