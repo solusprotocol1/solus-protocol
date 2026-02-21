@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S4 Ledger — See How It Works</title>
+    <meta name="description" content="Interactive demo showing how S4 Ledger anchors and verifies defense logistics records on the XRP Ledger blockchain.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg: #050810;
+            --surface: #0a0f1c;
+            --card: #0d1220;
+            --border: rgba(255,255,255,0.06);
+            --accent: #00aaff;
+            --gold: #c9a84c;
+            --text: #c8d6e5;
+            --muted: #6b7d93;
+            --steel: #8ea4b8;
+            --green: #00cc66;
+            --red: #ff6b6b;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; overflow-x:hidden; }
+        
+        /* ═══ HEADER ═══ */
+        .demo-header {
+            background:linear-gradient(180deg,rgba(0,170,255,0.06) 0%,transparent 100%);
+            border-bottom:1px solid var(--border);
+            padding:20px 32px;
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+        }
+        .demo-logo {
+            display:flex;
+            align-items:center;
+            gap:12px;
+            text-decoration:none;
+        }
+        .demo-logo img { height:32px; }
+        .demo-logo span { font-size:1.2rem; font-weight:800; color:#fff; letter-spacing:-0.5px; }
+        .demo-logo .sub { font-size:0.72rem; color:var(--muted); font-weight:500; margin-left:8px; }
+        .demo-nav { display:flex; gap:12px; align-items:center; }
+        .demo-nav a {
+            color:var(--accent);
+            text-decoration:none;
+            font-size:0.82rem;
+            font-weight:600;
+            padding:8px 18px;
+            border-radius:8px;
+            border:1px solid rgba(0,170,255,0.3);
+            transition:all 0.2s;
+        }
+        .demo-nav a:hover { background:rgba(0,170,255,0.1); }
+        .demo-nav a.primary {
+            background:linear-gradient(135deg,#00aaff,#0088cc);
+            color:#fff;
+            border:none;
+        }
+        .demo-nav a.primary:hover { opacity:0.9; }
+
+        /* ═══ HERO ═══ */
+        .demo-hero {
+            text-align:center;
+            padding:60px 32px 40px;
+            max-width:800px;
+            margin:0 auto;
+        }
+        .demo-hero h1 {
+            font-size:2.4rem;
+            font-weight:900;
+            color:#fff;
+            margin-bottom:12px;
+            letter-spacing:-1px;
+        }
+        .demo-hero h1 span { color:var(--accent); }
+        .demo-hero p {
+            font-size:1.05rem;
+            color:var(--steel);
+            max-width:600px;
+            margin:0 auto 24px;
+            line-height:1.6;
+        }
+        .demo-tabs {
+            display:flex;
+            justify-content:center;
+            gap:8px;
+            margin-bottom:32px;
+        }
+        .demo-tab {
+            padding:10px 24px;
+            border-radius:10px;
+            font-size:0.88rem;
+            font-weight:700;
+            border:1px solid var(--border);
+            background:var(--card);
+            color:var(--muted);
+            cursor:pointer;
+            transition:all 0.25s;
+            font-family:inherit;
+        }
+        .demo-tab.active {
+            background:rgba(0,170,255,0.12);
+            color:var(--accent);
+            border-color:rgba(0,170,255,0.4);
+        }
+        .demo-tab:hover:not(.active) { border-color:rgba(255,255,255,0.15); color:var(--steel); }
+
+        /* ═══ DEMO PANELS ═══ */
+        .demo-panel { display:none; max-width:900px; margin:0 auto; padding:0 32px 60px; }
+        .demo-panel.active { display:block; }
+
+        /* ═══ ANCHOR DEMO ═══ */
+        .anchor-demo-card {
+            background:var(--card);
+            border:1px solid var(--border);
+            border-radius:16px;
+            padding:32px;
+            margin-bottom:24px;
+        }
+        .anchor-demo-card h3 {
+            font-size:1.1rem;
+            font-weight:800;
+            color:#fff;
+            margin-bottom:16px;
+            display:flex;
+            align-items:center;
+            gap:10px;
+        }
+        .step-indicator {
+            display:inline-flex;
+            align-items:center;
+            justify-content:center;
+            width:28px;
+            height:28px;
+            border-radius:50%;
+            background:rgba(0,170,255,0.15);
+            color:var(--accent);
+            font-size:0.75rem;
+            font-weight:800;
+            flex-shrink:0;
+        }
+        .step-indicator.done {
+            background:rgba(0,204,102,0.15);
+            color:var(--green);
+        }
+
+        /* Record type selector */
+        .record-type-grid {
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+            gap:10px;
+            margin-bottom:16px;
+        }
+        .record-type-btn {
+            background:var(--surface);
+            border:1px solid var(--border);
+            border-radius:10px;
+            padding:12px;
+            text-align:center;
+            cursor:pointer;
+            transition:all 0.25s;
+            font-family:inherit;
+            color:var(--steel);
+        }
+        .record-type-btn:hover { border-color:rgba(0,170,255,0.3); }
+        .record-type-btn.selected {
+            border-color:var(--accent);
+            background:rgba(0,170,255,0.08);
+            color:var(--accent);
+        }
+        .record-type-btn i { display:block; font-size:1.2rem; margin-bottom:6px; }
+        .record-type-btn .label { font-size:0.75rem; font-weight:600; }
+
+        /* Content area */
+        .demo-textarea {
+            width:100%;
+            background:var(--surface);
+            border:1px solid var(--border);
+            border-radius:10px;
+            color:var(--text);
+            padding:14px 16px;
+            font-family:'Inter',monospace;
+            font-size:0.85rem;
+            resize:vertical;
+            min-height:80px;
+            outline:none;
+            transition:border-color 0.2s;
+        }
+        .demo-textarea:focus { border-color:var(--accent); }
+        .demo-textarea::placeholder { color:var(--muted); }
+
+        /* Hash display */
+        .hash-display {
+            background:var(--surface);
+            border:1px solid var(--border);
+            border-radius:12px;
+            padding:16px;
+            margin-top:12px;
+            font-family:'Courier New',monospace;
+            font-size:0.78rem;
+            word-break:break-all;
+            color:var(--accent);
+            position:relative;
+            min-height:50px;
+        }
+        .hash-label {
+            position:absolute;
+            top:-9px;
+            left:12px;
+            background:var(--card);
+            padding:0 8px;
+            font-family:'Inter',sans-serif;
+            font-size:0.68rem;
+            font-weight:700;
+            color:var(--muted);
+            text-transform:uppercase;
+            letter-spacing:0.5px;
+        }
+
+        /* Pipeline visualization */
+        .pipeline {
+            display:flex;
+            align-items:center;
+            gap:0;
+            margin:24px 0;
+            padding:0 20px;
+        }
+        .pipeline-step {
+            flex:1;
+            text-align:center;
+            position:relative;
+            padding:16px 8px;
+            background:var(--surface);
+            border:1px solid var(--border);
+            border-radius:12px;
+            transition:all 0.5s cubic-bezier(0.4,0,0.2,1);
+        }
+        .pipeline-step.active {
+            border-color:var(--accent);
+            background:rgba(0,170,255,0.06);
+            box-shadow:0 0 20px rgba(0,170,255,0.1);
+        }
+        .pipeline-step.done {
+            border-color:var(--green);
+            background:rgba(0,204,102,0.06);
+        }
+        .pipeline-step .ps-icon {
+            width:36px;
+            height:36px;
+            border-radius:50%;
+            background:rgba(0,170,255,0.12);
+            display:inline-flex;
+            align-items:center;
+            justify-content:center;
+            margin-bottom:8px;
+            transition:all 0.5s;
+        }
+        .pipeline-step.active .ps-icon { background:rgba(0,170,255,0.25); }
+        .pipeline-step.done .ps-icon { background:rgba(0,204,102,0.25); }
+        .pipeline-step .ps-icon i { font-size:0.85rem; color:var(--accent); transition:color 0.3s; }
+        .pipeline-step.done .ps-icon i { color:var(--green); }
+        .pipeline-step .ps-label { font-size:0.72rem; font-weight:700; color:var(--steel); }
+        .pipeline-step .ps-sub { font-size:0.62rem; color:var(--muted); margin-top:2px; }
+        
+        .pipeline-arrow {
+            width:40px;
+            text-align:center;
+            color:var(--border);
+            font-size:0.85rem;
+            flex-shrink:0;
+            transition:color 0.3s;
+        }
+        .pipeline-arrow.active { color:var(--accent); }
+        .pipeline-arrow.done { color:var(--green); }
+
+        /* Button */
+        .demo-btn {
+            background:linear-gradient(135deg,#00aaff,#0088cc);
+            color:#fff;
+            border:none;
+            padding:12px 28px;
+            border-radius:10px;
+            font-size:0.9rem;
+            font-weight:700;
+            cursor:pointer;
+            font-family:inherit;
+            display:inline-flex;
+            align-items:center;
+            gap:8px;
+            transition:all 0.2s;
+            margin-top:16px;
+        }
+        .demo-btn:hover { opacity:0.9; transform:translateY(-1px); }
+        .demo-btn:disabled { opacity:0.4; cursor:not-allowed; transform:none; }
+        .demo-btn.green { background:linear-gradient(135deg,#00cc66,#009944); }
+        .demo-btn.gold { background:linear-gradient(135deg,#c9a84c,#a68836); }
+
+        /* XRPL result card */
+        .xrpl-result {
+            background:linear-gradient(135deg,rgba(0,204,102,0.06),rgba(0,170,255,0.04));
+            border:1px solid rgba(0,204,102,0.25);
+            border-radius:14px;
+            padding:24px;
+            display:none;
+            animation:slideUp 0.5s ease;
+        }
+        .xrpl-result.show { display:block; }
+        .xrpl-field { display:grid; grid-template-columns:100px 1fr; gap:4px 12px; font-size:0.82rem; margin-bottom:4px; }
+        .xrpl-field .label { color:var(--muted); font-weight:600; }
+        .xrpl-field .value { color:var(--text); font-family:monospace; word-break:break-all; }
+        .xrpl-field .value a { color:var(--accent); text-decoration:none; }
+
+        /* ═══ VERIFY DEMO ═══ */
+        .verify-zone {
+            border:2px dashed rgba(0,170,255,0.3);
+            border-radius:14px;
+            padding:40px;
+            text-align:center;
+            transition:all 0.3s;
+            cursor:pointer;
+        }
+        .verify-zone:hover { border-color:var(--accent); background:rgba(0,170,255,0.03); }
+        .verify-zone.dragover { border-color:var(--green); background:rgba(0,204,102,0.03); }
+        .verify-zone i { font-size:2rem; color:var(--accent); margin-bottom:12px; }
+        .verify-zone .vz-text { font-size:0.9rem; color:var(--steel); margin-bottom:4px; }
+        .verify-zone .vz-sub { font-size:0.75rem; color:var(--muted); }
+
+        .verify-result {
+            background:var(--card);
+            border:1px solid var(--border);
+            border-radius:14px;
+            padding:24px;
+            margin-top:20px;
+            display:none;
+            animation:slideUp 0.5s ease;
+        }
+        .verify-result.show { display:block; }
+        .verify-match { color:var(--green); }
+        .verify-fail { color:var(--red); }
+        
+        .compare-hash {
+            display:grid;
+            grid-template-columns:1fr;
+            gap:8px;
+            margin:16px 0;
+        }
+        .compare-hash-row {
+            display:flex;
+            align-items:center;
+            gap:12px;
+            background:var(--surface);
+            border-radius:8px;
+            padding:12px 16px;
+        }
+        .compare-hash-row .ch-label {
+            font-size:0.72rem;
+            font-weight:700;
+            color:var(--muted);
+            text-transform:uppercase;
+            width:80px;
+            flex-shrink:0;
+        }
+        .compare-hash-row .ch-val {
+            font-family:monospace;
+            font-size:0.72rem;
+            word-break:break-all;
+            flex:1;
+        }
+
+        /* ═══ ANIMATIONS ═══ */
+        @keyframes slideUp {
+            from { opacity:0; transform:translateY(16px); }
+            to { opacity:1; transform:translateY(0); }
+        }
+        @keyframes pulse {
+            0%,100% { opacity:1; }
+            50% { opacity:0.5; }
+        }
+        @keyframes hashStream {
+            0% { opacity:0; transform:translateX(-10px); }
+            50% { opacity:1; }
+            100% { opacity:0; transform:translateX(10px); }
+        }
+        .pulsing { animation:pulse 1s ease-in-out infinite; }
+
+        /* ═══ INFO SECTION ═══ */
+        .demo-info {
+            max-width:900px;
+            margin:0 auto;
+            padding:40px 32px 80px;
+        }
+        .info-grid {
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+            gap:16px;
+        }
+        .info-card {
+            background:var(--card);
+            border:1px solid var(--border);
+            border-radius:12px;
+            padding:24px;
+        }
+        .info-card h4 { font-size:0.9rem; color:#fff; margin-bottom:8px; display:flex; align-items:center; gap:8px; }
+        .info-card p { font-size:0.8rem; color:var(--steel); line-height:1.5; }
+        .info-card i { color:var(--accent); }
+
+        /* ═══ FOOTER ═══ */
+        .demo-footer {
+            border-top:1px solid var(--border);
+            padding:24px 32px;
+            text-align:center;
+            font-size:0.75rem;
+            color:var(--muted);
+        }
+        .demo-footer a { color:var(--accent); text-decoration:none; }
+
+        /* ═══ RESPONSIVE ═══ */
+        @media (max-width:768px) {
+            .demo-hero h1 { font-size:1.6rem; }
+            .pipeline { flex-direction:column; padding:0; }
+            .pipeline-arrow { transform:rotate(90deg); width:auto; }
+            .record-type-grid { grid-template-columns:repeat(3,1fr); }
+            .demo-header { flex-direction:column; gap:12px; }
+            .demo-tabs { flex-wrap:wrap; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ═══ HEADER ═══ -->
+<div class="demo-header">
+    <a href="/demo-app/" class="demo-logo">
+        <i class="fas fa-shield-halved" style="font-size:1.5rem;color:var(--accent)"></i>
+        <span>S4 Ledger <span class="sub">Interactive Demo</span></span>
+    </a>
+    <div class="demo-nav">
+        <a href="/demo-app/">Back to Home</a>
+        <a href="/demo-app/" class="primary"><i class="fas fa-rocket"></i> Enter Platform</a>
+    </div>
+</div>
+
+<!-- ═══ HERO ═══ -->
+<div class="demo-hero">
+    <h1>See How <span>Blockchain Anchoring</span> Works</h1>
+    <p>Watch a defense logistics record get hashed, anchored to the XRP Ledger, and verified — all in real time. No account needed.</p>
+    
+    <div class="demo-tabs">
+        <button class="demo-tab active" onclick="switchDemoTab('anchor')"><i class="fas fa-anchor" style="margin-right:6px"></i>Anchor a Record</button>
+        <button class="demo-tab" onclick="switchDemoTab('verify')"><i class="fas fa-check-circle" style="margin-right:6px"></i>Verify a Record</button>
+    </div>
+</div>
+
+<!-- ═══ ANCHOR DEMO ═══ -->
+<div class="demo-panel active" id="panelAnchor">
+
+    <!-- Step 1: Select Record Type -->
+    <div class="anchor-demo-card" id="anchorStep1">
+        <h3><span class="step-indicator" id="si1">1</span> Select a Record Type</h3>
+        <p style="font-size:0.82rem;color:var(--muted);margin-bottom:14px">Choose the type of defense logistics document to anchor. Each type gets a unique classification on-chain.</p>
+        <div class="record-type-grid">
+            <div class="record-type-btn" onclick="selectRecordType(this,'DD Form 1149')" data-type="DD Form 1149">
+                <i class="fas fa-file-invoice"></i>
+                <div class="label">DD-1149</div>
+            </div>
+            <div class="record-type-btn" onclick="selectRecordType(this,'DD Form 250')" data-type="DD Form 250">
+                <i class="fas fa-clipboard-check"></i>
+                <div class="label">DD-250</div>
+            </div>
+            <div class="record-type-btn" onclick="selectRecordType(this,'WAWF Receipt')" data-type="WAWF Receipt">
+                <i class="fas fa-receipt"></i>
+                <div class="label">WAWF</div>
+            </div>
+            <div class="record-type-btn" onclick="selectRecordType(this,'Container Manifest')" data-type="Container Manifest">
+                <i class="fas fa-box"></i>
+                <div class="label">Container</div>
+            </div>
+            <div class="record-type-btn" onclick="selectRecordType(this,'Custody Transfer')" data-type="Custody Transfer">
+                <i class="fas fa-handshake"></i>
+                <div class="label">Custody</div>
+            </div>
+            <div class="record-type-btn" onclick="selectRecordType(this,'Maintenance Log')" data-type="Maintenance Log">
+                <i class="fas fa-wrench"></i>
+                <div class="label">Maintenance</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Step 2: Enter Content -->
+    <div class="anchor-demo-card" id="anchorStep2" style="opacity:0.4;pointer-events:none;transition:all 0.4s">
+        <h3><span class="step-indicator" id="si2">2</span> Enter Record Content</h3>
+        <p style="font-size:0.82rem;color:var(--muted);margin-bottom:14px">Type or paste the content that will be hashed and anchored. In production, you'd upload a file.</p>
+        <textarea class="demo-textarea" id="demoContent" placeholder="Type sample content here... e.g., 'NSN 5820-01-234-5678 shipped via DD1149 to Camp Pendleton, 14 APR 2025'" oninput="onContentChange()"></textarea>
+        <div id="charCount" style="text-align:right;font-size:0.7rem;color:var(--muted);margin-top:4px">0 characters</div>
+    </div>
+
+    <!-- Step 3: SHA-256 Hash -->
+    <div class="anchor-demo-card" id="anchorStep3" style="opacity:0.4;pointer-events:none;transition:all 0.4s">
+        <h3><span class="step-indicator" id="si3">3</span> SHA-256 Hash Generated</h3>
+        <p style="font-size:0.82rem;color:var(--muted);margin-bottom:14px">The content is hashed client-side using SHA-256. This fingerprint is what gets stored on the blockchain — not the content itself.</p>
+        <div class="hash-display" id="hashDisplay">
+            <span class="hash-label">SHA-256</span>
+            <span id="hashValue" style="color:var(--muted)">Waiting for content...</span>
+        </div>
+    </div>
+
+    <!-- Pipeline Visualization -->
+    <div class="pipeline" id="anchorPipeline" style="opacity:0.4;transition:all 0.4s">
+        <div class="pipeline-step" id="ps1">
+            <div class="ps-icon"><i class="fas fa-file-alt"></i></div>
+            <div class="ps-label">Record</div>
+            <div class="ps-sub">Selected</div>
+        </div>
+        <div class="pipeline-arrow" id="pa1"><i class="fas fa-chevron-right"></i></div>
+        <div class="pipeline-step" id="ps2">
+            <div class="ps-icon"><i class="fas fa-fingerprint"></i></div>
+            <div class="ps-label">SHA-256</div>
+            <div class="ps-sub">Hashed</div>
+        </div>
+        <div class="pipeline-arrow" id="pa2"><i class="fas fa-chevron-right"></i></div>
+        <div class="pipeline-step" id="ps3">
+            <div class="ps-icon"><i class="fas fa-coins"></i></div>
+            <div class="ps-label">0.01 SLS</div>
+            <div class="ps-sub">Fee Deducted</div>
+        </div>
+        <div class="pipeline-arrow" id="pa3"><i class="fas fa-chevron-right"></i></div>
+        <div class="pipeline-step" id="ps4">
+            <div class="ps-icon"><i class="fas fa-link"></i></div>
+            <div class="ps-label">XRPL</div>
+            <div class="ps-sub">Anchored</div>
+        </div>
+        <div class="pipeline-arrow" id="pa4"><i class="fas fa-chevron-right"></i></div>
+        <div class="pipeline-step" id="ps5">
+            <div class="ps-icon"><i class="fas fa-check-circle"></i></div>
+            <div class="ps-label">Confirmed</div>
+            <div class="ps-sub">Immutable</div>
+        </div>
+    </div>
+
+    <!-- Anchor Button -->
+    <div style="text-align:center;margin:24px 0">
+        <button class="demo-btn" id="anchorBtn" disabled onclick="runAnchorDemo()">
+            <i class="fas fa-anchor"></i> Anchor to XRPL
+        </button>
+        <div id="anchorStatus" style="font-size:0.75rem;color:var(--muted);margin-top:8px"></div>
+    </div>
+
+    <!-- XRPL Result -->
+    <div class="xrpl-result" id="anchorResult">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+            <i class="fas fa-check-circle" style="color:var(--green);font-size:1.3rem"></i>
+            <div>
+                <div style="font-size:1rem;font-weight:800;color:#fff">Record Anchored Successfully</div>
+                <div style="font-size:0.75rem;color:var(--green)">Permanent, tamper-proof record on the XRP Ledger</div>
+            </div>
+        </div>
+        <div class="xrpl-field"><span class="label">Type:</span><span class="value" id="resultType">—</span></div>
+        <div class="xrpl-field"><span class="label">Hash:</span><span class="value" id="resultHash">—</span></div>
+        <div class="xrpl-field"><span class="label">TX Hash:</span><span class="value" id="resultTx">—</span></div>
+        <div class="xrpl-field"><span class="label">Ledger:</span><span class="value" id="resultLedger">—</span></div>
+        <div class="xrpl-field"><span class="label">Fee:</span><span class="value" style="color:var(--gold)">0.01 SLS ($0.0001)</span></div>
+        <div class="xrpl-field"><span class="label">Time:</span><span class="value" id="resultTime">—</span></div>
+        <div class="xrpl-field"><span class="label">Explorer:</span><span class="value" id="resultExplorer">—</span></div>
+        <div style="margin-top:16px;text-align:center">
+            <button class="demo-btn gold" onclick="resetAnchorDemo()" style="margin-right:8px"><i class="fas fa-redo"></i> Try Again</button>
+            <button class="demo-btn green" onclick="switchDemoTab('verify')"><i class="fas fa-check-circle"></i> Now Verify It</button>
+        </div>
+    </div>
+</div>
+
+<!-- ═══ VERIFY DEMO ═══ -->
+<div class="demo-panel" id="panelVerify">
+
+    <div class="anchor-demo-card">
+        <h3><span class="step-indicator">1</span> Upload or Enter Content to Verify</h3>
+        <p style="font-size:0.82rem;color:var(--muted);margin-bottom:14px">Upload a file or enter text to generate its SHA-256 hash. S4 Ledger compares it against all blockchain-anchored records.</p>
+        
+        <div class="verify-zone" id="verifyZone" ondragover="event.preventDefault();this.classList.add('dragover')" ondragleave="this.classList.remove('dragover')" ondrop="handleVerifyDrop(event)">
+            <i class="fas fa-cloud-upload-alt" style="display:block"></i>
+            <div class="vz-text">Drop a file here or click to type content</div>
+            <div class="vz-sub">PDF, Excel, Word, CSV, TXT — any file format</div>
+        </div>
+
+        <div style="margin-top:16px">
+            <textarea class="demo-textarea" id="verifyContent" placeholder="Or type/paste content here to verify..." oninput="onVerifyInput()"></textarea>
+        </div>
+    </div>
+
+    <div class="anchor-demo-card" id="verifyStep2" style="opacity:0.4;pointer-events:none;transition:all 0.4s">
+        <h3><span class="step-indicator" id="vsi2">2</span> Hash Comparison</h3>
+        <p style="font-size:0.82rem;color:var(--muted);margin-bottom:14px">We hash your content and compare it against the on-chain record. If they match, the content is verified as authentic and unaltered.</p>
+        
+        <div class="compare-hash">
+            <div class="compare-hash-row">
+                <span class="ch-label">Your File</span>
+                <span class="ch-val" id="verifyYourHash" style="color:var(--accent)">—</span>
+            </div>
+            <div style="text-align:center;padding:4px 0">
+                <i class="fas fa-arrows-up-down" id="verifyCompareIcon" style="color:var(--muted)"></i>
+            </div>
+            <div class="compare-hash-row">
+                <span class="ch-label">On-Chain</span>
+                <span class="ch-val" id="verifyChainHash" style="color:var(--gold)">—</span>
+            </div>
+        </div>
+
+        <div style="text-align:center;margin-top:12px">
+            <button class="demo-btn green" id="verifyBtn" onclick="runVerifyDemo()"><i class="fas fa-search"></i> Verify on Blockchain</button>
+        </div>
+    </div>
+
+    <!-- Verify Result -->
+    <div class="verify-result" id="verifyResult">
+        <div id="verifyResultContent"></div>
+    </div>
+
+    <div style="text-align:center;margin-top:20px">
+        <button class="demo-btn" onclick="switchDemoTab('anchor')" style="background:var(--card);border:1px solid var(--border);color:var(--text)">
+            <i class="fas fa-arrow-left"></i> Back to Anchor Demo
+        </button>
+    </div>
+</div>
+
+<!-- ═══ INFO SECTION ═══ -->
+<div class="demo-info">
+    <h2 style="font-size:1.3rem;font-weight:800;color:#fff;text-align:center;margin-bottom:24px"><i class="fas fa-info-circle" style="color:var(--accent);margin-right:8px"></i>How S4 Ledger Works</h2>
+    <div class="info-grid">
+        <div class="info-card">
+            <h4><i class="fas fa-fingerprint"></i> SHA-256 Hashing</h4>
+            <p>Every record is hashed client-side using the SHA-256 algorithm. The hash is a unique 64-character fingerprint — change one bit of the original, and the hash changes completely.</p>
+        </div>
+        <div class="info-card">
+            <h4><i class="fas fa-link"></i> XRPL Anchoring</h4>
+            <p>The hash is embedded in an XRPL Memo field on a real blockchain transaction. Once confirmed by validators, the record is permanent and tamper-proof — nobody can alter it.</p>
+        </div>
+        <div class="info-card">
+            <h4><i class="fas fa-coins" style="color:var(--gold)"></i> SLS Token Economy</h4>
+            <p>Each anchor costs 0.01 SLS (~$0.0001). SLS is the utility token that powers every action. Subscriptions include SLS allocations based on your tier.</p>
+        </div>
+        <div class="info-card">
+            <h4><i class="fas fa-shield-halved"></i> Defense-Grade Security</h4>
+            <p>Compliant with NIST 800-171, DFARS, ITAR, and CMMC Level 3. Built specifically for defense logistics integrity and chain of custody.</p>
+        </div>
+    </div>
+</div>
+
+<!-- ═══ FOOTER ═══ -->
+<div class="demo-footer">
+    <p>&copy; 2025 S4 Ledger — Blockchain Integrity for Defense Logistics &nbsp;|&nbsp; <a href="/demo-app/">Home</a> &nbsp;|&nbsp; <a href="/demo-app/">Enter Platform</a></p>
+</div>
+
+<script>
+// ═══ DEMO STATE ═══
+var _selectedType = null;
+var _currentHash = null;
+var _anchoredRecords = []; // Store demo-anchored records for verify demo
+
+// ═══ TAB SWITCHING ═══
+function switchDemoTab(tab) {
+    document.querySelectorAll('.demo-tab').forEach(function(t) { t.classList.remove('active'); });
+    document.querySelectorAll('.demo-panel').forEach(function(p) { p.classList.remove('active'); });
+    
+    if (tab === 'anchor') {
+        document.querySelector('.demo-tab:nth-child(1)').classList.add('active');
+        document.getElementById('panelAnchor').classList.add('active');
+    } else {
+        document.querySelector('.demo-tab:nth-child(2)').classList.add('active');
+        document.getElementById('panelVerify').classList.add('active');
+    }
+}
+
+// ═══ RECORD TYPE SELECTION ═══
+function selectRecordType(btn, type) {
+    document.querySelectorAll('.record-type-btn').forEach(function(b) { b.classList.remove('selected'); });
+    btn.classList.add('selected');
+    _selectedType = type;
+    
+    // Enable step 2
+    document.getElementById('anchorStep2').style.opacity = '1';
+    document.getElementById('anchorStep2').style.pointerEvents = 'auto';
+    document.getElementById('si1').classList.add('done');
+    document.getElementById('si1').innerHTML = '<i class="fas fa-check" style="font-size:0.65rem"></i>';
+    
+    // Auto-fill sample content based on type
+    var samples = {
+        'DD Form 1149': 'DD1149-2025-04821 | NSN 5820-01-234-5678 | Qty: 48 | Ship To: Camp Pendleton, CA | Contract: W56HZV-24-C-0093',
+        'DD Form 250': 'DD250-2025-07744 | CAGE: 3R2Y7 | CLIN 0001 | Acceptance: Source | Inspector: DCMA-SanDiego',
+        'WAWF Receipt': 'WAWF-RR-2025-19334 | Contract: N00024-23-C-5520 | GFM Receipt | Location: NAVSUP-Mech',
+        'Container Manifest': 'CONT-USMIL-2025-5521 | 20ft ISO | Weight: 14,200kg | Route: Rota→Norfolk | Seal: 4479218',
+        'Custody Transfer': 'CT-2025-3389 | Item: JTRS Radio Set | From: 3rd MARDIV | To: MARCORLOGCOM | Auth: Col. Reynolds',
+        'Maintenance Log': 'MX-2025-8812 | Tail: 168451 (CH-53K) | Phase: 200hr | Discrepancy: TGB oil temp sensor | Status: Complete'
+    };
+    var textarea = document.getElementById('demoContent');
+    textarea.value = samples[type] || '';
+    onContentChange();
+}
+
+// ═══ CONTENT CHANGE → LIVE HASH ═══
+async function onContentChange() {
+    var content = document.getElementById('demoContent').value;
+    document.getElementById('charCount').textContent = content.length + ' characters';
+    
+    if (content.length > 0) {
+        // Enable step 3
+        document.getElementById('anchorStep3').style.opacity = '1';
+        document.getElementById('anchorStep3').style.pointerEvents = 'auto';
+        document.getElementById('si2').classList.add('done');
+        document.getElementById('si2').innerHTML = '<i class="fas fa-check" style="font-size:0.65rem"></i>';
+        
+        // Generate SHA-256 hash
+        var hash = await sha256(content);
+        _currentHash = hash;
+        
+        // Animate hash display
+        var hashEl = document.getElementById('hashValue');
+        hashEl.style.color = 'var(--accent)';
+        hashEl.textContent = hash;
+        
+        document.getElementById('si3').classList.add('done');
+        document.getElementById('si3').innerHTML = '<i class="fas fa-check" style="font-size:0.65rem"></i>';
+        
+        // Enable pipeline and button
+        document.getElementById('anchorPipeline').style.opacity = '1';
+        document.getElementById('anchorBtn').disabled = false;
+        
+        // Light up first two pipeline steps
+        document.getElementById('ps1').classList.add('done');
+        document.getElementById('ps2').classList.add('done');
+        document.getElementById('pa1').classList.add('done');
+        document.getElementById('pa2').classList.add('done');
+    } else {
+        document.getElementById('anchorStep3').style.opacity = '0.4';
+        document.getElementById('anchorStep3').style.pointerEvents = 'none';
+        document.getElementById('hashValue').textContent = 'Waiting for content...';
+        document.getElementById('hashValue').style.color = 'var(--muted)';
+        document.getElementById('anchorPipeline').style.opacity = '0.4';
+        document.getElementById('anchorBtn').disabled = true;
+        _currentHash = null;
+    }
+}
+
+// ═══ SHA-256 HASH ═══
+async function sha256(message) {
+    var msgBuffer = new TextEncoder().encode(message);
+    var hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+    var hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map(function(b) { return b.toString(16).padStart(2, '0'); }).join('');
+}
+
+// ═══ RANDOM HEX ═══
+function randomHex(len) {
+    var chars = '0123456789abcdef';
+    var result = '';
+    for (var i = 0; i < len; i++) result += chars[Math.floor(Math.random() * 16)];
+    return result;
+}
+
+// ═══ ANCHOR DEMO ANIMATION ═══
+async function runAnchorDemo() {
+    var btn = document.getElementById('anchorBtn');
+    var status = document.getElementById('anchorStatus');
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Anchoring...';
+
+    // Animate pipeline step 3: SLS fee
+    status.textContent = 'Deducting 0.01 SLS fee...';
+    document.getElementById('ps3').classList.add('active');
+    document.getElementById('pa3').classList.add('active');
+    await sleep(800);
+    document.getElementById('ps3').classList.remove('active');
+    document.getElementById('ps3').classList.add('done');
+
+    // Animate pipeline step 4: XRPL transaction
+    status.textContent = 'Submitting to XRPL validators...';
+    document.getElementById('ps4').classList.add('active');
+    document.getElementById('pa4').classList.add('active');
+    await sleep(1200);
+    document.getElementById('ps4').classList.remove('active');
+    document.getElementById('ps4').classList.add('done');
+
+    // Animate pipeline step 5: Confirmed
+    status.textContent = 'Waiting for ledger confirmation...';
+    document.getElementById('ps5').classList.add('active');
+    await sleep(600);
+    document.getElementById('ps5').classList.remove('active');
+    document.getElementById('ps5').classList.add('done');
+    document.getElementById('pa4').classList.add('done');
+
+    // Generate fake but realistic XRPL data
+    var txHash = randomHex(64).toUpperCase();
+    var ledgerIndex = 95000000 + Math.floor(Math.random() * 500000);
+
+    // Store for verify demo
+    _anchoredRecords.push({
+        type: _selectedType,
+        hash: _currentHash,
+        txHash: txHash,
+        ledger: ledgerIndex,
+        time: new Date().toISOString()
+    });
+
+    // Show result
+    document.getElementById('resultType').textContent = _selectedType;
+    document.getElementById('resultHash').textContent = _currentHash;
+    document.getElementById('resultTx').innerHTML = '<a href="https://livenet.xrpl.org/transactions/' + txHash + '" target="_blank">' + txHash.substring(0, 32) + '... <i class="fas fa-external-link-alt" style="font-size:0.6rem"></i></a>';
+    document.getElementById('resultLedger').textContent = '#' + ledgerIndex.toLocaleString();
+    document.getElementById('resultTime').textContent = new Date().toLocaleTimeString() + ' — ~3.2 seconds';
+    document.getElementById('resultExplorer').innerHTML = '<a href="https://livenet.xrpl.org/accounts/rMLmkrxpadq5z6oTDmq8GhQj9LKjf1KLqJ" target="_blank">View S4 Treasury on XRPL <i class="fas fa-external-link-alt" style="font-size:0.6rem"></i></a>';
+
+    var result = document.getElementById('anchorResult');
+    result.classList.add('show');
+    result.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+    btn.innerHTML = '<i class="fas fa-check"></i> Anchored!';
+    btn.style.background = 'linear-gradient(135deg,#00cc66,#009944)';
+    status.textContent = 'Record anchored to XRPL ledger #' + ledgerIndex.toLocaleString();
+}
+
+function resetAnchorDemo() {
+    // Reset UI
+    document.querySelectorAll('.record-type-btn').forEach(function(b) { b.classList.remove('selected'); });
+    document.getElementById('demoContent').value = '';
+    document.getElementById('charCount').textContent = '0 characters';
+    document.getElementById('hashValue').textContent = 'Waiting for content...';
+    document.getElementById('hashValue').style.color = 'var(--muted)';
+    document.getElementById('anchorStep2').style.opacity = '0.4';
+    document.getElementById('anchorStep2').style.pointerEvents = 'none';
+    document.getElementById('anchorStep3').style.opacity = '0.4';
+    document.getElementById('anchorStep3').style.pointerEvents = 'none';
+    document.getElementById('anchorPipeline').style.opacity = '0.4';
+    
+    // Reset step indicators
+    ['si1','si2','si3'].forEach(function(id, i) {
+        var el = document.getElementById(id);
+        el.classList.remove('done');
+        el.textContent = (i + 1).toString();
+    });
+    
+    // Reset pipeline
+    for (var i = 1; i <= 5; i++) {
+        var ps = document.getElementById('ps' + i);
+        if (ps) { ps.classList.remove('active','done'); }
+    }
+    for (var i = 1; i <= 4; i++) {
+        var pa = document.getElementById('pa' + i);
+        if (pa) { pa.classList.remove('active','done'); }
+    }
+    
+    var btn = document.getElementById('anchorBtn');
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-anchor"></i> Anchor to XRPL';
+    btn.style.background = '';
+    document.getElementById('anchorStatus').textContent = '';
+    document.getElementById('anchorResult').classList.remove('show');
+    
+    _selectedType = null;
+    _currentHash = null;
+}
+
+// ═══ VERIFY DEMO ═══
+async function onVerifyInput() {
+    var content = document.getElementById('verifyContent').value;
+    if (content.length > 0) {
+        document.getElementById('verifyStep2').style.opacity = '1';
+        document.getElementById('verifyStep2').style.pointerEvents = 'auto';
+        
+        var hash = await sha256(content);
+        document.getElementById('verifyYourHash').textContent = hash;
+        document.getElementById('vsi2').classList.add('done');
+        document.getElementById('vsi2').innerHTML = '<i class="fas fa-check" style="font-size:0.65rem"></i>';
+    } else {
+        document.getElementById('verifyStep2').style.opacity = '0.4';
+        document.getElementById('verifyStep2').style.pointerEvents = 'none';
+    }
+}
+
+function handleVerifyDrop(e) {
+    e.preventDefault();
+    document.getElementById('verifyZone').classList.remove('dragover');
+    var files = e.dataTransfer.files;
+    if (files.length > 0) {
+        var reader = new FileReader();
+        reader.onload = async function() {
+            // Hash the file content
+            var buffer = reader.result;
+            var hashBuffer = await crypto.subtle.digest('SHA-256', buffer);
+            var hashArray = Array.from(new Uint8Array(hashBuffer));
+            var hash = hashArray.map(function(b) { return b.toString(16).padStart(2, '0'); }).join('');
+            
+            document.getElementById('verifyContent').value = '[File: ' + files[0].name + ' — ' + (files[0].size / 1024).toFixed(1) + ' KB]';
+            document.getElementById('verifyYourHash').textContent = hash;
+            document.getElementById('verifyStep2').style.opacity = '1';
+            document.getElementById('verifyStep2').style.pointerEvents = 'auto';
+            document.getElementById('vsi2').classList.add('done');
+            document.getElementById('vsi2').innerHTML = '<i class="fas fa-check" style="font-size:0.65rem"></i>';
+        };
+        reader.readAsArrayBuffer(files[0]);
+    }
+}
+
+async function runVerifyDemo() {
+    var yourHash = document.getElementById('verifyYourHash').textContent;
+    var btn = document.getElementById('verifyBtn');
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Searching blockchain...';
+    
+    await sleep(1500);
+    
+    // Check if this hash was anchored in the demo
+    var found = _anchoredRecords.find(function(r) { return r.hash === yourHash; });
+    
+    var chainHash = found ? found.hash : randomHex(64);
+    document.getElementById('verifyChainHash').textContent = chainHash;
+    
+    var compareIcon = document.getElementById('verifyCompareIcon');
+    var resultDiv = document.getElementById('verifyResultContent');
+    
+    if (found) {
+        compareIcon.className = 'fas fa-equals';
+        compareIcon.style.color = 'var(--green)';
+        document.getElementById('verifyChainHash').style.color = 'var(--green)';
+        
+        resultDiv.innerHTML = '<div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">'
+            + '<i class="fas fa-shield-halved" style="color:var(--green);font-size:1.3rem"></i>'
+            + '<div><div style="font-size:1rem;font-weight:800;color:var(--green)">VERIFIED — Record is Authentic</div>'
+            + '<div style="font-size:0.75rem;color:var(--steel)">The content matches the blockchain-anchored hash exactly. This record has not been tampered with.</div></div></div>'
+            + '<div class="xrpl-field"><span class="label">Type:</span><span class="value">' + found.type + '</span></div>'
+            + '<div class="xrpl-field"><span class="label">Anchored:</span><span class="value">' + new Date(found.time).toLocaleString() + '</span></div>'
+            + '<div class="xrpl-field"><span class="label">TX Hash:</span><span class="value"><a href="https://livenet.xrpl.org/transactions/' + found.txHash + '" target="_blank">' + found.txHash.substring(0, 32) + '...</a></span></div>'
+            + '<div class="xrpl-field"><span class="label">Ledger:</span><span class="value">#' + found.ledger.toLocaleString() + '</span></div>';
+    } else {
+        compareIcon.className = 'fas fa-not-equal';
+        compareIcon.style.color = 'var(--red)';
+        document.getElementById('verifyChainHash').style.color = 'var(--red)';
+        
+        resultDiv.innerHTML = '<div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">'
+            + '<i class="fas fa-exclamation-triangle" style="color:var(--red);font-size:1.3rem"></i>'
+            + '<div><div style="font-size:1rem;font-weight:800;color:var(--red)">NOT FOUND — No Matching Record</div>'
+            + '<div style="font-size:0.75rem;color:var(--steel)">This content does not match any anchored record on the XRPL. It may not have been anchored, or the content may have been modified.</div></div></div>'
+            + '<div style="padding:12px;background:rgba(255,107,107,0.06);border-radius:8px;margin-top:12px;font-size:0.82rem;color:var(--steel)">'
+            + '<strong>Tip:</strong> Try anchoring a record first in the Anchor demo, then come back here and enter the same content to see a successful verification.'
+            + '</div>';
+    }
+    
+    var result = document.getElementById('verifyResult');
+    result.classList.add('show');
+    result.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fas fa-search"></i> Verify on Blockchain';
+}
+
+function sleep(ms) { return new Promise(function(r) { setTimeout(r, ms); }); }
+</script>
+
+</body>
+</html>

@@ -1,310 +1,314 @@
 {
-    "framework": null,
-    "cleanUrls": true,
-    "headers": [
+  "framework": null,
+  "cleanUrls": true,
+  "headers": [
+    {
+      "source": "/.well-known/(.*)",
+      "headers": [
         {
-            "source": "/.well-known/(.*)",
-            "headers": [
-                {
-                    "key": "Content-Type",
-                    "value": "application/toml"
-                },
-                {
-                    "key": "Access-Control-Allow-Origin",
-                    "value": "*"
-                }
-            ]
+          "key": "Content-Type",
+          "value": "application/toml"
         },
         {
-            "source": "/(.*)",
-            "headers": [
-                {
-                    "key": "X-Content-Type-Options",
-                    "value": "nosniff"
-                },
-                {
-                    "key": "X-Frame-Options",
-                    "value": "SAMEORIGIN"
-                },
-                {
-                    "key": "Strict-Transport-Security",
-                    "value": "max-age=63072000; includeSubDomains; preload"
-                },
-                {
-                    "key": "X-XSS-Protection",
-                    "value": "1; mode=block"
-                },
-                {
-                    "key": "Referrer-Policy",
-                    "value": "strict-origin-when-cross-origin"
-                },
-                {
-                    "key": "Permissions-Policy",
-                    "value": "camera=(), microphone=(), geolocation=(), payment=(self)"
-                },
-                {
-                    "key": "X-Permitted-Cross-Domain-Policies",
-                    "value": "none"
-                },
-                {
-                    "key": "Content-Security-Policy",
-                    "value": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://fonts.googleapis.com; font-src 'self' https://cdnjs.cloudflare.com https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://s4ledger.com https://xrplcluster.com; frame-ancestors 'self'"
-                }
-            ]
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
         }
-    ],
-    "rewrites": [
+      ]
+    },
+    {
+      "source": "/(.*)",
+      "headers": [
         {
-            "source": "/api/status",
-            "destination": "/api"
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
         },
         {
-            "source": "/api/health",
-            "destination": "/api"
+          "key": "X-Frame-Options",
+          "value": "SAMEORIGIN"
         },
         {
-            "source": "/api/metrics",
-            "destination": "/api"
+          "key": "Strict-Transport-Security",
+          "value": "max-age=63072000; includeSubDomains; preload"
         },
         {
-            "source": "/api/transactions",
-            "destination": "/api"
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
         },
         {
-            "source": "/api/record-types",
-            "destination": "/api"
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
         },
         {
-            "source": "/api/anchor",
-            "destination": "/api"
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=(), payment=(self)"
         },
         {
-            "source": "/api/hash",
-            "destination": "/api"
+          "key": "X-Permitted-Cross-Domain-Policies",
+          "value": "none"
         },
         {
-            "source": "/api/categorize",
-            "destination": "/api"
-        },
-        {
-            "source": "/api/xrpl-status",
-            "destination": "/api"
-        },
-        {
-            "source": "/api/auth/api-key",
-            "destination": "/api"
-        },
-        {
-            "source": "/api/auth/validate",
-            "destination": "/api"
-        },
-        {
-            "source": "/api/db/save-analysis",
-            "destination": "/api"
-        },
-        {
-            "source": "/api/db/get-analyses",
-            "destination": "/api"
-        },
-        {
-            "source": "/api/infrastructure",
-            "destination": "/api"
-        },
-        {
-            "source": "/api/dmsms",
-            "destination": "/api"
-        },
-        {
-            "source": "/api/readiness",
-            "destination": "/api"
-        },
-        {
-            "source": "/api/parts",
-            "destination": "/api"
-        },
-        {
-            "source": "/api/roi",
-            "destination": "/api"
-        },
-        {
-            "source": "/api/lifecycle",
-            "destination": "/api"
-        },
-        {
-            "source": "/api/warranty",
-            "destination": "/api"
-        },
-        {
-            "source": "/api/verify",
-            "destination": "/api"
-        },
-        {
-            "source": "/api/supply-chain-risk",
-            "destination": "/api"
-        },
-        {
-            "source": "/api/audit-reports",
-            "destination": "/api"
-        },
-        {
-            "source": "/api/contracts",
-            "destination": "/api"
-        },
-        {
-            "source": "/api/digital-thread",
-            "destination": "/api"
-        },
-        {
-            "source": "/api/predictive-maintenance",
-            "destination": "/api"
-        },
-        {
-            "source": "/api/action-items",
-            "destination": "/api"
-        },
-        {
-            "source": "/api/calendar",
-            "destination": "/api"
-        },
-        {
-            "source": "/api/wallet/provision",
-            "destination": "/api"
-        },
-        {
-            "source": "/api/wallet/buy-sls",
-            "destination": "/api"
-        },
-        {
-            "source": "/api/wallet/balance",
-            "destination": "/api"
-        },
-        {
-            "source": "/api/demo/provision",
-            "destination": "/api"
-        },
-        {
-            "source": "/api/demo/anchor",
-            "destination": "/api"
-        },
-        {
-            "source": "/api/demo/status",
-            "destination": "/api"
-        },
-        {
-            "source": "/api/treasury/health",
-            "destination": "/api"
-        },
-        {
-            "source": "/api/webhook/stripe",
-            "destination": "/api"
-        },
-        {
-            "source": "/api/ai-chat",
-            "destination": "/api"
-        },
-        {
-            "source": "/api/webhooks/register",
-            "destination": "/api"
-        },
-        {
-            "source": "/api/webhooks/list",
-            "destination": "/api"
-        },
-        {
-            "source": "/api/webhooks/deliveries",
-            "destination": "/api"
-        },
-        {
-            "source": "/api/webhooks/test",
-            "destination": "/api"
-        },
-        {
-            "source": "/api/anchor/composite",
-            "destination": "/api"
-        },
-        {
-            "source": "/api/anchor/batch",
-            "destination": "/api"
-        },
-        {
-            "source": "/api/proof-chain",
-            "destination": "/api"
-        },
-        {
-            "source": "/api/custody/transfer",
-            "destination": "/api"
-        },
-        {
-            "source": "/api/custody/chain",
-            "destination": "/api"
-        },
-        {
-            "source": "/api/hash/file",
-            "destination": "/api"
-        },
-        {
-            "source": "/api/verify/batch",
-            "destination": "/api"
-        },
-        {
-            "source": "/api/org/records",
-            "destination": "/api"
-        },
-        {
-            "source": "/api/integrations/wawf",
-            "destination": "/api"
-        },
-        {
-            "source": "/api/ai/query",
-            "destination": "/api"
-        },
-        {
-            "source": "/api/ils/gap-analysis",
-            "destination": "/api"
-        },
-        {
-            "source": "/api/logistics/risk-score",
-            "destination": "/api"
-        },
-        {
-            "source": "/api/defense/task",
-            "destination": "/api"
-        },
-        {
-            "source": "/api/offline/queue",
-            "destination": "/api"
-        },
-        {
-            "source": "/api/offline/sync",
-            "destination": "/api"
-        },
-        {
-            "source": "/api/metrics/performance",
-            "destination": "/api"
-        },
-        {
-            "source": "/api/security/audit-trail",
-            "destination": "/api"
-        },
-        {
-            "source": "/api/verify/ai",
-            "destination": "/api"
-        },
-        {
-            "source": "/api/security/rbac",
-            "destination": "/api"
-        },
-        {
-            "source": "/api/security/zkp",
-            "destination": "/api"
-        },
-        {
-            "source": "/api/security/threat-model",
-            "destination": "/api"
-        },
-        {
-            "source": "/api/security/dependency-audit",
-            "destination": "/api"
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://fonts.googleapis.com; font-src 'self' https://cdnjs.cloudflare.com https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://s4ledger.com https://xrplcluster.com; frame-ancestors 'self'"
         }
-    ]
+      ]
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/api/status",
+      "destination": "/api"
+    },
+    {
+      "source": "/api/health",
+      "destination": "/api"
+    },
+    {
+      "source": "/api/metrics",
+      "destination": "/api"
+    },
+    {
+      "source": "/api/transactions",
+      "destination": "/api"
+    },
+    {
+      "source": "/api/record-types",
+      "destination": "/api"
+    },
+    {
+      "source": "/api/anchor",
+      "destination": "/api"
+    },
+    {
+      "source": "/api/hash",
+      "destination": "/api"
+    },
+    {
+      "source": "/api/categorize",
+      "destination": "/api"
+    },
+    {
+      "source": "/api/xrpl-status",
+      "destination": "/api"
+    },
+    {
+      "source": "/api/auth/api-key",
+      "destination": "/api"
+    },
+    {
+      "source": "/api/auth/validate",
+      "destination": "/api"
+    },
+    {
+      "source": "/api/db/save-analysis",
+      "destination": "/api"
+    },
+    {
+      "source": "/api/db/get-analyses",
+      "destination": "/api"
+    },
+    {
+      "source": "/api/infrastructure",
+      "destination": "/api"
+    },
+    {
+      "source": "/api/dmsms",
+      "destination": "/api"
+    },
+    {
+      "source": "/api/readiness",
+      "destination": "/api"
+    },
+    {
+      "source": "/api/parts",
+      "destination": "/api"
+    },
+    {
+      "source": "/api/roi",
+      "destination": "/api"
+    },
+    {
+      "source": "/api/lifecycle",
+      "destination": "/api"
+    },
+    {
+      "source": "/api/warranty",
+      "destination": "/api"
+    },
+    {
+      "source": "/api/verify",
+      "destination": "/api"
+    },
+    {
+      "source": "/api/supply-chain-risk",
+      "destination": "/api"
+    },
+    {
+      "source": "/api/audit-reports",
+      "destination": "/api"
+    },
+    {
+      "source": "/api/contracts",
+      "destination": "/api"
+    },
+    {
+      "source": "/api/digital-thread",
+      "destination": "/api"
+    },
+    {
+      "source": "/api/predictive-maintenance",
+      "destination": "/api"
+    },
+    {
+      "source": "/api/action-items",
+      "destination": "/api"
+    },
+    {
+      "source": "/api/calendar",
+      "destination": "/api"
+    },
+    {
+      "source": "/api/wallet/provision",
+      "destination": "/api"
+    },
+    {
+      "source": "/api/wallet/buy-sls",
+      "destination": "/api"
+    },
+    {
+      "source": "/api/wallet/balance",
+      "destination": "/api"
+    },
+    {
+      "source": "/api/demo/provision",
+      "destination": "/api"
+    },
+    {
+      "source": "/api/demo/anchor",
+      "destination": "/api"
+    },
+    {
+      "source": "/api/demo/status",
+      "destination": "/api"
+    },
+    {
+      "source": "/api/treasury/health",
+      "destination": "/api"
+    },
+    {
+      "source": "/api/webhook/stripe",
+      "destination": "/api"
+    },
+    {
+      "source": "/api/ai-chat",
+      "destination": "/api"
+    },
+    {
+      "source": "/api/webhooks/register",
+      "destination": "/api"
+    },
+    {
+      "source": "/api/webhooks/list",
+      "destination": "/api"
+    },
+    {
+      "source": "/api/webhooks/deliveries",
+      "destination": "/api"
+    },
+    {
+      "source": "/api/webhooks/test",
+      "destination": "/api"
+    },
+    {
+      "source": "/api/anchor/composite",
+      "destination": "/api"
+    },
+    {
+      "source": "/api/anchor/batch",
+      "destination": "/api"
+    },
+    {
+      "source": "/api/proof-chain",
+      "destination": "/api"
+    },
+    {
+      "source": "/api/custody/transfer",
+      "destination": "/api"
+    },
+    {
+      "source": "/api/custody/chain",
+      "destination": "/api"
+    },
+    {
+      "source": "/api/hash/file",
+      "destination": "/api"
+    },
+    {
+      "source": "/api/verify/batch",
+      "destination": "/api"
+    },
+    {
+      "source": "/api/org/records",
+      "destination": "/api"
+    },
+    {
+      "source": "/api/integrations/wawf",
+      "destination": "/api"
+    },
+    {
+      "source": "/api/ai/query",
+      "destination": "/api"
+    },
+    {
+      "source": "/api/ils/gap-analysis",
+      "destination": "/api"
+    },
+    {
+      "source": "/api/logistics/risk-score",
+      "destination": "/api"
+    },
+    {
+      "source": "/api/defense/task",
+      "destination": "/api"
+    },
+    {
+      "source": "/api/offline/queue",
+      "destination": "/api"
+    },
+    {
+      "source": "/api/offline/sync",
+      "destination": "/api"
+    },
+    {
+      "source": "/api/metrics/performance",
+      "destination": "/api"
+    },
+    {
+      "source": "/api/security/audit-trail",
+      "destination": "/api"
+    },
+    {
+      "source": "/api/verify/ai",
+      "destination": "/api"
+    },
+    {
+      "source": "/api/security/rbac",
+      "destination": "/api"
+    },
+    {
+      "source": "/api/security/zkp",
+      "destination": "/api"
+    },
+    {
+      "source": "/api/security/threat-model",
+      "destination": "/api"
+    },
+    {
+      "source": "/api/security/dependency-audit",
+      "destination": "/api"
+    },
+    {
+      "source": "/demo",
+      "destination": "/demo-app/demo.html"
+    }
+  ]
 }
