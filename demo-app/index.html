@@ -794,13 +794,31 @@ document.addEventListener('drop', function(e) { e.preventDefault(); e.stopPropag
                             <details style="margin-top:8px;margin-bottom:12px;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.15);border-radius:8px;padding:0 12px;">
                                 <summary style="cursor:pointer;padding:10px 0;color:#00aaff;font-weight:600;font-size:0.85rem;"><i class="fas fa-info-circle"></i> How Verification Works</summary>
                                 <div style="padding:0 0 12px;color:var(--steel);font-size:0.82rem;line-height:1.6;">
-                                    <p><strong style="color:#fff;">What's real:</strong> Verification computes the SHA-256 hash of your pasted content and compares it against the hash that was previously anchored on the XRPL. If they match, the record is proven unaltered since the anchor date — the blockchain itself is the proof.</p>
-                                    <p><strong style="color:#fff;">How it works:</strong> Verification checks your record's hash against the XRPL-anchored hash. If they match, integrity is confirmed. If not, the document may have been tampered with.</p>
+                                    <p><strong style="color:#fff;">What's real:</strong> Verification computes the SHA-256 hash of your uploaded file or pasted content and compares it against the hash that was previously anchored on the XRPL. If they match, the record is proven unaltered since the anchor date — the blockchain itself is the proof. <strong>Files are hashed locally in your browser — nothing is uploaded to any server.</strong></p>
+                                    <p><strong style="color:#fff;">How it works:</strong> Upload a PDF, spreadsheet, contract packet, or any file — S4 Ledger computes the SHA-256 hash of the raw file bytes and checks it against the anchored hash. If they match, integrity is confirmed. Works with any file type: PDFs, XLSX, DOCX, images, signed documents — even view-only or copy-protected files.</p>
                                     <p><strong style="color:#00aaff;">How S4 Ledger saves money here:</strong> Manual record verification during audits and inspections can take 40–200 staff-hours per event. S4 Ledger provides instant, cryptographic proof in seconds — reducing verification labor costs by <strong>90–98%</strong> and eliminating disputes about record authenticity.</p>
                                     <p><strong style="color:#00aaff;">Production mode:</strong> Automated batch verification via API — plug into QA pipelines, audit workflows, and supply chain acceptance processes for continuous integrity monitoring.</p>
                                 </div>
                             </details>
-                            <p style="color:var(--steel);font-size:0.9rem;margin-bottom:1rem">Paste the original record content to verify its hash matches what was anchored on XRPL.</p>
+                            <p style="color:var(--steel);font-size:0.9rem;margin-bottom:1rem">Upload or paste the original record to verify its hash matches what was anchored on XRPL.</p>
+
+                            <!-- FILE UPLOAD VERIFICATION -->
+                            <label><i class="fas fa-file-upload" style="color:var(--accent);margin-right:4px;"></i> Upload File(s) to Verify</label>
+                            <div id="verifyDropZone" ondragover="event.preventDefault();event.stopPropagation();this.style.borderColor='var(--accent)';this.style.background='rgba(0,170,255,0.08)'" ondragleave="this.style.borderColor='rgba(0,170,255,0.25)';this.style.background='rgba(0,170,255,0.03)'" ondrop="handleVerifyFileDrop(event)" onclick="document.getElementById('verifyFileInput').click()" style="border:2px dashed rgba(0,170,255,0.25);border-radius:10px;padding:24px;text-align:center;cursor:pointer;margin-bottom:16px;background:rgba(0,170,255,0.03);transition:all 0.3s;">
+                                <i class="fas fa-shield-halved" style="font-size:1.8rem;color:var(--accent);margin-bottom:8px;display:block;"></i>
+                                <div style="color:var(--accent);font-weight:600;font-size:0.88rem;">Drop file(s) here to verify integrity</div>
+                                <div style="color:var(--steel);font-size:0.78rem;margin-top:4px;">PDF, Excel, Word, CSV, JSON, images, contracts &mdash; any file type</div>
+                                <div style="color:var(--muted);font-size:0.72rem;margin-top:6px;">The file is hashed locally &mdash; <strong>never uploaded to any server</strong></div>
+                                <input type="file" id="verifyFileInput" style="display:none" onchange="handleVerifyFileSelect(event)" multiple>
+                            </div>
+                            <div id="verifyFileResults" style="display:none;margin-bottom:16px;"></div>
+
+                            <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+                                <div style="flex:1;height:1px;background:var(--border);"></div>
+                                <span style="color:var(--muted);font-size:0.75rem;font-weight:600;text-transform:uppercase;letter-spacing:1px;">or paste text</span>
+                                <div style="flex:1;height:1px;background:var(--border);"></div>
+                            </div>
+
                             <label>Record Content</label>
                             <textarea id="verifyInput" placeholder="Paste the original defense record content here..."></textarea>
                             <label class="mt-2">Expected Hash (optional)</label>
@@ -2636,6 +2654,12 @@ async function sha256(text) {
     return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
 }
 
+// Hash raw binary data (ArrayBuffer) — used for file verification
+async function sha256Binary(arrayBuffer) {
+    const buf = await crypto.subtle.digest('SHA-256', arrayBuffer);
+    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+}
+
 function copyHash(hash) {
     navigator.clipboard.writeText(hash).then(function() {
         document.querySelectorAll('.copy-btn').forEach(function(b) { b.innerHTML = '<i class="fas fa-check"></i> Copied!'; });
@@ -2997,7 +3021,12 @@ async function anchorRecord() {
     btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Anchoring...';
 
     const encrypt = document.getElementById('encryptCheck').checked;
-    const hash = await sha256(input);
+    // Use binary file hash if a file was uploaded, otherwise hash the text input
+    const hash = _lastUploadedFileHash ? _lastUploadedFileHash : await sha256(input);
+    // Clear file hash after use so next manual paste doesn't reuse it
+    var _anchoredFileName = _lastUploadedFileName;
+    var _anchoredFileSize = _lastUploadedFileSize;
+    _lastUploadedFileHash = null; _lastUploadedFileName = null; _lastUploadedFileSize = 0;
     const typeInfo = RECORD_TYPES[selectedType] || {label:selectedType,icon:'fa-clipboard-list',color:'var(--accent)',branch:'JOINT'};
 
     const clfLevel = getClassification(selectedType);
@@ -3085,6 +3114,183 @@ async function verifyRecord() {
         + '<div style="margin-top:0.8rem;font-size:0.8rem;color:var(--muted)">To verify on-chain: compare this hash with the MemoData field of the anchor transaction.</div>';
     panel.classList.add('show');
 }
+
+
+// ═══ File-Based Verification ═══
+function handleVerifyFileDrop(e) {
+    e.preventDefault(); e.stopPropagation();
+    var zone = document.getElementById('verifyDropZone');
+    if (zone) { zone.style.borderColor = 'rgba(0,170,255,0.25)'; zone.style.background = 'rgba(0,170,255,0.03)'; }
+    var files = e.dataTransfer.files;
+    if (files.length > 0) verifyFiles(files);
+}
+
+function handleVerifyFileSelect(e) {
+    var files = e.target.files;
+    if (files.length > 0) verifyFiles(files);
+}
+
+async function verifyFiles(fileList) {
+    var resultsDiv = document.getElementById('verifyFileResults');
+    resultsDiv.style.display = 'block';
+    resultsDiv.innerHTML = '<div style="text-align:center;padding:16px;color:var(--accent);"><i class="fas fa-spinner fa-spin"></i> Verifying ' + fileList.length + ' file' + (fileList.length > 1 ? 's' : '') + '...</div>';
+
+    var results = [];
+    for (var i = 0; i < fileList.length; i++) {
+        var file = fileList[i];
+        var result = await verifySingleFile(file);
+        results.push(result);
+    }
+
+    // Render results
+    var html = '<div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;">';
+    html += '<div style="padding:12px 16px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">';
+    html += '<span style="color:#fff;font-weight:700;font-size:0.88rem;"><i class="fas fa-shield-halved" style="color:var(--accent);margin-right:6px;"></i>File Verification Results</span>';
+    var matched = results.filter(function(r) { return r.matched; }).length;
+    var failed = results.filter(function(r) { return !r.matched && !r.noAnchor; }).length;
+    var notFound = results.filter(function(r) { return r.noAnchor; }).length;
+    html += '<span style="font-size:0.78rem;">';
+    if (matched > 0) html += '<span style="color:var(--green);margin-right:10px;"><i class="fas fa-check-circle"></i> ' + matched + ' verified</span>';
+    if (failed > 0) html += '<span style="color:var(--red);margin-right:10px;"><i class="fas fa-times-circle"></i> ' + failed + ' tampered</span>';
+    if (notFound > 0) html += '<span style="color:var(--gold);"><i class="fas fa-question-circle"></i> ' + notFound + ' not anchored</span>';
+    html += '</span></div>';
+
+    for (var j = 0; j < results.length; j++) {
+        var r = results[j];
+        var statusColor = r.matched ? 'var(--green)' : (r.noAnchor ? 'var(--gold)' : 'var(--red)');
+        var statusIcon = r.matched ? 'fa-check-circle' : (r.noAnchor ? 'fa-question-circle' : 'fa-times-circle');
+        var statusText = r.matched ? 'VERIFIED \u2014 Integrity confirmed' : (r.noAnchor ? 'NOT FOUND \u2014 No matching anchor in session' : 'MISMATCH \u2014 File may have been tampered with');
+
+        html += '<div style="padding:12px 16px;border-bottom:1px solid rgba(255,255,255,0.03);display:flex;gap:12px;align-items:flex-start;">';
+        html += '<div style="width:32px;height:32px;border-radius:8px;background:rgba(0,170,255,0.08);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="fas fa-file" style="color:var(--accent);font-size:0.85rem;"></i></div>';
+        html += '<div style="flex:1;min-width:0;">';
+        html += '<div style="color:#fff;font-weight:600;font-size:0.82rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + r.fileName + ' <span style="color:var(--muted);font-weight:400;">(' + r.fileSize + ')</span></div>';
+        html += '<div style="font-family:monospace;font-size:0.7rem;color:var(--muted);margin:3px 0;word-break:break-all;">SHA-256: ' + r.hash + '</div>';
+        html += '<div style="color:' + statusColor + ';font-size:0.78rem;font-weight:600;"><i class="fas ' + statusIcon + '" style="margin-right:4px;"></i>' + statusText + '</div>';
+        if (r.matchedRecord) {
+            html += '<div style="font-size:0.72rem;color:var(--steel);margin-top:3px;"><i class="fas fa-anchor" style="margin-right:4px;"></i>Anchored as: ' + r.matchedRecord.label + ' on ' + new Date(r.matchedRecord.timestamp).toLocaleString() + '</div>';
+        }
+        html += '</div></div>';
+    }
+    html += '</div>';
+
+    // Batch controls
+    html += '<div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;">';
+    html += '<button onclick="document.getElementById(\'verifyFileInput\').value=\'\';document.getElementById(\'verifyFileResults\').style.display=\'none\';" style="background:rgba(255,255,255,0.06);color:var(--steel);border:1px solid var(--border);padding:6px 14px;border-radius:8px;font-size:0.78rem;cursor:pointer;"><i class="fas fa-redo"></i> Verify More Files</button>';
+    if (matched > 0) {
+        html += '<button onclick="exportVerificationReport()" style="background:rgba(0,170,255,0.12);color:var(--accent);border:1px solid rgba(0,170,255,0.3);padding:6px 14px;border-radius:8px;font-size:0.78rem;cursor:pointer;"><i class="fas fa-download"></i> Export Report</button>';
+    }
+    html += '</div>';
+
+    resultsDiv.innerHTML = html;
+    window._lastVerifyResults = results;
+
+    // Update verify stats
+    if (typeof stats !== 'undefined') {
+        stats.verified = (stats.verified || 0) + results.length;
+        if (typeof updateStats === 'function') updateStats();
+        if (typeof saveStats === 'function') saveStats();
+    }
+}
+
+async function verifySingleFile(file) {
+    return new Promise(function(resolve) {
+        var reader = new FileReader();
+        reader.onload = async function(ev) {
+            var arrayBuffer = ev.target.result;
+            var hash = await sha256Binary(arrayBuffer);
+            var fileSize = file.size < 1024 ? file.size + ' B'
+                : file.size < 1048576 ? (file.size / 1024).toFixed(1) + ' KB'
+                : (file.size / 1048576).toFixed(1) + ' MB';
+
+            var matchedRecord = null;
+            var matched = false;
+            var noAnchor = true;
+
+            // Check session records (binary hash)
+            if (typeof sessionRecords !== 'undefined') {
+                for (var i = 0; i < sessionRecords.length; i++) {
+                    if (sessionRecords[i].hash === hash) {
+                        matchedRecord = sessionRecords[i];
+                        matched = true;
+                        noAnchor = false;
+                        break;
+                    }
+                }
+            }
+
+            // Check expected hash field
+            var expectedHash = document.getElementById('verifyHash').value.trim();
+            if (expectedHash && !matched) {
+                if (hash.toLowerCase() === expectedHash.toLowerCase()) {
+                    matched = true;
+                    noAnchor = false;
+                } else {
+                    noAnchor = false;
+                }
+            }
+
+            // Fallback: also try text hash (in case the file was anchored as text)
+            if (!matched && (file.type.startsWith('text/') || file.name.match(/\.(txt|csv|json|xml|md|html|log|yaml|yml)$/i))) {
+                var textReader = new FileReader();
+                textReader.onload = async function(tev) {
+                    var textHash = await sha256(tev.target.result);
+                    if (typeof sessionRecords !== 'undefined') {
+                        for (var j = 0; j < sessionRecords.length; j++) {
+                            if (sessionRecords[j].hash === textHash) {
+                                matchedRecord = sessionRecords[j];
+                                matched = true;
+                                noAnchor = false;
+                                hash = textHash;
+                                break;
+                            }
+                        }
+                    }
+                    if (expectedHash && !matched) {
+                        if (textHash.toLowerCase() === expectedHash.toLowerCase()) {
+                            matched = true;
+                            noAnchor = false;
+                            hash = textHash;
+                        }
+                    }
+                    resolve({ fileName: file.name, fileSize: fileSize, hash: hash, matched: matched, noAnchor: noAnchor, matchedRecord: matchedRecord, timestamp: new Date().toISOString() });
+                };
+                textReader.readAsText(file);
+            } else {
+                resolve({ fileName: file.name, fileSize: fileSize, hash: hash, matched: matched, noAnchor: noAnchor, matchedRecord: matchedRecord, timestamp: new Date().toISOString() });
+            }
+        };
+        reader.readAsArrayBuffer(file);
+    });
+}
+
+// Export verification report as JSON
+function exportVerificationReport() {
+    if (!window._lastVerifyResults) return;
+    var report = {
+        title: 'S4 Ledger File Verification Report',
+        timestamp: new Date().toISOString(),
+        platform: 'S4 Ledger \u2014 XRPL Mainnet',
+        files_verified: window._lastVerifyResults.length,
+        results: window._lastVerifyResults.map(function(r) {
+            return {
+                file_name: r.fileName,
+                file_size: r.fileSize,
+                sha256_hash: r.hash,
+                verified: r.matched,
+                status: r.matched ? 'INTEGRITY_CONFIRMED' : (r.noAnchor ? 'NO_ANCHOR_FOUND' : 'TAMPER_DETECTED'),
+                anchored_as: r.matchedRecord ? r.matchedRecord.label : null,
+                anchored_at: r.matchedRecord ? r.matchedRecord.timestamp : null
+            };
+        })
+    };
+    var blob = new Blob([JSON.stringify(report, null, 2)], { type: 'application/json' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 's4_verification_report_' + Date.now() + '.json';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+}
+
 
 function _renderIcon(ic) {
     if (!ic) return '<i class="fas fa-clipboard-list"></i>';
@@ -8501,28 +8707,42 @@ function handleFileSelect(e) {
     if (files.length > 0) processUploadedFile(files[0]);
 }
 
+// Track the last uploaded file's binary hash for anchoring
+var _lastUploadedFileHash = null;
+var _lastUploadedFileName = null;
+var _lastUploadedFileSize = 0;
+
 function processUploadedFile(file) {
     var nameEl = document.getElementById('dropFileName');
     if (nameEl) {
         nameEl.style.display = 'block';
         nameEl.innerHTML = '<i class="fas fa-file" style="margin-right:6px;"></i>' + file.name + ' (' + (file.size / 1024).toFixed(1) + ' KB)';
     }
-    var reader = new FileReader();
-    reader.onload = function(ev) {
-        var content = ev.target.result;
-        if (typeof content === 'string') {
-            document.getElementById('recordInput').value = content.substring(0, 10000);
-        } else {
-            // Binary file — hash the ArrayBuffer
-            var arr = new Uint8Array(content);
-            var hex = Array.from(arr.slice(0, 500)).map(function(b) { return b.toString(16).padStart(2, '0'); }).join('');
-            document.getElementById('recordInput').value = 'FILE:' + file.name + '|SIZE:' + file.size + '|BINARY_PREFIX:' + hex;
-        }
+    _lastUploadedFileName = file.name;
+    _lastUploadedFileSize = file.size;
+
+    // Always read binary for hashing (this gives us the true file hash)
+    var binaryReader = new FileReader();
+    binaryReader.onload = function(ev) {
+        sha256Binary(ev.target.result).then(function(hash) {
+            _lastUploadedFileHash = hash;
+            if (nameEl) {
+                nameEl.innerHTML = '<i class="fas fa-file" style="margin-right:6px;"></i>' + file.name + ' (' + (file.size / 1024).toFixed(1) + ' KB)'
+                    + '<div style="font-size:0.7rem;color:var(--muted);font-family:monospace;margin-top:4px;">SHA-256: ' + hash.substring(0,32) + '...</div>';
+            }
+        });
     };
+    binaryReader.readAsArrayBuffer(file);
+
+    // Also read text content for the textarea preview (text files only)
     if (file.type.startsWith('text/') || file.name.match(/\.(txt|csv|json|xml|md|html|log|yaml|yml)$/i)) {
-        reader.readAsText(file);
+        var textReader = new FileReader();
+        textReader.onload = function(ev) {
+            document.getElementById('recordInput').value = ev.target.result.substring(0, 10000);
+        };
+        textReader.readAsText(file);
     } else {
-        reader.readAsArrayBuffer(file);
+        document.getElementById('recordInput').value = 'FILE: ' + file.name + ' | SIZE: ' + (file.size / 1024).toFixed(1) + ' KB | Binary file \u2014 SHA-256 hash computed from raw bytes';
     }
 }
 
