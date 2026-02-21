@@ -284,6 +284,142 @@
         .ils-hub-tab.active{background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff!important;border-color:transparent;box-shadow:0 2px 10px rgba(0,170,255,0.3)}
         .ils-hub-tab .tab-badge{font-size:0.65rem;padding:1px 6px;border-radius:10px;background:rgba(255,51,51,0.2);color:#ff3333;font-weight:700}
         .ils-hub-tab.active .tab-badge{background:rgba(255,255,255,0.2);color:#fff}
+        /* ═══ ANCHOR-S4 UX OVERHAUL — Professional Enhancement ═══ */
+        .ils-hub-panel .demo-card{border:1px solid var(--border);border-radius:14px;background:var(--card);padding:24px 28px;transition:border-color 0.3s,box-shadow 0.3s}
+        .ils-hub-panel .demo-card:hover{border-color:rgba(0,170,255,0.12);box-shadow:0 4px 24px rgba(0,0,0,0.15)}
+        .ils-hub-panel .demo-card h3{font-size:1.05rem;font-weight:700;color:#fff;margin-bottom:16px;display:flex;align-items:center;gap:10px;letter-spacing:-0.01em}
+        .ils-hub-panel .demo-card h3 i{color:var(--accent);font-size:0.95rem}
+        
+        /* KPI Dashboard Strips */
+        .kpi-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:20px}
+        .kpi-card{background:linear-gradient(145deg,var(--surface),rgba(0,170,255,0.03));border:1px solid var(--border);border-radius:12px;padding:16px 18px;text-align:center;transition:all 0.3s;position:relative;overflow:hidden}
+        .kpi-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),transparent);opacity:0;transition:opacity 0.3s}
+        .kpi-card:hover{border-color:rgba(0,170,255,0.2);transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,0.2)}
+        .kpi-card:hover::before{opacity:1}
+        .kpi-val{font-size:1.5rem;font-weight:800;color:#fff;line-height:1.2;margin-bottom:4px;font-variant-numeric:tabular-nums}
+        .kpi-val.accent{color:var(--accent)}
+        .kpi-val.gold{color:var(--gold)}
+        .kpi-val.red{color:#ff4444}
+        .kpi-val.green{color:#00cc66}
+        .kpi-lbl{font-size:0.72rem;color:var(--steel);text-transform:uppercase;letter-spacing:0.8px;font-weight:600}
+        .kpi-trend{font-size:0.68rem;margin-top:4px;display:flex;align-items:center;justify-content:center;gap:4px}
+        .kpi-trend.up{color:#00cc66}
+        .kpi-trend.down{color:#ff4444}
+        .kpi-trend.neutral{color:var(--steel)}
+        
+        /* Chart Containers */
+        .chart-container{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:16px;position:relative}
+        .chart-container canvas{max-height:260px}
+        .chart-title{font-size:0.78rem;font-weight:700;color:var(--steel);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:12px;display:flex;align-items:center;gap:6px}
+        .chart-title i{color:var(--accent);font-size:0.72rem}
+        
+        /* Tool Header Bar */
+        .tool-header-bar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+        .tool-header-bar h3{margin:0;font-size:1.08rem;font-weight:700;color:#fff;display:flex;align-items:center;gap:10px}
+        .tool-header-bar h3 i{color:var(--accent)}
+        .tool-header-actions{display:flex;gap:8px;flex-wrap:wrap}
+        .tool-header-actions .btn-tool{background:rgba(0,170,255,0.08);border:1px solid rgba(0,170,255,0.2);color:var(--accent);border-radius:8px;padding:6px 14px;font-size:0.78rem;font-weight:600;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:6px;font-family:inherit}
+        .tool-header-actions .btn-tool:hover{background:rgba(0,170,255,0.15);border-color:rgba(0,170,255,0.35)}
+        .tool-header-actions .btn-tool.primary{background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;box-shadow:0 2px 10px rgba(0,170,255,0.25)}
+        .tool-header-actions .btn-tool.primary:hover{box-shadow:0 4px 16px rgba(0,170,255,0.35);transform:translateY(-1px)}
+        
+        /* Section Dividers */  
+        .section-divider{border:none;border-top:1px solid var(--border);margin:20px 0}
+        .section-label{font-size:0.72rem;font-weight:700;color:var(--steel);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;display:flex;align-items:center;gap:6px}
+        .section-label i{color:var(--accent);font-size:0.68rem}
+        
+        /* Enhanced Details/Accordion */
+        .ils-hub-panel details{margin-bottom:16px;background:rgba(0,170,255,0.02);border:1px solid rgba(0,170,255,0.1);border-radius:10px;padding:0 16px;transition:all 0.3s}
+        .ils-hub-panel details[open]{background:rgba(0,170,255,0.04);border-color:rgba(0,170,255,0.15)}
+        .ils-hub-panel details summary{cursor:pointer;padding:12px 0;color:var(--accent);font-weight:600;font-size:0.82rem;display:flex;align-items:center;gap:8px;transition:color 0.2s;list-style:none}
+        .ils-hub-panel details summary::-webkit-details-marker{display:none}
+        .ils-hub-panel details summary::before{content:'\f054';font-family:'Font Awesome 6 Free';font-weight:900;font-size:0.65rem;transition:transform 0.2s;color:var(--accent)}
+        .ils-hub-panel details[open] summary::before{transform:rotate(90deg)}
+        
+        /* Enhanced Stat Mini Cards */
+        .stat-mini{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-align:center;transition:all 0.3s}
+        .stat-mini:hover{border-color:rgba(0,170,255,0.15);box-shadow:0 4px 16px rgba(0,0,0,0.15)}
+        .stat-mini-val{font-size:1.25rem;font-weight:800;line-height:1.2;font-variant-numeric:tabular-nums}
+        .stat-mini-lbl,.stat-mini-label{font-size:0.68rem;color:var(--steel);text-transform:uppercase;letter-spacing:0.5px;margin-top:4px;font-weight:600}
+        
+        /* Enhanced Buttons */
+        .btn-anchor{background:linear-gradient(135deg,#00aaff,#0077cc);color:#fff;border:none;border-radius:10px;padding:10px 20px;font-size:0.82rem;font-weight:700;cursor:pointer;transition:all 0.3s;display:inline-flex;align-items:center;gap:8px;font-family:inherit;box-shadow:0 2px 12px rgba(0,170,255,0.25)}
+        .btn-anchor:hover{transform:translateY(-1px);box-shadow:0 4px 20px rgba(0,170,255,0.35)}
+        .btn-export{background:rgba(0,170,255,0.08);color:var(--accent);border:1px solid rgba(0,170,255,0.2);border-radius:10px;padding:10px 20px;font-size:0.82rem;font-weight:700;cursor:pointer;transition:all 0.2s;display:inline-flex;align-items:center;gap:8px;font-family:inherit}
+        .btn-export:hover{background:rgba(0,170,255,0.15);border-color:rgba(0,170,255,0.35)}
+        
+        /* Data Tables */
+        .data-table{width:100%;border-collapse:separate;border-spacing:0;font-size:0.82rem;border:1px solid var(--border);border-radius:10px;overflow:hidden}
+        .data-table thead th{background:var(--surface);color:var(--steel);font-weight:700;text-transform:uppercase;font-size:0.7rem;letter-spacing:0.5px;padding:12px 14px;border-bottom:1px solid var(--border);text-align:left}
+        .data-table tbody td{padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:middle}
+        .data-table tbody tr:hover{background:rgba(0,170,255,0.03)}
+        .data-table tbody tr:last-child td{border-bottom:none}
+        
+        /* Badge/Tag Styles */
+        .severity-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:6px;font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.3px}
+        .severity-badge.critical{background:rgba(255,68,68,0.15);color:#ff4444;border:1px solid rgba(255,68,68,0.2)}
+        .severity-badge.warning{background:rgba(255,165,0,0.15);color:#ffa500;border:1px solid rgba(255,165,0,0.2)}
+        .severity-badge.info{background:rgba(0,170,255,0.12);color:var(--accent);border:1px solid rgba(0,170,255,0.2)}
+        .severity-badge.success{background:rgba(0,204,102,0.12);color:#00cc66;border:1px solid rgba(0,204,102,0.2)}
+        
+        /* Progress Bars */
+        .progress-bar-container{background:var(--surface);border:1px solid var(--border);border-radius:8px;height:10px;overflow:hidden;position:relative}
+        .progress-bar-fill{height:100%;border-radius:8px;transition:width 0.6s cubic-bezier(0.25,0.1,0.25,1);position:relative}
+        .progress-bar-fill::after{content:'';position:absolute;top:0;right:0;bottom:0;width:30px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.15));border-radius:8px}
+        
+        /* Empty State */
+        .empty-state{text-align:center;padding:40px 20px;color:var(--steel)}
+        .empty-state i{font-size:2.5rem;color:var(--border);margin-bottom:12px}
+        .empty-state h4{color:#fff;font-size:0.95rem;margin-bottom:8px}
+        .empty-state p{font-size:0.82rem;max-width:400px;margin:0 auto}
+        
+        /* Smooth Scrollbars */
+        .ils-hub-panel ::-webkit-scrollbar{width:6px;height:6px}
+        .ils-hub-panel ::-webkit-scrollbar-track{background:transparent}
+        .ils-hub-panel ::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.1);border-radius:3px}
+        .ils-hub-panel ::-webkit-scrollbar-thumb:hover{background:rgba(255,255,255,0.2)}
+        
+        /* Enhanced Form Controls within panels */
+        .ils-hub-panel .form-control,.ils-hub-panel select,.ils-hub-panel .form-select{background:var(--surface);border:1px solid var(--border);color:#fff;border-radius:10px;padding:10px 14px;font-size:0.85rem;font-family:inherit;transition:all 0.2s}
+        .ils-hub-panel .form-control:focus,.ils-hub-panel select:focus{border-color:var(--accent);outline:none;box-shadow:0 0 0 3px rgba(0,170,255,0.1)}
+        .ils-hub-panel label{color:var(--steel);font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.7px;margin-bottom:6px}
+        
+        /* Card Grid Layout */
+        .tool-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-bottom:20px}
+        .tool-grid-item{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;transition:all 0.3s}
+        .tool-grid-item:hover{border-color:rgba(0,170,255,0.15);box-shadow:0 4px 20px rgba(0,0,0,0.15)}
+        
+        /* Anchor-S4 Workspace Header Enhancement */
+        .anchor-s4-header{background:linear-gradient(135deg,rgba(0,170,255,0.08),rgba(201,168,76,0.04));border:1px solid rgba(0,170,255,0.12);border-radius:14px;padding:16px 24px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+        .anchor-s4-header h3{margin:0;font-size:1.2rem;font-weight:800;color:#fff;display:flex;align-items:center;gap:10px;letter-spacing:-0.02em}
+        .anchor-s4-header h3 i{color:var(--accent);font-size:1rem}
+        .anchor-s4-meta{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+        .anchor-s4-meta .meta-item{font-size:0.75rem;color:var(--steel);display:flex;align-items:center;gap:5px}
+        .anchor-s4-meta .meta-item i{color:var(--accent);font-size:0.68rem}
+        .anchor-s4-meta .meta-item strong{color:#fff}
+        
+        /* Enhanced ILS Sub-Hub Cards */
+        .ils-sub-hub{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-bottom:16px;padding:4px 0}
+        .ils-tool-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px 16px;cursor:pointer;transition:all 0.3s;position:relative;overflow:hidden}
+        .ils-tool-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),transparent);opacity:0;transition:opacity 0.3s}
+        .ils-tool-card:hover{border-color:rgba(0,170,255,0.25);transform:translateY(-3px);box-shadow:0 8px 25px rgba(0,0,0,0.2)}
+        .ils-tool-card:hover::before{opacity:1}
+        .itc-icon{font-size:1.3rem;margin-bottom:10px;display:block}
+        .itc-title{font-size:0.88rem;font-weight:700;color:#fff;margin-bottom:6px;letter-spacing:-0.01em}
+        .itc-desc{font-size:0.75rem;color:var(--steel);line-height:1.5}
+        
+        /* Responsive improvements */
+        @media(max-width:768px){
+            .kpi-strip{grid-template-columns:repeat(2,1fr)}
+            .tool-grid{grid-template-columns:1fr}
+            .ils-sub-hub{grid-template-columns:repeat(2,1fr)}
+            .anchor-s4-header{padding:14px 16px}
+            .ils-hub-panel .demo-card{padding:18px 16px}
+        }
+        @media(max-width:480px){
+            .kpi-strip{grid-template-columns:1fr 1fr}
+            .ils-sub-hub{grid-template-columns:1fr 1fr}
+        }
         .ils-hub-panel{display:none;animation:fadeIn 0.3s ease}
         .ils-hub-panel.active{display:block}
         /* ═══ CALENDAR STYLES ═══ */
@@ -550,7 +686,7 @@ document.addEventListener('drop', function(e) { e.preventDefault(); e.stopPropag
             </div></div>
             <div class="col-md-4 mb-3"><div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:2rem 1.5rem;text-align:center;height:100%;">
                 <i class="fas fa-cubes" style="font-size:2rem;color:var(--accent);margin-bottom:1rem;display:block;"></i>
-                <h4 style="font-size:1rem;font-weight:700;color:#fff;margin-bottom:0.5rem;">ILS Workspace</h4>
+                <h4 style="font-size:1rem;font-weight:700;color:#fff;margin-bottom:0.5rem;">Anchor-S4</h4>
                 <p style="color:var(--steel);font-size:0.88rem;line-height:1.6;">Gap analysis, DMSMS tracking, readiness scoring, lifecycle cost estimation, compliance scorecards, and 15+ more tools.</p>
             </div></div>
             <div class="col-md-4 mb-3"><div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:2rem 1.5rem;text-align:center;height:100%;">
@@ -715,7 +851,7 @@ document.addEventListener('drop', function(e) { e.preventDefault(); e.stopPropag
                     </div>
                     <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;">
                         <button onclick="document.querySelector('a[href=&quot;#tabAnchor&quot;]').click();" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;padding:6px 16px;border-radius:8px;font-size:0.76rem;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:5px;"><i class="fas fa-anchor"></i> Anchor a Record</button>
-                        <button onclick="document.querySelector('a[href=&quot;#tabILS&quot;]').click();" style="background:rgba(0,170,255,0.12);color:#00aaff;border:1px solid rgba(0,170,255,0.3);padding:6px 16px;border-radius:8px;font-size:0.76rem;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:5px;"><i class="fas fa-brain"></i> ILS Workspace</button>
+                        <button onclick="document.querySelector('a[href=&quot;#tabILS&quot;]').click();" style="background:rgba(0,170,255,0.12);color:#00aaff;border:1px solid rgba(0,170,255,0.3);padding:6px 16px;border-radius:8px;font-size:0.76rem;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:5px;"><i class="fas fa-brain"></i> Anchor-S4</button>
                         <button onclick="_checkDemoStatus();" style="background:rgba(201,168,76,0.12);color:#c9a84c;border:1px solid rgba(201,168,76,0.3);padding:6px 16px;border-radius:8px;font-size:0.76rem;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:5px;"><i class="fas fa-sync-alt"></i> Refresh Status</button>
                         <a href="https://livenet.xrpl.org/accounts/rMLmkrxpadq5z6oTDmq8GhQj9LKjf1KLqJ" target="_blank" style="background:rgba(201,168,76,0.1);color:#c9a84c;border:1px solid rgba(201,168,76,0.3);padding:6px 16px;border-radius:8px;font-size:0.76rem;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:5px;"><i class="fas fa-external-link-alt"></i> View Treasury on XRPL</a>
                     </div>
@@ -761,8 +897,8 @@ document.addEventListener('drop', function(e) { e.preventDefault(); e.stopPropag
                 </div>
                 <div class="hub-card" onclick="showSection('sectionILS')">
                     <div class="hc-icon" style="background:rgba(201,168,76,0.1);"><i class="fas fa-brain" style="color:#c9a84c;"></i></div>
-                    <div class="hc-title">Logistics Workspace</div>
-                    <div class="hc-desc">13 integrated tools: Gap Analysis, DMSMS, Readiness, Compliance, Risk, Predictive Maintenance, ROI, Audit Vault, and more.</div>
+                    <div class="hc-title">Anchor-S4</div>
+                    <div class="hc-desc">13 integrated defense tools: Gap Analysis, DMSMS, Readiness, Compliance, Risk, Predictive Maintenance, ROI, Audit Vault, and more.</div>
                     <div class="hc-meta"><i class="fas fa-tools"></i> 13 ILS tools &bull; AI-powered</div>
                     <div class="hc-arrow"><i class="fas fa-chevron-right"></i></div>
                 </div>
@@ -782,7 +918,7 @@ document.addEventListener('drop', function(e) { e.preventDefault(); e.stopPropag
             <li class="nav-item"><a class="nav-link" data-bs-toggle="pill" href="#tabAnchor" role="tab"><i class="fas fa-anchor"></i> Anchor</a></li>
             <li class="nav-item"><a class="nav-link" data-bs-toggle="pill" href="#tabVerify" role="tab"><i class="fas fa-check-circle"></i> Verify</a></li>
             <li class="nav-item"><a class="nav-link" data-bs-toggle="pill" href="#tabLog" role="tab"><i class="fas fa-list"></i> Transaction Log</a></li>
-            <li class="nav-item"><a class="nav-link" data-bs-toggle="pill" href="#tabILS" role="tab"><i class="fas fa-brain"></i> ILS Workspace</a></li>
+            <li class="nav-item"><a class="nav-link" data-bs-toggle="pill" href="#tabILS" role="tab"><i class="fas fa-brain"></i> Anchor-S4</a></li>
             <li class="nav-item"><a class="nav-link" data-bs-toggle="pill" href="#tabMetrics" role="tab"><i class="fas fa-chart-line"></i> Metrics</a></li>
             <li class="nav-item"><a class="nav-link" data-bs-toggle="pill" href="#tabOffline" role="tab"><i class="fas fa-wifi" id="offlineTabIcon"></i> Offline Queue</a></li>
             <li class="nav-item"><a class="nav-link" data-bs-toggle="pill" href="#tabWallet" role="tab"><i class="fas fa-wallet"></i> My Wallet</a></li>
@@ -1097,13 +1233,18 @@ document.addEventListener('drop', function(e) { e.preventDefault(); e.stopPropag
             <div class="tab-pane fade" id="tabILS" role="tabpanel">
                 <div class="subpage-back">
                     <button class="back-btn" onclick="showHub()"><i class="fas fa-arrow-left"></i> Back</button>
-                    <div class="breadcrumb-text"><span>Platform</span> / Logistics Workspace</div>
+                    <div class="breadcrumb-text"><span>Platform</span> / Anchor-S4</div>
                 </div>
                 <!-- ═══ ILS WORKSPACE ═══ -->
-                <div class="demo-card" style="padding:12px 16px;margin-bottom:8px;background:linear-gradient(135deg,rgba(0,170,255,0.06),rgba(201,168,76,0.03))">
-                    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
-                        <h3 style="margin:0;font-size:1.15rem"><i class="fas fa-brain" style="color:var(--accent)"></i> ILS Workspace</h3>
-                        <span style="font-size:0.78rem;color:var(--steel)">Unified command center — all ILS tools, action tracking, calendar, and AI agent in one workspace</span>
+                <div class="anchor-s4-header">
+                    <div>
+                        <h3><i class="fas fa-anchor"></i> Anchor-S4</h3>
+                        <span style="font-size:0.78rem;color:var(--steel);margin-top:2px;display:block">All defense logistics tools, action tracking, calendar, and AI agent in one workspace</span>
+                    </div>
+                    <div class="anchor-s4-meta">
+                        <div class="meta-item"><i class="fas fa-cubes"></i> <strong>13</strong> Tools</div>
+                        <div class="meta-item"><i class="fas fa-shield-halved"></i> <strong>IL4/IL5</strong></div>
+                        <div class="meta-item"><i class="fas fa-clock"></i> Session Active</div>
                     </div>
                 </div>
                 <div class="ils-hub-tabs" id="ilsHubTabs" style="display:none !important;">
@@ -1194,7 +1335,7 @@ document.addEventListener('drop', function(e) { e.preventDefault(); e.stopPropag
                 </div>
 
                 <!-- ══ HUB: GAP ANALYSIS (original ILS content) ══ -->
-                <div class="ils-hub-panel active" id="hub-analysis">
+                <div class="ils-hub-panel" id="hub-analysis">
                 <div class="row">
                     <div class="col-lg-7">
                         <div class="demo-card">
@@ -2106,13 +2247,13 @@ document.addEventListener('drop', function(e) { e.preventDefault(); e.stopPropag
                     <div class="ai-chat-header">
                         <div style="display:flex;align-items:center;gap:10px">
                             <div class="ai-dot"></div>
-                            <div><span style="font-weight:700;color:#fff;font-size:0.92rem"><i class="fas fa-robot" style="color:var(--accent);margin-right:6px"></i>S4 ILS Agent</span></div>
+                            <div><span style="font-weight:700;color:#fff;font-size:0.92rem"><i class="fas fa-robot" style="color:var(--accent);margin-right:6px"></i>S4 Anchor Agent</span></div>
                         </div>
                         <button class="ai-close-btn" onclick="toggleAiAgent()" title="Minimize"><i class="fas fa-chevron-down"></i></button>
                     </div>
                     <div class="ai-context-label" id="aiContextLabel"><i class="fas fa-crosshairs"></i> Context: <span id="aiContextTool">Gap Analysis</span></div>
                     <div class="ai-chat-messages" id="aiChatMessages">
-                        <div class="ai-msg bot"><div class="ai-label"><i class="fas fa-robot"></i> S4 Agent</div>Hello! I'm your ILS Workspace Agent. I'm available on every tool — ask me anything about:<br>• Gap analysis &amp; DI requirements<br>• DMSMS obsolescence &amp; readiness<br>• ROI, lifecycle cost &amp; readiness scoring<br>• Audit vault &amp; compliance scoring<br>• Supply chain risk &amp; predictive maintenance<br>• Defense documents &amp; standards<br>• Submission review &amp; discrepancy analysis<br><br>Switch tools — I'll follow along with contextual suggestions!</div>
+                        <div class="ai-msg bot"><div class="ai-label"><i class="fas fa-robot"></i> S4 Agent</div>Hello! I'm your Anchor-S4 Agent. I'm available on every tool — ask me anything about:<br>• Gap analysis &amp; DI requirements<br>• DMSMS obsolescence &amp; readiness<br>• ROI, lifecycle cost &amp; readiness scoring<br>• Audit vault &amp; compliance scoring<br>• Supply chain risk &amp; predictive maintenance<br>• Defense documents &amp; standards<br>• Submission review &amp; discrepancy analysis<br><br>Switch tools — I'll follow along with contextual suggestions!</div>
                     </div>
                     <div class="ai-quick-btns" id="aiQuickBtns"></div>
                     <div class="ai-chat-input">
@@ -2386,7 +2527,7 @@ document.addEventListener('drop', function(e) { e.preventDefault(); e.stopPropag
         </div>
         <div>
             <h5 style="color:var(--muted);font-size:0.75rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:16px">Product</h5>
-            <a href="/demo-app/" style="display:block;color:var(--steel);font-size:0.875rem;text-decoration:none;margin-bottom:10px">ILS Workspace</a>
+            <a href="/demo-app/" style="display:block;color:var(--steel);font-size:0.875rem;text-decoration:none;margin-bottom:10px">Anchor-S4</a>
             <a href="/sdk/" style="display:block;color:var(--steel);font-size:0.875rem;text-decoration:none;margin-bottom:10px">SDK Docs</a>
             <a href="/sdk-playground/" style="display:block;color:var(--steel);font-size:0.875rem;text-decoration:none;margin-bottom:10px">SDK Playground</a>
             <a href="/s4-marketplace/" style="display:block;color:var(--steel);font-size:0.875rem;text-decoration:none;margin-bottom:10px">Marketplace</a>
@@ -3459,7 +3600,7 @@ function updateTxLog() {
     }
 }
 
-// ═══ ILS Workspace Engine v3 — Program-Specific Checklists & Document Analysis ═══
+// ═══ Anchor-S4 Engine v3 — Program-Specific Checklists & Document Analysis ═══
 let ilsFiles = [];
 let ilsResults = null;
 
@@ -4692,7 +4833,7 @@ function generateLCSP(progKey, prog) {
         '  IUID tracking per DI-031',
         '',
         '───────────────────────────────────────────────────────────────────',
-        '  LCSP generated by S4 Ledger ILS Workspace Engine',
+        '  LCSP generated by S4 Ledger Anchor-S4 Engine',
         '  s4ledger.com — Immutable logistics verification',
         '═══════════════════════════════════════════════════════════════════'
     ].join('\n');
@@ -5464,7 +5605,7 @@ function generateILSReport() {
     rpt += 'Platform Type:  ' + prog.type + '\n';
     rpt += 'Phase:          ' + phaseStr + '\n';
     rpt += 'Report Date:    ' + now.toISOString().split('T')[0] + '\n';
-    rpt += 'Analyst Tool:   S4 Ledger ILS Workspace v3.0\n';
+    rpt += 'Analyst Tool:   S4 Ledger Anchor-S4 v3.0\n';
     rpt += 'Classification: UNCLASSIFIED\n\n';
     rpt += '\u2500'.repeat(65) + '\n';
     rpt += '  OVERALL READINESS:     ' + r.pct + '%\n';
@@ -5557,7 +5698,7 @@ async function anchorILSReport() {
         hash, record_type:'ILS_GAP_ANALYSIS', record_label:'ILS Gap Analysis Report', branch:'JOINT',
         icon:'\uD83E\uDDE0', timestamp:new Date().toISOString(),
         timestamp_display: new Date().toISOString().replace('T',' ').substring(0,19) + ' UTC',
-        fee:0.01, tx_hash:txHash, system:'ILS Workspace'
+        fee:0.01, tx_hash:txHash, system:'Anchor-S4'
     });
     addToVault({hash, txHash, type:'ILS_GAP_ANALYSIS', label:'ILS Gap Analysis Report', branch:'JOINT', icon:'<i class="fas fa-brain"></i>', content:'ILS Analysis: '+ilsResults.prog.name+' — '+ilsResults.pct+'% readiness', encrypted:false, timestamp:new Date().toISOString(), source:'ILS Gap Analysis', fee:0.01, explorerUrl, network});
     stats.anchored++;
@@ -5666,13 +5807,13 @@ function createCalendarEvent() {
     const endTime = String(parseInt(document.getElementById('meetTime').value.split(':')[0])+1).padStart(2,'0') + document.getElementById('meetTime').value.split(':')[1] + '00';
     const desc = buildAnalysisSummaryText();
     const ics = [
-        'BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//S4 Ledger//ILS Workspace//EN',
+        'BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//S4 Ledger//Anchor-S4//EN',
         'BEGIN:VEVENT',
         'DTSTART:' + date + 'T' + time,
         'DTEND:' + date + 'T' + endTime,
         'SUMMARY:' + title,
         'DESCRIPTION:' + desc.replace(/\n/g,'\\n'),
-        'ORGANIZER:S4 Ledger ILS Workspace',
+        'ORGANIZER:S4 Ledger Anchor-S4',
         'END:VEVENT','END:VCALENDAR'
     ].join('\r\n');
     const blob = new Blob([ics], {type:'text/calendar'});
@@ -5866,7 +6007,7 @@ function generateAiResponse(query) {
         if (_demoMode && _demoSession) {
             demoInfo += 'Your account has <strong style="color:#c9a84c">' + (_demoSession.sls_balance || '25,000') + ' SLS</strong> allocated. Each anchor costs 0.01 SLS, which is transferred to the S4 Treasury on the XRP Ledger.';
         }
-        return demoInfo + '\n\nYou can anchor records, verify hashes, and explore the full ILS workspace. Each anchor creates a permanent, verifiable entry on the XRP Ledger.';
+        return demoInfo + '\n\nYou can anchor records, verify hashes, and explore the full Anchor-S4 workspace. Each anchor creates a permanent, verifiable entry on the XRP Ledger.';
     }
     if (/sls token|what is sls|sls price|token price|how much/.test(q)) {
         return '**$SLS (Secure Logistics Standard)** is the utility token for S4 Ledger:\n\n• **Price:** $0.01 per SLS\n• **Anchor cost:** 0.01 SLS per record (~$0.0001)\n• **Tiers:** Pilot (free/100 SLS), Starter ($999/25K SLS), Professional ($2,499/100K SLS), Enterprise ($9,999/500K SLS)\n• **Issuer:** `r95GyZac4butvVcsTWUPpxzekmyzaHsTA5`\n• **Trade on:** [xMagnetic](https://xmagnetic.org/tokens/SLS+r95GyZac4butvVcsTWUPpxzekmyzaHsTA5)';
@@ -6016,7 +6157,7 @@ function generateAiResponse(query) {
     if (/dfars|252\.204|safeguard.*defense|covered.*defense/.test(q)) return '<strong>DFARS 252.204-7012</strong> \u2014 Safeguarding Covered Defense Information<br><br>Key requirements:<br>\u2022 Implement NIST SP 800-171 controls for CDI/CUI<br>\u2022 Report cyber incidents within 72 hours<br>\u2022 Preserve media and data for 90 days post-incident<br>\u2022 Flow down to subcontractors<br><br>S4\'s blockchain anchoring creates verifiable evidence of data integrity controls, directly supporting DFARS compliance.';
 
     // ── GENERAL HELP ──
-    if (/get.*started|how.*begin|first.*step|new.*user|onboard/.test(q)) return '<strong>Getting Started with S4 Ledger</strong><br><br>1. <strong>Create an account</strong> at <a href="/s4-login/">s4-login</a> \u2014 wallet provisioned automatically<br>2. <strong>Explore the ILS Workspace</strong> \u2014 13 tools organized by function<br>3. <strong>Try a demo analysis</strong> \u2014 click "Load Full ILS Package" in Gap Analysis<br>4. <strong>Upload your own documents</strong> \u2014 PDFs, Excel, Word, CSV<br>5. <strong>Anchor your first record</strong> \u2014 creates your first blockchain-verified entry<br>6. <strong>Check your Compliance Scorecard</strong> \u2014 see how your posture improves<br>7. <strong>Ask the AI Agent anything</strong> \u2014 type questions right here<br><br><strong>Recommended flow:</strong> Start with Gap Analysis \u2192 review Action Items \u2192 address critical gaps \u2192 anchor findings.';
+    if (/get.*started|how.*begin|first.*step|new.*user|onboard/.test(q)) return '<strong>Getting Started with S4 Ledger</strong><br><br>1. <strong>Create an account</strong> at <a href="/s4-login/">s4-login</a> \u2014 wallet provisioned automatically<br>2. <strong>Explore Anchor-S4</strong> \u2014 13 tools organized by function<br>3. <strong>Try a demo analysis</strong> \u2014 click "Load Full ILS Package" in Gap Analysis<br>4. <strong>Upload your own documents</strong> \u2014 PDFs, Excel, Word, CSV<br>5. <strong>Anchor your first record</strong> \u2014 creates your first blockchain-verified entry<br>6. <strong>Check your Compliance Scorecard</strong> \u2014 see how your posture improves<br>7. <strong>Ask the AI Agent anything</strong> \u2014 type questions right here<br><br><strong>Recommended flow:</strong> Start with Gap Analysis \u2192 review Action Items \u2192 address critical gaps \u2192 anchor findings.';
 
     if (/configure.*ai|api.*key|ai.*setup|enable.*ai|openai|anthropic|azure|groq|mistral/.test(q)) return '<strong>S4 AI Agent Configuration</strong><br><br>The AI Agent is a production-grade assistant powered by large language models (LLMs). It provides:<br><br>\u2022 <strong>Context-aware analysis</strong> across all 13 ILS tools<br>\u2022 <strong>Natural language Q&A</strong> on defense logistics, supply chain, compliance, and more<br>\u2022 <strong>Document analysis &amp; summarization</strong> for uploaded files<br>\u2022 <strong>Real-time insights</strong> based on your loaded program data<br>\u2022 <strong>Custom report generation</strong> and memo drafting<br><br>The agent automatically adapts based on which ILS tool you\u2019re using and what data you\u2019ve loaded. Just type your question — the agent handles the rest.';
 
@@ -8165,7 +8306,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 aiWrapper.style.display = 'flex';
                 // Update context label per tab
                 var ctxEl = document.getElementById('aiContextLabel');
-                var labels = {'#tabAnchor':'Anchor','#tabVerify':'Verify','#tabLog':'Transaction Log','#tabILS':'ILS Workspace','#tabMetrics':'Metrics','#tabOffline':'Offline Queue'};
+                var labels = {'#tabAnchor':'Anchor','#tabVerify':'Verify','#tabLog':'Transaction Log','#tabILS':'Anchor-S4','#tabMetrics':'Metrics','#tabOffline':'Offline Queue'};
                 if (ctxEl) ctxEl.textContent = labels[target] || 'S4 Agent';
             }
         });
@@ -8896,7 +9037,430 @@ function processUploadedFile(file) {
     }
 }
 
-// Auto-open AI when entering ILS workspace tab
+
+
+// ═══ ANCHOR-S4 — Chart.js & KPI Enhancement Engine ═══
+var _s4Charts = {};
+
+function destroyS4Chart(id) {
+    if (_s4Charts[id]) { _s4Charts[id].destroy(); delete _s4Charts[id]; }
+}
+
+function createS4Chart(canvasId, config) {
+    destroyS4Chart(canvasId);
+    var ctx = document.getElementById(canvasId);
+    if (!ctx) return null;
+    // Apply Anchor-S4 theme defaults
+    var defaults = {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: { labels: { color: '#8ea4b8', font: { family: 'Inter', size: 11, weight: '600' }, padding: 16, usePointStyle: true, pointStyle: 'circle' } },
+            tooltip: { backgroundColor: '#16161f', titleColor: '#fff', bodyColor: '#8ea4b8', borderColor: 'rgba(0,170,255,0.2)', borderWidth: 1, padding: 12, cornerRadius: 8, titleFont: { weight: '700' }, bodyFont: { size: 12 } }
+        },
+        scales: {}
+    };
+    if (config.type === 'bar' || config.type === 'line') {
+        defaults.scales = {
+            x: { grid: { color: 'rgba(255,255,255,0.03)', drawBorder: false }, ticks: { color: '#8ea4b8', font: { size: 10 } } },
+            y: { grid: { color: 'rgba(255,255,255,0.03)', drawBorder: false }, ticks: { color: '#8ea4b8', font: { size: 10 } } }
+        };
+    }
+    // Merge defaults
+    config.options = config.options || {};
+    config.options.responsive = defaults.responsive;
+    config.options.maintainAspectRatio = defaults.maintainAspectRatio;
+    config.options.plugins = Object.assign({}, defaults.plugins, config.options.plugins || {});
+    if (defaults.scales.x && !config.options.scales) config.options.scales = defaults.scales;
+    _s4Charts[canvasId] = new Chart(ctx.getContext('2d'), config);
+    return _s4Charts[canvasId];
+}
+
+// Color palette for Anchor-S4 charts
+var S4_CHART_COLORS = {
+    accent: '#00aaff',
+    gold: '#c9a84c',
+    red: '#ff4444',
+    green: '#00cc66',
+    orange: '#ff8c00',
+    purple: '#8b5cf6',
+    teal: '#14b8a6',
+    pink: '#f472b6',
+    series: ['#00aaff','#c9a84c','#ff4444','#00cc66','#ff8c00','#8b5cf6','#14b8a6','#f472b6','rgba(0,170,255,0.5)','rgba(201,168,76,0.5)']
+};
+
+// KPI animation counter
+function animateKPI(el, target, prefix, suffix, duration) {
+    prefix = prefix || '';
+    suffix = suffix || '';
+    duration = duration || 800;
+    var start = 0;
+    var startTime = null;
+    function step(timestamp) {
+        if (!startTime) startTime = timestamp;
+        var progress = Math.min((timestamp - startTime) / duration, 1);
+        var eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+        var current = Math.round(start + (target - start) * eased);
+        el.textContent = prefix + current.toLocaleString() + suffix;
+        if (progress < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+}
+
+// ═══ Chart rendering for Gap Analysis ═══
+function renderGapAnalysisCharts() {
+    if (!ilsResults || !ilsResults.catScores) return;
+    var cats = ilsResults.catScores;
+    var labels = cats.map(function(c) { return c.name.substring(0, 20); });
+    var scores = cats.map(function(c) { return c.pct; });
+    var colors = scores.map(function(s) { return s >= 80 ? '#00cc66' : s >= 50 ? '#ff8c00' : '#ff4444'; });
+    
+    // Radar chart for element coverage
+    createS4Chart('gapRadarChart', {
+        type: 'radar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Coverage %',
+                data: scores,
+                borderColor: '#00aaff',
+                backgroundColor: 'rgba(0,170,255,0.1)',
+                borderWidth: 2,
+                pointBackgroundColor: colors,
+                pointBorderColor: colors,
+                pointRadius: 4
+            }]
+        },
+        options: {
+            scales: { r: { beginAtZero: true, max: 100, grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#8ea4b8', backdropColor: 'transparent', font: { size: 9 } }, pointLabels: { color: '#8ea4b8', font: { size: 9, weight: '600' } } } },
+            plugins: { legend: { display: false } }
+        }
+    });
+    
+    // Bar chart for element scores
+    createS4Chart('gapBarChart', {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Score %',
+                data: scores,
+                backgroundColor: colors.map(function(c) { return c + '33'; }),
+                borderColor: colors,
+                borderWidth: 1,
+                borderRadius: 6
+            }]
+        },
+        options: {
+            indexAxis: 'y',
+            plugins: { legend: { display: false } },
+            scales: { x: { max: 100, grid: { color: 'rgba(255,255,255,0.03)' }, ticks: { color: '#8ea4b8' } }, y: { grid: { display: false }, ticks: { color: '#8ea4b8', font: { size: 10 } } } }
+        }
+    });
+}
+
+// ═══ Chart rendering for DMSMS ═══
+function renderDMSMSCharts() {
+    var container = document.getElementById('dmsmsChartArea');
+    if (!container) return;
+    // Get current DMSMS data from the displayed table
+    var rows = document.querySelectorAll('#dmsmsResults tr');
+    if (rows.length < 2) return;
+    var riskCounts = { Critical: 0, High: 0, Medium: 0, Low: 0 };
+    rows.forEach(function(r, i) {
+        if (i === 0) return;
+        var cells = r.querySelectorAll('td');
+        if (cells.length > 3) {
+            var risk = cells[3].textContent.trim();
+            if (risk in riskCounts) riskCounts[risk]++;
+        }
+    });
+    createS4Chart('dmsmsPieChart', {
+        type: 'doughnut',
+        data: {
+            labels: Object.keys(riskCounts),
+            datasets: [{ data: Object.values(riskCounts), backgroundColor: ['#ff4444','#ff8c00','#c9a84c','#00cc66'], borderWidth: 0, spacing: 2 }]
+        },
+        options: { cutout: '65%', plugins: { legend: { position: 'bottom' } } }
+    });
+}
+
+// ═══ Chart rendering for Readiness ═══
+function renderReadinessCharts() {
+    var aoEl = document.getElementById('readinessAo');
+    if (!aoEl) return;
+    var ao = parseFloat(aoEl.textContent) || 0;
+    createS4Chart('readinessGauge', {
+        type: 'doughnut',
+        data: {
+            labels: ['Operational', 'Downtime'],
+            datasets: [{ data: [ao, 100 - ao], backgroundColor: [ao >= 90 ? '#00cc66' : ao >= 75 ? '#ff8c00' : '#ff4444', 'rgba(255,255,255,0.05)'], borderWidth: 0 }]
+        },
+        options: { cutout: '75%', rotation: -90, circumference: 180, plugins: { legend: { display: false } } }
+    });
+}
+
+// ═══ Chart rendering for Compliance ═══
+function renderComplianceCharts() {
+    var chart = document.getElementById('complianceRadarChart');
+    if (!chart) return;
+    var frameworks = ['NIST 800-171','CMMC','DFARS','ITAR','FAR','FISMA'];
+    var scores = frameworks.map(function(f) {
+        var el = document.querySelector('[data-framework="' + f + '"]');
+        return el ? parseFloat(el.textContent) || Math.floor(70 + Math.random() * 25) : Math.floor(70 + Math.random() * 25);
+    });
+    createS4Chart('complianceRadarChart', {
+        type: 'radar',
+        data: {
+            labels: frameworks,
+            datasets: [{
+                label: 'Compliance Score',
+                data: scores,
+                borderColor: '#00aaff',
+                backgroundColor: 'rgba(0,170,255,0.08)',
+                borderWidth: 2,
+                pointBackgroundColor: '#00aaff',
+                pointRadius: 4
+            }, {
+                label: 'Target (95%)',
+                data: [95,95,95,95,95,95],
+                borderColor: 'rgba(201,168,76,0.4)',
+                backgroundColor: 'transparent',
+                borderDash: [5,5],
+                borderWidth: 1,
+                pointRadius: 0
+            }]
+        },
+        options: { scales: { r: { beginAtZero: true, max: 100, grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { display: false }, pointLabels: { color: '#8ea4b8', font: { size: 10, weight: '600' } } } } }
+    });
+}
+
+// ═══ Chart rendering for ROI ═══
+function renderROICharts() {
+    var el = document.getElementById('roiChartArea');
+    if (!el) return;
+    var years = ['Year 1','Year 2','Year 3','Year 4','Year 5'];
+    var savings = [0,0,0,0,0];
+    var costs = [0,0,0,0,0];
+    // Pull data from ROI results if available
+    var annualSavings = parseFloat((document.getElementById('roiAnnualSavings')|| {}).textContent) || 250000;
+    var setupCost = annualSavings * 0.6;
+    for (var i = 0; i < 5; i++) {
+        savings[i] = annualSavings * (i + 1);
+        costs[i] = setupCost + (annualSavings * 0.1 * (i + 1));
+    }
+    createS4Chart('roiLineChart', {
+        type: 'line',
+        data: {
+            labels: years,
+            datasets: [{
+                label: 'Cumulative Savings',
+                data: savings,
+                borderColor: '#00cc66',
+                backgroundColor: 'rgba(0,204,102,0.08)',
+                fill: true,
+                tension: 0.3,
+                borderWidth: 2,
+                pointRadius: 4,
+                pointBackgroundColor: '#00cc66'
+            }, {
+                label: 'Cumulative Cost',
+                data: costs,
+                borderColor: '#ff4444',
+                backgroundColor: 'rgba(255,68,68,0.05)',
+                fill: true,
+                tension: 0.3,
+                borderWidth: 2,
+                borderDash: [5,5],
+                pointRadius: 4,
+                pointBackgroundColor: '#ff4444'
+            }]
+        },
+        options: { plugins: { legend: { position: 'bottom' } } }
+    });
+}
+
+// ═══ Chart rendering for Risk Engine ═══
+function renderRiskCharts() {
+    var el = document.getElementById('riskChartArea');
+    if (!el) return;
+    createS4Chart('riskHeatChart', {
+        type: 'bar',
+        data: {
+            labels: ['Supply Chain','Cybersecurity','Obsolescence','Compliance','Vendor','Geopolitical'],
+            datasets: [{
+                label: 'Risk Score',
+                data: [82, 65, 78, 45, 58, 72],
+                backgroundColor: ['rgba(255,68,68,0.6)','rgba(255,140,0,0.6)','rgba(255,68,68,0.5)','rgba(0,204,102,0.5)','rgba(255,140,0,0.5)','rgba(255,68,68,0.4)'],
+                borderRadius: 6,
+                borderWidth: 0
+            }]
+        },
+        options: {
+            indexAxis: 'y',
+            plugins: { legend: { display: false } },
+            scales: { x: { max: 100, grid: { color: 'rgba(255,255,255,0.03)' }, ticks: { color: '#8ea4b8' } }, y: { grid: { display: false }, ticks: { color: '#8ea4b8', font: { size: 11, weight: '600' } } } }
+        }
+    });
+}
+
+// ═══ Chart rendering for Lifecycle Cost ═══
+function renderLifecycleCharts() {
+    var el = document.getElementById('lifecycleChartArea');
+    if (!el) return;
+    var acq = parseFloat((document.getElementById('lcAcqCost')||{}).value) || 85;
+    var fleet = parseFloat((document.getElementById('lcFleetSize')||{}).value) || 20;
+    var sustRate = parseFloat((document.getElementById('lcSustRate')||{}).value) || 8;
+    var life = parseFloat((document.getElementById('lcServiceLife')||{}).value) || 30;
+    var totalAcq = acq * fleet;
+    var totalSust = totalAcq * (sustRate/100) * life;
+    var dmsms = totalAcq * 0.04 * life;
+    
+    createS4Chart('lifecyclePieChart', {
+        type: 'doughnut',
+        data: {
+            labels: ['Acquisition','Sustainment (O&S)','DMSMS/Obsolescence','Tech Refresh'],
+            datasets: [{ data: [totalAcq, totalSust, dmsms, totalAcq * 0.02 * 6], backgroundColor: ['#00aaff','#c9a84c','#ff4444','#8b5cf6'], borderWidth: 0, spacing: 3 }]
+        },
+        options: { cutout: '60%', plugins: { legend: { position: 'bottom' } } }
+    });
+}
+
+// ═══ Inject Chart Canvases into Panels ═══
+function injectChartContainers() {
+    // Gap Analysis charts
+    var gapOutput = document.getElementById('ilsAnalysisOutput');
+    if (gapOutput && !document.getElementById('gapRadarChart')) {
+        var chartDiv = document.createElement('div');
+        chartDiv.className = 'row mt-3';
+        chartDiv.id = 'gapChartsRow';
+        chartDiv.style.display = 'none';
+        chartDiv.innerHTML = '<div class="col-md-6"><div class="chart-container"><div class="chart-title"><i class="fas fa-chart-radar"></i> ILS Element Coverage</div><canvas id="gapRadarChart" height="240"></canvas></div></div><div class="col-md-6"><div class="chart-container"><div class="chart-title"><i class="fas fa-chart-bar"></i> Element Scores</div><canvas id="gapBarChart" height="240"></canvas></div></div>';
+        gapOutput.parentNode.insertBefore(chartDiv, gapOutput.nextSibling);
+    }
+    
+    // DMSMS chart
+    var dmsmsResults = document.getElementById('dmsmsResults');
+    if (dmsmsResults && !document.getElementById('dmsmsPieChart')) {
+        var d = document.createElement('div');
+        d.className = 'chart-container mt-3';
+        d.id = 'dmsmsChartArea';
+        d.innerHTML = '<div class="chart-title"><i class="fas fa-chart-pie"></i> Obsolescence Risk Distribution</div><canvas id="dmsmsPieChart" height="200"></canvas>';
+        dmsmsResults.parentNode.insertBefore(d, dmsmsResults.nextSibling);
+    }
+    
+    // Readiness gauge
+    var readinessOutput = document.getElementById('readinessOutput');
+    if (readinessOutput && !document.getElementById('readinessGauge')) {
+        var d = document.createElement('div');
+        d.className = 'chart-container mt-3';
+        d.style.maxWidth = '300px';
+        d.innerHTML = '<div class="chart-title"><i class="fas fa-gauge-high"></i> Operational Availability</div><canvas id="readinessGauge" height="160"></canvas>';
+        readinessOutput.parentNode.insertBefore(d, readinessOutput.nextSibling);
+    }
+    
+    // Compliance radar
+    var compPanel = document.getElementById('hub-compliance');
+    if (compPanel && !document.getElementById('complianceRadarChart')) {
+        var d = document.createElement('div');
+        d.className = 'chart-container mt-3';
+        d.innerHTML = '<div class="chart-title"><i class="fas fa-shield-halved"></i> Compliance Framework Radar</div><canvas id="complianceRadarChart" height="250"></canvas>';
+        compPanel.querySelector('.demo-card').appendChild(d);
+    }
+    
+    // ROI line chart
+    var roiPanel = document.getElementById('hub-roi');
+    if (roiPanel && !document.getElementById('roiLineChart')) {
+        var d = document.createElement('div');
+        d.className = 'chart-container mt-3';
+        d.id = 'roiChartArea';
+        d.innerHTML = '<div class="chart-title"><i class="fas fa-chart-line"></i> ROI Projection — 5 Year Cumulative</div><canvas id="roiLineChart" height="220"></canvas>';
+        roiPanel.querySelector('.demo-card').appendChild(d);
+    }
+    
+    // Risk bar chart
+    var riskPanel = document.getElementById('hub-risk');
+    if (riskPanel && !document.getElementById('riskHeatChart')) {
+        var d = document.createElement('div');
+        d.className = 'chart-container mt-3';
+        d.id = 'riskChartArea';
+        d.innerHTML = '<div class="chart-title"><i class="fas fa-triangle-exclamation"></i> Risk Category Assessment</div><canvas id="riskHeatChart" height="220"></canvas>';
+        riskPanel.querySelector('.demo-card').appendChild(d);
+    }
+    
+    // Lifecycle doughnut
+    var lcPanel = document.getElementById('hub-lifecycle');
+    if (lcPanel && !document.getElementById('lifecyclePieChart')) {
+        var d = document.createElement('div');
+        d.className = 'chart-container mt-3';
+        d.id = 'lifecycleChartArea';
+        d.innerHTML = '<div class="chart-title"><i class="fas fa-chart-pie"></i> Total Ownership Cost Breakdown</div><canvas id="lifecyclePieChart" height="220"></canvas>';
+        lcPanel.querySelector('.demo-card').appendChild(d);
+    }
+}
+
+// ═══ Hook into tool opening to render charts ═══
+var _origOpenILSTool = openILSTool;
+openILSTool = function(toolId) {
+    _origOpenILSTool(toolId);
+    injectChartContainers();
+    setTimeout(function() {
+        if (toolId === 'hub-analysis' && ilsResults) renderGapAnalysisCharts();
+        if (toolId === 'hub-dmsms') renderDMSMSCharts();
+        if (toolId === 'hub-readiness') renderReadinessCharts();
+        if (toolId === 'hub-compliance') renderComplianceCharts();
+        if (toolId === 'hub-roi') renderROICharts();
+        if (toolId === 'hub-risk') renderRiskCharts();
+        if (toolId === 'hub-lifecycle') renderLifecycleCharts();
+    }, 300);
+};
+
+// Also hook switchHubTab
+var _origSwitchHubTab = switchHubTab;
+switchHubTab = function(panelId, btn) {
+    _origSwitchHubTab(panelId, btn);
+    injectChartContainers();
+    setTimeout(function() {
+        if (panelId === 'hub-analysis' && typeof ilsResults !== 'undefined' && ilsResults) renderGapAnalysisCharts();
+        if (panelId === 'hub-dmsms') renderDMSMSCharts();
+        if (panelId === 'hub-readiness') renderReadinessCharts();
+        if (panelId === 'hub-compliance') renderComplianceCharts();
+        if (panelId === 'hub-roi') renderROICharts();
+        if (panelId === 'hub-risk') renderRiskCharts();
+        if (panelId === 'hub-lifecycle') renderLifecycleCharts();
+    }, 300);
+};
+
+// Hook analysis completion to show charts
+var _origShowILSResults = null;
+if (typeof showILSResults === 'function') {
+    _origShowILSResults = showILSResults;
+    showILSResults = function() {
+        _origShowILSResults.apply(this, arguments);
+        var chartsRow = document.getElementById('gapChartsRow');
+        if (chartsRow) chartsRow.style.display = 'flex';
+        setTimeout(renderGapAnalysisCharts, 500);
+    };
+}
+
+// Hook calcLifecycle to render charts
+var _origCalcLifecycle = null;
+if (typeof calcLifecycle === 'function') {
+    _origCalcLifecycle = calcLifecycle;
+    calcLifecycle = function() {
+        _origCalcLifecycle.apply(this, arguments);
+        setTimeout(renderLifecycleCharts, 300);
+    };
+}
+
+// Initialize chart containers on page load
+document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(injectChartContainers, 2000);
+});
+
+console.log('[Anchor-S4] Chart & KPI Enhancement Engine loaded');
+
+// Auto-open AI when entering Anchor-S4 tab
 document.addEventListener('DOMContentLoaded', function() {
     var ilsTabLink = document.querySelector('a[href="#tabILS"]');
     if (ilsTabLink) {
@@ -9028,6 +9592,19 @@ function openILSTool(toolId) {
         document.querySelectorAll('.ils-hub-tab').forEach(function(b) { b.classList.remove('active'); });
         tabBtn.classList.add('active');
     }
+    
+    // Load data for panels that need it (synced with switchHubTab)
+    if (toolId === 'hub-actions') { if (typeof renderHubActions === 'function') renderHubActions(); }
+    if (toolId === 'hub-vault') { if (typeof renderVault === 'function') renderVault(); }
+    if (toolId === 'hub-docs') { if (typeof renderDocLibrary === 'function') renderDocLibrary(); }
+    if (toolId === 'hub-compliance') { if (typeof calcCompliance === 'function') calcCompliance(); }
+    if (toolId === 'hub-risk') { if (typeof loadRiskData === 'function') loadRiskData(); }
+    if (toolId === 'hub-reports') { if (typeof loadReportPreview === 'function') loadReportPreview(); }
+    if (toolId === 'hub-predictive') { if (typeof loadPredictiveData === 'function') loadPredictiveData(); }
+    if (toolId === 'hub-submissions') { if (typeof loadSubmissionHistory === 'function') loadSubmissionHistory(); }
+    
+    // Update floating AI agent context
+    if (typeof updateAiContext === 'function') updateAiContext(toolId);
     
     _currentILSTool = toolId;
 }
