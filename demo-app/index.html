@@ -2069,12 +2069,12 @@ document.addEventListener('drop', function(e) { e.preventDefault(); e.stopPropag
             <!-- ══ HUB: SUBMISSION REVIEW & DISCREPANCY ANALYZER ══ -->
             <div class="ils-hub-panel" id="hub-submissions">
                 <div class="demo-card">
-                    <h3><i class="fas fa-file-circle-check" style="color:#e06c75"></i> Integrated Logistics Inspection &amp; Evaluation (ILIE)</h3>
+                    <h3><i class="fas fa-file-circle-check" style="color:#e06c75"></i> Submissions &amp; PTD</h3>
                     <p style="color:var(--steel);font-size:0.9rem;margin-bottom:0.5rem">Upload and compare ILS data submissions from OEMs, shipbuilders, vendors, and contractors for Navy programs and programs. Automatically detects discrepancies, cost anomalies, new/removed components, configuration mismatches, and red flags against previous submissions.</p>
 
                     <details style="margin-bottom:1rem;background:rgba(224,108,117,0.04);border:1px solid rgba(224,108,117,0.15);border-radius:8px;padding:0 12px;">
                         <summary style="cursor:pointer;padding:10px 0;color:#e06c75;font-weight:600;font-size:0.85rem;">
-                            <i class="fas fa-info-circle"></i> How It Works — ILIE — Submission Intelligence &amp; Discrepancy Detection
+                            <i class="fas fa-info-circle"></i> How It Works — Submissions &amp; PTD — Submission Intelligence &amp; Discrepancy Detection
                         </summary>
                         <div style="padding:0 0 12px;color:var(--steel);font-size:0.82rem;line-height:1.6;">
                             <p><strong style="color:#fff;">What's real:</strong> Ingests ILS submissions from any OEM, shipbuilder, vendor, or contractor — including Vendor Recommended Spares Lists (VRS), IUID registries, configuration drawings, outfitting lists/drawings, Purchase Order Indices, provisioning technical data (PTD), allowance parts lists (APL), technical manuals (IETM/TM), maintenance plan updates, supply support requests, LSAR data, reliability reports (FRACAS), calibration records, packaging/PHS&amp;T data, training equipment lists, support equipment recommendations, warranty claims, Engineering Change Proposals (ECP), CDRL deliverables, and more. Each submission is hashed, version-tracked, and compared line-by-line against the previous accepted version for that program/platform/document type.</p>
@@ -2158,7 +2158,7 @@ document.addEventListener('drop', function(e) { e.preventDefault(); e.stopPropag
                             <button onclick="downloadSampleFile('CONFIG_DWG')" class="btn btn-sm" style="background:rgba(0,170,255,0.06);color:#00aaff;border:1px solid rgba(0,170,255,0.15);border-radius:6px;font-size:.72rem;padding:3px 10px"><i class="fas fa-file-csv"></i> Sample Config (.csv)</button>
                             <button onclick="downloadSampleFile('ECP')" class="btn btn-sm" style="background:rgba(0,170,255,0.06);color:#00aaff;border:1px solid rgba(0,170,255,0.15);border-radius:6px;font-size:.72rem;padding:3px 10px"><i class="fas fa-file-csv"></i> Sample ECP (.csv)</button>
                         </div>
-                        <div style="font-size:.7rem;color:var(--steel);margin-top:4px">Download these, then upload to test the ILIE discrepancy engine with realistic data.</div>
+                        <div style="font-size:.7rem;color:var(--steel);margin-top:4px">Download these, then upload to test the Submissions &amp; PTD discrepancy engine with realistic data.</div>
                     </div>
                     <div id="subUploadZone" onclick="document.getElementById('subFileInput').click()" style="border:2px dashed rgba(224,108,117,0.35);border-radius:10px;padding:28px;text-align:center;cursor:pointer;margin-bottom:12px;background:rgba(224,108,117,0.04);transition:all 0.3s" ondragover="event.preventDefault();event.stopPropagation();this.style.borderColor='#e06c75'" ondragleave="this.style.borderColor='rgba(224,108,117,0.35)'" ondrop="handleSubFileDrop(event)">
                         <i class="fas fa-cloud-upload-alt" style="font-size:2rem;color:#e06c75;margin-bottom:8px;display:block"></i>
@@ -2899,7 +2899,7 @@ function preloadAllILSDemoData() {
         sampleVault.forEach(function(r) { addToVault(r); });
     }
 
-    // Pre-load ILIE (Submissions) with sample submission
+    // Pre-load Submissions & PTD with sample submission
     var subBranch = document.getElementById('subBranch');
     if (subBranch) subBranch.value = 'USN';
     var subProg = document.getElementById('subProgram');
@@ -5878,7 +5878,7 @@ const AI_TOOL_CONTEXT = {
     'hub-risk':         {label:'Risk Engine',      icon:'fa-triangle-exclamation',buttons:[['What are the highest risk parts?','Top Risks'],['Show single-source dependencies','Single Source'],['Any GIDEP alerts?','GIDEP Alerts'],['Estimate risk cost impact','Cost Impact'],['What is supply chain risk?','Explain Risk'],['Draft risk mitigation plan','Risk Plan']]},
     'hub-reports':      {label:'Report Generator', icon:'fa-file-pdf',           buttons:[['Generate a full audit package','Full Audit'],['What compliance score do I have?','Compliance Score'],['Create a DCMA-ready report','DCMA Report'],['How are reports verified?','Report Verification'],['What report types are available?','Report Types']]},
     'hub-predictive':   {label:'Predictive Maint', icon:'fa-brain',             buttons:[['What failures are predicted?','Predictions'],['Show urgent maintenance needs','Urgent Items'],['How much can we save?','Cost Savings'],['What is MTBF trending?','MTBF Trends'],['Draft maintenance advisory','Maint Advisory'],['How does the AI model work?','Explain Model']]},
-    'hub-submissions':  {label:'ILIE',icon:'fa-file-circle-check', buttons:[['Run a demo analysis','Demo Analysis'],['What submission types are tracked?','Submission Types'],['How does the discrepancy engine work?','Discrepancy Engine'],['What red flags does it catch?','Red Flags'],['How much does this tool save?','Cost Savings'],['Show submission history','History'],['How does AI help with reviews?','AI Review'],['Draft a discrepancy report','Draft Report']]}
+    'hub-submissions':  {label:'Submissions & PTD',icon:'fa-file-circle-check', buttons:[['Run a demo analysis','Demo Analysis'],['What submission types are tracked?','Submission Types'],['How does the discrepancy engine work?','Discrepancy Engine'],['What red flags does it catch?','Red Flags'],['How much does this tool save?','Cost Savings'],['Show submission history','History'],['How does AI help with reviews?','AI Review'],['Draft a discrepancy report','Draft Report']]}
 };
 let currentHubPanel = 'hub-analysis';
 
@@ -6142,9 +6142,9 @@ function generateAiResponse(query) {
         if (typeof _subCache !== 'undefined' && _subCache && _subCache.discrepancies && _subCache.discrepancies.length) {
             var cc = _subCache.discrepancies.filter(function(d){return d.severity==='critical'}).length;
             var ww = _subCache.discrepancies.filter(function(d){return d.severity==='warning'}).length;
-            return '<strong>ILIE Analysis Results:</strong><br>Total discrepancies: <strong>' + _subCache.discrepancies.length + '</strong><br>Critical: <span style="color:#ff4444">' + cc + '</span> | Warnings: <span style="color:#ffa500">' + ww + '</span><br>Program: ' + (_subCache.meta.program || 'N/A') + '<br>Branch: ' + (_subCache.meta.branch || 'N/A') + '<br><br>Use "Analyze & Compare" for a different submission or "Export Discrepancy Report" to download findings.';
+            return '<strong>Submissions & PTD Analysis Results:</strong><br>Total discrepancies: <strong>' + _subCache.discrepancies.length + '</strong><br>Critical: <span style="color:#ff4444">' + cc + '</span> | Warnings: <span style="color:#ffa500">' + ww + '</span><br>Program: ' + (_subCache.meta.program || 'N/A') + '<br>Branch: ' + (_subCache.meta.branch || 'N/A') + '<br><br>Use "Analyze & Compare" for a different submission or "Export Discrepancy Report" to download findings.';
         }
-        return '<strong>Integrated Logistics Inspection &amp; Evaluation (ILIE)</strong><br><br>Analyzes vendor submissions against baseline data to detect discrepancies:<br><br>\u2022 <strong>Cost anomalies</strong> \u2014 >10-25% cost increases flagged<br>\u2022 <strong>Component changes</strong> \u2014 new/removed items detected<br>\u2022 <strong>CAGE code changes</strong> \u2014 manufacturer substitutions<br>\u2022 <strong>Source/vendor swaps</strong> \u2014 supply chain changes<br>\u2022 <strong>Lead time increases</strong> \u2014 >30 day threshold<br>\u2022 <strong>Status downgrades</strong> \u2014 Active\u2192Obsolete flags<br><br>Upload a CSV/Excel file or use "Run Demo Analysis" to see a full example with sample discrepancies.';
+        return '<strong>Submissions &amp; PTD</strong><br><br>Analyzes vendor submissions against baseline data to detect discrepancies:<br><br>\u2022 <strong>Cost anomalies</strong> \u2014 >10-25% cost increases flagged<br>\u2022 <strong>Component changes</strong> \u2014 new/removed items detected<br>\u2022 <strong>CAGE code changes</strong> \u2014 manufacturer substitutions<br>\u2022 <strong>Source/vendor swaps</strong> \u2014 supply chain changes<br>\u2022 <strong>Lead time increases</strong> \u2014 >30 day threshold<br>\u2022 <strong>Status downgrades</strong> \u2014 Active\u2192Obsolete flags<br><br>Upload a CSV/Excel file or use "Run Demo Analysis" to see a full example with sample discrepancies.';
     }
 
     // ── DEFENSE STANDARDS ──
@@ -6173,7 +6173,7 @@ function generateAiResponse(query) {
 
     if (/thank|thanks|thx|appreciate/.test(q)) return 'You\'re welcome! Let me know if you have any other questions about ILS, S4 Ledger, or defense logistics.';
 
-    if (/help|what.*can.*do|capabilities|feature/.test(q)) return '<strong>S4 Agent Capabilities</strong><br><br>I can answer questions about:<br><br><strong>ILS Tools (20):</strong><br>\u2022 Gap Analysis, Action Items, ILS Calendar, DMSMS Tracker<br>\u2022 Readiness/RAM Calculator, Parts Cross-Reference, ROI Calculator<br>\u2022 Lifecycle Cost Estimator, Warranty Tracker, Audit Vault<br>\u2022 Doc Library, Compliance Scorecard, Provisioning/PTD<br>\u2022 Risk Engine, Report Generator, Contract Management<br>\u2022 Digital Thread, Predictive Maintenance, Database Import, ILIE<br><br><strong>Product & Platform:</strong><br>\u2022 S4 Ledger overview, pricing, how anchoring works<br>\u2022 XRPL wallets, SLS token, TrustLines<br>\u2022 Treasury vs. Issuer wallets<br>\u2022 SDK, API, integration guides<br><br><strong>Defense Standards:</strong><br>\u2022 MIL-STD-1388 (12 ILS elements), NIST 800-171, CMMC, DFARS<br>\u2022 DI numbers (DI-001 through DI-050+)<br>\u2022 FAR/DFARS clauses, DoD 5000 series<br><br><strong>Context-Aware:</strong><br>\u2022 When analysis is loaded, I provide data-driven answers about gaps, costs, and recommendations<br>\u2022 When documents are uploaded, I reference analysis findings and discrepancies';
+    if (/help|what.*can.*do|capabilities|feature/.test(q)) return '<strong>S4 Agent Capabilities</strong><br><br>I can answer questions about:<br><br><strong>ILS Tools (20):</strong><br>\u2022 Gap Analysis, Action Items, ILS Calendar, DMSMS Tracker<br>\u2022 Readiness/RAM Calculator, Parts Cross-Reference, ROI Calculator<br>\u2022 Lifecycle Cost Estimator, Warranty Tracker, Audit Vault<br>\u2022 Doc Library, Compliance Scorecard, Provisioning/PTD<br>\u2022 Risk Engine, Report Generator, Contract Management<br>\u2022 Digital Thread, Predictive Maintenance, Database Import, Submissions & PTD<br><br><strong>Product & Platform:</strong><br>\u2022 S4 Ledger overview, pricing, how anchoring works<br>\u2022 XRPL wallets, SLS token, TrustLines<br>\u2022 Treasury vs. Issuer wallets<br>\u2022 SDK, API, integration guides<br><br><strong>Defense Standards:</strong><br>\u2022 MIL-STD-1388 (12 ILS elements), NIST 800-171, CMMC, DFARS<br>\u2022 DI numbers (DI-001 through DI-050+)<br>\u2022 FAR/DFARS clauses, DoD 5000 series<br><br><strong>Context-Aware:</strong><br>\u2022 When analysis is loaded, I provide data-driven answers about gaps, costs, and recommendations<br>\u2022 When documents are uploaded, I reference analysis findings and discrepancies';
 
     // ── WORKSPACE STATS ──
     if (/stats|statistic|how.*many.*record|how.*many.*anchor|my.*data|workspace.*status/.test(q)) {
@@ -8118,7 +8118,7 @@ function generateAiSummary(discrepancies, items, baseline, costDelta) {
     document.getElementById('subAiSummary').style.display = 'block';
     document.getElementById('subAiSummaryText').innerHTML = summary;
 
-    // ── AUTO-GENERATE ACTION ITEMS FROM ILIE DISCREPANCIES ──
+    // ── AUTO-GENERATE ACTION ITEMS FROM SUBMISSIONS & PTD DISCREPANCIES ──
     (function(){
         var criticals = discrepancies.filter(function(d){return d.severity==='critical'});
         var warnings = discrepancies.filter(function(d){return d.severity==='warning'});
@@ -8128,9 +8128,9 @@ function generateAiSummary(discrepancies, items, baseline, costDelta) {
         criticals.forEach(function(d,i){
             addActionItem({
                 id:'ILIE-CRIT-'+Date.now().toString(36)+'-'+i,
-                title:'ILIE Critical: '+d.category+' — '+(d.item||'Unknown').substring(0,50),
+                title:'Sub/PTD Critical: '+d.category+' — '+(d.item||'Unknown').substring(0,50),
                 detail:progLabel+' '+docLabel+' — '+d.issue+(d.impact?' | Impact: '+d.impact:'')+' | Previous: '+d.previous+' → Current: '+d.current,
-                severity:'critical', source:'ILIE', owner:'ILS Manager',
+                severity:'critical', source:'Submissions & PTD', owner:'ILS Manager',
                 due:new Date(Date.now()+7*86400000).toISOString().split('T')[0],
                 cost:d.impact||'', schedule:'7 days'
             });
@@ -8138,15 +8138,15 @@ function generateAiSummary(discrepancies, items, baseline, costDelta) {
         warnings.slice(0,5).forEach(function(d,i){
             addActionItem({
                 id:'ILIE-WARN-'+Date.now().toString(36)+'-'+i,
-                title:'ILIE Warning: '+d.category+' — '+(d.item||'Unknown').substring(0,50),
+                title:'Sub/PTD Warning: '+d.category+' — '+(d.item||'Unknown').substring(0,50),
                 detail:progLabel+' '+docLabel+' — '+d.issue+' | Previous: '+d.previous+' → Current: '+d.current,
-                severity:'warning', source:'ILIE', owner:'ILS Analyst',
+                severity:'warning', source:'Submissions & PTD', owner:'ILS Analyst',
                 due:new Date(Date.now()+14*86400000).toISOString().split('T')[0],
                 cost:'', schedule:'14 days'
             });
         });
         if(criticals.length+Math.min(warnings.length,5)>0){
-            showWorkspaceNotification('ILIE created '+(criticals.length+Math.min(warnings.length,5))+' action items from discrepancies');
+            showWorkspaceNotification('Submissions & PTD created '+(criticals.length+Math.min(warnings.length,5))+' action items from discrepancies');
         }
     })();
 }
@@ -8155,21 +8155,21 @@ async function anchorSubmissionReview() {
     if (!_subCache.discrepancies.length) { showWorkspaceNotification('Run an analysis first before anchoring'); return; }
     const meta = _subCache.meta;
     const docTypeLabel = SUBMISSION_TYPES[meta.docType] || meta.docType;
-    const text = 'ILIE Analysis | Program: ' + meta.program + ' | Branch: ' + meta.branch +
+    const text = 'Submissions & PTD Analysis | Program: ' + meta.program + ' | Branch: ' + meta.branch +
         ' | Type: ' + docTypeLabel + ' | Vendor: ' + (meta.vendor||'N/A') +
         ' | Items: ' + _subCache.items.length + ' | Discrepancies: ' + _subCache.discrepancies.length +
         ' | Critical: ' + _subCache.discrepancies.filter(d=>d.severity==='critical').length +
         ' | Date: ' + new Date().toISOString();
     const hash = await sha256(text);
-    showAnchorAnimation(hash, 'ILIE Analysis — ' + docTypeLabel, 'CUI');
+    showAnchorAnimation(hash, 'Submissions & PTD Analysis — ' + docTypeLabel, 'CUI');
     const {txHash, explorerUrl, network} = await _anchorToXRPL(hash, 'SUBMISSION_REVIEW', text.substring(0,100));
     stats.anchored++; stats.types.add('SUBMISSION_REVIEW'); stats.slsFees += 0.01; updateStats(); saveStats();
-    const rec = {hash, type:'SUBMISSION_REVIEW', branch:meta.branch, timestamp:new Date().toISOString(), label:'ILIE Analysis: ' + docTypeLabel, txHash};
+    const rec = {hash, type:'SUBMISSION_REVIEW', branch:meta.branch, timestamp:new Date().toISOString(), label:'Submissions & PTD Analysis: ' + docTypeLabel, txHash};
     sessionRecords.push(rec);
-    saveLocalRecord({hash, record_type:'SUBMISSION_REVIEW', record_label:'ILIE Analysis: ' + docTypeLabel, branch:meta.branch, timestamp:new Date().toISOString(), timestamp_display:new Date().toISOString().replace('T',' ').substring(0,19)+' UTC', fee:0.01, tx_hash:txHash, system:'ILIE', explorer_url: explorerUrl, network});
+    saveLocalRecord({hash, record_type:'SUBMISSION_REVIEW', record_label:'Submissions & PTD Analysis: ' + docTypeLabel, branch:meta.branch, timestamp:new Date().toISOString(), timestamp_display:new Date().toISOString().replace('T',' ').substring(0,19)+' UTC', fee:0.01, tx_hash:txHash, system:'Submissions & PTD', explorer_url: explorerUrl, network});
     updateTxLog();
-    addToVault({hash, txHash, type:'SUBMISSION_REVIEW', label:'ILIE Analysis: ' + docTypeLabel, branch:meta.branch, content:text.substring(0,100), encrypted:false, timestamp:new Date().toISOString(), source:'ILIE', fee:0.01, explorerUrl, network});
-    setTimeout(() => { document.getElementById('animStatus').textContent = 'ILIE analysis anchored — ' + _subCache.discrepancies.length + ' discrepancies recorded on-chain'; document.getElementById('animStatus').style.color = '#00aaff'; }, 2200);
+    addToVault({hash, txHash, type:'SUBMISSION_REVIEW', label:'Submissions & PTD Analysis: ' + docTypeLabel, branch:meta.branch, content:text.substring(0,100), encrypted:false, timestamp:new Date().toISOString(), source:'Submissions & PTD', fee:0.01, explorerUrl, network});
+    setTimeout(() => { document.getElementById('animStatus').textContent = 'Submissions & PTD analysis anchored — ' + _subCache.discrepancies.length + ' discrepancies recorded on-chain'; document.getElementById('animStatus').style.color = '#00aaff'; }, 2200);
 }
 
 function exportDiscrepancyReport() {
@@ -8238,7 +8238,7 @@ function downloadSampleFile(docType) {
     var blob = new Blob([csv], {type:'text/csv'});
     var a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
-    a.download = 'S4_ILIE_Sample_' + docType + '_Submission.csv';
+    a.download = 'S4_Submissions_PTD_Sample_' + docType + '_Submission.csv';
     a.click();
     showWorkspaceNotification('Downloaded sample ' + docType + ' submission file');
 }
