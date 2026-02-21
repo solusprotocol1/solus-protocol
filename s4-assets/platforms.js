@@ -883,7 +883,7 @@ function buildProgramOptions(includeAll, includeCustom) {
         groups[groupKey].items.push({ key: key, name: p.n, po: p.p });
     });
 
-    let html = '';
+    let html = '<option value="" disabled selected>-- Select a Program / Platform --</option>';
     if (includeAll) html += '<option value="all">All Programs</option>';
 
     // Define branch order — Navy-focused
