@@ -442,6 +442,60 @@
         #platformLanding .col-md-4 > div:hover{border-color:var(--border-hover);transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,0,0,0.2)}
         @keyframes slsToastIn{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:translateX(0)}}
         @keyframes slsToastOut{from{opacity:1;transform:translateX(0)}to{opacity:0;transform:translateX(40px)}}
+
+        /* ═══ Platform Hub ═══ */
+        .platform-hub { max-width:1100px; margin:0 auto; padding:0 20px; }
+        .hub-header { text-align:center; margin-bottom:32px; padding-top:8px; }
+        .hub-header h2 { font-size:1.5rem; font-weight:800; color:#fff; margin-bottom:6px; }
+        .hub-header p { color:var(--steel); font-size:0.88rem; max-width:600px; margin:0 auto; }
+        .hub-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:16px; margin-bottom:24px; }
+        .hub-card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:24px; cursor:pointer; transition:all 0.25s; position:relative; overflow:hidden; }
+        .hub-card:hover { border-color:var(--accent); transform:translateY(-3px); box-shadow:0 8px 30px rgba(0,170,255,0.12); }
+        .hub-card .hc-icon { width:48px; height:48px; border-radius:12px; display:flex; align-items:center; justify-content:center; margin-bottom:14px; font-size:1.2rem; }
+        .hub-card .hc-title { font-size:1rem; font-weight:700; color:#fff; margin-bottom:6px; }
+        .hub-card .hc-desc { font-size:0.82rem; color:var(--steel); line-height:1.5; margin-bottom:10px; }
+        .hub-card .hc-meta { font-size:0.72rem; color:var(--muted); display:flex; align-items:center; gap:6px; }
+        .hub-card .hc-arrow { position:absolute; top:24px; right:20px; color:var(--muted); font-size:0.9rem; transition:all 0.2s; }
+        .hub-card:hover .hc-arrow { color:var(--accent); transform:translateX(3px); }
+
+        /* ═══ Sub-page Navigation ═══ */
+        .subpage-back { display:flex; align-items:center; gap:10px; margin-bottom:16px; padding:10px 0; }
+        .subpage-back .back-btn { background:rgba(0,170,255,0.08); border:1px solid rgba(0,170,255,0.2); color:var(--accent); border-radius:8px; padding:6px 14px; font-size:0.8rem; font-weight:600; cursor:pointer; transition:all 0.2s; font-family:inherit; display:flex; align-items:center; gap:6px; }
+        .subpage-back .back-btn:hover { background:rgba(0,170,255,0.15); border-color:var(--accent); }
+        .subpage-back .breadcrumb-text { font-size:0.82rem; color:var(--muted); }
+        .subpage-back .breadcrumb-text span { color:var(--accent); }
+        .section-view { display:none; animation:fadeIn 0.3s ease; }
+        .section-view.active { display:block; }
+        @keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+
+        /* ═══ Compact Stat Strip ═══ */
+        .stat-strip { display:flex; align-items:center; justify-content:center; gap:24px; padding:8px 16px; background:var(--surface); border:1px solid var(--border); border-radius:10px; margin-bottom:16px; flex-wrap:wrap; }
+        .stat-strip .ss-item { display:flex; align-items:center; gap:6px; font-size:0.78rem; }
+        .stat-strip .ss-val { font-weight:800; color:var(--accent); font-size:0.88rem; }
+        .stat-strip .ss-label { color:var(--muted); text-transform:uppercase; font-size:0.68rem; letter-spacing:0.5px; }
+
+        /* ═══ Wallet Sidebar ═══ */
+        .wallet-sidebar { position:fixed; top:0; right:-420px; width:400px; max-width:90vw; height:100vh; background:var(--bg); border-left:1px solid var(--border); box-shadow:-10px 0 40px rgba(0,0,0,0.4); z-index:9999; overflow-y:auto; transition:right 0.35s cubic-bezier(0.4,0,0.2,1); padding:0; }
+        .wallet-sidebar.open { right:0; }
+        .wallet-sidebar-header { display:flex; align-items:center; justify-content:space-between; padding:16px 20px; border-bottom:1px solid var(--border); position:sticky; top:0; background:var(--bg); z-index:1; }
+        .wallet-sidebar-header h3 { font-size:1.1rem; font-weight:800; color:#fff; margin:0; display:flex; align-items:center; gap:8px; }
+        .wallet-sidebar-close { background:rgba(255,107,107,0.1); border:1px solid rgba(255,107,107,0.2); color:#ff6b6b; border-radius:8px; padding:6px 12px; font-size:0.8rem; cursor:pointer; font-family:inherit; }
+        .wallet-sidebar-close:hover { background:rgba(255,107,107,0.2); }
+        .wallet-sidebar-body { padding:20px; }
+        .wallet-overlay { display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.5); z-index:9998; }
+        .wallet-overlay.show { display:block; }
+        .wallet-trigger { background:linear-gradient(135deg,rgba(26,58,92,0.3),rgba(0,170,255,0.1)); border:1px solid rgba(0,170,255,0.3); color:var(--accent); border-radius:10px; padding:8px 16px; font-size:0.82rem; font-weight:700; cursor:pointer; font-family:inherit; display:flex; align-items:center; gap:8px; transition:all 0.2s; }
+        .wallet-trigger:hover { background:rgba(0,170,255,0.15); border-color:var(--accent); }
+        .wallet-trigger .wt-bal { color:#c9a84c; font-weight:800; }
+
+        /* ═══ ILS Sub-Hub Cards ═══ */
+        .ils-sub-hub { display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:14px; margin-bottom:20px; }
+        .ils-tool-card { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:18px; cursor:pointer; transition:all 0.2s; }
+        .ils-tool-card:hover { border-color:var(--accent); background:rgba(0,170,255,0.03); transform:translateY(-2px); }
+        .ils-tool-card .itc-icon { font-size:1.3rem; margin-bottom:10px; display:block; }
+        .ils-tool-card .itc-title { font-size:0.88rem; font-weight:700; color:#fff; margin-bottom:4px; }
+        .ils-tool-card .itc-desc { font-size:0.75rem; color:var(--steel); line-height:1.45; }
+
     </style>
 </head>
 <body>
@@ -531,13 +585,11 @@ document.addEventListener('drop', function(e) { e.preventDefault(); e.stopPropag
 <div id="platformWorkspace" style="display:none;">
 <section class="tab-section">
     <div class="container">
-        <div class="row mb-4" id="statsRow">
-            <div class="col-md-4 mb-3"><div class="stat-card"><div class="stat-value" id="statVerified">0</div><div class="stat-label">Records Verified</div></div></div>
-            <div class="col-md-4 mb-3"><div class="stat-card"><div class="stat-value" id="statTypes">0</div><div class="stat-label">Record Types Used</div></div></div>
-            <div class="col-md-4 mb-3"><div class="stat-card"><div class="stat-value" id="statSlsFees">0.000</div><div class="stat-label">$SLS Fees</div></div></div>
+        <div class="stat-strip" id="statsRow">
+            <div class="ss-item"><span class="ss-val" id="statVerified">0</span> <span class="ss-label">Verified</span></div>
+            <div class="ss-item"><span class="ss-val" id="statTypes">0</span> <span class="ss-label">Types</span></div>
+            <div class="ss-item"><span class="ss-val" id="statSlsFees">0.000</span> <span class="ss-label">$SLS Fees</span></div>
         </div>
-
-
     <!-- ═══ DEMO ONBOARDING WIZARD ═══ -->
     <div class="onboard-overlay" id="onboardOverlay" style="display:none">
         <div class="onboard-modal">
@@ -672,7 +724,61 @@ document.addEventListener('drop', function(e) { e.preventDefault(); e.stopPropag
             </div>
         </div>
 
-        <ul class="nav nav-pills mb-2" role="tablist">
+        <!-- ═══ WALLET TRIGGER (Top Right) ═══ -->
+        <div style="display:flex;justify-content:flex-end;margin-bottom:8px;">
+            <button class="wallet-trigger" onclick="openWalletSidebar()" id="walletTriggerBtn">
+                <i class="fas fa-wallet"></i> My Wallet <span class="wt-bal" id="walletTriggerBal">--</span>
+            </button>
+        </div>
+
+        <!-- ═══ PLATFORM HUB ═══ -->
+        <div id="platformHub" class="platform-hub">
+            <div class="hub-header">
+                <h2><i class="fas fa-th-large" style="color:var(--accent);margin-right:10px;font-size:1.2rem;"></i>Platform</h2>
+                <p>Select a module to get started. Each tool is purpose-built for defense logistics integrity.</p>
+            </div>
+            <div class="hub-grid">
+                <div class="hub-card" onclick="showSection('sectionAnchor')">
+                    <div class="hc-icon" style="background:rgba(0,170,255,0.1);"><i class="fas fa-anchor" style="color:#00aaff;"></i></div>
+                    <div class="hc-title">Anchor Records</div>
+                    <div class="hc-desc">Hash any defense record to the XRP Ledger. Upload files or type content &mdash; SHA-256 anchored permanently on-chain.</div>
+                    <div class="hc-meta"><i class="fas fa-lock"></i> XRPL Mainnet &bull; 0.01 SLS per anchor</div>
+                    <div class="hc-arrow"><i class="fas fa-chevron-right"></i></div>
+                </div>
+                <div class="hub-card" onclick="showSection('sectionVerify')">
+                    <div class="hc-icon" style="background:rgba(46,204,113,0.1);"><i class="fas fa-check-circle" style="color:#2ecc71;"></i></div>
+                    <div class="hc-title">Verify Records</div>
+                    <div class="hc-desc">Upload a PDF, spreadsheet, or any file to verify its integrity against the blockchain anchor. Batch verification supported.</div>
+                    <div class="hc-meta"><i class="fas fa-file-upload"></i> Drag-drop files &bull; Free verification</div>
+                    <div class="hc-arrow"><i class="fas fa-chevron-right"></i></div>
+                </div>
+                <div class="hub-card" onclick="showSection('sectionLog')">
+                    <div class="hc-icon" style="background:rgba(155,89,182,0.1);"><i class="fas fa-list" style="color:#9b59b6;"></i></div>
+                    <div class="hc-title">Transaction Log</div>
+                    <div class="hc-desc">Full audit trail of every anchored record with XRPL explorer links, timestamps, and hash verification status.</div>
+                    <div class="hc-meta"><i class="fas fa-link"></i> On-chain explorer links</div>
+                    <div class="hc-arrow"><i class="fas fa-chevron-right"></i></div>
+                </div>
+                <div class="hub-card" onclick="showSection('sectionILS')">
+                    <div class="hc-icon" style="background:rgba(201,168,76,0.1);"><i class="fas fa-brain" style="color:#c9a84c;"></i></div>
+                    <div class="hc-title">Logistics Workspace</div>
+                    <div class="hc-desc">13 integrated tools: Gap Analysis, DMSMS, Readiness, Compliance, Risk, Predictive Maintenance, ROI, Audit Vault, and more.</div>
+                    <div class="hc-meta"><i class="fas fa-tools"></i> 13 ILS tools &bull; AI-powered</div>
+                    <div class="hc-arrow"><i class="fas fa-chevron-right"></i></div>
+                </div>
+                <div class="hub-card" onclick="showSection('sectionSystems')">
+                    <div class="hc-icon" style="background:rgba(52,152,219,0.1);"><i class="fas fa-server" style="color:#3498db;"></i></div>
+                    <div class="hc-title">Systems</div>
+                    <div class="hc-desc">Platform metrics, performance monitoring, and offline queue management with encrypted persistence and auto-sync.</div>
+                    <div class="hc-meta"><i class="fas fa-chart-line"></i> Metrics &bull; Offline Queue</div>
+                    <div class="hc-arrow"><i class="fas fa-chevron-right"></i></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hidden tab nav (kept for Bootstrap pill functionality) -->
+        <ul class="nav nav-pills mb-2" role="tablist" style="display:none !important;" id="hiddenTabNav">
+
             <li class="nav-item"><a class="nav-link" data-bs-toggle="pill" href="#tabAnchor" role="tab"><i class="fas fa-anchor"></i> Anchor</a></li>
             <li class="nav-item"><a class="nav-link" data-bs-toggle="pill" href="#tabVerify" role="tab"><i class="fas fa-check-circle"></i> Verify</a></li>
             <li class="nav-item"><a class="nav-link" data-bs-toggle="pill" href="#tabLog" role="tab"><i class="fas fa-list"></i> Transaction Log</a></li>
@@ -708,6 +814,10 @@ document.addEventListener('drop', function(e) { e.preventDefault(); e.stopPropag
 
         <div class="tab-content">
             <div class="tab-pane fade" id="tabAnchor" role="tabpanel">
+                <div class="subpage-back">
+                    <button class="back-btn" onclick="showHub()"><i class="fas fa-arrow-left"></i> Back</button>
+                    <div class="breadcrumb-text"><span>Platform</span> / Anchor Records</div>
+                </div>
                 <div class="row">
                     <div class="col-lg-7">
                         <div class="demo-card">
@@ -787,6 +897,10 @@ document.addEventListener('drop', function(e) { e.preventDefault(); e.stopPropag
             </div>
 
             <div class="tab-pane fade" id="tabVerify" role="tabpanel">
+                <div class="subpage-back">
+                    <button class="back-btn" onclick="showHub()"><i class="fas fa-arrow-left"></i> Back</button>
+                    <div class="breadcrumb-text"><span>Platform</span> / Verify Records</div>
+                </div>
                 <div class="row">
                     <div class="col-lg-7">
                         <div class="demo-card">
@@ -844,6 +958,10 @@ document.addEventListener('drop', function(e) { e.preventDefault(); e.stopPropag
             </div>
 
             <div class="tab-pane fade" id="tabLog" role="tabpanel">
+                <div class="subpage-back">
+                    <button class="back-btn" onclick="showHub()"><i class="fas fa-arrow-left"></i> Back</button>
+                    <div class="breadcrumb-text"><span>Platform</span> / Transaction Log</div>
+                </div>
                 <div class="demo-card">
                     <h3><i class="fas fa-list"></i> Transaction Log</h3>
                     <p style="color:var(--steel);font-size:0.9rem">All records anchored in this session.</p>
@@ -854,7 +972,38 @@ document.addEventListener('drop', function(e) { e.preventDefault(); e.stopPropag
             </div>
 
             <!-- ═══ PERFORMANCE METRICS DASHBOARD ═══ -->
+
+            <!-- ═══ SYSTEMS HUB ═══ -->
+            <div class="tab-pane fade" id="sectionSystems" role="tabpanel" style="display:none;">
+                <div class="subpage-back">
+                    <button class="back-btn" onclick="showHub()"><i class="fas fa-arrow-left"></i> Back</button>
+                    <div class="breadcrumb-text"><span>Platform</span> / Systems</div>
+                </div>
+                <div style="max-width:900px;margin:0 auto;padding:1rem 0;">
+                    <h3 style="font-size:1.3rem;font-weight:800;margin-bottom:6px;color:#fff;"><i class="fas fa-server" style="color:var(--accent);margin-right:8px;"></i>Systems</h3>
+                    <p style="color:var(--steel);font-size:0.85rem;margin-bottom:20px;">Platform health, performance metrics, and offline queue management.</p>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+                        <div class="hub-card" onclick="showSystemsSub('tabMetrics')" style="padding:20px;">
+                            <div class="hc-icon" style="background:rgba(0,170,255,0.1);"><i class="fas fa-chart-line" style="color:#00aaff;"></i></div>
+                            <div class="hc-title">Metrics Dashboard</div>
+                            <div class="hc-desc">Real-time XRPL transaction metrics, anchor success rates, and platform performance monitoring.</div>
+                            <div class="hc-arrow"><i class="fas fa-chevron-right"></i></div>
+                        </div>
+                        <div class="hub-card" onclick="showSystemsSub('tabOffline')" style="padding:20px;">
+                            <div class="hc-icon" style="background:rgba(46,204,113,0.1);"><i class="fas fa-wifi" style="color:#2ecc71;"></i></div>
+                            <div class="hc-title">Offline Queue</div>
+                            <div class="hc-desc">Encrypted offline queue with auto-sync, exponential backoff, and persistent storage for network outages.</div>
+                            <div class="hc-arrow"><i class="fas fa-chevron-right"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="tab-pane fade" id="tabMetrics" role="tabpanel">
+                <div class="subpage-back">
+                    <button class="back-btn" onclick="showSection('sectionSystems')"><i class="fas fa-arrow-left"></i> Back</button>
+                    <div class="breadcrumb-text"><span>Platform</span> / <span>Systems</span> / Metrics</div>
+                </div>
                 <div class="demo-card">
                     <h3><i class="fas fa-chart-line" style="color:var(--accent)"></i> Performance Metrics Dashboard</h3>
                     <p style="color:var(--steel);font-size:0.85rem">Real-time platform performance, anchoring metrics, and system health.</p>
@@ -912,6 +1061,10 @@ document.addEventListener('drop', function(e) { e.preventDefault(); e.stopPropag
 
             <!-- ═══ OFFLINE QUEUE ═══ -->
             <div class="tab-pane fade" id="tabOffline" role="tabpanel">
+                <div class="subpage-back">
+                    <button class="back-btn" onclick="showSection('sectionSystems')"><i class="fas fa-arrow-left"></i> Back</button>
+                    <div class="breadcrumb-text"><span>Platform</span> / <span>Systems</span> / Offline Queue</div>
+                </div>
                 <div class="demo-card">
                     <h3><i class="fas fa-wifi" style="color:var(--accent)"></i> Offline Queue &amp; Batch Sync</h3>
                     <p style="color:var(--steel);font-size:0.85rem">Manage hashes queued during offline/air-gapped operation. Batch sync when connected.</p>
@@ -942,6 +1095,10 @@ document.addEventListener('drop', function(e) { e.preventDefault(); e.stopPropag
             </div>
 
             <div class="tab-pane fade" id="tabILS" role="tabpanel">
+                <div class="subpage-back">
+                    <button class="back-btn" onclick="showHub()"><i class="fas fa-arrow-left"></i> Back</button>
+                    <div class="breadcrumb-text"><span>Platform</span> / Logistics Workspace</div>
+                </div>
                 <!-- ═══ ILS WORKSPACE ═══ -->
                 <div class="demo-card" style="padding:12px 16px;margin-bottom:8px;background:linear-gradient(135deg,rgba(0,170,255,0.06),rgba(201,168,76,0.03))">
                     <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
@@ -949,20 +1106,91 @@ document.addEventListener('drop', function(e) { e.preventDefault(); e.stopPropag
                         <span style="font-size:0.78rem;color:var(--steel)">Unified command center — all ILS tools, action tracking, calendar, and AI agent in one workspace</span>
                     </div>
                 </div>
-                <div class="ils-hub-tabs" id="ilsHubTabs">
-                    <button class="ils-hub-tab active" onclick="switchHubTab('hub-analysis',this)"><i class="fas fa-chart-line"></i> Gap Analysis</button>
-                    <button class="ils-hub-tab" onclick="switchHubTab('hub-dmsms',this)"><i class="fas fa-exclamation-triangle"></i> DMSMS</button>
-                    <button class="ils-hub-tab" onclick="switchHubTab('hub-readiness',this)"><i class="fas fa-chart-line"></i> Readiness</button>
-                    <button class="ils-hub-tab" onclick="switchHubTab('hub-compliance',this)"><i class="fas fa-shield-halved"></i> Compliance</button>
+                <div class="ils-hub-tabs" id="ilsHubTabs" style="display:none !important;">
+                    <button class="ils-hub-tab" onclick="switchHubTab('hub-analysis',this)"><i class="fas fa-chart-line"></i> Gap Analysis</button>
+                    <button class="ils-hub-tab" onclick="switchHubTab('hub-dmsms',this)"><i class="fas fa-exclamation-triangle"></i> DMSMS Tracker</button>
+                    <button class="ils-hub-tab" onclick="switchHubTab('hub-readiness',this)"><i class="fas fa-chart-line"></i> Readiness Calculator</button>
+                    <button class="ils-hub-tab" onclick="switchHubTab('hub-compliance',this)"><i class="fas fa-shield-halved"></i> Compliance Scorecard</button>
                     <button class="ils-hub-tab" onclick="switchHubTab('hub-risk',this)"><i class="fas fa-triangle-exclamation"></i> Supply Chain Risk</button>
-                    <button class="ils-hub-tab" onclick="switchHubTab('hub-actions',this)"><i class="fas fa-tasks"></i> Action Items <span class="tab-badge" id="hubActionBadge">0</span></button>
-                    <button class="ils-hub-tab" onclick="switchHubTab('hub-predictive',this)"><i class="fas fa-brain"></i> Predictive Maint</button>
-                    <button class="ils-hub-tab" onclick="switchHubTab('hub-lifecycle',this)"><i class="fas fa-clock"></i> Lifecycle</button>
-                    <button class="ils-hub-tab" onclick="switchHubTab('hub-roi',this)"><i class="fas fa-dollar-sign"></i> ROI</button>
+                    <button class="ils-hub-tab" onclick="switchHubTab('hub-actions',this)"><i class="fas fa-tasks"></i> Action Items</button>
+                    <button class="ils-hub-tab" onclick="switchHubTab('hub-predictive',this)"><i class="fas fa-brain"></i> Predictive Maintenance</button>
+                    <button class="ils-hub-tab" onclick="switchHubTab('hub-lifecycle',this)"><i class="fas fa-clock"></i> Lifecycle Cost</button>
+                    <button class="ils-hub-tab" onclick="switchHubTab('hub-roi',this)"><i class="fas fa-dollar-sign"></i> ROI Calculator</button>
                     <button class="ils-hub-tab" onclick="switchHubTab('hub-vault',this)"><i class="fas fa-vault"></i> Audit Vault</button>
-                    <button class="ils-hub-tab" onclick="switchHubTab('hub-docs',this)"><i class="fas fa-book"></i> Doc Library</button>
-                    <button class="ils-hub-tab" onclick="switchHubTab('hub-reports',this)"><i class="fas fa-file-pdf"></i> Audit Reports</button>
-                    <button class="ils-hub-tab" onclick="switchHubTab('hub-submissions',this)"><i class="fas fa-file-circle-check"></i> ILIE</button>
+                    <button class="ils-hub-tab" onclick="switchHubTab('hub-docs',this)"><i class="fas fa-book"></i> Document Library</button>
+                    <button class="ils-hub-tab" onclick="switchHubTab('hub-reports',this)"><i class="fas fa-file-alt"></i> Report Generator</button>
+                    <button class="ils-hub-tab" onclick="switchHubTab('hub-submissions',this)"><i class="fas fa-paper-plane"></i> Submissions & PTD</button>
+                </div>
+
+                <!-- ILS Tool Cards Sub-Hub -->
+                <div class="ils-sub-hub" id="ilsSubHub">
+                    <div class="ils-tool-card" onclick="openILSTool('hub-analysis')">
+                        <span class="itc-icon"><i class="fas fa-chart-line" style="color:var(--accent);"></i></span>
+                        <div class="itc-title">Gap Analysis</div>
+                        <div class="itc-desc">Identify logistics gaps across readiness, parts, and support elements for any platform.</div>
+                    </div>
+                    <div class="ils-tool-card" onclick="openILSTool('hub-dmsms')">
+                        <span class="itc-icon"><i class="fas fa-exclamation-triangle" style="color:var(--accent);"></i></span>
+                        <div class="itc-title">DMSMS Tracker</div>
+                        <div class="itc-desc">Track diminishing manufacturing sources and material shortages with risk alerts.</div>
+                    </div>
+                    <div class="ils-tool-card" onclick="openILSTool('hub-readiness')">
+                        <span class="itc-icon"><i class="fas fa-chart-line" style="color:var(--accent);"></i></span>
+                        <div class="itc-title">Readiness Calculator</div>
+                        <div class="itc-desc">Compute operational availability (Ao/Ai), MTBF, and readiness metrics.</div>
+                    </div>
+                    <div class="ils-tool-card" onclick="openILSTool('hub-compliance')">
+                        <span class="itc-icon"><i class="fas fa-shield-halved" style="color:var(--accent);"></i></span>
+                        <div class="itc-title">Compliance Scorecard</div>
+                        <div class="itc-desc">NIST 800-171 / CMMC compliance scoring with gap identification.</div>
+                    </div>
+                    <div class="ils-tool-card" onclick="openILSTool('hub-risk')">
+                        <span class="itc-icon"><i class="fas fa-triangle-exclamation" style="color:var(--accent);"></i></span>
+                        <div class="itc-title">Supply Chain Risk</div>
+                        <div class="itc-desc">AI-powered supply chain risk assessment with threat scoring and mitigation.</div>
+                    </div>
+                    <div class="ils-tool-card" onclick="openILSTool('hub-actions')">
+                        <span class="itc-icon"><i class="fas fa-tasks" style="color:var(--accent);"></i></span>
+                        <div class="itc-title">Action Items</div>
+                        <div class="itc-desc">Track ILS action items, corrective actions, and follow-ups with deadlines.</div>
+                    </div>
+                    <div class="ils-tool-card" onclick="openILSTool('hub-predictive')">
+                        <span class="itc-icon"><i class="fas fa-brain" style="color:var(--accent);"></i></span>
+                        <div class="itc-title">Predictive Maintenance</div>
+                        <div class="itc-desc">AI-driven failure prediction and maintenance scheduling optimization.</div>
+                    </div>
+                    <div class="ils-tool-card" onclick="openILSTool('hub-lifecycle')">
+                        <span class="itc-icon"><i class="fas fa-clock" style="color:var(--accent);"></i></span>
+                        <div class="itc-title">Lifecycle Cost</div>
+                        <div class="itc-desc">Total lifecycle cost estimation including procurement, sustainment, and disposal.</div>
+                    </div>
+                    <div class="ils-tool-card" onclick="openILSTool('hub-roi')">
+                        <span class="itc-icon"><i class="fas fa-dollar-sign" style="color:var(--accent);"></i></span>
+                        <div class="itc-title">ROI Calculator</div>
+                        <div class="itc-desc">Calculate return on investment for defense logistics and ILS investments.</div>
+                    </div>
+                    <div class="ils-tool-card" onclick="openILSTool('hub-vault')">
+                        <span class="itc-icon"><i class="fas fa-vault" style="color:var(--accent);"></i></span>
+                        <div class="itc-title">Audit Vault</div>
+                        <div class="itc-desc">Secure document vault for audit records with blockchain-anchored integrity.</div>
+                    </div>
+                    <div class="ils-tool-card" onclick="openILSTool('hub-docs')">
+                        <span class="itc-icon"><i class="fas fa-book" style="color:var(--accent);"></i></span>
+                        <div class="itc-title">Document Library</div>
+                        <div class="itc-desc">Manage technical manuals, drawings, and provisioning documents.</div>
+                    </div>
+                    <div class="ils-tool-card" onclick="openILSTool('hub-reports')">
+                        <span class="itc-icon"><i class="fas fa-file-alt" style="color:var(--accent);"></i></span>
+                        <div class="itc-title">Report Generator</div>
+                        <div class="itc-desc">Generate ILS reports for audits, reviews, and compliance submissions.</div>
+                    </div>
+                    <div class="ils-tool-card" onclick="openILSTool('hub-submissions')">
+                        <span class="itc-icon"><i class="fas fa-paper-plane" style="color:var(--accent);"></i></span>
+                        <div class="itc-title">Submissions & PTD</div>
+                        <div class="itc-desc">Manage provisioning technical data and CDRL submissions.</div>
+                    </div>
+                </div>
+                <div id="ilsToolBackBar" style="display:none;margin-bottom:12px;"><button class="back-btn" onclick="closeILSTool()" style="background:rgba(0,170,255,0.08);border:1px solid rgba(0,170,255,0.2);color:var(--accent);border-radius:8px;padding:6px 14px;font-size:0.8rem;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px;"><i class="fas fa-arrow-left"></i> Back to Tools</button></div>
                 </div>
 
                 <!-- ══ HUB: GAP ANALYSIS (original ILS content) ══ -->
@@ -2033,86 +2261,8 @@ document.addEventListener('drop', function(e) { e.preventDefault(); e.stopPropag
                     </div>
 
                     <!-- How SLS Works -->
-                    <div style="margin-top:20px;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px">
-                        <h4 style="font-size:1rem;font-weight:700;margin-bottom:14px"><i class="fas fa-info-circle" style="color:var(--accent);margin-right:6px"></i>How $SLS Works</h4>
-                        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px">
-                            <div style="padding:14px;background:var(--surface);border-radius:10px;border:1px solid var(--border)">
-                                <div style="font-size:1.3rem;margin-bottom:6px">1️⃣</div>
-                                <h5 style="font-size:0.88rem;font-weight:700;color:#fff;margin-bottom:4px">Create Account</h5>
-                                <p style="font-size:0.78rem;color:var(--steel);margin:0">Sign up to get your XRPL wallet. Choose a subscription plan and SLS is purchased for you automatically — SLS is delivered automatically via XRPL DEX.</p>
-                            </div>
-                            <div style="padding:14px;background:var(--surface);border-radius:10px;border:1px solid var(--border)">
-                                <div style="font-size:1.3rem;margin-bottom:6px">2️⃣</div>
-                                <h5 style="font-size:0.88rem;font-weight:700;color:#fff;margin-bottom:4px">Anchor Records</h5>
-                                <p style="font-size:0.78rem;color:var(--steel);margin:0">Each anchor costs 0.01 SLS. SHA-256 hash is written to XRPL mainnet permanently.</p>
-                            </div>
-                            <div style="padding:14px;background:var(--surface);border-radius:10px;border:1px solid var(--border)">
-                                <div style="font-size:1.3rem;margin-bottom:6px">3️⃣</div>
-                                <h5 style="font-size:0.88rem;font-weight:700;color:#fff;margin-bottom:4px">Buy More SLS</h5>
-                                <p style="font-size:0.78rem;color:var(--steel);margin:0">Purchase SLS with a credit card or swap XRP on the XRPL DEX. $0.01 per SLS.</p>
-                            </div>
-                            <div style="padding:14px;background:var(--surface);border-radius:10px;border:1px solid var(--border)">
-                                <div style="font-size:1.3rem;margin-bottom:6px">4️⃣</div>
-                                <h5 style="font-size:0.88rem;font-weight:700;color:#fff;margin-bottom:4px">Verify Anytime</h5>
-                                <p style="font-size:0.78rem;color:var(--steel);margin:0">Any record can be verified against the blockchain by anyone, forever. Zero trust required.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Role-Based Access Notice -->
-                    <div style="margin-top:20px;background:linear-gradient(135deg,rgba(26,58,92,0.15),rgba(201,168,76,0.05));border:1px solid rgba(0,170,255,0.15);border-radius:12px;padding:20px">
-                        <h4 style="font-size:1rem;font-weight:700;margin-bottom:10px;color:#00aaff"><i class="fas fa-user-shield" style="margin-right:6px"></i>SLS Purchase Authorization</h4>
-                        <p style="font-size:0.82rem;color:var(--steel);margin-bottom:10px">SLS token purchases are role-controlled. Only <strong style="color:#fff">Program Administrators</strong>, <strong style="color:#fff">Managers</strong>, and <strong style="color:#fff">Leadership</strong> can purchase additional SLS tokens for their organization. This prevents unauthorized spending and ensures budget oversight.</p>
-                        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px">
-                            <div style="padding:12px;background:var(--surface);border-radius:8px;border:1px solid var(--border);text-align:center">
-                                <div style="font-size:1.1rem;margin-bottom:4px"><i class="fas fa-crown" style="color:var(--accent)"></i></div>
-                                <div style="font-size:0.82rem;font-weight:700;color:#fff">Admin / Leadership</div>
-                                <div style="font-size:0.72rem;color:#00aaff">Full purchase & management</div>
-                            </div>
-                            <div style="padding:12px;background:var(--surface);border-radius:8px;border:1px solid var(--border);text-align:center">
-                                <div style="font-size:1.1rem;margin-bottom:4px"><i class="fas fa-user-tie" style="color:var(--accent)"></i></div>
-                                <div style="font-size:0.82rem;font-weight:700;color:#fff">Program Manager</div>
-                                <div style="font-size:0.72rem;color:#00aaff">Purchase with approval limits</div>
-                            </div>
-                            <div style="padding:12px;background:var(--surface);border-radius:8px;border:1px solid var(--border);text-align:center">
-                                <div style="font-size:1.1rem;margin-bottom:4px"><i class="fas fa-user" style="color:var(--muted)"></i></div>
-                                <div style="font-size:0.82rem;font-weight:700;color:#fff">Standard User</div>
-                                <div style="font-size:0.72rem;color:var(--muted)">View-only / use allocated SLS</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- USD to SLS Purchase Flow -->
-                    <div style="margin-top:20px;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px">
-                        <h4 style="font-size:1rem;font-weight:700;margin-bottom:14px;color:#00aaff"><i class="fas fa-exchange-alt" style="margin-right:6px"></i>How USD to SLS Works</h4>
-                        <p style="font-size:0.82rem;color:var(--steel);margin-bottom:14px">There is currently no direct USD/SLS trading pair. S4 Ledger handles the conversion seamlessly behind the scenes so you never have to interact with cryptocurrency exchanges.</p>
-                        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px">
-                            <div style="padding:14px;background:rgba(26,58,92,0.1);border:1px solid rgba(26,58,92,0.25);border-radius:10px;text-align:center">
-                                <div style="font-size:1.3rem;margin-bottom:6px"><i class="fas fa-credit-card" style="color:var(--accent)"></i></div>
-                                <h5 style="font-size:0.82rem;font-weight:700;color:#fff;margin-bottom:4px">1. Pay with USD</h5>
-                                <p style="font-size:0.72rem;color:var(--steel);margin:0">Credit card, ACH, or wire via Stripe. Included in plan subscriptions.</p>
-                            </div>
-                            <div style="padding:14px;background:rgba(26,58,92,0.1);border:1px solid rgba(26,58,92,0.25);border-radius:10px;text-align:center">
-                                <div style="font-size:1.3rem;margin-bottom:6px"><i class="fas fa-server" style="color:var(--accent)"></i></div>
-                                <h5 style="font-size:0.82rem;font-weight:700;color:#fff;margin-bottom:4px">2. S4 Processes</h5>
-                                <p style="font-size:0.72rem;color:var(--steel);margin:0">S4 Ledger receives your payment and allocates SLS from the Treasury to your account.</p>
-                            </div>
-                            <div style="padding:14px;background:rgba(26,58,92,0.1);border:1px solid rgba(26,58,92,0.25);border-radius:10px;text-align:center">
-                                <div style="font-size:1.3rem;margin-bottom:6px"><i class="fas fa-paper-plane" style="color:var(--accent)"></i></div>
-                                <h5 style="font-size:0.82rem;font-weight:700;color:#fff;margin-bottom:4px">3. SLS Delivered</h5>
-                                <p style="font-size:0.72rem;color:var(--steel);margin:0">SLS tokens are sent directly to your XRPL wallet. Verified on-chain instantly.</p>
-                            </div>
-                            <div style="padding:14px;background:rgba(26,58,92,0.1);border:1px solid rgba(26,58,92,0.25);border-radius:10px;text-align:center">
-                                <div style="font-size:1.3rem;margin-bottom:6px"><i class="fas fa-check-circle" style="color:var(--accent)"></i></div>
-                                <h5 style="font-size:0.82rem;font-weight:700;color:#fff;margin-bottom:4px">4. Ready to Use</h5>
-                                <p style="font-size:0.72rem;color:var(--steel);margin:0">Anchor records immediately. Each 0.01 SLS = 1 anchor on XRPL mainnet.</p>
-                            </div>
-                        </div>
-                        <div style="margin-top:14px;padding:12px;background:rgba(0,170,255,0.06);border:1px solid rgba(201,168,76,0.15);border-radius:8px">
-                            <p style="font-size:0.78rem;color:var(--steel);margin:0"><i class="fas fa-info-circle" style="color:#00aaff;margin-right:6px"></i><strong style="color:#fff">Note:</strong> Subscription plans (Starter, Professional, Enterprise) include SLS allocations. Additional SLS can be purchased at any time by authorized personnel. Advanced users can also acquire SLS by swapping XRP on the XRPL decentralized exchange.</p>
-                        </div>
-                    </div>
-
-                    <!-- SLS Usage Chart -->
+                    <!-- How SLS Works section merged into wallet sidebar -->
+                    <!-- Role-based access merged into wallet sidebar -->
                     <div style="margin-top:20px;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px">
                         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px">
                             <h4 style="font-size:1rem;font-weight:700;margin:0"><i class="fas fa-chart-area" style="color:#00aaff;margin-right:6px"></i>SLS Usage Over Time</h4>
@@ -8759,5 +8909,196 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 </script>
+
+<!-- ═══ WALLET SIDEBAR ═══ -->
+<div class="wallet-overlay" id="walletOverlay" onclick="closeWalletSidebar()"></div>
+<div class="wallet-sidebar" id="walletSidebar">
+    <div class="wallet-sidebar-header">
+        <h3><i class="fas fa-wallet" style="color:var(--accent);"></i> My Wallet</h3>
+        <button class="wallet-sidebar-close" onclick="closeWalletSidebar()"><i class="fas fa-times"></i> Close</button>
+    </div>
+    <div class="wallet-sidebar-body" id="walletSidebarBody">
+        <!-- Wallet content will be moved here dynamically -->
+        <div style="text-align:center;padding:40px 20px;color:var(--muted);">
+            <i class="fas fa-spinner fa-spin" style="font-size:1.5rem;margin-bottom:12px;display:block;"></i>
+            Loading wallet...
+        </div>
+    </div>
+</div>
+
+<script>
+// ═══ Platform Hub Navigation ═══
+var _currentSection = null;
+var _currentILSTool = null;
+
+function showHub() {
+    // Hide all tab panes
+    document.querySelectorAll('.tab-pane').forEach(function(p) { p.classList.remove('show','active'); p.style.display = 'none'; });
+    // Hide systems hub
+    var sh = document.getElementById('sectionSystems');
+    if (sh) sh.style.display = 'none';
+    // Show hub
+    var hub = document.getElementById('platformHub');
+    if (hub) { hub.style.display = 'block'; hub.style.animation = 'fadeIn 0.3s ease'; }
+    // Show stat strip
+    var sr = document.getElementById('statsRow');
+    if (sr) sr.style.display = 'flex';
+    _currentSection = null;
+    // Update URL
+    history.replaceState(null, '', window.location.pathname);
+}
+
+function showSection(sectionId) {
+    var hub = document.getElementById('platformHub');
+    if (hub) hub.style.display = 'none';
+    
+    // Hide all tab panes and systems hub
+    document.querySelectorAll('.tab-pane').forEach(function(p) { p.classList.remove('show','active'); p.style.display = 'none'; });
+    var sh = document.getElementById('sectionSystems');
+    if (sh) sh.style.display = 'none';
+    
+    // Map sectionId to tab-pane ID
+    var tabMap = {
+        'sectionAnchor': 'tabAnchor',
+        'sectionVerify': 'tabVerify',
+        'sectionLog': 'tabLog',
+        'sectionILS': 'tabILS',
+        'sectionSystems': 'sectionSystems',
+        'sectionMetrics': 'tabMetrics',
+        'sectionOffline': 'tabOffline'
+    };
+    
+    if (sectionId === 'sectionSystems') {
+        // Show Systems hub
+        if (sh) { sh.style.display = 'block'; sh.style.animation = 'fadeIn 0.3s ease'; }
+    } else {
+        var tabId = tabMap[sectionId] || sectionId;
+        var pane = document.getElementById(tabId);
+        if (pane) {
+            pane.style.display = 'block';
+            pane.classList.add('show','active');
+            pane.style.animation = 'fadeIn 0.3s ease';
+        }
+        // Also activate the hidden Bootstrap tab for JS compatibility
+        var tabLink = document.querySelector('a[href="#' + tabId + '"]');
+        if (tabLink) {
+            try { new bootstrap.Tab(tabLink).show(); } catch(e) {}
+        }
+    }
+    
+    _currentSection = sectionId;
+    
+    // For ILS section, show the sub-hub
+    if (sectionId === 'sectionILS') {
+        var subHub = document.getElementById('ilsSubHub');
+        if (subHub) subHub.style.display = 'grid';
+        var toolBack = document.getElementById('ilsToolBackBar');
+        if (toolBack) toolBack.style.display = 'none';
+        // Hide all ILS panels
+        document.querySelectorAll('.ils-hub-panel').forEach(function(p) { p.classList.remove('active'); });
+    }
+}
+
+function showSystemsSub(tabId) {
+    var sh = document.getElementById('sectionSystems');
+    if (sh) sh.style.display = 'none';
+    var pane = document.getElementById(tabId);
+    if (pane) {
+        pane.style.display = 'block';
+        pane.classList.add('show','active');
+        pane.style.animation = 'fadeIn 0.3s ease';
+    }
+}
+
+// ═══ ILS Tool Navigation ═══
+function openILSTool(toolId) {
+    var subHub = document.getElementById('ilsSubHub');
+    if (subHub) subHub.style.display = 'none';
+    var toolBack = document.getElementById('ilsToolBackBar');
+    if (toolBack) toolBack.style.display = 'block';
+    
+    // Activate the tool panel
+    document.querySelectorAll('.ils-hub-panel').forEach(function(p) { p.classList.remove('active'); });
+    var panel = document.getElementById(toolId);
+    if (panel) { panel.classList.add('active'); panel.style.animation = 'fadeIn 0.3s ease'; }
+    
+    // Also click the hidden tab button for compatibility
+    var tabBtn = document.querySelector('.ils-hub-tab[onclick*="' + toolId + '"]');
+    if (tabBtn) {
+        document.querySelectorAll('.ils-hub-tab').forEach(function(b) { b.classList.remove('active'); });
+        tabBtn.classList.add('active');
+    }
+    
+    _currentILSTool = toolId;
+}
+
+function closeILSTool() {
+    var subHub = document.getElementById('ilsSubHub');
+    if (subHub) { subHub.style.display = 'grid'; subHub.style.animation = 'fadeIn 0.3s ease'; }
+    var toolBack = document.getElementById('ilsToolBackBar');
+    if (toolBack) toolBack.style.display = 'none';
+    document.querySelectorAll('.ils-hub-panel').forEach(function(p) { p.classList.remove('active'); });
+    _currentILSTool = null;
+}
+
+// ═══ Wallet Sidebar ═══
+function openWalletSidebar() {
+    var sidebar = document.getElementById('walletSidebar');
+    var overlay = document.getElementById('walletOverlay');
+    if (sidebar) sidebar.classList.add('open');
+    if (overlay) overlay.classList.add('show');
+    
+    // Move wallet content into sidebar on first open
+    var body = document.getElementById('walletSidebarBody');
+    var walletPane = document.getElementById('tabWallet');
+    if (body && walletPane && !body.dataset.loaded) {
+        body.innerHTML = walletPane.innerHTML;
+        body.dataset.loaded = 'true';
+        // Trigger wallet data load
+        if (typeof loadWalletData === 'function') loadWalletData();
+    }
+    
+    // Update wallet trigger balance
+    updateWalletTrigger();
+}
+
+function closeWalletSidebar() {
+    var sidebar = document.getElementById('walletSidebar');
+    var overlay = document.getElementById('walletOverlay');
+    if (sidebar) sidebar.classList.remove('open');
+    if (overlay) overlay.classList.remove('show');
+}
+
+function updateWalletTrigger() {
+    var bal = document.getElementById('slsBarBalance');
+    var trigger = document.getElementById('walletTriggerBal');
+    if (bal && trigger) {
+        trigger.textContent = bal.textContent || '--';
+    }
+}
+
+// ═══ Initial State: Show Hub ═══
+document.addEventListener('DOMContentLoaded', function() {
+    // Start with hub visible
+    setTimeout(function() {
+        var hub = document.getElementById('platformHub');
+        if (hub) hub.style.display = 'block';
+        // Hide all tab panes initially
+        document.querySelectorAll('.tab-pane').forEach(function(p) {
+            p.classList.remove('show','active');
+            p.style.display = 'none';
+        });
+        // Hide demoPanel (SLS flow) — merged into wallet sidebar
+        var dp = document.getElementById('demoPanel');
+        if (dp) dp.style.display = 'none';
+    }, 100);
+});
+
+// Override Bootstrap tab activation to work with our navigation
+document.addEventListener('shown.bs.tab', function(e) {
+    updateWalletTrigger();
+});
+</script>
+
 </body>
 </html>
