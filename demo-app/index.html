@@ -905,7 +905,7 @@ document.addEventListener('drop', function(e) { e.preventDefault(); e.stopPropag
             </div></div>
         </div>
         <div style="text-align:center;">
-            <button onclick="document.getElementById('platformLanding').style.display='none';document.querySelector('.hero').style.display='none';document.getElementById('platformWorkspace').style.display='block';sessionStorage.setItem('s4_entered','1');" style="background:var(--accent);color:#fff;border:none;padding:14px 36px;border-radius:10px;font-weight:600;font-size:0.9375rem;cursor:pointer;transition:all 0.3s cubic-bezier(0.25,0.1,0.25,1);letter-spacing:-0.01em;">Enter Platform <i class="fas fa-arrow-right" style="margin-left:8px;"></i></button>
+            <button onclick="document.getElementById('platformLanding').style.display='none';document.querySelector('.hero').style.display='none';document.getElementById('platformWorkspace').style.display='block';sessionStorage.setItem('s4_entered','1');if(!sessionStorage.getItem('s4_onboard_done')){setTimeout(showOnboarding,600);}" style="background:var(--accent);color:#fff;border:none;padding:14px 36px;border-radius:10px;font-weight:600;font-size:0.9375rem;cursor:pointer;transition:all 0.3s cubic-bezier(0.25,0.1,0.25,1);letter-spacing:-0.01em;">Enter Platform <i class="fas fa-arrow-right" style="margin-left:8px;"></i></button>
             <a href="/demo-app/demo" style="display:inline-block;margin-left:12px;background:transparent;color:var(--accent);border:1px solid rgba(0,170,255,0.4);padding:14px 28px;border-radius:10px;font-weight:600;font-size:0.9375rem;cursor:pointer;transition:all 0.3s;text-decoration:none;letter-spacing:-0.01em;"><i class="fas fa-play-circle" style="margin-right:8px;"></i>See a Demo</a>
         </div>
     </div>
@@ -1063,7 +1063,8 @@ if (sessionStorage.getItem('s4_entered') === '1') {
 
         <!-- ═══ WALLET TRIGGER (Top Right) ═══ -->
         <div style="display:flex;justify-content:flex-end;margin-bottom:8px;">
-            <button class="wallet-trigger" onclick="openWalletSidebar()" id="walletTriggerBtn">
+            <button onclick="resetDemoSession()" style="background:rgba(255,107,107,0.08);border:1px solid rgba(255,107,107,0.2);color:#ff6b6b;border-radius:8px;padding:6px 14px;font-size:0.78rem;font-weight:600;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:5px;transition:all 0.2s;" onmouseover="this.style.background='rgba(255,107,107,0.15)'" onmouseout="this.style.background='rgba(255,107,107,0.08)'"><i class="fas fa-right-from-bracket"></i><span class="d-none d-md-inline">Logout</span></button>
+                        <button class="wallet-trigger" onclick="openWalletSidebar()" id="walletTriggerBtn">
                 <i class="fas fa-wallet"></i> My Wallet <span class="wt-bal" id="walletTriggerBal">--</span>
             </button>
         </div>
@@ -1528,7 +1529,7 @@ if (sessionStorage.getItem('s4_entered') === '1') {
                         <div class="itc-desc">Manage provisioning technical data and CDRL submissions.</div>
                     </div>
                 </div>
-                <div id="ilsToolBackBar" style="display:none;margin-bottom:12px;display:none;"><div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap"><button class="back-btn" onclick="closeILSTool()" style="background:rgba(0,170,255,0.08);border:1px solid rgba(0,170,255,0.2);color:var(--accent);border-radius:8px;padding:6px 14px;font-size:0.8rem;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px;"><i class="fas fa-arrow-left"></i> Back to Tools</button><div id="toolSlsStrip" style="display:flex;align-items:center;gap:14px;padding:6px 16px;background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.15);border-radius:8px;font-size:0.78rem"><span style="color:var(--steel)"><i class="fas fa-coins" style="color:#c9a84c;margin-right:4px"></i>SLS: <strong id="toolSlsBal" style="color:#c9a84c">--</strong></span><span style="color:var(--steel)"><i class="fas fa-anchor" style="color:var(--accent);margin-right:4px"></i>Anchors: <strong id="toolSlsAnch" style="color:var(--accent)">0</strong></span><span style="color:var(--steel)"><i class="fas fa-bolt" style="color:var(--accent);margin-right:4px"></i>Spent: <strong id="toolSlsSpent" style="color:var(--accent)">0.00</strong> SLS</span><span style="color:#a78bfa;margin-left:8px"><i class="fas fa-robot" style="margin-right:4px"></i>AI Agent Active</span></div></div></div>
+                <div id="ilsToolBackBar" style="display:none;margin-bottom:12px;"><div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap"><button class="back-btn" onclick="closeILSTool()" style="background:rgba(0,170,255,0.08);border:1px solid rgba(0,170,255,0.2);color:var(--accent);border-radius:8px;padding:6px 14px;font-size:0.8rem;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px;"><i class="fas fa-arrow-left"></i> Back to Tools</button><div id="toolSlsStrip" style="display:flex;align-items:center;gap:14px;padding:6px 16px;background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.15);border-radius:8px;font-size:0.78rem"><span style="color:var(--steel)"><i class="fas fa-coins" style="color:#c9a84c;margin-right:4px"></i>SLS: <strong id="toolSlsBal" style="color:#c9a84c">--</strong></span><span style="color:var(--steel)"><i class="fas fa-anchor" style="color:var(--accent);margin-right:4px"></i>Anchors: <strong id="toolSlsAnch" style="color:var(--accent)">0</strong></span><span style="color:var(--steel)"><i class="fas fa-bolt" style="color:var(--accent);margin-right:4px"></i>Spent: <strong id="toolSlsSpent" style="color:var(--accent)">0.00</strong> SLS</span><span style="color:#a78bfa;margin-left:8px"><i class="fas fa-robot" style="margin-right:4px"></i>AI Agent Active</span></div></div></div>
                 </div>
 
                 <!-- ══ HUB: GAP ANALYSIS (original ILS content) ══ -->
@@ -3013,6 +3014,13 @@ function _syncSlsBar() {
 // ═══ Logout / Reset Demo Session ═══
 function resetDemoSession() {
     if (!confirm('End your session? This will clear all anchored records, stats, and cached data and return you to the platform landing page.')) return;
+    // Close wallet sidebar if open
+    if (typeof closeWalletSidebar === 'function') closeWalletSidebar();
+    // Close AI agent if open
+    var aiPanel = document.getElementById('floatingAiPanel');
+    if (aiPanel && aiPanel.style.display !== 'none') {
+        if (typeof toggleAiAgent === 'function') toggleAiAgent();
+    }
     // Clear all S4 localStorage keys
     localStorage.removeItem('s4_demo_stats');
     localStorage.removeItem('s4_anchored_records');
@@ -7251,13 +7259,13 @@ function generateLifecycleActions(progKey, totalCost, dmsmsCost, sustCost) {
 // ── Hub Tab Switching ──
 function switchHubTab(panelId, btn) {
     // AI agent stays closed when switching tools (user can open manually)
-    document.querySelectorAll('.ils-hub-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.ils-hub-panel').forEach(p => { p.classList.remove('active'); p.style.display = ''; });
     document.querySelectorAll('.ils-hub-tab').forEach(t => t.classList.remove('active'));
     const panel = document.getElementById(panelId);
-    if (panel) panel.classList.add('active');
+    if (panel) { panel.classList.add('active'); panel.style.display = ''; }
     if (btn) btn.classList.add('active');
     // Load data for workspace panels
-    if (panelId === 'hub-actions') renderHubActions();
+    if (panelId === 'hub-actions') { renderHubActions(); if (typeof renderActionCalendar === 'function') renderActionCalendar(); }
     if (panelId === 'hub-vault') renderVault();
     if (panelId === 'hub-docs') renderDocLibrary();
     if (panelId === 'hub-compliance') calcCompliance();
@@ -9180,6 +9188,12 @@ function closeOnboarding() {
     var overlay = document.getElementById('onboardOverlay');
     if (overlay) overlay.style.display = 'none';
     sessionStorage.setItem('s4_onboard_done', '1');
+    // After onboarding, show role selector if no role set
+    setTimeout(function() {
+        if (typeof _currentRole !== 'undefined' && !_currentRole && typeof showRoleSelector === 'function') {
+            showRoleSelector();
+        }
+    }, 500);
     // Store selected tier in localStorage so it persists across reloads
     var tierInfo = _onboardTiers[_onboardTier] || _onboardTiers['starter'];
     localStorage.setItem('s4_selected_tier', _onboardTier);
@@ -9274,9 +9288,9 @@ function selectOnboardTier(el, tier) {
     if (sidebarBal) sidebarBal.textContent = info.sls.toLocaleString() + ' SLS';
 }
 
-// Auto-show onboarding on first visit
+// Auto-show onboarding on first visit — ONLY after entering platform
 document.addEventListener('DOMContentLoaded', function() {
-    if (!sessionStorage.getItem('s4_onboard_done')) {
+    if (!sessionStorage.getItem('s4_onboard_done') && sessionStorage.getItem('s4_entered') === '1') {
         setTimeout(showOnboarding, 600);
     }
 });
@@ -9997,10 +10011,23 @@ function renderComplianceCharts() {
 
 
 // ═══ Chart rendering for ROI ═══
+// Delegated to bulletproof chart system (block 5) to prevent dual-render conflict
 function renderROICharts() {
     var canvas = document.getElementById('roiLineChart');
     if (!canvas) return;
-    if (canvas.__chartInstance) canvas.__chartInstance.destroy();
+    // Clear stale bp-rendered flag so bulletproof system re-renders fresh
+    if (canvas.getAttribute('data-bp-rendered')) canvas.removeAttribute('data-bp-rendered');
+    // If bulletproof system is available, delegate to it
+    var panel = document.getElementById('hub-roi');
+    if (panel && typeof Chart !== 'undefined') {
+        // Let existing chart remain if it looks correct
+        var existing = null;
+        try { existing = Chart.getChart(canvas); } catch(e) {}
+        if (existing && existing.data && existing.data.labels && existing.data.labels.length >= 10) return;
+        // Otherwise destroy and let bulletproof re-render on next hook
+    }
+    // Fallback: render directly if bulletproof not yet loaded
+    if (canvas.__chartInstance) try { canvas.__chartInstance.destroy(); } catch(e) {}
     // Pull live values from ROI inputs instead of hardcoded
     var ftes = parseFloat((document.getElementById('roiFTEs')||{}).value) || 8;
     var rate = parseFloat((document.getElementById('roiRate')||{}).value) || 145;
@@ -10746,7 +10773,7 @@ function openILSTool(toolId) {
     }
     
     // Load data for panels that need it (synced with switchHubTab)
-    if (toolId === 'hub-actions') { if (typeof renderHubActions === 'function') renderHubActions(); }
+    if (toolId === 'hub-actions') { if (typeof renderHubActions === 'function') renderHubActions(); if (typeof renderActionCalendar === 'function') setTimeout(renderActionCalendar, 100); }
     if (toolId === 'hub-vault') { if (typeof renderVault === 'function') renderVault(); }
     if (toolId === 'hub-docs') { if (typeof renderDocLibrary === 'function') renderDocLibrary(); }
     if (toolId === 'hub-compliance') { if (typeof calcCompliance === 'function') calcCompliance(); }
@@ -11144,8 +11171,8 @@ function initRoleSystem() {
     // Show role selector ONLY when user is inside the platform (not landing page or demo)
     if (!_currentRole) {
         setTimeout(function() {
-            // Must have entered platform AND hub must be visible
-            if (sessionStorage.getItem('s4_entered') === '1') {
+            // Must have entered platform AND hub must be visible AND onboarding must be done
+            if (sessionStorage.getItem('s4_entered') === '1' && sessionStorage.getItem('s4_onboard_done')) {
                 var hubSection = document.querySelector('.ils-hub-tabs');
                 if (hubSection && hubSection.offsetParent !== null) showRoleSelector();
             }
@@ -11352,13 +11379,13 @@ function initRoleSystem() {
                 for (var y = 1; y <= 5; y++) { for (var q = 1; q <= 4; q++) { labels.push('Y'+y+'-Q'+q); var months = ((y-1)*4+q)*3; var cumSavings = (totalAnnual/12)*months; var cumLicense = (license/12)*months; var roiPct = cumLicense>0?((cumSavings-cumLicense)/cumLicense*100):0; data.push(Math.round(roiPct)); }}
             }
             // Always use the visually appealing default curve when no real inputs
-            if (!hasInput || data.every(function(v){return v===0;})) {
+            if (!hasInput || data.length === 0 || data.every(function(v){return v===0;})) {
                 labels = []; data = [];
                 for (var y2 = 1; y2 <= 5; y2++) { for (var q2 = 1; q2 <= 4; q2++) {
                     labels.push('Y'+y2+'-Q'+q2);
                     var qtr = (y2-1)*4+q2;
-                    // Exponential-ish growth curve that looks realistic
-                    data.push(Math.round(-20 + 50 * Math.pow(qtr/20, 0.6) * qtr));
+                    // Exponential growth curve: starts negative, crosses zero ~Q5, grows to ~350%
+                    data.push(Math.round(-15 + 3.5 * qtr + 0.8 * Math.pow(qtr, 1.45)));
                 }}
             }
             return { type:'line', data:{ labels:labels, datasets:[{label:'Cumulative ROI %',data:data,borderColor:'#00cc66',backgroundColor:'rgba(0,204,102,0.1)',fill:true,tension:0.3,pointRadius:2,pointBackgroundColor:'#00cc66'}]}, options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},title:{display:true,text:'5-Year Cumulative ROI',color:'#8ea4b8',font:{size:11}}},scales:{x:{ticks:{color:'#8ea4b8',font:{size:8},maxRotation:45},grid:{display:false}},y:{ticks:{color:'#6b7d93',font:{size:9},callback:function(v){return v+'%'}},grid:{color:'rgba(255,255,255,0.04)'},beginAtZero:true}}}};
