@@ -148,3 +148,14 @@ New production-ready Python modules available:
 
 ### gRPC
 Proto definitions available at `interop/s4_ledger.proto` for high-performance system-to-system integration.
+
+
+---
+
+## v12 Deployment Notes (2026-02-22)
+- New SBOM panel requires no additional dependencies (uses built-in component database)
+- AI Threat Scoring auto-activates when Risk Engine loads
+- Failure Timeline requires Chart.js (already included)
+- Zero-Trust Watermark automatically wraps all CSV exports
+- 21 new Navy programs add ~200 lines to PROGS object
+- Collaboration indicators are simulation-only in demo mode

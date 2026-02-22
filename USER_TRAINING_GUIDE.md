@@ -236,3 +236,29 @@ NSERC-IDE, MERLIN, NAVAIR AMS-PMT, COMPASS, CDMD-OA, NDE, MBPS, PEO-MLB, CSPT, G
 ---
 
 *S4 Ledger v5.1 | S4 Systems, LLC. SLS (Secure Logistics Standard) is a utility token delivered as part of your subscription — not equity or an investment.*
+
+
+---
+
+## v12 New Features Training (2026-02-22)
+
+### SBOM Viewer
+1. Navigate to Anchor-S4 → SBOM Viewer
+2. Select a platform from the dropdown
+3. Click "Scan Components" to load software components
+4. Review CVE status and severity for each component
+5. Export in CycloneDX or SPDX format
+6. Click "Anchor SBOM to XRPL" to create blockchain attestation
+
+### AI Threat Intelligence
+- Automatically appears in Supply Chain Risk Engine after loading risk data
+- Shows composite threat score (0-100) with RED/AMBER/GREEN classification
+- Tracks single-source dependencies, GIDEP alerts, and lead time spikes
+
+### Digital Thread
+- In Audit Vault, click the purple thread icon on any record
+- Shows complete provenance chain from source through verification
+
+### Failure Timeline
+- In Predictive Maintenance, run predictions to see 12-month forecast
+- Stacked bar chart shows predicted failures by severity per month

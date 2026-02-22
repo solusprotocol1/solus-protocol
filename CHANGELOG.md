@@ -1,5 +1,29 @@
 # Changelog
 
+## [0.12.0] — 2026-02-22
+
+### Added
+- **AI Threat Intelligence Scoring** — Weighted heuristic analysis in Supply Chain Risk Engine (single-source, GIDEP alerts, lead time spikes) with red/amber/green dashboard overlay
+- **Predictive Failure Timeline** — 12-month visual forecast (stacked bar chart) in Predictive Maintenance panel showing projected failures by severity
+- **Real-time Collaboration Indicators** — Live multi-analyst session badges with avatar overlays and activity status
+- **Digital Thread Traceability** — Full provenance chain visualization in Audit Vault (source tool → SHA-256 hash → XRPL TX → verification → audit report)
+- **SBOM Integration Panel** — Complete Software Bill of Materials viewer with component scanning, CVE tracking, CycloneDX/SPDX export, and blockchain attestation
+- **Zero-Trust Audit Watermark** — All CSV/report exports include cryptographic verification header with blockchain reference
+- **21 new Navy programs** — SSN-774, SSBN-826, DDG-1000, CG-47, LHA-6, LHD-1, LSD-49, MCM-1, F/A-18E/F, E-2D, EA-18G, P-8A, MH-60R/S, MQ-4C, MQ-25A, CMV-22B, T-45C, AH-1Z, UH-1Y, KC-130J
+- **calcLifecycle function** — Complete lifecycle cost calculator with breakdown output
+
+### Fixed
+- **Chart reactivity** — All ILS tool charts (DMSMS, Readiness, Compliance, Risk, Lifecycle, ROI) now update dynamically when input data changes
+- **Offline queue** — Now pulls from real vault records instead of generating test hashes
+- **Demo page layout** — Responsive hub-grid with card badges, mobile-friendly SLS Economic Flow steps
+- **Navy platform dropdowns** — Expanded from 13 to 34 programs across 11 categories (NAVSEA, NAVAIR, USMC)
+
+### Changed
+- Hub cards now show status badges (LIVE, AUDIT, 13 TOOLS, METRICS)
+- Offline queue button changed from "Queue Test Hash" to "Queue Vault Record"
+- Platform count reflects 34 Navy programs
+
+
 All notable changes to the S4 Ledger project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),

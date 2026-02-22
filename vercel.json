@@ -199,6 +199,10 @@
       "destination": "/api"
     },
     {
+      "source": "/api/checkout/create",
+      "destination": "/api"
+    },
+    {
       "source": "/api/ai-chat",
       "destination": "/api"
     },

@@ -1243,6 +1243,8 @@ class handler(BaseHTTPRequestHandler):
             return "treasury_health"
         if path == "/api/webhook/stripe":
             return "stripe_webhook"
+        if path == "/api/checkout/create":
+            return "stripe_checkout"
         if path == "/api/ai-chat":
             return "ai_chat"
         # ═══ HarborLink Integration Endpoints ═══
@@ -2462,11 +2464,101 @@ class handler(BaseHTTPRequestHandler):
                 "message": "Hash anchored to XRPL" + (" + 0.01 SLS fee sent to Treasury" if fee_result.get("status") == "confirmed" else " (fee transfer " + fee_result.get("status", "unknown") + ")"),
             })
 
+        elif route == "stripe_checkout":
+            self._log_request("stripe-checkout")
+            # ═══ Stripe Checkout Session Creation ═══
+            # Creates a Stripe Checkout session for subscription purchase
+            plan = data.get("plan", "starter")
+            customer_email = data.get("email", "")
+            tier_prices = {
+                "starter": os.environ.get("STRIPE_PRICE_STARTER", ""),
+                "professional": os.environ.get("STRIPE_PRICE_PROFESSIONAL", ""),
+                "enterprise": os.environ.get("STRIPE_PRICE_ENTERPRISE", ""),
+                "government": os.environ.get("STRIPE_PRICE_GOVERNMENT", ""),
+            }
+            price_id = tier_prices.get(plan, "")
+            if not STRIPE_SECRET_KEY:
+                self._send_json({"error": "Payment processing not configured. Contact sales@s4ledger.com for enterprise plans."}, 503)
+                return
+            if not price_id:
+                self._send_json({"error": f"Invalid plan: {plan}. Available: starter, professional, enterprise, government"}, 400)
+                return
+            try:
+                import urllib.request
+                checkout_data = json.dumps({
+                    "mode": "subscription",
+                    "payment_method_types": ["card"],
+                    "line_items": [{"price": price_id, "quantity": 1}],
+                    "customer_email": customer_email or None,
+                    "success_url": data.get("success_url", "https://s4ledger.com/demo-app/?checkout=success&session_id={CHECKOUT_SESSION_ID}"),
+                    "cancel_url": data.get("cancel_url", "https://s4ledger.com/demo-app/?checkout=cancelled"),
+                    "metadata": {"plan": plan, "platform": "s4_ledger"},
+                    "subscription_data": {"metadata": {"plan": plan, "email": customer_email}}
+                }).encode()
+                req = urllib.request.Request(
+                    "https://api.stripe.com/v1/checkout/sessions",
+                    data=checkout_data,
+                    headers={
+                        "Authorization": f"Bearer {STRIPE_SECRET_KEY}",
+                        "Content-Type": "application/json"
+                    }
+                )
+                with urllib.request.urlopen(req, timeout=15) as resp:
+                    session = json.loads(resp.read().decode())
+                    self._send_json({"checkout_url": session.get("url"), "session_id": session.get("id")})
+            except Exception as e:
+                self._send_json({"error": f"Checkout creation failed: {str(e)}"}, 500)
+            return
+
         elif route == "stripe_webhook":
             self._log_request("stripe-webhook")
-            # Stripe webhook for automatic monthly SLS renewal
-            # When Stripe charges a subscriber, this endpoint is called automatically.
-            # It delivers the next month's SLS allocation from Treasury to the user's wallet.
+            # ═══ Stripe Webhook with HMAC Signature Verification ═══
+            # Verifies webhook authenticity before processing events.
+            # CRITICAL SECURITY: Without this, attackers could trigger free SLS allocations.
+            raw_body = b""
+            try:
+                length = int(self.headers.get("Content-Length", 0))
+                if 0 < length <= self.MAX_BODY_SIZE:
+                    raw_body = self.rfile.read(length)
+                    data = json.loads(raw_body)
+            except Exception:
+                self._send_json({"error": "Invalid request body"}, 400)
+                return
+
+            # Verify Stripe signature (production-critical)
+            if STRIPE_WEBHOOK_SECRET:
+                sig_header = self.headers.get("Stripe-Signature", "")
+                if not sig_header:
+                    self._send_json({"error": "Missing Stripe-Signature header"}, 401)
+                    return
+                try:
+                    # Parse signature components
+                    sig_parts = {}
+                    for part in sig_header.split(","):
+                        key, val = part.strip().split("=", 1)
+                        sig_parts.setdefault(key, []).append(val)
+                    timestamp = sig_parts.get("t", [""])[0]
+                    signatures = sig_parts.get("v1", [])
+                    if not timestamp or not signatures:
+                        raise ValueError("Missing timestamp or signature")
+                    # Verify timestamp tolerance (5 minutes)
+                    import time
+                    if abs(time.time() - int(timestamp)) > 300:
+                        raise ValueError("Webhook timestamp too old")
+                    # Compute expected signature
+                    signed_payload = f"{timestamp}.{raw_body.decode('utf-8')}"
+                    expected_sig = hmac.new(
+                        STRIPE_WEBHOOK_SECRET.encode("utf-8"),
+                        signed_payload.encode("utf-8"),
+                        hashlib.sha256
+                    ).hexdigest()
+                    # Verify at least one signature matches
+                    if not any(hmac.compare_digest(expected_sig, s) for s in signatures):
+                        raise ValueError("Signature mismatch")
+                except Exception as e:
+                    self._send_json({"error": f"Webhook signature verification failed: {str(e)}"}, 401)
+                    return
+
             event_type = data.get("type", "")
             if event_type == "invoice.payment_succeeded":
                 invoice = data.get("data", {}).get("object", {})

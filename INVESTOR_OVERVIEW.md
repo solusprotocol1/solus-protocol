@@ -68,3 +68,22 @@
 ## Contact
 
 info@s4ledger.com | [s4ledger.com](https://s4ledger.com)
+
+
+---
+
+## Platform Update — v12 (2026-02-22)
+
+### New Competitive Moat Features
+1. **AI Threat Intelligence Scoring** — Auto-classifies supply chain risk (vs Palantir: $10M+)
+2. **Predictive Failure Timeline** — 12-month visual forecast (vs Oracle: requires IoT sensors)
+3. **SBOM Viewer** — First blockchain-verified SBOM in defense (addresses EO 14028)
+4. **Digital Thread** — Complete provenance visualization (no competitor equivalent)
+5. **Zero-Trust Watermark** — Self-verifying exports (makes competitor exports look amateur)
+6. **Live Collaboration** — Multi-analyst workspace indicators
+
+### Scale
+- **34 Navy programs** supported (SSBNs through service craft)
+- **14 integrated ILS tools** in a single platform
+- **$0.01/anchor** on XRP Ledger — cost advantage over $5M-$50M legacy implementations
+

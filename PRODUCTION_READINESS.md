@@ -443,3 +443,13 @@ This document tracks every requirement for taking S4 Ledger to a fully productio
 ---
 
 *This document is maintained alongside the codebase and updated as items are completed. For the mainnet-specific migration guide, see [MAINNET_MIGRATION.md](MAINNET_MIGRATION.md).*
+
+
+---
+
+## v12 Production Updates (2026-02-22)
+- 14 ILS tools (added SBOM Viewer)
+- 34 Navy programs across 11 categories
+- AI Threat Scoring, Failure Timeline, Digital Thread, Collaboration, Zero-Trust Watermark
+- All charts now reactive to input changes
+- Offline queue pulls from real vault records

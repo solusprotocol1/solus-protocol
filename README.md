@@ -12,6 +12,49 @@ No sensitive data touches the blockchain — ever. Only cryptographic hashes.
 
 ---
 
+
+## Platform Features (v12)
+
+### Core Anchoring
+- **SHA-256 + XRPL Anchoring** — Every record gets a cryptographic fingerprint stored on the XRP Ledger
+- **Batch Verification** — Upload any file to verify integrity against blockchain anchors
+- **Full Transaction Log** — Complete audit trail with XRPL explorer links
+
+### Anchor-S4 ILS Suite (14 Tools)
+| Tool | Description |
+|------|-------------|
+| Gap Analysis | MIL-STD-1388 ILS element scoring with radar + bar charts |
+| DMSMS Tracker | Obsolescence risk detection with doughnut visualization |
+| Readiness Calculator | RAM analysis (Ao, Ai, MTBF/MTTR/MLDT) with gauge chart |
+| Compliance Scorecard | CMMC, NIST 800-171, DFARS, FAR 46, ITAR scoring |
+| Supply Chain Risk Engine | AI-powered risk scoring with **Threat Intelligence Score** |
+| Predictive Maintenance | AI failure prediction with **12-month Failure Timeline** |
+| Lifecycle Cost Estimator | Total ownership cost modeling with breakdown charts |
+| ROI Calculator | Adoption curve modeling with 20-quarter projections |
+| Audit Record Vault | Blockchain-verified record storage with **Digital Thread Traceability** |
+| Report Generator | One-click audit packages (Full, Supply Chain, Compliance, etc.) |
+| Submissions & PTD | Upload/compare ILS data with discrepancy detection |
+| Action Items | Cross-tool task management with severity tracking |
+| Document Library | Searchable document index |
+| **SBOM Viewer** | **Software Bill of Materials** with CVE tracking + blockchain attestation |
+
+### Competitive Differentiators (v12)
+- **AI Threat Intelligence Scoring** — Weighted heuristic analysis of supply chain vulnerabilities (vs Palantir Gotham)
+- **Predictive Failure Timeline** — 12-month visual forecast of projected system failures (vs Oracle Asset Management)
+- **Real-time Collaboration Indicators** — Live multi-analyst session awareness with avatar badges
+- **Digital Thread Traceability** — Full provenance chain visualization (source → hash → XRPL TX → verification)
+- **SBOM Integration** — First-of-kind blockchain-verified Software Bill of Materials (EO 14028 compliant)
+- **Zero-Trust Audit Watermark** — All exports include cryptographic verification headers
+
+### Navy Platform Support
+- **34 Navy programs** across NAVSEA, NAVAIR, and USMC
+- DDG-51, DDG-1000, FFG-62, CG-47, CVN-78, LCS, LPD-17, LHA-6, LHD-1, LSD-49
+- SSN-774, SSBN-826, MCM-1
+- F-35B/C, F/A-18E/F, E-2D, EA-18G, P-8A, MH-60R/S, MQ-4C, MQ-25A, CMV-22B, T-45C
+- AH-1Z, UH-1Y, KC-130J, CH-53K
+- Service Craft: YRBM, APL, AFDM, YDT, YON
+
+
 ## S4 Systems — Two Products, One Mission
 
 S4 Systems offers two complementary products for defense logistics:

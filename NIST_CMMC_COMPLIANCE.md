@@ -39,3 +39,26 @@ Since S4 Ledger does not receive, store, or process Covered Defense Information 
 
 - All contributors must follow the [Code of Conduct](CODE_OF_CONDUCT.md) and [Security Policy](SECURITY.md)
 - For compliance inquiries: info@s4ledger.com
+
+
+---
+
+## v12 Compliance Updates (2026-02-22)
+
+### SBOM Compliance (EO 14028)
+S4 Ledger now includes native SBOM (Software Bill of Materials) viewing and management:
+- Supports CycloneDX 1.5 and SPDX 2.3 formats
+- Tracks embedded software components across weapon systems (firmware, RTOS, middleware, drivers, third-party libraries)
+- CVE cross-referencing for vulnerability awareness
+- **Blockchain attestation**: Each SBOM snapshot is SHA-256 hashed and anchored to XRPL for tamper-proof versioning
+- Directly addresses CMMC Level 2 software supply chain security requirements
+
+### Enhanced Audit Trail (NIST 800-171 3.3.1, 3.3.2)
+- **Digital Thread Traceability**: Every record now shows complete provenance chain from source tool through blockchain verification
+- **Zero-Trust Audit Watermark**: All exports include verification headers linking back to the blockchain anchor
+
+### Supply Chain Risk Management (NIST 800-161)
+- **AI Threat Intelligence Score**: Automated weighted analysis of supply chain vulnerabilities
+- Tracks single-source dependencies, GIDEP alerts, lead time anomalies
+- Composite scoring (0-100) with RED/AMBER/GREEN classification
+

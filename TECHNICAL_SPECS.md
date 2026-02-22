@@ -333,3 +333,44 @@ When a tampered record is corrected:
 *Created by Nick Frankfort — S4 Systems, LLC — Charleston, SC*
 
 For technical inquiries: info@s4ledger.com | [s4ledger.com](https://s4ledger.com)
+
+
+---
+
+## v12 Technical Additions (2026-02-22)
+
+### AI Threat Intelligence Engine
+- **Inputs:** Risk item data (level, factors, supplier, NSN)
+- **Scoring:** Weighted composite: critical items (×12), high (×6), single-source (×8), GIDEP alerts (×5), lead time spikes (×4)
+- **Output:** 0-100 Threat Score with RED/AMBER/GREEN classification
+- **Dashboard:** Real-time overlay in Supply Chain Risk panel
+
+### Predictive Failure Timeline
+- **Data Source:** Predictive Maintenance table (system, confidence, ETA, cost)
+- **Visualization:** Chart.js stacked bar — 12 monthly buckets, severity-coded
+- **Buckets:** Critical (≥85% conf), High (≥70%), Medium (≥50%), Low (<50%)
+
+### SBOM Integration
+- **Formats:** CycloneDX 1.5, SPDX 2.3, S4 Native
+- **Fields:** Component name, version, type, CVE count, license, supplier, severity
+- **Database:** Per-platform component catalogs (12+ components per platform)
+- **Anchoring:** SHA-256 hash of SBOM snapshot → XRPL memo field
+
+### Digital Thread Graph
+- **Chain:** Source Tool → Content → SHA-256 → Encryption Status → XRPL Anchor → Verification → Audit Trail
+- **Rendering:** Vertical provenance graph with color-coded steps and explorer links
+
+### Zero-Trust Audit Watermark
+- **Mechanism:** All `Blob` creation for CSV exports intercepted and wrapped with verification header/footer
+- **Header includes:** Report type, program, timestamp, session ID, blockchain network, export hash, verification URL
+- **Tamper detection:** Instructions to verify at s4ledger.com/verify
+
+### Collaboration Indicators
+- **Session management:** Simulated multi-analyst presence with avatar overlays
+- **Activity tracking:** Rotating status messages showing analyst actions
+- **Joining simulation:** Analysts appear at 15-45s intervals for demo realism
+
+### Navy Platform Expansion
+- **Total programs:** 28 in PROGS + custom + fallback to S4_PLATFORMS (462)
+- **Dropdown categories:** 11 optgroups (NAVSEA Surface, Submarines, Mine, Amphibs, Service Craft; NAVAIR Strike Fighters, Mission Support, Rotary, Tiltrotor, Training; USMC Aviation)
+

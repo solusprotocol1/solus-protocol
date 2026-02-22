@@ -159,3 +159,27 @@ STRIDE-based threat model accessible via `GET /api/security/threat-model`:
 ---
 
 © 2026 S4 Systems, LLC. Charleston, SC.
+
+
+---
+
+## v12 Security Enhancements (2026-02-22)
+
+### Zero-Trust Audit Watermark
+All data exports (CSV, PDF reports) now include cryptographic verification headers:
+- Unique export hash generated per document
+- Session ID for audit attribution
+- Blockchain network reference (XRP Ledger Mainnet)
+- Verification URL for independent integrity checking
+- Tamper detection: any modification invalidates the watermark chain
+
+### SBOM Security
+- Software Bill of Materials for all tracked platforms
+- CVE cross-referencing against NVD database
+- Component version tracking for vulnerability management
+- SBOM attestation anchored to XRPL for tamper-proof versioning
+
+### Digital Thread Chain of Custody
+Every record maintains a complete, immutable provenance chain:
+Source Tool → SHA-256 Hash → AES-256-GCM Encryption → XRPL Memo Anchor → Verification Status → Audit Trail
+

@@ -211,3 +211,16 @@ No. S4 Ledger is a commercial SaaS platform. For organizations that require CAC 
 ---
 
 © 2026 S4 Systems, LLC. Charleston, SC.
+
+
+---
+
+## v12 Feature Updates (2026-02-22)
+All subscription tiers now include:
+- SBOM Viewer with blockchain attestation
+- AI Threat Intelligence Scoring
+- Predictive Failure Timeline
+- Digital Thread Traceability
+- Zero-Trust Audit Watermark on exports
+- Real-time Collaboration Indicators
+- Access to 34 Navy programs
