@@ -72,7 +72,7 @@ All 14 tools talk to each other. When the DMSMS Tracker finds an obsolete part, 
 | Capability | S4 Ledger | Palantir Foundry | Anduril Lattice | SAP S/4HANA | Oracle NetSuite | Spreadsheets / SharePoint |
 |---|---|---|---|---|---|---|
 | **What they do** | ILS platform + tamper-proof records | Data analytics / AI | Autonomous systems / C2 | Enterprise ERP | Cloud ERP / SCM | Manual tracking |
-| **Defense ILS tools** | 13 purpose-built ILS tools | None — analytics only | None — hardware/autonomy | Generic — not ILS-specific | Generic — not ILS-specific | None |
+| **Defense ILS tools** | 14 purpose-built ILS tools | None — analytics only | None — hardware/autonomy | Generic — not ILS-specific | Generic — not ILS-specific | None |
 | **Tamper-proof records** | Yes — SHA-256 on XRPL blockchain | No blockchain | No blockchain | No blockchain | No blockchain | No |
 | **Data stays off-chain** | Yes — only fingerprints on-chain | N/A | N/A | N/A | N/A | N/A |
 | **CMMC/NIST compliance built-in** | Yes — Compliance Scorecard | Partial | No | Partial (add-on) | Partial (add-on) | No |
@@ -110,7 +110,7 @@ Everything described above is **live and working right now** at [s4ledger.com](h
 - **Audit Record Vault:** Automatically stores every anchored record with content + hash for instant auditing
 - **Defense Document Library:** 100+ real MIL-STDs, OPNAVINSTs, DoD Directives searchable by branch and category
 - **Compliance Scorecard:** Real-time CMMC/NIST/DFARS compliance calculator with letter grades
-- **API:** 49+ working endpoints that other software can connect to
+- **API:** 65 working endpoints that other software can connect to
 - **SDK:** A Python toolkit developers can use to plug S4 Ledger into existing systems
 - **$SLS Token:** A usage credit system — live on the XRP Ledger mainnet (production network)
 - **Documentation:** Whitepaper, compliance guides, migration plans, security review — all written

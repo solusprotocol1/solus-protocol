@@ -1,7 +1,7 @@
 # S4 Ledger — Production Readiness Checklist
 
 > **Status:** Production ($SLS LIVE on XRPL Mainnet) — **Estimated ~88% MVP/Pilot Ready | ~75% Enterprise Production Ready**  
-> **Last Updated:** February 2026 (v5.1)  
+> **Last Updated:** February 2026 (v5.2.0)  
 > **Target:** First enterprise pilot — $SLS LIVE on Mainnet
 
 > **Note:** S4 Ledger operates as a product line of S4 Systems, LLC. Many corporate infrastructure items below (CAGE Code, SAM.gov, EIN, D-U-N-S, legal counsel, compliance posture) may already be in place through S4 Systems. Items marked 🟡 should be verified with S4 Systems leadership rather than obtained from scratch. Nick Frankfort leads product/technology; S4 Systems provides business development, legal, compliance, hiring, and corporate infrastructure.
@@ -16,13 +16,13 @@ This document tracks every requirement for taking S4 Ledger to a fully productio
 
 | Area | Status | MVP Score | Enterprise Score |
 |------|--------|-----------|-----------------|
-| **Frontend / Demo** | ILS Workspace (unified command center with 14 ILS tools (hub/card layout)), 14 ILS tools + action items + AI Agent, universal program support, 130+ pre-built record types, PDF/DOCX document parsing, cross-document discrepancy detection, ITAR warning banner, login portal, SDK Playground with 20 interactive function boxes, Metrics dashboard auto-refresh (5s), Transactions page with filters, Treasury Wallet widget, classification banners | **95%** | **90%** |
-| **API / Backend** | Serverless API v5.1, 63+ endpoints including 12 HarborLink integration endpoints (webhooks, composite anchor, Merkle batch, proof chain, custody chain, file hash, bulk verify, org isolation), subscription-based SLS provisioning, Stripe payment verification, rate limiting, security headers, health check, OpenAPI 3.0 spec | **88%** | **80%** |
+| **Frontend / Demo** | ILS Workspace (unified command center with 14 ILS tools (hub/card layout)), 14 ILS tools + action items + AI Agent, universal program support, 156+ pre-built record types, PDF/DOCX document parsing, cross-document discrepancy detection, ITAR warning banner, login portal, SDK Playground with 20 interactive function boxes, Metrics dashboard auto-refresh (5s), Transactions page with filters, Treasury Wallet widget, classification banners | **95%** | **90%** |
+| **API / Backend** | Serverless API v5.2.0, 65 endpoints including 12 HarborLink integration endpoints (webhooks, composite anchor, Merkle batch, proof chain, custody chain, file hash, bulk verify, org isolation), subscription-based SLS provisioning, Stripe payment verification, rate limiting, security headers, health check, OpenAPI 3.0 spec | **88%** | **80%** |
 | **XRPL Integration** | $SLS LIVE on XRPL Mainnet (100M total). Full mainnet anchoring live — all 14 ILS tools anchor to mainnet with explorer links. 3-wallet architecture (Issuer, Treasury, Ops). secp256k1 (Xaman-compatible). 0.01 SLS fee per anchor. | **100%** | **98%** |
-| **SDK** | Python SDK with 38+ methods including 11 new HarborLink methods (webhooks, composite, batch, custody, proof chain, file hash, bulk verify, org records), CLI tool, CSV/XML/JSON import, encryption, SDK Playground with 20 clickable function boxes | **92%** | **90%** |
+| **SDK** | Python SDK with 37 methods including 11 new HarborLink methods (webhooks, composite, batch, custody, proof chain, file hash, bulk verify, org records), CLI tool, CSV/XML/JSON import, encryption, SDK Playground with 20 clickable function boxes | **92%** | **90%** |
 | **Infrastructure** | Vercel deployment, SSL, CDN, PWA manifest, custom 404, security headers — **no persistent database** (in-memory only), no monitoring/APM, no GovCloud, no multi-region | **65%** | **50%** |
 | **Authentication** | Login portal, API key system, wallet provisioning, subscription-gated SLS delivery, role-based access controls (UI) — no MFA, no JWT, no key rotation | **65%** | **50%** |
-| **Documentation** | OpenAPI 3.0 spec (49+ endpoints), SDK reference (38+ methods), whitepaper, technical specs, security policy, investor docs, deployment guide, User Training Guide, HarborLink Integration doc v2.0 | **95%** | **95%** |
+| **Documentation** | OpenAPI 3.0 spec (65 endpoints), SDK reference (37 methods), whitepaper, technical specs, security policy, investor docs, deployment guide, User Training Guide, HarborLink Integration doc v2.0 | **95%** | **95%** |
 | **Compliance** | NIST 800-171 architecture aligned, ITAR warnings, security headers — zero certifications (no CMMC, no FedRAMP, no SOC 2) | **40%** | **40%** |
 | **Legal / Business** | S4 Systems LLC exists, TOS + Privacy Policy published — token legal opinion, EULA, DPA, SLA pending | **40%** | **35%** |
 | **Security** | Zero-data-on-chain, HMAC-SHA256 webhook signing, rate limiting, HSTS, security headers — no pen test, no SOC 2, no WAF | **35%** | **30%** |
@@ -192,7 +192,7 @@ This document tracks every requirement for taking S4 Ledger to a fully productio
 | Item | Status | Priority | Notes |
 |------|--------|----------|-------|
 | API reference (interactive) | ✅ Complete | **Critical** | OpenAPI 3.0 spec at /api/openapi.json, api_examples.md, SDK Playground |
-| SDK documentation | ✅ Complete | **High** | Full SDK reference at /sdk/ — 38+ functions, 15 CLI commands, REST API, code examples |
+| SDK documentation | ✅ Complete | **High** | Full SDK reference at /sdk/ — 37 functions, 15 CLI commands, REST API, code examples |
 | Integration guide | ✅ Published | **High** | INTEGRATIONS.md |
 | Deployment guide | ✅ Published | **High** | DEPLOYMENT_GUIDE.md |
 | Technical specifications | ✅ Published | **High** | TECHNICAL_SPECS.md |
@@ -222,7 +222,7 @@ This document tracks every requirement for taking S4 Ledger to a fully productio
 | POST /api/anchor | ✅ Active | **Critical** | Record anchoring |
 | GET /api/metrics | ✅ Active | **Critical** | Dashboard data |
 | GET /api/transactions | ✅ Active | **Critical** | Transaction browser |
-| GET /api/record-types | ✅ Active | **Critical** | 130+ defense record types |
+| GET /api/record-types | ✅ Active | **Critical** | 156+ defense record types |
 | POST /api/categorize | ✅ Active | **High** | Record type classification |
 | Authentication (API keys) | ⬜ Pending | **Critical** | Per-customer API key issuance |
 | Rate limiting per key | ⬜ Pending | **Critical** | Tier-based request quotas |
@@ -322,7 +322,7 @@ This document tracks every requirement for taking S4 Ledger to a fully productio
 - [x] Add ITAR/export control warning to all data input forms ✅ (v3.2 — ITAR banner on landing page + demo app)
 - [ ] Commission penetration test (budget: $5K-$15K)
 - [ ] Begin CMMC Level 1 self-assessment (verify S4 Systems' existing CMMC posture first)
-- [x] Create CHANGELOG.md with version history ✅ (v5.1 — complete changelog from v1.0 to v5.1)
+- [x] Create CHANGELOG.md with version history ✅ (v5.2.0 — complete changelog from v1.0 to v5.1)
 - [ ] Produce 2-minute demo video
 - [x] Database integration scaffolding ✅ (Supabase-ready API endpoints)
 - [x] ILS Workspace v3 with AI Agent ✅ (26 programs, 44+ DI numbers)
@@ -330,7 +330,7 @@ This document tracks every requirement for taking S4 Ledger to a fully productio
 - [x] Post-analysis workflow actions ✅ (Send, Schedule Meeting, Action Tracker, Print)
 - [x] SDK pip-installable with CLI ✅ (pyproject.toml, entry points, argparse CLI)
 - [x] Landing page ILS Analyzer showcase ✅
-- [x] OpenAPI 3.0 spec ✅ (v3.9.8 — all 49+ endpoints documented)
+- [x] OpenAPI 3.0 spec ✅ (v3.9.8 — all 65 endpoints documented)
 - [x] Security response headers ✅ (v3.2 — HSTS, X-Frame-Options, CSP, X-XSS-Protection)
 - [x] DMSMS/Obsolescence Tracker ✅ (v3.2 — per-program tracking with real component data)
 - [x] Readiness Calculator (Ao/MTBF/MTTR) ✅ (v3.2 — full RAM analysis per MIL-STD-1390D)
@@ -345,7 +345,7 @@ This document tracks every requirement for taking S4 Ledger to a fully productio
 - [x] **Real DoW Dropdown Data** — All tool dropdowns populated with researched real platforms, contract numbers (N00024, FA8615, W58RGZ formats), platform variants (Flight IIA/III, Block IV/V, SEPv3/v4), fleet sizes, and 37 real defense suppliers
 - [x] **Custom Nautical Animation** — Replaced particles.js with zero-dependency canvas animation (floating anchors, chain links, hex hash fragments, wave lines)
 - [x] **Financial Math Updated** — 14-tool savings recalculated: ~$1.02M–$2.6M per program/year, 15–100x ROI, ~$1.02B–$2.6B at 1,000 programs
-- [x] **API v3.8.6** — 49+ endpoints, 14-tool handlers, health endpoint updated
+- [x] **API v3.8.6** — 65 endpoints, 14-tool handlers, health endpoint updated
 - [x] **Compliance Grade Enhanced** — Larger font (1.3rem/900-weight), gradient background, glow effects
 - [x] **How It Works Repositioned** — Collapsible boxes moved under Anchor/Verify headings for better UX
 - [x] **Marketplace Dates Fixed** — Future roadmap items updated to Q3 2026–Q1 2027

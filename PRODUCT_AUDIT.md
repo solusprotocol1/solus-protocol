@@ -1,4 +1,4 @@
-# S4 Ledger — Full Product Audit (v5.1)
+# S4 Ledger — Full Product Audit (v5.2.0)
 
 **Date**: February 2026
 **Auditor**: Automated code review
@@ -60,7 +60,7 @@ S4 Ledger is a **sophisticated, well-architected demo platform with real XRPL bl
 
 ---
 
-## 2. ILS Workspace — 13 purpose-built ILS tools
+## 2. ILS Workspace — 14 purpose-built ILS tools
 
 ### Tools That Genuinely Work
 

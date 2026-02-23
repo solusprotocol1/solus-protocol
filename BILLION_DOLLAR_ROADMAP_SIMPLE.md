@@ -72,7 +72,7 @@ Think of it like this:
 
 - **The military** maintains thousands of weapon systems — jets, ships, tanks, missiles. Each one has thousands of parts, hundreds of documents, and years of maintenance history.
 - **Right now**, most of this tracking is done with spreadsheets, PDFs, and 20-year-old software systems that don't talk to each other. It's slow, expensive, error-prone, and easy to fake.
-- **S4 Ledger** replaces all of that with one modern platform. It has 13 built-in tools that handle everything from tracking parts to predicting when something will break, plus a defense database import tool that connects to 24 DoD/DoN systems. And it stamps every record onto a blockchain — which means no one can secretly change the records after the fact.
+- **S4 Ledger** replaces all of that with one modern platform. It has 14 built-in tools that handle everything from tracking parts to predicting when something will break, plus a defense database import tool that connects to 24 DoD/DoN systems. And it stamps every record onto a blockchain — which means no one can secretly change the records after the fact.
 
 **The bottom line:** S4 Ledger saves the government a LOT of money and makes defense logistics dramatically better. And that means S4 Systems (the company) can grow from a small consulting firm into a billion-dollar technology company.
 

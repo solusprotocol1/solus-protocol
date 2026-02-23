@@ -108,7 +108,7 @@ This document maps the exact technical integration surface — every API call, e
 | **Supply chain risk** | `GET /api/supply-chain-risk` | Live | Multi-factor risk scoring |
 | **Digital thread** | `GET /api/digital-thread` | Live | ECP tracking, BOM revisions |
 | **Audit reports** | `GET /api/audit-reports` | Live | 6 report types (full, supply, maintenance, compliance, custody, contract) |
-| **SDK (Python)** | `pip install` / `s4-anchor` CLI | Live | 38+ methods, CLI tool |
+| **SDK (Python)** | `pip install` / `s4-anchor` CLI | Live | 37 methods, CLI tool |
 | **Webhook registration** | `POST /api/webhooks/register` | Live | Register webhook URL with HMAC secret |
 | **Webhook deliveries** | `GET /api/webhooks/deliveries` | Live | View webhook delivery history |
 | **File-level hashing** | `POST /api/hash/file` | Live | Binary hash of uploaded file |
@@ -649,7 +649,7 @@ Response: A portable package containing:
     "program": "DDG-51 Flight III",
     "period": { "start": "2025-01-01", "end": "2026-02-18" },
     "generated_at": "2026-02-18T15:00:00Z",
-    "generated_by": "S4 Ledger v5.1",
+    "generated_by": "S4 Ledger v5.2.0",
 
     "summary": {
         "total_records": 1247,

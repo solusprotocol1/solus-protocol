@@ -226,7 +226,7 @@ S4 Ledger is the only solution purpose-built for defense logistics that keeps ze
 | Phase | Timeline | Milestones |
 |---|---|---|
 | **Phase 1 — Foundation** | Q4 2025 – Q1 2026 ✅ | SDK, hash anchoring, $SLS token, website |
-| **Phase 2 — Defense Platform** | Q1 – Q2 2026 ✅ | 500+ real platforms, 13 interactive tools, 156+ pre-built record types across 9 military branches, toast alerts, unified action tracking |
+| **Phase 2 — Defense Platform** | Q1 – Q2 2026 ✅ | 500+ real platforms, 14 interactive tools, 156+ pre-built record types across 9 military branches, toast alerts, unified action tracking |
 | **Phase 3 — MVP & Pilot** | Q3 – Q4 2026 | Internal pilot on real contract data, SBIR/STTR applications, server-side persistence, user auth |
 | **Phase 4 — Partner & SaaS** | Q1 – Q2 2027 | REST API, SaaS dashboard, DIU / NavalX engagement, Merkle tree batch anchoring |
 | **Phase 5 — Scale & Certify** | Q3 2027+ | NIST/CMMC, FedRAMP, CDN/edge caching, microservices, production deployments |
@@ -297,7 +297,7 @@ Infrastructure costs scale with revenue and never exceed 6% of ARR at any phase.
 
 ## 8. Team
 
-S4 Ledger is a product line of **S4 Systems, LLC**, created and built entirely by **Nick Frankfort** — ILS contractor and founder and CEO. Nick built the entire platform (14 ILS tools, 38+ Python SDK methods, 63+ REST API endpoints, $SLS token, 25+ page website, 500+ pre-loaded military entities) at zero cost to the company, on his own time, drawing on years of hands-on ILS experience across Navy and DoW programs.
+S4 Ledger is a product line of **S4 Systems, LLC**, created and built entirely by **Nick Frankfort** — ILS contractor and founder and CEO. Nick built the entire platform (14 ILS tools, 37 Python SDK methods, 65 REST API endpoints, $SLS token, 25+ page website, 500+ pre-loaded military entities) at zero cost to the company, on his own time, drawing on years of hands-on ILS experience across Navy and DoW programs.
 
 Based in Charleston, SC.
 

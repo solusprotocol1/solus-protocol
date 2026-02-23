@@ -47,7 +47,7 @@ Every day, the U.S. Department of War (DoW) processes millions of logistics reco
 | Component | Description | Status |
 |-----------|-------------|--------|
 | **Live Website** | 25+ pages at [s4ledger.com](https://s4ledger.com) with full branding | ✅ Deployed |
-| **Python API** | 49+ REST endpoints, zero external dependencies | ✅ Live |
+| **Python API** | 65 REST endpoints, zero external dependencies | ✅ Live |
 | **Demo Application** | Interactive platform — the U.S. Navy, 156+ pre-built record types across 9 military branches (any defense record type supported) | ✅ Live |
 | **SDK Playground** | Browser-based Python SDK sandbox with live API | ✅ Live |
 | **$SLS Utility Token** | LIVE on XRPL Mainnet — 100M supply, ~15M circulating, AMM (Automated Market Maker) pools active | ✅ Live |
@@ -284,7 +284,7 @@ S4 Ledger's prototype is essentially a **completed Phase I deliverable**. We cou
 5. **Time allocation** for me to lead development (partial or full-time on S4 Ledger)
 
 ### What I Bring
-1. **A working prototype** — live, publicly accessible, with 25+ pages and 27 API endpoints
+1. **A working prototype** — live, publicly accessible, with 25+ pages and 65 API endpoints
 2. **Domain expertise** — I understand defense logistics AND the underlying technology
 3. **Complete documentation** — whitepaper, technical specs, migration guides, compliance docs, API specification
 4. **ILS Workspace** — a fully functional suite of 14 integrated logistics tools ready for demonstration — the trust and intelligence layer for defense ILS

@@ -1,6 +1,6 @@
 # Changelog
 
-## v5.1.0 — Round 16 (2025-06-XX)
+## v5.2.0 — Round 16 (2026-02-22)
 
 ### Bug Fixes
 - **Role popup** — Fixed: role selector now reliably appears after onboarding (removed broken `offsetParent` check on hidden `.ils-hub-tabs` element)

@@ -2,7 +2,7 @@
 
 > **Base URL:** `https://s4ledger.com`  
 > **Auth:** Include `X-API-Key: YOUR_KEY` header on all requests.  
-> **63 REST API endpoints** — see [TECHNICAL_SPECS.md](TECHNICAL_SPECS.md) for full listing.
+> **65 REST API endpoints** — see [TECHNICAL_SPECS.md](TECHNICAL_SPECS.md) for full listing.
 
 ---
 

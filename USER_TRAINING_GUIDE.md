@@ -102,9 +102,9 @@ Each entry shows the time, type of record, the fingerprint (hash), a link to the
 
 ---
 
-### Tab 4 — ILS Workspace (13 Analysis Tools)
+### Tab 4 — ILS Workspace (14 Analysis Tools)
 
-This is the powerhouse of S4 Ledger. It contains **13 specialized tools** designed for defense logistics professionals. Here's what each one does in plain English:
+This is the powerhouse of S4 Ledger. It contains **14 specialized tools** designed for defense logistics professionals. Here's what each one does in plain English:
 
 | # | Tool | What It Does |
 |---|------|-------------|
@@ -121,6 +121,7 @@ This is the powerhouse of S4 Ledger. It contains **13 specialized tools** design
 | 11 | **Audit Reports** | Generate formal audit reports automatically — stamped to the blockchain for tamper-proof storage. |
 | 12 | **Predictive Maintenance** | Analyze patterns to predict when equipment will need maintenance before it fails. |
 | 13 | **ILIE** | AI-powered submission review — compares vendor data against baselines, flags discrepancies with severity ratings. |
+| 14 | **SBOM Viewer** | Software Bill of Materials viewer — analyze software component dependencies and known vulnerabilities. |
 
 > **Note:** Tools for parts cross-reference, contract tracking, provisioning, warranty management, scheduling, configuration management, and database import are available in **HarborLink**, S4 Systems' companion collaboration portal.
 
@@ -235,7 +236,7 @@ NSERC-IDE, MERLIN, NAVAIR AMS-PMT, COMPASS, CDMD-OA, NDE, MBPS, PEO-MLB, CSPT, G
 
 ---
 
-*S4 Ledger v5.1 | S4 Systems, LLC. SLS (Secure Logistics Standard) is a utility token delivered as part of your subscription — not equity or an investment.*
+*S4 Ledger v5.2.0 | S4 Systems, LLC. SLS (Secure Logistics Standard) is a utility token delivered as part of your subscription — not equity or an investment.*
 
 
 ---

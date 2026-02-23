@@ -47,6 +47,7 @@ Every subscription tier includes access to the full ILS Workspace:
 | 11 | **Predictive Maintenance AI** | Analyze patterns to predict when equipment will need maintenance before it fails |
 | 12 | **Submissions & PTD** | AI-powered submission review — compares vendor data against baselines, flags discrepancies |
 | 13 | **AI Agent** | LLM-powered assistant trained on all 12 ILS elements, 30+ defense systems, and 6 compliance frameworks |
+| 14 | **SBOM Viewer** | Software Bill of Materials viewer for analyzing software component dependencies and known vulnerabilities |
 
 > **Looking for parts cross-reference, contract tracking, provisioning, warranty management, scheduling, configuration management, or database import?** These tools are available in **HarborLink**, S4 Systems' companion collaboration portal.
 

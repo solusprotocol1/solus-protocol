@@ -58,13 +58,13 @@ S4 Ledger utilizes the `Memos` field in a standard XRPL transaction to anchor da
 | **Transport** | WebSocket (wss://) to XRPL nodes |
 | **Encryption** | TLS 1.3 |
 | **Batch Size** | Up to 1,000 records |
-| **SDK Functions** | 38+ (anchor, verify, batch, status, readiness, dmsms, roi, lifecycle, warranty, supply-chain-risk, audit-reports, contracts, digital-thread, predictive-maintenance, compliance, ILIE, defense-db-import, custody-transfer, proof-chain, webhook, composite-anchor, ai-query, offline-sync, and more) |
+| **SDK Functions** | 37 (anchor, verify, batch, status, readiness, dmsms, roi, lifecycle, warranty, supply-chain-risk, audit-reports, contracts, digital-thread, predictive-maintenance, compliance, ILIE, defense-db-import, custody-transfer, proof-chain, webhook, composite-anchor, ai-query, offline-sync, and more) |
 
 ## 5. REST API
 
 | Property | Value |
 |---|---|
-| **Endpoints** | 63 production REST API endpoints |
+| **Endpoints** | 65 production REST API endpoints |
 | **Framework** | Zero-dependency (BaseHTTPRequestHandler) |
 | **Authentication** | API key (master + org keys) |
 | **Rate Limiting** | 120 requests/minute per IP |
@@ -74,7 +74,7 @@ S4 Ledger utilizes the `Memos` field in a standard XRPL transaction to anchor da
 
 | Property | Value |
 |---|---|
-| **Tools** | 13 interactive ILS management tools |
+| **Tools** | 14 interactive ILS management tools |
 | **Platforms** | 500+ pre-loaded (500+ platforms, 37 suppliers, 25 contracts) |
 | **Record Types** | 156+ pre-built record types across 9 military branches |
 | **Standards** | MIL-STD-1388, DoDI 4245.15, DoD 5000.73, FAR 46.7, MIL-STD-1390D |
@@ -211,7 +211,7 @@ When a tampered record is corrected:
 
 ---
 
-## 10. Full API Endpoint Inventory (63 Endpoints)
+## 10. Full API Endpoint Inventory (65 Endpoints)
 
 ### Core Platform
 | Endpoint | Method | Description |

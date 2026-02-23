@@ -6,9 +6,9 @@ S4 Ledger is deployed on **Vercel** with a Python serverless API and static fron
 
 ### Architecture
 - **Frontend:** `demo-app/index.html` — Single-page application (Bootstrap 5, Chart.js, custom JS)
-- **API:** `api/index.py` — Python serverless function (BaseHTTPRequestHandler, 63 endpoints)
-- **Config:** `vercel.json` — Route rewrites (63 API routes), security headers (CSP, HSTS, X-Frame-Options)
-- **SDK:** `s4_sdk.py` — Python SDK (38+ functions)
+- **API:** `api/index.py` — Python serverless function (BaseHTTPRequestHandler, 65 endpoints)
+- **Config:** `vercel.json` — Route rewrites (65 API routes), security headers (CSP, HSTS, X-Frame-Options)
+- **SDK:** `s4_sdk.py` — Python SDK (37 functions)
 
 ### Quick Deploy
 
@@ -48,7 +48,7 @@ vercel --prod
 
 ### Route Rewrites
 
-All 63 API routes in `vercel.json` rewrite to the single `/api` Python function. See [vercel.json](vercel.json) for the complete list.
+All 65 API routes in `vercel.json` rewrite to the single `/api` Python function. See [vercel.json](vercel.json) for the complete list.
 
 ---
 

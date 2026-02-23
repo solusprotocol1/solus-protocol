@@ -2,7 +2,7 @@
 
 ## Defense System Integration
 
-S4 Ledger is designed to integrate with existing defense logistics systems through its Python SDK and 63 live REST API endpoints:
+S4 Ledger is designed to integrate with existing defense logistics systems through its Python SDK and 65 live REST API endpoints:
 
 ### Supported Integration Targets
 
@@ -62,7 +62,7 @@ For air-gapped, SCIF, or shipboard environments:
 
 ## Partner REST API (Live)
 
-- 63 RESTful endpoints for anchoring, verification, ILS analysis, AI queries, and security
+- 65 RESTful endpoints for anchoring, verification, ILS analysis, AI queries, and security
 - API key authentication with tiered rate limits (120 req/min)
 - Batch endpoints for high-volume operations (`/api/anchor/batch`, `/api/verify/batch`)
 - Webhook notifications for anchor confirmations

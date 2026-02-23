@@ -42,9 +42,9 @@ Think of S4 Ledger like a notary for defense records. When an ILS manager comple
 - **$SLS token LIVE on XRPL Mainnet** — tradable, AMM pools active, trustlines established
   - Issuer: `r95GyZac4butvVcsTWUPpxzekmyzaHsTA5`
   - 100M total supply | ~15M circulating | 30M in multi-sig treasury
-- **13 interactive defense tools** live at s4ledger.com/demo-app — not mockups, real working interfaces
-- **38+ Python SDK methods** for defense-grade hash anchoring, verification, and batch operations
-- **63+ REST API endpoints** for enterprise integration
+- **14 interactive defense tools** live at s4ledger.com/demo-app — not mockups, real working interfaces
+- **37 Python SDK methods** for defense-grade hash anchoring, verification, and batch operations
+- **65 REST API endpoints** for enterprise integration
 - **500+ pre-loaded military entities** — 500+ defense platforms across 9 U.S. military branches, 37 real defense suppliers, 25 real DoW contracts
 - **156+ pre-built record types across 9 military branches** mapped to real-world logistics workflows (supports any defense record type)
 - **100+ real defense documents** in searchable reference library (MIL-STDs, OPNAVINSTs, DoD Directives)
@@ -90,7 +90,7 @@ Think of S4 Ledger like a notary for defense records. When an ILS manager comple
 | **SAP S/4HANA** | — | $500K–$5M+ | Generic | No |
 | **Oracle NetSuite** | — | $200K–$1M+ | Generic | No |
 | **Microsoft Dynamics** | — | $150K–$800K+ | Generic | No |
-| **S4 Ledger** | Pre-revenue | **$6K–$60K** | **13 built-in** | **Yes (XRPL)** |
+| **S4 Ledger** | Pre-revenue | **$6K–$60K** | **14 built-in** | **Yes (XRPL)** |
 
 ### Why the XRP Ledger?
 

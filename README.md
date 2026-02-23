@@ -224,7 +224,7 @@ S4 Ledger covers all 12 ILS elements defined in MIL-STD-1388 / GEIA-STD-0007:
 | Phase | Status | Focus |
 |---|---|---|
 | Phase 1 — Foundation | ✅ Complete | SDK, hashing, XRPL anchoring, $SLS token live |
-| Phase 2 — Defense Platform | ✅ Complete | 14-tool ILS Workspace, 500+ platforms, 38+ SDK methods (incl. 11 HarborLink), 63 REST API endpoints, 156+ record types, AI agent, audit vault, SDK Playground with 21 function boxes |
+| Phase 2 — Defense Platform | ✅ Complete | 14-tool ILS Workspace, 500+ platforms, 37 SDK methods (incl. 11 HarborLink), 65 REST API endpoints, 156+ record types, AI agent, audit vault, SDK Playground with 21 function boxes |
 | Phase 3 — MVP & Pilot | Upcoming | Internal pilot on real contract data |
 | Phase 4 — Partner Onboarding | Planned | SaaS launch, DIU/NavalX engagement |
 | Phase 5 — Scale & Certification | Planned | NIST, FedRAMP, SBIR/STTR |
@@ -233,7 +233,7 @@ S4 Ledger covers all 12 ILS elements defined in MIL-STD-1388 / GEIA-STD-0007:
 
 | Document | Description |
 |---|---|
-| [SDK Documentation](sdk/) | Full Python SDK reference — 38+ functions, 15 CLI commands, REST API |
+| [SDK Documentation](sdk/) | Full Python SDK reference — 37 functions, 15 CLI commands, REST API |
 | [User Training Guide](USER_TRAINING_GUIDE.md) | Step-by-step guide for every tool, feature, and workflow |
 | [API Examples](api_examples.md) | Python, cURL, JavaScript code samples |
 | [Technical Specifications](TECHNICAL_SPECS.md) | Architecture, security, and performance |
@@ -248,6 +248,6 @@ S4 Ledger covers all 12 ILS elements defined in MIL-STD-1388 / GEIA-STD-0007:
 
 Apache License 2.0 — see [LICENSE](LICENSE)
 
-**Version:** 5.1.0 — XRPL Mainnet Live | HarborLink Integration | 63 REST API endpoints | 38+ SDK Methods | Flankspeed/VDI Compatible
+**Version:** 5.2.0 — XRPL Mainnet Live | HarborLink Integration | 65 REST API endpoints | 37 SDK Methods | Flankspeed/VDI Compatible
 
 © 2026 S4 Systems, LLC. Charleston, SC.

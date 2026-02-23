@@ -13,7 +13,7 @@ S4 Ledger is a defense-grade record integrity platform that anchors SHA-256 hash
 ### 1. Record Anchoring
 Hash any data and anchor it to the XRP Ledger. Zero data on-chain — only the cryptographic fingerprint is stored.
 
-- **64+ defense record types** — Navy, Joint, custom
+- **156+ defense record types** — Navy, Joint, custom
 - **0.01 SLS per anchor** ($0.01 equivalent)
 - **Batch anchoring** with Merkle tree compression
 - **File-based anchoring** — Upload PDFs, XLSX, contracts for binary hashing
@@ -25,7 +25,7 @@ Re-verify any record against its chain anchor. Instant tamper detection.
 - **Batch verification** — Verify multiple files at once with export report
 - **Visual tamper indicator** — Immediate red/green status
 
-### 3. 14+ ILS Workspace Tools
+### 3. 14 ILS Workspace Tools
 Full Integrated Logistics Support workspace:
 
 | Tool | Description |
@@ -43,6 +43,7 @@ Full Integrated Logistics Support workspace:
 | Defense Document Library | 100+ searchable MIL-STDs, regulations |
 | Audit Report Generator | DCMA-ready compliance packages |
 | Submission Review (ILIE) | Line-by-line discrepancy detection |
+| SBOM Viewer | Software Bill of Materials analysis and vulnerability tracking |
 
 ### 4. AI Agent (S4 Agent)
 Full-featured AI assistant specializing in defense logistics:
@@ -57,7 +58,7 @@ Full-featured AI assistant specializing in defense logistics:
 Secure Logistics Standard (SLS) — utility token on the XRP Ledger:
 
 - **Self-sustaining circulation:** Treasury → User → Treasury
-- **Subscription tiers:** Pilot (free, 100 SLS), Starter ($49/mo, 5K SLS), Professional ($149/mo, 25K SLS), Enterprise (custom)
+- **Subscription tiers:** Pilot (free, 100 SLS), Starter ($999/mo, 25K SLS), Professional ($2,499/mo, 100K SLS), Enterprise ($9,999/mo, 500K SLS)
 - **Automatic wallet provisioning** on signup
 - **Real-time balance display** in floating sidebar
 
@@ -182,10 +183,10 @@ curl -X POST https://s4ledger.com/api/anchor \
 
 | Plan | Monthly | SLS/mo | Anchors | AI Queries | ILS Tools |
 |------|---------|--------|---------|------------|-----------|
-| Pilot | Free | 100 | 100 | 50 | 5 |
-| Starter | $49 | 5,000 | 5,000 | 500 | 8 |
-| Professional | $149 | 25,000 | 25,000 | Unlimited | 13 |
-| Enterprise | Custom | Custom | Unlimited | Unlimited | 13 + HarborLink |
+| Pilot | Free | 100 | 10,000 | 50 | 14 |
+| Starter | $999 | 25,000 | 2,500,000 | 500 | 14 |
+| Professional | $2,499 | 100,000 | 10,000,000 | Unlimited | 14 |
+| Enterprise | $9,999 | 500,000 | Unlimited | Unlimited | 14 + HarborLink |
 
 ---
 

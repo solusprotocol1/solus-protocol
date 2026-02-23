@@ -38,8 +38,8 @@ S4 Ledger: Immutable logistics verification for the defense industry, anchored o
 - **$SLS token LIVE on XRPL Mainnet** — tradable, AMM pools, trustlines
 - 100M total supply | ~15M circulating | 30M multi-sig treasury
 - **14 interactive defense tools** live at s4ledger.com (not mockups)
-- **38+ Python SDK methods** for defense-grade hash anchoring and verification
-- **49+ REST API endpoints** for enterprise integration
+- **37 Python SDK methods** for defense-grade hash anchoring and verification
+- **65 REST API endpoints** for enterprise integration
 - **500+ pre-loaded military entities** — 500+ platforms, 37 suppliers, 25 contracts
 - **156+ pre-built record types across 9 military branches** mapped to real-world logistics workflows
 - **100+ real defense documents** in searchable reference library
