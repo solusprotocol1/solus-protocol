@@ -206,7 +206,7 @@ SHA-256 is not directly vulnerable to Grover's algorithm. Grover's algorithm red
 
 | Solution | Approach | Cost | Data Exposure | Defense Focus |
 |---|---|---|---|---|
-| **S4 Ledger** | Hash anchoring on XRPL | 0.01 SLS/anchor | Zero | Built for DoW ILS — 13 tools, U.S. Navy |
+| **S4 Ledger** | Hash anchoring on XRPL | 0.01 SLS/anchor | Zero | Built for DoW ILS — 14 tools, U.S. Navy |
 | **ICAPS** (DAU) | Mainframe + PC provisioning | Free (gov only) | Internal database | Navy/USMC only, Supply Support only |
 | SAP S/4HANA | ERP platform | $1M+ | Full database | Commercial, adapted for defense |
 | Oracle Cloud | ERP platform | $500K+ | Cloud-hosted | Commercial, adapted for defense |
@@ -215,7 +215,7 @@ SHA-256 is not directly vulnerable to Grover's algorithm. Grover's algorithm red
 | Hyperledger Fabric | Private blockchain | High (infra) | Private chain data | Enterprise, finance |
 | Hedera Hashgraph | DLT consensus | Low-moderate | On-chain data | General enterprise |
 
-S4 Ledger is the only solution purpose-built for defense logistics that keeps zero data on-chain. It provides blockchain verification, all-branch support, and 13 integrated ILS tools focused on analysis, compliance, and audit integrity.
+S4 Ledger is the only solution purpose-built for defense logistics that keeps zero data on-chain. It provides blockchain verification, all-branch support, and 14 integrated ILS tools focused on analysis, compliance, and audit integrity.
 
 > **Companion Product:** S4 Systems also offers **HarborLink**, a collaboration portal for day-to-day logistics workflows — parts cross-reference, contract lifecycle management, provisioning (ICAPS replacement), warranty tracking, configuration management, scheduling, and defense database import/export. Together, S4 Ledger and HarborLink provide a complete ILS platform.
 
@@ -235,7 +235,7 @@ S4 Ledger is the only solution purpose-built for defense logistics that keeps ze
 
 | Tool | Description |
 |---|---|
-| **ILS Workspace** | Unified command center consolidating all 13 tools with cross-tool data syncing and sub-tab navigation |
+| **ILS Workspace** | Unified command center consolidating all 14 tools with cross-tool data syncing and sub-tab navigation |
 | ILS Workspace Engine | Per-program checklists for 500+ programs with DRL generation |
 | Action Items & Task Tracker | Cross-tool task queue with severity tagging, delegation, cost tracking, and source breakdown |
 | DMSMS Tracker | Obsolescence monitoring with severity analysis |

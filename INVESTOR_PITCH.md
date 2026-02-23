@@ -64,7 +64,7 @@ Think of S4 Ledger like a notary for defense records. When an ILS manager comple
 | **High-Scale** (50+ programs) | $12M–$48M | $1.2M–$3.6M ARR/enterprise |
 
 *Key drivers: 65% labor reduction, 90% error savings, 70% audit cost reduction, 15-25% DMSMS cost avoidance, 70% less data reconciliation*
-*Per-program savings: ~$1.02M–$2.6M/year from 13 ILS tools (including ILIE submission intelligence) — 15–100x ROI for government*
+*Per-program savings: ~$1.02M–$2.6M/year from 14 ILS tools (including Submissions & PTD) — 15–100x ROI for government*
 
 ## National Impact
 
@@ -133,7 +133,7 @@ S4 Ledger scales from zero infrastructure cost (today) to 50,000+ concurrent use
 | Phase | Timeline | Focus |
 |---|---|---|
 | Foundation | Q4 2025 – Q1 2026 ✅ | SDK, $SLS token, website |
-| Defense Platform | Q1 – Q2 2026 ✅ | 500+ platforms, 13 tools, ILIE submission intelligence, toast alerts, action tracking, ROI/Lifecycle calculators |
+| Defense Platform | Q1 – Q2 2026 ✅ | 500+ platforms, 14 tools, Submissions & PTD, toast alerts, action tracking, ROI/Lifecycle calculators |
 | MVP & Pilot | Q3 – Q4 2026 | Pilot on real data, server persistence, user auth, pagination |
 | Partner & SaaS | Q1 – Q2 2027 | REST API, SaaS dashboard, Merkle batch anchoring, DIU/NavalX |
 | Scale & Certify | Q3 2027+ | NIST, FedRAMP, CDN/edge, microservices, production deployments |

@@ -1,5 +1,25 @@
 # Changelog
 
+## v5.1.0 — Round 16 (2025-06-XX)
+
+### Bug Fixes
+- **Role popup** — Fixed: role selector now reliably appears after onboarding (removed broken `offsetParent` check on hidden `.ils-hub-tabs` element)
+- **DoD consent banner** — Recolored from orange (#ff9500) to brand blue (#00aaff)
+- **SLS balance flicker** — Debounced `_updateDemoSlsBalance()` via `requestAnimationFrame`; reduced polling from 3s to 15s
+- **Digital Thread dropdown** — Now auto-populates after each anchor, not just when Vault panel opens
+- **Tool count** — Corrected "13 tools" → "14 tools" across all UI text, AI agent responses, and documentation
+
+### New Features
+- **SBOM Viewer SDK function** — `scan_sbom()` added to SDK Playground with CycloneDX vulnerability scan demo
+- **Flankspeed/Nautilus VDI compatibility** — Auto-detects Navy VDI environments, disables heavy CSS animations and backdrop-filter for performance
+- **Anchor-S4 header buttons** — My Analyses, Team, Webhooks, PDF Export now displayed as compact badge-style buttons in the workspace header (visible on all views)
+
+### Documentation
+- **About page** — Mission section expanded from "audit trails" to full 14-tool platform description
+- **SDK Playground** — ILIE renamed to "Submissions & PTD", added SBOM Viewer function box and runner
+- **README** — Updated to v5.1.0, added Round 16 changelog, updated Phase 2 tool count
+- **All markdown docs** — Updated "13 tools" → "14 tools" across WHITEPAPER, SUBSCRIPTION_GUIDE, INVESTOR docs, etc.
+
 ## [0.12.0] — 2026-02-22
 
 ### Added
@@ -19,7 +39,7 @@
 - **Navy platform dropdowns** — Expanded from 13 to 34 programs across 11 categories (NAVSEA, NAVAIR, USMC)
 
 ### Changed
-- Hub cards now show status badges (LIVE, AUDIT, 13 TOOLS, METRICS)
+- Hub cards now show status badges (LIVE, AUDIT, 14 TOOLS, METRICS)
 - Offline queue button changed from "Queue Test Hash" to "Queue Vault Record"
 - Platform count reflects 34 Navy programs
 

@@ -44,9 +44,9 @@ This is where it gets really practical for day-to-day ILS work. Instead of maint
 | Spending weeks assembling audit packages by hand | **Audit Report Generator** — one button, six report types, done in seconds instead of weeks. Compliance scores baked in. Hash-anchored so auditors can verify the report itself | $30K–$80K/yr |
 | Guessing when equipment will fail based on gut feeling | **Predictive Maintenance AI** — analyzes failure patterns across 40+ platforms with real fleet sizes. Tells you what's likely to fail, when, and what it'll cost if you don't act. Turns reactive maintenance into proactive planning | $80K–$250K/yr |
 
-| Contractors manually reviewing every vendor submission line-by-line for errors | **Integrated Logistics Insights Engine (ILIE)** — Upload vendor submissions (spares lists, config drawings, BOMs, ECPs, 24+ types), auto-compare against previous versions, get severity-rated discrepancy reports with cost anomalies, new/removed components, and red flags. Leadership-ready reports in seconds. | $120K–$500K/yr |
+| Contractors manually reviewing every vendor submission line-by-line for errors | **Submissions & PTD** — Upload vendor submissions (spares lists, config drawings, BOMs, ECPs, 24+ types), auto-compare against previous versions, get severity-rated discrepancy reports with cost anomalies, new/removed components, and red flags. Leadership-ready reports in seconds. | $120K–$500K/yr |
 
-All 13 tools talk to each other. When the DMSMS Tracker finds an obsolete part, it automatically creates an action item. When a warranty is about to expire, it shows up on the calendar AND triggers an alert. When Supply Chain Risk flags a supplier issue, it connects to the affected contracts and parts.
+All 14 tools talk to each other. When the DMSMS Tracker finds an obsolete part, it automatically creates an action item. When a warranty is about to expire, it shows up on the calendar AND triggers an alert. When Supply Chain Risk flags a supplier issue, it connects to the affected contracts and parts.
 
 ---
 

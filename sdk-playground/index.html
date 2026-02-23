@@ -131,7 +131,8 @@
                 <div class="sdk-func-box" data-func="action_items" onclick="loadAndRun('action_items',this)"><i class="fas fa-tasks" style="font-size:1.3rem;color:#2ed573;margin-bottom:6px;display:block;"></i><div style="font-size:0.78rem;font-weight:600;color:#fff;">get_action_items()</div><div style="font-size:0.68rem;color:var(--text-muted);margin-top:2px;">Task queue</div></div>
                 <div class="sdk-func-box" data-func="doc_library" onclick="loadAndRun('doc_library',this)"><i class="fas fa-book-open" style="font-size:1.3rem;color:#a29bfe;margin-bottom:6px;display:block;"></i><div style="font-size:0.78rem;font-weight:600;color:#fff;">search_documents()</div><div style="font-size:0.68rem;color:var(--text-muted);margin-top:2px;">Standards library</div></div>
                 <div class="sdk-func-box" data-func="audit_vault" onclick="loadAndRun('audit_vault',this)"><i class="fas fa-vault" style="font-size:1.3rem;color:#c9a84c;margin-bottom:6px;display:block;"></i><div style="font-size:0.78rem;font-weight:600;color:#fff;">store_in_vault()</div><div style="font-size:0.68rem;color:var(--text-muted);margin-top:2px;">Encrypted vault</div></div>
-                <div class="sdk-func-box" data-func="ilie" onclick="loadAndRun('ilie',this)"><i class="fas fa-magnifying-glass-chart" style="font-size:1.3rem;color:#00cec9;margin-bottom:6px;display:block;"></i><div style="font-size:0.78rem;font-weight:600;color:#fff;">analyze_submission()</div><div style="font-size:0.68rem;color:var(--text-muted);margin-top:2px;">ILIE review</div></div>
+                <div class="sdk-func-box" data-func="ilie" onclick="loadAndRun('ilie',this)"><i class="fas fa-magnifying-glass-chart" style="font-size:1.3rem;color:#00cec9;margin-bottom:6px;display:block;"></i><div style="font-size:0.78rem;font-weight:600;color:#fff;">analyze_submission()</div><div style="font-size:0.68rem;color:var(--text-muted);margin-top:2px;">Submissions &amp; PTD</div></div>
+                <div class="sdk-func-box" data-func="sbom" onclick="loadAndRun('sbom',this)"><i class="fas fa-sitemap" style="font-size:1.3rem;color:#e056fd;margin-bottom:6px;display:block;"></i><div style="font-size:0.78rem;font-weight:600;color:#fff;">scan_sbom()</div><div style="font-size:0.68rem;color:var(--text-muted);margin-top:2px;">SBOM Viewer</div></div>
             </div>
         </div>
 
@@ -170,7 +171,7 @@
                         <div><i class="fas fa-check" style="color:var(--accent);width:18px;margin-right:6px;"></i> Select a <strong>record type</strong> — classification auto-detected</div>
                         <div><i class="fas fa-check" style="color:var(--accent);width:18px;margin-right:6px;"></i> Edit code freely, then <strong>Run</strong></div>
                         <div><i class="fas fa-check" style="color:var(--accent);width:18px;margin-right:6px;"></i> Anchored records appear on Metrics &amp; Transactions</div>
-                        <div><i class="fas fa-check" style="color:var(--accent);width:18px;margin-right:6px;"></i> 20 SDK functions &bull; 54+ Navy record types &bull; All branches</div>
+                        <div><i class="fas fa-check" style="color:var(--accent);width:18px;margin-right:6px;"></i> 21 SDK functions &bull; 54+ Navy record types &bull; All branches</div>
                         <div style="margin-top:12px;"><a href="https://github.com/s4ledger/s4-ledger" target="_blank" style="color:var(--accent);font-weight:600;text-decoration:none;"><i class="fab fa-github" style="margin-right:4px;"></i> View Full SDK on GitHub &rarr;</a></div>
                     </div>
                     <details style="margin-top:12px;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.15);border-radius:8px;padding:0 12px;">
@@ -214,7 +215,8 @@
 
 
                         <tr><td class="ref-method">predict_maintenance()</td><td>AI predictive maintenance analysis</td></tr>
-                        <tr><td class="ref-method">analyze_submission()</td><td>ILIE submission review &amp; discrepancy engine</td></tr>
+                        <tr><td class="ref-method">analyze_submission()</td><td>Submissions &amp; PTD discrepancy engine</td></tr>
+                        <tr><td class="ref-method">scan_sbom()</td><td>Software Bill of Materials viewer &amp; risk scan</td></tr>
 
                         <tr><td class="ref-method">calculate_compliance()</td><td>MIL-STD / FAR compliance scoring</td></tr>
 
@@ -246,7 +248,8 @@
 
 
                         <tr><td class="ref-method">/api/predictive-maintenance</td><td>POST &mdash; failure prediction</td></tr>
-                        <tr><td class="ref-method">/api/ilie</td><td>POST &mdash; submission analysis</td></tr>
+                        <tr><td class="ref-method">/api/ilie</td><td>POST &mdash; submissions &amp; PTD analysis</td></tr>
+                        <tr><td class="ref-method">/api/sbom</td><td>POST &mdash; SBOM scan &amp; risk report</td></tr>
 
                         <tr><td class="ref-method">/api/compliance</td><td>POST &mdash; compliance scoring</td></tr>
 
@@ -752,7 +755,7 @@
         return output;
     }
 
-    var RUNNERS = { hash:runHash, anchor:runAnchor, verify:runVerify, batch:runBatch, metrics:runMetrics, list_records:runListRecords, record_types:runRecordTypes, ils_analysis:runILSAnalysis, dmsms:runDMSMS, readiness:runReadiness, roi:runROI, lifecycle:runLifecycle, action_items:runActionItems, supply_chain_risk:runSupplyChainRisk, audit_reports:runAuditReports, predictive_maintenance:runPredictiveMaintenance, ilie:runILIE, compliance:runCompliance, doc_library:runDocLibrary, audit_vault:runAuditVault };
+    var RUNNERS = { hash:runHash, anchor:runAnchor, verify:runVerify, batch:runBatch, metrics:runMetrics, list_records:runListRecords, record_types:runRecordTypes, ils_analysis:runILSAnalysis, dmsms:runDMSMS, readiness:runReadiness, roi:runROI, lifecycle:runLifecycle, action_items:runActionItems, supply_chain_risk:runSupplyChainRisk, audit_reports:runAuditReports, predictive_maintenance:runPredictiveMaintenance, ilie:runILIE, compliance:runCompliance, doc_library:runDocLibrary, audit_vault:runAuditVault, sbom:runSBOM };
     var TEMPLATES = {
         hash: { showRecordType: true },
         anchor: { showRecordType: true },
@@ -773,7 +776,8 @@
         ilie: { showRecordType: false },
         compliance: { showRecordType: false },
         doc_library: { showRecordType: false },
-        audit_vault: { showRecordType: false }
+        audit_vault: { showRecordType: false },
+        sbom: { showRecordType: false }
     };
 
     var SDK_TOOL_TEMPLATES = {
@@ -790,7 +794,8 @@
         ilie: 'from s4_sdk import S4Ledger\n\nledger = S4Ledger(api_key="demo")\n\n# Analyze a vendor submission for discrepancies\nresult = ledger.analyze_submission(\n    program="DDG-51 Arleigh Burke",\n    branch="USN",\n    doc_type="VRS",\n    current_file="current_vrs_submission.csv",\n    baseline_file="previous_vrs_accepted.csv"\n)\n\nprint(f"Total discrepancies: {result[\'total_discrepancies\']}")\nprint(f"Critical: {result[\'criticals\']}")\nprint(f"Warnings: {result[\'warnings\']}")\nprint(f"Cost delta: ${result[\'cost_delta\']}K")\nprint(f"Hash: {result[\'hash\'][:32]}...")',
         compliance: 'from s4_sdk import S4Ledger\n\nledger = S4Ledger(api_key="demo")\n\n# Calculate compliance scorecard\nresult = ledger.calculate_compliance(\n    program="CVN-78 Gerald R. Ford",\n    standards=["MIL-STD-1388-2B", "MIL-STD-1390D"]\n)\n\nprint(f"Overall Score: {result[\'overall_score\']}%")\nprint(f"Standards Met: {result[\'met\']}/{result[\'total\']}")',
         doc_library: 'from s4_sdk import S4Ledger\n\nledger = S4Ledger(api_key="demo")\n\n# Search defense standards library\nresults = ledger.search_documents(\n    query="logistics support analysis",\n    categories=["MIL-STD", "MIL-HDBK"]\n)\n\nfor doc in results:\n    print(f"{doc[\'id\']} — {doc[\'title\']} ({doc[\'status\']})")',
-        audit_vault: 'from s4_sdk import S4Ledger\n\nledger = S4Ledger(api_key="demo")\n\n# Store a record in the encrypted audit vault\nresult = ledger.store_in_vault(\n    record_type="USN_CDRL",\n    content="CDRL A001 — ILSP submitted for DDG-137",\n    encrypt=True\n)\n\nprint(f"Vault ID: {result[\'vault_id\']}")\nprint(f"Hash: {result[\'hash\'][:32]}...")\nprint(f"XRPL TX: {result[\'tx_hash\']}")'
+        audit_vault: 'from s4_sdk import S4Ledger\n\nledger = S4Ledger(api_key="demo")\n\n# Store a record in the encrypted audit vault\nresult = ledger.store_in_vault(\n    record_type="USN_CDRL",\n    content="CDRL A001 — ILSP submitted for DDG-137",\n    encrypt=True\n)\n\nprint(f"Vault ID: {result[\'vault_id\']}")\nprint(f"Hash: {result[\'hash\'][:32]}...")\nprint(f"XRPL TX: {result[\'tx_hash\']}")',
+        sbom: 'from s4_sdk import S4Ledger\n\nledger = S4Ledger(api_key="demo")\n\n# Scan a Software Bill of Materials for risk\nresult = ledger.scan_sbom(\n    program="F-35A Lightning II",\n    sbom_format="CycloneDX",\n    sbom_file="f35_avionics_sbom.json"\n)\n\nprint(f"Components: {result[\'total_components\']}")\nprint(f"Vulnerabilities: {result[\'total_vulns\']}")\nprint(f"Critical CVEs: {result[\'critical_cves\']}")\nfor comp in result[\'flagged_components\']:\n    print(f"  {comp[\'name\']} v{comp[\'version\']} — {comp[\'cve_id\']} ({comp[\'severity\']})\\n    Fix: {comp[\'remediation\']}")'
     };
 
     async function runListRecords() {
@@ -1056,7 +1061,7 @@
     async function runILIE() {
         var output = '>>> ledger.analyze_submission(program="DDG-51", doc_type="VRS")\n\nPOST /api/ilie  \u2192  200 OK\n\n';
         output += '\u2550'.repeat(55) + '\n';
-        output += '  ILIE \u2014 SUBMISSION REVIEW & DISCREPANCY ENGINE\n';
+        output += '  SUBMISSIONS & PTD \u2014 REVIEW & DISCREPANCY ENGINE\n';
         output += '\u2550'.repeat(55) + '\n\n';
         output += '  Program:       DDG-51 \u2014 Arleigh Burke Class Destroyer\n';
         output += '  Branch:        USN\n';
@@ -1074,7 +1079,37 @@
         output += '\u2500'.repeat(55) + '\n';
         output += '  Hash: ' + fakeHash.substring(0,32) + '...\n';
         output += '  \u2713 Anchored to XRPL Mainnet\n';
-        output += '  \u2713 Full ILIE in Platform > Anchor-S4';
+        output += '  \u2713 Full Submissions & PTD in Platform > Anchor-S4';
+        return output;
+    }
+
+    async function runSBOM() {
+        var output = '>>> ledger.scan_sbom(program="F-35A", sbom_format="CycloneDX")\n\nPOST /api/sbom  \u2192  200 OK\n\n';
+        output += '\u2550'.repeat(55) + '\n';
+        output += '  SBOM VIEWER \u2014 SOFTWARE BILL OF MATERIALS\n';
+        output += '\u2550'.repeat(55) + '\n\n';
+        output += '  Program:       F-35A Lightning II Block 4\n';
+        output += '  SBOM Format:   CycloneDX v1.5\n';
+        output += '  Components:    1,247\n';
+        output += '  Dependencies:  3,891\n\n';
+        output += '\u2500'.repeat(55) + '\n';
+        output += '  VULNERABILITY SCAN:\n\n';
+        output += '  Critical CVEs: 3\n';
+        output += '  High:          7\n';
+        output += '  Medium:        14\n';
+        output += '  Low:           22\n\n';
+        output += '  FLAGGED COMPONENTS:\n\n';
+        output += '  \u2022 openssl v1.1.1q \u2014 CVE-2023-0286 (CRITICAL)\n';
+        output += '    Fix: Upgrade to openssl >=3.0.8\n\n';
+        output += '  \u2022 log4j v2.14.1 \u2014 CVE-2021-44228 (CRITICAL)\n';
+        output += '    Fix: Upgrade to log4j >=2.17.1\n\n';
+        output += '  \u2022 zlib v1.2.11 \u2014 CVE-2022-37434 (HIGH)\n';
+        output += '    Fix: Upgrade to zlib >=1.2.13\n\n';
+        var fakeHash = await computeHash('SBOM Scan F-35A ' + Date.now());
+        output += '\u2500'.repeat(55) + '\n';
+        output += '  Hash: ' + fakeHash.substring(0,32) + '...\n';
+        output += '  \u2713 SBOM scan anchored to XRPL Mainnet\n';
+        output += '  \u2713 Full SBOM Viewer in Platform > Anchor-S4';
         return output;
     }
 

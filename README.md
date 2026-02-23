@@ -13,7 +13,7 @@ No sensitive data touches the blockchain — ever. Only cryptographic hashes.
 ---
 
 
-## Platform Features (v12)
+## Platform Features (v13 — Round 16)
 
 ### Core Anchoring
 - **SHA-256 + XRPL Anchoring** — Every record gets a cryptographic fingerprint stored on the XRP Ledger
@@ -59,7 +59,7 @@ No sensitive data touches the blockchain — ever. Only cryptographic hashes.
 
 S4 Systems offers two complementary products for defense logistics:
 
-- **S4 Ledger** — The trust and intelligence layer. 13 tools for risk analysis, readiness, compliance, audit, and AI-powered logistics intelligence. Every record is hash-anchored to the XRP Ledger for tamper-proof verification.
+- **S4 Ledger** — The trust and intelligence layer. 14 tools for risk analysis, readiness, compliance, audit, and AI-powered logistics intelligence. Every record is hash-anchored to the XRP Ledger for tamper-proof verification.
 - **HarborLink** — The collaboration portal. Tools for parts cross-reference, contract lifecycle management, provisioning, warranty tracking, configuration management, scheduling, and defense database import/export.
 
 Together, they provide a complete ILS platform. S4 Ledger focuses on analysis, compliance, and immutable record integrity. HarborLink focuses on day-to-day logistics workflows and cross-program collaboration.
@@ -94,6 +94,19 @@ XRPL uptime: **99.99%**
 - **🔍 Dependency Auditing** — CycloneDX SBOM, `pip-audit` + `bandit` + `semgrep` scans
 - **🎯 STRIDE Threat Model** — API-accessible threat model with NIST SP 800-161 mapping
 - **Demo Mode** — Visible demo banner with hypothetical XRP (12) and SLS (25,000) balances. AI agent works across all tools in the hub.
+
+### New in v5.1.0 (Round 16)
+
+- **🔧 Role Popup Fix** — Role selector now reliably appears after onboarding (removed broken `offsetParent` check on hidden element)
+- **🛡️ DoD Consent Banner** — Recolored from orange to S4 brand blue (#00aaff) for visual consistency
+- **📊 SLS Balance Stability** — Debounced balance updates via `requestAnimationFrame`; reduced polling interval from 3s to 15s to eliminate DOM flicker
+- **🔗 Digital Thread Linkage** — Vault dropdown now auto-populates after every anchor, not just when Vault panel opens
+- **🏷️ Anchor-S4 Header Buttons** — My Analyses, Team, Webhooks, PDF Export now appear as compact badge-style buttons in the Anchor-S4 header alongside Live/IL4-IL5 badges (visible on all workspace views, not just inside tools)
+- **🔢 Tool Count Corrected** — "13 tools" → "14 tools" across all UI, AI agent, and documentation references
+- **🧪 SDK Playground Overhaul** — Renamed ILIE → "Submissions & PTD", added `scan_sbom()` function box & runner, updated quick reference and API endpoint tables (now 21 functions)
+- **📖 About Page Expanded** — Mission section now lists all 14 tools; no longer limited to "audit trails"
+- **🖥️ Flankspeed/Nautilus VDI Compatibility** — Auto-detects Navy VDI environments, disables backdrop-filter and heavy animations, adds CSP-friendly `cdn.sheetjs.com` to policy
+- **📄 Documentation Updated** — README, version bumped to 5.1.0
 
 ### Why XRPL?
 
@@ -211,7 +224,7 @@ S4 Ledger covers all 12 ILS elements defined in MIL-STD-1388 / GEIA-STD-0007:
 | Phase | Status | Focus |
 |---|---|---|
 | Phase 1 — Foundation | ✅ Complete | SDK, hashing, XRPL anchoring, $SLS token live |
-| Phase 2 — Defense Platform | ✅ Complete | 13-tool ILS Workspace, 500+ platforms, 38+ SDK methods (incl. 11 HarborLink), 63 REST API endpoints, 156+ record types, AI agent, audit vault, SDK Playground with 20 function boxes |
+| Phase 2 — Defense Platform | ✅ Complete | 14-tool ILS Workspace, 500+ platforms, 38+ SDK methods (incl. 11 HarborLink), 63 REST API endpoints, 156+ record types, AI agent, audit vault, SDK Playground with 21 function boxes |
 | Phase 3 — MVP & Pilot | Upcoming | Internal pilot on real contract data |
 | Phase 4 — Partner Onboarding | Planned | SaaS launch, DIU/NavalX engagement |
 | Phase 5 — Scale & Certification | Planned | NIST, FedRAMP, SBIR/STTR |
@@ -235,6 +248,6 @@ S4 Ledger covers all 12 ILS elements defined in MIL-STD-1388 / GEIA-STD-0007:
 
 Apache License 2.0 — see [LICENSE](LICENSE)
 
-**Version:** 5.0.1 — XRPL Mainnet Live | HarborLink Integration | 63 REST API endpoints | 38+ SDK Methods
+**Version:** 5.1.0 — XRPL Mainnet Live | HarborLink Integration | 63 REST API endpoints | 38+ SDK Methods | Flankspeed/VDI Compatible
 
 © 2026 S4 Systems, LLC. Charleston, SC.

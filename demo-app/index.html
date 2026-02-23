@@ -9,6 +9,14 @@
     <link rel="manifest" href="/manifest.json">
     <meta name="description" content="S4 Ledger Defense Logistics Demo — Anchor, verify, and track U.S. Navy logistics records on the XRP Ledger.">
     <title>S4 Ledger | Platform</title>
+    <!-- Flankspeed / Nautilus VDI Compatibility -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta name="color-scheme" content="dark">
+    <meta name="application-name" content="S4 Ledger">
+    <meta name="msapplication-TileColor" content="#000000">
+    <meta name="msapplication-config" content="none">
+    <!-- CSP-friendly: all external resources use HTTPS CDNs only -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -1021,10 +1029,10 @@ document.addEventListener('drop', function(e) { e.preventDefault(); e.stopPropag
 
 <!-- ═══ DoD CONSENT BANNER ═══ -->
 <div id="dodConsentBanner" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.92);z-index:99999;display:flex;align-items:center;justify-content:center;">
-    <div style="background:#0a0e1a;border:2px solid rgba(255,149,0,0.5);border-radius:16px;padding:40px;max-width:680px;width:95%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.7);">
-        <div style="margin-bottom:20px;"><i class="fas fa-shield-halved" style="font-size:3rem;color:#ff9500;"></i></div>
-        <h2 style="color:#ff9500;font-size:1.3rem;font-weight:800;margin-bottom:12px;text-transform:uppercase;letter-spacing:1px;">U.S. Department of Defense Information System</h2>
-        <div style="background:rgba(255,149,0,0.06);border:1px solid rgba(255,149,0,0.2);border-radius:12px;padding:20px;margin-bottom:20px;text-align:left;">
+    <div style="background:#0a0e1a;border:2px solid rgba(0,170,255,0.5);border-radius:16px;padding:40px;max-width:680px;width:95%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.7);">
+        <div style="margin-bottom:20px;"><i class="fas fa-shield-halved" style="font-size:3rem;color:#00aaff;"></i></div>
+        <h2 style="color:#00aaff;font-size:1.3rem;font-weight:800;margin-bottom:12px;text-transform:uppercase;letter-spacing:1px;">U.S. Department of Defense Information System</h2>
+        <div style="background:rgba(0,170,255,0.06);border:1px solid rgba(0,170,255,0.2);border-radius:12px;padding:20px;margin-bottom:20px;text-align:left;">
             <p style="color:var(--steel);font-size:0.82rem;line-height:1.7;margin:0 0 12px;">You are accessing a U.S. Government (USG) Information System (IS) that is provided for USG-authorized use only.</p>
             <p style="color:var(--steel);font-size:0.82rem;line-height:1.7;margin:0 0 12px;">By using this IS (which includes any device attached to this IS), you consent to the following conditions:</p>
             <ul style="color:var(--steel);font-size:0.78rem;line-height:1.8;margin:0 0 12px;padding-left:20px;">
@@ -1033,9 +1041,9 @@ document.addEventListener('drop', function(e) { e.preventDefault(); e.stopPropag
                 <li>Communications using, or data stored on, this IS are not private, are subject to routine monitoring, interception, and search, and may be disclosed or used for any USG-authorized purpose.</li>
                 <li>This IS includes security measures (e.g., authentication and access controls) to protect USG interests — not for your personal benefit or privacy.</li>
             </ul>
-            <p style="color:#ff9500;font-size:0.82rem;line-height:1.7;margin:0;font-weight:600;">Notwithstanding the above, using this IS does not constitute consent to PM, LE, or CI investigative searching or monitoring of the content of privileged communications.</p>
+            <p style="color:#00aaff;font-size:0.82rem;line-height:1.7;margin:0;font-weight:600;">Notwithstanding the above, using this IS does not constitute consent to PM, LE, or CI investigative searching or monitoring of the content of privileged communications.</p>
         </div>
-        <button onclick="acceptDodConsent()" style="background:linear-gradient(135deg,#ff9500,#e68600);color:#fff;border:none;padding:14px 48px;border-radius:10px;font-weight:700;font-size:0.95rem;cursor:pointer;letter-spacing:0.5px;">I Accept &mdash; Continue</button>
+        <button onclick="acceptDodConsent()" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;padding:14px 48px;border-radius:10px;font-weight:700;font-size:0.95rem;cursor:pointer;letter-spacing:0.5px;">I Accept &mdash; Continue</button>
         <div style="margin-top:12px;font-size:0.7rem;color:var(--muted);">By clicking "I Accept" you acknowledge and consent to the terms above.</div>
     </div>
 </div>
@@ -1312,7 +1320,7 @@ if (sessionStorage.getItem('s4_entered') === '1') {
                 </div>
                 <div class="hub-card" onclick="showSection('sectionILS')">
                     <div class="hc-icon" style="background:rgba(201,168,76,0.1);"><i class="fas fa-brain" style="color:#c9a84c;"></i></div>
-                    <div class="hc-title">Anchor-S4 <span style="background:rgba(201,168,76,0.15);color:#c9a84c;font-size:0.65rem;padding:2px 8px;border-radius:20px;font-weight:600;margin-left:6px;">13 TOOLS</span></div>
+                    <div class="hc-title">Anchor-S4 <span style="background:rgba(201,168,76,0.15);color:#c9a84c;font-size:0.65rem;padding:2px 8px;border-radius:20px;font-weight:600;margin-left:6px;">14 TOOLS</span></div>
                     <div class="hc-desc">13+ integrated defense tools: Gap Analysis, DMSMS, Readiness, Compliance, Risk, Predictive Maintenance, ROI, Audit Vault, and more.</div>
                     <div class="hc-meta"><i class="fas fa-tools"></i> 13+ ILS tools &bull; AI-powered</div>
                     <div class="hc-arrow"><i class="fas fa-chevron-right"></i></div>
@@ -1656,12 +1664,16 @@ if (sessionStorage.getItem('s4_entered') === '1') {
                         <div style="width:42px;height:42px;border-radius:10px;background:rgba(0,170,255,0.1);display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="fas fa-anchor" style="color:#00aaff;font-size:1.1rem"></i></div>
                         <div>
                             <h3 style="font-size:1.15rem;font-weight:700;color:#fff;margin:0;letter-spacing:-0.02em">Anchor-S4</h3>
-                            <p style="font-size:0.78rem;color:var(--steel);margin:2px 0 0;line-height:1.4">Defense logistics workspace &mdash; 13 integrated tools</p>
+                            <p style="font-size:0.78rem;color:var(--steel);margin:2px 0 0;line-height:1.4">Defense logistics workspace &mdash; 14 integrated tools</p>
                         </div>
                     </div>
-                    <div style="display:flex;align-items:center;gap:8px;">
+                    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
                         <span style="display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:6px;font-size:0.72rem;font-weight:600;background:rgba(0,204,102,0.08);border:1px solid rgba(0,204,102,0.15);color:#00cc66"><i class="fas fa-circle" style="font-size:0.4rem"></i> Live</span>
                         <span style="display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:6px;font-size:0.72rem;font-weight:600;background:rgba(0,170,255,0.06);border:1px solid rgba(0,170,255,0.12);color:var(--accent)"><i class="fas fa-shield-halved"></i> IL4/IL5</span>
+                        <span class="r16-hdr-btn" onclick="showSavedAnalyses()" style="display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:6px;font-size:0.72rem;font-weight:600;background:rgba(167,139,250,0.06);border:1px solid rgba(167,139,250,0.15);color:#a78bfa;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.background='rgba(167,139,250,0.15)'" onmouseout="this.style.background='rgba(167,139,250,0.06)'"><i class="fas fa-history"></i> My Analyses</span>
+                        <span class="r16-hdr-btn" onclick="showTeamPanel()" style="display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:6px;font-size:0.72rem;font-weight:600;background:rgba(0,170,255,0.06);border:1px solid rgba(0,170,255,0.12);color:var(--accent);cursor:pointer;transition:all 0.2s;" onmouseover="this.style.background='rgba(0,170,255,0.15)'" onmouseout="this.style.background='rgba(0,170,255,0.06)'"><i class="fas fa-users"></i> Team</span>
+                        <span class="r16-hdr-btn" onclick="showWebhookSettings()" style="display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:6px;font-size:0.72rem;font-weight:600;background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.15);color:#c9a84c;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.background='rgba(201,168,76,0.15)'" onmouseout="this.style.background='rgba(201,168,76,0.06)'"><i class="fas fa-plug"></i> Webhooks</span>
+                        <span class="r16-hdr-btn" onclick="exportPDF()" style="display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:6px;font-size:0.72rem;font-weight:600;background:rgba(255,107,107,0.06);border:1px solid rgba(255,107,107,0.15);color:#ff6b6b;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.background='rgba(255,107,107,0.15)'" onmouseout="this.style.background='rgba(255,107,107,0.06)'"><i class="fas fa-file-pdf"></i> PDF Export</span>
                     </div>
                 </div>
                 <div class="ils-hub-tabs" id="ilsHubTabs" style="display:none !important;">
@@ -3234,8 +3246,13 @@ let sessionRecords = [];
 let stats = {anchored:0,verified:0,types:new Set(),slsFees:0};
 
 // ── Demo SLS Balance Tracker ──
+var _slsUpdatePending = false;
 function _updateDemoSlsBalance() {
-    if (typeof _syncSlsBar === 'function') _syncSlsBar();
+    if (_slsUpdatePending) return; // debounce concurrent calls
+    _slsUpdatePending = true;
+    requestAnimationFrame(function() {
+        _slsUpdatePending = false;
+        if (typeof _syncSlsBar === 'function') _syncSlsBar();
     var _tFallback = (typeof _onboardTiers !== 'undefined' && typeof _onboardTier !== 'undefined') ? (_onboardTiers[_onboardTier]?.sls || 25000) : 25000; var allocation = _demoSession ? (_demoSession.subscription?.sls_allocation || _tFallback) : _tFallback;
     var spent = stats.slsFees || 0;
     var remaining = allocation - spent;
@@ -3266,6 +3283,7 @@ function _updateDemoSlsBalance() {
             + '0.01 SLS per anchor &bull; '
             + '<span style="color:var(--accent)">' + (addr ? addr.substring(0,6) + '...' + addr.slice(-4) : '') + '</span>';
     }
+    }); // end requestAnimationFrame
 }
 
 
@@ -3481,7 +3499,8 @@ function resetDemoSession() {
 // Initialize SLS balance display on page load
 document.addEventListener('DOMContentLoaded', function() {
     _updateDemoSlsBalance();
-    setInterval(_updateDemoSlsBalance, 3000);
+    // Reduced from 3s to 15s to prevent DOM flicker on rapid anchoring
+    setInterval(_updateDemoSlsBalance, 15000);
 });
 
 // ── localStorage cross-page record sync ──
@@ -7144,12 +7163,12 @@ function generateAiResponse(query) {
     if (/di-?\d+|di number/.test(q)) return explainDINumber(q);
 
     // ── S4 LEDGER PRODUCT ──
-    if (/what is s4|what.*s4 ledger|tell.*about s4|explain s4/.test(q)) return '<strong>S4 Ledger</strong> \u2014 Secure Logistics Standard<br><br>S4 Ledger is a blockchain-verified Integrated Logistics Support (ILS) platform built for defense organizations. It provides:<br><br>\u2022 <strong>13 ILS tools</strong> covering all 12 ILS elements per MIL-STD-1388<br>\u2022 <strong>XRPL blockchain anchoring</strong> \u2014 every record gets a tamper-proof SHA-256 hash on the XRP Ledger<br>\u2022 <strong>$SLS utility token</strong> \u2014 $0.01 per anchor, purchased automatically via USD\u2192XRP\u2192SLS<br>\u2022 <strong>AI Agent</strong> \u2014 context-aware analysis across all tools<br>\u2022 <strong>54+ Navy record types</strong> for Navy programs<br>\u2022 <strong>Compliance scoring</strong> for CMMC, NIST 800-171, DFARS, FAR 46<br><br>S4 replaces legacy tools like ICAPS, COMPASS, and spreadsheet-based tracking with a single, auditable platform.';
+    if (/what is s4|what.*s4 ledger|tell.*about s4|explain s4/.test(q)) return '<strong>S4 Ledger</strong> \u2014 Secure Logistics Standard<br><br>S4 Ledger is a blockchain-verified Integrated Logistics Support (ILS) platform built for defense organizations. It provides:<br><br>\u2022 <strong>14 ILS tools</strong> covering all 12 ILS elements per MIL-STD-1388<br>\u2022 <strong>XRPL blockchain anchoring</strong> \u2014 every record gets a tamper-proof SHA-256 hash on the XRP Ledger<br>\u2022 <strong>$SLS utility token</strong> \u2014 $0.01 per anchor, purchased automatically via USD\u2192XRP\u2192SLS<br>\u2022 <strong>AI Agent</strong> \u2014 context-aware analysis across all tools<br>\u2022 <strong>54+ Navy record types</strong> for Navy programs<br>\u2022 <strong>Compliance scoring</strong> for CMMC, NIST 800-171, DFARS, FAR 46<br><br>S4 replaces legacy tools like ICAPS, COMPASS, and spreadsheet-based tracking with a single, auditable platform.';
 
     if (/how.*work|how.*anchor|how.*hash|how.*blockchain/.test(q)) return '<strong>How S4 Ledger Works:</strong><br><br>1. <strong>Upload or create a record</strong> \u2014 any ILS document, analysis, or data point<br>2. <strong>SHA-256 hash computed</strong> \u2014 a unique 64-character fingerprint of the content<br>3. <strong>Hash anchored to XRPL</strong> \u2014 written as a Memo on an XRP Ledger transaction<br>4. <strong>Transaction verified</strong> \u2014 XRPL validates within 3-5 seconds at ~$0.001 tx fee<br>5. <strong>SLS fee applied</strong> \u2014 0.01 SLS ($0.01) per anchor for network access<br><br>The original data stays on your device (never sent to blockchain). Only the hash is anchored. Anyone can independently verify a record by recomputing the hash and checking the XRPL transaction.<br><br><strong>Result:</strong> Tamper-proof, independently verifiable audit trail \u2014 1,500x cheaper than legacy verification.';
 
     // ── PRICING ──
-    if (/pricing|price|cost|subscription|plan|tier|how much/.test(q)) return '<strong>S4 Ledger Subscription Plans:</strong><br><br><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:0.85rem"><div style="padding:8px;border:1px solid rgba(0,170,255,0.2);border-radius:8px"><strong style="color:#00aaff">Pilot (Free)</strong><br>100 SLS/mo<br>10,000 anchors<br>All 13 tools</div><div style="padding:8px;border:1px solid rgba(0,170,255,0.3);border-radius:8px"><strong style="color:#00aaff">Starter ($999/mo)</strong><br>25,000 SLS/mo<br>2.5M anchors<br>Full SDK + API</div><div style="padding:8px;border:1px solid rgba(0,170,255,0.15);border-radius:8px"><strong style="color:#00aaff">Professional ($2,499/mo)</strong><br>100,000 SLS/mo<br>10M anchors<br>Priority support</div><div style="padding:8px;border:1px solid rgba(0,170,255,0.15);border-radius:8px"><strong style="color:#00aaff">Enterprise ($9,999/mo)</strong><br>500,000 SLS/mo<br>Unlimited anchors<br>Dedicated support + SLA</div></div><br>Every plan includes automatic XRPL wallet provisioning + SLS TrustLine setup. $0.01 SLS per anchor.';
+    if (/pricing|price|cost|subscription|plan|tier|how much/.test(q)) return '<strong>S4 Ledger Subscription Plans:</strong><br><br><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:0.85rem"><div style="padding:8px;border:1px solid rgba(0,170,255,0.2);border-radius:8px"><strong style="color:#00aaff">Pilot (Free)</strong><br>100 SLS/mo<br>10,000 anchors<br>All 14 tools</div><div style="padding:8px;border:1px solid rgba(0,170,255,0.3);border-radius:8px"><strong style="color:#00aaff">Starter ($999/mo)</strong><br>25,000 SLS/mo<br>2.5M anchors<br>Full SDK + API</div><div style="padding:8px;border:1px solid rgba(0,170,255,0.15);border-radius:8px"><strong style="color:#00aaff">Professional ($2,499/mo)</strong><br>100,000 SLS/mo<br>10M anchors<br>Priority support</div><div style="padding:8px;border:1px solid rgba(0,170,255,0.15);border-radius:8px"><strong style="color:#00aaff">Enterprise ($9,999/mo)</strong><br>500,000 SLS/mo<br>Unlimited anchors<br>Dedicated support + SLA</div></div><br>Every plan includes automatic XRPL wallet provisioning + SLS TrustLine setup. $0.01 SLS per anchor.';
 
     // ── WALLETS & SLS ──
     if (/wallet|xrpl.*wallet|seed|family.*seed|trustline|trust.*line/.test(q)) return '<strong>XRPL Wallet & TrustLine Setup</strong><br><br>When you subscribe, S4 automatically:<br><br>1. <strong>Generates a secp256k1 wallet</strong> \u2014 your unique XRPL address + family seed (secret key)<br>2. <strong>Funds with XRP</strong> \u2014 covers the 12 XRP account reserve + TrustLine reserve<br>3. <strong>Sets up SLS TrustLine</strong> \u2014 pointed at the SLS issuer (<code>r95GyZac4butvVcsTWUPpxzekmyzaHsTA5</code>)<br>4. <strong>SLS delivered</strong> \u2014 from the Treasury wallet to your wallet<br><br><strong>Important:</strong><br>\u2022 TrustLines go to the <strong>SLS issuer</strong> (r95...) \u2014 this is the wallet that created the SLS token<br>\u2022 SLS is delivered from the <strong>Treasury</strong> (rMLm...) \u2014 this holds the circulating supply<br>\u2022 Your family seed is the ONLY way to access your wallet \u2014 save it securely<br>\u2022 Compatible with <strong>Xaman</strong> (formerly XUMM) for mobile wallet management';
@@ -7162,7 +7181,7 @@ function generateAiResponse(query) {
 
     if (/xrp.*ledger|what.*xrpl|why.*xrpl|which.*blockchain/.test(q)) return '<strong>Why XRPL (XRP Ledger)?</strong><br><br>S4 Ledger uses the XRP Ledger because it\'s:<br><br>\u2022 <strong>Fast:</strong> 3-5 second transaction finality<br>\u2022 <strong>Cheap:</strong> ~$0.001 per transaction (drops)<br>\u2022 <strong>Energy efficient:</strong> No mining \u2014 uses federated consensus<br>\u2022 <strong>Built-in DEX:</strong> Native token exchange for SLS liquidity<br>\u2022 <strong>Issued currencies:</strong> Native support for custom tokens like $SLS<br>\u2022 <strong>TrustLines:</strong> Controlled token distribution<br>\u2022 <strong>Battle-tested:</strong> Operating since 2012, used by 150+ financial institutions<br><br>XRPL\'s low transaction cost makes it practical for micro-anchoring \u2014 1,500x cheaper than traditional verification methods.';
 
-    // ── ILS TOOLS (13 tools) ──
+    // ── ILS TOOLS (14 tools) ──
     if (/gap.*analysis|upload.*doc|run.*analysis|how.*analysis|ils.*analysis/.test(q)) return '<strong>ILS Gap Analysis</strong><br><br>The core analysis tool evaluates your ILS package against MIL-STD-1388 requirements:<br><br>1. <strong>Upload documents</strong> \u2014 PDFs, Word, Excel, CSV, text files<br>2. <strong>Auto-detection</strong> \u2014 identifies document types (LCSP, LSAR, PHS&T, DMSMS plans, etc.)<br>3. <strong>Full analysis</strong> \u2014 checks DRL coverage, checklist completion, 12 ILS elements<br>4. <strong>Findings engine</strong> \u2014 auto-detects data quality issues, missing requirements, discrepancies<br>5. <strong>Action items</strong> \u2014 generates prioritized actions with cost/schedule estimates<br><br>Supports <strong>462 defense programs</strong> for Navy programs. Results can be anchored to XRPL for audit purposes.<br><br><strong>Try it:</strong> Click "Load Full ILS Package" to see a complete demo analysis.';
 
     if (/action.*item|task|open.*action|todo/.test(q)) { const total = s4ActionItems.length; const done = s4ActionItems.filter(a=>a.done).length; return '<strong>Action Items Manager</strong><br><br>' + (total > 0 ? 'Current status: <strong>' + done + '/' + total + '</strong> complete (' + Math.round(done/total*100) + '%)<br><br>' : 'No action items yet. Run a gap analysis to generate prioritized actions.<br><br>') + 'The Action Items Manager tracks all ILS-related tasks generated by gap analysis, DMSMS reviews, readiness assessments, and manual entries. Each item includes:<br>\u2022 Severity (critical/warning/info)<br>\u2022 Responsible owner<br>\u2022 Cost and schedule impact estimates<br>\u2022 Due dates and status tracking<br>\u2022 Linkage to specific DI numbers and ILS elements'; }
@@ -7218,9 +7237,9 @@ function generateAiResponse(query) {
     if (/dfars|252\.204|safeguard.*defense|covered.*defense/.test(q)) return '<strong>DFARS 252.204-7012</strong> \u2014 Safeguarding Covered Defense Information<br><br>Key requirements:<br>\u2022 Implement NIST SP 800-171 controls for CDI/CUI<br>\u2022 Report cyber incidents within 72 hours<br>\u2022 Preserve media and data for 90 days post-incident<br>\u2022 Flow down to subcontractors<br><br>S4\'s blockchain anchoring creates verifiable evidence of data integrity controls, directly supporting DFARS compliance.';
 
     // ── GENERAL HELP ──
-    if (/get.*started|how.*begin|first.*step|new.*user|onboard/.test(q)) return '<strong>Getting Started with S4 Ledger</strong><br><br>1. <strong>Create an account</strong> at <a href="/s4-login/">s4-login</a> \u2014 wallet provisioned automatically<br>2. <strong>Explore Anchor-S4</strong> \u2014 13 tools organized by function<br>3. <strong>Try a demo analysis</strong> \u2014 click "Load Full ILS Package" in Gap Analysis<br>4. <strong>Upload your own documents</strong> \u2014 PDFs, Excel, Word, CSV<br>5. <strong>Anchor your first record</strong> \u2014 creates your first blockchain-verified entry<br>6. <strong>Check your Compliance Scorecard</strong> \u2014 see how your posture improves<br>7. <strong>Ask the AI Agent anything</strong> \u2014 type questions right here<br><br><strong>Recommended flow:</strong> Start with Gap Analysis \u2192 review Action Items \u2192 address critical gaps \u2192 anchor findings.';
+    if (/get.*started|how.*begin|first.*step|new.*user|onboard/.test(q)) return '<strong>Getting Started with S4 Ledger</strong><br><br>1. <strong>Create an account</strong> at <a href="/s4-login/">s4-login</a> \u2014 wallet provisioned automatically<br>2. <strong>Explore Anchor-S4</strong> \u2014 14 tools organized by function<br>3. <strong>Try a demo analysis</strong> \u2014 click "Load Full ILS Package" in Gap Analysis<br>4. <strong>Upload your own documents</strong> \u2014 PDFs, Excel, Word, CSV<br>5. <strong>Anchor your first record</strong> \u2014 creates your first blockchain-verified entry<br>6. <strong>Check your Compliance Scorecard</strong> \u2014 see how your posture improves<br>7. <strong>Ask the AI Agent anything</strong> \u2014 type questions right here<br><br><strong>Recommended flow:</strong> Start with Gap Analysis \u2192 review Action Items \u2192 address critical gaps \u2192 anchor findings.';
 
-    if (/configure.*ai|api.*key|ai.*setup|enable.*ai|openai|anthropic|azure|groq|mistral/.test(q)) return '<strong>S4 AI Agent Configuration</strong><br><br>The AI Agent is a production-grade assistant powered by large language models (LLMs). It provides:<br><br>\u2022 <strong>Context-aware analysis</strong> across all 13 ILS tools<br>\u2022 <strong>Natural language Q&A</strong> on defense logistics, supply chain, compliance, and more<br>\u2022 <strong>Document analysis &amp; summarization</strong> for uploaded files<br>\u2022 <strong>Real-time insights</strong> based on your loaded program data<br>\u2022 <strong>Custom report generation</strong> and memo drafting<br><br>The agent automatically adapts based on which ILS tool you\u2019re using and what data you\u2019ve loaded. Just type your question — the agent handles the rest.';
+    if (/configure.*ai|api.*key|ai.*setup|enable.*ai|openai|anthropic|azure|groq|mistral/.test(q)) return '<strong>S4 AI Agent Configuration</strong><br><br>The AI Agent is a production-grade assistant powered by large language models (LLMs). It provides:<br><br>\u2022 <strong>Context-aware analysis</strong> across all 14 ILS tools<br>\u2022 <strong>Natural language Q&A</strong> on defense logistics, supply chain, compliance, and more<br>\u2022 <strong>Document analysis &amp; summarization</strong> for uploaded files<br>\u2022 <strong>Real-time insights</strong> based on your loaded program data<br>\u2022 <strong>Custom report generation</strong> and memo drafting<br><br>The agent automatically adapts based on which ILS tool you\u2019re using and what data you\u2019ve loaded. Just type your question — the agent handles the rest.';
 
     if (/encrypt|aes|security|data.*protect|secure.*record/.test(q)) return '<strong>Record Encryption</strong><br><br>S4 Ledger supports AES-256 encryption for sensitive records:<br><br>\u2022 <strong>Toggle encryption</strong> \u2014 enable per-record encryption before anchoring<br>\u2022 <strong>AES-256-GCM</strong> \u2014 military-grade symmetric encryption<br>\u2022 <strong>Client-side</strong> \u2014 encryption happens in your browser, never on the server<br>\u2022 <strong>Hash still verifiable</strong> \u2014 the SHA-256 hash is of the encrypted content<br>\u2022 <strong>Key management</strong> \u2014 you control the encryption key<br><br>CUI records should always be encrypted before anchoring to meet NIST 800-171 and DFARS requirements.';
 
@@ -8111,6 +8130,8 @@ function addToVault(record) {
     record.verifiedAt = new Date().toISOString();
     s4Vault.unshift(record);
     saveVault();
+    // Keep Digital Thread dropdown in sync with vault
+    if (typeof populateDigitalThreadDropdown === 'function') populateDigitalThreadDropdown();
     // Show workspace notification
     showWorkspaceNotification('Record saved to Audit Vault', record.label || record.type);
 }
@@ -12084,10 +12105,10 @@ function initRoleSystem() {
     // Show role selector ONLY when user is inside the platform (not landing page or demo)
     if (!_currentRole) {
         setTimeout(function() {
-            // Must have entered platform AND hub must be visible AND onboarding must be done
+            // Must have entered platform AND onboarding must be done
+            // Note: do NOT check offsetParent — .ils-hub-tabs can be display:none
             if (sessionStorage.getItem('s4_entered') === '1' && sessionStorage.getItem('s4_onboard_done')) {
-                var hubSection = document.querySelector('.ils-hub-tabs');
-                if (hubSection && hubSection.offsetParent !== null) showRoleSelector();
+                showRoleSelector();
             }
         }, 2500);
     }
@@ -14013,48 +14034,52 @@ console.log('[Round-13] Production subscription code loaded — Stripe Checkout 
 })();
 
 // ═══════════════════════════════════════════════════════════════
-// ═══ ROUND 14 — INJECT SETTINGS / MY ANALYSES / TEAM BUTTONS ═══
-// Add buttons to the hub header for new features
+// ═══ ROUND 14 — HEADER BUTTONS (moved to static Anchor-S4 header in R16) ═══
+// Buttons now live in the Anchor-S4 header bar next to Live/IL4-IL5 badges
 // ═══════════════════════════════════════════════════════════════
-(function() {
-    function injectHeaderButtons() {
-        var backBar = document.getElementById('ilsToolBackBar');
-        if (!backBar || document.getElementById('r14-header-btns')) return;
-        var wrapper = backBar.querySelector('div');
-        if (!wrapper) return;
-        var btnGroup = document.createElement('div');
-        btnGroup.id = 'r14-header-btns';
-        btnGroup.style.cssText = 'display:flex;gap:6px;align-items:center;flex-wrap:wrap;';
-        // Style to match hub-card / Anchor-S4 box aesthetic
-        var _btnBase = 'background:linear-gradient(145deg,var(--card),rgba(0,170,255,0.015));border:1px solid var(--border);border-radius:14px;padding:12px 18px;cursor:pointer;transition:all 0.28s;display:flex;align-items:center;gap:8px;font-family:inherit;position:relative;overflow:hidden;';
-        btnGroup.innerHTML = ''
-            + '<button onclick="showSavedAnalyses()" style="' + _btnBase + '" onmouseover="this.style.borderColor=\'rgba(167,139,250,0.5)\';this.style.transform=\'translateY(-2px)\';this.style.boxShadow=\'0 6px 20px rgba(167,139,250,0.12)\';" onmouseout="this.style.borderColor=\'var(--border)\';this.style.transform=\'\';this.style.boxShadow=\'\';">' 
-            + '<div style="width:32px;height:32px;border-radius:10px;background:rgba(167,139,250,0.1);display:flex;align-items:center;justify-content:center;"><i class="fas fa-history" style="color:#a78bfa;font-size:0.8rem;"></i></div>'
-            + '<div><div style="font-size:0.82rem;font-weight:700;color:#fff;">My Analyses</div><div style="font-size:0.68rem;color:var(--steel);">Saved runs</div></div></button>'
-            + '<button onclick="showTeamPanel()" style="' + _btnBase + '" onmouseover="this.style.borderColor=\'rgba(0,170,255,0.5)\';this.style.transform=\'translateY(-2px)\';this.style.boxShadow=\'0 6px 20px rgba(0,170,255,0.12)\';" onmouseout="this.style.borderColor=\'var(--border)\';this.style.transform=\'\';this.style.boxShadow=\'\';">' 
-            + '<div style="width:32px;height:32px;border-radius:10px;background:rgba(0,170,255,0.1);display:flex;align-items:center;justify-content:center;"><i class="fas fa-users" style="color:var(--accent);font-size:0.8rem;"></i></div>'
-            + '<div><div style="font-size:0.82rem;font-weight:700;color:#fff;">Team</div><div style="font-size:0.68rem;color:var(--steel);">Workspace roles</div></div></button>'
-            + '<button onclick="showWebhookSettings()" style="' + _btnBase + '" onmouseover="this.style.borderColor=\'rgba(201,168,76,0.5)\';this.style.transform=\'translateY(-2px)\';this.style.boxShadow=\'0 6px 20px rgba(201,168,76,0.12)\';" onmouseout="this.style.borderColor=\'var(--border)\';this.style.transform=\'\';this.style.boxShadow=\'\';">' 
-            + '<div style="width:32px;height:32px;border-radius:10px;background:rgba(201,168,76,0.1);display:flex;align-items:center;justify-content:center;"><i class="fas fa-plug" style="color:#c9a84c;font-size:0.8rem;"></i></div>'
-            + '<div><div style="font-size:0.82rem;font-weight:700;color:#fff;">Webhooks</div><div style="font-size:0.68rem;color:var(--steel);">Integrations</div></div></button>'
-            + '<button onclick="exportPDF()" style="' + _btnBase + '" onmouseover="this.style.borderColor=\'rgba(255,107,107,0.5)\';this.style.transform=\'translateY(-2px)\';this.style.boxShadow=\'0 6px 20px rgba(255,107,107,0.12)\';" onmouseout="this.style.borderColor=\'var(--border)\';this.style.transform=\'\';this.style.boxShadow=\'\';">' 
-            + '<div style="width:32px;height:32px;border-radius:10px;background:rgba(255,107,107,0.1);display:flex;align-items:center;justify-content:center;"><i class="fas fa-file-pdf" style="color:#ff6b6b;font-size:0.8rem;"></i></div>'
-            + '<div><div style="font-size:0.82rem;font-weight:700;color:#fff;">PDF Export</div><div style="font-size:0.68rem;color:var(--steel);">Reports</div></div></button>';
-        wrapper.appendChild(btnGroup);
-    }
-    // Inject on tool open and after DOM settles
-    setTimeout(injectHeaderButtons, 3000);
-    var origOpen = window.openILSTool;
-    if (typeof origOpen === 'function') {
-        window.openILSTool = function() {
-            origOpen.apply(this, arguments);
-            setTimeout(injectHeaderButtons, 200);
-        };
-    }
-    console.log('[Round-14] Header buttons injected');
-})();
 
 console.log('[Round-14] All enhancement modules loaded — FedRAMP Badge, Multi-User, Saved Analyses, PDF Export, Webhooks');
+
+// ═══════════════════════════════════════════════════════════════
+// ═══ ROUND 16 — FLANKSPEED / NAUTILUS VDI COMPATIBILITY ═══
+// Detects Navy VDI environments and applies appropriate optimizations
+// ═══════════════════════════════════════════════════════════════
+(function() {
+    'use strict';
+    var _isVDI = false;
+    var _isFlankspeed = false;
+    // Detect Nautilus/Flankspeed environment indicators
+    try {
+        var ua = navigator.userAgent || '';
+        // Flankspeed uses Edge Chromium; Nautilus uses various VDI clients
+        _isFlankspeed = /Edg\//.test(ua) && (document.location.hostname.indexOf('.mil') >= 0 || document.location.hostname.indexOf('.smil') >= 0);
+        // Generic VDI detection: low screen resolution, specific user agents, Citrix/VMware indicators
+        _isVDI = window.screen && (window.screen.width <= 1280 && window.screen.height <= 1024) ||
+                 /Citrix|VMware|VDI|RemoteDesktop/.test(ua) || _isFlankspeed;
+    } catch(e) {}
+
+    if (_isVDI) {
+        // Reduce animation intensity for VDI performance
+        var vdiStyle = document.createElement('style');
+        vdiStyle.textContent = '*, *::before, *::after { animation-duration: 0.1s !important; transition-duration: 0.1s !important; }' +
+            '.backdrop-blur, [style*="backdrop-filter"] { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }' +
+            'canvas { display: none !important; }'; // Disable background canvas animations
+        document.head.appendChild(vdiStyle);
+        console.log('[VDI] Flankspeed/Nautilus optimizations applied — reduced animations, disabled backdrop-filter');
+    }
+
+    // Offline-first: cache critical assets for NMCI/air-gapped networks
+    if ('serviceWorker' in navigator && location.protocol === 'https:') {
+        // Service worker registration placeholder — sw.js can be added for full offline support
+        // navigator.serviceWorker.register('/sw.js').catch(function(){});
+    }
+
+    // Expose environment info for debugging
+    window._s4VDI = { isVDI: _isVDI, isFlankspeed: _isFlankspeed };
+    if (_isVDI || _isFlankspeed) console.log('[VDI] Environment: ' + (_isFlankspeed ? 'Flankspeed (M365)' : 'Nautilus VDI') + ' — optimizations active');
+
+    console.log('[Round-16] VDI compatibility module loaded');
+})();
 </script>
 </body>
 </html>
