@@ -22,19 +22,19 @@
         .live-indicator{display:inline-flex;align-items:center;gap:10px;background:rgba(0,170,255,0.1);padding:10px 20px;border-radius:30px;font-size:0.9rem;font-weight:600;color:var(--accent);border:1px solid rgba(0,170,255,0.3);animation:indicatorGlow 2s ease-in-out infinite}
         @keyframes indicatorGlow{0%,100%{box-shadow:0 0 10px rgba(0,170,255,0.2)}50%{box-shadow:0 0 25px rgba(0,170,255,0.4)}}
         .live-dot{width:10px;height:10px;background:var(--accent);border-radius:50%;box-shadow:0 0 10px var(--accent)}
-        .filter-btn{background:rgba(0,170,255,0.08);color:var(--accent);border:1px solid rgba(0,170,255,0.25);border-radius:10px;padding:10px 18px;margin:4px;cursor:pointer;font-weight:600;font-size:0.85rem;transition:all 0.3s;font-family:inherit}
+        .filter-btn{background:rgba(0,170,255,0.08);color:var(--accent);border:1px solid rgba(0,170,255,0.25);border-radius:3px;padding:10px 18px;margin:4px;cursor:pointer;font-weight:600;font-size:0.85rem;transition:all 0.3s;font-family:inherit}
         .filter-btn:hover{background:rgba(0,170,255,0.15);transform:translateY(-2px)}
         .filter-btn.active{background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border-color:transparent;box-shadow:0 5px 20px rgba(0,170,255,0.3)}
-        .filter-select{background:rgba(0,170,255,0.08);color:#fff;border:1px solid rgba(0,170,255,0.25);border-radius:10px;padding:10px 15px;font-weight:500;cursor:pointer;font-family:inherit}
+        .filter-select{background:rgba(0,170,255,0.08);color:#fff;border:1px solid rgba(0,170,255,0.25);border-radius:3px;padding:10px 15px;font-weight:500;cursor:pointer;font-family:inherit}
         .filter-select:focus{outline:none;border-color:var(--accent)}
         .filter-select option{background:#0a0a0f}
-        .export-btn{background:var(--accent-dim);color:var(--accent);border:1px solid rgba(0,170,255,0.2);border-radius:12px;padding:12px 24px;cursor:pointer;font-weight:600;font-size:0.9rem;transition:all 0.3s;display:inline-flex;align-items:center;gap:8px;font-family:inherit}
+        .export-btn{background:var(--accent-dim);color:var(--accent);border:1px solid rgba(0,170,255,0.2);border-radius:3px;padding:12px 24px;cursor:pointer;font-weight:600;font-size:0.9rem;transition:all 0.3s;display:inline-flex;align-items:center;gap:8px;font-family:inherit}
         .export-btn:hover{background:rgba(201,168,76,0.2);transform:translateY(-3px);box-shadow:0 10px 30px rgba(201,168,76,0.2)}
         .recent-table{width:100%;margin-top:20px;border-collapse:collapse}
         .recent-table th{color:var(--accent);padding:15px 12px;border-bottom:2px solid rgba(0,170,255,0.2);text-align:left;font-weight:700;font-size:0.85rem;text-transform:uppercase;letter-spacing:0.5px}
         .recent-table td{padding:14px 12px;border-bottom:1px solid rgba(255,255,255,0.05);transition:background 0.2s;color:var(--text-secondary)}
         .recent-table tr:hover td{background:rgba(0,170,255,0.03)}
-        .badge-type{background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;padding:6px 12px;border-radius:8px;font-size:0.75rem;font-weight:600;text-transform:uppercase}
+        .badge-type{background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;padding:6px 12px;border-radius:3px;font-size:0.75rem;font-weight:600;text-transform:uppercase}
         @media(max-width:768px){.stat-value{font-size:1.8rem}.d-flex.justify-content-between{flex-direction:column;gap:15px}}
         @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
     </style>
@@ -47,12 +47,12 @@
             <span>S4 Ledger</span>
         </a>
         <ul id="navLinks" style="display:flex;align-items:center;gap:0.25rem;list-style:none;margin:0;padding:0;">
-            <li><a href="/demo-app/" style="color:rgba(255,255,255,0.7);padding:0.5rem 0.75rem;font-size:0.875rem;font-weight:500;text-decoration:none;border-radius:6px;">Platform</a></li>
-            <li><a href="/s4-use-cases/" style="color:rgba(255,255,255,0.7);padding:0.5rem 0.75rem;font-size:0.875rem;font-weight:500;text-decoration:none;border-radius:6px;">Use Cases</a></li>
-            <li><a href="/s4-pricing/" style="color:rgba(255,255,255,0.7);padding:0.5rem 0.75rem;font-size:0.875rem;font-weight:500;text-decoration:none;border-radius:6px;">Pricing</a></li>
-            <li><a href="/s4-investors/" style="color:rgba(255,255,255,0.7);padding:0.5rem 0.75rem;font-size:0.875rem;font-weight:500;text-decoration:none;border-radius:6px;">Company</a></li>
-            <li><a href="https://github.com/s4ledger/s4-ledger" target="_blank" style="color:rgba(255,255,255,0.7);padding:0.5rem 0.75rem;font-size:0.875rem;font-weight:500;text-decoration:none;border-radius:6px;">Docs</a></li>
-            <li><a href="/s4-contact/" style="background:#00aaff;color:#fff;padding:0.5rem 1.25rem;font-size:0.875rem;font-weight:600;text-decoration:none;border-radius:6px;margin-left:0.5rem;">Request Demo</a></li>
+            <li><a href="/demo-app/" style="color:rgba(255,255,255,0.7);padding:0.5rem 0.75rem;font-size:0.875rem;font-weight:500;text-decoration:none;border-radius:3px;">Platform</a></li>
+            <li><a href="/s4-use-cases/" style="color:rgba(255,255,255,0.7);padding:0.5rem 0.75rem;font-size:0.875rem;font-weight:500;text-decoration:none;border-radius:3px;">Use Cases</a></li>
+            <li><a href="/s4-pricing/" style="color:rgba(255,255,255,0.7);padding:0.5rem 0.75rem;font-size:0.875rem;font-weight:500;text-decoration:none;border-radius:3px;">Pricing</a></li>
+            <li><a href="/s4-investors/" style="color:rgba(255,255,255,0.7);padding:0.5rem 0.75rem;font-size:0.875rem;font-weight:500;text-decoration:none;border-radius:3px;">Company</a></li>
+            <li><a href="https://github.com/s4ledger/s4-ledger" target="_blank" style="color:rgba(255,255,255,0.7);padding:0.5rem 0.75rem;font-size:0.875rem;font-weight:500;text-decoration:none;border-radius:3px;">Docs</a></li>
+            <li><a href="/s4-contact/" style="background:#00aaff;color:#fff;padding:0.5rem 1.25rem;font-size:0.875rem;font-weight:600;text-decoration:none;border-radius:3px;margin-left:0.5rem;">Request Demo</a></li>
         </ul>
         <button onclick="var nl=document.getElementById('navLinks');nl.style.display=nl.style.display==='flex'?'none':'flex';" aria-label="Menu" style="display:none;background:none;border:none;color:#fff;font-size:1.25rem;cursor:pointer;padding:0.5rem;">
             <i class="fas fa-bars"></i>
@@ -165,7 +165,7 @@
         <div class="card reveal">
             <h3 style="margin-bottom:5px;"><i class="fas fa-list-check" style="color:var(--accent);margin-right:8px;"></i> Recent Anchored Records</h3>
             <p style="color:var(--text-secondary);font-size:0.9rem;">Individual records with exact timestamps</p>
-            <div style="max-height:400px;overflow-y:auto;border:1px solid rgba(0,170,255,0.2);border-radius:8px;">
+            <div style="max-height:400px;overflow-y:auto;border:1px solid rgba(0,170,255,0.2);border-radius:3px;">
                 <table class="recent-table" style="display:table;width:100%;">
                     <thead style="position:sticky;top:0;background:#0a0a0f;z-index:1;"><tr><th>Timestamp</th><th>Record Type</th><th>Hash (truncated)</th><th>Fee</th></tr></thead>
                     <tbody id="recentBody"><tr><td colspan="4" style="text-align:center;color:var(--text-secondary);">Loading...</td></tr></tbody>
@@ -184,8 +184,8 @@
             <h3 style="margin-bottom:8px;"><i class="fas fa-brain" style="color:var(--accent);margin-right:8px;"></i> Anchor-S4</h3>
             <p style="color:var(--text-secondary);font-size:0.88rem;margin-bottom:16px;">14-tool ILS command center &mdash; gap analysis, DMSMS, readiness, lifecycle cost, ROI, action items, audit vault, doc library, compliance scorecard, supply chain risk, audit reports, predictive maintenance, integrated logistics insights engine (ILIE) &amp; AI agent.</p>
             <div style="display:flex;justify-content:center;gap:10px;flex-wrap:wrap;">
-                <a href="/demo-app/#tabILS" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;padding:10px 22px;border-radius:10px;text-decoration:none;font-weight:700;font-size:0.9rem;transition:all 0.3s;display:inline-flex;align-items:center;gap:6px;"><i class="fas fa-brain"></i> Open Anchor-S4</a>
-                <a href="/sdk-playground/" style="background:var(--accent-dim);color:var(--accent);border:1px solid rgba(0,170,255,0.2);padding:10px 22px;border-radius:10px;text-decoration:none;font-weight:700;font-size:0.9rem;transition:all 0.3s;display:inline-flex;align-items:center;gap:6px;"><i class="fas fa-code"></i> SDK Playground</a>
+                <a href="/demo-app/#tabILS" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;padding:10px 22px;border-radius:3px;text-decoration:none;font-weight:700;font-size:0.9rem;transition:all 0.3s;display:inline-flex;align-items:center;gap:6px;"><i class="fas fa-brain"></i> Open Anchor-S4</a>
+                <a href="/sdk-playground/" style="background:var(--accent-dim);color:var(--accent);border:1px solid rgba(0,170,255,0.2);padding:10px 22px;border-radius:3px;text-decoration:none;font-weight:700;font-size:0.9rem;transition:all 0.3s;display:inline-flex;align-items:center;gap:6px;"><i class="fas fa-code"></i> SDK Playground</a>
             </div>
         </div>
     </div>

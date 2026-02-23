@@ -17,9 +17,9 @@
         .card p { color: var(--steel) !important; }
         .card h4 { color: #fff; }
         .card h5 { font-weight: 600; }
-        .marketplace-card { background: var(--bg-elevated, #111118); border: 1px solid rgba(255,255,255,0.06); border-radius: 6px; padding: 24px; transition: all 0.3s; }
+        .marketplace-card { background: var(--bg-elevated, #111118); border: 1px solid rgba(255,255,255,0.06); border-radius: 3px; padding: 24px; transition: all 0.3s; }
         .marketplace-card:hover { border-color: rgba(0,170,255,0.2); background: var(--bg-surface, #16161f); }
-        .publish-cta { text-align: center; padding: 40px 24px; margin-bottom: 2.5rem; background: var(--bg-elevated, #111118); border: 1px solid rgba(255,255,255,0.06); border-radius: 6px; }
+        .publish-cta { text-align: center; padding: 40px 24px; margin-bottom: 2.5rem; background: var(--bg-elevated, #111118); border: 1px solid rgba(255,255,255,0.06); border-radius: 3px; }
     </style>
 
 </head>
@@ -62,13 +62,13 @@
 <!-- CATEGORY FILTER -->
 <div class="container" style="padding-top:2rem;">
     <div class="category-filter" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px;justify-content:flex-start;">
-        <button class="active" onclick="filterMarketplace('all',this)" style="background:rgba(0,170,255,0.15);color:#00aaff;border:1px solid rgba(0,170,255,0.3);border-radius:6px;padding:6px 16px;font-size:0.8rem;cursor:pointer;font-family:'Inter',sans-serif;font-weight:600;">All</button>
-        <button onclick="filterMarketplace('integration',this)" style="background:rgba(255,255,255,0.04);color:var(--steel);border:1px solid rgba(255,255,255,0.1);border-radius:6px;padding:6px 16px;font-size:0.8rem;cursor:pointer;font-family:'Inter',sans-serif;">Integrations</button>
-        <button onclick="filterMarketplace('compliance',this)" style="background:rgba(255,255,255,0.04);color:var(--steel);border:1px solid rgba(255,255,255,0.1);border-radius:6px;padding:6px 16px;font-size:0.8rem;cursor:pointer;font-family:'Inter',sans-serif;">Compliance</button>
-        <button onclick="filterMarketplace('analytics',this)" style="background:rgba(255,255,255,0.04);color:var(--steel);border:1px solid rgba(255,255,255,0.1);border-radius:6px;padding:6px 16px;font-size:0.8rem;cursor:pointer;font-family:'Inter',sans-serif;">Analytics</button>
-        <button onclick="filterMarketplace('ai',this)" style="background:rgba(255,255,255,0.04);color:var(--steel);border:1px solid rgba(255,255,255,0.1);border-radius:6px;padding:6px 16px;font-size:0.8rem;cursor:pointer;font-family:'Inter',sans-serif;">AI</button>
-        <button onclick="filterMarketplace('template',this)" style="background:rgba(255,255,255,0.04);color:var(--steel);border:1px solid rgba(255,255,255,0.1);border-radius:6px;padding:6px 16px;font-size:0.8rem;cursor:pointer;font-family:'Inter',sans-serif;">Templates</button>
-        <button onclick="filterMarketplace('community',this)" style="background:rgba(255,255,255,0.04);color:var(--steel);border:1px solid rgba(255,255,255,0.1);border-radius:6px;padding:6px 16px;font-size:0.8rem;cursor:pointer;font-family:'Inter',sans-serif;">Community</button>
+        <button class="active" onclick="filterMarketplace('all',this)" style="background:rgba(0,170,255,0.15);color:#00aaff;border:1px solid rgba(0,170,255,0.3);border-radius:3px;padding:6px 16px;font-size:0.8rem;cursor:pointer;font-family:'Inter',sans-serif;font-weight:600;">All</button>
+        <button onclick="filterMarketplace('integration',this)" style="background:rgba(255,255,255,0.04);color:var(--steel);border:1px solid rgba(255,255,255,0.1);border-radius:3px;padding:6px 16px;font-size:0.8rem;cursor:pointer;font-family:'Inter',sans-serif;">Integrations</button>
+        <button onclick="filterMarketplace('compliance',this)" style="background:rgba(255,255,255,0.04);color:var(--steel);border:1px solid rgba(255,255,255,0.1);border-radius:3px;padding:6px 16px;font-size:0.8rem;cursor:pointer;font-family:'Inter',sans-serif;">Compliance</button>
+        <button onclick="filterMarketplace('analytics',this)" style="background:rgba(255,255,255,0.04);color:var(--steel);border:1px solid rgba(255,255,255,0.1);border-radius:3px;padding:6px 16px;font-size:0.8rem;cursor:pointer;font-family:'Inter',sans-serif;">Analytics</button>
+        <button onclick="filterMarketplace('ai',this)" style="background:rgba(255,255,255,0.04);color:var(--steel);border:1px solid rgba(255,255,255,0.1);border-radius:3px;padding:6px 16px;font-size:0.8rem;cursor:pointer;font-family:'Inter',sans-serif;">AI</button>
+        <button onclick="filterMarketplace('template',this)" style="background:rgba(255,255,255,0.04);color:var(--steel);border:1px solid rgba(255,255,255,0.1);border-radius:3px;padding:6px 16px;font-size:0.8rem;cursor:pointer;font-family:'Inter',sans-serif;">Templates</button>
+        <button onclick="filterMarketplace('community',this)" style="background:rgba(255,255,255,0.04);color:var(--steel);border:1px solid rgba(255,255,255,0.1);border-radius:3px;padding:6px 16px;font-size:0.8rem;cursor:pointer;font-family:'Inter',sans-serif;">Community</button>
     </div>
 </div>
 
@@ -293,8 +293,8 @@
             <p style="color:#b0b8c8;font-size:0.95rem;max-width:600px;margin:0 auto 20px;">Publish your own plugins, integrations, and extensions on the S4 Marketplace. Revenue share program available for qualified partners.</p>
             <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
                 <a href="../sdk-playground/" class="btn-accent" style="text-decoration:none;"><i class="fas fa-code"></i> SDK Documentation</a>
-                <a href="../s4-partners/" class="btn" style="text-decoration:none;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);color:#fff;padding:10px 24px;border-radius:8px;"><i class="fas fa-handshake"></i> Partner Program</a>
-                <a href="../s4-contact/" class="btn" style="text-decoration:none;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);color:#fff;padding:10px 24px;border-radius:8px;"><i class="fas fa-envelope"></i> Contact Us</a>
+                <a href="../s4-partners/" class="btn" style="text-decoration:none;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);color:#fff;padding:10px 24px;border-radius:3px;"><i class="fas fa-handshake"></i> Partner Program</a>
+                <a href="../s4-contact/" class="btn" style="text-decoration:none;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);color:#fff;padding:10px 24px;border-radius:3px;"><i class="fas fa-envelope"></i> Contact Us</a>
             </div>
         </div>
 
@@ -303,19 +303,19 @@
             <h4 style="color:#fff;margin-bottom:16px;"><i class="fas fa-coins" style="color:#c9a84c;margin-right:8px;"></i>Marketplace Economics</h4>
             <div class="row">
                 <div class="col-md-4 mb-3">
-                    <div style="padding:16px;background:rgba(20,241,149,0.04);border:1px solid rgba(20,241,149,0.15);border-radius:10px;">
+                    <div style="padding:16px;background:rgba(20,241,149,0.04);border:1px solid rgba(20,241,149,0.15);border-radius:3px;">
                         <h5 style="color:#14f195;font-size:0.95rem;margin-bottom:8px;">70 / 30 Revenue Share</h5>
                         <p style="font-size:0.82rem;color:#b0b8c8;margin:0;">Publishers keep 70% of all revenue. S4 Ledger handles hosting, billing, authentication, and marketplace distribution.</p>
                     </div>
                 </div>
                 <div class="col-md-4 mb-3">
-                    <div style="padding:16px;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.15);border-radius:10px;">
+                    <div style="padding:16px;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.15);border-radius:3px;">
                         <h5 style="color:#00aaff;font-size:0.95rem;margin-bottom:8px;">Free Tier Available</h5>
                         <p style="font-size:0.82rem;color:#b0b8c8;margin:0;">Community extensions can be published for free — open-source encouraged. Premium extensions require a verified publisher account.</p>
                     </div>
                 </div>
                 <div class="col-md-4 mb-3">
-                    <div style="padding:16px;background:rgba(201,168,76,0.04);border:1px solid rgba(201,168,76,0.15);border-radius:10px;">
+                    <div style="padding:16px;background:rgba(201,168,76,0.04);border:1px solid rgba(201,168,76,0.15);border-radius:3px;">
                         <h5 style="color:#c9a84c;font-size:0.95rem;margin-bottom:8px;">$50K+ Marketplace GMV</h5>
                         <p style="font-size:0.82rem;color:#b0b8c8;margin:0;">Target $50K+ in Year 1 marketplace GMV, growing to $2M+ by Year 4 as the defense developer ecosystem scales.</p>
                     </div>
