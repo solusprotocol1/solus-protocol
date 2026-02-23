@@ -1321,8 +1321,8 @@ if (sessionStorage.getItem('s4_entered') === '1') {
                 <div class="hub-card" onclick="showSection('sectionILS')">
                     <div class="hc-icon" style="background:rgba(201,168,76,0.1);"><i class="fas fa-brain" style="color:#c9a84c;"></i></div>
                     <div class="hc-title">Anchor-S4 <span style="background:rgba(201,168,76,0.15);color:#c9a84c;font-size:0.65rem;padding:2px 8px;border-radius:20px;font-weight:600;margin-left:6px;">14 TOOLS</span></div>
-                    <div class="hc-desc">13+ integrated defense tools: Gap Analysis, DMSMS, Readiness, Compliance, Risk, Predictive Maintenance, ROI, Audit Vault, and more.</div>
-                    <div class="hc-meta"><i class="fas fa-tools"></i> 13+ ILS tools &bull; AI-powered</div>
+                    <div class="hc-desc">14+ integrated defense tools: Gap Analysis, DMSMS, Readiness, Compliance, Risk, Predictive Maintenance, ROI, Audit Vault, and more.</div>
+                    <div class="hc-meta"><i class="fas fa-tools"></i> 14+ ILS tools &bull; AI-powered</div>
                     <div class="hc-arrow"><i class="fas fa-chevron-right"></i></div>
                 </div>
                 <div class="hub-card" onclick="showSection('sectionSystems')">
@@ -3349,6 +3349,11 @@ function _syncSlsBar() {
     if (anchorsEl) anchorsEl.textContent = stats.anchored || 0;
     if (spentEl) spentEl.textContent = (spent).toFixed(2) + ' SLS';
     if (planEl) planEl.textContent = plan;
+    // Also sync wallet tab SLS balance in demo mode
+    var walletSlsEl = document.getElementById('walletSLSBalance');
+    if (walletSlsEl) walletSlsEl.textContent = remaining.toLocaleString(undefined,{maximumFractionDigits:2});
+    var walletAnchorsEl = document.getElementById('walletAnchors');
+    if (walletAnchorsEl && (stats.anchored || 0) > 0) walletAnchorsEl.textContent = (Math.floor(remaining / 0.01)).toLocaleString();
 }
 
 // ═══ Authentication Flow: DoD Consent → CAC/Login → Platform ═══
@@ -3858,7 +3863,7 @@ function _showDemoOffline() {
     var slsEl = document.getElementById('demoSls');
     var stepsEl = document.getElementById('demoSteps');
     if (xrpEl) xrpEl.textContent = '12.000000';
-    if (slsEl) slsEl.textContent = '25,000';
+    if (slsEl) slsEl.textContent = _tierData.sls.toLocaleString();
     var sessionInfo = document.getElementById('demoSessionInfo');
     if (sessionInfo) {
         sessionInfo.style.display = 'block';
@@ -3866,7 +3871,7 @@ function _showDemoOffline() {
             + '<div><span style="color:var(--steel)">Session:</span> <span style="color:#fff">demo_offline_' + Date.now().toString(36) + '</span></div>'
             + '<div><span style="color:var(--steel)">Wallet:</span> <span style="color:#c9a84c;font-family:monospace;font-size:0.72rem">rDemo...Offline</span></div>'
             + '<div><span style="color:var(--steel)">XRP Balance:</span> <span style="color:var(--green)">12.000000 XRP</span></div>'
-            + '<div><span style="color:var(--steel)">SLS Balance:</span> <span style="color:var(--gold)">25,000 SLS</span></div>'
+            + '<div><span style="color:var(--steel)">SLS Balance:</span> <span style="color:var(--gold)">' + _tierData.sls.toLocaleString() + ' SLS</span></div>'
             + '</div>';
     }
     // Set a local demo session so AI agent works
@@ -7416,7 +7421,7 @@ function generateAiResponse(query) {
     if (/meaning\s*of\s*life|42/i.test(q)) return 'The answer is <strong>42</strong> — but in defense logistics, the real answer is <strong>keeping Ao above 90%</strong>. \uD83D\uDE04';
 
     // ── HELP / CAPABILITIES ──
-    if (/help|what\s*can\s*you\s*do|capabilities|features/i.test(q)) return '<strong>S4 Agent Capabilities:</strong><br><br><strong>\uD83D\uDD27 ILS & Defense:</strong><br>\u2022 Gap analysis interpretation & critical item triage<br>\u2022 DI number explanations (DI-001 through DI-044)<br>\u2022 CAR drafting, compliance checks, cost estimation<br>\u2022 Defense acronym definitions (CDRL, LCSP, DMSMS, etc.)<br>\u2022 MIL-STD and regulation guidance<br><br><strong>\uD83D\uDCCA Platform:</strong><br>\u2022 Anchoring help, verification, XRPL questions<br>\u2022 SLS token and pricing info<br>\u2022 Demo mode status and balance tracking<br>\u2022 Tool-specific guidance for all 13+ ILS tools<br><br><strong>\uD83E\uDD16 General:</strong><br>\u2022 Math calculations and unit conversions<br>\u2022 Date/time queries<br>\u2022 Recommendations and best practices<br>\u2022 General conversation and Q&A<br><br><em>Ask me anything — I can help with ILS analysis, defense logistics, compliance, and platform questions.</em>';
+    if (/help|what\s*can\s*you\s*do|capabilities|features/i.test(q)) return '<strong>S4 Agent Capabilities:</strong><br><br><strong>\uD83D\uDD27 ILS & Defense:</strong><br>\u2022 Gap analysis interpretation & critical item triage<br>\u2022 DI number explanations (DI-001 through DI-044)<br>\u2022 CAR drafting, compliance checks, cost estimation<br>\u2022 Defense acronym definitions (CDRL, LCSP, DMSMS, etc.)<br>\u2022 MIL-STD and regulation guidance<br><br><strong>\uD83D\uDCCA Platform:</strong><br>\u2022 Anchoring help, verification, XRPL questions<br>\u2022 SLS token and pricing info<br>\u2022 Demo mode status and balance tracking<br>\u2022 Tool-specific guidance for all 14+ ILS tools<br><br><strong>\uD83E\uDD16 General:</strong><br>\u2022 Math calculations and unit conversions<br>\u2022 Date/time queries<br>\u2022 Recommendations and best practices<br>\u2022 General conversation and Q&A<br><br><em>Ask me anything — I can help with ILS analysis, defense logistics, compliance, and platform questions.</em>';
 
     // ── GENERAL KNOWLEDGE PATTERNS ──
     // These make the agent useful even without an LLM API key
@@ -9822,6 +9827,20 @@ async function fetchWalletBalance(address) {
         document.getElementById('walletNetwork').textContent = 'XRPL ' + data.network.charAt(0).toUpperCase() + data.network.slice(1);
     } catch (e) {
         console.log('Balance fetch error:', e);
+        // In demo mode, populate wallet from session state
+        if (_demoSession && _demoSession.subscription) {
+            var _alloc = _demoSession.subscription.sls_allocation || 25000;
+            var _spent = (typeof stats !== 'undefined') ? (stats.slsFees || 0) : 0;
+            var _rem = _alloc - _spent;
+            var wBal = document.getElementById('walletSLSBalance');
+            if (wBal) wBal.textContent = _rem.toLocaleString(undefined,{maximumFractionDigits:2});
+            var wAnch = document.getElementById('walletAnchors');
+            if (wAnch) wAnch.textContent = Math.floor(_rem / 0.01).toLocaleString();
+            var wXrp = document.getElementById('walletXRP');
+            if (wXrp) wXrp.textContent = '12.00';
+            var wNet = document.getElementById('walletNetwork');
+            if (wNet) wNet.textContent = 'XRPL Mainnet (Demo)';
+        }
     }
 }
 
@@ -12767,8 +12786,14 @@ function renderFailureTimeline() {
         var etaText = cells[3] ? cells[3].textContent.trim() : '';
         var confText = cells[2] ? cells[2].textContent.trim() : '';
         var costText = cells[4] ? cells[4].textContent.trim() : '';
-        // Parse ETA days
-        var etaDays = parseInt(etaText) || (etaText.indexOf('wk') >= 0 ? parseInt(etaText)*7 : 90);
+        // Parse ETA — etaText is a date string like "5/17/2026", calculate days from today
+        var etaDays = 90;
+        var parsedDate = new Date(etaText);
+        if (!isNaN(parsedDate.getTime())) {
+            etaDays = Math.max(1, Math.round((parsedDate - new Date()) / 86400000));
+        } else {
+            etaDays = parseInt(etaText) || (etaText.indexOf('wk') >= 0 ? parseInt(etaText)*7 : 90);
+        }
         var conf = parseInt(confText) || 50;
         predictions.push({system:system, eta:etaDays, conf:conf, cost:costText});
     });
@@ -13423,7 +13448,7 @@ var S4_SUBSCRIPTION_TIERS = {
         price_annual: 24990,
         sls_monthly: 100000,
         anchors_monthly: 10000000,
-        features: ['Everything in Starter', 'All 13+ ILS Tools', 'Compliance scorecard', 'Priority support', 'Custom integrations'],
+        features: ['Everything in Starter', 'All 14+ ILS Tools', 'Compliance scorecard', 'Priority support', 'Custom integrations'],
         stripe_monthly: 'price_pro_monthly',
         stripe_annual: 'price_pro_annual'
     },

@@ -400,6 +400,10 @@
             }
         });
     }
+
+    // Nav scroll behavior (match other pages)
+    var nav=document.getElementById('mainNav');
+    if(nav){window.addEventListener('scroll',function(){nav.classList.toggle('scrolled',window.scrollY>40);});}
     </script>
 <link rel="stylesheet" href="/s4-assets/s4-mobile.css">
 <!-- Search Modal -->

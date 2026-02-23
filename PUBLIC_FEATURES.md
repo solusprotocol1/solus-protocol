@@ -25,7 +25,7 @@ Re-verify any record against its chain anchor. Instant tamper detection.
 - **Batch verification** — Verify multiple files at once with export report
 - **Visual tamper indicator** — Immediate red/green status
 
-### 3. 13+ ILS Workspace Tools
+### 3. 14+ ILS Workspace Tools
 Full Integrated Logistics Support workspace:
 
 | Tool | Description |

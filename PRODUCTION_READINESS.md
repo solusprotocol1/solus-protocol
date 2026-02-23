@@ -16,7 +16,7 @@ This document tracks every requirement for taking S4 Ledger to a fully productio
 
 | Area | Status | MVP Score | Enterprise Score |
 |------|--------|-----------|-----------------|
-| **Frontend / Demo** | ILS Workspace (unified command center with 13 ILS tools (hub/card layout)), 13 ILS tools + action items + AI Agent, universal program support, 130+ pre-built record types, PDF/DOCX document parsing, cross-document discrepancy detection, ITAR warning banner, login portal, SDK Playground with 20 interactive function boxes, Metrics dashboard auto-refresh (5s), Transactions page with filters, Treasury Wallet widget, classification banners | **95%** | **90%** |
+| **Frontend / Demo** | ILS Workspace (unified command center with 14 ILS tools (hub/card layout)), 14 ILS tools + action items + AI Agent, universal program support, 130+ pre-built record types, PDF/DOCX document parsing, cross-document discrepancy detection, ITAR warning banner, login portal, SDK Playground with 20 interactive function boxes, Metrics dashboard auto-refresh (5s), Transactions page with filters, Treasury Wallet widget, classification banners | **95%** | **90%** |
 | **API / Backend** | Serverless API v5.1, 63+ endpoints including 12 HarborLink integration endpoints (webhooks, composite anchor, Merkle batch, proof chain, custody chain, file hash, bulk verify, org isolation), subscription-based SLS provisioning, Stripe payment verification, rate limiting, security headers, health check, OpenAPI 3.0 spec | **88%** | **80%** |
 | **XRPL Integration** | $SLS LIVE on XRPL Mainnet (100M total). Full mainnet anchoring live — all 13 ILS tools anchor to mainnet with explorer links. 3-wallet architecture (Issuer, Treasury, Ops). secp256k1 (Xaman-compatible). 0.01 SLS fee per anchor. | **100%** | **98%** |
 | **SDK** | Python SDK with 38+ methods including 11 new HarborLink methods (webhooks, composite, batch, custody, proof chain, file hash, bulk verify, org records), CLI tool, CSV/XML/JSON import, encryption, SDK Playground with 20 clickable function boxes | **92%** | **90%** |
@@ -180,7 +180,7 @@ This document tracks every requirement for taking S4 Ledger to a fully productio
 | Data migration plan | ✅ Complete | **High** | Testnet anchors documented; fresh start on mainnet with real transactions |
 | Rollback procedures | ✅ Complete | **Critical** | XRPL_NETWORK=testnet env var reverts to testnet instantly |
 | Partner notification plan | ✅ Complete | Medium | Mainnet migration documented in CHANGELOG, MAINNET_MIGRATION.md |
-| Post-migration verification | ✅ Complete | **Critical** | All 13 ILS tools verified anchoring on mainnet with explorer links |
+| Post-migration verification | ✅ Complete | **Critical** | All 14 ILS tools verified anchoring on mainnet with explorer links |
 
 *See [MAINNET_MIGRATION.md](MAINNET_MIGRATION.md) for the complete step-by-step guide.*
 
@@ -204,7 +204,7 @@ This document tracks every requirement for taking S4 Ledger to a fully productio
 | Item | Status | Priority | Notes |
 |------|--------|----------|-------|
 | Architecture Decision Records (ADRs) | ⬜ Pending | Medium | Document key technical decisions |
-| User Training Guide | ✅ Complete | **High** | USER_TRAINING_GUIDE.md v4.0.4 — plain-English rewrite (high-school readable), all 13 ILS tools, subscription model, document analysis, FAQ |
+| User Training Guide | ✅ Complete | **High** | USER_TRAINING_GUIDE.md v4.0.4 — plain-English rewrite (high-school readable), all 14 ILS tools, subscription model, document analysis, FAQ |
 | Runbook / Operations manual | ⬜ Pending | **High** | Incident procedures, deployment steps |
 | Disaster recovery plan | ⬜ Pending | **Critical** | RTO/RPO targets, recovery procedures |
 | Business continuity plan | ⬜ Pending | **High** | Key person risk, vendor dependencies |
@@ -377,7 +377,7 @@ This document tracks every requirement for taking S4 Ledger to a fully productio
 - [x] **Enhanced Tooltips** — `tooltip-enhanced` with `data-tip` for contextual help
 
 ### BAA / Agreement Updates
-- [x] **DDIA v2.0** — BAA_TEMPLATE.md updated with Audit Vault, Doc Library, Compliance Scorecard, and all 13 ILS Workspace tools listed
+- [x] **DDIA v2.0** — BAA_TEMPLATE.md updated with Audit Vault, Doc Library, Compliance Scorecard, and all 14 ILS Workspace tools listed
 
 ---
 
