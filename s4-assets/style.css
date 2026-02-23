@@ -40,9 +40,10 @@ a:hover { color: var(--accent); opacity: 0.85; }
 
 /* ═══ Navigation ═══ */
 .nav {
-    position: fixed; top: 0; width: 100%; z-index: 1000; padding: 0 24px;
+    position: fixed !important; top: 0; width: 100%; z-index: 1000; padding: 0 24px;
     transition: background var(--transition), border-color var(--transition);
     border-bottom: 1px solid transparent;
+    flex-wrap: nowrap !important; display: block !important;
 }
 .nav.scrolled {
     background: rgba(10, 10, 15, 0.92);
@@ -58,7 +59,7 @@ a:hover { color: var(--accent); opacity: 0.85; }
     color: var(--text-primary); font-weight: 700; font-size: 1.1rem; letter-spacing: -0.02em;
 }
 .nav-brand img { height: 32px; width: 32px; }
-.nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
+.nav-links { display: flex !important; align-items: center; gap: 32px; list-style: none; flex-wrap: nowrap !important; padding-left: 0 !important; margin-bottom: 0 !important; }
 .nav-links a {
     color: var(--text-secondary); text-decoration: none; font-size: 0.875rem;
     font-weight: 500; transition: color var(--transition); letter-spacing: -0.01em;
