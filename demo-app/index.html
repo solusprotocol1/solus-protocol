@@ -18810,6 +18810,316 @@ function _updateThemeIcon(isLight) {
     console.log('[S4 Enterprise] Module loaded — 9 features active');
 })();
 
+// ═══════════════════════════════════════════════════════════════
+// ═══ S4 BLOCKCHAIN & CRYPTO MODULE ═══
+// Multi-chain, smart contracts, NFT certs, DID, cross-ledger, token dashboard, staking, DAO
+// ═══════════════════════════════════════════════════════════════
+(function() {
+    'use strict';
+
+    // ── 1. Multi-Chain Anchoring Engine ──
+    S4.multiChain = {
+        _chains: {
+            'ethereum': {name:'Ethereum',symbol:'ETH',explorer:'https://etherscan.io/tx/',status:'active',anchorCount:0},
+            'polygon': {name:'Polygon',symbol:'MATIC',explorer:'https://polygonscan.com/tx/',status:'active',anchorCount:0},
+            'solana': {name:'Solana',symbol:'SOL',explorer:'https://solscan.io/tx/',status:'active',anchorCount:0},
+            'hedera': {name:'Hedera',symbol:'HBAR',explorer:'https://hashscan.io/mainnet/transaction/',status:'active',anchorCount:0},
+            'stellar': {name:'Stellar',symbol:'XLM',explorer:'https://stellarchain.io/tx/',status:'standby',anchorCount:0}
+        },
+        _selectedChain: localStorage.getItem('s4_anchor_chain') || 'ethereum',
+        getChains: function() { return this._chains; },
+        getSelected: function() { return this._selectedChain; },
+        select: function(chainId) {
+            if (!this._chains[chainId]) return;
+            this._selectedChain = chainId;
+            try { localStorage.setItem('s4_anchor_chain', chainId); } catch(e) {}
+            if (S4.toast) S4.toast('Chain: ' + this._chains[chainId].name, 'info', 2000);
+        },
+        anchor: function(hash, metadata) {
+            var chain = this._chains[this._selectedChain];
+            if (!chain) return Promise.reject(new Error('No chain selected'));
+            var self = this;
+            return new Promise(function(resolve) {
+                // Simulate anchoring
+                setTimeout(function() {
+                    var txId = '0x' + Array.from({length:64}, function(){return Math.floor(Math.random()*16).toString(16)}).join('');
+                    chain.anchorCount++;
+                    var receipt = {
+                        chain: self._selectedChain,
+                        chainName: chain.name,
+                        txId: txId,
+                        hash: hash,
+                        blockNumber: Math.floor(Math.random() * 1000000) + 18000000,
+                        timestamp: new Date().toISOString(),
+                        explorerUrl: chain.explorer + txId,
+                        metadata: metadata || {},
+                        gasUsed: Math.floor(Math.random() * 50000) + 21000,
+                        confirmations: 1
+                    };
+                    S4.webhooks.trigger('blockchain:anchored', receipt);
+                    if (S4.activity) S4.activity.log('<i class="fas fa-link"></i>', 'Anchored to <strong>' + chain.name + '</strong>');
+                    resolve(receipt);
+                }, 600 + Math.random() * 800);
+            });
+        },
+        crossAnchor: function(hash) {
+            // Anchor to all active chains simultaneously
+            var activeChains = Object.keys(this._chains).filter(function(id) { return this._chains[id].status === 'active'; }.bind(this));
+            var original = this._selectedChain;
+            var self = this;
+            var results = [];
+            return activeChains.reduce(function(promise, chainId) {
+                return promise.then(function() {
+                    self._selectedChain = chainId;
+                    return self.anchor(hash);
+                }).then(function(receipt) {
+                    results.push(receipt);
+                });
+            }, Promise.resolve()).then(function() {
+                self._selectedChain = original;
+                if (S4.toast) S4.toast('Cross-chain anchor: ' + results.length + ' chains', 'success');
+                return results;
+            });
+        }
+    };
+
+    // ── 2. Smart Contract Simulator ──
+    S4.smartContract = {
+        _contracts: {},
+        deploy: function(name, abi) {
+            var address = '0x' + Array.from({length:40}, function(){return Math.floor(Math.random()*16).toString(16)}).join('');
+            var contract = {
+                name: name,
+                address: address,
+                abi: abi || [],
+                deployed: new Date().toISOString(),
+                state: {},
+                calls: 0
+            };
+            this._contracts[address] = contract;
+            if (S4.toast) S4.toast('Contract deployed: ' + name, 'success');
+            return contract;
+        },
+        call: function(address, method, args) {
+            var contract = this._contracts[address];
+            if (!contract) return {error:'Contract not found'};
+            contract.calls++;
+            return {contract:contract.name, method:method, args:args, result:'simulated', gasUsed:Math.floor(Math.random()*100000)};
+        },
+        list: function() {
+            return Object.values(this._contracts);
+        }
+    };
+
+    // ── 3. NFT Certificate Generator ──
+    S4.nft = {
+        mint: function(record) {
+            var tokenId = Math.floor(Math.random() * 999999) + 1;
+            var nft = {
+                tokenId: tokenId,
+                standard: 'ERC-721',
+                metadata: {
+                    name: 'S4 Verification Certificate #' + tokenId,
+                    description: 'Immutable verification certificate for record: ' + (record.name || record.id || 'Unknown'),
+                    image: 'data:image/svg+xml;base64,' + btoa('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400"><rect width="400" height="400" fill="#0a0e1a"/><text x="200" y="180" text-anchor="middle" fill="#00aaff" font-size="60" font-weight="bold">S4</text><text x="200" y="230" text-anchor="middle" fill="#c9a84c" font-size="16">VERIFICATION CERT</text><text x="200" y="260" text-anchor="middle" fill="#666" font-size="10">#' + tokenId + '</text></svg>'),
+                    attributes: [
+                        {trait_type:'Platform',value:'S4 Ledger'},
+                        {trait_type:'Type',value:'Verification Certificate'},
+                        {trait_type:'Chain',value:S4.multiChain.getSelected()},
+                        {trait_type:'Date',value:new Date().toISOString().slice(0,10)}
+                    ]
+                },
+                owner: S4.rbac ? S4.rbac.getUser().name : 'Unknown',
+                mintedAt: new Date().toISOString(),
+                chain: S4.multiChain.getSelected()
+            };
+            if (S4.toast) S4.toast('NFT Certificate minted: #' + tokenId, 'success');
+            if (S4.activity) S4.activity.log('<i class="fas fa-certificate"></i>', 'NFT cert minted: <strong>#' + tokenId + '</strong>');
+            return nft;
+        }
+    };
+
+    // ── 4. Decentralized Identity (DID) ──
+    S4.did = {
+        _document: null,
+        generate: function() {
+            var id = 'did:s4:' + Array.from({length:32}, function(){return Math.floor(Math.random()*16).toString(16)}).join('');
+            this._document = {
+                '@context': 'https://www.w3.org/ns/did/v1',
+                id: id,
+                created: new Date().toISOString(),
+                authentication: [{
+                    id: id + '#key-1',
+                    type: 'EcdsaSecp256k1VerificationKey2019',
+                    controller: id
+                }],
+                service: [{
+                    id: id + '#s4-ledger',
+                    type: 'S4LedgerService',
+                    serviceEndpoint: window.location.origin
+                }]
+            };
+            if (S4.toast) S4.toast('DID generated: ' + id.substr(0,24) + '...', 'success');
+            return this._document;
+        },
+        resolve: function() { return this._document; },
+        verify: function(did) {
+            return did && did.id && did.id.startsWith('did:s4:') && did.authentication && did.authentication.length > 0;
+        }
+    };
+
+    // ── 5. Token Dashboard ──
+    S4.tokenDashboard = {
+        getMetrics: function() {
+            var chains = S4.multiChain.getChains();
+            var totalAnchors = Object.keys(chains).reduce(function(s,k){return s + chains[k].anchorCount;}, 0);
+            var contracts = S4.smartContract.list();
+            return {
+                totalAnchors: totalAnchors,
+                activeChains: Object.keys(chains).filter(function(k){return chains[k].status === 'active';}).length,
+                totalChains: Object.keys(chains).length,
+                contracts: contracts.length,
+                contractCalls: contracts.reduce(function(s,c){return s + c.calls;}, 0),
+                selectedChain: S4.multiChain.getSelected(),
+                chainDetails: chains
+            };
+        },
+        renderSummary: function(containerId) {
+            var m = this.getMetrics();
+            var container = document.getElementById(containerId);
+            if (!container) return;
+            container.innerHTML = '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px">' +
+                '<div class="s4-widget"><h4>Anchors</h4><div class="widget-value">' + m.totalAnchors + '</div></div>' +
+                '<div class="s4-widget"><h4>Active Chains</h4><div class="widget-value">' + m.activeChains + '/' + m.totalChains + '</div></div>' +
+                '<div class="s4-widget"><h4>Contracts</h4><div class="widget-value">' + m.contracts + '</div></div>' +
+                '<div class="s4-widget"><h4>Chain</h4><div class="widget-value" style="font-size:16px">' + m.selectedChain + '</div></div>' +
+            '</div>';
+        }
+    };
+
+    // ── 6. Staking Simulation ──
+    S4.staking = {
+        _stakes: JSON.parse(localStorage.getItem('s4_stakes') || '[]'),
+        _totalStaked: 0,
+        stake: function(amount, duration) {
+            var entry = {
+                id: 'stk_' + Date.now(),
+                amount: amount,
+                duration: duration || 30,
+                apy: duration >= 365 ? 12.5 : duration >= 90 ? 8.5 : 5.0,
+                stakedAt: new Date().toISOString(),
+                unlocksAt: new Date(Date.now() + (duration || 30) * 86400000).toISOString(),
+                status: 'active'
+            };
+            this._stakes.push(entry);
+            this._totalStaked += amount;
+            this._save();
+            if (S4.toast) S4.toast('Staked ' + amount + ' SLS tokens (' + entry.apy + '% APY)', 'success');
+            return entry;
+        },
+        unstake: function(stakeId) {
+            var stake = this._stakes.find(function(s){return s.id === stakeId;});
+            if (!stake || stake.status !== 'active') return null;
+            var now = Date.now();
+            if (new Date(stake.unlocksAt).getTime() > now) {
+                if (S4.toast) S4.toast('Stake locked until ' + new Date(stake.unlocksAt).toLocaleDateString(), 'warning');
+                return null;
+            }
+            stake.status = 'unstaked';
+            var earned = stake.amount * (stake.apy / 100) * (stake.duration / 365);
+            this._totalStaked -= stake.amount;
+            this._save();
+            if (S4.toast) S4.toast('Unstaked ' + stake.amount + ' SLS + ' + earned.toFixed(2) + ' earned', 'success');
+            return {principal:stake.amount, earned:earned};
+        },
+        getStakes: function() { return this._stakes; },
+        getTotalStaked: function() { return this._totalStaked; },
+        _save: function() {
+            try { localStorage.setItem('s4_stakes', JSON.stringify(this._stakes)); } catch(e) {}
+        }
+    };
+
+    // ── 7. DAO Governance ──
+    S4.dao = {
+        _proposals: JSON.parse(localStorage.getItem('s4_dao_proposals') || '[]'),
+        createProposal: function(title, description, options) {
+            var proposal = {
+                id: 'prop_' + Date.now(),
+                title: title,
+                description: description,
+                options: (options || ['Yes','No']).map(function(o){return {label:o, votes:0}}),
+                creator: S4.rbac ? S4.rbac.getUser().name : 'Anonymous',
+                created: new Date().toISOString(),
+                endsAt: new Date(Date.now() + 7 * 86400000).toISOString(),
+                status: 'active',
+                totalVotes: 0
+            };
+            this._proposals.push(proposal);
+            this._save();
+            if (S4.toast) S4.toast('Proposal created: ' + title, 'success');
+            if (S4.activity) S4.activity.log('<i class="fas fa-gavel"></i>', 'DAO proposal: <strong>' + title + '</strong>');
+            return proposal;
+        },
+        vote: function(proposalId, optionIndex) {
+            var proposal = this._proposals.find(function(p){return p.id === proposalId;});
+            if (!proposal || proposal.status !== 'active') return null;
+            if (new Date(proposal.endsAt).getTime() < Date.now()) {
+                proposal.status = 'closed';
+                this._save();
+                return null;
+            }
+            if (proposal.options[optionIndex]) {
+                proposal.options[optionIndex].votes++;
+                proposal.totalVotes++;
+                this._save();
+                if (S4.toast) S4.toast('Vote cast: ' + proposal.options[optionIndex].label, 'success', 2000);
+            }
+            return proposal;
+        },
+        getProposals: function(status) {
+            if (status) return this._proposals.filter(function(p){return p.status === status;});
+            return this._proposals;
+        },
+        _save: function() {
+            try { localStorage.setItem('s4_dao_proposals', JSON.stringify(this._proposals)); } catch(e) {}
+        }
+    };
+
+    // ── 8. Cross-Ledger Verification ──
+    S4.crossLedgerVerify = function(hash, chains) {
+        chains = chains || Object.keys(S4.multiChain.getChains());
+        var results = {};
+        return chains.reduce(function(promise, chainId) {
+            return promise.then(function() {
+                return new Promise(function(resolve) {
+                    setTimeout(function() {
+                        results[chainId] = {verified: Math.random() > 0.1, timestamp: new Date().toISOString(), chain: chainId};
+                        resolve();
+                    }, 200 + Math.random() * 300);
+                });
+            });
+        }, Promise.resolve()).then(function() {
+            var allVerified = Object.values(results).every(function(r){return r.verified;});
+            if (S4.toast) S4.toast('Cross-ledger: ' + (allVerified ? 'All verified' : 'Mismatches found'), allVerified ? 'success' : 'warning');
+            return {hash:hash, results:results, allVerified:allVerified};
+        });
+    };
+
+    // Add blockchain commands to palette
+    if (S4.commandPalette) {
+        S4.commandPalette.register([
+            {label:'Select Chain: Ethereum',icon:'<i class="fab fa-ethereum"></i>',category:'Blockchain',action:function(){ S4.multiChain.select('ethereum'); }},
+            {label:'Select Chain: Polygon',icon:'<i class="fas fa-hexagon-vertical-nft"></i>',category:'Blockchain',action:function(){ S4.multiChain.select('polygon'); }},
+            {label:'Select Chain: Solana',icon:'<i class="fas fa-sun"></i>',category:'Blockchain',action:function(){ S4.multiChain.select('solana'); }},
+            {label:'Generate DID',icon:'<i class="fas fa-fingerprint"></i>',category:'Blockchain',action:function(){ S4.did.generate(); }},
+            {label:'View DAO Proposals',icon:'<i class="fas fa-gavel"></i>',category:'Blockchain',action:function(){ var p=S4.dao.getProposals();S4.toast(p.length+' proposals total','info'); }}
+        ]);
+    }
+
+    S4.register('blockchain', {version:'1.0.0', features:['multi-chain','smart-contracts','nft-certs','did','cross-ledger-verify','token-dashboard','staking','dao-governance']});
+    console.log('[S4 Blockchain] Module loaded — 8 features active');
+})();
+
 </script>
 </body>
 </html>
