@@ -18578,15 +18578,14 @@ function _updateThemeIcon(isLight) {
         S4.commandPalette.register([
             {label:'Execute Batch Anchor',icon:'<i class="fas fa-layer-group"></i>',category:'Tools',action:function(){ S4.batchAnchor.execute(); }},
             {label:'View Record Templates',icon:'<i class="fas fa-file-lines"></i>',category:'Tools',action:function(){ var t=S4.templates.getAll();S4.toast(t.length+' templates available','info'); }},
-            {label:'Check Warranty Alerts',icon:'<i class="fas fa-bell"></i>',category:'Tools',action:function(){ S4.warrantyAlerts.notifyExpiring(); }},
             {label:'View Scheduler Jobs',icon:'<i class="fas fa-clock"></i>',category:'Tools',action:function(){ var j=S4.scheduler.list();S4.toast(j.length+' scheduled jobs','info'); }}
         ]);
     }
 
     // Warranty alerts available via command palette — no auto-popup on page load
 
-    S4.register('tools', {version:'1.0.0', features:['batch-anchor','scheduler','templates','ai-classify','cross-link','diff-viewer','gantt','warranty-alerts','readiness-trends','parts-search']});
-    console.log('[S4 Tools] Module loaded — 10 features active');
+    S4.register('tools', {version:'1.0.0', features:['batch-anchor','scheduler','templates','ai-classify','cross-link','diff-viewer','gantt','readiness-trends','parts-search']});
+    console.log('[S4 Tools] Module loaded — 9 features active');
 })();
 
 // ═══════════════════════════════════════════════════════════════

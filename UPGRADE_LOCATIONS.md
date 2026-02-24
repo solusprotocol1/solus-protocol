@@ -270,7 +270,7 @@ The platform uses a **Hub → Section → Tab** navigation model:
 64. ✅ **Category filters** — commands grouped by function
 65. ✅ **Keyboard shortcuts** — Cmd+K to open, Esc to close
 66. ✅ **Tour access** — "Start Tour" available in command palette
-67. ✅ **Warranty check** — "Check Warranty Alerts" in command palette
+67. ✅ **Batch anchor** — "Execute Batch Anchor" available in command palette
 
 ---
 
@@ -345,11 +345,17 @@ The platform uses a **Hub → Section → Tab** navigation model:
 | S4.toast gated to workspace | 0237233 | ✅ Verified live |
 | s4Notify gated to workspace | 0237233 | ✅ Verified live |
 | Metrics auto-fire gated | 0237233 | ✅ Verified live |
-| Dead SLS IIFE removed | (pending) | 🔄 This commit |
-| UPGRADE_LOCATIONS.md rewritten | (pending) | 🔄 This commit |
-| Unauthorized Anchor Records card reverted | (pending) | 🔄 This commit |
-| Unauthorized Warranty tool removed | (pending) | 🔄 This commit |
-| 14 TOOLS count restored | (pending) | 🔄 This commit |
+| Dead SLS IIFE removed | d5120c5 | ✅ Pushed |
+| UPGRADE_LOCATIONS.md rewritten | d5120c5 | ✅ Pushed |
+| Unauthorized Anchor Records card reverted | d5120c5 | ✅ Pushed |
+| Unauthorized Warranty tool removed | d5120c5 | ✅ Pushed |
+| 14 TOOLS count restored | d5120c5 | ✅ Pushed |
+| SW cache bumped to s4-v310 | 1e6440f | ✅ Pushed |
+| **CRITICAL: `</script>` inside JS string killed 6,300-line script block** | 4891bcc | ✅ Pushed |
+| Warranty command palette entry removed | dc67f79 | ✅ Pushed |
+| SW strategy: NetworkFirst for HTML | dc67f79 | ✅ Pushed |
+| Bootstrap SRI hash added | dc67f79 | ✅ Pushed |
+| SW precache URLs fixed (Chart.js, platforms.js, defense-docs.js) | dc67f79 | ✅ Pushed |
 
 ---
 
