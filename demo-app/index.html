@@ -1843,6 +1843,7 @@ if (sessionStorage.getItem('s4_entered') === '1') {
                     </div>
                     <div id="collabAvatars" style="display:flex;gap:-4px;"></div>
                     <div style="font-size:0.68rem;color:var(--muted);font-style:italic;" id="collabActivity">Session active</div>
+                    <button onclick="openProdFeatures()" style="display:flex;align-items:center;gap:6px;background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:3px;padding:4px 12px;cursor:pointer;color:#c9a84c;font-size:0.72rem;font-weight:600;font-family:inherit;margin-left:6px" title="View production features roadmap"><i class="fas fa-rocket"></i> Roadmap</button>
                 </div>
             </div>
             <div class="hub-grid">
@@ -4134,6 +4135,17 @@ if (sessionStorage.getItem('s4_entered') === '1') {
             <button class="btn-accent" onclick="saveActionFromModal()" style="flex:1"><i class="fas fa-save"></i> Save Action Item</button>
             <button style="background:rgba(0,170,255,0.1);border:1px solid var(--border);color:var(--steel);border-radius:3px;padding:8px 16px;cursor:pointer;font-size:0.85rem;font-family:inherit" onclick="closeActionModal()">Cancel</button>
         </div>
+    </div>
+</div>
+
+<!-- ══ PRODUCTION FEATURES MODAL ══ -->
+<div id="prodFeaturesModal" class="modal-overlay" onclick="if(event.target===this)closeProdFeatures()" style="display:none">
+    <div class="modal-box" style="position:relative;max-width:720px;max-height:85vh;overflow-y:auto">
+        <button onclick="closeProdFeatures()" style="position:absolute;top:12px;right:16px;background:none;border:none;color:var(--muted);font-size:1.2rem;cursor:pointer">&times;</button>
+        <h4 style="margin-bottom:4px"><i class="fas fa-rocket" style="color:#00aaff;margin-right:8px"></i>Production Features Roadmap</h4>
+        <p style="color:var(--steel);font-size:0.82rem;margin-bottom:16px">These features require server-side infrastructure and are available in the production deployment of S4 Ledger. Each is architected and ready for implementation.</p>
+        <div id="prodFeaturesList"></div>
+        <div style="margin-top:16px;padding:12px;background:rgba(0,170,255,0.06);border-radius:3px;border-left:3px solid #00aaff;font-size:0.82rem;color:var(--steel)"><strong style="color:#00aaff">Contact sales@s4ledger.com</strong> to discuss production deployment, IL4/IL5 hosting, and enterprise licensing for your organization.</div>
     </div>
 </div>
 
@@ -9293,6 +9305,60 @@ function saveActionFromModal() {
 function closeActionModal() {
     document.getElementById('actionItemModal').style.display = 'none';
 }
+// ── Production Features Modal ──
+var _prodFeatures = [
+  { cat:'API & Integrations', icon:'fa-plug', items:[
+    {name:'eMASS API Connector',desc:'Direct integration with DISA eMASS for automated ATO package submission and status tracking.'},
+    {name:'GIDEP Live Feed',desc:'Real-time Government-Industry Data Exchange Program alerts for DMSMS, problem advisories, and safety notices.'},
+    {name:'DLA FLIS Integration',desc:'Federal Logistics Information System lookup for NSN validation, management data, and supply chain intelligence.'},
+    {name:'SAM.gov Entity Connector',desc:'System for Award Management integration for vendor verification, exclusion checks, and entity validation.'}
+  ]},
+  { cat:'Authentication & Access', icon:'fa-id-badge', items:[
+    {name:'SSO / CAC Authentication',desc:'Single Sign-On with DoD Common Access Card (CAC) and PIV support via SAML 2.0 and OpenID Connect.'},
+    {name:'Multi-Tenant Org Management',desc:'Hierarchical organization management with cross-tenant data isolation and federated admin controls.'}
+  ]},
+  { cat:'Real-Time Collaboration', icon:'fa-users', items:[
+    {name:'WebSocket Live Editing',desc:'Real-time collaborative document editing with operational transforms and conflict resolution.'},
+    {name:'Multi-User Comments',desc:'Threaded comments on records, submissions, and evidence with @mentions and notification routing.'},
+    {name:'Presence Indicators',desc:'Live user presence showing who is viewing or editing each workspace, record, or document.'},
+    {name:'Role-Based Permissions',desc:'Granular RBAC with custom roles, field-level security, and audit trail for permission changes.'},
+    {name:'Change Tracking',desc:'Full change log with diff views, rollback capability, and approval workflows for critical modifications.'}
+  ]},
+  { cat:'Security & Compliance', icon:'fa-shield-alt', items:[
+    {name:'Digital Signatures (PKI/CAC)',desc:'Cryptographic document signing using DoD PKI certificates and CAC-based non-repudiation.'},
+    {name:'Server-Side Encryption',desc:'AES-256-GCM encryption at rest with FIPS 140-2 validated key management and HSM integration.'}
+  ]},
+  { cat:'Document Processing', icon:'fa-file-alt', items:[
+    {name:'OCR Document Scanning',desc:'AI-powered optical character recognition for scanned PDFs, DD-1149s, and legacy paper records.'},
+    {name:'Server-Side AI/ML Models',desc:'On-premise machine learning models for anomaly detection, predictive analytics, and NLP classification.'}
+  ]},
+  { cat:'Infrastructure', icon:'fa-server', items:[
+    {name:'Data Export API',desc:'RESTful and GraphQL APIs for bulk data export, third-party integrations, and automated reporting.'},
+    {name:'Plugin / Extension System',desc:'Custom plugin framework for agency-specific workflows, validation rules, and UI extensions.'},
+    {name:'Microservices Architecture',desc:'Containerized services with Kubernetes orchestration for independent scaling and fault isolation.'},
+    {name:'CI/CD Pipeline',desc:'Automated testing, security scanning (SAST/DAST), and deployment pipeline with IL4/IL5 support.'},
+    {name:'Rate Limiting & Throttling',desc:'API-level rate limiting with configurable quotas, burst allowance, and DDoS protection.'},
+    {name:'Automated Backup & DR',desc:'Geo-redundant backup with point-in-time recovery, cross-region DR, and 99.99% SLA.'}
+  ]}
+];
+function openProdFeatures(){
+  var el=document.getElementById('prodFeaturesModal');
+  var list=document.getElementById('prodFeaturesList');
+  var html='';
+  _prodFeatures.forEach(function(g){
+    html+='<div style="margin-bottom:18px"><h5 style="color:#c9a84c;font-size:0.82rem;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:8px"><i class="fas '+g.icon+'" style="margin-right:6px"></i>'+g.cat+'</h5>';
+    g.items.forEach(function(f){
+      html+='<div style="display:flex;align-items:flex-start;gap:10px;padding:8px 12px;margin-bottom:4px;background:var(--surface);border-radius:3px;border:1px solid var(--border)">';
+      html+='<div style="flex:1"><strong style="font-size:0.85rem">'+f.name+'</strong><p style="margin:2px 0 0;font-size:0.78rem;color:var(--steel)">'+f.desc+'</p></div>';
+      html+='<span style="white-space:nowrap;font-size:0.65rem;font-weight:700;padding:2px 8px;border-radius:3px;background:rgba(201,168,76,0.15);color:#c9a84c;border:1px solid rgba(201,168,76,0.3)">PRODUCTION</span>';
+      html+='</div>';
+    });
+    html+='</div>';
+  });
+  list.innerHTML=html;
+  el.style.display='flex';
+}
+function closeProdFeatures(){ document.getElementById('prodFeaturesModal').style.display='none'; }
 // ── Bulk Action Item Operations ──
 var _actionSelected = new Set();
 function toggleActionSelect(id, checked) {
