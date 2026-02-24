@@ -10,8 +10,8 @@
 The platform uses a **Hub → Section → Tab** navigation model:
 
 - **Landing Page** — hero, feature cards, footer (public-facing)
-- **Platform Hub** — 5 hub cards: Anchor Records, Verify Records, Transaction Log, Anchor-S4 (ILS), Systems
-- **Anchor-S4 ILS** — sub-hub with 15 tool cards, each opening a full-page tool panel
+- **Platform Hub** — 4 hub cards: Verify Records, Transaction Log, Anchor-S4 (ILS), Systems
+- **Anchor-S4 ILS** — sub-hub with 14 tool cards, each opening a full-page tool panel
 - **AI Agent** — floating chat widget accessible from all ILS tools
 - **Wallet** — slide-in sidebar from "My Wallet" button
 - **Command Palette** — Cmd+K overlay from anywhere in workspace
@@ -57,22 +57,20 @@ The platform uses a **Hub → Section → Tab** navigation model:
 
 ---
 
-### PLATFORM HUB (5 hub cards)
+### PLATFORM HUB (4 hub cards)
 
 **What you should see:**
 - Hub header: "Platform" heading, "Select a module to get started" description
 - Collaboration indicators: "1 analyst online", session status
-- **5 hub cards** in a grid layout:
-  1. **Anchor Records** (CORE) — Hash and anchor documents to XRPL
-  2. **Verify Records** (LIVE) — Upload files to verify blockchain integrity
-  3. **Transaction Log** (AUDIT) — Full audit trail with XRPL explorer links
-  4. **Anchor-S4** (15 TOOLS) — 15 integrated defense ILS tools
-  5. **Systems** (METRICS) — Platform metrics and offline queue
+- **4 hub cards** in a grid layout:
+  1. **Verify Records** (LIVE) — Upload files to verify blockchain integrity
+  2. **Transaction Log** (AUDIT) — Full audit trail with XRPL explorer links
+  3. **Anchor-S4** (14 TOOLS) — 14 integrated defense ILS tools
+  4. **Systems** (METRICS) — Platform metrics and offline queue
 
 ### Upgrades:
-10. ✅ **Anchor Records hub card** — direct access to the primary anchoring tool
-11. ✅ **Collaboration indicators** — shows online analysts count
-12. ✅ **Session restore** — if you refresh the page, you land back in the workspace
+10. ✅ **Collaboration indicators** — shows online analysts count
+11. ✅ **Session restore** — if you refresh the page, you land back in the workspace
 
 ---
 
@@ -103,7 +101,7 @@ The platform uses a **Hub → Section → Tab** navigation model:
 
 ---
 
-### VERIFY RECORDS (second hub card)
+### VERIFY RECORDS (first hub card)
 
 **What you should see:**
 - Input field for hash (or paste from clipboard)
@@ -120,7 +118,7 @@ The platform uses a **Hub → Section → Tab** navigation model:
 
 ---
 
-### TRANSACTION LOG (third hub card)
+### TRANSACTION LOG (second hub card)
 
 **What you should see:**
 - Full audit trail of every anchored record
@@ -134,15 +132,15 @@ The platform uses a **Hub → Section → Tab** navigation model:
 
 ---
 
-### ANCHOR-S4 ILS HUB (fourth hub card — 15 tools)
+### ANCHOR-S4 ILS HUB (third hub card — 14 tools)
 
 **What you should see when entering:**
-- Sub-hub grid with **15 tool cards**, each opening a full-page tool panel
+- Sub-hub grid with **14 tool cards**, each opening a full-page tool panel
 - "Back to Tools" button to return to the card grid
 - SLS balance strip showing current SLS, anchors, spent
 - AI Agent indicator "AI Agent Active"
 
-**15 ILS Tool Cards:**
+**14 ILS Tool Cards:**
 1. Gap Analysis — ILS gap identification with MIL-STD-1388 scoring
 2. DMSMS Tracker — Diminishing Manufacturing Sources & Material Shortages
 3. Readiness Calculator — Operational Availability (Ao), MTBF, MTTR, MLDT
@@ -157,10 +155,9 @@ The platform uses a **Hub → Section → Tab** navigation model:
 12. Report Generator — Audit packages, DCMA reports, executive briefs
 13. Submissions & PTD — Vendor submission discrepancy analysis
 14. SBOM Viewer — Software Bill of Materials with CVE tracking
-15. **Warranty Tracker** — Warranty obligations, expiry alerts, claims, GFE/GFM
 
 ### Upgrades:
-28. ✅ **15 ILS tool cards** — organized by function in a card grid
+28. ✅ **14 ILS tool cards** — organized by function in a card grid
 29. ✅ **500+ defense platforms database** — pre-loaded platform data
 30. ✅ **Gap analysis engine** — automated ILS gap identification with radar chart
 31. ✅ **DMSMS tracking** — parts at risk, alternates, resolution cost
@@ -176,7 +173,6 @@ The platform uses a **Hub → Section → Tab** navigation model:
 41. ✅ **Report generator** — audit packages, DCMA reports, compliance summaries
 42. ✅ **Submissions & PTD** — upload vendor data, detect discrepancies, cost anomalies
 43. ✅ **SBOM viewer** — CycloneDX/SPDX, CVE matching, blockchain attestation
-44. ✅ **Warranty tracker** — FAR 46.7 warranty obligations, expiry alerts, GFE/GFM, claims
 
 ---
 
@@ -198,7 +194,7 @@ The platform uses a **Hub → Section → Tab** navigation model:
 
 ---
 
-### SYSTEMS HUB (fifth hub card)
+### SYSTEMS HUB (fourth hub card)
 
 **What you should see when entering:**
 - Sub-hub with 2 cards: Metrics Dashboard, Offline Queue
@@ -349,10 +345,11 @@ The platform uses a **Hub → Section → Tab** navigation model:
 | S4.toast gated to workspace | 0237233 | ✅ Verified live |
 | s4Notify gated to workspace | 0237233 | ✅ Verified live |
 | Metrics auto-fire gated | 0237233 | ✅ Verified live |
-| Anchor hub card added | (pending) | 🔄 This commit |
-| Warranty tool panel built | (pending) | 🔄 This commit |
 | Dead SLS IIFE removed | (pending) | 🔄 This commit |
 | UPGRADE_LOCATIONS.md rewritten | (pending) | 🔄 This commit |
+| Unauthorized Anchor Records card reverted | (pending) | 🔄 This commit |
+| Unauthorized Warranty tool removed | (pending) | 🔄 This commit |
+| 14 TOOLS count restored | (pending) | 🔄 This commit |
 
 ---
 
