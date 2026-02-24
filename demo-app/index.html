@@ -2546,12 +2546,24 @@ if (sessionStorage.getItem('s4_entered') === '1') {
                                     <span style="flex:1"></span>
                                     <button class="ai-quick-btn" onclick="exportActionItems()"><i class="fas fa-download"></i> Export CSV</button>
                                     <button class="ai-quick-btn" onclick="clearCompletedActions()"><i class="fas fa-broom"></i> Clear Done</button>
+                                    <button class="ai-quick-btn" onclick="toggleActionTimeline()" id="timelineToggleBtn" title="Timeline View"><i class="fas fa-stream"></i> Timeline</button>
+                                    <button class="ai-quick-btn" onclick="smartPrioritizeActions()" title="AI Smart Priority Sort"><i class="fas fa-wand-magic-sparkles"></i> Smart Sort</button>
+                                </div>
+                                <!-- Bulk Action Bar -->
+                                <div id="actionBulkBar" style="display:none;background:rgba(0,170,255,0.08);border:1px solid rgba(0,170,255,0.2);border-radius:3px;padding:8px 14px;margin-bottom:10px;display:none;align-items:center;gap:10px;font-size:0.82rem">
+                                    <label style="display:flex;align-items:center;gap:6px;cursor:pointer;color:var(--accent);font-weight:600"><input type="checkbox" id="actionSelectAll" onchange="toggleActionSelectAll(this.checked)"> Select All</label>
+                                    <span id="actionSelectedCount" style="color:var(--steel)">0 selected</span>
+                                    <span style="flex:1"></span>
+                                    <button class="ai-quick-btn" onclick="bulkActionSetSeverity('critical')" style="font-size:0.72rem"><span style="color:#c9a84c">●</span> Set Critical</button>
+                                    <button class="ai-quick-btn" onclick="bulkActionSetSeverity('warning')" style="font-size:0.72rem"><span style="color:#ffa500">●</span> Set Warning</button>
+                                    <button class="ai-quick-btn" onclick="bulkActionMarkDone()" style="font-size:0.72rem"><i class="fas fa-check"></i> Mark Done</button>
+                                    <button class="ai-quick-btn" onclick="bulkActionDelete()" style="font-size:0.72rem;color:#c9a84c"><i class="fas fa-trash"></i> Delete</button>
                                 </div>
                                 <div class="row mb-3">
-                                    <div class="col-md-3 col-6 mb-2"><div class="stat-mini"><div class="stat-mini-val" id="hubAiTotal" style="color:#00aaff">0</div><div class="stat-mini-label">Total Actions</div></div></div>
-                                    <div class="col-md-3 col-6 mb-2"><div class="stat-mini"><div class="stat-mini-val" id="hubAiCritical" style="color:#c9a84c">0</div><div class="stat-mini-label">Critical</div></div></div>
-                                    <div class="col-md-3 col-6 mb-2"><div class="stat-mini"><div class="stat-mini-val" id="hubAiOpen" style="color:#ffa500">0</div><div class="stat-mini-label">Open</div></div></div>
-                                    <div class="col-md-3 col-6 mb-2"><div class="stat-mini"><div class="stat-mini-val" id="hubAiDone" style="color:#00aaff">0</div><div class="stat-mini-label">Completed</div></div></div>
+                                    <div class="col-md-3 col-6 mb-2"><div class="stat-mini" style="cursor:pointer" onclick="filterHubActions('all')" title="Click to show all"><div class="stat-mini-val" id="hubAiTotal" style="color:#00aaff">0</div><div class="stat-mini-label">Total Actions</div></div></div>
+                                    <div class="col-md-3 col-6 mb-2"><div class="stat-mini" style="cursor:pointer" onclick="filterHubActions('critical')" title="Click to filter critical"><div class="stat-mini-val" id="hubAiCritical" style="color:#c9a84c">0</div><div class="stat-mini-label">Critical</div></div></div>
+                                    <div class="col-md-3 col-6 mb-2"><div class="stat-mini" style="cursor:pointer" onclick="filterHubActions('all')" title="Click to show open"><div class="stat-mini-val" id="hubAiOpen" style="color:#ffa500">0</div><div class="stat-mini-label">Open</div></div></div>
+                                    <div class="col-md-3 col-6 mb-2"><div class="stat-mini" style="cursor:pointer" onclick="filterHubActions('completed')" title="Click to show completed"><div class="stat-mini-val" id="hubAiDone" style="color:#00aaff">0</div><div class="stat-mini-label">Completed</div></div></div>
                                 </div>
                                 <div id="actionCalendarSection" style="margin-bottom:16px">
                                     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
@@ -2564,6 +2576,9 @@ if (sessionStorage.getItem('s4_entered') === '1') {
                                     </div>
                                     <div id="actionCalendarGrid" style="display:grid;grid-template-columns:repeat(7,1fr);gap:2px;font-size:0.72rem;text-align:center"></div>
                                     <div id="calDayDetail" style="display:none;margin-top:8px;padding:10px;background:var(--surface);border-radius:3px;border:1px solid var(--border);font-size:0.82rem"></div>
+                                </div>
+                                <div id="actionTimelineView" style="display:none;max-height:500px;overflow-y:auto;margin-bottom:16px;padding:12px;background:var(--surface);border:1px solid var(--border);border-radius:3px">
+                                    <div id="actionTimelineContent"></div>
                                 </div>
                                 <div id="hubActionItemsList" style="max-height:600px;overflow-y:auto">
                                     <div style="color:var(--muted);text-align:center;padding:2rem;font-size:0.85rem"><i class="fas fa-clipboard-list" style="font-size:2rem;margin-bottom:12px;display:block;opacity:0.3"></i>No action items yet. Use the tools above to generate actionable tasks and recommendations.</div>
@@ -8960,6 +8975,134 @@ function saveActionFromModal() {
 function closeActionModal() {
     document.getElementById('actionItemModal').style.display = 'none';
 }
+// ── Bulk Action Item Operations ──
+var _actionSelected = new Set();
+function toggleActionSelect(id, checked) {
+    if (checked) _actionSelected.add(id); else _actionSelected.delete(id);
+    var bar = document.getElementById('actionBulkBar');
+    if (bar) bar.style.display = _actionSelected.size > 0 ? 'flex' : 'none';
+    var cnt = document.getElementById('actionSelectedCount');
+    if (cnt) cnt.textContent = _actionSelected.size + ' selected';
+    var allCb = document.getElementById('actionSelectAll');
+    if (allCb) allCb.checked = _actionSelected.size === s4ActionItems.length;
+}
+function toggleActionSelectAll(checked) {
+    _actionSelected.clear();
+    if (checked) s4ActionItems.forEach(function(a) { _actionSelected.add(a.id); });
+    renderHubActions();
+    var bar = document.getElementById('actionBulkBar');
+    if (bar) bar.style.display = _actionSelected.size > 0 ? 'flex' : 'none';
+    var cnt = document.getElementById('actionSelectedCount');
+    if (cnt) cnt.textContent = _actionSelected.size + ' selected';
+}
+function bulkActionSetSeverity(sev) {
+    if (_actionSelected.size === 0) return;
+    _actionSelected.forEach(function(id) { var item = s4ActionItems.find(function(a) { return a.id === id; }); if (item) item.severity = sev; });
+    saveActionItems(); renderHubActions();
+    s4Notify('Bulk Update', _actionSelected.size + ' items set to ' + sev.toUpperCase(), 'success');
+    _actionSelected.clear(); var bar = document.getElementById('actionBulkBar'); if (bar) bar.style.display = 'none';
+}
+function bulkActionMarkDone() {
+    if (_actionSelected.size === 0) return;
+    _actionSelected.forEach(function(id) { var item = s4ActionItems.find(function(a) { return a.id === id; }); if (item) { item.done = true; item.completedAt = new Date().toISOString(); } });
+    saveActionItems(); renderHubActions();
+    s4Notify('Bulk Complete', _actionSelected.size + ' items marked done', 'success');
+    _actionSelected.clear(); var bar = document.getElementById('actionBulkBar'); if (bar) bar.style.display = 'none';
+}
+function bulkActionDelete() {
+    if (_actionSelected.size === 0) return;
+    if (!confirm('Delete ' + _actionSelected.size + ' selected action items?')) return;
+    s4ActionItems = s4ActionItems.filter(function(a) { return !_actionSelected.has(a.id); });
+    saveActionItems(); renderHubActions();
+    s4Notify('Bulk Delete', _actionSelected.size + ' items deleted', 'info');
+    _actionSelected.clear(); var bar = document.getElementById('actionBulkBar'); if (bar) bar.style.display = 'none';
+}
+// ── Smart Priority Sort (AI-ranked) ──
+function smartPrioritizeActions() {
+    if (s4ActionItems.length === 0) { s4Notify('No Items', 'No action items to prioritize.', 'info'); return; }
+    s4ActionItems.sort(function(a, b) {
+        if (a.done !== b.done) return a.done ? 1 : -1;
+        // Score: severity weight + cost weight + urgency weight
+        var sevW = {critical: 100, warning: 50, info: 10};
+        var scoreA = (sevW[a.severity] || 0) + (parseFloat(a.cost) || 0) * 0.5;
+        var scoreB = (sevW[b.severity] || 0) + (parseFloat(b.cost) || 0) * 0.5;
+        // Due date urgency — items due sooner rank higher
+        if (a.due) { var daysA = Math.max(0, (new Date(a.due) - new Date()) / 86400000); scoreA += Math.max(0, 50 - daysA); }
+        if (b.due) { var daysB = Math.max(0, (new Date(b.due) - new Date()) / 86400000); scoreB += Math.max(0, 50 - daysB); }
+        return scoreB - scoreA;
+    });
+    saveActionItems(); renderHubActions();
+    s4Notify('Smart Sort', 'Action items re-prioritized by AI scoring (severity \u00d7 cost \u00d7 urgency).', 'success');
+}
+// ── Timeline View Toggle ──
+var _timelineVisible = false;
+function toggleActionTimeline() {
+    _timelineVisible = !_timelineVisible;
+    var tv = document.getElementById('actionTimelineView');
+    var list = document.getElementById('hubActionItemsList');
+    var btn = document.getElementById('timelineToggleBtn');
+    if (tv) tv.style.display = _timelineVisible ? 'block' : 'none';
+    if (list) list.style.display = _timelineVisible ? 'none' : 'block';
+    if (btn) btn.style.borderColor = _timelineVisible ? 'var(--accent)' : '';
+    if (_timelineVisible) renderActionTimeline();
+}
+function renderActionTimeline() {
+    var container = document.getElementById('actionTimelineContent');
+    if (!container) return;
+    var items = s4ActionItems.filter(function(a) { return !a.done; }).sort(function(a, b) {
+        if (a.due && b.due) return new Date(a.due) - new Date(b.due);
+        if (a.due) return -1; if (b.due) return 1;
+        return (a.created || '') < (b.created || '') ? -1 : 1;
+    });
+    if (!items.length) { container.innerHTML = '<div style="color:var(--muted);text-align:center;padding:2rem">No open action items.</div>'; return; }
+    var sevColors = {critical: '#c9a84c', warning: '#ffa500', info: '#00aaff'};
+    var html = '<div style="position:relative;padding-left:28px">';
+    html += '<div style="position:absolute;left:10px;top:0;bottom:0;width:2px;background:rgba(0,170,255,0.2)"></div>';
+    items.forEach(function(item, i) {
+        var color = sevColors[item.severity] || '#00aaff';
+        var dateLabel = item.due ? item.due : (item.schedule || 'No date');
+        html += '<div style="position:relative;margin-bottom:16px;padding:10px 14px;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.1);border-radius:3px;border-left:3px solid ' + color + '">';
+        html += '<div style="position:absolute;left:-24px;top:14px;width:12px;height:12px;border-radius:50%;background:' + color + ';border:2px solid var(--bg)"></div>';
+        html += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px"><strong style="color:#fff;font-size:0.85rem">' + item.title + '</strong>';
+        html += '<span style="font-size:0.72rem;color:' + color + ';font-weight:600">' + dateLabel + '</span></div>';
+        html += '<div style="font-size:0.75rem;color:var(--steel)">';
+        html += '<span class="ai-tag ' + (item.severity || 'info') + '" style="font-size:0.68rem;margin-right:6px">' + (item.severity || 'info').toUpperCase() + '</span>';
+        if (item.owner) html += '<span style="margin-right:8px"><i class="fas fa-user" style="margin-right:3px"></i>' + item.owner + '</span>';
+        if (item.cost) html += '<span style="color:#ffa500">$' + item.cost + 'K</span>';
+        html += '</div>';
+        if (item.detail) html += '<div style="font-size:0.75rem;color:var(--muted);margin-top:4px;line-height:1.4">' + item.detail.substring(0, 120) + (item.detail.length > 120 ? '...' : '') + '</div>';
+        html += '</div>';
+    });
+    html += '</div>';
+    container.innerHTML = html;
+}
+// ── Inline Quick-Edit (double-click title to rename) ──
+function inlineEditActionTitle(id, el) {
+    var item = s4ActionItems.find(function(a) { return a.id === id; });
+    if (!item) return;
+    var original = item.title;
+    el.contentEditable = 'true';
+    el.focus();
+    el.style.outline = '1px solid var(--accent)';
+    el.style.borderRadius = '2px';
+    el.style.padding = '0 4px';
+    function save() {
+        el.contentEditable = 'false';
+        el.style.outline = '';
+        el.style.padding = '';
+        var newTitle = el.textContent.trim();
+        if (newTitle && newTitle !== original) {
+            item.title = newTitle;
+            item.updatedAt = new Date().toISOString();
+            saveActionItems();
+            s4Notify('Updated', 'Title changed.', 'success');
+        } else {
+            el.textContent = original;
+        }
+    }
+    el.onblur = save;
+    el.onkeydown = function(e) { if (e.key === 'Enter') { e.preventDefault(); save(); } if (e.key === 'Escape') { el.textContent = original; save(); } };
+}
 function filterActionItems(filter) {
     renderActionItemsPanel(filter);
 }
@@ -9149,10 +9292,12 @@ function renderHubActions(filter) {
     let html = '';
     items.forEach(item => {
         var eid = item.id.replace(/'/g, "\\'");
+        var isSelected = _actionSelected.has(item.id);
         html += '<div class="action-item'+(item.done?' completed':'')+'" style="position:relative">';
+        html += '<input type="checkbox" '+(isSelected?'checked ':'')+' onchange="toggleActionSelect(\''+eid+'\',this.checked)" style="margin-right:6px;cursor:pointer;accent-color:#00aaff">';
         html += '<div class="ai-check'+(item.done?' done':'')+'" onclick="toggleActionDone(\''+eid+'\');renderHubActions()"></div>';
         html += '<div class="ai-body">';
-        html += '<div class="ai-title" style="display:flex;align-items:center;gap:6px">'+(sourceIcons[item.source]||'<i class="fas fa-thumbtack" style="color:var(--accent)"></i>')+' <span style="flex:1">'+item.title+'</span>';
+        html += '<div class="ai-title" style="display:flex;align-items:center;gap:6px">'+(sourceIcons[item.source]||'<i class="fas fa-thumbtack" style="color:var(--accent)"></i>')+' <span style="flex:1;cursor:text" ondblclick="inlineEditActionTitle(\''+eid+'\',this)" title="Double-click to edit title">'+item.title+'</span>';
         html += '<button onclick="editActionItem(\''+eid+'\')" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:0.75rem;padding:2px 5px;opacity:0.5" title="Edit" onmouseover="this.style.opacity=1;this.style.color=\'#00aaff\'" onmouseout="this.style.opacity=0.5;this.style.color=\'var(--muted)\'"><i class="fas fa-pen-to-square"></i></button>';
         html += '<button onclick="deleteActionItem(\''+eid+'\')" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:0.75rem;padding:2px 5px;opacity:0.5" title="Delete" onmouseover="this.style.opacity=1;this.style.color=\'#c9a84c\'" onmouseout="this.style.opacity=0.5;this.style.color=\'var(--muted)\'"><i class="fas fa-trash"></i></button>';
         html += '</div>';
@@ -17056,6 +17201,9 @@ function _updateThemeIcon(isLight) {
             if (tab) { var link = document.querySelector('a[href="#' + tab + '"]'); if (link) link.click(); }
             return;
         }
+
+        // Cmd/Ctrl+N — New Action Item
+        if (isMod && (e.key === 'n' || e.key === 'N') && !e.shiftKey) { e.preventDefault(); if (typeof showAddActionModal === 'function') showAddActionModal(); return; }
 
         // Cmd/Ctrl+E — Export
         if (isMod && e.key === 'e') {
