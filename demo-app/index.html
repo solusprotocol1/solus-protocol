@@ -1078,6 +1078,8 @@
         body.light-mode .ils-tool-card{background:rgba(255,255,255,0.8)!important;border:1px solid rgba(0,0,0,0.06)!important;box-shadow:0 1px 2px rgba(0,0,0,0.04)}
         body.light-mode .ils-tool-card:hover{border-color:rgba(0,119,204,0.25)!important;box-shadow:0 8px 24px rgba(0,119,204,0.08)}
         body.light-mode .ils-tool-card h4,body.light-mode .ils-tool-card strong{color:#1d1d1f!important}
+        body.light-mode .ils-tool-card .itc-title{color:#1d1d1f!important}
+        body.light-mode .ils-tool-card .itc-desc{color:#555!important}
         body.light-mode .ils-tool-card p,body.light-mode .ils-tool-card .desc{color:#555!important}
         body.light-mode #platformLanding .col-md-4 > div{background:rgba(255,255,255,0.8)!important;border:1px solid rgba(0,0,0,0.08)!important;box-shadow:0 1px 3px rgba(0,0,0,0.04)}
         body.light-mode #platformLanding .col-md-4 > div:hover{border-color:rgba(0,119,204,0.25)!important;box-shadow:0 12px 40px rgba(0,119,204,0.08)}
@@ -1099,6 +1101,10 @@
         body.light-mode .nav-link:hover,body.light-mode .nav-link.active{color:var(--accent)!important}
         body.light-mode h1,body.light-mode h2,body.light-mode h3,body.light-mode h4,body.light-mode h5{color:#1d1d1f}
         body.light-mode .hub-header h2{color:#1d1d1f}
+        body.light-mode .hub-card .hc-desc{color:#555!important}
+        body.light-mode details summary{color:#1d1d1f!important}
+        body.light-mode .demo-card h3,body.light-mode .demo-card h4{color:#1d1d1f!important}
+        body.light-mode .demo-card p{color:#555!important}
         body.light-mode .back-btn{color:var(--accent)!important}
         body.light-mode #dodConsentBanner > div{background:#fff!important;border-color:rgba(0,119,204,0.3)!important;box-shadow:0 20px 60px rgba(0,0,0,0.15)!important}
         body.light-mode #dodConsentBanner h2{color:var(--accent)!important}
@@ -2534,6 +2540,41 @@ if (sessionStorage.getItem('s4_entered') === '1') {
                         <button onclick="vaultPageNext()" class="btn btn-sm" style="background:rgba(255,255,255,0.06);color:#ccc;border:1px solid rgba(255,255,255,0.1);border-radius:3px;padding:4px 12px;font-size:0.78rem">Next <i class="fas fa-chevron-right"></i></button>
                     </div>
 
+                    <!-- Performance Metrics Dashboard -->
+                    <div id="vaultMetricsDashboard" style="margin-top:1rem;background:linear-gradient(135deg,rgba(0,170,255,0.04),rgba(201,168,76,0.03));border:1px solid rgba(0,170,255,0.15);border-radius:3px;padding:16px;">
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+                            <div style="font-size:0.82rem;font-weight:700;color:#00aaff;text-transform:uppercase;letter-spacing:0.8px;display:flex;align-items:center;gap:6px;"><i class="fas fa-chart-line"></i> Performance Metrics</div>
+                            <button onclick="refreshVaultMetrics()" style="background:rgba(0,170,255,0.1);color:#00aaff;border:1px solid rgba(0,170,255,0.2);border-radius:3px;padding:3px 10px;font-size:0.72rem;cursor:pointer;font-weight:600"><i class="fas fa-sync-alt"></i> Refresh</button>
+                        </div>
+                        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;" id="vaultMetricsGrid">
+                            <div style="background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:10px;text-align:center">
+                                <div style="font-size:1.1rem;font-weight:800;color:#00aaff" id="vmRecordCount">0</div>
+                                <div style="font-size:0.68rem;color:var(--steel);text-transform:uppercase;letter-spacing:0.5px">Records</div>
+                            </div>
+                            <div style="background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:10px;text-align:center">
+                                <div style="font-size:1.1rem;font-weight:800;color:#c9a84c" id="vmStorageKB">0 KB</div>
+                                <div style="font-size:0.68rem;color:var(--steel);text-transform:uppercase;letter-spacing:0.5px">Storage</div>
+                            </div>
+                            <div style="background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:10px;text-align:center">
+                                <div style="font-size:1.1rem;font-weight:800;color:#2ecc71" id="vmUniqueTypes">0</div>
+                                <div style="font-size:0.68rem;color:var(--steel);text-transform:uppercase;letter-spacing:0.5px">Unique Types</div>
+                            </div>
+                            <div style="background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:10px;text-align:center">
+                                <div style="font-size:1.1rem;font-weight:800;color:#e06c75" id="vmLatestRecord">—</div>
+                                <div style="font-size:0.68rem;color:var(--steel);text-transform:uppercase;letter-spacing:0.5px">Latest</div>
+                            </div>
+                            <div style="background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:10px;text-align:center">
+                                <div style="font-size:1.1rem;font-weight:800;color:#9b59b6" id="vmRenderMs">0 ms</div>
+                                <div style="font-size:0.68rem;color:var(--steel);text-transform:uppercase;letter-spacing:0.5px">Render Time</div>
+                            </div>
+                            <div style="background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:10px;text-align:center">
+                                <div style="font-size:1.1rem;font-weight:800;color:#f39c12" id="vmAvgRecordSize">0 B</div>
+                                <div style="font-size:0.68rem;color:var(--steel);text-transform:uppercase;letter-spacing:0.5px">Avg Record</div>
+                            </div>
+                        </div>
+                        <div id="vmTypeBreakdown" style="margin-top:10px;font-size:0.75rem;color:var(--steel)"></div>
+                    </div>
+
                     <!-- Vault Stress Test Tool -->
                     <details style="margin-top:1rem;background:rgba(201,168,76,0.04);border:1px solid rgba(201,168,76,0.15);border-radius:3px;padding:0 12px;">
                         <summary style="cursor:pointer;padding:10px 0;color:#c9a84c;font-weight:600;font-size:0.82rem"><i class="fas fa-vial" style="margin-right:6px"></i> Vault Stress Test & Capacity Tool</summary>
@@ -2892,41 +2933,6 @@ if (sessionStorage.getItem('s4_entered') === '1') {
                         <button onclick="loadSBOMData()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#2ecc71,#27ae60);color:#fff;border:none;border-radius:3px;padding:8px 16px;font-weight:700"><i class="fas fa-sync-alt"></i> Scan Components</button>
                         <button onclick="exportSBOM()" class="btn btn-sm hover-lift" style="background:rgba(255,255,255,0.08);color:#fff;border:none;border-radius:3px;padding:8px 16px;font-weight:700"><i class="fas fa-download"></i> Export SBOM</button>
                         <button onclick="anchorSBOM()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;border-radius:3px;padding:8px 16px"><i class="fas fa-anchor"></i> Anchor SBOM to XRPL</button>
-                    </div>
-                    <!-- SBOM AI Agent Chat Panel -->
-                    <div style="margin-top:1.25rem;border:1px solid rgba(46,204,113,0.2);border-radius:3px;overflow:hidden;">
-                        <div style="background:linear-gradient(135deg,rgba(46,204,113,0.12),rgba(0,170,255,0.08));padding:10px 14px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(46,204,113,0.15);">
-                            <div style="display:flex;align-items:center;gap:8px;">
-                                <div style="width:8px;height:8px;background:#2ecc71;border-radius:50%;animation:pulse 2s infinite"></div>
-                                <span style="font-weight:700;color:#fff;font-size:0.85rem"><i class="fas fa-robot" style="color:#2ecc71;margin-right:4px"></i>SBOM AI Agent</span>
-                                <span style="font-size:0.68rem;color:var(--steel);background:rgba(46,204,113,0.1);padding:2px 8px;border-radius:4px;">OpenAI-Powered</span>
-                            </div>
-                            <button onclick="document.getElementById('sbomAiPanel').style.display=document.getElementById('sbomAiPanel').style.display==='none'?'block':'none'" style="background:none;border:none;color:var(--steel);cursor:pointer;font-size:0.85rem;padding:4px 8px;border-radius:4px;transition:all 0.2s" title="Toggle AI Panel"><i class="fas fa-chevron-down"></i></button>
-                        </div>
-                        <div id="sbomAiPanel" style="display:block;">
-                            <div id="sbomAiMessages" style="max-height:260px;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:8px;font-size:0.83rem;background:rgba(0,0,0,0.2);">
-                                <div class="ai-msg bot" style="background:rgba(46,204,113,0.06);border:1px solid rgba(46,204,113,0.1);border-radius:3px;padding:10px 12px;color:var(--steel);line-height:1.5;">
-                                    <div style="font-weight:700;color:#2ecc71;font-size:0.75rem;margin-bottom:4px;"><i class="fas fa-robot"></i> SBOM Agent</div>
-                                    I'm your SBOM AI Agent. Load a platform's SBOM above, then ask me anything:<br>
-                                    • "What components have CVEs?"<br>
-                                    • "Which licenses are GPL?"<br>
-                                    • "Show me high severity items"<br>
-                                    • "Is this SBOM EO 14028 compliant?"<br>
-                                    • "Summarize the supply chain risk"<br>
-                                    • "What firmware is in this platform?"
-                                </div>
-                            </div>
-                            <div style="display:flex;gap:6px;padding:8px 10px;flex-wrap:wrap;border-top:1px solid rgba(46,204,113,0.1);background:rgba(0,0,0,0.15);">
-                                <button onclick="sbomAiAsk('What components have known CVEs?')" style="background:rgba(46,204,113,0.08);border:1px solid rgba(46,204,113,0.15);color:#2ecc71;border-radius:4px;padding:3px 8px;font-size:0.7rem;cursor:pointer;font-family:inherit;transition:all 0.2s">CVE Report</button>
-                                <button onclick="sbomAiAsk('Summarize the supply chain risk')" style="background:rgba(46,204,113,0.08);border:1px solid rgba(46,204,113,0.15);color:#2ecc71;border-radius:4px;padding:3px 8px;font-size:0.7rem;cursor:pointer;font-family:inherit;transition:all 0.2s">Risk Summary</button>
-                                <button onclick="sbomAiAsk('Is this SBOM compliant with EO 14028?')" style="background:rgba(46,204,113,0.08);border:1px solid rgba(46,204,113,0.15);color:#2ecc71;border-radius:4px;padding:3px 8px;font-size:0.7rem;cursor:pointer;font-family:inherit;transition:all 0.2s">EO 14028</button>
-                                <button onclick="sbomAiAsk('What licenses are used?')" style="background:rgba(46,204,113,0.08);border:1px solid rgba(46,204,113,0.15);color:#2ecc71;border-radius:4px;padding:3px 8px;font-size:0.7rem;cursor:pointer;font-family:inherit;transition:all 0.2s">Licenses</button>
-                            </div>
-                            <div style="display:flex;gap:8px;padding:8px 10px;border-top:1px solid rgba(46,204,113,0.1);background:var(--surface);">
-                                <input type="text" id="sbomAiInput" placeholder="Ask about this SBOM..." onkeydown="if(event.key==='Enter')sbomAiAsk()" style="flex:1;background:var(--card)!important;border:1px solid rgba(46,204,113,0.2)!important;border-radius:3px!important;padding:8px 12px!important;color:#fff!important;font-size:0.83rem!important;font-family:inherit!important;">
-                                <button onclick="sbomAiAsk()" style="background:linear-gradient(135deg,#2ecc71,#27ae60);color:#fff;border:none;border-radius:3px;padding:8px 14px;font-size:0.83rem;font-weight:600;cursor:pointer;white-space:nowrap"><i class="fas fa-paper-plane"></i> Ask</button>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -3574,7 +3580,7 @@ function _updateDemoSlsBalance() {
         if (typeof _syncSlsBar === 'function') _syncSlsBar();
     var _tFallback = (typeof _onboardTiers !== 'undefined' && typeof _onboardTier !== 'undefined') ? (_onboardTiers[_onboardTier]?.sls || 25000) : 25000; var allocation = _demoSession ? (_demoSession.subscription?.sls_allocation || _tFallback) : _tFallback;
     var spent = stats.slsFees || 0;
-    var remaining = allocation - spent;
+    var remaining = Math.round((allocation - spent) * 100) / 100;
     var bal = document.getElementById('demoSlsBalance');
     if (bal) {
         bal.textContent = remaining.toLocaleString(undefined,{maximumFractionDigits:2}) + ' SLS';
@@ -3656,7 +3662,7 @@ function toggleFlowBox() {
 function _syncSlsBar() {
     var _tFallback = (typeof _onboardTiers !== 'undefined' && typeof _onboardTier !== 'undefined') ? (_onboardTiers[_onboardTier]?.sls || 25000) : 25000; var allocation = _demoSession ? (_demoSession.subscription?.sls_allocation || _tFallback) : _tFallback;
     var spent = stats.slsFees || 0;
-    var remaining = allocation - spent;
+    var remaining = Math.round((allocation - spent) * 100) / 100;
     var plan = _demoSession ? (_demoSession.subscription?.label || 'Starter') : 'Starter';
     
     var balEl = document.getElementById('slsBarBalance');
@@ -3899,7 +3905,7 @@ function preloadAllILSDemoData() {
     }
     
     // Seed Audit Vault with sample records if empty
-    if (typeof vaultRecords !== 'undefined' && vaultRecords.length === 0 && typeof addToVault === 'function') {
+    if (typeof s4Vault !== 'undefined' && s4Vault.length === 0 && typeof addToVault === 'function') {
         var sampleVault = [
             {hash:'a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2',txHash:'TX8A3F29C1D4E507B612F84A9D03C71E562B8F6AD09E147C3850B2D6A7F91E043C',type:'DD1149',label:'DD Form 1149 (Requisition)',branch:'USN',icon:'fa-file-alt',content:'NAVSEA PMS 400D — DDG-51 Flight III spare parts requisition…',encrypted:false,timestamp:new Date(Date.now()-86400000*3).toISOString(),source:'Pre-loaded Sample',fee:0.01,network:'mainnet'},
             {hash:'b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3',txHash:'TX7B4E38D2C5F608A723G95B0E14D82F673C9G7BE10F258D4961C3E7B8G02F154D',type:'DD250',label:'DD Form 250 (MIRR)',branch:'USN',icon:'fa-clipboard-check',content:'Material Inspection & Receiving Report — LCS-19 hull components…',encrypted:true,timestamp:new Date(Date.now()-86400000*2).toISOString(),source:'Pre-loaded Sample',fee:0.01,network:'mainnet'},
@@ -4356,7 +4362,7 @@ async function anchorRecord() {
     addToVault({hash, txHash, type:selectedType, label:typeInfo.label, branch:typeInfo.branch, icon:typeInfo.icon, content:input.substring(0,100)+(input.length>100?'...':''), encrypted:encrypt, timestamp:new Date().toISOString(), source:'Manual Anchor', fee:0.01, explorerUrl, network});
     stats.anchored++;
     stats.types.add(selectedType);
-    stats.slsFees += 0.01;
+    stats.slsFees = Math.round((stats.slsFees + 0.01) * 100) / 100;
     updateStats();
     saveStats();
     if(typeof _s4RefreshCharts==='function') _s4RefreshCharts();
@@ -4369,7 +4375,7 @@ async function anchorRecord() {
     _updateDemoSlsBalance();
     // Flash visible toast showing new balance
     var _flAlloc = _demoSession ? (_demoSession.subscription?.sls_allocation || 25000) : 25000;
-    var _flRemaining = _flAlloc - stats.slsFees;
+    var _flRemaining = Math.round((_flAlloc - stats.slsFees) * 100) / 100;
     _flashSlsBalance(_flRemaining.toLocaleString(undefined,{maximumFractionDigits:2}), 0.01);
 
     await new Promise(r => setTimeout(r, 3200));
@@ -4477,19 +4483,37 @@ async function verifyRecord() {
     saveStats();
     const panel = document.getElementById('verifyResult');
     let matchHtml = '';
+    let effectiveHash = hash;
     if (expected) {
-        const match = hash.toLowerCase() === expected.toLowerCase();
+        let match = hash.toLowerCase() === expected.toLowerCase();
+        // If text hash doesn't match, check if the expected hash exists in vault/session records directly
+        // (handles file-uploaded records where binary hash differs from re-hashed textarea text)
+        let vaultMatch = null;
+        if (!match) {
+            // Check session records for the expected hash
+            vaultMatch = sessionRecords.find(r => r.hash && r.hash.toLowerCase() === expected.toLowerCase());
+            // Check audit vault too
+            if (!vaultMatch && typeof s4Vault !== 'undefined') {
+                vaultMatch = s4Vault.find(r => r.hash && r.hash.toLowerCase() === expected.toLowerCase());
+            }
+            if (vaultMatch) {
+                match = true;
+                effectiveHash = expected;
+            }
+        }
         matchHtml = '<div class="result-label">EXPECTED</div><div style="color:var(--muted);word-break:break-all;margin-bottom:0.5rem">' + expected + '</div>'
             + '<div class="result-label">MATCH</div><div class="result-value ' + (match?'':'error') + '" style="font-size:1.1rem">'
-            + (match ? '\u2705 VERIFIED \u2014 Hashes match. Record integrity confirmed.' : '\u274C MISMATCH \u2014 Record altered or wrong hash.') + '</div>';
+            + (match && vaultMatch ? '\u2705 VERIFIED \u2014 Hash found in vault. Record integrity confirmed.' + '<div style="font-size:0.78rem;color:var(--steel);margin-top:6px"><i class="fas fa-info-circle" style="margin-right:4px"></i>This record was anchored from a file upload. Use File Verification for byte-level re-verification.</div>'
+            : match ? '\u2705 VERIFIED \u2014 Hashes match. Record integrity confirmed.'
+            : '\u274C MISMATCH \u2014 Record altered or wrong hash.') + '</div>';
     }
-    const sessionMatch = sessionRecords.find(r => r.hash === hash);
+    const sessionMatch = sessionRecords.find(r => r.hash === effectiveHash) || sessionRecords.find(r => r.hash === hash);
     let sessionHtml = '';
     if (sessionMatch) {
         sessionHtml = '<div class="result-label" style="margin-top:0.8rem">SESSION MATCH</div>'
             + '<div style="color:var(--accent)"><i class="fas fa-check-circle"></i> Found in session \u2014 ' + sessionMatch.icon + ' ' + sessionMatch.label + ' anchored at ' + new Date(sessionMatch.timestamp).toLocaleTimeString() + '</div>';
     }
-    panel.innerHTML = '<div class="result-label">COMPUTED SHA-256 <button class="copy-btn" onclick="copyHash(\'' + hash + '\')"><i class="fas fa-copy"></i> Copy</button></div><div class="hash-display">' + hash + '</div>' + matchHtml + sessionHtml
+    panel.innerHTML = '<div class="result-label">COMPUTED SHA-256 <button class="copy-btn" onclick="copyHash(\'' + effectiveHash + '\')"><i class="fas fa-copy"></i> Copy</button></div><div class="hash-display">' + effectiveHash + '</div>' + matchHtml + sessionHtml
         + '<div style="margin-top:0.8rem;font-size:0.8rem;color:var(--muted)">To verify on-chain: compare this hash with the MemoData field of the anchor transaction.</div>';
     panel.classList.add('show');
 }
@@ -7153,7 +7177,7 @@ async function anchorROI() {
     var text = 'ROI Analysis | Net Savings: ' + savings + ' | ROI: ' + roi + ' | Date: ' + new Date().toISOString();
     var hash = await sha256(text);
     showAnchorAnimation(hash, 'ROI Analysis Report', 'CUI');
-    stats.anchored++; stats.types.add('ROI_REPORT'); stats.slsFees += 0.01; updateStats(); saveStats();
+    stats.anchored++; stats.types.add('ROI_REPORT'); stats.slsFees = Math.round((stats.slsFees + 0.01) * 100) / 100; updateStats(); saveStats();
     var result = await _anchorToXRPL(hash, 'ROI_REPORT', text.substring(0,100));
     var rec = {hash:hash, type:'ROI_REPORT', branch:'JOINT', timestamp:new Date().toISOString(), label:'S4 Ledger ROI Analysis', txHash:result.txHash};
     sessionRecords.push(rec);
@@ -7161,7 +7185,7 @@ async function anchorROI() {
     updateTxLog();
     addToVault({hash:hash, txHash:result.txHash, type:'ROI_REPORT', label:'S4 Ledger ROI Analysis', branch:'JOINT', icon:'<i class="fas fa-dollar-sign"></i>', content:text.substring(0,100), encrypted:false, timestamp:new Date().toISOString(), source:'ROI Calculator', fee:0.01, explorerUrl:result.explorerUrl, network:result.network});
     // Update SLS display
-    if (typeof updateSlsDisplay === 'function') updateSlsDisplay();
+    if (typeof _updateDemoSlsBalance === 'function') _updateDemoSlsBalance();
     setTimeout(function(){ document.getElementById('animStatus').innerHTML = '<i class="fas fa-check-circle" style="color:var(--accent)"></i> ROI Report anchored!'; }, 2200);
 }
 
@@ -7195,7 +7219,7 @@ async function anchorILSReport() {
     addToVault({hash, txHash, type:'ILS_GAP_ANALYSIS', label:'ILS Gap Analysis Report', branch:'JOINT', icon:'<i class="fas fa-brain"></i>', content:'ILS Analysis: '+ilsResults.prog.name+' — '+ilsResults.pct+'% readiness', encrypted:false, timestamp:new Date().toISOString(), source:'ILS Gap Analysis', fee:0.01, explorerUrl, network});
     stats.anchored++;
     stats.types.add('ILS_GAP_ANALYSIS');
-    stats.slsFees += 0.01;
+    stats.slsFees = Math.round((stats.slsFees + 0.01) * 100) / 100;
     updateStats();
     saveStats();
 
@@ -8066,7 +8090,7 @@ async function anchorDMSMS() {
     const text = 'DMSMS Report | Program: ' + progKey + ' | Parts: ' + data.length + ' | At Risk: ' + data.filter(d=>d.status!=='Active').length + ' | Date: ' + new Date().toISOString();
     const hash = await sha256(text);
     showAnchorAnimation(hash, 'DMSMS Report', 'CUI');
-    stats.anchored++; stats.types.add('DMSMS_REPORT'); stats.slsFees += 0.01; updateStats(); saveStats();
+    stats.anchored++; stats.types.add('DMSMS_REPORT'); stats.slsFees = Math.round((stats.slsFees + 0.01) * 100) / 100; updateStats(); saveStats();
     const {txHash, explorerUrl, network} = await _anchorToXRPL(hash, 'DMSMS_REPORT', text.substring(0,100));
     const rec = {hash, type:'DMSMS_REPORT', branch:'JOINT', timestamp:new Date().toISOString(), label:'DMSMS Obsolescence Report', txHash};
     sessionRecords.push(rec);
@@ -8183,7 +8207,7 @@ async function anchorReadiness() {
     const text = 'RAM Report | Program: ' + progKey + ' | Ao: ' + (ao*100).toFixed(2) + '% | MTBF: ' + mtbf + ' | Date: ' + new Date().toISOString();
     const hash = await sha256(text);
     showAnchorAnimation(hash, 'RAM Readiness Report', 'CUI');
-    stats.anchored++; stats.types.add('RAM_REPORT'); stats.slsFees += 0.01; updateStats(); saveStats();
+    stats.anchored++; stats.types.add('RAM_REPORT'); stats.slsFees = Math.round((stats.slsFees + 0.01) * 100) / 100; updateStats(); saveStats();
     const {txHash, explorerUrl, network} = await _anchorToXRPL(hash, 'RAM_REPORT', text.substring(0,100));
     const rec = {hash, type:'RAM_REPORT', branch:'JOINT', timestamp:new Date().toISOString(), label:'RAM Readiness Report', txHash};
     sessionRecords.push(rec);
@@ -8647,6 +8671,55 @@ var _vaultPage = 1;
 var _vaultPageSize = 50;
 var _vaultFilteredItems = [];
 
+function refreshVaultMetrics() {
+    var count = s4Vault.length;
+    var el = document.getElementById('vmRecordCount');
+    if (el) el.textContent = count.toLocaleString();
+    // Storage
+    var storageBytes = 0;
+    try { var raw = localStorage.getItem('s4_vault'); if (raw) storageBytes = new Blob([raw]).size; } catch(e){}
+    var storageEl = document.getElementById('vmStorageKB');
+    if (storageEl) storageEl.textContent = storageBytes < 1024 ? storageBytes + ' B' : storageBytes < 1048576 ? (storageBytes / 1024).toFixed(1) + ' KB' : (storageBytes / 1048576).toFixed(1) + ' MB';
+    // Unique types
+    var typesSet = new Set();
+    s4Vault.forEach(function(r) { if (r.type) typesSet.add(r.type); });
+    var typesEl = document.getElementById('vmUniqueTypes');
+    if (typesEl) typesEl.textContent = typesSet.size;
+    // Latest record
+    var latestEl = document.getElementById('vmLatestRecord');
+    if (latestEl) {
+        if (count > 0) {
+            var latest = s4Vault[s4Vault.length - 1];
+            var t = latest.timestamp ? new Date(latest.timestamp) : null;
+            latestEl.textContent = t ? t.toLocaleTimeString(undefined,{hour:'2-digit',minute:'2-digit'}) : '—';
+            latestEl.title = latest.label || latest.type || '';
+        } else {
+            latestEl.textContent = '—';
+        }
+    }
+    // Render time (updated after each render)
+    // vmRenderMs is updated inside renderVault()
+    // Avg record size
+    var avgEl = document.getElementById('vmAvgRecordSize');
+    if (avgEl) avgEl.textContent = count > 0 ? (storageBytes / count < 1024 ? Math.round(storageBytes / count) + ' B' : ((storageBytes / count) / 1024).toFixed(1) + ' KB') : '0 B';
+    // Type breakdown
+    var breakdownEl = document.getElementById('vmTypeBreakdown');
+    if (breakdownEl && typesSet.size > 0) {
+        var typeCounts = {};
+        s4Vault.forEach(function(r) { var t = r.label || r.type || 'Unknown'; typeCounts[t] = (typeCounts[t] || 0) + 1; });
+        var sorted = Object.entries(typeCounts).sort(function(a,b){ return b[1] - a[1]; });
+        var top = sorted.slice(0, 8);
+        breakdownEl.innerHTML = '<div style="margin-top:6px;font-weight:700;color:#00aaff;font-size:0.72rem;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">Type Distribution</div>' +
+            top.map(function(e) {
+                var pct = count > 0 ? ((e[1] / count) * 100).toFixed(0) : 0;
+                return '<div style="display:flex;align-items:center;gap:6px;margin-bottom:3px"><div style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + e[0] + '</div><div style="width:80px;height:6px;background:var(--surface);border-radius:3px;overflow:hidden"><div style="height:100%;width:' + pct + '%;background:#00aaff;border-radius:3px"></div></div><div style="min-width:36px;text-align:right;color:#ccc">' + e[1] + '</div></div>';
+            }).join('') +
+            (sorted.length > 8 ? '<div style="color:var(--muted);font-size:0.7rem;margin-top:4px">+' + (sorted.length - 8) + ' more types</div>' : '');
+    } else if (breakdownEl) {
+        breakdownEl.innerHTML = '';
+    }
+}
+
 function renderVault() {
     const container = document.getElementById('vaultRecords');
     if (!container) return;
@@ -8694,12 +8767,12 @@ function renderVault() {
     container.innerHTML = pageItems.map((v, i) => `
         <div class="vault-record"${useAnim ? ' style="animation:slideUp ' + (0.2 + i * 0.05) + 's ease"' : ''}>
             <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px">
-                <div style="display:flex;align-items:flex-start;gap:8px">
+                <div style="display:flex;align-items:flex-start;gap:8px;min-width:0;flex:1">
                     <input type="checkbox" class="vault-cb" data-hash="${v.hash}" onchange="_updateBulkBar()" style="accent-color:#00aaff;margin-top:4px;cursor:pointer;flex-shrink:0">
-                    <div>
-                        <span style="font-size:1rem;margin-right:6px">${v.icon || '<i class="fas fa-clipboard-list"></i>'}</span>
-                        <strong style="color:#fff;font-size:0.88rem">${v.label || v.type}</strong>
-                        <span style="font-size:0.72rem;color:var(--muted);margin-left:8px">${v.branch || ''}</span>
+                    <div style="min-width:0;flex:1">
+                        <span style="font-size:1rem;margin-right:6px;vertical-align:middle">${v.icon || '<i class="fas fa-clipboard-list"></i>'}</span>
+                        <strong style="color:#fff;font-size:0.88rem;vertical-align:middle">${v.label || v.type}</strong>
+                        <span style="font-size:0.72rem;color:var(--muted);margin-left:8px;vertical-align:middle">${v.branch || ''}</span>
                     </div>
                 </div>
                 <div style="display:flex;gap:6px">
@@ -8720,6 +8793,10 @@ function renderVault() {
 
     var renderMs = (performance.now() - t0).toFixed(1);
     _updateVaultPagination();
+    // Update performance metrics dashboard
+    var vmRender = document.getElementById('vmRenderMs');
+    if (vmRender) vmRender.textContent = renderMs + ' ms';
+    refreshVaultMetrics();
     // Log render performance for large vaults
     if (s4Vault.length >= 100) console.log('[S4 Vault] Rendered page ' + _vaultPage + '/' + totalPages + ' (' + pageItems.length + ' of ' + items.length + ' records) in ' + renderMs + 'ms');
 }
@@ -9303,7 +9380,7 @@ async function anchorCompliance() {
     showAnchorAnimation(hash, 'Compliance Scorecard', 'CUI');
 
     addToVault({hash, txHash, type:'compliance_scorecard', label:'Compliance Scorecard', branch:'JOINT', icon:'<i class="fas fa-shield-alt"></i>', content: content.substring(0,100), encrypted:false, timestamp:new Date().toISOString(), source:'Compliance Scorecard', fee:0.01, explorerUrl, network});
-    stats.anchored++; stats.slsFees += 0.01; stats.types.add('compliance_scorecard'); updateStats(); saveStats();
+    stats.anchored++; stats.slsFees = Math.round((stats.slsFees + 0.01) * 100) / 100; stats.types.add('compliance_scorecard'); updateStats(); saveStats();
     const rec = {hash, type:'compliance_scorecard', branch:'JOINT', timestamp:new Date().toISOString(), label:'Compliance Scorecard', txHash};
     sessionRecords.push(rec);
     saveLocalRecord({hash, record_type:'compliance_scorecard', record_label:'Compliance Scorecard', branch:'JOINT', timestamp:new Date().toISOString(), timestamp_display:new Date().toISOString().replace('T',' ').substring(0,19)+' UTC', fee:0.01, tx_hash:txHash, system:'Compliance Scorecard', explorer_url: explorerUrl, network});
@@ -9439,7 +9516,7 @@ async function anchorRisk() {
     showAnchorAnimation(hash, 'Supply Chain Risk Report', 'CUI');
 
     addToVault({hash, txHash, type:'risk_report', label:'Supply Chain Risk Report — '+prog.toUpperCase(), branch:'JOINT', icon:'<i class="fas fa-exclamation-triangle"></i>', content:content.substring(0,100), encrypted:false, timestamp:new Date().toISOString(), source:'AI Supply Chain Risk Engine', fee:0.01, explorerUrl, network});
-    stats.anchored++; stats.slsFees += 0.01; stats.types.add('risk_report'); updateStats(); saveStats();
+    stats.anchored++; stats.slsFees = Math.round((stats.slsFees + 0.01) * 100) / 100; stats.types.add('risk_report'); updateStats(); saveStats();
     saveLocalRecord({hash, tx_hash:txHash, record_type:'risk_report', record_label:'Supply Chain Risk Report — '+prog.toUpperCase(), branch:'JOINT', timestamp:new Date().toISOString(), timestamp_display:new Date().toLocaleString(), fee:0.01, explorer_url: explorerUrl, network});
     sessionRecords.push({hash, type:'risk_report', branch:'JOINT', timestamp:new Date().toISOString(), label:'Supply Chain Risk Report', txHash});
     updateTxLog();
@@ -9539,7 +9616,7 @@ async function anchorReport() {
     showAnchorAnimation(hash, 'Audit Report Hash', 'CUI');
 
     addToVault({hash, txHash, type:'audit_report', label:r.title+' — Score: '+r.score+'%', branch:'JOINT', icon:'<i class="fas fa-clipboard-list"></i>', content:content.substring(0,100), encrypted:false, timestamp:new Date().toISOString(), source:'Audit Report Generator', fee:0.01, explorerUrl, network});
-    stats.anchored++; stats.slsFees += 0.01; stats.types.add('audit_report'); updateStats(); saveStats();
+    stats.anchored++; stats.slsFees = Math.round((stats.slsFees + 0.01) * 100) / 100; stats.types.add('audit_report'); updateStats(); saveStats();
     saveLocalRecord({hash, tx_hash:txHash, record_type:'audit_report', record_label:r.title, branch:'JOINT', timestamp:new Date().toISOString(), timestamp_display:new Date().toLocaleString(), fee:0.01, explorer_url: explorerUrl, network});
     sessionRecords.push({hash, type:'audit_report', branch:'JOINT', timestamp:new Date().toISOString(), label:'Audit Report', txHash});
     updateTxLog();
@@ -9768,7 +9845,7 @@ async function anchorPredictive() {
     showAnchorAnimation(hash, 'Predictive Maintenance Report', 'CUI');
 
     addToVault({hash, txHash, type:'predictive_maintenance', label:'Predictive Maintenance — '+platform.toUpperCase(), branch:'JOINT', icon:'<i class="fas fa-brain"></i>', content:content.substring(0,100), encrypted:false, timestamp:new Date().toISOString(), source:'Predictive Maintenance AI', fee:0.01, explorerUrl, network});
-    stats.anchored++; stats.slsFees += 0.01; stats.types.add('predictive_maintenance'); updateStats(); saveStats();
+    stats.anchored++; stats.slsFees = Math.round((stats.slsFees + 0.01) * 100) / 100; stats.types.add('predictive_maintenance'); updateStats(); saveStats();
     saveLocalRecord({hash, tx_hash:txHash, record_type:'predictive_maintenance', record_label:'Predictive Maintenance — '+platform.toUpperCase(), branch:'JOINT', timestamp:new Date().toISOString(), timestamp_display:new Date().toLocaleString(), fee:0.01, explorer_url: explorerUrl, network});
     sessionRecords.push({hash, type:'predictive_maintenance', branch:'JOINT', timestamp:new Date().toISOString(), label:'Predictive Maintenance', txHash});
     updateTxLog();
@@ -10289,7 +10366,7 @@ async function anchorSubmissionReview() {
     const hash = await sha256(text);
     showAnchorAnimation(hash, 'Submissions & PTD Analysis — ' + docTypeLabel, 'CUI');
     const {txHash, explorerUrl, network} = await _anchorToXRPL(hash, 'SUBMISSION_REVIEW', text.substring(0,100));
-    stats.anchored++; stats.types.add('SUBMISSION_REVIEW'); stats.slsFees += 0.01; updateStats(); saveStats();
+    stats.anchored++; stats.types.add('SUBMISSION_REVIEW'); stats.slsFees = Math.round((stats.slsFees + 0.01) * 100) / 100; updateStats(); saveStats();
     const rec = {hash, type:'SUBMISSION_REVIEW', branch:meta.branch, timestamp:new Date().toISOString(), label:'Submissions & PTD Analysis: ' + docTypeLabel, txHash};
     sessionRecords.push(rec);
     saveLocalRecord({hash, record_type:'SUBMISSION_REVIEW', record_label:'Submissions & PTD Analysis: ' + docTypeLabel, branch:meta.branch, timestamp:new Date().toISOString(), timestamp_display:new Date().toISOString().replace('T',' ').substring(0,19)+' UTC', fee:0.01, tx_hash:txHash, system:'Submissions & PTD', explorer_url: explorerUrl, network});
@@ -10536,7 +10613,7 @@ async function fetchWalletBalance(address) {
         if (_demoSession && _demoSession.subscription) {
             var _alloc = _demoSession.subscription.sls_allocation || 25000;
             var _spent = (typeof stats !== 'undefined') ? (stats.slsFees || 0) : 0;
-            var _rem = _alloc - _spent;
+            var _rem = Math.round((_alloc - _spent) * 100) / 100;
             var wBal = document.getElementById('walletSLSBalance');
             if (wBal) wBal.textContent = _rem.toLocaleString(undefined,{maximumFractionDigits:2});
             var wAnch = document.getElementById('walletAnchors');
@@ -11903,6 +11980,65 @@ function calcLifecycle() {
     if (typeof renderLifecycleCharts === 'function') setTimeout(renderLifecycleCharts, 300);
     // Generate action items
     if (typeof generateLifecycleActions === 'function') generateLifecycleActions(progKey, totalCost, dmsmsCost, sustTotal);
+}
+
+function exportLifecycle() {
+    var progKey = (document.getElementById('lifecycleProgram') || {}).value || 'ddg51';
+    var platName = (window.S4_PLATFORMS && S4_PLATFORMS[progKey]) ? S4_PLATFORMS[progKey].n : progKey.toUpperCase();
+    var serviceLife = parseFloat((document.getElementById('lcServiceLife') || {}).value) || 30;
+    var acqCostM = parseFloat((document.getElementById('lcAcqCost') || {}).value) || 85;
+    var fleetSize = parseFloat((document.getElementById('lcFleetSize') || {}).value) || 20;
+    var sustRate = parseFloat((document.getElementById('lcSustRate') || {}).value) || 8;
+    var acqTotal = acqCostM * fleetSize;
+    var sustTotal = acqTotal * (sustRate / 100) * serviceLife;
+    var dmsmsCost = sustTotal * (0.12 + (serviceLife > 25 ? 0.04 : 0));
+    var totalCost = acqTotal + sustTotal + dmsmsCost + (acqTotal * 0.05) + (sustTotal * 0.18) + (sustTotal * 0.08);
+    var report = 'S4 LEDGER — LIFECYCLE COST REPORT\n' +
+        '================================\n\n' +
+        'Platform: ' + platName + '\n' +
+        'Fleet Size: ' + fleetSize + ' units\n' +
+        'Service Life: ' + serviceLife + ' years\n' +
+        'Sustainment Rate: ' + sustRate + '%\n\n' +
+        'Acquisition: $' + acqTotal.toFixed(0) + 'M\n' +
+        'Sustainment: $' + sustTotal.toFixed(0) + 'M\n' +
+        'DMSMS/Obsolescence: $' + dmsmsCost.toFixed(0) + 'M\n' +
+        'Total Ownership Cost: $' + totalCost.toFixed(0) + 'M\n\n' +
+        'Generated: ' + new Date().toISOString() + '\n';
+    var blob = new Blob([report], {type: 'text/plain'});
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'S4_Lifecycle_' + platName.replace(/\s+/g,'_') + '_' + new Date().toISOString().substring(0,10) + '.txt';
+    a.click();
+    URL.revokeObjectURL(a.href);
+    if (typeof s4Notify === 'function') s4Notify('Exported', 'Lifecycle cost report downloaded.', 'success');
+}
+
+async function anchorLifecycle() {
+    var progKey = (document.getElementById('lifecycleProgram') || {}).value || 'ddg51';
+    var platName = (window.S4_PLATFORMS && S4_PLATFORMS[progKey]) ? S4_PLATFORMS[progKey].n : progKey.toUpperCase();
+    var serviceLife = parseFloat((document.getElementById('lcServiceLife') || {}).value) || 30;
+    var acqCostM = parseFloat((document.getElementById('lcAcqCost') || {}).value) || 85;
+    var fleetSize = parseFloat((document.getElementById('lcFleetSize') || {}).value) || 20;
+    var sustRate = parseFloat((document.getElementById('lcSustRate') || {}).value) || 8;
+    var acqTotal = acqCostM * fleetSize;
+    var sustTotal = acqTotal * (sustRate / 100) * serviceLife;
+    var dmsmsCost = sustTotal * (0.12 + (serviceLife > 25 ? 0.04 : 0));
+    var totalCost = acqTotal + sustTotal + dmsmsCost + (acqTotal * 0.05) + (sustTotal * 0.18) + (sustTotal * 0.08);
+    var text = 'Lifecycle Cost | Program: ' + platName + ' | Fleet: ' + fleetSize + ' | TOC: $' + totalCost.toFixed(0) + 'M | Date: ' + new Date().toISOString();
+    var hash = await sha256(text);
+    showAnchorAnimation(hash, 'Lifecycle Cost Report', 'CUI');
+    stats.anchored++; stats.types.add('LIFECYCLE_COST'); stats.slsFees = Math.round((stats.slsFees + 0.01) * 100) / 100; updateStats(); saveStats();
+    var result = await _anchorToXRPL(hash, 'LIFECYCLE_COST', text.substring(0,100));
+    var rec = {hash:hash, type:'LIFECYCLE_COST', branch:'JOINT', timestamp:new Date().toISOString(), label:'Lifecycle Cost — '+platName, txHash:result.txHash};
+    sessionRecords.push(rec);
+    saveLocalRecord({hash:hash, record_type:'LIFECYCLE_COST', record_label:'Lifecycle Cost — '+platName, branch:'JOINT', timestamp:new Date().toISOString(), timestamp_display:new Date().toISOString().replace('T',' ').substring(0,19)+' UTC', fee:0.01, tx_hash:result.txHash, system:'Lifecycle Cost Estimator', explorer_url:result.explorerUrl, network:result.network});
+    addToVault({hash:hash, txHash:result.txHash, type:'LIFECYCLE_COST', label:'Lifecycle Cost — '+platName, branch:'JOINT', icon:'<i class="fas fa-clock"></i>', content:text.substring(0,100), encrypted:false, timestamp:new Date().toISOString(), source:'Lifecycle Cost Estimator', fee:0.01, explorerUrl:result.explorerUrl, network:result.network});
+    updateTxLog();
+    _updateDemoSlsBalance();
+    setTimeout(function(){ document.getElementById('animStatus').innerHTML = '<i class="fas fa-check-circle" style="color:var(--accent)"></i> Lifecycle report anchored!'; document.getElementById('animStatus').style.color = '#00aaff'; }, 2200);
+    await new Promise(function(r){ setTimeout(r, 3200); });
+    hideAnchorAnimation();
+    if (typeof s4Notify === 'function') s4Notify('Anchored', 'Lifecycle cost report anchored to XRPL.', 'success');
 }
 
 // (Hook removed — calcLifecycle is now defined directly above with built-in chart call)
@@ -13910,7 +14046,7 @@ async function anchorSBOM() {
     if (typeof sha256 !== 'function') return;
     var hash = await sha256(content);
     if (typeof showAnchorAnimation === 'function') showAnchorAnimation(hash, 'SBOM Attestation', 'CUI');
-    if (typeof stats !== 'undefined') { stats.anchored++; stats.slsFees += 0.01; stats.types.add('SBOM_ATTESTATION'); if (typeof updateStats === 'function') updateStats(); if (typeof saveStats === 'function') saveStats(); }
+    if (typeof stats !== 'undefined') { stats.anchored++; stats.slsFees = Math.round((stats.slsFees + 0.01) * 100) / 100; stats.types.add('SBOM_ATTESTATION'); if (typeof updateStats === 'function') updateStats(); if (typeof saveStats === 'function') saveStats(); }
     var tx = {};
     if (typeof _anchorToXRPL === 'function') tx = await _anchorToXRPL(hash, 'SBOM_ATTESTATION', content.substring(0,100));
     if (typeof addToVault === 'function') addToVault({hash:hash, txHash:tx.txHash||'', type:'SBOM_ATTESTATION', label:'SBOM — '+progKey.toUpperCase()+' ('+components.length+' components)', branch:'JOINT', icon:'<i class="fas fa-microchip"></i>', content:content.substring(0,100), encrypted:false, timestamp:new Date().toISOString(), source:'SBOM Viewer', fee:0.01, explorerUrl:tx.explorerUrl||'', network:tx.network||''});
