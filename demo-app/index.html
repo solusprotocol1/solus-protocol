@@ -904,8 +904,8 @@
         .wallet-sidebar.open { right:0; }
         .wallet-sidebar-header { display:flex; align-items:center; justify-content:space-between; padding:16px 20px; border-bottom:1px solid var(--border); position:sticky; top:0; background:var(--bg); z-index:1; }
         .wallet-sidebar-header h3 { font-size:1.1rem; font-weight:800; color:#fff; margin:0; display:flex; align-items:center; gap:8px; }
-        .wallet-sidebar-close { background:rgba(255,107,107,0.1); border:1px solid rgba(255,107,107,0.2); color:#ff6b6b; border-radius:3px; padding:6px 12px; font-size:0.8rem; cursor:pointer; font-family:inherit; }
-        .wallet-sidebar-close:hover { background:rgba(255,107,107,0.2); }
+        .wallet-sidebar-close { background:rgba(201,168,76,0.1); border:1px solid rgba(201,168,76,0.2); color:#c9a84c; border-radius:3px; padding:6px 12px; font-size:0.8rem; cursor:pointer; font-family:inherit; }
+        .wallet-sidebar-close:hover { background:rgba(201,168,76,0.2); }
         .wallet-sidebar-body { padding:20px; overflow-y:auto; flex:1; min-height:0; padding-bottom:40px; }
         .wallet-overlay { display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.5); z-index:9998; }
         .wallet-overlay.show { display:block; }
@@ -1239,8 +1239,8 @@
         .s4-widget h4{margin:0 0 12px;font-size:13px;font-weight:600;color:var(--text-secondary,#86868b);text-transform:uppercase;letter-spacing:0.5px}
         .s4-widget .widget-value{font-size:28px;font-weight:700;color:var(--text-primary,#f5f5f7);margin:0 0 4px}
         .s4-widget .widget-change{font-size:12px}
-        .s4-widget .widget-change.positive{color:#34c759}
-        .s4-widget .widget-change.negative{color:#ff3b30}
+        .s4-widget .widget-change.positive{color:#00aaff}
+        .s4-widget .widget-change.negative{color:#c9a84c}
 
         /* Mobile Responsive Enhancements */
         @media (max-width: 768px) {
@@ -1823,7 +1823,7 @@ if (sessionStorage.getItem('s4_entered') === '1') {
 
         <!-- ═══ WALLET TRIGGER (Top Right) ═══ -->
         <div style="display:flex;justify-content:flex-end;margin-bottom:8px;">
-            <button onclick="resetDemoSession()" style="background:rgba(255,107,107,0.08);border:1px solid rgba(255,107,107,0.2);color:#ff6b6b;border-radius:3px;padding:6px 14px;font-size:0.78rem;font-weight:600;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:5px;transition:all 0.2s;" onmouseover="this.style.background='rgba(255,107,107,0.15)'" onmouseout="this.style.background='rgba(255,107,107,0.08)'"><i class="fas fa-right-from-bracket"></i><span class="d-none d-md-inline">Logout</span></button>
+            <button onclick="resetDemoSession()" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);color:#c9a84c;border-radius:3px;padding:6px 14px;font-size:0.78rem;font-weight:600;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:5px;transition:all 0.2s;" onmouseover="this.style.background='rgba(201,168,76,0.15)'" onmouseout="this.style.background='rgba(201,168,76,0.08)'"><i class="fas fa-right-from-bracket"></i><span class="d-none d-md-inline">Logout</span></button>
                         <button class="wallet-trigger" onclick="openWalletSidebar()" id="walletTriggerBtn">
                 <i class="fas fa-wallet"></i> My Wallet <span class="wt-bal" id="walletTriggerBal">--</span>
             </button>
@@ -1849,8 +1849,8 @@ if (sessionStorage.getItem('s4_entered') === '1') {
                 
                 <div class="hub-card" onclick="showSection('sectionVerify')">
 
-                    <div class="hc-icon" style="background:rgba(46,204,113,0.1);"><i class="fas fa-check-circle" style="color:#2ecc71;"></i></div>
-                    <div class="hc-title">Verify Records <span style="background:rgba(46,204,113,0.15);color:#2ecc71;font-size:0.65rem;padding:2px 8px;border-radius:3px;font-weight:600;margin-left:6px;">LIVE</span></div>
+                    <div class="hc-icon" style="background:rgba(0,170,255,0.1);"><i class="fas fa-check-circle" style="color:#00aaff;"></i></div>
+                    <div class="hc-title">Verify Records <span style="background:rgba(0,170,255,0.15);color:#00aaff;font-size:0.65rem;padding:2px 8px;border-radius:3px;font-weight:600;margin-left:6px;">LIVE</span></div>
                     <div class="hc-desc">Upload a PDF, spreadsheet, or any file to verify its integrity against the blockchain anchor. Batch verification supported.</div>
                     <div class="hc-meta"><i class="fas fa-file-upload"></i> Drag-drop files &bull; Free verification</div>
                     <div class="hc-arrow"><i class="fas fa-chevron-right"></i></div>
@@ -2102,7 +2102,7 @@ if (sessionStorage.getItem('s4_entered') === '1') {
                             <div class="hc-arrow"><i class="fas fa-chevron-right"></i></div>
                         </div>
                         <div class="hub-card" onclick="showSystemsSub('tabOffline')" style="padding:20px;">
-                            <div class="hc-icon" style="background:rgba(46,204,113,0.1);"><i class="fas fa-wifi" style="color:#2ecc71;"></i></div>
+                            <div class="hc-icon" style="background:rgba(0,170,255,0.1);"><i class="fas fa-wifi" style="color:#00aaff;"></i></div>
                             <div class="hc-title">Offline Queue</div>
                             <div class="hc-desc">Encrypted offline queue with auto-sync, exponential backoff, and persistent storage for network outages.</div>
                             <div class="hc-arrow"><i class="fas fa-chevron-right"></i></div>
@@ -2267,7 +2267,7 @@ if (sessionStorage.getItem('s4_entered') === '1') {
                         <span class="r16-hdr-btn" onclick="showSavedAnalyses()" style="display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:3px;font-size:0.72rem;font-weight:600;background:rgba(167,139,250,0.06);border:1px solid rgba(167,139,250,0.15);color:#a78bfa;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.background='rgba(167,139,250,0.15)'" onmouseout="this.style.background='rgba(167,139,250,0.06)'"><i class="fas fa-history"></i> My Analyses</span>
                         <span class="r16-hdr-btn" onclick="showTeamPanel()" style="display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:3px;font-size:0.72rem;font-weight:600;background:rgba(0,170,255,0.06);border:1px solid rgba(0,170,255,0.12);color:var(--accent);cursor:pointer;transition:all 0.2s;" onmouseover="this.style.background='rgba(0,170,255,0.15)'" onmouseout="this.style.background='rgba(0,170,255,0.06)'"><i class="fas fa-users"></i> Team</span>
                         <span class="r16-hdr-btn" onclick="showWebhookSettings()" style="display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:3px;font-size:0.72rem;font-weight:600;background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.15);color:#c9a84c;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.background='rgba(201,168,76,0.15)'" onmouseout="this.style.background='rgba(201,168,76,0.06)'"><i class="fas fa-plug"></i> Webhooks</span>
-                        <span class="r16-hdr-btn" onclick="exportPDF()" style="display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:3px;font-size:0.72rem;font-weight:600;background:rgba(255,107,107,0.06);border:1px solid rgba(255,107,107,0.15);color:#ff6b6b;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.background='rgba(255,107,107,0.15)'" onmouseout="this.style.background='rgba(255,107,107,0.06)'"><i class="fas fa-file-pdf"></i> PDF Export</span>
+                        <span class="r16-hdr-btn" onclick="exportPDF()" style="display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:3px;font-size:0.72rem;font-weight:600;background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.15);color:#c9a84c;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.background='rgba(201,168,76,0.15)'" onmouseout="this.style.background='rgba(201,168,76,0.06)'"><i class="fas fa-file-pdf"></i> PDF Export</span>
                     </div>
                 </div>
                 <div class="ils-hub-tabs" id="ilsHubTabs" style="display:none !important;">
@@ -2355,7 +2355,7 @@ if (sessionStorage.getItem('s4_entered') === '1') {
                         <div class="itc-desc">Manage provisioning technical data and CDRL submissions.</div>
                     </div>
                     <div class="ils-tool-card" onclick="openILSTool('hub-sbom')">
-                        <span class="itc-icon"><i class="fas fa-microchip" style="color:#2ecc71;"></i></span>
+                        <span class="itc-icon"><i class="fas fa-microchip" style="color:#00aaff;"></i></span>
                         <div class="itc-title">SBOM Viewer</div>
                         <div class="itc-desc">Software Bill of Materials — track components, CVEs, and blockchain attestation.</div>
                     </div>
@@ -2374,8 +2374,8 @@ if (sessionStorage.getItem('s4_entered') === '1') {
                                 <summary style="cursor:pointer;padding:10px 0;color:#00aaff;font-weight:600;font-size:0.85rem;"><i class="fas fa-info-circle"></i> How Gap Analysis Works</summary>
                                     <div style="padding:0 0 12px;color:var(--steel);font-size:0.82rem;line-height:1.6;">
                                         <p><strong style="color:#fff;">What this tool does:</strong> The ILS Gap Analysis Engine evaluates your program’s compliance with <strong>MIL-STD-1388-1A/2B</strong> Integrated Logistics Support requirements. It scores 10 ILS element areas — Supply Support, Maintenance Planning, Technical Data, Training, Configuration Management, DMSMS, PHS&amp;T, Reliability, Support Equipment, and Manpower — to identify gaps, missing deliverables, and corrective actions.</p>
-                                        <p><strong style="color:#2ecc71;">Step-by-step:</strong> (1) Select your program and hull/tail number. (2) Review the generated ILS checklist and mark items as complete. (3) Upload DRL spreadsheets, CDRLs, or ILS documents for automated cross-reference. (4) Click “Run Full Analysis” — the engine scores your checklist (weighted: critical items ×2), cross-references uploaded documents against DRL requirements using fuzzy matching, and outputs a combined coverage score (60% checklist + 40% DRL). (5) Review critical gaps, action items, estimated remediation costs, and recommended owners.</p>
-                                        <p><strong style="color:#ff6b6b;">Action output:</strong> Gap Analysis generates a prioritized corrective action register (CAR) with severity ratings, cost estimates ($K), schedule targets, and assigned owners (government + contractor). Critical gaps are flagged for immediate attention. Every analysis result can be anchored to the XRP Ledger for tamper-proof audit trail.</p>
+                                        <p><strong style="color:#00aaff;">Step-by-step:</strong> (1) Select your program and hull/tail number. (2) Review the generated ILS checklist and mark items as complete. (3) Upload DRL spreadsheets, CDRLs, or ILS documents for automated cross-reference. (4) Click “Run Full Analysis” — the engine scores your checklist (weighted: critical items ×2), cross-references uploaded documents against DRL requirements using fuzzy matching, and outputs a combined coverage score (60% checklist + 40% DRL). (5) Review critical gaps, action items, estimated remediation costs, and recommended owners.</p>
+                                        <p><strong style="color:#c9a84c;">Action output:</strong> Gap Analysis generates a prioritized corrective action register (CAR) with severity ratings, cost estimates ($K), schedule targets, and assigned owners (government + contractor). Critical gaps are flagged for immediate attention. Every analysis result can be anchored to the XRP Ledger for tamper-proof audit trail.</p>
                                         <p><strong style="color:#00aaff;">Charts:</strong> After analysis, a radar chart shows ILS element coverage and a horizontal bar chart shows individual element scores color-coded (green ≥80%, amber ≥50%, red &lt;50%). Charts update automatically when you re-run with different parameters.</p>
                                         <p><strong style="color:#c9a84c;">How S4 Ledger saves money here:</strong> Defense programs routinely spend $150K–$500K per ILS review cycle hiring contractors to manually compile gap analyses across dozens of spreadsheets, CDRLs, and DRL trackers. The S4 Gap Analysis Engine automates the entire cross-reference process — parsing uploaded documents against MIL-STD-1388 requirements in seconds instead of weeks. This eliminates 70-85% of the labor cost associated with ILS reviews, catches gaps that manual processes miss, and produces audit-ready output that can be anchored to XRPL for tamper-proof compliance evidence. Programs typically recover the annual platform cost in a single review cycle.</p>
                                     </div>
@@ -2904,7 +2904,7 @@ if (sessionStorage.getItem('s4_entered') === '1') {
                                 <div style="font-size:0.68rem;color:var(--steel);text-transform:uppercase;letter-spacing:0.5px">Storage</div>
                             </div>
                             <div style="background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:10px;text-align:center">
-                                <div style="font-size:1.1rem;font-weight:800;color:#2ecc71" id="vmUniqueTypes">0</div>
+                                <div style="font-size:1.1rem;font-weight:800;color:#00aaff" id="vmUniqueTypes">0</div>
                                 <div style="font-size:0.68rem;color:var(--steel);text-transform:uppercase;letter-spacing:0.5px">Unique Types</div>
                             </div>
                             <div style="background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:10px;text-align:center">
@@ -3057,9 +3057,9 @@ if (sessionStorage.getItem('s4_entered') === '1') {
             <!-- ══ HUB: AI SUPPLY CHAIN RISK ENGINE ══ -->
             <div class="ils-hub-panel" id="hub-risk">
                 <div class="demo-card">
-                    <h3><i class="fas fa-triangle-exclamation" style="color:#ff6b6b"></i> AI Supply Chain Risk Engine</h3>
-                    <details style="margin-bottom:1rem;background:rgba(255,107,107,0.04);border:1px solid rgba(255,107,107,0.15);border-radius:3px;padding:0 12px;">
-                        <summary style="cursor:pointer;padding:10px 0;color:#ff6b6b;font-weight:600;font-size:0.85rem;"><i class="fas fa-info-circle"></i> How It Works — AI Risk Prediction</summary>
+                    <h3><i class="fas fa-triangle-exclamation" style="color:#c9a84c"></i> AI Supply Chain Risk Engine</h3>
+                    <details style="margin-bottom:1rem;background:rgba(201,168,76,0.04);border:1px solid rgba(201,168,76,0.15);border-radius:3px;padding:0 12px;">
+                        <summary style="cursor:pointer;padding:10px 0;color:#c9a84c;font-weight:600;font-size:0.85rem;"><i class="fas fa-info-circle"></i> How It Works — AI Risk Prediction</summary>
                         <div style="padding:0 0 12px;color:var(--steel);font-size:0.82rem;line-height:1.6;">
                             <p><strong style="color:#fff;">What's real:</strong> The risk engine analyzes supplier health indicators — GIDEP alerts, CAGE code changes, DLA lead time spikes, financial distress signals, and single-source dependencies — to generate risk scores for every part in your supply chain. Alerts are timestamped and can be anchored to XRPL for audit trail.</p>
                             <p><strong style="color:#fff;">What's demo:</strong> Risk scores and supplier data are generated from realistic DoD supply chain patterns. In production, this connects to live GIDEP, DLA, SAM.gov, and commercial financial data feeds via API.</p>
@@ -3086,17 +3086,17 @@ if (sessionStorage.getItem('s4_entered') === '1') {
                         <div class="col-3"><div style="text-align:center;padding:12px;background:rgba(255,59,48,0.1);border:1px solid rgba(255,59,48,0.3);border-radius:3px;"><div style="font-size:1.6rem;font-weight:800;color:#ff3b30" id="riskCritical">0</div><div style="font-size:0.75rem;color:var(--text-muted)">Critical</div></div></div>
                         <div class="col-3"><div style="text-align:center;padding:12px;background:rgba(255,149,0,0.1);border:1px solid rgba(255,149,0,0.3);border-radius:3px;"><div style="font-size:1.6rem;font-weight:800;color:#ff9500" id="riskHigh">0</div><div style="font-size:0.75rem;color:var(--text-muted)">High</div></div></div>
                         <div class="col-3"><div style="text-align:center;padding:12px;background:rgba(255,204,0,0.1);border:1px solid rgba(255,204,0,0.3);border-radius:3px;"><div style="font-size:1.6rem;font-weight:800;color:#ffcc00" id="riskMedium">0</div><div style="font-size:0.75rem;color:var(--text-muted)">Medium</div></div></div>
-                        <div class="col-3"><div style="text-align:center;padding:12px;background:rgba(52,199,89,0.1);border:1px solid rgba(52,199,89,0.3);border-radius:3px;"><div style="font-size:1.6rem;font-weight:800;color:#34c759" id="riskLow">0</div><div style="font-size:0.75rem;color:var(--text-muted)">Low</div></div></div>
+                        <div class="col-3"><div style="text-align:center;padding:12px;background:rgba(0,170,255,0.1);border:1px solid rgba(0,170,255,0.3);border-radius:3px;"><div style="font-size:1.6rem;font-weight:800;color:#00aaff" id="riskLow">0</div><div style="font-size:0.75rem;color:var(--text-muted)">Low</div></div></div>
                     </div>
                     <!-- ── AI Threat Intelligence Score (vs Palantir Gotham) ── -->
-                    <div id="threatIntelPanel" style="margin-bottom:16px;background:linear-gradient(135deg,rgba(255,59,48,0.04),rgba(255,149,0,0.03));border:1px solid rgba(255,107,107,0.2);border-radius:3px;padding:16px;display:none;">
+                    <div id="threatIntelPanel" style="margin-bottom:16px;background:linear-gradient(135deg,rgba(201,168,76,0.04),rgba(255,149,0,0.03));border:1px solid rgba(201,168,76,0.2);border-radius:3px;padding:16px;display:none;">
                         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-                            <div style="font-size:0.82rem;font-weight:700;color:#ff6b6b;text-transform:uppercase;letter-spacing:0.8px;display:flex;align-items:center;gap:6px;"><i class="fas fa-crosshairs"></i> AI Threat Intelligence Score</div>
-                            <div id="threatScoreBadge" style="background:rgba(255,59,48,0.15);color:#ff3b30;padding:4px 14px;border-radius:3px;font-size:0.85rem;font-weight:800;letter-spacing:0.5px;">— / 100</div>
+                            <div style="font-size:0.82rem;font-weight:700;color:#c9a84c;text-transform:uppercase;letter-spacing:0.8px;display:flex;align-items:center;gap:6px;"><i class="fas fa-crosshairs"></i> AI Threat Intelligence Score</div>
+                            <div id="threatScoreBadge" style="background:rgba(201,168,76,0.15);color:#c9a84c;padding:4px 14px;border-radius:3px;font-size:0.85rem;font-weight:800;letter-spacing:0.5px;">— / 100</div>
                         </div>
                         <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px;">
-                            <div style="text-align:center;padding:10px;background:rgba(255,59,48,0.08);border-radius:3px;border:1px solid rgba(255,59,48,0.15);">
-                                <div style="font-size:1.2rem;font-weight:800;color:#ff3b30;" id="threatSingleSource">0</div>
+                            <div style="text-align:center;padding:10px;background:rgba(201,168,76,0.08);border-radius:3px;border:1px solid rgba(201,168,76,0.15);">
+                                <div style="font-size:1.2rem;font-weight:800;color:#c9a84c;" id="threatSingleSource">0</div>
                                 <div style="font-size:0.68rem;color:var(--steel);text-transform:uppercase;">Single-Source</div>
                             </div>
                             <div style="text-align:center;padding:10px;background:rgba(255,149,0,0.08);border-radius:3px;border:1px solid rgba(255,149,0,0.15);">
@@ -3114,14 +3114,14 @@ if (sessionStorage.getItem('s4_entered') === '1') {
                         <div id="threatAssessment" style="font-size:0.78rem;color:var(--steel);line-height:1.5;"></div>
                     </div>
                     <!-- Risk Table -->
-                    <div style="max-height:400px;overflow-y:auto;border:1px solid rgba(255,107,107,0.2);border-radius:3px;">
+                    <div style="max-height:400px;overflow-y:auto;border:1px solid rgba(201,168,76,0.2);border-radius:3px;">
                         <table style="width:100%;border-collapse:collapse;">
-                            <thead style="position:sticky;top:0;background:#0a0e1a;z-index:1;"><tr><th style="padding:10px 8px;font-size:0.78rem;text-transform:uppercase;color:#ff6b6b;border-bottom:2px solid rgba(255,107,107,0.2);text-align:left;">Part / NSN</th><th style="padding:10px 8px;font-size:0.78rem;text-transform:uppercase;color:#ff6b6b;border-bottom:2px solid rgba(255,107,107,0.2);text-align:left;">Supplier</th><th style="padding:10px 8px;font-size:0.78rem;text-transform:uppercase;color:#ff6b6b;border-bottom:2px solid rgba(255,107,107,0.2);text-align:center;">Risk Score</th><th style="padding:10px 8px;font-size:0.78rem;text-transform:uppercase;color:#ff6b6b;border-bottom:2px solid rgba(255,107,107,0.2);text-align:left;">Risk Factors</th><th style="padding:10px 8px;font-size:0.78rem;text-transform:uppercase;color:#ff6b6b;border-bottom:2px solid rgba(255,107,107,0.2);text-align:center;">ETA Impact</th></tr></thead>
+                            <thead style="position:sticky;top:0;background:#0a0e1a;z-index:1;"><tr><th style="padding:10px 8px;font-size:0.78rem;text-transform:uppercase;color:#c9a84c;border-bottom:2px solid rgba(201,168,76,0.2);text-align:left;">Part / NSN</th><th style="padding:10px 8px;font-size:0.78rem;text-transform:uppercase;color:#c9a84c;border-bottom:2px solid rgba(201,168,76,0.2);text-align:left;">Supplier</th><th style="padding:10px 8px;font-size:0.78rem;text-transform:uppercase;color:#c9a84c;border-bottom:2px solid rgba(201,168,76,0.2);text-align:center;">Risk Score</th><th style="padding:10px 8px;font-size:0.78rem;text-transform:uppercase;color:#c9a84c;border-bottom:2px solid rgba(201,168,76,0.2);text-align:left;">Risk Factors</th><th style="padding:10px 8px;font-size:0.78rem;text-transform:uppercase;color:#c9a84c;border-bottom:2px solid rgba(201,168,76,0.2);text-align:center;">ETA Impact</th></tr></thead>
                             <tbody id="riskTableBody"><tr><td colspan="5" style="text-align:center;padding:30px;color:var(--text-muted)">Click a program to load risk analysis...</td></tr></tbody>
                         </table>
                     </div>
                     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:1rem">
-                        <button onclick="loadRiskData()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#ff6b6b,#cc3333);color:#fff;border:none;border-radius:3px;padding:8px 16px"><i class="fas fa-sync-alt"></i> Refresh Analysis</button>
+                        <button onclick="loadRiskData()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#c9a84c,#a88a3a);color:#fff;border:none;border-radius:3px;padding:8px 16px"><i class="fas fa-sync-alt"></i> Refresh Analysis</button>
                         <button onclick="exportRisk()" class="btn btn-sm hover-lift" style="background:rgba(255,255,255,0.08);color:#fff;border:none;border-radius:3px;padding:8px 16px;font-weight:700"><i class="fas fa-download"></i> Export Risk Report</button>
                         <button onclick="anchorRisk()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;border-radius:3px;padding:8px 16px"><i class="fas fa-anchor"></i> Anchor to XRPL</button>
                     </div>
@@ -3244,12 +3244,12 @@ if (sessionStorage.getItem('s4_entered') === '1') {
             <!-- ══ HUB: SBOM VIEWER — SOFTWARE BILL OF MATERIALS ══ -->
             <div class="ils-hub-panel" id="hub-sbom">
                 <div class="demo-card">
-                    <h3><i class="fas fa-microchip" style="color:#2ecc71"></i> Software Bill of Materials (SBOM)</h3>
-                    <details style="margin-bottom:1rem;background:rgba(46,204,113,0.04);border:1px solid rgba(46,204,113,0.15);border-radius:3px;padding:0 12px;">
-                        <summary style="cursor:pointer;padding:10px 0;color:#2ecc71;font-weight:600;font-size:0.85rem;"><i class="fas fa-info-circle"></i> How It Works — Blockchain-Verified SBOM</summary>
+                    <h3><i class="fas fa-microchip" style="color:#00aaff"></i> Software Bill of Materials (SBOM)</h3>
+                    <details style="margin-bottom:1rem;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.15);border-radius:3px;padding:0 12px;">
+                        <summary style="cursor:pointer;padding:10px 0;color:#00aaff;font-weight:600;font-size:0.85rem;"><i class="fas fa-info-circle"></i> How It Works — Blockchain-Verified SBOM</summary>
                         <div style="padding:0 0 12px;color:var(--steel);font-size:0.82rem;line-height:1.6;">
                             <p><strong style="color:#fff;">What's real:</strong> The SBOM Viewer catalogs all embedded software components across weapon systems — firmware, RTOS, middleware, drivers, and third-party libraries. Each component is tracked with version, CVE status, license type, and supply chain provenance. S4 Ledger hashes each SBOM snapshot to XRPL for tamper-proof versioning.</p>
-                            <p><strong style="color:#2ecc71;">Why it matters:</strong> CMMC Level 2+ requires SBOM management. Executive Order 14028 mandates SBOMs for all federal software. No competitor ties SBOM tracking to blockchain verification — this is a first.</p>
+                            <p><strong style="color:#00aaff;">Why it matters:</strong> CMMC Level 2+ requires SBOM management. Executive Order 14028 mandates SBOMs for all federal software. No competitor ties SBOM tracking to blockchain verification — this is a first.</p>
                             <p><strong style="color:#00aaff;">Production mode:</strong> Ingests CycloneDX and SPDX formats from CI/CD pipelines. Integrates with NVD for real-time CVE matching. Auto-generates SBOM attestation documents for DCMA/DCAA auditors.</p>
                         </div>
                     </details>
@@ -3271,14 +3271,14 @@ if (sessionStorage.getItem('s4_entered') === '1') {
                         <div class="col-md-3 col-6"><div style="text-align:center;padding:12px;background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:3px;"><div style="font-size:1.6rem;font-weight:800;color:#c9a84c" id="sbomAnchored">0</div><div style="font-size:0.72rem;color:var(--text-muted)">Anchored</div></div></div>
                     </div>
                     <!-- SBOM Table -->
-                    <div style="max-height:400px;overflow-y:auto;border:1px solid rgba(46,204,113,0.2);border-radius:3px;">
+                    <div style="max-height:400px;overflow-y:auto;border:1px solid rgba(0,170,255,0.2);border-radius:3px;">
                         <table style="width:100%;border-collapse:collapse;">
-                            <thead style="position:sticky;top:0;background:#0a0e1a;z-index:1;"><tr><th style="padding:10px 8px;font-size:0.78rem;text-transform:uppercase;color:#2ecc71;border-bottom:2px solid rgba(46,204,113,0.2);text-align:left;">Component</th><th style="padding:10px 8px;font-size:0.78rem;text-transform:uppercase;color:#2ecc71;border-bottom:2px solid rgba(46,204,113,0.2);text-align:left;">Version</th><th style="padding:10px 8px;font-size:0.78rem;text-transform:uppercase;color:#2ecc71;border-bottom:2px solid rgba(46,204,113,0.2);text-align:center;">Type</th><th style="padding:10px 8px;font-size:0.78rem;text-transform:uppercase;color:#2ecc71;border-bottom:2px solid rgba(46,204,113,0.2);text-align:center;">CVEs</th><th style="padding:10px 8px;font-size:0.78rem;text-transform:uppercase;color:#2ecc71;border-bottom:2px solid rgba(46,204,113,0.2);text-align:center;">License</th><th style="padding:10px 8px;font-size:0.78rem;text-transform:uppercase;color:#2ecc71;border-bottom:2px solid rgba(46,204,113,0.2);text-align:center;">Status</th></tr></thead>
+                            <thead style="position:sticky;top:0;background:#0a0e1a;z-index:1;"><tr><th style="padding:10px 8px;font-size:0.78rem;text-transform:uppercase;color:#00aaff;border-bottom:2px solid rgba(0,170,255,0.2);text-align:left;">Component</th><th style="padding:10px 8px;font-size:0.78rem;text-transform:uppercase;color:#00aaff;border-bottom:2px solid rgba(0,170,255,0.2);text-align:left;">Version</th><th style="padding:10px 8px;font-size:0.78rem;text-transform:uppercase;color:#00aaff;border-bottom:2px solid rgba(0,170,255,0.2);text-align:center;">Type</th><th style="padding:10px 8px;font-size:0.78rem;text-transform:uppercase;color:#00aaff;border-bottom:2px solid rgba(0,170,255,0.2);text-align:center;">CVEs</th><th style="padding:10px 8px;font-size:0.78rem;text-transform:uppercase;color:#00aaff;border-bottom:2px solid rgba(0,170,255,0.2);text-align:center;">License</th><th style="padding:10px 8px;font-size:0.78rem;text-transform:uppercase;color:#00aaff;border-bottom:2px solid rgba(0,170,255,0.2);text-align:center;">Status</th></tr></thead>
                             <tbody id="sbomTableBody"><tr><td colspan="6" style="text-align:center;padding:30px;color:var(--text-muted)">Select a platform to load SBOM data...</td></tr></tbody>
                         </table>
                     </div>
                     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:1rem">
-                        <button onclick="loadSBOMData()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#2ecc71,#27ae60);color:#fff;border:none;border-radius:3px;padding:8px 16px;font-weight:700"><i class="fas fa-sync-alt"></i> Scan Components</button>
+                        <button onclick="loadSBOMData()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;border-radius:3px;padding:8px 16px;font-weight:700"><i class="fas fa-sync-alt"></i> Scan Components</button>
                         <button onclick="exportSBOM()" class="btn btn-sm hover-lift" style="background:rgba(255,255,255,0.08);color:#fff;border:none;border-radius:3px;padding:8px 16px;font-weight:700"><i class="fas fa-download"></i> Export SBOM</button>
                         <button onclick="anchorSBOM()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;border-radius:3px;padding:8px 16px"><i class="fas fa-anchor"></i> Anchor SBOM to XRPL</button>
                     </div>
@@ -3287,7 +3287,7 @@ if (sessionStorage.getItem('s4_entered') === '1') {
 
             <div class="ils-hub-panel" id="hub-submissions">
                 <div class="demo-card">
-                    <h3><i class="fas fa-file-circle-check" style="color:#e06c75"></i> Submissions &amp; PTD</h3>
+                    <h3><i class="fas fa-file-circle-check" style="color:#c9a84c"></i> Submissions &amp; PTD</h3>
                     <p style="color:var(--steel);font-size:0.9rem;margin-bottom:0.5rem">Upload and compare ILS data submissions from OEMs, shipbuilders, vendors, and contractors for Navy programs and programs. Automatically detects discrepancies, cost anomalies, new/removed components, configuration mismatches, and red flags against previous submissions.</p>
 
                     <details style="margin-bottom:1rem;background:rgba(224,108,117,0.04);border:1px solid rgba(224,108,117,0.15);border-radius:3px;padding:0 12px;">
@@ -3409,20 +3409,20 @@ if (sessionStorage.getItem('s4_entered') === '1') {
 
                     <!-- Stats -->
                     <div class="row" style="gap:12px 0;margin-bottom:1rem">
-                        <div class="col-md-2 col-4"><div class="stat-mini"><div class="stat-mini-val" id="subTotalItems" style="color:#e06c75">0</div><div class="stat-mini-lbl">Items Reviewed</div></div></div>
+                        <div class="col-md-2 col-4"><div class="stat-mini"><div class="stat-mini-val" id="subTotalItems" style="color:#c9a84c">0</div><div class="stat-mini-lbl">Items Reviewed</div></div></div>
                         <div class="col-md-2 col-4"><div class="stat-mini"><div class="stat-mini-val" id="subNewItems" style="color:#00aaff">0</div><div class="stat-mini-lbl">New Components</div></div></div>
-                        <div class="col-md-2 col-4"><div class="stat-mini"><div class="stat-mini-val" id="subRemovedItems" style="color:#ff6b6b">0</div><div class="stat-mini-lbl">Removed Items</div></div></div>
-                        <div class="col-md-2 col-4"><div class="stat-mini"><div class="stat-mini-val" id="subCostDelta" style="color:#ffa500">$0</div><div class="stat-mini-lbl">Cost Delta</div></div></div>
-                        <div class="col-md-2 col-4"><div class="stat-mini"><div class="stat-mini-val" id="subDiscrepancies" style="color:#e06c75">0</div><div class="stat-mini-lbl">Discrepancies</div></div></div>
-                        <div class="col-md-2 col-4"><div class="stat-mini"><div class="stat-mini-val" id="subRedFlags" style="color:#ff0000">0</div><div class="stat-mini-lbl">Red Flags</div></div></div>
+                        <div class="col-md-2 col-4"><div class="stat-mini"><div class="stat-mini-val" id="subRemovedItems" style="color:#c9a84c">0</div><div class="stat-mini-lbl">Removed Items</div></div></div>
+                        <div class="col-md-2 col-4"><div class="stat-mini"><div class="stat-mini-val" id="subCostDelta" style="color:#c9a84c">$0</div><div class="stat-mini-lbl">Cost Delta</div></div></div>
+                        <div class="col-md-2 col-4"><div class="stat-mini"><div class="stat-mini-val" id="subDiscrepancies" style="color:#c9a84c">0</div><div class="stat-mini-lbl">Discrepancies</div></div></div>
+                        <div class="col-md-2 col-4"><div class="stat-mini"><div class="stat-mini-val" id="subRedFlags" style="color:#c9a84c">0</div><div class="stat-mini-lbl">Red Flags</div></div></div>
                     </div>
 
                     <!-- Discrepancy Results Table -->
                     <div id="subResultsContainer" style="display:none">
-                        <h5 style="color:#e06c75;margin-bottom:8px"><i class="fas fa-triangle-exclamation"></i> Discrepancy Report</h5>
+                        <h5 style="color:#c9a84c;margin-bottom:8px"><i class="fas fa-triangle-exclamation"></i> Discrepancy Report</h5>
                         <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">
-                            <button onclick="filterDiscrepancies('all')" class="btn btn-sm" style="background:rgba(224,108,117,0.15);color:#e06c75;border:1px solid rgba(224,108,117,0.3);border-radius:3px;font-size:.75rem;padding:4px 10px">All</button>
-                            <button onclick="filterDiscrepancies('critical')" class="btn btn-sm" style="background:rgba(255,0,0,0.1);color:#ff4444;border:1px solid rgba(255,0,0,0.3);border-radius:3px;font-size:.75rem;padding:4px 10px">Critical</button>
+                            <button onclick="filterDiscrepancies('all')" class="btn btn-sm" style="background:rgba(201,168,76,0.15);color:#c9a84c;border:1px solid rgba(201,168,76,0.3);border-radius:3px;font-size:.75rem;padding:4px 10px">All</button>
+                            <button onclick="filterDiscrepancies('critical')" class="btn btn-sm" style="background:rgba(201,168,76,0.1);color:#c9a84c;border:1px solid rgba(201,168,76,0.3);border-radius:3px;font-size:.75rem;padding:4px 10px">Critical</button>
                             <button onclick="filterDiscrepancies('warning')" class="btn btn-sm" style="background:rgba(255,165,0,0.1);color:#ffa500;border:1px solid rgba(255,165,0,0.3);border-radius:3px;font-size:.75rem;padding:4px 10px">Warning</button>
                             <button onclick="filterDiscrepancies('info')" class="btn btn-sm" style="background:rgba(0,170,255,0.1);color:#00aaff;border:1px solid rgba(0,170,255,0.3);border-radius:3px;font-size:.75rem;padding:4px 10px">Info</button>
                             <button onclick="filterDiscrepancies('new')" class="btn btn-sm" style="background:rgba(0,170,255,0.06);color:#00aaff;border:1px solid rgba(0,170,255,0.3);border-radius:3px;font-size:.75rem;padding:4px 10px">New Items</button>
@@ -3502,7 +3502,7 @@ if (sessionStorage.getItem('s4_entered') === '1') {
                     </div>
                     <div style="display:flex;gap:8px;align-items:center">
                         <button class="sls-expand-btn" id="slsToggleBtn" onclick="toggleFlowBox()"><i class="fas fa-chart-simple" style="margin-right:4px"></i>Flow Details</button>
-                        <button class="sls-expand-btn" onclick="resetDemoSession()" style="border-color:rgba(255,107,107,0.3);color:#ff6b6b;" title="Reset session & clear cache"><i class="fas fa-right-from-bracket" style="margin-right:4px"></i>Logout</button>
+                        <button class="sls-expand-btn" onclick="resetDemoSession()" style="border-color:rgba(201,168,76,0.3);color:#c9a84c;" title="Reset session & clear cache"><i class="fas fa-right-from-bracket" style="margin-right:4px"></i>Logout</button>
                     </div>
                 </div>
                 <div style="max-width:900px;margin:0 auto;padding:1rem 0">
@@ -4140,7 +4140,8 @@ function resetDemoSession() {
     localStorage.removeItem('s4_anchored_records');
     localStorage.removeItem('s4_wallet');
     localStorage.removeItem('s4_selected_tier');
-    localStorage.removeItem('s4_vault');
+    // Clear ALL role-scoped vaults (s4Vault, s4Vault_admin, s4Vault_auditor, etc.)
+    Object.keys(localStorage).filter(function(k){ return k.startsWith('s4Vault'); }).forEach(function(k){ localStorage.removeItem(k); });
     localStorage.removeItem('s4_action_items');
     localStorage.removeItem('s4ActionItems');
     localStorage.removeItem('s4_uploaded_docs');
@@ -9016,9 +9017,19 @@ saveActionItems = function() {
 };
 
 // ═══ AUDIT RECORD VAULT ═══
+// Vault key is scoped by role — each role sees only its own records
+function _vaultKey() {
+    return 's4Vault' + (typeof _currentRole !== 'undefined' && _currentRole ? '_' + _currentRole : '');
+}
 let s4Vault;
 try { s4Vault = JSON.parse(localStorage.getItem('s4Vault') || '[]'); } catch(_e) { s4Vault = []; }
-function saveVault() { localStorage.setItem('s4Vault', JSON.stringify(s4Vault)); }
+function saveVault() { localStorage.setItem(_vaultKey(), JSON.stringify(s4Vault)); }
+// Called when the user switches roles — loads that role's vault and re-renders
+function reloadVaultForRole() {
+    try { s4Vault = JSON.parse(localStorage.getItem(_vaultKey()) || '[]'); } catch(_e) { s4Vault = []; }
+    if (typeof renderVault === 'function') renderVault();
+    if (typeof refreshVaultMetrics === 'function') refreshVaultMetrics();
+}
 
 function addToVault(record) {
     // record = {hash, txHash, type, label, branch, icon, content, encrypted, timestamp, source, fee}
@@ -9043,7 +9054,7 @@ function refreshVaultMetrics() {
     if (el) el.textContent = count.toLocaleString();
     // Storage
     var storageBytes = 0;
-    try { var raw = localStorage.getItem('s4_vault'); if (raw) storageBytes = new Blob([raw]).size; } catch(e){}
+    try { var raw = localStorage.getItem(_vaultKey()); if (raw) storageBytes = new Blob([raw]).size; } catch(e){}
     var storageEl = document.getElementById('vmStorageKB');
     if (storageEl) storageEl.textContent = storageBytes < 1024 ? storageBytes + ' B' : storageBytes < 1048576 ? (storageBytes / 1024).toFixed(1) + ' KB' : (storageBytes / 1048576).toFixed(1) + ' MB';
     // Unique types
@@ -13363,6 +13374,8 @@ function applyRole() {
     }
     applyTabVisibility(visibleTabs);
     updateRoleBadge();
+    // Reload vault for this role so each user sees only their own records
+    if (typeof reloadVaultForRole === 'function') reloadVaultForRole();
     document.getElementById('roleModal')?.remove();
     s4Notify('Role Applied', (title || _s4Roles[_currentRole]?.label || 'Custom') + ' — ' + visibleTabs.length + ' tools active', 'success');
 }
@@ -13411,6 +13424,8 @@ function initRoleSystem() {
     if (_currentRole) {
         var visibleTabs = _customVisibleTabs || (_s4Roles[_currentRole] ? _s4Roles[_currentRole].tabs : _allHubTabs);
         applyTabVisibility(visibleTabs);
+        // Load the vault scoped to this role
+        if (typeof reloadVaultForRole === 'function') reloadVaultForRole();
     }
     updateRoleBadge();
     // Show role selector ONLY when user is inside the platform (not landing page or demo)
@@ -14011,7 +14026,7 @@ function computeThreatIntelScore() {
     if (e('threatGIDEP')) e('threatGIDEP').textContent = gidepAlerts;
     if (e('threatLeadTime')) e('threatLeadTime').textContent = leadTimeSpikes;
     if (e('threatScoreBadge')) {
-        var color = threatScore >= 70 ? '#ff3b30' : threatScore >= 40 ? '#ff9500' : '#34c759';
+        var color = threatScore >= 70 ? '#c9a84c' : threatScore >= 40 ? '#ff9500' : '#00aaff';
         var label = threatScore >= 70 ? 'CRITICAL' : threatScore >= 40 ? 'ELEVATED' : 'LOW';
         e('threatScoreBadge').textContent = threatScore + ' / 100 — ' + label;
         e('threatScoreBadge').style.color = color;
