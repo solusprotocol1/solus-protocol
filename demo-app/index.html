@@ -18305,7 +18305,7 @@ function _updateThemeIcon(isLight) {
             {name:'Verify Channel', tab:'tabVerify', icon:'fa-shield-halved', desc:'Verify record integrity'},
             {name:'ILS Workspace', tab:'tabILS', icon:'fa-cogs', desc:'14 ILS analysis tools'},
             {name:'Audit Vault', tab:'tabILS', panel:'hub-vault', icon:'fa-vault', desc:'View all anchored records'},
-            {name:'Performance Dashboard', tab:'tabPerformance', icon:'fa-chart-line', desc:'API metrics & analytics'},
+            {name:'Performance Dashboard', tab:'tabMetrics', icon:'fa-chart-line', desc:'API metrics & analytics'},
             {name:'Wallet / SLS', tab:'tabWallet', icon:'fa-wallet', desc:'SLS balance & transactions'}
         ];
         tabs.forEach(function(t) {
@@ -18409,7 +18409,7 @@ function _updateThemeIcon(isLight) {
         // Cmd/Ctrl + 1-6 — Tab switching
         if (isMod && e.key >= '1' && e.key <= '6') {
             e.preventDefault();
-            var tabMap = {'1':'tabAnchor','2':'tabVerify','3':'tabILS','4':'tabPerformance','5':'tabWallet','6':'tabILS'};
+            var tabMap = {'1':'tabAnchor','2':'tabVerify','3':'tabILS','4':'tabMetrics','5':'tabWallet','6':'tabILS'};
             var tab = tabMap[e.key];
             if (tab) { var link = document.querySelector('a[href="#' + tab + '"]'); if (link) link.click(); }
             return;
