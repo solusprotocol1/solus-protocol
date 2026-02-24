@@ -1,7 +1,7 @@
-# S4 Ledger — Upgrade Locations Guide (v5.5.0)
+# S4 Ledger — Upgrade Locations Guide (v5.6.0)
 
 > Use this document to visually verify every upgrade on the live site.  
-> Last updated: February 24, 2026
+> Last updated: February 24, 2026 (afternoon session included)
 
 ---
 
@@ -356,6 +356,153 @@ The platform uses a **Hub → Section → Tab** navigation model:
 | SW strategy: NetworkFirst for HTML | dc67f79 | ✅ Pushed |
 | Bootstrap SRI hash added | dc67f79 | ✅ Pushed |
 | SW precache URLs fixed (Chart.js, platforms.js, defense-docs.js) | dc67f79 | ✅ Pushed |
+
+---
+
+## COMPETITIVE UPGRADES — v5.6.0 (Afternoon Session, February 24 2026)
+
+> 23 new features across 7 tools, plus a global Roadmap modal.  
+> All committed in batches c54bf9b → ece26fe and bug-fixed in d17cb6a → abfaaed.
+
+### How to Navigate
+
+1. Open platform → click **Platform Workspace**
+2. Click any of the **14 tool tabs** in the left sidebar (ILS Hub)
+3. Each tool panel scrolls vertically — competitive upgrades are typically **collapsible sections** with arrow toggles
+
+---
+
+### A. Action Items (`hub-actions`) — 8 Upgrades
+
+| # | Feature | Where to Find It | Element ID | What You See |
+|---|---------|-------------------|------------|--------------|
+| 91 | **⌘N / Ctrl+N Shortcut** | Anywhere on the workspace | Keyboard handler | Press ⌘N → Add Action Item modal opens |
+| 92 | **Bulk Operations Bar** | Action Items → above the list | `actionBulkBar` | Hidden until you tick checkboxes. Shows: Select All, count, Set Critical, Set Warning, Mark Done, Delete |
+| 93 | **Calendar View** | Action Items → below stat cards | `actionCalendarSection` | Monthly grid with prev/next month arrows. Days with due items show colored dots. Click a day for detail popover |
+| 94 | **AI Smart Sort** | Action Items → toolbar | Button with wand icon | "Smart Sort" button ranks items by severity × cost × urgency |
+| 95 | **Stat Drill-down** | Action Items → four mini stat cards | `hubAiTotal`, `hubAiCritical`, `hubAiOpen`, `hubAiDone` | Click any card → action list filters to that category |
+| 96 | **Inline Edit** | Action Items → any item title | Double-click title | Double-click → title becomes editable. Press Enter to save, Escape to cancel |
+| 97 | **Row Checkboxes** | Action Items → each row | Per-item `<input type="checkbox">` | Checkbox on every action item row. Enables bulk bar when ticked |
+| 98 | **Select All** | Action Items → bulk bar | Checkbox in `actionBulkBar` | Master checkbox to select/deselect all visible items at once |
+
+**Navigation path:** Platform Workspace → ILS Hub → Action Items tab
+
+---
+
+### B. Compliance (`hub-compliance`) — 4 Upgrades
+
+| # | Feature | Where to Find It | Element ID | What You See |
+|---|---------|-------------------|------------|--------------|
+| 99 | **POA&M Tracker** | Compliance → collapsible section | `poamSection`, `poamBody` | "POA&M — Plan of Action & Milestones" header. Table: ID / Weakness / Control / Risk / Milestone / Due / Owner / Status. Add & Export buttons |
+| 100 | **Evidence Manager** | Compliance → collapsible section | `evidenceSection`, `evidenceList` | Dropdown to pick NIST control (AC-1 through SI-4). File upload button, export log. Lists attached evidence with hashes |
+| 101 | **Continuous Monitoring** | Compliance → collapsible section | `monitoringSection`, `monitoringGrid` | "LIVE" badge with pulse dot. "Run Full Scan" button, auto-monitor toggle. Grid of control status cards + scrollable log |
+| 102 | **FedRAMP Alignment** | Compliance → collapsible section | `fedrampSection` | Impact-level dropdown (Low/Moderate/High), export button. Stats: Satisfied / Partial / Not Met / Total. Per-family progress bars (AC, AU, CM, IA, IR, SC) |
+
+**Navigation path:** Platform Workspace → ILS Hub → Compliance tab → scroll down through collapsible sections
+
+---
+
+### C. Reports (`hub-reports`) — 4 Upgrades
+
+| # | Feature | Where to Find It | Element ID | What You See |
+|---|---------|-------------------|------------|--------------|
+| 103 | **Executive Summary Generator** | Reports → collapsible section | `execSummarySection`, `execSummaryOutput` | "ONE-CLICK" badge. Generate button + Download. Outputs leadership-ready summary combining compliance, risk, actions, financials |
+| 104 | **Scheduled Reports** | Reports → collapsible section | `schedReportsSection`, `schedReportList` | Report type dropdown, frequency dropdown (Daily/Weekly/Monthly/Quarterly). "Schedule" button. Shows list of scheduled reports |
+| 105 | **Fleet-wide Comparison** | Reports → collapsible section | `fleetCompareSection`, `fleetCompareOutput` | "Generate Comparison" button. Side-by-side table of metrics across programs/platforms |
+| 106 | **Supply Chain Risk Heat Map** | Reports → collapsible section | `heatMapSection`, `heatMapOutput` | "Generate Heat Map" button. Visual risk heatmap by supplier, component category, and geographic region |
+
+**Navigation path:** Platform Workspace → ILS Hub → Reports tab → scroll down through collapsible sections
+
+---
+
+### D. Risk Engine (`hub-risk`) — 4 Upgrades
+
+| # | Feature | Where to Find It | Element ID | What You See |
+|---|---------|-------------------|------------|--------------|
+| 107 | **AI Remediation Plans** | Risk → collapsible section | `remediationSection`, `remediationOutput` | "AI-POWERED" badge. "Generate Plans" button. Outputs step-by-step remediation for high-risk items with alternate sourcing & cost estimates |
+| 108 | **Anomaly Detection** | Risk → collapsible section | `anomalySection`, `anomalyOutput` | "AI-SCAN" badge. "Run Anomaly Scan" button (red gradient). Scans for cost spikes, lead time anomalies, duplicates, integrity mismatches |
+| 109 | **Budget Forecasting** | Risk → collapsible section | `budgetForecastSection`, `budgetForecastOutput` | Year-range dropdown (3/5/10 year). "Forecast" button. AI-driven budget projection from procurement, obsolescence, and maintenance data |
+| 110 | **Document AI — Data Extraction** | Risk → collapsible section | `docAISection`, `docAIOutput` | "CLIENT-SIDE" badge. Upload (.txt/.csv/.json/.xml) + "Demo Extract" button. Extracts NSNs, CAGE codes, part numbers, dates, dollar amounts. Feeds into risk analysis pipeline |
+
+**Navigation path:** Platform Workspace → ILS Hub → Risk tab → scroll down through collapsible sections
+
+---
+
+### E. Document Library (`hub-docs`) — 2 Upgrades
+
+| # | Feature | Where to Find It | Element ID | What You See |
+|---|---------|-------------------|------------|--------------|
+| 111 | **15 Defense Templates** | Document Library → "Template Library" section | `templateList` | Collapsible section with "15 TEMPLATES" badge. Templates: DRL Tracker, Corrective Action Report, CDRL Status Tracker, SOW, PPL, DMSMS Case Report, SSR, POA&M Template, SSP, T&E Plan, FRB Report, Warranty Claim, Risk Matrix, FRACAS Report, ILS Certification Checklist. Each has a download button |
+| 112 | **Category Filter** | Document Library → inside Template Library | Filter buttons (All / Contract / Engineering / Logistics / Compliance) | Category buttons filter the template list. Also has a document-level category filter bar at the top of the library |
+
+**Navigation path:** Platform Workspace → ILS Hub → Document Library tab → scroll to "Template Library" section
+
+---
+
+### F. Submissions (`hub-submissions`) — 1 Upgrade
+
+| # | Feature | Where to Find It | Element ID | What You See |
+|---|---------|-------------------|------------|--------------|
+| 113 | **Version Diff Viewer** | Submissions → collapsible section | `versionDiffSection`, `diffOutput` | Two version dropdowns (A = Base, B = New) + "Compare" button. Monospace diff output showing added / removed / changed fields |
+
+**Navigation path:** Platform Workspace → ILS Hub → Submissions tab → scroll to "Version Diff" section
+
+---
+
+### G. Global — Production Features Roadmap Modal
+
+| # | Feature | Where to Find It | Element ID | What You See |
+|---|---------|-------------------|------------|--------------|
+| 114 | **Roadmap Button** | Platform Workspace → collab indicators bar (below ILS Hub header) | Button calling `openProdFeatures()` | Gold button with rocket icon + "Roadmap" text |
+| 115 | **Roadmap Modal** | Clicking the Roadmap button | `prodFeaturesModal`, `prodFeaturesList` | Full-screen overlay modal. Title: "Production Features Roadmap". 6 categories, 22 features with "PRODUCTION" badges. Close button + sales CTA |
+
+**Navigation path:** Platform Workspace → look for gold "Roadmap" button in the toolbar area → click it
+
+---
+
+### Quick Visual Guide — Where Each Tool Lives
+
+```
+Platform Workspace
+├── Top Bar (search, tabs, Roadmap button)
+├── ILS Hub (left sidebar with 14 tool tabs)
+│   ├── Action Items     ← Upgrades 91-98 (bulk ops, calendar, smart sort, etc.)
+│   ├── SBOM
+│   ├── DMSMS
+│   ├── Readiness
+│   ├── Lifecycle
+│   ├── Analysis
+│   ├── Document Library ← Upgrades 111-112 (15 templates, category filter)
+│   ├── Compliance       ← Upgrades 99-102 (POA&M, Evidence, Monitoring, FedRAMP)
+│   ├── Risk             ← Upgrades 107-110 (Remediation, Anomaly, Budget, Document AI)
+│   ├── Reports          ← Upgrades 103-106 (Exec Summary, Scheduled, Fleet, Heat Map)
+│   ├── Audit Trail
+│   ├── Cost Tracking
+│   ├── Submissions      ← Upgrade 113 (Version Diff)
+│   └── Sustainment
+├── AI Agent
+├── Anchor Records
+├── Verify
+├── Transaction Log
+└── Wallet
+```
+
+---
+
+## BUG FIXES LOG — v5.6.0 (Session Chain d17cb6a → abfaaed)
+
+| Fix | Commit | Status |
+|-----|--------|--------|
+| **CRITICAL: Stray `</div>` at line 2366 broke tabILS — all 14 hub panels ejected** | d17cb6a | ✅ Pushed |
+| Duplicate `</div></section>` at end of platformWorkspace removed | d17cb6a | ✅ Pushed |
+| 5 Pro-only FA icons replaced (fa-radar, fa-chart-radar, fa-shield-check, fa-shield-xmark, fa-hexagon-vertical-nft) | 2baf6ac | ✅ Pushed |
+| Light mode invisible text — CSS for .ai-title/.ai-body/.ai-meta/.ai-check/.stat-mini | 34a2b57 | ✅ Pushed |
+| 5 missing tool auto-loads wired in openILSTool/switchHubTab (SBOM, DMSMS, Readiness, Lifecycle, Analysis) | 34a2b57 | ✅ Pushed |
+| renderHubActions error handling + graceful fallback | 34a2b57 | ✅ Pushed |
+| tabPerformance→tabMetrics keyboard shortcut + command palette fix | bacfaa7 | ✅ Pushed |
+| **Roadmap modal invisible/unclickable** — was using style.display instead of .active class | abfaaed | ✅ Pushed |
+| **Action Item modal invisible/unclickable** — same CSS class bug | abfaaed | ✅ Pushed |
+| Document AI renamed from "Supply Chain Risk Agent" to "Document AI — Data Extraction" | abfaaed | ✅ Pushed |
 
 ---
 
