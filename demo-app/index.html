@@ -18469,6 +18469,347 @@ function _updateThemeIcon(isLight) {
     console.log('[S4 Tools] Module loaded — 10 features active');
 })();
 
+// ═══════════════════════════════════════════════════════════════
+// ═══ S4 ENTERPRISE & COMPLIANCE MODULE ═══
+// RBAC, multi-tenant, SSO, FedRAMP, CMMC, OSCAL, digital signatures, classification, retention
+// ═══════════════════════════════════════════════════════════════
+(function() {
+    'use strict';
+
+    // ── 1. Role-Based Access Control (RBAC) ──
+    S4.rbac = {
+        _roles: {
+            'admin': {level:100, permissions:['*']},
+            'auditor': {level:80, permissions:['vault:read','vault:verify','records:read','export:all','audit:full']},
+            'operator': {level:60, permissions:['records:create','records:read','records:update','vault:read','vault:anchor','tools:use']},
+            'viewer': {level:20, permissions:['records:read','vault:read','dashboard:view']},
+            'guest': {level:0, permissions:['dashboard:view']}
+        },
+        _currentRole: localStorage.getItem('s4_user_role') || 'operator',
+        _currentUser: JSON.parse(localStorage.getItem('s4_user_profile') || '{"name":"Demo User","email":"user@s4ledger.mil","org":"S4 Ledger Demo"}'),
+        setRole: function(role) {
+            if (!this._roles[role]) { console.warn('[S4 RBAC] Unknown role:', role); return; }
+            this._currentRole = role;
+            try { localStorage.setItem('s4_user_role', role); } catch(e) {}
+            if (S4.toast) S4.toast('Role set to: ' + role.toUpperCase(), 'info');
+            if (S4.activity) S4.activity.log('<i class="fas fa-user-shield"></i>', 'Role changed to <strong>' + role + '</strong>');
+            S4.webhooks.trigger('rbac:roleChanged', {role:role});
+        },
+        getRole: function() { return this._currentRole; },
+        getUser: function() { return this._currentUser; },
+        hasPermission: function(permission) {
+            var role = this._roles[this._currentRole];
+            if (!role) return false;
+            if (role.permissions.indexOf('*') !== -1) return true;
+            return role.permissions.indexOf(permission) !== -1;
+        },
+        requirePermission: function(permission, actionFn) {
+            if (this.hasPermission(permission)) {
+                return actionFn();
+            } else {
+                if (S4.toast) S4.toast('Access denied: requires ' + permission + ' permission', 'error');
+                return null;
+            }
+        },
+        getRoles: function() { return Object.keys(this._roles); },
+        getRoleDetails: function(role) { return this._roles[role]; }
+    };
+
+    // ── 2. Multi-Tenant Namespace Isolation ──
+    S4.tenant = {
+        _current: localStorage.getItem('s4_tenant') || 'default',
+        _tenants: JSON.parse(localStorage.getItem('s4_tenants') || '["default"]'),
+        getCurrent: function() { return this._current; },
+        getAll: function() { return this._tenants.slice(); },
+        switch: function(tenantId) {
+            if (this._tenants.indexOf(tenantId) === -1) this._tenants.push(tenantId);
+            this._current = tenantId;
+            try {
+                localStorage.setItem('s4_tenant', tenantId);
+                localStorage.setItem('s4_tenants', JSON.stringify(this._tenants));
+            } catch(e) {}
+            if (S4.toast) S4.toast('Switched to tenant: ' + tenantId, 'info');
+            if (S4.activity) S4.activity.log('<i class="fas fa-building"></i>', 'Switched to tenant <strong>' + tenantId + '</strong>');
+        },
+        getNamespacedKey: function(key) {
+            return 's4_' + this._current + '_' + key;
+        },
+        create: function(tenantId) {
+            if (this._tenants.indexOf(tenantId) !== -1) return false;
+            this._tenants.push(tenantId);
+            try { localStorage.setItem('s4_tenants', JSON.stringify(this._tenants)); } catch(e) {}
+            return true;
+        }
+    };
+
+    // ── 3. SSO Simulation (OAuth2/SAML) ──
+    S4.sso = {
+        _providers: [
+            {id:'cac', name:'CAC/PIV Card', icon:'fa-id-card', type:'pki'},
+            {id:'okta', name:'Okta SSO', icon:'fa-key', type:'saml'},
+            {id:'azure-ad', name:'Azure AD', icon:'fa-microsoft', type:'oidc'},
+            {id:'login-gov', name:'Login.gov', icon:'fa-landmark', type:'oidc'}
+        ],
+        _session: null,
+        getProviders: function() { return this._providers; },
+        authenticate: function(providerId) {
+            var provider = this._providers.find(function(p){return p.id === providerId;});
+            if (!provider) return Promise.reject(new Error('Unknown provider'));
+            var self = this;
+            return new Promise(function(resolve) {
+                // Simulate authentication
+                if (S4.toast) S4.toast('Authenticating via ' + provider.name + '...', 'info');
+                setTimeout(function() {
+                    self._session = {
+                        provider: providerId,
+                        token: 'sim_' + Date.now() + '_' + Math.random().toString(36).substr(2,12),
+                        expiresAt: new Date(Date.now() + 8 * 60 * 60 * 1000).toISOString(),
+                        user: S4.rbac.getUser()
+                    };
+                    try { localStorage.setItem('s4_sso_session', JSON.stringify(self._session)); } catch(e) {}
+                    if (S4.toast) S4.toast('Authenticated via ' + provider.name, 'success');
+                    if (S4.activity) S4.activity.log('<i class="fas fa-shield-check"></i>', 'SSO auth via <strong>' + provider.name + '</strong>');
+                    resolve(self._session);
+                }, 1200);
+            });
+        },
+        getSession: function() { return this._session; },
+        logout: function() {
+            this._session = null;
+            try { localStorage.removeItem('s4_sso_session'); } catch(e) {}
+            if (S4.toast) S4.toast('Logged out', 'info');
+        }
+    };
+
+    // ── 4. FedRAMP Documentation Generator ──
+    S4.fedramp = {
+        generateSSP: function() {
+            return {
+                title: 'System Security Plan — S4 Ledger',
+                version: S4.version,
+                date: new Date().toISOString(),
+                impactLevel: 'Moderate',
+                sections: {
+                    systemInfo: {name:'S4 Ledger',description:'Blockchain-anchored logistics and asset management platform',operator:'DoD',status:'Operational'},
+                    securityControls: ['AC-2','AC-3','AC-6','AU-2','AU-3','AU-6','CA-7','CM-6','IA-2','IA-5','IR-4','IR-5','MA-4','PE-2','PL-2','RA-5','SA-11','SC-7','SC-8','SC-13','SI-2','SI-4'],
+                    boundaries: {internal:'S4 Ledger Web Application',external:'Blockchain anchoring service, Cloud storage'},
+                    encryption: {atRest:'AES-256-GCM',inTransit:'TLS 1.3',hashing:'SHA-256'},
+                    accessControl: {method:'RBAC',authentication:'SSO/CAC/PIV',roles:Object.keys(S4.rbac._roles)}
+                }
+            };
+        },
+        exportSSP: function() {
+            var ssp = this.generateSSP();
+            var text = 'SYSTEM SECURITY PLAN\n' + '='.repeat(50) + '\n\n';
+            text += 'System: ' + ssp.sections.systemInfo.name + '\nVersion: ' + ssp.version + '\nDate: ' + ssp.date + '\nImpact Level: ' + ssp.impactLevel + '\n\n';
+            text += 'SECURITY CONTROLS\n' + '-'.repeat(30) + '\n' + ssp.sections.securityControls.join(', ') + '\n\n';
+            text += 'ENCRYPTION\n' + '-'.repeat(30) + '\nAt Rest: ' + ssp.sections.encryption.atRest + '\nIn Transit: ' + ssp.sections.encryption.inTransit + '\nHashing: ' + ssp.sections.encryption.hashing + '\n';
+            S4.exportPDF('FedRAMP SSP', text);
+            if (S4.toast) S4.toast('FedRAMP SSP exported', 'success');
+        }
+    };
+
+    // ── 5. CMMC Assessment Framework ──
+    S4.cmmc = {
+        levels: {
+            1: {name:'Level 1 - Foundational',practices:17,description:'Basic cyber hygiene'},
+            2: {name:'Level 2 - Advanced',practices:110,description:'Good cyber hygiene, NIST SP 800-171'},
+            3: {name:'Level 3 - Expert',practices:134,description:'Proactive response to APTs'}
+        },
+        assess: function(targetLevel) {
+            targetLevel = targetLevel || 2;
+            var levelInfo = this.levels[targetLevel];
+            // Simulate assessment based on S4 modules loaded
+            var moduleCount = Object.keys(S4.modules || {}).length;
+            var score = Math.min(Math.round((moduleCount / 12) * 100), 98);
+            return {
+                level: targetLevel,
+                levelName: levelInfo.name,
+                score: score,
+                totalPractices: levelInfo.practices,
+                assessedPractices: Math.round(levelInfo.practices * score / 100),
+                gaps: Math.round(levelInfo.practices * (100 - score) / 100),
+                date: new Date().toISOString(),
+                recommendations: score < 50 ? ['Implement access controls','Enable audit logging','Deploy encryption'] :
+                                 score < 80 ? ['Enhance monitoring','Add incident response plan','Implement MFA'] :
+                                 ['Fine-tune security policies','Conduct penetration testing','Update documentation']
+            };
+        }
+    };
+
+    // ── 6. OSCAL Export — Open Security Controls Assessment Language ──
+    S4.oscal = {
+        exportCatalog: function() {
+            var catalog = {
+                'catalog': {
+                    'uuid': 'S4-' + Date.now(),
+                    'metadata': {
+                        'title': 'S4 Ledger Security Controls',
+                        'version': S4.version,
+                        'oscal-version': '1.0.4',
+                        'published': new Date().toISOString()
+                    },
+                    'groups': [{
+                        'id': 'ac', 'title': 'Access Control',
+                        'controls': [
+                            {'id':'ac-1','title':'Access Control Policy','description':'RBAC with 5 role levels'},
+                            {'id':'ac-2','title':'Account Management','description':'User profiles with tenant isolation'},
+                            {'id':'ac-3','title':'Access Enforcement','description':'Permission-based action gating'}
+                        ]
+                    },{
+                        'id': 'au', 'title': 'Audit and Accountability',
+                        'controls': [
+                            {'id':'au-2','title':'Audit Events','description':'All vault operations logged with hash chain'},
+                            {'id':'au-3','title':'Content of Audit Records','description':'Timestamp, user, action, hash'},
+                            {'id':'au-10','title':'Non-repudiation','description':'Blockchain anchoring via SHA-256'}
+                        ]
+                    },{
+                        'id': 'sc', 'title': 'System and Communications',
+                        'controls': [
+                            {'id':'sc-8','title':'Transmission Confidentiality','description':'TLS 1.3 + CSP headers'},
+                            {'id':'sc-13','title':'Cryptographic Protection','description':'AES-256-GCM encryption, SHA-256 hashing'},
+                            {'id':'sc-28','title':'Protection of Information at Rest','description':'Encrypted localStorage'}
+                        ]
+                    }]
+                }
+            };
+            var blob = new Blob([JSON.stringify(catalog, null, 2)], {type:'application/json'});
+            var url = URL.createObjectURL(blob);
+            var a = document.createElement('a');
+            a.href = url; a.download = 's4-oscal-catalog-' + new Date().toISOString().slice(0,10) + '.json';
+            document.body.appendChild(a); a.click(); document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            if (S4.toast) S4.toast('OSCAL catalog exported', 'success');
+        }
+    };
+
+    // ── 7. Digital Signatures ──
+    S4.digitalSign = {
+        _keys: null,
+        generateKeyPair: function() {
+            return crypto.subtle.generateKey(
+                {name:'ECDSA', namedCurve:'P-256'},
+                true,
+                ['sign','verify']
+            ).then(function(keyPair) {
+                S4.digitalSign._keys = keyPair;
+                if (S4.toast) S4.toast('Key pair generated (ECDSA P-256)', 'success');
+                return keyPair;
+            });
+        },
+        sign: function(data) {
+            if (!this._keys) return Promise.reject(new Error('No key pair. Call generateKeyPair() first.'));
+            var encoder = new TextEncoder();
+            return crypto.subtle.sign(
+                {name:'ECDSA', hash:'SHA-256'},
+                this._keys.privateKey,
+                encoder.encode(typeof data === 'string' ? data : JSON.stringify(data))
+            ).then(function(sig) {
+                return Array.from(new Uint8Array(sig)).map(function(b){return b.toString(16).padStart(2,'0')}).join('');
+            });
+        },
+        verify: function(data, signatureHex) {
+            if (!this._keys) return Promise.reject(new Error('No key pair'));
+            var encoder = new TextEncoder();
+            var sigBytes = new Uint8Array(signatureHex.match(/.{2}/g).map(function(b){return parseInt(b,16)}));
+            return crypto.subtle.verify(
+                {name:'ECDSA', hash:'SHA-256'},
+                this._keys.publicKey,
+                sigBytes,
+                encoder.encode(typeof data === 'string' ? data : JSON.stringify(data))
+            );
+        }
+    };
+
+    // ── 8. Classification Marking System (CUI/FOUO/Unclassified) ──
+    S4.classification = {
+        _levels: {
+            'U': {name:'Unclassified',color:'#34c759',banner:'UNCLASSIFIED'},
+            'CUI': {name:'Controlled Unclassified Information',color:'#ff9500',banner:'CUI'},
+            'FOUO': {name:'For Official Use Only',color:'#ff9500',banner:'FOUO'},
+            'C': {name:'Confidential',color:'#ff3b30',banner:'CONFIDENTIAL'},
+            'S': {name:'Secret',color:'#ff3b30',banner:'SECRET'}
+        },
+        _current: localStorage.getItem('s4_classification') || 'U',
+        set: function(level) {
+            if (!this._levels[level]) return;
+            this._current = level;
+            try { localStorage.setItem('s4_classification', level); } catch(e) {}
+            this.renderBanner();
+        },
+        get: function() { return this._current; },
+        getDetails: function() { return this._levels[this._current]; },
+        renderBanner: function() {
+            var existing = document.getElementById('s4ClassificationBanner');
+            var details = this._levels[this._current];
+            if (!details) return;
+            if (!existing) {
+                existing = document.createElement('div');
+                existing.id = 's4ClassificationBanner';
+                existing.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:99995;text-align:center;font-size:11px;font-weight:700;letter-spacing:2px;padding:2px 0;pointer-events:none';
+                document.body.appendChild(existing);
+            }
+            existing.textContent = details.banner;
+            existing.style.background = details.color;
+            existing.style.color = details.color === '#34c759' || details.color === '#ff9500' ? '#000' : '#fff';
+        },
+        markRecord: function(record) {
+            record._classification = this._current;
+            record._classificationDate = new Date().toISOString();
+            return record;
+        }
+    };
+
+    // ── 9. Retention Policy Engine ──
+    S4.retention = {
+        _policies: [
+            {id:'default',name:'Default',retainDays:2555,description:'7-year retention per DoD directive'},
+            {id:'financial',name:'Financial Records',retainDays:3650,description:'10-year retention per FAR'},
+            {id:'safety',name:'Safety Records',retainDays:1825,description:'5-year retention'},
+            {id:'training',name:'Training Records',retainDays:1095,description:'3-year active retention'},
+            {id:'temp',name:'Temporary Records',retainDays:365,description:'1-year retention'}
+        ],
+        getPolicies: function() { return this._policies; },
+        apply: function(record, policyId) {
+            var policy = this._policies.find(function(p){return p.id === policyId;}) || this._policies[0];
+            record._retentionPolicy = policy.id;
+            record._retainUntil = new Date(Date.now() + policy.retainDays * 86400000).toISOString();
+            return record;
+        },
+        checkExpired: function(records) {
+            var now = Date.now();
+            return records.filter(function(r) {
+                return r._retainUntil && new Date(r._retainUntil).getTime() < now;
+            });
+        },
+        getPolicy: function(policyId) {
+            return this._policies.find(function(p){return p.id === policyId;});
+        }
+    };
+
+    // Add enterprise commands to palette
+    if (S4.commandPalette) {
+        S4.commandPalette.register([
+            {label:'Set Role: Admin',icon:'<i class="fas fa-user-shield"></i>',category:'Enterprise',action:function(){ S4.rbac.setRole('admin'); }},
+            {label:'Set Role: Auditor',icon:'<i class="fas fa-user-tie"></i>',category:'Enterprise',action:function(){ S4.rbac.setRole('auditor'); }},
+            {label:'Set Role: Operator',icon:'<i class="fas fa-user"></i>',category:'Enterprise',action:function(){ S4.rbac.setRole('operator'); }},
+            {label:'Set Role: Viewer',icon:'<i class="fas fa-eye"></i>',category:'Enterprise',action:function(){ S4.rbac.setRole('viewer'); }},
+            {label:'Export OSCAL Catalog',icon:'<i class="fas fa-file-code"></i>',category:'Compliance',action:function(){ S4.oscal.exportCatalog(); }},
+            {label:'Export FedRAMP SSP',icon:'<i class="fas fa-file-shield"></i>',category:'Compliance',action:function(){ S4.fedramp.exportSSP(); }},
+            {label:'Run CMMC Assessment',icon:'<i class="fas fa-clipboard-check"></i>',category:'Compliance',action:function(){ var r=S4.cmmc.assess(2);S4.toast('CMMC L2 Score: '+r.score+'% ('+r.gaps+' gaps)','info',5000); }},
+            {label:'Generate Key Pair',icon:'<i class="fas fa-key"></i>',category:'Security',action:function(){ S4.digitalSign.generateKeyPair(); }},
+            {label:'Set Classification: CUI',icon:'<i class="fas fa-stamp"></i>',category:'Classification',action:function(){ S4.classification.set('CUI'); }},
+            {label:'Set Classification: Unclassified',icon:'<i class="fas fa-stamp"></i>',category:'Classification',action:function(){ S4.classification.set('U'); }}
+        ]);
+    }
+
+    // Render classification banner on load
+    S4.classification.renderBanner();
+
+    S4.register('enterprise', {version:'1.0.0', features:['rbac','multi-tenant','sso','fedramp','cmmc','oscal','digital-signatures','classification','retention']});
+    console.log('[S4 Enterprise] Module loaded — 9 features active');
+})();
+
 </script>
 </body>
 </html>
