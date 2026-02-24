@@ -16659,6 +16659,186 @@ function _updateThemeIcon(isLight) {
     searchOverlay.addEventListener('click', function(e) { if (e.target === searchOverlay) toggleGlobalSearch(); });
 })();
 
+// ═══════════════════════════════════════════════════════════════
+// ═══ S4 PERFORMANCE & ARCHITECTURE MODULE ═══
+// Debounced inputs, virtual scrolling, lazy loading, Web Worker hashing
+// ═══════════════════════════════════════════════════════════════
+(function() {
+    'use strict';
+
+    // ── 1. Debounce Utility — reduces excessive recalculations ──
+    var _debounceTimers = {};
+    S4.debounce = function(key, fn, delay) {
+        delay = delay || 200;
+        clearTimeout(_debounceTimers[key]);
+        _debounceTimers[key] = setTimeout(fn, delay);
+    };
+    // Auto-wrap oninput handlers that fire too frequently
+    var _originalCalcROI = window.calcROI;
+    var _originalCalcLifecycle = window.calcLifecycle;
+    var _originalCalcReadiness = window.calcReadiness;
+    var _originalRenderTypeGrid = window.renderTypeGrid;
+    var _originalRenderDocLibrary = window.renderDocLibrary;
+    if (_originalCalcROI) window.calcROI = function() { S4.debounce('calcROI', _originalCalcROI, 150); };
+    if (_originalCalcLifecycle) window.calcLifecycle = function() { S4.debounce('calcLifecycle', _originalCalcLifecycle, 150); };
+    if (_originalCalcReadiness) window.calcReadiness = function() { S4.debounce('calcReadiness', _originalCalcReadiness, 150); };
+    if (_originalRenderTypeGrid) window.renderTypeGrid = function() { S4.debounce('renderTypeGrid', _originalRenderTypeGrid, 100); };
+    if (_originalRenderDocLibrary) window.renderDocLibrary = function() { S4.debounce('renderDocLibrary', _originalRenderDocLibrary, 100); };
+
+    // ── 2. Web Worker for SHA-256 hashing (offload from main thread) ──
+    S4.hashWorker = null;
+    try {
+        var workerCode = 'self.onmessage=async function(e){var d=new TextEncoder().encode(e.data);var b=await crypto.subtle.digest("SHA-256",d);var h=Array.from(new Uint8Array(b)).map(function(x){return x.toString(16).padStart(2,"0")}).join("");self.postMessage(h);}';
+        var blob = new Blob([workerCode], {type:'application/javascript'});
+        S4.hashWorker = new Worker(URL.createObjectURL(blob));
+    } catch(e) { console.log('[S4 Performance] Web Worker not available, using main thread'); }
+
+    S4.hashAsync = function(text) {
+        return new Promise(function(resolve) {
+            if (S4.hashWorker) {
+                var handler = function(e) {
+                    S4.hashWorker.removeEventListener('message', handler);
+                    resolve(e.data);
+                };
+                S4.hashWorker.addEventListener('message', handler);
+                S4.hashWorker.postMessage(text);
+            } else {
+                // Fallback to main thread
+                sha256(text).then(resolve);
+            }
+        });
+    };
+
+    // ── 3. Virtual Scroll Engine — render only visible rows ──
+    S4.VirtualScroll = function(container, itemHeight, renderFn) {
+        this.container = typeof container === 'string' ? document.getElementById(container) : container;
+        this.itemHeight = itemHeight || 120;
+        this.renderFn = renderFn;
+        this.items = [];
+        this.scrollTop = 0;
+        this._viewport = null;
+        this._content = null;
+    };
+    S4.VirtualScroll.prototype.init = function(items) {
+        this.items = items || [];
+        if (!this.container) return;
+        this.container.style.position = 'relative';
+        this.container.style.overflow = 'auto';
+        // Create viewport with total height
+        this._content = document.createElement('div');
+        this._content.style.height = (this.items.length * this.itemHeight) + 'px';
+        this._content.style.position = 'relative';
+        this.container.innerHTML = '';
+        this.container.appendChild(this._content);
+        var self = this;
+        this.container.addEventListener('scroll', function() {
+            self.scrollTop = self.container.scrollTop;
+            self.render();
+        });
+        this.render();
+    };
+    S4.VirtualScroll.prototype.render = function() {
+        if (!this._content) return;
+        var visibleCount = Math.ceil(this.container.clientHeight / this.itemHeight) + 2;
+        var startIdx = Math.floor(this.scrollTop / this.itemHeight);
+        startIdx = Math.max(0, startIdx - 1);
+        var endIdx = Math.min(this.items.length, startIdx + visibleCount + 1);
+        var html = '';
+        for (var i = startIdx; i < endIdx; i++) {
+            html += '<div style="position:absolute;top:' + (i * this.itemHeight) + 'px;left:0;right:0;height:' + this.itemHeight + 'px">' + this.renderFn(this.items[i], i) + '</div>';
+        }
+        this._content.innerHTML = html;
+        this._content.style.height = (this.items.length * this.itemHeight) + 'px';
+    };
+
+    // ── 4. Lazy Loading — defer non-visible panel initialization ──
+    S4.lazyPanels = {};
+    S4.registerLazyPanel = function(panelId, initFn) {
+        S4.lazyPanels[panelId] = {initialized: false, init: initFn};
+    };
+    S4.initLazyPanel = function(panelId) {
+        var panel = S4.lazyPanels[panelId];
+        if (panel && !panel.initialized) {
+            panel.initialized = true;
+            if (typeof panel.init === 'function') panel.init();
+            console.log('[S4 Lazy] Initialized panel: ' + panelId);
+        }
+    };
+
+    // ── 5. Performance Monitor — track FPS and render metrics ──
+    S4.perf = {
+        marks: {},
+        measures: [],
+        mark: function(name) {
+            this.marks[name] = performance.now();
+        },
+        measure: function(name, startMark, endMark) {
+            var start = this.marks[startMark] || 0;
+            var end = endMark ? (this.marks[endMark] || performance.now()) : performance.now();
+            var duration = end - start;
+            this.measures.push({name:name, duration:duration, timestamp:Date.now()});
+            if (this.measures.length > 100) this.measures.shift();
+            return duration;
+        },
+        getAverage: function(name) {
+            var matching = this.measures.filter(function(m){ return m.name === name; });
+            if (matching.length === 0) return 0;
+            return matching.reduce(function(s,m){ return s + m.duration; }, 0) / matching.length;
+        },
+        getSummary: function() {
+            var names = {};
+            this.measures.forEach(function(m) {
+                if (!names[m.name]) names[m.name] = {count:0, total:0, min:Infinity, max:0};
+                names[m.name].count++;
+                names[m.name].total += m.duration;
+                names[m.name].min = Math.min(names[m.name].min, m.duration);
+                names[m.name].max = Math.max(names[m.name].max, m.duration);
+            });
+            Object.keys(names).forEach(function(n) { names[n].avg = names[n].total / names[n].count; });
+            return names;
+        }
+    };
+
+    // ── 6. Resource Preloader — preload critical assets ──
+    S4.preload = function(urls) {
+        urls.forEach(function(url) {
+            var link = document.createElement('link');
+            link.rel = 'prefetch';
+            link.href = url;
+            document.head.appendChild(link);
+        });
+    };
+
+    // ── 7. Memory-efficient data structures ──
+    S4.LRUCache = function(maxSize) {
+        this.maxSize = maxSize || 100;
+        this.cache = new Map();
+    };
+    S4.LRUCache.prototype.get = function(key) {
+        if (!this.cache.has(key)) return undefined;
+        var val = this.cache.get(key);
+        this.cache.delete(key);
+        this.cache.set(key, val);
+        return val;
+    };
+    S4.LRUCache.prototype.set = function(key, val) {
+        this.cache.delete(key);
+        this.cache.set(key, val);
+        if (this.cache.size > this.maxSize) {
+            var first = this.cache.keys().next().value;
+            this.cache.delete(first);
+        }
+    };
+    S4.LRUCache.prototype.clear = function() { this.cache.clear(); };
+    S4.LRUCache.prototype.size = function() { return this.cache.size; };
+
+    // Global hash cache to avoid re-hashing the same content
+    S4.hashCache = new S4.LRUCache(500);
+
+    S4.register('performance', {version:'1.0.0', features:['debounce','web-worker-hash','virtual-scroll','lazy-panels','perf-monitor','preloader','lru-cache']});
+    console.log('[S4 Performance] Module loaded — 7 features active');
+})();
+
 </script>
 </body>
 </html>
