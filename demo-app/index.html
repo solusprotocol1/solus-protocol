@@ -1335,21 +1335,13 @@ S4.i18n = {
 };
 window.S4.t = S4.i18n.t.bind(S4.i18n);
 
-/* Global error boundary — catches unhandled errors and rejections */
+/* Global error boundary — log to console only, never show user-facing toasts */
 window.onerror = function(msg, source, line, col, error) {
     console.error('[S4 Error]', msg, 'at', source, line + ':' + col);
-    if (typeof s4Notify === 'function') {
-        s4Notify('Error', 'An unexpected error occurred. The platform will continue working.', 'danger');
-    }
-    return false; /* Don't suppress error in console */
+    return true; /* Suppress from browser console noise */
 };
 window.addEventListener('unhandledrejection', function(e) {
-    console.error('[S4 Unhandled Promise]', e.reason);
-    /* Don't notify for network errors (expected offline) */
-    if (e.reason && e.reason.message && (e.reason.message.includes('fetch') || e.reason.message.includes('network'))) return;
-    if (typeof s4Notify === 'function') {
-        s4Notify('Error', 'An async operation failed. Check your connection.', 'warning');
-    }
+    console.warn('[S4 Unhandled Promise]', e.reason);
 });
 
 /* ═══ S4 SECURITY MODULE ═══ */
@@ -8754,6 +8746,9 @@ function initILSEngine() {
 let s4ToastQueue = [];
 function s4Notify(title, msg, type, actions, duration) {
     type = type || 'info'; duration = duration || 8000;
+    /* Only show notifications when user is inside the platform workspace */
+    var ws = document.getElementById('platformWorkspace');
+    if (!ws || ws.style.display !== 'block') return;
     const container = document.getElementById('s4ToastContainer');
     if (!container) return;
     if (!container.getAttribute('aria-live')) { container.setAttribute('aria-live', 'polite'); container.setAttribute('role', 'status'); }
@@ -8792,7 +8787,8 @@ function toggleNotifPanel() {
 }
 
 // ── Unified Action Items Store (localStorage-backed) ──
-let s4ActionItems = JSON.parse(localStorage.getItem('s4ActionItems') || '[]');
+let s4ActionItems;
+try { s4ActionItems = JSON.parse(localStorage.getItem('s4ActionItems') || '[]'); } catch(_e) { s4ActionItems = []; }
 function saveActionItems() {
     localStorage.setItem('s4ActionItems', JSON.stringify(s4ActionItems));
     updateNotifBadge();
@@ -9026,7 +9022,8 @@ saveActionItems = function() {
 };
 
 // ═══ AUDIT RECORD VAULT ═══
-let s4Vault = JSON.parse(localStorage.getItem('s4Vault') || '[]');
+let s4Vault;
+try { s4Vault = JSON.parse(localStorage.getItem('s4Vault') || '[]'); } catch(_e) { s4Vault = []; }
 function saveVault() { localStorage.setItem('s4Vault', JSON.stringify(s4Vault)); }
 
 function addToVault(record) {
@@ -9417,8 +9414,10 @@ function showWorkspaceNotification(title, detail) {
 let docCatFilter = 'all';
 
 // ── Document Library: Upload, Version Diff, Red Flags, Notifications ──
-var _docVersions = JSON.parse(localStorage.getItem('s4_doc_versions') || '{}');
-var _docNotifications = JSON.parse(localStorage.getItem('s4_doc_notifications') || '[]');
+var _docVersions;
+try { _docVersions = JSON.parse(localStorage.getItem('s4_doc_versions') || '{}'); } catch(_e) { _docVersions = {}; }
+var _docNotifications;
+try { _docNotifications = JSON.parse(localStorage.getItem('s4_doc_notifications') || '[]'); } catch(_e) { _docNotifications = []; }
 
 function showDocUpload() {
     var modal = document.createElement('div');
@@ -10254,7 +10253,8 @@ const SUBMISSION_TYPES = {
 };
 
 let _subCache = { items:[], discrepancies:[], baseline:[], meta:{} };
-let _subHistory = JSON.parse(localStorage.getItem('s4_submission_history') || '[]');
+let _subHistory;
+try { _subHistory = JSON.parse(localStorage.getItem('s4_submission_history') || '[]'); } catch(_e) { _subHistory = []; }
 let _subFilter = 'all';
 
 function handleSubFileUpload(e) {
@@ -11137,11 +11137,11 @@ function setChartRange(range) {
 }
 
 // Load wallet on tab switch
-// Auto-load metrics on session start
+// Auto-load metrics on session start — only if workspace is visible
 setTimeout(function() {
-    if (typeof loadPerformanceMetrics === 'function') {
-        try { loadPerformanceMetrics(); } catch(e) {}
-        console.log('[S4] Auto-loaded metrics on session start');
+    var ws = document.getElementById('platformWorkspace');
+    if (ws && ws.style.display === 'block' && typeof loadPerformanceMetrics === 'function') {
+        loadPerformanceMetrics().catch(function(e) { console.warn('[S4] metrics load:', e); });
     }
 }, 2000);
 
@@ -15265,7 +15265,8 @@ console.log('[Round-13] Production subscription code loaded — Stripe Checkout 
 // ═══ ROUND 14 — SAVED ANALYSES DASHBOARD ═══
 // ═══════════════════════════════════════════════════════════════
 (function() {
-    var _savedAnalyses = JSON.parse(localStorage.getItem('s4_saved_analyses') || '[]');
+    var _savedAnalyses;
+    try { _savedAnalyses = JSON.parse(localStorage.getItem('s4_saved_analyses') || '[]'); } catch(_e) { _savedAnalyses = []; }
 
     window.saveCurrentAnalysis = function(title) {
         var analysis = {
@@ -15445,7 +15446,8 @@ console.log('[Round-13] Production subscription code loaded — Stripe Checkout 
 // ═══ ROUND 14 — WEBHOOK CONFIGURATION UI ═══
 // ═══════════════════════════════════════════════════════════════
 (function() {
-    var _localWebhooks = JSON.parse(localStorage.getItem('s4_webhooks') || '[]');
+    var _localWebhooks;
+    try { _localWebhooks = JSON.parse(localStorage.getItem('s4_webhooks') || '[]'); } catch(_e) { _localWebhooks = []; }
 
     window.showWebhookSettings = function() {
         var existing = document.getElementById('webhookPanel');
@@ -16687,7 +16689,7 @@ function _updateThemeIcon(isLight) {
         '<div id="notifHistoryList" style="padding:12px"></div>';
     document.body.appendChild(notifDrawer);
 
-    window._notifHistoryLog = JSON.parse(localStorage.getItem('s4NotifHistory') || '[]');
+    try { window._notifHistoryLog = JSON.parse(localStorage.getItem('s4NotifHistory') || '[]'); } catch(_e) { window._notifHistoryLog = []; }
 
     window.toggleNotifHistory = function() {
         _notifHistoryVisible = !_notifHistoryVisible;
@@ -17586,6 +17588,9 @@ function _updateThemeIcon(isLight) {
     S4.toast = function(message, type, duration) {
         type = type || 'info';
         duration = duration || 4000;
+        /* Only show toasts when user is inside the platform workspace */
+        var ws = document.getElementById('platformWorkspace');
+        if (!ws || ws.style.display !== 'block') return;
         var container = document.getElementById('s4ToastContainer');
         if (!container) return;
         var toast = document.createElement('div');
@@ -17802,7 +17807,7 @@ function _updateThemeIcon(isLight) {
 
     // ── 5. Favorites / Pinned Tools ──
     S4.favorites = {
-        _items: JSON.parse(localStorage.getItem('s4_favorites') || '[]'),
+        _items: (function(){ try { return JSON.parse(localStorage.getItem('s4_favorites') || '[]'); } catch(_e) { return []; } })(),
         add: function(toolId, label) {
             if (this._items.find(function(f){ return f.id === toolId; })) return;
             this._items.push({id:toolId, label:label});
@@ -17838,7 +17843,7 @@ function _updateThemeIcon(isLight) {
 
     // ── 6. Recent Activity Feed ──
     S4.activity = {
-        _items: JSON.parse(localStorage.getItem('s4_activity') || '[]'),
+        _items: (function(){ try { return JSON.parse(localStorage.getItem('s4_activity') || '[]'); } catch(_e) { return []; } })(),
         log: function(icon, text) {
             this._items.unshift({icon:icon, text:text, time:new Date().toISOString()});
             if (this._items.length > 50) this._items = this._items.slice(0, 50);
@@ -17931,7 +17936,7 @@ function _updateThemeIcon(isLight) {
 
     // ── 9. Notification Preferences ──
     S4.notificationPrefs = {
-        _prefs: JSON.parse(localStorage.getItem('s4_notification_prefs') || '{"anchoring":true,"verification":true,"export":true,"sync":true,"security":true}'),
+        _prefs: (function(){ try { return JSON.parse(localStorage.getItem('s4_notification_prefs') || '{"anchoring":true,"verification":true,"export":true,"sync":true,"security":true}'); } catch(_e) { return {anchoring:true,verification:true,export:true,sync:true,security:true}; } })(),
         get: function(category) { return this._prefs[category] !== false; },
         set: function(category, enabled) {
             this._prefs[category] = enabled;
@@ -17980,7 +17985,7 @@ function _updateThemeIcon(isLight) {
             'high-contrast': {accent:'#ffff00',bg:'#000000',bgSecondary:'#1a1a1a',text:'#ffffff',border:'#666'},
             'warm-amber': {accent:'#c9a84c',bg:'#1f1a14',bgSecondary:'#2f2a24',text:'#f0e8d8',border:'#4a3f34'}
         },
-        _custom: JSON.parse(localStorage.getItem('s4_custom_theme') || 'null'),
+        _custom: (function(){ try { return JSON.parse(localStorage.getItem('s4_custom_theme') || 'null'); } catch(_e) { return null; } })(),
         getPresets: function() { return Object.keys(this._presets); },
         apply: function(presetOrCustom) {
             var theme = typeof presetOrCustom === 'string' ? this._presets[presetOrCustom] : presetOrCustom;
@@ -18212,7 +18217,7 @@ function _updateThemeIcon(isLight) {
 
     // ── 6. Custom Layout Persistence ──
     S4.layouts = {
-        _current: JSON.parse(localStorage.getItem('s4_layout') || 'null') || {sidebarWidth:260,sidebarCollapsed:false},
+        _current: (function(){ try { return JSON.parse(localStorage.getItem('s4_layout') || 'null') || {sidebarWidth:260,sidebarCollapsed:false}; } catch(_e) { return {sidebarWidth:260,sidebarCollapsed:false}; } })(),
         save: function() {
             try { localStorage.setItem('s4_layout', JSON.stringify(this._current)); } catch(e) {}
         },
@@ -18328,7 +18333,7 @@ function _updateThemeIcon(isLight) {
 
     // ── 3. Record Templates — reusable record structures ──
     S4.templates = {
-        _templates: JSON.parse(localStorage.getItem('s4_templates') || '[]'),
+        _templates: (function(){ try { return JSON.parse(localStorage.getItem('s4_templates') || '[]'); } catch(_e) { return []; } })(),
         defaults: [
             {id:'maint-log',name:'Maintenance Log',fields:{type:'Maintenance',description:'',date:new Date().toISOString().slice(0,10),status:'Pending',technician:'',hours:'0',parts:''}},
             {id:'inspection',name:'Inspection Report',fields:{type:'Inspection',category:'Routine',inspector:'',date:new Date().toISOString().slice(0,10),result:'',findings:'',recommendations:''}},
@@ -18395,7 +18400,7 @@ function _updateThemeIcon(isLight) {
 
     // ── 5. Cross-Tool Record Linking ──
     S4.crossLink = {
-        _links: JSON.parse(localStorage.getItem('s4_crosslinks') || '{}'),
+        _links: (function(){ try { return JSON.parse(localStorage.getItem('s4_crosslinks') || '{}'); } catch(_e) { return {}; } })(),
         link: function(sourceId, targetId, relationship) {
             if (!this._links[sourceId]) this._links[sourceId] = [];
             this._links[sourceId].push({target:targetId, relationship:relationship || 'related', created:new Date().toISOString()});
