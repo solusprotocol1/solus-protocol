@@ -83,6 +83,13 @@
         body.light-mode .s4-toast{background:#fff;border-color:rgba(0,0,0,0.08);color:#1d1d1f}
         body.light-mode .action-tracker{background:#fff;border-color:rgba(0,0,0,0.08)}
         body.light-mode .action-item{background:#f8f8fa;border-color:rgba(0,0,0,0.06)}
+        body.light-mode .ai-title{color:#1d1d1f}
+        body.light-mode .ai-body{color:#1d1d1f}
+        body.light-mode .ai-meta{color:#555}
+        body.light-mode .ai-meta span{color:#555}
+        body.light-mode .ai-check{border-color:rgba(0,0,0,0.15)}
+        body.light-mode .stat-mini{background:#f8f8fa;border-color:rgba(0,0,0,0.06)}
+        body.light-mode .stat-mini-label{color:#555}
         body.light-mode #slsBalanceBar{background:rgba(255,255,255,0.95)!important;border-color:rgba(0,0,0,0.06)!important}
         body.light-mode .clf-banner{color:#1d1d1f}
         body.light-mode .record-type-btn{background:#f0f0f5;color:#555;border-color:rgba(0,0,0,0.08)}
@@ -9639,6 +9646,11 @@ function switchHubTab(panelId, btn) {
     if (panelId === 'hub-reports') loadReportPreview();
     if (panelId === 'hub-predictive') loadPredictiveData();
     if (panelId === 'hub-submissions') loadSubmissionHistory();
+    if (panelId === 'hub-sbom') { if (typeof loadSBOMData === 'function') loadSBOMData(); }
+    if (panelId === 'hub-dmsms') { if (typeof loadDMSMSData === 'function') loadDMSMSData(); }
+    if (panelId === 'hub-readiness') { if (typeof loadReadinessData === 'function') loadReadinessData(); }
+    if (panelId === 'hub-lifecycle') { if (typeof calcLifecycle === 'function') calcLifecycle(); }
+    if (panelId === 'hub-analysis') { if (typeof initILSChecklist === 'function') initILSChecklist(); }
     // Update floating AI agent context
     updateAiContext(panelId);
 }
@@ -9679,7 +9691,8 @@ function renderHubActions(filter) {
     const sourceIcons = {dmsms:'<i class="fas fa-exclamation-triangle" style="color:var(--accent)"></i>',readiness:'<i class="fas fa-chart-line" style="color:var(--accent)"></i>',parts:'<i class="fas fa-cogs" style="color:var(--accent)"></i>',warranty:'<i class="fas fa-file-contract" style="color:var(--accent)"></i>',roi:'<i class="fas fa-dollar-sign" style="color:var(--accent)"></i>',lifecycle:'<i class="fas fa-clock" style="color:var(--accent)"></i>',ils:'<i class="fas fa-brain" style="color:var(--accent)"></i>',checklist:'<i class="fas fa-check-circle" style="color:var(--accent)"></i>',drl:'<i class="fas fa-file-alt" style="color:var(--accent)"></i>',manual:'<i class="fas fa-pen" style="color:var(--accent)"></i>',compliance:'<i class="fas fa-shield-halved" style="color:var(--accent)"></i>',risk:'<i class="fas fa-triangle-exclamation" style="color:var(--accent)"></i>',predictive:'<i class="fas fa-brain" style="color:var(--accent)"></i>',sbom:'<i class="fas fa-microchip" style="color:var(--accent)"></i>',submissions:'<i class="fas fa-file-circle-check" style="color:var(--accent)"></i>',reports:'<i class="fas fa-file-pdf" style="color:var(--accent)"></i>'};
     let html = '';
     items.forEach(item => {
-        var eid = item.id.replace(/'/g, "\\'");
+        if (!item || !item.id) return; // skip corrupt entries
+        var eid = (item.id || '').replace(/'/g, "\\'");
         var isSelected = _actionSelected.has(item.id);
         html += '<div class="action-item'+(item.done?' completed':'')+'" style="position:relative">';
         html += '<input type="checkbox" '+(isSelected?'checked ':'')+' onchange="toggleActionSelect(\''+eid+'\',this.checked)" style="margin-right:6px;cursor:pointer;accent-color:#00aaff">';
@@ -14552,6 +14565,11 @@ function openILSTool(toolId) {
     if (toolId === 'hub-reports') { if (typeof loadReportPreview === 'function') loadReportPreview(); }
     if (toolId === 'hub-predictive') { if (typeof loadPredictiveData === 'function') loadPredictiveData(); }
     if (toolId === 'hub-submissions') { if (typeof loadSubmissionHistory === 'function') loadSubmissionHistory(); }
+    if (toolId === 'hub-sbom') { if (typeof loadSBOMData === 'function') loadSBOMData(); }
+    if (toolId === 'hub-dmsms') { if (typeof loadDMSMSData === 'function') loadDMSMSData(); }
+    if (toolId === 'hub-readiness') { if (typeof loadReadinessData === 'function') loadReadinessData(); }
+    if (toolId === 'hub-lifecycle') { if (typeof calcLifecycle === 'function') calcLifecycle(); }
+    if (toolId === 'hub-analysis') { if (typeof initILSChecklist === 'function') initILSChecklist(); }
     
     // Update floating AI agent context
     if (typeof updateAiContext === 'function') updateAiContext(toolId);
