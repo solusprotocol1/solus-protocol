@@ -3169,7 +3169,7 @@ if (sessionStorage.getItem('s4_entered') === '1') {
                         <div id="monitoringSection" style="display:none;padding:12px 16px">
                             <p style="color:var(--steel);font-size:0.82rem;margin-bottom:12px">Real-time control status monitoring with drift detection. Auto-scans workspace activity to flag degraded controls.</p>
                             <div style="display:flex;gap:8px;margin-bottom:12px">
-                                <button onclick="runMonitoringScan()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;border-radius:3px;padding:6px 14px;font-size:0.8rem"><i class="fas fa-radar"></i> Run Full Scan</button>
+                                <button onclick="runMonitoringScan()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;border-radius:3px;padding:6px 14px;font-size:0.8rem"><i class="fas fa-satellite-dish"></i> Run Full Scan</button>
                                 <button onclick="toggleAutoMonitor()" id="autoMonitorBtn" class="btn btn-sm hover-lift" style="background:rgba(255,255,255,0.06);color:#fff;border:1px solid rgba(255,255,255,0.1);border-radius:3px;padding:6px 14px;font-size:0.8rem"><i class="fas fa-sync"></i> Auto-Monitor: OFF</button>
                             </div>
                             <div id="monitoringGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px"></div>
@@ -11087,7 +11087,7 @@ function runAnomalyDetection() {
         if (recent > 10) anomalies.push({ type:'Burst Activity', severity:'Medium', desc:recent + ' records anchored in the last hour. Unusual volume may indicate automated or duplicate submissions.', icon:'fa-bolt', color:'#ff6b6b' });
 
         var noHash = s4Vault.filter(function(v) { return !v.hash || v.hash.length < 10; }).length;
-        if (noHash > 0) anomalies.push({ type:'Integrity Gap', severity:'High', desc:noHash + ' vault record(s) have missing or incomplete hashes. Re-anchor these records for full integrity verification.', icon:'fa-shield-xmark', color:'#ff3333' });
+        if (noHash > 0) anomalies.push({ type:'Integrity Gap', severity:'High', desc:noHash + ' vault record(s) have missing or incomplete hashes. Re-anchor these records for full integrity verification.', icon:'fa-shield-halved', color:'#ff3333' });
     }
 
     if (s4ActionItems) {
@@ -13758,7 +13758,7 @@ function renderLifecycleCharts() {
 function injectChartContainers() {
     // Inject chart containers into panels — VISIBLE by default
     var panels = {
-        'hub-analysis': {target:'ilsResult', charts:'<div class="row mt-3" id="gapChartsRow"><div class="col-md-6"><div class="chart-container"><div class="chart-title"><i class="fas fa-chart-radar"></i> ILS Element Coverage</div><canvas id="gapRadarChart" height="240"></canvas></div></div><div class="col-md-6"><div class="chart-container"><div class="chart-title"><i class="fas fa-chart-bar"></i> Element Scores</div><canvas id="gapBarChart" height="240"></canvas></div></div></div>'},
+        'hub-analysis': {target:'ilsResult', charts:'<div class="row mt-3" id="gapChartsRow"><div class="col-md-6"><div class="chart-container"><div class="chart-title"><i class="fas fa-chart-pie"></i> ILS Element Coverage</div><canvas id="gapRadarChart" height="240"></canvas></div></div><div class="col-md-6"><div class="chart-container"><div class="chart-title"><i class="fas fa-chart-bar"></i> Element Scores</div><canvas id="gapBarChart" height="240"></canvas></div></div></div>'},
         'hub-dmsms': {target:null, charts:'<div class="chart-container mt-3" id="dmsmsChartArea"><div class="chart-title"><i class="fas fa-chart-pie"></i> Obsolescence Risk Distribution</div><canvas id="dmsmsPieChart" height="200"></canvas></div>'},
         'hub-readiness': {target:null, charts:'<div class="chart-container mt-3" style="max-width:100%" id="readinessGaugeArea"><div class="chart-title"><i class="fas fa-gauge-high"></i> Operational Availability</div><canvas id="readinessGauge" height="300"></canvas></div>'},
         'hub-compliance': {target:null, charts:'<div class="chart-container mt-3" id="complianceChartArea"><div class="chart-title"><i class="fas fa-shield-halved"></i> Compliance Framework Radar</div><canvas id="complianceRadarChart" height="250"></canvas></div>'},
@@ -19280,7 +19280,7 @@ function _updateThemeIcon(isLight) {
         {label:'View Keyboard Shortcuts',icon:'<i class="fas fa-keyboard"></i>',category:'Help',shortcut:'?',action:function(){ if(typeof toggleShortcuts==='function') toggleShortcuts(); }},
         {label:'Clear All Notifications',icon:'<i class="fas fa-bell-slash"></i>',category:'Settings',action:function(){ var c=document.getElementById('s4ToastContainer');if(c)c.innerHTML=''; }},
         {label:'Sync to Cloud',icon:'<i class="fas fa-cloud-arrow-up"></i>',category:'Data',action:function(){ S4.cloudSync.sync().then(function(){S4.toast('Cloud sync complete','success')}); }},
-        {label:'Check Data Integrity',icon:'<i class="fas fa-shield-check"></i>',category:'Security',action:function(){ if(typeof s4Vault!=='undefined') S4.auditChain.verifyChain(s4Vault).then(function(r){S4.toast(r.valid?'Chain verified':'Chain broken','info')}); }}
+        {label:'Check Data Integrity',icon:'<i class="fas fa-shield-halved"></i>',category:'Security',action:function(){ if(typeof s4Vault!=='undefined') S4.auditChain.verifyChain(s4Vault).then(function(r){S4.toast(r.valid?'Chain verified':'Chain broken','info')}); }}
     ]);
 
     // Wire command palette input
@@ -19448,7 +19448,7 @@ function _updateThemeIcon(isLight) {
         return '<div class="widget-value">' + S4.cloudSync.getStatus() + '</div><div class="widget-change">' + (last ? 'Last: ' + new Date(last).toLocaleTimeString() : 'Never synced') + '</div>';
     }});
     S4.dashboard.register({id:'integrity',title:'Data Integrity',render:function(){
-        return '<div class="widget-value"><i class="fas fa-shield-check" style="color:#34c759"></i></div><div class="widget-change positive">Chain verified</div>';
+        return '<div class="widget-value"><i class="fas fa-shield-halved" style="color:#34c759"></i></div><div class="widget-change positive">Chain verified</div>';
     }});
 
     // ── 8. Mobile Sidebar Toggle ──
@@ -20219,7 +20219,7 @@ function _updateThemeIcon(isLight) {
                     };
                     try { localStorage.setItem('s4_sso_session', JSON.stringify(self._session)); } catch(e) {}
                     if (S4.toast) S4.toast('Authenticated via ' + provider.name, 'success');
-                    if (S4.activity) S4.activity.log('<i class="fas fa-shield-check"></i>', 'SSO auth via <strong>' + provider.name + '</strong>');
+                    if (S4.activity) S4.activity.log('<i class="fas fa-shield-halved"></i>', 'SSO auth via <strong>' + provider.name + '</strong>');
                     resolve(self._session);
                 }, 1200);
             });
@@ -20760,7 +20760,7 @@ function _updateThemeIcon(isLight) {
     if (S4.commandPalette) {
         S4.commandPalette.register([
             {label:'Select Chain: Ethereum',icon:'<i class="fab fa-ethereum"></i>',category:'Blockchain',action:function(){ S4.multiChain.select('ethereum'); }},
-            {label:'Select Chain: Polygon',icon:'<i class="fas fa-hexagon-vertical-nft"></i>',category:'Blockchain',action:function(){ S4.multiChain.select('polygon'); }},
+            {label:'Select Chain: Polygon',icon:'<i class="fas fa-cube"></i>',category:'Blockchain',action:function(){ S4.multiChain.select('polygon'); }},
             {label:'Select Chain: Solana',icon:'<i class="fas fa-sun"></i>',category:'Blockchain',action:function(){ S4.multiChain.select('solana'); }},
             {label:'Generate DID',icon:'<i class="fas fa-fingerprint"></i>',category:'Blockchain',action:function(){ S4.did.generate(); }},
             {label:'View DAO Proposals',icon:'<i class="fas fa-gavel"></i>',category:'Blockchain',action:function(){ var p=S4.dao.getProposals();S4.toast(p.length+' proposals total','info'); }}
