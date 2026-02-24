@@ -17842,6 +17842,292 @@ function _updateThemeIcon(isLight) {
     console.log('[S4 UX] Module loaded — 9 features active');
 })();
 
+// ═══════════════════════════════════════════════════════════════
+// ═══ S4 UX & INTERFACE MODULE (Part 2) ═══
+// Theme customization, drag-drop, data viz, i18n expansion
+// ═══════════════════════════════════════════════════════════════
+(function() {
+    'use strict';
+
+    // ── 1. Theme Customization Engine ──
+    S4.themeEngine = {
+        _presets: {
+            'default-dark': {accent:'#00aaff',bg:'#1d1d1f',bgSecondary:'#2d2d2f',text:'#f5f5f7',border:'#333'},
+            'midnight-blue': {accent:'#4a9eff',bg:'#0f1923',bgSecondary:'#1a2a3a',text:'#e0e8f0',border:'#2a3a4a'},
+            'military-green': {accent:'#7cb342',bg:'#1a1f14',bgSecondary:'#2a3024',text:'#e0e8d0',border:'#3a4034'},
+            'high-contrast': {accent:'#ffff00',bg:'#000000',bgSecondary:'#1a1a1a',text:'#ffffff',border:'#666'},
+            'warm-amber': {accent:'#c9a84c',bg:'#1f1a14',bgSecondary:'#2f2a24',text:'#f0e8d8',border:'#4a3f34'}
+        },
+        _custom: JSON.parse(localStorage.getItem('s4_custom_theme') || 'null'),
+        getPresets: function() { return Object.keys(this._presets); },
+        apply: function(presetOrCustom) {
+            var theme = typeof presetOrCustom === 'string' ? this._presets[presetOrCustom] : presetOrCustom;
+            if (!theme) return;
+            var root = document.documentElement;
+            if (theme.accent) root.style.setProperty('--accent', theme.accent);
+            if (theme.bg) root.style.setProperty('--bg-primary', theme.bg);
+            if (theme.bgSecondary) root.style.setProperty('--bg-secondary', theme.bgSecondary);
+            if (theme.text) root.style.setProperty('--text-primary', theme.text);
+            if (theme.border) root.style.setProperty('--border-primary', theme.border);
+            this._custom = theme;
+            try { localStorage.setItem('s4_custom_theme', JSON.stringify(theme)); } catch(e) {}
+            if (S4.toast) S4.toast('Theme applied', 'success', 2000);
+        },
+        reset: function() {
+            var root = document.documentElement;
+            ['--accent','--bg-primary','--bg-secondary','--text-primary','--border-primary'].forEach(function(p) {
+                root.style.removeProperty(p);
+            });
+            this._custom = null;
+            try { localStorage.removeItem('s4_custom_theme'); } catch(e) {}
+        },
+        restore: function() {
+            if (this._custom) this.apply(this._custom);
+        }
+    };
+    // Restore custom theme on load
+    S4.themeEngine.restore();
+
+    // ── 2. Drag-and-Drop Reorder System ──
+    S4.dragDrop = {
+        _dragEl: null,
+        _placeholder: null,
+        enableSortable: function(container, itemSelector, onReorder) {
+            var containerEl = typeof container === 'string' ? document.querySelector(container) : container;
+            if (!containerEl) return;
+            var items = containerEl.querySelectorAll(itemSelector);
+            var self = this;
+            items.forEach(function(item) {
+                item.setAttribute('draggable', 'true');
+                item.addEventListener('dragstart', function(e) {
+                    self._dragEl = item;
+                    item.style.opacity = '0.4';
+                    e.dataTransfer.effectAllowed = 'move';
+                    e.dataTransfer.setData('text/plain', '');
+                });
+                item.addEventListener('dragend', function() {
+                    item.style.opacity = '1';
+                    self._dragEl = null;
+                    if (self._placeholder && self._placeholder.parentNode) {
+                        self._placeholder.parentNode.removeChild(self._placeholder);
+                    }
+                    self._placeholder = null;
+                    if (typeof onReorder === 'function') {
+                        var newOrder = Array.from(containerEl.querySelectorAll(itemSelector)).map(function(el, idx) {
+                            return {element:el, index:idx, id:el.dataset.id || idx};
+                        });
+                        onReorder(newOrder);
+                    }
+                });
+                item.addEventListener('dragover', function(e) {
+                    e.preventDefault();
+                    e.dataTransfer.dropEffect = 'move';
+                    if (self._dragEl && self._dragEl !== item) {
+                        var rect = item.getBoundingClientRect();
+                        var midY = rect.top + rect.height / 2;
+                        if (e.clientY < midY) {
+                            containerEl.insertBefore(self._dragEl, item);
+                        } else {
+                            containerEl.insertBefore(self._dragEl, item.nextSibling);
+                        }
+                    }
+                });
+            });
+        }
+    };
+
+    // ── 3. Data Visualization — mini chart library ──
+    S4.charts = {
+        bar: function(containerId, data, options) {
+            // data = [{label, value, color?}]
+            options = options || {};
+            var container = document.getElementById(containerId);
+            if (!container) return;
+            var max = Math.max.apply(null, data.map(function(d){return d.value}));
+            var height = options.height || 200;
+            var barWidth = options.barWidth || Math.max(20, Math.floor((container.clientWidth - data.length * 4) / data.length));
+            var html = '<div style="display:flex;align-items:flex-end;gap:4px;height:' + height + 'px;padding:8px 0">';
+            data.forEach(function(d) {
+                var pct = max > 0 ? (d.value / max * 100) : 0;
+                var color = d.color || '#00aaff';
+                html += '<div style="display:flex;flex-direction:column;align-items:center;flex:1;min-width:' + barWidth + 'px">' +
+                    '<div style="font-size:10px;color:var(--text-secondary,#86868b);margin-bottom:4px">' + d.value + '</div>' +
+                    '<div style="width:100%;max-width:' + barWidth + 'px;height:' + pct + '%;background:' + color + ';border-radius:3px 3px 0 0;min-height:2px;transition:height .5s ease"></div>' +
+                    '<div style="font-size:9px;color:var(--text-tertiary,#555);margin-top:4px;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:' + barWidth + 'px">' + (S4.sanitize ? S4.sanitize(d.label) : d.label) + '</div>' +
+                '</div>';
+            });
+            html += '</div>';
+            container.innerHTML = html;
+        },
+        donut: function(containerId, data, options) {
+            // data = [{label, value, color}]
+            options = options || {};
+            var container = document.getElementById(containerId);
+            if (!container) return;
+            var size = options.size || 160;
+            var total = data.reduce(function(s,d){return s + d.value}, 0);
+            var cx = size/2, cy = size/2, r = size/2 - 10, innerR = r * 0.6;
+            var startAngle = -Math.PI/2;
+            var paths = '';
+            data.forEach(function(d) {
+                if (total === 0) return;
+                var angle = (d.value / total) * Math.PI * 2;
+                var endAngle = startAngle + angle;
+                var largeArc = angle > Math.PI ? 1 : 0;
+                var x1 = cx + r * Math.cos(startAngle), y1 = cy + r * Math.sin(startAngle);
+                var x2 = cx + r * Math.cos(endAngle), y2 = cy + r * Math.sin(endAngle);
+                var ix1 = cx + innerR * Math.cos(endAngle), iy1 = cy + innerR * Math.sin(endAngle);
+                var ix2 = cx + innerR * Math.cos(startAngle), iy2 = cy + innerR * Math.sin(startAngle);
+                paths += '<path d="M'+x1+','+y1+' A'+r+','+r+' 0 '+largeArc+',1 '+x2+','+y2+' L'+ix1+','+iy1+' A'+innerR+','+innerR+' 0 '+largeArc+',0 '+ix2+','+iy2+' Z" fill="'+(d.color||'#00aaff')+'" opacity="0.85"><title>'+d.label+': '+d.value+'</title></path>';
+                startAngle = endAngle;
+            });
+            var centerText = options.centerText || total;
+            var html = '<div style="display:flex;align-items:center;gap:16px">' +
+                '<svg width="'+size+'" height="'+size+'" viewBox="0 0 '+size+' '+size+'">' + paths +
+                '<text x="'+cx+'" y="'+cy+'" text-anchor="middle" dominant-baseline="middle" fill="var(--text-primary,#f5f5f7)" font-size="20" font-weight="700">'+centerText+'</text></svg>' +
+                '<div style="display:flex;flex-direction:column;gap:4px">' +
+                data.map(function(d) {
+                    return '<div style="display:flex;align-items:center;gap:6px;font-size:11px"><div style="width:8px;height:8px;border-radius:50%;background:'+(d.color||'#00aaff')+'"></div><span style="color:var(--text-secondary,#86868b)">'+d.label+' ('+d.value+')</span></div>';
+                }).join('') + '</div></div>';
+            container.innerHTML = html;
+        },
+        sparkline: function(containerId, values, options) {
+            options = options || {};
+            var container = document.getElementById(containerId);
+            if (!container) return;
+            var w = options.width || container.clientWidth || 200;
+            var h = options.height || 40;
+            var color = options.color || '#00aaff';
+            var min = Math.min.apply(null, values);
+            var max = Math.max.apply(null, values);
+            var range = max - min || 1;
+            var points = values.map(function(v, i) {
+                return (i / (values.length - 1)) * w + ',' + (h - ((v - min) / range) * (h - 4) - 2);
+            }).join(' ');
+            container.innerHTML = '<svg width="'+w+'" height="'+h+'"><polyline points="'+points+'" fill="none" stroke="'+color+'" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+        }
+    };
+
+    // ── 4. i18n Translation Expansion ──
+    if (S4.i18n) {
+        // Spanish
+        S4.i18n.es = S4.i18n.es || {};
+        Object.assign(S4.i18n.es, {
+            dashboard:'Panel de control',vault:'Bóveda de auditoría',records:'Registros',anchor:'Anclar',verify:'Verificar',
+            export:'Exportar',import:'Importar',search:'Buscar',settings:'Configuración',security:'Seguridad',
+            help:'Ayuda',tools:'Herramientas',logout:'Cerrar sesión',welcome:'Bienvenido',save:'Guardar',
+            cancel:'Cancelar',delete:'Eliminar',edit:'Editar',create:'Crear',submit:'Enviar',
+            loading:'Cargando...',error:'Error',success:'Éxito',warning:'Advertencia',info:'Información'
+        });
+        // French
+        S4.i18n.fr = S4.i18n.fr || {};
+        Object.assign(S4.i18n.fr, {
+            dashboard:'Tableau de bord',vault:'Coffre-fort',records:'Dossiers',anchor:'Ancrer',verify:'Vérifier',
+            export:'Exporter',import:'Importer',search:'Rechercher',settings:'Paramètres',security:'Sécurité',
+            help:'Aide',tools:'Outils',logout:'Déconnexion',welcome:'Bienvenue',save:'Enregistrer',
+            cancel:'Annuler',delete:'Supprimer',edit:'Modifier',create:'Créer',submit:'Soumettre',
+            loading:'Chargement...',error:'Erreur',success:'Succès',warning:'Avertissement',info:'Information'
+        });
+        // German
+        S4.i18n.de = S4.i18n.de || {};
+        Object.assign(S4.i18n.de, {
+            dashboard:'Instrumententafel',vault:'Tresor',records:'Aufzeichnungen',anchor:'Verankern',verify:'Überprüfen',
+            export:'Exportieren',import:'Importieren',search:'Suchen',settings:'Einstellungen',security:'Sicherheit',
+            help:'Hilfe',tools:'Werkzeuge',logout:'Abmelden',welcome:'Willkommen',save:'Speichern',
+            cancel:'Abbrechen',delete:'Löschen',edit:'Bearbeiten',create:'Erstellen',submit:'Absenden',
+            loading:'Laden...',error:'Fehler',success:'Erfolg',warning:'Warnung',info:'Information'
+        });
+        // Japanese
+        S4.i18n.ja = S4.i18n.ja || {};
+        Object.assign(S4.i18n.ja, {
+            dashboard:'ダッシュボード',vault:'監査保管庫',records:'記録',anchor:'アンカー',verify:'検証',
+            export:'エクスポート',import:'インポート',search:'検索',settings:'設定',security:'セキュリティ',
+            help:'ヘルプ',tools:'ツール',logout:'ログアウト',welcome:'ようこそ',save:'保存',
+            cancel:'キャンセル',delete:'削除',edit:'編集',create:'作成',submit:'送信',
+            loading:'読み込み中...',error:'エラー',success:'成功',warning:'警告',info:'情報'
+        });
+        // Arabic
+        S4.i18n.ar = S4.i18n.ar || {};
+        Object.assign(S4.i18n.ar, {
+            dashboard:'لوحة التحكم',vault:'خزنة التدقيق',records:'السجلات',anchor:'ربط',verify:'تحقق',
+            export:'تصدير',import:'استيراد',search:'بحث',settings:'إعدادات',security:'أمان',
+            help:'مساعدة',tools:'أدوات',logout:'خروج',welcome:'مرحبا',save:'حفظ',
+            cancel:'إلغاء',delete:'حذف',edit:'تعديل',create:'إنشاء',submit:'إرسال',
+            loading:'جار التحميل...',error:'خطأ',success:'نجاح',warning:'تحذير',info:'معلومات'
+        });
+
+        // Language switcher for i18n
+        S4.setLanguage = function(lang) {
+            S4.i18n._currentLang = lang;
+            try { localStorage.setItem('s4_language', lang); } catch(e) {}
+            if (S4.toast) S4.toast('Language set to: ' + lang.toUpperCase(), 'info', 2000);
+        };
+        S4.t = function(key) {
+            var lang = S4.i18n._currentLang || localStorage.getItem('s4_language') || 'en';
+            if (lang === 'en') return key;
+            var dict = S4.i18n[lang];
+            return (dict && dict[key]) || key;
+        };
+    }
+
+    // ── 5. Keyboard Shortcut Help Expansion ──
+    // Add new shortcuts to the existing shortcuts list
+    S4.shortcuts = {
+        getAll: function() {
+            return [
+                {key:'Cmd+K',description:'Global search'},
+                {key:'Cmd+Shift+P',description:'Command palette'},
+                {key:'Cmd+Z',description:'Undo last action'},
+                {key:'Cmd+Shift+Z',description:'Redo last action'},
+                {key:'Esc',description:'Close overlay/panel'},
+                {key:'?',description:'Show keyboard shortcuts'},
+                {key:'N',description:'Toggle notification history'},
+                {key:'T',description:'Toggle dark/light mode'},
+                {key:'1-9',description:'Quick-access tools'}
+            ];
+        }
+    };
+
+    // ── 6. Custom Layout Persistence ──
+    S4.layouts = {
+        _current: JSON.parse(localStorage.getItem('s4_layout') || 'null') || {sidebarWidth:260,sidebarCollapsed:false},
+        save: function() {
+            try { localStorage.setItem('s4_layout', JSON.stringify(this._current)); } catch(e) {}
+        },
+        get: function(key) { return this._current[key]; },
+        set: function(key, val) {
+            this._current[key] = val;
+            this.save();
+        },
+        restore: function() {
+            var sidebar = document.querySelector('.sidebar');
+            if (sidebar && this._current.sidebarCollapsed) {
+                sidebar.classList.add('collapsed');
+            }
+        }
+    };
+    S4.layouts.restore();
+
+    // Add theme customization and chart commands to palette
+    if (S4.commandPalette) {
+        S4.commandPalette.register([
+            {label:'Apply Midnight Blue Theme',icon:'<i class="fas fa-palette"></i>',category:'Theme',action:function(){ S4.themeEngine.apply('midnight-blue'); }},
+            {label:'Apply Military Green Theme',icon:'<i class="fas fa-palette"></i>',category:'Theme',action:function(){ S4.themeEngine.apply('military-green'); }},
+            {label:'Apply High Contrast Theme',icon:'<i class="fas fa-palette"></i>',category:'Theme',action:function(){ S4.themeEngine.apply('high-contrast'); }},
+            {label:'Apply Warm Amber Theme',icon:'<i class="fas fa-palette"></i>',category:'Theme',action:function(){ S4.themeEngine.apply('warm-amber'); }},
+            {label:'Reset Theme to Default',icon:'<i class="fas fa-rotate-left"></i>',category:'Theme',action:function(){ S4.themeEngine.reset(); S4.toast('Theme reset','info',2000); }},
+            {label:'Set Language: Spanish',icon:'<i class="fas fa-globe"></i>',category:'i18n',action:function(){ S4.setLanguage('es'); }},
+            {label:'Set Language: French',icon:'<i class="fas fa-globe"></i>',category:'i18n',action:function(){ S4.setLanguage('fr'); }},
+            {label:'Set Language: German',icon:'<i class="fas fa-globe"></i>',category:'i18n',action:function(){ S4.setLanguage('de'); }},
+            {label:'Set Language: Japanese',icon:'<i class="fas fa-globe"></i>',category:'i18n',action:function(){ S4.setLanguage('ja'); }},
+            {label:'Set Language: English',icon:'<i class="fas fa-globe"></i>',category:'i18n',action:function(){ S4.setLanguage('en'); }}
+        ]);
+    }
+
+    S4.register('ux2', {version:'1.0.0', features:['theme-engine','drag-drop','charts','i18n-expansion','shortcuts','layouts']});
+    console.log('[S4 UX2] Module loaded — 6 features active');
+})();
+
 </script>
 </body>
 </html>
