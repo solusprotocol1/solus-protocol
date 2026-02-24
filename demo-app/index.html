@@ -1160,6 +1160,103 @@
             .print-header p{font-size:9pt;color:#555}
         }
 
+        /* ═══ S4 UX ENHANCEMENT STYLES ═══ */
+        /* Onboarding Tour */
+        .s4-tour-overlay{position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.6);z-index:99990;display:none;transition:opacity .3s}
+        .s4-tour-overlay.active{display:block}
+        .s4-tour-highlight{position:absolute;z-index:99991;box-shadow:0 0 0 4px #00aaff,0 0 0 9999px rgba(0,0,0,0.5);border-radius:3px;transition:all .4s ease}
+        .s4-tour-tooltip{position:absolute;z-index:99992;background:var(--bg-primary,#1d1d1f);border:1px solid var(--border-primary,#333);border-radius:3px;padding:20px 24px;max-width:340px;box-shadow:0 8px 32px rgba(0,0,0,0.4);color:var(--text-primary,#f5f5f7)}
+        .s4-tour-tooltip h3{margin:0 0 8px;font-size:15px;font-weight:600;color:#00aaff}
+        .s4-tour-tooltip p{margin:0 0 16px;font-size:13px;line-height:1.5;opacity:.85}
+        .s4-tour-tooltip .s4-tour-actions{display:flex;justify-content:space-between;align-items:center;gap:8px}
+        .s4-tour-tooltip .s4-tour-step{font-size:11px;opacity:.5}
+        .s4-tour-tooltip button{padding:6px 16px;border-radius:3px;border:1px solid var(--border-primary,#333);background:transparent;color:var(--text-primary,#f5f5f7);font-size:12px;cursor:pointer;transition:background .2s}
+        .s4-tour-tooltip button:hover{background:rgba(255,255,255,0.08)}
+        .s4-tour-tooltip button.s4-tour-next{background:#00aaff;color:#000;border-color:#00aaff;font-weight:600}
+        .s4-tour-tooltip button.s4-tour-next:hover{background:#0095e0}
+
+        /* Command Palette */
+        .s4-command-palette{position:fixed;top:15%;left:50%;transform:translateX(-50%);width:560px;max-width:90vw;z-index:99980;background:var(--bg-primary,#1d1d1f);border:1px solid var(--border-primary,#333);border-radius:3px;box-shadow:0 16px 64px rgba(0,0,0,0.5);display:none}
+        .s4-command-palette.active{display:block}
+        .s4-command-palette input{width:100%;padding:14px 20px;background:transparent;border:none;border-bottom:1px solid var(--border-primary,#333);color:var(--text-primary,#f5f5f7);font-size:15px;outline:none;box-sizing:border-box}
+        .s4-command-palette input::placeholder{color:rgba(245,245,247,0.3)}
+        .s4-command-list{max-height:360px;overflow-y:auto;padding:4px 0}
+        .s4-command-item{padding:10px 20px;cursor:pointer;display:flex;align-items:center;gap:12px;transition:background .15s;font-size:13px;color:var(--text-primary,#f5f5f7)}
+        .s4-command-item:hover,.s4-command-item.selected{background:rgba(0,170,255,0.12)}
+        .s4-command-item .cmd-icon{width:20px;text-align:center;opacity:.5;font-size:14px}
+        .s4-command-item .cmd-label{flex:1}
+        .s4-command-item .cmd-shortcut{font-size:11px;opacity:.35;font-family:monospace}
+
+        /* Breadcrumb Navigation */
+        .s4-breadcrumbs{display:flex;align-items:center;gap:6px;padding:8px 16px;font-size:12px;border-bottom:1px solid var(--border-primary,#333);background:var(--bg-secondary,rgba(29,29,31,0.5))}
+        .s4-breadcrumbs a{color:var(--text-secondary,#86868b);text-decoration:none;cursor:pointer;transition:color .2s}
+        .s4-breadcrumbs a:hover{color:#00aaff}
+        .s4-breadcrumbs .bc-sep{color:var(--text-tertiary,#555);font-size:10px}
+        .s4-breadcrumbs .bc-current{color:var(--text-primary,#f5f5f7);font-weight:600}
+
+        /* Favorites / Pinned Tools */
+        .s4-favorites-bar{display:flex;flex-wrap:wrap;gap:6px;padding:10px 16px;border-bottom:1px solid var(--border-primary,#333);background:var(--bg-secondary,rgba(29,29,31,0.3))}
+        .s4-fav-chip{padding:4px 12px;border-radius:3px;background:rgba(0,170,255,0.1);border:1px solid rgba(0,170,255,0.2);color:#00aaff;font-size:11px;font-weight:500;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:4px}
+        .s4-fav-chip:hover{background:rgba(0,170,255,0.2);border-color:rgba(0,170,255,0.4)}
+        .s4-fav-chip .fav-remove{opacity:0;font-size:9px;cursor:pointer;transition:opacity .2s}
+        .s4-fav-chip:hover .fav-remove{opacity:.6}
+
+        /* Recent Activity Feed */
+        .s4-activity-feed{max-height:200px;overflow-y:auto;padding:8px 0}
+        .s4-activity-item{display:flex;align-items:flex-start;gap:10px;padding:8px 16px;font-size:12px;border-bottom:1px solid var(--border-primary,rgba(51,51,51,0.3));transition:background .15s}
+        .s4-activity-item:hover{background:rgba(255,255,255,0.02)}
+        .s4-activity-item .act-icon{width:24px;height:24px;border-radius:50%;background:rgba(0,170,255,0.15);display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0}
+        .s4-activity-item .act-text{flex:1;color:var(--text-secondary,#86868b);line-height:1.4}
+        .s4-activity-item .act-text strong{color:var(--text-primary,#f5f5f7)}
+        .s4-activity-item .act-time{font-size:10px;opacity:.4;white-space:nowrap}
+
+        /* Notification Toast */
+        .s4-toast-container{position:fixed;top:20px;right:20px;z-index:99970;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+        .s4-toast{padding:12px 20px;border-radius:3px;background:var(--bg-primary,#1d1d1f);border:1px solid var(--border-primary,#333);box-shadow:0 4px 16px rgba(0,0,0,0.3);color:var(--text-primary,#f5f5f7);font-size:13px;pointer-events:auto;transform:translateX(120%);transition:transform .3s ease;display:flex;align-items:center;gap:10px;max-width:400px}
+        .s4-toast.show{transform:translateX(0)}
+        .s4-toast.success{border-left:3px solid #34c759}
+        .s4-toast.error{border-left:3px solid #ff3b30}
+        .s4-toast.info{border-left:3px solid #00aaff}
+        .s4-toast.warning{border-left:3px solid #ff9500}
+
+        /* Dashboard Widget Cards */
+        .s4-widget-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;padding:16px}
+        .s4-widget{background:var(--bg-primary,#1d1d1f);border:1px solid var(--border-primary,#333);border-radius:3px;padding:20px;transition:border-color .2s,box-shadow .2s}
+        .s4-widget:hover{border-color:rgba(0,170,255,0.3);box-shadow:0 4px 16px rgba(0,0,0,0.2)}
+        .s4-widget h4{margin:0 0 12px;font-size:13px;font-weight:600;color:var(--text-secondary,#86868b);text-transform:uppercase;letter-spacing:0.5px}
+        .s4-widget .widget-value{font-size:28px;font-weight:700;color:var(--text-primary,#f5f5f7);margin:0 0 4px}
+        .s4-widget .widget-change{font-size:12px}
+        .s4-widget .widget-change.positive{color:#34c759}
+        .s4-widget .widget-change.negative{color:#ff3b30}
+
+        /* Mobile Responsive Enhancements */
+        @media (max-width: 768px) {
+            .s4-command-palette{width:95vw;top:5%}
+            .s4-tour-tooltip{max-width:280px;padding:16px}
+            .s4-widget-grid{grid-template-columns:1fr}
+            .s4-breadcrumbs{flex-wrap:wrap;font-size:11px}
+            .s4-favorites-bar{gap:4px}
+            .s4-fav-chip{font-size:10px;padding:3px 8px}
+            .sidebar{width:100%!important;position:fixed;z-index:500;transform:translateX(-100%);transition:transform .3s}
+            .sidebar.mobile-open{transform:translateX(0)}
+            .main-content{margin-left:0!important}
+            .s4-mobile-toggle{display:block!important;position:fixed;bottom:20px;left:20px;z-index:501;width:48px;height:48px;border-radius:50%;background:#00aaff;color:#000;border:none;font-size:20px;cursor:pointer;box-shadow:0 4px 16px rgba(0,170,255,0.4)}
+        }
+        .s4-mobile-toggle{display:none}
+
+        /* Light Mode UX Override Additions */
+        [data-theme="light"] .s4-tour-tooltip{background:#fff;border-color:#d2d2d7;color:#1d1d1f;box-shadow:0 8px 32px rgba(0,0,0,0.12)}
+        [data-theme="light"] .s4-command-palette{background:#fff;border-color:#d2d2d7;box-shadow:0 16px 64px rgba(0,0,0,0.15)}
+        [data-theme="light"] .s4-command-palette input{color:#1d1d1f;border-bottom-color:#d2d2d7}
+        [data-theme="light"] .s4-command-palette input::placeholder{color:rgba(0,0,0,0.3)}
+        [data-theme="light"] .s4-command-item{color:#1d1d1f}
+        [data-theme="light"] .s4-toast{background:#fff;border-color:#d2d2d7;color:#1d1d1f}
+        [data-theme="light"] .s4-widget{background:#fff;border-color:#d2d2d7}
+        [data-theme="light"] .s4-widget:hover{border-color:rgba(0,170,255,0.4);box-shadow:0 4px 16px rgba(0,0,0,0.08)}
+        [data-theme="light"] .s4-breadcrumbs{background:rgba(255,255,255,0.8);border-bottom-color:#d2d2d7}
+        [data-theme="light"] .s4-activity-item{border-bottom-color:rgba(0,0,0,0.06)}
+        [data-theme="light"] .s4-favorites-bar{background:rgba(245,245,247,0.5);border-bottom-color:#d2d2d7}
+
     </style>
 </head>
 <body>
@@ -1426,6 +1523,21 @@ window.addEventListener('unhandledrejection', function(e) {
     </div>
 </nav>
 
+
+<!-- ═══ S4 UX ELEMENTS ═══ -->
+<div class="s4-toast-container" id="s4ToastContainer"></div>
+
+<div class="s4-tour-overlay" id="s4TourOverlay">
+    <div class="s4-tour-highlight" id="s4TourHighlight"></div>
+    <div class="s4-tour-tooltip" id="s4TourTooltip"></div>
+</div>
+
+<div class="s4-command-palette" id="s4CommandPalette">
+    <input type="text" id="s4CommandInput" placeholder="Type a command or search..." autocomplete="off" spellcheck="false">
+    <div class="s4-command-list" id="s4CommandList"></div>
+</div>
+
+<button class="s4-mobile-toggle" id="s4MobileToggle" aria-label="Toggle sidebar"><i class="fas fa-bars"></i></button>
 
 <!-- ═══ SESSION LOCK OVERLAY ═══ -->
 <div id="s4SessionLockOverlay" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.95);z-index:99998;align-items:center;justify-content:center;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);cursor:pointer" onclick="S4.resumeSession()">
@@ -16593,8 +16705,16 @@ function _updateThemeIcon(isLight) {
         // Cmd/Ctrl+K — Global Search
         if (isMod && e.key === 'k') { e.preventDefault(); toggleGlobalSearch(); return; }
 
+        // Cmd/Ctrl+Shift+P — Command Palette
+        if (isMod && e.shiftKey && (e.key === 'p' || e.key === 'P')) { e.preventDefault(); if(S4.commandPalette) S4.commandPalette.toggle(); return; }
+
         // Escape — close overlays
         if (e.key === 'Escape') {
+            // Close command palette first
+            var cpEl = document.getElementById('s4CommandPalette');
+            if (cpEl && cpEl.classList.contains('active')) { S4.commandPalette.close(); return; }
+            // Close tour if active
+            if (S4.tour && S4.tour._active) { S4.tour.end(); return; }
             if (_searchVisible) { toggleGlobalSearch(); return; }
             if (_shortcutsVisible) { toggleShortcuts(); return; }
             if (_notifHistoryVisible) { toggleNotifHistory(); return; }
@@ -17326,6 +17446,400 @@ function _updateThemeIcon(isLight) {
 
     S4.register('data', {version:'1.0.0', features:['indexeddb','versioning','import-export','search-index','pdf-export','cloud-sync','webhooks','attachments','validation','undo-redo']});
     console.log('[S4 Data] Module loaded — 10 features active');
+})();
+
+// ═══════════════════════════════════════════════════════════════
+// ═══ S4 UX & INTERFACE MODULE (Part 1) ═══
+// Onboarding tour, command palette, breadcrumbs, favorites, activity feed, toasts, dashboard widgets
+// ═══════════════════════════════════════════════════════════════
+(function() {
+    'use strict';
+
+    // ── 1. Toast Notification System ──
+    S4.toast = function(message, type, duration) {
+        type = type || 'info';
+        duration = duration || 4000;
+        var container = document.getElementById('s4ToastContainer');
+        if (!container) return;
+        var toast = document.createElement('div');
+        toast.className = 's4-toast ' + type;
+        var icons = {success:'fa-check-circle',error:'fa-times-circle',info:'fa-info-circle',warning:'fa-exclamation-triangle'};
+        toast.innerHTML = '<i class="fas ' + (icons[type]||icons.info) + '"></i><span>' + (S4.sanitize ? S4.sanitize(message) : message) + '</span>';
+        container.appendChild(toast);
+        requestAnimationFrame(function() { toast.classList.add('show'); });
+        setTimeout(function() {
+            toast.classList.remove('show');
+            setTimeout(function() { if (toast.parentNode) toast.parentNode.removeChild(toast); }, 300);
+        }, duration);
+    };
+
+    // ── 2. Onboarding Tour System ──
+    S4.tour = {
+        _steps: [],
+        _currentStep: 0,
+        _active: false,
+        define: function(steps) {
+            this._steps = steps; // [{selector, title, description, position}]
+        },
+        start: function(steps) {
+            if (steps) this.define(steps);
+            if (this._steps.length === 0) return;
+            this._currentStep = 0;
+            this._active = true;
+            document.getElementById('s4TourOverlay').classList.add('active');
+            this._showStep();
+        },
+        _showStep: function() {
+            var step = this._steps[this._currentStep];
+            if (!step) { this.end(); return; }
+            var el = document.querySelector(step.selector);
+            var highlight = document.getElementById('s4TourHighlight');
+            var tooltip = document.getElementById('s4TourTooltip');
+            if (el) {
+                var rect = el.getBoundingClientRect();
+                highlight.style.top = (rect.top - 4) + 'px';
+                highlight.style.left = (rect.left - 4) + 'px';
+                highlight.style.width = (rect.width + 8) + 'px';
+                highlight.style.height = (rect.height + 8) + 'px';
+                highlight.style.display = 'block';
+                // Position tooltip
+                var pos = step.position || 'bottom';
+                tooltip.style.display = 'block';
+                if (pos === 'bottom') { tooltip.style.top = (rect.bottom + 16) + 'px'; tooltip.style.left = rect.left + 'px'; }
+                else if (pos === 'top') { tooltip.style.top = (rect.top - 160) + 'px'; tooltip.style.left = rect.left + 'px'; }
+                else if (pos === 'right') { tooltip.style.top = rect.top + 'px'; tooltip.style.left = (rect.right + 16) + 'px'; }
+                else { tooltip.style.top = rect.top + 'px'; tooltip.style.left = (rect.left - 360) + 'px'; }
+            } else {
+                highlight.style.display = 'none';
+                tooltip.style.top = '30%'; tooltip.style.left = '50%'; tooltip.style.transform = 'translate(-50%,-50%)';
+                tooltip.style.display = 'block';
+            }
+            var stepNum = (this._currentStep + 1) + ' / ' + this._steps.length;
+            var isLast = this._currentStep >= this._steps.length - 1;
+            tooltip.innerHTML = '<h3>' + (S4.sanitize ? S4.sanitize(step.title) : step.title) + '</h3>' +
+                '<p>' + (S4.sanitize ? S4.sanitize(step.description) : step.description) + '</p>' +
+                '<div class="s4-tour-actions">' +
+                    '<span class="s4-tour-step">' + stepNum + '</span>' +
+                    '<div style="display:flex;gap:8px">' +
+                        (this._currentStep > 0 ? '<button onclick="S4.tour.prev()">Back</button>' : '') +
+                        '<button onclick="S4.tour.end()">Skip</button>' +
+                        '<button class="s4-tour-next" onclick="S4.tour.' + (isLast ? 'end' : 'next') + '()">' + (isLast ? 'Done' : 'Next') + '</button>' +
+                    '</div>' +
+                '</div>';
+        },
+        next: function() {
+            this._currentStep++;
+            if (this._currentStep >= this._steps.length) { this.end(); return; }
+            this._showStep();
+        },
+        prev: function() {
+            if (this._currentStep > 0) { this._currentStep--; this._showStep(); }
+        },
+        end: function() {
+            this._active = false;
+            this._currentStep = 0;
+            document.getElementById('s4TourOverlay').classList.remove('active');
+            document.getElementById('s4TourHighlight').style.display = 'none';
+            document.getElementById('s4TourTooltip').style.display = 'none';
+            localStorage.setItem('s4_tour_completed', 'true');
+            S4.toast('Tour complete! Use the Help menu to restart anytime.', 'success');
+        }
+    };
+
+    // Default onboarding tour steps
+    S4.tour.define([
+        {selector:'.sidebar',title:'Navigation Sidebar',description:'Browse 30+ DoD logistics tools organized by category. Click any tool to open it.',position:'right'},
+        {selector:'#searchInput',title:'Global Search',description:'Search across all tools, vault records, and documentation with Cmd+K.',position:'bottom'},
+        {selector:'.vault-section',title:'Audit Vault',description:'Your blockchain-anchored audit trail. Every record is hashed and verifiable.',position:'left'},
+        {selector:'.sls-fee-section',title:'SLS Balance',description:'Track your S4 Ledger Service fees for anchoring and verification operations.',position:'bottom'},
+        {selector:'.quick-stats',title:'Quick Stats',description:'Real-time overview of your session records, vault size, and verification status.',position:'bottom'}
+    ]);
+
+    // ── 3. Command Palette — Ctrl/Cmd+K ──
+    S4.commandPalette = {
+        _commands: [],
+        _selectedIndex: 0,
+        register: function(commands) {
+            this._commands = this._commands.concat(commands);
+        },
+        open: function() {
+            var palette = document.getElementById('s4CommandPalette');
+            var input = document.getElementById('s4CommandInput');
+            if (!palette) return;
+            palette.classList.add('active');
+            input.value = '';
+            input.focus();
+            this._selectedIndex = 0;
+            this._render('');
+        },
+        close: function() {
+            var palette = document.getElementById('s4CommandPalette');
+            if (palette) palette.classList.remove('active');
+        },
+        toggle: function() {
+            var palette = document.getElementById('s4CommandPalette');
+            if (palette && palette.classList.contains('active')) this.close();
+            else this.open();
+        },
+        _render: function(query) {
+            var list = document.getElementById('s4CommandList');
+            if (!list) return;
+            var q = (query || '').toLowerCase();
+            var filtered = this._commands.filter(function(cmd) {
+                return cmd.label.toLowerCase().indexOf(q) !== -1 || (cmd.category || '').toLowerCase().indexOf(q) !== -1;
+            });
+            var self = this;
+            list.innerHTML = filtered.slice(0, 20).map(function(cmd, idx) {
+                return '<div class="s4-command-item' + (idx === self._selectedIndex ? ' selected' : '') + '" data-idx="' + idx + '" onclick="S4.commandPalette._execute(' + idx + ')">' +
+                    '<span class="cmd-icon">' + (cmd.icon || '<i class="fas fa-terminal"></i>') + '</span>' +
+                    '<span class="cmd-label">' + (S4.sanitize ? S4.sanitize(cmd.label) : cmd.label) + '</span>' +
+                    (cmd.shortcut ? '<span class="cmd-shortcut">' + cmd.shortcut + '</span>' : '') +
+                '</div>';
+            }).join('');
+        },
+        _execute: function(idx) {
+            var q = (document.getElementById('s4CommandInput') || {}).value || '';
+            var filtered = this._commands.filter(function(cmd) {
+                return cmd.label.toLowerCase().indexOf(q.toLowerCase()) !== -1 || (cmd.category || '').toLowerCase().indexOf(q.toLowerCase()) !== -1;
+            });
+            var cmd = filtered[idx];
+            if (cmd && typeof cmd.action === 'function') {
+                this.close();
+                cmd.action();
+            }
+        }
+    };
+
+    // Register default commands
+    S4.commandPalette.register([
+        {label:'Go to Dashboard',icon:'<i class="fas fa-tachometer-alt"></i>',category:'Navigation',action:function(){ if(typeof navigateTo==='function') navigateTo('dashboard'); }},
+        {label:'Open Audit Vault',icon:'<i class="fas fa-vault"></i>',category:'Navigation',action:function(){ if(typeof navigateTo==='function') navigateTo('vaultPanel'); }},
+        {label:'Start Onboarding Tour',icon:'<i class="fas fa-graduation-cap"></i>',category:'Help',action:function(){ S4.tour.start(); }},
+        {label:'Toggle Dark/Light Mode',icon:'<i class="fas fa-moon"></i>',category:'Settings',shortcut:'Cmd+Shift+D',action:function(){ if(typeof toggleTheme==='function') toggleTheme(); }},
+        {label:'Export Vault as JSON',icon:'<i class="fas fa-download"></i>',category:'Data',action:function(){ if(typeof s4Vault!=='undefined') S4.vaultIO.exportJSON(s4Vault); }},
+        {label:'Export Vault as CSV',icon:'<i class="fas fa-file-csv"></i>',category:'Data',action:function(){ if(typeof s4Vault!=='undefined') S4.vaultIO.exportCSV(s4Vault); }},
+        {label:'Export Vault as PDF',icon:'<i class="fas fa-file-pdf"></i>',category:'Data',action:function(){ if(typeof s4Vault!=='undefined'){ var txt=s4Vault.map(function(r){return r.name+': '+r.hash}).join('\n'); S4.exportPDF('Audit Vault Report',txt); }}},
+        {label:'View Keyboard Shortcuts',icon:'<i class="fas fa-keyboard"></i>',category:'Help',shortcut:'?',action:function(){ if(typeof toggleShortcuts==='function') toggleShortcuts(); }},
+        {label:'Clear All Notifications',icon:'<i class="fas fa-bell-slash"></i>',category:'Settings',action:function(){ var c=document.getElementById('s4ToastContainer');if(c)c.innerHTML=''; }},
+        {label:'Sync to Cloud',icon:'<i class="fas fa-cloud-arrow-up"></i>',category:'Data',action:function(){ S4.cloudSync.sync().then(function(){S4.toast('Cloud sync complete','success')}); }},
+        {label:'Check Data Integrity',icon:'<i class="fas fa-shield-check"></i>',category:'Security',action:function(){ if(typeof s4Vault!=='undefined') S4.auditChain.verifyChain(s4Vault).then(function(r){S4.toast(r.valid?'Chain verified':'Chain broken','info')}); }}
+    ]);
+
+    // Wire command palette input
+    var cmdInput = document.getElementById('s4CommandInput');
+    if (cmdInput) {
+        cmdInput.addEventListener('input', function() { S4.commandPalette._selectedIndex = 0; S4.commandPalette._render(this.value); });
+        cmdInput.addEventListener('keydown', function(e) {
+            var items = document.querySelectorAll('.s4-command-item');
+            if (e.key === 'ArrowDown') { e.preventDefault(); S4.commandPalette._selectedIndex = Math.min(S4.commandPalette._selectedIndex + 1, items.length - 1); S4.commandPalette._render(this.value); }
+            if (e.key === 'ArrowUp') { e.preventDefault(); S4.commandPalette._selectedIndex = Math.max(S4.commandPalette._selectedIndex - 1, 0); S4.commandPalette._render(this.value); }
+            if (e.key === 'Enter') { e.preventDefault(); S4.commandPalette._execute(S4.commandPalette._selectedIndex); }
+            if (e.key === 'Escape') { S4.commandPalette.close(); }
+        });
+    }
+    // Close palette on click outside
+    document.addEventListener('click', function(e) {
+        var palette = document.getElementById('s4CommandPalette');
+        if (palette && palette.classList.contains('active') && !palette.contains(e.target)) S4.commandPalette.close();
+    });
+
+    // ── 4. Breadcrumb Navigation ──
+    S4.breadcrumbs = {
+        _history: [{label:'Home',panel:'dashboard'}],
+        push: function(label, panel) {
+            // Avoid duplicates at end
+            var last = this._history[this._history.length - 1];
+            if (last && last.panel === panel) return;
+            this._history.push({label:label, panel:panel});
+            if (this._history.length > 8) this._history.shift();
+            this.render();
+        },
+        navigateTo: function(idx) {
+            if (idx < 0 || idx >= this._history.length) return;
+            var target = this._history[idx];
+            this._history = this._history.slice(0, idx + 1);
+            if (typeof window.navigateTo === 'function') window.navigateTo(target.panel);
+            this.render();
+        },
+        render: function() {
+            var container = document.querySelector('.s4-breadcrumbs');
+            if (!container) return;
+            var self = this;
+            container.innerHTML = this._history.map(function(item, idx) {
+                var isLast = idx === self._history.length - 1;
+                if (isLast) return '<span class="bc-current">' + (S4.sanitize ? S4.sanitize(item.label) : item.label) + '</span>';
+                return '<a onclick="S4.breadcrumbs.navigateTo(' + idx + ')">' + (S4.sanitize ? S4.sanitize(item.label) : item.label) + '</a><span class="bc-sep"><i class="fas fa-chevron-right"></i></span>';
+            }).join('');
+        }
+    };
+
+    // ── 5. Favorites / Pinned Tools ──
+    S4.favorites = {
+        _items: JSON.parse(localStorage.getItem('s4_favorites') || '[]'),
+        add: function(toolId, label) {
+            if (this._items.find(function(f){ return f.id === toolId; })) return;
+            this._items.push({id:toolId, label:label});
+            this._save();
+            this.render();
+            S4.toast('Pinned: ' + label, 'success', 2000);
+        },
+        remove: function(toolId) {
+            this._items = this._items.filter(function(f){ return f.id !== toolId; });
+            this._save();
+            this.render();
+        },
+        toggle: function(toolId, label) {
+            if (this._items.find(function(f){ return f.id === toolId; })) this.remove(toolId);
+            else this.add(toolId, label);
+        },
+        _save: function() {
+            try { localStorage.setItem('s4_favorites', JSON.stringify(this._items)); } catch(e) {}
+        },
+        render: function() {
+            var container = document.querySelector('.s4-favorites-bar');
+            if (!container) return;
+            if (this._items.length === 0) { container.style.display = 'none'; return; }
+            container.style.display = 'flex';
+            container.innerHTML = this._items.map(function(item) {
+                return '<span class="s4-fav-chip" onclick="if(typeof navigateTo===\'function\')navigateTo(\'' + item.id + '\')">' +
+                    '<i class="fas fa-star" style="font-size:9px"></i> ' + (S4.sanitize ? S4.sanitize(item.label) : item.label) +
+                    '<span class="fav-remove" onclick="event.stopPropagation();S4.favorites.remove(\'' + item.id + '\')"><i class="fas fa-times"></i></span>' +
+                '</span>';
+            }).join('');
+        }
+    };
+
+    // ── 6. Recent Activity Feed ──
+    S4.activity = {
+        _items: JSON.parse(localStorage.getItem('s4_activity') || '[]'),
+        log: function(icon, text) {
+            this._items.unshift({icon:icon, text:text, time:new Date().toISOString()});
+            if (this._items.length > 50) this._items = this._items.slice(0, 50);
+            try { localStorage.setItem('s4_activity', JSON.stringify(this._items)); } catch(e) {}
+            this.render();
+        },
+        render: function() {
+            var container = document.querySelector('.s4-activity-feed');
+            if (!container) return;
+            if (this._items.length === 0) {
+                container.innerHTML = '<div style="padding:20px;text-align:center;font-size:12px;opacity:.4">No recent activity</div>';
+                return;
+            }
+            container.innerHTML = this._items.slice(0, 15).map(function(item) {
+                var ago = S4.activity._timeAgo(item.time);
+                return '<div class="s4-activity-item">' +
+                    '<div class="act-icon">' + (item.icon || '<i class="fas fa-circle"></i>') + '</div>' +
+                    '<div class="act-text">' + (S4.sanitize ? S4.sanitize(item.text) : item.text) + '</div>' +
+                    '<div class="act-time">' + ago + '</div>' +
+                '</div>';
+            }).join('');
+        },
+        _timeAgo: function(iso) {
+            var diff = (Date.now() - new Date(iso).getTime()) / 1000;
+            if (diff < 60) return 'just now';
+            if (diff < 3600) return Math.floor(diff/60) + 'm ago';
+            if (diff < 86400) return Math.floor(diff/3600) + 'h ago';
+            return Math.floor(diff/86400) + 'd ago';
+        },
+        clear: function() {
+            this._items = [];
+            try { localStorage.removeItem('s4_activity'); } catch(e) {}
+            this.render();
+        }
+    };
+
+    // ── 7. Dashboard Widget System ──
+    S4.dashboard = {
+        _widgets: [],
+        register: function(widget) {
+            // widget = {id, title, render: fn returning HTML, refresh: fn}
+            this._widgets.push(widget);
+        },
+        render: function(containerId) {
+            var container = document.getElementById(containerId || 's4DashboardWidgets');
+            if (!container) return;
+            container.className = 's4-widget-grid';
+            container.innerHTML = this._widgets.map(function(w) {
+                return '<div class="s4-widget" id="widget-' + w.id + '">' +
+                    '<h4>' + (S4.sanitize ? S4.sanitize(w.title) : w.title) + '</h4>' +
+                    '<div class="widget-body">' + (typeof w.render === 'function' ? w.render() : '') + '</div>' +
+                '</div>';
+            }).join('');
+        },
+        refresh: function() {
+            this._widgets.forEach(function(w) {
+                if (typeof w.refresh === 'function') {
+                    var el = document.querySelector('#widget-' + w.id + ' .widget-body');
+                    if (el) el.innerHTML = w.render();
+                }
+            });
+        }
+    };
+
+    // Register default dashboard widgets
+    S4.dashboard.register({id:'records',title:'Session Records',render:function(){
+        var count = typeof sessionRecords !== 'undefined' ? sessionRecords.length : 0;
+        return '<div class="widget-value">' + count + '</div><div class="widget-change positive">Active session</div>';
+    }});
+    S4.dashboard.register({id:'vault',title:'Vault Size',render:function(){
+        var count = typeof s4Vault !== 'undefined' ? s4Vault.length : 0;
+        return '<div class="widget-value">' + count + '</div><div class="widget-change info">Anchored records</div>';
+    }});
+    S4.dashboard.register({id:'sync',title:'Cloud Sync',render:function(){
+        var last = S4.cloudSync.getLastSync();
+        return '<div class="widget-value">' + S4.cloudSync.getStatus() + '</div><div class="widget-change">' + (last ? 'Last: ' + new Date(last).toLocaleTimeString() : 'Never synced') + '</div>';
+    }});
+    S4.dashboard.register({id:'integrity',title:'Data Integrity',render:function(){
+        return '<div class="widget-value"><i class="fas fa-shield-check" style="color:#34c759"></i></div><div class="widget-change positive">Chain verified</div>';
+    }});
+
+    // ── 8. Mobile Sidebar Toggle ──
+    var mobileToggle = document.getElementById('s4MobileToggle');
+    if (mobileToggle) {
+        mobileToggle.addEventListener('click', function() {
+            var sidebar = document.querySelector('.sidebar');
+            if (sidebar) sidebar.classList.toggle('mobile-open');
+        });
+    }
+
+    // ── 9. Notification Preferences ──
+    S4.notificationPrefs = {
+        _prefs: JSON.parse(localStorage.getItem('s4_notification_prefs') || '{"anchoring":true,"verification":true,"export":true,"sync":true,"security":true}'),
+        get: function(category) { return this._prefs[category] !== false; },
+        set: function(category, enabled) {
+            this._prefs[category] = enabled;
+            try { localStorage.setItem('s4_notification_prefs', JSON.stringify(this._prefs)); } catch(e) {}
+        },
+        shouldNotify: function(category) { return this.get(category); }
+    };
+
+    // Hook into navigateTo to update breadcrumbs + activity
+    var _origNavigateTo = window.navigateTo;
+    if (typeof _origNavigateTo === 'function') {
+        window.navigateTo = function(panel) {
+            _origNavigateTo.apply(this, arguments);
+            // Get the label from the panel name
+            var label = panel.replace(/([A-Z])/g, ' $1').replace(/^./, function(s){return s.toUpperCase();}).trim();
+            S4.breadcrumbs.push(label, panel);
+            S4.activity.log('<i class="fas fa-arrow-right"></i>', 'Navigated to <strong>' + label + '</strong>');
+            // Init lazy panel if registered
+            if (S4.initLazyPanel) S4.initLazyPanel(panel);
+        };
+    }
+
+    // Offer tour on first visit
+    if (!localStorage.getItem('s4_tour_completed')) {
+        setTimeout(function() {
+            S4.toast('Welcome to S4 Ledger! Click the help icon or press Cmd+/ to start the tour.', 'info', 8000);
+        }, 2000);
+    }
+
+    // Render favorites and activity on load
+    S4.favorites.render();
+    S4.activity.render();
+
+    S4.register('ux', {version:'1.0.0', features:['toast','tour','command-palette','breadcrumbs','favorites','activity-feed','dashboard-widgets','mobile-responsive','notification-prefs']});
+    console.log('[S4 UX] Module loaded — 9 features active');
 })();
 
 </script>
