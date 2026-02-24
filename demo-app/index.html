@@ -1687,6 +1687,15 @@ if (sessionStorage.getItem('s4_entered') === '1') {
     document.querySelector('.hero').style.display = 'none';
     document.getElementById('platformWorkspace').style.display = 'block';
 }
+// Sync SLS balance to stored tier on initial load (prevents 25k → 100k flash)
+(function() {
+    var _t = localStorage.getItem('s4_selected_tier');
+    var _tiers = {pilot:100,starter:25000,professional:100000,enterprise:500000};
+    if (_t && _tiers[_t]) {
+        var el = document.getElementById('slsBarBalance');
+        if (el) el.textContent = _tiers[_t].toLocaleString() + ' SLS';
+    }
+})();
 </script>
 <section class="tab-section">
     <div class="container">
@@ -2138,6 +2147,21 @@ if (sessionStorage.getItem('s4_entered') === '1') {
                             <div style="font-size:0.7rem;color:var(--muted)">records</div>
                         </div>
                         <div style="background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:14px;text-align:center">
+                            <div style="font-size:0.72rem;color:var(--steel);text-transform:uppercase;letter-spacing:0.5px">Records Generated</div>
+                            <div id="metricRecordsGenerated" style="font-size:1.5rem;font-weight:700;color:var(--accent);margin:4px 0">&mdash;</div>
+                            <div style="font-size:0.7rem;color:var(--muted)">total</div>
+                        </div>
+                        <div style="background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:14px;text-align:center">
+                            <div style="font-size:0.72rem;color:var(--steel);text-transform:uppercase;letter-spacing:0.5px">Vault Size</div>
+                            <div id="metricVaultSize" style="font-size:1.5rem;font-weight:700;color:var(--gold);margin:4px 0">&mdash;</div>
+                            <div style="font-size:0.7rem;color:var(--muted)">records</div>
+                        </div>
+                        <div style="background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:14px;text-align:center">
+                            <div style="font-size:0.72rem;color:var(--steel);text-transform:uppercase;letter-spacing:0.5px">Storage Used</div>
+                            <div id="metricStorageUsed" style="font-size:1.5rem;font-weight:700;color:var(--accent);margin:4px 0">&mdash;</div>
+                            <div style="font-size:0.7rem;color:var(--muted)">KB</div>
+                        </div>
+                        <div style="background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:14px;text-align:center">
                             <div style="font-size:0.72rem;color:var(--steel);text-transform:uppercase;letter-spacing:0.5px">Cost / Anchor</div>
                             <div id="metricCostPerAnchor" style="font-size:1.5rem;font-weight:700;color:var(--gold);margin:4px 0">0.01</div>
                             <div style="font-size:0.7rem;color:var(--muted)">SLS</div>
@@ -2151,6 +2175,11 @@ if (sessionStorage.getItem('s4_entered') === '1') {
                             <div style="font-size:0.72rem;color:var(--steel);text-transform:uppercase;letter-spacing:0.5px">Uptime</div>
                             <div id="metricUptime" style="font-size:1.5rem;font-weight:700;color:var(--green);margin:4px 0">99.97</div>
                             <div style="font-size:0.7rem;color:var(--muted)">%</div>
+                        </div>
+                        <div style="background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:14px;text-align:center">
+                            <div style="font-size:0.72rem;color:var(--steel);text-transform:uppercase;letter-spacing:0.5px">Total Time</div>
+                            <div id="metricTotalTime" style="font-size:1.5rem;font-weight:700;color:var(--green);margin:4px 0">&mdash;</div>
+                            <div style="font-size:0.7rem;color:var(--muted)">seconds</div>
                         </div>
                         <div style="background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:14px;text-align:center">
                             <div style="font-size:0.72rem;color:var(--steel);text-transform:uppercase;letter-spacing:0.5px">AI Audit Trail</div>
@@ -2171,6 +2200,27 @@ if (sessionStorage.getItem('s4_entered') === '1') {
                     <div style="background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:16px;margin-top:16px">
                         <div style="font-size:0.82rem;font-weight:600;color:var(--text);margin-bottom:10px"><i class="fas fa-history" style="color:var(--green);margin-right:6px"></i>Recent API Requests</div>
                         <div id="metricsRecentRequests" style="max-height:200px;overflow-y:auto;font-size:0.78rem"><div style="color:var(--muted);text-align:center;padding:1rem">Loading metrics...</div></div>
+                    </div>
+                    <!-- Performance Timing Breakdown -->
+                    <div style="background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:16px;margin-top:16px">
+                        <div style="font-size:0.82rem;font-weight:600;color:var(--text);margin-bottom:10px"><i class="fas fa-stopwatch" style="color:var(--accent);margin-right:6px"></i>Performance Timing Breakdown</div>
+                        <table id="metricsTimingTable" style="width:100%;border-collapse:collapse;font-size:0.78rem">
+                            <thead><tr style="border-bottom:1px solid var(--border)">
+                                <th style="text-align:left;padding:6px 10px;color:var(--steel);font-weight:600">Phase</th>
+                                <th style="text-align:right;padding:6px 10px;color:var(--steel);font-weight:600">Avg (ms)</th>
+                                <th style="text-align:right;padding:6px 10px;color:var(--steel);font-weight:600">Min (ms)</th>
+                                <th style="text-align:right;padding:6px 10px;color:var(--steel);font-weight:600">Max (ms)</th>
+                                <th style="text-align:right;padding:6px 10px;color:var(--steel);font-weight:600">% of Total</th>
+                            </tr></thead>
+                            <tbody id="metricsTimingBody">
+                                <tr style="border-bottom:1px solid rgba(255,255,255,0.03)"><td style="padding:6px 10px;color:var(--text)"><i class="fas fa-file-code" style="color:var(--accent);margin-right:6px;width:14px"></i>Hash Generation</td><td style="text-align:right;padding:6px 10px;color:var(--green);font-weight:600">42</td><td style="text-align:right;padding:6px 10px;color:var(--muted)">18</td><td style="text-align:right;padding:6px 10px;color:var(--muted)">87</td><td style="text-align:right;padding:6px 10px;color:var(--gold)">1.3%</td></tr>
+                                <tr style="border-bottom:1px solid rgba(255,255,255,0.03)"><td style="padding:6px 10px;color:var(--text)"><i class="fas fa-code-merge" style="color:var(--accent);margin-right:6px;width:14px"></i>TX Merge &amp; Sign</td><td style="text-align:right;padding:6px 10px;color:var(--green);font-weight:600">185</td><td style="text-align:right;padding:6px 10px;color:var(--muted)">120</td><td style="text-align:right;padding:6px 10px;color:var(--muted)">310</td><td style="text-align:right;padding:6px 10px;color:var(--gold)">5.8%</td></tr>
+                                <tr style="border-bottom:1px solid rgba(255,255,255,0.03)"><td style="padding:6px 10px;color:var(--text)"><i class="fas fa-anchor" style="color:var(--accent);margin-right:6px;width:14px"></i>XRPL Submit &amp; Confirm</td><td style="text-align:right;padding:6px 10px;color:var(--green);font-weight:600">2,840</td><td style="text-align:right;padding:6px 10px;color:var(--muted)">2,100</td><td style="text-align:right;padding:6px 10px;color:var(--muted)">4,200</td><td style="text-align:right;padding:6px 10px;color:var(--gold)">88.6%</td></tr>
+                                <tr style="border-bottom:1px solid rgba(255,255,255,0.03)"><td style="padding:6px 10px;color:var(--text)"><i class="fas fa-floppy-disk" style="color:var(--accent);margin-right:6px;width:14px"></i>Vault Save</td><td style="text-align:right;padding:6px 10px;color:var(--green);font-weight:600">28</td><td style="text-align:right;padding:6px 10px;color:var(--muted)">12</td><td style="text-align:right;padding:6px 10px;color:var(--muted)">65</td><td style="text-align:right;padding:6px 10px;color:var(--gold)">0.9%</td></tr>
+                                <tr style="border-bottom:1px solid rgba(255,255,255,0.03)"><td style="padding:6px 10px;color:var(--text)"><i class="fas fa-desktop" style="color:var(--accent);margin-right:6px;width:14px"></i>UI Render</td><td style="text-align:right;padding:6px 10px;color:var(--green);font-weight:600">110</td><td style="text-align:right;padding:6px 10px;color:var(--muted)">60</td><td style="text-align:right;padding:6px 10px;color:var(--muted)">240</td><td style="text-align:right;padding:6px 10px;color:var(--gold)">3.4%</td></tr>
+                            </tbody>
+                            <tfoot><tr style="border-top:2px solid var(--border)"><td style="padding:8px 10px;color:#fff;font-weight:700">Total</td><td style="text-align:right;padding:8px 10px;color:#fff;font-weight:700" id="metricTimingTotal">3,205</td><td colspan="3" style="text-align:right;padding:8px 10px;color:var(--accent);font-weight:600">~3.2 seconds end-to-end</td></tr></tfoot>
+                        </table>
                     </div>
                     <div style="text-align:center;margin-top:12px">
                         <button onclick="loadPerformanceMetrics()" class="btn btn-sm" style="background:var(--accent);color:#000;border:none;border-radius:3px;padding:6px 20px;font-weight:600"><i class="fas fa-sync-alt"></i> Refresh Metrics</button>
@@ -11271,6 +11321,17 @@ async function loadPerformanceMetrics() {
         el('metricUptime', data.uptime_pct || '99.97');
         el('metricAiAudit', data.ai_audit_entries || (localAnchors > 0 ? Math.max(localAnchors, 1) : '—'));
 
+        // New stats: Records Generated, Vault Size, Storage Used, Total Time
+        var vaultRecords = [];
+        try { vaultRecords = JSON.parse(localStorage.getItem('s4_vault') || '[]'); } catch(_e) {}
+        var totalRecords = localRecords.length + vaultRecords.length;
+        el('metricRecordsGenerated', totalRecords > 0 ? totalRecords : '—');
+        el('metricVaultSize', vaultRecords.length > 0 ? vaultRecords.length : '—');
+        var storageKB = 0;
+        try { storageKB = Math.round(new Blob([localStorage.getItem('s4_vault') || '']).size / 1024 * 10) / 10; } catch(_e2) {}
+        el('metricStorageUsed', storageKB > 0 ? storageKB.toFixed(1) : '—');
+        el('metricTotalTime', data.total_processing_time || (localAnchors > 0 ? (localAnchors * 3.2).toFixed(1) : '—'));
+
         // Anchor times chart
         var timeCtx = document.getElementById('chartAnchorTimes');
         if (timeCtx && typeof Chart !== 'undefined') {
@@ -11320,6 +11381,17 @@ async function loadPerformanceMetrics() {
         el('metricValidators', '35');
         el('metricUptime', '99.97');
         el('metricAiAudit', localAnchors > 0 ? Math.max(localAnchors, 1) : '—');
+
+        // New stats: Records Generated, Vault Size, Storage Used, Total Time
+        var vaultRecords2 = [];
+        try { vaultRecords2 = JSON.parse(localStorage.getItem('s4_vault') || '[]'); } catch(_e) {}
+        var totalRecords2 = localRecords.length + vaultRecords2.length;
+        el('metricRecordsGenerated', totalRecords2 > 0 ? totalRecords2 : '—');
+        el('metricVaultSize', vaultRecords2.length > 0 ? vaultRecords2.length : '—');
+        var storageKB2 = 0;
+        try { storageKB2 = Math.round(new Blob([localStorage.getItem('s4_vault') || '']).size / 1024 * 10) / 10; } catch(_e2) {}
+        el('metricStorageUsed', storageKB2 > 0 ? storageKB2.toFixed(1) : '—');
+        el('metricTotalTime', localAnchors > 0 ? (localAnchors * 3.2).toFixed(1) : '—');
 
         // Render charts from local data even on API failure
         var timeCtx = document.getElementById('chartAnchorTimes');
@@ -17882,22 +17954,7 @@ function _updateThemeIcon(isLight) {
         };
     }
 
-    // Offer tour on first visit — only after workspace is visible AND onboarding is complete
-    if (!localStorage.getItem('s4_tour_completed')) {
-        var _tourCheckInterval = setInterval(function() {
-            var ws = document.getElementById('platformWorkspace');
-            var wsVisible = ws && ws.style.display === 'block';
-            var onboardDone = sessionStorage.getItem('s4_onboard_done');
-            if (wsVisible && onboardDone) {
-                clearInterval(_tourCheckInterval);
-                setTimeout(function() {
-                    S4.toast('Welcome to S4 Ledger! Click the help icon or press Cmd+/ to start the tour.', 'info', 8000);
-                }, 4000);
-            }
-        }, 2000);
-        // Clear interval after 90s max to avoid leak
-        setTimeout(function() { clearInterval(_tourCheckInterval); }, 90000);
-    }
+    // Tour is available via Help menu / Cmd+/ — no auto-popup
 
     // Render favorites and activity on load
     S4.favorites.render();
@@ -18527,17 +18584,7 @@ function _updateThemeIcon(isLight) {
         ]);
     }
 
-    // Check warranty alerts only after workspace is visible AND onboarding is complete
-    var _warrantyCheckInterval = setInterval(function() {
-        var ws = document.getElementById('platformWorkspace');
-        var wsVisible = ws && ws.style.display === 'block';
-        var onboardDone = sessionStorage.getItem('s4_onboard_done');
-        if (wsVisible && onboardDone) {
-            clearInterval(_warrantyCheckInterval);
-            setTimeout(function() { S4.warrantyAlerts.notifyExpiring(); }, 10000);
-        }
-    }, 2000);
-    setTimeout(function() { clearInterval(_warrantyCheckInterval); }, 90000);
+    // Warranty alerts available via command palette — no auto-popup on page load
 
     S4.register('tools', {version:'1.0.0', features:['batch-anchor','scheduler','templates','ai-classify','cross-link','diff-viewer','gantt','warranty-alerts','readiness-trends','parts-search']});
     console.log('[S4 Tools] Module loaded — 10 features active');
