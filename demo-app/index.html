@@ -18128,6 +18128,347 @@ function _updateThemeIcon(isLight) {
     console.log('[S4 UX2] Module loaded — 6 features active');
 })();
 
+// ═══════════════════════════════════════════════════════════════
+// ═══ S4 TOOL ENHANCEMENTS MODULE ═══
+// Batch anchor, scheduled anchoring, templates, AI classify, cross-link, diff, Gantt, etc.
+// ═══════════════════════════════════════════════════════════════
+(function() {
+    'use strict';
+
+    // ── 1. Batch Anchoring — anchor multiple records simultaneously ──
+    S4.batchAnchor = {
+        _queue: [],
+        add: function(record) {
+            this._queue.push(record);
+            if (S4.toast) S4.toast('Added to batch (' + this._queue.length + ' items)', 'info', 1500);
+        },
+        remove: function(idx) {
+            this._queue.splice(idx, 1);
+        },
+        clear: function() { this._queue = []; },
+        getQueue: function() { return this._queue.slice(); },
+        execute: function() {
+            var self = this;
+            if (self._queue.length === 0) { if (S4.toast) S4.toast('No records in batch queue', 'warning'); return Promise.resolve([]); }
+            var results = [];
+            var total = self._queue.length;
+            if (S4.toast) S4.toast('Anchoring ' + total + ' records...', 'info');
+            if (S4.activity) S4.activity.log('<i class="fas fa-anchor"></i>', 'Batch anchoring <strong>' + total + ' records</strong>');
+            // Process sequentially to maintain chain
+            return self._queue.reduce(function(promise, record, idx) {
+                return promise.then(function() {
+                    return S4.hashAsync ? S4.hashAsync(JSON.stringify(record)) : sha256(JSON.stringify(record));
+                }).then(function(hash) {
+                    results.push({record:record, hash:hash, index:idx});
+                    S4.webhooks.trigger('record:anchored', {record:record, hash:hash});
+                });
+            }, Promise.resolve()).then(function() {
+                self._queue = [];
+                if (S4.toast) S4.toast('Batch complete: ' + results.length + ' records anchored', 'success');
+                return results;
+            });
+        }
+    };
+
+    // ── 2. Scheduled Anchoring — auto-anchor at intervals ──
+    S4.scheduler = {
+        _jobs: [],
+        _intervals: {},
+        schedule: function(name, fn, intervalMs, enabled) {
+            var job = {name:name, fn:fn, interval:intervalMs, enabled:enabled !== false, lastRun:null, nextRun:Date.now() + intervalMs};
+            this._jobs.push(job);
+            if (job.enabled) this._start(job);
+            return job;
+        },
+        _start: function(job) {
+            var self = this;
+            this._intervals[job.name] = setInterval(function() {
+                job.lastRun = new Date().toISOString();
+                job.nextRun = Date.now() + job.interval;
+                try { job.fn(); } catch(e) { console.error('[S4 Scheduler] Job error:', job.name, e); }
+            }, job.interval);
+        },
+        pause: function(name) {
+            if (this._intervals[name]) { clearInterval(this._intervals[name]); delete this._intervals[name]; }
+            var job = this._jobs.find(function(j){return j.name === name;});
+            if (job) job.enabled = false;
+        },
+        resume: function(name) {
+            var job = this._jobs.find(function(j){return j.name === name;});
+            if (job) { job.enabled = true; this._start(job); }
+        },
+        list: function() {
+            return this._jobs.map(function(j) {
+                return {name:j.name, enabled:j.enabled, interval:j.interval, lastRun:j.lastRun};
+            });
+        }
+    };
+
+    // ── 3. Record Templates — reusable record structures ──
+    S4.templates = {
+        _templates: JSON.parse(localStorage.getItem('s4_templates') || '[]'),
+        defaults: [
+            {id:'maint-log',name:'Maintenance Log',fields:{type:'Maintenance',description:'',date:new Date().toISOString().slice(0,10),status:'Pending',technician:'',hours:'0',parts:''}},
+            {id:'inspection',name:'Inspection Report',fields:{type:'Inspection',category:'Routine',inspector:'',date:new Date().toISOString().slice(0,10),result:'',findings:'',recommendations:''}},
+            {id:'supply-req',name:'Supply Requisition',fields:{type:'Supply',itemName:'',nsn:'',quantity:'1',urgency:'Routine',requester:'',justification:''}},
+            {id:'training-cert',name:'Training Certificate',fields:{type:'Training',courseName:'',trainee:'',instructor:'',completionDate:new Date().toISOString().slice(0,10),score:'',certification:''}},
+            {id:'disposal',name:'Disposal Record',fields:{type:'Disposal',assetId:'',reason:'',method:'',approvedBy:'',disposalDate:new Date().toISOString().slice(0,10),demilCode:''}}
+        ],
+        getAll: function() {
+            return this.defaults.concat(this._templates);
+        },
+        create: function(name, fields) {
+            var tmpl = {id:'custom_' + Date.now(), name:name, fields:fields, custom:true};
+            this._templates.push(tmpl);
+            this._save();
+            return tmpl;
+        },
+        apply: function(templateId) {
+            var all = this.getAll();
+            var tmpl = all.find(function(t){return t.id === templateId;});
+            return tmpl ? JSON.parse(JSON.stringify(tmpl.fields)) : null;
+        },
+        delete: function(templateId) {
+            this._templates = this._templates.filter(function(t){return t.id !== templateId;});
+            this._save();
+        },
+        _save: function() {
+            try { localStorage.setItem('s4_templates', JSON.stringify(this._templates)); } catch(e) {}
+        }
+    };
+
+    // ── 4. AI Classification — auto-classify records by content ──
+    S4.classify = {
+        _rules: [
+            {category:'Maintenance',keywords:['maintenance','repair','fix','replace','overhaul','inspection','pmcs','service']},
+            {category:'Supply',keywords:['supply','requisition','order','inventory','stock','nsn','part','item']},
+            {category:'Training',keywords:['training','certificate','course','qualification','cert','instructor','trainee']},
+            {category:'Readiness',keywords:['readiness','status','operational','fmc','nmc','available','deployable']},
+            {category:'Financial',keywords:['cost','budget','funding','expense','roi','price','payment','contract']},
+            {category:'Disposal',keywords:['disposal','demil','surplus','scrap','turn-in','excess','condemn']},
+            {category:'Safety',keywords:['safety','hazard','incident','accident','risk','osha','ppe']},
+            {category:'Compliance',keywords:['compliance','audit','regulation','standard','policy','nist','fedramp','cmmc']}
+        ],
+        analyze: function(text) {
+            var lower = (text || '').toLowerCase();
+            var scores = {};
+            this._rules.forEach(function(rule) {
+                var count = 0;
+                rule.keywords.forEach(function(kw) {
+                    var regex = new RegExp('\\b' + kw + '\\b', 'gi');
+                    var matches = lower.match(regex);
+                    if (matches) count += matches.length;
+                });
+                if (count > 0) scores[rule.category] = count;
+            });
+            // Sort by score descending
+            var sorted = Object.keys(scores).sort(function(a,b){return scores[b] - scores[a];});
+            return sorted.length > 0 ? {primary:sorted[0], confidence:Math.min(scores[sorted[0]] / 5 * 100, 100).toFixed(0) + '%', all:scores} : {primary:'Uncategorized', confidence:'0%', all:{}};
+        },
+        classifyRecord: function(record) {
+            var text = Object.values(record).join(' ');
+            return this.analyze(text);
+        }
+    };
+
+    // ── 5. Cross-Tool Record Linking ──
+    S4.crossLink = {
+        _links: JSON.parse(localStorage.getItem('s4_crosslinks') || '{}'),
+        link: function(sourceId, targetId, relationship) {
+            if (!this._links[sourceId]) this._links[sourceId] = [];
+            this._links[sourceId].push({target:targetId, relationship:relationship || 'related', created:new Date().toISOString()});
+            this._save();
+            S4.webhooks.trigger('record:linked', {source:sourceId, target:targetId});
+        },
+        unlink: function(sourceId, targetId) {
+            if (!this._links[sourceId]) return;
+            this._links[sourceId] = this._links[sourceId].filter(function(l){return l.target !== targetId;});
+            this._save();
+        },
+        getLinks: function(recordId) {
+            var direct = (this._links[recordId] || []).slice();
+            // Also find reverse links
+            var reverse = [];
+            Object.keys(this._links).forEach(function(src) {
+                this._links[src].forEach(function(link) {
+                    if (link.target === recordId) reverse.push({target:src, relationship:link.relationship + ' (reverse)', created:link.created});
+                });
+            }.bind(this));
+            return direct.concat(reverse);
+        },
+        _save: function() {
+            try { localStorage.setItem('s4_crosslinks', JSON.stringify(this._links)); } catch(e) {}
+        }
+    };
+
+    // ── 6. Diff Viewer — compare two records side by side ──
+    S4.diffViewer = {
+        compare: function(recordA, recordB) {
+            var allKeys = new Set(Object.keys(recordA || {}).concat(Object.keys(recordB || {})));
+            var diffs = [];
+            allKeys.forEach(function(key) {
+                var a = recordA ? recordA[key] : undefined;
+                var b = recordB ? recordB[key] : undefined;
+                var status = 'unchanged';
+                if (a === undefined) status = 'added';
+                else if (b === undefined) status = 'removed';
+                else if (JSON.stringify(a) !== JSON.stringify(b)) status = 'modified';
+                diffs.push({field:key, before:a, after:b, status:status});
+            });
+            return diffs;
+        },
+        renderHTML: function(diffs) {
+            var colors = {added:'#34c759',removed:'#ff3b30',modified:'#ff9500',unchanged:'var(--text-secondary,#86868b)'};
+            return '<table style="width:100%;border-collapse:collapse;font-size:12px">' +
+                '<tr style="border-bottom:1px solid var(--border-primary,#333)"><th style="padding:8px;text-align:left">Field</th><th style="padding:8px;text-align:left">Before</th><th style="padding:8px;text-align:left">After</th><th style="padding:8px">Status</th></tr>' +
+                diffs.map(function(d) {
+                    return '<tr style="border-bottom:1px solid rgba(51,51,51,0.3)">' +
+                        '<td style="padding:6px 8px;font-weight:600">' + d.field + '</td>' +
+                        '<td style="padding:6px 8px;color:' + (d.status==='removed'||d.status==='modified' ? '#ff3b30' : 'inherit') + '">' + (d.before != null ? d.before : '-') + '</td>' +
+                        '<td style="padding:6px 8px;color:' + (d.status==='added'||d.status==='modified' ? '#34c759' : 'inherit') + '">' + (d.after != null ? d.after : '-') + '</td>' +
+                        '<td style="padding:6px 8px;text-align:center;color:' + colors[d.status] + ';text-transform:uppercase;font-size:10px;font-weight:600">' + d.status + '</td>' +
+                    '</tr>';
+                }).join('') + '</table>';
+        }
+    };
+
+    // ── 7. Gantt Chart — timeline visualization ──
+    S4.gantt = {
+        render: function(containerId, tasks, options) {
+            // tasks = [{name, start: Date, end: Date, color?, progress?}]
+            options = options || {};
+            var container = document.getElementById(containerId);
+            if (!container || tasks.length === 0) return;
+            var allDates = tasks.reduce(function(d,t){d.push(new Date(t.start),new Date(t.end));return d;}, []);
+            var minDate = Math.min.apply(null, allDates);
+            var maxDate = Math.max.apply(null, allDates);
+            var range = maxDate - minDate || 1;
+            var rowH = 32;
+            var labelW = 160;
+            var chartW = (container.clientWidth || 600) - labelW;
+            var html = '<div style="display:flex;font-size:11px">';
+            html += '<div style="width:' + labelW + 'px;flex-shrink:0">';
+            tasks.forEach(function(t) {
+                html += '<div style="height:' + rowH + 'px;display:flex;align-items:center;padding:0 8px;border-bottom:1px solid rgba(51,51,51,0.3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + (S4.sanitize ? S4.sanitize(t.name) : t.name) + '</div>';
+            });
+            html += '</div><div style="flex:1;overflow-x:auto">';
+            tasks.forEach(function(t) {
+                var start = new Date(t.start).getTime();
+                var end = new Date(t.end).getTime();
+                var left = ((start - minDate) / range * 100).toFixed(2);
+                var width = (((end - start) / range) * 100).toFixed(2);
+                var progress = t.progress || 0;
+                var color = t.color || '#00aaff';
+                html += '<div style="height:' + rowH + 'px;position:relative;border-bottom:1px solid rgba(51,51,51,0.3)">' +
+                    '<div style="position:absolute;left:' + left + '%;width:' + width + '%;top:6px;height:20px;background:rgba(0,170,255,0.15);border-radius:3px;overflow:hidden">' +
+                    '<div style="width:' + progress + '%;height:100%;background:' + color + ';border-radius:3px;opacity:0.8"></div>' +
+                    '</div></div>';
+            });
+            html += '</div></div>';
+            container.innerHTML = html;
+        }
+    };
+
+    // ── 8. Warranty Alert System ──
+    S4.warrantyAlerts = {
+        _warranties: JSON.parse(localStorage.getItem('s4_warranties') || '[]'),
+        add: function(assetId, assetName, expirationDate) {
+            this._warranties.push({assetId:assetId, assetName:assetName, expiration:expirationDate, created:new Date().toISOString()});
+            this._save();
+        },
+        check: function() {
+            var now = Date.now();
+            var thirtyDays = 30 * 24 * 60 * 60 * 1000;
+            var alerts = {expired:[], expiringSoon:[], valid:[]};
+            this._warranties.forEach(function(w) {
+                var exp = new Date(w.expiration).getTime();
+                if (exp < now) alerts.expired.push(w);
+                else if (exp - now < thirtyDays) alerts.expiringSoon.push(w);
+                else alerts.valid.push(w);
+            });
+            return alerts;
+        },
+        notifyExpiring: function() {
+            var alerts = this.check();
+            if (alerts.expired.length > 0 && S4.toast) {
+                S4.toast(alerts.expired.length + ' warranty(ies) have EXPIRED!', 'error', 6000);
+            }
+            if (alerts.expiringSoon.length > 0 && S4.toast) {
+                S4.toast(alerts.expiringSoon.length + ' warranty(ies) expiring within 30 days', 'warning', 6000);
+            }
+        },
+        _save: function() {
+            try { localStorage.setItem('s4_warranties', JSON.stringify(this._warranties)); } catch(e) {}
+        }
+    };
+
+    // ── 9. Readiness Trends Tracker ──
+    S4.readinessTrends = {
+        _data: JSON.parse(localStorage.getItem('s4_readiness_trends') || '[]'),
+        record: function(date, fmc, nmc, pmcs) {
+            this._data.push({date:date || new Date().toISOString().slice(0,10), fmc:fmc, nmc:nmc, pmcs:pmcs});
+            if (this._data.length > 365) this._data = this._data.slice(-365);
+            this._save();
+        },
+        getRecent: function(days) {
+            return this._data.slice(-(days || 30));
+        },
+        getAverageFMC: function(days) {
+            var recent = this.getRecent(days);
+            if (recent.length === 0) return 0;
+            return recent.reduce(function(s,r){return s + (r.fmc || 0);}, 0) / recent.length;
+        },
+        renderChart: function(containerId, days) {
+            var data = this.getRecent(days || 30);
+            if (data.length === 0 || !S4.charts) return;
+            var fmcValues = data.map(function(d){return d.fmc || 0;});
+            S4.charts.sparkline(containerId, fmcValues, {color:'#34c759', height:50});
+        },
+        _save: function() {
+            try { localStorage.setItem('s4_readiness_trends', JSON.stringify(this._data)); } catch(e) {}
+        }
+    };
+
+    // ── 10. Enhanced Parts Search ──
+    S4.partsSearch = {
+        _cache: new (S4.LRUCache || function(){this.cache=new Map();this.get=function(k){return this.cache.get(k)};this.set=function(k,v){this.cache.set(k,v)}})(200),
+        search: function(query, catalog) {
+            var cached = this._cache.get(query);
+            if (cached) return cached;
+            var q = (query || '').toLowerCase();
+            var results = (catalog || []).filter(function(part) {
+                return (part.nsn || '').toLowerCase().indexOf(q) !== -1 ||
+                       (part.name || '').toLowerCase().indexOf(q) !== -1 ||
+                       (part.description || '').toLowerCase().indexOf(q) !== -1 ||
+                       (part.cageCode || '').toLowerCase().indexOf(q) !== -1;
+            }).sort(function(a,b) {
+                // Prioritize exact NSN matches
+                var aExact = (a.nsn || '').toLowerCase() === q ? 0 : 1;
+                var bExact = (b.nsn || '').toLowerCase() === q ? 0 : 1;
+                return aExact - bExact;
+            });
+            this._cache.set(query, results);
+            return results;
+        }
+    };
+
+    // Add tool enhancement commands to palette
+    if (S4.commandPalette) {
+        S4.commandPalette.register([
+            {label:'Execute Batch Anchor',icon:'<i class="fas fa-layer-group"></i>',category:'Tools',action:function(){ S4.batchAnchor.execute(); }},
+            {label:'View Record Templates',icon:'<i class="fas fa-file-lines"></i>',category:'Tools',action:function(){ var t=S4.templates.getAll();S4.toast(t.length+' templates available','info'); }},
+            {label:'Check Warranty Alerts',icon:'<i class="fas fa-bell"></i>',category:'Tools',action:function(){ S4.warrantyAlerts.notifyExpiring(); }},
+            {label:'View Scheduler Jobs',icon:'<i class="fas fa-clock"></i>',category:'Tools',action:function(){ var j=S4.scheduler.list();S4.toast(j.length+' scheduled jobs','info'); }}
+        ]);
+    }
+
+    // Check warranty alerts on load
+    setTimeout(function() { S4.warrantyAlerts.notifyExpiring(); }, 5000);
+
+    S4.register('tools', {version:'1.0.0', features:['batch-anchor','scheduler','templates','ai-classify','cross-link','diff-viewer','gantt','warranty-alerts','readiness-trends','parts-search']});
+    console.log('[S4 Tools] Module loaded — 10 features active');
+})();
+
 </script>
 </body>
 </html>
