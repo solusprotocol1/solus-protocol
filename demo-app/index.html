@@ -49,9 +49,9 @@
     <script src="/s4-assets/defense-docs.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" integrity="sha384-9nhczxUqK87bcKHh20fSQcTGD4qq5GhayNYSYWqwBkINBhOfQLg/P5HG5lF1urn4" crossorigin="anonymous"></script>
     <style>
-        :root{--bg:#000000;--surface:#0a0a0a;--card:#111111;--border:rgba(255,255,255,0.08);--border-hover:rgba(255,255,255,0.15);--accent:#00aaff;--gold:#c9a84c;--steel:#86868b;--green:#30d158;--red:#ff453a;--text:#f5f5f7;--muted:#6e6e73;--radius:3px;--radius-lg:4px;--transition:0.3s cubic-bezier(0.25,0.1,0.25,1)}
+        :root{--bg:#000000;--surface:#0a0a0a;--card:#111111;--border:rgba(255,255,255,0.08);--border-hover:rgba(255,255,255,0.15);--accent:#00aaff;--gold:#c9a84c;--steel:#86868b;--green:#30d158;--red:#ff453a;--text:#f5f5f7;--muted:#6e6e73;--text-muted:#6e6e73;--radius:3px;--radius-lg:4px;--transition:0.3s cubic-bezier(0.25,0.1,0.25,1)}
         /* ── Light Mode Theme ── */
-        body.light-mode{--bg:#f5f5f7;--surface:#ffffff;--card:#ffffff;--border:rgba(0,0,0,0.08);--border-hover:rgba(0,0,0,0.15);--accent:#0077cc;--steel:#555555;--text:#1d1d1f;--muted:#86868b}
+        body.light-mode{--bg:#f5f5f7;--surface:#ffffff;--card:#ffffff;--border:rgba(0,0,0,0.08);--border-hover:rgba(0,0,0,0.15);--accent:#0077cc;--steel:#555555;--text:#1d1d1f;--muted:#86868b;--text-muted:#86868b}
         body.light-mode .navbar-custom,body.light-mode nav{background:rgba(255,255,255,0.92)!important;backdrop-filter:blur(20px);border-bottom:1px solid rgba(0,0,0,0.06)!important}
         body.light-mode .demo-card,body.light-mode .stat-card{background:#fff;border-color:rgba(0,0,0,0.08);box-shadow:0 1px 3px rgba(0,0,0,0.06)}
         body.light-mode .dropdown-menu{background:rgba(255,255,255,0.98)!important;border-color:rgba(0,0,0,0.08)!important}
@@ -2363,7 +2363,6 @@ if (sessionStorage.getItem('s4_entered') === '1') {
 
                 </div>
                 <div id="ilsToolBackBar" style="display:none;margin-bottom:12px;"><div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap"><button class="back-btn" onclick="closeILSTool()" style="background:rgba(0,170,255,0.08);border:1px solid rgba(0,170,255,0.2);color:var(--accent);border-radius:3px;padding:6px 14px;font-size:0.8rem;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px;"><i class="fas fa-arrow-left"></i> Back to Tools</button><div id="toolSlsStrip" style="display:flex;align-items:center;gap:14px;padding:6px 16px;background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.15);border-radius:3px;font-size:0.78rem"><span style="color:var(--steel)"><i class="fas fa-coins" style="color:#c9a84c;margin-right:4px"></i>SLS: <strong id="toolSlsBal" style="color:#c9a84c">--</strong></span><span style="color:var(--steel)"><i class="fas fa-anchor" style="color:var(--accent);margin-right:4px"></i>Anchors: <strong id="toolSlsAnch" style="color:var(--accent)">0</strong></span><span style="color:var(--steel)"><i class="fas fa-bolt" style="color:var(--accent);margin-right:4px"></i>Spent: <strong id="toolSlsSpent" style="color:var(--accent)">0.00</strong> SLS</span><span style="color:#a78bfa;margin-left:8px"><i class="fas fa-robot" style="margin-right:4px"></i>AI Agent Active</span></div></div></div>
-                </div>
 
                 <!-- ══ HUB: GAP ANALYSIS (original ILS content) ══ -->
                 <div class="ils-hub-panel" id="hub-analysis">
@@ -2872,7 +2871,7 @@ if (sessionStorage.getItem('s4_entered') === '1') {
                     </div>
 
                     <!-- Bulk Selection Bar -->
-                    <div id="vaultBulkBar" style="display:none;background:rgba(0,170,255,0.06);border:1px solid rgba(0,170,255,0.15);border-radius:3px;padding:8px 14px;margin-bottom:10px;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+                    <div id="vaultBulkBar" style="display:none;background:rgba(0,170,255,0.06);border:1px solid rgba(0,170,255,0.15);border-radius:3px;padding:8px 14px;margin-bottom:10px;align-items:center;gap:10px;flex-wrap:wrap">
                         <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:0.82rem;color:#ccc;margin:0">
                             <input type="checkbox" id="vaultSelectAll" onchange="toggleVaultSelectAll(this.checked)" style="accent-color:#00aaff"> <span id="vaultSelectedCount">0</span> selected
                         </label>
@@ -3248,10 +3247,10 @@ if (sessionStorage.getItem('s4_entered') === '1') {
                     </div>
                     <!-- Risk Summary Stats -->
                     <div class="row mb-3" id="riskStats">
-                        <div class="col-3"><div style="text-align:center;padding:12px;background:rgba(255,59,48,0.1);border:1px solid rgba(255,59,48,0.3);border-radius:3px;"><div style="font-size:1.6rem;font-weight:800;color:#ff3b30" id="riskCritical">0</div><div style="font-size:0.75rem;color:var(--text-muted)">Critical</div></div></div>
-                        <div class="col-3"><div style="text-align:center;padding:12px;background:rgba(255,149,0,0.1);border:1px solid rgba(255,149,0,0.3);border-radius:3px;"><div style="font-size:1.6rem;font-weight:800;color:#ff9500" id="riskHigh">0</div><div style="font-size:0.75rem;color:var(--text-muted)">High</div></div></div>
-                        <div class="col-3"><div style="text-align:center;padding:12px;background:rgba(255,204,0,0.1);border:1px solid rgba(255,204,0,0.3);border-radius:3px;"><div style="font-size:1.6rem;font-weight:800;color:#ffcc00" id="riskMedium">0</div><div style="font-size:0.75rem;color:var(--text-muted)">Medium</div></div></div>
-                        <div class="col-3"><div style="text-align:center;padding:12px;background:rgba(0,170,255,0.1);border:1px solid rgba(0,170,255,0.3);border-radius:3px;"><div style="font-size:1.6rem;font-weight:800;color:#00aaff" id="riskLow">0</div><div style="font-size:0.75rem;color:var(--text-muted)">Low</div></div></div>
+                        <div class="col-md-3 col-6 mb-2"><div style="text-align:center;padding:12px;background:rgba(255,59,48,0.1);border:1px solid rgba(255,59,48,0.3);border-radius:3px;"><div style="font-size:1.6rem;font-weight:800;color:#ff3b30" id="riskCritical">0</div><div style="font-size:0.75rem;color:var(--muted)">Critical</div></div></div>
+                        <div class="col-md-3 col-6 mb-2"><div style="text-align:center;padding:12px;background:rgba(255,149,0,0.1);border:1px solid rgba(255,149,0,0.3);border-radius:3px;"><div style="font-size:1.6rem;font-weight:800;color:#ff9500" id="riskHigh">0</div><div style="font-size:0.75rem;color:var(--muted)">High</div></div></div>
+                        <div class="col-md-3 col-6 mb-2"><div style="text-align:center;padding:12px;background:rgba(255,204,0,0.1);border:1px solid rgba(255,204,0,0.3);border-radius:3px;"><div style="font-size:1.6rem;font-weight:800;color:#ffcc00" id="riskMedium">0</div><div style="font-size:0.75rem;color:var(--muted)">Medium</div></div></div>
+                        <div class="col-md-3 col-6 mb-2"><div style="text-align:center;padding:12px;background:rgba(0,170,255,0.1);border:1px solid rgba(0,170,255,0.3);border-radius:3px;"><div style="font-size:1.6rem;font-weight:800;color:#00aaff" id="riskLow">0</div><div style="font-size:0.75rem;color:var(--muted)">Low</div></div></div>
                     </div>
                     <!-- ── AI Threat Intelligence Score (vs Palantir Gotham) ── -->
                     <div id="threatIntelPanel" style="margin-bottom:16px;background:linear-gradient(135deg,rgba(201,168,76,0.04),rgba(255,149,0,0.03));border:1px solid rgba(201,168,76,0.2);border-radius:3px;padding:16px;display:none;">
@@ -12677,8 +12676,6 @@ if (window.location.hash === '#tabWallet') {
 }
 </script>
 
-    </div>
-</section>
 </div><!-- /platformWorkspace -->
 
 
