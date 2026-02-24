@@ -2277,7 +2277,7 @@ if (sessionStorage.getItem('s4_entered') === '1') {
                     <button class="ils-hub-tab" onclick="switchHubTab('hub-readiness',this)"><i class="fas fa-chart-line"></i> Readiness Calculator</button>
                     <button class="ils-hub-tab" onclick="switchHubTab('hub-compliance',this)"><i class="fas fa-shield-halved"></i> Compliance Scorecard</button>
                     <button class="ils-hub-tab" onclick="switchHubTab('hub-risk',this)"><i class="fas fa-triangle-exclamation"></i> Supply Chain Risk</button>
-                    <button class="ils-hub-tab" onclick="switchHubTab('hub-actions',this)"><i class="fas fa-tasks"></i> Action Items</button>
+                    <button class="ils-hub-tab" onclick="switchHubTab('hub-actions',this)"><i class="fas fa-tasks"></i> Action Items <span id="hubActionBadge" style="background:#ff6b6b;color:#fff;font-size:0.6rem;padding:1px 6px;border-radius:3px;margin-left:4px;font-weight:700;display:none"></span></button>
                     <button class="ils-hub-tab" onclick="switchHubTab('hub-predictive',this)"><i class="fas fa-brain"></i> Predictive Maintenance</button>
                     <button class="ils-hub-tab" onclick="switchHubTab('hub-lifecycle',this)"><i class="fas fa-clock"></i> Lifecycle Cost</button>
                     <button class="ils-hub-tab" onclick="switchHubTab('hub-roi',this)"><i class="fas fa-dollar-sign"></i> ROI Calculator</button>
@@ -2551,7 +2551,7 @@ if (sessionStorage.getItem('s4_entered') === '1') {
                                     <button class="ai-quick-btn" onclick="smartPrioritizeActions()" title="AI Smart Priority Sort"><i class="fas fa-wand-magic-sparkles"></i> Smart Sort</button>
                                 </div>
                                 <!-- Bulk Action Bar -->
-                                <div id="actionBulkBar" style="display:none;background:rgba(0,170,255,0.08);border:1px solid rgba(0,170,255,0.2);border-radius:3px;padding:8px 14px;margin-bottom:10px;display:none;align-items:center;gap:10px;font-size:0.82rem">
+                                <div id="actionBulkBar" style="display:none;background:rgba(0,170,255,0.08);border:1px solid rgba(0,170,255,0.2);border-radius:3px;padding:8px 14px;margin-bottom:10px;align-items:center;gap:10px;font-size:0.82rem">
                                     <label style="display:flex;align-items:center;gap:6px;cursor:pointer;color:var(--accent);font-weight:600"><input type="checkbox" id="actionSelectAll" onchange="toggleActionSelectAll(this.checked)"> Select All</label>
                                     <span id="actionSelectedCount" style="color:var(--steel)">0 selected</span>
                                     <span style="flex:1"></span>
@@ -9194,10 +9194,10 @@ function updateNotifBadge() {
     if (tabCount) tabCount.textContent = items.length;
 }
 function toggleNotifPanel() {
-    // Navigate to ILS Workspace and switch to Action Items panel
-    const tab = document.querySelector('a[href="#tabILS"]');
-    if (tab) { tab.click(); window.scrollTo({top: 280, behavior:'smooth'}); }
-    setTimeout(() => { const btn = document.querySelector('.ils-hub-tab:nth-child(2)'); if (btn) switchHubTab('hub-actions', btn); }, 200);
+    // Navigate to ILS Workspace and open Action Items tool
+    showSection('sectionILS');
+    window.scrollTo({top: 280, behavior:'smooth'});
+    setTimeout(() => { openILSTool('hub-actions'); }, 200);
 }
 
 // ── Unified Action Items Store (localStorage-backed) ──
@@ -9621,10 +9621,15 @@ function generateLifecycleActions(progKey, totalCost, dmsmsCost, sustCost) {
 // ── Hub Tab Switching ──
 function switchHubTab(panelId, btn) {
     // AI agent stays closed when switching tools (user can open manually)
-    document.querySelectorAll('.ils-hub-panel').forEach(p => { p.classList.remove('active'); p.style.display = ''; });
+    // Hide the card grid and show the back bar (matching openILSTool behavior)
+    var subHub = document.getElementById('ilsSubHub');
+    if (subHub) subHub.style.display = 'none';
+    var toolBack = document.getElementById('ilsToolBackBar');
+    if (toolBack) toolBack.style.display = 'block';
+    document.querySelectorAll('.ils-hub-panel').forEach(p => { p.classList.remove('active'); p.style.display = 'none'; });
     document.querySelectorAll('.ils-hub-tab').forEach(t => t.classList.remove('active'));
     const panel = document.getElementById(panelId);
-    if (panel) { panel.classList.add('active'); panel.style.display = ''; }
+    if (panel) { panel.style.display = 'block'; panel.classList.add('active'); panel.style.animation = 'fadeIn 0.3s ease'; }
     if (btn) btn.classList.add('active');
     // Load data for workspace panels
     if (panelId === 'hub-actions') { renderHubActions(); if (typeof renderActionCalendar === 'function') renderActionCalendar(); }
@@ -9658,7 +9663,7 @@ function renderHubActions(filter) {
     const elO = document.getElementById('hubAiOpen'); if (elO) elO.textContent = open;
     const elD = document.getElementById('hubAiDone'); if (elD) elD.textContent = done;
     // Badge
-    const badge = document.getElementById('hubActionBadge'); if (badge) badge.textContent = open > 0 ? open : '0';
+    const badge = document.getElementById('hubActionBadge'); if (badge) { badge.textContent = open > 0 ? open : '0'; badge.style.display = open > 0 ? 'inline' : 'none'; }
     // By-source breakdown
     const srcEl = document.getElementById('hubActionsBySource');
     if (srcEl && s4ActionItems.length > 0) {
@@ -9705,7 +9710,7 @@ saveActionItems = function() {
     renderHubActions();
     // Also update hub badge
     const open = s4ActionItems.filter(a => !a.done).length;
-    const badge = document.getElementById('hubActionBadge'); if (badge) badge.textContent = open > 0 ? open : '0';
+    const badge = document.getElementById('hubActionBadge'); if (badge) { badge.textContent = open > 0 ? open : '0'; badge.style.display = open > 0 ? 'inline' : 'none'; }
 };
 
 // ═══ AUDIT RECORD VAULT ═══
@@ -10823,7 +10828,7 @@ function runVersionDiff() {
     ];
 
     var html = '<div style="margin-bottom:8px;color:var(--steel);font-size:0.78rem"><strong>Comparing:</strong> ' + (document.getElementById('diffVersionA')?.selectedOptions[0]?.text||vA) + ' → ' + (document.getElementById('diffVersionB')?.selectedOptions[0]?.text||vB) + '</div>';
-    html += '<div style="display:flex;gap:12px;margin-bottom:10px"><span style="color:#00cc88;font-size:0.78rem"><i class="fas fa-plus-circle"></i> ' + diffs.filter(function(d){return d.type==='added'}).length + ' Added</span><span style="color:#ff6b6b;font-size:0.78rem"><i class="fas fa-minus-circle"></i> ' + diffs.filter(function(d){return d.type==='removed'}).length + ' Removed</span><span style="color:#c9a84c;font-size:0.78rem"><i class="fas fa-pen-circle"></i> ' + diffs.filter(function(d){return d.type==='modified'}).length + ' Modified</span></div>';
+    html += '<div style="display:flex;gap:12px;margin-bottom:10px"><span style="color:#00cc88;font-size:0.78rem"><i class="fas fa-plus-circle"></i> ' + diffs.filter(function(d){return d.type==='added'}).length + ' Added</span><span style="color:#ff6b6b;font-size:0.78rem"><i class="fas fa-minus-circle"></i> ' + diffs.filter(function(d){return d.type==='removed'}).length + ' Removed</span><span style="color:#c9a84c;font-size:0.78rem"><i class="fas fa-pen-to-square"></i> ' + diffs.filter(function(d){return d.type==='modified'}).length + ' Modified</span></div>';
     diffs.forEach(function(d) {
         var color = d.type === 'added' ? '#00cc88' : d.type === 'removed' ? '#ff6b6b' : '#c9a84c';
         var prefix = d.type === 'added' ? '+' : d.type === 'removed' ? '-' : '~';
@@ -12419,14 +12424,10 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
         if (/^hub-/.test(h)) {
-            var ilsPill = document.querySelector('a[href="#tabILS"]');
-            if (ilsPill) { var ilsTab = new bootstrap.Tab(ilsPill); ilsTab.show(); }
+            // Navigate to ILS section first, then open the specific tool
+            if (typeof showSection === 'function') showSection('sectionILS');
             setTimeout(function() {
-                var btn = null;
-                document.querySelectorAll('.ils-hub-tab').forEach(function(t) {
-                    if (t.getAttribute('onclick') && t.getAttribute('onclick').indexOf("'" + h + "'") !== -1) btn = t;
-                });
-                if (typeof switchHubTab === 'function') switchHubTab(h, btn);
+                if (typeof openILSTool === 'function') openILSTool(h);
             }, 150);
         }
     }
@@ -18316,12 +18317,12 @@ function _updateThemeIcon(isLight) {
         }
 
         // Search ILS tools
-        var ilsTools = [
-            'Provisioning','Reliability RAM','Supply Support','PHS&T','Technical Data','Manpower & Training',
-            'Design Interface','DMSMS','Lifecycle Cost','Compliance Matrix','Risk Assessment','Predictive Maintenance','Readiness','Submission Checker','SBOM Viewer'
-        ];
-        ilsTools.forEach(function(tool) {
-            if (tool.toLowerCase().includes(q)) results.push({type:'tool', name:tool, desc:'ILS Analysis Tool', icon:'fa-wrench', action:'showILSHub("hub-'+tool.toLowerCase().replace(/[^a-z0-9]/g,'-')+'")'});
+        var ilsToolMap = {
+            'Provisioning':'hub-analysis','Reliability RAM':'hub-analysis','Supply Support':'hub-analysis','PHS&T':'hub-analysis','Technical Data':'hub-analysis','Manpower & Training':'hub-analysis',
+            'Design Interface':'hub-analysis','DMSMS':'hub-dmsms','Lifecycle Cost':'hub-lifecycle','Compliance Matrix':'hub-compliance','Risk Assessment':'hub-risk','Predictive Maintenance':'hub-predictive','Readiness':'hub-readiness','Submission Checker':'hub-submissions','SBOM Viewer':'hub-sbom'
+        };
+        Object.keys(ilsToolMap).forEach(function(tool) {
+            if (tool.toLowerCase().includes(q)) results.push({type:'tool', name:tool, desc:'ILS Analysis Tool', icon:'fa-wrench', action:'showSection(\"sectionILS\");setTimeout(function(){openILSTool(\"'+ilsToolMap[tool]+'\")},100)'});
         });
 
         if (results.length === 0) {
@@ -18347,7 +18348,7 @@ function _updateThemeIcon(isLight) {
     window.switchToTab = function(tabId, panelId) {
         var tabLink = document.querySelector('a[href="#' + tabId + '"]');
         if (tabLink) tabLink.click();
-        if (panelId) setTimeout(function() { var panel = document.getElementById(panelId); if (panel) { if (typeof showILSHub === 'function') showILSHub(panelId); } }, 200);
+        if (panelId) setTimeout(function() { var panel = document.getElementById(panelId); if (panel) { showSection('sectionILS'); setTimeout(function(){ openILSTool(panelId); }, 100); } }, 200);
     };
 
     // Main keyboard handler
@@ -18384,11 +18385,11 @@ function _updateThemeIcon(isLight) {
         // ? — Shortcuts help
         if (e.key === '?' || (e.shiftKey && e.key === '/')) { e.preventDefault(); toggleShortcuts(); return; }
 
-        // N — Notification history
-        if (e.key === 'n' || e.key === 'N') { e.preventDefault(); toggleNotifHistory(); return; }
+        // N — Notification history (only without modifier keys)
+        if (!isMod && (e.key === 'n' || e.key === 'N')) { e.preventDefault(); toggleNotifHistory(); return; }
 
-        // T — Toggle theme
-        if (e.key === 't' || e.key === 'T') { e.preventDefault(); if (typeof toggleTheme === 'function') toggleTheme(); return; }
+        // T — Toggle theme (only without modifier keys)
+        if (!isMod && (e.key === 't' || e.key === 'T')) { e.preventDefault(); if (typeof toggleTheme === 'function') toggleTheme(); return; }
 
         // Cmd/Ctrl + 1-6 — Tab switching
         if (isMod && e.key >= '1' && e.key <= '6') {
