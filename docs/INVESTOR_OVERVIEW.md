@@ -5,11 +5,11 @@
 
 - **$1.2B+ Problem:** Counterfeit parts, falsified maintenance records, and unverifiable supply chains cost the DoW billions annually. S4 Ledger fixes this with blockchain-secured, tamper-proof logistics verification.
 - **Unique Approach:** Anchors only SHA-256 hashes (never sensitive data) to the XRP Ledger — zero data on-chain, full compliance with NIST/CMMC.
-- **Traction:** Live $SLS token on XRPL mainnet, 14 interactive ILS tools, 37 Python SDK methods, 65 REST API endpoints, 500+ pre-loaded military entities, and a clear path to pilot deployments.
-- **Two Products:** S4 Systems offers **S4 Ledger** (trust & intelligence layer — 14 tools for analysis, compliance, and audit) and **HarborLink** (collaboration portal — parts cross-reference, contract management, provisioning, warranty tracking, configuration management, scheduling, and database import). Together, they provide a complete ILS platform.
+- **Traction:** Live $SLS token on XRPL mainnet, 14 interactive ILS tools, 37 Python SDK methods, 90+ REST API endpoints, 500+ pre-loaded military entities, and a clear path to pilot deployments.
+- **Two Products:** S4 Systems offers **S4 Ledger** (trust & intelligence layer — 20+ tools for analysis, compliance, and audit) and **HarborLink** (collaboration portal — parts cross-reference, contract management, provisioning, warranty tracking, configuration management, scheduling, and database import). Together, they provide a complete ILS platform.
 - **Market:** Defense logistics verification is underserved. $850B+ annual DoW budget with no common integrity layer across systems. CMMC 2.0 enforcement begins 2025–2026.
 - **Revenue Model:** SaaS subscriptions ($999–$9,999/mo), $SLS utility fees per anchor, enterprise API tiers. 15–100x ROI for government customers.
-- **Savings:** ~$1.02M–$2.6M per program per year from 14 ILS tools. Saves $1.02B–$2.6B/year at scale across all DoW programs.
+- **Savings:** ~$1.02M–$2.6M per program per year from 20+ ILS tools. Saves $1.02B–$2.6B/year at scale across all DoW programs.
 - **Compliance:** Designed for NIST 800-171, CMMC Level 2+, DFARS 252.204-7012. FedRAMP authorization needed for 80% of federal market. $SLS is a utility token — not a security.
 - **Team:** Created and built entirely by **Nick Frankfort**, ILS contractor and founder and CEO of S4 Systems, LLC — at zero cost to the company.
 - **National Impact:** 340+ jobs created by Year 5, $8M–$17M economic impact, expands defense industrial base for small businesses.
@@ -25,7 +25,7 @@
 | **Treasury** | 30M SLS (multi-sig) |
 | **ILS Tools** | 14 interactive workspace tools |
 | **SDK Functions** | 37 Python SDK methods |
-| **API Endpoints** | 65 REST API endpoints |
+| **API Endpoints** | 90+ REST API endpoints |
 | **Defense Documents** | 100+ real MIL-STDs, OPNAV, DoW refs |
 | **Platforms** | 500+ across 9 U.S. military branches |
 | **Pre-loaded Entities** | 500+ (500+ platforms + 37 suppliers + 25 contracts) |

@@ -28,7 +28,7 @@ Instead of filing records in spreadsheets that can be altered, lost, or disputed
 
 ---
 
-## The ILS Workspace — 14 Tools Included
+## The ILS Workspace — 20+ Tools Included
 
 Every subscription tier includes access to the full ILS Workspace:
 
@@ -65,7 +65,7 @@ Every subscription tier includes access to the full ILS Workspace:
 | Monthly SLS allocation | 100 SLS |
 | Anchoring capacity | Up to 10,000 anchors |
 | XRPL wallet | Auto-provisioned |
-| ILS Workspace | All 14 tools |
+| ILS Workspace | All 20+ tools |
 | AI Agent | Demo mode (local pattern matching) |
 | SDK & REST API | Full access |
 | Support | Community |
@@ -82,7 +82,7 @@ Every subscription tier includes access to the full ILS Workspace:
 | Monthly SLS allocation | 25,000 SLS |
 | Anchoring capacity | Up to 2,500,000 anchors |
 | XRPL wallet | Auto-provisioned |
-| ILS Workspace | All 14 tools |
+| ILS Workspace | All 20+ tools |
 | AI Agent | Full LLM access (cloud-backed) |
 | SDK & REST API | Full access |
 | Support | Email support |
@@ -101,7 +101,7 @@ Every subscription tier includes access to the full ILS Workspace:
 | Monthly SLS allocation | 100,000 SLS |
 | Anchoring capacity | Up to 10,000,000 anchors |
 | XRPL wallet | Auto-provisioned |
-| ILS Workspace | All 14 tools |
+| ILS Workspace | All 20+ tools |
 | AI Agent | Full LLM access (cloud-backed) |
 | SDK & REST API | Full access |
 | CDRL & supply chain modules | Included |
@@ -121,7 +121,7 @@ Every subscription tier includes access to the full ILS Workspace:
 | Monthly SLS allocation | 500,000 SLS |
 | Anchoring capacity | **Unlimited** |
 | XRPL wallets | Dedicated wallets (multiple) |
-| ILS Workspace | All 14 tools |
+| ILS Workspace | All 20+ tools |
 | AI Agent | Full LLM access (cloud-backed) |
 | Custom integrations | Included |
 | Volume SLS pricing | Available |

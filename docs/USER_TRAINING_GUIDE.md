@@ -102,9 +102,9 @@ Each entry shows the time, type of record, the fingerprint (hash), a link to the
 
 ---
 
-### Tab 4 — ILS Workspace (14 Analysis Tools)
+### Tab 4 — ILS Workspace (20+ Analysis Tools)
 
-This is the powerhouse of S4 Ledger. It contains **14 specialized tools** designed for defense logistics professionals. Here's what each one does in plain English:
+This is the powerhouse of S4 Ledger. It contains **20+ specialized tools** designed for defense logistics professionals. Here's what each one does in plain English:
 
 | # | Tool | What It Does |
 |---|------|-------------|

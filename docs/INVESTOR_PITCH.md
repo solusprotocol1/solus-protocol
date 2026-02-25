@@ -42,9 +42,9 @@ Think of S4 Ledger like a notary for defense records. When an ILS manager comple
 - **$SLS token LIVE on XRPL Mainnet** — tradable, AMM pools active, trustlines established
   - Issuer: `r95GyZac4butvVcsTWUPpxzekmyzaHsTA5`
   - 100M total supply | ~15M circulating | 30M in multi-sig treasury
-- **14 interactive defense tools** live at s4ledger.com/demo-app — not mockups, real working interfaces
+- **20+ interactive defense tools** live at s4ledger.com/prod-app — not mockups, real working interfaces
 - **37 Python SDK methods** for defense-grade hash anchoring, verification, and batch operations
-- **65 REST API endpoints** for enterprise integration
+- **90+ REST API endpoints** for enterprise integration
 - **500+ pre-loaded military entities** — 500+ defense platforms across 9 U.S. military branches, 37 real defense suppliers, 25 real DoW contracts
 - **156+ pre-built record types across 9 military branches** mapped to real-world logistics workflows (supports any defense record type)
 - **100+ real defense documents** in searchable reference library (MIL-STDs, OPNAVINSTs, DoD Directives)
@@ -64,7 +64,7 @@ Think of S4 Ledger like a notary for defense records. When an ILS manager comple
 | **High-Scale** (50+ programs) | $12M–$48M | $1.2M–$3.6M ARR/enterprise |
 
 *Key drivers: 65% labor reduction, 90% error savings, 70% audit cost reduction, 15-25% DMSMS cost avoidance, 70% less data reconciliation*
-*Per-program savings: ~$1.02M–$2.6M/year from 14 ILS tools (including Submissions & PTD) — 15–100x ROI for government*
+*Per-program savings: ~$1.02M–$2.6M/year from 20+ ILS tools (including Submissions & PTD) — 15–100x ROI for government*
 
 ## National Impact
 
@@ -133,7 +133,7 @@ S4 Ledger scales from zero infrastructure cost (today) to 50,000+ concurrent use
 | Phase | Timeline | Focus |
 |---|---|---|
 | Foundation | Q4 2025 – Q1 2026 ✅ | SDK, $SLS token, website |
-| Defense Platform | Q1 – Q2 2026 ✅ | 500+ platforms, 14 tools, Submissions & PTD, toast alerts, action tracking, ROI/Lifecycle calculators |
+| Defense Platform | Q1 – Q2 2026 ✅ | 500+ platforms, 20+ tools, Submissions & PTD, toast alerts, action tracking, ROI/Lifecycle calculators |
 | MVP & Pilot | Q3 – Q4 2026 | Pilot on real data, server persistence, user auth, pagination |
 | Partner & SaaS | Q1 – Q2 2027 | REST API, SaaS dashboard, Merkle batch anchoring, DIU/NavalX |
 | Scale & Certify | Q3 2027+ | NIST, FedRAMP, CDN/edge, microservices, production deployments |
@@ -177,6 +177,6 @@ info@s4ledger.com | [s4ledger.com](https://s4ledger.com)
 
 ### Scale
 - **34 Navy programs** supported (SSBNs through service craft)
-- **14 integrated ILS tools** in a single platform
+- **20+ integrated ILS tools** in a single platform
 - **$0.01/anchor** on XRP Ledger — cost advantage over $5M-$50M legacy implementations
 

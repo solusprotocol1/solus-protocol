@@ -1,6 +1,6 @@
 # S4 Ledger — XRPL Mainnet Migration Guide
 
-> **Status:** **$SLS Token: LIVE on XRPL Mainnet.** Token issuance, trustlines, and AMM pools are operational. COMPLETE — All 14 ILS tools anchor to XRPL Mainnet with explorer links (v4.0) server-side signing deployment (see Section 2).
+> **Status:** **$SLS Token: LIVE on XRPL Mainnet.** Token issuance, trustlines, and AMM pools are operational. COMPLETE — All 20+ ILS tools anchor to XRPL Mainnet with explorer links (v4.0) server-side signing deployment (see Section 2).
 
 ---
 
@@ -175,7 +175,7 @@ S4_RATE_LIMIT=100                                       # Max anchors per minute
 
 ### Phase 2: Update Frontend (Deploy When Ready to Go Live)
 
-- [ ] **Step 2.1** — Remove xrpl.js CDN script tag from `demo-app/index.html`
+- [ ] **Step 2.1** — Remove xrpl.js CDN script tag from `prod-app/index.html`
 - [ ] **Step 2.2** — Replace `anchorFromPlayground()` with backend API call (see Section 6)
 - [ ] **Step 2.3** — Replace `anchorBatchQueue()` with backend API calls
 - [ ] **Step 2.4** — Update `verifyRecordOnChain()` to use mainnet explorer + account

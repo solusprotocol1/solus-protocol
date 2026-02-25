@@ -1,5 +1,98 @@
 # Changelog
 
+## v5.6.0 — Full Persistence & Superior Features (2026-02-25)
+
+### Database
+- **Migration 004** — 17 new Supabase tables (81/81 statements, all with RLS policies)
+- Tables: `ils_uploads`, `documents`, `document_versions`, `poam_items`, `compliance_evidence`, `submission_reviews`, `teams`, `team_members`, `team_invites`, `gfp_items`, `sbom_entries`, `provenance_chain`, `ai_conversations`, `ai_document_chunks`, `program_metrics`, `cdrl_validations`, `contract_extractions`
+- **Total: 43 Supabase tables** (26 original + 17 new), all with org-isolation RLS
+
+### Backend API (api/index.py — 4,887 lines, 90+ routes)
+- 20+ new GET/POST route handlers for all new tables
+- **AI/RAG endpoint** (`/api/ai/rag`) — Claude API integration with keyword-based RAG, conversation persistence, rule-based ILS fallback
+- **CDRL Validator** (`/api/cdrl/validate`) — 8-rule compliance engine (DI format, CDRL format, title, scope, applicable docs, requirements, classification, distribution)
+- **Contract NLP Extractor** (`/api/contracts/extract`) — Auto-extracts FAR/DFARS clauses, CDRLs, DI numbers, GFP references, warranty terms, data rights via regex patterns
+- **Provenance Chain** (`/api/provenance`) — Chain-of-custody events with auto-generated QR data
+- **GFP Tracker** (`/api/gfp`) — Full property accountability with DD Form 1662 field structure
+- **SBOM Manager** (`/api/sbom`) — CycloneDX/SPDX with component and vulnerability counts
+- **Cross-Program Analytics** (`/api/analytics/cross-program`) — 7-metric aggregation dashboard
+- **Team Management** (`/api/team`, `/api/team/invite`) — Multi-tenant with auto-add creator as admin
+
+### Frontend (prod-app/index.html — 22,077 lines)
+- **IndexedDB offline-first layer** — S4DB object with 10 stores, full CRUD, 60-second sync worker
+- **XML parser** — CycloneDX, SPDX, and generic XML format support via DOMParser
+- **JSON parser** — CycloneDX/SPDX JSON detection
+- **All file uploads now persist** — PDF, DOCX, XLSX, CSV, TSV, XML, JSON, text → Supabase
+- **AI Chat upgraded** — Uses /api/ai/rag with session persistence, model attribution, RAG context indicator
+- **SBOM Manager UI** — Upload (CycloneDX/SPDX/generic), vulnerability scan (5 known CVE patterns), listing
+- **GFP Tracker UI** — Add items, list all, DD Form 1662 report generation
+- **CDRL Validator UI** — Validate against backend engine, history tracking
+- **Contract Extractor UI** — Extract clauses from contract text via backend
+- **Provenance Chain UI** — Add events, view chain, canvas-based QR code generation
+- **Cross-Program Analytics UI** — 7 metric cards + tool breakdown dashboard
+- **Team Management UI** — Create orgs, invite members, view teams
+- **Document Library auto-sync** — Storage.prototype.setItem override for automatic persistence
+- **POA&M auto-persist** — DOM observer pattern with 5-second polling
+- **Evidence auto-sync** — localStorage write triggers Supabase sync
+- **Submission review persistence** — Monkey-patches anchorSubmissionReview
+- **AI label cleanup** — clarifyAILabels function with honest tooltips
+
+### Website (all pages)
+- **All platform links** updated from `/demo-app/` to `/prod-app/` across all 20+ pages
+- **Tool count** updated from "14" to "20+" across all pages, meta tags, and hero text
+- **OG + Twitter meta tags** added to all 17 subpages (canonical URLs, descriptions, images)
+- **Homepage footer** standardized to match subpage footer layout
+- **Mobile nav fixed** on metrics.html and sdk-playground (replaced inline styles with class-based nav)
+- **Duplicate footer removed** from metrics.html
+- **FAQ/Pricing conflict resolved** — Pilot tier: 10,000 anchors (was 1,000 in FAQ)
+- **Investor pricing** corrected to $999–$9,999/month (was $499–$4,999)
+- **HarborLink link** fixed (docs/ path after reorganization)
+- **"Demo App" text** → "Anchor-S4" in transactions.html
+
+### Documentation
+- **README.md** — Complete rewrite: 20+ tools, 90+ routes, 43 tables, architecture diagram updated, tech stack section, Phase 2 completion updated
+- **CHANGELOG.md** — Added v5.3.0–v5.6.0 (this entry and below)
+- All doc links updated to `docs/` subdirectory paths
+
+### Deployment
+- Vercel: 16 new rewrite rules (393 lines total in vercel.json)
+- All new API endpoints validated via curl on s4ledger.com
+- Service Worker v6.0.0 with offline/air-gapped support
+
+---
+
+## v5.5.0 — Demo Data Removal & Template Upgrade (2026-02-24)
+
+### Removed
+- **All demo/sample data** — 258 lines of hardcoded sample data removed from prod-app
+- **All demo references** — 243 demo-related code references eliminated
+- **Fix scripts** — Removed 15+ temporary fix_round*.py scripts from workspace root
+
+### Changed
+- **Template count** — Upgraded from 15 to 20 ILS templates
+- **Rate limiting** — Hardened from 100/min to 30/min (API), 5/min (anchoring)
+- **Docs reorganized** — 40+ markdown files moved to `docs/` subdirectory
+
+---
+
+## v5.4.0 — Supabase Persistence Layer (2026-02-23)
+
+### Added
+- **26 Supabase tables** with full RLS policies covering all ILS tools
+- **All ILS tools converted** from hardcoded/localStorage to Supabase-backed
+- Deployments table, audit logs, ILS analyses, templates, and more
+
+---
+
+## v5.3.0 — Vercel Deployment (2026-02-23)
+
+### Added
+- **Vercel serverless deployment** — Full Python API on Vercel
+- **prod-app** — Production-hardened frontend (tighter CSP, no unsafe-eval, dns-prefetch)
+- **65+ API routes** initially deployed
+
+---
+
 ## v5.2.0 — Round 16 (2026-02-22)
 
 ### Bug Fixes

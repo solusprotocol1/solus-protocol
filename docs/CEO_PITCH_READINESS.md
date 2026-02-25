@@ -19,7 +19,7 @@ S4 Ledger is ready to pitch as a **working prototype with real blockchain integr
 | Capability | Live Demo? | Description |
 |-----------|-----------|-------------|
 | **XRPL anchoring** | ✅ Yes | Hash any record → anchor to XRP Ledger → get immutable TX ID. This is real, verifiable, on-chain. |
-| **14 ILS tools** | ✅ Yes | Gap Analysis, DMSMS, Readiness, Parts, ROI, Compliance, Contracts, etc. — all render and produce results |
+| **20+ ILS tools** | ✅ Yes | Gap Analysis, DMSMS, Readiness, Parts, ROI, Compliance, Contracts, etc. — all render and produce results |
 | **File upload** | ✅ Yes | Drag-and-drop CSV, XLSX, PDF, DOCX — parsed client-side, no data leaves the browser |
 | **SLS token economy** | ✅ Yes | Real XRPL wallet provisioning, TrustLine setup, SLS delivery from Treasury |
 | **AI Agent** | ✅ Yes | LLM-powered defense logistics assistant (if API keys configured) with regex fallback |
@@ -144,7 +144,7 @@ The defense logistics software market has no direct competitor doing what S4 Led
 - **Key fact**: $24M funding, strong pedigree (Palantir DNA), focused on modernizing defense logistics
 - **ILS overlap**: Logistics optimization, predictive maintenance
 - **Risk**: If Rune pivots to ILS record management with blockchain, they'd be a direct competitor with more funding
-- **S4 Ledger advantage**: Rune is focused on AI/ML analytics, not record immutability. S4 has deeper ILS element coverage via the 14-tool workspace. Rune doesn't use blockchain anchoring.
+- **S4 Ledger advantage**: Rune is focused on AI/ML analytics, not record immutability. S4 has deeper ILS element coverage via the 20+ tool workspace. Rune doesn't use blockchain anchoring.
 
 ### Competitive Positioning Matrix
 

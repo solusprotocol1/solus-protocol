@@ -31,7 +31,7 @@ Every tool in S4 Ledger's current platform eliminates quantifiable labor, error,
 - 100 programs: **$25M–$150M saved/year**
 - 1,000 programs (DoW-wide): **$250M–$1.5B saved/year**
 
-#### 2. ILS Workspace (14 Tools Replacing Manual Processes)
+#### 2. ILS Workspace (20+ Tools Replacing Manual Processes)
 
 | Tool | Manual Cost (per program/year) | S4 Ledger Cost | Annual Savings |
 |---|---|---|---|
@@ -233,7 +233,7 @@ At 12–15x revenue multiple: **$1.07B–$1.34B valuation**
 
 1. **The market is massive.** DoW spends $150B+/year on logistics. The software tools serving this market are fragmented, overpriced, and 10–20 years behind commercial tech. No one has built a unified ILS platform with blockchain-verified records.
 
-2. **We have a working prototype.** Not a slide deck. Not a concept. A live, functional platform with 14 ILS tools, a Python SDK, REST API, and real XRPL blockchain integration. Zero cost to the company so far.
+2. **We have a working prototype.** Not a slide deck. Not a concept. A live, functional platform with 20+ ILS tools, a Python SDK, REST API, and real XRPL blockchain integration. Zero cost to the company so far.
 
 3. **The economics are undeniable.** S4 Ledger saves the government ~$1.02M–$2.6M per program per year. It costs them $6K–$60K/year. That's a 15–100x ROI. The government doesn't say no to that math.
 

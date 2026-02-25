@@ -20,7 +20,7 @@ The platform uses a **Hub → Section → Tab** navigation model:
 
 ---
 
-## LANDING PAGE (`s4ledger.com/demo-app/`)
+## LANDING PAGE (`s4ledger.com/prod-app/`)
 
 ### What you should see:
 - **ZERO notifications, toasts, or error popups** — completely clean landing
@@ -132,7 +132,7 @@ The platform uses a **Hub → Section → Tab** navigation model:
 
 ---
 
-### ANCHOR-S4 ILS HUB (third hub card — 14 tools)
+### ANCHOR-S4 ILS HUB (third hub card — 20+ tools)
 
 **What you should see when entering:**
 - Sub-hub grid with **14 tool cards**, each opening a full-page tool panel

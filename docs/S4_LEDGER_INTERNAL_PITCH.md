@@ -46,7 +46,7 @@ This is where it gets really practical for day-to-day ILS work. Instead of maint
 
 | Contractors manually reviewing every vendor submission line-by-line for errors | **Submissions & PTD** — Upload vendor submissions (spares lists, config drawings, BOMs, ECPs, 24+ types), auto-compare against previous versions, get severity-rated discrepancy reports with cost anomalies, new/removed components, and red flags. Leadership-ready reports in seconds. | $120K–$500K/yr |
 
-All 14 tools talk to each other. When the DMSMS Tracker finds an obsolete part, it automatically creates an action item. When a warranty is about to expire, it shows up on the calendar AND triggers an alert. When Supply Chain Risk flags a supplier issue, it connects to the affected contracts and parts.
+All 20+ tools talk to each other. When the DMSMS Tracker finds an obsolete part, it automatically creates an action item. When a warranty is about to expire, it shows up on the calendar AND triggers an alert. When Supply Chain Risk flags a supplier issue, it connects to the affected contracts and parts.
 
 ---
 
@@ -168,7 +168,7 @@ The Navy, and Defense Innovation Unit all solicit proposals for exactly this typ
 ## Try It Right Now
 
 - **Main site:** [s4ledger.com](https://s4ledger.com)
-- **ILS Workspace:** [s4ledger.com/demo-app](https://s4ledger.com/demo-app) — click the "ILS Workspace" tab
+- **ILS Workspace:** [s4ledger.com/prod-app](https://s4ledger.com/prod-app) — click the "ILS Workspace" tab
 - **SDK Playground:** [s4ledger.com/sdk-playground](https://s4ledger.com/sdk-playground) — try the API live in your browser
 
 No login required. Nothing to install. It just works.

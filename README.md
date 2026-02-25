@@ -13,37 +13,51 @@ No sensitive data touches the blockchain — ever. Only cryptographic hashes.
 ---
 
 
-## Platform Features (v13 — Round 16)
+## Platform Features (v5.6.0)
 
 ### Core Anchoring
 - **SHA-256 + XRPL Anchoring** — Every record gets a cryptographic fingerprint stored on the XRP Ledger
 - **Batch Verification** — Upload any file to verify integrity against blockchain anchors
 - **Full Transaction Log** — Complete audit trail with XRPL explorer links
+- **Offline / Air-Gapped Mode** — Hash locally, sync when connected (IndexedDB + Service Worker v6.0.0)
 
-### Anchor-S4 ILS Suite (14 Tools)
+### Anchor-S4 ILS Suite (20+ Tools)
 | Tool | Description |
 |------|-------------|
 | Gap Analysis | MIL-STD-1388 ILS element scoring with radar + bar charts |
 | DMSMS Tracker | Obsolescence risk detection with doughnut visualization |
 | Readiness Calculator | RAM analysis (Ao, Ai, MTBF/MTTR/MLDT) with gauge chart |
 | Compliance Scorecard | CMMC, NIST 800-171, DFARS, FAR 46, ITAR scoring |
-| Supply Chain Risk Engine | AI-powered risk scoring with **Threat Intelligence Score** |
-| Predictive Maintenance | AI failure prediction with **12-month Failure Timeline** |
+| Supply Chain Risk Engine | AI-powered risk scoring with Threat Intelligence Score |
+| Predictive Maintenance | AI failure prediction with 12-month Failure Timeline |
 | Lifecycle Cost Estimator | Total ownership cost modeling with breakdown charts |
 | ROI Calculator | Adoption curve modeling with 20-quarter projections |
-| Audit Record Vault | Blockchain-verified record storage with **Digital Thread Traceability** |
+| Audit Record Vault | Blockchain-verified record storage with Digital Thread Traceability |
 | Report Generator | One-click audit packages (Full, Supply Chain, Compliance, etc.) |
 | Submissions & PTD | Upload/compare ILS data with discrepancy detection |
 | Action Items | Cross-tool task management with severity tracking |
-| Document Library | Searchable document index |
-| **SBOM Viewer** | **Software Bill of Materials** with CVE tracking + blockchain attestation |
+| Document Library | Searchable document index with version control |
+| SBOM Manager | CycloneDX/SPDX parsing, vulnerability scanning, blockchain attestation |
+| **GFP Tracker** | Government Furnished Property accountability with DD Form 1662 reports |
+| **CDRL Validator** | 8-rule compliance engine (DI format, title, scope, distribution, classification) |
+| **Contract Extractor** | NLP extraction of FAR/DFARS clauses, CDRLs, GFP refs, warranty, data rights |
+| **Provenance Chain** | Blockchain chain-of-custody events with QR code generation |
+| **Cross-Program Analytics** | 7-metric dashboard across all programs and tools |
+| **Team Management** | Multi-tenant org management with invite system and RLS |
+| **AI/RAG Chat** | Claude-powered ILS assistant with document-aware RAG and session history |
 
-### Competitive Differentiators (v12)
-- **AI Threat Intelligence Scoring** — Weighted heuristic analysis of supply chain vulnerabilities (vs Palantir Gotham)
-- **Predictive Failure Timeline** — 12-month visual forecast of projected system failures (vs Oracle Asset Management)
-- **Real-time Collaboration Indicators** — Live multi-analyst session awareness with avatar badges
-- **Digital Thread Traceability** — Full provenance chain visualization (source → hash → XRPL TX → verification)
-- **SBOM Integration** — First-of-kind blockchain-verified Software Bill of Materials (EO 14028 compliant)
+### Competitive Differentiators
+- **AI Threat Intelligence Scoring** — Weighted heuristic analysis of supply chain vulnerabilities
+- **Predictive Failure Timeline** — 12-month visual forecast of projected system failures
+- **Real-time Collaboration** — Live multi-analyst session awareness with avatar badges
+- **Digital Thread Traceability** — Full provenance chain (source -> hash -> XRPL TX -> verification -> QR)
+- **SBOM + Vulnerability Scanning** — CycloneDX/SPDX with CVE detection (EO 14028 compliant)
+- **CDRL Compliance Engine** — 8-rule automated validation against MIL-STD standards
+- **Contract NLP Extraction** — Auto-detect FAR/DFARS clauses, GFP, warranty, data rights
+- **GFP Accountability** — DD Form 1662 report generation for government property tracking
+- **Cross-Program Analytics** — Unified dashboard across all programs and ILS tools
+- **Offline-First Architecture** — IndexedDB + Service Worker for air-gapped/classified environments
+- **AI/RAG Assistant** — Claude-powered with document-aware retrieval and full audit trail
 - **Zero-Trust Audit Watermark** — All exports include cryptographic verification headers
 
 ### Navy Platform Support
@@ -59,8 +73,8 @@ No sensitive data touches the blockchain — ever. Only cryptographic hashes.
 
 S4 Systems offers two complementary products for defense logistics:
 
-- **S4 Ledger** — The trust and intelligence layer. 14 tools for risk analysis, readiness, compliance, audit, and AI-powered logistics intelligence. Every record is hash-anchored to the XRP Ledger for tamper-proof verification.
-- **HarborLink** — The collaboration portal. Tools for parts cross-reference, contract lifecycle management, provisioning, warranty tracking, configuration management, scheduling, and defense database import/export.
+- **S4 Ledger** — The trust and intelligence layer. 20+ tools for risk analysis, readiness, compliance, audit, SBOM management, GFP tracking, CDRL validation, contract extraction, provenance, and AI-powered logistics intelligence. Every record is hash-anchored to the XRP Ledger for tamper-proof verification.
+- **HarborLink** — The collaboration portal (in development). Tools for parts cross-reference, contract lifecycle management, provisioning, warranty tracking, configuration management, scheduling, and defense database import/export. Will integrate with S4 Ledger.
 
 Together, they provide a complete ILS platform. S4 Ledger focuses on analysis, compliance, and immutable record integrity. HarborLink focuses on day-to-day logistics workflows and cross-program collaboration.
 
@@ -209,13 +223,27 @@ S4 Ledger covers all 12 ILS elements defined in MIL-STD-1388 / GEIA-STD-0007:
 ```
 ┌──────────────────┐     ┌──────────────┐     ┌──────────────┐
 │  Defense System   │────▶│  S4 Ledger   │────▶│  XRP Ledger  │
-│  (3-M, GCSS,     │     │  SDK / API   │     │  (Public,    │
-│   DPAS, etc.)    │     │              │     │  Immutable)  │
+│  (3-M, GCSS,     │     │  API (90+    │     │  (Public,    │
+│   DPAS, etc.)    │     │  routes)     │     │  Immutable)  │
 └──────────────────┘     └──────────────┘     └──────────────┘
         │                       │                     │
    Original Data          SHA-256 Hash           Hash + Timestamp
    stays local            generated              anchored forever
+                                │
+                    ┌───────────┴───────────┐
+                    │  Supabase (43 tables) │
+                    │  IndexedDB (offline)  │
+                    │  Service Worker PWA   │
+                    └───────────────────────┘
 ```
+
+### Tech Stack
+- **Frontend:** Vanilla JS SPA (22,000+ lines), IndexedDB offline-first, Service Worker v6.0.0
+- **Backend:** Python serverless API (4,800+ lines, 90+ routes) on Vercel
+- **Database:** Supabase PostgreSQL (43 tables, row-level security)
+- **Blockchain:** XRP Ledger Mainnet
+- **AI:** Claude API with RAG, rule-based ILS fallback
+- **File Parsers:** CSV, TSV, XLSX, PDF, DOCX, XML (CycloneDX/SPDX), JSON
 
 ---
 
@@ -224,8 +252,8 @@ S4 Ledger covers all 12 ILS elements defined in MIL-STD-1388 / GEIA-STD-0007:
 | Phase | Status | Focus |
 |---|---|---|
 | Phase 1 — Foundation | ✅ Complete | SDK, hashing, XRPL anchoring, $SLS token live |
-| Phase 2 — Defense Platform | ✅ Complete | 14-tool ILS Workspace, 500+ platforms, 37 SDK methods (incl. 11 HarborLink), 65 REST API endpoints, 156+ record types, AI agent, audit vault, SDK Playground with 21 function boxes |
-| Phase 3 — MVP & Pilot | Upcoming | Internal pilot on real contract data |
+| Phase 2 — Defense Platform | ✅ Complete | 20+ ILS tools, 500+ platforms, 90+ API routes, 37 SDK methods, AI/RAG, Supabase persistence (43 tables), IndexedDB offline-first, PWA |
+| Phase 3 — MVP & Pilot | **In Progress** | Internal pilot on real contract data, HarborLink integration |
 | Phase 4 — Partner Onboarding | Planned | SaaS launch, DIU/NavalX engagement |
 | Phase 5 — Scale & Certification | Planned | NIST, FedRAMP, SBIR/STTR |
 
@@ -234,12 +262,12 @@ S4 Ledger covers all 12 ILS elements defined in MIL-STD-1388 / GEIA-STD-0007:
 | Document | Description |
 |---|---|
 | [SDK Documentation](sdk/) | Full Python SDK reference — 37 functions, 15 CLI commands, REST API |
-| [User Training Guide](USER_TRAINING_GUIDE.md) | Step-by-step guide for every tool, feature, and workflow |
-| [API Examples](api_examples.md) | Python, cURL, JavaScript code samples |
-| [Technical Specifications](TECHNICAL_SPECS.md) | Architecture, security, and performance |
-| [Whitepaper](WHITEPAPER.md) | Full protocol and token economics |
-| [Production Readiness](PRODUCTION_READINESS.md) | ~88% MVP / ~75% enterprise readiness checklist |
-| [Deployment Guide](DEPLOYMENT_GUIDE.md) | Self-hosting and cloud deployment |
+| [User Training Guide](docs/USER_TRAINING_GUIDE.md) | Step-by-step guide for every tool, feature, and workflow |
+| [API Examples](docs/api_examples.md) | Python, cURL, JavaScript code samples |
+| [Technical Specifications](docs/TECHNICAL_SPECS.md) | Architecture, security, and performance |
+| [Whitepaper](docs/WHITEPAPER.md) | Full protocol and token economics |
+| [Production Readiness](docs/PRODUCTION_READINESS.md) | Production readiness checklist and status |
+| [Deployment Guide](docs/DEPLOYMENT_GUIDE.md) | Self-hosting and cloud deployment |
 | [Security Policy](SECURITY.md) | Vulnerability reporting and controls |
 
 ---
@@ -248,6 +276,6 @@ S4 Ledger covers all 12 ILS elements defined in MIL-STD-1388 / GEIA-STD-0007:
 
 Apache License 2.0 — see [LICENSE](LICENSE)
 
-**Version:** 5.2.0 — XRPL Mainnet Live | HarborLink Integration | 65 REST API endpoints | 37 SDK Methods | Flankspeed/VDI Compatible
+**Version:** 5.6.0 — XRPL Mainnet Live | 20+ ILS Tools | 90+ API Routes | 43 Supabase Tables | HarborLink Integration (Coming) | Offline-First PWA | Flankspeed/VDI Compatible
 
 © 2026 S4 Systems, LLC. Charleston, SC.

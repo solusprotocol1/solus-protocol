@@ -27,7 +27,7 @@ S4 Ledger: Immutable logistics verification for the defense industry, anchored o
 ## How It Works (Plain English)
 - **The tools are the interface. The audit trail is the product.**
 - S4 Ledger = a notary for defense records (SHA-256 hash → XRPL stamp)
-- 14 tools calculate readiness, track obsolescence, estimate costs, score compliance, and generate audit reports
+- 20+ tools calculate readiness, track obsolescence, estimate costs, score compliance, and generate audit reports
 - Every tool generates real-time alerts: warranty expirations, DMSMS flags, readiness violations
 - Unified Action Items tracker consolidates tasks across all tools
 - One interface replaces juggling spreadsheets across 5 siloed systems
@@ -39,7 +39,7 @@ S4 Ledger: Immutable logistics verification for the defense industry, anchored o
 - 100M total supply | ~15M circulating | 30M multi-sig treasury
 - **14 interactive defense tools** live at s4ledger.com (not mockups)
 - **37 Python SDK methods** for defense-grade hash anchoring and verification
-- **65 REST API endpoints** for enterprise integration
+- **90+ REST API endpoints** for enterprise integration
 - **500+ pre-loaded military entities** — 500+ platforms, 37 suppliers, 25 contracts
 - **156+ pre-built record types across 9 military branches** mapped to real-world logistics workflows
 - **100+ real defense documents** in searchable reference library
@@ -73,7 +73,7 @@ Key: 65% labor reduction • 90% error savings • 70% audit reduction • 15-25
 ---
 
 ## Scalability
-- **Current:** Client-side app, zero infrastructure cost — full 14-tool demo functional today
+- **Current:** Client-side app, zero infrastructure cost — full 20+ tool demo functional today
 - **Phase 1–2:** Supabase/PostgreSQL persistence + server-side pagination → 2,000 users, 5M records ($100–$300/mo)
 - **Phase 3–4:** Web Workers + Merkle tree batch anchoring → 5,000 users, 100x cheaper XRPL costs
 - **Phase 5–6:** CDN, edge caching, microservices, FedRAMP → 50,000+ users, unlimited records
@@ -119,7 +119,7 @@ Key: 65% labor reduction • 90% error savings • 70% audit reduction • 15-25
 
 ## Roadmap
 - Phase 1 ✅: SDK, token, website
-- Phase 2 ✅: 500+ platforms, 14 tools, alerts, action tracking
+- Phase 2 ✅: 500+ platforms, 20+ tools, alerts, action tracking
 - Phase 3: MVP pilot on real contract data, server persistence, user auth
 - Phase 4: REST API, SaaS, Merkle batch anchoring, DIU/NavalX
 - Phase 5: NIST, FedRAMP, CDN/edge, microservices, production

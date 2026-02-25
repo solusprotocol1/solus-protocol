@@ -27,7 +27,7 @@ Every tool panel must: (a) exist in HTML with correct ID, (b) be reachable via s
 | 13 | Submissions | `hub-submissions` | `tabHubSubmissions` | ✅ Yes — `renderSubmissionsPanel()` | ✅ PASS |
 | 14 | Sustainment | `hub-sustainment` | `tabHubSustainment` | ✅ Yes — `renderSustainmentPanel()` | ✅ PASS |
 
-**Result: 14/14 tools pass.**
+**Result: 14/20+ tools pass.**
 
 ---
 
@@ -154,4 +154,4 @@ Every tool panel must: (a) exist in HTML with correct ID, (b) be reachable via s
 
 ---
 
-*This document is for internal QA reference. Generated via code-level verification of `demo-app/index.html`.*
+*This document is for internal QA reference. Generated via code-level verification of `prod-app/index.html`.*
