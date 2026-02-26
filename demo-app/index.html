@@ -1324,7 +1324,7 @@ document.addEventListener('drop', function(e) { e.preventDefault(); e.stopPropag
 /* ═══ S4 MODULE REGISTRY & ERROR HANDLING ═══ */
 /* Provides a namespace for future modularization and global error boundaries */
 window.S4 = window.S4 || {
-    version: '5.11.2',
+    version: '5.12.0',
     modules: {},
     register: function(name, mod) { this.modules[name] = mod; },
     getModule: function(name) { return this.modules[name] || null; }
@@ -22196,7 +22196,7 @@ function _updateThemeIcon(isLight) {
         return { status: 200, body: { verified: true, anchored: true, chain: 'xrpl-testnet', confidence: 1.0 } };
     });
     S4.apiMock.register('/api/health', 'GET', function() {
-        return { status: 200, body: { status: 'healthy', uptime: Math.floor(performance.now() / 1000), version: '5.11.2' } };
+        return { status: 200, body: { status: 'healthy', uptime: Math.floor(performance.now() / 1000), version: '5.12.0' } };
     });
 
     // ── Test Coverage Reporter ──

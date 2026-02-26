@@ -1,5 +1,13 @@
 # Changelog
 
+## [5.12.0] — 2026-02-26
+### Added
+- Real Supabase Auth — sign in, sign up, password reset, session restore
+- Server-side JWT validation (`_validate_supabase_jwt`, `_get_auth_user`)
+- RLS migration (`007_auth_rls_policies.sql`) for row-level security
+- Enhanced CI/CD pipeline — 5 jobs: lint, test, security, html-validation, docker
+- 20 pytest tests covering JWT, hashing, data validation, route resolution, and security
+
 ## [5.11.0] — 2025-01-XX
 ### Added
 - Supabase state sync engine — ALL localStorage data now persists to cloud database

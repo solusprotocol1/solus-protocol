@@ -1,7 +1,7 @@
 # S4 Ledger — Production Readiness Checklist
 
-> **Status:** Production ($SLS LIVE on XRPL Mainnet) — **Estimated ~95% MVP/Pilot Ready | ~82% Enterprise Production Ready**  
-> **Last Updated:** February 2026 (v5.11.1)  
+> **Status:** Production ($SLS LIVE on XRPL Mainnet) — **Estimated ~96% MVP/Pilot Ready | ~85% Enterprise Production Ready**  
+> **Last Updated:** February 2026 (v5.12.0)  
 > **Target:** First enterprise pilot — $SLS LIVE on Mainnet
 
 > **Note:** S4 Ledger operates as a product line of S4 Systems, LLC. Many corporate infrastructure items below (CAGE Code, SAM.gov, EIN, D-U-N-S, legal counsel, compliance posture) may already be in place through S4 Systems. Items marked 🟡 should be verified with S4 Systems leadership rather than obtained from scratch. Nick Frankfort leads product/technology; S4 Systems provides business development, legal, compliance, hiring, and corporate infrastructure.
@@ -12,21 +12,21 @@
 
 This document tracks every requirement for taking S4 Ledger to a fully production-ready, investor-grade defense logistics platform. It covers legal, compliance, infrastructure, security, documentation, business development, and operational requirements.
 
-### Current Readiness: ~95% MVP/Pilot | ~82% Enterprise
+### Current Readiness: ~96% MVP/Pilot | ~85% Enterprise
 
 | Area | Status | MVP Score | Enterprise Score |
 |------|--------|-----------|-----------------|
 | **Frontend / Demo** | ILS Workspace (unified command center with 20+ ILS tools (hub/card layout)), 20+ ILS tools + action items + AI Agent, universal program support, 156+ pre-built record types across Navy/USMC/USCG, PDF/DOCX document parsing, cross-document discrepancy detection, ITAR warning banner, login portal, SDK Playground with 20 interactive function boxes, Metrics dashboard auto-refresh (5s), Transactions page with filters, Treasury Wallet widget, classification banners, dark/light mode, S4 color palette (PMS 325/385), drag-reorder tool cards, first-visit How It Works UX, real QR codes | **98%** | **95%** |
-| **API / Backend** | Serverless API v5.11.1, 90+ endpoints including 12 HarborLink integration endpoints, subscription-based SLS provisioning, Stripe payment verification, AI cascade (Azure OpenAI → OpenAI GPT-4o → Anthropic Claude Sonnet → client-side fallback), RAG endpoint, /api/state/save + /api/state/load for Supabase persistence, /api/demo/provision for demo SLS flow, rate limiting, security headers, health check, OpenAPI 3.0 spec | **92%** | **85%** |
+| **API / Backend** | Serverless API v5.12.0, 90+ endpoints including 12 HarborLink integration endpoints, subscription-based SLS provisioning, Stripe payment verification, AI cascade (Azure OpenAI → OpenAI GPT-4o → Anthropic Claude Sonnet → client-side fallback), RAG endpoint, /api/state/save + /api/state/load for Supabase persistence, /api/demo/provision for demo SLS flow, rate limiting, security headers, health check, OpenAPI 3.0 spec, server-side JWT validation | **92%** | **85%** |
 | **XRPL Integration** | $SLS LIVE on XRPL Mainnet (100M total). Full mainnet anchoring live — all 20+ ILS tools anchor to mainnet with explorer links. 3-wallet architecture (Issuer, Treasury, Ops). secp256k1 (Xaman-compatible). 0.01 SLS fee per anchor. | **100%** | **98%** |
 | **SDK** | Python SDK with 37 methods including 11 new HarborLink methods (webhooks, composite, batch, custody, proof chain, file hash, bulk verify, org records), CLI tool, CSV/XML/JSON import, encryption, SDK Playground with 20 clickable function boxes | **92%** | **90%** |
 | **Infrastructure** | Vercel deployment, SSL, CDN, PWA manifest, custom 404, security headers, **Supabase PostgreSQL persistence** (43+ tables, user state sync, 100% localStorage coverage), automated database backups, encryption at rest (AES-256 via Supabase), offline queue with client-side encryption — no GovCloud, no multi-region, no external monitoring/APM | **85%** | **70%** |
-| **Authentication** | Login portal, API key system, wallet provisioning, subscription-gated SLS delivery, role-based access controls (UI), session state persistence via Supabase, SSO scaffolding (CAC/PIV, Microsoft) — no MFA enforcement, no JWT, no key rotation | **72%** | **55%** |
-| **Documentation** | OpenAPI 3.0 spec (90+ endpoints), SDK reference (37 methods), whitepaper, technical specs, security policy, investor docs, deployment guide, User Training Guide, HarborLink Integration doc v2.0, SEC Compliance / Howey Test analysis, CEO Launch Costs, Executive Proposal, Internal Pitch — all synced to v5.11.1 | **98%** | **98%** |
+| **Authentication** | Real Supabase Auth (sign in, sign up, password reset, session restore), JWT token issuance + server-side JWT validation (_validate_supabase_jwt, _get_auth_user), login portal, API key system, wallet provisioning, subscription-gated SLS delivery, role-based access controls (UI), session state persistence via Supabase, SSO scaffolding (CAC/PIV, Microsoft) — no MFA enforcement, no key rotation | **80%** | **65%** |
+| **Documentation** | OpenAPI 3.0 spec (90+ endpoints), SDK reference (37 methods), whitepaper, technical specs, security policy, investor docs, deployment guide, User Training Guide, HarborLink Integration doc v2.0, SEC Compliance / Howey Test analysis, CEO Launch Costs, Executive Proposal, Internal Pitch — all synced to v5.12.0 | **98%** | **98%** |
 | **Compliance** | NIST 800-171 architecture aligned, ITAR warnings, security headers — practically CMMC Level 2-ready, FedRAMP/IL4 hosting planned, SEC utility token Howey Test analysis complete, no SOC 2 | **45%** | **42%** |
 | **Legal / Business** | S4 Systems LLC exists, TOS + Privacy Policy published, SEC Howey Test analysis documented — token legal opinion, EULA, DPA, SLA pending | **45%** | **40%** |
-| **Security** | Zero-data-on-chain, HMAC-SHA256 webhook signing, rate limiting, HSTS, security headers, client-side encryption for offline queue, NVD vulnerability scanning — no pen test, no SOC 2, no WAF | **40%** | **35%** |
-| **Monitoring / Ops** | Health check, request logging, GitHub Actions CI/CD, Supabase dashboard monitoring — no APM, no SIEM, no alerting | **35%** | **28%** |
+| **Security** | Zero-data-on-chain, HMAC-SHA256 webhook signing, rate limiting, HSTS, security headers, client-side encryption for offline queue, NVD vulnerability scanning, server-side JWT validation (_validate_supabase_jwt + _get_auth_user), 20 pytest security/validation tests passing — no pen test, no SOC 2, no WAF | **48%** | **42%** |
+| **Monitoring / Ops** | Health check, request logging, GitHub Actions CI/CD (5 jobs: lint, test, security, html-validation, docker), Supabase dashboard monitoring — no APM, no SIEM, no alerting | **42%** | **34%** |
 
 
 ### Critical Path to Enterprise Production
@@ -285,12 +285,12 @@ This document tracks every requirement for taking S4 Ledger to a fully productio
 
 | Item | Status | Priority | Notes |
 |------|--------|----------|-------|
-| Unit test suite | 🟡 Partial | **Critical** | Multiple test files exist; need CI coverage |
+| Unit test suite | ✅ Active | **Critical** | 20 pytest tests (JWT validation, hashing, data validation, route resolution, security checks) — all passing in CI |
 | Integration tests | 🟡 Partial | **High** | API endpoint tests exist |
 | End-to-end (E2E) tests | ⬜ Pending | **High** | Playwright or Cypress for web flows |
 | Load/performance testing | ⬜ Pending | **Critical** | Target: 1000 anchors/sec sustained |
 | Security testing (DAST) | ⬜ Pending | **Critical** | OWASP ZAP or Burp Suite scans |
-| CI/CD pipeline | ✅ Active | **Critical** | GitHub Actions: pytest + coverage + Docker build on push to main |
+| CI/CD pipeline | ✅ Active | **Critical** | GitHub Actions: 5 jobs (lint, test, security, html-validation, docker) on push to main |
 | Code coverage target | ⬜ Pending | **High** | Target: 80%+ for core modules |
 | Cross-browser testing | ⬜ Pending | Medium | Chrome, Firefox, Safari, Edge |
 | Mobile responsiveness QA | 🟡 Partial | **High** | Basic responsive; need formal QA pass |
@@ -317,7 +317,7 @@ This document tracks every requirement for taking S4 Ledger to a fully productio
 - [ ] Verify S4 Systems SAM.gov registration is current and covers software products
 - [ ] Verify S4 Systems CAGE Code is active
 - [ ] Obtain token legal opinion (via S4 Systems legal counsel or external crypto counsel)
-- [x] Set up GitHub Actions CI pipeline ✅ (pytest + coverage + Docker build on push to main)
+- [x] Set up GitHub Actions CI pipeline ✅ (5 jobs: lint, test, security, html-validation, docker on push to main)
 - [x] Implement API key authentication ✅ (v3.0 — scaffolded with master key + org keys)
 - [ ] Set up external uptime monitoring
 - [x] Add ITAR/export control warning to all data input forms ✅ (v3.2 — ITAR banner on landing page + demo app)
