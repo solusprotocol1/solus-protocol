@@ -215,7 +215,7 @@ S4 Ledger delivers measurable, defensible savings at every scale:
 
 | Task | Cost | Who Does It |
 |------|------|-------------|
-| $SLS token legal opinion (utility classification — confirming it's a usage credit, not an investment security) | $5K–$15K | External counsel specializing in digital assets |
+| $SLS utility token legal opinion (Howey Test determination — formal written opinion confirming $SLS is a consumption-based service credit, not a security. No SEC registration required.) | $5K–$15K | External digital-asset counsel |
 | Terms/Privacy legal review | $1K–$3K | Company counsel or external |
 | Penetration test (third-party security assessment) | $5K–$15K | Independent security firm |
 | API authentication + rate limiting | Engineering time | Nick (already designed) |
@@ -309,7 +309,7 @@ The key principle: I built this from scratch on my own, and I'm offering S4 Syst
 
 | Risk | Likelihood | Mitigation |
 |------|-----------|------------|
-| SEC classifies $SLS as a security rather than utility token | Low | Obtain legal opinion confirming $SLS is a functional usage credit, not an investment instrument |
+| SEC classifies $SLS as a security rather than utility token | Very Low | $SLS fails all four Howey Test prongs (see SEC_COMPLIANCE.md). Formal legal opinion ($5K–$15K) documents this. No ICO, no exchange listing, no profit expectation, no pooled funds. |
 | DoW slow to adopt new technology | Medium | Start with non-classified records; use SBIR funding to reduce financial risk; leverage existing relationships |
 | XRPL network disruption | Very Low | XRPL has maintained 99.99%+ uptime since 2012; architecture supports fallback to alternative anchoring |
 | Competitor enters market | Medium | First-mover advantage; defense relationships are our moat; ILS Workspace adds tool stickiness beyond anchoring alone |
