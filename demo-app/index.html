@@ -1324,7 +1324,7 @@ document.addEventListener('drop', function(e) { e.preventDefault(); e.stopPropag
 /* ═══ S4 MODULE REGISTRY & ERROR HANDLING ═══ */
 /* Provides a namespace for future modularization and global error boundaries */
 window.S4 = window.S4 || {
-    version: '5.4.0',
+    version: '5.11.2',
     modules: {},
     register: function(name, mod) { this.modules[name] = mod; },
     getModule: function(name) { return this.modules[name] || null; }
@@ -1707,7 +1707,7 @@ window.addEventListener('unhandledrejection', function(e) {
         </div>
         <div style="text-align:center;">
             <button onclick="startAuthFlow()" style="background:var(--accent);color:#fff;border:none;padding:14px 36px;border-radius:3px;font-weight:600;font-size:0.9375rem;cursor:pointer;transition:all 0.3s cubic-bezier(0.25,0.1,0.25,1);letter-spacing:-0.01em;">Enter Platform <i class="fas fa-arrow-right" style="margin-left:8px;"></i></button>
-            <a href="/demo-app/demo" style="display:inline-block;margin-left:12px;background:transparent;color:var(--accent);border:1px solid rgba(0,170,255,0.4);padding:14px 28px;border-radius:3px;font-weight:600;font-size:0.9375rem;cursor:pointer;transition:all 0.3s;text-decoration:none;letter-spacing:-0.01em;"><i class="fas fa-play-circle" style="margin-right:8px;"></i>See a Demo</a>
+            <a href="#" onclick="enterPlatform(); return false;" style="display:inline-block;margin-left:12px;background:transparent;color:var(--accent);border:1px solid rgba(0,170,255,0.4);padding:14px 28px;border-radius:3px;font-weight:600;font-size:0.9375rem;cursor:pointer;transition:all 0.3s;text-decoration:none;letter-spacing:-0.01em;"><i class="fas fa-play-circle" style="margin-right:8px;"></i>See a Demo</a>
         </div>
     </div>
 </section>
@@ -4449,7 +4449,7 @@ if (sessionStorage.getItem('s4_entered') === '1') {
     <div class="modal-box" style="position:relative;max-width:720px;max-height:85vh;overflow-y:auto">
         <button onclick="closeProdFeatures()" style="position:absolute;top:12px;right:16px;background:none;border:none;color:var(--muted);font-size:1.2rem;cursor:pointer">&times;</button>
         <h4 style="margin-bottom:4px"><i class="fas fa-rocket" style="color:#00aaff;margin-right:8px"></i>S4 Ledger Roadmap</h4>
-        <p style="color:var(--steel);font-size:0.82rem;margin-bottom:16px">Upcoming capabilities planned for future releases. Core ILS tools, Supabase persistence, XRP Ledger anchoring, and 20+ analysis tools are live now.</p>
+        <p style="color:var(--steel);font-size:0.82rem;margin-bottom:16px">Upcoming capabilities planned for future releases. Core ILS tools, XRP Ledger anchoring, and 20+ analysis tools are live now.</p>
         <div id="prodFeaturesList"></div>
         <div style="margin-top:16px;padding:12px;background:rgba(0,170,255,0.06);border-radius:3px;border-left:3px solid #00aaff;font-size:0.82rem;color:var(--steel)"><strong style="color:#00aaff">Contact sales@s4ledger.com</strong> to discuss production deployment, IL4/IL5 hosting, and enterprise licensing for your organization.</div>
     </div>
@@ -18536,6 +18536,8 @@ console.log('[Round-16c] All tech enhancements loaded — IndexedDB, WebSocket, 
 function toggleTheme() {
     var body = document.body;
     var isLight = body.classList.toggle('light-mode');
+    // Sync data-theme attribute for [data-theme="light"] CSS selectors
+    if (isLight) { body.setAttribute('data-theme', 'light'); } else { body.removeAttribute('data-theme'); }
     localStorage.setItem('s4-theme', isLight ? 'light' : 'dark');
     _updateThemeIcon(isLight);
     // Update nav link colors for light mode
@@ -18605,6 +18607,7 @@ function _updateThemeIcon(isLight) {
     var saved = localStorage.getItem('s4-theme');
     if (saved === 'light') {
         document.body.classList.add('light-mode');
+        document.body.setAttribute('data-theme', 'light');
         _updateThemeIcon(true);
         // Defer nav color updates until DOM is ready
         document.addEventListener('DOMContentLoaded', function() {
@@ -22193,7 +22196,7 @@ function _updateThemeIcon(isLight) {
         return { status: 200, body: { verified: true, anchored: true, chain: 'xrpl-testnet', confidence: 1.0 } };
     });
     S4.apiMock.register('/api/health', 'GET', function() {
-        return { status: 200, body: { status: 'healthy', uptime: process && process.uptime ? process.uptime() : 99999, version: '5.4.0' } };
+        return { status: 200, body: { status: 'healthy', uptime: Math.floor(performance.now() / 1000), version: '5.11.2' } };
     });
 
     // ── Test Coverage Reporter ──

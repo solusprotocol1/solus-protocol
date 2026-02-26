@@ -1349,9 +1349,9 @@ document.addEventListener('drop', function(e) { e.preventDefault(); e.stopPropag
 /* ═══ S4 MODULE REGISTRY & ERROR HANDLING ═══ */
 /* Provides a namespace for future modularization and global error boundaries */
 window.S4 = window.S4 || {
-    version: '6.0.0',
+    version: '5.11.2',
     env: 'production',
-    buildDate: '2026-02-24',
+    buildDate: '2026-02-25',
     modules: {},
     register: function(name, mod) { this.modules[name] = mod; },
     getModule: function(name) { return this.modules[name] || null; }
@@ -22568,11 +22568,12 @@ window.persistILSUpload = function(filename, fileSize, ext, parsed) {
         // Enhance doc upload to persist to API
         var origDocVersionsSave = localStorage.getItem('s4_doc_versions');
     }
-    // Override doc version save to also persist to API
-    var _origSetItem = Storage.prototype.setItem;
+    // Chain into the existing localStorage.setItem wrapper (Supabase sync engine)
+    // to also push doc_versions and evidence to structured API tables
+    var _prevSetItem = localStorage.setItem;
     var _docSaveDebounce = {};
-    Storage.prototype.setItem = function(key, value) {
-        _origSetItem.call(this, key, value);
+    localStorage.setItem = function(key, value) {
+        _prevSetItem.call(localStorage, key, value);
         if (key === 's4_doc_versions') {
             clearTimeout(_docSaveDebounce[key]);
             _docSaveDebounce[key] = setTimeout(function() {
@@ -23203,7 +23204,7 @@ window.s4Team = {
         var labels = document.querySelectorAll('[data-ai-label],.ai-powered-label');
         labels.forEach(function(el) {
             var text = el.textContent;
-            if (text.indexOf('AI-Powered') >= 0 && !text.indexOf('LLM') >= 0) {
+            if (text.indexOf('AI-Powered') >= 0 && text.indexOf('LLM') < 0) {
                 // Check if this is actually using real AI (Claude API) or just regex
                 el.setAttribute('title', 'Uses Claude AI when API key is configured, falls back to rule-based analysis');
             }
