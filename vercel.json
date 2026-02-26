@@ -359,6 +359,10 @@
       "destination": "/api"
     },
     {
+      "source": "/api/sbom/scan",
+      "destination": "/api"
+    },
+    {
       "source": "/api/provenance",
       "destination": "/api"
     },

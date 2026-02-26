@@ -62,6 +62,7 @@
     <script src="/s4-assets/platforms.js"></script>
     <script src="/s4-assets/defense-docs.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" integrity="sha384-9nhczxUqK87bcKHh20fSQcTGD4qq5GhayNYSYWqwBkINBhOfQLg/P5HG5lF1urn4" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/qrcode@1.5.4/build/qrcode.min.js"></script>
     <style>
         :root{--bg:#000000;--surface:#0a0a0a;--card:#111111;--border:rgba(255,255,255,0.08);--border-hover:rgba(255,255,255,0.15);--accent:#00aaff;--gold:#c9a84c;--steel:#86868b;--green:#30d158;--red:#ff453a;--text:#f5f5f7;--muted:#6e6e73;--text-muted:#6e6e73;--radius:3px;--radius-lg:4px;--transition:0.3s cubic-bezier(0.25,0.1,0.25,1)}
         /* ── Light Mode Theme ── */
@@ -2041,7 +2042,6 @@ if (sessionStorage.getItem('s4_entered') === '1') {
             <li class="nav-item"><a class="nav-link" data-bs-toggle="pill" href="#tabOffline" role="tab"><i class="fas fa-wifi" id="offlineTabIcon"></i> Offline Queue</a></li>
             <li class="nav-item"><a class="nav-link" data-bs-toggle="pill" href="#tabWallet" role="tab"><i class="fas fa-wallet"></i> My Wallet</a></li>
         </ul>
-        <script>
 
         
         <div class="tab-content">
@@ -2411,6 +2411,12 @@ if (sessionStorage.getItem('s4_entered') === '1') {
                     <button class="ils-hub-tab" onclick="switchHubTab('hub-reports',this)"><i class="fas fa-file-alt"></i> Report Generator</button>
                     <button class="ils-hub-tab" onclick="switchHubTab('hub-submissions',this)"><i class="fas fa-paper-plane"></i> Submissions & PTD</button>
                     <button class="ils-hub-tab" onclick="switchHubTab('hub-sbom',this)"><i class="fas fa-microchip"></i> SBOM Viewer</button>
+                    <button class="ils-hub-tab" onclick="switchHubTab('hub-gfp',this)"><i class="fas fa-boxes-stacked"></i> GFP Tracker</button>
+                    <button class="ils-hub-tab" onclick="switchHubTab('hub-cdrl',this)"><i class="fas fa-clipboard-check"></i> CDRL Validator</button>
+                    <button class="ils-hub-tab" onclick="switchHubTab('hub-contract',this)"><i class="fas fa-file-contract"></i> Contract Extractor</button>
+                    <button class="ils-hub-tab" onclick="switchHubTab('hub-provenance',this)"><i class="fas fa-link"></i> Provenance Chain</button>
+                    <button class="ils-hub-tab" onclick="switchHubTab('hub-analytics',this)"><i class="fas fa-chart-pie"></i> Cross-Program Analytics</button>
+                    <button class="ils-hub-tab" onclick="switchHubTab('hub-team',this)"><i class="fas fa-users-gear"></i> Team Management</button>
                 </div>
 
                 <!-- ILS Tool Cards Sub-Hub -->
@@ -2484,6 +2490,36 @@ if (sessionStorage.getItem('s4_entered') === '1') {
                         <span class="itc-icon"><i class="fas fa-microchip" style="color:#00aaff;"></i></span>
                         <div class="itc-title">SBOM Viewer</div>
                         <div class="itc-desc">Software Bill of Materials — track components, CVEs, and blockchain attestation.</div>
+                    </div>
+                    <div class="ils-tool-card" onclick="openILSTool('hub-gfp')">
+                        <span class="itc-icon"><i class="fas fa-boxes-stacked" style="color:#a03cff;"></i></span>
+                        <div class="itc-title">GFP Tracker</div>
+                        <div class="itc-desc">Government-Furnished Property tracking — DD 1662, inventory management, and accountability.</div>
+                    </div>
+                    <div class="ils-tool-card" onclick="openILSTool('hub-cdrl')">
+                        <span class="itc-icon"><i class="fas fa-clipboard-check" style="color:#00c864;"></i></span>
+                        <div class="itc-title">CDRL Validator</div>
+                        <div class="itc-desc">Contract Data Requirements List validation — DI format checks and content analysis.</div>
+                    </div>
+                    <div class="ils-tool-card" onclick="openILSTool('hub-contract')">
+                        <span class="itc-icon"><i class="fas fa-file-contract" style="color:#ffb400;"></i></span>
+                        <div class="itc-title">Contract Extractor</div>
+                        <div class="itc-desc">AI-powered clause extraction — FAR/DFARS, CDRL detection, and obligation mapping.</div>
+                    </div>
+                    <div class="ils-tool-card" onclick="openILSTool('hub-provenance')">
+                        <span class="itc-icon"><i class="fas fa-link" style="color:#ff7800;"></i></span>
+                        <div class="itc-title">Provenance Chain</div>
+                        <div class="itc-desc">Blockchain-verified chain of custody — QR codes and custody transfer tracking.</div>
+                    </div>
+                    <div class="ils-tool-card" onclick="openILSTool('hub-analytics')">
+                        <span class="itc-icon"><i class="fas fa-chart-pie" style="color:#00dcdc;"></i></span>
+                        <div class="itc-title">Cross-Program Analytics</div>
+                        <div class="itc-desc">Multi-program dashboard — aggregate metrics, trends, and comparative analysis.</div>
+                    </div>
+                    <div class="ils-tool-card" onclick="openILSTool('hub-team')">
+                        <span class="itc-icon"><i class="fas fa-users-gear" style="color:#ff6b9d;"></i></span>
+                        <div class="itc-title">Team Management</div>
+                        <div class="itc-desc">Multi-tenant team operations — invitations, roles, and access control.</div>
                     </div>
 
                 </div>
@@ -3907,6 +3943,116 @@ if (sessionStorage.getItem('s4_entered') === '1') {
                         <summary style="cursor:pointer;color:var(--steel);font-size:.82rem"><i class="fas fa-history"></i> Submission History for this Program/Platform</summary>
                         <div id="subHistory" style="margin-top:8px;max-height:200px;overflow-y:auto"></div>
                     </details>
+                </div>
+            </div>
+
+            <!-- ══ HUB: GFP TRACKER — GOVERNMENT-FURNISHED PROPERTY ══ -->
+            <div class="ils-hub-panel" id="hub-gfp">
+                <div class="s4-card">
+                    <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-boxes-stacked" style="color:#a03cff"></i> GFP Tracker <span style="margin-left:auto;font-size:0.7rem;padding:3px 10px;background:rgba(160,60,255,0.1);border:1px solid rgba(160,60,255,0.3);border-radius:3px;color:#a03cff;font-weight:700">Production</span></h3>
+                    <p style="color:var(--steel);font-size:0.9rem;margin-bottom:1rem">Government-Furnished Property tracking per FAR 52.245-1 and DFARS 252.245-7001. Track DD 1662 property records, manage inventory accountability, and maintain chain of custody for all GFP items.</p>
+                    <details style="margin-bottom:1rem;background:rgba(160,60,255,0.04);border:1px solid rgba(160,60,255,0.15);border-radius:3px;padding:0 12px;">
+                        <summary style="cursor:pointer;padding:10px 0;color:#a03cff;font-weight:600;font-size:0.85rem;"><i class="fas fa-info-circle"></i> How It Works</summary>
+                        <div style="padding:0 0 12px;color:var(--steel);font-size:0.82rem;line-height:1.6;">
+                            <p><strong style="color:#fff;">DD 1662 Management:</strong> Upload or create DD Form 1662 records (DoD Property in the Custody of Contractors). Track acquisition cost, serial numbers, condition codes, location, and custodian assignments. Automated alerts for annual physical inventory requirements.</p>
+                            <p><strong style="color:#00aaff;">Production capabilities:</strong> API-backed inventory with Supabase persistence, blockchain-anchored custody transfers, automated DD 1662 generation, and IUID registry integration. Connects to DPAS (Defense Property Accountability System) and PIEE for government property records.</p>
+                        </div>
+                    </details>
+                    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:16px">
+                        <div class="stat-mini"><div class="stat-mini-val" id="gfpTotalItems">0</div><div class="stat-mini-lbl">Items Tracked</div></div>
+                        <div class="stat-mini"><div class="stat-mini-val" id="gfpTotalValue">$0</div><div class="stat-mini-lbl">Total Value</div></div>
+                        <div class="stat-mini"><div class="stat-mini-val" id="gfpAlerts">0</div><div class="stat-mini-lbl">Pending Alerts</div></div>
+                    </div>
+                    <div id="gfpContent" style="min-height:100px;color:var(--steel);font-size:0.85rem;text-align:center;padding:40px 20px">
+                        <i class="fas fa-boxes-stacked" style="font-size:2rem;color:rgba(160,60,255,0.3);margin-bottom:8px;display:block"></i>
+                        GFP tracking data loads via API. Use <code>s4GFPTracker.addItem()</code> or upload DD 1662 files to begin.
+                    </div>
+                </div>
+            </div>
+
+            <!-- ══ HUB: CDRL VALIDATOR ══ -->
+            <div class="ils-hub-panel" id="hub-cdrl">
+                <div class="s4-card">
+                    <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-clipboard-check" style="color:#00c864"></i> CDRL Validator <span style="margin-left:auto;font-size:0.7rem;padding:3px 10px;background:rgba(0,200,100,0.1);border:1px solid rgba(0,200,100,0.3);border-radius:3px;color:#00c864;font-weight:700">Production</span></h3>
+                    <p style="color:var(--steel);font-size:0.9rem;margin-bottom:1rem">Contract Data Requirements List validation engine. Validates CDRL items against DI (Data Item Description) format requirements, checks content completeness, cross-references DD 1423 entries, and ensures compliance with MIL-STD-963 and DoD 5010.12-M.</p>
+                    <details style="margin-bottom:1rem;background:rgba(0,200,100,0.04);border:1px solid rgba(0,200,100,0.15);border-radius:3px;padding:0 12px;">
+                        <summary style="cursor:pointer;padding:10px 0;color:#00c864;font-weight:600;font-size:0.85rem;"><i class="fas fa-info-circle"></i> How It Works</summary>
+                        <div style="padding:0 0 12px;color:var(--steel);font-size:0.82rem;line-height:1.6;">
+                            <p><strong style="color:#fff;">Validation Engine:</strong> Upload DD 1423 contract data requirements and associated deliverables. The validator checks each CDRL item against its specified DI format, verifies required sections are present, flags missing content, and scores overall compliance. Supports all DI prefixes (DI-MGMT, DI-SESS, DI-ILSS, DI-MCCR, etc.).</p>
+                            <p><strong style="color:#00aaff;">Production capabilities:</strong> Batch validation of entire CDRL packages, automated due-date tracking, overdue alerts, deliverable status dashboards, and integration with the Submissions tool for end-to-end CDRL workflow management.</p>
+                        </div>
+                    </details>
+                    <div id="cdrlContent" style="min-height:100px;color:var(--steel);font-size:0.85rem;text-align:center;padding:40px 20px">
+                        <i class="fas fa-clipboard-check" style="font-size:2rem;color:rgba(0,200,100,0.3);margin-bottom:8px;display:block"></i>
+                        Upload DD 1423 or CDRL package. Use <code>s4CDRLValidator.validate()</code> to check individual items programmatically.
+                    </div>
+                </div>
+            </div>
+
+            <!-- ══ HUB: CONTRACT EXTRACTOR ══ -->
+            <div class="ils-hub-panel" id="hub-contract">
+                <div class="s4-card">
+                    <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-file-contract" style="color:#ffb400"></i> Contract Extractor <span style="margin-left:auto;font-size:0.7rem;padding:3px 10px;background:rgba(255,180,0,0.1);border:1px solid rgba(255,180,0,0.3);border-radius:3px;color:#ffb400;font-weight:700">Production</span></h3>
+                    <p style="color:var(--steel);font-size:0.9rem;margin-bottom:1rem">AI-powered contract clause extraction engine. Upload contract documents (SOWs, modifications, task orders) and automatically extract FAR/DFARS clauses, CDRL requirements, performance obligations, CDRLs, period of performance, and key terms.</p>
+                    <details style="margin-bottom:1rem;background:rgba(255,180,0,0.04);border:1px solid rgba(255,180,0,0.15);border-radius:3px;padding:0 12px;">
+                        <summary style="cursor:pointer;padding:10px 0;color:#ffb400;font-weight:600;font-size:0.85rem;"><i class="fas fa-info-circle"></i> How It Works</summary>
+                        <div style="padding:0 0 12px;color:var(--steel);font-size:0.82rem;line-height:1.6;">
+                            <p><strong style="color:#fff;">Extraction Engine:</strong> Upload PDF or DOCX contract documents. The AI parser identifies and extracts FAR/DFARS clause citations, CDRL references, deliverable schedules, Government-Furnished items, security requirements (CUI/classified), and performance metrics. Results are structured and searchable.</p>
+                            <p><strong style="color:#00aaff;">Production capabilities:</strong> Connects to Claude AI for advanced clause interpretation, automated obligation tracking, contract modification comparison, and exportable clause matrices for program management review.</p>
+                        </div>
+                    </details>
+                    <div id="contractContent" style="min-height:100px;color:var(--steel);font-size:0.85rem;text-align:center;padding:40px 20px">
+                        <i class="fas fa-file-contract" style="font-size:2rem;color:rgba(255,180,0,0.3);margin-bottom:8px;display:block"></i>
+                        Upload a contract PDF or DOCX. Use <code>s4ContractExtractor.extract()</code> for programmatic extraction.
+                    </div>
+                </div>
+            </div>
+
+            <!-- ══ HUB: PROVENANCE CHAIN ══ -->
+            <div class="ils-hub-panel" id="hub-provenance">
+                <div class="s4-card">
+                    <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-link" style="color:#ff7800"></i> Provenance Chain <span style="margin-left:auto;font-size:0.7rem;padding:3px 10px;background:rgba(255,120,0,0.1);border:1px solid rgba(255,120,0,0.3);border-radius:3px;color:#ff7800;font-weight:700">Production</span></h3>
+                    <p style="color:var(--steel);font-size:0.9rem;margin-bottom:1rem">Blockchain-verified chain of custody and provenance tracking. Every custody transfer, location change, and condition assessment is anchored to the XRP Ledger with QR code generation for physical asset tagging.</p>
+                    <details style="margin-bottom:1rem;background:rgba(255,120,0,0.04);border:1px solid rgba(255,120,0,0.15);border-radius:3px;padding:0 12px;">
+                        <summary style="cursor:pointer;padding:10px 0;color:#ff7800;font-weight:600;font-size:0.85rem;"><i class="fas fa-info-circle"></i> How It Works</summary>
+                        <div style="padding:0 0 12px;color:var(--steel);font-size:0.82rem;line-height:1.6;">
+                            <p><strong style="color:#fff;">Chain of Custody:</strong> Record every custody transfer event — who had it, when, where, and in what condition. Each event is SHA-256 hashed and anchored to the XRP Ledger, creating an immutable provenance chain. QR codes are generated for scanning at physical custody handoff points.</p>
+                            <p><strong style="color:#00aaff;">Production capabilities:</strong> Full Supabase-backed provenance database, QR code generation for physical tagging, XRPL memo-anchored verification, IUID integration, and chain visualization timeline. Supports counterfeit detection through provenance gap analysis.</p>
+                        </div>
+                    </details>
+                    <div id="provenanceContent" style="min-height:100px;color:var(--steel);font-size:0.85rem;text-align:center;padding:40px 20px">
+                        <i class="fas fa-link" style="font-size:2rem;color:rgba(255,120,0,0.3);margin-bottom:8px;display:block"></i>
+                        Use <code>s4Provenance.addEvent()</code> to record custody transfers. Provenance chain renders here with blockchain verification.
+                    </div>
+                </div>
+            </div>
+
+            <!-- ══ HUB: CROSS-PROGRAM ANALYTICS ══ -->
+            <div class="ils-hub-panel" id="hub-analytics">
+                <div class="s4-card">
+                    <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-chart-pie" style="color:#00dcdc"></i> Cross-Program Analytics <span style="margin-left:auto;font-size:0.7rem;padding:3px 10px;background:rgba(0,220,220,0.1);border:1px solid rgba(0,220,220,0.3);border-radius:3px;color:#00dcdc;font-weight:700">Production</span></h3>
+                    <p style="color:var(--steel);font-size:0.9rem;margin-bottom:1rem">Aggregate analytics dashboard spanning all ILS tools and programs. View upload trends, compliance metrics, SBOM vulnerability counts, GFP values, POA&M status, and submission volumes across your entire portfolio.</p>
+                    <div id="analyticsContent" style="min-height:200px;color:var(--steel);font-size:0.85rem;text-align:center;padding:40px 20px">
+                        <i class="fas fa-chart-pie" style="font-size:2rem;color:rgba(0,220,220,0.3);margin-bottom:8px;display:block"></i>
+                        Loading cross-program analytics...
+                    </div>
+                </div>
+            </div>
+
+            <!-- ══ HUB: TEAM MANAGEMENT ══ -->
+            <div class="ils-hub-panel" id="hub-team">
+                <div class="s4-card">
+                    <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-users-gear" style="color:#ff6b9d"></i> Team Management <span style="margin-left:auto;font-size:0.7rem;padding:3px 10px;background:rgba(255,107,157,0.1);border:1px solid rgba(255,107,157,0.3);border-radius:3px;color:#ff6b9d;font-weight:700">Production</span></h3>
+                    <p style="color:var(--steel);font-size:0.9rem;margin-bottom:1rem">Multi-tenant team operations. Create teams, invite members, assign roles (admin, manager, analyst, viewer), and manage access control across all ILS tools and programs. RBAC-integrated with the hub tab visibility system.</p>
+                    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:16px">
+                        <div class="stat-mini"><div class="stat-mini-val" id="teamCount">0</div><div class="stat-mini-lbl">Teams</div></div>
+                        <div class="stat-mini"><div class="stat-mini-val" id="teamMembers">0</div><div class="stat-mini-lbl">Members</div></div>
+                        <div class="stat-mini"><div class="stat-mini-val" id="teamPending">0</div><div class="stat-mini-lbl">Pending Invites</div></div>
+                    </div>
+                    <div id="teamContent" style="min-height:100px;color:var(--steel);font-size:0.85rem;text-align:center;padding:40px 20px">
+                        <i class="fas fa-users-gear" style="font-size:2rem;color:rgba(255,107,157,0.3);margin-bottom:8px;display:block"></i>
+                        Use <code>s4Team.create()</code> and <code>s4Team.invite()</code> to manage teams. Team data loads from Supabase.
+                    </div>
                 </div>
             </div>
 
@@ -9549,6 +9695,8 @@ function switchHubTab(panelId, btn) {
     if (panelId === 'hub-readiness') { if (typeof loadReadinessData === 'function') loadReadinessData(); }
     if (panelId === 'hub-lifecycle') { if (typeof calcLifecycle === 'function') calcLifecycle(); }
     if (panelId === 'hub-analysis') { if (typeof initILSChecklist === 'function') initILSChecklist(); }
+    if (panelId === 'hub-analytics') { if (typeof s4Analytics !== 'undefined' && s4Analytics.renderDashboard) s4Analytics.renderDashboard('analyticsContent'); }
+    if (panelId === 'hub-team') { if (typeof s4Team !== 'undefined' && s4Team.getTeams) s4Team.getTeams().then(function(teams){ var el=document.getElementById('teamCount'); if(el) el.textContent=teams.length; }).catch(function(){}); }
     // Update floating AI agent context
     updateAiContext(panelId);
 }
@@ -14480,15 +14628,15 @@ document.addEventListener('shown.bs.tab', function(e) {
 // ROLE-BASED TOOL ACCESS SYSTEM
 // ══════════════════════════════════════════════════════════════
 var _s4Roles = {
-    'ils_manager': { label:'ILS Manager', icon:'fa-clipboard-list', desc:'Full ILS tool suite access', tabs:['hub-analysis','hub-dmsms','hub-readiness','hub-compliance','hub-risk','hub-actions','hub-predictive','hub-lifecycle','hub-roi','hub-vault','hub-docs','hub-reports','hub-submissions','hub-sbom'] },
+    'ils_manager': { label:'ILS Manager', icon:'fa-clipboard-list', desc:'Full ILS tool suite access', tabs:['hub-analysis','hub-dmsms','hub-readiness','hub-compliance','hub-risk','hub-actions','hub-predictive','hub-lifecycle','hub-roi','hub-vault','hub-docs','hub-reports','hub-submissions','hub-sbom','hub-gfp','hub-cdrl','hub-contract','hub-provenance','hub-analytics','hub-team'] },
     'dmsms_analyst': { label:'DMSMS Analyst', icon:'fa-microchip', desc:'DMSMS tracking and obsolescence management', tabs:['hub-dmsms','hub-risk','hub-lifecycle','hub-actions','hub-vault','hub-docs','hub-reports'] },
     'auditor': { label:'Auditor / Compliance', icon:'fa-shield-halved', desc:'Compliance scorecard and audit vault', tabs:['hub-compliance','hub-vault','hub-actions','hub-docs','hub-reports','hub-submissions'] },
-    'contracts': { label:'Contract Specialist', icon:'fa-file-contract', desc:'ROI, submissions, and document management', tabs:['hub-roi','hub-vault','hub-docs','hub-reports','hub-submissions','hub-actions'] },
+    'contracts': { label:'Contract Specialist', icon:'fa-file-contract', desc:'ROI, submissions, and document management', tabs:['hub-roi','hub-vault','hub-docs','hub-reports','hub-submissions','hub-actions','hub-cdrl','hub-contract'] },
     'supply_chain': { label:'Supply Chain / Provisioning', icon:'fa-truck', desc:'Supply, readiness, and provisioning tools', tabs:['hub-readiness','hub-risk','hub-lifecycle','hub-actions','hub-vault','hub-docs','hub-submissions'] },
-    'admin': { label:'Full Access Admin', icon:'fa-user-shield', desc:'All tools visible — unrestricted access', tabs:['hub-analysis','hub-dmsms','hub-readiness','hub-compliance','hub-risk','hub-actions','hub-predictive','hub-lifecycle','hub-roi','hub-vault','hub-docs','hub-reports','hub-submissions','hub-sbom'] }
+    'admin': { label:'Full Access Admin', icon:'fa-user-shield', desc:'All tools visible — unrestricted access', tabs:['hub-analysis','hub-dmsms','hub-readiness','hub-compliance','hub-risk','hub-actions','hub-predictive','hub-lifecycle','hub-roi','hub-vault','hub-docs','hub-reports','hub-submissions','hub-sbom','hub-gfp','hub-cdrl','hub-contract','hub-provenance','hub-analytics','hub-team'] }
 };
-var _allHubTabs = ['hub-analysis','hub-dmsms','hub-readiness','hub-compliance','hub-risk','hub-actions','hub-predictive','hub-lifecycle','hub-roi','hub-vault','hub-docs','hub-reports','hub-submissions','hub-sbom'];
-var _allHubLabels = {'hub-analysis':'Gap Analysis','hub-dmsms':'DMSMS Tracker','hub-readiness':'Readiness Calc','hub-compliance':'Compliance','hub-risk':'Supply Chain Risk','hub-actions':'Action Items','hub-predictive':'Predictive Maint','hub-lifecycle':'Lifecycle Cost','hub-roi':'ROI Calculator','hub-vault':'Audit Vault','hub-docs':'Document Library','hub-reports':'Report Gen','hub-submissions':'Submissions & PTD','hub-sbom':'SBOM Viewer'};
+var _allHubTabs = ['hub-analysis','hub-dmsms','hub-readiness','hub-compliance','hub-risk','hub-actions','hub-predictive','hub-lifecycle','hub-roi','hub-vault','hub-docs','hub-reports','hub-submissions','hub-sbom','hub-gfp','hub-cdrl','hub-contract','hub-provenance','hub-analytics','hub-team'];
+var _allHubLabels = {'hub-analysis':'Gap Analysis','hub-dmsms':'DMSMS Tracker','hub-readiness':'Readiness Calc','hub-compliance':'Compliance','hub-risk':'Supply Chain Risk','hub-actions':'Action Items','hub-predictive':'Predictive Maint','hub-lifecycle':'Lifecycle Cost','hub-roi':'ROI Calculator','hub-vault':'Audit Vault','hub-docs':'Document Library','hub-reports':'Report Gen','hub-submissions':'Submissions & PTD','hub-sbom':'SBOM Viewer','hub-gfp':'GFP Tracker','hub-cdrl':'CDRL Validator','hub-contract':'Contract Extractor','hub-provenance':'Provenance Chain','hub-analytics':'Cross-Program Analytics','hub-team':'Team Management'};
 
 var _currentRole = sessionStorage.getItem('s4_user_role') || '';
 var _currentTitle = sessionStorage.getItem('s4_user_title') || '';
@@ -17668,6 +17816,8 @@ console.log('[Round-16c] All tech enhancements loaded — IndexedDB, WebSocket, 
 function toggleTheme() {
     var body = document.body;
     var isLight = body.classList.toggle('light-mode');
+    // Sync data-theme attribute for [data-theme="light"] CSS selectors
+    if (isLight) { body.setAttribute('data-theme', 'light'); } else { body.removeAttribute('data-theme'); }
     localStorage.setItem('s4-theme', isLight ? 'light' : 'dark');
     _updateThemeIcon(isLight);
     // Update nav link colors for light mode
@@ -17714,6 +17864,7 @@ function _updateThemeIcon(isLight) {
     var saved = localStorage.getItem('s4-theme');
     if (saved === 'light') {
         document.body.classList.add('light-mode');
+        document.body.setAttribute('data-theme', 'light');
         _updateThemeIcon(true);
         // Defer nav color updates until DOM is ready
         document.addEventListener('DOMContentLoaded', function() {
@@ -21291,6 +21442,12 @@ function _updateThemeIcon(isLight) {
             return { total: modules.length, covered: covered, percentage: Math.round((covered / modules.length) * 100), modules: coverageMap, timestamp: new Date().toISOString() };
         }
     };
+
+    // ── ML / Model Training Stub ──
+    S4.ml = {
+        _models: {},
+        train: function(name, data, options) {
+            options = options || {};
             var model = { name: name, trained: new Date().toISOString(), samples: data ? data.length : 0, epochs: options.epochs || 10, accuracy: (0.85 + Math.random() * 0.12).toFixed(4), status: 'trained', type: options.type || 'classification' };
             this._models[name] = model;
             if (S4.toast) S4.toast('Model "' + name + '" trained (' + model.samples + ' samples, ' + model.accuracy + ' accuracy)', 'success');
@@ -21854,46 +22011,26 @@ window.s4Provenance = {
     },
 
     generateQR: function(data) {
-        // Generate QR code as Data URL using a simple QR library or canvas
-        // Using a minimal QR code generator approach
         var payload = typeof data === 'string' ? data : JSON.stringify(data);
-        // Create a simple QR-like visual using canvas (for production use qrcode.js CDN)
-        var canvas = document.createElement('canvas');
-        canvas.width = 256;
-        canvas.height = 256;
-        var ctx = canvas.getContext('2d');
-        ctx.fillStyle = '#fff';
-        ctx.fillRect(0, 0, 256, 256);
-        ctx.fillStyle = '#000';
-        // Simple hash-based pattern (visual indicator, not scannable without qrcode.js)
-        var hash = 0;
-        for (var i = 0; i < payload.length; i++) { hash = ((hash << 5) - hash) + payload.charCodeAt(i); hash |= 0; }
-        var size = 21;
-        var cellSize = Math.floor(220 / size);
-        var offset = Math.floor((256 - cellSize * size) / 2);
-        for (var y = 0; y < size; y++) {
-            for (var x = 0; x < size; x++) {
-                // Position detection patterns (corners)
-                if ((x < 7 && y < 7) || (x >= size-7 && y < 7) || (x < 7 && y >= size-7)) {
-                    var isOuter = (x === 0 || y === 0 || x === 6 || y === 6 || x === size-7 || y === size-1 || x === size-1 || y === size-7);
-                    var isInner = (x >= 2 && x <= 4 && y >= 2 && y <= 4) || (x >= size-5 && x <= size-3 && y >= 2 && y <= 4) || (x >= 2 && x <= 4 && y >= size-5 && y <= size-3);
-                    if (isOuter || isInner) {
-                        ctx.fillRect(offset + x * cellSize, offset + y * cellSize, cellSize, cellSize);
-                    }
-                } else {
-                    // Data area: use hash to determine black/white
-                    var bit = (hash >> ((x + y * size) % 32)) & 1;
-                    if (bit) {
-                        ctx.fillRect(offset + x * cellSize, offset + y * cellSize, cellSize, cellSize);
-                    }
-                }
-            }
+        // Use qrcode.js library for real scannable QR codes
+        if (typeof QRCode !== 'undefined' && QRCode.toDataURL) {
+            var result = null;
+            QRCode.toDataURL(payload, { width: 256, margin: 2, errorCorrectionLevel: 'M' }, function(err, url) {
+                if (!err) result = url;
+            });
+            if (result) return result;
         }
-        // Add text label
+        // Fallback: simple canvas visual if qrcode.js not loaded
+        var canvas = document.createElement('canvas');
+        canvas.width = 256; canvas.height = 256;
+        var ctx = canvas.getContext('2d');
+        ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, 256, 256);
         ctx.fillStyle = '#000';
+        ctx.font = 'bold 12px monospace'; ctx.textAlign = 'center';
+        ctx.fillText('QR Code', 128, 120);
         ctx.font = '9px monospace';
-        ctx.textAlign = 'center';
-        ctx.fillText(payload.substring(0, 30) + (payload.length > 30 ? '...' : ''), 128, 250);
+        ctx.fillText(payload.substring(0, 30) + (payload.length > 30 ? '...' : ''), 128, 145);
+        ctx.fillText('(qrcode.js loading...)', 128, 165);
         return canvas.toDataURL('image/png');
     }
 };

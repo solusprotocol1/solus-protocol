@@ -1660,6 +1660,8 @@ class handler(BaseHTTPRequestHandler):
             return "gfp"
         if path == "/api/sbom":
             return "sbom"
+        if path == "/api/sbom/scan":
+            return "sbom_scan"
         if path == "/api/provenance":
             return "provenance"
         if path == "/api/ai/rag":
@@ -2354,6 +2356,9 @@ class handler(BaseHTTPRequestHandler):
         elif route == "sbom":
             self._log_request("sbom-get")
             self._get_sbom(parse_qs(parsed.query))
+        elif route == "sbom_scan":
+            self._log_request("sbom-scan")
+            self._scan_sbom_vulnerabilities(parse_qs(parsed.query))
         elif route == "provenance":
             self._log_request("provenance-get")
             self._get_provenance(parse_qs(parsed.query))
@@ -2466,6 +2471,62 @@ class handler(BaseHTTPRequestHandler):
             qp += f"&system_name=eq.{system_name}" if qp else f"system_name=eq.{system_name}"
         rows = _sb_select("sbom_entries", query_params=qp, order="created_at.desc", limit=200)
         self._send_json({"items": rows, "count": len(rows)})
+
+    def _scan_sbom_vulnerabilities(self, params):
+        """Scan SBOM components against NVD (National Vulnerability Database).
+        Accepts ?keyword=<component_name> or ?cpe=<cpe_string>
+        Uses the free NVD API (rate-limited to 5 req/30s without API key).
+        """
+        keyword = params.get("keyword", [None])[0]
+        cpe = params.get("cpe", [None])[0]
+        if not keyword and not cpe:
+            self._send_json({"error": "keyword or cpe parameter required"}, 400)
+            return
+        try:
+            nvd_url = "https://services.nvd.nist.gov/rest/json/cves/2.0?"
+            if cpe:
+                nvd_url += f"cpeName={urllib.parse.quote(cpe)}&resultsPerPage=20"
+            else:
+                nvd_url += f"keywordSearch={urllib.parse.quote(keyword)}&resultsPerPage=20"
+            nvd_key = os.environ.get("NVD_API_KEY", "")
+            headers = {"User-Agent": "S4Ledger/6.0"}
+            if nvd_key:
+                headers["apiKey"] = nvd_key
+            req = urllib.request.Request(nvd_url, headers=headers)
+            with urllib.request.urlopen(req, timeout=15) as resp:
+                nvd_data = json.loads(resp.read().decode())
+            vulnerabilities = []
+            for item in nvd_data.get("vulnerabilities", [])[:20]:
+                cve_item = item.get("cve", {})
+                desc_list = cve_item.get("descriptions", [])
+                desc = next((d["value"] for d in desc_list if d.get("lang") == "en"), "")
+                metrics = cve_item.get("metrics", {})
+                cvss31 = metrics.get("cvssMetricV31", [{}])
+                score = cvss31[0].get("cvssData", {}).get("baseScore", 0) if cvss31 else 0
+                severity = cvss31[0].get("cvssData", {}).get("baseSeverity", "UNKNOWN") if cvss31 else "UNKNOWN"
+                vulnerabilities.append({
+                    "cve_id": cve_item.get("id", ""),
+                    "description": desc[:300],
+                    "score": score,
+                    "severity": severity,
+                    "published": cve_item.get("published", ""),
+                    "modified": cve_item.get("lastModified", ""),
+                })
+            self._send_json({
+                "keyword": keyword or cpe,
+                "total_results": nvd_data.get("totalResults", 0),
+                "vulnerabilities": vulnerabilities,
+                "source": "NVD (National Vulnerability Database)",
+                "api_version": "2.0",
+            })
+        except Exception as e:
+            self._send_json({
+                "keyword": keyword or cpe,
+                "total_results": 0,
+                "vulnerabilities": [],
+                "error": f"NVD API error: {str(e)}",
+                "source": "NVD (National Vulnerability Database)",
+            })
 
     def _get_provenance(self, params):
         item_id = params.get("item_id", [None])[0]
