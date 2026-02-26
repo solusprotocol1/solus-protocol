@@ -125,7 +125,7 @@
         .dropdown-item{color:var(--steel)!important;padding:8px 18px;font-size:0.875rem;transition:all 0.2s}
         .dropdown-item:hover,.dropdown-item:focus{background:rgba(0,170,255,0.08)!important;color:var(--accent)!important}
         .dropdown-item i{width:18px;margin-right:6px;display:inline-block;text-align:center}
-        .dd-accent{color:var(--accent)}.dd-gold{color:var(--gold)}.dd-green{color:var(--green)}.dd-purple{color:#a78bfa}.dd-orange{color:#ffa500}
+        .dd-accent{color:var(--accent)}.dd-gold{color:var(--gold)}.dd-green{color:var(--green)}.dd-purple{color:#00aaff}.dd-orange{color:#ffa500}
         .btn-accent{background:var(--accent);color:#fff;border:none;padding:10px 24px;border-radius:3px;font-weight:600;cursor:pointer;display:inline-block;transition:all 0.2s;font-size:0.9rem;text-decoration:none}
         .btn-accent:hover{background:#0099ee;color:#fff}
         .search-btn{background:none;border:none;cursor:pointer;padding:8px 12px;color:var(--steel);transition:color 0.2s}
@@ -1717,7 +1717,7 @@ if (sessionStorage.getItem('s4_entered') === '1') {
                     <div class="onboard-feature"><div class="onboard-icon" style="background:rgba(0,170,255,0.1);color:var(--accent)"><i class="fas fa-anchor"></i></div><div><strong style="color:#fff">Anchor Records</strong><div style="color:var(--steel);font-size:0.8rem">SHA-256 hash any document to the XRP Ledger in 3-5 seconds</div></div></div>
                     <div class="onboard-feature"><div class="onboard-icon" style="background:rgba(201,168,76,0.1);color:var(--gold)"><i class="fas fa-coins"></i></div><div><strong style="color:#fff">$SLS Token Economy</strong><div style="color:var(--steel);font-size:0.8rem">0.01 SLS per anchor (~$0.0001). Real on-chain token transfers.</div></div></div>
                     <div class="onboard-feature"><div class="onboard-icon" style="background:rgba(0,170,255,0.1);color:var(--green)"><i class="fas fa-brain"></i></div><div><strong style="color:#fff">14 ILS Tools</strong><div style="color:var(--steel);font-size:0.8rem">Gap analysis, DMSMS, readiness, compliance, risk, and more</div></div></div>
-                    <div class="onboard-feature"><div class="onboard-icon" style="background:rgba(167,139,250,0.1);color:#a78bfa"><i class="fas fa-robot"></i></div><div><strong style="color:#fff">AI Agent</strong><div style="color:var(--steel);font-size:0.8rem">Context-aware assistant available on every tool and tab</div></div></div>
+                    <div class="onboard-feature"><div class="onboard-icon" style="background:rgba(0,170,255,0.1);color:#00aaff"><i class="fas fa-robot"></i></div><div><strong style="color:#fff">AI Agent</strong><div style="color:var(--steel);font-size:0.8rem">Context-aware assistant available on every tool and tab</div></div></div>
                     <div style="text-align:center;margin-top:20px"><button class="onboard-btn" onclick="onboardNext()"><i class="fas fa-arrow-right" style="margin-right:6px"></i>Start Setup</button></div>
                 </div>
 
@@ -1780,7 +1780,7 @@ if (sessionStorage.getItem('s4_entered') === '1') {
                             <div style="color:var(--gold);font-weight:700;font-size:0.85rem"><i class="fas fa-long-arrow-alt-right"></i> 0.01 SLS</div>
                             <div style="text-align:center;padding:10px"><div style="font-size:0.72rem;color:var(--steel);margin-bottom:6px">S4 Treasury</div><div style="width:44px;height:44px;border-radius:50%;background:rgba(201,168,76,0.1);display:inline-flex;align-items:center;justify-content:center;color:var(--gold)"><i class="fas fa-landmark"></i></div></div>
                             <div style="color:var(--accent);font-weight:700;font-size:0.85rem"><i class="fas fa-long-arrow-alt-right"></i> XRPL</div>
-                            <div style="text-align:center;padding:10px"><div style="font-size:0.72rem;color:var(--steel);margin-bottom:6px">Immutable Record</div><div style="width:44px;height:44px;border-radius:50%;background:rgba(167,139,250,0.1);display:inline-flex;align-items:center;justify-content:center;color:#a78bfa"><i class="fas fa-lock"></i></div></div>
+                            <div style="text-align:center;padding:10px"><div style="font-size:0.72rem;color:var(--steel);margin-bottom:6px">Immutable Record</div><div style="width:44px;height:44px;border-radius:50%;background:rgba(0,170,255,0.1);display:inline-flex;align-items:center;justify-content:center;color:#00aaff"><i class="fas fa-lock"></i></div></div>
                         </div>
                     </div>
                     <div style="font-size:0.82rem;color:var(--steel);line-height:1.6;margin-bottom:12px">
@@ -2272,7 +2272,7 @@ if (sessionStorage.getItem('s4_entered') === '1') {
                     <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
                         <span style="display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:3px;font-size:0.72rem;font-weight:600;background:rgba(0,204,102,0.08);border:1px solid rgba(0,204,102,0.15);color:#00cc66"><i class="fas fa-circle" style="font-size:0.4rem"></i> Live</span>
                         <span style="display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:3px;font-size:0.72rem;font-weight:600;background:rgba(0,170,255,0.06);border:1px solid rgba(0,170,255,0.12);color:var(--accent)"><i class="fas fa-shield-halved"></i> IL4/IL5</span>
-                        <span class="r16-hdr-btn" onclick="showSavedAnalyses()" style="display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:3px;font-size:0.72rem;font-weight:600;background:rgba(167,139,250,0.06);border:1px solid rgba(167,139,250,0.15);color:#a78bfa;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.background='rgba(167,139,250,0.15)'" onmouseout="this.style.background='rgba(167,139,250,0.06)'"><i class="fas fa-history"></i> My Analyses</span>
+                        <span class="r16-hdr-btn" onclick="showSavedAnalyses()" style="display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:3px;font-size:0.72rem;font-weight:600;background:rgba(0,170,255,0.06);border:1px solid rgba(0,170,255,0.15);color:#00aaff;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.background='rgba(0,170,255,0.15)'" onmouseout="this.style.background='rgba(0,170,255,0.06)'"><i class="fas fa-history"></i> My Analyses</span>
                         <span class="r16-hdr-btn" onclick="showTeamPanel()" style="display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:3px;font-size:0.72rem;font-weight:600;background:rgba(0,170,255,0.06);border:1px solid rgba(0,170,255,0.12);color:var(--accent);cursor:pointer;transition:all 0.2s;" onmouseover="this.style.background='rgba(0,170,255,0.15)'" onmouseout="this.style.background='rgba(0,170,255,0.06)'"><i class="fas fa-users"></i> Team</span>
                         <span class="r16-hdr-btn" onclick="showWebhookSettings()" style="display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:3px;font-size:0.72rem;font-weight:600;background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.15);color:#c9a84c;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.background='rgba(201,168,76,0.15)'" onmouseout="this.style.background='rgba(201,168,76,0.06)'"><i class="fas fa-plug"></i> Webhooks</span>
                         <span class="r16-hdr-btn" onclick="exportPDF()" style="display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:3px;font-size:0.72rem;font-weight:600;background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.15);color:#c9a84c;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.background='rgba(201,168,76,0.15)'" onmouseout="this.style.background='rgba(201,168,76,0.06)'"><i class="fas fa-file-pdf"></i> PDF Export</span>
@@ -2374,38 +2374,38 @@ if (sessionStorage.getItem('s4_entered') === '1') {
                         <div class="itc-desc">Software Bill of Materials — track components, CVEs, and blockchain attestation.</div>
                     </div>
                     <div class="ils-tool-card" onclick="openILSTool('hub-gfp')">
-                        <span class="itc-icon"><i class="fas fa-boxes-stacked" style="color:#a03cff;"></i></span>
+                        <span class="itc-icon"><i class="fas fa-boxes-stacked" style="color:#00aaff;"></i></span>
                         <div class="itc-title">GFP Tracker</div>
                         <div class="itc-desc">Government-Furnished Property tracking — DD 1662, inventory management, and accountability.</div>
                     </div>
                     <div class="ils-tool-card" onclick="openILSTool('hub-cdrl')">
-                        <span class="itc-icon"><i class="fas fa-clipboard-check" style="color:#00c864;"></i></span>
+                        <span class="itc-icon"><i class="fas fa-clipboard-check" style="color:#00aaff;"></i></span>
                         <div class="itc-title">CDRL Validator</div>
                         <div class="itc-desc">Contract Data Requirements List validation — DI format checks and content analysis.</div>
                     </div>
                     <div class="ils-tool-card" onclick="openILSTool('hub-contract')">
-                        <span class="itc-icon"><i class="fas fa-file-contract" style="color:#ffb400;"></i></span>
+                        <span class="itc-icon"><i class="fas fa-file-contract" style="color:#c9a84c;"></i></span>
                         <div class="itc-title">Contract Extractor</div>
                         <div class="itc-desc">AI-powered clause extraction — FAR/DFARS, CDRL detection, and obligation mapping.</div>
                     </div>
                     <div class="ils-tool-card" onclick="openILSTool('hub-provenance')">
-                        <span class="itc-icon"><i class="fas fa-link" style="color:#ff7800;"></i></span>
+                        <span class="itc-icon"><i class="fas fa-link" style="color:#c9a84c;"></i></span>
                         <div class="itc-title">Provenance Chain</div>
                         <div class="itc-desc">Blockchain-verified chain of custody — QR codes and custody transfer tracking.</div>
                     </div>
                     <div class="ils-tool-card" onclick="openILSTool('hub-analytics')">
-                        <span class="itc-icon"><i class="fas fa-chart-pie" style="color:#00dcdc;"></i></span>
+                        <span class="itc-icon"><i class="fas fa-chart-pie" style="color:#00aaff;"></i></span>
                         <div class="itc-title">Cross-Program Analytics</div>
                         <div class="itc-desc">Multi-program dashboard — aggregate metrics, trends, and comparative analysis.</div>
                     </div>
                     <div class="ils-tool-card" onclick="openILSTool('hub-team')">
-                        <span class="itc-icon"><i class="fas fa-users-gear" style="color:#ff6b9d;"></i></span>
+                        <span class="itc-icon"><i class="fas fa-users-gear" style="color:#c9a84c;"></i></span>
                         <div class="itc-title">Team Management</div>
                         <div class="itc-desc">Multi-tenant team operations — invitations, roles, and access control.</div>
                     </div>
 
                 </div>
-                <div id="ilsToolBackBar" style="display:none;margin-bottom:12px;"><div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap"><button class="back-btn" onclick="closeILSTool()" style="background:rgba(0,170,255,0.08);border:1px solid rgba(0,170,255,0.2);color:var(--accent);border-radius:3px;padding:6px 14px;font-size:0.8rem;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px;"><i class="fas fa-arrow-left"></i> Back to Tools</button><div id="toolSlsStrip" style="display:flex;align-items:center;gap:14px;padding:6px 16px;background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.15);border-radius:3px;font-size:0.78rem"><span style="color:var(--steel)"><i class="fas fa-coins" style="color:#c9a84c;margin-right:4px"></i>SLS: <strong id="toolSlsBal" style="color:#c9a84c">--</strong></span><span style="color:var(--steel)"><i class="fas fa-anchor" style="color:var(--accent);margin-right:4px"></i>Anchors: <strong id="toolSlsAnch" style="color:var(--accent)">0</strong></span><span style="color:var(--steel)"><i class="fas fa-bolt" style="color:var(--accent);margin-right:4px"></i>Spent: <strong id="toolSlsSpent" style="color:var(--accent)">0.00</strong> SLS</span><span style="color:#a78bfa;margin-left:8px"><i class="fas fa-robot" style="margin-right:4px"></i>AI Agent Active</span></div></div></div>
+                <div id="ilsToolBackBar" style="display:none;margin-bottom:12px;"><div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap"><button class="back-btn" onclick="closeILSTool()" style="background:rgba(0,170,255,0.08);border:1px solid rgba(0,170,255,0.2);color:var(--accent);border-radius:3px;padding:6px 14px;font-size:0.8rem;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px;"><i class="fas fa-arrow-left"></i> Back to Tools</button><div id="toolSlsStrip" style="display:flex;align-items:center;gap:14px;padding:6px 16px;background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.15);border-radius:3px;font-size:0.78rem"><span style="color:var(--steel)"><i class="fas fa-coins" style="color:#c9a84c;margin-right:4px"></i>SLS: <strong id="toolSlsBal" style="color:#c9a84c">--</strong></span><span style="color:var(--steel)"><i class="fas fa-anchor" style="color:var(--accent);margin-right:4px"></i>Anchors: <strong id="toolSlsAnch" style="color:var(--accent)">0</strong></span><span style="color:var(--steel)"><i class="fas fa-bolt" style="color:var(--accent);margin-right:4px"></i>Spent: <strong id="toolSlsSpent" style="color:var(--accent)">0.00</strong> SLS</span><span style="color:#00aaff;margin-left:8px"><i class="fas fa-robot" style="margin-right:4px"></i>AI Agent Active</span></div></div></div>
 
                 <!-- ══ HUB: GAP ANALYSIS (original ILS content) ══ -->
                 <div class="ils-hub-panel" id="hub-analysis">
@@ -2968,7 +2968,7 @@ if (sessionStorage.getItem('s4_entered') === '1') {
                                 <div style="font-size:0.68rem;color:var(--steel);text-transform:uppercase;letter-spacing:0.5px">Unique Types</div>
                             </div>
                             <div style="background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:10px;text-align:center">
-                                <div style="font-size:1.1rem;font-weight:800;color:#e06c75" id="vmLatestRecord">—</div>
+                                <div style="font-size:1.1rem;font-weight:800;color:#c9a84c" id="vmLatestRecord">—</div>
                                 <div style="font-size:0.68rem;color:var(--steel);text-transform:uppercase;letter-spacing:0.5px">Latest</div>
                             </div>
                             <div style="background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:10px;text-align:center">
@@ -3221,11 +3221,11 @@ if (sessionStorage.getItem('s4_entered') === '1') {
                     </div>
 
                     <!-- ── FedRAMP Alignment ── -->
-                    <div style="margin-top:12px;border:1px solid rgba(167,139,250,0.15);border-radius:3px;overflow:hidden">
-                        <div onclick="toggleComplianceSection('fedramp')" style="cursor:pointer;padding:12px 16px;background:rgba(167,139,250,0.04);display:flex;align-items:center;gap:8px">
-                            <i class="fas fa-cloud-arrow-up" style="color:#a78bfa"></i>
+                    <div style="margin-top:12px;border:1px solid rgba(0,170,255,0.15);border-radius:3px;overflow:hidden">
+                        <div onclick="toggleComplianceSection('fedramp')" style="cursor:pointer;padding:12px 16px;background:rgba(0,170,255,0.04);display:flex;align-items:center;gap:8px">
+                            <i class="fas fa-cloud-arrow-up" style="color:#00aaff"></i>
                             <strong style="color:#fff;font-size:0.92rem">FedRAMP Alignment</strong>
-                            <span id="fedrampLevel" style="background:rgba(167,139,250,0.15);color:#a78bfa;padding:2px 8px;border-radius:3px;font-size:0.72rem;font-weight:600">Moderate</span>
+                            <span id="fedrampLevel" style="background:rgba(0,170,255,0.15);color:#00aaff;padding:2px 8px;border-radius:3px;font-size:0.72rem;font-weight:600">Moderate</span>
                             <i id="fedrampChevron" class="fas fa-chevron-down" style="margin-left:auto;color:var(--steel);font-size:0.75rem;transition:transform 0.3s"></i>
                         </div>
                         <div id="fedrampSection" style="display:none;padding:12px 16px">
@@ -3236,7 +3236,7 @@ if (sessionStorage.getItem('s4_entered') === '1') {
                                     <option value="moderate" selected>Moderate Impact</option>
                                     <option value="high">High Impact</option>
                                 </select>
-                                <button onclick="exportFedRAMP()" class="btn btn-sm hover-lift" style="background:rgba(167,139,250,0.12);color:#a78bfa;border:1px solid rgba(167,139,250,0.2);border-radius:3px;padding:6px 14px;font-size:0.8rem"><i class="fas fa-download"></i> Export Mapping</button>
+                                <button onclick="exportFedRAMP()" class="btn btn-sm hover-lift" style="background:rgba(0,170,255,0.12);color:#00aaff;border:1px solid rgba(0,170,255,0.2);border-radius:3px;padding:6px 14px;font-size:0.8rem"><i class="fas fa-download"></i> Export Mapping</button>
                             </div>
                             <div style="display:flex;gap:16px;margin-bottom:12px;flex-wrap:wrap">
                                 <div style="text-align:center"><div id="fedrampSatisfied" style="font-size:1.6rem;font-weight:800;color:#00aaff">0</div><div style="font-size:0.72rem;color:var(--steel)">Satisfied</div></div>
@@ -3244,12 +3244,12 @@ if (sessionStorage.getItem('s4_entered') === '1') {
                                 <div style="text-align:center"><div id="fedrampNotMet" style="font-size:1.6rem;font-weight:800;color:#ff6b6b">0</div><div style="font-size:0.72rem;color:var(--steel)">Not Met</div></div>
                                 <div style="text-align:center"><div id="fedrampTotal" style="font-size:1.6rem;font-weight:800;color:var(--steel)">0</div><div style="font-size:0.72rem;color:var(--steel)">Total Controls</div></div>
                             </div>
-                            <div class="compliance-row" style="margin-bottom:4px"><span class="compliance-label" style="font-size:0.8rem"><i class="fas fa-shield-halved" style="color:#a78bfa;margin-right:6px"></i>Access Control (AC)</span><div class="compliance-bar"><div class="fill" id="fedrampBarAC" style="width:0%;background:linear-gradient(90deg,#a78bfa,#c4b5fd)"></div></div><span class="compliance-pct" id="fedrampPctAC">—</span></div>
-                            <div class="compliance-row" style="margin-bottom:4px"><span class="compliance-label" style="font-size:0.8rem"><i class="fas fa-clipboard-list" style="color:#a78bfa;margin-right:6px"></i>Audit & Accountability (AU)</span><div class="compliance-bar"><div class="fill" id="fedrampBarAU" style="width:0%;background:linear-gradient(90deg,#a78bfa,#c4b5fd)"></div></div><span class="compliance-pct" id="fedrampPctAU">—</span></div>
-                            <div class="compliance-row" style="margin-bottom:4px"><span class="compliance-label" style="font-size:0.8rem"><i class="fas fa-cogs" style="color:#a78bfa;margin-right:6px"></i>Config Management (CM)</span><div class="compliance-bar"><div class="fill" id="fedrampBarCM" style="width:0%;background:linear-gradient(90deg,#a78bfa,#c4b5fd)"></div></div><span class="compliance-pct" id="fedrampPctCM">—</span></div>
-                            <div class="compliance-row" style="margin-bottom:4px"><span class="compliance-label" style="font-size:0.8rem"><i class="fas fa-id-card" style="color:#a78bfa;margin-right:6px"></i>Identification & Auth (IA)</span><div class="compliance-bar"><div class="fill" id="fedrampBarIA" style="width:0%;background:linear-gradient(90deg,#a78bfa,#c4b5fd)"></div></div><span class="compliance-pct" id="fedrampPctIA">—</span></div>
-                            <div class="compliance-row" style="margin-bottom:4px"><span class="compliance-label" style="font-size:0.8rem"><i class="fas fa-fire-extinguisher" style="color:#a78bfa;margin-right:6px"></i>Incident Response (IR)</span><div class="compliance-bar"><div class="fill" id="fedrampBarIR" style="width:0%;background:linear-gradient(90deg,#a78bfa,#c4b5fd)"></div></div><span class="compliance-pct" id="fedrampPctIR">—</span></div>
-                            <div class="compliance-row"><span class="compliance-label" style="font-size:0.8rem"><i class="fas fa-network-wired" style="color:#a78bfa;margin-right:6px"></i>System & Comms (SC)</span><div class="compliance-bar"><div class="fill" id="fedrampBarSC" style="width:0%;background:linear-gradient(90deg,#a78bfa,#c4b5fd)"></div></div><span class="compliance-pct" id="fedrampPctSC">—</span></div>
+                            <div class="compliance-row" style="margin-bottom:4px"><span class="compliance-label" style="font-size:0.8rem"><i class="fas fa-shield-halved" style="color:#00aaff;margin-right:6px"></i>Access Control (AC)</span><div class="compliance-bar"><div class="fill" id="fedrampBarAC" style="width:0%;background:linear-gradient(90deg,#00aaff,#66ccff)"></div></div><span class="compliance-pct" id="fedrampPctAC">—</span></div>
+                            <div class="compliance-row" style="margin-bottom:4px"><span class="compliance-label" style="font-size:0.8rem"><i class="fas fa-clipboard-list" style="color:#00aaff;margin-right:6px"></i>Audit & Accountability (AU)</span><div class="compliance-bar"><div class="fill" id="fedrampBarAU" style="width:0%;background:linear-gradient(90deg,#00aaff,#66ccff)"></div></div><span class="compliance-pct" id="fedrampPctAU">—</span></div>
+                            <div class="compliance-row" style="margin-bottom:4px"><span class="compliance-label" style="font-size:0.8rem"><i class="fas fa-cogs" style="color:#00aaff;margin-right:6px"></i>Config Management (CM)</span><div class="compliance-bar"><div class="fill" id="fedrampBarCM" style="width:0%;background:linear-gradient(90deg,#00aaff,#66ccff)"></div></div><span class="compliance-pct" id="fedrampPctCM">—</span></div>
+                            <div class="compliance-row" style="margin-bottom:4px"><span class="compliance-label" style="font-size:0.8rem"><i class="fas fa-id-card" style="color:#00aaff;margin-right:6px"></i>Identification & Auth (IA)</span><div class="compliance-bar"><div class="fill" id="fedrampBarIA" style="width:0%;background:linear-gradient(90deg,#00aaff,#66ccff)"></div></div><span class="compliance-pct" id="fedrampPctIA">—</span></div>
+                            <div class="compliance-row" style="margin-bottom:4px"><span class="compliance-label" style="font-size:0.8rem"><i class="fas fa-fire-extinguisher" style="color:#00aaff;margin-right:6px"></i>Incident Response (IR)</span><div class="compliance-bar"><div class="fill" id="fedrampBarIR" style="width:0%;background:linear-gradient(90deg,#00aaff,#66ccff)"></div></div><span class="compliance-pct" id="fedrampPctIR">—</span></div>
+                            <div class="compliance-row"><span class="compliance-label" style="font-size:0.8rem"><i class="fas fa-network-wired" style="color:#00aaff;margin-right:6px"></i>System & Comms (SC)</span><div class="compliance-bar"><div class="fill" id="fedrampBarSC" style="width:0%;background:linear-gradient(90deg,#00aaff,#66ccff)"></div></div><span class="compliance-pct" id="fedrampPctSC">—</span></div>
                         </div>
                     </div>
 
@@ -3385,21 +3385,21 @@ if (sessionStorage.getItem('s4_entered') === '1') {
                     </div>
 
                     <!-- ── Document AI Extraction ── -->
-                    <div style="margin-top:12px;border:1px solid rgba(167,139,250,0.15);border-radius:3px;overflow:hidden">
-                        <div onclick="toggleComplianceSection('docAI')" style="cursor:pointer;padding:12px 16px;background:rgba(167,139,250,0.04);display:flex;align-items:center;gap:8px">
-                            <i class="fas fa-file-invoice" style="color:#a78bfa"></i>
+                    <div style="margin-top:12px;border:1px solid rgba(0,170,255,0.15);border-radius:3px;overflow:hidden">
+                        <div onclick="toggleComplianceSection('docAI')" style="cursor:pointer;padding:12px 16px;background:rgba(0,170,255,0.04);display:flex;align-items:center;gap:8px">
+                            <i class="fas fa-file-invoice" style="color:#00aaff"></i>
                             <strong style="color:#fff;font-size:0.92rem">Document AI — Data Extraction</strong>
-                            <span style="background:rgba(167,139,250,0.15);color:#a78bfa;padding:2px 8px;border-radius:3px;font-size:0.7rem;font-weight:600">CLIENT-SIDE</span>
+                            <span style="background:rgba(0,170,255,0.15);color:#00aaff;padding:2px 8px;border-radius:3px;font-size:0.7rem;font-weight:600">CLIENT-SIDE</span>
                             <i id="docAIChevron" class="fas fa-chevron-down" style="margin-left:auto;color:var(--steel);font-size:0.75rem;transition:transform 0.3s"></i>
                         </div>
                         <div id="docAISection" style="display:none;padding:12px 16px">
                             <p style="color:var(--steel);font-size:0.82rem;margin-bottom:12px">Extract structured data from uploaded defense documents — auto-detect NSNs, CAGE codes, part numbers, dates, and dollar amounts. Feeds extracted data into the risk analysis pipeline for automated risk scoring.</p>
                             <div style="display:flex;gap:8px;margin-bottom:12px;align-items:center">
-                                <label class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#a78bfa,#8b5cf6);color:#fff;border:none;border-radius:3px;padding:6px 14px;font-size:0.82rem;cursor:pointer;margin:0">
+                                <label class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#00aaff,#8b5cf6);color:#fff;border:none;border-radius:3px;padding:6px 14px;font-size:0.82rem;cursor:pointer;margin:0">
                                     <i class="fas fa-upload"></i> Upload Document
                                     <input type="file" id="docAIFileInput" onchange="runDocAIExtraction(this)" accept=".txt,.csv,.json,.xml" style="display:none">
                                 </label>
-                                <button onclick="runDocAIDemoExtraction()" class="btn btn-sm hover-lift" style="background:rgba(167,139,250,0.12);color:#a78bfa;border:1px solid rgba(167,139,250,0.2);border-radius:3px;padding:6px 14px;font-size:0.82rem"><i class="fas fa-play"></i> Demo Extract</button>
+                                <button onclick="runDocAIDemoExtraction()" class="btn btn-sm hover-lift" style="background:rgba(0,170,255,0.12);color:#00aaff;border:1px solid rgba(0,170,255,0.2);border-radius:3px;padding:6px 14px;font-size:0.82rem"><i class="fas fa-play"></i> Demo Extract</button>
                             </div>
                             <div id="docAIOutput"></div>
                         </div>
@@ -3648,7 +3648,7 @@ if (sessionStorage.getItem('s4_entered') === '1') {
                     <p style="color:var(--steel);font-size:0.9rem;margin-bottom:0.5rem">Upload and compare ILS data submissions from OEMs, shipbuilders, vendors, and contractors for Navy programs and programs. Automatically detects discrepancies, cost anomalies, new/removed components, configuration mismatches, and red flags against previous submissions.</p>
 
                     <details style="margin-bottom:1rem;background:rgba(224,108,117,0.04);border:1px solid rgba(224,108,117,0.15);border-radius:3px;padding:0 12px;">
-                        <summary style="cursor:pointer;padding:10px 0;color:#e06c75;font-weight:600;font-size:0.85rem;">
+                        <summary style="cursor:pointer;padding:10px 0;color:#c9a84c;font-weight:600;font-size:0.85rem;">
                             <i class="fas fa-info-circle"></i> How It Works — Submissions &amp; PTD — Submission Intelligence &amp; Discrepancy Detection
                         </summary>
                         <div style="padding:0 0 12px;color:var(--steel);font-size:0.82rem;line-height:1.6;">
@@ -3727,7 +3727,7 @@ if (sessionStorage.getItem('s4_entered') === '1') {
                     <div style="margin-bottom:12px;padding:10px;border-radius:3px;background:rgba(0,170,255,0.06);border:1px solid rgba(201,168,76,0.15)">
                         <div style="font-size:.8rem;font-weight:700;color:#00aaff;margin-bottom:6px"><i class="fas fa-download"></i> Download Sample Submission Files</div>
                         <div style="display:flex;gap:6px;flex-wrap:wrap;">
-                            <button onclick="downloadSampleFile('VRS')" class="btn btn-sm" style="background:rgba(224,108,117,0.12);color:#e06c75;border:1px solid rgba(224,108,117,0.3);border-radius:3px;font-size:.72rem;padding:3px 10px"><i class="fas fa-file-csv"></i> Sample VRS (.csv)</button>
+                            <button onclick="downloadSampleFile('VRS')" class="btn btn-sm" style="background:rgba(224,108,117,0.12);color:#c9a84c;border:1px solid rgba(224,108,117,0.3);border-radius:3px;font-size:.72rem;padding:3px 10px"><i class="fas fa-file-csv"></i> Sample VRS (.csv)</button>
                             <button onclick="downloadSampleFile('IUID')" class="btn btn-sm" style="background:rgba(0,170,255,0.1);color:#00aaff;border:1px solid rgba(0,170,255,0.3);border-radius:3px;font-size:.72rem;padding:3px 10px"><i class="fas fa-file-csv"></i> Sample IUID (.csv)</button>
                             <button onclick="downloadSampleFile('BOM')" class="btn btn-sm" style="background:rgba(0,170,255,0.06);color:#00aaff;border:1px solid rgba(0,170,255,0.3);border-radius:3px;font-size:.72rem;padding:3px 10px"><i class="fas fa-file-csv"></i> Sample BOM (.csv)</button>
                             <button onclick="downloadSampleFile('CONFIG_DWG')" class="btn btn-sm" style="background:rgba(0,170,255,0.06);color:#00aaff;border:1px solid rgba(0,170,255,0.15);border-radius:3px;font-size:.72rem;padding:3px 10px"><i class="fas fa-file-csv"></i> Sample Config (.csv)</button>
@@ -3735,9 +3735,9 @@ if (sessionStorage.getItem('s4_entered') === '1') {
                         </div>
                         <div style="font-size:.7rem;color:var(--steel);margin-top:4px">Download these, then upload to test the Submissions &amp; PTD discrepancy engine with realistic data.</div>
                     </div>
-                    <div id="subUploadZone" onclick="document.getElementById('subFileInput').click()" style="border:2px dashed rgba(224,108,117,0.35);border-radius:3px;padding:28px;text-align:center;cursor:pointer;margin-bottom:12px;background:rgba(224,108,117,0.04);transition:all 0.3s" ondragover="event.preventDefault();event.stopPropagation();this.style.borderColor='#e06c75'" ondragleave="this.style.borderColor='rgba(224,108,117,0.35)'" ondrop="handleSubFileDrop(event)">
-                        <i class="fas fa-cloud-upload-alt" style="font-size:2rem;color:#e06c75;margin-bottom:8px;display:block"></i>
-                        <div style="color:#e06c75;font-weight:600;font-size:.9rem">Upload Submission Data</div>
+                    <div id="subUploadZone" onclick="document.getElementById('subFileInput').click()" style="border:2px dashed rgba(224,108,117,0.35);border-radius:3px;padding:28px;text-align:center;cursor:pointer;margin-bottom:12px;background:rgba(224,108,117,0.04);transition:all 0.3s" ondragover="event.preventDefault();event.stopPropagation();this.style.borderColor='#c9a84c'" ondragleave="this.style.borderColor='rgba(224,108,117,0.35)'" ondrop="handleSubFileDrop(event)">
+                        <i class="fas fa-cloud-upload-alt" style="font-size:2rem;color:#c9a84c;margin-bottom:8px;display:block"></i>
+                        <div style="color:#c9a84c;font-weight:600;font-size:.9rem">Upload Submission Data</div>
                         <div style="color:var(--steel);font-size:.78rem;margin-top:4px">CSV, Excel (.xlsx), XML, JSON, PDF, or paste data below</div>
                         <div style="color:var(--steel);font-size:.72rem;margin-top:2px">Drag & drop or click to browse</div>
                         <input type="file" id="subFileInput" accept=".csv,.xlsx,.xls,.xml,.json,.pdf,.txt" multiple style="display:none" onchange="handleSubFileUpload(event)" />
@@ -3757,7 +3757,7 @@ if (sessionStorage.getItem('s4_entered') === '1') {
 
                     <!-- Analysis Controls -->
                     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:1rem">
-                        <button onclick="analyzeSubmission()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#e06c75,#c0525b);color:#fff;border:none;border-radius:3px;padding:8px 16px;font-weight:700"><i class="fas fa-magnifying-glass-chart"></i> Analyze &amp; Compare</button>
+                        <button onclick="analyzeSubmission()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#c9a84c,#c0525b);color:#fff;border:none;border-radius:3px;padding:8px 16px;font-weight:700"><i class="fas fa-magnifying-glass-chart"></i> Analyze &amp; Compare</button>
                         <button onclick="runSubmissionDemo()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#9945ff,#7733cc);color:#fff;border:none;border-radius:3px;padding:8px 16px"><i class="fas fa-play"></i> Run Demo Analysis</button>
                         <button onclick="anchorSubmissionReview()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;border-radius:3px;padding:8px 16px"><i class="fas fa-anchor"></i> Anchor Review to XRPL</button>
                         <button onclick="exportDiscrepancyReport()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;border-radius:3px;padding:8px 16px"><i class="fas fa-file-pdf"></i> Export Discrepancy Report</button>
@@ -3789,13 +3789,13 @@ if (sessionStorage.getItem('s4_entered') === '1') {
                             <table class="table table-sm" style="color:var(--steel);font-size:.78rem;margin:0">
                                 <thead style="position:sticky;top:0;background:var(--surface);z-index:1">
                                     <tr>
-                                        <th style="color:#e06c75;border-color:var(--border);padding:6px 8px">Severity</th>
-                                        <th style="color:#e06c75;border-color:var(--border);padding:6px 8px">Category</th>
-                                        <th style="color:#e06c75;border-color:var(--border);padding:6px 8px">Item / Part</th>
-                                        <th style="color:#e06c75;border-color:var(--border);padding:6px 8px">Issue</th>
-                                        <th style="color:#e06c75;border-color:var(--border);padding:6px 8px">Previous</th>
-                                        <th style="color:#e06c75;border-color:var(--border);padding:6px 8px">Current</th>
-                                        <th style="color:#e06c75;border-color:var(--border);padding:6px 8px">Impact</th>
+                                        <th style="color:#c9a84c;border-color:var(--border);padding:6px 8px">Severity</th>
+                                        <th style="color:#c9a84c;border-color:var(--border);padding:6px 8px">Category</th>
+                                        <th style="color:#c9a84c;border-color:var(--border);padding:6px 8px">Item / Part</th>
+                                        <th style="color:#c9a84c;border-color:var(--border);padding:6px 8px">Issue</th>
+                                        <th style="color:#c9a84c;border-color:var(--border);padding:6px 8px">Previous</th>
+                                        <th style="color:#c9a84c;border-color:var(--border);padding:6px 8px">Current</th>
+                                        <th style="color:#c9a84c;border-color:var(--border);padding:6px 8px">Impact</th>
                                     </tr>
                                 </thead>
                                 <tbody id="subDiscrepancyTable"></tbody>
@@ -3843,7 +3843,7 @@ if (sessionStorage.getItem('s4_entered') === '1') {
             <!-- ══ HUB: GFP TRACKER — GOVERNMENT-FURNISHED PROPERTY ══ -->
             <div class="ils-hub-panel" id="hub-gfp">
                 <div class="s4-card">
-                    <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-boxes-stacked" style="color:#a03cff"></i> GFP Tracker <span style="margin-left:auto;font-size:0.7rem;padding:3px 10px;background:rgba(160,60,255,0.1);border:1px solid rgba(160,60,255,0.3);border-radius:3px;color:#a03cff;font-weight:700">Demo</span></h3>
+                    <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-boxes-stacked" style="color:#00aaff"></i> GFP Tracker <span style="margin-left:auto;font-size:0.7rem;padding:3px 10px;background:rgba(160,60,255,0.1);border:1px solid rgba(160,60,255,0.3);border-radius:3px;color:#00aaff;font-weight:700">Demo</span></h3>
                     <p style="color:var(--steel);font-size:0.9rem;margin-bottom:1rem">Government-Furnished Property tracking per FAR 52.245-1. Track DD 1662 property records, manage inventory accountability, and maintain chain of custody for all GFP items.</p>
                     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:16px">
                         <div class="stat-mini"><div class="stat-mini-val">0</div><div class="stat-mini-lbl">Items Tracked</div></div>
@@ -3860,7 +3860,7 @@ if (sessionStorage.getItem('s4_entered') === '1') {
             <!-- ══ HUB: CDRL VALIDATOR ══ -->
             <div class="ils-hub-panel" id="hub-cdrl">
                 <div class="s4-card">
-                    <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-clipboard-check" style="color:#00c864"></i> CDRL Validator <span style="margin-left:auto;font-size:0.7rem;padding:3px 10px;background:rgba(0,200,100,0.1);border:1px solid rgba(0,200,100,0.3);border-radius:3px;color:#00c864;font-weight:700">Demo</span></h3>
+                    <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-clipboard-check" style="color:#00aaff"></i> CDRL Validator <span style="margin-left:auto;font-size:0.7rem;padding:3px 10px;background:rgba(0,200,100,0.1);border:1px solid rgba(0,200,100,0.3);border-radius:3px;color:#00aaff;font-weight:700">Demo</span></h3>
                     <p style="color:var(--steel);font-size:0.9rem;margin-bottom:1rem">Contract Data Requirements List validation engine. Validates CDRL items against DI format requirements, checks content completeness, and ensures compliance with MIL-STD-963.</p>
                     <div style="min-height:100px;color:var(--steel);font-size:0.85rem;text-align:center;padding:40px 20px">
                         <i class="fas fa-clipboard-check" style="font-size:2rem;color:rgba(0,200,100,0.3);margin-bottom:8px;display:block"></i>
@@ -3872,7 +3872,7 @@ if (sessionStorage.getItem('s4_entered') === '1') {
             <!-- ══ HUB: CONTRACT EXTRACTOR ══ -->
             <div class="ils-hub-panel" id="hub-contract">
                 <div class="s4-card">
-                    <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-file-contract" style="color:#ffb400"></i> Contract Extractor <span style="margin-left:auto;font-size:0.7rem;padding:3px 10px;background:rgba(255,180,0,0.1);border:1px solid rgba(255,180,0,0.3);border-radius:3px;color:#ffb400;font-weight:700">Demo</span></h3>
+                    <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-file-contract" style="color:#c9a84c"></i> Contract Extractor <span style="margin-left:auto;font-size:0.7rem;padding:3px 10px;background:rgba(255,180,0,0.1);border:1px solid rgba(255,180,0,0.3);border-radius:3px;color:#c9a84c;font-weight:700">Demo</span></h3>
                     <p style="color:var(--steel);font-size:0.9rem;margin-bottom:1rem">AI-powered contract clause extraction. Upload contract documents and automatically extract FAR/DFARS clauses, CDRL requirements, and key terms.</p>
                     <div style="min-height:100px;color:var(--steel);font-size:0.85rem;text-align:center;padding:40px 20px">
                         <i class="fas fa-file-contract" style="font-size:2rem;color:rgba(255,180,0,0.3);margin-bottom:8px;display:block"></i>
@@ -3884,7 +3884,7 @@ if (sessionStorage.getItem('s4_entered') === '1') {
             <!-- ══ HUB: PROVENANCE CHAIN ══ -->
             <div class="ils-hub-panel" id="hub-provenance">
                 <div class="s4-card">
-                    <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-link" style="color:#ff7800"></i> Provenance Chain <span style="margin-left:auto;font-size:0.7rem;padding:3px 10px;background:rgba(255,120,0,0.1);border:1px solid rgba(255,120,0,0.3);border-radius:3px;color:#ff7800;font-weight:700">Demo</span></h3>
+                    <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-link" style="color:#c9a84c"></i> Provenance Chain <span style="margin-left:auto;font-size:0.7rem;padding:3px 10px;background:rgba(255,120,0,0.1);border:1px solid rgba(255,120,0,0.3);border-radius:3px;color:#c9a84c;font-weight:700">Demo</span></h3>
                     <p style="color:var(--steel);font-size:0.9rem;margin-bottom:1rem">Blockchain-verified chain of custody and provenance tracking. Every custody transfer is anchored to the XRP Ledger with QR code generation.</p>
                     <div style="min-height:100px;color:var(--steel);font-size:0.85rem;text-align:center;padding:40px 20px">
                         <i class="fas fa-link" style="font-size:2rem;color:rgba(255,120,0,0.3);margin-bottom:8px;display:block"></i>
@@ -3896,7 +3896,7 @@ if (sessionStorage.getItem('s4_entered') === '1') {
             <!-- ══ HUB: CROSS-PROGRAM ANALYTICS ══ -->
             <div class="ils-hub-panel" id="hub-analytics">
                 <div class="s4-card">
-                    <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-chart-pie" style="color:#00dcdc"></i> Cross-Program Analytics <span style="margin-left:auto;font-size:0.7rem;padding:3px 10px;background:rgba(0,220,220,0.1);border:1px solid rgba(0,220,220,0.3);border-radius:3px;color:#00dcdc;font-weight:700">Demo</span></h3>
+                    <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-chart-pie" style="color:#00aaff"></i> Cross-Program Analytics <span style="margin-left:auto;font-size:0.7rem;padding:3px 10px;background:rgba(0,220,220,0.1);border:1px solid rgba(0,220,220,0.3);border-radius:3px;color:#00aaff;font-weight:700">Demo</span></h3>
                     <p style="color:var(--steel);font-size:0.9rem;margin-bottom:1rem">Aggregate analytics dashboard spanning all ILS tools and programs. View upload trends, compliance metrics, and portfolio-wide insights.</p>
                     <div style="min-height:100px;color:var(--steel);font-size:0.85rem;text-align:center;padding:40px 20px">
                         <i class="fas fa-chart-pie" style="font-size:2rem;color:rgba(0,220,220,0.3);margin-bottom:8px;display:block"></i>
@@ -3908,7 +3908,7 @@ if (sessionStorage.getItem('s4_entered') === '1') {
             <!-- ══ HUB: TEAM MANAGEMENT ══ -->
             <div class="ils-hub-panel" id="hub-team">
                 <div class="s4-card">
-                    <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-users-gear" style="color:#ff6b9d"></i> Team Management <span style="margin-left:auto;font-size:0.7rem;padding:3px 10px;background:rgba(255,107,157,0.1);border:1px solid rgba(255,107,157,0.3);border-radius:3px;color:#ff6b9d;font-weight:700">Demo</span></h3>
+                    <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-users-gear" style="color:#c9a84c"></i> Team Management <span style="margin-left:auto;font-size:0.7rem;padding:3px 10px;background:rgba(255,107,157,0.1);border:1px solid rgba(255,107,157,0.3);border-radius:3px;color:#c9a84c;font-weight:700">Demo</span></h3>
                     <p style="color:var(--steel);font-size:0.9rem;margin-bottom:1rem">Multi-tenant team operations. Create teams, invite members, assign roles, and manage access control across all ILS tools.</p>
                     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:16px">
                         <div class="stat-mini"><div class="stat-mini-val">0</div><div class="stat-mini-lbl">Teams</div></div>
@@ -10209,7 +10209,7 @@ function showDocUpload() {
         + '<textarea id="newDocContent" rows="6" style="background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.15);border-radius:3px;padding:10px;font-family:monospace;font-size:0.82rem" placeholder="Paste document content or notes..."></textarea>'
         + '<select id="newDocCat" style="background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.15);border-radius:3px;padding:10px"><option>ILS</option><option>DMSMS</option><option>Readiness</option><option>Cybersecurity</option><option>Quality</option><option>Logistics</option><option>Configuration</option><option>Other</option></select>'
         + '<div id="docUploadDropzone" ondragover="event.preventDefault();event.stopPropagation();this.style.borderColor=\'var(--accent)\';this.style.background=\'rgba(0,170,255,0.08)\'" ondragleave="this.style.borderColor=\'rgba(0,170,255,0.3)\';this.style.background=\'rgba(0,170,255,0.02)\'" ondrop="event.preventDefault();event.stopPropagation();this.style.borderColor=\'rgba(0,170,255,0.3)\';this.style.background=\'rgba(0,170,255,0.02)\';if(event.dataTransfer.files.length){var inp=document.getElementById(\'newDocFile\');inp.files=event.dataTransfer.files;handleDocFileSelect(inp)}" onclick="document.getElementById(\'newDocFile\').click()" style="border:2px dashed rgba(0,170,255,0.3);border-radius:3px;padding:28px 20px;text-align:center;color:var(--muted);cursor:pointer;background:rgba(0,170,255,0.02);transition:all 0.3s"><i class="fas fa-cloud-upload-alt" style="font-size:2rem;margin-bottom:10px;display:block;color:var(--accent)"></i><div style=\'font-size:0.9rem;color:var(--steel);font-weight:600;margin-bottom:6px\'>Drag & drop your file here</div><div style=\'font-size:0.78rem;color:var(--muted)\'>or <span style=\'color:var(--accent);text-decoration:underline\'>click to browse</span></div><div style=\'font-size:0.72rem;color:var(--muted);margin-top:8px\'>PDF, Word, Excel, CSV, TXT — any document type</div><input type="file" id="newDocFile" style="display:none" accept=".pdf,.docx,.xlsx,.txt,.csv,.json" onchange="handleDocFileSelect(this)"></div>'
-        + '<div style="background:rgba(167,139,250,0.06);border:1px solid rgba(167,139,250,0.15);border-radius:3px;padding:10px 14px;margin-top:12px;font-size:0.78rem;color:var(--steel)"><i class="fas fa-robot" style="color:#a78bfa;margin-right:6px"></i><strong style="color:#a78bfa">S4 AI Agent</strong> will automatically scan uploads for discrepancies, compliance gaps, unauthorized changes, and red flags.</div>'
+        + '<div style="background:rgba(0,170,255,0.06);border:1px solid rgba(0,170,255,0.15);border-radius:3px;padding:10px 14px;margin-top:12px;font-size:0.78rem;color:var(--steel)"><i class="fas fa-robot" style="color:#00aaff;margin-right:6px"></i><strong style="color:#00aaff">S4 AI Agent</strong> will automatically scan uploads for discrepancies, compliance gaps, unauthorized changes, and red flags.</div>'
         + '<div id="newDocFileInfo" style="display:none;padding:8px;background:rgba(0,204,102,0.06);border:1px solid rgba(0,204,102,0.2);border-radius:3px;font-size:0.82rem;color:#00cc66"></div>'
         + '</div>'
         + '<div style="display:flex;gap:10px;margin-top:20px;justify-content:flex-end">'
@@ -10339,7 +10339,7 @@ function showDiffResult(docId, diff, flags) {
     modal.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.7);z-index:10000;display:flex;align-items:center;justify-content:center';
     var html = '<div style="background:var(--card);border:1px solid var(--border);border-radius:3px;padding:32px;max-width:640px;width:90%;max-height:80vh;overflow-y:auto">'
         + '<h3 style="color:#fff;margin:0 0 16px"><i class="fas fa-brain" style="color:#c9a84c;margin-right:8px"></i>Document Intelligence Analysis: '+docId+'</h3>'
-                + '<div style="background:rgba(167,139,250,0.06);border:1px solid rgba(167,139,250,0.15);border-radius:3px;padding:10px 14px;margin-bottom:16px;font-size:0.8rem;color:var(--steel)"><i class="fas fa-robot" style="color:#a78bfa;margin-right:6px"></i><strong style="color:#a78bfa">S4 AI Agent:</strong> Analyzed document for discrepancies, unauthorized changes, errors, omissions, and cost modifications.</div>'
+                + '<div style="background:rgba(0,170,255,0.06);border:1px solid rgba(0,170,255,0.15);border-radius:3px;padding:10px 14px;margin-bottom:16px;font-size:0.8rem;color:var(--steel)"><i class="fas fa-robot" style="color:#00aaff;margin-right:6px"></i><strong style="color:#00aaff">S4 AI Agent:</strong> Analyzed document for discrepancies, unauthorized changes, errors, omissions, and cost modifications.</div>'
         + '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px">'
         + '<div style="background:rgba(0,204,102,0.06);border:1px solid rgba(0,204,102,0.2);border-radius:3px;padding:12px;text-align:center"><div style="font-size:1.4rem;font-weight:800;color:#00cc66">+'+diff.added+'</div><div style="font-size:0.75rem;color:var(--steel)">Lines Added</div></div>'
         + '<div style="background:rgba(255,68,68,0.06);border:1px solid rgba(255,68,68,0.2);border-radius:3px;padding:12px;text-align:center"><div style="font-size:1.4rem;font-weight:800;color:#ff4444">-'+diff.removed+'</div><div style="font-size:0.75rem;color:var(--steel)">Lines Removed</div></div>'
@@ -10832,7 +10832,7 @@ function calcFedRAMP() {
         var bar = document.getElementById('fedrampBar' + fam);
         var pctEl = document.getElementById('fedrampPct' + fam);
         if (bar) bar.style.width = pct + '%';
-        if (pctEl) { pctEl.textContent = pct + '%'; pctEl.style.color = pct >= 75 ? '#a78bfa' : pct >= 50 ? '#c9a84c' : '#ff6b6b'; }
+        if (pctEl) { pctEl.textContent = pct + '%'; pctEl.style.color = pct >= 75 ? '#00aaff' : pct >= 50 ? '#c9a84c' : '#ff6b6b'; }
     });
 
     var el = function(id, val) { var e = document.getElementById(id); if(e) e.textContent = val; };
@@ -11268,15 +11268,15 @@ function _extractFromText(text, filename) {
     var milSpecs = text.match(/MIL-[A-Z]+-\d+[A-Z]*/gi) || [];
     var diCodes = text.match(/DI-[A-Z]+-\d+[A-Z]*/gi) || [];
 
-    var html = '<div style="border:1px solid rgba(167,139,250,0.2);border-radius:3px;overflow:hidden">';
-    html += '<div style="padding:10px 14px;background:rgba(167,139,250,0.08);border-bottom:1px solid rgba(167,139,250,0.15)"><strong style="color:#fff"><i class="fas fa-file-invoice" style="color:#a78bfa;margin-right:6px"></i>' + filename + '</strong> <span style="color:var(--steel);font-size:0.72rem">(' + text.length + ' chars)</span></div>';
+    var html = '<div style="border:1px solid rgba(0,170,255,0.2);border-radius:3px;overflow:hidden">';
+    html += '<div style="padding:10px 14px;background:rgba(0,170,255,0.08);border-bottom:1px solid rgba(0,170,255,0.15)"><strong style="color:#fff"><i class="fas fa-file-invoice" style="color:#00aaff;margin-right:6px"></i>' + filename + '</strong> <span style="color:var(--steel);font-size:0.72rem">(' + text.length + ' chars)</span></div>';
     html += '<div style="padding:12px 14px">';
 
     var sections = [
         { label:'NSNs Detected', items:nsns, color:'#00aaff', icon:'fa-barcode' },
         { label:'CAGE Codes', items:cages, color:'#c9a84c', icon:'fa-building' },
         { label:'Dollar Amounts', items:dollars, color:'#00cc88', icon:'fa-dollar-sign' },
-        { label:'Dates', items:dates, color:'#a78bfa', icon:'fa-calendar' },
+        { label:'Dates', items:dates, color:'#00aaff', icon:'fa-calendar' },
         { label:'Contract Numbers', items:contracts, color:'#ff6b6b', icon:'fa-file-contract' },
         { label:'MIL-STD References', items:milSpecs, color:'#c9a84c', icon:'fa-shield-halved' },
         { label:'DI Codes', items:diCodes, color:'#00aaff', icon:'fa-hashtag' }
@@ -11289,7 +11289,7 @@ function _extractFromText(text, filename) {
     });
 
     var totalExtracted = sections.reduce(function(sum, s) { return sum + s.items.length; }, 0);
-    html += '<div style="margin-top:10px;padding:8px;background:rgba(167,139,250,0.06);border-radius:3px;font-size:0.78rem;color:var(--steel)"><strong style="color:#a78bfa">' + totalExtracted + ' data points</strong> extracted from document. In production, extracted data auto-populates CDRL tracking, procurement forms, and compliance evidence.</div>';
+    html += '<div style="margin-top:10px;padding:8px;background:rgba(0,170,255,0.06);border-radius:3px;font-size:0.78rem;color:var(--steel)"><strong style="color:#00aaff">' + totalExtracted + ' data points</strong> extracted from document. In production, extracted data auto-populates CDRL tracking, procurement forms, and compliance evidence.</div>';
     html += '</div></div>';
     out.innerHTML = html;
     showWorkspaceNotification('AI extracted ' + totalExtracted + ' data points from ' + filename);
@@ -11327,7 +11327,7 @@ function renderTemplates() {
     if (!list) return;
     var filtered = _templateFilter === 'all' ? _templates : _templates.filter(function(t) { return t.category === _templateFilter; });
     list.innerHTML = filtered.map(function(t) {
-        var catColor = t.category === 'contract' ? '#c9a84c' : t.category === 'engineering' ? '#00aaff' : t.category === 'logistics' ? '#a78bfa' : '#00cc88';
+        var catColor = t.category === 'contract' ? '#c9a84c' : t.category === 'engineering' ? '#00aaff' : t.category === 'logistics' ? '#00aaff' : '#00cc88';
         return '<div style="display:flex;align-items:flex-start;gap:10px;padding:10px;margin-bottom:4px;background:rgba(255,255,255,0.02);border-radius:3px;border-left:3px solid ' + catColor + '">'
             + '<i class="fas ' + t.icon + '" style="color:' + catColor + ';font-size:1.1rem;margin-top:2px"></i>'
             + '<div style="flex:1"><div style="color:#fff;font-size:0.82rem;font-weight:600">' + t.name + ' <span style="color:var(--steel);font-size:0.68rem;font-weight:400">' + t.id + '</span></div><div style="color:var(--steel);font-size:0.75rem;margin-top:2px">' + t.desc + '</div><div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:6px">' + t.fields.map(function(f) { return '<span style="background:' + catColor + '11;color:' + catColor + ';padding:1px 6px;border-radius:3px;font-size:0.68rem">' + f + '</span>'; }).join('') + '</div></div>'
@@ -12441,7 +12441,7 @@ function clearSubmissionReview() {
     document.getElementById('subDiscrepancyTable').innerHTML = '';
     document.getElementById('subResultsContainer').style.display = 'none';
     document.getElementById('subAiSummary').style.display = 'none';
-    document.getElementById('subUploadZone').innerHTML = '<i class="fas fa-cloud-upload-alt" style="font-size:2rem;color:#e06c75;margin-bottom:8px;display:block"></i><div style="color:#e06c75;font-weight:600;font-size:.9rem">Upload Submission Data</div><div style="color:var(--steel);font-size:.78rem;margin-top:4px">CSV, Excel (.xlsx), XML, JSON, PDF, or paste data below</div><div style="color:var(--steel);font-size:.72rem;margin-top:2px">Drag & drop or click to browse</div>';
+    document.getElementById('subUploadZone').innerHTML = '<i class="fas fa-cloud-upload-alt" style="font-size:2rem;color:#c9a84c;margin-bottom:8px;display:block"></i><div style="color:#c9a84c;font-weight:600;font-size:.9rem">Upload Submission Data</div><div style="color:var(--steel);font-size:.78rem;margin-top:4px">CSV, Excel (.xlsx), XML, JSON, PDF, or paste data below</div><div style="color:var(--steel);font-size:.72rem;margin-top:2px">Drag & drop or click to browse</div>';
     document.getElementById('subVendor').value = '';
     document.getElementById('subCustomPlatform').value = '';
     document.getElementById('subCustomDocType').value = '';
@@ -12948,7 +12948,7 @@ async function loadPerformanceMetrics() {
             if (_metricsChartTypes) _metricsChartTypes.destroy();
             _metricsChartTypes = new Chart(typesCtx, {
                 type: 'doughnut',
-                data: { labels: Object.keys(types), datasets: [{ data: Object.values(types), backgroundColor: ['#00aaff','#c9a84c','#38bdf8','#ff6b6b','#a78bfa','#fb923c','#06b6d4'], borderWidth: 0 }] },
+                data: { labels: Object.keys(types), datasets: [{ data: Object.values(types), backgroundColor: ['#00aaff','#c9a84c','#38bdf8','#ff6b6b','#00aaff','#fb923c','#06b6d4'], borderWidth: 0 }] },
                 options: { responsive: true, plugins: { legend: { position: 'right', labels: { color: '#8ea4b8', font: { size: 10 }, padding: 8 } } } }
             });
         }
@@ -13008,7 +13008,7 @@ async function loadPerformanceMetrics() {
             if (typeof _metricsChartTypes !== 'undefined' && _metricsChartTypes) _metricsChartTypes.destroy();
             _metricsChartTypes = new Chart(typesCtx, {
                 type: 'doughnut',
-                data: { labels: Object.keys(types), datasets: [{ data: Object.values(types), backgroundColor: ['#00aaff','#c9a84c','#38bdf8','#ff6b6b','#a78bfa','#fb923c','#06b6d4'], borderWidth: 0 }] },
+                data: { labels: Object.keys(types), datasets: [{ data: Object.values(types), backgroundColor: ['#00aaff','#c9a84c','#38bdf8','#ff6b6b','#00aaff','#fb923c','#06b6d4'], borderWidth: 0 }] },
                 options: { responsive: true, plugins: { legend: { position: 'right', labels: { color: '#8ea4b8', font: { size: 10 }, padding: 8 } } } }
             });
         }
@@ -15007,7 +15007,7 @@ function updateRoleBadge() {
         if (!badgeGroup) return;
         badge = document.createElement('span');
         badge.id = 'roleBadge';
-        badge.style.cssText = 'display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:3px;font-size:0.75rem;font-weight:600;background:rgba(167,139,250,0.1);border:1px solid rgba(167,139,250,0.25);color:#a78bfa;cursor:pointer;transition:all 0.2s;hover:background:rgba(167,139,250,0.2)';badge.title='Click to change your role';
+        badge.style.cssText = 'display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:3px;font-size:0.75rem;font-weight:600;background:rgba(0,170,255,0.1);border:1px solid rgba(0,170,255,0.25);color:#00aaff;cursor:pointer;transition:all 0.2s;hover:background:rgba(0,170,255,0.2)';badge.title='Click to change your role';
         badge.onclick = showRoleSelector;
         badgeGroup.appendChild(badge);
     }
@@ -15188,7 +15188,7 @@ function initRoleSystem() {
             var obsol = Math.max(0, 100 - (10 + (s.dmsmsItems.length||0)*8));
             var risk = Math.max(0, 100 - (15 + (s.riskItems.length||0)*5));
             var budget = Math.max(0, 100 - (20 + s.ilsPct * 0.6));
-            return { type:'bar', data:{ labels:['Tracking','Audit','Compliance','Obsolescence','Risk','Budget'], datasets:[{label:'Gap %',data:[tracking,audit,compliance,obsol,risk,budget],backgroundColor:['#ff6b6b','#fb923c','#c9a84c','#a78bfa','#38bdf8','#06b6d4'],borderWidth:0,borderRadius:4}]}, options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#6b7d93',font:{size:9}},grid:{color:'rgba(255,255,255,0.04)'},max:100},y:{ticks:{color:'#8ea4b8',font:{size:9}},grid:{display:false}}}}};
+            return { type:'bar', data:{ labels:['Tracking','Audit','Compliance','Obsolescence','Risk','Budget'], datasets:[{label:'Gap %',data:[tracking,audit,compliance,obsol,risk,budget],backgroundColor:['#ff6b6b','#fb923c','#c9a84c','#00aaff','#38bdf8','#06b6d4'],borderWidth:0,borderRadius:4}]}, options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#6b7d93',font:{size:9}},grid:{color:'rgba(255,255,255,0.04)'},max:100},y:{ticks:{color:'#8ea4b8',font:{size:9}},grid:{display:false}}}}};
         },
         dmsmsPieChart: function() {
             var s = _getToolState();
@@ -15197,7 +15197,7 @@ function initRoleSystem() {
             if (items.length > 0) {
                 items.forEach(function(it){ var st=(it.status||'').toLowerCase(); if(st.indexOf('obsolete')>=0) obsolete++; else if(st.indexOf('risk')>=0||st.indexOf('diminish')>=0) atRisk++; else if(st.indexOf('discontin')>=0) discontinued++; else if(st.indexOf('eol')>=0||st.indexOf('last')>=0) eol++; else active++; });
             } else { active=45; atRisk=20; obsolete=15; discontinued=10; eol=10; }
-            return { type:'doughnut', data:{ labels:['Active','At Risk','Obsolete','Discontinued','EOL Planned'], datasets:[{data:[active,atRisk,obsolete,discontinued,eol],backgroundColor:['#00aaff','#c9a84c','#ff6b6b','#a78bfa','#6b7d93'],borderWidth:0}]}, options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{color:'#8ea4b8',font:{size:9},padding:6}}}}};
+            return { type:'doughnut', data:{ labels:['Active','At Risk','Obsolete','Discontinued','EOL Planned'], datasets:[{data:[active,atRisk,obsolete,discontinued,eol],backgroundColor:['#00aaff','#c9a84c','#ff6b6b','#00aaff','#6b7d93'],borderWidth:0}]}, options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{color:'#8ea4b8',font:{size:9},padding:6}}}}};
         },
         readinessGauge: function() {
             var s = _getToolState();
@@ -15218,7 +15218,7 @@ function initRoleSystem() {
             var cmmc = s.comp[0] || 20;
             var iso = Math.min(100, 30 + s.ilsPct * 0.5);
             var sox = Math.min(100, 35 + s.vault * 3);
-            return { type:'polarArea', data:{ labels:['DFARS','ITAR','NIST 800-171','CMMC','ISO 27001','SOX'], datasets:[{data:[dfars,itar,nist,cmmc,iso,sox],backgroundColor:['rgba(0,170,255,0.5)','rgba(201,168,76,0.5)','rgba(56,189,248,0.5)','rgba(255,107,107,0.5)','rgba(167,139,250,0.5)','rgba(6,182,212,0.5)'],borderWidth:0}]}, options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{color:'#8ea4b8',font:{size:9},padding:6}}},scales:{r:{grid:{color:'rgba(255,255,255,0.06)'},ticks:{display:false}}}}};
+            return { type:'polarArea', data:{ labels:['DFARS','ITAR','NIST 800-171','CMMC','ISO 27001','SOX'], datasets:[{data:[dfars,itar,nist,cmmc,iso,sox],backgroundColor:['rgba(0,170,255,0.5)','rgba(201,168,76,0.5)','rgba(56,189,248,0.5)','rgba(255,107,107,0.5)','rgba(0,170,255,0.5)','rgba(6,182,212,0.5)'],borderWidth:0}]}, options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{color:'#8ea4b8',font:{size:9},padding:6}}},scales:{r:{grid:{color:'rgba(255,255,255,0.06)'},ticks:{display:false}}}}};
         },
         roiLineChart: function() {
             var s = _getToolState();
@@ -18411,7 +18411,7 @@ function _updateThemeIcon(isLight) {
         }
 
         resultsDiv.innerHTML = results.slice(0, 15).map(function(r, i) {
-            var typeColors = {tab:'#00aaff',vault:'#c9a84c',doc:'#30d158',tool:'#a78bfa'};
+            var typeColors = {tab:'#00aaff',vault:'#c9a84c',doc:'#30d158',tool:'#00aaff'};
             var typeLabels = {tab:'Tab',vault:'Vault',doc:'Doc',tool:'Tool'};
             return '<div class="search-result-item" tabindex="0" style="display:flex;align-items:center;gap:12px;padding:10px 16px;cursor:pointer;border-radius:3px;transition:background 0.15s" ' +
                 'onmouseover="this.style.background=\'rgba(0,170,255,0.06)\'" onmouseout="this.style.background=\'transparent\'" ' +
