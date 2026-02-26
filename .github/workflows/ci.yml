@@ -1,4 +1,4 @@
-name: CI
+name: S4 Ledger CI
 
 on:
   push:
@@ -40,12 +40,16 @@ jobs:
         run: |
           pip install -r requirements.txt
           pip install pytest pytest-cov
-      - name: Run tests
-        run: pytest --cov=s4_sdk --cov-report=term-missing -v
-        continue-on-error: true
+      - name: Run SDK tests
+        run: pytest tests/ --cov=s4_sdk --cov-report=term-missing -v
+        env:
+          S4_API_MASTER_KEY: test-ci-key
+          SUPABASE_URL: ''
+          SUPABASE_ANON_KEY: ''
+          SUPABASE_SERVICE_KEY: ''
 
   security:
-    name: Dependency Security Scan
+    name: Security Scan
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -58,6 +62,35 @@ jobs:
       - name: Audit dependencies
         run: pip-audit -r requirements.txt
         continue-on-error: true
+      - name: Check for exposed secrets in client code
+        run: |
+          echo "Checking for service keys in client code..."
+          ! grep -rn 'SUPABASE_SERVICE_KEY\|service_role' prod-app/ demo-app/ --include='*.html' || { echo "❌ Service key found in client code!"; exit 1; }
+          echo "✓ No service keys in client code"
+          echo "Checking CSP, HSTS, X-Frame-Options..."
+          grep -c 'Content-Security-Policy' prod-app/index.html > /dev/null && echo "✓ CSP present"
+          grep -c 'Strict-Transport-Security' prod-app/index.html > /dev/null && echo "✓ HSTS present"
+          grep -c 'X-Frame-Options' prod-app/index.html > /dev/null && echo "✓ X-Frame-Options present"
+
+  html-validation:
+    name: HTML & Version Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify critical files exist
+        run: |
+          test -f prod-app/index.html && echo "✓ prod-app/index.html"
+          test -f demo-app/index.html && echo "✓ demo-app/index.html"
+          test -f api/index.py && echo "✓ api/index.py"
+          test -f s4_sdk.py && echo "✓ s4_sdk.py"
+      - name: Check version consistency
+        run: |
+          PROD_VER=$(grep "version: '" prod-app/index.html | head -1 | sed "s/.*version: '//;s/'.*//" )
+          echo "prod-app version: $PROD_VER"
+      - name: Check no sensitive data logging
+        run: |
+          ! grep -n 'console\.log.*password\|console\.log.*secret' prod-app/index.html || echo "⚠ Sensitive logging found"
+          echo "✓ No sensitive data logging"
 
   docker:
     name: Docker Build

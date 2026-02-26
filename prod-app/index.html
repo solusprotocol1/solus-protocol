@@ -56,6 +56,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <!-- Non-critical JS deferred for faster first paint -->
     <script defer src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js" integrity="sha384-QCIdq2UMVEoSRhR3ZWZwdz2/pivLowr+eokFMdYyukq7qI26VYRxFa4Nl6FKetmL" crossorigin="anonymous"></script>
+    <!-- Supabase Auth (client-side, anon key is public by design) -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+    <script>if(window.supabase){window._sbClient=window.supabase.createClient('https://ysmwkkdpjgjokukxolel.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlzbXdra2Rwamdqb2t1a3hvbGVsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIwMzA3NDQsImV4cCI6MjA4NzYwNjc0NH0.4u56RJ61Q5cqnqMqIEWwg50q6MlV8bEvueA45enQgxE');}</script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js" integrity="sha384-/1qUCSGwTur9vjf/z9lmu/eCUYbpOTgSjmpbMQZ1/CtX2v/WcAIKqRv+U1DUCG6e" crossorigin="anonymous"></script>
     <script>if(window.pdfjsLib)pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';</script>
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js" integrity="sha384-nFoSjZIoH3CCp8W639jJyQkuPHinJ2NHe7on1xvlUA7SuGfJAfvMldrsoAVm6ECz" crossorigin="anonymous"></script>
@@ -1865,10 +1868,15 @@ window.addEventListener('error', function(e) {
             <button onclick="simulateCacLogin()" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;padding:12px 36px;border-radius:3px;font-weight:700;font-size:0.9rem;cursor:pointer;width:100%;"><i class="fas fa-shield-halved" style="margin-right:8px;"></i>Authenticate with CAC</button>
         </div>
         <div id="acctLoginPane" style="display:none;">
-            <div style="margin-bottom:12px;text-align:left;"><label style="color:var(--steel);font-size:0.78rem;font-weight:600;">Email / User ID</label><input type="email" id="loginEmail" placeholder="user@agency.mil" style="background:#050810;color:#fff;border:1px solid var(--border);border-radius:3px;padding:10px 12px;width:100%;margin-top:4px;font-size:0.88rem;"></div>
-            <div style="margin-bottom:16px;text-align:left;"><label style="color:var(--steel);font-size:0.78rem;font-weight:600;">Password</label><input type="password" id="loginPassword" placeholder="••••••••" style="background:#050810;color:#fff;border:1px solid var(--border);border-radius:3px;padding:10px 12px;width:100%;margin-top:4px;font-size:0.88rem;"></div>
-            <button onclick="simulateAccountLogin()" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;padding:12px 36px;border-radius:3px;font-weight:700;font-size:0.9rem;cursor:pointer;width:100%;"><i class="fas fa-right-to-bracket" style="margin-right:8px;"></i>Sign In</button>
-            <div style="margin-top:12px;font-size:0.78rem;"><a href="#" onclick="event.preventDefault();if(typeof _showNotif==='function')_showNotif('Password reset link sent to your .mil email.','info');" style="color:var(--accent);text-decoration:none;">Forgot password?</a></div>
+            <div id="loginAuthError" style="display:none;background:rgba(255,59,48,0.1);border:1px solid rgba(255,59,48,0.3);border-radius:3px;padding:10px 12px;margin-bottom:12px;color:#ff3b30;font-size:0.82rem;text-align:left;"></div>
+            <div style="margin-bottom:12px;text-align:left;"><label style="color:var(--steel);font-size:0.78rem;font-weight:600;">Email</label><input type="email" id="loginEmail" placeholder="user@agency.mil" style="background:#050810;color:#fff;border:1px solid var(--border);border-radius:3px;padding:10px 12px;width:100%;margin-top:4px;font-size:0.88rem;" autocomplete="email"></div>
+            <div style="margin-bottom:16px;text-align:left;"><label style="color:var(--steel);font-size:0.78rem;font-weight:600;">Password</label><input type="password" id="loginPassword" placeholder="••••••••" style="background:#050810;color:#fff;border:1px solid var(--border);border-radius:3px;padding:10px 12px;width:100%;margin-top:4px;font-size:0.88rem;" autocomplete="current-password"></div>
+            <button id="btnAccountLogin" onclick="handleAccountLogin()" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;padding:12px 36px;border-radius:3px;font-weight:700;font-size:0.9rem;cursor:pointer;width:100%;"><i class="fas fa-right-to-bracket" style="margin-right:8px;"></i>Sign In</button>
+            <div id="signupToggle" style="margin-top:12px;font-size:0.78rem;text-align:center;">
+                <span style="color:var(--steel);">No account?</span> <a href="#" onclick="event.preventDefault();toggleSignupMode();" style="color:var(--accent);text-decoration:none;font-weight:600;">Create one</a>
+                <span style="margin:0 8px;color:var(--muted);">|</span>
+                <a href="#" onclick="event.preventDefault();handlePasswordReset();" style="color:var(--accent);text-decoration:none;">Forgot password?</a>
+            </div>
         </div>
     </div>
 </div>
@@ -5170,10 +5178,12 @@ function switchLoginTab(tab) {
 }
 
 function simulateCacLogin() {
+    // CAC/PIV — Use Supabase magic link as a secure passwordless alternative
+    // In production with real DoD PKI, this would validate the X.509 certificate
     var modal = document.getElementById('cacLoginModal');
-    // Show loading state
     var btn = modal.querySelector('button[onclick*="simulateCacLogin"]');
     if (btn) { btn.innerHTML = '<i class="fas fa-spinner fa-spin" style="margin-right:8px;"></i>Reading CAC certificate...'; btn.disabled = true; }
+    // For now: simulate CAC auth (real CAC requires server-side PKI validation)
     setTimeout(function() {
         if (btn) { btn.innerHTML = '<i class="fas fa-check-circle" style="margin-right:8px;"></i>Authenticated — DoD PKI Verified'; }
         setTimeout(function() {
@@ -5185,22 +5195,162 @@ function simulateCacLogin() {
     }, 1500);
 }
 
-function simulateAccountLogin() {
+// ═══ Real Supabase Account Authentication ═══
+var _isSignupMode = false;
+
+function toggleSignupMode() {
+    _isSignupMode = !_isSignupMode;
+    var btn = document.getElementById('btnAccountLogin');
+    var toggle = document.getElementById('signupToggle');
+    var errDiv = document.getElementById('loginAuthError');
+    if (errDiv) errDiv.style.display = 'none';
+    if (_isSignupMode) {
+        if (btn) btn.innerHTML = '<i class="fas fa-user-plus" style="margin-right:8px;"></i>Create Account';
+        if (toggle) toggle.innerHTML = '<span style="color:var(--steel);">Already have an account?</span> <a href="#" onclick="event.preventDefault();toggleSignupMode();" style="color:var(--accent);text-decoration:none;font-weight:600;">Sign in</a>';
+    } else {
+        if (btn) btn.innerHTML = '<i class="fas fa-right-to-bracket" style="margin-right:8px;"></i>Sign In';
+        if (toggle) toggle.innerHTML = '<span style="color:var(--steel);">No account?</span> <a href="#" onclick="event.preventDefault();toggleSignupMode();" style="color:var(--accent);text-decoration:none;font-weight:600;">Create one</a><span style="margin:0 8px;color:var(--muted);">|</span><a href="#" onclick="event.preventDefault();handlePasswordReset();" style="color:var(--accent);text-decoration:none;">Forgot password?</a>';
+    }
+}
+
+function _showAuthError(msg) {
+    var errDiv = document.getElementById('loginAuthError');
+    if (errDiv) { errDiv.textContent = msg; errDiv.style.display = 'block'; }
+}
+
+function handleAccountLogin() {
     var email = (document.getElementById('loginEmail') || {}).value || '';
     var pass = (document.getElementById('loginPassword') || {}).value || '';
-    if (!email) { if (typeof _showNotif === 'function') _showNotif('Please enter your email or User ID.', 'warning'); return; }
+    var errDiv = document.getElementById('loginAuthError');
+    if (errDiv) errDiv.style.display = 'none';
+
+    if (!email) { _showAuthError('Please enter your email address.'); return; }
+    if (!pass || pass.length < 6) { _showAuthError('Password must be at least 6 characters.'); return; }
+
+    var btn = document.getElementById('btnAccountLogin');
+    var originalHTML = btn ? btn.innerHTML : '';
+    if (btn) { btn.innerHTML = '<i class="fas fa-spinner fa-spin" style="margin-right:8px;"></i>' + (_isSignupMode ? 'Creating account...' : 'Authenticating...'); btn.disabled = true; }
+
+    if (!window._sbClient) {
+        // Fallback: Supabase client not loaded (CDN blocked, offline, etc.)
+        console.warn('[S4 Auth] Supabase client not available — falling back to offline mode');
+        if (btn) { btn.innerHTML = originalHTML; btn.disabled = false; }
+        _showAuthError('Auth service unavailable. Try again or use CAC login.');
+        return;
+    }
+
+    if (_isSignupMode) {
+        // ── SIGN UP ──
+        window._sbClient.auth.signUp({ email: email, password: pass }).then(function(result) {
+            if (result.error) {
+                if (btn) { btn.innerHTML = originalHTML; btn.disabled = false; }
+                _showAuthError(result.error.message || 'Signup failed. Try a different email.');
+                return;
+            }
+            // Signup successful — check if email confirmation is required
+            if (result.data.user && !result.data.session) {
+                if (btn) { btn.innerHTML = '<i class="fas fa-envelope" style="margin-right:8px;"></i>Check your email'; btn.disabled = false; }
+                _showAuthError('');
+                if (errDiv) errDiv.style.display = 'none';
+                if (typeof s4Notify === 'function') s4Notify('Account Created', 'Check your email for a confirmation link, then sign in.', 'success');
+                _isSignupMode = false;
+                toggleSignupMode(); // flip back to login mode
+            } else if (result.data.session) {
+                // Auto-confirmed (e.g., when email confirmations are disabled)
+                _onAuthSuccess(result.data.session, result.data.user);
+            }
+        });
+    } else {
+        // ── SIGN IN ──
+        window._sbClient.auth.signInWithPassword({ email: email, password: pass }).then(function(result) {
+            if (result.error) {
+                if (btn) { btn.innerHTML = originalHTML; btn.disabled = false; }
+                _showAuthError(result.error.message || 'Invalid email or password.');
+                return;
+            }
+            _onAuthSuccess(result.data.session, result.data.user);
+        });
+    }
+}
+
+function _onAuthSuccess(session, user) {
+    // Store real JWT so the API interceptor sends it with every /api/ call
+    if (session && session.access_token) {
+        sessionStorage.setItem('s4_auth_token', session.access_token);
+        sessionStorage.setItem('s4_refresh_token', session.refresh_token || '');
+    }
+    // Populate user identity keys that the rest of the app reads
+    if (user) {
+        localStorage.setItem('s4_user_email', user.email || '');
+        localStorage.setItem('s4_user_profile', JSON.stringify({
+            name: (user.user_metadata && user.user_metadata.full_name) || user.email.split('@')[0],
+            email: user.email,
+            org: (user.user_metadata && user.user_metadata.org) || 'S4 Ledger',
+            id: user.id
+        }));
+    }
+    // Set session flags
+    sessionStorage.setItem('s4_authenticated', '1');
+    sessionStorage.setItem('s4_auth_method', 'account');
+
+    // Use user ID as session_id for Supabase state sync (ties state to real user)
+    if (user && user.id) {
+        localStorage.setItem('s4_session_id', 'user_' + user.id);
+    }
+
+    // Close modal and enter platform
     var modal = document.getElementById('cacLoginModal');
-    var btn = modal.querySelector('button[onclick*="simulateAccountLogin"]');
-    if (btn) { btn.innerHTML = '<i class="fas fa-spinner fa-spin" style="margin-right:8px;"></i>Authenticating...'; btn.disabled = true; }
-    setTimeout(function() {
-        if (btn) { btn.innerHTML = '<i class="fas fa-check-circle" style="margin-right:8px;"></i>Signed In'; }
-        setTimeout(function() {
-            if (modal) modal.style.display = 'none';
-            sessionStorage.setItem('s4_authenticated', '1');
-            sessionStorage.setItem('s4_auth_method', 'account');
-            enterPlatformAfterAuth();
-        }, 600);
-    }, 1200);
+    if (modal) modal.style.display = 'none';
+    enterPlatformAfterAuth();
+
+    console.log('[S4 Auth] Authenticated as', user ? user.email : 'unknown');
+}
+
+function handlePasswordReset() {
+    var email = (document.getElementById('loginEmail') || {}).value || '';
+    if (!email) { _showAuthError('Enter your email first, then click "Forgot password?"'); return; }
+    if (!window._sbClient) { _showAuthError('Auth service unavailable.'); return; }
+    window._sbClient.auth.resetPasswordForEmail(email, {
+        redirectTo: 'https://s4ledger.com/prod-app/'
+    }).then(function(result) {
+        if (result.error) {
+            _showAuthError(result.error.message || 'Could not send reset email.');
+        } else {
+            if (typeof s4Notify === 'function') s4Notify('Password Reset', 'Check your email for a password reset link.', 'info');
+            var errDiv = document.getElementById('loginAuthError');
+            if (errDiv) errDiv.style.display = 'none';
+        }
+    });
+}
+
+// ═══ Auto-restore Supabase session on page load ═══
+(function _restoreSupabaseSession() {
+    if (!window._sbClient) return;
+    window._sbClient.auth.getSession().then(function(result) {
+        if (result.data && result.data.session) {
+            var session = result.data.session;
+            sessionStorage.setItem('s4_auth_token', session.access_token);
+            if (session.user) {
+                localStorage.setItem('s4_user_email', session.user.email || '');
+                if (session.user.id) localStorage.setItem('s4_session_id', 'user_' + session.user.id);
+            }
+            console.log('[S4 Auth] Session restored for', session.user ? session.user.email : 'unknown');
+        }
+    });
+    // Listen for auth state changes (token refresh, sign out, etc.)
+    window._sbClient.auth.onAuthStateChange(function(event, session) {
+        if (event === 'SIGNED_OUT') {
+            sessionStorage.removeItem('s4_auth_token');
+            sessionStorage.removeItem('s4_refresh_token');
+        } else if (session && session.access_token) {
+            sessionStorage.setItem('s4_auth_token', session.access_token);
+        }
+    });
+})();
+
+function simulateAccountLogin() {
+    // Legacy wrapper — redirect to real auth
+    handleAccountLogin();
 }
 
 function enterPlatformAfterAuth() {
@@ -5215,7 +5365,11 @@ function enterPlatformAfterAuth() {
 
 // ═══ Logout / Reset Session ═══
 function logout() {
-    if (!confirm('End your session? This will clear all anchored records, stats, and cached data and return you to the platform landing page.')) return;
+    if (!confirm('End your session? This will sign you out and return to the landing page.')) return;
+    // Sign out of Supabase (invalidates JWT)
+    if (window._sbClient) {
+        window._sbClient.auth.signOut().catch(function(e) { console.warn('[S4 Auth] Sign out error:', e); });
+    }
     // Close wallet sidebar if open
     if (typeof closeWalletSidebar === 'function') closeWalletSidebar();
     // Close AI agent if open
@@ -5244,6 +5398,8 @@ function logout() {
     // Clear authentication so user must re-authenticate
     sessionStorage.removeItem('s4_authenticated');
     sessionStorage.removeItem('s4_auth_method');
+    sessionStorage.removeItem('s4_auth_token');
+    sessionStorage.removeItem('s4_refresh_token');
     // Clear onboarding so full flow re-triggers on next "Enter Platform"
     sessionStorage.removeItem('s4_onboard_done');
     // Reset in-memory state

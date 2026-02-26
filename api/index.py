@@ -431,6 +431,80 @@ def _authenticate_api_key(key):
     return None
 
 
+# ─── Supabase JWT Validation ──────────────────────────────────────────
+# Validates JWTs issued by Supabase Auth. Uses the JWT secret from env.
+# This gives us real authentication — the frontend sends the access_token
+# as "Authorization: Bearer <jwt>", and we validate it here.
+
+SUPABASE_JWT_SECRET = os.environ.get("SUPABASE_JWT_SECRET", "").strip()
+
+def _validate_supabase_jwt(token):
+    """Validate a Supabase-issued JWT and return the payload.
+    Returns dict with user info on success, None on failure.
+    Uses stdlib only (no PyJWT dependency) — validates HS256 JWTs."""
+    if not token or not SUPABASE_JWT_SECRET:
+        return None
+    try:
+        import hmac
+        import base64
+        parts = token.split('.')
+        if len(parts) != 3:
+            return None
+        # Decode header
+        header_b64 = parts[0] + '=' * (4 - len(parts[0]) % 4)
+        header = json.loads(base64.urlsafe_b64decode(header_b64))
+        if header.get('alg') != 'HS256':
+            return None
+        # Verify signature
+        signing_input = (parts[0] + '.' + parts[1]).encode('utf-8')
+        sig_b64 = parts[2] + '=' * (4 - len(parts[2]) % 4)
+        expected_sig = base64.urlsafe_b64decode(sig_b64)
+        actual_sig = hmac.new(SUPABASE_JWT_SECRET.encode('utf-8'), signing_input, hashlib.sha256).digest()
+        if not hmac.compare_digest(expected_sig, actual_sig):
+            return None
+        # Decode payload
+        payload_b64 = parts[1] + '=' * (4 - len(parts[1]) % 4)
+        payload = json.loads(base64.urlsafe_b64decode(payload_b64))
+        # Check expiration
+        exp = payload.get('exp', 0)
+        if exp and time.time() > exp:
+            return None
+        return payload
+    except Exception as e:
+        print(f"JWT validation error: {e}")
+        return None
+
+
+def _get_auth_user(headers):
+    """Extract authenticated user from request headers.
+    Tries: 1) Bearer JWT token, 2) X-API-Key, 3) None (anonymous).
+    Returns dict with 'user_id', 'email', 'role', 'method' or None."""
+    # Check Bearer token first (Supabase Auth JWT)
+    auth_header = headers.get("Authorization", "")
+    if auth_header.startswith("Bearer "):
+        token = auth_header[7:]
+        payload = _validate_supabase_jwt(token)
+        if payload:
+            return {
+                'user_id': payload.get('sub', ''),
+                'email': payload.get('email', ''),
+                'role': payload.get('role', 'authenticated'),
+                'method': 'jwt'
+            }
+    # Fall back to API key
+    api_key = headers.get("X-API-Key", "")
+    if api_key:
+        key_info = _authenticate_api_key(api_key)
+        if key_info:
+            return {
+                'user_id': key_info.get('org_id', api_key[:16]),
+                'email': key_info.get('email', ''),
+                'role': key_info.get('role', 'api_user'),
+                'method': 'api_key'
+            }
+    return None
+
+
 # ─── Cold start hydration ─────────────────────────────────────────────
 
 _hydrated = False
@@ -1843,10 +1917,16 @@ class handler(BaseHTTPRequestHandler):
                 }
             })
         elif route == "auth_validate":
-            api_key = self.headers.get("X-API-Key", "")
-            valid = api_key == API_MASTER_KEY or api_key in API_KEYS_STORE or _authenticate_api_key(api_key) is not None
-            key_info = _authenticate_api_key(api_key) or {}
-            self._send_json({"valid": valid, "tier": key_info.get("tier", "enterprise") if valid else None, "role": key_info.get("role", "admin") if valid else None})
+            # Validate auth via JWT (preferred) or API key (legacy)
+            auth_user = _get_auth_user(self.headers)
+            if auth_user:
+                self._send_json({"valid": True, "user_id": auth_user['user_id'], "email": auth_user['email'], "role": auth_user['role'], "method": auth_user['method']})
+            else:
+                # Legacy API key fallback
+                api_key = self.headers.get("X-API-Key", "")
+                valid = api_key == API_MASTER_KEY or api_key in API_KEYS_STORE or _authenticate_api_key(api_key) is not None
+                key_info = _authenticate_api_key(api_key) or {}
+                self._send_json({"valid": valid, "tier": key_info.get("tier", "enterprise") if valid else None, "role": key_info.get("role", "admin") if valid else None, "method": "api_key" if valid else None})
         elif route == "dmsms":
             self._log_request("dmsms")
             qs = parse_qs(parsed.query)
