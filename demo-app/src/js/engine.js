@@ -704,34 +704,25 @@ function updateStats() {
 function showAnchorAnimation(hash, typeLabel, clfLevel) {
     const overlay = document.getElementById('anchorOverlay');
     const meta = CLF_META[clfLevel] || CLF_META['CUI'];
-    document.getElementById('animStatus').textContent = 'Anchoring to XRPL...';
-    document.getElementById('animStatus').style.color = '';
+    document.getElementById('animStatus').innerHTML = '<i class="fas fa-spinner fa-spin" style="color:#00aaff"></i> Anchoring to XRPL...';
+    document.getElementById('animStatus').style.color = '#fff';
     document.getElementById('animHash').textContent = hash;
     document.getElementById('animSuccess').textContent = '';
-    // Show classification in animation
     const clfDiv = document.getElementById('animClf');
     if (clfDiv) {
         clfDiv.innerHTML = '<span style="padding:4px 14px;border-radius:3px;font-size:0.85rem;font-weight:800;letter-spacing:0.5px;color:' + meta.color + ';border:1px solid ' + meta.color + '30;background:' + meta.color + '15">' + '<i class="fas ' + meta.icon + '" style="margin-right:4px"></i>' + meta.label + '</span>';
-        clfDiv.style.opacity = '0';
-        clfDiv.style.animation = 'fadeUp 0.5s ease-out 0.7s both';
     }
-    // Reset animations
-    overlay.querySelectorAll('.chain-segment,.anchor-drop-icon,.anim-status,.anim-hash,.anim-fee,.anim-success').forEach(el => {
-        el.style.animation = 'none'; el.offsetHeight; el.style.animation = '';
-    });
-    overlay.classList.add('active');
+    document.getElementById('animFee').innerHTML = '0.01 $SLS &rarr; Treasury';
+    overlay.style.display = 'flex';
     setTimeout(() => {
-        document.getElementById('animStatus').innerHTML = '<i class="fas fa-check-circle" style="color:#00aaff;margin-right:4px"></i>' + typeLabel + ' Anchored!';
+        document.getElementById('animStatus').innerHTML = '<i class="fas fa-check-circle" style="color:#00aaff"></i> ' + typeLabel + ' Anchored!';
         document.getElementById('animStatus').style.color = '#00aaff';
-        document.getElementById('animSuccess').textContent = '\u2713 Record secured on XRPL';
-        document.getElementById('animSuccess').style.animation = 'scaleIn 0.4s ease-out both';
+        document.getElementById('animSuccess').innerHTML = '<span style="color:var(--green)">&#x2713; Record secured on XRPL</span>';
     }, 2000);
-    // Auto-dismiss after 5 seconds
-    setTimeout(hideAnchorAnimation, 5000);
 }
 
 function hideAnchorAnimation() {
-    document.getElementById('anchorOverlay').classList.remove('active');
+    document.getElementById('anchorOverlay').style.display = 'none';
 }
 
 
@@ -884,6 +875,7 @@ async function _anchorToXRPL(hash, record_type, content_preview) {
     let network = 'Pending';
     let explorerUrl = null;
     let feeTxHash = null;
+    let feeError = null;
     let anchorError = null;
     try {
         if (_demoMode && _demoSession) {
@@ -905,6 +897,7 @@ async function _anchorToXRPL(hash, record_type, content_preview) {
                     explorerUrl = result.record.explorer_url || null;
                 }
                 if (result.fee_transfer && result.fee_transfer.tx_hash) feeTxHash = result.fee_transfer.tx_hash;
+                if (result.fee_error) feeError = result.fee_error;
             } else {
                 const errBody = await resp.json().catch(() => ({}));
                 anchorError = errBody.error || ('Anchor API returned ' + resp.status);
@@ -920,6 +913,8 @@ async function _anchorToXRPL(hash, record_type, content_preview) {
                     network = result.record.network || network;
                     explorerUrl = result.record.explorer_url || null;
                 }
+                if (result.fee_transfer && result.fee_transfer.tx_hash) feeTxHash = result.fee_transfer.tx_hash;
+                if (result.fee_error) feeError = result.fee_error;
             } else {
                 anchorError = 'Anchor API returned ' + resp.status;
             }
@@ -936,7 +931,10 @@ async function _anchorToXRPL(hash, record_type, content_preview) {
             _showNotif('Anchor may not have reached XRPL: ' + anchorError, 'warning');
         }
     }
-    return { txHash, network, explorerUrl, feeTxHash };
+    if (feeError) {
+        console.warn('SLS fee deduction failed:', feeError);
+    }
+    return { txHash, network, explorerUrl, feeTxHash, feeError };
 }
 
 async function anchorRecord() {
@@ -958,7 +956,7 @@ async function anchorRecord() {
     const clfLevel = getClassification(selectedType);
     showAnchorAnimation(hash, typeInfo.label, clfLevel);
 
-    const {txHash, explorerUrl, network} = await _anchorToXRPL(hash, selectedType, input.substring(0,100));
+    const {txHash, explorerUrl, network, feeTxHash, feeError} = await _anchorToXRPL(hash, selectedType, input.substring(0,100));
 
     const record = {
         type:selectedType, label:typeInfo.label, icon:typeInfo.icon, branch:typeInfo.branch,
@@ -1006,7 +1004,10 @@ async function anchorRecord() {
             + '<div class="result-label">NETWORK</div><div style="margin-bottom:0.5rem">' + (network === 'mainnet' ? '<span style="color:#00aaff;font-weight:700"><i class="fas fa-globe" style="margin-right:4px"></i>XRPL Mainnet</span>' : '<span style="color:var(--muted)">' + (network||'Pending') + '</span>') + '</div>'
         + '<div class="result-label">SYSTEM</div><div style="margin-bottom:0.5rem">' + (typeInfo.system||'N/A') + '</div>'
         + '<div class="result-label">ENCRYPTED</div><div style="margin-bottom:0.5rem">' + (encrypt ? '<i class="fas fa-lock" style="color:var(--accent)"></i> Yes (CUI protected)' : '\uD83D\uDD13 No (plaintext hash)') + '</div>'
-        + '<div class="result-label">$SLS FEE</div><div>0.01 $SLS from your account \u2192 S4 Treasury</div>';
+        + '<div class="result-label">$SLS FEE</div><div>'
+        + (feeTxHash ? '0.01 $SLS <span style="color:var(--green)">&#x2713; Paid</span> &mdash; <a href="https://livenet.xrpl.org/transactions/' + feeTxHash + '" target="_blank" rel="noopener" style="color:var(--accent);font-size:0.78rem">' + feeTxHash.substring(0,16) + '&hellip; <i class="fas fa-external-link-alt" style="font-size:0.65rem"></i></a>'
+          : feeError ? '<span style="color:var(--warning)">0.01 $SLS &mdash; Fee failed: ' + feeError + '</span>'
+          : '0.01 $SLS from your account &rarr; S4 Treasury') + '</div>';
     panel.classList.add('show');
     updateTxLog();
     btn.disabled = false;
@@ -8292,6 +8293,7 @@ window.anchorRecord = anchorRecord;
 window.anchorReport = anchorReport;
 window.anchorRisk = anchorRisk;
 window.anchorSubmissionReview = anchorSubmissionReview;
+window.hideAnchorAnimation = hideAnchorAnimation;
 window.applyCustomProgram = applyCustomProgram;
 window.attachEvidence = attachEvidence;
 window.bulkActionDelete = bulkActionDelete;

@@ -1448,6 +1448,14 @@ def _anchor_xrpl(hash_value, record_type="", branch="", user_email=None):
                     result["user_fee_tx"] = user_fee["fee_tx"]
                     result["sls_fee"] = SLS_ANCHOR_FEE
                     result["sls_treasury"] = SLS_TREASURY_ADDRESS
+                elif user_fee:
+                    # Propagate fee error so frontend can display it
+                    result["fee_error"] = user_fee.get("error", "Fee deduction failed")
+                    result["fee_hint"] = user_fee.get("hint", "")
+                    print(f"SLS fee deduction failed for {user_email}: {user_fee}")
+                else:
+                    result["fee_error"] = "No wallet found for fee deduction"
+                    print(f"SLS fee deduction returned None for {user_email}")
             return result
     except Exception as e:
         print(f"XRPL anchor failed: {e}")
@@ -2899,13 +2907,16 @@ class handler(BaseHTTPRequestHandler):
 
             # Build fee_transfer for frontend compatibility
             fee_transfer = None
+            fee_error = None
             if xrpl_result and xrpl_result.get("user_fee_tx"):
                 fee_transfer = {
                     "tx_hash": xrpl_result["user_fee_tx"],
                     "amount": xrpl_result.get("sls_fee", SLS_ANCHOR_FEE),
                     "treasury": xrpl_result.get("sls_treasury", SLS_TREASURY_ADDRESS),
                 }
-            self._send_json({"status": "anchored", "record": record, "xrpl": xrpl_result, "fee_transfer": fee_transfer})
+            elif xrpl_result and xrpl_result.get("fee_error"):
+                fee_error = xrpl_result.get("fee_error", "unknown")
+            self._send_json({"status": "anchored", "record": record, "xrpl": xrpl_result, "fee_transfer": fee_transfer, "fee_error": fee_error})
 
         elif route == "hash":
             text = data.get("record", "")
