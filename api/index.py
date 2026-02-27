@@ -969,10 +969,11 @@ SLS_ANCHOR_FEE = "0.01"  # SLS fee per anchor (0.01 SLS = $0.01)
 _xrpl_client = None
 _xrpl_wallet = None       # Issuer wallet — signs anchor transactions
 _xrpl_treasury_wallet = None  # Treasury wallet — holds XRP + SLS, funds users, collects anchor fees
+_xrpl_demo_wallet = None  # Demo/Ops wallet — used for demo anchor fee deduction until Stripe is live
 
 def _init_xrpl():
-    """Initialize XRPL client, Issuer wallet, and Treasury wallet."""
-    global _xrpl_client, _xrpl_wallet, _xrpl_treasury_wallet
+    """Initialize XRPL client, Issuer wallet, Treasury wallet, and Demo wallet."""
+    global _xrpl_client, _xrpl_wallet, _xrpl_treasury_wallet, _xrpl_demo_wallet
     if not XRPL_AVAILABLE or _xrpl_client is not None:
         return
     try:
@@ -995,6 +996,12 @@ def _init_xrpl():
             _xrpl_treasury_wallet = Wallet.from_seed(treasury_seed, algorithm=CryptoAlgorithm.SECP256K1)
         elif XRPL_NETWORK == "mainnet":
             print("WARNING: XRPL_TREASURY_SEED not set — wallet provisioning and SLS delivery disabled")
+        # Demo/Ops wallet — used as the demo custodial wallet for showcasing anchor fees
+        # Remove after Stripe is live and real custodial wallets are provisioned
+        demo_seed = os.environ.get("XRPL_DEMO_SEED")
+        if demo_seed:
+            _xrpl_demo_wallet = Wallet.from_seed(demo_seed, algorithm=CryptoAlgorithm.SECP256K1)
+            print(f"Demo wallet loaded: {_xrpl_demo_wallet.address}")
     except Exception as e:
         print(f"XRPL init failed: {e}")
         _xrpl_client = None
@@ -1325,10 +1332,44 @@ def _deduct_anchor_fee(user_email=None, user_address=None):
     if not _xrpl_client:
         return None
 
+    # Demo mode: use the ops wallet directly (XRPL_DEMO_SEED env var)
+    if user_email == 'demo@s4ledger.com' and _xrpl_demo_wallet:
+        try:
+            from xrpl.models.transactions import Payment as Pay
+            from xrpl.models.amounts import IssuedCurrencyAmount as ICA
+            fee_payment = Pay(
+                account=_xrpl_demo_wallet.address,
+                destination=SLS_TREASURY_ADDRESS,
+                amount=ICA(
+                    currency="SLS",
+                    issuer=SLS_ISSUER_ADDRESS,
+                    value=SLS_ANCHOR_FEE
+                ),
+                memos=[Memo(
+                    memo_type=bytes("s4/anchor-fee", "utf-8").hex(),
+                    memo_data=bytes(json.dumps({"type": "anchor_fee", "amount": SLS_ANCHOR_FEE, "demo": True}), "utf-8").hex()
+                )]
+            )
+            resp = submit_and_wait(fee_payment, _xrpl_client, _xrpl_demo_wallet)
+            if resp.is_successful():
+                return {
+                    "success": True,
+                    "fee_tx": resp.result["hash"],
+                    "fee_amount": SLS_ANCHOR_FEE,
+                    "from_wallet": _xrpl_demo_wallet.address,
+                    "to_treasury": SLS_TREASURY_ADDRESS,
+                }
+            else:
+                return {"error": resp.result.get("engine_result_message", "unknown"),
+                        "hint": "Demo wallet fee deduction failed."}
+        except Exception as e:
+            print(f"Demo anchor fee deduction failed: {e}")
+            return {"error": str(e)}
+
     # Look up user's wallet seed from custodial store
     wallet_seed = _get_wallet_seed(email=user_email, address=user_address)
     if not wallet_seed:
-        return None  # No wallet found — skip fee (demo/unauthenticated user)
+        return None  # No wallet found — skip fee (unauthenticated user)
 
     try:
         from xrpl.models.transactions import Payment as Pay
@@ -2856,7 +2897,15 @@ class handler(BaseHTTPRequestHandler):
                 "fee": 0.01,
             }, org_key=self.headers.get("X-API-Key"))
 
-            self._send_json({"status": "anchored", "record": record, "xrpl": xrpl_result})
+            # Build fee_transfer for frontend compatibility
+            fee_transfer = None
+            if xrpl_result and xrpl_result.get("user_fee_tx"):
+                fee_transfer = {
+                    "tx_hash": xrpl_result["user_fee_tx"],
+                    "amount": xrpl_result.get("sls_fee", SLS_ANCHOR_FEE),
+                    "treasury": xrpl_result.get("sls_treasury", SLS_TREASURY_ADDRESS),
+                }
+            self._send_json({"status": "anchored", "record": record, "xrpl": xrpl_result, "fee_transfer": fee_transfer})
 
         elif route == "hash":
             text = data.get("record", "")

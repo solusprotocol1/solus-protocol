@@ -1931,7 +1931,7 @@ window.addEventListener('error', function(e) {
         </div>
         <div style="text-align:center;">
             <button onclick="startAuthFlow()" style="background:var(--accent);color:#fff;border:none;padding:14px 36px;border-radius:3px;font-weight:600;font-size:0.9375rem;cursor:pointer;transition:all 0.3s cubic-bezier(0.25,0.1,0.25,1);letter-spacing:-0.01em;">Enter Platform <i class="fas fa-arrow-right" style="margin-left:8px;"></i></button>
-            <a href="/demo-app/demo.html" style="display:inline-block;margin-left:12px;background:transparent;color:var(--accent);border:1px solid rgba(0,170,255,0.4);padding:14px 28px;border-radius:3px;font-weight:600;font-size:0.9375rem;cursor:pointer;transition:all 0.3s;text-decoration:none;letter-spacing:-0.01em;"><i class="fas fa-play-circle" style="margin-right:8px;"></i>See a Demo</a>
+            <a href="/demo-app/demo" style="display:inline-block;margin-left:12px;background:transparent;color:var(--accent);border:1px solid rgba(0,170,255,0.4);padding:14px 28px;border-radius:3px;font-weight:600;font-size:0.9375rem;cursor:pointer;transition:all 0.3s;text-decoration:none;letter-spacing:-0.01em;"><i class="fas fa-play-circle" style="margin-right:8px;"></i>See a Demo</a>
         </div>
     </div>
 </section>
@@ -9755,8 +9755,8 @@ function loadDMSMSData() {
     });
     html += '</table></div>';
     document.getElementById('dmsmsResults').innerHTML = html;
-    // Generate action items & notifications
-    generateDMSMSActions(progKey, data);
+    // Action items disabled for prod — simulated data should not generate alerts
+    // generateDMSMSActions(progKey, data);
     // ── R12: Store chart data globally and trigger reactive chart update
     var _active = data.filter(function(d){ return d.status === 'Active'; }).length;
     var _atRisk = data.filter(function(d){ return d.status === 'At Risk'; }).length;
@@ -9874,8 +9874,8 @@ function calcReadiness() {
     // ── R12: Store Ao globally and trigger reactive chart update
     window._readinessAo = ao;
     if (typeof renderReadinessCharts === 'function') setTimeout(renderReadinessCharts, 200);
-    // Generate readiness action items
-    generateReadinessActions(progKey, sysName, ao, mtbf, mttr, mldt);
+    // Action items disabled for prod — simulated data should not generate alerts
+    // generateReadinessActions(progKey, sysName, ao, mtbf, mttr, mldt);
 }
 
 function exportReadiness() {
@@ -10117,6 +10117,11 @@ function toggleNotifPanel() {
 // ── Unified Action Items Store (localStorage-backed) ──
 let s4ActionItems;
 try { s4ActionItems = JSON.parse(localStorage.getItem('s4ActionItems') || '[]'); } catch(_e) { s4ActionItems = []; }
+// Purge auto-generated items from simulated data (DMSMS-, RDY-, LC- prefixed IDs)
+s4ActionItems = s4ActionItems.filter(function(a) {
+    return !/^(DMSMS-|RDY-|LC-)/.test(a.id);
+});
+localStorage.setItem('s4ActionItems', JSON.stringify(s4ActionItems));
 function saveActionItems() {
     localStorage.setItem('s4ActionItems', JSON.stringify(s4ActionItems));
     updateNotifBadge();
@@ -14585,8 +14590,8 @@ function calcLifecycle() {
     }
     // Trigger chart update
     if (typeof renderLifecycleCharts === 'function') setTimeout(renderLifecycleCharts, 300);
-    // Generate action items
-    if (typeof generateLifecycleActions === 'function') generateLifecycleActions(progKey, totalCost, dmsmsCost, sustTotal);
+    // Action items disabled for prod — simulated data should not generate alerts
+    // if (typeof generateLifecycleActions === 'function') generateLifecycleActions(progKey, totalCost, dmsmsCost, sustTotal);
 }
 
 function exportLifecycle() {

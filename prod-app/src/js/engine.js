@@ -4844,8 +4844,8 @@ function loadDMSMSData() {
     });
     html += '</table></div>';
     document.getElementById('dmsmsResults').innerHTML = html;
-    // Generate action items & notifications
-    generateDMSMSActions(progKey, data);
+    // Action items disabled for prod — simulated data should not generate alerts
+    // generateDMSMSActions(progKey, data);
     // ── R12: Store chart data globally and trigger reactive chart update
     var _active = data.filter(function(d){ return d.status === 'Active'; }).length;
     var _atRisk = data.filter(function(d){ return d.status === 'At Risk'; }).length;
@@ -4963,8 +4963,8 @@ function calcReadiness() {
     // ── R12: Store Ao globally and trigger reactive chart update
     window._readinessAo = ao;
     if (typeof renderReadinessCharts === 'function') setTimeout(renderReadinessCharts, 200);
-    // Generate readiness action items
-    generateReadinessActions(progKey, sysName, ao, mtbf, mttr, mldt);
+    // Action items disabled for prod — simulated data should not generate alerts
+    // generateReadinessActions(progKey, sysName, ao, mtbf, mttr, mldt);
 }
 
 function exportReadiness() {
@@ -5206,6 +5206,11 @@ function toggleNotifPanel() {
 // ── Unified Action Items Store (localStorage-backed) ──
 let s4ActionItems;
 try { s4ActionItems = JSON.parse(localStorage.getItem('s4ActionItems') || '[]'); } catch(_e) { s4ActionItems = []; }
+// Purge auto-generated items from simulated data (DMSMS-, RDY-, LC- prefixed IDs)
+s4ActionItems = s4ActionItems.filter(function(a) {
+    return !/^(DMSMS-|RDY-|LC-)/.test(a.id);
+});
+localStorage.setItem('s4ActionItems', JSON.stringify(s4ActionItems));
 function saveActionItems() {
     localStorage.setItem('s4ActionItems', JSON.stringify(s4ActionItems));
     updateNotifBadge();

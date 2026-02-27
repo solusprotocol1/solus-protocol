@@ -1080,8 +1080,8 @@ function calcLifecycle() {
     }
     // Trigger chart update
     if (typeof renderLifecycleCharts === 'function') setTimeout(renderLifecycleCharts, 300);
-    // Generate action items
-    if (typeof generateLifecycleActions === 'function') generateLifecycleActions(progKey, totalCost, dmsmsCost, sustTotal);
+    // Action items disabled for prod — simulated data should not generate alerts
+    // if (typeof generateLifecycleActions === 'function') generateLifecycleActions(progKey, totalCost, dmsmsCost, sustTotal);
 }
 
 function exportLifecycle() {
