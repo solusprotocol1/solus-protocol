@@ -981,7 +981,7 @@ def _init_xrpl():
         url = XRPL_MAINNET_URL if XRPL_NETWORK == "mainnet" else XRPL_TESTNET_URL
         _xrpl_client = JsonRpcClient(url)
         # Issuer wallet — signs anchor AccountSet transactions (XRPL_WALLET_SEED)
-        seed = os.environ.get("XRPL_WALLET_SEED")
+        seed = (os.environ.get("XRPL_WALLET_SEED") or "").strip()
         if seed:
             try:
                 _xrpl_wallet = Wallet.from_seed(seed, algorithm=CryptoAlgorithm.SECP256K1)
@@ -997,7 +997,7 @@ def _init_xrpl():
         # Treasury wallet — holds XRP (for wallet activation) + SLS (subscription allocations)
         # Sends XRP to activate new user wallets, sends SLS to subscribers,
         # receives 0.01 SLS back per anchor. The SLS circulation engine.
-        treasury_seed = os.environ.get("XRPL_TREASURY_SEED")
+        treasury_seed = (os.environ.get("XRPL_TREASURY_SEED") or "").strip()
         if treasury_seed:
             try:
                 _xrpl_treasury_wallet = Wallet.from_seed(treasury_seed, algorithm=CryptoAlgorithm.SECP256K1)
@@ -1009,7 +1009,7 @@ def _init_xrpl():
             print("WARNING: XRPL_TREASURY_SEED not set — wallet provisioning and SLS delivery disabled")
         # Demo/Ops wallet — used as the demo custodial wallet for showcasing anchor fees
         # Remove after Stripe is live and real custodial wallets are provisioned
-        demo_seed = os.environ.get("XRPL_DEMO_SEED")
+        demo_seed = (os.environ.get("XRPL_DEMO_SEED") or "").strip()
         if demo_seed:
             try:
                 _xrpl_demo_wallet = Wallet.from_seed(demo_seed, algorithm=CryptoAlgorithm.SECP256K1)
