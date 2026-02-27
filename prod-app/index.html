@@ -99,6 +99,33 @@
         body.light-mode .footer *{color:#555!important}
         body.light-mode .footer a:hover{color:var(--accent)!important}
         body.light-mode .s4-toast{background:#fff;border-color:rgba(0,0,0,0.08);color:#1d1d1f}
+        body.light-mode .s4-toast-title{color:#1d1d1f!important}
+        body.light-mode .s4-toast-msg{color:#555!important}
+        body.light-mode .s4-toast-close{color:#86868b}
+        body.light-mode .s4-toast-close:hover{color:#1d1d1f}
+        body.light-mode .workspace-notification{background:#fff!important;border-color:rgba(0,119,204,0.3)!important;color:#1d1d1f!important;box-shadow:0 4px 20px rgba(0,0,0,0.12)!important}
+        body.light-mode .workspace-notification *{color:#1d1d1f!important}
+        body.light-mode .workspace-notification .notif-close{color:#86868b!important}
+        body.light-mode .workspace-notification .notif-close:hover{color:#1d1d1f!important}
+        body.light-mode .hc-title{color:#1d1d1f!important}
+        body.light-mode .hc-desc{color:#555!important}
+        body.light-mode .hc-meta{color:#86868b!important}
+        body.light-mode .hub-card{background:#fff;border-color:rgba(0,0,0,0.08)}
+        body.light-mode .hub-card:hover{border-color:rgba(0,119,204,0.3);box-shadow:0 2px 12px rgba(0,0,0,0.06)}
+        body.light-mode .ils-tool-card{background:#fff!important;border-color:rgba(0,0,0,0.08)!important}
+        body.light-mode .ils-tool-card:hover{border-color:rgba(0,119,204,0.3)!important}
+        body.light-mode .ils-hub-panel h3{color:#1d1d1f!important}
+        body.light-mode .ils-hub-panel h4{color:#1d1d1f!important}
+        body.light-mode .ils-hub-panel details{background:rgba(0,119,204,0.04)!important;border-color:rgba(0,119,204,0.15)!important}
+        body.light-mode .ils-hub-panel details summary{color:#0077cc!important}
+        body.light-mode .ils-hub-panel details p strong{color:#1d1d1f!important}
+        body.light-mode .stat-mini-val{color:inherit}
+        body.light-mode .s4-card{background:#fff;border-color:rgba(0,0,0,0.08)}
+        body.light-mode .s4-card h3{color:#1d1d1f}
+        body.light-mode .ai-quick-btn{background:rgba(0,119,204,0.06)!important;border-color:rgba(0,119,204,0.15)!important;color:#0077cc!important}
+        body.light-mode .ai-quick-btn:hover{background:rgba(0,119,204,0.12)!important}
+        body.light-mode .modal-overlay{background:rgba(0,0,0,0.5)}
+        body.light-mode .anchor-overlay{background:rgba(0,0,0,0.5)!important}
         body.light-mode .action-tracker{background:#fff;border-color:rgba(0,0,0,0.08)}
         body.light-mode .action-item{background:#f8f8fa;border-color:rgba(0,0,0,0.06)}
         body.light-mode .ai-title{color:#1d1d1f}
@@ -2087,12 +2114,11 @@ if (sessionStorage.getItem('s4_entered') === '1') {
             </div>
             <div class="hub-grid">
                 
-                <div class="hub-card" onclick="showSection('sectionVerify')">
-
-                    <div class="hc-icon" style="background:rgba(0,170,255,0.1);"><i class="fas fa-check-circle" style="color:#00aaff;"></i></div>
-                    <div class="hc-title">Verify Records <span style="background:rgba(0,170,255,0.15);color:#00aaff;font-size:0.65rem;padding:2px 8px;border-radius:3px;font-weight:600;margin-left:6px;">LIVE</span></div>
-                    <div class="hc-desc">Upload a PDF, spreadsheet, or any file to verify its integrity against the blockchain anchor. Batch verification supported.</div>
-                    <div class="hc-meta"><i class="fas fa-file-upload"></i> Drag-drop files &bull; Free verification</div>
+                <div class="hub-card" onclick="showSection('sectionILS')">
+                    <div class="hc-icon" style="background:rgba(201,168,76,0.1);"><i class="fas fa-brain" style="color:#c9a84c;"></i></div>
+                    <div class="hc-title">Anchor-S4 <span style="background:rgba(201,168,76,0.15);color:#c9a84c;font-size:0.65rem;padding:2px 8px;border-radius:3px;font-weight:600;margin-left:6px;">20+ TOOLS</span></div>
+                    <div class="hc-desc">20+ integrated defense tools: Gap Analysis, DMSMS, Readiness, Compliance, Risk, Predictive Maintenance, ROI, Audit Vault, and more.</div>
+                    <div class="hc-meta"><i class="fas fa-tools"></i> 20+ ILS tools &bull; AI-powered</div>
                     <div class="hc-arrow"><i class="fas fa-chevron-right"></i></div>
                 </div>
                 <div class="hub-card" onclick="showSection('sectionLog')">
@@ -2102,11 +2128,12 @@ if (sessionStorage.getItem('s4_entered') === '1') {
                     <div class="hc-meta"><i class="fas fa-link"></i> On-chain explorer links</div>
                     <div class="hc-arrow"><i class="fas fa-chevron-right"></i></div>
                 </div>
-                <div class="hub-card" onclick="showSection('sectionILS')">
-                    <div class="hc-icon" style="background:rgba(201,168,76,0.1);"><i class="fas fa-brain" style="color:#c9a84c;"></i></div>
-                    <div class="hc-title">Anchor-S4 <span style="background:rgba(201,168,76,0.15);color:#c9a84c;font-size:0.65rem;padding:2px 8px;border-radius:3px;font-weight:600;margin-left:6px;">20+ TOOLS</span></div>
-                    <div class="hc-desc">20+ integrated defense tools: Gap Analysis, DMSMS, Readiness, Compliance, Risk, Predictive Maintenance, ROI, Audit Vault, and more.</div>
-                    <div class="hc-meta"><i class="fas fa-tools"></i> 20+ ILS tools &bull; AI-powered</div>
+                <div class="hub-card" onclick="showSection('sectionVerify')">
+
+                    <div class="hc-icon" style="background:rgba(0,170,255,0.1);"><i class="fas fa-check-circle" style="color:#00aaff;"></i></div>
+                    <div class="hc-title">Verify Records <span style="background:rgba(0,170,255,0.15);color:#00aaff;font-size:0.65rem;padding:2px 8px;border-radius:3px;font-weight:600;margin-left:6px;">LIVE</span></div>
+                    <div class="hc-desc">Upload a PDF, spreadsheet, or any file to verify its integrity against the blockchain anchor. Batch verification supported.</div>
+                    <div class="hc-meta"><i class="fas fa-file-upload"></i> Drag-drop files &bull; Free verification</div>
                     <div class="hc-arrow"><i class="fas fa-chevron-right"></i></div>
                 </div>
                 <div class="hub-card" onclick="showSection('sectionSystems')">
@@ -2258,12 +2285,19 @@ if (sessionStorage.getItem('s4_entered') === '1') {
                                 <div><strong>Audit:</strong> Demonstrate tamper-proof trail to inspectors</div>
                             </div>
                         </div>
-                        <!-- Recently Anchored Records — click to verify -->
+                        <!-- Previously Anchored Records — click to pull full record for verification -->
                         <div class="s4-card" style="margin-top:16px;">
-                            <h3><i class="fas fa-clock-rotate-left" style="color:var(--accent);"></i> Recently Anchored Records</h3>
-                            <p style="color:var(--steel);font-size:0.82rem;margin-bottom:10px;">Click any record to auto-fill its hash for verification.</p>
-                            <div id="verifyRecentAnchors" style="max-height:320px;overflow-y:auto;">
+                            <h3><i class="fas fa-clock-rotate-left" style="color:var(--accent);"></i> Previously Anchored Records</h3>
+                            <p style="color:var(--steel);font-size:0.82rem;margin-bottom:10px;">Select any previously anchored record to pull its full data for verification — no need to re-upload.</p>
+                            <div id="verifyRecentAnchors" style="max-height:420px;overflow-y:auto;">
                                 <div style="color:var(--muted);text-align:center;padding:1.5rem;font-size:0.82rem;">No anchored records yet. Anchor a record first to see it here.</div>
+                            </div>
+                            <div id="verifyRecordDetail" style="display:none;margin-top:12px;padding:14px;background:var(--surface);border:1px solid var(--border);border-radius:3px;">
+                                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+                                    <h4 style="font-size:0.88rem;font-weight:700;color:var(--accent);margin:0;"><i class="fas fa-file-circle-check"></i> Full Record Detail</h4>
+                                    <button onclick="document.getElementById('verifyRecordDetail').style.display='none'" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:0.85rem;">&times;</button>
+                                </div>
+                                <div id="verifyRecordDetailBody" style="font-size:0.82rem;"></div>
                             </div>
                         </div>
                     </div>
@@ -5955,17 +5989,17 @@ function refreshVerifyRecents() {
             var sr = sessionRecords[i];
             if (sr.hash && !seen[sr.hash]) {
                 seen[sr.hash] = true;
-                records.push({hash:sr.hash, label:sr.label||sr.type||'Record', icon:sr.icon||'fa-file', branch:sr.branch||'JOINT', timestamp:sr.timestamp, txHash:sr.txHash||'', content:sr.content||''});
+                records.push({hash:sr.hash, label:sr.label||sr.type||'Record', icon:sr.icon||'fa-file', branch:sr.branch||'JOINT', timestamp:sr.timestamp, txHash:sr.txHash||'', content:sr.content||'', type:sr.record_type||sr.type||'', fee:sr.fee||''});
             }
         }
     }
-    // Vault records (persisted)
+    // Vault records (persisted — these have the richest data)
     if (typeof s4Vault !== 'undefined') {
         for (var j = 0; j < Math.min(s4Vault.length, 30); j++) {
             var vr = s4Vault[j];
             if (vr.hash && !seen[vr.hash]) {
                 seen[vr.hash] = true;
-                records.push({hash:vr.hash, label:vr.label||vr.type||'Record', icon:vr.icon||'fa-file', branch:vr.branch||'JOINT', timestamp:vr.timestamp, txHash:vr.txHash||'', content:vr.content||''});
+                records.push({hash:vr.hash, label:vr.label||vr.type||'Record', icon:vr.icon||'fa-file', branch:vr.branch||'JOINT', timestamp:vr.timestamp, txHash:vr.txHash||'', content:vr.content||'', type:vr.type||'', fee:vr.fee||'', source:vr.source||'', encrypted:vr.encrypted||false, explorerUrl:vr.explorerUrl||'', verified:vr.verified||false, verifiedAt:vr.verifiedAt||''});
             }
         }
     }
@@ -5973,22 +6007,60 @@ function refreshVerifyRecents() {
         container.innerHTML = '<div style="color:var(--muted);text-align:center;padding:1.5rem;font-size:0.82rem;">No anchored records yet. Anchor a record first to see it here.</div>';
         return;
     }
-    container.innerHTML = records.slice(0, 20).map(function(r) {
+    // Store for detail view access
+    window._verifyRecordsList = records;
+    container.innerHTML = records.slice(0, 30).map(function(r, idx) {
         var ago = '';
         try {
             var diff = Math.floor((Date.now() - new Date(r.timestamp).getTime()) / 1000);
             ago = diff < 60 ? diff + 's ago' : diff < 3600 ? Math.floor(diff/60) + 'm ago' : diff < 86400 ? Math.floor(diff/3600) + 'h ago' : Math.floor(diff/86400) + 'd ago';
         } catch(e) { ago = ''; }
-        return '<div onclick="loadRecordToVerify(\'' + r.hash + '\',\'' + (r.content||'').replace(/'/g,"\\'").replace(/\n/g,' ').substring(0,80) + '\')" style="display:flex;align-items:center;gap:10px;padding:8px 10px;border:1px solid rgba(255,255,255,0.05);border-radius:3px;margin-bottom:4px;cursor:pointer;transition:all 0.2s;background:rgba(255,255,255,0.02);" onmouseover="this.style.borderColor=\'rgba(0,170,255,0.3)\';this.style.background=\'rgba(0,170,255,0.05)\'" onmouseout="this.style.borderColor=\'rgba(255,255,255,0.05)\';this.style.background=\'rgba(255,255,255,0.02)\'">'
+        return '<div style="display:flex;align-items:center;gap:10px;padding:8px 10px;border:1px solid rgba(255,255,255,0.05);border-radius:3px;margin-bottom:4px;cursor:pointer;transition:all 0.2s;background:rgba(255,255,255,0.02);" onmouseover="this.style.borderColor=\'rgba(0,170,255,0.3)\';this.style.background=\'rgba(0,170,255,0.05)\'" onmouseout="this.style.borderColor=\'rgba(255,255,255,0.05)\';this.style.background=\'rgba(255,255,255,0.02)\'">'
             + '<i class="fas ' + r.icon + '" style="color:var(--accent);font-size:0.8rem;width:20px;text-align:center;"></i>'
-            + '<div style="flex:1;min-width:0;">'
-            + '<div style="font-size:0.78rem;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + r.label + '</div>'
+            + '<div onclick="loadRecordToVerify(\'' + r.hash + '\',\'' + (r.content||'').replace(/'/g,"\\'").replace(/\n/g,' ').substring(0,80) + '\')" style="flex:1;min-width:0;">'
+            + '<div style="font-size:0.78rem;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + r.label + '</div>'
             + '<div style="font-size:0.65rem;color:var(--muted);font-family:monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + r.hash.substring(0,24) + '...</div>'
             + '</div>'
             + '<span style="font-size:0.65rem;color:var(--steel);white-space:nowrap;">' + ago + '</span>'
-            + '<i class="fas fa-arrow-right" style="color:var(--accent);font-size:0.65rem;opacity:0.5;"></i>'
+            + '<button onclick="event.stopPropagation();showVerifyRecordDetail(' + idx + ')" style="background:rgba(0,170,255,0.1);border:1px solid rgba(0,170,255,0.2);border-radius:3px;padding:3px 8px;color:var(--accent);font-size:0.68rem;cursor:pointer;font-family:inherit;font-weight:600;white-space:nowrap;" title="View full record details"><i class="fas fa-expand"></i> View</button>'
+            + '<button onclick="event.stopPropagation();loadRecordToVerify(\'' + r.hash + '\',\'' + (r.content||'').replace(/'/g,"\\'").replace(/\n/g,' ').substring(0,80) + '\')" style="background:rgba(0,170,255,0.1);border:1px solid rgba(0,170,255,0.2);border-radius:3px;padding:3px 8px;color:var(--accent);font-size:0.68rem;cursor:pointer;font-family:inherit;font-weight:600;white-space:nowrap;" title="Auto-fill hash for verification"><i class="fas fa-check-circle"></i> Verify</button>'
             + '</div>';
     }).join('');
+}
+
+function showVerifyRecordDetail(idx) {
+    var records = window._verifyRecordsList || [];
+    var r = records[idx];
+    if (!r) return;
+    var detail = document.getElementById('verifyRecordDetail');
+    var body = document.getElementById('verifyRecordDetailBody');
+    if (!detail || !body) return;
+    var ts = '';
+    try { ts = new Date(r.timestamp).toLocaleString(); } catch(e) { ts = r.timestamp || 'N/A'; }
+    var html = '<div style="display:grid;grid-template-columns:120px 1fr;gap:6px 12px;margin-bottom:12px;">';
+    html += '<span style="color:var(--muted);font-weight:600;">Label:</span><span style="color:var(--text);">' + (r.label||'N/A') + '</span>';
+    html += '<span style="color:var(--muted);font-weight:600;">Type:</span><span style="color:var(--text);">' + (r.type||r.label||'N/A') + '</span>';
+    html += '<span style="color:var(--muted);font-weight:600;">Branch:</span><span style="color:var(--text);">' + (r.branch||'JOINT') + '</span>';
+    html += '<span style="color:var(--muted);font-weight:600;">Anchored:</span><span style="color:var(--text);">' + ts + '</span>';
+    html += '<span style="color:var(--muted);font-weight:600;">SHA-256:</span><span style="font-family:monospace;font-size:0.72rem;color:var(--accent);word-break:break-all;">' + (r.hash||'N/A') + '</span>';
+    if (r.txHash) html += '<span style="color:var(--muted);font-weight:600;">TX Hash:</span><span style="font-family:monospace;font-size:0.72rem;color:var(--steel);word-break:break-all;">' + r.txHash + '</span>';
+    if (r.fee) html += '<span style="color:var(--muted);font-weight:600;">Fee:</span><span style="color:var(--text);">' + r.fee + ' SLS</span>';
+    if (r.source) html += '<span style="color:var(--muted);font-weight:600;">Source:</span><span style="color:var(--text);">' + r.source + '</span>';
+    if (r.encrypted) html += '<span style="color:var(--muted);font-weight:600;">Encrypted:</span><span style="color:#ffa500;">Yes (CUI protected)</span>';
+    if (r.verified) html += '<span style="color:var(--muted);font-weight:600;">Verified:</span><span style="color:var(--accent);"><i class="fas fa-check-circle"></i> ' + (r.verifiedAt ? new Date(r.verifiedAt).toLocaleString() : 'Yes') + '</span>';
+    if (r.explorerUrl) html += '<span style="color:var(--muted);font-weight:600;">Explorer:</span><a href="' + r.explorerUrl + '" target="_blank" rel="noopener" style="color:var(--accent);font-size:0.78rem;">View on XRPL <i class="fas fa-external-link-alt" style="font-size:0.65rem;"></i></a>';
+    html += '</div>';
+    if (r.content) {
+        html += '<div style="margin-top:8px;"><span style="color:var(--muted);font-weight:600;display:block;margin-bottom:4px;">Record Content:</span>';
+        html += '<div style="background:var(--card);border:1px solid var(--border);border-radius:3px;padding:10px;font-family:monospace;font-size:0.75rem;color:var(--text);max-height:200px;overflow-y:auto;white-space:pre-wrap;word-break:break-word;">' + (r.content||'').replace(/</g,'&lt;').replace(/>/g,'&gt;') + '</div></div>';
+    }
+    html += '<div style="display:flex;gap:8px;margin-top:12px;">';
+    html += '<button onclick="loadRecordToVerify(\'' + r.hash + '\',\'' + (r.content||'').replace(/'/g,"\\'").replace(/\n/g,' ').substring(0,200) + '\')" style="flex:1;background:var(--accent);color:#fff;border:none;border-radius:3px;padding:8px 16px;font-size:0.82rem;cursor:pointer;font-family:inherit;font-weight:600;"><i class="fas fa-check-circle" style="margin-right:6px;"></i>Verify This Record</button>';
+    if (r.content) html += '<button onclick="navigator.clipboard.writeText(\'' + (r.content||'').replace(/'/g,"\\'").replace(/\n/g,'\\n') + '\');s4Notify(\'Copied\',\'Record content copied to clipboard\',\'success\',null,3000)" style="background:rgba(0,170,255,0.1);color:var(--accent);border:1px solid rgba(0,170,255,0.2);border-radius:3px;padding:8px 16px;font-size:0.82rem;cursor:pointer;font-family:inherit;font-weight:600;"><i class="fas fa-copy"></i></button>';
+    html += '</div>';
+    body.innerHTML = html;
+    detail.style.display = 'block';
+    detail.scrollIntoView({behavior:'smooth', block:'nearest'});
 }
 
 function loadRecordToVerify(hash, content) {
@@ -10089,6 +10161,8 @@ function initILSEngine() {
 
 // ── Toast Notifications ──
 let s4ToastQueue = [];
+var _lastToastKey = '', _lastToastTime = 0;
+var S4_MAX_TOASTS = 5;
 function s4Notify(title, msg, type, actions, duration) {
     type = type || 'info'; duration = duration || 8000;
     /* Only show notifications when user is inside the platform workspace */
@@ -10096,7 +10170,19 @@ function s4Notify(title, msg, type, actions, duration) {
     if (!ws || ws.style.display !== 'block') return;
     const container = document.getElementById('s4ToastContainer');
     if (!container) return;
+    // Dedup: skip identical toast within 2 seconds
+    var toastKey = title + '|' + msg + '|' + type;
+    var now = Date.now();
+    if (toastKey === _lastToastKey && now - _lastToastTime < 2000) return;
+    _lastToastKey = toastKey; _lastToastTime = now;
     if (!container.getAttribute('aria-live')) { container.setAttribute('aria-live', 'polite'); container.setAttribute('role', 'status'); }
+    // Cap visible toasts — dismiss oldest if at limit
+    var visible = container.querySelectorAll('.s4-toast:not(.dismissing)');
+    if (visible.length >= S4_MAX_TOASTS) {
+        for (var ti = 0; ti < visible.length - S4_MAX_TOASTS + 1; ti++) {
+            dismissToast(visible[ti].querySelector('.s4-toast-close') || visible[ti]);
+        }
+    }
     const icons = {info:'<i class="fas fa-info-circle" style="color:var(--accent)"></i>', warning:'<i class="fas fa-exclamation-triangle" style="color:#ffa500"></i>', danger:'<i class="fas fa-times-circle" style="color:#ff3333"></i>', success:'<i class="fas fa-check-circle" style="color:var(--accent)"></i>'};
     const toast = document.createElement('div');
     toast.className = 's4-toast ' + type;
@@ -10108,14 +10194,16 @@ function s4Notify(title, msg, type, actions, duration) {
     }
     toast.innerHTML = '<div class="s4-toast-icon">' + (icons[type]||icons.info) + '</div><div class="s4-toast-body"><div class="s4-toast-title">' + title + '</div><div class="s4-toast-msg">' + msg + '</div>' + actionsHtml + '</div><button class="s4-toast-close" onclick="dismissToast(this)">&times;</button><div class="s4-toast-progress" style="animation-duration:' + duration + 'ms"></div>';
     container.appendChild(toast);
-    setTimeout(() => { dismissToast(toast.querySelector('.s4-toast-close')); }, duration);
+    var _autoTimer = setTimeout(() => { dismissToast(toast.querySelector('.s4-toast-close')); }, duration);
+    toast._autoTimer = _autoTimer;
     updateNotifBadge();
 }
 function dismissToast(btn) {
-    const toast = btn.closest ? btn.closest('.s4-toast') : btn.parentElement;
+    const toast = btn && btn.closest ? btn.closest('.s4-toast') : (btn && btn.classList && btn.classList.contains('s4-toast') ? btn : (btn ? btn.parentElement : null));
     if (!toast || toast.classList.contains('dismissing')) return;
     toast.classList.add('dismissing');
-    setTimeout(() => toast.remove(), 300);
+    if (toast._autoTimer) { clearTimeout(toast._autoTimer); toast._autoTimer = null; }
+    setTimeout(() => { if (toast.parentNode) toast.remove(); }, 300);
 }
 function updateNotifBadge() {
     const badge = document.getElementById('notifBadge');
@@ -10134,11 +10222,7 @@ function toggleNotifPanel() {
 // ── Unified Action Items Store (localStorage-backed) ──
 let s4ActionItems;
 try { s4ActionItems = JSON.parse(localStorage.getItem('s4ActionItems') || '[]'); } catch(_e) { s4ActionItems = []; }
-// Purge auto-generated items from simulated data (DMSMS-, RDY-, LC- prefixed IDs)
-s4ActionItems = s4ActionItems.filter(function(a) {
-    return !/^(DMSMS-|RDY-|LC-)/.test(a.id);
-});
-localStorage.setItem('s4ActionItems', JSON.stringify(s4ActionItems));
+// Note: previously purged DMSMS-/RDY-/LC- items on every load — removed to preserve user data
 function saveActionItems() {
     localStorage.setItem('s4ActionItems', JSON.stringify(s4ActionItems));
     updateNotifBadge();
@@ -10523,7 +10607,7 @@ function switchHubTab(panelId, btn) {
     if (panel) { panel.style.display = 'block'; panel.classList.add('active'); panel.style.animation = 'fadeIn 0.3s ease'; }
     if (btn) btn.classList.add('active');
     // Load data for workspace panels
-    if (panelId === 'hub-actions') { renderHubActions(); if (typeof renderActionCalendar === 'function') renderActionCalendar(); }
+    if (panelId === 'hub-actions') { if (typeof renderActionCalendar === 'function') renderActionCalendar(); renderHubActions(); setTimeout(renderHubActions, 150); }
     if (panelId === 'hub-vault') { renderVault(); setTimeout(function(){ if (typeof showSampleDigitalThread === 'function') showSampleDigitalThread(); populateDigitalThreadDropdown(); }, 400); }
     if (panelId === 'hub-docs') { if (typeof renderDocLibrary === 'function') renderDocLibrary(); }
     if (panelId === 'hub-compliance') { if (typeof calcCompliance === 'function') calcCompliance(); }
