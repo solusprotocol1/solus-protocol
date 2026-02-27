@@ -150,16 +150,7 @@ function initRoleSystem() {
         if (typeof reloadVaultForRole === 'function') reloadVaultForRole();
     }
     updateRoleBadge();
-    // Show role selector ONLY when user is inside the platform (not landing page)
-    if (!_currentRole) {
-        setTimeout(function() {
-            // Must have entered platform AND onboarding must be done — check DOM visibility, not sessionStorage
-            var ws = document.getElementById('platformWorkspace');
-            if (ws && ws.style.display === 'block' && sessionStorage.getItem('s4_onboard_done')) {
-                showRoleSelector();
-            }
-        }, 2500);
-    }
+    // Role selector is available via the role badge — do not auto-popup
 }
 
 (function() {

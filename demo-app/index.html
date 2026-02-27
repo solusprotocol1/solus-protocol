@@ -8943,7 +8943,7 @@ function generateAiResponse(query) {
 
     // ── WORKSPACE STATS ──
     if (/stats|statistic|how.*many.*record|how.*many.*anchor|my.*data|workspace.*status/.test(q)) {
-        return '<strong>Workspace Statistics</strong><br><br>\u2022 Records in Vault: <strong>' + s4Vault.length + '</strong><br>\u2022 Action Items: <strong>' + s4ActionItems.length + '</strong> (' + s4ActionItems.filter(a=>a.done).length + ' complete)<br>\u2022 Total SLS Fees: <strong>' + (stats?.slsFees || 0).toFixed(2) + ' SLS</strong> ($' + ((stats?.slsFees || 0) * 0.01).toFixed(4) + ')<br>\u2022 Records Anchored: <strong>' + (stats?.anchored || 0) + '</strong><br>\u2022 Record Types Used: <strong>' + (stats?.types?.size || 0) + '</strong><br>\u2022 Uploaded Documents: <strong>' + (typeof uploadedDocumentStore !== 'undefined' ? uploadedDocumentStore.length : 0) + '</strong>';
+        return '<strong>Workspace Statistics</strong><br><br>\u2022 Records in Vault: <strong>' + s4Vault.length + '</strong><br>\u2022 Action Items: <strong>' + s4ActionItems.length + '</strong> (' + s4ActionItems.filter(a=>a.done).length + ' complete)<br>\u2022 Total Credit Fees: <strong>' + (stats?.slsFees || 0).toFixed(2) + ' Credits</strong> ($' + ((stats?.slsFees || 0) * 0.01).toFixed(4) + ')<br>\u2022 Records Anchored: <strong>' + (stats?.anchored || 0) + '</strong><br>\u2022 Record Types Used: <strong>' + (stats?.types?.size || 0) + '</strong><br>\u2022 Uploaded Documents: <strong>' + (typeof uploadedDocumentStore !== 'undefined' ? uploadedDocumentStore.length : 0) + '</strong>';
     }
 
     // ── ACRONYMS & TERMS ──

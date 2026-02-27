@@ -66,9 +66,9 @@
     <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" integrity="sha384-9nhczxUqK87bcKHh20fSQcTGD4qq5GhayNYSYWqwBkINBhOfQLg/P5HG5lF1urn4" crossorigin="anonymous"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/qrcode@1.5.4/build/qrcode.min.js"></script>
     <!-- CSS is imported via main.js and extracted by Vite -->
-  <script type="module" crossorigin src="/prod-app/dist/assets/index-DGGP7mra.js"></script>
-  <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/engine-CfFLizfO.js">
-  <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/enhancements-BqBrjFYj.js">
+  <script type="module" crossorigin src="/prod-app/dist/assets/index-uOoLLozF.js"></script>
+  <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/engine-BdaSwesT.js">
+  <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/enhancements-CHYYii7P.js">
   <link rel="stylesheet" crossorigin href="/prod-app/dist/assets/index-BDV2-iZN.css">
 </head>
 <body>
@@ -236,7 +236,7 @@
         <div class="stat-strip" id="statsRow">
             <div class="ss-item"><span class="ss-val" id="statVerified">0</span> <span class="ss-label">Verified</span></div>
             <div class="ss-item"><span class="ss-val" id="statTypes">0</span> <span class="ss-label">Types</span></div>
-            <div class="ss-item"><span class="ss-val" id="statSlsFees">0.000</span> <span class="ss-label">$SLS Fees</span></div>
+            <div class="ss-item"><span class="ss-val" id="statSlsFees">0.000</span> <span class="ss-label">Credit Fees</span></div>
         </div>
     <!-- ═══ ONBOARDING WIZARD ═══ -->
     <div class="onboard-overlay" id="onboardOverlay" style="display:none">
@@ -257,9 +257,9 @@
                 <!-- Step 0: Welcome -->
                 <div class="onboard-step active" id="onboardStep0">
                     <h4 style="color:#fff;margin:0 0 12px;font-size:1rem"><i class="fas fa-shield-halved" style="color:var(--accent);margin-right:8px"></i>Platform Setup</h4>
-                    <p style="color:var(--steel);font-size:0.85rem;line-height:1.6;margin-bottom:16px">S4 Ledger will set up your account, provision your XRPL wallet, and allocate your $SLS tokens. This takes just a few seconds.</p>
+                    <p style="color:var(--steel);font-size:0.85rem;line-height:1.6;margin-bottom:16px">S4 Ledger will set up your account, provision your XRPL wallet, and allocate your Credits. This takes just a few seconds.</p>
                     <div class="onboard-feature"><div class="onboard-icon" style="background:rgba(0,170,255,0.1);color:var(--accent)"><i class="fas fa-anchor"></i></div><div><strong style="color:#fff">Anchor Records</strong><div style="color:var(--steel);font-size:0.8rem">SHA-256 hash any document to the XRP Ledger in 3-5 seconds</div></div></div>
-                    <div class="onboard-feature"><div class="onboard-icon" style="background:rgba(201,168,76,0.1);color:var(--gold)"><i class="fas fa-coins"></i></div><div><strong style="color:#fff">$SLS Token Economy</strong><div style="color:var(--steel);font-size:0.8rem">0.01 SLS per anchor (~$0.0001). Real on-chain token transfers.</div></div></div>
+                    <div class="onboard-feature"><div class="onboard-icon" style="background:rgba(201,168,76,0.1);color:var(--gold)"><i class="fas fa-coins"></i></div><div><strong style="color:#fff">Credit Economy</strong><div style="color:var(--steel);font-size:0.8rem">0.01 Credits per anchor (~$0.0001). Real on-chain token transfers.</div></div></div>
                     <div class="onboard-feature"><div class="onboard-icon" style="background:rgba(0,170,255,0.1);color:var(--green)"><i class="fas fa-brain"></i></div><div><strong style="color:#fff">20+ ILS Tools</strong><div style="color:var(--steel);font-size:0.8rem">Gap analysis, DMSMS, readiness, compliance, risk, and more</div></div></div>
                     <div class="onboard-feature"><div class="onboard-icon" style="background:rgba(0,170,255,0.1);color:#00aaff"><i class="fas fa-robot"></i></div><div><strong style="color:#fff">AI Agent</strong><div style="color:var(--steel);font-size:0.8rem">Context-aware assistant available on every tool and tab</div></div></div>
                     <div style="text-align:center;margin-top:20px"><button class="onboard-btn" onclick="onboardNext()"><i class="fas fa-arrow-right" style="margin-right:6px"></i>Start Setup</button></div>
@@ -296,32 +296,32 @@
                     <div id="onboardWalletDone" style="display:none;text-align:center;margin-top:16px"><button class="onboard-btn" onclick="onboardNext()">Continue <i class="fas fa-arrow-right" style="margin-left:6px"></i></button></div>
                 </div>
 
-                <!-- Step 3: SLS Allocation -->
+                <!-- Step 3: Credit Allocation -->
                 <div class="onboard-step" id="onboardStep3">
-                    <h4 style="color:#fff;margin:0 0 12px;font-size:1rem"><i class="fas fa-coins" style="color:var(--gold);margin-right:8px"></i>Step 3: $SLS Token Allocation</h4>
-                    <p style="color:var(--steel);font-size:0.82rem;margin-bottom:16px">Your SLS allocation is based on your subscription tier. Select a plan:</p>
+                    <h4 style="color:#fff;margin:0 0 12px;font-size:1rem"><i class="fas fa-coins" style="color:var(--gold);margin-right:8px"></i>Step 3: Credit Allocation</h4>
+                    <p style="color:var(--steel);font-size:0.82rem;margin-bottom:16px">Your Credit allocation is based on your subscription tier. Select a plan:</p>
                     <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:16px">
-                        <div class="onboard-tier" onclick="selectOnboardTier(this,'pilot')" data-tier="pilot"><div style="font-size:0.72rem;color:var(--steel);text-transform:uppercase;letter-spacing:0.5px">Pilot</div><div style="font-size:1.1rem;font-weight:800;color:#fff;margin:4px 0">Free</div><div style="color:var(--gold);font-weight:700;font-size:0.85rem">100 SLS</div></div>
-                        <div class="onboard-tier selected" onclick="selectOnboardTier(this,'starter')" data-tier="starter"><div style="font-size:0.72rem;color:var(--steel);text-transform:uppercase;letter-spacing:0.5px">Starter</div><div style="font-size:1.1rem;font-weight:800;color:#fff;margin:4px 0">$999/mo</div><div style="color:var(--gold);font-weight:700;font-size:0.85rem">25,000 SLS</div></div>
-                        <div class="onboard-tier" onclick="selectOnboardTier(this,'professional')" data-tier="professional"><div style="font-size:0.72rem;color:var(--steel);text-transform:uppercase;letter-spacing:0.5px">Professional</div><div style="font-size:1.1rem;font-weight:800;color:#fff;margin:4px 0">$2,499/mo</div><div style="color:var(--gold);font-weight:700;font-size:0.85rem">100,000 SLS</div></div>
-                        <div class="onboard-tier" onclick="selectOnboardTier(this,'enterprise')" data-tier="enterprise"><div style="font-size:0.72rem;color:var(--steel);text-transform:uppercase;letter-spacing:0.5px">Enterprise</div><div style="font-size:1.1rem;font-weight:800;color:#fff;margin:4px 0">$9,999/mo</div><div style="color:var(--gold);font-weight:700;font-size:0.85rem">500,000 SLS</div></div>
+                        <div class="onboard-tier" onclick="selectOnboardTier(this,'pilot')" data-tier="pilot"><div style="font-size:0.72rem;color:var(--steel);text-transform:uppercase;letter-spacing:0.5px">Pilot</div><div style="font-size:1.1rem;font-weight:800;color:#fff;margin:4px 0">Free</div><div style="color:var(--gold);font-weight:700;font-size:0.85rem">100 Credits</div></div>
+                        <div class="onboard-tier selected" onclick="selectOnboardTier(this,'starter')" data-tier="starter"><div style="font-size:0.72rem;color:var(--steel);text-transform:uppercase;letter-spacing:0.5px">Starter</div><div style="font-size:1.1rem;font-weight:800;color:#fff;margin:4px 0">$999/mo</div><div style="color:var(--gold);font-weight:700;font-size:0.85rem">25,000 Credits</div></div>
+                        <div class="onboard-tier" onclick="selectOnboardTier(this,'professional')" data-tier="professional"><div style="font-size:0.72rem;color:var(--steel);text-transform:uppercase;letter-spacing:0.5px">Professional</div><div style="font-size:1.1rem;font-weight:800;color:#fff;margin:4px 0">$2,499/mo</div><div style="color:var(--gold);font-weight:700;font-size:0.85rem">100,000 Credits</div></div>
+                        <div class="onboard-tier" onclick="selectOnboardTier(this,'enterprise')" data-tier="enterprise"><div style="font-size:0.72rem;color:var(--steel);text-transform:uppercase;letter-spacing:0.5px">Enterprise</div><div style="font-size:1.1rem;font-weight:800;color:#fff;margin:4px 0">$9,999/mo</div><div style="color:var(--gold);font-weight:700;font-size:0.85rem">500,000 Credits</div></div>
                     </div>
                     <div style="background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:14px;text-align:center">
-                        <div style="color:var(--steel);font-size:0.78rem;margin-bottom:4px">Your SLS Balance</div>
+                        <div style="color:var(--steel);font-size:0.78rem;margin-bottom:4px">Your Credit Balance</div>
                         <div style="font-size:1.6rem;font-weight:800;color:var(--gold)" id="onboardSlsBal">25,000</div>
-                        <div style="color:var(--steel);font-size:0.72rem">= <span id="onboardSlsAnchors">2,500,000</span> anchors at 0.01 SLS each</div>
+                        <div style="color:var(--steel);font-size:0.72rem">= <span id="onboardSlsAnchors">2,500,000</span> anchors at 0.01 Credits each</div>
                     </div>
                     <div style="text-align:center;margin-top:16px"><button class="onboard-btn" onclick="onboardNext()">Continue <i class="fas fa-arrow-right" style="margin-left:6px"></i></button></div>
                 </div>
 
-                <!-- Step 4: How SLS Works -->
+                <!-- Step 4: How Credits Work -->
                 <div class="onboard-step" id="onboardStep4">
-                    <h4 style="color:#fff;margin:0 0 12px;font-size:1rem"><i class="fas fa-coins" style="color:var(--gold);margin-right:8px"></i>Step 4: How Your $SLS Is Used</h4>
-                    <p style="color:var(--steel);font-size:0.82rem;margin-bottom:16px">Every time you anchor a record, a tiny SLS fee flows to the S4 Treasury on the XRP Ledger.</p>
+                    <h4 style="color:#fff;margin:0 0 12px;font-size:1rem"><i class="fas fa-coins" style="color:var(--gold);margin-right:8px"></i>Step 4: How Your Credits Are Used</h4>
+                    <p style="color:var(--steel);font-size:0.82rem;margin-bottom:16px">Every time you anchor a record, a tiny Credit fee flows to the S4 Treasury on the XRP Ledger.</p>
                     <div style="background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:16px;margin-bottom:16px">
                         <div style="display:flex;align-items:center;gap:12px;justify-content:center;flex-wrap:wrap">
                             <div style="text-align:center;padding:10px"><div style="font-size:0.72rem;color:var(--steel);margin-bottom:6px">Your Wallet</div><div style="width:44px;height:44px;border-radius:50%;background:rgba(0,170,255,0.1);display:inline-flex;align-items:center;justify-content:center;color:var(--accent)"><i class="fas fa-wallet"></i></div></div>
-                            <div style="color:var(--gold);font-weight:700;font-size:0.85rem"><i class="fas fa-long-arrow-alt-right"></i> 0.01 SLS</div>
+                            <div style="color:var(--gold);font-weight:700;font-size:0.85rem"><i class="fas fa-long-arrow-alt-right"></i> 0.01 Credits</div>
                             <div style="text-align:center;padding:10px"><div style="font-size:0.72rem;color:var(--steel);margin-bottom:6px">S4 Treasury</div><div style="width:44px;height:44px;border-radius:50%;background:rgba(201,168,76,0.1);display:inline-flex;align-items:center;justify-content:center;color:var(--gold)"><i class="fas fa-landmark"></i></div></div>
                             <div style="color:var(--accent);font-weight:700;font-size:0.85rem"><i class="fas fa-long-arrow-alt-right"></i> XRPL</div>
                             <div style="text-align:center;padding:10px"><div style="font-size:0.72rem;color:var(--steel);margin-bottom:6px">Immutable Record</div><div style="width:44px;height:44px;border-radius:50%;background:rgba(0,170,255,0.1);display:inline-flex;align-items:center;justify-content:center;color:#00aaff"><i class="fas fa-lock"></i></div></div>
@@ -329,7 +329,7 @@
                     </div>
                     <div style="font-size:0.82rem;color:var(--steel);line-height:1.6;margin-bottom:12px">
                         <div style="margin-bottom:8px"><i class="fas fa-check" style="color:var(--accent);margin-right:8px;width:14px"></i><strong style="color:#fff">Steps 1-3</strong> happen automatically when you subscribe</div>
-                        <div style="margin-bottom:8px"><i class="fas fa-check" style="color:var(--gold);margin-right:8px;width:14px"></i><strong style="color:var(--gold)">Step 4 (0.01 SLS → Treasury)</strong> is a REAL on-chain transfer via XRPL</div>
+                        <div style="margin-bottom:8px"><i class="fas fa-check" style="color:var(--gold);margin-right:8px;width:14px"></i><strong style="color:var(--gold)">Step 4 (0.01 Credits → Treasury)</strong> is a REAL on-chain transfer via XRPL</div>
                         <div style="margin-bottom:8px"><i class="fas fa-check" style="color:var(--accent);margin-right:8px;width:14px"></i>Every anchor produces a verifiable XRPL transaction hash with your record's SHA-256 fingerprint</div>
                         <div><i class="fas fa-check" style="color:var(--accent);margin-right:8px;width:14px"></i>Anyone can independently verify records on <a href="https://livenet.xrpl.org" target="_blank" style="color:var(--accent)">XRPL Explorer</a></div>
                     </div>
@@ -371,12 +371,11 @@
             </div>
             <div class="hub-grid">
                 
-                <div class="hub-card" onclick="showSection('sectionVerify')">
-
-                    <div class="hc-icon" style="background:rgba(0,170,255,0.1);"><i class="fas fa-check-circle" style="color:#00aaff;"></i></div>
-                    <div class="hc-title">Verify Records <span style="background:rgba(0,170,255,0.15);color:#00aaff;font-size:0.65rem;padding:2px 8px;border-radius:3px;font-weight:600;margin-left:6px;">LIVE</span></div>
-                    <div class="hc-desc">Upload a PDF, spreadsheet, or any file to verify its integrity against the blockchain anchor. Batch verification supported.</div>
-                    <div class="hc-meta"><i class="fas fa-file-upload"></i> Drag-drop files &bull; Free verification</div>
+                <div class="hub-card" onclick="showSection('sectionILS')">
+                    <div class="hc-icon" style="background:rgba(201,168,76,0.1);"><i class="fas fa-brain" style="color:#c9a84c;"></i></div>
+                    <div class="hc-title">Anchor-S4 <span style="background:rgba(201,168,76,0.15);color:#c9a84c;font-size:0.65rem;padding:2px 8px;border-radius:3px;font-weight:600;margin-left:6px;">20+ TOOLS</span></div>
+                    <div class="hc-desc">20+ integrated defense tools: Gap Analysis, DMSMS, Readiness, Compliance, Risk, Predictive Maintenance, ROI, Audit Vault, and more.</div>
+                    <div class="hc-meta"><i class="fas fa-tools"></i> 20+ ILS tools &bull; AI-powered</div>
                     <div class="hc-arrow"><i class="fas fa-chevron-right"></i></div>
                 </div>
                 <div class="hub-card" onclick="showSection('sectionLog')">
@@ -386,11 +385,12 @@
                     <div class="hc-meta"><i class="fas fa-link"></i> On-chain explorer links</div>
                     <div class="hc-arrow"><i class="fas fa-chevron-right"></i></div>
                 </div>
-                <div class="hub-card" onclick="showSection('sectionILS')">
-                    <div class="hc-icon" style="background:rgba(201,168,76,0.1);"><i class="fas fa-brain" style="color:#c9a84c;"></i></div>
-                    <div class="hc-title">Anchor-S4 <span style="background:rgba(201,168,76,0.15);color:#c9a84c;font-size:0.65rem;padding:2px 8px;border-radius:3px;font-weight:600;margin-left:6px;">20+ TOOLS</span></div>
-                    <div class="hc-desc">20+ integrated defense tools: Gap Analysis, DMSMS, Readiness, Compliance, Risk, Predictive Maintenance, ROI, Audit Vault, and more.</div>
-                    <div class="hc-meta"><i class="fas fa-tools"></i> 20+ ILS tools &bull; AI-powered</div>
+                <div class="hub-card" onclick="showSection('sectionVerify')">
+
+                    <div class="hc-icon" style="background:rgba(0,170,255,0.1);"><i class="fas fa-check-circle" style="color:#00aaff;"></i></div>
+                    <div class="hc-title">Verify Records <span style="background:rgba(0,170,255,0.15);color:#00aaff;font-size:0.65rem;padding:2px 8px;border-radius:3px;font-weight:600;margin-left:6px;">LIVE</span></div>
+                    <div class="hc-desc">Upload a PDF, spreadsheet, or any file to verify its integrity against the blockchain anchor. Batch verification supported.</div>
+                    <div class="hc-meta"><i class="fas fa-file-upload"></i> Drag-drop files &bull; Free verification</div>
                     <div class="hc-arrow"><i class="fas fa-chevron-right"></i></div>
                 </div>
                 <div class="hub-card" onclick="showSection('sectionSystems')">

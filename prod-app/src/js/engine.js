@@ -158,9 +158,9 @@ function _flashSlsBalance(newBalance, fee) {
     var toast = document.createElement('div');
     toast.id = 'slsFlashToast';
     toast.style.cssText = 'position:fixed;top:80px;right:24px;z-index:99999;background:linear-gradient(135deg,rgba(0,170,255,0.15),rgba(201,168,76,0.1));border:1px solid rgba(201,168,76,0.4);border-radius:3px;padding:16px 24px;font-size:0.9rem;color:#fff;box-shadow:0 8px 32px rgba(0,0,0,0.5);backdrop-filter:blur(12px);animation:slsToastIn 0.4s ease-out;min-width:260px;';
-    toast.innerHTML = '<div style="font-weight:700;color:#c9a84c;margin-bottom:6px;font-size:0.8rem;text-transform:uppercase;letter-spacing:0.5px"><i class="fas fa-coins" style="margin-right:6px"></i>SLS Balance Updated</div>'
-        + '<div style="font-size:1.4rem;font-weight:800;color:#c9a84c;">' + newBalance + ' <span style="font-size:0.8rem;font-weight:600;">SLS</span></div>'
-        + '<div style="font-size:0.78rem;color:#ff6b6b;margin-top:4px;">-' + fee.toFixed(2) + ' SLS (anchor fee)</div>';
+    toast.innerHTML = '<div style="font-weight:700;color:#c9a84c;margin-bottom:6px;font-size:0.8rem;text-transform:uppercase;letter-spacing:0.5px"><i class="fas fa-coins" style="margin-right:6px"></i>Credit Balance Updated</div>'
+        + '<div style="font-size:1.4rem;font-weight:800;color:#c9a84c;">' + newBalance + ' <span style="font-size:0.8rem;font-weight:600;">Credits</span></div>'
+        + '<div style="font-size:0.78rem;color:#ff6b6b;margin-top:4px;">-' + fee.toFixed(2) + ' Credits (anchor fee)</div>';
     document.body.appendChild(toast);
     setTimeout(function() {
         toast.style.animation = 'slsToastOut 0.4s ease-in forwards';
@@ -204,9 +204,9 @@ function _syncSlsBar() {
     var spentEl = document.getElementById('slsBarSpent');
     var planEl = document.getElementById('slsBarPlan');
     
-    if (balEl) { balEl.textContent = remaining.toLocaleString(undefined,{maximumFractionDigits:2}) + ' SLS'; balEl.style.color = remaining < 100 ? '#ff3333' : '#c9a84c'; }
+    if (balEl) { balEl.textContent = remaining.toLocaleString(undefined,{maximumFractionDigits:2}) + ' Credits'; balEl.style.color = remaining < 100 ? '#ff3333' : '#c9a84c'; }
     if (anchorsEl) anchorsEl.textContent = stats.anchored || 0;
-    if (spentEl) spentEl.textContent = (spent).toFixed(2) + ' SLS';
+    if (spentEl) spentEl.textContent = (spent).toFixed(2) + ' Credits';
     if (planEl) planEl.textContent = plan;
     // Also sync wallet tab SLS balance
     var walletSlsEl = document.getElementById('walletSLSBalance');
@@ -447,9 +447,8 @@ function enterPlatformAfterAuth() {
     document.querySelector('.hero').style.display = 'none';
     document.getElementById('platformWorkspace').style.display = 'block';
     sessionStorage.setItem('s4_entered', '1');
-    if (!sessionStorage.getItem('s4_onboard_done')) {
-        setTimeout(showOnboarding, 600);
-    }
+    // Mark onboarding as done so it doesn't auto-show and block hub cards
+    sessionStorage.setItem('s4_onboard_done', '1');
 }
 
 // ═══ Logout / Reset Session ═══

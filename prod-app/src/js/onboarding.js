@@ -22,12 +22,6 @@ function closeOnboarding() {
     var overlay = document.getElementById('onboardOverlay');
     if (overlay) overlay.style.display = 'none';
     sessionStorage.setItem('s4_onboard_done', '1');
-    // After onboarding, show role selector if no role set
-    setTimeout(function() {
-        if (typeof _currentRole !== 'undefined' && !_currentRole && typeof showRoleSelector === 'function') {
-            showRoleSelector();
-        }
-    }, 500);
     // Store selected tier in localStorage so it persists across reloads
     var tierInfo = _onboardTiers[_onboardTier] || _onboardTiers['starter'];
     localStorage.setItem('s4_selected_tier', _onboardTier);
@@ -98,22 +92,17 @@ function selectOnboardTier(el, tier) {
     var anchorsEl = document.getElementById('onboardSlsAnchors');
     if (balEl) balEl.textContent = info.sls.toLocaleString();
     if (anchorsEl) anchorsEl.textContent = (info.sls * 100).toLocaleString();
-    // Sync ALL SLS balance displays to selected tier
+    // Sync ALL Credit balance displays to selected tier
     var mainBal = document.getElementById('slsBarBalance');
-    if (mainBal) mainBal.textContent = info.sls.toLocaleString() + ' SLS';
+    if (mainBal) mainBal.textContent = info.sls.toLocaleString() + ' Credits';
     var toolBal = document.getElementById('toolSlsBal');
     if (toolBal) toolBal.textContent = info.sls.toLocaleString();
     var sidebarBal = document.getElementById('sidebarSlsBal');
-    if (sidebarBal) sidebarBal.textContent = info.sls.toLocaleString() + ' SLS';
+    if (sidebarBal) sidebarBal.textContent = info.sls.toLocaleString() + ' Credits';
 }
 
-// Auto-show onboarding on first visit — ONLY after entering platform (DOM check, not sessionStorage)
-document.addEventListener('DOMContentLoaded', function() {
-    var ws = document.getElementById('platformWorkspace');
-    if (ws && ws.style.display === 'block' && !sessionStorage.getItem('s4_onboard_done')) {
-        setTimeout(showOnboarding, 600);
-    }
-});
+// Onboarding is available via manual trigger — do not auto-show on page load
+// The onboarding wizard can still be launched via showOnboarding() if needed
 
 // === Window exports for inline event handlers ===
 window.closeOnboarding = closeOnboarding;
