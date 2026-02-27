@@ -131,5 +131,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // === Window exports for inline event handlers ===
+window.closeOnboarding = closeOnboarding;
 window.onboardNext = onboardNext;
 window.selectOnboardTier = selectOnboardTier;

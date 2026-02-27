@@ -355,7 +355,7 @@ function resetDemoSession() {
     // Close wallet sidebar if open
     if (typeof closeWalletSidebar === 'function') closeWalletSidebar();
     // Close AI agent if open
-    var aiPanel = document.getElementById('floatingAiPanel');
+    var aiPanel = document.getElementById('aiAgentWidget');
     if (aiPanel && aiPanel.style.display !== 'none') {
         if (typeof toggleAiAgent === 'function') toggleAiAgent();
     }
@@ -878,14 +878,14 @@ async function _anchorToXRPL(hash, record_type, content_preview) {
     let feeError = null;
     let anchorError = null;
     try {
-        if (_demoMode && _demoSession) {
-            // NETWORK_DEPENDENT: Demo anchor — uses same API as prod, passes user_email for fee deduction
+        if (_demoMode) {
+            // Demo mode: always send demo@s4ledger.com for SLS fee deduction via ops wallet
             const resp = await fetch('/api/anchor', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({
                     hash, record_type, content_preview,
-                    session_id: _demoSession.session_id,
+                    session_id: _demoSession ? _demoSession.session_id : 'demo',
                     user_email: 'demo@s4ledger.com'
                 })
             });
@@ -1141,7 +1141,7 @@ function resetVerify() {
     var panel = document.getElementById('verifyResult');
     if (panel) { panel.innerHTML = ''; panel.classList.remove('show'); }
     // Also reset file verification drop zone if it exists
-    var fileResult = document.getElementById('verifyFileResult');
+    var fileResult = document.getElementById('verifyFileResults');
     if (fileResult) { fileResult.innerHTML = ''; fileResult.classList.remove('show'); }
     document.getElementById('verifyInput').focus();
 }
@@ -8362,8 +8362,10 @@ window.generateRemediationPlans = generateRemediationPlans;
 window.generateReport = generateReport;
 window.handleDocFileSelect = handleDocFileSelect;
 window.handleILSFiles = handleILSFiles;
+window.handleSubFileDrop = handleSubFileDrop;
 window.handleSubFileUpload = handleSubFileUpload;
 window.handleToolUpload = handleToolUpload;
+window.handleVerifyFileDrop = handleVerifyFileDrop;
 window.handleVerifyFileSelect = handleVerifyFileSelect;
 window.inlineEditActionTitle = inlineEditActionTitle;
 window.loadDMSMSData = loadDMSMSData;
@@ -8372,6 +8374,7 @@ window.loadReadinessData = loadReadinessData;
 window.loadRecordToVerify = loadRecordToVerify;
 window.loadRiskData = loadRiskData;
 window.loadSample = loadSample;
+window.loadSamplePackage = loadSamplePackage;
 window.loadSelectedSampleDoc = loadSelectedSampleDoc;
 window.onILSProgramChange = onILSProgramChange;
 window.onSubProgramChange = onSubProgramChange;

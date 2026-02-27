@@ -6503,7 +6503,7 @@ window.persistILSUpload = function(filename, fileSize, ext, parsed) {
     var currentTool = document.querySelector('.ils-hub-tab.active');
     var toolId = currentTool ? (currentTool.getAttribute('data-tool') || 'gap_analysis') : 'gap_analysis';
     var program = '';
-    var progEl = document.getElementById('ilsProgramSelect');
+    var progEl = document.getElementById('ilsProgram');
     if (progEl) program = progEl.value || '';
 
     s4ApiSave('ils/uploads', {

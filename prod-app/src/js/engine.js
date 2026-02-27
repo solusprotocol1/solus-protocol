@@ -462,7 +462,7 @@ function logout() {
     // Close wallet sidebar if open
     if (typeof closeWalletSidebar === 'function') closeWalletSidebar();
     // Close AI agent if open
-    var aiPanel = document.getElementById('floatingAiPanel');
+    var aiPanel = document.getElementById('aiAgentWidget');
     if (aiPanel && aiPanel.style.display !== 'none') {
         if (typeof toggleAiAgent === 'function') toggleAiAgent();
     }
@@ -1139,7 +1139,7 @@ function resetVerify() {
     var panel = document.getElementById('verifyResult');
     if (panel) { panel.innerHTML = ''; panel.classList.remove('show'); }
     // Also reset file verification drop zone if it exists
-    var fileResult = document.getElementById('verifyFileResult');
+    var fileResult = document.getElementById('verifyFileResults');
     if (fileResult) { fileResult.innerHTML = ''; fileResult.classList.remove('show'); }
     document.getElementById('verifyInput').focus();
 }
@@ -8348,8 +8348,10 @@ window.generateReport = generateReport;
 window.handleAccountLogin = handleAccountLogin;
 window.handleDocFileSelect = handleDocFileSelect;
 window.handleILSFiles = handleILSFiles;
+window.handleSubFileDrop = handleSubFileDrop;
 window.handleSubFileUpload = handleSubFileUpload;
 window.handleToolUpload = handleToolUpload;
+window.handleVerifyFileDrop = handleVerifyFileDrop;
 window.handleVerifyFileSelect = handleVerifyFileSelect;
 window.hideAnchorAnimation = hideAnchorAnimation;
 window.inlineEditActionTitle = inlineEditActionTitle;
@@ -8358,6 +8360,7 @@ window.loadPredictiveData = loadPredictiveData;
 window.loadReadinessData = loadReadinessData;
 window.loadRecordToVerify = loadRecordToVerify;
 window.loadRiskData = loadRiskData;
+window.loadSamplePackage = loadSamplePackage;
 window.logout = logout;
 window.onILSProgramChange = onILSProgramChange;
 window.onSubProgramChange = onSubProgramChange;

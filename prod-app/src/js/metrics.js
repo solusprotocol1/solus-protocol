@@ -844,7 +844,7 @@ function renderROICharts() {
                 pointHoverRadius: 7
             },{
                 label: 'Break-Even Line',
-                data: [0, 0, 0, 0, 0],
+                data: new Array(20).fill(0),
                 borderColor: 'rgba(255,255,255,0.2)',
                 borderDash: [5, 5],
                 borderWidth: 1,
@@ -1551,5 +1551,6 @@ window.loadPerformanceMetrics = loadPerformanceMetrics;
 window.offlineClearQueue = offlineClearQueue;
 window.offlineQueueHash = offlineQueueHash;
 window.offlineRemoveItem = offlineRemoveItem;
+window.handleFileDrop = handleFileDrop;
 window.offlineSyncAll = offlineSyncAll;
 window.showCalDay = showCalDay;
