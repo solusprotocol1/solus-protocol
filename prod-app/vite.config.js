@@ -13,8 +13,8 @@ export default defineConfig({
     outDir: '../dist',
     emptyOutDir: true,
 
-    // Generate source maps for debugging (disable in prod if needed)
-    sourcemap: true,
+    // Disable source maps in production (security + performance)
+    sourcemap: false,
 
     rollupOptions: {
       input: resolve(__dirname, 'src/index.html'),
@@ -51,6 +51,8 @@ export default defineConfig({
         dead_code: false,
         unused: false,
         side_effects: false,
+        drop_console: true,   // Strip console.log in production
+        drop_debugger: true,  // Strip debugger statements
       },
       mangle: true,
     },

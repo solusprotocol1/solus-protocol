@@ -10,7 +10,7 @@ export default defineConfig({
   build: {
     outDir: '../dist',
     emptyOutDir: true,
-    sourcemap: true,
+    sourcemap: false,
 
     rollupOptions: {
       input: resolve(__dirname, 'src/index.html'),
@@ -28,6 +28,11 @@ export default defineConfig({
     target: 'es2020',
     minify: 'esbuild',
     chunkSizeWarningLimit: 500,
+  },
+
+  // Strip console.log and debugger in production
+  esbuild: {
+    drop: ['console', 'debugger'],
   },
 
   server: {

@@ -49,7 +49,7 @@ const cryptoMock = {
 // ── Setup global mocks ──
 global.localStorage = localStorageMock;
 global.navigator = navigatorMock;
-global.crypto = cryptoMock;
+Object.defineProperty(global, 'crypto', { value: cryptoMock, writable: true, configurable: true });
 global.location = { origin: 'https://s4ledger.com' };
 global.TextEncoder = TextEncoder;
 global.TextDecoder = TextDecoder;
