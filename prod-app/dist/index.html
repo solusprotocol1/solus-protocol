@@ -66,9 +66,9 @@
     <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" integrity="sha384-9nhczxUqK87bcKHh20fSQcTGD4qq5GhayNYSYWqwBkINBhOfQLg/P5HG5lF1urn4" crossorigin="anonymous"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/qrcode@1.5.4/build/qrcode.min.js"></script>
     <!-- CSS is imported via main.js and extracted by Vite -->
-  <script type="module" crossorigin src="/prod-app/dist/assets/index-DsGcE81r.js"></script>
-  <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/engine-C9gp5Riy.js">
-  <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/enhancements-g1GvesQV.js">
+  <script type="module" crossorigin src="/prod-app/dist/assets/index-CwIbsaXw.js"></script>
+  <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/engine-DO5kiJ9H.js">
+  <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/enhancements-DLc8s9Uc.js">
   <link rel="stylesheet" crossorigin href="/prod-app/dist/assets/index-BDV2-iZN.css">
 </head>
 <body>
@@ -3337,17 +3337,22 @@
             if (overlay) overlay.classList.remove('open');
         };
 
-        // Standalone startAuthFlow — enters the platform immediately
+        // Standalone startAuthFlow — shows DoD consent → CAC login → onboarding → role
         if (!window.startAuthFlow) {
             window.startAuthFlow = function startAuthFlow() {
-                var landing = document.getElementById('platformLanding');
-                var hero = document.querySelector('.hero');
-                var ws = document.getElementById('platformWorkspace');
-                if (landing) landing.style.display = 'none';
-                if (hero) hero.style.display = 'none';
-                if (ws) ws.style.display = 'block';
-                sessionStorage.setItem('s4_entered', '1');
-                sessionStorage.setItem('s4_onboard_done', '1');
+                var consent = document.getElementById('dodConsentBanner');
+                if (consent) {
+                    consent.style.display = 'flex';
+                } else {
+                    // Fallback: no consent banner, enter directly
+                    var landing = document.getElementById('platformLanding');
+                    var hero = document.querySelector('.hero');
+                    var ws = document.getElementById('platformWorkspace');
+                    if (landing) landing.style.display = 'none';
+                    if (hero) hero.style.display = 'none';
+                    if (ws) ws.style.display = 'block';
+                    sessionStorage.setItem('s4_entered', '1');
+                }
             };
         }
 
@@ -3441,7 +3446,7 @@
                     });
                 }
             }
-            ['poam','evidence','monitoring','fedramp','versionDiff','templates','schedReports','execSummary'].forEach(bindToggle);
+            ['poam','evidence','monitoring','fedramp','versionDiff','templates','schedReports','execSummary','remediation','anomaly','budgetForecast','docAI','fleetCompare','heatMap'].forEach(bindToggle);
         })();
 
         // ══════ 4. UNIVERSAL DELEGATED ONCLICK HANDLER ══════

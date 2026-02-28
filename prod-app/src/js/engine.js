@@ -217,8 +217,14 @@ function _syncSlsBar() {
 
 // ═══ Authentication Flow: DoD Consent → CAC/Login → Platform ═══
 function startAuthFlow() {
-    // Direct entry — skip DoD consent / CAC login for streamlined access
-    enterPlatformAfterAuth();
+    // Show DoD consent banner → CAC login → onboarding → role selector
+    var consent = document.getElementById('dodConsentBanner');
+    if (consent) {
+        consent.style.display = 'flex';
+    } else {
+        // Fallback: consent banner not found, show CAC login directly
+        acceptDodConsent();
+    }
 }
 
 function acceptDodConsent() {
@@ -441,8 +447,14 @@ function enterPlatformAfterAuth() {
     document.querySelector('.hero').style.display = 'none';
     document.getElementById('platformWorkspace').style.display = 'block';
     sessionStorage.setItem('s4_entered', '1');
-    // Mark onboarding as done so it doesn't auto-show and block hub cards
-    sessionStorage.setItem('s4_onboard_done', '1');
+    // Show onboarding wizard (which chains to role selector on close)
+    if (!sessionStorage.getItem('s4_onboard_done')) {
+        if (typeof showOnboarding === 'function') {
+            showOnboarding();
+        } else if (typeof window.showOnboarding === 'function') {
+            window.showOnboarding();
+        }
+    }
 }
 
 // ═══ Logout / Reset Session ═══

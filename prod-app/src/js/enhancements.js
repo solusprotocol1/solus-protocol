@@ -2489,98 +2489,30 @@ console.log('[Round-14] All enhancement modules loaded — FedRAMP Badge, Multi-
 
 
 // ── 5. SERVICE WORKER ACTIVATION ────────────────────────────
-// Full offline/air-gapped support. Activates the sw.js precacher,
-// registers background sync for offline-queued anchors, and listens
-// for SW messages (sync-complete, data-refresh).
+// Disabled during development to prevent caching issues in VS Code Simple Browser.
+// Re-enable for production deployment.
 (function() {
     'use strict';
+    // Unregister any existing service workers to clear stale caches
     if ('serviceWorker' in navigator) {
-        // Register on page load (works on HTTPS and localhost)
-        window.addEventListener('load', function() {
-            navigator.serviceWorker.register('/prod-app/sw.js', { scope: '/prod-app/' })
-                .then(function(reg) {
-                    console.log('[SW] Registered — scope:', reg.scope);
-
-                    // Check for updates periodically
-                    setInterval(function() { reg.update(); }, 60 * 60 * 1000); // hourly
-
-                    // Register periodic background sync if supported
-                    if (reg.periodicSync) {
-                        reg.periodicSync.register('s4-periodic-refresh', {
-                            minInterval: 12 * 60 * 60 * 1000 // 12 hours
-                        }).catch(function() {});
-                    }
-
-                    // Listen for update available
-                    reg.addEventListener('updatefound', function() {
-                        var newWorker = reg.installing;
-                        if (newWorker) {
-                            newWorker.addEventListener('statechange', function() {
-                                if (newWorker.state === 'activated' && navigator.serviceWorker.controller) {
-                                    // New version available
-                                    if (typeof _showNotif === 'function') {
-                                        _showNotif('S4 Ledger updated — refresh for latest version', 'info');
-                                    }
-                                }
-                            });
-                        }
-                    });
-                })
-                .catch(function(err) {
-                    console.log('[SW] Registration failed:', err);
-                });
-
-            // Listen for messages from service worker
-            navigator.serviceWorker.addEventListener('message', function(e) {
-                if (!e.data || !e.data.type) return;
-
-                if (e.data.type === 's4-sync-complete') {
-                    // Offline anchors were synced
-                    if (typeof _showNotif === 'function') {
-                        _showNotif(e.data.synced + ' offline anchor' + (e.data.synced > 1 ? 's' : '') + ' synced to XRPL', 'success');
-                    }
-                    // Refresh stats
-                    if (typeof _updateSlsBalance === 'function') _updateSlsBalance();
-                    if (typeof loadDashboardStats === 'function') loadDashboardStats();
-                }
-
-                if (e.data.type === 's4-data-refresh') {
-                    // Background data refresh triggered
-                    if (typeof loadDashboardStats === 'function') loadDashboardStats();
-                }
+        navigator.serviceWorker.getRegistrations().then(function(registrations) {
+            registrations.forEach(function(reg) {
+                reg.unregister();
+                console.log('[SW] Unregistered stale service worker:', reg.scope);
             });
         });
-
-        // Queue offline anchors for background sync
-        window.S4OfflineSync = {
-            queueAnchor: function(data) {
-                if (!navigator.serviceWorker.controller) return Promise.resolve(false);
-
-                // Store in IndexedDB via S4Store
-                if (window.S4Store && S4Store.ready) {
-                    return S4Store.put('offline_queue', {
-                        data: data,
-                        queued_at: new Date().toISOString()
-                    }).then(function() {
-                        // Request background sync
-                        return navigator.serviceWorker.ready.then(function(reg) {
-                            if (reg.sync) return reg.sync.register('s4-anchor-sync');
-                        });
-                    }).then(function() {
-                        return true;
-                    });
-                }
-                return Promise.resolve(false);
-            },
-
-            getQueueSize: function() {
-                if (window.S4Store) return S4Store.count('offline_queue');
-                return Promise.resolve(0);
-            }
-        };
+        // Also clear all caches
+        if (window.caches) {
+            caches.keys().then(function(names) {
+                names.forEach(function(name) {
+                    caches.delete(name);
+                    console.log('[SW] Cleared cache:', name);
+                });
+            });
+        }
     }
 
-    // Offline detection UI
+    // Offline detection UI (works without SW)
     window.addEventListener('offline', function() {
         if (typeof _showNotif === 'function') {
             _showNotif('Network disconnected — S4 Ledger running in air-gapped mode. All data is cached locally.', 'warning');
@@ -2590,19 +2522,12 @@ console.log('[Round-14] All enhancement modules loaded — FedRAMP Badge, Multi-
 
     window.addEventListener('online', function() {
         if (typeof _showNotif === 'function') {
-            _showNotif('Network restored — syncing offline data...', 'success');
+            _showNotif('Network restored.', 'success');
         }
         document.body.classList.remove('s4-offline');
-        // Trigger sync
-        if (navigator.serviceWorker && navigator.serviceWorker.ready) {
-            navigator.serviceWorker.ready.then(function(reg) {
-                if (reg.sync) reg.sync.register('s4-anchor-sync');
-                if (reg.sync) reg.sync.register('s4-data-sync');
-            });
-        }
     });
 
-    console.log('[Round-16c] Service worker + offline sync activated');
+    console.log('[S4] Service worker disabled for dev — caches cleared');
 })();
 
 console.log('[Round-16c] All tech enhancements loaded — IndexedDB, WebSocket, Lazy-Loading, Web Components, Service Worker');

@@ -25,7 +25,12 @@ function closeOnboarding() {
     // Store selected tier in localStorage so it persists across reloads
     var tierInfo = _onboardTiers[_onboardTier] || _onboardTiers['starter'];
     localStorage.setItem('s4_selected_tier', _onboardTier);
-
+    // After onboarding, show role selector so user can configure their view
+    if (typeof showRoleSelector === 'function') {
+        showRoleSelector();
+    } else if (typeof window.showRoleSelector === 'function') {
+        window.showRoleSelector();
+    }
 }
 
 function onboardNext() {
@@ -105,6 +110,7 @@ function selectOnboardTier(el, tier) {
 // The onboarding wizard can still be launched via showOnboarding() if needed
 
 // === Window exports for inline event handlers ===
+window.showOnboarding = showOnboarding;
 window.closeOnboarding = closeOnboarding;
 window.onboardNext = onboardNext;
 window.selectOnboardTier = selectOnboardTier;
