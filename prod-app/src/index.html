@@ -3554,13 +3554,17 @@
             };
             window._selectRole = function(role) {
                 sessionStorage.setItem('s4_user_role', role);
+                sessionStorage.setItem('s4_user_role', role);
                 sessionStorage.setItem('s4_user_title', role.charAt(0).toUpperCase() + role.slice(1));
                 var ov = document.getElementById('roleSelectorOverlay');
                 if (ov) ov.remove();
                 // Apply role to module system if available
                 if (typeof window.applyRole === 'function') {
-                    window.applyRole(role);
+                    window.applyRole();
                 }
+                // Ensure workspace is visible after role selection
+                var ws = document.getElementById('platformWorkspace');
+                if (ws) ws.style.display = 'block';
             };
         }
 

@@ -5,10 +5,10 @@
 var _onboardStep = 0;
 var _onboardTier = localStorage.getItem('s4_selected_tier') || 'starter';
 var _onboardTiers = {
-    pilot: { label: 'Pilot (Free)', sls: 100, price: 'Free' },
-    starter: { label: 'Starter ($999/mo)', sls: 25000, price: '$999/mo' },
-    professional: { label: 'Professional ($2,499/mo)', sls: 100000, price: '$2,499/mo' },
-    enterprise: { label: 'Enterprise ($9,999/mo)', sls: 500000, price: '$9,999/mo' }
+    pilot: { label: 'Pilot (Free)', credits: 100, price: 'Free' },
+    starter: { label: 'Starter ($999/mo)', credits: 25000, price: '$999/mo' },
+    professional: { label: 'Professional ($2,499/mo)', credits: 100000, price: '$2,499/mo' },
+    enterprise: { label: 'Enterprise ($9,999/mo)', credits: 500000, price: '$9,999/mo' }
 };
 
 function showOnboarding() {
@@ -89,21 +89,21 @@ function animateWalletFunding() {
 
 function selectOnboardTier(el, tier) {
     _onboardTier = tier;
-    var _tierAlloc = (_onboardTiers[tier] || _onboardTiers['starter']).sls;
+    var _tierAlloc = (_onboardTiers[tier] || _onboardTiers['starter']).credits;
     document.querySelectorAll('.onboard-tier').forEach(function(t) { t.classList.remove('selected'); });
     el.classList.add('selected');
     var info = _onboardTiers[tier];
     var balEl = document.getElementById('onboardSlsBal');
     var anchorsEl = document.getElementById('onboardSlsAnchors');
-    if (balEl) balEl.textContent = info.sls.toLocaleString();
-    if (anchorsEl) anchorsEl.textContent = (info.sls * 100).toLocaleString();
+    if (balEl) balEl.textContent = info.credits.toLocaleString();
+    if (anchorsEl) anchorsEl.textContent = (info.credits * 100).toLocaleString();
     // Sync ALL Credit balance displays to selected tier
     var mainBal = document.getElementById('slsBarBalance');
-    if (mainBal) mainBal.textContent = info.sls.toLocaleString() + ' Credits';
+    if (mainBal) mainBal.textContent = info.credits.toLocaleString() + ' Credits';
     var toolBal = document.getElementById('toolSlsBal');
-    if (toolBal) toolBal.textContent = info.sls.toLocaleString();
+    if (toolBal) toolBal.textContent = info.credits.toLocaleString();
     var sidebarBal = document.getElementById('sidebarSlsBal');
-    if (sidebarBal) sidebarBal.textContent = info.sls.toLocaleString() + ' Credits';
+    if (sidebarBal) sidebarBal.textContent = info.credits.toLocaleString() + ' Credits';
 }
 
 // Onboarding is available via manual trigger — do not auto-show on page load

@@ -2,6 +2,9 @@
 // Extracted from monolith lines 16201-23380
 // 7178 lines
 
+// Ensure S4 global namespace is available in module scope
+var S4 = window.S4 = window.S4 || { version: '5.12.0', modules: {}, register: function(n,m){this.modules[n]=m;}, getModule: function(n){return this.modules[n]||null;} };
+
 (function() {
     'use strict';
     

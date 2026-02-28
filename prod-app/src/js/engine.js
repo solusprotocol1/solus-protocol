@@ -2,6 +2,9 @@
 // Extracted from monolith lines 4915-13160
 // 8244 lines
 
+// Ensure S4 global namespace is available in module scope
+var S4 = window.S4 = window.S4 || { version: '5.12.0', modules: {}, register: function(n,m){this.modules[n]=m;}, getModule: function(n){return this.modules[n]||null;} };
+
 // ======================================================================
 //  S4 LEDGER ENGINE — NAVY DEFENSE RECORD TYPES
 // ======================================================================
@@ -4195,7 +4198,7 @@ function updateAiContext(panelId) {
     const toolLabel = document.getElementById('aiContextTool');
     if (toolLabel) toolLabel.textContent = ctx.label;
     const btnContainer = document.getElementById('aiQuickBtns');
-    if (btnContainer) {
+    if (btnContainer && ctx.buttons) {
         btnContainer.innerHTML = ctx.buttons.map(b => `<button class="ai-quick-btn" onclick="aiAsk('${b[0]}')">${b[1]}</button>`).join('');
     }
 }
@@ -4818,6 +4821,7 @@ function explainDINumber(q) {
 const DMSMS_DATA = {};
 function generateDMSMSData(progKey) {
     const comp = PROG_COMPONENTS[progKey] || PROG_COMPONENTS.custom;
+    if (!comp || !comp.systems) return [];
     const statuses = ['Active','Active','Active','At Risk','At Risk','Obsolete','End of Life','Active','Watch','Active'];
     const severities = ['None','None','None','High','Medium','Critical','High','None','Low','None'];
     const resolutions = ['N/A','N/A','N/A','Seeking alternate source','Life-of-type buy planned','Bridge buy + redesign required','Last-time buy submitted','N/A','Monitoring vendor status','N/A'];

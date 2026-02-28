@@ -66,9 +66,9 @@
     <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" integrity="sha384-9nhczxUqK87bcKHh20fSQcTGD4qq5GhayNYSYWqwBkINBhOfQLg/P5HG5lF1urn4" crossorigin="anonymous"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/qrcode@1.5.4/build/qrcode.min.js"></script>
     <!-- CSS is imported via main.js and extracted by Vite -->
-  <script type="module" crossorigin src="/prod-app/dist/assets/index-Cilk3uZx.js"></script>
-  <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/engine-By2SuCU9.js">
-  <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/enhancements-DLc8s9Uc.js">
+  <script type="module" crossorigin src="/prod-app/dist/assets/index-BRTu8965.js"></script>
+  <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/engine-px8_kIRp.js">
+  <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/enhancements-BSsMa1M6.js">
   <link rel="stylesheet" crossorigin href="/prod-app/dist/assets/index-BDV2-iZN.css">
 </head>
 <body>
@@ -3557,13 +3557,17 @@
             };
             window._selectRole = function(role) {
                 sessionStorage.setItem('s4_user_role', role);
+                sessionStorage.setItem('s4_user_role', role);
                 sessionStorage.setItem('s4_user_title', role.charAt(0).toUpperCase() + role.slice(1));
                 var ov = document.getElementById('roleSelectorOverlay');
                 if (ov) ov.remove();
                 // Apply role to module system if available
                 if (typeof window.applyRole === 'function') {
-                    window.applyRole(role);
+                    window.applyRole();
                 }
+                // Ensure workspace is visible after role selection
+                var ws = document.getElementById('platformWorkspace');
+                if (ws) ws.style.display = 'block';
             };
         }
 
