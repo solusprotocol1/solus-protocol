@@ -443,17 +443,32 @@ function simulateAccountLogin() {
 }
 
 function enterPlatformAfterAuth() {
-    document.getElementById('platformLanding').style.display = 'none';
-    document.querySelector('.hero').style.display = 'none';
-    document.getElementById('platformWorkspace').style.display = 'block';
-    sessionStorage.setItem('s4_entered', '1');
-    // Show onboarding wizard (which chains to role selector on close)
-    if (!sessionStorage.getItem('s4_onboard_done')) {
-        if (typeof showOnboarding === 'function') {
-            showOnboarding();
-        } else if (typeof window.showOnboarding === 'function') {
-            window.showOnboarding();
+    try {
+        var landing = document.getElementById('platformLanding');
+        var hero = document.querySelector('.hero');
+        var workspace = document.getElementById('platformWorkspace');
+        if (landing) landing.style.display = 'none';
+        if (hero) hero.style.display = 'none';
+        if (workspace) workspace.style.display = 'block';
+        sessionStorage.setItem('s4_entered', '1');
+        // Show onboarding wizard (which chains to role selector on close)
+        var onboardDone = sessionStorage.getItem('s4_onboard_done');
+        if (!onboardDone) {
+            if (typeof showOnboarding === 'function') {
+                showOnboarding();
+            } else if (typeof window.showOnboarding === 'function') {
+                window.showOnboarding();
+            } else {
+                // Last resort: directly show the overlay
+                var ov = document.getElementById('onboardOverlay');
+                if (ov) ov.style.display = 'flex';
+            }
         }
+    } catch(e) {
+        console.error('[S4] enterPlatformAfterAuth error:', e);
+        // Even if something fails, try to show the workspace
+        var ws = document.getElementById('platformWorkspace');
+        if (ws) ws.style.display = 'block';
     }
 }
 

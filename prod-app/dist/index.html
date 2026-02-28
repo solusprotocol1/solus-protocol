@@ -66,8 +66,8 @@
     <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" integrity="sha384-9nhczxUqK87bcKHh20fSQcTGD4qq5GhayNYSYWqwBkINBhOfQLg/P5HG5lF1urn4" crossorigin="anonymous"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/qrcode@1.5.4/build/qrcode.min.js"></script>
     <!-- CSS is imported via main.js and extracted by Vite -->
-  <script type="module" crossorigin src="/prod-app/dist/assets/index-j3We1xXa.js"></script>
-  <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/engine-DO5kiJ9H.js">
+  <script type="module" crossorigin src="/prod-app/dist/assets/index-Cilk3uZx.js"></script>
+  <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/engine-By2SuCU9.js">
   <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/enhancements-DLc8s9Uc.js">
   <link rel="stylesheet" crossorigin href="/prod-app/dist/assets/index-BDV2-iZN.css">
 </head>
@@ -3228,10 +3228,43 @@
 
     <!-- S4 Ledger Modular JS (extracted from monolith) -->
 
+    <!-- Global error handler — catches any JS error before it disappears -->
+    <script>
+    window._s4Errors = [];
+    window.onerror = function(msg, url, line, col, err) {
+        window._s4Errors.push(msg + ' @ ' + (url||'').split('/').pop() + ':' + line);
+        var d = document.getElementById('s4-debug-errors');
+        if (d) d.textContent = 'JS ERRORS: ' + window._s4Errors.join(' | ');
+        return false;
+    };
+    </script>
+
     <!-- Failsafe: Standalone navigation + universal delegated onclick handler -->
     <!-- This runs SYNCHRONOUSLY before modules load, so all functions are available immediately -->
     <script>
     (function(){
+        // ══════ 0. BUILD PROOF + DEBUG PANEL ══════
+        var _buildTS = Date.now();
+        var bar = document.createElement('div');
+        bar.id = 's4-debug-bar';
+        bar.style.cssText = 'position:fixed;top:0;left:0;right:0;background:#ff0;color:#000;padding:6px 12px;font-size:13px;font-weight:700;z-index:999999;font-family:monospace;cursor:pointer;line-height:1.6;';
+        bar.innerHTML = 'BUILD: ' + _buildTS + ' — FRESH CODE<br><span id="s4-debug-funcs" style="font-size:11px;color:#333;">Checking modules...</span><br><span id="s4-debug-errors" style="font-size:11px;color:red;"></span>';
+        bar.onclick = function(){ this.remove(); };
+        document.body.prepend(bar);
+
+        // Check module function availability after a delay
+        setTimeout(function() {
+            var fns = ['startAuthFlow','acceptDodConsent','simulateCacLogin','enterPlatformAfterAuth','showOnboarding','closeOnboarding','onboardNext','showRoleSelector','toggleComplianceSection','showHub','showSection','logout'];
+            var results = fns.map(function(f){ return f + ':' + (typeof window[f] === 'function' ? 'YES' : 'NO'); });
+            var el = document.getElementById('s4-debug-funcs');
+            if (el) el.textContent = results.join(' | ');
+            if (window._s4Errors.length === 0) {
+                var errEl = document.getElementById('s4-debug-errors');
+                if (errEl) errEl.textContent = 'No JS errors detected.';
+                errEl.style.color = 'green';
+            }
+        }, 3000);
+
         // ══════ 1. LANDING PAGE ALWAYS SHOWS FIRST ══════
         // Do NOT auto-enter workspace. Landing page is always visible by default.
         // User must click "Enter Platform" to proceed.
@@ -3352,6 +3385,202 @@
                     if (hero) hero.style.display = 'none';
                     if (ws) ws.style.display = 'block';
                     sessionStorage.setItem('s4_entered', '1');
+                }
+            };
+        }
+
+        // ══════ FAILSAFE AUTH CHAIN — works even if modules fail to load ══════
+        // These are overwritten by modules when they load, but serve as fallbacks.
+
+        if (!window.acceptDodConsent) {
+            window.acceptDodConsent = function() {
+                var b = document.getElementById('dodConsentBanner');
+                if (b) b.style.display = 'none';
+                var m = document.getElementById('cacLoginModal');
+                if (m) m.style.display = 'flex';
+            };
+        }
+
+        if (!window.simulateCacLogin) {
+            window.simulateCacLogin = function() {
+                var modal = document.getElementById('cacLoginModal');
+                var btn = modal && modal.querySelector('button[onclick*="simulateCacLogin"]');
+                if (btn) { btn.innerHTML = '<i class="fas fa-spinner fa-spin" style="margin-right:8px;"></i>Reading CAC...'; btn.disabled = true; }
+                setTimeout(function() {
+                    if (btn) btn.innerHTML = '<i class="fas fa-check-circle" style="margin-right:8px;"></i>Authenticated';
+                    setTimeout(function() {
+                        if (modal) modal.style.display = 'none';
+                        sessionStorage.setItem('s4_authenticated', '1');
+                        sessionStorage.setItem('s4_auth_method', 'cac');
+                        if (typeof window.enterPlatformAfterAuth === 'function') {
+                            window.enterPlatformAfterAuth();
+                        } else {
+                            // Direct fallback
+                            var l = document.getElementById('platformLanding');
+                            var h = document.querySelector('.hero');
+                            var w = document.getElementById('platformWorkspace');
+                            if (l) l.style.display = 'none';
+                            if (h) h.style.display = 'none';
+                            if (w) w.style.display = 'block';
+                            var ov = document.getElementById('onboardOverlay');
+                            if (ov) ov.style.display = 'flex';
+                        }
+                    }, 800);
+                }, 1500);
+            };
+        }
+
+        if (!window.enterPlatformAfterAuth) {
+            window.enterPlatformAfterAuth = function() {
+                var l = document.getElementById('platformLanding');
+                var h = document.querySelector('.hero');
+                var w = document.getElementById('platformWorkspace');
+                if (l) l.style.display = 'none';
+                if (h) h.style.display = 'none';
+                if (w) w.style.display = 'block';
+                sessionStorage.setItem('s4_entered', '1');
+                if (!sessionStorage.getItem('s4_onboard_done')) {
+                    var ov = document.getElementById('onboardOverlay');
+                    if (ov) ov.style.display = 'flex';
+                }
+            };
+        }
+
+        if (!window.showOnboarding) {
+            window.showOnboarding = function() {
+                var o = document.getElementById('onboardOverlay');
+                if (o) o.style.display = 'flex';
+            };
+        }
+
+        if (!window.onboardNext) {
+            var _fbStep = 0;
+            window.onboardNext = function() {
+                _fbStep++;
+                if (_fbStep > 4) {
+                    // Close onboarding, show role selector
+                    var o = document.getElementById('onboardOverlay');
+                    if (o) o.style.display = 'none';
+                    sessionStorage.setItem('s4_onboard_done', '1');
+                    if (typeof window.showRoleSelector === 'function') {
+                        window.showRoleSelector();
+                    }
+                    return;
+                }
+                // Show current step, hide others
+                for (var i = 0; i <= 4; i++) {
+                    var step = document.getElementById('onboardStep' + i);
+                    if (step) step.style.display = (i === _fbStep) ? 'block' : 'none';
+                    // Update step class
+                    if (step) {
+                        if (i === _fbStep) { step.classList.add('active'); } 
+                        else { step.classList.remove('active'); }
+                    }
+                }
+                // Update progress dots
+                document.querySelectorAll('.onboard-dot').forEach(function(d, idx) {
+                    if (idx <= _fbStep) d.classList.add('active');
+                    else d.classList.remove('active');
+                });
+                // Auto-advance steps that need it (like account creation / wallet funding)
+                if (_fbStep === 1) {
+                    var acctBtn = document.getElementById('onboardAcctDone');
+                    var acctStat = document.getElementById('onboardAcctStatus');
+                    var acctId = document.getElementById('onboardAcctId');
+                    setTimeout(function() {
+                        if (acctStat) acctStat.innerHTML = '<i class="fas fa-check-circle" style="color:var(--green)"></i> Active';
+                        if (acctId) acctId.textContent = 'S4-' + Math.random().toString(36).slice(2,10).toUpperCase();
+                        if (acctBtn) acctBtn.style.display = 'block';
+                    }, 1200);
+                }
+                if (_fbStep === 2) {
+                    var walletBtn = document.getElementById('onboardWalletDone');
+                    setTimeout(function() {
+                        if (walletBtn) walletBtn.style.display = 'block';
+                    }, 1800);
+                }
+                if (_fbStep === 3) {
+                    var anchorBtn = document.getElementById('onboardAnchorDone');
+                    setTimeout(function() {
+                        if (anchorBtn) anchorBtn.style.display = 'block';
+                    }, 2000);
+                }
+            };
+        }
+
+        if (!window.closeOnboarding) {
+            window.closeOnboarding = function() {
+                var o = document.getElementById('onboardOverlay');
+                if (o) o.style.display = 'none';
+                sessionStorage.setItem('s4_onboard_done', '1');
+                if (typeof window.showRoleSelector === 'function') {
+                    window.showRoleSelector();
+                }
+            };
+        }
+
+        if (!window.selectOnboardTier) {
+            window.selectOnboardTier = function(el, tier) {
+                document.querySelectorAll('.onboard-tier').forEach(function(t){ t.classList.remove('selected'); });
+                if (el) el.classList.add('selected');
+                localStorage.setItem('s4_selected_tier', tier);
+            };
+        }
+
+        if (!window.showRoleSelector) {
+            window.showRoleSelector = function() {
+                // Simplified role selector — creates a modal overlay with role cards
+                var existing = document.getElementById('roleSelectorOverlay');
+                if (existing) { existing.style.display = 'flex'; return; }
+                var roles = [
+                    { key: 'admin', icon: 'fa-user-shield', title: 'Administrator', desc: 'Full platform access. All ILS tools, compliance, risk management, and system configuration.' },
+                    { key: 'logistics', icon: 'fa-truck', title: 'Logistics Manager', desc: 'Supply chain, readiness, DMSMS, lifecycle, and fleet management tools.' },
+                    { key: 'auditor', icon: 'fa-magnifying-glass', title: 'Compliance Auditor', desc: 'Compliance scoring, evidence collection, FedRAMP, audit reports, and POAM tracking.' },
+                    { key: 'analyst', icon: 'fa-chart-line', title: 'Data Analyst', desc: 'Metrics, ROI analysis, budget forecasting, fleet comparisons, and reporting.' },
+                    { key: 'operator', icon: 'fa-anchor', title: 'Field Operator', desc: 'Record anchoring, verification, document vault, and offline queue.' }
+                ];
+                var html = '<div id="roleSelectorOverlay" style="position:fixed;inset:0;background:rgba(5,8,16,0.95);z-index:10001;display:flex;align-items:center;justify-content:center;animation:fadeIn 0.3s;backdrop-filter:blur(8px);">';
+                html += '<div style="background:var(--card,#0f1318);border:1px solid rgba(0,170,255,0.15);border-radius:8px;padding:28px;max-width:680px;width:94%;max-height:85vh;overflow-y:auto;">';
+                html += '<h3 style="color:#fff;text-align:center;margin:0 0 6px;font-size:1.2rem;"><i class="fas fa-users-cog" style="color:#00aaff;margin-right:8px;"></i>Select Your Role</h3>';
+                html += '<p style="color:#8892a4;text-align:center;font-size:0.82rem;margin:0 0 20px;">Choose a role to customize your dashboard view. You can change this later.</p>';
+                html += '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;">';
+                roles.forEach(function(r) {
+                    html += '<div onclick="window._selectRole(\'' + r.key + '\')" style="cursor:pointer;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.12);border-radius:6px;padding:20px 16px;text-align:center;transition:all 0.2s;"';
+                    html += ' onmouseover="this.style.borderColor=\'#00aaff\';this.style.background=\'rgba(0,170,255,0.1)\'" onmouseout="this.style.borderColor=\'rgba(0,170,255,0.12)\';this.style.background=\'rgba(0,170,255,0.04)\'">';
+                    html += '<i class="fas ' + r.icon + '" style="font-size:1.8rem;color:#00aaff;margin-bottom:10px;display:block;"></i>';
+                    html += '<div style="color:#fff;font-weight:700;font-size:0.9rem;margin-bottom:6px;">' + r.title + '</div>';
+                    html += '<div style="color:#8892a4;font-size:0.75rem;line-height:1.5;">' + r.desc + '</div>';
+                    html += '</div>';
+                });
+                html += '</div></div></div>';
+                document.body.insertAdjacentHTML('beforeend', html);
+            };
+            window._selectRole = function(role) {
+                sessionStorage.setItem('s4_user_role', role);
+                sessionStorage.setItem('s4_user_title', role.charAt(0).toUpperCase() + role.slice(1));
+                var ov = document.getElementById('roleSelectorOverlay');
+                if (ov) ov.remove();
+                // Apply role to module system if available
+                if (typeof window.applyRole === 'function') {
+                    window.applyRole(role);
+                }
+            };
+        }
+
+        // Failsafe toggleComplianceSection — works even if modules don't load
+        if (!window.toggleComplianceSection) {
+            window.toggleComplianceSection = function(sec) {
+                var el = document.getElementById(sec + 'Section');
+                if (!el) return;
+                var isHidden = el.style.display === 'none' || !el.style.display;
+                el.style.display = isHidden ? 'block' : 'none';
+                // Rotate chevron (find sibling toggle bar)
+                var toggle = el.previousElementSibling;
+                if (toggle) {
+                    var chev = toggle.querySelector('.fa-chevron-right, .fa-chevron-down');
+                    if (chev) {
+                        chev.className = chev.className.replace(/fa-chevron-(right|down)/, isHidden ? 'fa-chevron-down' : 'fa-chevron-right');
+                    }
                 }
             };
         }
