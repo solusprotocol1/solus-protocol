@@ -7108,9 +7108,7 @@ window.s4Team = {
 
 console.log('[S4 Superior Platform] All modules loaded — IndexedDB, SBOM, GFP, CDRL, Contract Extract, Provenance, Analytics, Team Management active');
 
-})();
-
-// === Window exports for inline event handlers ===
+// === Window exports for inline event handlers (INSIDE IIFE scope) ===
 window.anchorCdrlRecord = anchorCdrlRecord;
 window.anchorContractRecord = anchorContractRecord;
 window.anchorGfpRecord = anchorGfpRecord;
@@ -7142,3 +7140,5 @@ window.runGfpInventory = runGfpInventory;
 window.showDigitalThreadFromSelect = showDigitalThreadFromSelect;
 window.toggleTheme = toggleTheme;
 window.verifyProvenanceChain = verifyProvenanceChain;
+
+})();
