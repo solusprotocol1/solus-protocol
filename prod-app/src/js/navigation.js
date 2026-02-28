@@ -144,46 +144,6 @@ function openILSTool(toolId) {
     // Update floating AI agent context
     if (typeof updateAiContext === 'function') updateAiContext(toolId);
     
-    // ── How It Works: modal popup on first visit, ? icon on return visits ──
-    if (panel) {
-        var det = panel.querySelector('details');
-        var h3 = panel.querySelector('h3');
-        if (det && h3) {
-            // Always hide the <details> element — we use modal popups now
-            det.style.display = 'none';
-            det.removeAttribute('open');
-            var storageKey = 's4_hiw_' + toolId;
-            var visited = false;
-            try { visited = localStorage.getItem(storageKey) === '1'; } catch(e) {}
-            // Remove any existing ? button
-            var existingBtn = h3.querySelector('.hiw-help-btn');
-            if (existingBtn) existingBtn.remove();
-
-            function showHIWModal() {
-                var title = det.querySelector('summary') ? det.querySelector('summary').textContent.trim() : 'How It Works';
-                var bodyContent = det.querySelector('summary + div, div') ? det.querySelector('summary + div, div').innerHTML : det.innerHTML;
-                var overlay = document.createElement('div');
-                overlay.className = 'hiw-modal-overlay';
-                overlay.onclick = function(e) { if (e.target === overlay) { overlay.remove(); } };
-                overlay.innerHTML = '<div class="hiw-modal-box"><button class="hiw-close" onclick="this.closest(\'.hiw-modal-overlay\').remove()">&times;</button><h4><i class="fas fa-info-circle" style="color:#00aaff"></i> ' + title + '</h4><div class="hiw-body">' + bodyContent + '</div></div>';
-                document.body.appendChild(overlay);
-            }
-
-            if (!visited) {
-                // First visit: auto-popup
-                try { localStorage.setItem(storageKey, '1'); } catch(e) {}
-                setTimeout(showHIWModal, 300);
-            }
-            // Always add ? icon for manual access
-            var qBtn = document.createElement('button');
-            qBtn.className = 'hiw-help-btn';
-            qBtn.innerHTML = '?';
-            qBtn.title = 'Show How It Works';
-            qBtn.onclick = function(e) { e.stopPropagation(); showHIWModal(); };
-            h3.appendChild(qBtn);
-        }
-    }
-    
     _currentILSTool = toolId;
 }
 

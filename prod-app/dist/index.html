@@ -66,7 +66,7 @@
     <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" integrity="sha384-9nhczxUqK87bcKHh20fSQcTGD4qq5GhayNYSYWqwBkINBhOfQLg/P5HG5lF1urn4" crossorigin="anonymous"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/qrcode@1.5.4/build/qrcode.min.js"></script>
     <!-- CSS is imported via main.js and extracted by Vite -->
-  <script type="module" crossorigin src="/prod-app/dist/assets/index-C6W3SN1t.js"></script>
+  <script type="module" crossorigin src="/prod-app/dist/assets/index-DrZrsbPQ.js"></script>
   <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/engine-PXq-qvQq.js">
   <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/enhancements-g1GvesQV.js">
   <link rel="stylesheet" crossorigin href="/prod-app/dist/assets/index-BDV2-iZN.css">
@@ -3419,6 +3419,32 @@
                     nl.style.borderBottom = document.body.classList.contains('light-mode') ? '1px solid rgba(0,0,0,0.06)' : '1px solid rgba(255,255,255,0.06)';
                 });
             }
+        })();
+
+        // ══════ 3d. COMPLIANCE SECTION TOGGLE HANDLERS ══════
+        // Direct event binding for POA&M, Evidence, Monitoring, etc.
+        (function() {
+            function bindToggle(sectionName) {
+                var el = document.getElementById(sectionName + 'Section');
+                var chev = document.getElementById(sectionName + 'Chevron');
+                // Find the clickable header (the div before the section div)
+                if (el && el.previousElementSibling) {
+                    el.previousElementSibling.addEventListener('click', function() {
+                        var show = el.style.display === 'none';
+                        el.style.display = show ? 'block' : 'none';
+                        if (chev) chev.style.transform = show ? 'rotate(180deg)' : 'rotate(0)';
+                        // Trigger render functions if available
+                        if (show) {
+                            if (sectionName === 'poam' && typeof window.renderPOAM === 'function') window.renderPOAM();
+                            if (sectionName === 'evidence' && typeof window.renderEvidence === 'function') window.renderEvidence();
+                            if (sectionName === 'monitoring' && typeof window.runMonitoringScan === 'function') window.runMonitoringScan();
+                            if (sectionName === 'fedramp' && typeof window.calcFedRAMP === 'function') window.calcFedRAMP();
+                            if (sectionName === 'templates' && typeof window.renderTemplates === 'function') window.renderTemplates();
+                        }
+                    });
+                }
+            }
+            ['poam','evidence','monitoring','fedramp','versionDiff','templates','schedReports','execSummary'].forEach(bindToggle);
         })();
 
         // ══════ 4. UNIVERSAL DELEGATED ONCLICK HANDLER ══════
