@@ -1261,3 +1261,13 @@
         [data-theme="light"] .tool-panel p,[data-theme="light"] .tool-panel span,[data-theme="light"] .tool-panel label,[data-theme="light"] .tool-panel li{color:#333}
         [data-theme="light"] .tool-panel .card,[data-theme="light"] .tool-panel [style*="background:#0a0e1a"],[data-theme="light"] .tool-panel [style*="background:var(--surface)"]{background:#fff !important;border-color:rgba(0,0,0,0.1) !important}
 
+/* ═══ How It Works Modal ═══ */
+.hiw-modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.7);z-index:10001;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);animation:fadeIn .25s ease}
+.hiw-modal-box{background:var(--card,#0d1117);border:1px solid var(--border,rgba(255,255,255,0.08));border-radius:6px;padding:28px 32px;max-width:560px;width:92%;max-height:80vh;overflow-y:auto;box-shadow:0 16px 48px rgba(0,0,0,0.5);position:relative}
+.hiw-modal-box h4{color:#00aaff;font-size:1rem;font-weight:700;margin:0 0 14px}
+.hiw-modal-box .hiw-body{color:var(--steel,#8a94a6);font-size:0.85rem;line-height:1.7}
+.hiw-modal-box .hiw-body ol,.hiw-modal-box .hiw-body ul{padding-left:20px;margin:8px 0}
+.hiw-modal-box .hiw-body li{margin-bottom:6px}
+.hiw-close{position:absolute;top:12px;right:14px;background:none;border:none;color:var(--steel,#8a94a6);font-size:1.3rem;cursor:pointer;padding:4px 8px;line-height:1}
+.hiw-close:hover{color:#fff}
+

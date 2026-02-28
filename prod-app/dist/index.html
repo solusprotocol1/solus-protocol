@@ -65,13 +65,11 @@
     <script src="/s4-assets/defense-docs.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" integrity="sha384-9nhczxUqK87bcKHh20fSQcTGD4qq5GhayNYSYWqwBkINBhOfQLg/P5HG5lF1urn4" crossorigin="anonymous"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/qrcode@1.5.4/build/qrcode.min.js"></script>
-    <!-- Hide all "How It Works" details sections via JS on load -->
-    <style>.s4-how-it-works-hidden { display: none !important; }</style>
     <!-- CSS is imported via main.js and extracted by Vite -->
-  <script type="module" crossorigin src="/prod-app/dist/assets/index-D3DXQmpt.js"></script>
-  <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/engine-ClNb_GWn.js">
+  <script type="module" crossorigin src="/prod-app/dist/assets/index-CXQCg35O.js"></script>
+  <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/engine-BWZajMdh.js">
   <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/enhancements-BqobiCpU.js">
-  <link rel="stylesheet" crossorigin href="/prod-app/dist/assets/index-BDV2-iZN.css">
+  <link rel="stylesheet" crossorigin href="/prod-app/dist/assets/index-B1kH9RkS.css">
 </head>
 <body>
 <!-- Skip Navigation Link (Section 508 / a11y) -->
@@ -3230,13 +3228,11 @@
 
     <!-- S4 Ledger Modular JS (extracted from monolith) -->
 
-    <!-- Global error handler — catches any JS error before it disappears -->
+    <!-- Global error handler -->
     <script>
     window._s4Errors = [];
     window.onerror = function(msg, url, line, col, err) {
         window._s4Errors.push(msg + ' @ ' + (url||'').split('/').pop() + ':' + line);
-        var d = document.getElementById('s4-debug-errors');
-        if (d) d.textContent = 'JS ERRORS: ' + window._s4Errors.join(' | ');
         return false;
     };
     </script>
@@ -3245,39 +3241,16 @@
     <!-- This runs SYNCHRONOUSLY before modules load, so all functions are available immediately -->
     <script>
     (function(){
-        // ══════ 0. BUILD PROOF + DEBUG PANEL ══════
-        var _buildTS = Date.now();
-        var bar = document.createElement('div');
-        bar.id = 's4-debug-bar';
-        bar.style.cssText = 'position:fixed;top:0;left:0;right:0;background:#ff0;color:#000;padding:6px 12px;font-size:13px;font-weight:700;z-index:999999;font-family:monospace;cursor:pointer;line-height:1.6;';
-        bar.innerHTML = 'BUILD: ' + _buildTS + ' — FRESH CODE<br><span id="s4-debug-funcs" style="font-size:11px;color:#333;">Checking modules...</span><br><span id="s4-debug-errors" style="font-size:11px;color:red;"></span>';
-        bar.onclick = function(){ this.remove(); };
-        document.body.prepend(bar);
-
-        // Check module function availability after a delay
-        setTimeout(function() {
-            var fns = ['startAuthFlow','acceptDodConsent','simulateCacLogin','enterPlatformAfterAuth','showOnboarding','closeOnboarding','onboardNext','showRoleSelector','toggleComplianceSection','showHub','showSection','logout'];
-            var results = fns.map(function(f){ return f + ':' + (typeof window[f] === 'function' ? 'YES' : 'NO'); });
-            var el = document.getElementById('s4-debug-funcs');
-            if (el) el.textContent = results.join(' | ');
-            if (window._s4Errors.length === 0) {
-                var errEl = document.getElementById('s4-debug-errors');
-                if (errEl) errEl.textContent = 'No JS errors detected.';
-                errEl.style.color = 'green';
-            }
-            // Remove all "How It Works" details sections
-            document.querySelectorAll('details').forEach(function(d) {
-                var summary = d.querySelector('summary');
-                if (summary && summary.textContent.indexOf('How It Works') >= 0) {
-                    d.remove();
-                }
-            });
-        }, 3000);
-
-        // ══════ 1. LANDING PAGE ALWAYS SHOWS FIRST ══════
-        // Do NOT auto-enter workspace. Landing page is always visible by default.
-        // User must click "Enter Platform" to proceed.
-        sessionStorage.removeItem('s4_entered');
+        // ══════ 1. SESSION RESTORE ══════
+        // If user already entered platform this session, restore workspace view
+        if (sessionStorage.getItem('s4_entered') === '1') {
+            var _l = document.getElementById('platformLanding');
+            var _h = document.querySelector('.hero');
+            var _w = document.getElementById('platformWorkspace');
+            if (_l) _l.style.display = 'none';
+            if (_h) _h.style.display = 'none';
+            if (_w) _w.style.display = 'block';
+        }
 
         // ══════ 2. STANDALONE NAVIGATION FUNCTIONS ══════
         // These work immediately — modules will overwrite them later if they load

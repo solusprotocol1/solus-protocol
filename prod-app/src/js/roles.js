@@ -150,7 +150,15 @@ function initRoleSystem() {
         if (typeof reloadVaultForRole === 'function') reloadVaultForRole();
     }
     updateRoleBadge();
-    // Role selector is available via the role badge — do not auto-popup
+    // Show role selector if user is inside the platform but has no role set
+    if (!_currentRole) {
+        setTimeout(function() {
+            var ws = document.getElementById('platformWorkspace');
+            if (ws && ws.style.display === 'block' && sessionStorage.getItem('s4_onboard_done')) {
+                showRoleSelector();
+            }
+        }, 2500);
+    }
 }
 
 (function() {

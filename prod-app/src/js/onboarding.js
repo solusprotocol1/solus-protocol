@@ -106,8 +106,8 @@ function selectOnboardTier(el, tier) {
     if (sidebarBal) sidebarBal.textContent = info.credits.toLocaleString() + ' Credits';
 }
 
-// Onboarding is available via manual trigger — do not auto-show on page load
-// The onboarding wizard can still be launched via showOnboarding() if needed
+// Onboarding is triggered by enterPlatformAfterAuth() in engine.js
+// No DOMContentLoaded auto-show needed — the auth flow handles it
 
 // === Window exports for inline event handlers ===
 window.showOnboarding = showOnboarding;

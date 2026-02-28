@@ -220,6 +220,11 @@ function _syncSlsBar() {
 
 // ═══ Authentication Flow: DoD Consent → CAC/Login → Platform ═══
 function startAuthFlow() {
+    // If user already authenticated this session, skip straight through
+    if (sessionStorage.getItem('s4_authenticated') === '1') {
+        enterPlatformAfterAuth();
+        return;
+    }
     // Show DoD consent banner → CAC login → onboarding → role selector
     var consent = document.getElementById('dodConsentBanner');
     if (consent) {
@@ -8294,6 +8299,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // === Window exports for inline event handlers ===
 window._updateBulkBar = _updateBulkBar;
 window.acceptDodConsent = acceptDodConsent;
+window.enterPlatformAfterAuth = enterPlatformAfterAuth;
 window.addNewDoc = addNewDoc;
 window.addPOAM = addPOAM;
 window.addScheduledReport = addScheduledReport;

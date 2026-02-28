@@ -1,13 +1,12 @@
 // S4 Ledger — session-init
-// Always show landing page and full auth flow on load
-// Clears ALL session state so every page load starts fresh with:
-// Landing page → Enter Platform → DoD Consent → CAC Login → Onboarding → Role Selector
-(function() {
-    sessionStorage.removeItem('s4_entered');
-    sessionStorage.removeItem('s4_onboard_done');
-    sessionStorage.removeItem('s4_authenticated');
-    sessionStorage.removeItem('s4_auth_method');
-    sessionStorage.removeItem('s4_user_role');
-    sessionStorage.removeItem('s4_user_title');
-    sessionStorage.removeItem('s4_visible_tabs');
-})();
+// Restore session if user has already clicked "Enter Platform" this session
+// If s4_entered is set, show the workspace. Otherwise landing page remains visible.
+
+if (sessionStorage.getItem('s4_entered') === '1') {
+    var _landing = document.getElementById('platformLanding');
+    var _hero = document.querySelector('.hero');
+    var _ws = document.getElementById('platformWorkspace');
+    if (_landing) _landing.style.display = 'none';
+    if (_hero) _hero.style.display = 'none';
+    if (_ws) _ws.style.display = 'block';
+}
