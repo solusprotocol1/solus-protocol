@@ -18,6 +18,11 @@ export default defineConfig({
 
     rollupOptions: {
       input: resolve(__dirname, 'src/index.html'),
+
+      // Disable tree-shaking — all functions are called via window.xyz exports
+      // and onclick handlers, which Rollup can't statically analyze
+      treeshake: false,
+
       output: {
         // Split vendor chunks for better caching
         manualChunks: {
@@ -37,8 +42,18 @@ export default defineConfig({
     // Target modern browsers (DoD uses Edge/Chrome on Flankspeed)
     target: 'es2020',
 
-    // Minification
-    minify: 'esbuild',
+    // Minification — use terser to preserve window-exported functions
+    // esbuild's dead code elimination removes functions only referenced
+    // via window.xyz = xyz (not detectable as ES module exports)
+    minify: 'terser',
+    terserOptions: {
+      compress: {
+        dead_code: false,
+        unused: false,
+        side_effects: false,
+      },
+      mangle: true,
+    },
 
     // Warn if chunks exceed 500KB
     chunkSizeWarningLimit: 500,

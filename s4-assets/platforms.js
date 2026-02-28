@@ -853,7 +853,7 @@ function getComponents(key) {
     }
     // Fall back to template
     const plat = DB[key];
-    if (!plat) return TEMPLATES.sc; // fallback
+    if (!plat) { var fb = TEMPLATES.sc; return { systems: fb.sys, nsns: fb.fsc.map(function(fsc, i){ return _genNSN(fsc, 'custom', i); }), mfgs: fb.mfg }; }
     const tpl = TEMPLATES[plat.c] || TEMPLATES.sc;
     const nsns = tpl.fsc.map((fsc, i) => _genNSN(fsc, key, i));
     return { systems: tpl.sys, nsns: nsns, mfgs: tpl.mfg };
@@ -862,6 +862,7 @@ function getComponents(key) {
 // Get readiness data for a platform
 function getReadiness(key) {
     const comp = getComponents(key);
+    if (!comp || !comp.systems) return [{sys:'System',mtbf:2000,mttr:4,mldt:36}];
     const plat = DB[key];
     const tpl = TEMPLATES[plat ? plat.c : 'sc'] || TEMPLATES.sc;
     return comp.systems.map((sys, i) => ({
