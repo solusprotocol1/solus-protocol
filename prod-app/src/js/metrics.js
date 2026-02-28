@@ -1554,3 +1554,4 @@ window.offlineRemoveItem = offlineRemoveItem;
 window.handleFileDrop = handleFileDrop;
 window.offlineSyncAll = offlineSyncAll;
 window.showCalDay = showCalDay;
+window._showNotif = _showNotif;

@@ -1124,6 +1124,53 @@
         body.light-mode [style*="color: #888"]{color:#666!important}
         body.light-mode [style*="color:#aaa"]{color:#666!important}
         body.light-mode [style*="color: #aaa"]{color:#666!important}
+        /* Additional dark background overrides for light mode */
+        body.light-mode [style*="background:rgba(0,0,0,0.6"]{background:rgba(0,0,0,0.3)!important}
+        body.light-mode [style*="background: rgba(0,0,0,0.6"]{background:rgba(0,0,0,0.3)!important}
+        body.light-mode [style*="background:rgba(0,0,0,0.5"]{background:rgba(0,0,0,0.25)!important}
+        body.light-mode [style*="background: rgba(0,0,0,0.5"]{background:rgba(0,0,0,0.25)!important}
+        body.light-mode [style*="background:#1a3a5c"]{background:#e8f0f8!important}
+        body.light-mode [style*="background: #1a3a5c"]{background:#e8f0f8!important}
+        body.light-mode [style*="background:rgba(10,10,15"]{background:rgba(240,240,245,0.95)!important}
+        body.light-mode [style*="background: rgba(10,10,15"]{background:rgba(240,240,245,0.95)!important}
+        body.light-mode [style*="background:rgba(12,16,28"]{background:rgba(240,240,245,0.98)!important}
+        body.light-mode [style*="background:rgba(18,22,38"]{background:rgba(240,240,245,0.98)!important}
+        body.light-mode #itarBanner{background:rgba(245,245,247,0.95)!important;color:#555!important;border-bottom-color:rgba(0,0,0,0.06)!important}
+        body.light-mode #itarBanner a{color:#0077cc!important}
+        /* Light-mode fixes for common dark text colors */
+        body.light-mode [style*="color:#e0e0e0"]{color:#333!important}
+        body.light-mode [style*="color: #e0e0e0"]{color:#333!important}
+        body.light-mode [style*="color:#d1d5db"]{color:#444!important}
+        body.light-mode [style*="color: #d1d5db"]{color:#444!important}
+        body.light-mode [style*="color:#8b8fa3"]{color:#666!important}
+        body.light-mode [style*="color: #8b8fa3"]{color:#666!important}
+        /* Wallet sidebar header */
+        body.light-mode .wallet-sidebar-header h3{color:#1d1d1f!important}
+        body.light-mode .wallet-sidebar{background:#fff!important;border-color:rgba(0,0,0,0.1)!important}
+        body.light-mode .wallet-sidebar *{color:#1d1d1f}
+        body.light-mode .wallet-sidebar .wallet-balance{color:#1d1d1f!important}
+        /* Mobile navbar collapse */
+        @media(max-width:991px){body.light-mode .navbar-collapse,body.light-mode #navLinks{background:rgba(255,255,255,0.98)!important;border-color:rgba(0,0,0,0.06)!important}}
+        /* Gradient text (hero headings) */
+        body.light-mode .gradient-text{color:#1d1d1f}
+        /* ILS action titles */
+        body.light-mode .ils-action-item .action-title{color:#1d1d1f!important}
+        /* ILS coverage row dividers */
+        body.light-mode .ils-coverage-row{border-bottom-color:rgba(0,0,0,0.06)!important}
+        /* Tour tooltip buttons */
+        body.light-mode .s4-tour-tooltip button,[data-theme="light"] .s4-tour-tooltip button{color:#1d1d1f!important;border-color:rgba(0,0,0,0.15)!important}
+        body.light-mode .s4-tour-tooltip button:hover,[data-theme="light"] .s4-tour-tooltip button:hover{background:rgba(0,0,0,0.06)!important}
+        /* Activity feed strong text */
+        body.light-mode .s4-activity-item .act-text strong,[data-theme="light"] .s4-activity-item .act-text strong{color:#1d1d1f!important}
+        /* HIW close button hover */
+        body.light-mode .hiw-close:hover,[data-theme="light"] .hiw-close:hover{color:#1d1d1f!important}
+        /* Avatar dark borders */
+        body.light-mode [style*="border:2px solid #0a0e1a"]{border-color:rgba(0,0,0,0.1)!important}
+        body.light-mode [style*="border: 2px solid #0a0e1a"]{border-color:rgba(0,0,0,0.1)!important}
+        /* Command palette light mode */
+        body.light-mode .s4-command-palette{background:#fff!important;border-color:rgba(0,0,0,0.1)!important;color:#1d1d1f!important}
+        body.light-mode .s4-command-palette input{background:#f8f8fa!important;color:#1d1d1f!important;border-color:rgba(0,0,0,0.1)!important}
+        body.light-mode .s4-command-palette .cmd-item:hover{background:rgba(0,119,204,0.06)!important}
 
         /* ═══ PRINT STYLES — Optimized for Auditor Print-Outs ═══ */
         @media print {

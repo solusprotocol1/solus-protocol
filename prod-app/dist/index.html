@@ -66,12 +66,36 @@
     <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" integrity="sha384-9nhczxUqK87bcKHh20fSQcTGD4qq5GhayNYSYWqwBkINBhOfQLg/P5HG5lF1urn4" crossorigin="anonymous"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/qrcode@1.5.4/build/qrcode.min.js"></script>
     <!-- CSS is imported via main.js and extracted by Vite -->
-  <script type="module" crossorigin src="/prod-app/dist/assets/index-R40qKXYq.js"></script>
-  <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/engine-B263YRlj.js">
-  <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/enhancements-BqobiCpU.js">
-  <link rel="stylesheet" crossorigin href="/prod-app/dist/assets/index-B1kH9RkS.css">
+  <script type="module" crossorigin src="/prod-app/dist/assets/index-DzlWbj8j.js"></script>
+  <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/engine-DnNlWJfO.js">
+  <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/enhancements-DLH4bI8_.js">
+  <link rel="stylesheet" crossorigin href="/prod-app/dist/assets/index-Dc41JiXf.css">
 </head>
 <body>
+<!-- Early theme restore + failsafe toggle (non-module, runs immediately) -->
+<script>
+(function(){
+  var saved=localStorage.getItem('s4-theme');
+  if(saved==='light'){document.body.classList.add('light-mode');document.body.setAttribute('data-theme','light');}
+  window.toggleTheme=function(){
+    var b=document.body,isL=b.classList.toggle('light-mode');
+    if(isL)b.setAttribute('data-theme','light');else b.removeAttribute('data-theme');
+    localStorage.setItem('s4-theme',isL?'light':'dark');
+    var btn=document.getElementById('themeToggleBtn');
+    if(btn){btn.innerHTML=isL?'<i class="fas fa-moon"></i>':'<i class="fas fa-sun"></i>';btn.title=isL?'Switch to Dark Mode':'Switch to Light Mode';}
+    var nav=document.querySelector('nav');
+    if(nav){nav.style.background=isL?'rgba(255,255,255,0.92)':'rgba(5,8,16,0.92)';nav.style.backdropFilter='blur(20px)';nav.style.borderBottomColor=isL?'rgba(0,0,0,0.06)':'rgba(255,255,255,0.06)';}
+    var brand=document.querySelector('.nav-brand span, nav span');
+    if(brand)brand.style.color=isL?'#1d1d1f':'#fff';
+    var hamburger=document.querySelector('nav button[aria-label="Menu"]');
+    if(hamburger)hamburger.style.color=isL?'#1d1d1f':'#fff';
+    var links=document.querySelectorAll('#navLinks a:not([style*="background:#00aaff"]):not([style*="background:var(--accent)"])');
+    links.forEach(function(a){if(a.classList.contains('theme-toggle'))return;a.style.color=isL?(a.getAttribute('href')==='/prod-app/'?'#0077cc':'rgba(0,0,0,0.6)'):(a.getAttribute('href')==='/prod-app/'?'#00aaff':'rgba(255,255,255,0.7)');});
+    if(typeof Chart!=='undefined'){var tc=isL?'#333':'#ccc',gc=isL?'rgba(0,0,0,0.1)':'rgba(255,255,255,0.06)';Chart.defaults.color=tc;Chart.defaults.borderColor=gc;Object.values(Chart.instances||{}).forEach(function(c){try{if(c&&c.options){if(c.options.scales)Object.values(c.options.scales).forEach(function(s){if(s.ticks)s.ticks.color=tc;if(s.grid)s.grid.color=gc;});if(c.options.plugins&&c.options.plugins.legend&&c.options.plugins.legend.labels)c.options.plugins.legend.labels.color=tc;c.update('none');}}catch(e){}});}
+  };
+  if(saved==='light'){var btn=document.getElementById('themeToggleBtn');if(btn){btn.innerHTML='<i class="fas fa-moon"></i>';btn.title='Switch to Dark Mode';}}
+})();
+</script>
 <!-- Skip Navigation Link (Section 508 / a11y) -->
 <a href="#mainContent" class="sr-only" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;z-index:99999;background:#00aaff;color:#fff;padding:12px 24px;font-weight:700;text-decoration:none;border-radius:0 0 3px 0" onfocus="this.style.position='fixed';this.style.left='0';this.style.top='0';this.style.width='auto';this.style.height='auto';this.style.overflow='visible'" onblur="this.style.position='absolute';this.style.left='-9999px';this.style.width='1px';this.style.height='1px';this.style.overflow='hidden'">Skip to main content</a>
 <div id="itarBanner" style="position:fixed;top:0;left:0;right:0;z-index:1001;background:rgba(10,10,15,0.95);border-bottom:1px solid rgba(255,255,255,0.06);padding:4px 0;text-align:center;font-size:0.72rem;color:#8b8fa3;"><i class="fas fa-exclamation-triangle" style="margin-right:4px;"></i> NOTICE: Do not submit ITAR-controlled, classified, or export-controlled data to this platform. This system processes UNCLASSIFIED and CUI data only. <a href="/security/" style="color:#00aaff;text-decoration:underline;">Security Policy</a></div>

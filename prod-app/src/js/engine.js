@@ -8444,3 +8444,6 @@ window.vaultPageNext = vaultPageNext;
 window.vaultPagePrev = vaultPagePrev;
 window.verifyAllVault = verifyAllVault;
 window.verifyRecord = verifyRecord;
+// Cross-chunk exports — needed by enhancements chunk for GFP/CDRL/Contract/Provenance anchoring
+window._anchorToXRPL = _anchorToXRPL;
+window.showAnchorAnimation = showAnchorAnimation;
