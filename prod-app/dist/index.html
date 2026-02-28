@@ -65,10 +65,12 @@
     <script src="/s4-assets/defense-docs.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" integrity="sha384-9nhczxUqK87bcKHh20fSQcTGD4qq5GhayNYSYWqwBkINBhOfQLg/P5HG5lF1urn4" crossorigin="anonymous"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/qrcode@1.5.4/build/qrcode.min.js"></script>
+    <!-- Hide all "How It Works" details sections via JS on load -->
+    <style>.s4-how-it-works-hidden { display: none !important; }</style>
     <!-- CSS is imported via main.js and extracted by Vite -->
-  <script type="module" crossorigin src="/prod-app/dist/assets/index-DTJn8xDM.js"></script>
+  <script type="module" crossorigin src="/prod-app/dist/assets/index-JwN8ue_5.js"></script>
   <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/engine-B9hskFWX.js">
-  <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/enhancements-Cg428gdw.js">
+  <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/enhancements-BqobiCpU.js">
   <link rel="stylesheet" crossorigin href="/prod-app/dist/assets/index-BDV2-iZN.css">
 </head>
 <body>
@@ -320,12 +322,12 @@
                     <h4 style="color:#fff;margin:0 0 12px;font-size:1rem"><i class="fas fa-coins" style="color:var(--gold);margin-right:8px"></i>Step 4: How Your Credits Are Used</h4>
                     <p style="color:var(--steel);font-size:0.82rem;margin-bottom:16px">Every time you anchor a record, a tiny Credit fee flows to the S4 Treasury on the XRP Ledger.</p>
                     <div style="background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:16px;margin-bottom:16px">
-                        <div style="display:flex;align-items:center;gap:12px;justify-content:center;flex-wrap:wrap">
-                            <div style="text-align:center;padding:10px"><div style="font-size:0.72rem;color:var(--steel);margin-bottom:6px">Your Wallet</div><div style="width:44px;height:44px;border-radius:50%;background:rgba(0,170,255,0.1);display:inline-flex;align-items:center;justify-content:center;color:var(--accent)"><i class="fas fa-wallet"></i></div></div>
-                            <div style="color:var(--gold);font-weight:700;font-size:0.85rem"><i class="fas fa-long-arrow-alt-right"></i> 0.01 Credits</div>
-                            <div style="text-align:center;padding:10px"><div style="font-size:0.72rem;color:var(--steel);margin-bottom:6px">S4 Treasury</div><div style="width:44px;height:44px;border-radius:50%;background:rgba(201,168,76,0.1);display:inline-flex;align-items:center;justify-content:center;color:var(--gold)"><i class="fas fa-landmark"></i></div></div>
-                            <div style="color:var(--accent);font-weight:700;font-size:0.85rem"><i class="fas fa-long-arrow-alt-right"></i> XRPL</div>
-                            <div style="text-align:center;padding:10px"><div style="font-size:0.72rem;color:var(--steel);margin-bottom:6px">Immutable Record</div><div style="width:44px;height:44px;border-radius:50%;background:rgba(0,170,255,0.1);display:inline-flex;align-items:center;justify-content:center;color:#00aaff"><i class="fas fa-lock"></i></div></div>
+                        <div style="display:grid;grid-template-columns:1fr auto 1fr auto 1fr;align-items:center;gap:8px;text-align:center">
+                            <div style="padding:8px"><div style="width:44px;height:44px;border-radius:50%;background:rgba(0,170,255,0.1);display:inline-flex;align-items:center;justify-content:center;color:var(--accent);margin:0 auto 6px"><i class="fas fa-wallet"></i></div><div style="font-size:0.72rem;color:var(--steel)">Your Wallet</div></div>
+                            <div style="color:var(--gold);font-weight:700;font-size:0.78rem;white-space:nowrap"><i class="fas fa-arrow-right"></i><br>0.01 Credits</div>
+                            <div style="padding:8px"><div style="width:44px;height:44px;border-radius:50%;background:rgba(201,168,76,0.1);display:inline-flex;align-items:center;justify-content:center;color:var(--gold);margin:0 auto 6px"><i class="fas fa-landmark"></i></div><div style="font-size:0.72rem;color:var(--steel)">S4 Treasury</div></div>
+                            <div style="color:var(--accent);font-weight:700;font-size:0.78rem;white-space:nowrap"><i class="fas fa-arrow-right"></i><br>XRPL</div>
+                            <div style="padding:8px"><div style="width:44px;height:44px;border-radius:50%;background:rgba(0,170,255,0.1);display:inline-flex;align-items:center;justify-content:center;color:#00aaff;margin:0 auto 6px"><i class="fas fa-lock"></i></div><div style="font-size:0.72rem;color:var(--steel)">Immutable Record</div></div>
                         </div>
                     </div>
                     <div style="font-size:0.82rem;color:var(--steel);line-height:1.6;margin-bottom:12px">
@@ -3263,6 +3265,13 @@
                 if (errEl) errEl.textContent = 'No JS errors detected.';
                 errEl.style.color = 'green';
             }
+            // Remove all "How It Works" details sections
+            document.querySelectorAll('details').forEach(function(d) {
+                var summary = d.querySelector('summary');
+                if (summary && summary.textContent.indexOf('How It Works') >= 0) {
+                    d.remove();
+                }
+            });
         }, 3000);
 
         // ══════ 1. LANDING PAGE ALWAYS SHOWS FIRST ══════
@@ -3729,6 +3738,8 @@
             // ── document.getElementById('x').click() / .remove() / .focus() ──
             var domChain = s.match(/^document\.getElementById\(['"]([^'"]+)['"]\)\.(click|remove|focus)\(\)$/);
             if (domChain) { var e=document.getElementById(domChain[1]); if(e)e[domChain[2]](); return; }
+            // ── this.remove() ──
+            if (s === 'this.remove()') { if(el)el.remove(); return; }
             // ── this.parentElement.remove() ──
             if (s === 'this.parentElement.remove()') { if(el&&el.parentElement)el.parentElement.remove(); return; }
             // ── this.closest('...').remove() ──
@@ -3752,8 +3763,27 @@
                 return;
             }
 
+            // ── var x=document.getElementById('id');if(x)x.remove() — complex close pattern ──
+            // Instead of skipping all var statements, try to handle simple var+remove patterns
+            var varGetRemove = s.match(/^var\s+(\w+)\s*=\s*document\.getElementById\(['"]([^'"]+)['"]\)$/);
+            if (varGetRemove) {
+                // Store the resolved element for following if-statements
+                if (!el._delegateVars) el._delegateVars = {};
+                el._delegateVars[varGetRemove[1]] = document.getElementById(varGetRemove[2]);
+                return;
+            }
+            // ── if(x)x.remove() — remove a var-stored element ──
+            var ifRemove = s.match(/^if\((\w+)\)\s*\1\.remove\(\)$/);
+            if (ifRemove && el._delegateVars && el._delegateVars[ifRemove[1]]) {
+                el._delegateVars[ifRemove[1]].remove();
+                return;
+            }
             // ── Hamburger menu: starts with "var " — skip gracefully ──
             if (/^var\s/.test(s)) return;
+
+            // ── document.getElementById('x').style.display = 'val' ──
+            var domStyle = s.match(/^document\.getElementById\(['"]([^'"]+)['"]\)\.style\.(\w+)\s*=\s*['"]([^'"]*)['"]$/);
+            if (domStyle) { var _el=document.getElementById(domStyle[1]); if(_el)_el.style[domStyle[2]]=domStyle[3]; return; }
 
             // ── Standard function call: funcName(args) or obj.method(args) ──
             var fnMatch = s.match(/^([a-zA-Z_$][\w.$]*)(\(.*\))$/);

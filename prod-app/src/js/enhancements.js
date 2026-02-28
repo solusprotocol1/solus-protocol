@@ -1410,7 +1410,7 @@ console.log('[Round-13] Production subscription code loaded — Stripe Checkout 
         var html = '<div id="teamManagePanel" style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;max-width:90vw;max-height:80vh;background:#0a0e1a;border:1px solid rgba(0,170,255,0.3);border-radius:3px;padding:24px;z-index:10001;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.5);">';
         html += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">';
         html += '<h3 style="margin:0;color:#fff;font-size:1.1rem;"><i class="fas fa-users" style="color:var(--accent);margin-right:8px"></i>Team Workspace</h3>';
-        html += '<button onclick="var p=document.getElementById(\'teamManagePanel\');var o=document.getElementById(\'teamManageOverlay\');if(p)p.remove();if(o)o.remove();" style="background:none;border:none;color:var(--steel);cursor:pointer;font-size:1.2rem;"><i class="fas fa-times"></i></button>';
+        html += '<button onclick="document.getElementById(\'teamManagePanel\').remove();document.getElementById(\'teamManageOverlay\').remove();" style="background:none;border:none;color:var(--steel);cursor:pointer;font-size:1.2rem;"><i class="fas fa-times"></i></button>';
         html += '</div>';
         html += '<div style="font-size:0.78rem;color:var(--steel);margin-bottom:16px;">Manage team roles and access. Changes sync across all workspace sessions.</div>';
         html += '<table style="width:100%;border-collapse:collapse;">';
@@ -1484,7 +1484,7 @@ console.log('[Round-13] Production subscription code loaded — Stripe Checkout 
         var html = '<div id="savedAnalysesPanel" style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:650px;max-width:90vw;max-height:80vh;background:#0a0e1a;border:1px solid rgba(0,170,255,0.3);border-radius:3px;padding:24px;z-index:10001;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.5);">';
         html += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">';
         html += '<h3 style="margin:0;color:#fff;font-size:1.1rem;"><i class="fas fa-history" style="color:var(--accent);margin-right:8px"></i>Saved Analyses</h3>';
-        html += '<button onclick="document.getElementById(\'savedAnalysesPanel\').remove();document.getElementById(\'savedAnalysesOverlay\').remove();" style="background:none;border:none;color:var(--steel);cursor:pointer;font-size:1.2rem;"><i class="fas fa-times"></i></button>';
+        html += '<button onclick="_closeSavedAnalyses()" style="background:none;border:none;color:var(--steel);cursor:pointer;font-size:1.2rem;"><i class="fas fa-times"></i></button>';
         html += '</div>';
 
         if (_savedAnalyses.length === 0) {
@@ -1498,7 +1498,7 @@ console.log('[Round-13] Production subscription code loaded — Stripe Checkout 
                 html += '<div><div style="color:#fff;font-weight:700;font-size:0.88rem;">' + a.title + '</div><div style="color:var(--steel);font-size:0.72rem;">' + a.type + ' — ' + new Date(a.timestamp).toLocaleString() + '</div></div>';
                 html += '<div style="display:flex;align-items:center;gap:12px;">';
                 html += '<div style="text-align:center;"><div style="font-size:1.2rem;font-weight:800;color:' + scoreColor + ';">' + Math.round(a.score) + '%</div><div style="font-size:0.6rem;color:var(--steel);">Score</div></div>';
-                html += '<button onclick="_savedAnalyses.splice(' + i + ',1);localStorage.setItem(\'s4_saved_analyses\',JSON.stringify(_savedAnalyses));document.getElementById(\'savedAnalysesPanel\').remove();document.getElementById(\'savedAnalysesOverlay\').remove();showSavedAnalyses();" style="background:rgba(255,59,48,0.1);color:#ff3b30;border:1px solid rgba(255,59,48,0.2);border-radius:3px;padding:4px 8px;font-size:0.7rem;cursor:pointer;"><i class="fas fa-trash"></i></button>';
+                html += '<button onclick="_deleteSavedAnalysis(' + i + ')" style="background:rgba(255,59,48,0.1);color:#ff3b30;border:1px solid rgba(255,59,48,0.2);border-radius:3px;padding:4px 8px;font-size:0.7rem;cursor:pointer;"><i class="fas fa-trash"></i></button>';
                 html += '</div></div>';
                 if (a.data) {
                     html += '<div style="display:flex;gap:12px;margin-top:8px;font-size:0.72rem;color:var(--steel);">';
@@ -1511,11 +1511,27 @@ console.log('[Round-13] Production subscription code loaded — Stripe Checkout 
             });
         }
         html += '<div style="margin-top:16px;display:flex;gap:8px;">';
-        html += '<button onclick="saveCurrentAnalysis();document.getElementById(\'savedAnalysesPanel\').remove();document.getElementById(\'savedAnalysesOverlay\').remove();showSavedAnalyses();" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;border-radius:3px;padding:8px 16px;font-size:0.8rem;font-weight:700;cursor:pointer;"><i class="fas fa-save" style="margin-right:4px"></i> Save Current Analysis</button>';
+        html += '<button onclick="_closeSavedAnalyses();saveCurrentAnalysis();showSavedAnalyses();" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;border-radius:3px;padding:8px 16px;font-size:0.8rem;font-weight:700;cursor:pointer;"><i class="fas fa-save" style="margin-right:4px"></i> Save Current Analysis</button>';
         html += '</div></div>';
-        html = '<div id="savedAnalysesOverlay" onclick="document.getElementById(\'savedAnalysesPanel\').remove();this.remove();" style="position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:10000;"></div>' + html;
+        html = '<div id="savedAnalysesOverlay" onclick="_closeSavedAnalyses()" style="position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:10000;"></div>' + html;
         document.body.insertAdjacentHTML('beforeend', html);
     };
+
+    // Wrapper functions for delegation-compatible onclick handlers
+    window._closeSavedAnalyses = function() {
+        var p = document.getElementById('savedAnalysesPanel');
+        var o = document.getElementById('savedAnalysesOverlay');
+        if (p) p.remove();
+        if (o) o.remove();
+    };
+    window._deleteSavedAnalysis = function(idx) {
+        _savedAnalyses.splice(idx, 1);
+        localStorage.setItem('s4_saved_analyses', JSON.stringify(_savedAnalyses));
+        window._closeSavedAnalyses();
+        if (typeof showSavedAnalyses === 'function') showSavedAnalyses();
+        else if (typeof window.showSavedAnalyses === 'function') window.showSavedAnalyses();
+    };
+
     console.log('[Round-14] Saved Analyses Dashboard loaded');
 })();
 
@@ -1635,7 +1651,7 @@ console.log('[Round-13] Production subscription code loaded — Stripe Checkout 
         var html = '<div id="webhookPanel" style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:650px;max-width:90vw;max-height:80vh;background:#0a0e1a;border:1px solid rgba(0,170,255,0.3);border-radius:3px;padding:24px;z-index:10001;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.5);">';
         html += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">';
         html += '<h3 style="margin:0;color:#fff;font-size:1.1rem;"><i class="fas fa-plug" style="color:var(--accent);margin-right:8px"></i>Webhook Configuration</h3>';
-        html += '<button onclick="document.getElementById(\'webhookPanel\').remove();document.getElementById(\'webhookOverlay\').remove();" style="background:none;border:none;color:var(--steel);cursor:pointer;font-size:1.2rem;"><i class="fas fa-times"></i></button>';
+        html += '<button onclick="_closeWebhooks()" style="background:none;border:none;color:var(--steel);cursor:pointer;font-size:1.2rem;"><i class="fas fa-times"></i></button>';
         html += '</div>';
         html += '<div style="font-size:0.78rem;color:var(--steel);margin-bottom:16px;">Configure webhook URLs to receive real-time notifications when records are anchored, verified, or exported.</div>';
 
@@ -1667,7 +1683,7 @@ console.log('[Round-13] Production subscription code loaded — Stripe Checkout 
             html += '<div style="text-align:center;padding:20px;color:var(--muted);font-size:0.82rem;"><i class="fas fa-plug" style="font-size:1.5rem;margin-bottom:8px;opacity:0.3;display:block;"></i>No webhooks configured. Add a URL above to receive real-time notifications.</div>';
         }
         html += '</div>';
-        html = '<div id="webhookOverlay" onclick="document.getElementById(\'webhookPanel\').remove();this.remove();" style="position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:10000;"></div>' + html;
+        html = '<div id="webhookOverlay" onclick="_closeWebhooks()" style="position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:10000;"></div>' + html;
         document.body.insertAdjacentHTML('beforeend', html);
     };
 
@@ -1687,16 +1703,14 @@ console.log('[Round-13] Production subscription code loaded — Stripe Checkout 
             body: JSON.stringify({ url: url, events: events })
         }).catch(function(){});
         if (typeof _showNotif === 'function') _showNotif('Webhook registered: ' + url, 'success');
-        document.getElementById('webhookPanel').remove();
-        document.getElementById('webhookOverlay').remove();
+        window._closeWebhooks();
         showWebhookSettings();
     };
 
     window.removeWebhook = function(idx) {
         _localWebhooks.splice(idx, 1);
         localStorage.setItem('s4_webhooks', JSON.stringify(_localWebhooks));
-        document.getElementById('webhookPanel').remove();
-        document.getElementById('webhookOverlay').remove();
+        window._closeWebhooks();
         showWebhookSettings();
         if (typeof _showNotif === 'function') _showNotif('Webhook removed.', 'info');
     };
@@ -1714,6 +1728,14 @@ console.log('[Round-13] Production subscription code loaded — Stripe Checkout 
             if (typeof _showNotif === 'function') _showNotif('Test sent (backend offline — will deliver when API is running).', 'info');
         });
     };
+    // Wrapper for delegation-compatible close
+    window._closeWebhooks = function() {
+        var p = document.getElementById('webhookPanel');
+        var o = document.getElementById('webhookOverlay');
+        if (p) p.remove();
+        if (o) o.remove();
+    };
+
     console.log('[Round-14] Webhook Configuration UI loaded');
 })();
 
