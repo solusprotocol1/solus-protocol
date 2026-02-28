@@ -3869,7 +3869,7 @@ function generateILSReport() {
     const panel = document.getElementById('ilsResult');
     panel.innerHTML = '<div style="color:var(--accent);font-size:0.95rem;font-weight:700;margin-bottom:8px"><i class="fas fa-download"></i> Report downloaded!</div>'
         + '<pre style="background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:1rem;font-size:0.7rem;color:var(--steel);max-height:300px;overflow-y:auto;white-space:pre-wrap">' + rpt + '</pre>'
-        + '<button style="margin-top:8px;background:rgba(0,170,255,0.1);border:1px solid rgba(0,170,255,0.3);color:var(--accent);border-radius:3px;padding:6px 16px;cursor:pointer;font-family:inherit;font-size:0.82rem;font-weight:600" onclick="navigator.clipboard.writeText(document.querySelector(\'#ilsResult pre\').textContent).then(()=>this.innerHTML=\'<i class=\\\'fas fa-check\\\'></i> Copied!\')"><i class="fas fa-copy"></i> Copy to Clipboard</button>';
+        + '<button style="margin-top:8px;background:rgba(0,170,255,0.1);border:1px solid rgba(0,170,255,0.3);color:var(--accent);border-radius:3px;padding:6px 16px;cursor:pointer;font-family:inherit;font-size:0.82rem;font-weight:600" onclick="_copyILSResult(this)"><i class="fas fa-copy"></i> Copy to Clipboard</button>';
     panel.classList.add('show');
 }
 
