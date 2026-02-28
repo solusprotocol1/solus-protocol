@@ -2635,8 +2635,9 @@ function toggleTheme() {
     if (hamburger) hamburger.style.color = isLight ? '#1d1d1f' : '#fff';
     // Update Chart.js chart colors for theme
     if (typeof Chart !== 'undefined') {
-        var textColor = isLight ? '#333' : '#ccc';
-        var gridColor = isLight ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.06)';
+        var textColor = isLight ? '#3a4a5c' : '#ccc';
+        var gridColor = isLight ? 'rgba(0,0,0,0.08)' : 'rgba(255,255,255,0.06)';
+        var labelColor = isLight ? '#2c3e50' : '#ccc';
         Chart.defaults.color = textColor;
         Chart.defaults.borderColor = gridColor;
         Object.values(Chart.instances || {}).forEach(function(c) {
@@ -2646,11 +2647,18 @@ function toggleTheme() {
                     Object.values(c.options.scales).forEach(function(s) {
                         if (s.ticks) s.ticks.color = textColor;
                         if (s.grid) s.grid.color = gridColor;
-                        if (s.title) s.title.color = textColor;
+                        if (s.title) s.title.color = labelColor;
+                        if (s.angleLines) s.angleLines.color = gridColor;
+                        if (s.pointLabels) s.pointLabels.color = textColor;
                     });
                 }
-                if (c.options.plugins && c.options.plugins.legend && c.options.plugins.legend.labels) {
-                    c.options.plugins.legend.labels.color = textColor;
+                if (c.options.plugins) {
+                    if (c.options.plugins.legend && c.options.plugins.legend.labels) {
+                        c.options.plugins.legend.labels.color = labelColor;
+                    }
+                    if (c.options.plugins.title) {
+                        c.options.plugins.title.color = labelColor;
+                    }
                 }
                 c.update('none');
             } catch(e) {}

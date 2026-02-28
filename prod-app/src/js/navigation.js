@@ -170,15 +170,16 @@ function openILSTool(toolId) {
             localStorage.setItem(key,'1');
             setTimeout(showHIWModal, 300);
         }
-        var h3 = panel.querySelector('h3');
-        if(h3 && !h3.querySelector('.hiw-help-btn')){
+        // Find the best heading to attach the ? button — try h3, then h4, then .hub-tool-header, then first heading
+        var heading = panel.querySelector('h3') || panel.querySelector('h4') || panel.querySelector('.hub-tool-header h4') || panel.querySelector('h5');
+        if(heading && !heading.querySelector('.hiw-help-btn')){
             var btn = document.createElement('button');
             btn.className = 'hiw-help-btn';
             btn.title = 'How It Works';
             btn.textContent = '?';
-            btn.style.cssText = 'margin-left:8px;background:rgba(0,170,255,0.12);border:1px solid rgba(0,170,255,0.3);color:#00aaff;border-radius:50%;width:22px;height:22px;font-size:0.72rem;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;vertical-align:middle;';
+            btn.style.cssText = 'margin-left:8px;background:rgba(0,170,255,0.12);border:1px solid rgba(0,170,255,0.3);color:#00aaff;border-radius:50%;width:24px;height:24px;font-size:0.75rem;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;vertical-align:middle;flex-shrink:0;';
             btn.onclick = function(e){ e.stopPropagation(); showHIWModal(); };
-            h3.appendChild(btn);
+            heading.appendChild(btn);
         }
     })();
 
@@ -617,7 +618,7 @@ window.showSystemsSub = showSystemsSub;
             overlay.onclick = function(e){ if(e.target === overlay) overlay.remove(); };
             document.body.appendChild(overlay);
         }
-        var h3 = panel.querySelector('h3');
+        var h3 = panel.querySelector('h3') || panel.querySelector('h4') || panel.querySelector('.hub-tool-header h4') || panel.querySelector('h5');
         if (h3 && !h3.querySelector('.hiw-help-btn')) {
             var btn = document.createElement('button');
             btn.className = 'hiw-help-btn';

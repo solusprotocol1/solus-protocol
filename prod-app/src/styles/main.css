@@ -20,6 +20,15 @@
         body.light-mode code,body.light-mode .hash-display{background:rgba(0,0,0,0.04);color:#1d1d1f}
         body.light-mode .ai-chat-container,body.light-mode .ai-float-panel{background:#fff;border-color:rgba(0,0,0,0.1)}
         body.light-mode .ai-msg.bot .ai-bubble{background:#f0f0f5;color:#1d1d1f}
+        body.light-mode .ai-msg.bot{color:#1d1d1f}
+        body.light-mode .ai-msg .ai-label{color:#555}
+        body.light-mode .ai-chat-messages{color:#1d1d1f}
+        body.light-mode .ai-chat-header{background:linear-gradient(135deg,rgba(0,170,255,0.08),rgba(201,168,76,0.05));border-bottom-color:rgba(0,0,0,0.08)}
+        body.light-mode .ai-chat-header span{color:#1d1d1f !important}
+        body.light-mode .ai-context-label{background:rgba(0,170,255,0.04);border-color:rgba(0,0,0,0.06);color:#555}
+        body.light-mode .ai-chat-input{background:#f8f8fa;border-top-color:rgba(0,0,0,0.06)}
+        body.light-mode .ai-chat-input input{background:#fff !important;color:#1d1d1f !important;border-color:rgba(0,0,0,0.12) !important}
+        body.light-mode .ai-close-btn{color:#555 !important}
         body.light-mode .ils-hub-tab{color:#555}
         body.light-mode .ils-hub-tab.active{background:var(--accent)!important;color:#fff!important}
         body.light-mode .ils-hub-tabs{background:#f8f8fa;border-color:rgba(0,0,0,0.06)}
@@ -1299,6 +1308,9 @@
         /* ── Light-mode Chart.js & Diagram Visibility ── */
         [data-theme="light"] canvas{background:rgba(255,255,255,0.95);border-radius:3px}
         [data-theme="light"] .chart-container,[data-theme="light"] [id*="Chart"]{background:#fff;border-radius:3px;padding:4px}
+        body.light-mode canvas{background:rgba(255,255,255,0.95) !important;border-radius:3px}
+        body.light-mode .chart-container,body.light-mode [id*="Chart"]{background:#fff !important;border-radius:3px;padding:4px;border:1px solid rgba(0,0,0,0.06)}
+        body.light-mode .chart-title{color:#1a1a2e !important}
         [data-theme="light"] .tool-panel table,[data-theme="light"] .tool-panel table th,[data-theme="light"] .tool-panel table td{color:#1d1d1f;border-color:rgba(0,0,0,0.12)}
         [data-theme="light"] .tool-panel table th{background:rgba(0,170,255,0.06);color:#1a1a2e}
         [data-theme="light"] .tool-panel table td{background:#fff}

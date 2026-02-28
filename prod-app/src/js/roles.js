@@ -365,6 +365,102 @@ function initRoleSystem() {
         return s;
     }
 
+    // ══ Theme-Aware Chart Color Patching ══
+    // Patches chart configs for light/dark mode before rendering.
+    // This avoids modifying 40+ individual color values across config factories.
+    window._s4PatchChartTheme = function _s4PatchChartTheme(config) {
+        var isLight = document.body.classList.contains('light-mode');
+        if (!isLight) return config; // dark mode = hardcoded defaults are fine
+
+        // Light-mode replacement map
+        var gridColor = 'rgba(0,0,0,0.08)';
+        var tickColor = '#3a4a5c';
+        var labelColor = '#2c3e50';
+        var titleColor = '#2c3e50';
+        var legendColor = '#2c3e50';
+        var angleLineColor = 'rgba(0,0,0,0.08)';
+        var pointLabelColor = '#3a4a5c';
+        var tooltipBg = 'rgba(255,255,255,0.96)';
+        var tooltipTitle = '#111';
+        var tooltipBody = '#333';
+
+        // Patch plugins
+        if (config.options && config.options.plugins) {
+            var plugins = config.options.plugins;
+            if (plugins.legend && plugins.legend.labels) {
+                plugins.legend.labels.color = legendColor;
+            }
+            if (plugins.title) {
+                plugins.title.color = titleColor;
+            }
+            if (plugins.tooltip) {
+                if (plugins.tooltip.backgroundColor) plugins.tooltip.backgroundColor = tooltipBg;
+                if (plugins.tooltip.titleColor) plugins.tooltip.titleColor = tooltipTitle;
+                if (plugins.tooltip.bodyColor) plugins.tooltip.bodyColor = tooltipBody;
+            }
+        }
+
+        // Patch scales
+        if (config.options && config.options.scales) {
+            var scales = config.options.scales;
+            Object.keys(scales).forEach(function(key) {
+                var scale = scales[key];
+                if (scale.ticks) scale.ticks.color = tickColor;
+                if (scale.grid) scale.grid.color = gridColor;
+                if (scale.angleLines) scale.angleLines.color = angleLineColor;
+                if (scale.pointLabels) scale.pointLabels.color = pointLabelColor;
+                if (scale.title && scale.title.display) scale.title.color = titleColor;
+            });
+        }
+
+        // Patch dataset borderColor for baseline/invisible items
+        if (config.data && config.data.datasets) {
+            config.data.datasets.forEach(function(ds) {
+                if (ds.borderColor === 'rgba(255,255,255,0.2)') {
+                    ds.borderColor = 'rgba(0,0,0,0.2)';
+                }
+            });
+        }
+
+        return config;
+    };
+
+    // Register a Chart.js plugin that auto-patches ALL chart instances for theme
+    (function() {
+        function _registerThemePlugin() {
+            if (typeof Chart === 'undefined') return;
+            Chart.register({
+                id: 's4ThemePatch',
+                beforeInit: function(chart) {
+                    if (!document.body.classList.contains('light-mode')) return;
+                    var gridColor = 'rgba(0,0,0,0.08)';
+                    var tickColor = '#3a4a5c';
+                    var labelColor = '#2c3e50';
+                    // Patch scales
+                    if (chart.options && chart.options.scales) {
+                        Object.keys(chart.options.scales).forEach(function(key) {
+                            var s = chart.options.scales[key];
+                            if (s.ticks && s.ticks.color && (s.ticks.color === '#8ea4b8' || s.ticks.color === '#6b7d93')) s.ticks.color = tickColor;
+                            if (s.grid && s.grid.color && typeof s.grid.color === 'string' && s.grid.color.indexOf('255,255,255') >= 0) s.grid.color = gridColor;
+                            if (s.angleLines && s.angleLines.color && s.angleLines.color.indexOf('255,255,255') >= 0) s.angleLines.color = gridColor;
+                            if (s.pointLabels && s.pointLabels.color && (s.pointLabels.color === '#8ea4b8' || s.pointLabels.color === '#6b7d93')) s.pointLabels.color = tickColor;
+                            if (s.title && s.title.color && (s.title.color === '#8ea4b8')) s.title.color = labelColor;
+                        });
+                    }
+                    // Patch plugins
+                    if (chart.options && chart.options.plugins) {
+                        var p = chart.options.plugins;
+                        if (p.legend && p.legend.labels && p.legend.labels.color && (p.legend.labels.color === '#8ea4b8' || p.legend.labels.color === '#6b7d93')) p.legend.labels.color = labelColor;
+                        if (p.title && p.title.color === '#8ea4b8') p.title.color = labelColor;
+                    }
+                }
+            });
+        }
+        // Register when Chart.js is available
+        if (typeof Chart !== 'undefined') { _registerThemePlugin(); }
+        else { document.addEventListener('DOMContentLoaded', function() { setTimeout(_registerThemePlugin, 500); }); }
+    })();
+
     var _chartConfigs = {
         gapRadarChart: function() {
             var s = _getToolState();
@@ -506,7 +602,7 @@ function initRoleSystem() {
                     container.style.display = 'block';
                     container.style.visibility = 'visible';
                 }
-                new Chart(canvas, cfg());
+                new Chart(canvas, _s4PatchChartTheme(cfg()));
                 canvas.setAttribute('data-bp-rendered', '1');
                 canvas.setAttribute('data-bp-ts', Date.now());
                 console.log('[S4-BP-Charts] Rendered: ' + canvas.id);

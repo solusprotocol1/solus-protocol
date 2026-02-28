@@ -560,6 +560,8 @@ function createS4Chart(canvasId, config) {
     config.options.maintainAspectRatio = defaults.maintainAspectRatio;
     config.options.plugins = Object.assign({}, defaults.plugins, config.options.plugins || {});
     if (defaults.scales.x && !config.options.scales) config.options.scales = defaults.scales;
+    // Apply light-mode theme patch if available
+    if (typeof _s4PatchChartTheme === 'function') config = _s4PatchChartTheme(config);
     _s4Charts[canvasId] = new Chart(ctx.getContext('2d'), config);
     return _s4Charts[canvasId];
 }
