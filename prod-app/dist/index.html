@@ -66,8 +66,8 @@
     <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" integrity="sha384-9nhczxUqK87bcKHh20fSQcTGD4qq5GhayNYSYWqwBkINBhOfQLg/P5HG5lF1urn4" crossorigin="anonymous"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/qrcode@1.5.4/build/qrcode.min.js"></script>
     <!-- CSS is imported via main.js and extracted by Vite -->
-  <script type="module" crossorigin src="/prod-app/dist/assets/index-CXQCg35O.js"></script>
-  <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/engine-BWZajMdh.js">
+  <script type="module" crossorigin src="/prod-app/dist/assets/index-Dq5s1eI6.js"></script>
+  <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/engine-kGcnwZo8.js">
   <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/enhancements-BqobiCpU.js">
   <link rel="stylesheet" crossorigin href="/prod-app/dist/assets/index-B1kH9RkS.css">
 </head>
@@ -3691,6 +3691,40 @@
                 });
             }
         };
+
+        // ══════ 3e. DIRECT BINDINGS FOR CRITICAL BUTTONS ══════
+        // Logout buttons — direct binding bypasses delegation handler
+        document.querySelectorAll('[onclick*="logout()"]').forEach(function(btn) {
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                if (typeof window.logout === 'function') window.logout();
+            });
+        });
+        // Onboarding Next/Tier buttons
+        document.querySelectorAll('[onclick*="onboardNext()"]').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                if (typeof window.onboardNext === 'function') window.onboardNext();
+            });
+        });
+        document.querySelectorAll('[onclick*="selectOnboardTier("]').forEach(function(el) {
+            var oc = el.getAttribute('onclick');
+            var m = oc && oc.match(/selectOnboardTier\(this,\s*'([^']+)'\)/);
+            if (m) {
+                el.addEventListener('click', function() {
+                    if (typeof window.selectOnboardTier === 'function') window.selectOnboardTier(el, m[1]);
+                });
+            }
+        });
+        // Hub sidebar buttons (Team, Analyses, Webhooks)
+        document.querySelectorAll('[onclick*="showTeamPanel()"], [onclick*="showSavedAnalyses()"], [onclick*="showWebhookSettings()"]').forEach(function(btn) {
+            var oc = btn.getAttribute('onclick') || '';
+            var fnName = (oc.match(/^(\w+)\(\)$/) || [])[1];
+            if (fnName) {
+                btn.addEventListener('click', function() {
+                    if (typeof window[fnName] === 'function') window[fnName]();
+                });
+            }
+        });
 
         // ══════ 4. UNIVERSAL DELEGATED ONCLICK HANDLER ══════
         // Parses onclick attribute strings and dispatches to window functions (no eval)

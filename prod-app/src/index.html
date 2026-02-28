@@ -3689,6 +3689,40 @@
             }
         };
 
+        // ══════ 3e. DIRECT BINDINGS FOR CRITICAL BUTTONS ══════
+        // Logout buttons — direct binding bypasses delegation handler
+        document.querySelectorAll('[onclick*="logout()"]').forEach(function(btn) {
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                if (typeof window.logout === 'function') window.logout();
+            });
+        });
+        // Onboarding Next/Tier buttons
+        document.querySelectorAll('[onclick*="onboardNext()"]').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                if (typeof window.onboardNext === 'function') window.onboardNext();
+            });
+        });
+        document.querySelectorAll('[onclick*="selectOnboardTier("]').forEach(function(el) {
+            var oc = el.getAttribute('onclick');
+            var m = oc && oc.match(/selectOnboardTier\(this,\s*'([^']+)'\)/);
+            if (m) {
+                el.addEventListener('click', function() {
+                    if (typeof window.selectOnboardTier === 'function') window.selectOnboardTier(el, m[1]);
+                });
+            }
+        });
+        // Hub sidebar buttons (Team, Analyses, Webhooks)
+        document.querySelectorAll('[onclick*="showTeamPanel()"], [onclick*="showSavedAnalyses()"], [onclick*="showWebhookSettings()"]').forEach(function(btn) {
+            var oc = btn.getAttribute('onclick') || '';
+            var fnName = (oc.match(/^(\w+)\(\)$/) || [])[1];
+            if (fnName) {
+                btn.addEventListener('click', function() {
+                    if (typeof window[fnName] === 'function') window[fnName]();
+                });
+            }
+        });
+
         // ══════ 4. UNIVERSAL DELEGATED ONCLICK HANDLER ══════
         // Parses onclick attribute strings and dispatches to window functions (no eval)
         function execHandler(str, el, evt) {

@@ -53,6 +53,20 @@ function showRoleSelector() {
         + '</div></div>';
     modal.innerHTML = html;
     document.body.appendChild(modal);
+
+    // ── Direct event binding (belt-and-suspenders alongside delegation handler) ──
+    modal.querySelectorAll('.role-card[data-role]').forEach(function(card) {
+        card.addEventListener('click', function() {
+            selectRolePreset(card.getAttribute('data-role'));
+        });
+    });
+    modal.querySelectorAll('#roleToolChecks input[type="checkbox"]').forEach(function(cb) {
+        cb.addEventListener('change', function() { onRoleToolToggle(); });
+    });
+    var cancelBtn = modal.querySelector('button[style*="rgba(255,255,255,0.06)"]');
+    if (cancelBtn) cancelBtn.addEventListener('click', function() { modal.remove(); });
+    var applyBtn = modal.querySelector('button[style*="var(--accent)"]');
+    if (applyBtn) applyBtn.addEventListener('click', function() { applyRole(); });
 }
 
 function selectRolePreset(roleKey) {
@@ -99,7 +113,7 @@ function applyRole() {
     // Reload vault for this role so each user sees only their own records
     if (typeof reloadVaultForRole === 'function') reloadVaultForRole();
     document.getElementById('roleModal')?.remove();
-    s4Notify('Role Applied', (title || _s4Roles[_currentRole]?.label || 'Custom') + ' — ' + visibleTabs.length + ' tools active', 'success');
+    if (typeof s4Notify === 'function') s4Notify('Role Applied', (title || _s4Roles[_currentRole]?.label || 'Custom') + ' — ' + visibleTabs.length + ' tools active', 'success');
 }
 
 function applyTabVisibility(visibleTabs) {
