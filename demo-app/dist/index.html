@@ -3007,6 +3007,34 @@
 <!-- ═══ BULLETPROOF: Self-contained ROI + Chart rendering ═══ -->
 <!-- ═══ ROUND 11: UNIVERSAL CHART REACTIVITY ENGINE ═══ -->
 
+    <!-- Global error monitoring -->
+    <script>
+    (function(){
+        var MAX_ERRORS = 50;
+        var errors = window._s4Errors = [];
+        function _capture(type, msg, source, line, col, stack) {
+            if (errors.length >= MAX_ERRORS) errors.shift();
+            errors.push({ type: type, msg: String(msg).slice(0, 512), source: source || '', line: line || 0, col: col || 0, stack: (stack || '').slice(0, 1024), ts: Date.now() });
+        }
+        window.onerror = function(msg, url, line, col, err) {
+            _capture('error', msg, (url||'').split('/').pop(), line, col, err && err.stack);
+            return false;
+        };
+        window.addEventListener('unhandledrejection', function(e) {
+            var reason = e.reason || {};
+            _capture('rejection', reason.message || String(reason).slice(0, 512), '', 0, 0, reason.stack);
+        });
+        var S4 = window.S4 = window.S4 || {};
+        S4.errorMonitor = {
+            errors: errors,
+            count: function() { return errors.length; },
+            last: function(n) { return errors.slice(-(n || 5)); },
+            clear: function() { errors.length = 0; },
+            report: function(err) { _capture('manual', err.message || String(err), '', 0, 0, err.stack); }
+        };
+    })();
+    </script>
+
     <!-- S4 Ledger Demo — Modular JS (extracted from monolith) -->
 
 </body>
