@@ -148,16 +148,7 @@ async function loadPerformanceMetrics() {
                 {method:'POST', path:'/api/wallet/balance', time:'0.3s', ts:'auto', color:'#00cc66', detail:'Balance check'},
                 {method:'GET', path:'/api/xrpl/account_info', time:'0.8s', ts:'auto', color:'#00aaff', detail:'XRPL query'}
             ];
-            var allRequests = sessionRequests.length > 0 ? sessionRequests.concat(baselineRequests) : [
-                {method:'POST', path:'/api/anchor', time:'2.8s', ts:'just now', color:'#00cc66', detail:'Anchor record'},
-                {method:'GET', path:'/api/verify/sha256:a1b2c3d4', time:'0.4s', ts:'12s ago', color:'#00aaff', detail:'Verify hash'},
-                {method:'POST', path:'/api/anchor', time:'3.1s', ts:'45s ago', color:'#00cc66', detail:'Anchor record'},
-                {method:'GET', path:'/api/metrics/performance', time:'0.2s', ts:'1m ago', color:'#00aaff', detail:'Metrics'},
-                {method:'GET', path:'/api/records?limit=50&branch=NAVY', time:'0.3s', ts:'2m ago', color:'#00aaff', detail:'Record query'},
-                {method:'POST', path:'/api/anchor', time:'2.6s', ts:'3m ago', color:'#00cc66', detail:'Anchor record'},
-                {method:'GET', path:'/api/verify/sha256:e5f6a7b8', time:'0.5s', ts:'4m ago', color:'#00aaff', detail:'Verify hash'},
-                {method:'POST', path:'/api/ai-chat', time:'1.2s', ts:'5m ago', color:'#00cc66', detail:'AI query'}
-            ];
+            var allRequests = sessionRequests.length > 0 ? sessionRequests.concat(baselineRequests) : baselineRequests;
             reqEl.innerHTML = allRequests.slice(0, 12).map(function(r) {
                 return '<div style="display:flex;align-items:center;gap:8px;padding:6px 8px;border-bottom:1px solid rgba(255,255,255,0.03)">'
                     + '<span style="background:' + r.color + '22;color:' + r.color + ';font-weight:700;font-size:0.7rem;padding:2px 8px;border-radius:4px;min-width:42px;text-align:center">' + r.method + '</span>'

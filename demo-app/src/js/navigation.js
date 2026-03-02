@@ -170,7 +170,7 @@ function openILSTool(toolId) {
             localStorage.setItem(key,'1');
             setTimeout(showHIWModal, 300);
         }
-        var h3 = panel.querySelector('h3');
+        var h3 = panel.querySelector('h3') || panel.querySelector('h4') || panel.querySelector('.hub-tool-header h4') || panel.querySelector('h5');
         if(h3 && !h3.querySelector('.hiw-help-btn')){
             var btn = document.createElement('button');
             btn.className = 'hiw-help-btn';
@@ -580,6 +580,87 @@ document.addEventListener('shown.bs.tab', function(e) {
             setTimeout(function(){ if (banner.parentElement) banner.remove(); }, 15000);
         }
     };
+})();
+
+// === HIW "?" popup — universal init for ALL panels ===
+// Runs at module init to hide <details> and inject ? buttons for ALL tool panels,
+// not just the one currently opened via openILSTool(). With MutationObserver resilience.
+var _hiwPanelIds = [
+    'hub-analysis','hub-dmsms','hub-readiness','hub-compliance',
+    'hub-risk','hub-actions','hub-predictive','hub-lifecycle',
+    'hub-roi','hub-vault','hub-docs','hub-reports',
+    'hub-submissions','hub-sbom','hub-gfp','hub-cdrl',
+    'hub-contract','hub-provenance','hub-analytics','hub-team',
+    'tabAnchor','tabVerify'
+];
+
+function _showHIWModalUniv(det) {
+    var existing = document.querySelector('.hiw-modal-overlay');
+    if (existing) existing.remove();
+    var title = det.querySelector('summary')
+        ? det.querySelector('summary').textContent.replace(/[\u25B8\u25BE\u25BE]/g,'').trim()
+        : 'How It Works';
+    var body = '';
+    det.querySelectorAll('p,ol,ul,li').forEach(function(el){ body += el.outerHTML; });
+    if (!body) body = det.innerHTML.replace(/<summary[^>]*>.*?<\/summary>/i,'');
+    var overlay = document.createElement('div');
+    overlay.className = 'hiw-modal-overlay';
+    overlay.innerHTML = '<div class="hiw-modal-box"><button class="hiw-close" title="Close">&times;</button>'
+        + '<h4><i class="fas fa-info-circle" style="margin-right:6px"></i>' + title + '</h4>'
+        + '<div class="hiw-body">' + body + '</div></div>';
+    overlay.querySelector('.hiw-close').onclick = function(){ overlay.remove(); };
+    overlay.onclick = function(e){ if(e.target === overlay) overlay.remove(); };
+    document.body.appendChild(overlay);
+}
+
+function _ensureHIWButton(panelId) {
+    var panel = document.getElementById(panelId);
+    if (!panel) return;
+    var det = panel.querySelector('details');
+    if (!det) return;
+    det.style.display = 'none';
+    var heading = panel.querySelector('h3')
+        || panel.querySelector('h4')
+        || panel.querySelector('.hub-tool-header h4')
+        || panel.querySelector('h5');
+    if (!heading) return;
+    if (heading.querySelector('.hiw-help-btn')) return;
+    var btn = document.createElement('button');
+    btn.className = 'hiw-help-btn';
+    btn.title = 'How It Works';
+    btn.textContent = '?';
+    btn.style.cssText = 'margin-left:8px;background:rgba(0,170,255,0.12);border:1px solid rgba(0,170,255,0.3);color:#00aaff;border-radius:50%;width:24px;height:24px;font-size:0.75rem;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;vertical-align:middle;flex-shrink:0;';
+    btn.onclick = function(e){ e.stopPropagation(); _showHIWModalUniv(det); };
+    heading.appendChild(btn);
+}
+
+(function _initAllHIWButtons() {
+    function initAll() {
+        _hiwPanelIds.forEach(function(id) { _ensureHIWButton(id); });
+    }
+    initAll();
+    setTimeout(initAll, 500);
+    setTimeout(initAll, 2000);
+    if (typeof MutationObserver !== 'undefined') {
+        var observer = new MutationObserver(function(mutations) {
+            var needsReinject = false;
+            mutations.forEach(function(m) {
+                if (m.type === 'childList' && m.removedNodes.length > 0) {
+                    m.removedNodes.forEach(function(n) {
+                        if (n.classList && n.classList.contains('hiw-help-btn')) needsReinject = true;
+                        if (n.querySelector && n.querySelector('.hiw-help-btn')) needsReinject = true;
+                    });
+                }
+            });
+            if (needsReinject) {
+                setTimeout(function() { _hiwPanelIds.forEach(_ensureHIWButton); }, 50);
+            }
+        });
+        _hiwPanelIds.forEach(function(id) {
+            var panel = document.getElementById(id);
+            if (panel) observer.observe(panel, { childList: true, subtree: true });
+        });
+    }
 })();
 
 // === HIW ? Button for Anchor and Verify tabs ===

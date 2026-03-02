@@ -66,10 +66,10 @@
     <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" integrity="sha384-9nhczxUqK87bcKHh20fSQcTGD4qq5GhayNYSYWqwBkINBhOfQLg/P5HG5lF1urn4" crossorigin="anonymous"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/qrcode@1.5.4/build/qrcode.min.js"></script>
     <!-- CSS is imported via main.js and extracted by Vite -->
-  <script type="module" crossorigin src="/prod-app/dist/assets/index-C5UVx21j.js"></script>
+  <script type="module" crossorigin src="/prod-app/dist/assets/index-CJq62kh2.js"></script>
   <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/engine-DUTIMf1_.js">
   <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/navigation-C3rDQ7Kf.js">
-  <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/metrics-Dq-kLGS-.js">
+  <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/metrics-app04cHN.js">
   <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/enhancements-Cbf4HYrr.js">
   <link rel="stylesheet" crossorigin href="/prod-app/dist/assets/index-DPlSJ-gN.css">
 </head>
@@ -1335,11 +1335,7 @@
                     <div id="digitalThreadContent" style="font-size:0.82rem;"></div>
                 </div>
                 <div class="s4-card glass-card" style="animation:slideUp 0.4s ease">
-                    <div class="hub-tool-header">
-                        <h4><i class="fas fa-vault" style="color:var(--accent);margin-right:8px"></i> Audit Record Vault</h4>
-                        <button onclick="showAddActionModal('vault')" class="ai-quick-btn" style="font-size:0.72rem;padding:4px 10px"><i class="fas fa-plus"></i> Action Item</button>
-                        <div style="display:flex;align-items:center;gap:6px;margin-left:auto;"><span class="pulse-dot"></span><span style="font-size:0.75rem;color:var(--accent);font-weight:600">LIVE</span></div>
-                    </div>
+                    <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-vault" style="color:var(--accent)"></i> Audit Record Vault <span style="background:rgba(0,170,255,0.15);color:#00aaff;font-size:0.65rem;padding:2px 8px;border-radius:3px;font-weight:600;margin-left:6px;">LIVE</span> <button onclick="showAddActionModal('vault')" class="ai-quick-btn" style="margin-left:auto;font-size:0.72rem;padding:4px 10px"><i class="fas fa-plus"></i> Action Item</button></h3>
                     <p style="color:var(--muted);font-size:0.85rem;margin-bottom:16px">Every record you anchor is stored here with its hash, original content preview, timestamp, and verification status — your single source of auditing proof. No more searching the XRPL manually.</p>
 
                     <details style="margin-bottom:1rem;background:rgba(0,170,255,0.06);border:1px solid rgba(201,168,76,0.15);border-radius:3px;padding:0 12px;">
@@ -1532,11 +1528,7 @@
             <!-- ═══ COMPLIANCE SCORECARD ═══ -->
             <div class="ils-hub-panel" id="hub-compliance">
                 <div class="s4-card glass-card" style="animation:slideUp 0.4s ease">
-                    <div class="hub-tool-header">
-                        <h4><i class="fas fa-shield-halved" style="color:var(--accent);margin-right:8px"></i> Compliance Scorecard</h4>
-                        <button onclick="showAddActionModal('compliance')" class="ai-quick-btn" style="font-size:0.72rem;padding:4px 10px"><i class="fas fa-plus"></i> Action Item</button>
-                        <div style="display:flex;align-items:center;gap:6px;margin-left:auto;"><span class="pulse-dot"></span><span style="font-size:0.75rem;color:var(--accent);font-weight:600">REAL-TIME</span></div>
-                    </div>
+                    <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-shield-halved" style="color:var(--accent)"></i> Compliance Scorecard <span style="background:rgba(0,170,255,0.15);color:#00aaff;font-size:0.65rem;padding:2px 8px;border-radius:3px;font-weight:600;margin-left:6px;">REAL-TIME</span> <button onclick="showAddActionModal('compliance')" class="ai-quick-btn" style="margin-left:auto;font-size:0.72rem;padding:4px 10px"><i class="fas fa-plus"></i> Action Item</button></h3>
                     <p style="color:var(--muted);font-size:0.85rem;margin-bottom:16px">Live compliance posture across CMMC, NIST SP 800-171, DFARS, and program-specific requirements. Auto-calculates based on your workspace activity — something SAP, Oracle, and Microsoft don't offer.</p>
 
                     <details style="margin-bottom:1rem;background:rgba(0,170,255,0.06);border:1px solid rgba(0,170,255,0.15);border-radius:3px;padding:0 12px;">

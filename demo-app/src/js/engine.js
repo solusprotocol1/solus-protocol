@@ -356,7 +356,6 @@ function enterPlatformAfterAuth() {
 
 // ═══ Logout / Reset Demo Session ═══
 function resetDemoSession() {
-    if (!confirm('End your session? This will clear all anchored records, stats, and cached data and return you to the platform landing page.')) return;
     // Close wallet sidebar if open
     if (typeof closeWalletSidebar === 'function') closeWalletSidebar();
     // Close AI agent if open

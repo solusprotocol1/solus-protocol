@@ -16,6 +16,32 @@ function showOnboarding() {
     if (overlay) { overlay.style.display = 'flex'; if (typeof _s4TrapFocus === 'function') _s4TrapFocus(overlay); }
     _onboardStep = 0;
     updateOnboardStep();
+    // Ensure tier cards are bound after overlay becomes visible
+    setTimeout(function() {
+        document.querySelectorAll('.onboard-tier').forEach(function(card) {
+            if (card._s4ob) return;
+            card._s4ob = true;
+            card.addEventListener('click', function(e) {
+                e.stopPropagation();
+                var tier = this.getAttribute('data-tier') || 'starter';
+                selectOnboardTier(this, tier);
+            });
+        });
+        document.querySelectorAll('.onboard-btn').forEach(function(btn) {
+            if (btn._s4ob) return;
+            btn._s4ob = true;
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                var text = (this.textContent || '').toLowerCase();
+                if (text.indexOf('enter') !== -1) {
+                    sessionStorage.setItem('s4_entered', '1');
+                    closeOnboarding();
+                } else {
+                    onboardNext();
+                }
+            });
+        });
+    }, 50);
 }
 
 function closeOnboarding() {
