@@ -8441,3 +8441,5 @@ window.enterPlatform = enterPlatform;
 window.vaultPagePrev = vaultPagePrev;
 window.verifyAllVault = verifyAllVault;
 window.verifyRecord = verifyRecord;
+window.generateAiResponse = generateAiResponse;
+window.refreshVerifyRecents = refreshVerifyRecents;

@@ -8443,12 +8443,16 @@ window.toggleAutoMonitor = toggleAutoMonitor;
 window.toggleComplianceSection = toggleComplianceSection;
 window.toggleFlowBox = toggleFlowBox;
 window.toggleScheduledReport = toggleScheduledReport;
+window.toggleSignupMode = toggleSignupMode;
 window.toggleVaultSelectAll = toggleVaultSelectAll;
 window.uploadDocVersion = uploadDocVersion;
 window.vaultPageNext = vaultPageNext;
 window.vaultPagePrev = vaultPagePrev;
 window.verifyAllVault = verifyAllVault;
 window.verifyRecord = verifyRecord;
+window.generateAiResponse = generateAiResponse;
+window.handlePasswordReset = handlePasswordReset;
+window.refreshVerifyRecents = refreshVerifyRecents;
 // Cross-chunk exports — needed by enhancements chunk for GFP/CDRL/Contract/Provenance anchoring
 window._anchorToXRPL = _anchorToXRPL;
 window.showAnchorAnimation = showAnchorAnimation;
