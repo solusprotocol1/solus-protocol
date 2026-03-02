@@ -18,6 +18,15 @@ export default defineConfig({
         manualChunks: {
           'engine': [resolve(__dirname, 'src/js/engine.js')],
           'enhancements': [resolve(__dirname, 'src/js/enhancements.js')],
+          'navigation': [
+            resolve(__dirname, 'src/js/navigation.js'),
+            resolve(__dirname, 'src/js/roles.js'),
+            resolve(__dirname, 'src/js/onboarding.js'),
+          ],
+          'metrics': [
+            resolve(__dirname, 'src/js/metrics.js'),
+            resolve(__dirname, 'src/js/web-vitals.js'),
+          ],
         },
         entryFileNames: 'assets/[name]-[hash].js',
         chunkFileNames: 'assets/[name]-[hash].js',

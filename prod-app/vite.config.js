@@ -26,10 +26,21 @@ export default defineConfig({
       output: {
         // Split vendor chunks for better caching
         manualChunks: {
-          // The main engine is the largest chunk (~640KB source)
+          // The main engine is the largest chunk (~8.5K lines source)
           'engine': [resolve(__dirname, 'src/js/engine.js')],
-          // Enhancement suite is the second largest (~400KB source)
+          // Enhancement suite is the second largest (~7.3K lines source)
           'enhancements': [resolve(__dirname, 'src/js/enhancements.js')],
+          // Navigation + roles + onboarding (HIW buttons, role selector, wizard)
+          'navigation': [
+            resolve(__dirname, 'src/js/navigation.js'),
+            resolve(__dirname, 'src/js/roles.js'),
+            resolve(__dirname, 'src/js/onboarding.js'),
+          ],
+          // Metrics + observability
+          'metrics': [
+            resolve(__dirname, 'src/js/metrics.js'),
+            resolve(__dirname, 'src/js/web-vitals.js'),
+          ],
           // Everything else bundles together as 'core'
         },
         // Use content hashes for cache busting

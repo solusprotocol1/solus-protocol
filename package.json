@@ -19,12 +19,15 @@
     "ci": "npm run lint && npm run test && npm run build"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.11.1",
     "@playwright/test": "^1.41.0",
     "@vitest/coverage-v8": "^2.1.0",
     "eslint": "^9.0.0",
     "globals": "^15.0.0",
     "jsdom": "^24.0.0",
-    "vitest": "^2.1.0"
+    "serve": "^14.2.5",
+    "vitest": "^2.1.0",
+    "wait-on": "^9.0.4"
   },
   "engines": {
     "node": ">=18.0.0"
