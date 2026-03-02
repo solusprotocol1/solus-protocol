@@ -148,7 +148,7 @@ function _updateDemoSlsBalance() {
     requestAnimationFrame(function() {
         _slsUpdatePending = false;
         if (typeof _syncSlsBar === 'function') _syncSlsBar();
-    var _tFallback = (typeof _onboardTiers !== 'undefined' && typeof _onboardTier !== 'undefined') ? (_onboardTiers[_onboardTier]?.sls || 25000) : 25000; var allocation = _demoSession ? (_demoSession.subscription?.sls_allocation || _tFallback) : _tFallback;
+    var _tFallback = (window._onboardTiers && window._onboardTier) ? (window._onboardTiers[window._onboardTier]?.sls || 25000) : 25000; var allocation = _demoSession ? (_demoSession.subscription?.sls_allocation || _tFallback) : _tFallback;
     var spent = stats.slsFees || 0;
     var remaining = Math.round((allocation - spent) * 100) / 100;
     var bal = document.getElementById('demoSlsBalance');
@@ -230,7 +230,7 @@ function toggleFlowBox() {
 }
 
 function _syncSlsBar() {
-    var _tFallback = (typeof _onboardTiers !== 'undefined' && typeof _onboardTier !== 'undefined') ? (_onboardTiers[_onboardTier]?.sls || 25000) : 25000; var allocation = _demoSession ? (_demoSession.subscription?.sls_allocation || _tFallback) : _tFallback;
+    var _tFallback = (window._onboardTiers && window._onboardTier) ? (window._onboardTiers[window._onboardTier]?.sls || 25000) : 25000; var allocation = _demoSession ? (_demoSession.subscription?.sls_allocation || _tFallback) : _tFallback;
     var spent = stats.slsFees || 0;
     var remaining = Math.round((allocation - spent) * 100) / 100;
     var plan = _demoSession ? (_demoSession.subscription?.label || 'Starter') : 'Starter';
@@ -754,7 +754,7 @@ async function _initDemoSession() {
         const resp = await fetch('/api/demo/provision', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({name: 'Demo User', plan: (typeof _onboardTier !== 'undefined' ? _onboardTier : 'starter')})
+            body: JSON.stringify({name: 'Demo User', plan: (window._onboardTier || 'starter')})
         });
         if (resp.ok) {
             const data = await resp.json();
@@ -788,8 +788,8 @@ function _showDemoOffline() {
     // Ensure allocation is set even in offline mode
     if (!_demoSession) _demoSession = {};
     window._demoSession = _demoSession;
-    var _savedTier = localStorage.getItem('s4_selected_tier') || (typeof _onboardTier !== 'undefined' ? _onboardTier : 'starter');
-    var _tierLookup = (typeof _onboardTiers !== 'undefined') ? _onboardTiers : {pilot:{label:'Pilot',sls:100},starter:{label:'Starter',sls:25000},professional:{label:'Professional',sls:100000},enterprise:{label:'Enterprise',sls:500000}};
+    var _savedTier = localStorage.getItem('s4_selected_tier') || (window._onboardTier || 'starter');
+    var _tierLookup = window._onboardTiers || {pilot:{label:'Pilot',sls:100},starter:{label:'Starter',sls:25000},professional:{label:'Professional',sls:100000},enterprise:{label:'Enterprise',sls:500000}};
     var _tierData = _tierLookup[_savedTier] || _tierLookup['starter'];
     if (!_demoSession.subscription) _demoSession.subscription = {label:_tierData.label,sls_allocation:_tierData.sls};
     window._demoSession = _demoSession;
@@ -836,7 +836,7 @@ function _animateDemoSteps(data) {
         const s3 = document.getElementById('demoStep3');
         const s3s = document.getElementById('demoStep3Status');
         if (s3) { s3.style.borderColor = 'rgba(201,168,76,0.6)'; s3.style.background = 'rgba(201,168,76,0.12)'; }
-        const alloc = data.subscription?.sls_allocation?.toLocaleString() || ((typeof _onboardTiers !== 'undefined' && typeof _onboardTier !== 'undefined' && _onboardTiers[_onboardTier]) ? _onboardTiers[_onboardTier].sls.toLocaleString() : '25,000');
+        const alloc = data.subscription?.sls_allocation?.toLocaleString() || ((window._onboardTiers && window._onboardTier && window._onboardTiers[window._onboardTier]) ? window._onboardTiers[window._onboardTier].sls.toLocaleString() : '25,000');
         if (s3s) { s3s.innerHTML = '<i class="fas fa-check" style="color:#00aaff;margin-right:3px;"></i> ' + alloc + ' Credits'; s3s.style.color = '#c9a84c'; }
     }, 1300);
     setTimeout(() => {
@@ -855,7 +855,7 @@ function _animateDemoSteps(data) {
         if (sid) sid.textContent = (data.session_id || '').substring(0, 12) + '...';
         if (wal) wal.textContent = 'rYourOrg...Prod';
         if (plan) plan.textContent = data.subscription?.label || 'Starter';
-        if (bal) bal.textContent = (data.subscription?.sls_allocation?.toLocaleString() || ((typeof _onboardTiers !== 'undefined' && typeof _onboardTier !== 'undefined' && _onboardTiers[_onboardTier]) ? _onboardTiers[_onboardTier].sls.toLocaleString() : '25,000')) + ' Credits';
+        if (bal) bal.textContent = (data.subscription?.sls_allocation?.toLocaleString() || ((window._onboardTiers && window._onboardTier && window._onboardTiers[window._onboardTier]) ? window._onboardTiers[window._onboardTier].sls.toLocaleString() : '25,000')) + ' Credits';
         // Initialize status bar
         _updateDemoSlsBalance();
     }, 2200);

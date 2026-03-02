@@ -4,12 +4,14 @@
 
 var _onboardStep = 0;
 var _onboardTier = localStorage.getItem('s4_selected_tier') || 'starter';
+window._onboardTier = _onboardTier;
 var _onboardTiers = {
     pilot: { label: 'Pilot (Free)', sls: 100, price: 'Free' },
     starter: { label: 'Starter ($999/mo)', sls: 25000, price: '$999/mo' },
     professional: { label: 'Professional ($2,499/mo)', sls: 100000, price: '$2,499/mo' },
     enterprise: { label: 'Enterprise ($9,999/mo)', sls: 500000, price: '$9,999/mo' }
 };
+window._onboardTiers = _onboardTiers;
 
 function showOnboarding() {
     var overlay = document.getElementById('onboardOverlay');
@@ -120,6 +122,7 @@ function animateWalletFunding() {
 
 function selectOnboardTier(el, tier) {
     _onboardTier = tier;
+    window._onboardTier = tier;
     // Live-update SLS Allocated in flow box
     var _tierAlloc = (_onboardTiers[tier] || _onboardTiers['starter']).sls;
     var _s3s = document.getElementById('demoStep3Status');

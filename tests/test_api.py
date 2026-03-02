@@ -249,7 +249,7 @@ class TestSecurity:
 
     def test_no_secrets_in_prod_app(self):
         """prod-app should not contain service keys or secrets."""
-        prod_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "prod-app", "index.html")
+        prod_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "prod-app", "src", "index.html")
         with open(prod_path, 'r') as f:
             content = f.read()
 
@@ -261,14 +261,14 @@ class TestSecurity:
 
     def test_csp_header_present(self):
         """prod-app should have a Content Security Policy."""
-        prod_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "prod-app", "index.html")
+        prod_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "prod-app", "src", "index.html")
         with open(prod_path, 'r') as f:
             content = f.read()
         assert "Content-Security-Policy" in content
 
     def test_supabase_anon_key_is_safe(self):
         """The anon key in prod-app is the public key (safe to expose)."""
-        prod_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "prod-app", "index.html")
+        prod_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "prod-app", "src", "index.html")
         with open(prod_path, 'r') as f:
             content = f.read()
         # If anon key is present, verify it's the anon role (not service_role)

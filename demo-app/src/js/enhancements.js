@@ -2039,7 +2039,7 @@ console.log('[Round-14] All enhancement modules loaded — FedRAMP Badge, Multi-
                     S4Realtime.send('auth', {
                         session: S4Realtime.sessionId,
                         user: (window._demoSession) ? window._demoSession.name : 'Demo User',
-                        tier: (typeof _onboardTier !== 'undefined') ? _onboardTier : 'starter'
+                        tier: window._onboardTier || 'starter'
                     });
 
                     // Flush queued messages

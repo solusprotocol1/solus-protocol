@@ -404,6 +404,8 @@
             line-height:1.65 !important;
         }
         .ils-hub-panel details{position:relative !important}
+        /* ═══ Hide <details> "How It Works" dropdowns — replaced by ? popup ═══ */
+        .ils-hub-panel details,#tabAnchor details,#tabVerify details{display:none!important}
         .hiw-help-btn{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;background:rgba(0,170,255,0.12);border:1px solid rgba(0,170,255,0.3);color:#00aaff;font-weight:700;font-size:0.82rem;cursor:pointer;margin-left:8px;transition:all 0.2s;vertical-align:middle;line-height:1}
         .hiw-help-btn:hover{background:rgba(0,170,255,0.25);transform:scale(1.1)}
 

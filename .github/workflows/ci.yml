@@ -68,9 +68,9 @@ jobs:
           ! grep -rn 'SUPABASE_SERVICE_KEY\|service_role' prod-app/ demo-app/ --include='*.html' || { echo "❌ Service key found in client code!"; exit 1; }
           echo "✓ No service keys in client code"
           echo "Checking CSP, HSTS, X-Frame-Options..."
-          grep -c 'Content-Security-Policy' prod-app/index.html > /dev/null && echo "✓ CSP present"
-          grep -c 'Strict-Transport-Security' prod-app/index.html > /dev/null && echo "✓ HSTS present"
-          grep -c 'X-Frame-Options' prod-app/index.html > /dev/null && echo "✓ X-Frame-Options present"
+          grep -c 'Content-Security-Policy' prod-app/src/index.html > /dev/null && echo "✓ CSP present"
+          grep -c 'Strict-Transport-Security' prod-app/src/index.html > /dev/null && echo "✓ HSTS present"
+          grep -c 'X-Frame-Options' prod-app/src/index.html > /dev/null && echo "✓ X-Frame-Options present"
 
   html-validation:
     name: HTML & Version Check
