@@ -3435,6 +3435,8 @@
                 if (l) l.style.display = 'none';
                 if (h) h.style.display = 'none';
                 if (w) w.style.display = 'block';
+                var _aiW = document.getElementById('aiFloatWrapper');
+                if (_aiW) _aiW.style.display = '';
                 sessionStorage.setItem('s4_entered', '1');
                 if (!sessionStorage.getItem('s4_onboard_done')) {
                     var ov = document.getElementById('onboardOverlay');
@@ -3607,6 +3609,8 @@
                 if (workspace) workspace.style.display = 'none';
                 if (landing) landing.style.display = '';
                 if (hero) hero.style.display = '';
+                var _aiW = document.getElementById('aiFloatWrapper');
+                if (_aiW) _aiW.style.display = 'none';
                 document.querySelectorAll('.ils-hub-panel').forEach(function(p) { p.classList.remove('active'); });
                 window.scrollTo(0, 0);
             };
@@ -3927,7 +3931,7 @@
     </script>
 
 <!-- ══ FLOATING AI AGENT (accessible from all tabs/sections) ══ -->
-<div class="ai-float-wrapper" id="aiFloatWrapper">
+<div class="ai-float-wrapper" id="aiFloatWrapper" style="display:none;">
     <div class="ai-float-panel" id="aiFloatPanel">
         <div class="ai-chat-header">
             <div style="display:flex;align-items:center;gap:10px">

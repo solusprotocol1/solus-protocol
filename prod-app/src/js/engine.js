@@ -465,6 +465,9 @@ function enterPlatformAfterAuth() {
         if (landing) landing.style.display = 'none';
         if (hero) hero.style.display = 'none';
         if (workspace) workspace.style.display = 'block';
+        // Show AI agent only after entering the platform
+        var aiWrap = document.getElementById('aiFloatWrapper');
+        if (aiWrap) aiWrap.style.display = '';
         sessionStorage.setItem('s4_entered', '1');
         // Show onboarding wizard (which chains to role selector on close)
         var onboardDone = sessionStorage.getItem('s4_onboard_done');
@@ -549,6 +552,9 @@ function logout() {
     if (workspace) workspace.style.display = 'none';
     if (landing) landing.style.display = '';
     if (hero) hero.style.display = '';
+    // Hide AI agent when returning to landing
+    var aiWrap = document.getElementById('aiFloatWrapper');
+    if (aiWrap) aiWrap.style.display = 'none';
     // Hide any open tool panels
     document.querySelectorAll('.ils-hub-panel').forEach(function(p) { p.classList.remove('active'); });
     var toolBack = document.getElementById('ilsToolBackBar');

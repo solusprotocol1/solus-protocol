@@ -66,8 +66,8 @@
     <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" integrity="sha384-9nhczxUqK87bcKHh20fSQcTGD4qq5GhayNYSYWqwBkINBhOfQLg/P5HG5lF1urn4" crossorigin="anonymous"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/qrcode@1.5.4/build/qrcode.min.js"></script>
     <!-- CSS is imported via main.js and extracted by Vite -->
-  <script type="module" crossorigin src="/prod-app/dist/assets/index-DTTXXoew.js"></script>
-  <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/engine-DGVtRTMc.js">
+  <script type="module" crossorigin src="/prod-app/dist/assets/index-C5UVx21j.js"></script>
+  <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/engine-DUTIMf1_.js">
   <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/navigation-C3rDQ7Kf.js">
   <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/metrics-Dq-kLGS-.js">
   <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/enhancements-Cbf4HYrr.js">
@@ -3440,6 +3440,8 @@
                 if (l) l.style.display = 'none';
                 if (h) h.style.display = 'none';
                 if (w) w.style.display = 'block';
+                var _aiW = document.getElementById('aiFloatWrapper');
+                if (_aiW) _aiW.style.display = '';
                 sessionStorage.setItem('s4_entered', '1');
                 if (!sessionStorage.getItem('s4_onboard_done')) {
                     var ov = document.getElementById('onboardOverlay');
@@ -3612,6 +3614,8 @@
                 if (workspace) workspace.style.display = 'none';
                 if (landing) landing.style.display = '';
                 if (hero) hero.style.display = '';
+                var _aiW = document.getElementById('aiFloatWrapper');
+                if (_aiW) _aiW.style.display = 'none';
                 document.querySelectorAll('.ils-hub-panel').forEach(function(p) { p.classList.remove('active'); });
                 window.scrollTo(0, 0);
             };
@@ -3932,7 +3936,7 @@
     </script>
 
 <!-- ══ FLOATING AI AGENT (accessible from all tabs/sections) ══ -->
-<div class="ai-float-wrapper" id="aiFloatWrapper">
+<div class="ai-float-wrapper" id="aiFloatWrapper" style="display:none;">
     <div class="ai-float-panel" id="aiFloatPanel">
         <div class="ai-chat-header">
             <div style="display:flex;align-items:center;gap:10px">
