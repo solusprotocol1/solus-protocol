@@ -141,6 +141,7 @@ let currentBranch = 'USN';
 let selectedType = 'USN_SUPPLY_RECEIPT';
 let sessionRecords = [];
 let stats = {anchored:0,verified:0,types:new Set(),slsFees:0};
+window._s4Stats = stats;
 
 // ── SLS Balance Tracker ──
 var _slsUpdatePending = false;
@@ -1024,7 +1025,7 @@ async function anchorRecord() {
         fee: 0.01, tx_hash: txHash, system: typeInfo.system || 'N/A', explorer_url: explorerUrl, network
     });
     // Auto-save to Audit Vault
-    addToVault({hash, txHash, type:selectedType, label:typeInfo.label, branch:typeInfo.branch, icon:typeInfo.icon, content:input.substring(0,100)+(input.length>100?'...':''), encrypted:encrypt, timestamp:new Date().toISOString(), source:'Manual Anchor', fee:0.01, explorerUrl, network});
+    addToVault({hash, txHash, type:selectedType, label:typeInfo.label, branch:typeInfo.branch, icon:typeInfo.icon, content:input.substring(0,100)+(input.length>100?'...':''), fullContent:input, encrypted:encrypt, timestamp:new Date().toISOString(), source:'Manual Anchor', fee:0.01, explorerUrl, network});
     stats.anchored++;
     stats.types.add(selectedType);
     stats.slsFees = Math.round((stats.slsFees + 0.01) * 100) / 100;

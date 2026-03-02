@@ -7,9 +7,10 @@ var _metricsChartTimes = null;
 var _metricsChartTypes = null;
 
 async function loadPerformanceMetrics() {
-    // Merge API data with local session data for real-time accuracy
-    var localAnchors = stats.anchored || 0;
-    var localFees = stats.slsFees || 0;
+    // Read stats from window (cross-chunk) or localStorage fallback
+    var _statsObj = window._s4Stats || (function() { try { return JSON.parse(localStorage.getItem('s4_stats') || '{}'); } catch(e) { return {}; } })();
+    var localAnchors = _statsObj.anchored || 0;
+    var localFees = _statsObj.slsFees || 0;
     var localRecords = getLocalRecords();
     var localTypes = {};
     localRecords.forEach(function(r) {
@@ -1131,7 +1132,7 @@ async function anchorLifecycle() {
     var text = 'Lifecycle Cost | Program: ' + platName + ' | Fleet: ' + fleetSize + ' | TOC: $' + totalCost.toFixed(0) + 'M | Date: ' + new Date().toISOString();
     var hash = await sha256(text);
     showAnchorAnimation(hash, 'Lifecycle Cost Report', 'CUI');
-    stats.anchored++; stats.types.add('LIFECYCLE_COST'); stats.slsFees = Math.round((stats.slsFees + 0.01) * 100) / 100; updateStats(); saveStats();
+    if(window._s4Stats){window._s4Stats.anchored++;window._s4Stats.types.add('LIFECYCLE_COST');window._s4Stats.slsFees=Math.round((window._s4Stats.slsFees+0.01)*100)/100;} if(typeof updateStats==='function')updateStats(); if(typeof saveStats==='function')saveStats();
     var result = await _anchorToXRPL(hash, 'LIFECYCLE_COST', text.substring(0,100));
     var rec = {hash:hash, type:'LIFECYCLE_COST', branch:'JOINT', timestamp:new Date().toISOString(), label:'Lifecycle Cost — '+platName, txHash:result.txHash};
     sessionRecords.push(rec);

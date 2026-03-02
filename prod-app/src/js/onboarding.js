@@ -143,6 +143,53 @@ window.closeOnboarding = closeOnboarding;
 window.onboardNext = onboardNext;
 window.selectOnboardTier = selectOnboardTier;
 
+// === Direct event binding for onboarding buttons (CSP bypass) ===
+// onclick attributes may be blocked by Content Security Policy in VS Code Simple Browser.
+// Bind click listeners directly to ensure buttons work regardless of CSP.
+(function _bindOnboardButtons() {
+    function attach() {
+        // "Start Setup" and "Continue" buttons
+        document.querySelectorAll('.onboard-btn').forEach(function(btn) {
+            if (btn._s4ob) return;
+            btn._s4ob = true;
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                var text = (this.textContent || '').toLowerCase();
+                if (text.indexOf('enter') !== -1) {
+                    sessionStorage.setItem('s4_entered', '1');
+                    closeOnboarding();
+                } else {
+                    onboardNext();
+                }
+            });
+        });
+        // Tier selection cards
+        document.querySelectorAll('.onboard-tier').forEach(function(card) {
+            if (card._s4ob) return;
+            card._s4ob = true;
+            card.addEventListener('click', function(e) {
+                e.stopPropagation();
+                var tier = this.getAttribute('data-tier') || 'starter';
+                selectOnboardTier(this, tier);
+            });
+        });
+    }
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', attach);
+    } else {
+        attach();
+    }
+    // Re-attach after overlay becomes visible (in case DOM wasn't ready)
+    var _attachInterval = setInterval(function() {
+        var ov = document.getElementById('onboardOverlay');
+        if (ov && ov.style.display === 'flex') {
+            attach();
+            clearInterval(_attachInterval);
+        }
+    }, 200);
+    setTimeout(function() { clearInterval(_attachInterval); }, 30000);
+})();
+
 // === Self-contained onboarding auto-trigger ===
 // This fires from WITHIN the navigation chunk — no cross-chunk polling needed.
 // When platformWorkspace becomes visible and onboarding hasn't been seen, show it.

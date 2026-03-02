@@ -132,6 +132,71 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // === Window exports for inline event handlers ===
+window.showOnboarding = showOnboarding;
 window.closeOnboarding = closeOnboarding;
 window.onboardNext = onboardNext;
 window.selectOnboardTier = selectOnboardTier;
+
+// === Direct event binding for onboarding buttons (CSP bypass) ===
+(function _bindOnboardButtons() {
+    function attach() {
+        document.querySelectorAll('.onboard-btn').forEach(function(btn) {
+            if (btn._s4ob) return;
+            btn._s4ob = true;
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                var text = (this.textContent || '').toLowerCase();
+                if (text.indexOf('enter') !== -1) {
+                    sessionStorage.setItem('s4_entered', '1');
+                    closeOnboarding();
+                } else {
+                    onboardNext();
+                }
+            });
+        });
+        document.querySelectorAll('.onboard-tier').forEach(function(card) {
+            if (card._s4ob) return;
+            card._s4ob = true;
+            card.addEventListener('click', function(e) {
+                e.stopPropagation();
+                var tier = this.getAttribute('data-tier') || 'starter';
+                selectOnboardTier(this, tier);
+            });
+        });
+    }
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', attach);
+    } else {
+        attach();
+    }
+    var _attachInterval = setInterval(function() {
+        var ov = document.getElementById('onboardOverlay');
+        if (ov && ov.style.display === 'flex') {
+            attach();
+            clearInterval(_attachInterval);
+        }
+    }, 200);
+    setTimeout(function() { clearInterval(_attachInterval); }, 30000);
+})();
+
+// === Self-contained onboarding auto-trigger ===
+(function _autoTriggerOnboarding() {
+    if (sessionStorage.getItem('s4_onboard_done')) return;
+    var _checkCount = 0;
+    function _check() {
+        _checkCount++;
+        var ws = document.getElementById('platformWorkspace');
+        if (ws && ws.style.display === 'block' && !sessionStorage.getItem('s4_onboard_done')) {
+            showOnboarding();
+            return;
+        }
+        if (_checkCount < 300) {
+            setTimeout(_check, 100);
+        }
+    }
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function() { setTimeout(_check, 200); });
+    } else {
+        setTimeout(_check, 200);
+    }
+})();
