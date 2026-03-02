@@ -8,6 +8,39 @@ var S4 = window.S4 = window.S4 || { version: '5.12.0', modules: {}, register: fu
 (function() {
     'use strict';
     
+    // ══ Focus Trap Utility (WCAG 2.1 AA) ══
+    // Traps Tab focus within a modal container while it is visible
+    var _activeFocusTrap = null;
+    var _preFocusTrapElement = null;
+
+    window._s4TrapFocus = function(container) {
+        if (!container) return;
+        _preFocusTrapElement = document.activeElement;
+        _activeFocusTrap = container;
+        var focusable = container.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+        if (focusable.length) focusable[0].focus();
+    };
+
+    window._s4ReleaseFocusTrap = function() {
+        _activeFocusTrap = null;
+        if (_preFocusTrapElement && typeof _preFocusTrapElement.focus === 'function') {
+            try { _preFocusTrapElement.focus(); } catch(e) { /* element may be gone */ }
+        }
+        _preFocusTrapElement = null;
+    };
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key !== 'Tab' || !_activeFocusTrap) return;
+        var focusable = _activeFocusTrap.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+        if (!focusable.length) return;
+        var first = focusable[0], last = focusable[focusable.length - 1];
+        if (e.shiftKey) {
+            if (document.activeElement === first) { e.preventDefault(); last.focus(); }
+        } else {
+            if (document.activeElement === last) { e.preventDefault(); first.focus(); }
+        }
+    });
+
     // ══ Universal chart refresh for any panel ══
     function refreshChartsInActivePanel() {
         // Clear ALL bp-rendered flags
@@ -3031,6 +3064,12 @@ function _updateThemeIcon(isLight) {
             // Close wallet sidebar if open
             var walletSidebar = document.getElementById('walletSidebar');
             if (walletSidebar && walletSidebar.classList.contains('open')) { if (typeof closeWalletSidebar === 'function') closeWalletSidebar(); return; }
+            // Close onboarding overlay
+            var onboard = document.getElementById('onboardOverlay');
+            if (onboard && onboard.style.display === 'flex') { if (typeof closeOnboarding === 'function') closeOnboarding(); return; }
+            // Close role modal
+            var roleModal = document.getElementById('roleModal');
+            if (roleModal) { roleModal.remove(); return; }
             return;
         }
 

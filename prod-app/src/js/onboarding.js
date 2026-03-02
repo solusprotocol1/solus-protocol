@@ -13,7 +13,7 @@ var _onboardTiers = {
 
 function showOnboarding() {
     var overlay = document.getElementById('onboardOverlay');
-    if (overlay) overlay.style.display = 'flex';
+    if (overlay) { overlay.style.display = 'flex'; if (typeof _s4TrapFocus === 'function') _s4TrapFocus(overlay); }
     _onboardStep = 0;
     updateOnboardStep();
 }
@@ -21,6 +21,7 @@ function showOnboarding() {
 function closeOnboarding() {
     var overlay = document.getElementById('onboardOverlay');
     if (overlay) overlay.style.display = 'none';
+    if (typeof _s4ReleaseFocusTrap === 'function') _s4ReleaseFocusTrap();
     sessionStorage.setItem('s4_onboard_done', '1');
     // Store selected tier in localStorage so it persists across reloads
     var tierInfo = _onboardTiers[_onboardTier] || _onboardTiers['starter'];

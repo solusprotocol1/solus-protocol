@@ -259,12 +259,13 @@ function startAuthFlow() {
     }
     // Show DoD consent banner first
     var consent = document.getElementById('dodConsentBanner');
-    if (consent) consent.style.display = 'flex';
+    if (consent) { consent.style.display = 'flex'; if (typeof _s4TrapFocus === 'function') _s4TrapFocus(consent); }
 }
 
 function acceptDodConsent() {
     var consent = document.getElementById('dodConsentBanner');
     if (consent) consent.style.display = 'none';
+    if (typeof _s4ReleaseFocusTrap === 'function') _s4ReleaseFocusTrap();
     // Now show CAC/login popup — reset buttons first so re-login works
     var login = document.getElementById('cacLoginModal');
     if (login) {
@@ -280,6 +281,7 @@ function acceptDodConsent() {
         // Reset tab to CAC
         switchLoginTab('cac');
         login.style.display = 'flex';
+        if (typeof _s4TrapFocus === 'function') _s4TrapFocus(login);
     }
 }
 
@@ -310,6 +312,7 @@ function simulateCacLogin() {
         if (btn) { btn.innerHTML = '<i class="fas fa-check-circle" style="margin-right:8px;"></i>Authenticated — DoD PKI Verified'; }
         setTimeout(function() {
             if (modal) modal.style.display = 'none';
+            if (typeof _s4ReleaseFocusTrap === 'function') _s4ReleaseFocusTrap();
             sessionStorage.setItem('s4_authenticated', '1');
             sessionStorage.setItem('s4_auth_method', 'cac');
             enterPlatformAfterAuth();
@@ -328,6 +331,7 @@ function simulateAccountLogin() {
         if (btn) { btn.innerHTML = '<i class="fas fa-check-circle" style="margin-right:8px;"></i>Signed In'; }
         setTimeout(function() {
             if (modal) modal.style.display = 'none';
+            if (typeof _s4ReleaseFocusTrap === 'function') _s4ReleaseFocusTrap();
             sessionStorage.setItem('s4_authenticated', '1');
             sessionStorage.setItem('s4_auth_method', 'account');
             enterPlatformAfterAuth();

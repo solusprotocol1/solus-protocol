@@ -66,9 +66,9 @@
     <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" integrity="sha384-9nhczxUqK87bcKHh20fSQcTGD4qq5GhayNYSYWqwBkINBhOfQLg/P5HG5lF1urn4" crossorigin="anonymous"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/qrcode@1.5.4/build/qrcode.min.js"></script>
     <!-- CSS is imported via main.js and extracted by Vite -->
-  <script type="module" crossorigin src="/prod-app/dist/assets/index-Bffcull6.js"></script>
-  <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/engine-zZrd8RDI.js">
-  <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/enhancements-CioHw-JK.js">
+  <script type="module" crossorigin src="/prod-app/dist/assets/index-Bjvd2dBt.js"></script>
+  <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/engine-LfwtTR-0.js">
+  <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/enhancements-CiGRshFZ.js">
   <link rel="stylesheet" crossorigin href="/prod-app/dist/assets/index-DPlSJ-gN.css">
 </head>
 <body>
@@ -124,22 +124,22 @@
 
 
 <!-- ═══ S4 UX ELEMENTS ═══ -->
-<div class="s4-toast-container" id="s4ToastContainer"></div>
+<div class="s4-toast-container" id="s4ToastContainer" role="status" aria-live="polite" aria-atomic="true"></div>
 
 <div class="s4-tour-overlay" id="s4TourOverlay">
     <div class="s4-tour-highlight" id="s4TourHighlight"></div>
     <div class="s4-tour-tooltip" id="s4TourTooltip"></div>
 </div>
 
-<div class="s4-command-palette" id="s4CommandPalette">
-    <input type="text" id="s4CommandInput" placeholder="Type a command or search..." autocomplete="off" spellcheck="false">
+<div class="s4-command-palette" id="s4CommandPalette" role="search" aria-label="Command palette">
+    <input type="text" id="s4CommandInput" placeholder="Type a command or search..." autocomplete="off" spellcheck="false" aria-label="Command palette search">
     <div class="s4-command-list" id="s4CommandList"></div>
 </div>
 
 <button class="s4-mobile-toggle" id="s4MobileToggle" aria-label="Toggle sidebar"><i class="fas fa-bars"></i></button>
 
 <!-- ═══ SESSION LOCK OVERLAY ═══ -->
-<div id="s4SessionLockOverlay" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.95);z-index:99998;align-items:center;justify-content:center;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);cursor:pointer" onclick="S4.resumeSession()">
+<div id="s4SessionLockOverlay" role="alertdialog" aria-modal="true" aria-label="Session locked" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.95);z-index:99998;align-items:center;justify-content:center;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);cursor:pointer" onclick="S4.resumeSession()">
     <div style="text-align:center;max-width:400px;">
         <i class="fas fa-lock" style="font-size:3rem;color:#c9a84c;margin-bottom:16px;display:block"></i>
         <h3 style="color:#fff;font-weight:800;margin-bottom:8px">Session Locked</h3>
@@ -149,10 +149,10 @@
 </div>
 
 <!-- ═══ DoD CONSENT BANNER ═══ -->
-<div id="dodConsentBanner" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.92);z-index:99999;align-items:center;justify-content:center;">
+<div id="dodConsentBanner" role="dialog" aria-modal="true" aria-labelledby="dodConsentHeading" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.92);z-index:99999;align-items:center;justify-content:center;">
     <div style="background:#0a0e1a;border:2px solid rgba(0,170,255,0.5);border-radius:3px;padding:40px;max-width:680px;width:95%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.7);">
         <div style="margin-bottom:20px;"><i class="fas fa-shield-halved" style="font-size:3rem;color:#00aaff;"></i></div>
-        <h2 style="color:#00aaff;font-size:1.3rem;font-weight:800;margin-bottom:12px;text-transform:uppercase;letter-spacing:1px;">U.S. Department of Defense Information System</h2>
+        <h2 id="dodConsentHeading" style="color:#00aaff;font-size:1.3rem;font-weight:800;margin-bottom:12px;text-transform:uppercase;letter-spacing:1px;">U.S. Department of Defense Information System</h2>
         <div style="background:rgba(0,170,255,0.06);border:1px solid rgba(0,170,255,0.2);border-radius:3px;padding:20px;margin-bottom:20px;text-align:left;">
             <p style="color:var(--steel);font-size:0.82rem;line-height:1.7;margin:0 0 12px;">You are accessing a U.S. Government (USG) Information System (IS) that is provided for USG-authorized use only.</p>
             <p style="color:var(--steel);font-size:0.82rem;line-height:1.7;margin:0 0 12px;">By using this IS (which includes any device attached to this IS), you consent to the following conditions:</p>
@@ -170,9 +170,9 @@
 </div>
 
 <!-- ═══ CAC / LOGIN POPUP ═══ -->
-<div id="cacLoginModal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.88);z-index:99998;align-items:center;justify-content:center;">
+<div id="cacLoginModal" role="dialog" aria-modal="true" aria-labelledby="cacLoginHeading" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.88);z-index:99998;align-items:center;justify-content:center;">
     <div style="background:#0a0e1a;border:1px solid rgba(0,170,255,0.3);border-radius:3px;padding:40px;max-width:480px;width:95%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.7);">
-        <div style="margin-bottom:24px;"><img src="/s4-assets/S4Ledger_logo.png" alt="S4 Ledger" style="height:48px;width:48px;margin-bottom:8px;"><h3 style="color:#fff;font-size:1.2rem;font-weight:800;margin:0;">S4 Ledger Platform Login</h3><p style="color:var(--steel);font-size:0.82rem;margin-top:4px;">Authenticate to access the Anchor-S4 workspace</p></div>
+        <div style="margin-bottom:24px;"><img src="/s4-assets/S4Ledger_logo.png" alt="S4 Ledger" style="height:48px;width:48px;margin-bottom:8px;"><h3 id="cacLoginHeading" style="color:#fff;font-size:1.2rem;font-weight:800;margin:0;">S4 Ledger Platform Login</h3><p style="color:var(--steel);font-size:0.82rem;margin-top:4px;">Authenticate to access the Anchor-S4 workspace</p></div>
         <div id="cacLoginTabs" style="display:flex;gap:0;margin-bottom:24px;border:1px solid var(--border);border-radius:3px;overflow:hidden;">
             <button onclick="switchLoginTab('cac')" id="loginTabCac" style="flex:1;padding:10px;background:rgba(0,170,255,0.1);color:var(--accent);border:none;font-weight:700;font-size:0.82rem;cursor:pointer;"><i class="fas fa-id-card" style="margin-right:6px;"></i>CAC / PIV</button>
             <button onclick="switchLoginTab('account')" id="loginTabAcct" style="flex:1;padding:10px;background:transparent;color:var(--steel);border:none;font-weight:600;font-size:0.82rem;cursor:pointer;"><i class="fas fa-user" style="margin-right:6px;"></i>Account</button>
@@ -187,8 +187,8 @@
         </div>
         <div id="acctLoginPane" style="display:none;">
             <div id="loginAuthError" style="display:none;background:rgba(255,59,48,0.1);border:1px solid rgba(255,59,48,0.3);border-radius:3px;padding:10px 12px;margin-bottom:12px;color:#ff3b30;font-size:0.82rem;text-align:left;"></div>
-            <div style="margin-bottom:12px;text-align:left;"><label style="color:var(--steel);font-size:0.78rem;font-weight:600;">Email</label><input type="email" id="loginEmail" placeholder="user@agency.mil" style="background:#050810;color:#fff;border:1px solid var(--border);border-radius:3px;padding:10px 12px;width:100%;margin-top:4px;font-size:0.88rem;" autocomplete="email"></div>
-            <div style="margin-bottom:16px;text-align:left;"><label style="color:var(--steel);font-size:0.78rem;font-weight:600;">Password</label><input type="password" id="loginPassword" placeholder="••••••••" style="background:#050810;color:#fff;border:1px solid var(--border);border-radius:3px;padding:10px 12px;width:100%;margin-top:4px;font-size:0.88rem;" autocomplete="current-password"></div>
+            <div style="margin-bottom:12px;text-align:left;"><label for="loginEmail" style="color:var(--steel);font-size:0.78rem;font-weight:600;">Email</label><input type="email" id="loginEmail" placeholder="user@agency.mil" style="background:#050810;color:#fff;border:1px solid var(--border);border-radius:3px;padding:10px 12px;width:100%;margin-top:4px;font-size:0.88rem;" autocomplete="email"></div>
+            <div style="margin-bottom:16px;text-align:left;"><label for="loginPassword" style="color:var(--steel);font-size:0.78rem;font-weight:600;">Password</label><input type="password" id="loginPassword" placeholder="••••••••" style="background:#050810;color:#fff;border:1px solid var(--border);border-radius:3px;padding:10px 12px;width:100%;margin-top:4px;font-size:0.88rem;" autocomplete="current-password"></div>
             <button id="btnAccountLogin" onclick="handleAccountLogin()" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;padding:12px 36px;border-radius:3px;font-weight:700;font-size:0.9rem;cursor:pointer;width:100%;"><i class="fas fa-right-to-bracket" style="margin-right:8px;"></i>Sign In</button>
             <div id="signupToggle" style="margin-top:12px;font-size:0.78rem;text-align:center;">
                 <span style="color:var(--steel);">No account?</span> <a href="#" onclick="event.preventDefault();toggleSignupMode();" style="color:var(--accent);text-decoration:none;font-weight:600;">Create one</a>
@@ -200,7 +200,7 @@
 </div>
 
 <main id="mainContent" role="main" style="margin-top:92px;">
-<section class="hero" style="padding:2rem 0 2rem;text-align:center;">
+<section class="hero" aria-label="Platform overview" style="padding:2rem 0 2rem;text-align:center;">
     <div class="container">
         <h1 style="font-size:2.4rem;font-weight:800;margin-bottom:0.75rem;color:#fff;letter-spacing:-0.035em;line-height:1.1;">S4 Ledger <span style="color:var(--accent);">Platform</span></h1>
         <p style="color:var(--steel);font-size:1.05rem;">Anchor, verify, and track Navy logistics records on the XRP Ledger with blockchain-grade integrity.</p>
@@ -208,7 +208,7 @@
     </div>
 </section>
 
-<section id="platformLanding" style="padding:3rem 0 4rem;">
+<section id="platformLanding" aria-label="Defense logistics toolkit" style="padding:3rem 0 4rem;">
     <div class="container">
         <div style="text-align:center;margin-bottom:3rem;">
             <h2 style="font-size:1.8rem;font-weight:700;color:#fff;margin-bottom:0.75rem;letter-spacing:-0.03em;line-height:1.15;">The Complete Defense Logistics Toolkit</h2>
@@ -396,21 +396,21 @@
             </div>
             <div class="hub-grid">
                 
-                <div class="hub-card" data-section="sectionILS" onclick="showSection('sectionILS')">
+                <div class="hub-card" data-section="sectionILS" onclick="showSection('sectionILS')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showSection('sectionILS')}">
                     <div class="hc-icon" style="background:rgba(201,168,76,0.1);"><i class="fas fa-brain" style="color:#c9a84c;"></i></div>
                     <div class="hc-title">Anchor-S4 <span style="background:rgba(201,168,76,0.15);color:#c9a84c;font-size:0.65rem;padding:2px 8px;border-radius:3px;font-weight:600;margin-left:6px;">20+ TOOLS</span></div>
                     <div class="hc-desc">20+ integrated defense tools: Gap Analysis, DMSMS, Readiness, Compliance, Risk, Predictive Maintenance, ROI, Audit Vault, and more.</div>
                     <div class="hc-meta"><i class="fas fa-tools"></i> 20+ ILS tools &bull; AI-powered</div>
                     <div class="hc-arrow"><i class="fas fa-chevron-right"></i></div>
                 </div>
-                <div class="hub-card" data-section="sectionLog" onclick="showSection('sectionLog')">
+                <div class="hub-card" data-section="sectionLog" onclick="showSection('sectionLog')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showSection('sectionLog')}">
                     <div class="hc-icon" style="background:rgba(155,89,182,0.1);"><i class="fas fa-list" style="color:#9b59b6;"></i></div>
                     <div class="hc-title">Transaction Log <span style="background:rgba(155,89,182,0.15);color:#9b59b6;font-size:0.65rem;padding:2px 8px;border-radius:3px;font-weight:600;margin-left:6px;">AUDIT</span></div>
                     <div class="hc-desc">Full audit trail of every anchored record with XRPL explorer links, timestamps, and hash verification status.</div>
                     <div class="hc-meta"><i class="fas fa-link"></i> On-chain explorer links</div>
                     <div class="hc-arrow"><i class="fas fa-chevron-right"></i></div>
                 </div>
-                <div class="hub-card" data-section="sectionVerify" onclick="showSection('sectionVerify')">
+                <div class="hub-card" data-section="sectionVerify" onclick="showSection('sectionVerify')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showSection('sectionVerify')}">
 
                     <div class="hc-icon" style="background:rgba(0,170,255,0.1);"><i class="fas fa-check-circle" style="color:#00aaff;"></i></div>
                     <div class="hc-title">Verify Records <span style="background:rgba(0,170,255,0.15);color:#00aaff;font-size:0.65rem;padding:2px 8px;border-radius:3px;font-weight:600;margin-left:6px;">LIVE</span></div>
@@ -418,7 +418,7 @@
                     <div class="hc-meta"><i class="fas fa-file-upload"></i> Drag-drop files &bull; Free verification</div>
                     <div class="hc-arrow"><i class="fas fa-chevron-right"></i></div>
                 </div>
-                <div class="hub-card" data-section="sectionSystems" onclick="showSection('sectionSystems')">
+                <div class="hub-card" data-section="sectionSystems" onclick="showSection('sectionSystems')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showSection('sectionSystems')}">
                     <div class="hc-icon" style="background:rgba(52,152,219,0.1);"><i class="fas fa-server" style="color:#3498db;"></i></div>
                     <div class="hc-title">Systems <span style="background:rgba(52,152,219,0.15);color:#3498db;font-size:0.65rem;padding:2px 8px;border-radius:3px;font-weight:600;margin-left:6px;">METRICS</span></div>
                     <div class="hc-desc">Platform metrics, performance monitoring, and offline queue management with encrypted persistence and auto-sync.</div>
@@ -3197,7 +3197,7 @@
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-<button id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" style="position:fixed;bottom:30px;left:30px;width:45px;height:45px;background:#00aaff;border:none;border-radius:50%;color:#fff;font-size:1.3rem;cursor:pointer;opacity:0;visibility:hidden;transition:all 0.3s;z-index:999;display:flex;align-items:center;justify-content:center;">&uarr;</button>
+<button id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top" style="position:fixed;bottom:30px;left:30px;width:45px;height:45px;background:#00aaff;border:none;border-radius:50%;color:#fff;font-size:1.3rem;cursor:pointer;opacity:0;visibility:hidden;transition:all 0.3s;z-index:999;display:flex;align-items:center;justify-content:center;">&uarr;</button>
 
 
 <!-- ═══ ONBOARDING WIZARD JS ═══ -->
@@ -3206,7 +3206,7 @@
 
 <!-- ═══ WALLET SIDEBAR ═══ -->
 <div class="wallet-overlay" id="walletOverlay" onclick="closeWalletSidebar()"></div>
-<div class="wallet-sidebar" id="walletSidebar">
+<div class="wallet-sidebar" id="walletSidebar" role="complementary" aria-label="Ledger Account">
     <div class="wallet-sidebar-header">
         <h3><i class="fas fa-wallet" style="color:var(--accent);"></i> Ledger Account</h3>
         <button class="wallet-sidebar-close" onclick="closeWalletSidebar()"><i class="fas fa-times"></i> Close</button>

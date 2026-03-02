@@ -230,6 +230,7 @@ function startAuthFlow() {
     var consent = document.getElementById('dodConsentBanner');
     if (consent) {
         consent.style.display = 'flex';
+        if (typeof _s4TrapFocus === 'function') _s4TrapFocus(consent);
     } else {
         // Fallback: consent banner not found, show CAC login directly
         acceptDodConsent();
@@ -239,6 +240,7 @@ function startAuthFlow() {
 function acceptDodConsent() {
     var consent = document.getElementById('dodConsentBanner');
     if (consent) consent.style.display = 'none';
+    if (typeof _s4ReleaseFocusTrap === 'function') _s4ReleaseFocusTrap();
     // Now show CAC/login popup — reset buttons first so re-login works
     var login = document.getElementById('cacLoginModal');
     if (login) {
@@ -254,6 +256,7 @@ function acceptDodConsent() {
         // Reset tab to CAC
         switchLoginTab('cac');
         login.style.display = 'flex';
+        if (typeof _s4TrapFocus === 'function') _s4TrapFocus(login);
     }
 }
 
@@ -286,6 +289,7 @@ function simulateCacLogin() {
         if (btn) { btn.innerHTML = '<i class="fas fa-check-circle" style="margin-right:8px;"></i>Authenticated — DoD PKI Verified'; }
         setTimeout(function() {
             if (modal) modal.style.display = 'none';
+            if (typeof _s4ReleaseFocusTrap === 'function') _s4ReleaseFocusTrap();
             sessionStorage.setItem('s4_authenticated', '1');
             sessionStorage.setItem('s4_auth_method', 'cac');
             enterPlatformAfterAuth();
@@ -399,6 +403,7 @@ function _onAuthSuccess(session, user) {
     // Close modal and enter platform
     var modal = document.getElementById('cacLoginModal');
     if (modal) modal.style.display = 'none';
+    if (typeof _s4ReleaseFocusTrap === 'function') _s4ReleaseFocusTrap();
     enterPlatformAfterAuth();
 
     console.log('[S4 Auth] Authenticated as', user ? user.email : 'unknown');
