@@ -582,6 +582,52 @@ document.addEventListener('shown.bs.tab', function(e) {
     };
 })();
 
+// === HIW ? Button for Anchor and Verify tabs ===
+// These tabs aren't opened via openILSTool(), so add ? buttons manually
+document.addEventListener('DOMContentLoaded', function() {
+    ['tabAnchor','tabVerify'].forEach(function(tabId) {
+        var tab = document.getElementById(tabId);
+        if (!tab) return;
+        var det = tab.querySelector('details');
+        if (!det) return;
+        det.style.display = 'none';
+        var key = 's4_hiw_' + tabId;
+        function showHIWModal() {
+            var existing = document.querySelector('.hiw-modal-overlay');
+            if (existing) existing.remove();
+            var title = det.querySelector('summary') ? det.querySelector('summary').textContent.replace(/[▸▾]/g,'').trim() : 'How It Works';
+            var body = '';
+            det.querySelectorAll('p,ol,ul,li').forEach(function(el){ body += el.outerHTML; });
+            if (!body) body = det.innerHTML.replace(/<summary[^>]*>.*?<\/summary>/i,'');
+            var overlay = document.createElement('div');
+            overlay.className = 'hiw-modal-overlay';
+            overlay.innerHTML = '<div class="hiw-modal-box"><button class="hiw-close" title="Close">&times;</button><h4><i class="fas fa-info-circle" style="margin-right:6px"></i>' + title + '</h4><div class="hiw-body">' + body + '</div></div>';
+            overlay.querySelector('.hiw-close').onclick = function(){ overlay.remove(); };
+            overlay.onclick = function(e){ if(e.target === overlay) overlay.remove(); };
+            document.body.appendChild(overlay);
+        }
+        // Add ? button to the h3
+        var h3 = tab.querySelector('h3');
+        if (h3 && !h3.querySelector('.hiw-help-btn')) {
+            var btn = document.createElement('button');
+            btn.className = 'hiw-help-btn';
+            btn.title = 'How It Works';
+            btn.textContent = '?';
+            btn.style.cssText = 'margin-left:8px;background:rgba(0,170,255,0.12);border:1px solid rgba(0,170,255,0.3);color:#00aaff;border-radius:50%;width:22px;height:22px;font-size:0.72rem;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;vertical-align:middle;';
+            btn.onclick = function(e){ e.stopPropagation(); showHIWModal(); };
+            h3.appendChild(btn);
+        }
+        // On first visit to these tabs, auto-show
+        document.addEventListener('shown.bs.tab', function(e) {
+            var target = e.target.getAttribute('href') || e.target.getAttribute('data-bs-target');
+            if (target === '#' + tabId && !localStorage.getItem(key)) {
+                localStorage.setItem(key, '1');
+                setTimeout(showHIWModal, 300);
+            }
+        });
+    });
+});
+
 // === Window exports for inline event handlers ===
 window.closeILSTool = closeILSTool;
 window.closeWalletSidebar = closeWalletSidebar;

@@ -297,12 +297,12 @@
                     <h4 style="color:#fff;margin:0 0 12px;font-size:1rem"><i class="fas fa-coins" style="color:var(--gold);margin-right:8px"></i>Step 4: How Credits Are Used</h4>
                     <p style="color:var(--steel);font-size:0.82rem;margin-bottom:16px">Every time you anchor a record, a small Credit fee flows to the S4 Treasury on the XRP Ledger.</p>
                     <div style="background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:16px;margin-bottom:16px">
-                        <div style="display:flex;align-items:center;gap:12px;justify-content:center;flex-wrap:wrap">
-                            <div style="text-align:center;padding:10px"><div style="font-size:0.72rem;color:var(--steel);margin-bottom:6px">Your Wallet</div><div style="width:44px;height:44px;border-radius:50%;background:rgba(0,170,255,0.1);display:inline-flex;align-items:center;justify-content:center;color:var(--accent)"><i class="fas fa-wallet"></i></div></div>
-                            <div style="color:var(--gold);font-weight:700;font-size:0.85rem"><i class="fas fa-long-arrow-alt-right"></i> 0.01 Credits</div>
-                            <div style="text-align:center;padding:10px"><div style="font-size:0.72rem;color:var(--steel);margin-bottom:6px">S4 Treasury</div><div style="width:44px;height:44px;border-radius:50%;background:rgba(201,168,76,0.1);display:inline-flex;align-items:center;justify-content:center;color:var(--gold)"><i class="fas fa-landmark"></i></div></div>
-                            <div style="color:var(--accent);font-weight:700;font-size:0.85rem"><i class="fas fa-long-arrow-alt-right"></i> XRPL</div>
-                            <div style="text-align:center;padding:10px"><div style="font-size:0.72rem;color:var(--steel);margin-bottom:6px">Immutable Record</div><div style="width:44px;height:44px;border-radius:50%;background:rgba(0,170,255,0.1);display:inline-flex;align-items:center;justify-content:center;color:#00aaff"><i class="fas fa-lock"></i></div></div>
+                        <div style="display:flex;align-items:center;gap:8px;justify-content:center;overflow-x:auto;min-width:0">
+                            <div style="text-align:center;padding:6px 8px;flex:0 0 auto"><div style="font-size:0.68rem;color:var(--steel);margin-bottom:4px;white-space:nowrap">Your Wallet</div><div style="width:40px;height:40px;border-radius:50%;background:rgba(0,170,255,0.1);display:inline-flex;align-items:center;justify-content:center;color:var(--accent)"><i class="fas fa-wallet"></i></div></div>
+                            <div style="color:var(--gold);font-weight:700;font-size:0.75rem;flex:0 0 auto;white-space:nowrap"><i class="fas fa-arrow-right"></i> 0.01</div>
+                            <div style="text-align:center;padding:6px 8px;flex:0 0 auto"><div style="font-size:0.68rem;color:var(--steel);margin-bottom:4px;white-space:nowrap">S4 Treasury</div><div style="width:40px;height:40px;border-radius:50%;background:rgba(201,168,76,0.1);display:inline-flex;align-items:center;justify-content:center;color:var(--gold)"><i class="fas fa-landmark"></i></div></div>
+                            <div style="color:var(--accent);font-weight:700;font-size:0.75rem;flex:0 0 auto;white-space:nowrap"><i class="fas fa-arrow-right"></i> XRPL</div>
+                            <div style="text-align:center;padding:6px 8px;flex:0 0 auto"><div style="font-size:0.68rem;color:var(--steel);margin-bottom:4px;white-space:nowrap">Immutable Record</div><div style="width:40px;height:40px;border-radius:50%;background:rgba(0,170,255,0.1);display:inline-flex;align-items:center;justify-content:center;color:#00aaff"><i class="fas fa-lock"></i></div></div>
                         </div>
                     </div>
                     <div style="font-size:0.82rem;color:var(--steel);line-height:1.6;margin-bottom:12px">
@@ -1068,7 +1068,7 @@
                 <!-- ══ HUB: ACTION ITEMS ══ -->
                 <div class="ils-hub-panel" id="hub-actions">
                     <div class="row">
-                        <div class="col-lg-8">
+                        <div class="col-lg-12">
                             <div class="demo-card">
                                 <h3><i class="fas fa-tasks" style="color:var(--accent)"></i> Unified Action Items & Alerts</h3>
                                 <details style="margin-bottom:1rem;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.15);border-radius:3px;padding:0 12px;">
@@ -1510,7 +1510,8 @@
 
             <!-- ═══ DEFENSE DOCUMENT REFERENCE LIBRARY ═══ -->
             <div class="ils-hub-panel" id="hub-docs">
-                <div class="demo-card glass-card" style="animation:slideUp 0.4s ease">
+                <div class="row"><div class="col-lg-12">
+                <div class="demo-card">
                     <div class="hub-tool-header">
                         <h4><i class="fas fa-book-open" style="color:var(--accent);margin-right:8px"></i> Defense Document Library</h4>
                         <span id="docCount" style="font-size:0.78rem;color:var(--muted)"></span>
@@ -1569,7 +1570,7 @@
                     </div>
 
                 </div>
-            </div>
+            </div></div></div>
 
             <!-- ═══ COMPLIANCE SCORECARD ═══ -->
             <div class="ils-hub-panel" id="hub-compliance">
@@ -2345,7 +2346,7 @@
 
             <!-- ══ HUB: GFP TRACKER — GOVERNMENT-FURNISHED PROPERTY ══ -->
             <div class="ils-hub-panel" id="hub-gfp">
-                <div class="s4-card">
+                <div class="row"><div class="col-lg-12"><div class="demo-card">
                     <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-boxes-stacked" style="color:#00aaff"></i> GFP Tracker</h3>
                     <p style="color:var(--steel);font-size:0.9rem;margin-bottom:0.5rem">Government-Furnished Property tracking per FAR 52.245-1 and DFARS 252.245-7001. Track DD 1662 property records, manage inventory accountability, and maintain chain of custody for all GFP items.</p>
                     <details style="margin-bottom:1rem;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.15);border-radius:3px;padding:0 12px;">
@@ -2381,12 +2382,12 @@
                     </div>
                     <div style="margin-bottom:16px"><canvas id="gfpChart" style="max-height:250px;width:100%"></canvas></div>
                     <div id="gfpContent" style="min-height:100px;color:var(--steel);font-size:0.85rem;text-align:center;padding:40px 20px"><i class="fas fa-boxes-stacked" style="font-size:2rem;color:rgba(0,170,255,0.3);margin-bottom:8px;display:block"></i>Upload DD 1662 files or enter property data above to begin tracking.</div>
-                </div>
+                </div></div></div>
             </div>
 
             <!-- ══ HUB: CDRL VALIDATOR ══ -->
             <div class="ils-hub-panel" id="hub-cdrl">
-                <div class="s4-card">
+                <div class="row"><div class="col-lg-12"><div class="demo-card">
                     <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-clipboard-check" style="color:#c9a84c"></i> CDRL Validator</h3>
                     <p style="color:var(--steel);font-size:0.9rem;margin-bottom:0.5rem">Contract Data Requirements List validation engine. Validates CDRL items against DI format requirements, checks content completeness, and ensures compliance with MIL-STD-963.</p>
                     <details style="margin-bottom:1rem;background:rgba(201,168,76,0.04);border:1px solid rgba(201,168,76,0.15);border-radius:3px;padding:0 12px;">
@@ -2422,12 +2423,12 @@
                     </div>
                     <div style="margin-bottom:16px"><canvas id="cdrlChart" style="max-height:250px;width:100%"></canvas></div>
                     <div id="cdrlContent" style="min-height:100px;color:var(--steel);font-size:0.85rem;text-align:center;padding:40px 20px"><i class="fas fa-clipboard-check" style="font-size:2rem;color:rgba(201,168,76,0.3);margin-bottom:8px;display:block"></i>Upload DD 1423 or CDRL packages above to begin validation.</div>
-                </div>
+                </div></div></div>
             </div>
 
             <!-- ══ HUB: CONTRACT EXTRACTOR ══ -->
             <div class="ils-hub-panel" id="hub-contract">
-                <div class="s4-card">
+                <div class="row"><div class="col-lg-12"><div class="demo-card">
                     <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-file-contract" style="color:#00aaff"></i> Contract Extractor</h3>
                     <p style="color:var(--steel);font-size:0.9rem;margin-bottom:0.5rem">AI-powered contract clause extraction. Upload SOWs, task orders, or modifications and automatically extract FAR/DFARS clauses, CDRL requirements, and key terms.</p>
                     <details style="margin-bottom:1rem;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.15);border-radius:3px;padding:0 12px;">
@@ -2463,12 +2464,12 @@
                     </div>
                     <div style="margin-bottom:16px"><canvas id="contractChart" style="max-height:250px;width:100%"></canvas></div>
                     <div id="contractContent" style="min-height:100px;color:var(--steel);font-size:0.85rem;text-align:center;padding:40px 20px"><i class="fas fa-file-contract" style="font-size:2rem;color:rgba(0,170,255,0.3);margin-bottom:8px;display:block"></i>Upload a contract PDF or DOCX above. AI clause extraction results display here.</div>
-                </div>
+                </div></div></div>
             </div>
 
             <!-- ══ HUB: PROVENANCE CHAIN ══ -->
             <div class="ils-hub-panel" id="hub-provenance">
-                <div class="s4-card">
+                <div class="row"><div class="col-lg-12"><div class="demo-card">
                     <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-link" style="color:#c9a84c"></i> Provenance Chain</h3>
                     <p style="color:var(--steel);font-size:0.9rem;margin-bottom:0.5rem">Blockchain-verified chain of custody and provenance tracking. Every custody transfer is anchored to the XRP Ledger with QR code generation.</p>
                     <details style="margin-bottom:1rem;background:rgba(201,168,76,0.04);border:1px solid rgba(201,168,76,0.15);border-radius:3px;padding:0 12px;">
@@ -2506,12 +2507,12 @@
                     <div style="margin-bottom:16px"><canvas id="provChart" style="max-height:250px;width:100%"></canvas></div>
                     <div id="provQRContainer" style="display:none;margin-bottom:16px;text-align:center"></div>
                     <div id="provenanceContent" style="min-height:100px;color:var(--steel);font-size:0.85rem;text-align:center;padding:40px 20px"><i class="fas fa-link" style="font-size:2rem;color:rgba(201,168,76,0.3);margin-bottom:8px;display:block"></i>Record custody transfers above or upload asset manifests. Provenance chain timeline renders here.</div>
-                </div>
+                </div></div></div>
             </div>
 
             <!-- ══ HUB: CROSS-PROGRAM ANALYTICS ══ -->
             <div class="ils-hub-panel" id="hub-analytics">
-                <div class="s4-card">
+                <div class="row"><div class="col-lg-12"><div class="demo-card">
                     <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-chart-pie" style="color:#00aaff"></i> Cross-Program Analytics</h3>
                     <p style="color:var(--steel);font-size:0.9rem;margin-bottom:0.5rem">Aggregate analytics dashboard spanning all ILS tools and programs. View upload trends, compliance metrics, and portfolio-wide insights.</p>
                     <details style="margin-bottom:1rem;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.15);border-radius:3px;padding:0 12px;">
@@ -2532,12 +2533,12 @@
                         <div style="background:rgba(201,168,76,0.04);border:1px solid rgba(201,168,76,0.15);border-radius:3px;padding:16px"><div style="font-size:0.82rem;color:var(--steel);font-weight:600;margin-bottom:8px"><i class="fas fa-chart-line" style="color:#c9a84c;margin-right:4px"></i> Activity Trend</div><canvas id="analyticsTrendChart" style="max-height:200px;width:100%"></canvas></div>
                     </div>
                     <div id="analyticsContent" style="min-height:200px;color:var(--steel);font-size:0.85rem;text-align:center;padding:40px 20px"><i class="fas fa-chart-pie" style="font-size:2rem;color:rgba(0,170,255,0.3);margin-bottom:8px;display:block"></i>Cross-program analytics load when tool data is available.</div>
-                </div>
+                </div></div></div>
             </div>
 
             <!-- ══ HUB: TEAM MANAGEMENT ══ -->
             <div class="ils-hub-panel" id="hub-team">
-                <div class="s4-card">
+                <div class="row"><div class="col-lg-12"><div class="demo-card">
                     <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-users-gear" style="color:#c9a84c"></i> Team & Access Management</h3>
                     <p style="color:var(--steel);font-size:0.9rem;margin-bottom:0.5rem">Full team administration — create teams, assign program access, manage tool permissions, and audit team activity. For quick team status, use the <strong style="color:#00aaff">Team</strong> button in the header bar.</p>
                     <details style="margin-bottom:1rem;background:rgba(201,168,76,0.04);border:1px solid rgba(201,168,76,0.15);border-radius:3px;padding:0 12px;">
@@ -2568,7 +2569,7 @@
                     <details style="margin-bottom:12px"><summary style="cursor:pointer;color:var(--steel);font-size:.82rem;font-weight:600"><i class="fas fa-table"></i> Tool Access Matrix</summary><div style="margin-top:8px;overflow-x:auto;border:1px solid var(--border);border-radius:3px;padding:12px;font-size:.78rem;color:var(--steel)">Select a team to view tool-level access permissions.</div></details>
                     <details style="margin-bottom:12px"><summary style="cursor:pointer;color:var(--steel);font-size:.82rem;font-weight:600"><i class="fas fa-history"></i> Team Activity Log</summary><div style="margin-top:8px;max-height:200px;overflow-y:auto;border:1px solid var(--border);border-radius:3px;padding:12px;font-size:.78rem;color:var(--steel)">No activity recorded yet.</div></details>
                     <div id="teamContent" style="min-height:100px;color:var(--steel);font-size:0.85rem;text-align:center;padding:40px 20px"><i class="fas fa-users-gear" style="font-size:2rem;color:rgba(201,168,76,0.3);margin-bottom:8px;display:block"></i>Create a team or select an existing team above.</div>
-                </div>
+                </div></div></div>
             </div>
 
             <!-- ══ FLOATING AI AGENT (accessible from all tools) ══ -->
@@ -2618,7 +2619,7 @@
                 </div>
                 <div style="max-width:900px;margin:0 auto;padding:1rem 0">
                     <h3 style="font-size:1.3rem;font-weight:800;margin-bottom:4px"><i class="fas fa-wallet" style="color:#00aaff;margin-right:8px"></i>Ledger Account & Usage</h3>
-                    <p style="color:var(--muted);font-size:0.85rem;margin-bottom:4px"><strong style="color:#00aaff">Credits</strong> = <strong>S4 Credits</strong> — the utility token that powers every action on S4 Ledger.</p>
+                    <p style="color:var(--muted);font-size:0.85rem;margin-bottom:4px"><strong style="color:#00aaff">Credits</strong> = <strong>SLS (Secure Logistics Standard)</strong> — the utility token that powers every action on S4 Ledger.</p>
                     <p style="color:var(--muted);font-size:0.82rem;margin-bottom:20px">Manage your XRPL wallet, purchase Credits through your subscription, and track anchor usage. Each anchor costs 0.01 Credits (~$0.0001).</p>
 
                     <!-- Wallet Overview Cards -->

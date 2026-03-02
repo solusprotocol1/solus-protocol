@@ -970,7 +970,8 @@ async function anchorRecord() {
     const record = {
         type:selectedType, label:typeInfo.label, icon:typeInfo.icon, branch:typeInfo.branch,
         hash, txHash, encrypted:encrypt, timestamp:new Date().toISOString(),
-        content:input.substring(0,100)+(input.length>100?'...':'')
+        content:input.substring(0,100)+(input.length>100?'...':''),
+        fullContent:input
     };
     sessionRecords.push(record);
     // Save to localStorage so Metrics & Transactions pages see it
@@ -1021,8 +1022,8 @@ async function anchorRecord() {
     updateTxLog();
     btn.disabled = false;
     btn.innerHTML = '<i class="fas fa-anchor"></i> Anchor to XRPL';
-    // Auto-refresh metrics after anchor
-    if (typeof loadPerformanceMetrics === 'function') try { loadPerformanceMetrics(); } catch(e) {}
+    // Auto-refresh metrics after anchor (loadPerformanceMetrics is in metrics chunk)
+    if (typeof window.loadPerformanceMetrics === 'function') try { window.loadPerformanceMetrics(); } catch(e) {}
     // Update Verify tab's recently anchored panel
     if (typeof refreshVerifyRecents === 'function') try { refreshVerifyRecents(); } catch(e) {}
 }
@@ -1034,23 +1035,23 @@ function refreshVerifyRecents() {
     // Combine session records + vault records, deduplicate by hash
     var seen = {};
     var records = [];
-    // Session records first (current session)
+    // Session records first (current session — includes fullContent)
     if (typeof sessionRecords !== 'undefined') {
         for (var i = sessionRecords.length - 1; i >= 0; i--) {
             var sr = sessionRecords[i];
             if (sr.hash && !seen[sr.hash]) {
                 seen[sr.hash] = true;
-                records.push({hash:sr.hash, label:sr.label||sr.type||'Record', icon:sr.icon||'fa-file', branch:sr.branch||'JOINT', timestamp:sr.timestamp, txHash:sr.txHash||'', content:sr.content||''});
+                records.push({hash:sr.hash, label:sr.label||sr.type||'Record', icon:sr.icon||'fa-file', branch:sr.branch||'JOINT', timestamp:sr.timestamp, txHash:sr.txHash||'', content:sr.content||'', fullContent:sr.fullContent||''});
             }
         }
     }
-    // Vault records (persisted)
+    // Vault records (persisted — fullContent not stored in vault to save localStorage)
     if (typeof s4Vault !== 'undefined') {
         for (var j = 0; j < Math.min(s4Vault.length, 30); j++) {
             var vr = s4Vault[j];
             if (vr.hash && !seen[vr.hash]) {
                 seen[vr.hash] = true;
-                records.push({hash:vr.hash, label:vr.label||vr.type||'Record', icon:vr.icon||'fa-file', branch:vr.branch||'JOINT', timestamp:vr.timestamp, txHash:vr.txHash||'', content:vr.content||''});
+                records.push({hash:vr.hash, label:vr.label||vr.type||'Record', icon:vr.icon||'fa-file', branch:vr.branch||'JOINT', timestamp:vr.timestamp, txHash:vr.txHash||'', content:vr.content||'', fullContent:''});
             }
         }
     }
@@ -1058,37 +1059,49 @@ function refreshVerifyRecents() {
         container.innerHTML = '<div style="color:var(--muted);text-align:center;padding:1.5rem;font-size:0.82rem;">No anchored records yet. Anchor a record first to see it here.</div>';
         return;
     }
-    container.innerHTML = records.slice(0, 20).map(function(r) {
+    // Store records in window so loadRecordToVerify can access full content
+    window._verifyRecentRecords = records;
+    container.innerHTML = records.slice(0, 20).map(function(r, idx) {
         var ago = '';
         try {
             var diff = Math.floor((Date.now() - new Date(r.timestamp).getTime()) / 1000);
             ago = diff < 60 ? diff + 's ago' : diff < 3600 ? Math.floor(diff/60) + 'm ago' : diff < 86400 ? Math.floor(diff/3600) + 'h ago' : Math.floor(diff/86400) + 'd ago';
         } catch(e) { ago = ''; }
-        return '<div onclick="loadRecordToVerify(\'' + r.hash + '\',\'' + (r.content||'').replace(/'/g,"\\'").replace(/\n/g,' ').substring(0,80) + '\')" style="display:flex;align-items:center;gap:10px;padding:8px 10px;border:1px solid rgba(255,255,255,0.05);border-radius:3px;margin-bottom:4px;cursor:pointer;transition:all 0.2s;background:rgba(255,255,255,0.02);" onmouseover="this.style.borderColor=\'rgba(0,170,255,0.3)\';this.style.background=\'rgba(0,170,255,0.05)\'" onmouseout="this.style.borderColor=\'rgba(255,255,255,0.05)\';this.style.background=\'rgba(255,255,255,0.02)\'">'
+        var hasFullContent = r.fullContent && r.fullContent.length > 0;
+        return '<div style="display:flex;align-items:center;gap:10px;padding:8px 10px;border:1px solid rgba(255,255,255,0.05);border-radius:3px;margin-bottom:4px;transition:all 0.2s;background:rgba(255,255,255,0.02);">'
             + '<span style="color:var(--accent);font-size:0.8rem;width:20px;text-align:center;display:inline-block">' + _renderIcon(r.icon) + '</span>'
-            + '<div style="flex:1;min-width:0;">'
+            + '<div style="flex:1;min-width:0;cursor:pointer" onclick="loadRecordToVerify(' + idx + ')">'
             + '<div style="font-size:0.78rem;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + r.label + '</div>'
             + '<div style="font-size:0.65rem;color:var(--muted);font-family:monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + r.hash.substring(0,24) + '...</div>'
             + '</div>'
             + '<span style="font-size:0.65rem;color:var(--steel);white-space:nowrap;">' + ago + '</span>'
-            + '<i class="fas fa-arrow-right" style="color:var(--accent);font-size:0.65rem;opacity:0.5;"></i>'
+            + '<button onclick="loadRecordToVerify(' + idx + ')" style="background:' + (hasFullContent ? 'rgba(0,170,255,0.15)' : 'rgba(255,255,255,0.05)') + ';border:1px solid ' + (hasFullContent ? 'rgba(0,170,255,0.3)' : 'rgba(255,255,255,0.1)') + ';color:' + (hasFullContent ? 'var(--accent)' : 'var(--steel)') + ';border-radius:3px;padding:3px 10px;font-size:0.68rem;font-weight:600;cursor:pointer;white-space:nowrap"><i class="fas fa-eye" style="margin-right:3px"></i>View</button>'
             + '</div>';
     }).join('');
 }
 
-function loadRecordToVerify(hash, content) {
-    // Auto-fill the verify hash field and optionally the content
+function loadRecordToVerify(idx) {
+    var records = window._verifyRecentRecords || [];
+    var r = records[idx];
+    if (!r) return;
+    // Auto-fill the verify hash field
     var hashInput = document.getElementById('verifyHash');
-    if (hashInput) hashInput.value = hash;
-    if (content && content.length > 0) {
-        var contentInput = document.getElementById('verifyInput');
-        if (contentInput) contentInput.value = content;
+    if (hashInput) hashInput.value = r.hash;
+    // Load full content if available, otherwise load truncated preview
+    var contentInput = document.getElementById('verifyInput');
+    if (contentInput) {
+        if (r.fullContent && r.fullContent.length > 0) {
+            contentInput.value = r.fullContent;
+        } else if (r.content && r.content.length > 0) {
+            contentInput.value = r.content;
+        }
     }
     // Scroll to the verify form
     var verifyCard = document.querySelector('#tabVerify .demo-card');
     if (verifyCard) verifyCard.scrollIntoView({behavior:'smooth', block:'start'});
     // Show notification
-    if (typeof showWorkspaceNotification === 'function') showWorkspaceNotification('Record hash loaded — click Verify Integrity to check', 'info');
+    var hasDoc = r.fullContent && r.fullContent.length > 0;
+    if (typeof showWorkspaceNotification === 'function') showWorkspaceNotification(hasDoc ? 'Full document loaded — click Verify Integrity to re-verify' : 'Record hash loaded — paste original content or upload file to verify', hasDoc ? 'success' : 'info');
 }
 
 // Refresh on tab switch to Verify
@@ -8266,6 +8279,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 var ctxEl = document.getElementById('aiContextLabel');
                 var labels = {'#tabAnchor':'Anchor','#tabVerify':'Verify','#tabLog':'Transaction Log','#tabILS':'Anchor-S4','#tabMetrics':'Metrics','#tabOffline':'Offline Queue'};
                 if (ctxEl) ctxEl.textContent = labels[target] || 'S4 Agent';
+            }
+            // Auto-refresh metrics when switching to Metrics tab
+            if (target === '#tabMetrics' && typeof window.loadPerformanceMetrics === 'function') {
+                try { window.loadPerformanceMetrics(); } catch(e2) {}
             }
         });
 

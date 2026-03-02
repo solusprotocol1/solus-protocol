@@ -3060,7 +3060,11 @@ function _updateThemeIcon(isLight) {
             if (_notifHistoryVisible) { toggleNotifHistory(); return; }
             // Close AI panel if open
             var aiPanel = document.querySelector('.ai-float-panel');
-            if (aiPanel && aiPanel.style.display !== 'none') { aiPanel.style.display = 'none'; return; }
+            if (aiPanel && aiPanel.classList.contains('open')) {
+                if (typeof window.toggleAiAgent === 'function') { window.toggleAiAgent(); }
+                else { aiPanel.classList.remove('open'); }
+                return;
+            }
             // Close wallet sidebar if open
             var walletSidebar = document.getElementById('walletSidebar');
             if (walletSidebar && walletSidebar.classList.contains('open')) { if (typeof closeWalletSidebar === 'function') closeWalletSidebar(); return; }
