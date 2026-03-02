@@ -32,4 +32,4 @@ import './js/navigation.js'
 import './js/roles.js'
 
 // ── Enhancement Suite (Rounds 11-16+) ───────────────────────────
-import './js/enhancements.js'
+import './js/enhancements.js'import './js/web-vitals.js';
