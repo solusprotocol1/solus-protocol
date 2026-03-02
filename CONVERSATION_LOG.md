@@ -65,7 +65,7 @@
 ## COMMIT HISTORY (recent)
 | Commit | Description |
 |--------|-------------|
-| (pending) | fix: cross-chunk _onboardTier/Tiers → window.*, CSS details hide, CI path fixes |
+| b17054f | fix: cross-chunk _onboardTier/Tiers to window.*, CSS details hide, CI path fixes |
 | 382d732 | fix: cross-chunk _currentRole/_demoSession → window.* for ES module strict mode |
 | 8e8aa3e | fix: export showRoleSelector + update MIL-STD-1388 → GEIA-STD-0007 |
 | 3bf1bf8 | Added display:none to 22 HIW details + onclick to tier cards |
