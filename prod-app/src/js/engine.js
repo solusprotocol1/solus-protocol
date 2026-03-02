@@ -1125,6 +1125,10 @@ function loadRecordToVerify(idx) {
     var records = window._verifyRecentRecords || [];
     var r = records[idx];
     if (!r) return;
+    // Switch to the Verify tab first
+    if (typeof window.showSection === 'function') {
+        window.showSection('sectionVerify');
+    }
     // Auto-fill the verify hash field
     var hashInput = document.getElementById('verifyHash');
     if (hashInput) hashInput.value = r.hash;
@@ -1137,9 +1141,11 @@ function loadRecordToVerify(idx) {
             contentInput.value = r.content;
         }
     }
-    // Scroll to the verify form
-    var verifyCard = document.querySelector('#tabVerify .s4-card');
-    if (verifyCard) verifyCard.scrollIntoView({behavior:'smooth', block:'start'});
+    // Scroll to the verify form after tab switch
+    setTimeout(function() {
+        var verifyCard = document.querySelector('#tabVerify .s4-card');
+        if (verifyCard) verifyCard.scrollIntoView({behavior:'smooth', block:'start'});
+    }, 150);
     // Show notification
     var hasDoc = r.fullContent && r.fullContent.length > 0;
     if (typeof showWorkspaceNotification === 'function') showWorkspaceNotification(hasDoc ? 'Full document loaded — click Verify Integrity to re-verify' : 'Record hash loaded — paste original content or upload file to verify', hasDoc ? 'success' : 'info');
@@ -4338,6 +4344,14 @@ async function aiSend() {
     if (conversation.length > 20) conversation.splice(0, conversation.length - 20);
 
     let responded = false;
+    // Grab current tool input content to send as document context
+    var docContent = '';
+    var docName = '';
+    var activeInput = document.getElementById('anchorInput') || document.getElementById('verifyInput');
+    if (activeInput && activeInput.value && activeInput.value.length > 20) {
+        docContent = activeInput.value.substring(0, 12000);
+        docName = 'Current tool input';
+    }
     try {
         // Use new AI RAG endpoint with session persistence
         const aiSessionId = localStorage.getItem('s4_ai_session') || ('AI-' + Date.now().toString(36));
@@ -4350,6 +4364,8 @@ async function aiSend() {
                 session_id: aiSessionId,
                 tool_context: toolLabel,
                 user_email: localStorage.getItem('s4_user_email') || '',
+                document_content: docContent,
+                document_name: docName,
             })
         });
         if (resp.ok) {

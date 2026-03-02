@@ -452,17 +452,31 @@ window.fetch = function(url, opts) {
     return _origFetch.apply(this, arguments);
 };
 
+var _onlineDebounce = null;
+var _offlineDebounce = null;
 window.addEventListener('online', function() {
     refreshOfflineQueueUI();
-    _showNotif('Connection restored. Auto-syncing offline queue...', 'success');
-    // Auto-sync after a 2-second delay to allow network stabilization
-    setTimeout(function() {
+    // Debounce to prevent rapid fire on WiFi fluctuations
+    clearTimeout(_onlineDebounce);
+    _onlineDebounce = setTimeout(function() {
         var q = getOfflineQueue();
         var pending = q.filter(function(i){ return !i.synced; });
-        if (pending.length > 0) { offlineSyncWithBackoff(); }
+        if (pending.length > 0) {
+            _showNotif('Connection restored. Syncing ' + pending.length + ' queued anchors...', 'success');
+            offlineSyncWithBackoff();
+        }
+    }, 3000);
+});
+window.addEventListener('offline', function() {
+    refreshOfflineQueueUI();
+    clearTimeout(_offlineDebounce);
+    _offlineDebounce = setTimeout(function() {
+        // Only show if still offline after 2s (filters brief blips)
+        if (!navigator.onLine) {
+            _showNotif('Connection lost. Anchors will be queued locally.', 'warning');
+        }
     }, 2000);
 });
-window.addEventListener('offline', function() { refreshOfflineQueueUI(); _showNotif('Connection lost. Anchors will be queued locally.', 'warning'); });
 
 function _showNotif(msg, type) {
     var old = document.querySelector('.workspace-notification'); if (old) old.remove();

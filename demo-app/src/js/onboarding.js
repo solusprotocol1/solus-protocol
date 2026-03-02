@@ -150,6 +150,22 @@ function selectOnboardTier(el, tier) {
     if (toolBal) toolBal.textContent = info.sls.toLocaleString();
     var sidebarBal = document.getElementById('sidebarSlsBal');
     if (sidebarBal) sidebarBal.textContent = info.sls.toLocaleString() + ' Credits';
+    // Update wallet balance card in Ledger Account
+    var walletBal = document.getElementById('walletSLSBalance');
+    if (walletBal) walletBal.textContent = info.sls.toLocaleString();
+    // Update plan label in balance bar
+    var planEl = document.getElementById('slsBarPlan');
+    if (planEl) planEl.textContent = info.label.replace(/\s*\(.*\)/, '');
+    // Update navbar wallet trigger
+    var triggerBal = document.getElementById('walletTriggerBal');
+    if (triggerBal) triggerBal.textContent = info.sls.toLocaleString() + ' Credits';
+    // Update anchors available
+    var walletAnchors = document.getElementById('walletAnchors');
+    if (walletAnchors) walletAnchors.textContent = (info.sls * 100).toLocaleString();
+    // Persist to localStorage
+    localStorage.setItem('s4_selected_tier', tier);
+    localStorage.setItem('s4_tier_allocation', String(info.sls));
+    localStorage.setItem('s4_tier_label', info.label);
 }
 
 // Auto-show onboarding on first visit — ONLY after entering platform (DOM check, not sessionStorage)

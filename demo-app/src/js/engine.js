@@ -148,7 +148,7 @@ function _updateDemoSlsBalance() {
     requestAnimationFrame(function() {
         _slsUpdatePending = false;
         if (typeof _syncSlsBar === 'function') _syncSlsBar();
-    var _tFallback = (window._onboardTiers && window._onboardTier) ? (window._onboardTiers[window._onboardTier]?.sls || 25000) : 25000; var allocation = _demoSession ? (_demoSession.subscription?.sls_allocation || _tFallback) : _tFallback;
+    var _tFallback = (window._onboardTiers && window._onboardTier) ? (window._onboardTiers[window._onboardTier]?.sls || 25000) : (parseInt(localStorage.getItem('s4_tier_allocation')) || 25000); var allocation = _demoSession ? (_demoSession.subscription?.sls_allocation || _tFallback) : _tFallback;
     var spent = stats.slsFees || 0;
     var remaining = Math.round((allocation - spent) * 100) / 100;
     var bal = document.getElementById('demoSlsBalance');
@@ -230,7 +230,7 @@ function toggleFlowBox() {
 }
 
 function _syncSlsBar() {
-    var _tFallback = (window._onboardTiers && window._onboardTier) ? (window._onboardTiers[window._onboardTier]?.sls || 25000) : 25000; var allocation = _demoSession ? (_demoSession.subscription?.sls_allocation || _tFallback) : _tFallback;
+    var _tFallback = (window._onboardTiers && window._onboardTier) ? (window._onboardTiers[window._onboardTier]?.sls || 25000) : (parseInt(localStorage.getItem('s4_tier_allocation')) || 25000); var allocation = _demoSession ? (_demoSession.subscription?.sls_allocation || _tFallback) : _tFallback;
     var spent = stats.slsFees || 0;
     var remaining = Math.round((allocation - spent) * 100) / 100;
     var plan = _demoSession ? (_demoSession.subscription?.label || 'Starter') : 'Starter';
@@ -935,15 +935,17 @@ async function _anchorToXRPL(hash, record_type, content_preview) {
     if (!txHash) {
         txHash = 'LOCAL_' + Array.from(crypto.getRandomValues(new Uint8Array(16))).map(b=>b.toString(16).padStart(2,'0')).join('').toUpperCase();
         network = anchorError ? 'FAILED' : 'Pending';
-        if (anchorError && typeof _showNotif === 'function') {
+        // Only show network error notification if NOT in demo mode (suppress false-positive API failures)
+        if (anchorError && !_demoMode && typeof _showNotif === 'function') {
             _showNotif('Anchor may not have reached XRPL: ' + anchorError, 'warning');
         }
     }
     if (feeError) {
         console.warn('SLS fee deduction failed:', feeError);
-        if (typeof _showNotif === 'function') _showNotif('Credit fee issue: ' + feeError, 'warning');
+        // Suppress fee error in demo mode — expected when API is not live
+        if (!_demoMode && typeof _showNotif === 'function') _showNotif('Credit fee issue: ' + feeError, 'warning');
     } else if (feeTxHash) {
-        if (typeof _showNotif === 'function') _showNotif('0.01 Credits fee paid \u2714 TX: ' + feeTxHash.substring(0,16) + '\u2026', 'success');
+        if (typeof _showNotif === 'function') _showNotif('0.01 Credits deducted \u2714', 'success');
     }
     // Auto-update SLS balance display after every anchor
     if (typeof _updateDemoSlsBalance === 'function') try { _updateDemoSlsBalance(); } catch(e) {}
@@ -1088,6 +1090,10 @@ function loadRecordToVerify(idx) {
     var records = window._verifyRecentRecords || [];
     var r = records[idx];
     if (!r) return;
+    // Switch to the Verify tab first
+    if (typeof window.showSection === 'function') {
+        window.showSection('sectionVerify');
+    }
     // Auto-fill the verify hash field
     var hashInput = document.getElementById('verifyHash');
     if (hashInput) hashInput.value = r.hash;
@@ -1100,9 +1106,11 @@ function loadRecordToVerify(idx) {
             contentInput.value = r.content;
         }
     }
-    // Scroll to the verify form
-    var verifyCard = document.querySelector('#tabVerify .demo-card');
-    if (verifyCard) verifyCard.scrollIntoView({behavior:'smooth', block:'start'});
+    // Scroll to the verify form after a brief delay for tab switch
+    setTimeout(function() {
+        var verifyCard = document.querySelector('#tabVerify .demo-card');
+        if (verifyCard) verifyCard.scrollIntoView({behavior:'smooth', block:'start'});
+    }, 150);
     // Show notification
     var hasDoc = r.fullContent && r.fullContent.length > 0;
     if (typeof showWorkspaceNotification === 'function') showWorkspaceNotification(hasDoc ? 'Full document loaded — click Verify Integrity to re-verify' : 'Record hash loaded — paste original content or upload file to verify', hasDoc ? 'success' : 'info');
@@ -4157,12 +4165,20 @@ async function aiSend() {
     if (conversation.length > 20) conversation.splice(0, conversation.length - 20);
 
     let responded = false;
+    // Grab current tool input content to send as document context
+    var docContent = '';
+    var docName = '';
+    var activeInput = document.getElementById('anchorInput') || document.getElementById('verifyInput');
+    if (activeInput && activeInput.value && activeInput.value.length > 20) {
+        docContent = activeInput.value.substring(0, 12000);
+        docName = 'Current tool input';
+    }
     try {
         // NETWORK_DEPENDENT: AI chat requires server — returns error offline
         const resp = await fetch('/api/ai-chat', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ message: msg, conversation, tool_context: toolLabel, analysis_data: analysisSummary })
+            body: JSON.stringify({ message: msg, conversation, tool_context: toolLabel, analysis_data: analysisSummary, document_content: docContent, document_name: docName })
         });
         if (resp.ok) {
             const data = await resp.json();
