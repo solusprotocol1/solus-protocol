@@ -142,3 +142,32 @@ window.showOnboarding = showOnboarding;
 window.closeOnboarding = closeOnboarding;
 window.onboardNext = onboardNext;
 window.selectOnboardTier = selectOnboardTier;
+
+// === Self-contained onboarding auto-trigger ===
+// This fires from WITHIN the navigation chunk — no cross-chunk polling needed.
+// When platformWorkspace becomes visible and onboarding hasn't been seen, show it.
+(function _autoTriggerOnboarding() {
+    // If onboarding was already completed in this session, skip
+    if (sessionStorage.getItem('s4_onboard_done')) return;
+    // Watch for the platform workspace becoming visible (user just logged in)
+    var _checkCount = 0;
+    function _check() {
+        _checkCount++;
+        var ws = document.getElementById('platformWorkspace');
+        if (ws && ws.style.display === 'block' && !sessionStorage.getItem('s4_onboard_done')) {
+            // Platform is visible and onboarding not done — show it!
+            showOnboarding();
+            return;
+        }
+        // Keep checking for up to 30 seconds (300 checks × 100ms)
+        if (_checkCount < 300) {
+            setTimeout(_check, 100);
+        }
+    }
+    // Start checking after DOM is ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function() { setTimeout(_check, 200); });
+    } else {
+        setTimeout(_check, 200);
+    }
+})();

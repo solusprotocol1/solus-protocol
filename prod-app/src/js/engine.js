@@ -4211,6 +4211,34 @@ function toggleAiAgent() {
     }
 }
 
+// Bind AI toggle button directly via addEventListener (bulletproof — does not rely on onclick attribute surviving minification)
+(function _bindAiToggle() {
+    function _bind() {
+        var btn = document.querySelector('.ai-float-toggle');
+        if (btn && !btn._s4bound) {
+            btn._s4bound = true;
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                toggleAiAgent();
+            });
+        }
+        // Also bind the close button inside the panel header
+        var closeBtn = document.querySelector('.ai-close-btn');
+        if (closeBtn && !closeBtn._s4bound) {
+            closeBtn._s4bound = true;
+            closeBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                toggleAiAgent();
+            });
+        }
+    }
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', _bind);
+    } else {
+        _bind();
+    }
+})();
+
 // ── Context-Aware Quick Actions ──
 const AI_TOOL_CONTEXT = {
     'hub-analysis':     {label:'Gap Analysis',    icon:'fa-chart-line',         buttons:[['Summarize my gaps','Summarize Gaps'],['What are the critical items?','Critical Items'],['Draft a CAR','Draft CAR'],['Estimate total risk','Risk Estimate'],['What DI numbers am I missing?','Missing DIs'],['Suggest next steps','Next Steps'],['Draft a memo','Draft Memo'],['Draft an email','Draft Email']]},
