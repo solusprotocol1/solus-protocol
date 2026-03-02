@@ -283,7 +283,7 @@
                     <div class="onboard-feature"><div class="onboard-icon" style="background:rgba(201,168,76,0.1);color:var(--gold)"><i class="fas fa-coins"></i></div><div><strong style="color:#fff">Credit Economy</strong><div style="color:var(--steel);font-size:0.8rem">0.01 Credits per anchor (~$0.0001). Real on-chain token transfers.</div></div></div>
                     <div class="onboard-feature"><div class="onboard-icon" style="background:rgba(0,170,255,0.1);color:var(--green)"><i class="fas fa-brain"></i></div><div><strong style="color:#fff">20+ ILS Tools</strong><div style="color:var(--steel);font-size:0.8rem">Gap analysis, DMSMS, readiness, compliance, risk, and more</div></div></div>
                     <div class="onboard-feature"><div class="onboard-icon" style="background:rgba(0,170,255,0.1);color:#00aaff"><i class="fas fa-robot"></i></div><div><strong style="color:#fff">AI Agent</strong><div style="color:var(--steel);font-size:0.8rem">Context-aware assistant available on every tool and tab</div></div></div>
-                    <div style="text-align:center;margin-top:20px"><button class="onboard-btn" onclick="onboardNext()"><i class="fas fa-arrow-right" style="margin-right:6px"></i>Start Setup</button></div>
+                    <div style="text-align:center;margin-top:20px"><button class="onboard-btn"><i class="fas fa-arrow-right" style="margin-right:6px"></i>Start Setup</button></div>
                 </div>
 
                 <!-- Step 1: Create Account -->
@@ -298,7 +298,7 @@
                             <div style="color:var(--steel)">Status: <span style="color:var(--green)" id="onboardAcctStatus"><i class="fas fa-spinner fa-spin"></i> Creating...</span></div>
                         </div>
                     </div>
-                    <div id="onboardAcctDone" style="display:none;text-align:center;margin-top:16px"><button class="onboard-btn" onclick="onboardNext()">Continue <i class="fas fa-arrow-right" style="margin-left:6px"></i></button></div>
+                    <div id="onboardAcctDone" style="display:none;text-align:center;margin-top:16px"><button class="onboard-btn">Continue <i class="fas fa-arrow-right" style="margin-left:6px"></i></button></div>
                 </div>
 
                 <!-- Step 2: Wallet Funded -->
@@ -314,7 +314,7 @@
                         </div>
                     </div>
                     <div style="background:rgba(0,170,255,0.06);border:1px solid rgba(0,170,255,0.15);border-radius:3px;padding:10px 14px;font-size:0.78rem;color:var(--steel)"><i class="fas fa-info-circle" style="color:var(--accent);margin-right:6px"></i><strong style="color:#fff">Note:</strong> 12 XRP is the base reserve, funded automatically from the S4 Treasury when your account is provisioned. This covers XRPL transaction fees for anchoring.</div>
-                    <div id="onboardWalletDone" style="display:none;text-align:center;margin-top:16px"><button class="onboard-btn" onclick="onboardNext()">Continue <i class="fas fa-arrow-right" style="margin-left:6px"></i></button></div>
+                    <div id="onboardWalletDone" style="display:none;text-align:center;margin-top:16px"><button class="onboard-btn">Continue <i class="fas fa-arrow-right" style="margin-left:6px"></i></button></div>
                 </div>
 
                 <!-- Step 3: Credit Allocation -->
@@ -322,17 +322,17 @@
                     <h4 style="color:#fff;margin:0 0 12px;font-size:1rem"><i class="fas fa-coins" style="color:var(--gold);margin-right:8px"></i>Step 3: Credit Allocation</h4>
                     <p style="color:var(--steel);font-size:0.82rem;margin-bottom:16px">Your Credit allocation is based on your subscription tier. Select a plan:</p>
                     <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:16px">
-                        <div class="onboard-tier" onclick="selectOnboardTier(this,'pilot')" data-tier="pilot"><div style="font-size:0.72rem;color:var(--steel);text-transform:uppercase;letter-spacing:0.5px">Pilot</div><div style="font-size:1.1rem;font-weight:800;color:#fff;margin:4px 0">Free</div><div style="color:var(--gold);font-weight:700;font-size:0.85rem">100 Credits</div></div>
-                        <div class="onboard-tier selected" onclick="selectOnboardTier(this,'starter')" data-tier="starter"><div style="font-size:0.72rem;color:var(--steel);text-transform:uppercase;letter-spacing:0.5px">Starter</div><div style="font-size:1.1rem;font-weight:800;color:#fff;margin:4px 0">$999/mo</div><div style="color:var(--gold);font-weight:700;font-size:0.85rem">25,000 Credits</div></div>
-                        <div class="onboard-tier" onclick="selectOnboardTier(this,'professional')" data-tier="professional"><div style="font-size:0.72rem;color:var(--steel);text-transform:uppercase;letter-spacing:0.5px">Professional</div><div style="font-size:1.1rem;font-weight:800;color:#fff;margin:4px 0">$2,499/mo</div><div style="color:var(--gold);font-weight:700;font-size:0.85rem">100,000 Credits</div></div>
-                        <div class="onboard-tier" onclick="selectOnboardTier(this,'enterprise')" data-tier="enterprise"><div style="font-size:0.72rem;color:var(--steel);text-transform:uppercase;letter-spacing:0.5px">Enterprise</div><div style="font-size:1.1rem;font-weight:800;color:#fff;margin:4px 0">$9,999/mo</div><div style="color:var(--gold);font-weight:700;font-size:0.85rem">500,000 Credits</div></div>
+                        <div class="onboard-tier" data-tier="pilot"><div style="font-size:0.72rem;color:var(--steel);text-transform:uppercase;letter-spacing:0.5px">Pilot</div><div style="font-size:1.1rem;font-weight:800;color:#fff;margin:4px 0">Free</div><div style="color:var(--gold);font-weight:700;font-size:0.85rem">100 Credits</div></div>
+                        <div class="onboard-tier selected" data-tier="starter"><div style="font-size:0.72rem;color:var(--steel);text-transform:uppercase;letter-spacing:0.5px">Starter</div><div style="font-size:1.1rem;font-weight:800;color:#fff;margin:4px 0">$999/mo</div><div style="color:var(--gold);font-weight:700;font-size:0.85rem">25,000 Credits</div></div>
+                        <div class="onboard-tier" data-tier="professional"><div style="font-size:0.72rem;color:var(--steel);text-transform:uppercase;letter-spacing:0.5px">Professional</div><div style="font-size:1.1rem;font-weight:800;color:#fff;margin:4px 0">$2,499/mo</div><div style="color:var(--gold);font-weight:700;font-size:0.85rem">100,000 Credits</div></div>
+                        <div class="onboard-tier" data-tier="enterprise"><div style="font-size:0.72rem;color:var(--steel);text-transform:uppercase;letter-spacing:0.5px">Enterprise</div><div style="font-size:1.1rem;font-weight:800;color:#fff;margin:4px 0">$9,999/mo</div><div style="color:var(--gold);font-weight:700;font-size:0.85rem">500,000 Credits</div></div>
                     </div>
                     <div style="background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:14px;text-align:center">
                         <div style="color:var(--steel);font-size:0.78rem;margin-bottom:4px">Your Credit Balance</div>
                         <div style="font-size:1.6rem;font-weight:800;color:var(--gold)" id="onboardSlsBal">25,000</div>
                         <div style="color:var(--steel);font-size:0.72rem">= <span id="onboardSlsAnchors">2,500,000</span> anchors at 0.01 Credits each</div>
                     </div>
-                    <div style="text-align:center;margin-top:16px"><button class="onboard-btn" onclick="onboardNext()">Continue <i class="fas fa-arrow-right" style="margin-left:6px"></i></button></div>
+                    <div style="text-align:center;margin-top:16px"><button class="onboard-btn">Continue <i class="fas fa-arrow-right" style="margin-left:6px"></i></button></div>
                 </div>
 
                 <!-- Step 4: How Credits Work -->
@@ -355,7 +355,7 @@
                         <div><i class="fas fa-check" style="color:var(--accent);margin-right:8px;width:14px"></i>Anyone can independently verify records on <a href="https://livenet.xrpl.org" target="_blank" style="color:var(--accent)">XRPL Explorer</a></div>
                     </div>
                     <div style="text-align:center;margin-top:20px;display:flex;gap:10px;justify-content:center">
-                        <button class="onboard-btn" onclick="sessionStorage.setItem('s4_entered','1');closeOnboarding()"><i class="fas fa-rocket" style="margin-right:6px"></i>Enter Platform</button>
+                        <button class="onboard-btn"><i class="fas fa-rocket" style="margin-right:6px"></i>Enter Platform</button>
                         <a href="https://livenet.xrpl.org/accounts/rMLmkrxpadq5z6oTDmq8GhQj9LKjf1KLqJ" target="_blank" class="onboard-btn-outline"><i class="fas fa-external-link-alt" style="margin-right:6px"></i>View Treasury</a>
                     </div>
                 </div>
@@ -3714,21 +3714,6 @@
                 e.stopPropagation();
                 if (typeof window.logout === 'function') window.logout();
             });
-        });
-        // Onboarding Next/Tier buttons
-        document.querySelectorAll('[onclick*="onboardNext()"]').forEach(function(btn) {
-            btn.addEventListener('click', function() {
-                if (typeof window.onboardNext === 'function') window.onboardNext();
-            });
-        });
-        document.querySelectorAll('[onclick*="selectOnboardTier("]').forEach(function(el) {
-            var oc = el.getAttribute('onclick');
-            var m = oc && oc.match(/selectOnboardTier\(this,\s*'([^']+)'\)/);
-            if (m) {
-                el.addEventListener('click', function() {
-                    if (typeof window.selectOnboardTier === 'function') window.selectOnboardTier(el, m[1]);
-                });
-            }
         });
         // Hub sidebar buttons (Team, Analyses, Webhooks)
         document.querySelectorAll('[onclick*="showTeamPanel()"], [onclick*="showSavedAnalyses()"], [onclick*="showWebhookSettings()"]').forEach(function(btn) {

@@ -11,7 +11,8 @@ async function loadPerformanceMetrics() {
     var _st = window._s4Stats; if(!_st){try{var _ls=JSON.parse(localStorage.getItem('s4_stats')||'{}');_st={anchored:_ls.anchored||0,slsFees:_ls.slsFees||0};}catch(e){_st={anchored:0,slsFees:0};}}
     var localAnchors = _st.anchored || 0;
     var localFees = _st.slsFees || 0;
-    var localRecords = getLocalRecords();
+    var _glr = typeof getLocalRecords === 'function' ? getLocalRecords : function() { try { return JSON.parse(localStorage.getItem('s4_anchored_records') || '[]'); } catch(e) { return []; } };
+    var localRecords = _glr();
     var localTypes = {};
     localRecords.forEach(function(r) {
         var label = r.record_label || r.record_type || 'Unknown';
@@ -190,8 +191,9 @@ setInterval(function() {
 // Keeps all tool displays in sync with real user activity
 (function() {
     function syncSessionToTools() {
-        var s = typeof stats !== 'undefined' ? stats : {anchored:0, verified:0, types:new Set(), slsFees:0};
-        var records = typeof getLocalRecords === 'function' ? getLocalRecords() : [];
+        var s = window._s4Stats || (function() { try { var _ls=JSON.parse(localStorage.getItem('s4_stats')||'{}'); return {anchored:_ls.anchored||0,verified:_ls.verified||0,types:new Set(_ls.types||[]),slsFees:_ls.slsFees||0}; } catch(e) { return {anchored:0,verified:0,types:new Set(),slsFees:0}; } })();
+        var _glr2 = typeof getLocalRecords === 'function' ? getLocalRecords : function() { try { return JSON.parse(localStorage.getItem('s4_anchored_records') || '[]'); } catch(e) { return []; } };
+        var records = _glr2();
         
         // Sync SLS balance bar — use actual tier allocation
         var balEl = document.getElementById('slsBarBalance');

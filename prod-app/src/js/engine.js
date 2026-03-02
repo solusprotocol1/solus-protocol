@@ -1084,13 +1084,13 @@ function refreshVerifyRecents() {
             }
         }
     }
-    // Vault records (persisted — fullContent not stored in vault to save localStorage)
+    // Vault records (persisted — includes fullContent when available)
     if (typeof s4Vault !== 'undefined') {
         for (var j = 0; j < Math.min(s4Vault.length, 30); j++) {
             var vr = s4Vault[j];
             if (vr.hash && !seen[vr.hash]) {
                 seen[vr.hash] = true;
-                records.push({hash:vr.hash, label:vr.label||vr.type||'Record', icon:vr.icon||'fa-file', branch:vr.branch||'JOINT', timestamp:vr.timestamp, txHash:vr.txHash||'', content:vr.content||'', fullContent:''});
+                records.push({hash:vr.hash, label:vr.label||vr.type||'Record', icon:vr.icon||'fa-file', branch:vr.branch||'JOINT', timestamp:vr.timestamp, txHash:vr.txHash||'', content:vr.content||'', fullContent:vr.fullContent||''});
             }
         }
     }
