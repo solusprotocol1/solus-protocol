@@ -152,7 +152,7 @@ function _updateDemoSlsBalance() {
     var remaining = Math.round((allocation - spent) * 100) / 100;
     var bal = document.getElementById('demoSlsBalance');
     if (bal) {
-        bal.textContent = remaining.toLocaleString(undefined,{maximumFractionDigits:2}) + ' SLS';
+        bal.textContent = remaining.toLocaleString(undefined,{maximumFractionDigits:2}) + ' Credits';
         bal.style.color = remaining < 100 ? '#ff3333' : '#c9a84c';
     }
     // Update persistent demo status bar
@@ -161,20 +161,20 @@ function _updateDemoSlsBalance() {
         bar.innerHTML = '<i class="fas fa-shield-halved" style="margin-right:6px;color:#00aaff;"></i>'
             + '<strong style="color:#00aaff;">S4 Ledger</strong> '
             + '<span style="margin:0 8px;color:rgba(255,255,255,0.2);">|</span>'
-            + '<span style="color:#c9a84c;">' + remaining.toLocaleString(undefined,{maximumFractionDigits:2}) + ' SLS remaining</span>'
+            + '<span style="color:#c9a84c;">' + remaining.toLocaleString(undefined,{maximumFractionDigits:2}) + ' Credits remaining</span>'
             + '<span style="margin:0 8px;color:rgba(255,255,255,0.2);">|</span>'
             + '<span style="color:#00aaff;">' + stats.anchored + ' anchor' + (stats.anchored !== 1 ? 's' : '') + '</span>'
             + '<span style="margin:0 8px;color:rgba(255,255,255,0.2);">|</span>'
-            + '<span style="color:#8ea4b8;">0.01 SLS per anchor</span>';
+            + '<span style="color:#8ea4b8;">0.01 Credits per anchor</span>';
     }
     // Update banner too
     var banner = document.getElementById('demoBanner');
     if (banner && banner.style.display !== 'none') {
         var addr = _demoSession?.wallet?.address || '';
         banner.innerHTML = '<i class="fas fa-shield-halved" style="color:#00aaff;margin-right:6px;"></i> <strong>S4 Ledger</strong> &mdash; '
-            + '<span style="color:#c9a84c;">' + remaining.toLocaleString(undefined,{maximumFractionDigits:2}) + ' SLS</span> &bull; '
+            + '<span style="color:#c9a84c;">' + remaining.toLocaleString(undefined,{maximumFractionDigits:2}) + ' Credits</span> &bull; '
             + stats.anchored + ' anchor' + (stats.anchored !== 1 ? 's' : '') + ' &bull; '
-            + '0.01 SLS per anchor &bull; '
+            + '0.01 Credits per anchor &bull; '
             + '<span style="color:var(--accent)">' + (addr ? addr.substring(0,6) + '...' + addr.slice(-4) : '') + '</span>';
     }
     }); // end requestAnimationFrame
@@ -189,9 +189,9 @@ function _flashSlsBalance(newBalance, fee) {
     var toast = document.createElement('div');
     toast.id = 'slsFlashToast';
     toast.style.cssText = 'position:fixed;top:80px;right:24px;z-index:99999;background:linear-gradient(135deg,rgba(0,170,255,0.15),rgba(201,168,76,0.1));border:1px solid rgba(201,168,76,0.4);border-radius:3px;padding:16px 24px;font-size:0.9rem;color:#fff;box-shadow:0 8px 32px rgba(0,0,0,0.5);backdrop-filter:blur(12px);animation:slsToastIn 0.4s ease-out;min-width:260px;';
-    toast.innerHTML = '<div style="font-weight:700;color:#c9a84c;margin-bottom:6px;font-size:0.8rem;text-transform:uppercase;letter-spacing:0.5px"><i class="fas fa-coins" style="margin-right:6px"></i>SLS Balance Updated</div>'
-        + '<div style="font-size:1.4rem;font-weight:800;color:#c9a84c;">' + newBalance + ' <span style="font-size:0.8rem;font-weight:600;">SLS</span></div>'
-        + '<div style="font-size:0.78rem;color:#ff6b6b;margin-top:4px;">-' + fee.toFixed(2) + ' SLS (anchor fee)</div>';
+    toast.innerHTML = '<div style="font-weight:700;color:#c9a84c;margin-bottom:6px;font-size:0.8rem;text-transform:uppercase;letter-spacing:0.5px"><i class="fas fa-coins" style="margin-right:6px"></i>Credit Balance Updated</div>'
+        + '<div style="font-size:1.4rem;font-weight:800;color:#c9a84c;">' + newBalance + ' <span style="font-size:0.8rem;font-weight:600;">Credits</span></div>'
+        + '<div style="font-size:0.78rem;color:#ff6b6b;margin-top:4px;">-' + fee.toFixed(2) + ' Credits (anchor fee)</div>';
     document.body.appendChild(toast);
     setTimeout(function() {
         toast.style.animation = 'slsToastOut 0.4s ease-in forwards';
@@ -239,9 +239,9 @@ function _syncSlsBar() {
     var spentEl = document.getElementById('slsBarSpent');
     var planEl = document.getElementById('slsBarPlan');
     
-    if (balEl) { balEl.textContent = remaining.toLocaleString(undefined,{maximumFractionDigits:2}) + ' SLS'; balEl.style.color = remaining < 100 ? '#ff3333' : '#c9a84c'; }
+    if (balEl) { balEl.textContent = remaining.toLocaleString(undefined,{maximumFractionDigits:2}) + ' Credits'; balEl.style.color = remaining < 100 ? '#ff3333' : '#c9a84c'; }
     if (anchorsEl) anchorsEl.textContent = stats.anchored || 0;
-    if (spentEl) spentEl.textContent = (spent).toFixed(2) + ' SLS';
+    if (spentEl) spentEl.textContent = (spent).toFixed(2) + ' Credits';
     if (planEl) planEl.textContent = plan;
     // Also sync wallet tab SLS balance in demo mode
     var walletSlsEl = document.getElementById('walletSLSBalance');
@@ -712,7 +712,7 @@ function showAnchorAnimation(hash, typeLabel, clfLevel) {
     if (clfDiv) {
         clfDiv.innerHTML = '<span style="padding:4px 14px;border-radius:3px;font-size:0.85rem;font-weight:800;letter-spacing:0.5px;color:' + meta.color + ';border:1px solid ' + meta.color + '30;background:' + meta.color + '15">' + '<i class="fas ' + meta.icon + '" style="margin-right:4px"></i>' + meta.label + '</span>';
     }
-    document.getElementById('animFee').innerHTML = '0.01 $SLS &rarr; Treasury';
+    document.getElementById('animFee').innerHTML = '0.01 Credits &rarr; Treasury';
     overlay.style.display = 'flex';
     setTimeout(() => {
         document.getElementById('animStatus').innerHTML = '<i class="fas fa-check-circle" style="color:#00aaff"></i> ' + typeLabel + ' Anchored!';
@@ -760,7 +760,7 @@ async function _initDemoSession() {
                 banner.style.display = 'none';
                 banner.innerHTML = '<i class="fas fa-shield-halved" style="color:#00aaff;margin-right:6px;"></i> <strong style="color:#fff;">S4 Ledger</strong> &mdash; '
                     + (data.subscription?.label || 'Starter') + ' plan &bull; '
-                    + 'Per-anchor fee: 0.01 $SLS (real on-chain) &bull; '
+                    + 'Per-anchor fee: 0.01 Credits (real on-chain) &bull; '
                     + '<span style="color:#00aaff">rYourOrg...Prod</span> '
                     + '&bull; <span style="text-decoration:underline;cursor:pointer">&#9660; View Details</span>';
             }
@@ -802,7 +802,7 @@ function _showDemoOffline() {
             + '<div><span style="color:var(--steel)">Session:</span> <span style="color:#fff">demo_offline_' + Date.now().toString(36) + '</span></div>'
             + '<div><span style="color:var(--steel)">Wallet:</span> <span style="color:#c9a84c;font-family:monospace;font-size:0.72rem">rDemo...Offline</span></div>'
             + '<div><span style="color:var(--steel)">XRP Balance:</span> <span style="color:var(--green)">12.000000 XRP</span></div>'
-            + '<div><span style="color:var(--steel)">SLS Balance:</span> <span style="color:var(--gold)">' + _tierData.sls.toLocaleString() + ' SLS</span></div>'
+            + '<div><span style="color:var(--steel)">Credits Balance:</span> <span style="color:var(--gold)">' + _tierData.sls.toLocaleString() + ' Credits</span></div>'
             + '</div>';
     }
     // Set a local demo session so AI agent works
@@ -829,7 +829,7 @@ function _animateDemoSteps(data) {
         const s3s = document.getElementById('demoStep3Status');
         if (s3) { s3.style.borderColor = 'rgba(201,168,76,0.6)'; s3.style.background = 'rgba(201,168,76,0.12)'; }
         const alloc = data.subscription?.sls_allocation?.toLocaleString() || ((typeof _onboardTiers !== 'undefined' && typeof _onboardTier !== 'undefined' && _onboardTiers[_onboardTier]) ? _onboardTiers[_onboardTier].sls.toLocaleString() : '25,000');
-        if (s3s) { s3s.innerHTML = '<i class="fas fa-check" style="color:#00aaff;margin-right:3px;"></i> ' + alloc + ' SLS'; s3s.style.color = '#c9a84c'; }
+        if (s3s) { s3s.innerHTML = '<i class="fas fa-check" style="color:#00aaff;margin-right:3px;"></i> ' + alloc + ' Credits'; s3s.style.color = '#c9a84c'; }
     }, 1300);
     setTimeout(() => {
         const s4 = document.getElementById('demoStep4');
@@ -847,7 +847,7 @@ function _animateDemoSteps(data) {
         if (sid) sid.textContent = (data.session_id || '').substring(0, 12) + '...';
         if (wal) wal.textContent = 'rYourOrg...Prod';
         if (plan) plan.textContent = data.subscription?.label || 'Starter';
-        if (bal) bal.textContent = (data.subscription?.sls_allocation?.toLocaleString() || ((typeof _onboardTiers !== 'undefined' && typeof _onboardTier !== 'undefined' && _onboardTiers[_onboardTier]) ? _onboardTiers[_onboardTier].sls.toLocaleString() : '25,000')) + ' SLS';
+        if (bal) bal.textContent = (data.subscription?.sls_allocation?.toLocaleString() || ((typeof _onboardTiers !== 'undefined' && typeof _onboardTier !== 'undefined' && _onboardTiers[_onboardTier]) ? _onboardTiers[_onboardTier].sls.toLocaleString() : '25,000')) + ' Credits';
         // Initialize status bar
         _updateDemoSlsBalance();
     }, 2200);
@@ -861,11 +861,11 @@ async function _checkDemoStatus() {
         if (resp.ok) {
             const data = await resp.json();
             const bal = document.getElementById('demoSlsBalance');
-            if (bal) bal.textContent = (data.sls_balance?.toLocaleString() || '') + ' SLS';
+            if (bal) bal.textContent = (data.sls_balance?.toLocaleString() || '') + ' Credits';
             const s4s = document.getElementById('demoStep4Status');
             const anchors = data.anchors_used || 0;
             if (s4s && anchors > 0) {
-                s4s.innerHTML = '<i class="fas fa-check" style="color:#00aaff;margin-right:3px;"></i> ' + anchors + ' anchor' + (anchors > 1 ? 's' : '') + ' (' + (anchors * 0.01).toFixed(2) + ' SLS)';
+                s4s.innerHTML = '<i class="fas fa-check" style="color:#00aaff;margin-right:3px;"></i> ' + anchors + ' anchor' + (anchors > 1 ? 's' : '') + ' (' + (anchors * 0.01).toFixed(2) + ' Credits)';
             }
         }
     } catch(e) { console.warn('Demo status check failed:', e); }
@@ -933,9 +933,9 @@ async function _anchorToXRPL(hash, record_type, content_preview) {
     }
     if (feeError) {
         console.warn('SLS fee deduction failed:', feeError);
-        if (typeof _showNotif === 'function') _showNotif('SLS fee issue: ' + feeError, 'warning');
+        if (typeof _showNotif === 'function') _showNotif('Credit fee issue: ' + feeError, 'warning');
     } else if (feeTxHash) {
-        if (typeof _showNotif === 'function') _showNotif('0.01 SLS fee paid \u2714 TX: ' + feeTxHash.substring(0,16) + '\u2026', 'success');
+        if (typeof _showNotif === 'function') _showNotif('0.01 Credits fee paid \u2714 TX: ' + feeTxHash.substring(0,16) + '\u2026', 'success');
     }
     // Auto-update SLS balance display after every anchor
     if (typeof _updateDemoSlsBalance === 'function') try { _updateDemoSlsBalance(); } catch(e) {}
@@ -988,7 +988,7 @@ async function anchorRecord() {
     var s4el = document.getElementById('demoStep4');
     var s4s = document.getElementById('demoStep4Status');
     if (s4el) { s4el.style.boxShadow = '0 0 20px rgba(0,170,255,0.4)'; setTimeout(function(){ s4el.style.boxShadow = 'none'; }, 2000); }
-    if (s4s) { s4s.innerHTML = '<i class="fas fa-bolt" style="color:#00aaff;margin-right:3px;"></i> ' + stats.anchored + ' anchor' + (stats.anchored > 1 ? 's' : '') + ' (' + stats.slsFees.toFixed(2) + ' SLS)'; }
+    if (s4s) { s4s.innerHTML = '<i class="fas fa-bolt" style="color:#00aaff;margin-right:3px;"></i> ' + stats.anchored + ' anchor' + (stats.anchored > 1 ? 's' : '') + ' (' + stats.slsFees.toFixed(2) + ' Credits)'; }
     // Auto-update demo SLS balance display
     _updateDemoSlsBalance();
     // Flash visible toast showing new balance
@@ -1009,10 +1009,10 @@ async function anchorRecord() {
             + '<div class="result-label">NETWORK</div><div style="margin-bottom:0.5rem">' + (network === 'mainnet' ? '<span style="color:#00aaff;font-weight:700"><i class="fas fa-globe" style="margin-right:4px"></i>XRPL Mainnet</span>' : '<span style="color:var(--muted)">' + (network||'Pending') + '</span>') + '</div>'
         + '<div class="result-label">SYSTEM</div><div style="margin-bottom:0.5rem">' + (typeInfo.system||'N/A') + '</div>'
         + '<div class="result-label">ENCRYPTED</div><div style="margin-bottom:0.5rem">' + (encrypt ? '<i class="fas fa-lock" style="color:var(--accent)"></i> Yes (CUI protected)' : '\uD83D\uDD13 No (plaintext hash)') + '</div>'
-        + '<div class="result-label">$SLS FEE</div><div>'
-        + (feeTxHash ? '0.01 $SLS <span style="color:var(--green)">&#x2713; Paid</span> &mdash; <a href="https://livenet.xrpl.org/transactions/' + feeTxHash + '" target="_blank" rel="noopener" style="color:var(--accent);font-size:0.78rem">' + feeTxHash.substring(0,16) + '&hellip; <i class="fas fa-external-link-alt" style="font-size:0.65rem"></i></a>'
-          : feeError ? '<span style="color:var(--warning)">0.01 $SLS &mdash; Fee failed: ' + feeError + '</span>'
-          : '0.01 $SLS from your account &rarr; S4 Treasury') + '</div>';
+        + '<div class="result-label">CREDIT FEE</div><div>'
+        + (feeTxHash ? '0.01 Credits <span style="color:var(--green)">&#x2713; Paid</span> &mdash; <a href="https://livenet.xrpl.org/transactions/' + feeTxHash + '" target="_blank" rel="noopener" style="color:var(--accent);font-size:0.78rem">' + feeTxHash.substring(0,16) + '&hellip; <i class="fas fa-external-link-alt" style="font-size:0.65rem"></i></a>'
+          : feeError ? '<span style="color:var(--warning)">0.01 Credits &mdash; Fee failed: ' + feeError + '</span>'
+          : '0.01 Credits from your account &rarr; S4 Treasury') + '</div>';
     panel.classList.add('show');
     updateTxLog();
     btn.disabled = false;
@@ -3894,7 +3894,7 @@ async function anchorILSReport() {
         + '<div class="result-label">TX HASH</div><div style="color:var(--muted);margin-bottom:0.5rem;word-break:break-all">' + txHash + '</div>'
         + '<div class="result-label">PROGRAM</div><div style="margin-bottom:0.5rem">' + ilsResults.prog.name + (ilsResults.hull?' ('+ilsResults.hull+')':'') + '</div>'
         + '<div class="result-label">READINESS</div><div style="margin-bottom:0.5rem;color:'+(ilsResults.pct>=80?'var(--green)':ilsResults.pct>=50?'#ffa500':'var(--red)')+';font-weight:700">' + ilsResults.pct + '%</div>'
-        + '<div class="result-label">$SLS FEE</div><div>0.01 $SLS from your account \u2192 S4 Treasury</div>'
+        + '<div class="result-label">CREDIT FEE</div><div>0.01 Credits from your account \u2192 S4 Treasury</div>'
         + '<div style="margin-top:0.8rem;font-size:0.82rem;color:var(--muted)">This hash is now immutably recorded on the XRP Ledger. Anyone with the original data can verify its integrity.</div>';
     panel.classList.add('show');
     showPostActions();
@@ -4180,24 +4180,24 @@ function generateAiResponse(query) {
     if (/what.*mode|am i in.*mode|how.*work/.test(q)) {
         var demoInfo = '';
         if (_demoMode && _demoSession) {
-            demoInfo += 'Your account has <strong style="color:#c9a84c">' + (_demoSession.sls_balance || '25,000') + ' SLS</strong> allocated. Each anchor costs 0.01 SLS, which is transferred to the S4 Treasury on the XRP Ledger.';
+            demoInfo += 'Your account has <strong style="color:#c9a84c">' + (_demoSession.sls_balance || '25,000') + ' Credits</strong> allocated. Each anchor costs 0.01 Credits, which is transferred to the S4 Treasury on the XRP Ledger.';
         }
         return demoInfo + '\n\nYou can anchor records, verify hashes, and explore the full Anchor-S4 workspace. Each anchor creates a permanent, verifiable entry on the XRP Ledger.';
     }
     if (/sls token|what is sls|sls price|token price|how much/.test(q)) {
-        return '**$SLS (Secure Logistics Standard)** is the utility token for S4 Ledger:\n\n• **Price:** $0.01 per SLS\n• **Anchor cost:** 0.01 SLS per record (~$0.0001)\n• **Tiers:** Pilot (free/100 SLS), Starter ($999/25K SLS), Professional ($2,499/100K SLS), Enterprise ($9,999/500K SLS)\n• **Issuer:** `r95GyZac4butvVcsTWUPpxzekmyzaHsTA5`\n• **Trade on:** [xMagnetic](https://xmagnetic.org/tokens/SLS+r95GyZac4butvVcsTWUPpxzekmyzaHsTA5)';
+        return '**Credits (SLS — Secure Logistics Standard)** is the utility token for S4 Ledger:\n\n• **Price:** $0.01 per Credit\n• **Anchor cost:** 0.01 Credits per record (~$0.0001)\n• **Tiers:** Pilot (free/100 Credits), Starter ($999/25K Credits), Professional ($2,499/100K Credits), Enterprise ($9,999/500K Credits)\n• **Issuer:** `r95GyZac4butvVcsTWUPpxzekmyzaHsTA5`\n• **Trade on:** [xMagnetic](https://xmagnetic.org/tokens/SLS+r95GyZac4butvVcsTWUPpxzekmyzaHsTA5)';
     }
     if (/how.*(anchor|hash)|what.*anchor|explain.*anchor/.test(q)) {
-        return '**How Anchoring Works:**\n\n1. **Enter/upload** your document or data\n2. **SHA-256 hash** is generated (no data leaves your system)\n3. **Hash is anchored** to the XRP Ledger as a Memo in an AccountSet transaction\n4. **Confirmation** in 3-5 seconds with XRPL transaction hash\n5. **Anyone can verify** by re-hashing the original and comparing\n\nCost: 0.01 SLS + ~$0.001 XRPL fee. Go to the **Anchor** tab to try it!';
+        return '**How Anchoring Works:**\n\n1. **Enter/upload** your document or data\n2. **SHA-256 hash** is generated (no data leaves your system)\n3. **Hash is anchored** to the XRP Ledger as a Memo in an AccountSet transaction\n4. **Confirmation** in 3-5 seconds with XRPL transaction hash\n5. **Anyone can verify** by re-hashing the original and comparing\n\nCost: 0.01 Credits + ~$0.001 XRPL fee. Go to the **Anchor** tab to try it!';
     }
     if (/how.*verify|verification|tamper|integrity/.test(q)) {
         return '**How Verification Works:**\n\n1. Paste your original data or upload the file\n2. S4 re-computes the SHA-256 hash\n3. Compares against the XRPL-anchored hash\n4. Returns **match** (✓ integrity confirmed) or **tamper detected** (⚠ mismatch)\n\nVerification is free and can be done by anyone with the original data. Go to the **Verify** tab to try it!';
     }
     if (/pricing|subscription|cost|plan|tier/.test(q)) {
-        return '**S4 Ledger Pricing:**\n\n| Tier | Price | SLS Included |\n|---|---|---|\n| Pilot | Free | 100 SLS |\n| Starter | $999/mo | 25,000 SLS |\n| Professional | $2,499/mo | 100,000 SLS |\n| Enterprise | $9,999/mo | 500,000 SLS |\n\nAll tiers include full API access, 156+ record types, and ILS tools. Enterprise adds SSO, dedicated support, and custom integrations.';
+        return '**S4 Ledger Pricing:**\n\n| Tier | Price | Credits Included |\n|---|---|---|\n| Pilot | Free | 100 Credits |\n| Starter | $999/mo | 25,000 Credits |\n| Professional | $2,499/mo | 100,000 Credits |\n| Enterprise | $9,999/mo | 500,000 Credits |\n\nAll tiers include full API access, 156+ record types, and ILS tools. Enterprise adds SSO, dedicated support, and custom integrations.';
     }
     if (/what is s4|about s4|platform|overview|what can you do|capabilities/.test(q)) {
-        return '**S4 Ledger** — Immutable Defense Logistics on the XRP Ledger\n\n• **63 REST API endpoints** for anchoring, verification, ILS, AI, and security\n• **156+ record types** across 9 military branches\n• **20+ ILS tools** (DMSMS, readiness, supply chain risk, digital thread, etc.)\n• **AI-powered** logistics intelligence with audit trails\n• **$SLS token** economy — $0.01/SLS, 0.01 SLS per anchor\n• **XRPL Mainnet** — 3-5 second finality, 99.99% uptime\n• **Python SDK** with 38+ functions + REST API\n\nAsk me about any specific feature!';
+        return '**S4 Ledger** — Immutable Defense Logistics on the XRP Ledger\n\n• **63 REST API endpoints** for anchoring, verification, ILS, AI, and security\n• **156+ record types** across 9 military branches\n• **20+ ILS tools** (DMSMS, readiness, supply chain risk, digital thread, etc.)\n• **AI-powered** logistics intelligence with audit trails\n• **Credits** economy — $0.01/Credit, 0.01 Credits per anchor\n• **XRPL Mainnet** — 3-5 second finality, 99.99% uptime\n• **Python SDK** with 38+ functions + REST API\n\nAsk me about any specific feature!';
     }
     const r = ilsResults;
     // AI Agent operates in full production mode
@@ -4258,23 +4258,23 @@ function generateAiResponse(query) {
     if (/di-?\d+|di number/.test(q)) return explainDINumber(q);
 
     // ── S4 LEDGER PRODUCT ──
-    if (/what is s4|what.*s4 ledger|tell.*about s4|explain s4/.test(q)) return '<strong>S4 Ledger</strong> \u2014 Secure Logistics Standard<br><br>S4 Ledger is a blockchain-verified Integrated Logistics Support (ILS) platform built for defense organizations. It provides:<br><br>\u2022 <strong>20+ ILS tools</strong> covering all 12 ILS elements per GEIA-STD-0007 / MIL-HDBK-502<br>\u2022 <strong>XRPL blockchain anchoring</strong> \u2014 every record gets a tamper-proof SHA-256 hash on the XRP Ledger<br>\u2022 <strong>$SLS utility token</strong> \u2014 $0.01 per anchor, purchased automatically via USD\u2192XRP\u2192SLS<br>\u2022 <strong>AI Agent</strong> \u2014 context-aware analysis across all tools<br>\u2022 <strong>54+ Navy record types</strong> for Navy programs<br>\u2022 <strong>Compliance scoring</strong> for CMMC, NIST 800-171, DFARS, FAR 46<br><br>S4 replaces legacy tools like ICAPS, COMPASS, and spreadsheet-based tracking with a single, auditable platform.';
+    if (/what is s4|what.*s4 ledger|tell.*about s4|explain s4/.test(q)) return '<strong>S4 Ledger</strong> \u2014 Secure Logistics Standard<br><br>S4 Ledger is a blockchain-verified Integrated Logistics Support (ILS) platform built for defense organizations. It provides:<br><br>\u2022 <strong>20+ ILS tools</strong> covering all 12 ILS elements per GEIA-STD-0007 / MIL-HDBK-502<br>\u2022 <strong>XRPL blockchain anchoring</strong> \u2014 every record gets a tamper-proof SHA-256 hash on the XRP Ledger<br>\u2022 <strong>Credits utility token</strong> \u2014 $0.01 per anchor, purchased automatically via USD\u2192XRP\u2192Credits<br>\u2022 <strong>AI Agent</strong> \u2014 context-aware analysis across all tools<br>\u2022 <strong>54+ Navy record types</strong> for Navy programs<br>\u2022 <strong>Compliance scoring</strong> for CMMC, NIST 800-171, DFARS, FAR 46<br><br>S4 replaces legacy tools like ICAPS, COMPASS, and spreadsheet-based tracking with a single, auditable platform.';
 
-    if (/how.*work|how.*anchor|how.*hash|how.*blockchain/.test(q)) return '<strong>How S4 Ledger Works:</strong><br><br>1. <strong>Upload or create a record</strong> \u2014 any ILS document, analysis, or data point<br>2. <strong>SHA-256 hash computed</strong> \u2014 a unique 64-character fingerprint of the content<br>3. <strong>Hash anchored to XRPL</strong> \u2014 written as a Memo on an XRP Ledger transaction<br>4. <strong>Transaction verified</strong> \u2014 XRPL validates within 3-5 seconds at ~$0.001 tx fee<br>5. <strong>SLS fee applied</strong> \u2014 0.01 SLS ($0.01) per anchor for network access<br><br>The original data stays on your device (never sent to blockchain). Only the hash is anchored. Anyone can independently verify a record by recomputing the hash and checking the XRPL transaction.<br><br><strong>Result:</strong> Tamper-proof, independently verifiable audit trail \u2014 1,500x cheaper than legacy verification.';
+    if (/how.*work|how.*anchor|how.*hash|how.*blockchain/.test(q)) return '<strong>How S4 Ledger Works:</strong><br><br>1. <strong>Upload or create a record</strong> \u2014 any ILS document, analysis, or data point<br>2. <strong>SHA-256 hash computed</strong> \u2014 a unique 64-character fingerprint of the content<br>3. <strong>Hash anchored to XRPL</strong> \u2014 written as a Memo on an XRP Ledger transaction<br>4. <strong>Transaction verified</strong> \u2014 XRPL validates within 3-5 seconds at ~$0.001 tx fee<br>5. <strong>Credit fee applied</strong> \u2014 0.01 Credits ($0.01) per anchor for network access<br><br>The original data stays on your device (never sent to blockchain). Only the hash is anchored. Anyone can independently verify a record by recomputing the hash and checking the XRPL transaction.<br><br><strong>Result:</strong> Tamper-proof, independently verifiable audit trail \u2014 1,500x cheaper than legacy verification.';
 
     // ── PRICING ──
-    if (/pricing|price|cost|subscription|plan|tier|how much/.test(q)) return '<strong>S4 Ledger Subscription Plans:</strong><br><br><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:0.85rem"><div style="padding:8px;border:1px solid rgba(0,170,255,0.2);border-radius:3px"><strong style="color:#00aaff">Pilot (Free)</strong><br>100 SLS/mo<br>10,000 anchors<br>All 20+ tools</div><div style="padding:8px;border:1px solid rgba(0,170,255,0.3);border-radius:3px"><strong style="color:#00aaff">Starter ($999/mo)</strong><br>25,000 SLS/mo<br>2.5M anchors<br>Full SDK + API</div><div style="padding:8px;border:1px solid rgba(0,170,255,0.15);border-radius:3px"><strong style="color:#00aaff">Professional ($2,499/mo)</strong><br>100,000 SLS/mo<br>10M anchors<br>Priority support</div><div style="padding:8px;border:1px solid rgba(0,170,255,0.15);border-radius:3px"><strong style="color:#00aaff">Enterprise ($9,999/mo)</strong><br>500,000 SLS/mo<br>Unlimited anchors<br>Dedicated support + SLA</div></div><br>Every plan includes automatic XRPL wallet provisioning + SLS TrustLine setup. $0.01 SLS per anchor.';
+    if (/pricing|price|cost|subscription|plan|tier|how much/.test(q)) return '<strong>S4 Ledger Subscription Plans:</strong><br><br><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:0.85rem"><div style="padding:8px;border:1px solid rgba(0,170,255,0.2);border-radius:3px"><strong style="color:#00aaff">Pilot (Free)</strong><br>100 Credits/mo<br>10,000 anchors<br>All 20+ tools</div><div style="padding:8px;border:1px solid rgba(0,170,255,0.3);border-radius:3px"><strong style="color:#00aaff">Starter ($999/mo)</strong><br>25,000 Credits/mo<br>2.5M anchors<br>Full SDK + API</div><div style="padding:8px;border:1px solid rgba(0,170,255,0.15);border-radius:3px"><strong style="color:#00aaff">Professional ($2,499/mo)</strong><br>100,000 Credits/mo<br>10M anchors<br>Priority support</div><div style="padding:8px;border:1px solid rgba(0,170,255,0.15);border-radius:3px"><strong style="color:#00aaff">Enterprise ($9,999/mo)</strong><br>500,000 Credits/mo<br>Unlimited anchors<br>Dedicated support + SLA</div></div><br>Every plan includes automatic XRPL wallet provisioning + Credits TrustLine setup. $0.01 Credits per anchor.';
 
     // ── WALLETS & SLS ──
-    if (/wallet|xrpl.*wallet|seed|family.*seed|trustline|trust.*line/.test(q)) return '<strong>XRPL Wallet & TrustLine Setup</strong><br><br>When you subscribe, S4 automatically:<br><br>1. <strong>Generates a secp256k1 wallet</strong> \u2014 your unique XRPL address + family seed (secret key)<br>2. <strong>Funds with XRP</strong> \u2014 covers the 12 XRP account reserve + TrustLine reserve<br>3. <strong>Sets up SLS TrustLine</strong> \u2014 pointed at the SLS issuer (<code>r95GyZac4butvVcsTWUPpxzekmyzaHsTA5</code>)<br>4. <strong>SLS delivered</strong> \u2014 from the Treasury wallet to your wallet<br><br><strong>Important:</strong><br>\u2022 TrustLines go to the <strong>SLS issuer</strong> (r95...) \u2014 this is the wallet that created the SLS token<br>\u2022 SLS is delivered from the <strong>Treasury</strong> (rMLm...) \u2014 this holds the circulating supply<br>\u2022 Your family seed is the ONLY way to access your wallet \u2014 save it securely<br>\u2022 Compatible with <strong>Xaman</strong> (formerly XUMM) for mobile wallet management';
+    if (/wallet|xrpl.*wallet|seed|family.*seed|trustline|trust.*line/.test(q)) return '<strong>XRPL Wallet & TrustLine Setup</strong><br><br>When you subscribe, S4 automatically:<br><br>1. <strong>Generates a secp256k1 wallet</strong> \u2014 your unique XRPL address + family seed (secret key)<br>2. <strong>Funds with XRP</strong> \u2014 covers the 12 XRP account reserve + TrustLine reserve<br>3. <strong>Sets up Credits TrustLine</strong> \u2014 pointed at the Credits issuer (<code>r95GyZac4butvVcsTWUPpxzekmyzaHsTA5</code>)<br>4. <strong>Credits delivered</strong> \u2014 from the Treasury wallet to your wallet<br><br><strong>Important:</strong><br>\u2022 TrustLines go to the <strong>Credits issuer</strong> (r95...) \u2014 this is the wallet that created the Credits token (SLS on XRPL)<br>\u2022 Credits are delivered from the <strong>Treasury</strong> (rMLm...) \u2014 this holds the circulating supply<br>\u2022 Your family seed is the ONLY way to access your wallet \u2014 save it securely<br>\u2022 Compatible with <strong>Xaman</strong> (formerly XUMM) for mobile wallet management';
 
-    if (/sls.*token|what.*sls|\$sls|sls.*price|token.*economics|tokenomics/.test(q)) return '<strong>$SLS \u2014 Secure Logistics Standard Token</strong><br><br>\u2022 <strong>Type:</strong> XRPL issued currency (utility token)<br>\u2022 <strong>Price:</strong> $0.01 per SLS<br>\u2022 <strong>Usage:</strong> 0.01 SLS per anchor (~$0.0001)<br>\u2022 <strong>Total Supply:</strong> 100,000,000 SLS<br>\u2022 <strong>Issuer:</strong> <code>r95GyZac4butvVcsTWUPpxzekmyzaHsTA5</code><br>\u2022 <strong>Treasury:</strong> <code>rMLmkrxpadq5z6oTDmq8GhQj9LKjf1KLqJ</code><br><br><strong>Distribution:</strong><br>\u2022 60% Public/Community (60M)<br>\u2022 15% Ecosystem & Grants (15M)<br>\u2022 15% Team & Founders (12-mo cliff + 24-mo vest)<br>\u2022 10% Strategic Reserves (DAO-governed)<br><br><strong>How users get SLS:</strong> USD \u2192 XRP on exchange \u2192 SLS on XRPL DEX. Fully automated \u2014 users never touch crypto directly.';
+    if (/sls.*token|what.*sls|\$sls|sls.*price|token.*economics|tokenomics/.test(q)) return '<strong>Credits \u2014 SLS (Secure Logistics Standard)</strong><br><br>\u2022 <strong>Type:</strong> XRPL issued currency (utility token)<br>\u2022 <strong>Price:</strong> $0.01 per Credit<br>\u2022 <strong>Usage:</strong> 0.01 Credits per anchor (~$0.0001)<br>\u2022 <strong>Total Supply:</strong> 100,000,000 Credits<br>\u2022 <strong>Issuer:</strong> <code>r95GyZac4butvVcsTWUPpxzekmyzaHsTA5</code><br>\u2022 <strong>Treasury:</strong> <code>rMLmkrxpadq5z6oTDmq8GhQj9LKjf1KLqJ</code><br><br><strong>Distribution:</strong><br>\u2022 60% Public/Community (60M)<br>\u2022 15% Ecosystem & Grants (15M)<br>\u2022 15% Team & Founders (12-mo cliff + 24-mo vest)<br>\u2022 10% Strategic Reserves (DAO-governed)<br><br><strong>How users get Credits:</strong> USD \u2192 XRP on exchange \u2192 Credits on XRPL DEX. Fully automated \u2014 users never touch crypto directly.';
 
-    if (/treasury|treasury.*wallet/.test(q)) return '<strong>Treasury Wallet</strong><br><br>\u2022 <strong>Address:</strong> <code>rMLmkrxpadq5z6oTDmq8GhQj9LKjf1KLqJ</code><br>\u2022 <strong>Purpose:</strong> Holds the circulating supply of $SLS and distributes tokens to subscribers<br>\u2022 <strong>Flow:</strong> When a user subscribes, S4 purchases SLS on the XRPL DEX and delivers it from the Treasury to the user\'s wallet<br><br><strong>Note:</strong> The Treasury wallet is <em>not</em> the SLS issuer. The issuer is <code>r95GyZac4butvVcsTWUPpxzekmyzaHsTA5</code> \u2014 that\'s the wallet that created the SLS token on XRPL. TrustLines are pointed at the issuer, but SLS is delivered from the Treasury.';
+    if (/treasury|treasury.*wallet/.test(q)) return '<strong>Treasury Wallet</strong><br><br>\u2022 <strong>Address:</strong> <code>rMLmkrxpadq5z6oTDmq8GhQj9LKjf1KLqJ</code><br>\u2022 <strong>Purpose:</strong> Holds the circulating supply of Credits and distributes tokens to subscribers<br>\u2022 <strong>Flow:</strong> When a user subscribes, S4 purchases Credits on the XRPL DEX and delivers them from the Treasury to the user\'s wallet<br><br><strong>Note:</strong> The Treasury wallet is <em>not</em> the Credits issuer. The issuer is <code>r95GyZac4butvVcsTWUPpxzekmyzaHsTA5</code> \u2014 that\'s the wallet that created the Credits token (SLS on XRPL). TrustLines are pointed at the issuer, but Credits are delivered from the Treasury.';
 
-    if (/issuer|issuer.*wallet|who.*issued|who.*created.*sls/.test(q)) return '<strong>SLS Issuer Wallet</strong><br><br>\u2022 <strong>Address:</strong> <code>r95GyZac4butvVcsTWUPpxzekmyzaHsTA5</code><br>\u2022 <strong>Purpose:</strong> The original issuer of the $SLS token on the XRP Ledger<br>\u2022 <strong>TrustLines:</strong> All SLS holders set their TrustLine to this address<br><br>The issuer wallet is separate from the Treasury wallet (<code>rMLm...</code>). The issuer created the token; the Treasury holds and distributes the circulating supply.';
+    if (/issuer|issuer.*wallet|who.*issued|who.*created.*sls/.test(q)) return '<strong>Credits Issuer Wallet</strong><br><br>\u2022 <strong>Address:</strong> <code>r95GyZac4butvVcsTWUPpxzekmyzaHsTA5</code><br>\u2022 <strong>Purpose:</strong> The original issuer of the Credits token (SLS) on the XRP Ledger<br>\u2022 <strong>TrustLines:</strong> All Credits holders set their TrustLine to this address<br><br>The issuer wallet is separate from the Treasury wallet (<code>rMLm...</code>). The issuer created the token; the Treasury holds and distributes the circulating supply.';
 
-    if (/xrp.*ledger|what.*xrpl|why.*xrpl|which.*blockchain/.test(q)) return '<strong>Why XRPL (XRP Ledger)?</strong><br><br>S4 Ledger uses the XRP Ledger because it\'s:<br><br>\u2022 <strong>Fast:</strong> 3-5 second transaction finality<br>\u2022 <strong>Cheap:</strong> ~$0.001 per transaction (drops)<br>\u2022 <strong>Energy efficient:</strong> No mining \u2014 uses federated consensus<br>\u2022 <strong>Built-in DEX:</strong> Native token exchange for SLS liquidity<br>\u2022 <strong>Issued currencies:</strong> Native support for custom tokens like $SLS<br>\u2022 <strong>TrustLines:</strong> Controlled token distribution<br>\u2022 <strong>Battle-tested:</strong> Operating since 2012, used by 150+ financial institutions<br><br>XRPL\'s low transaction cost makes it practical for micro-anchoring \u2014 1,500x cheaper than traditional verification methods.';
+    if (/xrp.*ledger|what.*xrpl|why.*xrpl|which.*blockchain/.test(q)) return '<strong>Why XRPL (XRP Ledger)?</strong><br><br>S4 Ledger uses the XRP Ledger because it\'s:<br><br>\u2022 <strong>Fast:</strong> 3-5 second transaction finality<br>\u2022 <strong>Cheap:</strong> ~$0.001 per transaction (drops)<br>\u2022 <strong>Energy efficient:</strong> No mining \u2014 uses federated consensus<br>\u2022 <strong>Built-in DEX:</strong> Native token exchange for Credits liquidity<br>\u2022 <strong>Issued currencies:</strong> Native support for custom tokens like Credits<br>\u2022 <strong>TrustLines:</strong> Controlled token distribution<br>\u2022 <strong>Battle-tested:</strong> Operating since 2012, used by 150+ financial institutions<br><br>XRPL\'s low transaction cost makes it practical for micro-anchoring \u2014 1,500x cheaper than traditional verification methods.';
 
     // ── ILS TOOLS (20+ tools) ──
     if (/gap.*analysis|upload.*doc|run.*analysis|how.*analysis|ils.*analysis/.test(q)) return '<strong>ILS Gap Analysis</strong><br><br>The core analysis tool evaluates your ILS package against GEIA-STD-0007 (formerly MIL-STD-1388) requirements:<br><br>1. <strong>Upload documents</strong> \u2014 PDFs, Word, Excel, CSV, text files<br>2. <strong>Auto-detection</strong> \u2014 identifies document types (LCSP, LSAR, PHS&T, DMSMS plans, etc.)<br>3. <strong>Full analysis</strong> \u2014 checks DRL coverage, checklist completion, 12 ILS elements<br>4. <strong>Findings engine</strong> \u2014 auto-detects data quality issues, missing requirements, discrepancies<br>5. <strong>Action items</strong> \u2014 generates prioritized actions with cost/schedule estimates<br><br>Supports <strong>462 defense programs</strong> for Navy programs. Results can be anchored to XRPL for audit purposes.<br><br><strong>Try it:</strong> Click "Load Full ILS Package" to see a complete demo analysis.';
@@ -4340,21 +4340,21 @@ function generateAiResponse(query) {
 
     if (/encrypt|aes|security|data.*protect|secure.*record/.test(q)) return '<strong>Record Encryption</strong><br><br>S4 Ledger supports AES-256 encryption for sensitive records:<br><br>\u2022 <strong>Toggle encryption</strong> \u2014 enable per-record encryption before anchoring<br>\u2022 <strong>AES-256-GCM</strong> \u2014 military-grade symmetric encryption<br>\u2022 <strong>Client-side</strong> \u2014 encryption happens in your browser, never on the server<br>\u2022 <strong>Hash still verifiable</strong> \u2014 the SHA-256 hash is of the encrypted content<br>\u2022 <strong>Key management</strong> \u2014 you control the encryption key<br><br>CUI records should always be encrypted before anchoring to meet NIST 800-171 and DFARS requirements.';
 
-    if (/xaman|xumm|mobile.*wallet|import.*seed/.test(q)) return '<strong>Xaman (XUMM) Wallet Integration</strong><br><br>Your S4 Ledger wallet is <strong>Xaman-compatible</strong>:<br><br>1. Download <strong>Xaman</strong> from App Store / Google Play<br>2. Tap "Add Account" \u2192 "Import Existing Account"<br>3. Enter your <strong>family seed</strong> (from your wallet credentials file)<br>4. Your SLS balance, TrustLine, and transaction history will appear<br><br><strong>Note:</strong> Xaman uses the same secp256k1 key format as S4 Ledger. Your wallet works identically on both platforms.';
+    if (/xaman|xumm|mobile.*wallet|import.*seed/.test(q)) return '<strong>Xaman (XUMM) Wallet Integration</strong><br><br>Your S4 Ledger wallet is <strong>Xaman-compatible</strong>:<br><br>1. Download <strong>Xaman</strong> from App Store / Google Play<br>2. Tap "Add Account" \u2192 "Import Existing Account"<br>3. Enter your <strong>family seed</strong> (from your wallet credentials file)<br>4. Your Credits balance, TrustLine, and transaction history will appear<br><br><strong>Note:</strong> Xaman uses the same secp256k1 key format as S4 Ledger. Your wallet works identically on both platforms.';
 
     if (/sdk|api|developer|integrate|rest.*api|python.*sdk/.test(q)) return '<strong>S4 Ledger SDK & API</strong><br><br><strong>REST API:</strong><br>\u2022 29 endpoints covering all platform functionality<br>\u2022 JSON request/response format<br>\u2022 API key authentication<br>\u2022 Rate limiting per subscription tier<br><br><strong>Python SDK:</strong><br>\u2022 27 functions wrapping all API endpoints<br>\u2022 <code>pip install s4-sdk</code> (PyPI)<br>\u2022 Async support, retry logic, error handling<br>\u2022 Full documentation at <a href="../sdk/">sdk/</a><br><br><strong>Key endpoints:</strong><br>\u2022 <code>POST /api/anchor</code> \u2014 anchor a hash to XRPL<br>\u2022 <code>GET /api/verify/{hash}</code> \u2014 verify a record<br>\u2022 <code>POST /api/wallet/provision</code> \u2014 create a new wallet<br>\u2022 <code>GET /api/metrics</code> \u2014 platform metrics';
 
     if (/who.*built|who.*created|team|founder|nick|developer/.test(q)) return '<strong>S4 Ledger Team</strong><br><br>S4 Ledger was created by defense logistics professionals who experienced firsthand the limitations of legacy ILS tools. The platform combines deep DoD domain expertise with blockchain technology to solve the data integrity problem in defense supply chains.<br><br>For more information, visit the <a href="/s4-about/">About page</a>.';
 
-    if (/hello|hi|hey|good morning|good afternoon|good evening/.test(q)) return 'Hello! I\'m the S4 Agent \u2014 your defense logistics assistant. I can help with:<br><br>\u2022 <strong>ILS analysis</strong> \u2014 gap analysis, DMSMS, readiness, lifecycle cost<br>\u2022 <strong>Defense standards</strong> \u2014 GEIA-STD-0007 (ILS), NIST 800-171, CMMC, DFARS<br>\u2022 <strong>S4 platform</strong> \u2014 pricing, wallets, SLS token, how anchoring works<br>\u2022 <strong>Tool guidance</strong> \u2014 how to use any of the 20+ ILS tools<br><br>What can I help you with?';
+    if (/hello|hi|hey|good morning|good afternoon|good evening/.test(q)) return 'Hello! I\'m the S4 Agent \u2014 your defense logistics assistant. I can help with:<br><br>\u2022 <strong>ILS analysis</strong> \u2014 gap analysis, DMSMS, readiness, lifecycle cost<br>\u2022 <strong>Defense standards</strong> \u2014 GEIA-STD-0007 (ILS), NIST 800-171, CMMC, DFARS<br>\u2022 <strong>S4 platform</strong> \u2014 pricing, wallets, Credits, how anchoring works<br>\u2022 <strong>Tool guidance</strong> \u2014 how to use any of the 20+ ILS tools<br><br>What can I help you with?';
 
     if (/thank|thanks|thx|appreciate/.test(q)) return 'You\'re welcome! Let me know if you have any other questions about ILS, S4 Ledger, or defense logistics.';
 
-    if (/help|what.*can.*do|capabilities|feature/.test(q)) return '<strong>S4 Agent Capabilities</strong><br><br>I can answer questions about:<br><br><strong>ILS Tools (20):</strong><br>\u2022 Gap Analysis, Action Items, ILS Calendar, DMSMS Tracker<br>\u2022 Readiness/RAM Calculator, Parts Cross-Reference, ROI Calculator<br>\u2022 Lifecycle Cost Estimator, Warranty Tracker, Audit Vault<br>\u2022 Doc Library, Compliance Scorecard, Provisioning/PTD<br>\u2022 Risk Engine, Report Generator, Contract Management<br>\u2022 Digital Thread, Predictive Maintenance, Database Import, Submissions & PTD<br><br><strong>Product & Platform:</strong><br>\u2022 S4 Ledger overview, pricing, how anchoring works<br>\u2022 XRPL wallets, SLS token, TrustLines<br>\u2022 Treasury vs. Issuer wallets<br>\u2022 SDK, API, integration guides<br><br><strong>Defense Standards:</strong><br>\u2022 GEIA-STD-0007 / MIL-HDBK-502 (12 ILS elements), NIST 800-171, CMMC, DFARS<br>\u2022 DI numbers (DI-001 through DI-050+)<br>\u2022 FAR/DFARS clauses, DoD 5000 series<br><br><strong>Context-Aware:</strong><br>\u2022 When analysis is loaded, I provide data-driven answers about gaps, costs, and recommendations<br>\u2022 When documents are uploaded, I reference analysis findings and discrepancies';
+    if (/help|what.*can.*do|capabilities|feature/.test(q)) return '<strong>S4 Agent Capabilities</strong><br><br>I can answer questions about:<br><br><strong>ILS Tools (20):</strong><br>\u2022 Gap Analysis, Action Items, ILS Calendar, DMSMS Tracker<br>\u2022 Readiness/RAM Calculator, Parts Cross-Reference, ROI Calculator<br>\u2022 Lifecycle Cost Estimator, Warranty Tracker, Audit Vault<br>\u2022 Doc Library, Compliance Scorecard, Provisioning/PTD<br>\u2022 Risk Engine, Report Generator, Contract Management<br>\u2022 Digital Thread, Predictive Maintenance, Database Import, Submissions & PTD<br><br><strong>Product & Platform:</strong><br>\u2022 S4 Ledger overview, pricing, how anchoring works<br>\u2022 XRPL wallets, Credits, TrustLines<br>\u2022 Treasury vs. Issuer wallets<br>\u2022 SDK, API, integration guides<br><br><strong>Defense Standards:</strong><br>\u2022 GEIA-STD-0007 / MIL-HDBK-502 (12 ILS elements), NIST 800-171, CMMC, DFARS<br>\u2022 DI numbers (DI-001 through DI-050+)<br>\u2022 FAR/DFARS clauses, DoD 5000 series<br><br><strong>Context-Aware:</strong><br>\u2022 When analysis is loaded, I provide data-driven answers about gaps, costs, and recommendations<br>\u2022 When documents are uploaded, I reference analysis findings and discrepancies';
 
     // ── WORKSPACE STATS ──
     if (/stats|statistic|how.*many.*record|how.*many.*anchor|my.*data|workspace.*status/.test(q)) {
-        return '<strong>Workspace Statistics</strong><br><br>\u2022 Records in Vault: <strong>' + s4Vault.length + '</strong><br>\u2022 Action Items: <strong>' + s4ActionItems.length + '</strong> (' + s4ActionItems.filter(a=>a.done).length + ' complete)<br>\u2022 Total SLS Fees: <strong>' + (stats?.slsFees || 0).toFixed(2) + ' SLS</strong> ($' + ((stats?.slsFees || 0) * 0.01).toFixed(4) + ')<br>\u2022 Records Anchored: <strong>' + (stats?.anchored || 0) + '</strong><br>\u2022 Record Types Used: <strong>' + (stats?.types?.size || 0) + '</strong><br>\u2022 Uploaded Documents: <strong>' + (typeof uploadedDocumentStore !== 'undefined' ? uploadedDocumentStore.length : 0) + '</strong>';
+        return '<strong>Workspace Statistics</strong><br><br>\u2022 Records in Vault: <strong>' + s4Vault.length + '</strong><br>\u2022 Action Items: <strong>' + s4ActionItems.length + '</strong> (' + s4ActionItems.filter(a=>a.done).length + ' complete)<br>\u2022 Total Credit Fees: <strong>' + (stats?.slsFees || 0).toFixed(2) + ' Credits</strong> ($' + ((stats?.slsFees || 0) * 0.01).toFixed(4) + ')<br>\u2022 Records Anchored: <strong>' + (stats?.anchored || 0) + '</strong><br>\u2022 Record Types Used: <strong>' + (stats?.types?.size || 0) + '</strong><br>\u2022 Uploaded Documents: <strong>' + (typeof uploadedDocumentStore !== 'undefined' ? uploadedDocumentStore.length : 0) + '</strong>';
     }
 
     // ── ACRONYMS & TERMS ──
@@ -4454,11 +4454,11 @@ function generateAiResponse(query) {
     }
 
     // ── S4 PLATFORM QUESTIONS ──
-    if (/pricing|how\s*much|cost|subscription|plan/i.test(q)) return '<strong>S4 Ledger Pricing</strong><br><br>\u2022 <strong>Starter</strong> — $29/mo: 25,000 SLS tokens, 5 users, all 20+ ILS tools<br>\u2022 <strong>Professional</strong> — $99/mo: 100,000 SLS, 25 users, API access, HarborLink<br>\u2022 <strong>Enterprise</strong> — $299/mo: 500,000 SLS, unlimited users, dedicated support, SSO<br>\u2022 <strong>Government</strong> — Custom: FedRAMP, IL4/5, on-prem option<br><br>Each anchor costs 0.01 SLS (~$0.0001). SLS = Secure Logistics Standard, our utility token on XRPL.<br><br><a href="../s4-pricing/" style="color:#00aaff">View full pricing →</a>';
+    if (/pricing|how\s*much|cost|subscription|plan/i.test(q)) return '<strong>S4 Ledger Pricing</strong><br><br>\u2022 <strong>Starter</strong> — $29/mo: 25,000 Credits, 5 users, all 20+ ILS tools<br>\u2022 <strong>Professional</strong> — $99/mo: 100,000 Credits, 25 users, API access, HarborLink<br>\u2022 <strong>Enterprise</strong> — $299/mo: 500,000 Credits, unlimited users, dedicated support, SSO<br>\u2022 <strong>Government</strong> — Custom: FedRAMP, IL4/5, on-prem option<br><br>Each anchor costs 0.01 Credits (~$0.0001). Credits = SLS (Secure Logistics Standard), our utility token on XRPL.<br><br><a href="../s4-pricing/" style="color:#00aaff">View full pricing →</a>';
 
-    if (/what\s*is\s*sls|sls\s*token|what.*sls/i.test(q)) return '<strong>SLS — Secure Logistics Standard</strong><br><br>SLS is S4 Ledger\'s utility token on the XRP Ledger (XRPL). It powers every action on the platform:<br>\u2022 <strong>0.01 SLS per anchor</strong> — ~$0.0001 per record<br>\u2022 100M fixed supply — deflationary model<br>\u2022 Issued on XRPL — fast, transparent, low-cost<br>\u2022 Purchased through your subscription plan<br>\u2022 Each anchor sends 0.01 SLS from your operational wallet to the Treasury wallet<br><br>Each anchor transfers 0.01 SLS from your operational wallet to the S4 Treasury on the XRP Ledger — fully verifiable on-chain.';
+    if (/what\s*is\s*sls|sls\s*token|what.*sls/i.test(q)) return '<strong>Credits — SLS (Secure Logistics Standard)</strong><br><br>Credits are S4 Ledger\'s utility token on the XRP Ledger (XRPL). They power every action on the platform:<br>\u2022 <strong>0.01 Credits per anchor</strong> — ~$0.0001 per record<br>\u2022 100M fixed supply — deflationary model<br>\u2022 Issued on XRPL — fast, transparent, low-cost<br>\u2022 Purchased through your subscription plan<br>\u2022 Each anchor sends 0.01 Credits from your operational wallet to the Treasury wallet<br><br>Each anchor transfers 0.01 Credits from your operational wallet to the S4 Treasury on the XRP Ledger — fully verifiable on-chain.';
 
-    if (/xrpl|xrp\s*ledger|blockchain|how.*anchor/i.test(q)) return '<strong>XRPL Blockchain Anchoring</strong><br><br>S4 Ledger uses the XRP Ledger for tamper-proof record verification:<br>\u2022 Your record content is hashed (SHA-256) client-side — <strong>zero data on-chain</strong><br>\u2022 The hash fingerprint is anchored as a Memo in an XRPL transaction<br>\u2022 Each anchor costs 0.01 SLS (transferred Ops Wallet → Treasury)<br>\u2022 The XRPL transaction hash is your immutable proof<br>\u2022 Anyone can verify: re-hash the content and compare to the on-chain Memo<br><br>XRPL was chosen for speed (~3-5 sec finality), low cost, and energy efficiency.';
+    if (/xrpl|xrp\s*ledger|blockchain|how.*anchor/i.test(q)) return '<strong>XRPL Blockchain Anchoring</strong><br><br>S4 Ledger uses the XRP Ledger for tamper-proof record verification:<br>\u2022 Your record content is hashed (SHA-256) client-side — <strong>zero data on-chain</strong><br>\u2022 The hash fingerprint is anchored as a Memo in an XRPL transaction<br>\u2022 Each anchor costs 0.01 Credits (transferred Ops Wallet → Treasury)<br>\u2022 The XRPL transaction hash is your immutable proof<br>\u2022 Anyone can verify: re-hash the content and compare to the on-chain Memo<br><br>XRPL was chosen for speed (~3-5 sec finality), low cost, and energy efficiency.';
 
     if (/demo\s*mode|am\s*i\s*in\s*demo|what\s*mode/i.test(q)) {
         var demoInfo = '';
@@ -4468,11 +4468,11 @@ function generateAiResponse(query) {
             var remaining = allocation - spent;
             demoInfo += '<br><br><strong>Your Demo Session:</strong><br>';
             demoInfo += '\u2022 Plan: ' + (_demoSession.subscription?.label || 'Starter') + '<br>';
-            demoInfo += '\u2022 SLS Allocated: ' + allocation.toLocaleString() + '<br>';
-            demoInfo += '\u2022 SLS Spent: ' + spent.toFixed(2) + ' (' + stats.anchored + ' anchors × 0.01 SLS)<br>';
-            demoInfo += '\u2022 SLS Remaining: <strong style="color:#c9a84c">' + remaining.toLocaleString(undefined,{maximumFractionDigits:2}) + '</strong><br>';
+            demoInfo += '\u2022 Credits Allocated: ' + allocation.toLocaleString() + '<br>';
+            demoInfo += '\u2022 Credits Spent: ' + spent.toFixed(2) + ' (' + stats.anchored + ' anchors × 0.01 Credits)<br>';
+            demoInfo += '\u2022 Credits Remaining: <strong style="color:#c9a84c">' + remaining.toLocaleString(undefined,{maximumFractionDigits:2}) + '</strong><br>';
             demoInfo += '\u2022 Wallet: ' + (_demoSession.wallet?.address?.substring(0,8) || '') + '...<br>';
-            demoInfo += '<br>Each anchor transfers <strong>0.01 SLS on the XRP Ledger</strong> from your operational wallet to the S4 Treasury. Your SLS balance updates in real time.';
+            demoInfo += '<br>Each anchor transfers <strong>0.01 Credits on the XRP Ledger</strong> from your operational wallet to the S4 Treasury. Your Credits balance updates in real time.';
         }
         return demoInfo;
     }
@@ -4500,7 +4500,7 @@ function generateAiResponse(query) {
     if (/meaning\s*of\s*life|42/i.test(q)) return 'The answer is <strong>42</strong> — but in defense logistics, the real answer is <strong>keeping Ao above 90%</strong>. \uD83D\uDE04';
 
     // ── HELP / CAPABILITIES ──
-    if (/help|what\s*can\s*you\s*do|capabilities|features/i.test(q)) return '<strong>S4 Agent Capabilities:</strong><br><br><strong>\uD83D\uDD27 ILS & Defense:</strong><br>\u2022 Gap analysis interpretation & critical item triage<br>\u2022 DI number explanations (DI-001 through DI-044)<br>\u2022 CAR drafting, compliance checks, cost estimation<br>\u2022 Defense acronym definitions (CDRL, LCSP, DMSMS, etc.)<br>\u2022 MIL-STD and regulation guidance<br><br><strong>\uD83D\uDCCA Platform:</strong><br>\u2022 Anchoring help, verification, XRPL questions<br>\u2022 SLS token and pricing info<br>\u2022 Demo mode status and balance tracking<br>\u2022 Tool-specific guidance for all 20+ ILS tools<br><br><strong>\uD83E\uDD16 General:</strong><br>\u2022 Math calculations and unit conversions<br>\u2022 Date/time queries<br>\u2022 Recommendations and best practices<br>\u2022 General conversation and Q&A<br><br><em>Ask me anything — I can help with ILS analysis, defense logistics, compliance, and platform questions.</em>';
+    if (/help|what\s*can\s*you\s*do|capabilities|features/i.test(q)) return '<strong>S4 Agent Capabilities:</strong><br><br><strong>\uD83D\uDD27 ILS & Defense:</strong><br>\u2022 Gap analysis interpretation & critical item triage<br>\u2022 DI number explanations (DI-001 through DI-044)<br>\u2022 CAR drafting, compliance checks, cost estimation<br>\u2022 Defense acronym definitions (CDRL, LCSP, DMSMS, etc.)<br>\u2022 MIL-STD and regulation guidance<br><br><strong>\uD83D\uDCCA Platform:</strong><br>\u2022 Anchoring help, verification, XRPL questions<br>\u2022 Credits token and pricing info<br>\u2022 Demo mode status and balance tracking<br>\u2022 Tool-specific guidance for all 20+ ILS tools<br><br><strong>\uD83E\uDD16 General:</strong><br>\u2022 Math calculations and unit conversions<br>\u2022 Date/time queries<br>\u2022 Recommendations and best practices<br>\u2022 General conversation and Q&A<br><br><em>Ask me anything — I can help with ILS analysis, defense logistics, compliance, and platform questions.</em>';
 
     // ── GENERAL KNOWLEDGE PATTERNS ──
     // These make the agent useful even without an LLM API key
@@ -4508,9 +4508,9 @@ function generateAiResponse(query) {
     if (/what\s*(is|are|does)\s/i.test(q) && q.length > 10) {
         // General "what is" questions — provide helpful context
         if (/blockchain|distributed ledger|dlt/i.test(q)) return '<strong>Blockchain / Distributed Ledger Technology</strong><br><br>A blockchain is a distributed, immutable ledger that records transactions across a peer-to-peer network. Key properties:<br><br>\u2022 <strong>Immutability</strong> \u2014 once written, records cannot be altered<br>\u2022 <strong>Transparency</strong> \u2014 all participants can verify the ledger<br>\u2022 <strong>Decentralization</strong> \u2014 no single point of failure<br>\u2022 <strong>Cryptographic security</strong> \u2014 SHA-256 hashing ensures integrity<br><br>S4 Ledger uses the <strong>XRP Ledger</strong> (XRPL) \u2014 a high-speed, energy-efficient blockchain with 3-5 second settlement and minimal fees.';
-        if (/xrp|xrpl|xrp ledger|ripple/i.test(q)) return '<strong>XRP Ledger (XRPL)</strong><br><br>The XRP Ledger is an open-source, decentralized blockchain:<br><br>\u2022 <strong>Speed:</strong> 3-5 second transaction settlement<br>\u2022 <strong>Cost:</strong> ~$0.0002 per transaction<br>\u2022 <strong>Energy:</strong> 61,000x more efficient than Bitcoin<br>\u2022 <strong>Reliability:</strong> 10+ years of operation, 80M+ ledgers closed<br>\u2022 <strong>Tokens:</strong> Native issued currency support (like $SLS)<br><br>S4 Ledger anchors defense records to XRPL Mainnet, making them independently verifiable by anyone.';
+        if (/xrp|xrpl|xrp ledger|ripple/i.test(q)) return '<strong>XRP Ledger (XRPL)</strong><br><br>The XRP Ledger is an open-source, decentralized blockchain:<br><br>\u2022 <strong>Speed:</strong> 3-5 second transaction settlement<br>\u2022 <strong>Cost:</strong> ~$0.0002 per transaction<br>\u2022 <strong>Energy:</strong> 61,000x more efficient than Bitcoin<br>\u2022 <strong>Reliability:</strong> 10+ years of operation, 80M+ ledgers closed<br>\u2022 <strong>Tokens:</strong> Native issued currency support (like Credits)<br><br>S4 Ledger anchors defense records to XRPL Mainnet, making them independently verifiable by anyone.';
         if (/sha.?256|hash function|hashing|cryptograph/i.test(q)) return '<strong>SHA-256 Hashing</strong><br><br>SHA-256 (Secure Hash Algorithm 256-bit) produces a unique 64-character fingerprint of any data:<br><br>\u2022 <strong>Deterministic:</strong> Same input always produces the same hash<br>\u2022 <strong>One-way:</strong> Cannot reverse the hash to get original data<br>\u2022 <strong>Collision-resistant:</strong> Virtually impossible for two inputs to produce the same hash<br>\u2022 <strong>Avalanche effect:</strong> Changing one bit changes ~50% of the output<br><br>S4 Ledger uses SHA-256 to create tamper-proof fingerprints of defense records before anchoring to XRPL.';
-        if (/s4\s*(ledger|systems|platform)|this platform/i.test(q)) return '<strong>S4 Ledger</strong><br><br>S4 Ledger is a blockchain-verified defense record management platform built by S4 Systems, LLC.<br><br><strong>What it does:</strong><br>\u2022 Anchors defense logistics records to the XRP Ledger<br>\u2022 Creates tamper-proof audit trails for CDRL, maintenance, supply chain, and ordnance records<br>\u2022 Provides 20+ integrated ILS (Integrated Logistics Support) analysis tools<br>\u2022 Supports 156+ military record types across all service branches<br><br><strong>Key value:</strong> 99.9% cost reduction vs. traditional notarization ($0.0001 vs. $25-$150 per record).<br><br><strong>Technology:</strong> XRPL Mainnet, $SLS utility token, SHA-256 hashing, AI-powered analysis.';
+        if (/s4\s*(ledger|systems|platform)|this platform/i.test(q)) return '<strong>S4 Ledger</strong><br><br>S4 Ledger is a blockchain-verified defense record management platform built by S4 Systems, LLC.<br><br><strong>What it does:</strong><br>\u2022 Anchors defense logistics records to the XRP Ledger<br>\u2022 Creates tamper-proof audit trails for CDRL, maintenance, supply chain, and ordnance records<br>\u2022 Provides 20+ integrated ILS (Integrated Logistics Support) analysis tools<br>\u2022 Supports 156+ military record types across all service branches<br><br><strong>Key value:</strong> 99.9% cost reduction vs. traditional notarization ($0.0001 vs. $25-$150 per record).<br><br><strong>Technology:</strong> XRPL Mainnet, Credits utility token, SHA-256 hashing, AI-powered analysis.';
     }
 
     if (/who\s*(made|built|created|founded|is behind)/i.test(q)) return '<strong>S4 Systems, LLC</strong><br><br>S4 Ledger is built by <strong>S4 Systems, LLC</strong>, founded by <strong>Nick Frankfort</strong>. The platform combines blockchain technology with defense logistics expertise to create tamper-proof audit trails for the Department of Defense.<br><br>\u2022 Website: <a href="https://s4ledger.com" target="_blank" style="color:var(--accent)">s4ledger.com</a><br>\u2022 Treasury: <a href="https://livenet.xrpl.org/accounts/rMLmkrxpadq5z6oTDmq8GhQj9LKjf1KLqJ" target="_blank" style="color:var(--accent)">View on XRPL</a>';
@@ -4630,7 +4630,7 @@ function generateAiResponse(query) {
         response += 'I can help with virtually anything:<br><br>';
     }
     response += '<strong>\uD83D\uDD27 Defense & ILS:</strong> gap analysis, DMSMS, readiness, compliance, SBOM<br>';
-    response += '<strong>\uD83D\uDCCA Platform:</strong> anchoring, verification, SLS token, pricing, wallets<br>';
+    response += '<strong>\uD83D\uDCCA Platform:</strong> anchoring, verification, Credits, pricing, wallets<br>';
     response += '<strong>\uD83E\uDD16 Knowledge:</strong> history, science, space, geography, technology<br>';
     response += '<strong>\uD83D\uDCDA Education:</strong> math, conversions, programming, languages<br>';
     response += '<strong>\uD83C\uDFC8 Life:</strong> sports, food, music, business, finance, productivity<br>';
@@ -5698,7 +5698,7 @@ function renderVault() {
                 <span><i class="fas fa-clock"></i> ${new Date(v.timestamp).toLocaleString()}</span>
                 <span><i class="fas fa-hashtag"></i> TX: ${v.explorerUrl ? '<a href="'+v.explorerUrl+'" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none">'+(v.txHash||'').substring(0,16)+'… <i class="fas fa-external-link-alt" style="font-size:0.6rem"></i></a>' : (v.txHash||'').substring(0,16)+'...'}</span>
                 ${v.source ? '<span><i class="fas fa-tools"></i> ' + v.source + '</span>' : ''}
-                <span><i class="fas fa-coins"></i> 0.01 $SLS</span>
+                <span><i class="fas fa-coins"></i> 0.01 Credits</span>
             </div>
         </div>
     `).join('');
@@ -5739,7 +5739,7 @@ function exportVault(format) {
         'Record Type': v.label || v.type, 'Branch': v.branch || '', 'SHA-256 Hash': v.hash,
         'TX Hash': v.txHash || '', 'Content Preview': v.content || '', 'Encrypted': v.encrypted ? 'Yes' : 'No',
         'Timestamp': v.timestamp, 'Verified': v.verified ? 'Yes' : 'No', 'Source Tool': v.source || 'Manual Anchor',
-        '$SLS Fee': '0.01', 'Explorer URL': v.explorerUrl || '', 'Network': v.network || ''
+        'Credit Fee': '0.01', 'Explorer URL': v.explorerUrl || '', 'Network': v.network || ''
     }));
     if (format === 'csv') {
         const headers = Object.keys(rows[0]);
@@ -5800,7 +5800,7 @@ function bulkVaultExport(format) {
     if (hashes.length === 0) { s4Notify('No Selection','Select records to export.','warning'); return; }
     var selected = s4Vault.filter(function(v) { return hashes.includes(v.hash); });
     var rows = selected.map(function(v) {
-        return {'Record Type':v.label||v.type,'Branch':v.branch||'','SHA-256 Hash':v.hash,'TX Hash':v.txHash||'','Content Preview':v.content||'','Encrypted':v.encrypted?'Yes':'No','Timestamp':v.timestamp,'Verified':v.verified?'Yes':'No','Source Tool':v.source||'Manual Anchor','$SLS Fee':'0.01'};
+        return {'Record Type':v.label||v.type,'Branch':v.branch||'','SHA-256 Hash':v.hash,'TX Hash':v.txHash||'','Content Preview':v.content||'','Encrypted':v.encrypted?'Yes':'No','Timestamp':v.timestamp,'Verified':v.verified?'Yes':'No','Source Tool':v.source||'Manual Anchor','Credit Fee':'0.01'};
     });
     if (format === 'csv') {
         var headers = Object.keys(rows[0]);

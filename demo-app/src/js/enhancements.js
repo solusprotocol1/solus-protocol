@@ -1215,7 +1215,7 @@ async function verifySubscription() {
 // SLS top-up (additional SLS purchase)
 async function purchaseAdditionalSLS(amount, stripePaymentId) {
     if (typeof _demoMode !== 'undefined' && _demoMode) {
-        if (typeof _showNotif === 'function') _showNotif('Demo mode — SLS purchase disabled.', 'warning');
+        if (typeof _showNotif === 'function') _showNotif('Demo mode — Credits purchase disabled.', 'warning');
         return;
     }
     var sub = getActiveSubscription();
@@ -1237,7 +1237,7 @@ async function purchaseAdditionalSLS(amount, stripePaymentId) {
         if (data.new_balance) {
             sub.sls_balance = data.new_balance;
             localStorage.setItem('s4_subscription', JSON.stringify(sub));
-            if (typeof _showNotif === 'function') _showNotif('SLS top-up complete! New balance: ' + data.new_balance.toLocaleString() + ' SLS', 'success');
+            if (typeof _showNotif === 'function') _showNotif('Credits top-up complete! New balance: ' + data.new_balance.toLocaleString() + ' Credits', 'success');
         }
         return data;
     } catch(err) {
@@ -1587,7 +1587,7 @@ console.log('[Round-13] Production subscription code loaded — Stripe Checkout 
             doc.text('Audit Vault Summary', 15, y); y += 6;
             doc.setFontSize(9);
             doc.setFont('helvetica', 'normal');
-            doc.text('Total Records: ' + vaultCount + '  |  Verified: ' + verified + '  |  SLS Fees: $' + (vaultCount * 0.01).toFixed(2), 15, y); y += 10;
+            doc.text('Total Records: ' + vaultCount + '  |  Verified: ' + verified + '  |  Credit Fees: $' + (vaultCount * 0.01).toFixed(2), 15, y); y += 10;
 
             // Records table
             if (typeof s4Vault !== 'undefined' && s4Vault.length > 0) {
@@ -2979,7 +2979,7 @@ function _updateThemeIcon(isLight) {
             {name:'ILS Workspace', tab:'tabILS', icon:'fa-cogs', desc:'20+ ILS analysis tools'},
             {name:'Audit Vault', tab:'tabILS', panel:'hub-vault', icon:'fa-vault', desc:'View all anchored records'},
             {name:'Performance Dashboard', tab:'tabMetrics', icon:'fa-chart-line', desc:'API metrics & analytics'},
-            {name:'Wallet / SLS', tab:'tabWallet', icon:'fa-wallet', desc:'SLS balance & transactions'}
+            {name:'Wallet / Credits', tab:'tabWallet', icon:'fa-wallet', desc:'Credit balance & transactions'}
         ];
         tabs.forEach(function(t) {
             if (t.name.toLowerCase().includes(q) || t.desc.toLowerCase().includes(q)) {
@@ -3903,7 +3903,7 @@ function _updateThemeIcon(isLight) {
         {selector:'.sidebar',title:'Navigation Sidebar',description:'Browse 30+ DoD logistics tools organized by category. Click any tool to open it.',position:'right'},
         {selector:'#searchInput',title:'Global Search',description:'Search across all tools, vault records, and documentation with Cmd+K.',position:'bottom'},
         {selector:'.vault-section',title:'Audit Vault',description:'Your blockchain-anchored audit trail. Every record is hashed and verifiable.',position:'left'},
-        {selector:'.sls-fee-section',title:'SLS Balance',description:'Track your S4 Ledger Service fees for anchoring and verification operations.',position:'bottom'},
+        {selector:'.sls-fee-section',title:'Credit Balance',description:'Track your S4 Ledger Credit fees for anchoring and verification operations.',position:'bottom'},
         {selector:'.quick-stats',title:'Quick Stats',description:'Real-time overview of your session records, vault size, and verification status.',position:'bottom'}
     ]);
 
@@ -5359,7 +5359,7 @@ function _updateThemeIcon(isLight) {
             this._stakes.push(entry);
             this._totalStaked += amount;
             this._save();
-            if (S4.toast) S4.toast('Staked ' + amount + ' SLS tokens (' + entry.apy + '% APY)', 'success');
+            if (S4.toast) S4.toast('Staked ' + amount + ' Credits (' + entry.apy + '% APY)', 'success');
             return entry;
         },
         unstake: function(stakeId) {
@@ -5374,7 +5374,7 @@ function _updateThemeIcon(isLight) {
             var earned = stake.amount * (stake.apy / 100) * (stake.duration / 365);
             this._totalStaked -= stake.amount;
             this._save();
-            if (S4.toast) S4.toast('Unstaked ' + stake.amount + ' SLS + ' + earned.toFixed(2) + ' earned', 'success');
+            if (S4.toast) S4.toast('Unstaked ' + stake.amount + ' Credits + ' + earned.toFixed(2) + ' earned', 'success');
             return {principal:stake.amount, earned:earned};
         },
         getStakes: function() { return this._stakes; },

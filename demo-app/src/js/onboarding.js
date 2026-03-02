@@ -86,7 +86,7 @@ function animateWalletFunding() {
         if (xrpEl) xrpEl.textContent = '12.000000 XRP';
     }, 1200);
     setTimeout(function() {
-        if (trustEl) trustEl.innerHTML = 'SLS <i class="fas fa-check-circle" style="color:var(--green);margin-left:4px"></i>';
+        if (trustEl) trustEl.innerHTML = 'Credits <i class="fas fa-check-circle" style="color:var(--green);margin-left:4px"></i>';
         if (doneEl) doneEl.style.display = 'block';
     }, 1800);
 }
@@ -96,11 +96,11 @@ function selectOnboardTier(el, tier) {
     // Live-update SLS Allocated in flow box
     var _tierAlloc = (_onboardTiers[tier] || _onboardTiers['starter']).sls;
     var _s3s = document.getElementById('demoStep3Status');
-    if (_s3s && _s3s.innerHTML.indexOf('SLS') !== -1) {
-        _s3s.innerHTML = '<i class="fas fa-check" style="color:#00aaff;margin-right:3px;"></i> ' + _tierAlloc.toLocaleString() + ' SLS';
+    if (_s3s && _s3s.innerHTML.indexOf('Credits') !== -1) {
+        _s3s.innerHTML = '<i class="fas fa-check" style="color:#00aaff;margin-right:3px;"></i> ' + _tierAlloc.toLocaleString() + ' Credits';
     }
     var _balEl = document.getElementById('demoSlsBalance');
-    if (_balEl) _balEl.textContent = _tierAlloc.toLocaleString() + ' SLS';
+    if (_balEl) _balEl.textContent = _tierAlloc.toLocaleString() + ' Credits';
     // Also update the session object
     if (_demoSession && _demoSession.subscription) {
         _demoSession.subscription.sls_allocation = _tierAlloc;
@@ -115,11 +115,11 @@ function selectOnboardTier(el, tier) {
     if (anchorsEl) anchorsEl.textContent = (info.sls * 100).toLocaleString();
     // Sync ALL SLS balance displays to selected tier
     var mainBal = document.getElementById('slsBarBalance');
-    if (mainBal) mainBal.textContent = info.sls.toLocaleString() + ' SLS';
+    if (mainBal) mainBal.textContent = info.sls.toLocaleString() + ' Credits';
     var toolBal = document.getElementById('toolSlsBal');
     if (toolBal) toolBal.textContent = info.sls.toLocaleString();
     var sidebarBal = document.getElementById('sidebarSlsBal');
-    if (sidebarBal) sidebarBal.textContent = info.sls.toLocaleString() + ' SLS';
+    if (sidebarBal) sidebarBal.textContent = info.sls.toLocaleString() + ' Credits';
 }
 
 // Auto-show onboarding on first visit — ONLY after entering platform (DOM check, not sessionStorage)

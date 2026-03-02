@@ -413,18 +413,18 @@ function _rewireWalletFlowDetails(sidebarBody) {
     flowPanel.style.cssText = 'display:none;margin-top:12px;background:linear-gradient(135deg,rgba(0,170,255,0.06),rgba(201,168,76,0.04));border:1px solid rgba(0,170,255,0.25);border-radius:3px;padding:16px 18px;';
     flowPanel.innerHTML = '<div style="position:relative">'
         + '<div style="position:absolute;top:-4px;right:0;background:linear-gradient(135deg,#00aaff,#c9a84c);padding:3px 12px;border-radius:0 10px 0 8px;font-size:0.62rem;font-weight:700;color:#050810;letter-spacing:0.5px">LIVE PREVIEW</div>'
-        + '<h4 style="margin:0 0 4px;font-size:0.95rem;color:#fff"><i class="fas fa-flask" style="color:#00aaff;margin-right:6px"></i>SLS Economic Flow</h4>'
-        + '<p style="color:#8ea4b8;font-size:0.72rem;margin:0 0 12px">See how the $SLS token economy works. <strong style="color:#c9a84c">Every anchor costs 0.01 $SLS.</strong></p>'
+        + '<h4 style="margin:0 0 4px;font-size:0.95rem;color:#fff"><i class="fas fa-flask" style="color:#00aaff;margin-right:6px"></i>Credit Economic Flow</h4>'
+        + '<p style="color:#8ea4b8;font-size:0.72rem;margin:0 0 12px">See how the Credits token economy works. <strong style="color:#c9a84c">Every anchor costs 0.01 Credits.</strong></p>'
         + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">'
         + '<div style="background:rgba(0,170,255,0.08);border:1px solid rgba(0,170,255,0.2);border-radius:3px;padding:10px;text-align:center"><div style="width:28px;height:28px;border-radius:50%;background:rgba(0,170,255,0.15);display:inline-flex;align-items:center;justify-content:center;margin-bottom:6px"><i class="fas fa-user-plus" style="color:#00aaff;font-size:0.75rem"></i></div><div style="font-size:0.68rem;font-weight:700;color:#fff">1. Account</div><div style="font-size:0.62rem;color:#8ea4b8">Created &amp; provisioned</div></div>'
         + '<div style="background:rgba(0,170,255,0.08);border:1px solid rgba(0,170,255,0.2);border-radius:3px;padding:10px;text-align:center"><div style="width:28px;height:28px;border-radius:50%;background:rgba(0,170,255,0.15);display:inline-flex;align-items:center;justify-content:center;margin-bottom:6px"><i class="fas fa-wallet" style="color:#00aaff;font-size:0.75rem"></i></div><div style="font-size:0.68rem;font-weight:700;color:#fff">2. Wallet Funded</div><div style="font-size:0.62rem;color:#8ea4b8">12 XRP reserve</div></div>'
-        + '<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:3px;padding:10px;text-align:center"><div style="width:28px;height:28px;border-radius:50%;background:rgba(201,168,76,0.15);display:inline-flex;align-items:center;justify-content:center;margin-bottom:6px"><i class="fas fa-coins" style="color:#c9a84c;font-size:0.75rem"></i></div><div style="font-size:0.68rem;font-weight:700;color:#fff">3. $SLS Allocated</div><div style="font-size:0.62rem;color:#8ea4b8">Based on plan tier</div></div>'
-        + '<div style="background:rgba(0,170,255,0.08);border:1px solid rgba(0,170,255,0.2);border-radius:3px;padding:10px;text-align:center"><div style="width:28px;height:28px;border-radius:50%;background:rgba(0,170,255,0.15);display:inline-flex;align-items:center;justify-content:center;margin-bottom:6px"><i class="fas fa-arrow-right" style="color:#00aaff;font-size:0.75rem"></i></div><div style="font-size:0.68rem;font-weight:700;color:#fff">4. 0.01 SLS &rarr; Treasury</div><div style="font-size:0.62rem;color:#8ea4b8">Per anchor fee</div></div>'
+        + '<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:3px;padding:10px;text-align:center"><div style="width:28px;height:28px;border-radius:50%;background:rgba(201,168,76,0.15);display:inline-flex;align-items:center;justify-content:center;margin-bottom:6px"><i class="fas fa-coins" style="color:#c9a84c;font-size:0.75rem"></i></div><div style="font-size:0.68rem;font-weight:700;color:#fff">3. Credits Allocated</div><div style="font-size:0.62rem;color:#8ea4b8">Based on plan tier</div></div>'
+        + '<div style="background:rgba(0,170,255,0.08);border:1px solid rgba(0,170,255,0.2);border-radius:3px;padding:10px;text-align:center"><div style="width:28px;height:28px;border-radius:50%;background:rgba(0,170,255,0.15);display:inline-flex;align-items:center;justify-content:center;margin-bottom:6px"><i class="fas fa-arrow-right" style="color:#00aaff;font-size:0.75rem"></i></div><div style="font-size:0.68rem;font-weight:700;color:#fff">4. 0.01 Credits &rarr; Treasury</div><div style="font-size:0.62rem;color:#8ea4b8">Per anchor fee</div></div>'
         + '</div>'
         + '<div style="margin-top:10px;padding:8px 12px;background:rgba(0,0,0,0.25);border-radius:3px;font-size:0.7rem">'
         + '<div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px">'
         + '<div><span style="color:#8ea4b8">Wallet:</span> <span style="color:#00aaff;font-family:monospace" id="sidebarWalletAddr">rMLmk...f1KLqJ</span></div>'
-        + '<div><span style="color:#8ea4b8">Balance:</span> <span style="color:#c9a84c;font-weight:700" id="sidebarSlsBal">' + (document.getElementById('slsBarBalance') ? document.getElementById('slsBarBalance').textContent : '25,000') + ' SLS</span></div>'
+        + '<div><span style="color:#8ea4b8">Balance:</span> <span style="color:#c9a84c;font-weight:700" id="sidebarSlsBal">' + (document.getElementById('slsBarBalance') ? document.getElementById('slsBarBalance').textContent : '25,000') + ' Credits</span></div>'
         + '</div></div>'
         + '</div>';
     
@@ -527,9 +527,9 @@ document.addEventListener('shown.bs.tab', function(e) {
         var toolBal = document.getElementById('toolSlsBal');
         var toolAnch = document.getElementById('toolSlsAnch');
         var toolSpent = document.getElementById('toolSlsSpent');
-        if (toolBal && mainBal) toolBal.textContent = mainBal.textContent.replace(' SLS','');
+        if (toolBal && mainBal) toolBal.textContent = mainBal.textContent.replace(' Credits','');
         if (toolAnch && mainAnch) toolAnch.textContent = mainAnch.textContent;
-        if (toolSpent && mainSpent) toolSpent.textContent = mainSpent.textContent.replace(' SLS','');
+        if (toolSpent && mainSpent) toolSpent.textContent = mainSpent.textContent.replace(' Credits','');
     }
     setInterval(syncToolSls, 2000);
     // Also hook openILSTool
@@ -567,7 +567,7 @@ document.addEventListener('shown.bs.tab', function(e) {
                 + '<span style="color:var(--muted)">Type:</span><span>' + (lastRec.label || lastRec.type) + '</span>'
                 + '<span style="color:var(--muted)">Hash:</span><span style="font-family:monospace;color:var(--accent);font-size:0.72rem;word-break:break-all">' + (lastRec.hash || '').substring(0,32) + '...</span>'
                 + '<span style="color:var(--muted)">TX:</span><span>' + (lastRec.txHash ? '<a href="' + (lastRec.explorerUrl || '#') + '" target="_blank" style="color:var(--accent);text-decoration:none">' + lastRec.txHash.substring(0,16) + '... <i class="fas fa-external-link-alt" style="font-size:0.6rem"></i></a>' : 'Pending') + '</span>'
-                + '<span style="color:var(--muted)">Fee:</span><span style="color:#c9a84c">0.01 $SLS</span>'
+                + '<span style="color:var(--muted)">Fee:</span><span style="color:#c9a84c">0.01 Credits</span>'
                 + '<span style="color:var(--muted)">Time:</span><span>' + new Date().toLocaleTimeString() + '</span>'
                 + '</div>';
             
