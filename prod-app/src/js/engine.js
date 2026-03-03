@@ -223,6 +223,10 @@ function _syncSlsBar() {
     if (walletSlsEl) walletSlsEl.textContent = remaining.toLocaleString(undefined,{maximumFractionDigits:2});
     var walletAnchorsEl = document.getElementById('walletAnchors');
     if (walletAnchorsEl && (stats.anchored || 0) > 0) walletAnchorsEl.textContent = (Math.floor(remaining / 0.01)).toLocaleString();
+    // Keep the visible wallet trigger button in sync
+    var _wtBal = document.getElementById('walletTriggerBal');
+    var _slsBal = document.getElementById('slsBarBalance');
+    if (_wtBal && _slsBal) _wtBal.textContent = _slsBal.textContent || '--';
 }
 
 // ═══ Authentication Flow: DoW Consent → CAC/Login → Platform ═══

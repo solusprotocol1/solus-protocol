@@ -66,9 +66,9 @@
     <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" integrity="sha384-9nhczxUqK87bcKHh20fSQcTGD4qq5GhayNYSYWqwBkINBhOfQLg/P5HG5lF1urn4" crossorigin="anonymous"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/qrcode@1.5.4/build/qrcode.min.js"></script>
     <!-- CSS is imported via main.js and extracted by Vite -->
-  <script type="module" crossorigin src="/prod-app/dist/assets/index-B9iX52VO.js"></script>
-  <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/engine-DI71UTN8.js">
-  <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/navigation-CgwlB2am.js">
+  <script type="module" crossorigin src="/prod-app/dist/assets/index-dD7Fwvqb.js"></script>
+  <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/engine-RS7b8I66.js">
+  <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/navigation-F0YH519q.js">
   <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/metrics-CZGS13V4.js">
   <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/enhancements-rZRuDLeK.js">
   <link rel="stylesheet" crossorigin href="/prod-app/dist/assets/index-j5J_ID39.css">
@@ -3300,6 +3300,8 @@
                 if (tabLink) { try { new bootstrap.Tab(tabLink).show(); } catch(e){} }
             }
             _currentSection = sectionId;
+            if (sectionId === 'sectionVerify' && typeof window.refreshVerifyRecents === 'function') try { window.refreshVerifyRecents(); } catch(e) {}
+            if (sectionId === 'sectionMetrics' && typeof window.loadPerformanceMetrics === 'function') try { window.loadPerformanceMetrics(); } catch(e) {}
             if (sectionId === 'sectionILS') {
                 var subHub = document.getElementById('ilsSubHub');
                 if (subHub) subHub.style.display = 'grid';
@@ -3334,6 +3336,7 @@
             if (sh) sh.style.display = 'none';
             var pane = document.getElementById(tabId);
             if (pane) { pane.style.display='block'; pane.classList.add('show','active'); pane.style.animation='fadeIn 0.3s ease'; }
+            if (tabId === 'tabMetrics' && typeof window.loadPerformanceMetrics === 'function') try { window.loadPerformanceMetrics(); } catch(e) {}
         };
 
         if (!window.openILSTool) {

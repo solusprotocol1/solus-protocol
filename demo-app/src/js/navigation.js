@@ -84,6 +84,14 @@ function showSection(sectionId) {
     
     _currentSection = sectionId;
     
+    // Auto-refresh data when entering specific sections
+    if (sectionId === 'sectionVerify' && typeof window.refreshVerifyRecents === 'function') {
+        try { window.refreshVerifyRecents(); } catch(e) {}
+    }
+    if (sectionId === 'sectionMetrics' && typeof window.loadPerformanceMetrics === 'function') {
+        try { window.loadPerformanceMetrics(); } catch(e) {}
+    }
+    
     // For ILS section, show the sub-hub
     if (sectionId === 'sectionILS') {
         var subHub = document.getElementById('ilsSubHub');
@@ -103,6 +111,10 @@ function showSystemsSub(tabId) {
         pane.style.display = 'block';
         pane.classList.add('show','active');
         pane.style.animation = 'fadeIn 0.3s ease';
+    }
+    // Auto-load metrics data when entering the metrics tab
+    if (tabId === 'tabMetrics' && typeof window.loadPerformanceMetrics === 'function') {
+        try { window.loadPerformanceMetrics(); } catch(e) {}
     }
 }
 

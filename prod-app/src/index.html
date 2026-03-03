@@ -3295,6 +3295,8 @@
                 if (tabLink) { try { new bootstrap.Tab(tabLink).show(); } catch(e){} }
             }
             _currentSection = sectionId;
+            if (sectionId === 'sectionVerify' && typeof window.refreshVerifyRecents === 'function') try { window.refreshVerifyRecents(); } catch(e) {}
+            if (sectionId === 'sectionMetrics' && typeof window.loadPerformanceMetrics === 'function') try { window.loadPerformanceMetrics(); } catch(e) {}
             if (sectionId === 'sectionILS') {
                 var subHub = document.getElementById('ilsSubHub');
                 if (subHub) subHub.style.display = 'grid';
@@ -3329,6 +3331,7 @@
             if (sh) sh.style.display = 'none';
             var pane = document.getElementById(tabId);
             if (pane) { pane.style.display='block'; pane.classList.add('show','active'); pane.style.animation='fadeIn 0.3s ease'; }
+            if (tabId === 'tabMetrics' && typeof window.loadPerformanceMetrics === 'function') try { window.loadPerformanceMetrics(); } catch(e) {}
         };
 
         if (!window.openILSTool) {
