@@ -62,7 +62,7 @@ For air-gapped, SCIF, or shipboard environments:
 
 ## Partner REST API (Live)
 
-- 65 RESTful endpoints for anchoring, verification, ILS analysis, AI queries, and security
+- 90+ RESTful endpoints for anchoring, verification, ILS analysis, AI queries, and security
 - API key authentication with tiered rate limits (120 req/min)
 - Batch endpoints for high-volume operations (`/api/anchor/batch`, `/api/verify/batch`)
 - Webhook notifications for anchor confirmations

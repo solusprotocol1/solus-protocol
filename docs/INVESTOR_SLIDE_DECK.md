@@ -10,7 +10,7 @@ S4 Ledger: Immutable logistics verification for the defense industry, anchored o
 
 ## Problem
 - Counterfeit parts, falsified maintenance records, unverifiable supply chains
-- No common integrity layer across DoW logistics systems
+- No common integrity layer across DoD logistics systems
 - Siloed data, audit failures, delivery disputes
 - CMMC 2.0 enforcement begins 2025–2026 — every contractor must comply
 - FedRAMP needed for 80% of federal software market
@@ -65,9 +65,9 @@ Key: 65% labor reduction • 90% error savings • 70% audit reduction • 15-25
 
 ## National Impact
 - **$150B+ defense logistics market** directly addressable
-- **Saves $900M–$2.1B/year at scale** across all DoW programs
+- **Saves $900M–$2.1B/year at scale** across all DoD programs
 - **340+ jobs created by Year 5** (30–45 direct + 100–200 indirect)
-- **$8M–$17M economic impact** per DoW's 3.4× multiplier
+- **$8M–$17M economic impact** per DoD's 3.4× multiplier
 - Expands defense industrial base for Tier 2–4 small businesses
 
 ---
@@ -94,7 +94,7 @@ Key: 65% labor reduction • 90% error savings • 70% audit reduction • 15-25
 ---
 
 ## Market
-- $850B+ annual DoW budget
+- $850B+ annual DoD budget
 - 12 ILS elements = 12 addressable verticals
 - No competitor combines hash-only + public ledger + defense focus
 
@@ -111,7 +111,7 @@ Key: 65% labor reduction • 90% error savings • 70% audit reduction • 15-25
 | **Microsoft Dynamics** | Cloud ERP / CRM | Generic add-ons | No | $150K–$800K+ | Not defense-built. No ILS tools |
 | **IBM Hyperledger** | Enterprise blockchain | None | Yes (private) | $200K–$2M+ | No ILS tools. Puts data on-chain (non-starter for defense) |
 | **Spreadsheets** | Manual tracking | None | No | "Free" + $200K+ labor | No automation, no audit trail, no compliance |
-| **S4 Ledger** | ILS + tamper-proof records | **20+ built-in** | **Yes (hash-only, XRPL)** | **$6K–$60K** | **Purpose-built for defense logistics** |
+| **S4 Ledger** | ILS + tamper-proof records | **20+ built-in** | **Yes (hash-only, XRPL)** | **$12K–$120K** | **Purpose-built for defense logistics** |
 
 > **Key insight:** $25B+ defense logistics software market has no unified platform with blockchain-verified records. S4 Ledger is first to market.
 
@@ -134,7 +134,7 @@ Key: 65% labor reduction • 90% error savings • 70% audit reduction • 15-25
 
 ## Team
 - Created and built entirely by **Nick Frankfort**, ILS contractor and founder and CEO
-- Years of hands-on Navy and DoW program experience
+- Years of hands-on Navy and DoD program experience
 - S4 Systems, LLC — Charleston, SC
 
 ---

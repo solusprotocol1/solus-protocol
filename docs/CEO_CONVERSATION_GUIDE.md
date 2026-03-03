@@ -23,7 +23,7 @@ Don't schedule a "meeting about blockchain." Schedule a "meeting about a new rev
 
 **Opening line example:**
 
-> "I built something that saves the government $1.02M–$2.6M per program per year in logistics labor — and it costs them $6K–$60K/year. I want to show you how it works and what it means for S4 Systems."
+> "I built something that saves the government $1.02M–$2.6M per program per year in logistics labor — and it costs them $12K–$120K/year. I want to show you how it works and what it means for S4 Systems."
 
 That gets attention. Then you open the demo app at s4ledger.com/demo-app and walk through 2-3 tools live. Let them see it working. Don't explain the technology — explain the outcome.
 
@@ -35,7 +35,7 @@ Keep these in your back pocket. Use them in order.
 
 ### 1. The Problem Is Real and Expensive
 
-> "Defense programs waste $600K–$2M+ per year per program on manual logistics tracking — spreadsheets, SharePoint, email chains, paper audit trails. Every major DoW program has this problem. The GAO flags billions in waste every year because of it."
+> "Defense programs waste $600K–$2M+ per year per program on manual logistics tracking — spreadsheets, SharePoint, email chains, paper audit trails. Every major DoD program has this problem. The GAO flags billions in waste every year because of it."
 
 **Why this works:** Your CEO knows this. They see it every day on their own contracts. You're not telling them something new — you're validating what they already suspect.
 
@@ -47,7 +47,7 @@ Keep these in your back pocket. Use them in order.
 
 ### 3. The Economics Are Undeniable
 
-> "S4 Ledger saves the government ~$1.02M–$2.6M per program per year. It costs them $6K–$60K/year. That's a 15–100x return on investment. Government program managers don't say no to that math."
+> "S4 Ledger saves the government ~$1.02M–$2.6M per program per year. It costs them $12K–$120K/year. That's a 15–100x return on investment. Government program managers don't say no to that math."
 
 **Why this works:** ROI is the universal language of business. 15–100x ROI is extraordinary by any standard.
 
@@ -124,7 +124,7 @@ If you get 10 minutes with a screen, here's the flow:
 6. **Show the Audit Vault** — "Every anchored record is automatically stored with proof"
 7. **Show the transaction on XRPL** — Open the Livenet Explorer link. "This is permanent, public, tamper-proof. Anyone can verify it."
 
-**Total demo time: 5-8 minutes.** Then say: "This is what $6K/year gets a program office. Their current tools cost $200K–$5M."
+**Total demo time: 5-8 minutes.** Then say: "This is what $12K/year gets a program office. Their current tools cost $200K–$5M."
 
 ---
 
@@ -152,11 +152,11 @@ If the CEO says no:
 | Metric | Number |
 |---|---|
 | Per-program savings | $1.02M–$2.6M/year |
-| S4 Ledger cost | $6K–$60K/year |
+| S4 Ledger cost | $12K–$120K/year |
 | ROI for government | 15–100x |
 | ILS tools built | 20+ |
-| SDK functions | 27 |
-| API endpoints | 29 |
+| SDK functions | 37 |
+| API endpoints | 90+ |
 | Pre-loaded platforms | 500+ across Navy, USMC, and USCG |
 | Cost to build so far | $0 to the company |
 | Cost to go production | $12K–$35K |

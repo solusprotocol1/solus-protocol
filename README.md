@@ -95,7 +95,7 @@ Cost per anchor: **0.01 SLS** (~$0.01) + XRPL base fee (~$0.001)
 Confirmation time: **3-5 seconds**  
 XRPL uptime: **99.99%**
 
-### New in v5.0.1
+### Added in v5.0.1
 
 - **📊 Performance Metrics Dashboard** — Real-time anchor times, cost tracking, validator health, AI audit trail visualization (Chart.js)
 - **📡 Offline / On-Prem Mode** — Air-gapped hashing with localStorage queue + batch sync to XRPL on reconnect
@@ -109,7 +109,7 @@ XRPL uptime: **99.99%**
 - **🎯 STRIDE Threat Model** — API-accessible threat model with NIST SP 800-161 mapping
 - **Demo Mode** — Visible demo banner with hypothetical XRP (12) and SLS (25,000) balances. AI agent works across all tools in the hub.
 
-### New in v5.1.0 (Round 16)
+### Added in v5.1.0 (Round 16)
 
 - **🔧 Role Popup Fix** — Role selector now reliably appears after onboarding (removed broken `offsetParent` check on hidden element)
 - **🛡️ DoD Consent Banner** — Recolored from orange to S4 brand blue (#00aaff) for visual consistency

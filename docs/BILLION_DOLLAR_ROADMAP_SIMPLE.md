@@ -27,7 +27,7 @@ Before we start, here's every acronym, buzzword, and piece of jargon in this doc
 | **DIU** | Defense Innovation Unit — a Pentagon office that finds and funds startups building cool tech for the military |
 | **DLA** | Defense Logistics Agency — the government organization that manages the military supply chain (food, fuel, spare parts, etc.) |
 | **DMSMS** | Diminishing Manufacturing Sources and Material Shortages — when the company that makes a critical part stops making it, and you need to find a replacement before you run out. This is a HUGE expensive problem in defense |
-| **DoW** | Department of War — the U.S. military (Navy, USMC, Coast Guard, and all their agencies) |
+| **DoD** | Department of Defense — the U.S. military (Navy, USMC, Coast Guard, and all their agencies) |
 | **FedRAMP** | Federal Risk and Authorization Management Program — a security certification that cloud software must pass before the government will use it. Think of it as the government's seal of approval for cloud services |
 | **FTE** | Full-Time Equivalent — one person working full-time (40 hours/week) |
 | **GIDEP** | Government-Industry Data Exchange Program — a database where government and industry share information about parts that are defective or becoming obsolete |
@@ -44,7 +44,7 @@ Before we start, here's every acronym, buzzword, and piece of jargon in this doc
 | **NATO** | North Atlantic Treaty Organization — a military alliance of 31 countries (US, UK, Canada, France, Germany, etc.) that work together for defense |
 | **NavalX** | The Navy's innovation hub that connects startups with Navy problems to solve |
 | **NIST** | National Institute of Standards and Technology — the government agency that writes cybersecurity standards everyone has to follow |
-| **NSN** | National Stock Number — a 13-digit code that identifies every item the military buys. Like a barcode, but for the entire Department of War |
+| **NSN** | National Stock Number — a 13-digit code that identifies every item the military buys. Like a barcode, but for the entire Department of Defense |
 | **PdM** | Predictive Maintenance — using data and AI to predict when equipment will break so you can fix it before it fails |
 | **PTD** | Provisioning Technical Documentation — the paperwork that lists every part, tool, and supply needed to support a piece of military equipment |
 | **REST API** | A way for software programs to talk to each other over the internet — like how your weather app gets data from a weather service |
@@ -119,7 +119,7 @@ Here's a simple breakdown of the 20+ tools and what they replace:
 | 5 programs (pilot phase) | $5.1M–$13.0M |
 | 50 programs (growth phase) | $51M–$130M |
 | 500 programs (at scale) | $510M–$1.3B |
-| 5,000 programs (entire DoW) | **$5.1B–$13.0B** |
+| 5,000 programs (entire DoD) | **$5.1B–$13.0B** |
 
 **The key point:** The government gets back $15 to $100 for every $1 they spend on S4 Ledger. That's an insanely good deal — and the kind of math that makes government decision-makers say yes very quickly.
 
@@ -201,7 +201,7 @@ This is the "go big" phase:
 ### Phase 4: Dominate the Market (Year 6–10) — Goal: $70M–$200M/year → **$1 Billion+ Company**
 
 This is the "category leader" phase:
-- Win a **DoW-wide contract** (an IDIQ worth $20M–$50M over several years)
+- Win a **DoD-wide contract** (an IDIQ worth $20M–$50M over several years)
 - Expand internationally to Japan, South Korea, Israel, and more
 - Acquire 2–3 smaller competitors ($5M–$20M each)
 - Reach a point where S4 Ledger is the industry standard for defense logistics
@@ -283,7 +283,7 @@ The U.S. military spends over **$150 billion a year** on logistics. The software
 This isn't a PowerPoint dream. S4 Ledger is a **live, functional platform** with 20+ tools, a developer toolkit, and real blockchain integration. It cost the company zero dollars to build — Nick built it on his own time.
 
 ### 3. The Savings Are Insane
-S4 Ledger saves the government **~$1.02M–$2.6M per program per year**. It costs them **$6K–$60K/year**. That's a **15x to 100x return on investment**. The government does not say no to that kind of math.
+S4 Ledger saves the government **~$1.02M–$2.6M per program per year**. It costs them **$12K–$120K/year**. That's a **15x to 100x return on investment**. The government does not say no to that kind of math.
 
 ### 4. The Path to $1B Is Straightforward
 Defense software companies are valued at 15–20x their revenue. We need **$70M/year in revenue** to reach a **$1 billion valuation**. The defense logistics software market is **$25B+ per year**. We only need to capture **1–4%** of it. Palantir and Anduril both followed this exact playbook.

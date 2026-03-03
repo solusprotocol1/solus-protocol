@@ -40,7 +40,7 @@ S4 Ledger's current architecture is a client-side browser application optimized 
 ┌──────────┐    ┌──────────────┐
 │ Vercel   │    │ XRPL         │
 │ API      │    │ (Testnet/    │
-│ (65 EP)  │    │  Mainnet)    │
+│ (90+ EP)  │    │  Mainnet)    │
 └──────────┘    └──────────────┘
 ```
 
@@ -51,7 +51,7 @@ S4 Ledger's current architecture is a client-side browser application optimized 
 - **Record Count**: Comfortable up to ~1,000 records per session
 - **Users**: Single user per browser instance
 - **Authentication**: Login portal (UI only, no backend session management)
-- **API**: 65 serverless Vercel endpoints (stateless)
+- **API**: 90+ serverless Vercel endpoints (stateless)
 
 ### Current Limitations
 | Limitation | Impact | Threshold |

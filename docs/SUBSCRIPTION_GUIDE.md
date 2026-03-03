@@ -57,6 +57,20 @@ Every subscription tier includes access to the full ILS Workspace:
 
 ## Subscription Tiers
 
+### Pilot — Free
+> *For evaluators and small teams exploring blockchain-backed ILS capabilities.*
+
+| Feature | Included |
+|---------|----------|
+| Monthly SLS allocation | 100 SLS (Credits) |
+| Anchoring capacity | Up to 10,000 anchors |
+| XRPL wallet | Auto-provisioned |
+| ILS Workspace | All 20+ tools |
+| AI agent | Included |
+| Support | Community |
+
+---
+
 ### Starter — $999/month
 > *For program offices and small contractors getting started with blockchain-backed ILS.*
 
@@ -102,7 +116,7 @@ Every subscription tier includes access to the full ILS Workspace:
 | Feature | Included |
 |---------|----------|
 | Monthly SLS allocation | 500,000 SLS |
-| Anchoring capacity | **Unlimited** |
+| Anchoring capacity | Up to 50,000,000 anchors |
 | XRPL wallets | Dedicated wallets (multiple) |
 | ILS Workspace | All 20+ tools |
 | AI Agent | Full LLM access (cloud-backed) |

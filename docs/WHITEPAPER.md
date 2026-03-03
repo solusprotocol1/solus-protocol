@@ -15,9 +15,9 @@ S4 Ledger provides tamper-proof audit trails for defense supply chains, technica
 
 ### 1.1 Defense Logistics Is Broken
 
-The U.S. Department of War manages supply chains spanning thousands of vendors, millions of parts, and decades of lifecycle support. The consequences of record integrity failures are severe:
+The U.S. Department of Defense manages supply chains spanning thousands of vendors, millions of parts, and decades of lifecycle support. The consequences of record integrity failures are severe:
 
-- **$1.2 billion+** in counterfeit electronic parts detected in DoW supply chains (SASC Report, 2012)
+- **$1.2 billion+** in counterfeit electronic parts detected in DoD supply chains (SASC Report, 2012)
 - **Gundecking** — falsification of maintenance records — undermines readiness and puts lives at risk
 - **CDRL delivery disputes** costing months of contract resolution
 - **Configuration management failures** causing interoperability breakdowns during deployment
@@ -187,11 +187,11 @@ See [SEC_COMPLIANCE.md](SEC_COMPLIANCE.md) for full analysis under the Howey tes
 - **Batch support:** Up to 1,000 records per batch
 - **CLI:** Command-line interface for scripting and automation
 
-### 5.2 REST API (63+ endpoints — Live)
+### 5.2 REST API (90+ endpoints — Live)
 
 - REST API with API key authentication (master + org keys)
-- 63+ production endpoints: anchor, verify, hash, categorize, status, health, metrics, transactions, record-types, xrpl-status, auth, infrastructure, and 20+ ILS tool endpoints
-- Rate limits per tier (1K/10K/100K anchors per month)
+- 90+ production endpoints: anchor, verify, hash, categorize, status, health, metrics, transactions, record-types, xrpl-status, auth, infrastructure, and 20+ ILS tool endpoints
+- Rate limits per tier (Pilot 100 / Starter 25K / Professional 100K / Enterprise 500K anchors per month)
 - Webhook notifications for anchor confirmations
 - Batch endpoints for high-volume operations
 - OpenAPI 3.0 specification at /api/openapi.json
@@ -206,7 +206,7 @@ SHA-256 is not directly vulnerable to Grover's algorithm. Grover's algorithm red
 
 | Solution | Approach | Cost | Data Exposure | Defense Focus |
 |---|---|---|---|---|
-| **S4 Ledger** | Hash anchoring on XRPL | 0.01 SLS/anchor | Zero | Built for DoW ILS — 20+ tools, U.S. Navy |
+| **S4 Ledger** | Hash anchoring on XRPL | 0.01 SLS/anchor | Zero | Built for DoD ILS — 20+ tools, U.S. Navy |
 | **ICAPS** (DAU) | Mainframe + PC provisioning | Free (gov only) | Internal database | Navy/USMC only, Supply Support only |
 | SAP S/4HANA | ERP platform | $1M+ | Full database | Commercial, adapted for defense |
 | Oracle Cloud | ERP platform | $500K+ | Cloud-hosted | Commercial, adapted for defense |
@@ -265,7 +265,7 @@ S4 Ledger delivers measurable cost savings at every implementation tier:
 
 ### Economic Impact & Job Creation
 
-At scale (Year 5, $3–5M ARR), S4 Ledger is projected to create 340+ jobs (30–45 direct, 100–200 indirect at integrators and contractors) with a total economic impact of $8M–$17M based on the DoW's 3.4× economic multiplier. By lowering compliance barriers for Tier 2–4 suppliers, the platform expands the defense industrial base and enables small businesses to compete for contracts that were previously cost-prohibitive.
+At scale (Year 5, $3–5M ARR), S4 Ledger is projected to create 340+ jobs (30–45 direct, 100–200 indirect at integrators and contractors) with a total economic impact of $8M–$17M based on the DoD's 3.4× economic multiplier. By lowering compliance barriers for Tier 2–4 suppliers, the platform expands the defense industrial base and enables small businesses to compete for contracts that were previously cost-prohibitive.
 
 **Key Government Savings Drivers:**
 - **65% labor reduction** in manual ILS documentation and verification ($85K/FTE × 2080 hrs × 0.65)
@@ -275,7 +275,7 @@ At scale (Year 5, $3–5M ARR), S4 Ledger is projected to create 340+ jobs (30�
 - **$12K/program compliance acceleration** — Automated CMMC/NIST/DFARS compliance posture monitoring
 
 **S4 Systems Revenue Model:**
-- **SaaS licensing**: $6K–$60K/year per organization (tiered by platform count)
+- **SaaS licensing**: $12K–$120K/year per organization (tiered by platform count)
 - **$SLS transaction fees**: $0.01 per anchor × volume = $1K–$50K/year per active customer
 - **Enterprise API access**: $50K–$200K/year for high-volume integration
 - **SBIR/STTR potential**: $50K–$250K Phase I → $500K–$1.5M Phase II → Phase III full production transition
@@ -297,7 +297,7 @@ Infrastructure costs scale with revenue and never exceed 6% of ARR at any phase.
 
 ## 8. Team
 
-S4 Ledger is a product line of **S4 Systems, LLC**, created and built entirely by **Nick Frankfort** — ILS contractor and founder and CEO. Nick built the entire platform (20+ ILS tools, 37 Python SDK methods, 90+ REST API endpoints, $SLS token, 25+ page website, 500+ pre-loaded military entities) at zero cost to the company, on his own time, drawing on years of hands-on ILS experience across Navy and DoW programs.
+S4 Ledger is a product line of **S4 Systems, LLC**, created and built entirely by **Nick Frankfort** — ILS contractor and founder and CEO. Nick built the entire platform (20+ ILS tools, 37 Python SDK methods, 90+ REST API endpoints, $SLS token, 25+ page website, 500+ pre-loaded military entities) at zero cost to the company, on his own time, drawing on years of hands-on ILS experience across Navy and DoD programs.
 
 Based in Charleston, SC.
 

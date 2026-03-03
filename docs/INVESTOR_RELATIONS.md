@@ -66,7 +66,7 @@ Treasury address: `rMLmkrxpadq5z6oTDmq8GhQj9LKjf1KLqJ`
 |---|---|
 | ILS Tools | 20+ interactive workspace tools |
 | SDK Functions | 37 Python methods |
-| API Endpoints | 65 REST endpoints |
+| API Endpoints | 90+ REST endpoints |
 | Pre-loaded Entities | 500+ (500+ platforms + 37 suppliers + 25 contracts) |
 | Record Types | 156+ pre-built ILS categories |
 | Per-Program Savings | ~$1.02M–$2.6M/year |

@@ -8,7 +8,7 @@
 - Enhanced CI/CD pipeline — 5 jobs: lint, test, security, html-validation, docker
 - 20 pytest tests covering JWT, hashing, data validation, route resolution, and security
 
-## [5.11.0] — 2025-01-XX
+## [5.11.0] — 2026-02-25
 ### Added
 - Supabase state sync engine — ALL localStorage data now persists to cloud database
 - Custom program persistence — saved programs survive page refresh and sync across sessions
@@ -19,7 +19,7 @@
 ### Fixed
 - Custom programs lost on page refresh — now persist to localStorage + Supabase
 
-## [5.10.0] — 2025-01-XX
+## [5.10.0] — 2026-02-25
 ### Added
 - PMS 325 (SSC) and PMS 385 (DLS) programs
 - USCG support across all tool dropdowns
@@ -926,7 +926,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Copyright Entity Branding** — Changed `© 2026 S4 Ledger` to `© 2026 S4 Systems, LLC` across 7 markdown files (WHITEPAPER, SECURITY_AUDIT, SECURITY, CONTRIBUTING, CODE_OF_CONDUCT, BAA_TEMPLATE, README).
 - **DEVELOPER_BIO.md Rewritten** — Changed "founder" to "creator and owner." Added S4 Systems LLC ownership, ILS contractor role, proposed Product Lead/CTO title, zero-cost build, and comprehensive scope of what was built (18 tools, 21 SDK functions, 7 API endpoints, 500+ entities).
 - **WHITEPAPER.md Updated** — Version bumped to 3.9.0. SBIR figures corrected ($50K–$250K Phase I / $500K–$1.5M Phase II / Phase III production). Team section updated with Nick Frankfort credit and S4 Systems LLC.
-- **DoW Budget Corrected** — Fixed `$800B+` to `$850B+` annual DoW budget in INVESTOR_PITCH, INVESTOR_OVERVIEW, and INVESTOR_SLIDE_DECK.
+- **DoD Budget Corrected** — Fixed `$800B+` to `$850B+` annual DoD budget in INVESTOR_PITCH, INVESTOR_OVERVIEW, and INVESTOR_SLIDE_DECK.
 - **Oracle Cost Fixed** — Corrected Oracle NetSuite from `$100K–$1M+` to `$200K–$1M+` in INVESTOR_SLIDE_DECK competitor table.
 - **S4 Systems LLC Attribution** — All investor documents now identify S4 Ledger as "A product line of S4 Systems, LLC" with Nick Frankfort credited by name.
 - **INVESTOR_RELATIONS.md Enriched** — Added full key performance metrics table, SDK/API counts, 500+ entities, per-program savings, AI Agent to tool list, zero-cost build credit.
@@ -935,16 +935,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - **Job Security Messaging** — Added comprehensive "This Creates Jobs — It Doesn't Replace Them" sections to all 4 key documents (BILLION_DOLLAR_ROADMAP, BILLION_DOLLAR_ROADMAP_SIMPLE, S4_SYSTEMS_EXECUTIVE_PROPOSAL, S4_LEDGER_INTERNAL_PITCH). Addresses common fear that AI/blockchain/automation replaces workers. Details how S4 Ledger automates grunt work while preserving and enhancing skilled human roles. 340+ net new jobs projected by Year 5 with category breakdowns. Historical precedent (GPS, ERP, Palantir) proves the pattern.
-- **National Impact Sections** — Added "From Congress to the Warfighter" sections to all 4 key documents. Covers Congressional appropriations impact ($850B+ annual DoW budget, $150B+ logistics), taxpayer value ($600M–$1.6B/yr savings at scale), military readiness and warfighter safety (counterfeit parts elimination, predictive maintenance, supply chain acceleration), and defense industrial base strengthening (small business enablement).
+- **National Impact Sections** — Added "From Congress to the Warfighter" sections to all 4 key documents. Covers Congressional appropriations impact ($850B+ annual DoD budget, $150B+ logistics), taxpayer value ($600M–$1.6B/yr savings at scale), military readiness and warfighter safety (counterfeit parts elimination, predictive maintenance, supply chain acceleration), and defense industrial base strengthening (small business enablement).
 
 ### Changed
 - **LLC Ownership Structure Clarified** — Updated S4_SYSTEMS_EXECUTIVE_PROPOSAL.md "Proposed Arrangement" section to clarify S4 Ledger operates as a product line within S4 Systems, LLC. No separate LLC/subsidiary/C-Corp needed. Nick gets equity stake in S4 Systems + Product Lead/CTO title. All IP owned by S4 Systems.
 - **Background Animation Brightness Increased** — Increased all alpha/opacity values in s4-background.js by approximately 2–2.5x. Anchors, chains, nodes, fragments, streams, circuits, particles, hex grid, scanning line, and wave lines all more visible while remaining subtle. No longer hard to see on most displays.
 - **Production Readiness — Entity Formation Fixed** — Updated PRODUCTION_READINESS.md to reflect that S4 Systems, LLC already exists. Removed "Form legal entity (Delaware C-Corp)" items, replaced with "S4 Ledger product line under S4 Systems" (marked complete). Changed CAGE/SAM items to "verify/obtain" rather than "create from scratch."
-- **DoDI Directive Name Fix** — Fixed "DoWI 4245.14" back to "DoDI 4245.14" in PRODUCTION_READINESS.md (official directive names keep DoD prefix). Fixed "DoW 5200.01" back to "DoD 5200.01" in BAA_TEMPLATE.md.
+- **DoDI Directive Name Fix** — Fixed "DoDI 4245.14" back to "DoDI 4245.14" in PRODUCTION_READINESS.md (official directive names keep DoD prefix). Fixed "DoD 5200.01" back to "DoD 5200.01" in BAA_TEMPLATE.md.
 - **Tool Count Corrections** — Fixed "12 ILS Workspace sub-tabs" → "19" in MAINNET_MIGRATION.md. Fixed "13-tool ILS Workspace" → "19-tool" in README.md.
 - **ROADMAP.md Phase 2 Updated** — Updated Phase 2 from vague/outdated description to comprehensive feature list: 18 tools, 500+ platforms, 156+ pre-built record types across 9 military branches, SDK Playground, competitive analysis, all pitch materials.
-- **CHANGELOG.md Terminology** — Fixed remaining "DoD" → "DoW" in changelog entries where not referring to official directive names.
+- **CHANGELOG.md Terminology** — Fixed remaining "DoD" → "DoD" in changelog entries where not referring to official directive names.
 
 ## [3.8.8] - 2026-02-15
 
@@ -957,7 +957,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Background Animation v3** — Anchors now have trailing chains (physics-based link following with wave motion), L-shaped circuit traces with traveling pulses, energy particles with glow halos. More futuristic + distinctly anchor-themed.
 - **About Page — "Our Mission" Gradient** — Added gradient-text styling to match other page headings.
 - **Financial Numbers Fixed** — Replaced all awkward "$601K" and "$1,595K/year" with properly rounded "~$600K" and "~$1.6M/year" across 5+ documents. Fixed tool count inconsistencies (INVESTOR_OVERVIEW 12→18, INVESTOR_SLIDE_DECK 13→18). Reconciled Internal Pitch savings table to match investor docs.
-- **DoW Terminology Standardized** — Updated all general "DoD" / "Department of Defense" references to "DoW" / "Department of War" across 10+ documents (preserving official directive names like DoD 5000.73, DoDI 4245.15).
+- **DoD Terminology Standardized** — Updated all general "DoD" / "Department of Defense" references to "DoD" / "Department of Defense" across 10+ documents (preserving official directive names like DoD 5000.73, DoDI 4245.15).
 - **Cross-Document Consistency** — Harmonized tool counts (18 everywhere), savings figures, pricing tiers, and competitive positioning across all investor, executive, and internal documents.
 
 ## [3.8.7] - 2026-02-15
@@ -975,7 +975,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - **Nautical Anchor Background Animation** — Replaced particles.js with custom canvas-based animation featuring floating anchor icons with chain links, drifting SHA-256 hash fragments, and subtle wave patterns. Gold + blue color scheme matches brand identity. Zero external dependencies
-- **Expanded Real Defense Data** — Researched and added 35+ real DoW weapons platforms across the U.S. Navy with actual NSN numbers, program offices, and fleet sizes to all new ILS tools. Supply Chain Risk Engine now covers Navy (DDG-51, CVN-78, SSN-774, SSBN-826, CG-47, LCS, LPD-17), Air Force (F-35, F-22A, F-15EX, B-21, B-52H, KC-46A, C-17A, MQ-9), Army (M1A2, M2A3, Stryker, HIMARS, Patriot, AH-64E, UH-60M), Marines (CH-53K, V-22, ACV, AH-1Z, LAV-25), Space Force/MDA (GPS III, THAAD, SBIRS), SOCOM (CV-22B, AC-130J), and Coast Guard (WMSL-750)
+- **Expanded Real Defense Data** — Researched and added 35+ real DoD weapons platforms across the U.S. Navy with actual NSN numbers, program offices, and fleet sizes to all new ILS tools. Supply Chain Risk Engine now covers Navy (DDG-51, CVN-78, SSN-774, SSBN-826, CG-47, LCS, LPD-17), Air Force (F-35, F-22A, F-15EX, B-21, B-52H, KC-46A, C-17A, MQ-9), Army (M1A2, M2A3, Stryker, HIMARS, Patriot, AH-64E, UH-60M), Marines (CH-53K, V-22, ACV, AH-1Z, LAV-25), Space Force/MDA (GPS III, THAAD, SBIRS), SOCOM (CV-22B, AC-130J), and Coast Guard (WMSL-750)
 - **25 Real Defense Contracts** — Contract Lifecycle Management now includes contracts from NAVSEA, NAVAIR, Army ACC (Detroit/Warren/Redstone), AF LCMC, DLA, MCSC, MDA, and Space Systems Command with authentic prefix formats
 - **32 Defense Platform Configurations** — Digital Thread Bridge expanded with variant-specific designators (DDG-51 Flight I/IIA/III, F-35A/B/C, SSN-774 Block IV/V, M1A2 SEPv3/v4, Stryker DVH, AH-64E V6, B-52H CERP, etc.)
 - **40+ Fleet Predictive Maintenance Platforms** — Predictive Maintenance AI now covers all major fleet sizes (M1A2: 2,509 tanks, Stryker: 4,466 vehicles, F-16: 936 aircraft, UH-60: 2,135 helicopters, KC-135: 396 tankers, etc.) with realistic system/component/failure mode data per platform type
@@ -993,7 +993,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - **AI Supply Chain Risk Engine** — New ILS Workspace tool (#14). ML-powered risk scoring across 15+ parts per program — analyzes supplier health (GIDEP alerts, DLA lead time spikes, financial distress, single-source dependency, counterfeit indicators). Generates risk scores (Critical/High/Medium/Low), ETA impact calculations, and full CSV export. Realistic data for DDG-51, CVN-78, F-35, CH-53K, SSN-774 programs with real NSN numbers
 - **Automated Audit Report Generator** — New ILS Workspace tool (#15). One-click audit package generation from anchored records. 6 report types (Full Audit, Supply Chain, Maintenance, Compliance, Custody, Contract Deliverables), configurable time periods, PDF/CSV/JSON output. Generates preview with section-by-section compliance scoring. Report hash anchoring to XRPL for immutable audit trail
-- **Contract Lifecycle Management** — New ILS Workspace tool (#16). CDRL tracking, contract modifications, and SOW deliverable status monitoring. 5 realistic DoW contracts (Navy), DI number references, deliverable status tracking (On Track/At Risk/Overdue/Delivered), type filtering (CDRLs/Mods/SOW Deliverables). Blockchain-anchored delivery timestamps eliminate contract disputes
+- **Contract Lifecycle Management** — New ILS Workspace tool (#16). CDRL tracking, contract modifications, and SOW deliverable status monitoring. 5 realistic DoD contracts (Navy), DI number references, deliverable status tracking (On Track/At Risk/Overdue/Delivered), type filtering (CDRLs/Mods/SOW Deliverables). Blockchain-anchored delivery timestamps eliminate contract disputes
 - **Digital Thread / Configuration Bridge** — New ILS Workspace tool (#17). 4 configuration management views: Engineering Changes (ECP tracking with Class I/II), BOM Revisions (multi-level assemblies), Configuration Baselines (FBL/ABL/Product), TDP Versions (specifications through IPBs). Status workflow (Pending→Approved→Implemented), anchoring status per item, full export capability
 - **Predictive Maintenance AI** — New ILS Workspace tool (#18). Fleet-wide failure prediction engine — analyzes MTBF trends, failure mode clustering, and component age curves. Platform-specific predictions (DDG-51: 12 systems, CVN: 10, F/A-18: 10, MH-60: 8, LCS: 8) with confidence scores, ETA predictions, and cost-if-unplanned estimates. Configurable prediction window (30d–365d) and confidence threshold (50%–95%)
 - **Developer Marketplace** — New standalone page (`/s4-marketplace/`) with 12 available extensions (7 official, 3 partner, 2 community), 3 coming-soon items, category filtering (Integrations/Analytics/Compliance/Connectors/Templates/AI), marketplace economics section (70/30 revenue share), and publish CTA. Extensions include SAP S/4HANA, PTC Windchill, Siemens Teamcenter, DCMA Compliance, GIDEP Alert Monitor, EDA/PIEE Bridge, Power BI dashboards, IBM Maximo, Splunk SIEM, NIST/CMMC templates, and SDK starter packs
@@ -1033,7 +1033,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Verify Tool How It Works** — New expandable `<details>` section in Verify panel with What's real (cryptographic proof), How S4 saves money (90–98% verification labor reduction), and Production mode (automated batch verification via API)
 - **SDK Playground How It Works Expanded** — Added expandable technical details section to SDK Playground with What's real, What's demo, How S4 saves money (95% integration cost reduction), and Production mode (pip install, API key, CI/CD integration)
 - **SDK Playground Record Type Fallback** — 156+ hardcoded defense record types across U.S. Navy load automatically when the API is unavailable. Organized by branch with realistic record types, icons, and optgroups. SDK Playground now always has a populated dropdown
-- **Economic Impact & Job Creation Section** — New section on landing page with data-driven economic impact metrics ($2.1B+ DoW manual ILS spend, 85–95% audit reduction, 340+ estimated jobs at scale, 3.4× DoW multiplier, $8M–$17M total impact). Includes job breakdown per 100 programs and small business enablement callout
+- **Economic Impact & Job Creation Section** — New section on landing page with data-driven economic impact metrics ($2.1B+ DoD manual ILS spend, 85–95% audit reduction, 340+ estimated jobs at scale, 3.4× DoD multiplier, $8M–$17M total impact). Includes job breakdown per 100 programs and small business enablement callout
 - **Economic Impact in Executive Proposal** — Added full Economic Impact & Job Creation section with table and small business enablement narrative
 - **Economic Impact in Internal Pitch** — Added economic growth math summary with Year 5 projections
 - **Login Page Persistent Auth** — Auth state now uses `localStorage` instead of `sessionStorage` for 24-hour persistence across pages. All pages show logged-in user name in navbar via shared `main.js` auth-state awareness

@@ -64,10 +64,10 @@ S4 Ledger utilizes the `Memos` field in a standard XRPL transaction to anchor da
 
 | Property | Value |
 |---|---|
-| **Endpoints** | 65 production REST API endpoints |
+| **Endpoints** | 90+ production REST API endpoints |
 | **Framework** | Zero-dependency (BaseHTTPRequestHandler) |
 | **Authentication** | API key (master + org keys) |
-| **Rate Limiting** | 120 requests/minute per IP |
+| **Rate Limiting** | 30 requests/minute per IP (API), 5/minute (anchoring) |
 | **Spec** | OpenAPI 3.0 at /api/openapi.json |
 
 ## 6. ILS Workspace
@@ -211,7 +211,7 @@ When a tampered record is corrected:
 
 ---
 
-## 10. Full API Endpoint Inventory (65 Endpoints)
+## 10. Full API Endpoint Inventory (90+ Endpoints)
 
 ### Core Platform
 | Endpoint | Method | Description |

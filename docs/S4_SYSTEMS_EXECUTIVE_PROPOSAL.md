@@ -19,7 +19,7 @@ On top of this record integrity layer, S4 Ledger includes a full **ILS Workspace
 
 ## The Problem We Solve
 
-Every day, the U.S. Department of War (DoW) processes millions of logistics records — supply chain receipts, maintenance actions, ordnance lot tracking, custody transfers, configuration baselines, and contract deliverables.
+Every day, the U.S. Department of Defense (DoD) processes millions of logistics records — supply chain receipts, maintenance actions, ordnance lot tracking, custody transfers, configuration baselines, and contract deliverables.
 
 **Two critical problems exist:**
 
@@ -28,7 +28,7 @@ Every day, the U.S. Department of War (DoW) processes millions of logistics reco
 - Audit trails rely entirely on trusting database administrators
 - No independent proof that a record hasn't been modified
 - CMMC (Cybersecurity Maturity Model Certification) and NIST SP 800-171 require integrity controls that most contractors struggle to demonstrate
-- Supply chain fraud costs DoW **billions** annually
+- Supply chain fraud costs DoD **billions** annually
 
 ### Problem 2: Fragmented ILS Tools
 - ILS managers juggle disconnected spreadsheets, SharePoint lists, and standalone databases
@@ -47,7 +47,7 @@ Every day, the U.S. Department of War (DoW) processes millions of logistics reco
 | Component | Description | Status |
 |-----------|-------------|--------|
 | **Live Website** | 25+ pages at [s4ledger.com](https://s4ledger.com) with full branding | ✅ Deployed |
-| **Python API** | 65 REST endpoints, zero external dependencies | ✅ Live |
+| **Python API** | 90+ REST endpoints, zero external dependencies | ✅ Live |
 | **Demo Application** | Interactive platform — the U.S. Navy, 156+ pre-built record types across Navy, USMC, and USCG (any defense record type supported) | ✅ Live |
 | **SDK Playground** | Browser-based Python SDK sandbox with live API | ✅ Live |
 | **$SLS Utility Token** | LIVE on XRPL Mainnet — 100M supply, ~15M circulating, AMM (Automated Market Maker) pools active | ✅ Live |
@@ -119,7 +119,7 @@ Data from these systems is imported via CSV/XML/JSON, hashed with SHA-256, and a
 S4 Systems works in defense logistics. We understand the domain, the customer, the procurement process, and the compliance landscape. Most tech startups trying to enter defense have none of this.
 
 ### 2. Existing Relationships
-We have existing relationships with DoW entities, prime contractors, and the defense supply chain. S4 Ledger doesn't need a cold start — it can be piloted with our current customers and partners.
+We have existing relationships with DoD entities, prime contractors, and the defense supply chain. S4 Ledger doesn't need a cold start — it can be piloted with our current customers and partners.
 
 ### 3. CAGE Code, SAM.gov, D-U-N-S
 S4 Systems likely already has the government registrations (CAGE Code — our unique identifier for government contracting, SAM.gov registration, and D-U-N-S number) that a startup would spend months obtaining. We can move immediately.
@@ -148,7 +148,7 @@ S4 Systems is practically CMMC Level 2-ready. S4 Ledger architecture is CMMC-ali
 | Competitor | Annual Cost | Implementation Time | Why S4 Ledger Wins |
 |-----------|------------|-------------------|-------------------|
 | **SAP S/4HANA** (Defense & Security) | $500K–$5M+ | 6–24 months | S4 Ledger deploys in hours, not months. Includes ILS-specific tools SAP doesn't offer natively. No ERP overhead required. |
-| **Oracle NetSuite** (Supply Chain) | $200K–$1M+ | 3–12 months | S4 Ledger is purpose-built for defense ILS, not adapted from commercial ERP. Includes DMSMS tracking, military readiness, and DoW standards compliance. |
+| **Oracle NetSuite** (Supply Chain) | $200K–$1M+ | 3–12 months | S4 Ledger is purpose-built for defense ILS, not adapted from commercial ERP. Includes DMSMS tracking, military readiness, and DoD standards compliance. |
 | **Microsoft Dynamics 365 SCM** | $150K–$800K+ | 3–6 months | S4 Ledger provides tamper-proof anchoring that M365 cannot offer, plus defense-specific tools (gap analysis, readiness, DMSMS) absent from Dynamics. |
 | **Windchill / PTC** | $300K–$2M+ | 6–18 months | Focused on PLM (Product Lifecycle Management), not ILS. No readiness calculations, DMSMS tracking, or supply chain verification. |
 | **Spreadsheets + SharePoint** | "$0" (hidden labor costs) | Ongoing manual effort | No automation, no cross-tool integration, no audit trail, error-prone, unscalable. |
@@ -161,7 +161,7 @@ S4 Systems is practically CMMC Level 2-ready. S4 Ledger architecture is CMMC-ali
 ## Revenue Model
 
 ### Per-Transaction Micro-Fees
-Every record anchored costs **0.01 $SLS** ($0.01 per record). The $SLS token acts as a usage credit — similar to buying postage stamps for each record you verify. With DoW processing millions of records daily, even modest adoption creates significant transaction volume.
+Every record anchored costs **0.01 $SLS** ($0.01 per record). The $SLS token acts as a usage credit — similar to buying postage stamps for each record you verify. With DoD processing millions of records daily, even modest adoption creates significant transaction volume.
 
 ### Subscription Tiers
 
@@ -198,7 +198,7 @@ S4 Ledger delivers measurable, defensible savings at every scale:
 **How the math works:**
 - **65% labor reduction**: Manual ILS documentation and verification currently consumes ~40% of logistics FTE hours. At $85K/FTE fully loaded (~$41/hr), a single FTE saves ~$22K/year. Across 3 FTEs = ~$66K/year; 10 FTEs = ~$220K/year.
 - **90% error savings**: Counterfeit parts insertion, document tampering, and audit failures cost $50K–$2M per incident. SHA-256 integrity verification eliminates the root cause.
-- **70% audit cost reduction**: Average DoW contract audit costs $45K–$150K. Immutable XRPL records replace manual evidence gathering.
+- **70% audit cost reduction**: Average DoD contract audit costs $45K–$150K. Immutable XRPL records replace manual evidence gathering.
 - **15–25% DMSMS avoidance**: Proactive obsolescence tracking prevents emergency redesign ($2M–$8M per incident). Over 50+ programs, this is $15M–$100M in avoided costs over 5 years.
 - **~$12K/program/year compliance acceleration**: Automated CMMC/NIST/DFARS compliance monitoring replaces manual posture assessments.
 
@@ -265,9 +265,9 @@ The SBIR (Small Business Innovation Research) program is a federal funding mecha
 - **Phase II:** $500K–$1.5M to develop the product for production
 - **Phase III:** Full-scale production and deployment — no further competition required
 
-Relevant DoW solicitation topics appear regularly from:
+Relevant DoD solicitation topics appear regularly from:
 - **Navy SBIR** (NAVSEA — Naval Sea Systems Command, NAVAIR — Naval Air Systems Command, NAVSUP — Naval Supply Systems Command)
-- **NavalX / DIU** (Naval innovation arm / Defense Innovation Unit — bridges commercial technology into DoW)
+- **NavalX / DIU** (Naval innovation arm / Defense Innovation Unit — bridges commercial technology into DoD)
 
 S4 Ledger's prototype is essentially a **completed Phase I deliverable**. We could apply directly for Phase II in many cases.
 
@@ -310,7 +310,7 @@ The key principle: I built this from scratch on my own, and I'm offering S4 Syst
 | Risk | Likelihood | Mitigation |
 |------|-----------|------------|
 | SEC classifies $SLS as a security rather than utility token | Very Low | $SLS fails all four Howey Test prongs (see SEC_COMPLIANCE.md). Formal legal opinion ($5K–$15K) documents this. No ICO, no exchange listing, no profit expectation, no pooled funds. |
-| DoW slow to adopt new technology | Medium | Start with non-classified records; use SBIR funding to reduce financial risk; leverage existing relationships |
+| DoD slow to adopt new technology | Medium | Start with non-classified records; use SBIR funding to reduce financial risk; leverage existing relationships |
 | XRPL network disruption | Very Low | XRPL has maintained 99.99%+ uptime since 2012; architecture supports fallback to alternative anchoring |
 | Competitor enters market | Medium | First-mover advantage; defense relationships are our moat; ILS Workspace adds tool stickiness beyond anchoring alone |
 | CMMC requirements evolve | Low | Hash-only architecture is compliance-agnostic by design — no sensitive data ever leaves our control |
@@ -339,10 +339,10 @@ S4 Ledger is not just a cost-savings tool — it's an economic growth engine for
 
 | Metric | Value | Basis |
 |--------|-------|-------|
-| **Annual DoW ILS Manual Labor Spend** | $2.1B+ | GAO & DoD IG reports on logistics inefficiency |
+| **Annual DoD ILS Manual Labor Spend** | $2.1B+ | GAO & DoD IG reports on logistics inefficiency |
 | **Audit Prep Labor Reduction** | 85–95% | Manual verification (2–6 weeks) → instant retrieval (minutes) |
 | **Estimated Jobs at Scale (Year 5)** | 340+ | Direct (30–45) + indirect (100–200) + economic multiplier jobs |
-| **DoW Economic Multiplier** | 3.4× | Per dollar spent in defense tech creates $3.40 in economic activity |
+| **DoD Economic Multiplier** | 3.4× | Per dollar spent in defense tech creates $3.40 in economic activity |
 | **Total Economic Impact (Year 5)** | $8M–$17M | Based on $3–5M ARR × 3.4× multiplier |
 
 ### Job Creation Breakdown (per 100 programs using S4 Ledger)
@@ -397,7 +397,7 @@ S4 Ledger is not just a product for S4 Systems — it has the potential to resha
 
 ### Congressional & Budget Impact
 
-Congress appropriates **$850B+ annually** to the Department of War. Logistics alone exceeds **$150B per year**. Government watchdogs (GAO, DoW Inspector General) repeatedly identify **billions in waste** from:
+Congress appropriates **$850B+ annually** to the Department of Defense. Logistics alone exceeds **$150B per year**. Government watchdogs (GAO, DoD Inspector General) repeatedly identify **billions in waste** from:
 - Duplicate purchases caused by unreliable inventory data
 - Counterfeit parts entering the supply chain undetected
 - Audit failures requiring expensive remediation
@@ -440,14 +440,14 @@ Defense SaaS companies are valued at 12–20× revenue (Palantir: 27×, Anduril:
 ### The Math That Gets Us There
 
 **Current platform savings per program:** ~$1.02M–$2.6M/year (20+ ILS tools + hash anchoring + defense database import + ILIE submission intelligence combined).  
-**S4 Ledger charges 5–10% of value delivered** → $6K–$60K/year per customer → 15–100× ROI for government.
+**S4 Ledger charges 5–10% of value delivered** → $12K–$120K/year per customer → 15–100× ROI for government.
 
 | Scale | Programs | Govt Savings/Year | S4 Revenue (ARR) | Valuation (15×) |
 |---|---|---|---|
 | **Pilot** | 5 | $2.7M–$7.3M | $135K–$365K | $2.0M–$5.5M |
 | **Growth** | 50 | $27M–$73M | $3.6M–$7.8M | $54M–$117M |
 | **Scale** | 500 | $270M–$730M | $36M–$78M | $540M–$1.17B |
-| **DoW-Wide** | 5,000 | $2.7B–$7.3B | $360M–$780M | **$5.4B–$11.7B** |
+| **DoD-Wide** | 5,000 | $2.7B–$7.3B | $360M–$780M | **$5.4B–$11.7B** |
 
 ### Capabilities Required for Billion-Dollar Scale
 

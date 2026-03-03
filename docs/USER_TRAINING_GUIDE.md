@@ -21,9 +21,10 @@ It was built for defense and government teams who need to track parts, maintenan
 1. Go to **s4ledger.com/s4-login** and click **Create Account**
 2. Fill in your **work email**, **organization**, and **password**
 3. Pick a subscription plan:
+   - **Pilot** (Free) — 100 SLS, good for 10,000 stamps
    - **Starter** ($999/month) — 25,000 SLS, good for 2,500,000 stamps
    - **Professional** ($2,499/month) — 100,000 SLS, good for 10,000,000 stamps
-   - **Enterprise** ($9,999/month) — 500,000 SLS, unlimited stamps
+   - **Enterprise** ($9,999/month) — 500,000 SLS, good for 50,000,000 stamps
 4. Click **Create Account & Wallet**
 
 ### Step 2 — What Happens Automatically

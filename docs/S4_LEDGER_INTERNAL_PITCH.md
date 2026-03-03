@@ -22,7 +22,7 @@ Later, if someone asks "was this receipt changed?" — you run it through S4 Led
 
 **Key point:** No actual data goes public. Just the fingerprint. It's like sealing a letter with a wax stamp — anyone can verify the seal is intact without opening the letter.
 
-**Why this matters:** Right now, if a database admin changes a logistics record, there's no way to know. S4 Ledger makes that kind of tampering detectable. The DoW spends billions fixing problems caused by unreliable records.
+**Why this matters:** Right now, if a database admin changes a logistics record, there's no way to know. S4 Ledger makes that kind of tampering detectable. The DoD spends billions fixing problems caused by unreliable records.
 
 ### Part 2: The ILS Workspace (Logistics Management Tools)
 
@@ -79,7 +79,7 @@ All 20+ tools talk to each other. When the DMSMS Tracker finds an obsolete part,
 | **DMSMS tracking** | Built-in | No — requires custom build | No | No | No | Manual |
 | **Predictive maintenance** | Built-in AI | Custom build ($1M+) | Limited (hardware-focused) | SAP APM ($200K+/yr add-on) | No | No |
 | **Setup time** | Same day | 3–12 months | Hardware deployment | 6–24 months | 3–12 months | Immediate (but no features) |
-| **Annual cost** | $6K–$60K | $1M–$50M+ | $10M+ (hardware + software) | $500K–$5M+ | $200K–$1M+ | "Free" + $200K+ labor |
+| **Annual cost** | $12K–$120K | $1M–$50M+ | $10M+ (hardware + software) | $500K–$5M+ | $200K–$1M+ | "Free" + $200K+ labor |
 | **Target customer** | Defense program offices, contractors | Intelligence community, large agencies | Combatant commands | Fortune 500 / large agencies | Mid-large enterprises | Small teams |
 
 ### Why S4 Ledger Wins Against Each Competitor
@@ -106,11 +106,11 @@ Most blockchain companies focus on cryptocurrency or consumer supply chains (tra
 Everything described above is **live and working right now** at [s4ledger.com](https://s4ledger.com). It was built by Nick Frankfort on his own time at zero cost to the company. The tech stack:
 
 - **Website:** 25+ pages, fully branded
-- **Demo App:** All 20+ ILS Workspace tools working, 156+ pre-built record types across Navy, USMC, and USCG (supports any defense record type), 500+ pre-loaded military platforms, real DoW data in all dropdowns (35+ platforms, 25 contracts, 37 suppliers)
+- **Demo App:** All 20+ ILS Workspace tools working, 156+ pre-built record types across Navy, USMC, and USCG (supports any defense record type), 500+ pre-loaded military platforms, real DoD data in all dropdowns (35+ platforms, 25 contracts, 37 suppliers)
 - **Audit Record Vault:** Automatically stores every anchored record with content + hash for instant auditing
 - **Defense Document Library:** 100+ real MIL-STDs, OPNAVINSTs, DoD Directives searchable by branch and category
 - **Compliance Scorecard:** Real-time CMMC/NIST/DFARS compliance calculator with letter grades
-- **API:** 65 working endpoints that other software can connect to
+- **API:** 90+ working endpoints that other software can connect to
 - **SDK:** A Python toolkit developers can use to plug S4 Ledger into existing systems
 - **$SLS Token:** A usage credit system — live on the XRP Ledger mainnet (production network)
 - **Documentation:** Whitepaper, compliance guides, migration plans, security review — all written
@@ -216,12 +216,12 @@ Nobody else pairs a client-side audit trail with public blockchain hash anchorin
 S4 Ledger isn't just a cost-savings play — it creates economic growth across the defense ecosystem.
 
 **The math:**
-- DoW spends **$2.1B+ annually** on manual ILS management and audit preparation
+- DoD spends **$2.1B+ annually** on manual ILS management and audit preparation
 - S4 Ledger reduces audit prep labor by **85–95%** (weeks → minutes)
 - At scale (Year 5, $3–5M ARR), we estimate **340+ jobs** created:
   - **30–45 direct** S4 Ledger jobs (engineering, support, sales)
   - **100–200 indirect** jobs at integrators and defense contractors
-  - **3.4× DoW economic multiplier** → **$8M–$17M total economic impact**
+  - **3.4× DoD economic multiplier** → **$8M–$17M total economic impact**
 - Every dollar a program saves on manual verification gets reinvested into actual readiness
 - Small businesses (Tier 2–4 suppliers) can finally afford CMMC-compliant record management
 
@@ -266,7 +266,7 @@ Let's address this head-on, because it's the first thing everyone thinks when th
 S4 Ledger isn't just good for S4 Systems. Here's why it matters for the country:
 
 ### For Congress and Defense Budgets
-Congress gives DoW over **$850 billion per year**, with logistics eating up **$150B+** of that. Government auditors (GAO, Inspector General) find billions wasted every year on duplicate purchases, unreliable data, counterfeit parts, and manual paperwork. **S4 Ledger fixes all of this** — and when Congressional appropriations committees see 15–100x ROI, those programs get funded.
+Congress gives DoD over **$850 billion per year**, with logistics eating up **$150B+** of that. Government auditors (GAO, Inspector General) find billions wasted every year on duplicate purchases, unreliable data, counterfeit parts, and manual paperwork. **S4 Ledger fixes all of this** — and when Congressional appropriations committees see 15–100x ROI, those programs get funded.
 
 ### For Taxpayers
 Every dollar saved on manual record-keeping goes to better equipment, more training, faster procurement, and a stronger industrial base. At scale, that's **$900M–$2.1B per year in savings** — not from cuts, but from eliminating waste.
