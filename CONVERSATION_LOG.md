@@ -1,5 +1,5 @@
 # S4 Ledger — Conversation Log & Fix Tracker
-## Last Updated: March 2, 2026 — Session 5 (6-Bug Fix + DoW Revert)
+## Last Updated: July 17, 2025 — Session 6 (Coverage 61%+, JSDoc, ARCHITECTURE.md)
 
 ---
 
@@ -20,7 +20,11 @@
 | DoW terminology correct (Department of War everywhere except doc refs) | ✅ | Commit a45e26d |
 | See a Demo → /prod-app/demo (standalone walkthrough) | ✅ | Commit a45e26d |
 | Compliance % visible in light mode | ✅ | CSS vars, commit a45e26d |
-| SW versions: demo s4-v338, prod s4-prod-v708 | ✅ | Current |
+| SW versions: demo s4-v339, prod s4-prod-v709 | ✅ | Current |
+| Test coverage: 61.03% (1582 tests, 24 files) | ✅ | Thresholds enforced |
+| DOMPurify: 77 innerHTML wraps via sanitize.js | ✅ | Both apps |
+| CSP: connect-src restricted to 4 domains | ✅ | Both apps |
+| JSDoc on core functions + ARCHITECTURE.md | ✅ | docs/ARCHITECTURE.md |
 
 ## ISSUES REPORTED & FIX STATUS
 | # | Issue | Reported | Status | Fix Details |
@@ -327,6 +331,56 @@ CHANGELOG.md, README.md, SECURITY.md, docs/BAA_TEMPLATE.md, docs/BILLION_DOLLAR_
 All markdown files: "Department of Defense" → "Department of War", standalone "DoD" → "DoW". Document references preserved.
 
 **SW Versions:** demo s4-v337→s4-v338, prod s4-prod-v707→s4-prod-v708
+
+---
+
+## SESSION 6 — Production Readiness Enhancements (July 17, 2025)
+**Commit:** 519a18a
+**Focus:** Test coverage to 61%+, JSDoc, Architecture docs, DOMPurify, CSP tightening
+
+### Enhancements Completed
+| # | Enhancement | Status | Details |
+|---|-------------|--------|---------|
+| 2 | DOMPurify innerHTML wraps | ✅ | 77 innerHTML assignments wrapped via `s4Sanitize()`, sanitize.js created in both apps |
+| 3 | Test coverage ≥60% | ✅ | 0% → 61.03% (1582 tests, 24 files). Thresholds enforced in vitest.config.js |
+| 5 | CSP tightened | ✅ | connect-src restricted to 4 domains: XRPL, Supabase, Vercel analytics, self |
+| 6 | Dead Supabase sync | ✅ | Confirmed clean — no orphan sync code |
+| 7 | JSDoc + developer docs | ✅ | JSDoc on 8 core functions. Created docs/ARCHITECTURE.md (module arch, data flow, build, security, testing) |
+
+### Coverage Progression
+0% → 32.46% → 44.79% → 47.57% → 50.88% → 53.89% → 55.15% → 56.88% → 57.34% → **61.03%**
+
+### Test Files Created (18 new)
+- `tests/prod-source.test.js` (124 tests) + demo mirror
+- `tests/prod-s4-namespace.test.js` (68 tests) + demo mirror
+- `tests/prod-deep-coverage.test.js` (86 tests) + demo mirror
+- `tests/prod-final-coverage.test.js` (57 tests) + demo mirror
+- `tests/prod-coverage-boost.test.js` (182 tests) + demo mirror
+- `tests/prod-coverage-final-push.test.js` (40 tests) + demo mirror
+- `tests/prod-coverage-hammer.test.js` (110 tests) + demo mirror
+- `tests/prod-coverage-precision.test.js` (42 tests) + demo mirror
+- `tests/prod-coverage-bootloader.test.js` (67 tests) + demo mirror
+
+### Files Changed
+- `vitest.config.js` — Coverage thresholds: 60% statements/lines, 50% branches/functions
+- `prod-app/src/js/engine.js` — JSDoc annotations on 4 core functions
+- `prod-app/src/js/enhancements.js` — JSDoc on focus trap functions
+- `prod-app/src/js/navigation.js` — JSDoc on openILSTool
+- `demo-app/src/js/engine.js` — Same JSDoc as prod
+- `demo-app/src/js/enhancements.js` — Same JSDoc as prod
+- `demo-app/src/js/navigation.js` — Same JSDoc as prod
+- `prod-app/src/js/sanitize.js` — DOMPurify wrapper (new file)
+- `demo-app/src/js/sanitize.js` — DOMPurify wrapper (new file)
+- `docs/ARCHITECTURE.md` — Comprehensive architecture guide (new file)
+- `tests/setup.js` — Expanded stubs for IndexedDB, Chart.js, service worker, etc.
+
+### Remaining Enhancements (deferred — high effort / low ROI)
+| # | Enhancement | Status | Notes |
+|---|-------------|--------|-------|
+| 1 | Extract shared JS package | ❌ Deferred | Would require significant refactoring of both apps' import chains |
+| 4 | Split engine.js | ❌ Deferred | 8500-line file is stable; splitting risks breaking inline onclick handlers |
+
+**SW Versions:** demo s4-v338→s4-v339, prod s4-prod-v708→s4-prod-v709
 
 ---
 *This log is updated every session. Reference before making changes.*
