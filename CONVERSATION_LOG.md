@@ -229,4 +229,56 @@
 - Highest-leverage improvement: extract shared JS into common package + add DOMPurify (~+8-10 points each)
 
 ---
+
+### Session — 2025-07-28 — Final Fixes + Comprehensive Doc Audit (commits 851f1bb, cf19e0d)
+
+**Code Fixes (commit 851f1bb):**
+
+1. **Credits Balance Disappears on Tier Switch (demo-app):**
+   - Root cause: `_showDemoOffline()` replaces `demoSessionInfo.innerHTML` with spans that had NO `id` attributes. After that runs, `document.getElementById('demoSlsBalance')` returns `null`, so `selectOnboardTier()` and `_updateDemoSlsBalance()` fail silently.
+   - Fix: Added `id="demoSlsBalance"`, `id="demoSessionId"`, and `id="demoWalletAddr"` to the replacement HTML in `_showDemoOffline()` (~L835 engine.js).
+
+2. **AI Agent Shows Before 4 Channel Hub (both apps):**
+   - Root cause: DOMContentLoaded handler at engine.js ~L8320 (demo) / ~L8343 (prod) unconditionally sets `aiWrapper.style.display = 'flex'`, overriding any prior hide.
+   - Fix: Added `sessionStorage.getItem('s4_entered') === '1'` gate. Also added `style="display:none;"` to demo-app HTML `#aiFloatWrapper`.
+
+3. **Light Mode Compliance % Too Light (both apps):**
+   - Root cause: `calcCompliance()` sets inline `style.color = 'var(--green)'` / `'var(--gold)'` on `.compliance-pct` elements. `body.light-mode` didn't override `--green`/`--gold` CSS variables, so dark-mode greens (#30d158) had poor contrast on white backgrounds.
+   - Fix: Added `--green:#1a8a3e; --gold:#8a6b1a; --red:#cc3333;` to `body.light-mode` CSS vars in both apps. Added `!important` on `body.light-mode .compliance-pct` in prod-app.
+
+4. **"See a Demo" Button 404 (root landing page):**
+   - Root cause: `index.html` linked to `/demo-app/demo` — that file doesn't exist (the build command in vercel.json deletes `demo.html`).
+   - Fix: Changed href to `/demo-app`.
+
+- SW versions: demo s4-v336→s4-v337, prod s4-prod-v706→s4-prod-v707
+
+**Documentation Audit (commit cf19e0d — 27 files, 128 insertions):**
+
+Audited every markdown file in the repo. Systemic issues found and fixed:
+
+- **DoW → DoD:** "Department of War" replaced with "Department of Defense" in 15 files (~60+ occurrences). DoW hasn't existed since 1947.
+- **Pricing $6K-$60K → $12K-$120K:** Annual pricing didn't match actual tiers ($999×12=$12K to $9,999×12=$120K). Fixed in 9 files.
+- **API endpoints 65 → 90+:** Outdated "65 endpoints" count unified to "90+" across 8+ files including WHITEPAPER (which had "63+").
+- **Rate limit 120 → 30 req/min:** TECHNICAL_SPECS and PUBLIC_FEATURES had stale rate limit. Fixed to 30 req/min.
+- **SDK functions 27 → 37:** CEO_CONVERSATION_GUIDE had stale SDK count.
+- **Pilot tier missing:** Added full Pilot tier section to SUBSCRIPTION_GUIDE, PUBLIC_FEATURES, USER_TRAINING_GUIDE, SLS_ECONOMY_CEO_EXPLAINER.
+- **Enterprise "Unlimited" → 50,000,000 anchors:** Fixed in SUBSCRIPTION_GUIDE and related docs.
+- **BILLION_DOLLAR_ROADMAP tier names:** Standard→Starter ($12K), Pro→Professional ($30K), Enterprise $60K→$120K.
+- **CHANGELOG years:** Fixed 2025-01-XX → 2026-02-25.
+- **README stale headers:** "New in v5.0.1" → "Added in v5.0.1".
+- **prod-app/TEST_REPORT.md:** Fixed title/references from "Demo App" to "Prod App".
+- **WHITEPAPER rate limits:** Fixed "1K/10K/100K" → actual tier allocations.
+
+**Files Changed (code):**
+- `demo-app/src/js/engine.js` — added IDs to offline session HTML, AI agent gate
+- `demo-app/src/index.html` — `display:none` on AI wrapper
+- `demo-app/src/styles/main.css` — light-mode CSS var overrides
+- `prod-app/src/js/engine.js` — AI agent gate
+- `prod-app/src/styles/main.css` — light-mode CSS vars + compliance `!important`
+- `index.html` — fixed "See a Demo" href
+
+**Files Changed (docs — 27 files):**
+CHANGELOG.md, README.md, SECURITY.md, docs/BAA_TEMPLATE.md, docs/BILLION_DOLLAR_ROADMAP.md, docs/BILLION_DOLLAR_ROADMAP_SIMPLE.md, docs/CEO_CONVERSATION_GUIDE.md, docs/DEPLOYMENT_GUIDE.md, docs/DEVELOPER_BIO.md, docs/INTEGRATIONS.md, docs/INVESTOR_OVERVIEW.md, docs/INVESTOR_PITCH.md, docs/INVESTOR_RELATIONS.md, docs/INVESTOR_SLIDE_DECK.md, docs/PRODUCTION_READINESS.md, docs/PUBLIC_FEATURES.md, docs/RECOMMENDATIONS.md, docs/ROADMAP.md, docs/S4_LEDGER_INTERNAL_PITCH.md, docs/S4_SYSTEMS_EXECUTIVE_PROPOSAL.md, docs/SCALABILITY_ARCHITECTURE.md, docs/SLS_ECONOMY_CEO_EXPLAINER.md, docs/SUBSCRIPTION_GUIDE.md, docs/TECHNICAL_SPECS.md, docs/USER_TRAINING_GUIDE.md, docs/WHITEPAPER.md, prod-app/TEST_REPORT.md
+
+---
 *This log is updated every session. Reference before making changes.*
