@@ -17,6 +17,19 @@ function showOnboarding() {
     var overlay = document.getElementById('onboardOverlay');
     if (overlay) { overlay.style.display = 'flex'; if (typeof _s4TrapFocus === 'function') _s4TrapFocus(overlay); }
     _onboardStep = 0;
+    // Reset tier selection — re-read localStorage (cleared by logout) to avoid stale module state
+    _onboardTier = localStorage.getItem('s4_selected_tier') || 'starter';
+    window._onboardTier = _onboardTier;
+    // Reset tier card visual state and highlight current default
+    document.querySelectorAll('.onboard-tier').forEach(function(t) { t.classList.remove('selected'); });
+    var defaultCard = document.querySelector('.onboard-tier[data-tier="' + _onboardTier + '"]');
+    if (defaultCard) defaultCard.classList.add('selected');
+    // Reset onboard preview balance displays to match default tier
+    var tierInfo = _onboardTiers[_onboardTier] || _onboardTiers['starter'];
+    var obBal = document.getElementById('onboardSlsBal');
+    if (obBal) obBal.textContent = tierInfo.sls.toLocaleString();
+    var obAnch = document.getElementById('onboardSlsAnchors');
+    if (obAnch) obAnch.textContent = (tierInfo.sls * 100).toLocaleString();
     updateOnboardStep();
     // Ensure tier cards are bound after overlay becomes visible
     setTimeout(function() {
@@ -189,6 +202,11 @@ window.showOnboarding = showOnboarding;
 window.closeOnboarding = closeOnboarding;
 window.onboardNext = onboardNext;
 window.selectOnboardTier = selectOnboardTier;
+// Bridge function so resetDemoSession() in engine.js can reset module-scoped _onboardTier
+window._resetOnboardTier = function() {
+    _onboardTier = localStorage.getItem('s4_selected_tier') || 'starter';
+    window._onboardTier = _onboardTier;
+};
 
 // === Direct event binding for onboarding buttons (CSP bypass) ===
 (function _bindOnboardButtons() {

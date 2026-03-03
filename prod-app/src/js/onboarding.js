@@ -15,6 +15,18 @@ function showOnboarding() {
     var overlay = document.getElementById('onboardOverlay');
     if (overlay) { overlay.style.display = 'flex'; if (typeof _s4TrapFocus === 'function') _s4TrapFocus(overlay); }
     _onboardStep = 0;
+    // Reset tier selection — re-read localStorage (cleared by logout) to avoid stale module state
+    _onboardTier = localStorage.getItem('s4_selected_tier') || 'starter';
+    // Reset tier card visual state and highlight current default
+    document.querySelectorAll('.onboard-tier').forEach(function(t) { t.classList.remove('selected'); });
+    var defaultCard = document.querySelector('.onboard-tier[data-tier="' + _onboardTier + '"]');
+    if (defaultCard) defaultCard.classList.add('selected');
+    // Reset onboard preview balance displays to match default tier
+    var tierInfo = _onboardTiers[_onboardTier] || _onboardTiers['starter'];
+    var obBal = document.getElementById('onboardSlsBal');
+    if (obBal) obBal.textContent = tierInfo.credits.toLocaleString();
+    var obAnch = document.getElementById('onboardSlsAnchors');
+    if (obAnch) obAnch.textContent = (tierInfo.credits * 100).toLocaleString();
     updateOnboardStep();
 }
 
@@ -139,12 +151,9 @@ function selectOnboardTier(el, tier) {
     var initTier = _onboardTiers[_onboardTier] || _onboardTiers['starter'];
     window._s4TierAllocation = initTier.credits;
     window._s4TierLabel = initTier.label;
-    // Also store in localStorage for cross-session persistence
-    if (!localStorage.getItem('s4_tier_allocation')) {
-        localStorage.setItem('s4_tier_allocation', String(initTier.credits));
-        localStorage.setItem('s4_tier_label', initTier.label);
-    } else {
-        // Restore from localStorage if already set
+    // Restore from localStorage if user previously completed onboarding
+    // Do NOT pre-write to localStorage — let closeOnboarding() handle that
+    if (localStorage.getItem('s4_tier_allocation')) {
         window._s4TierAllocation = parseInt(localStorage.getItem('s4_tier_allocation')) || initTier.credits;
         window._s4TierLabel = localStorage.getItem('s4_tier_label') || initTier.label;
     }
@@ -155,6 +164,10 @@ window.showOnboarding = showOnboarding;
 window.closeOnboarding = closeOnboarding;
 window.onboardNext = onboardNext;
 window.selectOnboardTier = selectOnboardTier;
+// Bridge function so logout() in engine.js can reset module-scoped _onboardTier
+window._resetOnboardTier = function() {
+    _onboardTier = localStorage.getItem('s4_selected_tier') || 'starter';
+};
 
 // === Direct event binding for onboarding buttons (CSP bypass) ===
 // onclick attributes may be blocked by Content Security Policy in VS Code Simple Browser.

@@ -4,6 +4,9 @@
 // ── Styles ──────────────────────────────────────────────────────
 import './styles/main.css'
 
+// ── DOMPurify Sanitization Layer ─────────────────────────────────
+import './js/sanitize.js'
+
 // ── Core: Module Registry & Security ────────────────────────────
 import './js/registry.js'
 

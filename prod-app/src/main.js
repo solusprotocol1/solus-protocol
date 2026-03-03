@@ -6,6 +6,9 @@
 // ── Styles ──────────────────────────────────────────────────────
 import './styles/main.css'
 
+// ── DOMPurify Sanitization Layer ─────────────────────────────────
+import './js/sanitize.js'
+
 // ── Supabase Client Init ────────────────────────────────────────
 import './js/supabase-init.js'
 

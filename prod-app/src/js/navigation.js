@@ -107,6 +107,12 @@ function showSystemsSub(tabId) {
 }
 
 // ═══ ILS Tool Navigation ═══
+/**
+ * Open an ILS hub tool panel by ID.
+ * Hides the tool card grid, shows the back bar, activates the target panel,
+ * and triggers chart rendering and AI context update.
+ * @param {string} toolId - Panel ID (e.g. 'hub-sbom', 'hub-risk', 'hub-analysis').
+ */
 function openILSTool(toolId) {
     var subHub = document.getElementById('ilsSubHub');
     if (subHub) subHub.style.display = 'none';

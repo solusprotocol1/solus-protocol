@@ -46,6 +46,11 @@ const CLF_META = {
     TS:   {label:'TOP SECRET',    icon:'fa-circle', color:'#ffa500', desc:'Requires JWICS or equivalent TS/SCI network'}
 };
 
+/**
+ * Look up the DoD classification level for a record type.
+ * @param {string} typeKey - Record type key (e.g. 'USN_SUPPLY_RECEIPT').
+ * @returns {string} Classification level: 'U', 'CUI', 'SECRET', or 'TS'.
+ */
 function getClassification(typeKey) { return CLASSIFICATION[typeKey] || 'CUI'; }
 
 const BRANCHES = {
@@ -238,6 +243,11 @@ function startAuthFlow() {
     }
 }
 
+/**
+ * Accept the DoD consent banner and proceed to authentication.
+ * Hides the consent overlay, releases focus trap, and shows the CAC/login modal.
+ * @returns {void}
+ */
 function acceptDodConsent() {
     var consent = document.getElementById('dodConsentBanner');
     if (consent) consent.style.display = 'none';
@@ -457,6 +467,12 @@ function simulateAccountLogin() {
     handleAccountLogin();
 }
 
+/**
+ * Transition from the landing page into the platform workspace.
+ * Hides the hero/landing sections, shows the workspace, and
+ * triggers the onboarding flow for first-time users.
+ * @returns {void}
+ */
 function enterPlatformAfterAuth() {
     try {
         var landing = document.getElementById('platformLanding');
@@ -521,6 +537,8 @@ function logout() {
     // Reset in-memory tier state so timers don't show stale values
     window._s4TierAllocation = 0;
     window._s4TierLabel = '';
+    // Reset module-scoped _onboardTier in onboarding.js to avoid stale tier on re-entry
+    if (typeof window._resetOnboardTier === 'function') window._resetOnboardTier();
     // Clear ALL role-scoped vaults (s4Vault, s4Vault_admin, s4Vault_auditor, etc.)
     Object.keys(localStorage).filter(function(k){ return k.startsWith('s4Vault'); }).forEach(function(k){ localStorage.removeItem(k); });
     localStorage.removeItem('s4_action_items');
@@ -997,6 +1015,14 @@ async function _anchorToXRPL(hash, record_type, content_preview) {
     return { txHash, network, explorerUrl, feeTxHash, feeError };
 }
 
+/**
+ * Anchor a record to the XRP Ledger.
+ * Computes SHA-256 hash of the input (text or uploaded file), posts the
+ * hash as an XRPL memo transaction, saves the record locally (IndexedDB +
+ * localStorage), deducts SLS credits, and refreshes charts/logs.
+ * @async
+ * @returns {Promise<void>}
+ */
 async function anchorRecord() {
     const input = document.getElementById('recordInput').value.trim();
     if (!input) { s4Notify('Missing Content','Please enter record content.','warning'); return; }
@@ -1053,7 +1079,7 @@ async function anchorRecord() {
     await new Promise(r => setTimeout(r, 400));
 
     const panel = document.getElementById('anchorResult');
-    panel.innerHTML = '<div class="result-label">STATUS</div><div class="result-value" style="font-size:1rem;margin-bottom:0.8rem">\u2705 Record anchored successfully</div>'
+    panel.innerHTML = window._s4Safe('<div class="result-label">STATUS</div><div class="result-value" style="font-size:1rem;margin-bottom:0.8rem">\u2705 Record anchored successfully</div>'
         + '<div class="result-label">RECORD TYPE</div><div style="margin-bottom:0.5rem">' + _renderIcon(record.icon) + ' ' + typeInfo.label + ' (' + typeInfo.branch + ')</div>'
         + '<div class="result-label">CLASSIFICATION</div><div style="margin-bottom:0.5rem"><span style="padding:3px 12px;border-radius:3px;font-size:0.8rem;font-weight:800;letter-spacing:0.5px;color:' + CLF_META[clfLevel].color + ';border:1px solid ' + CLF_META[clfLevel].color + '30;background:' + CLF_META[clfLevel].color + '15">' + '<i class="fas ' + CLF_META[clfLevel].icon + '" style="margin-right:4px"></i>' + CLF_META[clfLevel].label + '</span> <span style="color:var(--muted);font-size:0.8rem;margin-left:6px">' + CLF_META[clfLevel].desc + '</span></div>'
         + '<div class="result-label">SHA-256 HASH</div><div class="hash-display">' + hash + '</div>'
@@ -1064,7 +1090,7 @@ async function anchorRecord() {
         + '<div class="result-label">CREDIT FEE</div><div>'
         + (feeTxHash ? '0.01 Credits <span style="color:var(--green)">&#x2713; Paid</span> &mdash; <a href="https://livenet.xrpl.org/transactions/' + feeTxHash + '" target="_blank" rel="noopener" style="color:var(--accent);font-size:0.78rem">' + feeTxHash.substring(0,16) + '&hellip; <i class="fas fa-external-link-alt" style="font-size:0.65rem"></i></a>'
           : feeError ? '<span style="color:var(--warning)">0.01 Credits &mdash; Fee failed: ' + feeError + '</span>'
-          : '0.01 Credits from your account &rarr; S4 Treasury') + '</div>';
+          : '0.01 Credits from your account &rarr; S4 Treasury') + '</div>');
     panel.classList.add('show');
     updateTxLog();
     btn.disabled = false;
@@ -1108,7 +1134,7 @@ function refreshVerifyRecents() {
     }
     // Store records in window so loadRecordToVerify can access full content
     window._verifyRecentRecords = records;
-    container.innerHTML = records.slice(0, 20).map(function(r, idx) {
+    container.innerHTML = window._s4Safe(records.slice(0, 20).map(function(r, idx) {
         var ago = '';
         try {
             var diff = Math.floor((Date.now() - new Date(r.timestamp).getTime()) / 1000);
@@ -1124,7 +1150,7 @@ function refreshVerifyRecents() {
             + '<span style="font-size:0.65rem;color:var(--steel);white-space:nowrap;">' + ago + '</span>'
             + '<button onclick="loadRecordToVerify(' + idx + ')" style="background:' + (hasFullContent ? 'rgba(0,170,255,0.15)' : 'rgba(255,255,255,0.05)') + ';border:1px solid ' + (hasFullContent ? 'rgba(0,170,255,0.3)' : 'rgba(255,255,255,0.1)') + ';color:' + (hasFullContent ? 'var(--accent)' : 'var(--steel)') + ';border-radius:3px;padding:3px 10px;font-size:0.68rem;font-weight:600;cursor:pointer;white-space:nowrap"><i class="fas fa-eye" style="margin-right:3px"></i>View</button>'
             + '</div>';
-    }).join('');
+    }).join(''));
 }
 
 function loadRecordToVerify(idx) {
@@ -1204,9 +1230,9 @@ async function verifyRecord() {
         sessionHtml = '<div class="result-label" style="margin-top:0.8rem">SESSION MATCH</div>'
             + '<div style="color:var(--accent)"><i class="fas fa-check-circle"></i> Found in session \u2014 ' + _renderIcon(sessionMatch.icon) + ' ' + sessionMatch.label + ' anchored at ' + new Date(sessionMatch.timestamp).toLocaleTimeString() + '</div>';
     }
-    panel.innerHTML = '<div class="result-label">COMPUTED SHA-256 <button class="copy-btn" onclick="copyHash(\'' + effectiveHash + '\')"><i class="fas fa-copy"></i> Copy</button></div><div class="hash-display">' + effectiveHash + '</div>' + matchHtml + sessionHtml
+    panel.innerHTML = window._s4Safe('<div class="result-label">COMPUTED SHA-256 <button class="copy-btn" onclick="copyHash(\'' + effectiveHash + '\')"><i class="fas fa-copy"></i> Copy</button></div><div class="hash-display">' + effectiveHash + '</div>' + matchHtml + sessionHtml
         + '<div style="margin-top:0.8rem;font-size:0.8rem;color:var(--muted)">To verify on-chain: compare this hash with the MemoData field of the anchor transaction.</div>'
-        + '<button onclick="resetVerify()" style="margin-top:12px;background:rgba(0,170,255,0.08);color:var(--accent);border:1px solid rgba(0,170,255,0.2);border-radius:3px;padding:8px 18px;font-size:0.82rem;cursor:pointer;font-weight:600;font-family:inherit;transition:all 0.2s"><i class="fas fa-rotate-right" style="margin-right:6px"></i>Verify Another Record</button>';
+        + '<button onclick="resetVerify()" style="margin-top:12px;background:rgba(0,170,255,0.08);color:var(--accent);border:1px solid rgba(0,170,255,0.2);border-radius:3px;padding:8px 18px;font-size:0.82rem;cursor:pointer;font-weight:600;font-family:inherit;transition:all 0.2s"><i class="fas fa-rotate-right" style="margin-right:6px"></i>Verify Another Record</button>');
     panel.classList.add('show');
 }
 
@@ -1288,7 +1314,7 @@ async function verifyFiles(fileList) {
     }
     html += '</div>';
 
-    resultsDiv.innerHTML = html;
+    resultsDiv.innerHTML = window._s4Safe(html);
     window._lastVerifyResults = results;
 
     // Update verify stats
@@ -1411,7 +1437,7 @@ function updateTxLog() {
     for (let i = sessionRecords.length - 1; i >= 0; i--) {
         const r = sessionRecords[i];
         const time = new Date(r.timestamp).toLocaleTimeString('en-US',{hour12:false});
-        log.innerHTML += '<div class="tx-entry"><div class="tx-icon">' + _renderIcon(r.icon) + '</div><div class="tx-info"><div class="tx-type">' + r.label + ' <span style="color:var(--muted);font-size:0.75rem">(' + r.branch + ')</span></div><div class="tx-hash">' + r.hash.substring(0,32) + '...</div></div><div><span class="tx-badge anchored">Anchored</span><div class="tx-time">' + time + '</div></div></div>';
+        log.innerHTML += window._s4Safe('<div class="tx-entry"><div class="tx-icon">' + _renderIcon(r.icon) + '</div><div class="tx-info"><div class="tx-type">' + r.label + ' <span style="color:var(--muted);font-size:0.75rem">(' + r.branch + ')</span></div><div class="tx-hash">' + r.hash.substring(0,32) + '...</div></div><div><span class="tx-badge anchored">Anchored</span><div class="tx-time">' + time + '</div></div></div>');
     }
 }
 
@@ -4315,7 +4341,7 @@ async function aiSend() {
     const chatBody = document.getElementById('aiChatMessages');
 
     // Add user message
-    chatBody.innerHTML += '<div class="ai-msg ai-user"><div class="ai-bubble">' + msg.replace(/</g,'&lt;') + '</div></div>';
+    chatBody.innerHTML += window._s4Safe('<div class="ai-msg ai-user"><div class="ai-bubble">' + msg.replace(/</g,'&lt;') + '</div></div>');
     chatBody.scrollTop = chatBody.scrollHeight;
 
     // Add thinking indicator
@@ -4387,7 +4413,7 @@ async function aiSend() {
                     html += '<div style="font-size:0.7rem;color:#666;margin-top:6px"><i class="fas fa-robot"></i> Powered by ' + data.model + (data.rag_context_used ? ' + RAG' : '') + '</div>';
                 }
                 const el = document.getElementById(thinkId);
-                if (el) el.querySelector('.ai-bubble').innerHTML = html;
+                if (el) el.querySelector('.ai-bubble').innerHTML = window._s4Safe(html);
                 responded = true;
             }
         }
@@ -4412,7 +4438,7 @@ async function aiSend() {
                         .replace(/^- (.+)$/gm, '\u2022 $1<br>')
                         .replace(/\n/g, '<br>');
                     const el = document.getElementById(thinkId);
-                    if (el) el.querySelector('.ai-bubble').innerHTML = html;
+                    if (el) el.querySelector('.ai-bubble').innerHTML = window._s4Safe(html);
                     responded = true;
                 }
             }
@@ -4423,7 +4449,7 @@ async function aiSend() {
         // Fallback to local pattern matching
         const reply = generateAiResponse(msg);
         const el = document.getElementById(thinkId);
-        if (el) el.querySelector('.ai-bubble').innerHTML = reply;
+        if (el) el.querySelector('.ai-bubble').innerHTML = window._s4Safe(reply);
     }
     chatBody.scrollTop = chatBody.scrollHeight;
 }
@@ -4964,7 +4990,7 @@ function loadDMSMSData() {
         html += '</tr>';
     });
     html += '</table></div>';
-    document.getElementById('dmsmsResults').innerHTML = html;
+    document.getElementById('dmsmsResults').innerHTML = window._s4Safe(html);
     // Action items disabled for prod — simulated data should not generate alerts
     // generateDMSMSActions(progKey, data);
     // ── R12: Store chart data globally and trigger reactive chart update
@@ -5303,7 +5329,7 @@ function s4Notify(title, msg, type, actions, duration) {
         actions.forEach(a => { actionsHtml += '<button class="s4-toast-action" onclick="' + (a.onclick||'') + '">' + a.label + '</button>'; });
         actionsHtml += '</div>';
     }
-    toast.innerHTML = '<div class="s4-toast-icon">' + (icons[type]||icons.info) + '</div><div class="s4-toast-body"><div class="s4-toast-title">' + title + '</div><div class="s4-toast-msg">' + msg + '</div>' + actionsHtml + '</div><button class="s4-toast-close" onclick="dismissToast(this)">&times;</button><div class="s4-toast-progress" style="animation-duration:' + duration + 'ms"></div>';
+    toast.innerHTML = window._s4Safe('<div class="s4-toast-icon">' + (icons[type]||icons.info) + '</div><div class="s4-toast-body"><div class="s4-toast-title">' + title + '</div><div class="s4-toast-msg">' + msg + '</div>' + actionsHtml + '</div><button class="s4-toast-close" onclick="dismissToast(this)">&times;</button><div class="s4-toast-progress" style="animation-duration:' + duration + 'ms"></div>');
     container.appendChild(toast);
     setTimeout(() => { dismissToast(toast.querySelector('.s4-toast-close')); }, duration);
     updateNotifBadge();
@@ -5594,7 +5620,7 @@ function renderActionTimeline() {
         html += '</div>';
     });
     html += '</div>';
-    container.innerHTML = html;
+    container.innerHTML = window._s4Safe(html);
 }
 // ── Inline Quick-Edit (double-click title to rename) ──
 function inlineEditActionTitle(id, el) {
@@ -5769,7 +5795,7 @@ function renderHubActions(filter) {
         Object.entries(sources).sort((a,b)=>b[1]-a[1]).forEach(([src,cnt]) => {
             sHtml += '<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.03)"><span>'+(srcIcons[src]||'<i class="fas fa-thumbtack"></i>')+' '+src.toUpperCase()+'</span><span style="font-weight:700;color:var(--accent)">'+cnt+'</span></div>';
         });
-        srcEl.innerHTML = sHtml;
+        srcEl.innerHTML = window._s4Safe(sHtml);
     }
     if (!items.length) { container.innerHTML = '<div style="color:var(--muted);text-align:center;padding:2rem;font-size:0.85rem"><i class="fas fa-clipboard-list" style="font-size:2rem;margin-bottom:12px;display:block;opacity:0.3"></i>'+(filter==='all'?'No action items yet. Click <strong>Add New</strong> above or use any tool to generate tasks.':'No items match this filter.')+'</div>'; return; }
     const sourceIcons = {dmsms:'<i class="fas fa-exclamation-triangle" style="color:var(--accent)"></i>',readiness:'<i class="fas fa-chart-line" style="color:var(--accent)"></i>',parts:'<i class="fas fa-cogs" style="color:var(--accent)"></i>',warranty:'<i class="fas fa-file-contract" style="color:var(--accent)"></i>',roi:'<i class="fas fa-dollar-sign" style="color:var(--accent)"></i>',lifecycle:'<i class="fas fa-clock" style="color:var(--accent)"></i>',ils:'<i class="fas fa-brain" style="color:var(--accent)"></i>',checklist:'<i class="fas fa-check-circle" style="color:var(--accent)"></i>',drl:'<i class="fas fa-file-alt" style="color:var(--accent)"></i>',manual:'<i class="fas fa-pen" style="color:var(--accent)"></i>',compliance:'<i class="fas fa-shield-halved" style="color:var(--accent)"></i>',risk:'<i class="fas fa-triangle-exclamation" style="color:var(--accent)"></i>',predictive:'<i class="fas fa-brain" style="color:var(--accent)"></i>',sbom:'<i class="fas fa-microchip" style="color:var(--accent)"></i>',submissions:'<i class="fas fa-file-circle-check" style="color:var(--accent)"></i>',reports:'<i class="fas fa-file-pdf" style="color:var(--accent)"></i>'};
@@ -5797,7 +5823,7 @@ function renderHubActions(filter) {
         if (item.detail) html += '<div style="color:var(--steel);font-size:0.78rem;margin-top:4px">'+item.detail+'</div>';
         html += '</div></div>';
     });
-    container.innerHTML = html;
+    container.innerHTML = window._s4Safe(html);
 }
 
 /* Override removed — saveActionItems now calls renderHubActions and updates badge directly */
@@ -5927,7 +5953,7 @@ function renderVault() {
     // Disable per-record animations when more than 200 records for performance
     var useAnim = items.length <= 200;
 
-    container.innerHTML = pageItems.map((v, i) => `
+    container.innerHTML = window._s4Safe(pageItems.map((v, i) => `
         <div class="vault-record"${useAnim ? ' style="animation:slideUp 0.3s ease"' : ''}>
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;gap:8px">
                 <div style="display:flex;align-items:center;gap:8px;min-width:0;flex:1;overflow:hidden">
@@ -5950,7 +5976,7 @@ function renderVault() {
                 <span><i class="fas fa-coins"></i> 0.01 Credits</span>
             </div>
         </div>
-    `).join('');
+    `).join(''));
 
     var renderMs = (performance.now() - t0).toFixed(1);
     _updateVaultPagination();
@@ -6196,7 +6222,7 @@ function showWorkspaceNotification(title, detail) {
     existing.forEach(n => n.remove());
     const notif = document.createElement('div');
     notif.className = 'workspace-notification';
-    notif.innerHTML = '<button class="notif-close" onclick="this.parentElement.remove()">&times;</button><div style="display:flex;align-items:center;gap:10px"><i class="fas fa-check-circle" style="color:var(--accent);font-size:1.2rem"></i><div><strong>' + title + '</strong><div style="font-size:0.78rem;color:var(--muted);margin-top:2px">' + (detail||'') + '</div></div></div>';
+    notif.innerHTML = window._s4Safe('<button class="notif-close" onclick="this.parentElement.remove()">&times;</button><div style="display:flex;align-items:center;gap:10px"><i class="fas fa-check-circle" style="color:var(--accent);font-size:1.2rem"></i><div><strong>' + title + '</strong><div style="font-size:0.78rem;color:var(--muted);margin-top:2px">' + (detail||'') + '</div></div></div>');
     document.body.appendChild(notif);
     setTimeout(() => notif.remove(), 5000);
 }
@@ -6236,7 +6262,7 @@ function handleDocFileSelect(input) {
     if (input.files.length > 0) {
         var f = input.files[0];
         var info = document.getElementById('newDocFileInfo');
-        if (info) { info.style.display='block'; info.innerHTML='<i class="fas fa-file"></i> '+f.name+' ('+Math.round(f.size/1024)+'KB)'; }
+        if (info) { info.style.display='block'; info.innerHTML=window._s4Safe('<i class="fas fa-file"></i> '+f.name+' ('+Math.round(f.size/1024)+'KB)'); }
         if (!document.getElementById('newDocTitle').value) document.getElementById('newDocTitle').value = f.name.replace(/\.[^.]+$/,'');
     }
 }
@@ -6615,7 +6641,7 @@ function renderPOAM() {
     if (!tbody) return;
     if (_poamItems.length === 0) { tbody.innerHTML = ''; if (empty) empty.style.display = 'block'; return; }
     if (empty) empty.style.display = 'none';
-    tbody.innerHTML = _poamItems.map(function(p, i) {
+    tbody.innerHTML = window._s4Safe(_poamItems.map(function(p, i) {
         var riskColor = p.risk === 'High' ? '#ff6b6b' : p.risk === 'Moderate' ? '#c9a84c' : '#00aaff';
         var statusColor = p.status === 'Closed' ? 'var(--green)' : p.status === 'In Progress' ? '#00aaff' : p.status === 'Accepted Risk' ? '#c9a84c' : '#ff6b6b';
         var overdue = p.due && new Date(p.due) < new Date() && p.status !== 'Closed';
@@ -6630,7 +6656,7 @@ function renderPOAM() {
             + '<td style="padding:6px 8px"><span style="color:' + statusColor + ';font-weight:600;font-size:0.78rem">' + (p.status||'Open') + '</span></td>'
             + '<td style="padding:6px 8px;text-align:center"><button onclick="editPOAM(' + i + ')" style="background:none;border:none;color:#00aaff;cursor:pointer;font-size:0.78rem;margin-right:4px" title="Edit"><i class="fas fa-pen"></i></button><button onclick="deletePOAM(' + i + ')" style="background:none;border:none;color:#ff6b6b;cursor:pointer;font-size:0.78rem" title="Delete"><i class="fas fa-trash"></i></button></td>'
             + '</tr>';
-    }).join('');
+    }).join(''));
 }
 
 function exportPOAM() {
@@ -6700,7 +6726,7 @@ function renderEvidence() {
     if (!list) return;
     if (_evidenceItems.length === 0) { list.innerHTML = ''; if (empty) empty.style.display = 'block'; return; }
     if (empty) empty.style.display = 'none';
-    list.innerHTML = _evidenceItems.map(function(e, i) {
+    list.innerHTML = window._s4Safe(_evidenceItems.map(function(e, i) {
         var icon = e.type.indexOf('pdf') >= 0 ? 'fa-file-pdf' : e.type.indexOf('image') >= 0 ? 'fa-file-image' : e.type.indexOf('sheet') >= 0 || e.filename.match(/\.xlsx?$/i) ? 'fa-file-excel' : 'fa-file';
         return '<div style="display:flex;align-items:center;gap:10px;padding:8px;margin-bottom:4px;background:rgba(255,255,255,0.02);border-radius:3px;border-left:3px solid #c9a84c">'
             + '<i class="fas ' + icon + '" style="color:#c9a84c;font-size:1rem;width:20px;text-align:center"></i>'
@@ -6708,7 +6734,7 @@ function renderEvidence() {
             + '<span style="font-size:0.72rem;color:#00aaff;background:#00aaff11;padding:2px 6px;border-radius:3px">' + e.status + '</span>'
             + '<button onclick="removeEvidence(' + i + ')" style="background:none;border:none;color:#ff6b6b;cursor:pointer;font-size:0.78rem" title="Remove"><i class="fas fa-times"></i></button>'
             + '</div>';
-    }).join('');
+    }).join(''));
 }
 
 function exportEvidenceLog() {
@@ -6919,7 +6945,7 @@ function runVersionDiff() {
         if (d.new_val) html += '<div style="color:#00cc88;opacity:0.8">  + ' + d.new_val + '</div>';
         html += '</div>';
     });
-    output.innerHTML = html;
+    output.innerHTML = window._s4Safe(html);
     showWorkspaceNotification('Version diff complete — ' + diffs.length + ' changes found');
 }
 
@@ -7629,7 +7655,7 @@ function generateReport() {
     html += '<div style="font-size:1.8rem;color:#00aaff;font-weight:800;">'+totalScore+'%</div></div>';
     html += '</div></div>';
 
-    document.getElementById('reportContent').innerHTML = html;
+    document.getElementById('reportContent').innerHTML = window._s4Safe(html);
     _lastReport = {type:rType, title:rt.title, period, format, records:totalRecords, score:totalScore, sections:rt.sections, generated:now.toISOString()};
     showWorkspaceNotification('Audit report generated — ' + rt.sections.length + ' sections, ' + totalRecords + ' records');
 }
@@ -7946,7 +7972,7 @@ function handleSubFileUpload(e) {
                 _subCache.items = parseCSVSubmission(raw);
             }
             showWorkspaceNotification('Loaded ' + _subCache.items.length + ' records from ' + file.name);
-            document.getElementById('subUploadZone').innerHTML = '<i class="fas fa-check-circle" style="font-size:2rem;color:#00aaff;display:block;margin-bottom:4px"></i><div style="color:#00aaff;font-weight:600">' + file.name + '</div><div style="color:var(--steel);font-size:.78rem">' + _subCache.items.length + ' records loaded</div>';
+            document.getElementById('subUploadZone').innerHTML = window._s4Safe('<i class="fas fa-check-circle" style="font-size:2rem;color:#00aaff;display:block;margin-bottom:4px"></i><div style="color:#00aaff;font-weight:600">' + file.name + '</div><div style="color:var(--steel);font-size:.78rem">' + _subCache.items.length + ' records loaded</div>');
         } catch(err) {
             showWorkspaceNotification('Error parsing file: ' + err.message);
         }
@@ -8144,7 +8170,7 @@ function renderDiscrepancyTable(discrepancies) {
     const sevColors = {critical:'#ff4444', warning:'#ffa500', info:'#00aaff'};
     const sevIcons = {critical:'fa-circle-xmark', warning:'fa-triangle-exclamation', info:'fa-circle-info'};
 
-    tbody.innerHTML = filtered.map(d => '<tr style="border-color:var(--border)">' +
+    tbody.innerHTML = window._s4Safe(filtered.map(d => '<tr style="border-color:var(--border)">' +
         '<td style="padding:5px 8px;border-color:var(--border);white-space:nowrap"><i class="fas ' + (sevIcons[d.severity]||'fa-circle') + '" style="color:' + (sevColors[d.severity]||'#888') + ';margin-right:4px"></i><span style="color:' + (sevColors[d.severity]||'#888') + ';font-weight:600;text-transform:uppercase;font-size:.7rem">' + d.severity + '</span></td>' +
         '<td style="padding:5px 8px;border-color:var(--border);color:#fff">' + d.category + '</td>' +
         '<td style="padding:5px 8px;border-color:var(--border);font-family:monospace;font-size:.75rem">' + d.item + '</td>' +
@@ -8152,7 +8178,7 @@ function renderDiscrepancyTable(discrepancies) {
         '<td style="padding:5px 8px;border-color:var(--border);color:#888">' + d.previous + '</td>' +
         '<td style="padding:5px 8px;border-color:var(--border);color:#fff">' + d.current + '</td>' +
         '<td style="padding:5px 8px;border-color:var(--border);color:' + (sevColors[d.severity]||'#888') + '">' + (d.impact||'') + '</td>' +
-    '</tr>').join('');
+    '</tr>').join(''));
 
     document.getElementById('subResultsContainer').style.display = 'block';
 }
@@ -8197,7 +8223,7 @@ function generateAiSummary(discrepancies, items, baseline, costDelta) {
     summary += '</p>';
 
     document.getElementById('subAiSummary').style.display = 'block';
-    document.getElementById('subAiSummaryText').innerHTML = summary;
+    document.getElementById('subAiSummaryText').innerHTML = window._s4Safe(summary);
 
     // ── AUTO-GENERATE ACTION ITEMS FROM SUBMISSIONS & PTD DISCREPANCIES ──
     (function(){
@@ -8276,7 +8302,7 @@ function loadSubmissionHistory() {
         container.innerHTML = '<div style="color:var(--steel);font-size:.8rem;padding:8px">No submission reviews yet. Run an analysis to start building history.</div>';
         return;
     }
-    container.innerHTML = _subHistory.slice(0, 20).map(h => {
+    container.innerHTML = window._s4Safe(_subHistory.slice(0, 20).map(h => {
         const sevColor = h.stats.criticals > 3 ? '#ff4444' : h.stats.criticals > 0 ? '#ffa500' : '#00aaff';
         return '<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 8px;border-bottom:1px solid var(--border);font-size:.78rem">' +
             '<div><span style="color:#fff;font-weight:600">' + (SUBMISSION_TYPES[h.meta.docType]||h.meta.docType) + '</span> <span style="color:var(--steel)">— ' + h.meta.program + ' (' + h.meta.branch + ')</span></div>' +
@@ -8286,7 +8312,7 @@ function loadSubmissionHistory() {
                 '<span style="color:var(--steel);font-family:monospace;font-size:.68rem" title="' + h.hash + '">' + (h.hash||'').substring(0,8) + '...</span>' +
             '</div>' +
         '</div>';
-    }).join('');
+    }).join(''));
 }
 
 

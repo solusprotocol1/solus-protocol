@@ -13,6 +13,12 @@ var S4 = window.S4 = window.S4 || { version: '5.12.0', modules: {}, register: fu
     var _activeFocusTrap = null;
     var _preFocusTrapElement = null;
 
+    /**
+     * Trap keyboard focus within a modal container (WCAG 2.1 AA).
+     * Saves the previously focused element and moves focus to the first
+     * focusable child inside the container.
+     * @param {HTMLElement} container - The modal/dialog element to trap focus within.
+     */
     window._s4TrapFocus = function(container) {
         if (!container) return;
         _preFocusTrapElement = document.activeElement;
@@ -21,6 +27,10 @@ var S4 = window.S4 = window.S4 || { version: '5.12.0', modules: {}, register: fu
         if (focusable.length) focusable[0].focus();
     };
 
+    /**
+     * Release the active focus trap and restore focus to the
+     * element that was focused before the trap was activated.
+     */
     window._s4ReleaseFocusTrap = function() {
         _activeFocusTrap = null;
         if (_preFocusTrapElement && typeof _preFocusTrapElement.focus === 'function') {
@@ -736,7 +746,7 @@ async function sbomAiAsk(presetQuestion) {
     if (!chatBody) return;
 
     // Add user message
-    chatBody.innerHTML += '<div style="align-self:flex-end;background:rgba(0,170,255,0.1);border:1px solid rgba(0,170,255,0.15);border-radius:3px;padding:8px 12px;max-width:85%;color:#fff;font-size:0.83rem;">' + msg.replace(/</g,'&lt;') + '</div>';
+    chatBody.innerHTML += window._s4Safe('<div style="align-self:flex-end;background:rgba(0,170,255,0.1);border:1px solid rgba(0,170,255,0.15);border-radius:3px;padding:8px 12px;max-width:85%;color:#fff;font-size:0.83rem;">' + msg.replace(/</g,'&lt;') + '</div>');
     chatBody.scrollTop = chatBody.scrollHeight;
 
     // Thinking indicator
@@ -787,7 +797,7 @@ async function sbomAiAsk(presetQuestion) {
                     .replace(/^- (.+)$/gm, '\u2022 $1<br>')
                     .replace(/\n/g, '<br>');
                 var el = document.getElementById(thinkId);
-                if (el) el.innerHTML = '<div style="font-weight:700;color:#2ecc71;font-size:0.72rem;margin-bottom:4px;"><i class="fas fa-robot"></i> SBOM Agent</div>' + html;
+                if (el) el.innerHTML = window._s4Safe('<div style="font-weight:700;color:#2ecc71;font-size:0.72rem;margin-bottom:4px;"><i class="fas fa-robot"></i> SBOM Agent</div>' + html);
                 responded = true;
             }
         }
@@ -797,7 +807,7 @@ async function sbomAiAsk(presetQuestion) {
         // Local SBOM-specific pattern matching
         var reply = _sbomLocalAnalysis(msg, components, progKey, format, totalCVE, verified);
         var el = document.getElementById(thinkId);
-        if (el) el.innerHTML = '<div style="font-weight:700;color:#2ecc71;font-size:0.72rem;margin-bottom:4px;"><i class="fas fa-robot"></i> SBOM Agent</div>' + reply;
+        if (el) el.innerHTML = window._s4Safe('<div style="font-weight:700;color:#2ecc71;font-size:0.72rem;margin-bottom:4px;"><i class="fas fa-robot"></i> SBOM Agent</div>' + reply);
     }
     chatBody.scrollTop = chatBody.scrollHeight;
 }
@@ -2924,7 +2934,7 @@ function _updateThemeIcon(isLight) {
             list.innerHTML = '<div style="text-align:center;padding:40px 20px;color:#555"><i class="fas fa-bell-slash" style="font-size:2rem;margin-bottom:12px;opacity:0.3;display:block"></i><p style="font-size:0.82rem">No notifications yet</p></div>';
             return;
         }
-        list.innerHTML = window._notifHistoryLog.slice(0, 50).map(function(n) {
+        list.innerHTML = window._s4Safe(window._notifHistoryLog.slice(0, 50).map(function(n) {
             var icons = {info:'fa-info-circle',warning:'fa-exclamation-triangle',danger:'fa-times-circle',success:'fa-check-circle'};
             var colors = {info:'#00aaff',warning:'#ffa500',danger:'#ff3333',success:'#00aaff'};
             var ago = _timeAgo(n.time);
@@ -2933,7 +2943,7 @@ function _updateThemeIcon(isLight) {
                 '<div style="flex:1;min-width:0"><div style="font-weight:600;font-size:0.82rem;color:#ccc">' + (n.title||'Notification') + '</div>' +
                 '<div style="font-size:0.75rem;color:#888;margin-top:2px">' + (n.msg||'') + '</div>' +
                 '<div style="font-size:0.68rem;color:#555;margin-top:4px">' + ago + '</div></div></div>';
-        }).join('');
+        }).join(''));
     }
 
     function _timeAgo(ts) {
@@ -3014,11 +3024,11 @@ function _updateThemeIcon(isLight) {
         });
 
         if (results.length === 0) {
-            resultsDiv.innerHTML = '<div style="padding:20px;text-align:center;color:#555;font-size:0.82rem">No results for "<strong>' + q + '</strong>"</div>';
+            resultsDiv.innerHTML = window._s4Safe('<div style="padding:20px;text-align:center;color:#555;font-size:0.82rem">No results for "<strong>' + q + '</strong>"</div>');
             return;
         }
 
-        resultsDiv.innerHTML = results.slice(0, 15).map(function(r, i) {
+        resultsDiv.innerHTML = window._s4Safe(results.slice(0, 15).map(function(r, i) {
             var typeColors = {tab:'#00aaff',vault:'#c9a84c',doc:'#30d158',tool:'#00aaff'};
             var typeLabels = {tab:'Tab',vault:'Vault',doc:'Doc',tool:'Tool'};
             return '<div class="search-result-item" tabindex="0" style="display:flex;align-items:center;gap:12px;padding:10px 16px;cursor:pointer;border-radius:3px;transition:background 0.15s" ' +
@@ -3029,7 +3039,7 @@ function _updateThemeIcon(isLight) {
                 '<div style="font-size:0.72rem;color:#666">' + r.desc + '</div></div>' +
                 '<span style="font-size:0.65rem;padding:2px 6px;border-radius:3px;background:' + (typeColors[r.type]||'#555') + '22;color:' + (typeColors[r.type]||'#555') + ';font-weight:600;text-transform:uppercase">' + (typeLabels[r.type]||r.type) + '</span>' +
                 '</div>';
-        }).join('');
+        }).join(''));
     }
 
     // Tab switching helper for search results
@@ -6994,7 +7004,7 @@ window.s4Analytics = {
             html += '</div>';
             container.innerHTML = html;
         }).catch(function(err) {
-            container.innerHTML = '<div style="padding:20px;color:#ff6666">Failed to load analytics: ' + err.message + '</div>';
+            container.innerHTML = window._s4Safe('<div style="padding:20px;color:#ff6666">Failed to load analytics: ' + err.message + '</div>');
         });
     }
 };
@@ -7022,7 +7032,7 @@ function handleToolFileUpload(e, toolName, containerId) {
     });
     var container = document.getElementById(containerId);
     if (container) {
-        container.innerHTML = '<div style="text-align:left;padding:12px"><div style="color:#00aaff;font-weight:700;margin-bottom:8px"><i class="fas fa-check-circle"></i> ' + fileList.length + ' file(s) loaded</div>' + names.map(function(n) { return '<div style="font-size:.82rem;color:var(--steel);padding:2px 0"><i class="fas fa-file" style="color:#c9a84c;margin-right:6px"></i>' + n + '</div>'; }).join('') + '<div style="margin-top:12px;color:var(--steel);font-size:.82rem">Use the action buttons above to process and analyze the uploaded data.</div></div>';
+        container.innerHTML = window._s4Safe('<div style="text-align:left;padding:12px"><div style="color:#00aaff;font-weight:700;margin-bottom:8px"><i class="fas fa-check-circle"></i> ' + fileList.length + ' file(s) loaded</div>' + names.map(function(n) { return '<div style="font-size:.82rem;color:var(--steel);padding:2px 0"><i class="fas fa-file" style="color:#c9a84c;margin-right:6px"></i>' + n + '</div>'; }).join('') + '<div style="margin-top:12px;color:var(--steel);font-size:.82rem">Use the action buttons above to process and analyze the uploaded data.</div></div>');
     }
 }
 

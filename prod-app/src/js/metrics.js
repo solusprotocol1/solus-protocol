@@ -69,7 +69,7 @@ async function loadPerformanceMetrics() {
         // Recent requests
         var reqEl = document.getElementById('metricsRecentRequests');
         if (reqEl && data.recent_requests && data.recent_requests.length) {
-            reqEl.innerHTML = data.recent_requests.map(function(r) {
+            reqEl.innerHTML = window._s4Safe(data.recent_requests.map(function(r) {
                 var methodColor = (r.method||'GET') === 'POST' ? '#00cc66' : '#00aaff';
                 return '<div style="display:flex;align-items:center;gap:8px;padding:6px 8px;border-bottom:1px solid rgba(255,255,255,0.03)">'
                     + '<span style="background:' + methodColor + '22;color:' + methodColor + ';font-weight:700;font-size:0.7rem;padding:2px 8px;border-radius:4px;min-width:42px;text-align:center">' + (r.method||'GET') + '</span>'
@@ -77,7 +77,7 @@ async function loadPerformanceMetrics() {
                     + '<span style="color:var(--accent);font-size:0.68rem;font-weight:600">' + (r.time||r.duration||r.latency||'—') + '</span>'
                     + '<span style="color:var(--muted);font-size:0.68rem">' + (r.timestamp||r.ts||'') + '</span>'
                     + '</div>';
-            }).join('');
+            }).join(''));
         } else if (reqEl) {
             reqEl.innerHTML = '<div style="color:var(--muted);text-align:center;padding:1rem">No recent requests. Metrics auto-refresh when data is available.</div>';
         }
@@ -149,7 +149,7 @@ async function loadPerformanceMetrics() {
                 {method:'GET', path:'/api/xrpl/account_info', time:'0.8s', ts:'auto', color:'#00aaff', detail:'XRPL query'}
             ];
             var allRequests = sessionRequests.length > 0 ? sessionRequests.concat(baselineRequests) : baselineRequests;
-            reqEl.innerHTML = allRequests.slice(0, 12).map(function(r) {
+            reqEl.innerHTML = window._s4Safe(allRequests.slice(0, 12).map(function(r) {
                 return '<div style="display:flex;align-items:center;gap:8px;padding:6px 8px;border-bottom:1px solid rgba(255,255,255,0.03)">'
                     + '<span style="background:' + r.color + '22;color:' + r.color + ';font-weight:700;font-size:0.7rem;padding:2px 8px;border-radius:4px;min-width:42px;text-align:center">' + r.method + '</span>'
                     + '<span style="color:var(--text);flex:1;font-family:monospace;font-size:0.72rem">' + r.path + '</span>'
@@ -157,7 +157,7 @@ async function loadPerformanceMetrics() {
                     + '<span style="color:var(--accent);font-size:0.68rem;font-weight:600">' + r.time + '</span>'
                     + '<span style="color:var(--muted);font-size:0.68rem">' + r.ts + '</span>'
                     + '</div>';
-            }).join('');
+            }).join(''));
         }
     }
 }
@@ -181,6 +181,10 @@ setInterval(function() {
 // Keeps all tool displays in sync with real user activity
 (function() {
     function syncSessionToTools() {
+        // Don't overwrite displays while onboarding is active — selectOnboardTier manages them
+        var _onboardOv = document.getElementById('onboardOverlay');
+        if (_onboardOv && _onboardOv.style.display === 'flex') return;
+
         var s = window._s4Stats || (function() { try { var _ls=JSON.parse(localStorage.getItem('s4_stats')||'{}'); return {anchored:_ls.anchored||0,verified:_ls.verified||0,types:new Set(_ls.types||[]),slsFees:_ls.slsFees||0}; } catch(e) { return {anchored:0,verified:0,types:new Set(),slsFees:0}; } })();
         var _glr2 = typeof getLocalRecords === 'function' ? getLocalRecords : function() { try { return JSON.parse(localStorage.getItem('s4_anchored_records') || '[]'); } catch(e) { return []; } };
         var records = _glr2();
@@ -336,7 +340,7 @@ function refreshOfflineQueueUI() {
     if (statusEl) { var on = navigator.onLine; statusEl.innerHTML = on ? '<i class="fas fa-circle" style="font-size:0.6rem;color:var(--green)"></i> Online' : '<i class="fas fa-circle" style="font-size:0.6rem;color:var(--red)"></i> Offline'; statusEl.style.color = on ? 'var(--green)' : 'var(--red)'; }
     if (listEl) {
         if (!queue.length) { listEl.innerHTML = '<div style="color:var(--muted);text-align:center;padding:1rem">Queue is empty. Hashes are queued automatically when offline.</div>'; }
-        else { listEl.innerHTML = queue.map(function(item, i) { return '<div style="display:flex;align-items:center;gap:8px;padding:8px;border-bottom:1px solid rgba(255,255,255,0.03)"><span style="color:var(--accent);font-weight:700;width:24px">' + (i+1) + '</span><span style="flex:1;color:var(--text);font-family:monospace;font-size:0.72rem">' + (item.hash ? item.hash.substring(0,24)+'...' : 'N/A') + '</span><span style="color:var(--steel);font-size:0.7rem;width:80px">' + (item.record_type||'GENERAL') + '</span><span style="color:' + (item.synced ? 'var(--green)' : 'var(--gold)') + ';font-size:0.72rem">' + (item.synced ? '✓ Synced' : '⏳ Pending') + '</span><button onclick="offlineRemoveItem(' + i + ')" style="background:none;border:none;color:var(--red);cursor:pointer;font-size:0.75rem" title="Remove"><i class="fas fa-times"></i></button></div>'; }).join(''); }
+        else { listEl.innerHTML = window._s4Safe(queue.map(function(item, i) { return '<div style="display:flex;align-items:center;gap:8px;padding:8px;border-bottom:1px solid rgba(255,255,255,0.03)"><span style="color:var(--accent);font-weight:700;width:24px">' + (i+1) + '</span><span style="flex:1;color:var(--text);font-family:monospace;font-size:0.72rem">' + (item.hash ? item.hash.substring(0,24)+'...' : 'N/A') + '</span><span style="color:var(--steel);font-size:0.7rem;width:80px">' + (item.record_type||'GENERAL') + '</span><span style="color:' + (item.synced ? 'var(--green)' : 'var(--gold)') + ';font-size:0.72rem">' + (item.synced ? '✓ Synced' : '⏳ Pending') + '</span><button onclick="offlineRemoveItem(' + i + ')" style="background:none;border:none;color:var(--red);cursor:pointer;font-size:0.75rem" title="Remove"><i class="fas fa-times"></i></button></div>'; }).join('')); }
     }
 }
 
@@ -460,7 +464,7 @@ function _showNotif(msg, type) {
     var d = document.createElement('div'); d.className = 'workspace-notification';
     var colors = { success: 'var(--green)', error: 'var(--red)', warning: 'var(--gold)', info: 'var(--accent)' };
     d.style.borderColor = colors[type] || colors.info;
-    d.innerHTML = '<button class="notif-close" onclick="this.parentElement.remove()">&times;</button><i class="fas fa-' + (type==='success'?'check-circle':type==='error'?'times-circle':type==='warning'?'exclamation-triangle':'info-circle') + '" style="color:' + (colors[type]||colors.info) + ';margin-right:6px"></i>' + msg;
+    d.innerHTML = window._s4Safe('<button class="notif-close" onclick="this.parentElement.remove()">&times;</button><i class="fas fa-' + (type==='success'?'check-circle':type==='error'?'times-circle':type==='warning'?'exclamation-triangle':'info-circle') + '" style="color:' + (colors[type]||colors.info) + ';margin-right:6px"></i>' + msg);
     document.body.appendChild(d);
     setTimeout(function(){d.remove();}, 5000);
 }
@@ -490,7 +494,7 @@ function processUploadedFile(file) {
     var nameEl = document.getElementById('dropFileName');
     if (nameEl) {
         nameEl.style.display = 'block';
-        nameEl.innerHTML = '<i class="fas fa-file" style="margin-right:6px;"></i>' + file.name + ' (' + (file.size / 1024).toFixed(1) + ' KB)';
+        nameEl.innerHTML = window._s4Safe('<i class="fas fa-file" style="margin-right:6px;"></i>' + file.name + ' (' + (file.size / 1024).toFixed(1) + ' KB)');
     }
     _lastUploadedFileName = file.name;
     _lastUploadedFileSize = file.size;
@@ -501,8 +505,8 @@ function processUploadedFile(file) {
         sha256Binary(ev.target.result).then(function(hash) {
             _lastUploadedFileHash = hash;
             if (nameEl) {
-                nameEl.innerHTML = '<i class="fas fa-file" style="margin-right:6px;"></i>' + file.name + ' (' + (file.size / 1024).toFixed(1) + ' KB)'
-                    + '<div style="font-size:0.7rem;color:var(--muted);font-family:monospace;margin-top:4px;">SHA-256: ' + hash.substring(0,32) + '...</div>';
+                nameEl.innerHTML = window._s4Safe('<i class="fas fa-file" style="margin-right:6px;"></i>' + file.name + ' (' + (file.size / 1024).toFixed(1) + ' KB)'
+                    + '<div style="font-size:0.7rem;color:var(--muted);font-family:monospace;margin-top:4px;">SHA-256: ' + hash.substring(0,32) + '...</div>');
             }
         });
     };
