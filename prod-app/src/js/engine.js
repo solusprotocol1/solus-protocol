@@ -4281,11 +4281,10 @@ function updateAiContext(panelId) {
 // Initialize quick buttons on load
 document.addEventListener('DOMContentLoaded', () => {
     updateAiContext('hub-analysis');
-    // Ensure AI agent is visible on every tab (not just ILS)
+    // AI agent starts HIDDEN — only shown after entering the platform
+    // (enterPlatformAfterAuth sets display='' and logout hides it)
     const aiW = document.getElementById('aiFloatWrapper');
-    if (aiW) aiW.style.display = 'flex';
-    // AI agent stays closed until user clicks it
-    // (removed auto-open on page load)
+    if (aiW) aiW.style.display = 'none';
 });
 
 // ── AI Agent Conversation Memory ──
