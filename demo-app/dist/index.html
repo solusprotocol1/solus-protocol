@@ -3054,6 +3054,13 @@
     <!-- Runs SYNCHRONOUSLY before modules load — all functions available immediately -->
     <script>
     (function(){
+        // ══════ 0. CSP DETECTION ══════
+        // Test whether inline onclick handlers execute natively.
+        // If CSP allows unsafe-inline, the delegated handler (section 4) is not needed.
+        var _t = document.createElement('button');
+        _t.setAttribute('onclick', 'window.__s4InlineOK=true');
+        _t.click();
+
         // ══════ 1. SESSION RESTORE ══════
         if (sessionStorage.getItem('s4_entered') === '1') {
             var _l = document.getElementById('platformLanding');
@@ -3173,31 +3180,8 @@
         }
 
         // ══════ 3. DIRECT BUTTON BINDINGS ══════
-        document.querySelectorAll('[onclick*="logout()"], [onclick*="resetDemoSession()"]').forEach(function(btn) {
-            btn.addEventListener('click', function(e) {
-                e.stopPropagation();
-                if (typeof window.resetDemoSession === 'function') window.resetDemoSession();
-                else if (typeof window.logout === 'function') window.logout();
-            });
-        });
-
-        document.querySelectorAll('.hub-card[data-section]').forEach(function(card) {
-            card.style.cursor = 'pointer';
-            card.addEventListener('click', function() {
-                var sec = this.getAttribute('data-section');
-                if (sec && typeof window.showSection === 'function') window.showSection(sec);
-            });
-        });
-
-        document.querySelectorAll('.ils-tool-card[onclick]').forEach(function(card) {
-            var oc = card.getAttribute('onclick') || '';
-            var m = oc.match(/openILSTool\(['"]([^'"]+)['"]\)/);
-            if (m) {
-                card.addEventListener('click', function() {
-                    if (typeof window.openILSTool === 'function') window.openILSTool(m[1]);
-                });
-            }
-        });
+        // Not needed — the universal delegated handler (section 4) handles all onclick attributes.
+        // Adding addEventListener here would cause double execution for elements that have onclick.
 
         // ══════ 4. UNIVERSAL DELEGATED ONCLICK HANDLER ══════
         function execHandler(str, el, evt) {
@@ -3282,7 +3266,10 @@
             });
         }
 
+        // Capture-phase click: walk up DOM to find onclick attribute.
+        // Only activates when CSP blocks inline handlers (e.g. VS Code Simple Browser).
         document.addEventListener('click', function(evt) {
+            if (window.__s4InlineOK) return; // native inline onclick works; skip delegation
             var el = evt.target;
             for (var d = 0; el && d < 15; d++) {
                 var oc = el.getAttribute && el.getAttribute('onclick');
@@ -3293,6 +3280,7 @@
 
         ['change','input','keydown','mouseover','mouseout','focus','blur'].forEach(function(evtType) {
             document.addEventListener(evtType, function(evt) {
+                if (window.__s4InlineOK) return;
                 var el = evt.target;
                 var oc = el && el.getAttribute && el.getAttribute('on' + evtType);
                 if (oc) execHandler(oc, el, evt);

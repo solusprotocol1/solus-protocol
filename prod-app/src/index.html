@@ -3247,6 +3247,13 @@
     <!-- This runs SYNCHRONOUSLY before modules load, so all functions are available immediately -->
     <script>
     (function(){
+        // ══════ 0. CSP DETECTION ══════
+        // Test whether inline onclick handlers execute natively.
+        // If CSP allows unsafe-inline, the delegated handler (section 4) is not needed.
+        var _t = document.createElement('button');
+        _t.setAttribute('onclick', 'window.__s4InlineOK=true');
+        _t.click();
+
         // ══════ 1. SESSION RESTORE ══════
         // If user already entered platform this session, restore workspace view
         if (sessionStorage.getItem('s4_entered') === '1') {
@@ -3900,8 +3907,10 @@
             });
         }
 
-        // Capture-phase click: walk up DOM to find onclick attribute
+        // Capture-phase click: walk up DOM to find onclick attribute.
+        // Only activates when CSP blocks inline handlers (e.g. VS Code Simple Browser).
         document.addEventListener('click', function(evt) {
+            if (window.__s4InlineOK) return; // native inline onclick works; skip delegation
             var el = evt.target;
             for (var d = 0; el && d < 15; d++) {
                 var oc = el.getAttribute && el.getAttribute('onclick');
@@ -3914,6 +3923,7 @@
         ['change','input','keydown','mouseover','mouseout','focus','blur'].forEach(function(evtType) {
             var attr = 'on' + evtType;
             document.addEventListener(evtType, function(evt) {
+                if (window.__s4InlineOK) return;
                 var el = evt.target;
                 var oc = el && el.getAttribute && el.getAttribute(attr);
                 if (oc) execHandler(oc, el, evt);
