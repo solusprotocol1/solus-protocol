@@ -21,7 +21,6 @@ It was built for defense and government teams who need to track parts, maintenan
 1. Go to **s4ledger.com/s4-login** and click **Create Account**
 2. Fill in your **work email**, **organization**, and **password**
 3. Pick a subscription plan:
-   - **Pilot** (Free) — 100 SLS, good for 10,000 record stamps
    - **Starter** ($999/month) — 25,000 SLS, good for 2,500,000 stamps
    - **Professional** ($2,499/month) — 100,000 SLS, good for 10,000,000 stamps
    - **Enterprise** ($9,999/month) — 500,000 SLS, unlimited stamps
@@ -236,7 +235,7 @@ NSERC-IDE, MERLIN, NAVAIR AMS-PMT, COMPASS, CDMD-OA, NDE, MBPS, PEO-MLB, CSPT, G
 
 ---
 
-*S4 Ledger v5.11.1 | S4 Systems, LLC. SLS (Secure Logistics Standard) is a utility token delivered as part of your subscription — not equity or an investment.*
+*S4 Ledger v5.12.0 | S4 Systems, LLC. SLS (Secure Logistics Standard) is a utility token delivered as part of your subscription — not equity or an investment.*
 
 
 ---

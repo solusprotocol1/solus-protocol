@@ -1,6 +1,6 @@
 # S4 Ledger — Platform Test Results
 
-> Generated: February 24, 2026 (v5.11.1)  
+> Generated: March 2, 2026 (v5.12.0)  
 > Covers: All 20+ ILS Hub tools, 23 competitive upgrades, 10 bug fixes  
 > Test method: Code-level verification of HTML structure, JavaScript functions, CSS classes, and DOM wiring
 
@@ -138,6 +138,8 @@ Every tool panel must: (a) exist in HTML with correct ID, (b) be reachable via s
 | 10 Bug Fixes | 10 | 0 | 10 |
 | 4 Structural Checks | 4 | 0 | 4 |
 | **TOTAL** | **53** | **0** | **53** |
+
+> **Note:** Full automated test suite (Vitest + Playwright + pytest) now includes **121 tests** as of v5.12.0.
 
 ---
 

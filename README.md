@@ -276,6 +276,6 @@ S4 Ledger covers all 12 ILS elements defined in MIL-STD-1388 / GEIA-STD-0007:
 
 Apache License 2.0 — see [LICENSE](LICENSE)
 
-**Version:** 5.6.0 — XRPL Mainnet Live | 20+ ILS Tools | 90+ API Routes | 43 Supabase Tables | HarborLink Integration (Coming) | Offline-First PWA | Flankspeed/VDI Compatible
+**Version:** 5.12.0 — XRPL Mainnet Live | 20+ ILS Tools | 90+ API Routes | 43 Supabase Tables | HarborLink Integration (Coming) | Offline-First PWA | Flankspeed/VDI Compatible
 
 © 2026 S4 Systems, LLC. Charleston, SC.

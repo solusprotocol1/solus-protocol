@@ -8338,9 +8338,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // Set default calendar date
     const calDate = document.getElementById('calEventDate');
     if (calDate) calDate.value = new Date().toISOString().split('T')[0];
-    // Show/hide floating AI agent based on active tab
+    // Show/hide floating AI agent based on active tab — ONLY if user has entered the platform
     const aiWrapper = document.getElementById('aiFloatWrapper');
-    if (aiWrapper) aiWrapper.style.display = 'flex';
+    if (aiWrapper) {
+        if (sessionStorage.getItem('s4_entered') === '1') {
+            aiWrapper.style.display = 'flex';
+        } else {
+            aiWrapper.style.display = 'none';
+        }
+    }
     document.querySelectorAll('[data-bs-toggle="pill"]').forEach(tab => {
         tab.addEventListener('shown.bs.tab', e => {
             const target = e.target.getAttribute('href');

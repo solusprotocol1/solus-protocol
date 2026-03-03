@@ -129,7 +129,7 @@ Current: Enhanced ZKP with Pedersen commitments (v5.2). Production target: Bulle
 | Analyst | Anchor, verify, ILS, AI query, metrics, export | Professional |
 | Auditor | Verify, metrics, audit trail, security (read-only) | Professional |
 | Operator | Anchor, verify, offline sync | Starter |
-| Viewer | Verify, metrics (read-only) | Pilot |
+| Viewer | Verify, metrics (read-only) | Starter |
 
 MFA (multi-factor authentication) planned for future release.
 

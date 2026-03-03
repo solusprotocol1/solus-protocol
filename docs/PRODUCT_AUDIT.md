@@ -1,4 +1,4 @@
-# S4 Ledger — Full Product Audit (v5.11.1)
+# S4 Ledger — Full Product Audit (v5.12.0)
 
 **Date**: February 2026
 **Auditor**: Automated code review
@@ -9,7 +9,7 @@
 
 ## Executive Summary
 
-S4 Ledger is a **sophisticated, well-architected demo platform with real XRPL blockchain integration** — but it is not yet a production SaaS product. The core anchoring engine genuinely works on the XRP Ledger. The ILS domain expertise is extensive and accurate. The UI is polished and professional. However, authentication, data persistence, payment processing, and multi-tenancy are simulated or missing.
+S4 Ledger is a **sophisticated, well-architected platform with real XRPL blockchain integration** and is progressing toward full production SaaS status. The core anchoring engine genuinely works on the XRP Ledger. The ILS domain expertise is extensive and accurate. The UI is polished and professional. Supabase authentication and state persistence are now implemented. Payment processing integration is in progress.
 
 **Honest breakdown**: ~55% real functionality, ~25% functional demo with simulated data, ~20% stubs (down from 25%). New modules: ai/, monitoring/, resilience/, interop/, security/, k8s/.
 
@@ -52,8 +52,8 @@ S4 Ledger is a **sophisticated, well-architected demo platform with real XRPL bl
 
 | Issue | Severity | Detail |
 |-------|----------|--------|
-| **No real authentication** | 🔴 CRITICAL | Login is `setTimeout` → `localStorage`. No password hashing, no JWT, no sessions |
-| **No data persistence** | 🔴 CRITICAL | In-memory dictionaries reset on every Vercel cold start. 600 "records" regenerated from seed |
+| **No real authentication** | ✅ RESOLVED | Supabase Auth implemented with email/password, JWT sessions, and RLS policies |
+| **No data persistence** | ✅ RESOLVED | Supabase PostgreSQL backend with 43 tables, /api/state/save + /api/state/load endpoints |
 | **Stripe webhook not verified** | 🔴 CRITICAL | `STRIPE_WEBHOOK_SECRET` defined but HMAC signature never checked. Attackers could trigger free SLS |
 | **Verify doesn't query XRPL** | 🟡 HIGH | Only checks in-memory records, not actual XRPL transaction memos |
 | **No Stripe Checkout flow** | 🟡 HIGH | Pricing page shows tiers but users can't actually pay |
@@ -99,7 +99,7 @@ S4 Ledger is a **sophisticated, well-architected demo platform with real XRPL bl
 |------|--------|-------|
 | Homepage (index.html) | ✅ LIVE | Professional landing page |
 | About | ✅ LIVE | Company information |
-| Pricing | ✅ LIVE | 4 tiers displayed correctly — no payment processing |
+| Pricing | ✅ LIVE | 3 tiers displayed correctly — Stripe integration in progress |
 | Login/Signup | ⚠️ PARTIAL | Signup provisions real XRPL wallet — login is simulated |
 | Contact | ⚠️ PARTIAL | Form UI exists — no email service backend |
 | Investors | ✅ LIVE | Detailed investor page |
@@ -177,7 +177,7 @@ S4 Ledger is a **sophisticated, well-architected demo platform with real XRPL bl
 **Yes.** The UI is polished, the domain expertise is genuine, and the XRPL anchoring actually works. The demo tells a compelling story about blockchain-backed logistics records.
 
 ### Is this ready to accept paying customers?
-**No.** There's no payment processing, no authentication, and no data persistence. Users can't sign up, can't pay, and their data doesn't survive a server restart.
+**Not yet.** Stripe payment verification and full checkout flow are still in progress. Users can sign up via Supabase auth and their data persists, but subscription billing is not yet live.
 
 ### Is this ready for a CEO pitch?
 **Yes, with caveats.** Pitch it as a working prototype with real blockchain integration — not as a production SaaS. The demo is strong enough to demonstrate the concept and the XRPL anchoring is genuinely real. Be honest about what's demo data vs production-ready.

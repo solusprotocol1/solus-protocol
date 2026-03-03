@@ -1,7 +1,7 @@
 # S4 Ledger Whitepaper
 
 **Immutable Logistics Verification for the Defense Industry**  
-Version 5.2.0 — February 2026  
+Version 5.12.0 — March 2026  
 
 ---
 
@@ -231,7 +231,7 @@ S4 Ledger is the only solution purpose-built for defense logistics that keeps ze
 | **Phase 4 — Partner & SaaS** | Q1 – Q2 2027 | REST API, SaaS dashboard, DIU / NavalX engagement, Merkle tree batch anchoring |
 | **Phase 5 — Scale & Certify** | Q3 2027+ | NIST/CMMC, FedRAMP, CDN/edge caching, microservices, production deployments |
 
-### Current Toolset (v5.11.1)
+### Current Toolset (v5.12.0)
 
 | Tool | Description |
 |---|---|
@@ -372,7 +372,7 @@ The AI Agent operates in a hybrid local+cloud model with server-side LLM integra
 
 S4 Ledger uses a Treasury-based delivery model for its native SLS token:
 - **No DEX or exchange trading** — SLS tokens are delivered directly from the S4 Treasury wallet to subscriber custodial wallets.
-- **Subscription tiers** (Pilot: 500 SLS/mo, Starter: 2,500 SLS/mo, Professional: 10,000 SLS/mo, Enterprise: 50,000 SLS/mo) provide monthly allocations for anchoring operations.
+- **Subscription tiers** (Starter: 25,000 SLS/mo, Professional: 100,000 SLS/mo, Enterprise: 500,000 SLS/mo) provide monthly allocations for anchoring operations.
 - **Each XRPL anchor costs 0.01 SLS** — creating an immutable SHA-256 hash record on the XRP Ledger.
 - **Custodial wallets** are auto-provisioned per subscriber, with optional self-custody migration for advanced users.
 - **Stripe integration** handles USD subscription billing; SLS delivery is triggered automatically upon payment confirmation via webhooks.

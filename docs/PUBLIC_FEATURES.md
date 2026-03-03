@@ -58,7 +58,7 @@ Full-featured AI assistant specializing in defense logistics:
 Secure Logistics Standard (SLS) — utility token on the XRP Ledger:
 
 - **Self-sustaining circulation:** Treasury → User → Treasury
-- **Subscription tiers:** Pilot (free, 100 SLS), Starter ($999/mo, 25K SLS), Professional ($2,499/mo, 100K SLS), Enterprise ($9,999/mo, 500K SLS)
+- **Subscription tiers:** Starter ($999/mo, 25K SLS), Professional ($2,499/mo, 100K SLS), Enterprise ($9,999/mo, 500K SLS)
 - **Automatic wallet provisioning** on signup
 - **Real-time balance display** in floating sidebar
 
@@ -183,7 +183,6 @@ curl -X POST https://s4ledger.com/api/anchor \
 
 | Plan | Monthly | SLS/mo | Anchors | AI Queries | ILS Tools |
 |------|---------|--------|---------|------------|-----------|
-| Pilot | Free | 100 | 10,000 | 50 | 20+ |
 | Starter | $999 | 25,000 | 2,500,000 | 500 | 20+ |
 | Professional | $2,499 | 100,000 | 10,000,000 | Unlimited | 20+ |
 | Enterprise | $9,999 | 500,000 | Unlimited | Unlimited | 20+ + HarborLink |

@@ -23,7 +23,7 @@
 | **SEO & Meta** | 92% | Full OG/Twitter cards, canonical URLs, structured data patterns, lang attribute, description meta |
 | **Code Quality** | 78% | ESLint 9+ flat config (42 rules), consistent naming, error handling patterns, no eval() |
 | **Deployment** | 90% | Vite 6.4.1 build pipeline, Vercel + CDN, immutable cache headers, GitHub Actions CI (8 jobs) |
-| **Testing** | 80% | Vitest (72 unit tests), Playwright E2E smoke tests, pytest (20+ Python tests), GitHub Actions CI |
+| **Testing** | 80% | Vitest (121 tests), Playwright E2E smoke tests, pytest (20+ Python tests), GitHub Actions CI |
 | **Documentation** | 95% | OpenAPI 3.0 (90+ endpoints), SDK reference, whitepaper, deployment guide, training guide |
 | **Legal/Compliance** | 85% | TOS published, Privacy Policy, ITAR banners, NIST 800-171 aligned, SEC Howey analysis |
 | **Weighted Overall** | **86.5%** | — |
@@ -46,7 +46,7 @@
 
 ### Improvements Applied (this release)
 
-1. **Testing Infrastructure** — Vitest 2.1.0 + Playwright 1.41.0 + 72 unit tests + E2E smoke tests
+1. **Testing Infrastructure** — Vitest 2.1.0 + Playwright 1.41.0 + 121 tests + E2E smoke tests
 2. **CSP Hardened** — Removed `'unsafe-eval'` from both vercel.json and HTML meta tags
 3. **Source Maps Disabled** — ~3.6MB of `.map` files no longer shipped to production
 4. **Console Logs Stripped** — `drop_console: true` in terser (prod) and esbuild (demo)
@@ -248,7 +248,7 @@ This document tracks every requirement for taking S4 Ledger to a fully productio
 | Technical specifications | ✅ Published | **High** | TECHNICAL_SPECS.md |
 | Whitepaper | ✅ Published | **Critical** | WHITEPAPER.md |
 | Security audit report | 🟡 Draft | **Critical** | SECURITY_AUDIT.md — needs formal third-party audit |
-| Changelog / Release notes | ✅ Published | Medium | CHANGELOG.md with semantic versioning (v1.0.0 through v5.2.0) |
+| Changelog / Release notes | ✅ Published | Medium | CHANGELOG.md with semantic versioning (v1.0.0 through v5.12.0) |
 
 ### 5.2 Internal Documentation
 | Item | Status | Priority | Notes |
@@ -372,7 +372,7 @@ This document tracks every requirement for taking S4 Ledger to a fully productio
 - [x] Add ITAR/export control warning to all data input forms ✅ (v3.2 — ITAR banner on landing page + demo app)
 - [ ] Commission penetration test (budget: $5K-$15K)
 - [ ] Begin CMMC Level 1 self-assessment (verify S4 Systems' existing CMMC posture first)
-- [x] Create CHANGELOG.md with version history ✅ (v5.2.0 — complete changelog from v1.0 to v5.1)
+- [x] Create CHANGELOG.md with version history ✅ (v5.12.0 — complete changelog from v1.0 to v5.12.0)
 - [ ] Produce 2-minute demo video
 - [x] Database integration ✅ (Supabase PostgreSQL — 43+ tables, user state sync, /api/state/save + /api/state/load, 100% localStorage persistence, automated backups, encryption at rest)
 - [x] ILS Workspace v3 with AI Agent ✅ (26 programs, 44+ DI numbers)

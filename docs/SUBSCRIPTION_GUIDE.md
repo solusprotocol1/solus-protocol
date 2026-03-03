@@ -57,23 +57,6 @@ Every subscription tier includes access to the full ILS Workspace:
 
 ## Subscription Tiers
 
-### Pilot — FREE
-> *Try S4 Ledger with zero commitment. No credit card required.*
-
-| Feature | Included |
-|---------|----------|
-| Monthly SLS allocation | 100 SLS |
-| Anchoring capacity | Up to 10,000 anchors |
-| XRPL wallet | Auto-provisioned |
-| ILS Workspace | All 20+ tools |
-| AI Agent | Demo mode (local pattern matching) |
-| SDK & REST API | Full access |
-| Support | Community |
-
-**Best for**: Individual engineers evaluating the platform, academic researchers, or small-scale proof-of-concept work.
-
----
-
 ### Starter — $999/month
 > *For program offices and small contractors getting started with blockchain-backed ILS.*
 
@@ -162,7 +145,7 @@ The AI Agent is backed by enterprise LLM providers (Azure OpenAI for FedRAMP env
 Visit [s4ledger.com/s4-login](https://s4ledger.com/s4-login/) and create your account with an email address.
 
 ### Step 2 — Choose Your Tier
-Select the subscription tier that matches your organization's needs. Start with Pilot (free) if you want to evaluate first.
+Select the subscription tier that matches your organization's needs.
 
 ### Step 3 — Payment
 Paid tiers are billed monthly via Stripe. Accepted: credit/debit cards, ACH transfers. Enterprise contracts available for wire transfer / purchase order billing.

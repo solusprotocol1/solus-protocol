@@ -1,4 +1,4 @@
-# S4 Ledger — Upgrade Locations Guide (v5.6.0)
+# S4 Ledger — Upgrade Locations Guide (v5.12.0)
 
 > Use this document to visually verify every upgrade on the live site.  
 > Last updated: February 24, 2026 (afternoon session included)
@@ -241,7 +241,7 @@ The platform uses a **Hub → Section → Tab** navigation model:
 - **SLS Balance bar** — shows your tier's allocation (e.g., 100,000 SLS for Professional)
 - **Anchors** — count of records anchored
 - **SLS Spent** — total fees consumed
-- **Plan** — tier name (Pilot/Starter/Professional/Enterprise)
+- **Plan** — tier name (Starter/Professional/Enterprise)
 - Wallet overview cards, credentials section
 - Purchase SLS section
 - SLS Economic Flow details

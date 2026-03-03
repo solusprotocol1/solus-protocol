@@ -1,6 +1,6 @@
 # SLS Economy — CEO Explainer
 
-**S4 Systems, LLC | S4 Ledger v5.11.1**
+**S4 Systems, LLC | S4 Ledger v5.12.0**
 **For: Leadership, Board, Investors**
 
 ---
@@ -87,7 +87,7 @@ The only real cost is the 12 XRP activation per new user. Everything else is pur
 
 | Tier | Price | SLS/Month | Max Anchors | Target Customer |
 |------|-------|-----------|-------------|-----------------|
-| Pilot | Free | 100 | 10,000 | Evaluators, demos |
+
 | Starter | $999/mo | 25,000 | 2,500,000 | Contractors, depot maintenance |
 | Professional | $2,499/mo | 100,000 | 10,000,000 | Program offices, fleet sustainment |
 | Enterprise | $9,999/mo | 500,000 | Unlimited | DoD agencies, OEMs |

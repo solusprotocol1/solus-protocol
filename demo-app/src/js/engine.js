@@ -832,10 +832,10 @@ function _showDemoOffline() {
     if (sessionInfo) {
         sessionInfo.style.display = 'block';
         sessionInfo.innerHTML = '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:0.78rem">'
-            + '<div><span style="color:var(--steel)">Session:</span> <span style="color:#fff">demo_offline_' + Date.now().toString(36) + '</span></div>'
-            + '<div><span style="color:var(--steel)">Wallet:</span> <span style="color:#c9a84c;font-family:monospace;font-size:0.72rem">rDemo...Offline</span></div>'
+            + '<div><span style="color:var(--steel)">Session:</span> <span id="demoSessionId" style="color:#fff">demo_offline_' + Date.now().toString(36) + '</span></div>'
+            + '<div><span style="color:var(--steel)">Wallet:</span> <span id="demoWalletAddr" style="color:#c9a84c;font-family:monospace;font-size:0.72rem">rDemo...Offline</span></div>'
             + '<div><span style="color:var(--steel)">XRP Balance:</span> <span style="color:var(--green)">12.000000 XRP</span></div>'
-            + '<div><span style="color:var(--steel)">Credits Balance:</span> <span style="color:var(--gold)">' + _tierData.sls.toLocaleString() + ' Credits</span></div>'
+            + '<div><span style="color:var(--steel)">Credits Balance:</span> <span id="demoSlsBalance" style="color:var(--gold)">' + _tierData.sls.toLocaleString() + ' Credits</span></div>'
             + '</div>';
     }
     // Set a local demo session so AI agent works
@@ -8315,9 +8315,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // Set default calendar date
     const calDate = document.getElementById('calEventDate');
     if (calDate) calDate.value = new Date().toISOString().split('T')[0];
-    // Show/hide floating AI agent based on active tab
+    // Show/hide floating AI agent based on active tab — ONLY if user has entered the platform
     const aiWrapper = document.getElementById('aiFloatWrapper');
-    if (aiWrapper) aiWrapper.style.display = 'flex';
+    if (aiWrapper) {
+        if (sessionStorage.getItem('s4_entered') === '1') {
+            aiWrapper.style.display = 'flex';
+        } else {
+            aiWrapper.style.display = 'none';
+        }
+    }
     document.querySelectorAll('[data-bs-toggle="pill"]').forEach(tab => {
         tab.addEventListener('shown.bs.tab', e => {
             const target = e.target.getAttribute('href');

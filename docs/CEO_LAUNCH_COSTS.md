@@ -2,7 +2,7 @@
 
 **Prepared for:** S4 Systems, LLC — Executive Leadership  
 **Prepared by:** Nick Frankfort  
-**Last Updated:** v5.11.1 — June 2025  
+**Last Updated:** v5.12.0 — March 2026  
 **Classification:** Company Confidential — Internal Use Only
 
 ---

@@ -51,10 +51,10 @@ S4 Ledger is ready to pitch as a **working prototype with real blockchain integr
 
 6. **Ask** (1 min): Pilot deployment with [target program office]. Or: seed funding for production buildout.
 
-### Readiness Score: 7/10
+### Readiness Score: 8.5/10
 
-**Why not 10**: No authentication, no payment processing, no data persistence, 8 of 20 API endpoints return hardcoded data.
-**Why 7**: The core differentiator (XRPL anchoring) genuinely works. The UI is polished. The defense domain knowledge is deep. The demo tells a compelling story.
+**Why not 10**: Payment processing (Stripe checkout) not yet live, some API endpoints return hardcoded data.
+**Why 8.5**: The core differentiator (XRPL anchoring) genuinely works. Supabase auth and data persistence are implemented. The UI is polished. The defense domain knowledge is deep. The demo tells a compelling story.
 
 ---
 
@@ -222,7 +222,7 @@ Every successful defense tech company spent **2-4 years in prototype/demo mode**
 
 3. **Target one pilot program office** — Recommend PMS 300 (LPD/LHA) or PMS 400 (DDG-51) at NAVSEA. These are high-visibility shipbuilding programs with massive ILS requirements.
 
-4. **Fix the 5 showstoppers** from the product audit (auth, persistence, Stripe verification, checkout flow, XRPL verification). This is ~2 weeks of work and transforms "demo" into "pilot-ready."
+4. **Fix the remaining showstoppers** from the product audit (Stripe verification, checkout flow, XRPL verification). Auth and persistence are now done via Supabase. This transforms "demo" into "pilot-ready."
 
 ### Near-Term (6-12 Months)
 
@@ -254,7 +254,7 @@ Every successful defense tech company spent **2-4 years in prototype/demo mode**
 
 **The pitch should be**: "We've built the only blockchain-backed ILS platform. Here — watch me anchor a real defense record to the XRP Ledger in 30 seconds. Now try to change it. You can't. That's what we give your program office."
 
-**What the CEO needs to hear**: "This is ready to demo and pilot. It is NOT ready for production deployment at scale. We need 3-4 weeks of engineering to fix authentication, persistence, and payment processing. After that, we need an SBIR or pilot program to prove value with a real program office. Realistic timeline to first revenue: 12-24 months."
+**What the CEO needs to hear**: "This is ready to demo and pilot. Authentication and data persistence are live via Supabase. We need to finish Stripe payment integration to accept paying customers. After that, we need an SBIR or pilot program to prove value with a real program office. Realistic timeline to first revenue: 12–24 months."
 
 ---
 
