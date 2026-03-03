@@ -749,6 +749,19 @@ window._resetDemoSession = function() {
     window._demoSession = null;
 };
 
+// Bridge: let cross-chunk code (onboarding.js) update the MODULE-scoped _demoSession allocation
+window._setDemoAllocation = function(alloc, label) {
+    if (_demoSession && _demoSession.subscription) {
+        _demoSession.subscription.sls_allocation = alloc;
+        _demoSession.subscription.label = label;
+    }
+    if (window._demoSession && window._demoSession.subscription) {
+        window._demoSession.subscription.sls_allocation = alloc;
+        window._demoSession.subscription.label = label;
+    }
+    _updateDemoSlsBalance();
+};
+
 async function _initDemoSession() {
     if (_demoSession) return _demoSession;
     const panel = document.getElementById('demoPanel');
@@ -821,6 +834,9 @@ function _showDemoOffline() {
     }
     // Set a local demo session so AI agent works
     _demoSession = { session_id: 'demo_offline_' + Date.now(), xrp_balance: 12, sls_balance: _tierData.sls, subscription: {label: _tierData.label, sls_allocation: _tierData.sls} };
+    window._demoSession = _demoSession; // Keep window ref in sync with module-scoped var
+    // Immediately update all balance displays with the correct tier
+    _updateDemoSlsBalance();
 }
 
 function _animateDemoSteps(data) {
@@ -8488,3 +8504,4 @@ window.verifyRecord = verifyRecord;
 window.generateAiResponse = generateAiResponse;
 window.refreshVerifyRecents = refreshVerifyRecents;
 window._initDemoSession = _initDemoSession;
+window._updateDemoSlsBalance = _updateDemoSlsBalance;

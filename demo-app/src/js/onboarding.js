@@ -65,6 +65,11 @@ function closeOnboarding() {
     else window._demoSession = null;
     // Trigger demo session init with selected tier
     if (typeof window._initDemoSession === 'function') window._initDemoSession();
+    // Force immediate balance refresh after async init completes
+    if (typeof window._updateDemoSlsBalance === 'function') {
+        setTimeout(function() { window._updateDemoSlsBalance(); }, 500);
+        setTimeout(function() { window._updateDemoSlsBalance(); }, 2000);
+    }
 }
 
 function onboardNext() {
@@ -132,8 +137,10 @@ function selectOnboardTier(el, tier) {
     }
     var _balEl = document.getElementById('demoSlsBalance');
     if (_balEl) _balEl.textContent = _tierAlloc.toLocaleString() + ' Credits';
-    // Also update the session object
-    if (window._demoSession && window._demoSession.subscription) {
+    // Also update the session object — use bridge function to update MODULE-scoped _demoSession
+    if (typeof window._setDemoAllocation === 'function') {
+        window._setDemoAllocation(_tierAlloc, (_onboardTiers[tier] || _onboardTiers['starter']).label);
+    } else if (window._demoSession && window._demoSession.subscription) {
         window._demoSession.subscription.sls_allocation = _tierAlloc;
         window._demoSession.subscription.label = (_onboardTiers[tier] || _onboardTiers['starter']).label;
     }
