@@ -7404,6 +7404,8 @@ console.log('[S4 Superior Platform] All modules loaded — IndexedDB, SBOM, GFP,
 // NOTE: anchorSBOM, anchorGFP, anchorCDRL, anchorContract, anchorChain are exported by engine.js
 // Do NOT re-export the enhancements.js stubs (anchorGfpRecord etc.) — they lack stats/vault/balance logic
 window.closeDigitalThread = closeDigitalThread;
+window.populateDigitalThreadDropdown = populateDigitalThreadDropdown;
+window.showSampleDigitalThread = showSampleDigitalThread;
 window.createNewTeam = createNewTeam;
 window.exportAnalyticsCSV = exportAnalyticsCSV;
 window.exportAnalyticsReport = exportAnalyticsReport;

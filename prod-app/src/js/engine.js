@@ -5794,7 +5794,7 @@ function switchHubTab(panelId, btn) {
     if (btn) btn.classList.add('active');
     // Load data for workspace panels
     if (panelId === 'hub-actions') { renderHubActions(); if (typeof renderActionCalendar === 'function') renderActionCalendar(); }
-    if (panelId === 'hub-vault') { renderVault(); setTimeout(function(){ if (typeof showSampleDigitalThread === 'function') showSampleDigitalThread(); populateDigitalThreadDropdown(); }, 400); }
+    if (panelId === 'hub-vault') { renderVault(); setTimeout(function(){ if (typeof window.showSampleDigitalThread === 'function') window.showSampleDigitalThread(); if (typeof window.populateDigitalThreadDropdown === 'function') window.populateDigitalThreadDropdown(); }, 400); }
     if (panelId === 'hub-docs') { if (typeof renderDocLibrary === 'function') renderDocLibrary(); }
     if (panelId === 'hub-compliance') { if (typeof calcCompliance === 'function') calcCompliance(); }
     if (panelId === 'hub-risk') { if (typeof loadRiskData === 'function') loadRiskData(); }
@@ -5896,9 +5896,13 @@ function addToVault(record) {
     record.verified = true;
     record.verifiedAt = new Date().toISOString();
     s4Vault.unshift(record);
+    window.s4Vault = s4Vault;
     saveVault();
+    // Re-render vault UI so new record appears immediately
+    renderVault();
+    refreshVaultMetrics();
     // Keep Digital Thread dropdown in sync with vault
-    if (typeof populateDigitalThreadDropdown === 'function') populateDigitalThreadDropdown();
+    if (typeof window.populateDigitalThreadDropdown === 'function') window.populateDigitalThreadDropdown();
     // Show workspace notification
     showWorkspaceNotification('Record saved to Audit Vault', record.label || record.type);
 }
