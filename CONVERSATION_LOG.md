@@ -838,4 +838,74 @@ All cross-chunk variable sharing uses `window.*`:
 - Never use bare variable names across chunk boundaries
 
 ---
+
+## Session 13 — Prod-App Deep Audit & Fix (Playwright-Driven)
+
+### Context
+User reported multiple prod-app issues: AI agent not opening, Team/Analysis boxes not clicking, Anchor-S4 tools broken, unclassified bar messed up, security policy showing, demo.html font mismatch. Demanded Playwright-based testing approach (as proven in Session 12).
+
+### Critical Discovery: Missing `</div>` for `#platformWorkspace`
+Structural diff between demo-app and prod-app revealed a **missing closing `</div>`** for the `#platformWorkspace` container. This caused the footer, overlays, wallet sidebar, inline scripts, and `#aiFloatWrapper` to all be parsed as children of `#platformWorkspace` — fundamentally breaking DOM structure.
+
+### Fixes Applied
+
+#### 1. Missing `</div><!-- /platformWorkspace -->` (prod-app/src/index.html)
+- Added closing tag after `</section>` at line 2988
+- Matches demo-app structure exactly
+
+#### 2. Missing Window Exports (both apps engine.js)
+- `window.renderVault = renderVault`
+- `window.loadStats = loadStats`
+- `window.showWorkspaceNotification = showWorkspaceNotification`
+- These were defined but never exported to `window.*`
+
+#### 3. ITAR Banner Overlap (prod-app/src/index.html)
+- Changed `#itarBanner` from `position:fixed` to static
+- Was overlapping with classification banner (both fixed at top)
+
+#### 4. AI Agent Visibility (prod-app/src/js/engine.js)
+- `enterPlatformAfterAuth()`: Added `else` branch for when onboarding already done
+- Shows `aiFloatWrapper` with `display:flex` immediately
+- Re-applies saved role if available
+
+#### 5. Role Selector Cancel Handler (both apps roles.js)
+- Cancel button now shows `aiFloatWrapper` with `display:flex`
+- Previously, cancelling role selector left AI agent permanently hidden
+
+#### 6. Inline Failsafe enterPlatformAfterAuth (prod-app/src/index.html)
+- Split AI wrapper logic: hide when onboarding needed, show when done
+- Matches engine.js fix
+
+#### 7. demo.html Nav Styling (prod-app/demo.html)
+- Updated nav CSS to match main site: clean text links, 32px gap, matching fonts
+- Changed background blur and removed bordered button style
+
+### Playwright Tests Created
+1. **tests/e2e/prod-audit.spec.js** — Comprehensive audit: page errors, window exports, onclick handlers
+2. **tests/e2e/prod-audit-deep.spec.js** — Deep click-through audit: DOM structure, visibility, sections
+3. **tests/e2e/prod-fix-verify.spec.js** — Full auth flow: enter→consent→CAC→onboarding→role→verify all features
+
+### Final Verification Results (prod-fix-verify.spec.js)
+```
+Page errors: 0
+AI wrapper: display=flex (working)
+AI panel toggle: opens correctly
+tabILS: visible
+tabVerify: visible
+hub-team: visible  
+hub-analysis: visible
+hub-vault: visible
+hub-dmsms: visible
+recordInput: visible
+anchorBtn: visible ("Anchor to XRPL")
+ITAR Banner: position=static (no overlap)
+```
+
+### Key Architectural Notes
+- `aiFloatWrapper` uses `position:fixed` so `offsetParent` is always null — use `style.display` or `getComputedStyle` to check visibility, not `offsetParent`
+- Onboarding has 5 steps (0–4); `onboardNext()` past step 4 calls `closeOnboarding()` → `showRoleSelector()`
+- `applyRole()` sets `aiFloatWrapper.style.display = 'flex'` — this is the intended path
+- The `sectionILS` → `tabILS` mapping is handled by `showSection()` in navigation.js via `tabMap`
+
+---
 *This log is updated every session. Reference before making changes.*

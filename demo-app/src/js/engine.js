@@ -8875,3 +8875,6 @@ window.sha256Binary = sha256Binary;
 window._renderIcon = _renderIcon;
 window.stats = stats;
 window.updateAiContext = updateAiContext;
+window.renderVault = renderVault;
+window.loadStats = loadStats;
+window.showWorkspaceNotification = showWorkspaceNotification;

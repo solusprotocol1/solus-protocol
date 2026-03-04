@@ -52,7 +52,7 @@ function showRoleSelector() {
     });
     html += '</div></details>'
         + '<div style="display:flex;gap:10px;justify-content:flex-end">'
-        + '<button onclick="document.getElementById(\'roleModal\').remove()" style="background:rgba(255,255,255,0.06);color:var(--steel);border:1px solid var(--border);border-radius:3px;padding:8px 20px;cursor:pointer">Cancel</button>'
+        + '<button onclick="document.getElementById(\'roleModal\').remove();var aw=document.getElementById(\'aiFloatWrapper\');if(aw)aw.style.display=\'flex\'" style="background:rgba(255,255,255,0.06);color:var(--steel);border:1px solid var(--border);border-radius:3px;padding:8px 20px;cursor:pointer">Cancel</button>'
         + '<button onclick="applyRole()" style="background:var(--accent);color:#fff;border:none;border-radius:3px;padding:8px 24px;cursor:pointer;font-weight:600">Apply Role</button>'
         + '</div></div>';
     modal.innerHTML = html;

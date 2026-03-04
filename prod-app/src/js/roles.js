@@ -94,6 +94,9 @@ function showRoleSelector() {
     cancelBtn.addEventListener('click', function(evt) {
         evt.stopPropagation();
         modal.remove();
+        // Still show AI agent even if role is cancelled — user should always have access
+        var aiWrap = document.getElementById('aiFloatWrapper');
+        if (aiWrap) aiWrap.style.display = 'flex';
     });
 
     var applyBtn = document.createElement('button');

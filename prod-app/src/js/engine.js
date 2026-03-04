@@ -484,13 +484,13 @@ function enterPlatformAfterAuth() {
         if (landing) landing.style.display = 'none';
         if (hero) hero.style.display = 'none';
         if (workspace) workspace.style.display = 'block';
-        // AI agent stays hidden until role selector closes (applyRole in roles.js shows it)
-        var aiWrap = document.getElementById('aiFloatWrapper');
-        if (aiWrap) aiWrap.style.display = 'none';
         sessionStorage.setItem('s4_entered', '1');
         // Show onboarding wizard (which chains to role selector on close)
         var onboardDone = sessionStorage.getItem('s4_onboard_done');
         if (!onboardDone) {
+            // AI agent stays hidden until role selector closes (applyRole in roles.js shows it)
+            var aiWrap = document.getElementById('aiFloatWrapper');
+            if (aiWrap) aiWrap.style.display = 'none';
             // Poll for window.showOnboarding — navigation chunk may load after engine chunk
             var _onboardRetries = 0;
             function _tryShowOnboarding() {
@@ -508,6 +508,14 @@ function enterPlatformAfterAuth() {
                 }
             }
             _tryShowOnboarding();
+        } else {
+            // Onboarding already complete — show AI agent immediately
+            var aiWrap = document.getElementById('aiFloatWrapper');
+            if (aiWrap) aiWrap.style.display = 'flex';
+            // Re-apply saved role if available
+            if (typeof window.applyRole === 'function' && sessionStorage.getItem('s4_user_role')) {
+                try { window.applyRole(); } catch(e) {}
+            }
         }
     } catch(e) {
         console.error('[S4] enterPlatformAfterAuth error:', e);
@@ -8884,3 +8892,6 @@ window.sha256Binary = sha256Binary;
 window._renderIcon = _renderIcon;
 window.stats = stats;
 window.updateAiContext = updateAiContext;
+window.renderVault = renderVault;
+window.loadStats = loadStats;
+window.showWorkspaceNotification = showWorkspaceNotification;

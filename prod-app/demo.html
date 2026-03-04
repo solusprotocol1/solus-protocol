@@ -36,44 +36,57 @@
             left:0;
             right:0;
             z-index:1000;
-            background:rgba(5,8,16,0.95);
-            backdrop-filter:blur(20px);
-            -webkit-backdrop-filter:blur(20px);
+            background:rgba(10,10,15,0.92);
+            backdrop-filter:blur(24px);
+            -webkit-backdrop-filter:blur(24px);
             border-bottom:1px solid rgba(255,255,255,0.06);
-            padding:0 2rem;
+            padding:0 24px;
             height:64px;
             display:flex;
             align-items:center;
             justify-content:space-between;
+            max-width:100%;
+        }
+        .demo-header .nav-inner {
+            max-width:1200px;
+            margin:0 auto;
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            width:100%;
+            height:64px;
         }
         .demo-logo {
             display:flex;
             align-items:center;
-            gap:12px;
+            gap:10px;
             text-decoration:none;
+            color:#fff;
+            font-weight:700;
+            font-size:1.1rem;
+            letter-spacing:-0.02em;
         }
-        .demo-logo img { height:32px; }
-        .demo-logo span { font-size:1.1rem; font-weight:700; color:#fff; letter-spacing:-0.02em; }
+        .demo-logo img { height:32px; width:32px; }
         .demo-logo .sub { font-size:0.72rem; color:var(--muted); font-weight:500; margin-left:8px; }
-        .demo-nav { display:flex; gap:12px; align-items:center; }
+        .demo-nav { display:flex; gap:32px; align-items:center; list-style:none; }
         .demo-nav a {
             color:var(--steel);
             text-decoration:none;
             font-size:0.875rem;
             font-weight:500;
-            padding:8px 20px;
-            border-radius:3px;
-            border:1px solid rgba(0,170,255,0.3);
-            transition:all 0.2s;
+            transition:color 0.3s;
             letter-spacing:-0.01em;
         }
-        .demo-nav a:hover { background:rgba(0,170,255,0.1); }
+        .demo-nav a:hover { color:#fff; }
         .demo-nav a.primary {
-            background:linear-gradient(135deg,#00aaff,#0088cc);
+            background:#00aaff;
             color:#fff;
-            border:none;
+            padding:8px 20px;
+            border-radius:3px;
+            font-weight:600;
+            font-size:0.8125rem;
         }
-        .demo-nav a.primary:hover { opacity:0.9; }
+        .demo-nav a.primary:hover { opacity:0.85; }
 
         /* ═══ HERO ═══ */
         .demo-hero {
@@ -442,7 +455,9 @@
             .pipeline { flex-direction:column; padding:0; }
             .pipeline-arrow { transform:rotate(90deg); width:auto; }
             .record-type-grid { grid-template-columns:repeat(4,1fr); }
-            .demo-header { flex-direction:column; gap:12px; }
+            .demo-header { height:auto; padding:12px 24px; }
+            .demo-header .nav-inner { flex-direction:column; gap:12px; height:auto; }
+            .demo-nav { gap:16px; flex-wrap:wrap; justify-content:center; }
             .demo-tabs { flex-wrap:wrap; }
         }
     </style>
@@ -451,15 +466,17 @@
 
 <!-- ═══ HEADER ═══ -->
 <div class="demo-header">
-    <a href="/demo-app/" class="demo-logo">
-        <img src="/s4-assets/S4Ledger_logo.png" alt="S4 Ledger" style="height:32px;width:32px;">
-        <span>S4 Ledger <span class="sub">Interactive Demo</span></span>
-    </a>
-    <div class="demo-nav">
-        <a href="/prod-app/" style="color:rgba(255,255,255,0.7);border:none;padding:0.5rem 0.75rem;font-size:0.875rem;font-weight:500;">Platform</a>
-        <a href="/s4-use-cases/" style="color:rgba(255,255,255,0.7);border:none;padding:0.5rem 0.75rem;font-size:0.875rem;font-weight:500;">Use Cases</a>
-        <a href="/s4-pricing/" style="color:rgba(255,255,255,0.7);border:none;padding:0.5rem 0.75rem;font-size:0.875rem;font-weight:500;">Pricing</a>
-        <a href="/demo-app/" class="primary"><i class="fas fa-rocket"></i> Enter Platform</a>
+    <div class="nav-inner">
+        <a href="/" class="demo-logo">
+            <img src="/s4-assets/S4Ledger_logo.png" alt="S4 Ledger">
+            <span>S4 Ledger <span class="sub">Interactive Demo</span></span>
+        </a>
+        <div class="demo-nav">
+            <a href="/prod-app/">Platform</a>
+            <a href="/s4-use-cases/">Use Cases</a>
+            <a href="/s4-pricing/">Pricing</a>
+            <a href="/demo-app/" class="primary"><i class="fas fa-rocket" style="margin-right:6px"></i>Enter Platform</a>
+        </div>
     </div>
 </div>
 

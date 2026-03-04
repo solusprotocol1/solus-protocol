@@ -95,7 +95,7 @@
 </script>
 <!-- Skip Navigation Link (Section 508 / a11y) -->
 <a href="#mainContent" class="sr-only" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;z-index:99999;background:#00aaff;color:#fff;padding:12px 24px;font-weight:700;text-decoration:none;border-radius:0 0 3px 0" onfocus="this.style.position='fixed';this.style.left='0';this.style.top='0';this.style.width='auto';this.style.height='auto';this.style.overflow='visible'" onblur="this.style.position='absolute';this.style.left='-9999px';this.style.width='1px';this.style.height='1px';this.style.overflow='hidden'">Skip to main content</a>
-<div id="itarBanner" style="position:fixed;top:0;left:0;right:0;z-index:1001;background:rgba(10,10,15,0.95);border-bottom:1px solid rgba(255,255,255,0.06);padding:4px 0;text-align:center;font-size:0.72rem;color:#8b8fa3;"><i class="fas fa-exclamation-triangle" style="margin-right:4px;"></i> NOTICE: Do not submit ITAR-controlled, classified, or export-controlled data to this platform. This system processes UNCLASSIFIED and CUI data only. <a href="/security/" style="color:#00aaff;text-decoration:underline;">Security Policy</a></div>
+<div id="itarBanner" style="background:rgba(10,10,15,0.95);border-bottom:1px solid rgba(255,255,255,0.06);padding:4px 0;text-align:center;font-size:0.72rem;color:#8b8fa3;"><i class="fas fa-exclamation-triangle" style="margin-right:4px;"></i> NOTICE: Do not submit ITAR-controlled, classified, or export-controlled data to this platform. This system processes UNCLASSIFIED and CUI data only. <a href="/security/" style="color:#00aaff;text-decoration:underline;">Security Policy</a></div>
 <!-- Skip to Content — WCAG 2.1 AA -->
 <a href="#mainContent" id="skipToContent" style="position:absolute;top:-100px;left:0;background:#00aaff;color:#fff;padding:8px 16px;z-index:10000;font-size:0.9rem;font-weight:700;text-decoration:none;border-radius:0 0 4px 0;transition:top 0.2s;" onfocus="this.style.top='0'" onblur="this.style.top='-100px'">Skip to Content</a>
 <nav id="mainNav" role="navigation" aria-label="Main navigation" style="position:fixed;top:28px;left:0;right:0;z-index:1000;background:rgba(5,8,16,0.95);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.06);height:64px;">
@@ -2986,6 +2986,7 @@
         </div>
     </div>
 </section>
+</div><!-- /platformWorkspace -->
 
 <div id="anchorOverlay" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.6);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);align-items:center;justify-content:center" onclick="if(event.target===this)hideAnchorAnimation()">
     <div id="s4ResultPopup" style="background:linear-gradient(135deg,rgba(12,16,28,0.98),rgba(18,22,38,0.98));border:1px solid rgba(0,170,255,0.25);border-radius:6px;padding:2rem 2.5rem;max-width:460px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,0.5),0 0 40px rgba(0,170,255,0.08);position:relative;">
@@ -3440,12 +3441,15 @@
                 if (l) l.style.display = 'none';
                 if (h) h.style.display = 'none';
                 if (w) w.style.display = 'block';
-                var _aiW = document.getElementById('aiFloatWrapper');
-                if (_aiW) _aiW.style.display = '';
                 sessionStorage.setItem('s4_entered', '1');
                 if (!sessionStorage.getItem('s4_onboard_done')) {
+                    var _aiW = document.getElementById('aiFloatWrapper');
+                    if (_aiW) _aiW.style.display = 'none';
                     var ov = document.getElementById('onboardOverlay');
                     if (ov) ov.style.display = 'flex';
+                } else {
+                    var _aiW = document.getElementById('aiFloatWrapper');
+                    if (_aiW) _aiW.style.display = 'flex';
                 }
             };
         }
