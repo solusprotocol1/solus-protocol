@@ -11,7 +11,7 @@ async function loadPerformanceMetrics() {
     var _statsObj = window._s4Stats || (function() { try { return JSON.parse(localStorage.getItem('s4_stats') || '{}'); } catch(e) { return {}; } })();
     var localAnchors = _statsObj.anchored || 0;
     var localFees = _statsObj.slsFees || 0;
-    var _glr = typeof getLocalRecords === 'function' ? getLocalRecords : function() { try { return JSON.parse(localStorage.getItem('s4_anchored_records') || '[]'); } catch(e) { return []; } };
+    var _glr = typeof window.getLocalRecords === 'function' ? window.getLocalRecords : function() { try { return JSON.parse(localStorage.getItem('s4_anchored_records') || '[]'); } catch(e) { return []; } };
     var localRecords = _glr();
     var localTypes = {};
     localRecords.forEach(function(r) {
@@ -33,12 +33,12 @@ async function loadPerformanceMetrics() {
 
         // New stats: Records Generated, Vault Size, Storage Used, Total Time
         var vaultRecords = [];
-        try { vaultRecords = JSON.parse(localStorage.getItem(_vaultKey()) || '[]'); } catch(_e) {}
+        try { vaultRecords = JSON.parse(localStorage.getItem((window._vaultKey ? window._vaultKey() : "s4Vault")) || '[]'); } catch(_e) {}
         var totalRecords = localRecords.length + vaultRecords.length;
         el('metricRecordsGenerated', totalRecords > 0 ? totalRecords : '—');
         el('metricVaultSize', vaultRecords.length > 0 ? vaultRecords.length : '—');
         var storageKB = 0;
-        try { storageKB = Math.round(new Blob([localStorage.getItem(_vaultKey()) || '']).size / 1024 * 10) / 10; } catch(_e2) {}
+        try { storageKB = Math.round(new Blob([localStorage.getItem((window._vaultKey ? window._vaultKey() : "s4Vault")) || '']).size / 1024 * 10) / 10; } catch(_e2) {}
         el('metricStorageUsed', storageKB > 0 ? storageKB.toFixed(1) : '—');
         el('metricTotalTime', data.total_processing_time || (localAnchors > 0 ? (localAnchors * 3.2).toFixed(1) : '—'));
 
@@ -94,12 +94,12 @@ async function loadPerformanceMetrics() {
 
         // New stats: Records Generated, Vault Size, Storage Used, Total Time
         var vaultRecords2 = [];
-        try { vaultRecords2 = JSON.parse(localStorage.getItem(_vaultKey()) || '[]'); } catch(_e) {}
+        try { vaultRecords2 = JSON.parse(localStorage.getItem((window._vaultKey ? window._vaultKey() : "s4Vault")) || '[]'); } catch(_e) {}
         var totalRecords2 = localRecords.length + vaultRecords2.length;
         el('metricRecordsGenerated', totalRecords2 > 0 ? totalRecords2 : '—');
         el('metricVaultSize', vaultRecords2.length > 0 ? vaultRecords2.length : '—');
         var storageKB2 = 0;
-        try { storageKB2 = Math.round(new Blob([localStorage.getItem(_vaultKey()) || '']).size / 1024 * 10) / 10; } catch(_e2) {}
+        try { storageKB2 = Math.round(new Blob([localStorage.getItem((window._vaultKey ? window._vaultKey() : "s4Vault")) || '']).size / 1024 * 10) / 10; } catch(_e2) {}
         el('metricStorageUsed', storageKB2 > 0 ? storageKB2.toFixed(1) : '—');
         el('metricTotalTime', localAnchors > 0 ? (localAnchors * 3.2).toFixed(1) : '—');
 
@@ -131,7 +131,7 @@ async function loadPerformanceMetrics() {
         if (reqEl) {
             // Build requests from actual session records where possible
             var sessionRequests = [];
-            var localRecs = typeof getLocalRecords === 'function' ? getLocalRecords() : [];
+            var localRecs = typeof window.getLocalRecords === 'function' ? window.getLocalRecords() : [];
             var recentRecs = localRecs.slice(-5).reverse();
             for (var ri = 0; ri < recentRecs.length; ri++) {
                 var rec = recentRecs[ri];
@@ -186,7 +186,7 @@ setInterval(function() {
         if (_onboardOv && _onboardOv.style.display === 'flex') return;
 
         var s = window._s4Stats || (function() { try { var _ls=JSON.parse(localStorage.getItem('s4_stats')||'{}'); return {anchored:_ls.anchored||0,verified:_ls.verified||0,types:new Set(_ls.types||[]),slsFees:_ls.slsFees||0}; } catch(e) { return {anchored:0,verified:0,types:new Set(),slsFees:0}; } })();
-        var _glr2 = typeof getLocalRecords === 'function' ? getLocalRecords : function() { try { return JSON.parse(localStorage.getItem('s4_anchored_records') || '[]'); } catch(e) { return []; } };
+        var _glr2 = typeof window.getLocalRecords === 'function' ? window.getLocalRecords : function() { try { return JSON.parse(localStorage.getItem('s4_anchored_records') || '[]'); } catch(e) { return []; } };
         var records = _glr2();
         
         // Sync SLS balance bar — use actual tier allocation
@@ -355,12 +355,12 @@ function refreshOfflineQueue() {
 
 function offlineQueueHash() {
     // R12: Pull from real vault records instead of generating test hashes
-    if (typeof s4Vault !== 'undefined' && s4Vault.length > 0) {
+    if (typeof window.s4Vault !== 'undefined' && window.s4Vault.length > 0) {
         // Find vault records not already in offline queue
         var queue = getOfflineQueue();
         var existingHashes = {};
         queue.forEach(function(q) { existingHashes[q.hash] = true; });
-        var unqueued = s4Vault.filter(function(v) { return v.hash && !existingHashes[v.hash]; });
+        var unqueued = window.s4Vault.filter(function(v) { return v.hash && !existingHashes[v.hash]; });
         if (unqueued.length > 0) {
             var rec = unqueued[0]; // Queue the most recent unqueued record
             queue.push({ hash: rec.hash, record_type: rec.type || 'VAULT_RECORD', branch: rec.branch || 'JOINT', timestamp: rec.timestamp || new Date().toISOString(), synced: false, label: rec.label || 'Vault Record' });
@@ -502,7 +502,7 @@ function processUploadedFile(file) {
     // Always read binary for hashing (this gives us the true file hash)
     var binaryReader = new FileReader();
     binaryReader.onload = function(ev) {
-        sha256Binary(ev.target.result).then(function(hash) {
+        window.sha256Binary(ev.target.result).then(function(hash) {
             _lastUploadedFileHash = hash;
             if (nameEl) {
                 nameEl.innerHTML = window._s4Safe('<i class="fas fa-file" style="margin-right:6px;"></i>' + file.name + ' (' + (file.size / 1024).toFixed(1) + ' KB)'
@@ -1112,7 +1112,7 @@ function exportLifecycle() {
     a.download = 'S4_Lifecycle_' + platName.replace(/\s+/g,'_') + '_' + new Date().toISOString().substring(0,10) + '.txt';
     a.click();
     URL.revokeObjectURL(a.href);
-    if (typeof s4Notify === 'function') s4Notify('Exported', 'Lifecycle cost report downloaded.', 'success');
+    if (typeof window.s4Notify === 'function') window.s4Notify('Exported', 'Lifecycle cost report downloaded.', 'success');
 }
 
 async function anchorLifecycle() {
@@ -1127,20 +1127,20 @@ async function anchorLifecycle() {
     var dmsmsCost = sustTotal * (0.12 + (serviceLife > 25 ? 0.04 : 0));
     var totalCost = acqTotal + sustTotal + dmsmsCost + (acqTotal * 0.05) + (sustTotal * 0.18) + (sustTotal * 0.08);
     var text = 'Lifecycle Cost | Program: ' + platName + ' | Fleet: ' + fleetSize + ' | TOC: $' + totalCost.toFixed(0) + 'M | Date: ' + new Date().toISOString();
-    var hash = await sha256(text);
-    showAnchorAnimation(hash, 'Lifecycle Cost Report', 'CUI');
-    if(window._s4Stats){window._s4Stats.anchored++;window._s4Stats.types.add('LIFECYCLE_COST');window._s4Stats.slsFees=Math.round((window._s4Stats.slsFees+0.01)*100)/100;} if(typeof updateStats==='function')updateStats(); if(typeof saveStats==='function')saveStats();
-    var result = await _anchorToXRPL(hash, 'LIFECYCLE_COST', text.substring(0,100));
+    var hash = await window.sha256(text);
+    window.showAnchorAnimation(hash, 'Lifecycle Cost Report', 'CUI');
+    if(window._s4Stats){window._s4Stats.anchored++;window._s4Stats.types.add('LIFECYCLE_COST');window._s4Stats.slsFees=Math.round((window._s4Stats.slsFees+0.01)*100)/100;} if(typeof window.updateStats==='function')window.updateStats(); if(typeof window.saveStats==='function')window.saveStats();
+    var result = await window._anchorToXRPL(hash, 'LIFECYCLE_COST', text.substring(0,100));
     var rec = {hash:hash, type:'LIFECYCLE_COST', branch:'JOINT', timestamp:new Date().toISOString(), label:'Lifecycle Cost — '+platName, txHash:result.txHash};
-    sessionRecords.push(rec);
-    saveLocalRecord({hash:hash, record_type:'LIFECYCLE_COST', record_label:'Lifecycle Cost — '+platName, branch:'JOINT', timestamp:new Date().toISOString(), timestamp_display:new Date().toISOString().replace('T',' ').substring(0,19)+' UTC', fee:0.01, tx_hash:result.txHash, system:'Lifecycle Cost Estimator', explorer_url:result.explorerUrl, network:result.network});
-    addToVault({hash:hash, txHash:result.txHash, type:'LIFECYCLE_COST', label:'Lifecycle Cost — '+platName, branch:'JOINT', icon:'<i class="fas fa-clock"></i>', content:text.substring(0,100), encrypted:false, timestamp:new Date().toISOString(), source:'Lifecycle Cost Estimator', fee:0.01, explorerUrl:result.explorerUrl, network:result.network});
-    updateTxLog();
-    _updateSlsBalance();
+    if (window.sessionRecords) window.sessionRecords.push(rec);
+    if (typeof window.saveLocalRecord === 'function') window.saveLocalRecord({hash:hash, record_type:'LIFECYCLE_COST', record_label:'Lifecycle Cost — '+platName, branch:'JOINT', timestamp:new Date().toISOString(), timestamp_display:new Date().toISOString().replace('T',' ').substring(0,19)+' UTC', fee:0.01, tx_hash:result.txHash, system:'Lifecycle Cost Estimator', explorer_url:result.explorerUrl, network:result.network});
+    if (typeof window.addToVault === 'function') window.addToVault({hash:hash, txHash:result.txHash, type:'LIFECYCLE_COST', label:'Lifecycle Cost — '+platName, branch:'JOINT', icon:'<i class="fas fa-clock"></i>', content:text.substring(0,100), encrypted:false, timestamp:new Date().toISOString(), source:'Lifecycle Cost Estimator', fee:0.01, explorerUrl:result.explorerUrl, network:result.network});
+    if (typeof window.updateTxLog === 'function') window.updateTxLog();
+    if (typeof window._updateSlsBalance === 'function') window._updateSlsBalance();
     setTimeout(function(){ document.getElementById('animStatus').innerHTML = '<i class="fas fa-check-circle" style="color:var(--accent)"></i> Lifecycle report anchored!'; document.getElementById('animStatus').style.color = '#00aaff'; }, 2200);
     await new Promise(function(r){ setTimeout(r, 3200); });
-    hideAnchorAnimation();
-    if (typeof s4Notify === 'function') s4Notify('Anchored', 'Lifecycle cost report anchored to XRPL.', 'success');
+    if (typeof window.hideAnchorAnimation === 'function') window.hideAnchorAnimation();
+    if (typeof window.s4Notify === 'function') window.s4Notify('Anchored', 'Lifecycle cost report anchored to XRPL.', 'success');
 }
 
 // (Hook removed — calcLifecycle is now defined directly above with built-in chart call)

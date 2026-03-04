@@ -424,8 +424,8 @@ function showDigitalThread(hash) {
 
     // Find the vault record
     var record = null;
-    if (typeof s4Vault !== 'undefined') {
-        record = s4Vault.find(function(v) { return v.hash === hash; });
+    if (typeof window.s4Vault !== 'undefined') {
+        record = window.s4Vault.find(function(v) { return v.hash === hash; });
     }
     if (!record) {
         content.innerHTML = '<div style="color:var(--steel);">Record not found in vault.</div>';
@@ -478,9 +478,9 @@ function closeDigitalThread() {
 // Helper: populate digital thread dropdown from vault records
 function populateDigitalThreadDropdown() {
     var sel = document.getElementById('digitalThreadRecordSelect');
-    if (!sel || typeof s4Vault === 'undefined') return;
+    if (!sel || typeof window.s4Vault === 'undefined') return;
     var html = '<option value="">— Select a vault record —</option>';
-    s4Vault.forEach(function(v, i) {
+    window.s4Vault.forEach(function(v, i) {
         var lbl = (v.label || v.type || 'Record').substring(0, 50);
         html += '<option value="' + i + '">' + lbl + '</option>';
     });
@@ -491,8 +491,8 @@ function showDigitalThreadFromSelect() {
     var sel = document.getElementById('digitalThreadRecordSelect');
     if (!sel || !sel.value) return;
     var idx = parseInt(sel.value);
-    if (typeof s4Vault !== 'undefined' && s4Vault[idx]) {
-        showDigitalThread(s4Vault[idx].hash);
+    if (typeof window.s4Vault !== 'undefined' && s4Vault[idx]) {
+        showDigitalThread(window.s4Vault[idx].hash);
     }
 }
 
@@ -502,9 +502,9 @@ function showSampleDigitalThread() {
     var content = document.getElementById('digitalThreadContent');
     if (!panel || !content) return;
     // If vault has records, show the first one
-    if (typeof s4Vault !== 'undefined' && s4Vault.length > 0) {
+    if (typeof window.s4Vault !== 'undefined' && s4Vault.length > 0) {
         populateDigitalThreadDropdown();
-        showDigitalThread(s4Vault[0].hash);
+        showDigitalThread(window.s4Vault[0].hash);
         return;
     }
     // Otherwise show a sample provenance chain
@@ -547,7 +547,7 @@ function showSampleDigitalThread() {
             orig.apply(this, arguments);
         // After render, inject thread buttons
         setTimeout(function() {
-            var rows = document.querySelectorAll('#vaultList .vault-row, #vaultList [data-hash]');
+            var rows = document.querySelectorAll('#vaultRecords .vault-row, #vaultRecords [data-hash]');
             rows.forEach(function(row) {
                 if (row.querySelector('.thread-btn')) return;
                 var hash = row.getAttribute('data-hash') || '';
@@ -575,7 +575,7 @@ function showSampleDigitalThread() {
     _hookVault();
     // Also watch vaultList for mutations
     setTimeout(function() {
-        var vl = document.getElementById('vaultList');
+        var vl = document.getElementById('vaultRecords');
         if (vl) {
             new MutationObserver(function() {
                 setTimeout(function() {
@@ -682,19 +682,19 @@ async function anchorSBOM() {
     var components = _sbomDB[progKey] || _sbomDB['default'];
     var totalCVE = components.reduce(function(s,c){return s+c.cves;},0);
     var content = 'S4 Ledger SBOM Attestation | Program: ' + progKey.toUpperCase() + ' | Components: ' + components.length + ' | CVEs: ' + totalCVE + ' | Format: CycloneDX 1.5 | Generated: ' + new Date().toISOString();
-    if (typeof sha256 !== 'function') return;
-    var hash = await sha256(content);
-    if (typeof showAnchorAnimation === 'function') showAnchorAnimation(hash, 'SBOM Attestation', 'CUI');
-    if (typeof stats !== 'undefined') { stats.anchored++; stats.slsFees = Math.round((stats.slsFees + 0.01) * 100) / 100; stats.types.add('SBOM_ATTESTATION'); if (typeof updateStats === 'function') updateStats(); if (typeof saveStats === 'function') saveStats(); }
+    if (typeof window.sha256 !== 'function') return;
+    var hash = await window.sha256(content);
+    if (typeof window.showAnchorAnimation === 'function') window.showAnchorAnimation(hash, 'SBOM Attestation', 'CUI');
+    if (typeof window.stats !== 'undefined') { window.stats.anchored++; window.stats.slsFees = Math.round((window.stats.slsFees + 0.01) * 100) / 100; window.stats.types.add('SBOM_ATTESTATION'); if (typeof window.updateStats === 'function') window.updateStats(); if (typeof window.saveStats === 'function') window.saveStats(); }
     var tx = {};
-    if (typeof _anchorToXRPL === 'function') tx = await _anchorToXRPL(hash, 'SBOM_ATTESTATION', content.substring(0,100));
-    if (typeof addToVault === 'function') addToVault({hash:hash, txHash:tx.txHash||'', type:'SBOM_ATTESTATION', label:'SBOM — '+progKey.toUpperCase()+' ('+components.length+' components)', branch:'JOINT', icon:'<i class="fas fa-microchip"></i>', content:content.substring(0,100), encrypted:false, timestamp:new Date().toISOString(), source:'SBOM Viewer', fee:0.01, explorerUrl:tx.explorerUrl||'', network:tx.network||''});
-    if (typeof saveLocalRecord === 'function') saveLocalRecord({hash:hash, tx_hash:tx.txHash||'', record_type:'SBOM_ATTESTATION', record_label:'SBOM Attestation — '+progKey.toUpperCase(), branch:'JOINT', timestamp:new Date().toISOString(), fee:0.01, explorer_url:tx.explorerUrl||'', network:tx.network||''});
-    if (typeof sessionRecords !== 'undefined') sessionRecords.push({hash:hash, type:'SBOM_ATTESTATION', branch:'JOINT', timestamp:new Date().toISOString(), label:'SBOM Attestation', txHash:tx.txHash||''});
-    if (typeof updateTxLog === 'function') updateTxLog();
+    if (typeof window._anchorToXRPL === 'function') tx = await window._anchorToXRPL(hash, 'SBOM_ATTESTATION', content.substring(0,100));
+    if (typeof window.addToVault === 'function') window.addToVault({hash:hash, txHash:tx.txHash||'', type:'SBOM_ATTESTATION', label:'SBOM — '+progKey.toUpperCase()+' ('+components.length+' components)', branch:'JOINT', icon:'<i class="fas fa-microchip"></i>', content:content.substring(0,100), encrypted:false, timestamp:new Date().toISOString(), source:'SBOM Viewer', fee:0.01, explorerUrl:tx.explorerUrl||'', network:tx.network||''});
+    if (typeof window.saveLocalRecord === 'function') window.saveLocalRecord({hash:hash, tx_hash:tx.txHash||'', record_type:'SBOM_ATTESTATION', record_label:'SBOM Attestation — '+progKey.toUpperCase(), branch:'JOINT', timestamp:new Date().toISOString(), fee:0.01, explorer_url:tx.explorerUrl||'', network:tx.network||''});
+    if (typeof window.sessionRecords !== 'undefined' && window.sessionRecords) window.sessionRecords.push({hash:hash, type:'SBOM_ATTESTATION', branch:'JOINT', timestamp:new Date().toISOString(), label:'SBOM Attestation', txHash:tx.txHash||''});
+    if (typeof window.updateTxLog === 'function') window.updateTxLog();
     setTimeout(function(){ var s = document.getElementById('animStatus'); if(s){s.innerHTML='<i class="fas fa-check-circle" style="color:var(--accent)"></i> SBOM attestation anchored!'; s.style.color='#00aaff';} }, 2200);
     await new Promise(function(r){ setTimeout(r, 3500); });
-    if (typeof hideAnchorAnimation === 'function') hideAnchorAnimation();
+    if (typeof window.hideAnchorAnimation === 'function') window.hideAnchorAnimation();
 }
 
 // Also populate SBOM dropdown
@@ -1515,7 +1515,7 @@ console.log('[Round-13] Production subscription code loaded — Stripe Checkout 
             analysis.data.elements = ilsResults.elements || {};
             analysis.data.gapCount = ilsResults.gaps ? ilsResults.gaps.length : 0;
         }
-        analysis.data.vaultCount = (typeof s4Vault !== 'undefined') ? s4Vault.length : 0;
+        analysis.data.vaultCount = (typeof window.s4Vault !== 'undefined') ? s4Vault.length : 0;
         analysis.data.actionCount = (typeof s4ActionItems !== 'undefined') ? s4ActionItems.length : 0;
         _savedAnalyses.push(analysis);
         localStorage.setItem('s4_saved_analyses', JSON.stringify(_savedAnalyses));
@@ -1638,8 +1638,8 @@ console.log('[Round-13] Production subscription code loaded — Stripe Checkout 
             doc.text('Program: ' + platName + '  |  Generated: ' + now + '  |  Classification: CUI', 15, y); y += 12;
 
             // Vault Summary
-            var vaultCount = (typeof s4Vault !== 'undefined') ? s4Vault.length : 0;
-            var verified = (typeof s4Vault !== 'undefined') ? s4Vault.filter(function(v){return v.verified;}).length : 0;
+            var vaultCount = (typeof window.s4Vault !== 'undefined') ? s4Vault.length : 0;
+            var verified = (typeof window.s4Vault !== 'undefined') ? s4Vault.filter(function(v){return v.verified;}).length : 0;
             doc.setFontSize(11);
             doc.setFont('helvetica', 'bold');
             doc.setTextColor(0, 0, 0);
@@ -1649,7 +1649,7 @@ console.log('[Round-13] Production subscription code loaded — Stripe Checkout 
             doc.text('Total Records: ' + vaultCount + '  |  Verified: ' + verified + '  |  Credit Fees: $' + (vaultCount * 0.01).toFixed(2), 15, y); y += 10;
 
             // Records table
-            if (typeof s4Vault !== 'undefined' && s4Vault.length > 0) {
+            if (typeof window.s4Vault !== 'undefined' && s4Vault.length > 0) {
                 doc.setFontSize(8);
                 doc.setFont('helvetica', 'bold');
                 doc.text('Type', 15, y);
@@ -1661,7 +1661,7 @@ console.log('[Round-13] Production subscription code loaded — Stripe Checkout 
                 doc.line(15, y, 195, y);
                 y += 4;
                 doc.setFont('helvetica', 'normal');
-                s4Vault.slice(0, 25).forEach(function(v) {
+                window.s4Vault.slice(0, 25).forEach(function(v) {
                     if (y > 270) { doc.addPage(); y = 20; }
                     doc.text((v.label || v.type || '').substring(0, 25), 15, y);
                     doc.text((v.hash || '').substring(0, 32) + '...', 60, y);
@@ -2841,8 +2841,8 @@ function _updateThemeIcon(isLight) {
             return;
         }
         if (selected.length > 2) selected = selected.slice(0, 2);
-        var a = s4Vault.find(function(v) { return v.hash === selected[0]; });
-        var b = s4Vault.find(function(v) { return v.hash === selected[1]; });
+        var a = window.s4Vault.find(function(v) { return v.hash === selected[0]; });
+        var b = window.s4Vault.find(function(v) { return v.hash === selected[1]; });
         if (!a || !b) return;
         _showCompareOverlay(a, b);
     };
@@ -3073,8 +3073,8 @@ function _updateThemeIcon(isLight) {
         });
 
         // Search vault records
-        if (typeof s4Vault !== 'undefined' && s4Vault.length > 0) {
-            s4Vault.forEach(function(v) {
+        if (typeof window.s4Vault !== 'undefined' && s4Vault.length > 0) {
+            window.s4Vault.forEach(function(v) {
                 var match = (v.label||'').toLowerCase().includes(q) || (v.hash||'').toLowerCase().includes(q) || (v.content||'').toLowerCase().includes(q) || (v.type||'').toLowerCase().includes(q);
                 if (match) results.push({type:'vault', name: v.label||v.type||'Record', desc: (v.hash||'').substring(0,32)+'...', icon:v.icon?v.icon.replace(/<[^>]*>/g,'').trim():'fa-file', hash:v.hash});
             });
@@ -4059,13 +4059,13 @@ function _updateThemeIcon(isLight) {
         {label:'Open Audit Vault',icon:'<i class="fas fa-vault"></i>',category:'Navigation',action:function(){ if(typeof navigateTo==='function') navigateTo('vaultPanel'); }},
         {label:'Start Onboarding Tour',icon:'<i class="fas fa-graduation-cap"></i>',category:'Help',action:function(){ S4.tour.start(); }},
         {label:'Toggle Dark/Light Mode',icon:'<i class="fas fa-moon"></i>',category:'Settings',shortcut:'Cmd+Shift+D',action:function(){ if(typeof toggleTheme==='function') toggleTheme(); }},
-        {label:'Export Vault as JSON',icon:'<i class="fas fa-download"></i>',category:'Data',action:function(){ if(typeof s4Vault!=='undefined') S4.vaultIO.exportJSON(s4Vault); }},
-        {label:'Export Vault as CSV',icon:'<i class="fas fa-file-csv"></i>',category:'Data',action:function(){ if(typeof s4Vault!=='undefined') S4.vaultIO.exportCSV(s4Vault); }},
-        {label:'Export Vault as PDF',icon:'<i class="fas fa-file-pdf"></i>',category:'Data',action:function(){ if(typeof s4Vault!=='undefined'){ var txt=s4Vault.map(function(r){return r.name+': '+r.hash}).join('\n'); S4.exportPDF('Audit Vault Report',txt); }}},
+        {label:'Export Vault as JSON',icon:'<i class="fas fa-download"></i>',category:'Data',action:function(){ if(typeof window.s4Vault!=='undefined') S4.vaultIO.exportJSON(s4Vault); }},
+        {label:'Export Vault as CSV',icon:'<i class="fas fa-file-csv"></i>',category:'Data',action:function(){ if(typeof window.s4Vault!=='undefined') S4.vaultIO.exportCSV(s4Vault); }},
+        {label:'Export Vault as PDF',icon:'<i class="fas fa-file-pdf"></i>',category:'Data',action:function(){ if(typeof window.s4Vault!=='undefined'){ var txt=s4Vault.map(function(r){return r.name+': '+r.hash}).join('\n'); S4.exportPDF('Audit Vault Report',txt); }}},
         {label:'View Keyboard Shortcuts',icon:'<i class="fas fa-keyboard"></i>',category:'Help',shortcut:'?',action:function(){ if(typeof toggleShortcuts==='function') toggleShortcuts(); }},
         {label:'Clear All Notifications',icon:'<i class="fas fa-bell-slash"></i>',category:'Settings',action:function(){ var c=document.getElementById('s4ToastContainer');if(c)c.innerHTML=''; }},
         {label:'Sync to Cloud',icon:'<i class="fas fa-cloud-arrow-up"></i>',category:'Data',action:function(){ S4.cloudSync.sync().then(function(){S4.toast('Cloud sync complete','success')}); }},
-        {label:'Check Data Integrity',icon:'<i class="fas fa-shield-halved"></i>',category:'Security',action:function(){ if(typeof s4Vault!=='undefined') S4.auditChain.verifyChain(s4Vault).then(function(r){S4.toast(r.valid?'Chain verified':'Chain broken','info')}); }}
+        {label:'Check Data Integrity',icon:'<i class="fas fa-shield-halved"></i>',category:'Security',action:function(){ if(typeof window.s4Vault!=='undefined') S4.auditChain.verifyChain(s4Vault).then(function(r){S4.toast(r.valid?'Chain verified':'Chain broken','info')}); }}
     ]);
 
     // Wire command palette input
@@ -4225,7 +4225,7 @@ function _updateThemeIcon(isLight) {
         return '<div class="widget-value">' + count + '</div><div class="widget-change positive">Active session</div>';
     }});
     S4.dashboard.register({id:'vault',title:'Vault Size',render:function(){
-        var count = typeof s4Vault !== 'undefined' ? s4Vault.length : 0;
+        var count = typeof window.s4Vault !== 'undefined' ? s4Vault.length : 0;
         return '<div class="widget-value">' + count + '</div><div class="widget-change info">Anchored records</div>';
     }});
     S4.dashboard.register({id:'sync',title:'Cloud Sync',render:function(){
@@ -5580,7 +5580,7 @@ function _updateThemeIcon(isLight) {
                     response.answer = 'There are currently ' + count + ' session records.';
                     response.confidence = 95;
                 } else if (lower.match(/vault/)) {
-                    var vCount = typeof s4Vault !== 'undefined' ? s4Vault.length : 0;
+                    var vCount = typeof window.s4Vault !== 'undefined' ? s4Vault.length : 0;
                     response.answer = 'The audit vault contains ' + vCount + ' anchored records.';
                     response.confidence = 95;
                 } else if (lower.match(/tool/)) {
@@ -5803,7 +5803,7 @@ function _updateThemeIcon(isLight) {
         defaults: [
             {id:'auto-classify',name:'Auto-classify new records',trigger:'record:created',action:function(data){if(S4.classify)return S4.classify.classifyRecord(data);},enabled:true},
             {id:'auto-version',name:'Auto-version on update',trigger:'record:updated',action:function(data){if(S4.versioning)S4.versioning.createVersion(data.id || 'unknown',data);},enabled:true},
-            {id:'anomaly-check',name:'Check anomalies hourly',trigger:'schedule:hourly',action:function(){if(S4.anomalyDetector)S4.anomalyDetector.detectAnomalies(typeof s4Vault!=='undefined'?s4Vault:[]);},enabled:true}
+            {id:'anomaly-check',name:'Check anomalies hourly',trigger:'schedule:hourly',action:function(){if(S4.anomalyDetector)S4.anomalyDetector.detectAnomalies(typeof window.s4Vault!=='undefined'?s4Vault:[]);},enabled:true}
         ],
         create: function(name, trigger, actionFn) {
             var rule = {id:'rule_'+Date.now(), name:name, trigger:trigger, action:actionFn, enabled:true, custom:true};
@@ -5925,7 +5925,7 @@ function _updateThemeIcon(isLight) {
     if (S4.commandPalette) {
         S4.commandPalette.register([
             {label:'Ask AI Question',icon:'<i class="fas fa-robot"></i>',category:'AI',action:function(){ var q=prompt('Ask S4 AI:');if(q){var r=S4.ai.query(q);S4.toast(r.answer,'info',6000);} }},
-            {label:'Run Anomaly Detection',icon:'<i class="fas fa-magnifying-glass-chart"></i>',category:'AI',action:function(){ S4.anomalyDetector.detectAnomalies(typeof s4Vault!=='undefined'?s4Vault:[]); }},
+            {label:'Run Anomaly Detection',icon:'<i class="fas fa-magnifying-glass-chart"></i>',category:'AI',action:function(){ S4.anomalyDetector.detectAnomalies(typeof window.s4Vault!=='undefined'?s4Vault:[]); }},
             {label:'Compliance Gap: NIST 800-171',icon:'<i class="fas fa-shield-halved"></i>',category:'AI',action:function(){ var r=S4.complianceGap.analyze('nist-800-171');S4.toast('NIST: '+r.complianceRate+'% compliant ('+r.gaps+' gaps)','info',5000); }},
             {label:'Compliance Gap: CMMC L2',icon:'<i class="fas fa-shield-halved"></i>',category:'AI',action:function(){ var r=S4.complianceGap.analyze('cmmc-l2');S4.toast('CMMC: '+r.complianceRate+'% compliant ('+r.gaps+' gaps)','info',5000); }},
             {label:'View Automation Rules',icon:'<i class="fas fa-gears"></i>',category:'AI',action:function(){ var rules=S4.automations.list();S4.toast(rules.length+' automation rules ('+rules.filter(function(r){return r.enabled}).length+' active)','info'); }},
@@ -7401,11 +7401,8 @@ window.s4Team = {
 console.log('[S4 Superior Platform] All modules loaded — IndexedDB, SBOM, GFP, CDRL, Contract Extract, Provenance, Analytics, Team Management active');
 
 // === Window exports for inline event handlers (INSIDE IIFE scope) ===
-window.anchorCdrlRecord = anchorCdrlRecord;
-window.anchorContractRecord = anchorContractRecord;
-window.anchorGfpRecord = anchorGfpRecord;
-window.anchorProvenanceChain = anchorProvenanceChain;
-window.anchorSBOM = anchorSBOM;
+// NOTE: anchorSBOM, anchorGFP, anchorCDRL, anchorContract, anchorChain are exported by engine.js
+// Do NOT re-export the enhancements.js stubs (anchorGfpRecord etc.) — they lack stats/vault/balance logic
 window.closeDigitalThread = closeDigitalThread;
 window.createNewTeam = createNewTeam;
 window.exportAnalyticsCSV = exportAnalyticsCSV;

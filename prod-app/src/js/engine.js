@@ -149,14 +149,9 @@ let stats = {anchored:0,verified:0,types:new Set(),slsFees:0};
 window._s4Stats = stats;
 
 // ── SLS Balance Tracker ──
-var _slsUpdatePending = false;
+// ── SLS Balance Tracker ── (SYNCHRONOUS — no requestAnimationFrame)
 function _updateSlsBalance() {
-    if (_slsUpdatePending) return;
-    _slsUpdatePending = true;
-    requestAnimationFrame(function() {
-        _slsUpdatePending = false;
-        if (typeof _syncSlsBar === 'function') _syncSlsBar();
-    });
+    if (typeof _syncSlsBar === 'function') _syncSlsBar();
 }
 
 
@@ -226,7 +221,17 @@ function _syncSlsBar() {
     // Keep the visible wallet trigger button in sync
     var _wtBal = document.getElementById('walletTriggerBal');
     var _slsBal = document.getElementById('slsBarBalance');
-    if (_wtBal && _slsBal) _wtBal.textContent = _slsBal.textContent || '--';
+    if (_wtBal) {
+        var _newBal = _slsBal ? _slsBal.textContent : (remaining.toLocaleString(undefined,{maximumFractionDigits:2}) + ' Credits');
+        _wtBal.textContent = _newBal || '--';
+        // Flash the wallet trigger to show the change
+        var _wtBtn = document.getElementById('walletTriggerBtn');
+        if (_wtBtn && spent > 0) {
+            _wtBtn.style.transition = 'box-shadow 0.3s ease';
+            _wtBtn.style.boxShadow = '0 0 16px rgba(201,168,76,0.6)';
+            setTimeout(function() { _wtBtn.style.boxShadow = ''; }, 2000);
+        }
+    }
 }
 
 // ═══ Authentication Flow: DoW Consent → CAC/Login → Platform ═══
@@ -816,13 +821,24 @@ function loadStats() {
     } catch(e) {}
     // Also restore session records from localStorage
     const localRecs = getLocalRecords();
+    // Build a hash→fullContent lookup from the vault so restored records have full document content
+    var vaultLookup = {};
+    try {
+        var vaultData = JSON.parse(localStorage.getItem(_vaultKey()) || '[]');
+        for (var vi = 0; vi < vaultData.length; vi++) {
+            if (vaultData[vi].hash && vaultData[vi].fullContent) vaultLookup[vaultData[vi].hash] = vaultData[vi].fullContent;
+        }
+    } catch(e) {}
     sessionRecords = localRecs.map(r => ({
         type: r.record_type, label: r.record_label || r.record_type, icon: r.icon || 'fa-clipboard-list',
         branch: r.branch || 'JOINT', hash: r.hash, txHash: r.tx_hash,
-        encrypted: false, timestamp: r.timestamp, content: ''
+        encrypted: false, timestamp: r.timestamp, content: r.content_preview || '',
+        fullContent: vaultLookup[r.hash] || ''
     }));
     updateStats();
     updateTxLog();
+    // Sync balance display with loaded stats
+    _updateSlsBalance();
 }
 
 async function sha256(text) {
@@ -1101,6 +1117,9 @@ async function anchorRecord() {
     updateTxLog();
     btn.disabled = false;
     btn.innerHTML = '<i class="fas fa-anchor"></i> Anchor to XRPL';
+    // Redundant synchronous balance update AFTER animation to guarantee UI is current
+    _updateSlsBalance();
+    _syncSlsBar();
     // Auto-refresh metrics after anchor (loadPerformanceMetrics is in metrics chunk)
     if (typeof window.loadPerformanceMetrics === 'function') try { window.loadPerformanceMetrics(); } catch(e) {}
     // Update Verify tab's recently anchored panel
@@ -1111,10 +1130,22 @@ async function anchorRecord() {
 function refreshVerifyRecents() {
     var container = document.getElementById('verifyRecentAnchors');
     if (!container) return;
-    // Combine session records + vault records, deduplicate by hash
+    // Combine vault + session records, deduplicate by hash
+    // Vault records processed FIRST because they persist fullContent across page reloads
+    // Session records from localStorage (via loadStats) lose fullContent, so vault takes priority
     var seen = {};
     var records = [];
-    // Session records first (current session — includes fullContent)
+    // Vault records first (persisted — includes fullContent)
+    if (typeof s4Vault !== 'undefined' && Array.isArray(s4Vault)) {
+        for (var j = 0; j < Math.min(s4Vault.length, 30); j++) {
+            var vr = s4Vault[j];
+            if (vr.hash && !seen[vr.hash]) {
+                seen[vr.hash] = true;
+                records.push({hash:vr.hash, label:vr.label||vr.type||'Record', icon:vr.icon||'fa-file', branch:vr.branch||'JOINT', timestamp:vr.timestamp, txHash:vr.txHash||'', content:vr.content||'', fullContent:vr.fullContent||''});
+            }
+        }
+    }
+    // Session records second (current session — adds any not yet in vault)
     if (typeof sessionRecords !== 'undefined') {
         for (var i = sessionRecords.length - 1; i >= 0; i--) {
             var sr = sessionRecords[i];
@@ -1124,16 +1155,8 @@ function refreshVerifyRecents() {
             }
         }
     }
-    // Vault records (persisted — includes fullContent when available)
-    if (typeof s4Vault !== 'undefined') {
-        for (var j = 0; j < Math.min(s4Vault.length, 30); j++) {
-            var vr = s4Vault[j];
-            if (vr.hash && !seen[vr.hash]) {
-                seen[vr.hash] = true;
-                records.push({hash:vr.hash, label:vr.label||vr.type||'Record', icon:vr.icon||'fa-file', branch:vr.branch||'JOINT', timestamp:vr.timestamp, txHash:vr.txHash||'', content:vr.content||'', fullContent:vr.fullContent||''});
-            }
-        }
-    }
+    // Sort records by timestamp, newest first
+    records.sort(function(a,b) { return (b.timestamp||'').localeCompare(a.timestamp||''); });
     if (records.length === 0) {
         container.innerHTML = '<div style="color:var(--muted);text-align:center;padding:1.5rem;font-size:0.82rem;">No anchored records yet. Anchor a record first to see it here.</div>';
         return;
@@ -8285,7 +8308,7 @@ async function anchorSubmissionReview() {
     setTimeout(() => { document.getElementById('animStatus').textContent = 'Submissions & PTD analysis anchored — ' + _subCache.discrepancies.length + ' discrepancies recorded on-chain'; document.getElementById('animStatus').style.color = '#00aaff'; }, 2200);
     await new Promise(r => setTimeout(r, 3500));
     hideAnchorAnimation();
-    if (typeof _updateDemoSlsBalance === 'function') _updateDemoSlsBalance();
+    if (typeof _updateSlsBalance === 'function') _updateSlsBalance();
 }
 
 // ═══ LIFECYCLE COST ESTIMATOR ═══
@@ -8343,7 +8366,7 @@ async function anchorLifecycle() {
     updateTxLog();
     addToVault({hash:hash, txHash:result.txHash, type:'LIFECYCLE_COST', label:'Lifecycle Cost Analysis: ' + program, branch:'JOINT', icon:'fa-clock', content:text.substring(0,100), encrypted:false, timestamp:new Date().toISOString(), source:'Lifecycle Cost Estimator', fee:0.01, explorerUrl:result.explorerUrl, network:result.network});
     
-    if (typeof _updateDemoSlsBalance === 'function') _updateDemoSlsBalance();
+    if (typeof _updateSlsBalance === 'function') _updateSlsBalance();
     if (typeof window.loadPerformanceMetrics === 'function') try { window.loadPerformanceMetrics(); } catch(e) {}
     if (typeof refreshVerifyRecents === 'function') try { refreshVerifyRecents(); } catch(e) {}
     setTimeout(function(){ document.getElementById('animStatus').innerHTML = '<i class="fas fa-check-circle" style="color:var(--accent)"></i> Lifecycle Cost Analysis anchored!'; }, 2200);
@@ -8427,13 +8450,13 @@ async function anchorSBOM() {
     var result = await _anchorToXRPL(hash, 'SBOM_SNAPSHOT', text.substring(0,100));
     stats.anchored++; stats.types.add('SBOM_SNAPSHOT'); stats.slsFees = Math.round((stats.slsFees + 0.01) * 100) / 100; updateStats(); saveStats();
     
-    sessionRecords.push({hash:hash, type:'SBOM_SNAPSHOT', branch:'JOINT', timestamp:new Date().toISOString(), label:'SBOM: ' + program, txHash:result.txHash});
+    sessionRecords.push({hash:hash, type:'SBOM_SNAPSHOT', branch:'JOINT', timestamp:new Date().toISOString(), label:'SBOM: ' + program, txHash:result.txHash, content:text.substring(0,100)+(text.length>100?'...':''), fullContent:text});
     saveLocalRecord({hash:hash, record_type:'SBOM_SNAPSHOT', record_label:'SBOM: ' + program, branch:'JOINT', timestamp:new Date().toISOString(), timestamp_display:new Date().toISOString().replace('T',' ').substring(0,19)+' UTC', fee:0.01, tx_hash:result.txHash, system:'SBOM Viewer', explorer_url:result.explorerUrl, network:result.network});
     updateTxLog();
-    addToVault({hash:hash, txHash:result.txHash, type:'SBOM_SNAPSHOT', label:'SBOM: ' + program, branch:'JOINT', icon:'fa-microchip', content:text.substring(0,100), encrypted:false, timestamp:new Date().toISOString(), source:'SBOM Viewer', fee:0.01, explorerUrl:result.explorerUrl, network:result.network});
+    addToVault({hash:hash, txHash:result.txHash, type:'SBOM_SNAPSHOT', label:'SBOM: ' + program, branch:'JOINT', icon:'fa-microchip', content:text.substring(0,100)+(text.length>100?'...':''), fullContent:text, encrypted:false, timestamp:new Date().toISOString(), source:'SBOM Viewer', fee:0.01, explorerUrl:result.explorerUrl, network:result.network});
     
     document.getElementById('sbomAnchored').textContent = _sbomData.length;
-    if (typeof _updateDemoSlsBalance === 'function') _updateDemoSlsBalance();
+    if (typeof _updateSlsBalance === 'function') _updateSlsBalance();
     if (typeof window.loadPerformanceMetrics === 'function') try { window.loadPerformanceMetrics(); } catch(e) {}
     if (typeof refreshVerifyRecents === 'function') try { refreshVerifyRecents(); } catch(e) {}
     setTimeout(function(){ document.getElementById('animStatus').innerHTML = '<i class="fas fa-check-circle" style="color:var(--accent)"></i> SBOM anchored!'; }, 2200);
@@ -8450,12 +8473,12 @@ async function anchorGFP() {
     var result = await _anchorToXRPL(hash, 'GFP_RECORD', text.substring(0,100));
     stats.anchored++; stats.types.add('GFP_RECORD'); stats.slsFees = Math.round((stats.slsFees + 0.01) * 100) / 100; updateStats(); saveStats();
     
-    sessionRecords.push({hash:hash, type:'GFP_RECORD', branch:'JOINT', timestamp:new Date().toISOString(), label:'GFP Record', txHash:result.txHash});
+    sessionRecords.push({hash:hash, type:'GFP_RECORD', branch:'JOINT', timestamp:new Date().toISOString(), label:'GFP Record', txHash:result.txHash, content:text.substring(0,100)+(text.length>100?'...':''), fullContent:text});
     saveLocalRecord({hash:hash, record_type:'GFP_RECORD', record_label:'GFP Record', branch:'JOINT', timestamp:new Date().toISOString(), timestamp_display:new Date().toISOString().replace('T',' ').substring(0,19)+' UTC', fee:0.01, tx_hash:result.txHash, system:'GFP Tracker', explorer_url:result.explorerUrl, network:result.network});
     updateTxLog();
-    addToVault({hash:hash, txHash:result.txHash, type:'GFP_RECORD', label:'GFP Record', branch:'JOINT', icon:'fa-box', content:text.substring(0,100), encrypted:false, timestamp:new Date().toISOString(), source:'GFP Tracker', fee:0.01, explorerUrl:result.explorerUrl, network:result.network});
+    addToVault({hash:hash, txHash:result.txHash, type:'GFP_RECORD', label:'GFP Record', branch:'JOINT', icon:'fa-box', content:text.substring(0,100)+(text.length>100?'...':''), fullContent:text, encrypted:false, timestamp:new Date().toISOString(), source:'GFP Tracker', fee:0.01, explorerUrl:result.explorerUrl, network:result.network});
     
-    if (typeof _updateDemoSlsBalance === 'function') _updateDemoSlsBalance();
+    if (typeof _updateSlsBalance === 'function') _updateSlsBalance();
     if (typeof window.loadPerformanceMetrics === 'function') try { window.loadPerformanceMetrics(); } catch(e) {}
     if (typeof refreshVerifyRecents === 'function') try { refreshVerifyRecents(); } catch(e) {}
     setTimeout(function(){ document.getElementById('animStatus').innerHTML = '<i class="fas fa-check-circle" style="color:var(--accent)"></i> GFP Record anchored!'; }, 2200);
@@ -8471,12 +8494,12 @@ async function anchorCDRL() {
     var result = await _anchorToXRPL(hash, 'CDRL_RECORD', text.substring(0,100));
     stats.anchored++; stats.types.add('CDRL_RECORD'); stats.slsFees = Math.round((stats.slsFees + 0.01) * 100) / 100; updateStats(); saveStats();
     
-    sessionRecords.push({hash:hash, type:'CDRL_RECORD', branch:'JOINT', timestamp:new Date().toISOString(), label:'CDRL Deliverable', txHash:result.txHash});
+    sessionRecords.push({hash:hash, type:'CDRL_RECORD', branch:'JOINT', timestamp:new Date().toISOString(), label:'CDRL Deliverable', txHash:result.txHash, content:text.substring(0,100)+(text.length>100?'...':''), fullContent:text});
     saveLocalRecord({hash:hash, record_type:'CDRL_RECORD', record_label:'CDRL Deliverable', branch:'JOINT', timestamp:new Date().toISOString(), timestamp_display:new Date().toISOString().replace('T',' ').substring(0,19)+' UTC', fee:0.01, tx_hash:result.txHash, system:'CDRL Tracker', explorer_url:result.explorerUrl, network:result.network});
     updateTxLog();
-    addToVault({hash:hash, txHash:result.txHash, type:'CDRL_RECORD', label:'CDRL Deliverable', branch:'JOINT', icon:'fa-file-contract', content:text.substring(0,100), encrypted:false, timestamp:new Date().toISOString(), source:'CDRL Tracker', fee:0.01, explorerUrl:result.explorerUrl, network:result.network});
+    addToVault({hash:hash, txHash:result.txHash, type:'CDRL_RECORD', label:'CDRL Deliverable', branch:'JOINT', icon:'fa-file-contract', content:text.substring(0,100)+(text.length>100?'...':''), fullContent:text, encrypted:false, timestamp:new Date().toISOString(), source:'CDRL Tracker', fee:0.01, explorerUrl:result.explorerUrl, network:result.network});
     
-    if (typeof _updateDemoSlsBalance === 'function') _updateDemoSlsBalance();
+    if (typeof _updateSlsBalance === 'function') _updateSlsBalance();
     if (typeof window.loadPerformanceMetrics === 'function') try { window.loadPerformanceMetrics(); } catch(e) {}
     if (typeof refreshVerifyRecents === 'function') try { refreshVerifyRecents(); } catch(e) {}
     setTimeout(function(){ document.getElementById('animStatus').innerHTML = '<i class="fas fa-check-circle" style="color:var(--accent)"></i> CDRL Deliverable anchored!'; }, 2200);
@@ -8492,12 +8515,12 @@ async function anchorContract() {
     var result = await _anchorToXRPL(hash, 'CONTRACT_RECORD', text.substring(0,100));
     stats.anchored++; stats.types.add('CONTRACT_RECORD'); stats.slsFees = Math.round((stats.slsFees + 0.01) * 100) / 100; updateStats(); saveStats();
     
-    sessionRecords.push({hash:hash, type:'CONTRACT_RECORD', branch:'JOINT', timestamp:new Date().toISOString(), label:'Contract Record', txHash:result.txHash});
+    sessionRecords.push({hash:hash, type:'CONTRACT_RECORD', branch:'JOINT', timestamp:new Date().toISOString(), label:'Contract Record', txHash:result.txHash, content:text.substring(0,100)+(text.length>100?'...':''), fullContent:text});
     saveLocalRecord({hash:hash, record_type:'CONTRACT_RECORD', record_label:'Contract Record', branch:'JOINT', timestamp:new Date().toISOString(), timestamp_display:new Date().toISOString().replace('T',' ').substring(0,19)+' UTC', fee:0.01, tx_hash:result.txHash, system:'Contract Admin', explorer_url:result.explorerUrl, network:result.network});
     updateTxLog();
-    addToVault({hash:hash, txHash:result.txHash, type:'CONTRACT_RECORD', label:'Contract Record', branch:'JOINT', icon:'fa-file-signature', content:text.substring(0,100), encrypted:false, timestamp:new Date().toISOString(), source:'Contract Admin', fee:0.01, explorerUrl:result.explorerUrl, network:result.network});
+    addToVault({hash:hash, txHash:result.txHash, type:'CONTRACT_RECORD', label:'Contract Record', branch:'JOINT', icon:'fa-file-signature', content:text.substring(0,100)+(text.length>100?'...':''), fullContent:text, encrypted:false, timestamp:new Date().toISOString(), source:'Contract Admin', fee:0.01, explorerUrl:result.explorerUrl, network:result.network});
     
-    if (typeof _updateDemoSlsBalance === 'function') _updateDemoSlsBalance();
+    if (typeof _updateSlsBalance === 'function') _updateSlsBalance();
     if (typeof window.loadPerformanceMetrics === 'function') try { window.loadPerformanceMetrics(); } catch(e) {}
     if (typeof refreshVerifyRecents === 'function') try { refreshVerifyRecents(); } catch(e) {}
     setTimeout(function(){ document.getElementById('animStatus').innerHTML = '<i class="fas fa-check-circle" style="color:var(--accent)"></i> Contract Record anchored!'; }, 2200);
@@ -8513,12 +8536,12 @@ async function anchorChain() {
     var result = await _anchorToXRPL(hash, 'SUPPLY_CHAIN', text.substring(0,100));
     stats.anchored++; stats.types.add('SUPPLY_CHAIN'); stats.slsFees = Math.round((stats.slsFees + 0.01) * 100) / 100; updateStats(); saveStats();
     
-    sessionRecords.push({hash:hash, type:'SUPPLY_CHAIN', branch:'JOINT', timestamp:new Date().toISOString(), label:'Supply Chain Record', txHash:result.txHash});
+    sessionRecords.push({hash:hash, type:'SUPPLY_CHAIN', branch:'JOINT', timestamp:new Date().toISOString(), label:'Supply Chain Record', txHash:result.txHash, content:text.substring(0,100)+(text.length>100?'...':''), fullContent:text});
     saveLocalRecord({hash:hash, record_type:'SUPPLY_CHAIN', record_label:'Supply Chain Record', branch:'JOINT', timestamp:new Date().toISOString(), timestamp_display:new Date().toISOString().replace('T',' ').substring(0,19)+' UTC', fee:0.01, tx_hash:result.txHash, system:'Supply Chain', explorer_url:result.explorerUrl, network:result.network});
     updateTxLog();
-    addToVault({hash:hash, txHash:result.txHash, type:'SUPPLY_CHAIN', label:'Supply Chain Record', branch:'JOINT', icon:'fa-link', content:text.substring(0,100), encrypted:false, timestamp:new Date().toISOString(), source:'Supply Chain Tracker', fee:0.01, explorerUrl:result.explorerUrl, network:result.network});
+    addToVault({hash:hash, txHash:result.txHash, type:'SUPPLY_CHAIN', label:'Supply Chain Record', branch:'JOINT', icon:'fa-link', content:text.substring(0,100)+(text.length>100?'...':''), fullContent:text, encrypted:false, timestamp:new Date().toISOString(), source:'Supply Chain Tracker', fee:0.01, explorerUrl:result.explorerUrl, network:result.network});
     
-    if (typeof _updateDemoSlsBalance === 'function') _updateDemoSlsBalance();
+    if (typeof _updateSlsBalance === 'function') _updateSlsBalance();
     if (typeof window.loadPerformanceMetrics === 'function') try { window.loadPerformanceMetrics(); } catch(e) {}
     if (typeof refreshVerifyRecents === 'function') try { refreshVerifyRecents(); } catch(e) {}
     setTimeout(function(){ document.getElementById('animStatus').innerHTML = '<i class="fas fa-check-circle" style="color:var(--accent)"></i> Supply Chain record anchored!'; }, 2200);
@@ -8821,6 +8844,20 @@ window.verifyRecord = verifyRecord;
 window.generateAiResponse = generateAiResponse;
 window.handlePasswordReset = handlePasswordReset;
 window.refreshVerifyRecents = refreshVerifyRecents;
-// Cross-chunk exports — needed by enhancements chunk for GFP/CDRL/Contract/Provenance anchoring
+// Cross-chunk exports — needed by metrics/enhancements chunks
+window._vaultKey = _vaultKey;
+window.getLocalRecords = getLocalRecords;
 window._anchorToXRPL = _anchorToXRPL;
 window.showAnchorAnimation = showAnchorAnimation;
+window.hideAnchorAnimation = hideAnchorAnimation;
+window.updateStats = updateStats;
+window.saveStats = saveStats;
+window.addToVault = addToVault;
+window.saveLocalRecord = saveLocalRecord;
+window.updateTxLog = updateTxLog;
+window.sessionRecords = sessionRecords;
+window.s4Vault = s4Vault;
+window.sha256 = sha256;
+window.sha256Binary = sha256Binary;
+window._renderIcon = _renderIcon;
+window.stats = stats;

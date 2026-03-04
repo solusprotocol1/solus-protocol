@@ -440,6 +440,10 @@
       "destination": "/prod-app/demo.html"
     },
     {
+      "source": "/demo.html",
+      "destination": "/prod-app/demo.html"
+    },
+    {
       "source": "/demo-app",
       "destination": "/demo-app/dist/index.html"
     },
