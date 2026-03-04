@@ -4305,33 +4305,9 @@ function toggleAiAgent() {
     }
 }
 
-// Bind AI toggle button directly via addEventListener (bulletproof — does not rely on onclick attribute surviving minification)
-(function _bindAiToggle() {
-    function _bind() {
-        var btn = document.querySelector('.ai-float-toggle');
-        if (btn && !btn._s4bound) {
-            btn._s4bound = true;
-            btn.addEventListener('click', function(e) {
-                e.stopPropagation();
-                toggleAiAgent();
-            });
-        }
-        // Also bind the close button inside the panel header
-        var closeBtn = document.querySelector('.ai-close-btn');
-        if (closeBtn && !closeBtn._s4bound) {
-            closeBtn._s4bound = true;
-            closeBtn.addEventListener('click', function(e) {
-                e.stopPropagation();
-                toggleAiAgent();
-            });
-        }
-    }
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', _bind);
-    } else {
-        _bind();
-    }
-})();
+// AI toggle buttons use onclick="toggleAiAgent()" in the HTML.
+// No duplicate addEventListener binding — that would cause a double-toggle
+// (open then immediately close) making the panel appear broken.
 
 // ── Context-Aware Quick Actions ──
 const AI_TOOL_CONTEXT = {
