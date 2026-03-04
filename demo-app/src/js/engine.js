@@ -233,27 +233,21 @@ function _syncSlsBar() {
     var spent = stats.slsFees || 0;
     var remaining = Math.round((allocation - spent) * 100) / 100;
     var plan = _demoSession ? (_demoSession.subscription?.label || 'Starter') : 'Starter';
+    var balText = remaining.toLocaleString(undefined,{maximumFractionDigits:2}) + ' Credits';
+    var balColor = remaining < 100 ? '#ff3333' : '#c9a84c';
     
-    var balEl = document.getElementById('slsBarBalance');
-    var anchorsEl = document.getElementById('slsBarAnchors');
-    var spentEl = document.getElementById('slsBarSpent');
-    var planEl = document.getElementById('slsBarPlan');
-    
-    if (balEl) { balEl.textContent = remaining.toLocaleString(undefined,{maximumFractionDigits:2}) + ' Credits'; balEl.style.color = remaining < 100 ? '#ff3333' : '#c9a84c'; }
-    if (anchorsEl) anchorsEl.textContent = stats.anchored || 0;
-    if (spentEl) spentEl.textContent = (spent).toFixed(2) + ' Credits';
-    if (planEl) planEl.textContent = plan;
-    // Also sync wallet tab SLS balance in demo mode
-    var walletSlsEl = document.getElementById('walletSLSBalance');
-    if (walletSlsEl) walletSlsEl.textContent = remaining.toLocaleString(undefined,{maximumFractionDigits:2});
-    var walletAnchorsEl = document.getElementById('walletAnchors');
-    if (walletAnchorsEl && (stats.anchored || 0) > 0) walletAnchorsEl.textContent = (Math.floor(remaining / 0.01)).toLocaleString();
+    // Use querySelectorAll to update ALL instances (original + wallet sidebar clones)
+    document.querySelectorAll('[id="slsBarBalance"]').forEach(function(el) { el.textContent = balText; el.style.color = balColor; });
+    document.querySelectorAll('[id="slsBarAnchors"]').forEach(function(el) { el.textContent = stats.anchored || 0; });
+    document.querySelectorAll('[id="slsBarSpent"]').forEach(function(el) { el.textContent = (spent).toFixed(2) + ' Credits'; });
+    document.querySelectorAll('[id="slsBarPlan"]').forEach(function(el) { el.textContent = plan; });
+    // Also sync wallet tab SLS balance in demo mode — update ALL instances
+    document.querySelectorAll('[id="walletSLSBalance"]').forEach(function(el) { el.textContent = remaining.toLocaleString(undefined,{maximumFractionDigits:2}); });
+    document.querySelectorAll('[id="walletAnchors"]').forEach(function(el) { if ((stats.anchored || 0) > 0) el.textContent = (Math.floor(remaining / 0.01)).toLocaleString(); });
     // Keep the visible wallet trigger button in sync
     var _wtBal = document.getElementById('walletTriggerBal');
-    var _slsBal = document.getElementById('slsBarBalance');
     if (_wtBal) {
-        var _newBal = _slsBal ? _slsBal.textContent : (remaining.toLocaleString(undefined,{maximumFractionDigits:2}) + ' Credits');
-        _wtBal.textContent = _newBal || '--';
+        _wtBal.textContent = balText || '--';
         // Flash the wallet trigger to show the change
         var _wtBtn = document.getElementById('walletTriggerBtn');
         if (_wtBtn && spent > 0) {
@@ -1127,6 +1121,9 @@ async function anchorRecord() {
     if (typeof window.loadPerformanceMetrics === 'function') try { window.loadPerformanceMetrics(); } catch(e) {}
     // Update Verify tab's recently anchored panel
     if (typeof refreshVerifyRecents === 'function') try { refreshVerifyRecents(); } catch(e) {}
+    // Re-render Audit Vault if the tab is visible
+    if (typeof renderVault === 'function') try { renderVault(); } catch(e) {}
+    if (typeof refreshVaultMetrics === 'function') try { refreshVaultMetrics(); } catch(e) {}
 }
 
 // ── Verify Tab: Recently Anchored Records ──
@@ -8850,6 +8847,7 @@ window.generateAiResponse = generateAiResponse;
 window.refreshVerifyRecents = refreshVerifyRecents;
 window._initDemoSession = _initDemoSession;
 window._updateDemoSlsBalance = _updateDemoSlsBalance;
+window._syncSlsBar = _syncSlsBar;
 // Cross-chunk exports — needed by metrics/enhancements chunks
 window._vaultKey = _vaultKey;
 window.getLocalRecords = getLocalRecords;

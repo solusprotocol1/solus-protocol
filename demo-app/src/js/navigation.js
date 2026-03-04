@@ -419,6 +419,10 @@ function openWalletSidebar() {
         _rewireWalletFlowDetails(body);
     }
     
+    // Force-sync ALL balance elements (including sidebar clones) with current state
+    if (typeof window._syncSlsBar === 'function') { try { window._syncSlsBar(); } catch(e) {} }
+    else if (typeof _syncSlsBar === 'function') { try { _syncSlsBar(); } catch(e) {} }
+    
     // Update wallet trigger balance
     updateWalletTrigger();
 }
