@@ -1,5 +1,5 @@
 # S4 Ledger — Conversation Log & Fix Tracker
-## Last Updated: March 4, 2026 — Session 12 (Cross-Chunk ReferenceError Fix + Vault Auto-Render + Digital Thread)
+## Last Updated: Session 16 — Double-Fire Fix for Accordion Dropdowns & Panel Buttons
 
 ---
 
@@ -10,6 +10,9 @@
 | Vercel routing: / → prod-app/dist, /demo-app → demo-app/dist | ✅ | vercel.json |
 | demo-app/index.html = copy of demo-app/dist/index.html (post-build) | ✅ | buildCommand in vercel.json |
 | AI agent hidden on prod-app landing, shown after auth | ✅ | Commit 811a138, refined a45e26d (hidden until applyRole) |
+| AI toggle single-fire (no double-toggle) | ✅ | Commit c3e9234 — removed `_bindAiToggle` IIFE |
+| Accordion dropdowns toggle correctly (single-fire) | ✅ | Commit 614459e — removed duplicate `bindToggle` addEventListener |
+| Team/Analyses/Webhooks panels open correctly | ✅ | Commit 614459e — removed duplicate button addEventListener |
 | No fake API hashes (sha256:a1b2c3d4) in metrics fallback | ✅ | Both apps cleaned |
 | SAMPLES in engine.js use bracket placeholders in prod ([Inspector Name]) | ✅ | Intentional template data |
 | Web Vitals (LCP, FID, CLS, INP, TTFB) module in both apps | ✅ | S4.vitals namespace |
@@ -906,6 +909,44 @@ ITAR Banner: position=static (no overlap)
 - Onboarding has 5 steps (0–4); `onboardNext()` past step 4 calls `closeOnboarding()` → `showRoleSelector()`
 - `applyRole()` sets `aiFloatWrapper.style.display = 'flex'` — this is the intended path
 - The `sectionILS` → `tabILS` mapping is handled by `showSection()` in navigation.js via `tabMap`
+- **RULE**: Never add `addEventListener('click')` to elements with inline `onclick` — the universal delegated handler covers the CSP fallback
+
+---
+*This log is updated every session. Reference before making changes.*
+
+---
+
+## Session 16 — Double-Fire Fix: Accordion Dropdowns & Panel Buttons (Commit 614459e)
+
+### Problem
+User reported that in prod-app:
+- **Team box, My Analyses box, Webhooks box** — not working when clicked
+- **Accordion dropdowns** (Executive Summary, Scheduled Reports, Fleet Comparison, Heatmap, POA&M, Evidence, Monitoring, FedRAMP, Templates, Version Diff Viewer, etc.) — not expanding when clicked
+
+### Root Cause Found (via Playwright deep tracing)
+**Double-fire pattern** — identical to the AI toggle bug from Session 15 (c3e9234):
+
+In `prod-app/src/index.html`, two inline script sections added `addEventListener('click')` to elements that ALREADY had inline `onclick` handlers:
+
+1. **Section 3d — `bindToggle` IIFE** (14 accordion sections):
+   - Added `addEventListener('click')` to each section's header div
+   - These divs already had `onclick="toggleComplianceSection('...')"` inline handlers
+   - Result: function fired TWICE per click (none→block→none), net effect = nothing visible
+
+2. **Section 3e — Team/Analyses/Webhooks button bindings**:
+   - Added `addEventListener('click')` calling `showTeamPanel()`, `showSavedAnalyses()`, `showWebhookSettings()`
+   - These buttons already had `onclick="showTeamPanel()"` etc.
+   - Result: panels created then immediately destroyed (toggle behavior fires twice)
+
+### Fix Applied
+Removed both duplicate binding sections. Kept inline `onclick` handlers + universal delegated handler (section 4, CSP fallback).
+
+### Verification (Playwright)
+All items verified working with single-fire:
+- ✅ 14 accordion sections (execSummary, schedReports, fleetCompare, heatMap, poam, evidence, monitoring, fedramp, templates, versionDiff, remediation, anomaly, budgetForecast, docAI)
+- ✅ Team Panel, My Analyses, Webhooks — all open correctly
+- ✅ Each function called exactly 1 time per click
+- ✅ Zero page errors
 
 ---
 *This log is updated every session. Reference before making changes.*
