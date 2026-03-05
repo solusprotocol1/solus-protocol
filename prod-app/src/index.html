@@ -58,11 +58,11 @@
     <script defer src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js" integrity="sha384-QCIdq2UMVEoSRhR3ZWZwdz2/pivLowr+eokFMdYyukq7qI26VYRxFa4Nl6FKetmL" crossorigin="anonymous"></script>
     <!-- Supabase Auth (client-side, anon key is public by design) -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js" integrity="sha384-/1qUCSGwTur9vjf/z9lmu/eCUYbpOTgSjmpbMQZ1/CtX2v/WcAIKqRv+U1DUCG6e" crossorigin="anonymous"></script>
-    <script>if(window.pdfjsLib)pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';</script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js" integrity="sha384-/1qUCSGwTur9vjf/z9lmu/eCUYbpOTgSjmpbMQZ1/CtX2v/WcAIKqRv+U1DUCG6e" crossorigin="anonymous"></script>
+    <script>document.addEventListener('DOMContentLoaded',function(){if(window.pdfjsLib)pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';});</script>
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js" integrity="sha384-nFoSjZIoH3CCp8W639jJyQkuPHinJ2NHe7on1xvlUA7SuGfJAfvMldrsoAVm6ECz" crossorigin="anonymous"></script>
-    <script src="/s4-assets/platforms.js"></script>
-    <script src="/s4-assets/defense-docs.js"></script>
+    <script defer src="/s4-assets/platforms.js"></script>
+    <script defer src="/s4-assets/defense-docs.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" integrity="sha384-9nhczxUqK87bcKHh20fSQcTGD4qq5GhayNYSYWqwBkINBhOfQLg/P5HG5lF1urn4" crossorigin="anonymous"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/qrcode@1.5.4/build/qrcode.min.js"></script>
     <!-- CSS is imported via main.js and extracted by Vite -->
@@ -247,7 +247,7 @@
         </div>
         <div style="text-align:center;">
             <button onclick="startAuthFlow()" style="background:var(--accent);color:#fff;border:none;padding:14px 36px;border-radius:3px;font-weight:600;font-size:0.9375rem;cursor:pointer;transition:all 0.3s cubic-bezier(0.25,0.1,0.25,1);letter-spacing:-0.01em;">Enter Platform <i class="fas fa-arrow-right" style="margin-left:8px;"></i></button>
-            <a href="/demo.html" style="display:inline-block;margin-left:12px;background:transparent;color:var(--accent);border:1px solid rgba(0,170,255,0.4);padding:14px 28px;border-radius:3px;font-weight:600;font-size:0.9375rem;cursor:pointer;transition:all 0.3s;text-decoration:none;letter-spacing:-0.01em;"><i class="fas fa-play-circle" style="margin-right:8px;"></i>See a Demo</a>
+            <button onclick="enterDemoMode()" style="display:inline-block;margin-left:12px;background:transparent;color:#c9a84c;border:1px solid rgba(201,168,76,0.4);padding:14px 28px;border-radius:3px;font-weight:600;font-size:0.9375rem;cursor:pointer;transition:all 0.3s;letter-spacing:-0.01em;font-family:inherit;"><i class="fas fa-eye" style="margin-right:8px;"></i>Explore Platform</button>
         </div>
     </div>
 </section>
@@ -259,6 +259,11 @@
             <div class="ss-item"><span class="ss-val" id="statVerified">0</span> <span class="ss-label">Verified</span></div>
             <div class="ss-item"><span class="ss-val" id="statTypes">0</span> <span class="ss-label">Types</span></div>
             <div class="ss-item"><span class="ss-val" id="statSlsFees">0.000</span> <span class="ss-label">Credit Fees</span></div>
+        </div>
+        <!-- Demo Mode Banner (hidden by default, shown by enterDemoMode) -->
+        <div class="demo-mode-banner" id="demoModeBanner" style="display:none;">
+            <span class="dmb-text"><i class="fas fa-eye" style="color:#c9a84c;margin-right:6px;"></i><strong>Demo Mode</strong> — Exploring with sample data. Sign in for full access and real blockchain anchoring.</span>
+            <button class="dmb-signin" onclick="exitDemoMode()"><i class="fas fa-right-to-bracket" style="margin-right:4px;"></i>Sign In</button>
         </div>
     <!-- ═══ ONBOARDING WIZARD ═══ -->
     <div class="onboard-overlay" id="onboardOverlay" style="display:none">
@@ -387,6 +392,7 @@
                     <div id="collabAvatars" style="display:flex;gap:-4px;"></div>
                     <div style="font-size:0.68rem;color:var(--muted);font-style:italic;" id="collabActivity">Session active</div>
                     <button onclick="openProdFeatures()" style="display:flex;align-items:center;gap:6px;background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:3px;padding:4px 12px;cursor:pointer;color:#c9a84c;font-size:0.72rem;font-weight:600;font-family:inherit;margin-left:6px" title="View production features roadmap"><i class="fas fa-rocket"></i> Roadmap</button>
+                    <button onclick="startQuickTour()" style="display:flex;align-items:center;gap:6px;background:rgba(0,170,255,0.08);border:1px solid rgba(0,170,255,0.2);border-radius:3px;padding:4px 12px;cursor:pointer;color:var(--accent);font-size:0.72rem;font-weight:600;font-family:inherit;margin-left:4px" title="Quick platform walkthrough"><i class="fas fa-route"></i> Quick Tour</button>
                 </div>
             </div>
             <div class="hub-grid">
@@ -799,110 +805,121 @@
                 </div>
 
                 <!-- ILS Tool Cards Sub-Hub -->
+                <div class="ils-filter-bar" id="ilsFilterBar">
+                    <div class="filter-tabs" id="ilsFilterTabs">
+                        <button class="filter-tab active" data-filter="all" onclick="filterILSTools('all',this)">All</button>
+                        <button class="filter-tab" data-filter="analysis" onclick="filterILSTools('analysis',this)"><i class="fas fa-chart-line"></i> Analysis</button>
+                        <button class="filter-tab" data-filter="compliance" onclick="filterILSTools('compliance',this)"><i class="fas fa-shield-halved"></i> Compliance</button>
+                        <button class="filter-tab" data-filter="supply-chain" onclick="filterILSTools('supply-chain',this)"><i class="fas fa-link"></i> Supply Chain</button>
+                        <button class="filter-tab" data-filter="documents" onclick="filterILSTools('documents',this)"><i class="fas fa-file-alt"></i> Documents</button>
+                        <button class="filter-tab" data-filter="operations" onclick="filterILSTools('operations',this)"><i class="fas fa-tasks"></i> Operations</button>
+                    </div>
+                    <input type="text" class="ils-search" id="ilsToolSearch" placeholder="Search tools..." oninput="searchILSTools(this.value)" autocomplete="off" spellcheck="false" aria-label="Search ILS tools">
+                </div>
                 <div class="ils-sub-hub" id="ilsSubHub" style="display:grid !important;">
-                    <div class="ils-tool-card" onclick="openILSTool('hub-analysis')">
+                    <div class="ils-tool-card" data-category="analysis" onclick="openILSTool('hub-analysis')">
                         <span class="itc-icon"><i class="fas fa-chart-line" style="color:var(--accent);"></i></span>
                         <div class="itc-title">Gap Analysis</div>
                         <div class="itc-desc">Identify logistics gaps across readiness, parts, and support elements for any platform.</div>
                     </div>
-                    <div class="ils-tool-card" onclick="openILSTool('hub-dmsms')">
+                    <div class="ils-tool-card" data-category="analysis" onclick="openILSTool('hub-dmsms')">
                         <span class="itc-icon"><i class="fas fa-exclamation-triangle" style="color:var(--accent);"></i></span>
                         <div class="itc-title">DMSMS Tracker</div>
                         <div class="itc-desc">Track diminishing manufacturing sources and material shortages with risk alerts.</div>
                     </div>
-                    <div class="ils-tool-card" onclick="openILSTool('hub-readiness')">
+                    <div class="ils-tool-card" data-category="analysis" onclick="openILSTool('hub-readiness')">
                         <span class="itc-icon"><i class="fas fa-chart-line" style="color:var(--accent);"></i></span>
                         <div class="itc-title">Readiness Calculator</div>
                         <div class="itc-desc">Compute operational availability (Ao/Ai), MTBF, and readiness metrics.</div>
                     </div>
-                    <div class="ils-tool-card" onclick="openILSTool('hub-compliance')">
+                    <div class="ils-tool-card" data-category="compliance" onclick="openILSTool('hub-compliance')">
                         <span class="itc-icon"><i class="fas fa-shield-halved" style="color:var(--accent);"></i></span>
                         <div class="itc-title">Compliance Scorecard</div>
                         <div class="itc-desc">NIST 800-171 / CMMC compliance scoring with gap identification.</div>
                     </div>
-                    <div class="ils-tool-card" onclick="openILSTool('hub-risk')">
+                    <div class="ils-tool-card" data-category="supply-chain" onclick="openILSTool('hub-risk')">
                         <span class="itc-icon"><i class="fas fa-triangle-exclamation" style="color:var(--accent);"></i></span>
                         <div class="itc-title">Supply Chain Risk</div>
                         <div class="itc-desc">AI-powered supply chain risk assessment with threat scoring and mitigation.</div>
                     </div>
-                    <div class="ils-tool-card" onclick="openILSTool('hub-actions')" style="position:relative">
+                    <div class="ils-tool-card" data-category="operations" onclick="openILSTool('hub-actions')" style="position:relative">
                         <span class="itc-icon"><i class="fas fa-tasks" style="color:var(--accent);"></i></span>
                         <div class="itc-title">Action Items <span id="actionItemBadge" style="display:inline-flex;align-items:center;justify-content:center;background:#ff4444;color:#fff;font-size:0.65rem;font-weight:800;min-width:20px;height:20px;border-radius:3px;padding:0 6px;margin-left:6px;vertical-align:middle"></span></div>
                         <div class="itc-desc">Track ILS action items, corrective actions, and follow-ups with deadlines.</div>
                     </div>
-                    <div class="ils-tool-card" onclick="openILSTool('hub-predictive')">
+                    <div class="ils-tool-card" data-category="analysis" onclick="openILSTool('hub-predictive')">
                         <span class="itc-icon"><i class="fas fa-brain" style="color:var(--accent);"></i></span>
                         <div class="itc-title">Predictive Maintenance</div>
                         <div class="itc-desc">AI-driven failure prediction and maintenance scheduling optimization.</div>
                     </div>
-                    <div class="ils-tool-card" onclick="openILSTool('hub-lifecycle')">
+                    <div class="ils-tool-card" data-category="analysis" onclick="openILSTool('hub-lifecycle')">
                         <span class="itc-icon"><i class="fas fa-clock" style="color:var(--accent);"></i></span>
                         <div class="itc-title">Lifecycle Cost</div>
                         <div class="itc-desc">Total lifecycle cost estimation including procurement, sustainment, and disposal.</div>
                     </div>
-                    <div class="ils-tool-card" onclick="openILSTool('hub-roi')">
+                    <div class="ils-tool-card" data-category="analysis" onclick="openILSTool('hub-roi')">
                         <span class="itc-icon"><i class="fas fa-dollar-sign" style="color:var(--accent);"></i></span>
                         <div class="itc-title">ROI Calculator</div>
                         <div class="itc-desc">Calculate return on investment for defense logistics and ILS investments.</div>
                     </div>
-                    <div class="ils-tool-card" onclick="openILSTool('hub-vault')">
+                    <div class="ils-tool-card" data-category="compliance" onclick="openILSTool('hub-vault')">
                         <span class="itc-icon"><i class="fas fa-vault" style="color:var(--accent);"></i></span>
                         <div class="itc-title">Audit Vault</div>
                         <div class="itc-desc">Secure document vault for audit records with blockchain-anchored integrity.</div>
                     </div>
-                    <div class="ils-tool-card" onclick="openILSTool('hub-docs')">
+                    <div class="ils-tool-card" data-category="documents" onclick="openILSTool('hub-docs')">
                         <span class="itc-icon"><i class="fas fa-book" style="color:var(--accent);"></i></span>
                         <div class="itc-title">Document Library</div>
                         <div class="itc-desc">Manage technical manuals, drawings, and provisioning documents.</div>
                     </div>
-                    <div class="ils-tool-card" onclick="openILSTool('hub-reports')">
+                    <div class="ils-tool-card" data-category="compliance" onclick="openILSTool('hub-reports')">
                         <span class="itc-icon"><i class="fas fa-file-alt" style="color:var(--accent);"></i></span>
                         <div class="itc-title">Report Generator</div>
                         <div class="itc-desc">Generate ILS reports for audits, reviews, and compliance submissions.</div>
                     </div>
-                    <div class="ils-tool-card" onclick="openILSTool('hub-submissions')">
+                    <div class="ils-tool-card" data-category="documents" onclick="openILSTool('hub-submissions')">
                         <span class="itc-icon"><i class="fas fa-paper-plane" style="color:var(--accent);"></i></span>
                         <div class="itc-title">Submissions & PTD</div>
                         <div class="itc-desc">Manage provisioning technical data and CDRL submissions.</div>
                     </div>
-                    <div class="ils-tool-card" onclick="openILSTool('hub-sbom')">
+                    <div class="ils-tool-card" data-category="supply-chain" onclick="openILSTool('hub-sbom')">
                         <span class="itc-icon"><i class="fas fa-microchip" style="color:var(--accent);"></i></span>
                         <div class="itc-title">SBOM Viewer</div>
                         <div class="itc-desc">Software Bill of Materials — track components, CVEs, and blockchain attestation.</div>
                     </div>
-                    <div class="ils-tool-card" onclick="openILSTool('hub-gfp')">
+                    <div class="ils-tool-card" data-category="supply-chain" onclick="openILSTool('hub-gfp')">
                         <span class="itc-icon"><i class="fas fa-boxes-stacked" style="color:var(--accent);"></i></span>
                         <div class="itc-title">GFP Tracker</div>
                         <div class="itc-desc">Government-Furnished Property tracking — DD 1662, inventory management, and accountability.</div>
                     </div>
-                    <div class="ils-tool-card" onclick="openILSTool('hub-cdrl')">
+                    <div class="ils-tool-card" data-category="documents" onclick="openILSTool('hub-cdrl')">
                         <span class="itc-icon"><i class="fas fa-clipboard-check" style="color:var(--accent);"></i></span>
                         <div class="itc-title">CDRL Validator</div>
                         <div class="itc-desc">Contract Data Requirements List validation — DI format checks and content analysis.</div>
                     </div>
-                    <div class="ils-tool-card" onclick="openILSTool('hub-contract')">
+                    <div class="ils-tool-card" data-category="documents" onclick="openILSTool('hub-contract')">
                         <span class="itc-icon"><i class="fas fa-file-contract" style="color:var(--accent);"></i></span>
                         <div class="itc-title">Contract Extractor</div>
                         <div class="itc-desc">AI-powered clause extraction — FAR/DFARS, CDRL detection, and obligation mapping.</div>
                     </div>
-                    <div class="ils-tool-card" onclick="openILSTool('hub-provenance')">
+                    <div class="ils-tool-card" data-category="supply-chain" onclick="openILSTool('hub-provenance')">
                         <span class="itc-icon"><i class="fas fa-link" style="color:var(--accent);"></i></span>
                         <div class="itc-title">Provenance Chain</div>
                         <div class="itc-desc">Blockchain-verified chain of custody — QR codes and custody transfer tracking.</div>
                     </div>
-                    <div class="ils-tool-card" onclick="openILSTool('hub-analytics')">
+                    <div class="ils-tool-card" data-category="analysis" onclick="openILSTool('hub-analytics')">
                         <span class="itc-icon"><i class="fas fa-chart-pie" style="color:var(--accent);"></i></span>
                         <div class="itc-title">Cross-Program Analytics</div>
                         <div class="itc-desc">Multi-program dashboard — aggregate metrics, trends, and comparative analysis.</div>
                     </div>
-                    <div class="ils-tool-card" onclick="openILSTool('hub-team')">
+                    <div class="ils-tool-card" data-category="operations" onclick="openILSTool('hub-team')">
                         <span class="itc-icon"><i class="fas fa-users-gear" style="color:var(--accent);"></i></span>
                         <div class="itc-title">Team Management</div>
                         <div class="itc-desc">Multi-tenant team operations — invitations, roles, and access control.</div>
                     </div>
 
                 </div>
-                <div id="ilsToolBackBar" style="display:none;margin-bottom:12px;"><div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap"><button class="back-btn" onclick="closeILSTool()" style="background:rgba(0,170,255,0.08);border:1px solid rgba(0,170,255,0.2);color:var(--accent);border-radius:3px;padding:6px 14px;font-size:0.8rem;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px;"><i class="fas fa-arrow-left"></i> Back to Tools</button><div id="toolSlsStrip" style="display:flex;align-items:center;gap:14px;padding:6px 16px;background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.15);border-radius:3px;font-size:0.78rem"><span style="color:var(--steel)"><i class="fas fa-coins" style="color:#c9a84c;margin-right:4px"></i>Credits: <strong id="toolSlsBal" style="color:#c9a84c">--</strong></span><span style="color:var(--steel)"><i class="fas fa-anchor" style="color:var(--accent);margin-right:4px"></i>Anchors: <strong id="toolSlsAnch" style="color:var(--accent)">0</strong></span><span style="color:var(--steel)"><i class="fas fa-bolt" style="color:var(--accent);margin-right:4px"></i>Spent: <strong id="toolSlsSpent" style="color:var(--accent)">0.00</strong> Credits</span><span style="color:#00aaff;margin-left:8px"><i class="fas fa-robot" style="margin-right:4px"></i>AI Agent Active</span></div></div></div>
+                <div id="ilsToolBackBar" style="display:none;margin-bottom:12px;"><div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap"><button class="back-btn" onclick="closeILSTool()" style="background:rgba(0,170,255,0.08);border:1px solid rgba(0,170,255,0.2);color:var(--accent);border-radius:3px;padding:6px 14px;font-size:0.8rem;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px;"><i class="fas fa-arrow-left"></i> Back to Tools</button><div class="tool-action-btns"><button class="tool-action-btn" onclick="toolActionAnchor()" title="Anchor current data to XRPL"><i class="fas fa-anchor"></i> Anchor This</button><button class="tool-action-btn" onclick="toolActionItem()" title="Create action item from current tool"><i class="fas fa-plus"></i> Action Item</button></div><div id="toolSlsStrip" style="display:flex;align-items:center;gap:14px;padding:6px 16px;background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.15);border-radius:3px;font-size:0.78rem"><span style="color:var(--steel)"><i class="fas fa-coins" style="color:#c9a84c;margin-right:4px"></i>Credits: <strong id="toolSlsBal" style="color:#c9a84c">--</strong></span><span style="color:var(--steel)"><i class="fas fa-anchor" style="color:var(--accent);margin-right:4px"></i>Anchors: <strong id="toolSlsAnch" style="color:var(--accent)">0</strong></span><span style="color:var(--steel)"><i class="fas fa-bolt" style="color:var(--accent);margin-right:4px"></i>Spent: <strong id="toolSlsSpent" style="color:var(--accent)">0.00</strong> Credits</span><span style="color:#00aaff;margin-left:8px"><i class="fas fa-robot" style="margin-right:4px"></i>AI Agent Active</span></div></div></div>
 
                 <!-- ══ HUB: GAP ANALYSIS (original ILS content) ══ -->
                 <div class="ils-hub-panel" id="hub-analysis">

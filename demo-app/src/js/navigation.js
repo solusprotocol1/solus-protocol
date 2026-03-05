@@ -745,11 +745,200 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+// ═══ ILS Tool Category Filter & Search ═══
+var _activeFilter = 'all';
+
+function filterILSTools(category, btn) {
+    _activeFilter = category;
+    var cards = document.querySelectorAll('#ilsSubHub .ils-tool-card');
+    var search = (document.getElementById('ilsToolSearch') || {}).value || '';
+    cards.forEach(function(card) {
+        var roleHidden = card.style.display === 'none';
+        var cat = card.getAttribute('data-category') || '';
+        var matchCat = (category === 'all' || cat === category);
+        var matchSearch = !search || _cardMatchesSearch(card, search);
+        card.setAttribute('data-hidden', (roleHidden || !matchCat || !matchSearch) ? 'true' : 'false');
+    });
+    document.querySelectorAll('#ilsFilterTabs .filter-tab').forEach(function(t) { t.classList.remove('active'); });
+    if (btn) btn.classList.add('active');
+}
+
+function searchILSTools(query) {
+    var cards = document.querySelectorAll('#ilsSubHub .ils-tool-card');
+    cards.forEach(function(card) {
+        var roleHidden = card.style.display === 'none';
+        var cat = card.getAttribute('data-category') || '';
+        var matchCat = (_activeFilter === 'all' || cat === _activeFilter);
+        var matchSearch = !query || _cardMatchesSearch(card, query);
+        card.setAttribute('data-hidden', (roleHidden || !matchCat || !matchSearch) ? 'true' : 'false');
+    });
+}
+
+function _cardMatchesSearch(card, query) {
+    var text = (card.textContent || '').toLowerCase();
+    return text.indexOf(query.toLowerCase()) !== -1;
+}
+
+// ═══ Demo Mode ═══
+function enterDemoMode() {
+    sessionStorage.setItem('s4_authenticated', '1');
+    sessionStorage.setItem('s4_auth_method', 'demo');
+    sessionStorage.setItem('s4_onboard_done', '1');
+    sessionStorage.setItem('s4_demo_mode', '1');
+    if (typeof window.enterPlatformAfterAuth === 'function') {
+        window.enterPlatformAfterAuth();
+    } else {
+        var landing = document.getElementById('platformLanding');
+        var hero = document.querySelector('.hero');
+        var workspace = document.getElementById('platformWorkspace');
+        if (landing) landing.style.display = 'none';
+        if (hero) hero.style.display = 'none';
+        if (workspace) workspace.style.display = 'block';
+        sessionStorage.setItem('s4_entered', '1');
+    }
+    var banner = document.getElementById('demoModeBanner');
+    if (banner) banner.style.display = 'flex';
+    var aiWrap = document.getElementById('aiFloatWrapper');
+    if (aiWrap) aiWrap.style.display = 'flex';
+}
+
+function exitDemoMode() {
+    sessionStorage.removeItem('s4_demo_mode');
+    sessionStorage.removeItem('s4_authenticated');
+    sessionStorage.removeItem('s4_auth_method');
+    sessionStorage.removeItem('s4_onboard_done');
+    sessionStorage.removeItem('s4_entered');
+    var banner = document.getElementById('demoModeBanner');
+    if (banner) banner.style.display = 'none';
+    if (typeof window.startAuthFlow === 'function') {
+        window.startAuthFlow();
+    }
+}
+
+(function _restoreDemoMode() {
+    function check() {
+        if (sessionStorage.getItem('s4_demo_mode') === '1') {
+            var banner = document.getElementById('demoModeBanner');
+            if (banner) banner.style.display = 'flex';
+        }
+    }
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', check);
+    } else {
+        check();
+    }
+})();
+
+// ═══ Cross-Tool Action Buttons (HarborLink Hooks) ═══
+function toolActionAnchor() {
+    var toolName = '';
+    if (_currentILSTool) {
+        var panel = document.getElementById(_currentILSTool);
+        if (panel) {
+            var h = panel.querySelector('h3') || panel.querySelector('h4');
+            if (h) toolName = h.textContent.replace(/[?]/g, '').trim();
+        }
+    }
+    showHub();
+    setTimeout(function() {
+        showSection('sectionAnchor');
+        var input = document.getElementById('recordInput');
+        if (input && toolName) {
+            input.value = '[Auto-generated from ' + toolName + '] — Data exported at ' + new Date().toLocaleString();
+            input.dataset.autoFilled = 'true';
+        }
+    }, 100);
+    if (typeof s4Notify === 'function') s4Notify('Navigate', 'Switched to Anchor — paste or review data to anchor.', 'info');
+}
+
+function toolActionItem() {
+    var toolName = 'Platform';
+    if (_currentILSTool) {
+        var panel = document.getElementById(_currentILSTool);
+        if (panel) {
+            var h = panel.querySelector('h3') || panel.querySelector('h4');
+            if (h) toolName = h.textContent.replace(/[?]/g, '').trim();
+        }
+    }
+    if (typeof s4ActionItems !== 'undefined' && Array.isArray(s4ActionItems)) {
+        s4ActionItems.unshift({
+            id: Date.now(),
+            title: 'Follow-up from ' + toolName,
+            desc: 'Review output and take action — created ' + new Date().toLocaleString(),
+            priority: 'medium',
+            due: new Date(Date.now() + 7 * 86400000).toISOString().slice(0, 10),
+            done: false,
+            source: _currentILSTool || 'manual'
+        });
+    }
+    if (typeof s4Notify === 'function') s4Notify('Action Item Created', 'Added follow-up from ' + toolName + ' to Action Items.', 'success');
+}
+
+// ═══ Quick Tour ═══
+var _tourSteps = [
+    { target: '#platformHub', title: 'Platform Hub', desc: 'Your command center. Select a module to begin — Anchor-S4 has 20+ defense tools.', position: 'bottom' },
+    { target: '#ilsSubHub', title: 'Tool Grid', desc: 'Filter by category or search to find the right tool. Drag cards to reorder.', position: 'top' },
+    { target: '.hub-card[data-section="sectionILS"]', title: 'Anchor-S4 Suite', desc: 'Gap analysis, compliance, risk, predictive maintenance, and 15+ more ILS tools.', position: 'right' },
+    { target: '#walletTriggerBtn', title: 'Ledger Account', desc: 'Your XRPL wallet, Credit balance, and transaction history — all on-chain.', position: 'left' }
+];
+var _tourIdx = -1;
+
+function startQuickTour() {
+    _tourIdx = 0;
+    _showTourStep();
+}
+
+function _showTourStep() {
+    if (_tourIdx < 0 || _tourIdx >= _tourSteps.length) { _endTour(); return; }
+    var step = _tourSteps[_tourIdx];
+    var el = document.querySelector(step.target);
+    var overlay = document.getElementById('s4TourOverlay');
+    var highlight = document.getElementById('s4TourHighlight');
+    var tooltip = document.getElementById('s4TourTooltip');
+    if (!overlay || !highlight || !tooltip) return;
+    overlay.style.display = 'block';
+    if (el) {
+        var rect = el.getBoundingClientRect();
+        highlight.style.cssText = 'position:fixed;top:' + (rect.top - 4) + 'px;left:' + (rect.left - 4) + 'px;width:' + (rect.width + 8) + 'px;height:' + (rect.height + 8) + 'px;border:2px solid var(--accent);border-radius:6px;z-index:100001;pointer-events:none;box-shadow:0 0 0 9999px rgba(0,0,0,0.6);transition:all 0.3s ease;';
+        var tipTop = rect.bottom + 12;
+        var tipLeft = Math.max(16, Math.min(rect.left, window.innerWidth - 340));
+        tooltip.style.cssText = 'position:fixed;top:' + tipTop + 'px;left:' + tipLeft + 'px;z-index:100002;background:var(--card);border:1px solid var(--accent);border-radius:3px;padding:16px 20px;max-width:320px;box-shadow:0 12px 40px rgba(0,0,0,0.4);';
+    }
+    tooltip.innerHTML = '<div style="font-size:0.72rem;color:var(--accent);font-weight:700;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;">Step ' + (_tourIdx + 1) + ' of ' + _tourSteps.length + '</div>'
+        + '<h4 style="color:#fff;font-size:0.95rem;font-weight:700;margin:0 0 6px;">' + step.title + '</h4>'
+        + '<p style="color:var(--steel);font-size:0.82rem;line-height:1.5;margin:0 0 12px;">' + step.desc + '</p>'
+        + '<div style="display:flex;gap:8px;justify-content:flex-end;">'
+        + (_tourIdx > 0 ? '<button onclick="_tourPrev()" style="background:transparent;border:1px solid var(--border);color:var(--steel);border-radius:3px;padding:4px 12px;font-size:0.75rem;cursor:pointer;font-family:inherit;">Back</button>' : '')
+        + '<button onclick="_tourNext()" style="background:var(--accent);color:#fff;border:none;border-radius:3px;padding:4px 14px;font-size:0.75rem;font-weight:600;cursor:pointer;font-family:inherit;">' + (_tourIdx === _tourSteps.length - 1 ? 'Done' : 'Next') + '</button>'
+        + '</div>';
+}
+
+function _tourNext() { _tourIdx++; _showTourStep(); }
+function _tourPrev() { _tourIdx--; _showTourStep(); }
+function _endTour() {
+    _tourIdx = -1;
+    var overlay = document.getElementById('s4TourOverlay');
+    var highlight = document.getElementById('s4TourHighlight');
+    var tooltip = document.getElementById('s4TourTooltip');
+    if (overlay) overlay.style.display = 'none';
+    if (highlight) highlight.style.cssText = '';
+    if (tooltip) tooltip.innerHTML = '';
+}
+
 // === Window exports for inline event handlers ===
 window.closeILSTool = closeILSTool;
 window.closeWalletSidebar = closeWalletSidebar;
+window.enterDemoMode = enterDemoMode;
+window.exitDemoMode = exitDemoMode;
+window.filterILSTools = filterILSTools;
 window.openILSTool = openILSTool;
 window.openWalletSidebar = openWalletSidebar;
+window.searchILSTools = searchILSTools;
 window.showHub = showHub;
 window.showSection = showSection;
 window.showSystemsSub = showSystemsSub;
+window.startQuickTour = startQuickTour;
+window.toolActionAnchor = toolActionAnchor;
+window.toolActionItem = toolActionItem;
+window._tourNext = _tourNext;
+window._tourPrev = _tourPrev;
