@@ -1418,5 +1418,41 @@ Both applications visually verified in local preview (via `preview_server.py` on
 - API mock endpoints respond correctly
 - Service worker cleanup active (unregisters stale SWs, clears caches)
 
+### Subpage Updates ✅
+- Use Cases page: 14 → 20 tools listed
+- SDK page: font fix (Inter)
+- Footer across subpages: updated to "S4 Systems, LLC"
+- API OpenAPI spec: updated
+
+### Deep Repo Audit ✅ (commit `05641ba`)
+80+ stale references fixed across 45 files:
+- SDK references: 37 → 21 (consolidated)
+- Branch references: cleaned to 9
+- License: standardized to Apache-2.0
+- Version: standardized to 5.12.1
+- Year references: 2025 → 2026
+
+### UX Improvements — 5 Enhancements (commits `09c7513`, `a58f202`)
+
+**Implemented across both prod-app and demo-app:**
+
+| # | Feature | Status | Details |
+|---|---------|--------|---------|
+| 1 | **Tool Category Filter + Search** | ✅ | 6-tab filter bar (All, Analysis, Compliance, Supply Chain, Documents, Operations) with real-time text search across all 20 tool cards. Uses `data-category` attributes — no DOM restructuring. Respects role-based visibility. |
+| 2 | **Public Demo Mode** | ✅ | "Explore Platform" button on landing page bypasses auth gates. Gradient banner with "Sign In for Full Access" persists across reloads. Demo flags stored in sessionStorage. |
+| 3 | **Cross-Tool Action Buttons** | ❌ Removed | Initially added "Anchor This" and "Action Item" buttons to tool back-bar, but removed (`a58f202`) — each tool already has its own anchor and action item buttons. |
+| 4 | **Lazy-Load Optimization** | ✅ | PDF.js, platforms.js, defense-docs.js now load with `defer`. PDF.js worker config moved to DOMContentLoaded handler. |
+| 5 | **Guided Quick Tour** | ✅ | 4-step walkthrough: Platform Hub → Tool Grid → Anchor-S4 Suite → Ledger Account. Tooltip-based with prev/next/done navigation. |
+
+**Role Selector + Category Filter Integration:**
+- Role selector uses `card.style.display = 'none'` (inline style)
+- Category filter uses `data-hidden="true"` + CSS `display:none!important`
+- Guard added: `var roleHidden = card.style.display === 'none'` — filter won't show role-hidden cards
+
+**Files changed (both apps):**
+- `src/styles/main.css` — filter bar, demo banner, search input styles
+- `src/index.html` — defer scripts, Explore button, demo banner, filter bar, data-category on 20 cards, Quick Tour button
+- `src/js/navigation.js` — filterILSTools, searchILSTools, enterDemoMode, exitDemoMode, Quick Tour system
+
 ---
 *This log is updated every session. Reference before making changes.*
