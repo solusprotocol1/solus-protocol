@@ -3696,30 +3696,10 @@
         })();
 
         // ══════ 3d. COMPLIANCE SECTION TOGGLE HANDLERS ══════
-        // Direct event binding for POA&M, Evidence, Monitoring, etc.
-        (function() {
-            function bindToggle(sectionName) {
-                var el = document.getElementById(sectionName + 'Section');
-                var chev = document.getElementById(sectionName + 'Chevron');
-                // Find the clickable header (the div before the section div)
-                if (el && el.previousElementSibling) {
-                    el.previousElementSibling.addEventListener('click', function() {
-                        var show = el.style.display === 'none';
-                        el.style.display = show ? 'block' : 'none';
-                        if (chev) chev.style.transform = show ? 'rotate(180deg)' : 'rotate(0)';
-                        // Trigger render functions if available
-                        if (show) {
-                            if (sectionName === 'poam' && typeof window.renderPOAM === 'function') window.renderPOAM();
-                            if (sectionName === 'evidence' && typeof window.renderEvidence === 'function') window.renderEvidence();
-                            if (sectionName === 'monitoring' && typeof window.runMonitoringScan === 'function') window.runMonitoringScan();
-                            if (sectionName === 'fedramp' && typeof window.calcFedRAMP === 'function') window.calcFedRAMP();
-                            if (sectionName === 'templates' && typeof window.renderTemplates === 'function') window.renderTemplates();
-                        }
-                    });
-                }
-            }
-            ['poam','evidence','monitoring','fedramp','versionDiff','templates','schedReports','execSummary','remediation','anomaly','budgetForecast','docAI','fleetCompare','heatMap'].forEach(bindToggle);
-        })();
+        // REMOVED: duplicate addEventListener bindings that caused double-fire
+        // with the existing inline onclick="toggleComplianceSection('...')" handlers.
+        // The inline onclick handlers + the universal delegated handler (section 4)
+        // already cover both native-inline and CSP-blocked scenarios.
 
         // ══════ 3b. UTILITY FUNCTIONS FOR DELEGATION ══════
         // toggleMobileNav — extracted from hamburger mega-onclick
@@ -3757,16 +3737,9 @@
                 if (typeof window.logout === 'function') window.logout();
             });
         });
-        // Hub sidebar buttons (Team, Analyses, Webhooks)
-        document.querySelectorAll('[onclick*="showTeamPanel()"], [onclick*="showSavedAnalyses()"], [onclick*="showWebhookSettings()"]').forEach(function(btn) {
-            var oc = btn.getAttribute('onclick') || '';
-            var fnName = (oc.match(/^(\w+)\(\)$/) || [])[1];
-            if (fnName) {
-                btn.addEventListener('click', function() {
-                    if (typeof window[fnName] === 'function') window[fnName]();
-                });
-            }
-        });
+        // REMOVED: duplicate addEventListener bindings for Team/Analyses/Webhooks buttons.
+        // These buttons already have inline onclick handlers (showTeamPanel(), etc.)
+        // which caused double-fire (panels open then immediately close via toggle logic).
 
         // ══════ 4. UNIVERSAL DELEGATED ONCLICK HANDLER ══════
         // Parses onclick attribute strings and dispatches to window functions (no eval)
