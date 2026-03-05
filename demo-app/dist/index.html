@@ -54,7 +54,7 @@
     <script defer src="/s4-assets/defense-docs.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" integrity="sha384-9nhczxUqK87bcKHh20fSQcTGD4qq5GhayNYSYWqwBkINBhOfQLg/P5HG5lF1urn4" crossorigin="anonymous"></script>
     <!-- CSS is imported via main.js and extracted by Vite -->
-  <script type="module" crossorigin src="/demo-app/dist/assets/index-C9Z6QSRK.js"></script>
+  <script type="module" crossorigin src="/demo-app/dist/assets/index-Badci_Iy.js"></script>
   <link rel="modulepreload" crossorigin href="/demo-app/dist/assets/engine-CtFcP8Fq.js">
   <link rel="modulepreload" crossorigin href="/demo-app/dist/assets/navigation-D8gB7BbZ.js">
   <link rel="modulepreload" crossorigin href="/demo-app/dist/assets/metrics-fb4Rg0jP.js">
@@ -3325,7 +3325,6 @@
                 </div>
                 <button class="wt-close" onclick="endWalkthrough()" aria-label="Close walkthrough"><i class="fas fa-times"></i></button>
             </div>
-            <div class="wt-step-progress"><div class="wt-step-progress-fill"></div></div>
             <div class="wt-step-header">
                 <span class="wt-step-counter">Step 1 of 26</span>
                 <span class="wt-step-cat">Overview</span>
@@ -3336,9 +3335,8 @@
             </div>
             <p class="wt-step-desc"></p>
             <div class="wt-controls">
-                <button class="wt-btn" onclick="_wtPrev()" title="Previous step"><i class="fas fa-backward-step"></i></button>
-                <button class="wt-btn wt-btn-play" onclick="_wtTogglePlay()" title="Play / Pause"><i class="fas fa-pause"></i></button>
-                <button class="wt-btn" onclick="_wtNext()" title="Next step"><i class="fas fa-forward-step"></i></button>
+                <button class="wt-btn" onclick="_wtPrev()" title="Previous step"><i class="fas fa-backward-step"></i> Back</button>
+                <button class="wt-btn wt-btn-next" onclick="_wtNext()" title="Next step" style="opacity:0.4;pointer-events:none;">Next <i class="fas fa-forward-step"></i></button>
                 <button class="wt-btn wt-btn-voice" onclick="_wtToggleVoice()" title="Toggle narration voice"><i class="fas fa-volume-mute"></i></button>
                 <div class="wt-spacer"></div>
                 <button class="wt-btn wt-btn-skip" onclick="endWalkthrough()" title="End walkthrough">Skip <i class="fas fa-forward"></i></button>
