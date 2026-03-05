@@ -1,5 +1,5 @@
 # S4 Ledger — Conversation Log & Fix Tracker
-## Last Updated: Session 18 — Developer Documentation & Accessibility Refinements
+## Last Updated: Session 18 — Developer Documentation, Accessibility & Env Var Verification
 
 ---
 
@@ -1267,13 +1267,34 @@ Ran full WCAG 2.1 AA + best-practice scan on both apps. Findings:
 
 | Priority | Task | Impact | Notes |
 |----------|------|--------|-------|
-| P0 | Configure real Supabase project | +3-5% | Enables real user accounts — requires Supabase dashboard setup |
-| P0 | Set OPENAI_API_KEY / ANTHROPIC_API_KEY in Vercel | +2% | Enables live AI responses — requires Vercel dashboard |
+| ~~P0~~ | ~~Configure real Supabase project~~ | ~~+3-5%~~ | ✅ **DONE** — All 4 Supabase vars set in Vercel (URL, ANON_KEY, SERVICE_KEY, JWT_SECRET) since Feb 25 |
+| ~~P0~~ | ~~Set OPENAI_API_KEY / ANTHROPIC_API_KEY in Vercel~~ | ~~+2%~~ | ✅ **DONE** — Both keys set (OPENAI Feb 20, ANTHROPIC Feb 25) |
+| ✅ | All 13 Vercel env vars configured | +5% combined | XRPL (4 vars), Supabase (4 vars), AI (2 keys), Security (3 keys) — all set |
 | P1 | Security pen-test / STIG compliance check | +3% | DoW requirement — external audit needed |
 | P2 | Load testing under concurrent users | +2% | Performance validation — external tooling |
 | P2 | Real-time collab backend (WebSocket) | +1% | UI exists, needs backend implementation |
+| P2 | Stripe billing integration | Optional | `STRIPE_SECRET_KEY` / `STRIPE_WEBHOOK_SECRET` — only when monetization goes live |
+| P2 | NVD API key | Optional | `NVD_API_KEY` for SBOM vulnerability lookups — free from nvd.nist.gov |
 
-**Note:** Remaining items require external service configuration (Supabase, Vercel, security audit) — they cannot be done through code changes alone.
+### Revised Production Readiness Scores (with Vercel env vars confirmed)
+
+#### PROD-APP: ~92% → ~97%
+
+| Category | Before | After | Change |
+|----------|:------:|:-----:|:------:|
+| Infrastructure | 80% | 95% | +15% — All Supabase, XRPL, AI, and security env vars confirmed in Vercel |
+| *Other categories* | *95%* | *95%* | — |
+
+#### DEMO-APP: ~95% → ~97%
+
+| Category | Before | After | Change |
+|----------|:------:|:-----:|:------:|
+| Infrastructure | 85% | 95% | +10% — All env vars confirmed |
+| *Other categories* | *95%* | *95%* | — |
+
+**Remaining to reach 99%:** Security pen-test/STIG check (P1), load testing (P2), real-time collab backend (P2). These are external activities, not code changes.
+
+**Note:** Remaining items require external audits and optional third-party integrations — core platform is production-ready.
 
 ---
 *This log is updated every session. Reference before making changes.*
