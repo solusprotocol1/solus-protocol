@@ -250,7 +250,12 @@
             });
             condPanel.addEventListener('click', function(e) { e.stopPropagation(); });
         }
-        document.addEventListener('click', function() { closeAll(); });
+        // Store closeAll on window so the single document listener can call it
+        window._acqCloseAllDD = closeAll;
+        if (!window._acqDDDocListenerAttached) {
+            window._acqDDDocListenerAttached = true;
+            document.addEventListener('click', function() { if (window._acqCloseAllDD) window._acqCloseAllDD(); });
+        }
     }
 
     // -- Grid Rendering --

@@ -643,6 +643,10 @@ body.light-mode .wt-mock-table td,body.light-mode .wt-mock-action-head,body.ligh
             position:relative !important;
             overflow:hidden !important;
         }
+        .ils-hub-panel #acqDDStatusTrigger,
+        .ils-hub-panel #acqDDCondTrigger{
+            overflow:visible !important;
+        }
         .ils-hub-panel .stat-mini::before{
             content:'';position:absolute;top:0;left:0;right:0;height:3px;
             background:linear-gradient(90deg,var(--accent),transparent);opacity:0;transition:opacity 0.3s;

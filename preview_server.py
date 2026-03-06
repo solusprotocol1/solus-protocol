@@ -21,11 +21,13 @@ ROOT = os.path.dirname(os.path.abspath(__file__))
 
 # Rewrites matching vercel.json
 REWRITES = {
-    "/": "/prod-app/dist/index.html",
+    "/": "/demo-app/dist/index.html",
     "/demo": "/prod-app/demo.html",
     "/demo.html": "/prod-app/demo.html",
     "/demo-app": "/demo-app/dist/index.html",
     "/demo-app/": "/demo-app/dist/index.html",
+    "/prod-app": "/prod-app/dist/index.html",
+    "/prod-app/": "/prod-app/dist/index.html",
 }
 
 def _fake_tx_hash():
