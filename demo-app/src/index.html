@@ -948,6 +948,11 @@
                         <div class="itc-title">Team Management</div>
                         <div class="itc-desc">Multi-tenant team operations — invitations, roles, and access control.</div>
                     </div>
+                    <div class="ils-tool-card" data-category="operations" onclick="openILSTool('hub-acquisition')">
+                        <span class="itc-icon"><i class="fas fa-ship" style="color:var(--accent);"></i></span>
+                        <div class="itc-title">Acquisition Planner</div>
+                        <div class="itc-desc">30+ year service craft acquisition tracker — hull lifecycle, POM funding, ROH, and material condition.</div>
+                    </div>
 
                 </div>
                 <div id="ilsToolBackBar" style="display:none;margin-bottom:12px;"><div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap"><button class="back-btn" onclick="closeILSTool()" style="background:rgba(0,170,255,0.08);border:1px solid rgba(0,170,255,0.2);color:var(--accent);border-radius:3px;padding:6px 14px;font-size:0.8rem;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px;"><i class="fas fa-arrow-left"></i> Back to Tools</button><div id="toolSlsStrip" style="display:flex;align-items:center;gap:14px;padding:6px 16px;background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.15);border-radius:3px;font-size:0.78rem"><span style="color:var(--steel)"><i class="fas fa-coins" style="color:#c9a84c;margin-right:4px"></i>Credits: <strong id="toolSlsBal" style="color:#c9a84c">--</strong></span><span style="color:var(--steel)"><i class="fas fa-anchor" style="color:var(--accent);margin-right:4px"></i>Anchors: <strong id="toolSlsAnch" style="color:var(--accent)">0</strong></span><span style="color:var(--steel)"><i class="fas fa-bolt" style="color:var(--accent);margin-right:4px"></i>Spent: <strong id="toolSlsSpent" style="color:var(--accent)">0.00</strong> Credits</span><span style="color:#00aaff;margin-left:8px"><i class="fas fa-robot" style="margin-right:4px"></i>AI Agent Active</span></div><div class="s4-thumbs" id="toolThumbsFeedback"><span>Helpful?</span><button class="s4-thumb" data-positive="true" onclick="thumbFeedback(window._currentILSTool||'',true)" title="Yes"><i class="fas fa-thumbs-up"></i></button><button class="s4-thumb" data-positive="false" onclick="thumbFeedback(window._currentILSTool||'',false)" title="No"><i class="fas fa-thumbs-down"></i></button></div></div></div>
@@ -2602,6 +2607,83 @@
                     <details style="margin-bottom:12px"><summary style="cursor:pointer;color:var(--steel);font-size:.82rem;font-weight:600"><i class="fas fa-table"></i> Tool Access Matrix</summary><div style="margin-top:8px;overflow-x:auto;border:1px solid var(--border);border-radius:3px;padding:12px;font-size:.78rem;color:var(--steel)">Select a team to view tool-level access permissions.</div></details>
                     <details style="margin-bottom:12px"><summary style="cursor:pointer;color:var(--steel);font-size:.82rem;font-weight:600"><i class="fas fa-history"></i> Team Activity Log</summary><div style="margin-top:8px;max-height:200px;overflow-y:auto;border:1px solid var(--border);border-radius:3px;padding:12px;font-size:.78rem;color:var(--steel)">No activity recorded yet.</div></details>
                     <div id="teamContent" style="min-height:100px;color:var(--steel);font-size:0.85rem;text-align:center;padding:40px 20px"><i class="fas fa-users-gear" style="font-size:2rem;color:rgba(201,168,76,0.3);margin-bottom:8px;display:block"></i>Create a team or select an existing team above.</div>
+                </div></div></div>
+            </div>
+
+            <!-- ══ HUB: ACQUISITION PLANNER — 30+ Year Service Craft Lifecycle Tracker ══ -->
+            <div class="ils-hub-panel" id="hub-acquisition">
+                <div class="row"><div class="col-lg-12"><div class="demo-card">
+                    <h3 style="display:flex;align-items:center;gap:8px">
+                        <i class="fas fa-ship" style="color:#c9a84c"></i> Acquisition Planner
+                        <button onclick="showAddActionModal('acquisition')" class="ai-quick-btn" style="margin-left:auto;font-size:0.72rem;padding:4px 10px"><i class="fas fa-plus"></i> Action Item</button>
+                    </h3>
+
+                    <details style="display:none;margin-bottom:1rem;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.15);border-radius:3px;padding:0 12px;">
+                        <summary style="cursor:pointer;padding:10px 0;color:#00aaff;font-weight:600;font-size:0.85rem;">
+                            <i class="fas fa-info-circle"></i> How Acquisition Planner Works
+                        </summary>
+                        <div style="padding:0 0 12px;color:var(--steel);font-size:0.82rem;line-height:1.6;">
+                            <p><strong style="color:#fff;">What this tool does:</strong> The Acquisition Planner replaces legacy spreadsheets for tracking 30+ year service craft and vessel acquisition lifecycles. Every hull type, hull number, POM funding status, material condition, ROH schedule, and justification is managed in a single auditable grid.</p>
+                            <p><strong style="color:#00aaff;">Step-by-step:</strong></p>
+                            <ol style="margin:0 0 8px 16px;padding:0;">
+                                <li>Add vessel records with hull type, number, action need, and requestor</li>
+                                <li>Track POM funded status, Navy region, custodian activity, and resource sponsors</li>
+                                <li>Monitor material condition, ROH costs, planned maintenance, and dry dock history</li>
+                                <li>Sort, filter, and search across all columns</li>
+                                <li>Export to CSV or Excel for briefs and reporting</li>
+                                <li>Anchor the full plan hash to XRPL for tamper-proof verification</li>
+                            </ol>
+                            <p><strong style="color:#c9a84c;">Key benefit:</strong> Eliminates fragile spreadsheets. Every edit is tracked, every version is verifiable, and the entire acquisition plan is audit-proof on a secure verification ledger.</p>
+                        </div>
+                    </details>
+
+                    <p style="color:var(--steel);font-size:0.9rem;margin-bottom:1rem">30+ year service craft/vessel acquisition lifecycle tracker. Manage hull types, POM funding, ROH schedules, material condition, and full audit trails across all Navy programs.</p>
+
+                    <!-- Toolbar -->
+                    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1rem;align-items:center">
+                        <button class="ai-quick-btn" onclick="acqAddRow()" style="background:rgba(0,170,255,0.2);border-color:var(--accent);font-weight:700"><i class="fas fa-plus"></i> Add Vessel</button>
+                        <button class="ai-quick-btn" onclick="acqImportCSV()"><i class="fas fa-upload"></i> Import CSV</button>
+                        <button class="ai-quick-btn" onclick="acqExportCSV()"><i class="fas fa-download"></i> Export CSV</button>
+                        <button class="ai-quick-btn" onclick="acqExportXLSX()"><i class="fas fa-file-excel"></i> Export Excel</button>
+                        <button class="ai-quick-btn" onclick="acqToggleView('summary')"><i class="fas fa-chart-pie"></i> Summary</button>
+                        <button class="ai-quick-btn" onclick="acqToggleView('grid')"><i class="fas fa-table"></i> Grid</button>
+                        <span style="flex:1"></span>
+                        <input type="text" id="acqSearchInput" placeholder="Search hull, region, builder..." oninput="acqFilter(this.value)" style="background:var(--surface);border:1px solid var(--border);color:#fff;border-radius:3px;padding:6px 12px;font-size:0.82rem;width:220px;font-family:inherit;">
+                        <button onclick="anchorAcquisitionPlan()" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;border-radius:3px;padding:8px 16px;cursor:pointer;font-family:inherit;font-size:0.82rem;font-weight:600"><i class="fas fa-anchor"></i> Anchor to XRPL</button>
+                    </div>
+
+                    <!-- Stats Bar -->
+                    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:16px">
+                        <div class="stat-mini"><div class="stat-mini-val" id="acqStatTotal" style="color:#00aaff">0</div><div class="stat-mini-lbl">Total Vessels</div></div>
+                        <div class="stat-mini"><div class="stat-mini-val" id="acqStatFunded" style="color:#4ecb71">0</div><div class="stat-mini-lbl">POM Funded</div></div>
+                        <div class="stat-mini"><div class="stat-mini-val" id="acqStatPending" style="color:#c9a84c">0</div><div class="stat-mini-lbl">Pending/Partial</div></div>
+                        <div class="stat-mini"><div class="stat-mini-val" id="acqStatCritical" style="color:#ff4444">0</div><div class="stat-mini-lbl">Poor/Critical</div></div>
+                        <div class="stat-mini"><div class="stat-mini-val" id="acqStatCost" style="color:#c9a84c">$0K</div><div class="stat-mini-lbl">Total Cost</div></div>
+                    </div>
+
+                    <!-- Data Grid -->
+                    <div id="acqGridContainer" style="max-height:600px;overflow:auto;">
+                        <div style="color:var(--muted);text-align:center;padding:2rem;font-size:0.85rem">
+                            <i class="fas fa-ship" style="font-size:2rem;margin-bottom:12px;display:block;opacity:0.3"></i>
+                            Loading acquisition data...
+                        </div>
+                    </div>
+
+                    <!-- Summary View (hidden by default) -->
+                    <div id="acqSummaryView" style="display:none;"></div>
+
+                    <!-- AI Quick Buttons -->
+                    <div style="margin-top:16px;padding:12px;background:var(--surface);border:1px solid var(--border);border-radius:3px">
+                        <div style="font-size:0.82rem;color:var(--steel);margin-bottom:8px"><i class="fas fa-robot" style="color:var(--accent);margin-right:6px"></i><strong>AI Assistant</strong> — Ask about your acquisition plan</div>
+                        <div style="display:flex;flex-wrap:wrap;gap:4px">
+                            <button class="ai-quick-btn" onclick="aiAsk('Summarize my acquisition plan')">Summarize Plan</button>
+                            <button class="ai-quick-btn" onclick="aiAsk('Which vessels are unfunded?')">Unfunded Vessels</button>
+                            <button class="ai-quick-btn" onclick="aiAsk('Show vessels in critical condition')">Critical Condition</button>
+                            <button class="ai-quick-btn" onclick="aiAsk('What ROH actions are overdue?')">Overdue ROH</button>
+                            <button class="ai-quick-btn" onclick="aiAsk('Draft a POM funding brief')">POM Brief</button>
+                            <button class="ai-quick-btn" onclick="aiAsk('Estimate total acquisition cost over 5 years')">5-Year Cost</button>
+                        </div>
+                    </div>
                 </div></div></div>
             </div>
 

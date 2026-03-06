@@ -425,8 +425,21 @@ var _steps = [
         }
     },
     {
+        id: 'acquisition', title: 'Acquisition Planner', icon: 'fas fa-ship', cat: 'Operations',
+        narr: 'The Acquisition Planner replaces fragile 30-year spreadsheets. Track every hull type, hull number, replacement need, POM funding status, material condition, ROH history, and ship builder in one auditable grid. Sort, filter, export to Excel, and anchor the full plan for tamper-proof verification.',
+        mock: function() {
+            return '<div class="wt-mock-tool"><div class="wt-mock-tool-head"><i class="fas fa-ship"></i> Acquisition Planner \u2014 6 Vessels</div>'
+                + '<table class="wt-mock-table"><thead><tr><th>Hull #</th><th>Type</th><th>Need</th><th>POM</th><th>Condition</th><th>Total $K</th></tr></thead><tbody>'
+                + '<tr><td>YP-703</td><td>YP</td><td><span class="wt-mock-badge-yellow">Replacement</span></td><td><span class="wt-mock-badge-green">Yes</span></td><td><span class="wt-mock-badge-red">Poor</span></td><td>$45,000</td></tr>'
+                + '<tr><td>YP-705</td><td>YP</td><td><span class="wt-mock-badge-blue">SLE</span></td><td><span class="wt-mock-badge-yellow">Partial</span></td><td><span class="wt-mock-badge-yellow">Fair</span></td><td>$5,150</td></tr>'
+                + '<tr><td>YTB-833</td><td>YTB</td><td><span class="wt-mock-badge-green">New Build</span></td><td><span class="wt-mock-badge-green">Yes</span></td><td>\u2014</td><td>$28,000</td></tr>'
+                + '<tr><td>TWR-841</td><td>TWR</td><td><span class="wt-mock-badge-yellow">Replacement</span></td><td><span class="wt-mock-badge-blue">Pending</span></td><td><span class="wt-mock-badge-red">Poor</span></td><td>$18,500</td></tr>'
+                + '</tbody></table></div>';
+        }
+    },
+    {
         id: 'summary', title: 'Ready to Get Started?', icon: 'fas fa-rocket', cat: 'Summary',
-        narr: 'That completes your tour of S4 Ledger \u2014 20 integrated tools purpose-built for defense logistics. Every record is permanently verified, every action is auditable, and every handoff is proven. Whether you are tracking a single part or managing an entire fleet, the platform scales with your mission. Sign in to get started.',
+        narr: 'That completes your tour of S4 Ledger \u2014 21 integrated tools purpose-built for defense logistics. Every record is permanently verified, every action is auditable, and every handoff is proven. Whether you are tracking a single part or managing an entire fleet, the platform scales with your mission. Sign in to get started.',
         mock: function() {
             return '<div class="wt-mock-welcome">'
                 + '<div class="wt-mock-logo"><i class="fas fa-rocket" style="font-size:3rem;color:var(--accent);"></i></div>'

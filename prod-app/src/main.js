@@ -39,6 +39,9 @@ import './js/roles.js'
 // ── Enhancement Suite (Rounds 11-16+) ───────────────────────────
 import './js/enhancements.js'
 
+// ── Acquisition Planner ─────────────────────────────────────────
+import './js/acquisition.js'
+
 // ── Platform Walkthrough & Feedback ─────────────────────────────
 import './js/walkthrough.js'
 

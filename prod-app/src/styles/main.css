@@ -1560,3 +1560,52 @@ body.light-mode .hiw-close:hover{color:#1d1d1f!important}
 body.light-mode canvas{background:rgba(255,255,255,0.95)!important;border-radius:3px}
 body.light-mode .chart-container{background:#fff!important;border-color:rgba(0,0,0,0.08)!important}
 body.light-mode .chart-title{color:#555!important}
+
+/* ═══ Acquisition Planner Data Grid ═══ */
+.acq-table-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:3px;background:var(--surface)}
+.acq-table{width:100%;border-collapse:collapse;font-size:0.78rem;white-space:nowrap}
+.acq-th{padding:8px 10px;text-align:left;background:rgba(0,170,255,0.06);border-bottom:2px solid var(--border);color:var(--accent);font-weight:700;font-size:0.72rem;text-transform:uppercase;letter-spacing:0.3px;position:sticky;top:0;z-index:1;user-select:none}
+.acq-th:hover{background:rgba(0,170,255,0.12)}
+.acq-th-rownum{width:36px;text-align:center;color:var(--muted)}
+.acq-td{padding:6px 10px;border-bottom:1px solid var(--border);color:var(--steel);vertical-align:top}
+.acq-td-rownum{text-align:center;color:var(--muted);font-size:0.72rem}
+.acq-row:hover{background:rgba(0,170,255,0.03)}
+.acq-row-editing{background:rgba(0,170,255,0.06)!important}
+.acq-input{background:var(--surface);border:1px solid var(--accent);color:#fff;border-radius:2px;padding:3px 6px;font-size:0.78rem;font-family:inherit;width:100%;box-sizing:border-box}
+.acq-input:focus{outline:none;border-color:#00aaff;box-shadow:0 0 0 2px rgba(0,170,255,0.15)}
+.acq-textarea{min-height:50px;resize:vertical;white-space:pre-wrap;word-wrap:break-word}
+.acq-empty{color:var(--muted);opacity:0.5}
+.acq-justify{display:block;white-space:normal;max-width:200px;line-height:1.4;cursor:help}
+.acq-btn{background:transparent;border:1px solid var(--border);color:var(--steel);border-radius:2px;padding:3px 8px;cursor:pointer;font-size:0.72rem;transition:all 0.15s}
+.acq-btn:hover{border-color:var(--accent);color:var(--accent)}
+.acq-btn-save{border-color:rgba(78,203,113,0.4);color:#4ecb71}
+.acq-btn-save:hover{background:rgba(78,203,113,0.1)}
+.acq-btn-cancel{border-color:rgba(255,68,68,0.3);color:#ff4444}
+.acq-btn-cancel:hover{background:rgba(255,68,68,0.1)}
+.acq-btn-edit:hover{border-color:var(--accent);color:var(--accent)}
+.acq-btn-del{border-color:rgba(255,68,68,0.2);color:var(--muted)}
+.acq-btn-del:hover{border-color:#ff4444;color:#ff4444;background:rgba(255,68,68,0.06)}
+.acq-badge{display:inline-block;padding:2px 8px;border-radius:2px;font-size:0.72rem;font-weight:600;white-space:nowrap}
+.acq-badge-green{background:rgba(78,203,113,0.12);color:#4ecb71;border:1px solid rgba(78,203,113,0.3)}
+.acq-badge-red{background:rgba(255,68,68,0.1);color:#ff4444;border:1px solid rgba(255,68,68,0.25)}
+.acq-badge-yellow{background:rgba(201,168,76,0.12);color:#c9a84c;border:1px solid rgba(201,168,76,0.3)}
+.acq-badge-blue{background:rgba(0,170,255,0.1);color:#00aaff;border:1px solid rgba(0,170,255,0.25)}
+.acq-badge-purple{background:rgba(178,102,255,0.1);color:#b266ff;border:1px solid rgba(178,102,255,0.25)}
+.acq-badge-critical{background:rgba(255,0,0,0.15);color:#ff2222;border:1px solid rgba(255,0,0,0.35);animation:acqPulse 2s infinite}
+@keyframes acqPulse{0%,100%{opacity:1}50%{opacity:0.7}}
+.acq-summary-card{background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:16px;transition:border-color 0.2s}
+.acq-summary-card:hover{border-color:var(--accent)}
+.acq-summary-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.acq-summary-type{font-weight:700;color:#fff;font-size:0.9rem}
+.acq-summary-count{font-size:0.78rem;color:var(--muted)}
+.acq-summary-cost{font-size:0.88rem;font-weight:700;color:#c9a84c;margin-bottom:8px}
+.acq-summary-list{border-top:1px solid var(--border);padding-top:8px}
+.acq-summary-item{padding:4px 0;font-size:0.82rem;color:var(--steel);border-bottom:1px solid rgba(255,255,255,0.03)}
+body.light-mode .acq-table-wrap{background:#fff;border-color:rgba(0,0,0,0.08)}
+body.light-mode .acq-th{background:rgba(0,100,200,0.04);color:#0066cc;border-bottom-color:rgba(0,0,0,0.1)}
+body.light-mode .acq-td{border-bottom-color:rgba(0,0,0,0.06);color:#555}
+body.light-mode .acq-input{background:#fff;border-color:#ccc;color:#333}
+body.light-mode .acq-row:hover{background:rgba(0,100,200,0.02)}
+body.light-mode .acq-summary-card{background:#fff;border-color:rgba(0,0,0,0.08)}
+body.light-mode .acq-summary-type{color:#333}
+body.light-mode .acq-summary-item{color:#555;border-bottom-color:rgba(0,0,0,0.04)}

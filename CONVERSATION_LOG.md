@@ -1514,5 +1514,39 @@ Both applications visually verified in local preview (via `preview_server.py` on
 - `prod-app/src/js/navigation.js` — URL param handler in `_restoreDemoMode()`
 - `demo-app/src/js/navigation.js` — same URL param handler
 
+#### Acquisition Planner — Phase 1 (Tool #21)
+New tool added to both prod-app and demo-app: **Acquisition Planner** — 30+ year service craft/vessel acquisition lifecycle tracker.
+
+**Data Model (23 columns):**
+Hull Type, Hull #, Need (Replacement/Disposal/Addition/SLE/Transfer), Requestor, Date Requested, Needed By, Lifecycle (Yrs), Justification (paragraph), POM Funded (Yes/No/Partial/Pending), Navy Region, Custodian Activity, Resource Sponsor, Sponsor Contact, Ship Builder, Last ROH ($K), Est Next FY ($K), Total Cost ($K), Age (Yrs), Last ROH, Planned ROH, Planned MI, Material Condition (Excellent/Good/Fair/Poor/Critical), Last Dry Dock
+
+**Features:**
+- Full CRUD grid with inline editing, sort on any column, text search/filter
+- Color-coded badges for POM status, material condition, and action need
+- Summary view grouped by action need with cost rollups
+- Stats bar: Total Vessels, POM Funded, Pending/Partial, Poor/Critical, Total Cost
+- CSV export, Excel XML export, CSV import
+- XRPL hash anchoring for tamper-proof plan verification
+- Supabase persistence (`acquisition_plan` table)
+- 6 pre-loaded demo records (YP-703, YP-705, WLB-213, YTB-833, TWR-841, YFB-92)
+- AI agent context with 8 quick buttons (Summarize Plan, Unfunded Vessels, Critical Condition, Overdue ROH, POM Brief, 5-Year Cost, Lifecycle Compare, Status Memo)
+- ? (How It Works) modal with step-by-step guide
+- Action Item button integration
+- Walkthrough tour step added (now 27 steps, covering 21 tools)
+
+**Files added/changed (both apps):**
+- `src/js/acquisition.js` — new module (full CRUD, export, Supabase, anchoring)
+- `src/index.html` — tool card (operations category) + full hub panel
+- `src/js/navigation.js` — `openILSTool` handler for `hub-acquisition`
+- `src/js/engine.js` — AI_TOOL_CONTEXT entry
+- `src/js/walkthrough.js` — tour step before summary
+- `src/main.js` — import `./js/acquisition.js`
+- `src/styles/main.css` — `.acq-*` grid/badge/summary styles + light mode
+- `supabase/migrations/008_acquisition_plan.sql` — table + indexes + RLS
+
+**Phases 2 & 3 (planned, not yet built):**
+- Phase 2: Program Milestone Tracker (one-slider PowerPoint replacement — timeline/Gantt for vessel acquisition milestones)
+- Phase 3: POM/PB Brief Generator (auto-generated Gantt charts, pivot tables, budget exhibits, PPTX/PDF export)
+
 ---
 *This log is updated every session. Reference before making changes.*
