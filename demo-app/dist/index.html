@@ -50,12 +50,13 @@
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js" integrity="sha384-/1qUCSGwTur9vjf/z9lmu/eCUYbpOTgSjmpbMQZ1/CtX2v/WcAIKqRv+U1DUCG6e" crossorigin="anonymous"></script>
     <script>document.addEventListener('DOMContentLoaded',function(){if(window.pdfjsLib)pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';});</script>
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js" integrity="sha384-nFoSjZIoH3CCp8W639jJyQkuPHinJ2NHe7on1xvlUA7SuGfJAfvMldrsoAVm6ECz" crossorigin="anonymous"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" crossorigin="anonymous"></script>
     <script defer src="/s4-assets/platforms.js"></script>
     <script defer src="/s4-assets/defense-docs.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" integrity="sha384-9nhczxUqK87bcKHh20fSQcTGD4qq5GhayNYSYWqwBkINBhOfQLg/P5HG5lF1urn4" crossorigin="anonymous"></script>
     <!-- CSS is imported via main.js and extracted by Vite -->
-  <script type="module" crossorigin src="/demo-app/dist/assets/index-DxE5PdVI.js"></script>
-  <link rel="modulepreload" crossorigin href="/demo-app/dist/assets/engine-FrbXYvZM.js">
+  <script type="module" crossorigin src="/demo-app/dist/assets/index-CqBzg-e8.js"></script>
+  <link rel="modulepreload" crossorigin href="/demo-app/dist/assets/engine-DBJNkACJ.js">
   <link rel="modulepreload" crossorigin href="/demo-app/dist/assets/navigation-BuGUd4sc.js">
   <link rel="modulepreload" crossorigin href="/demo-app/dist/assets/metrics-fb4Rg0jP.js">
   <link rel="modulepreload" crossorigin href="/demo-app/dist/assets/enhancements-BY-MI6H2.js">
@@ -516,7 +517,7 @@
                                     <input type="checkbox" id="encryptCheck" checked style="width:auto!important;margin-right:6px"> Encrypt before hashing (CUI protection)
                                 </label>
                             </div>
-                            <button class="btn-accent mt-3" onclick="anchorRecord()" id="anchorBtn"><i class="fas fa-anchor"></i> Anchor to XRPL</button>
+                            <button class="btn-accent mt-3" onclick="anchorRecord()" id="anchorBtn"><i class="fas fa-anchor"></i> Anchor to Ledger</button>
                             <div class="result-panel" id="anchorResult"></div>
                         </div>
                     </div>
@@ -1253,7 +1254,7 @@
                         </div>
                         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:1rem">
                             <button onclick="exportDMSMS()" class="btn btn-sm" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;border-radius:3px;padding:8px 16px;"><i class="fas fa-download"></i> Export DMSMS Report</button>
-                            <button onclick="anchorDMSMS()" class="btn btn-sm" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;border-radius:3px;padding:8px 16px;"><i class="fas fa-anchor"></i> Anchor to XRPL ($0.01 Credits)</button>
+                            <button onclick="anchorDMSMS()" class="btn btn-sm" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;border-radius:3px;padding:8px 16px;"><i class="fas fa-anchor"></i> Anchor to Ledger ($0.01 Credits)</button>
                         </div>
                     </div>
                 </div>
@@ -1300,7 +1301,7 @@
                         </div>
                         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:1rem">
                             <button onclick="exportReadiness()" class="btn btn-sm" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;border-radius:3px;padding:8px 16px;"><i class="fas fa-download"></i> Export RAM Report</button>
-                            <button onclick="anchorReadiness()" class="btn btn-sm" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;border-radius:3px;padding:8px 16px;"><i class="fas fa-anchor"></i> Anchor to XRPL ($0.01 Credits)</button>
+                            <button onclick="anchorReadiness()" class="btn btn-sm" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;border-radius:3px;padding:8px 16px;"><i class="fas fa-anchor"></i> Anchor to Ledger ($0.01 Credits)</button>
                         </div>
                     </div>
                 </div>
@@ -1355,7 +1356,7 @@
                         </div>
                         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:1rem">
                             <button onclick="exportROI()" class="btn btn-sm" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;border-radius:3px;padding:8px 16px;"><i class="fas fa-download"></i> Export ROI Report</button>
-                            <button onclick="anchorROI()" class="btn btn-sm" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;border-radius:3px;padding:8px 16px;"><i class="fas fa-anchor"></i> Anchor to XRPL ($0.01 Credits)</button>
+                            <button onclick="anchorROI()" class="btn btn-sm" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;border-radius:3px;padding:8px 16px;"><i class="fas fa-anchor"></i> Anchor to Ledger ($0.01 Credits)</button>
                         </div>
                     </div>
                 </div>
@@ -1411,7 +1412,7 @@
                         </div>
                         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:1rem">
                             <button onclick="exportLifecycle()" class="btn btn-sm" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;border-radius:3px;padding:8px 16px;"><i class="fas fa-download"></i> Export Lifecycle Report</button>
-                            <button onclick="anchorLifecycle()" class="btn btn-sm" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;border-radius:3px;padding:8px 16px;"><i class="fas fa-anchor"></i> Anchor to XRPL ($0.01 Credits)</button>
+                            <button onclick="anchorLifecycle()" class="btn btn-sm" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;border-radius:3px;padding:8px 16px;"><i class="fas fa-anchor"></i> Anchor to Ledger ($0.01 Credits)</button>
                         </div>
                     </div>
                 </div>
@@ -1806,7 +1807,7 @@
 
                     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:1rem">
                         <button onclick="exportCompliance()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;border-radius:3px;padding:8px 16px"><i class="fas fa-download"></i> Export Scorecard</button>
-                        <button onclick="anchorCompliance()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;border-radius:3px;padding:8px 16px"><i class="fas fa-anchor"></i> Anchor to XRPL ($0.01 Credits)</button>
+                        <button onclick="anchorCompliance()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;border-radius:3px;padding:8px 16px"><i class="fas fa-anchor"></i> Anchor to Ledger ($0.01 Credits)</button>
                     </div>
                 </div>
             </div>
@@ -1881,7 +1882,7 @@
                     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:1rem">
                         <button onclick="loadRiskData()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#c9a84c,#a88a3a);color:#fff;border:none;border-radius:3px;padding:8px 16px"><i class="fas fa-sync-alt"></i> Refresh Analysis</button>
                         <button onclick="exportRisk()" class="btn btn-sm hover-lift" style="background:rgba(255,255,255,0.08);color:#fff;border:none;border-radius:3px;padding:8px 16px;font-weight:700"><i class="fas fa-download"></i> Export Risk Report</button>
-                        <button onclick="anchorRisk()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;border-radius:3px;padding:8px 16px"><i class="fas fa-anchor"></i> Anchor to XRPL</button>
+                        <button onclick="anchorRisk()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;border-radius:3px;padding:8px 16px"><i class="fas fa-anchor"></i> Anchor to Ledger</button>
                     </div>
 
                     <!-- ── AI Remediation Plans ── -->
@@ -2142,7 +2143,7 @@
                     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:1rem">
                         <button onclick="loadPredictiveData()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#0a0e1a;border:none;border-radius:3px;padding:8px 16px;font-weight:700"><i class="fas fa-sync-alt"></i> Run Predictions</button>
                         <button onclick="exportPredictive()" class="btn btn-sm hover-lift" style="background:rgba(255,255,255,0.08);color:#fff;border:none;border-radius:3px;padding:8px 16px;font-weight:700"><i class="fas fa-download"></i> Export Report</button>
-                        <button onclick="anchorPredictive()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;border-radius:3px;padding:8px 16px"><i class="fas fa-anchor"></i> Anchor to XRPL</button>
+                        <button onclick="anchorPredictive()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;border-radius:3px;padding:8px 16px"><i class="fas fa-anchor"></i> Anchor to Ledger</button>
                     </div>
                 </div>
             </div>
@@ -2188,7 +2189,7 @@
                     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:1rem">
                         <button onclick="loadSBOMData()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;border-radius:3px;padding:8px 16px;font-weight:700"><i class="fas fa-sync-alt"></i> Scan Components</button>
                         <button onclick="exportSBOM()" class="btn btn-sm hover-lift" style="background:rgba(255,255,255,0.08);color:#fff;border:none;border-radius:3px;padding:8px 16px;font-weight:700"><i class="fas fa-download"></i> Export SBOM</button>
-                        <button onclick="anchorSBOM()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;border-radius:3px;padding:8px 16px"><i class="fas fa-anchor"></i> Anchor SBOM to XRPL</button>
+                        <button onclick="anchorSBOM()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;border-radius:3px;padding:8px 16px"><i class="fas fa-anchor"></i> Anchor SBOM to Ledger</button>
                     </div>
                 </div>
             </div>
@@ -2311,7 +2312,7 @@
                     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:1rem">
                         <button onclick="analyzeSubmission()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#c9a84c,#c0525b);color:#fff;border:none;border-radius:3px;padding:8px 16px;font-weight:700"><i class="fas fa-magnifying-glass-chart"></i> Analyze &amp; Compare</button>
                         <button onclick="runSubmissionDemo()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#9945ff,#7733cc);color:#fff;border:none;border-radius:3px;padding:8px 16px"><i class="fas fa-play"></i> Run Demo Analysis</button>
-                        <button onclick="anchorSubmissionReview()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;border-radius:3px;padding:8px 16px"><i class="fas fa-anchor"></i> Anchor Review to XRPL</button>
+                        <button onclick="anchorSubmissionReview()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;border-radius:3px;padding:8px 16px"><i class="fas fa-anchor"></i> Anchor Review to Ledger</button>
                         <button onclick="exportDiscrepancyReport()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;border-radius:3px;padding:8px 16px"><i class="fas fa-file-pdf"></i> Export Discrepancy Report</button>
                         <button onclick="clearSubmissionReview()" class="btn btn-sm hover-lift" style="background:rgba(255,255,255,0.08);color:var(--steel);border:1px solid var(--border);border-radius:3px;padding:8px 16px"><i class="fas fa-trash-alt"></i> Clear</button>
                     </div>
@@ -2419,7 +2420,7 @@
                     <div id="gfpUploadZone" onclick="document.getElementById('gfpFileInput').click()" style="border:2px dashed rgba(0,170,255,0.35);border-radius:3px;padding:28px;text-align:center;cursor:pointer;margin-bottom:12px;background:rgba(0,170,255,0.04);transition:all 0.3s" ondragover="event.preventDefault();this.style.borderColor='#00aaff'" ondragleave="this.style.borderColor='rgba(0,170,255,0.35)'"><i class="fas fa-cloud-upload-alt" style="font-size:2rem;color:#00aaff;margin-bottom:8px;display:block"></i><div style="color:#00aaff;font-weight:600;font-size:.9rem">Upload GFP / DD 1662 Data</div><div style="color:var(--steel);font-size:.78rem;margin-top:4px">CSV, Excel (.xlsx), XML, JSON, PDF — DD 1662 forms, inventory lists</div><input type="file" id="gfpFileInput" accept=".csv,.xlsx,.xls,.xml,.json,.pdf,.txt" multiple style="display:none" /></div>
                     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:1rem">
                         <button onclick="alert('Demo: GFP inventory check would run against uploaded DD 1662 data.')" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;border-radius:3px;padding:8px 16px;font-weight:700"><i class="fas fa-magnifying-glass-chart"></i> Run Inventory Check</button>
-                        <button onclick="anchorGFP()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#c9a84c,#a88a3c);color:#fff;border:none;border-radius:3px;padding:8px 16px"><i class="fas fa-anchor"></i> Anchor to XRPL</button>
+                        <button onclick="anchorGFP()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#c9a84c,#a88a3c);color:#fff;border:none;border-radius:3px;padding:8px 16px"><i class="fas fa-anchor"></i> Anchor to Ledger</button>
                         <button onclick="alert('Demo: DD 1662 report would export.')" class="btn btn-sm hover-lift" style="background:rgba(0,170,255,0.1);color:#00aaff;border:1px solid rgba(0,170,255,0.3);border-radius:3px;padding:8px 16px"><i class="fas fa-file-pdf"></i> Export DD 1662 Report</button>
                     </div>
                     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:16px">
@@ -2461,7 +2462,7 @@
                     <div id="cdrlUploadZone" onclick="document.getElementById('cdrlFileInput').click()" style="border:2px dashed rgba(201,168,76,0.35);border-radius:3px;padding:28px;text-align:center;cursor:pointer;margin-bottom:12px;background:rgba(201,168,76,0.04);transition:all 0.3s" ondragover="event.preventDefault();this.style.borderColor='#c9a84c'" ondragleave="this.style.borderColor='rgba(201,168,76,0.35)'"><i class="fas fa-cloud-upload-alt" style="font-size:2rem;color:#c9a84c;margin-bottom:8px;display:block"></i><div style="color:#c9a84c;font-weight:600;font-size:.9rem">Upload CDRL Package / DD 1423</div><div style="color:var(--steel);font-size:.78rem;margin-top:4px">CSV, Excel, XML, JSON, PDF — DD 1423 forms or CDRL deliverables</div><input type="file" id="cdrlFileInput" accept=".csv,.xlsx,.xls,.xml,.json,.pdf,.txt,.doc,.docx" multiple style="display:none" /></div>
                     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:1rem">
                         <button onclick="alert('Demo: CDRL validation would run against uploaded DD 1423 data.')" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#c9a84c,#a88a3c);color:#fff;border:none;border-radius:3px;padding:8px 16px;font-weight:700"><i class="fas fa-check-double"></i> Validate CDRLs</button>
-                        <button onclick="anchorCDRL()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;border-radius:3px;padding:8px 16px"><i class="fas fa-anchor"></i> Anchor to XRPL</button>
+                        <button onclick="anchorCDRL()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;border-radius:3px;padding:8px 16px"><i class="fas fa-anchor"></i> Anchor to Ledger</button>
                         <button onclick="alert('Demo: CDRL compliance report would export.')" class="btn btn-sm hover-lift" style="background:rgba(201,168,76,0.1);color:#c9a84c;border:1px solid rgba(201,168,76,0.3);border-radius:3px;padding:8px 16px"><i class="fas fa-file-pdf"></i> Export Report</button>
                     </div>
                     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:16px">
@@ -2502,7 +2503,7 @@
                     <div id="contractUploadZone" onclick="document.getElementById('contractFileInput').click()" style="border:2px dashed rgba(0,170,255,0.35);border-radius:3px;padding:28px;text-align:center;cursor:pointer;margin-bottom:12px;background:rgba(0,170,255,0.04);transition:all 0.3s" ondragover="event.preventDefault();this.style.borderColor='#00aaff'" ondragleave="this.style.borderColor='rgba(0,170,255,0.35)'"><i class="fas fa-cloud-upload-alt" style="font-size:2rem;color:#00aaff;margin-bottom:8px;display:block"></i><div style="color:#00aaff;font-weight:600;font-size:.9rem">Upload Contract Document</div><div style="color:var(--steel);font-size:.78rem;margin-top:4px">PDF, DOCX — SOWs, Task Orders, Contract Modifications</div><input type="file" id="contractFileInput" accept=".pdf,.doc,.docx,.xml,.json,.txt" multiple style="display:none" /></div>
                     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:1rem">
                         <button onclick="alert('Demo: AI clause extraction would process uploaded contract.')" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;border-radius:3px;padding:8px 16px;font-weight:700"><i class="fas fa-wand-magic-sparkles"></i> Extract Clauses (AI)</button>
-                        <button onclick="anchorContract()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#c9a84c,#a88a3c);color:#fff;border:none;border-radius:3px;padding:8px 16px"><i class="fas fa-anchor"></i> Anchor to XRPL</button>
+                        <button onclick="anchorContract()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#c9a84c,#a88a3c);color:#fff;border:none;border-radius:3px;padding:8px 16px"><i class="fas fa-anchor"></i> Anchor to Ledger</button>
                         <button onclick="alert('Demo: Clause matrix would export.')" class="btn btn-sm hover-lift" style="background:rgba(0,170,255,0.1);color:#00aaff;border:1px solid rgba(0,170,255,0.3);border-radius:3px;padding:8px 16px"><i class="fas fa-table"></i> Export Clause Matrix</button>
                     </div>
                     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:16px">
@@ -2543,7 +2544,7 @@
                     <div id="provUploadZone" onclick="document.getElementById('provFileInput').click()" style="border:2px dashed rgba(201,168,76,0.35);border-radius:3px;padding:28px;text-align:center;cursor:pointer;margin-bottom:12px;background:rgba(201,168,76,0.04);transition:all 0.3s" ondragover="event.preventDefault();this.style.borderColor='#c9a84c'" ondragleave="this.style.borderColor='rgba(201,168,76,0.35)'"><i class="fas fa-cloud-upload-alt" style="font-size:2rem;color:#c9a84c;margin-bottom:8px;display:block"></i><div style="color:#c9a84c;font-weight:600;font-size:.9rem">Upload Custody Records / Asset Manifests</div><div style="color:var(--steel);font-size:.78rem;margin-top:4px">CSV, Excel, XML, JSON, PDF — shipping docs, DD 1149, custody logs</div><input type="file" id="provFileInput" accept=".csv,.xlsx,.xls,.xml,.json,.pdf,.txt" multiple style="display:none" /></div>
                     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:1rem">
                         <button onclick="alert('Demo: Custody transfer would be recorded.')" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#c9a84c,#a88a3c);color:#fff;border:none;border-radius:3px;padding:8px 16px;font-weight:700"><i class="fas fa-link"></i> Record Transfer</button>
-                        <button onclick="anchorChain()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;border-radius:3px;padding:8px 16px"><i class="fas fa-anchor"></i> Anchor Chain to XRPL</button>
+                        <button onclick="anchorChain()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;border-radius:3px;padding:8px 16px"><i class="fas fa-anchor"></i> Anchor Chain to Ledger</button>
                         <button onclick="alert('Demo: QR tag would be generated for this item.')" class="btn btn-sm hover-lift" style="background:rgba(201,168,76,0.1);color:#c9a84c;border:1px solid rgba(201,168,76,0.3);border-radius:3px;padding:8px 16px"><i class="fas fa-qrcode"></i> Generate QR Tag</button>
                         <button onclick="alert('Demo: Chain integrity would be verified.')" class="btn btn-sm hover-lift" style="background:rgba(0,170,255,0.1);color:#00aaff;border:1px solid rgba(0,170,255,0.3);border-radius:3px;padding:8px 16px"><i class="fas fa-shield-check"></i> Verify Chain</button>
                     </div>
@@ -2643,7 +2644,7 @@
                                 <li>Switch between programs if your organization manages multiple vessel portfolios</li>
                                 <li>Visualize the acquisition timeline on the interactive Gantt chart</li>
                                 <li>Sort, filter, search, and export to CSV or Excel for briefs</li>
-                                <li>Anchor the full plan hash to XRPL for tamper-proof verification</li>
+                                <li>Anchor the full plan hash to the Ledger for tamper-proof verification</li>
                             </ol>
                             <p><strong style="color:#c9a84c;">How S4 Ledger saves money here:</strong> Defense programs spend $200K–$800K annually maintaining ad-hoc acquisition tracking spreadsheets across dozens of stakeholders. Version conflicts, lost data, and manual Gantt chart creation waste 500+ staff-hours per cycle. S4 Ledger’s Acquisition Planner consolidates all vessel lifecycle data into one auditable grid with auto-generated Gantt timelines, direct registry imports, and multi-program switching — eliminating 60–80% of tracking labor. Programs with 50+ vessels typically recover the full platform cost within a single POM cycle.</p>
                             <p><strong style="color:#00aaff;">Production mode:</strong> Connects to eNVCR, NVSRP, and other vessel registries via file import (CSV, JSON, XML). Supabase-backed persistence ensures all edits are tracked, versioned, and available for audit. Multi-program support lets contractors and PMs manage multiple vessel portfolios from one workspace.</p>
@@ -2672,7 +2673,7 @@
                         <button class="ai-quick-btn" onclick="acqShowAuditLog()" style="background:rgba(201,168,76,0.12);border-color:rgba(201,168,76,0.25);color:#c9a84c"><i class="fas fa-history"></i> Audit Log</button>
                         <span style="flex:1"></span>
                         <input type="text" id="acqSearchInput" placeholder="Search hull, region, builder..." oninput="acqFilter(this.value)" style="background:var(--surface);border:1px solid var(--border);color:#fff;border-radius:3px;padding:6px 12px;font-size:0.82rem;width:220px;font-family:inherit;">
-                        <button onclick="anchorAcquisitionPlan()" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;border-radius:3px;padding:8px 16px;cursor:pointer;font-family:inherit;font-size:0.82rem;font-weight:600"><i class="fas fa-anchor"></i> Anchor to XRPL</button>
+                        <button onclick="anchorAcquisitionPlan()" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;border-radius:3px;padding:8px 16px;cursor:pointer;font-family:inherit;font-size:0.82rem;font-weight:600"><i class="fas fa-anchor"></i> Anchor to Ledger</button>
                     </div>
 
                     <!-- Bulk Actions Bar (hidden by default) -->
@@ -2756,7 +2757,7 @@
                                 <li>View the interactive Gantt chart with diamond milestone markers</li>
                                 <li>Edit vessel types per program via the Vessel Type Editor</li>
                                 <li>AI auto-update: when comms mention date changes, milestones update automatically</li>
-                                <li>Anchor milestone data to XRPL for tamper-proof verification</li>
+                                <li>Anchor milestone data to the Ledger for tamper-proof verification</li>
                             </ol>
                             <p><strong style="color:#c9a84c;">How S4 Ledger saves money here:</strong> Defense shipbuilding programs spend significant resources manually tracking milestone dates across dozens of contractors and stakeholders. Version conflicts, missed OWLD alerts, and manual Gantt creation waste thousands of staff-hours. S4 Ledger consolidates all milestone data with AI-powered auto-updates from communications, ensuring PMs are always working with current data.</p>
                         </div>
@@ -2775,6 +2776,7 @@
                         <button class="ai-quick-btn" onclick="milAddRow()" style="background:rgba(168,85,247,0.2);border-color:rgba(168,85,247,0.4);color:#a855f7;font-weight:700"><i class="fas fa-plus"></i> Add Milestone</button>
                         <button class="ai-quick-btn" onclick="milShowVesselTypeEditor()"><i class="fas fa-ship"></i> Vessel Types</button>
                         <button class="ai-quick-btn" onclick="milImportCSV()"><i class="fas fa-upload"></i> Import CSV</button>
+                        <button class="ai-quick-btn" onclick="milUploadPPTX()" style="background:rgba(168,85,247,0.12);border-color:rgba(168,85,247,0.25);color:#a855f7"><i class="fas fa-file-powerpoint"></i> Upload Brief</button>
                         <button class="ai-quick-btn" onclick="milExportCSV()"><i class="fas fa-download"></i> Export CSV</button>
                         <button class="ai-quick-btn" onclick="milExportXLSX()"><i class="fas fa-file-excel"></i> Export Excel</button>
                         <button class="ai-quick-btn" onclick="milToggleView('gantt')" style="background:rgba(168,85,247,0.15);border-color:rgba(168,85,247,0.3);color:#a855f7"><i class="fas fa-chart-gantt"></i> Gantt Chart</button>
@@ -2783,7 +2785,7 @@
                         <button class="ai-quick-btn" onclick="milShowAuditLog()" style="background:rgba(201,168,76,0.12);border-color:rgba(201,168,76,0.25);color:#c9a84c"><i class="fas fa-history"></i> Audit Log</button>
                         <span style="flex:1"></span>
                         <input type="text" id="milSearchInput" placeholder="Search hull, builder, program..." oninput="milFilter(this.value)" style="background:var(--surface);border:1px solid var(--border);color:#fff;border-radius:3px;padding:6px 12px;font-size:0.82rem;width:220px;font-family:inherit;">
-                        <button onclick="anchorMilestones()" style="background:linear-gradient(135deg,#a855f7,#7c3aed);color:#fff;border:none;border-radius:3px;padding:8px 16px;cursor:pointer;font-family:inherit;font-size:0.82rem;font-weight:600"><i class="fas fa-anchor"></i> Anchor to XRPL</button>
+                        <button onclick="anchorMilestones()" style="background:linear-gradient(135deg,#a855f7,#7c3aed);color:#fff;border:none;border-radius:3px;padding:8px 16px;cursor:pointer;font-family:inherit;font-size:0.82rem;font-weight:600"><i class="fas fa-anchor"></i> Anchor to Ledger</button>
                     </div>
 
                     <!-- Bulk Actions Bar -->
@@ -2810,7 +2812,7 @@
                         <div class="stat-mini"><div class="stat-mini-val" id="milStatOnTrack" style="color:#4ecb71">0</div><div class="stat-mini-lbl">On Track</div></div>
                         <div class="stat-mini"><div class="stat-mini-val" id="milStatAtRisk" style="color:#c9a84c">0</div><div class="stat-mini-lbl">At Risk</div></div>
                         <div class="stat-mini"><div class="stat-mini-val" id="milStatDelayed" style="color:#ff4444">0</div><div class="stat-mini-lbl">Delayed</div></div>
-                        <div class="stat-mini"><div class="stat-mini-val" id="milStatOWLD" style="color:#c9a84c">0d</div><div class="stat-mini-lbl">Avg OWLD</div></div>
+                        <div class="stat-mini"><div class="stat-mini-val" id="milStatAvgBehind" style="color:#c9a84c">0d</div><div class="stat-mini-lbl">Avg Days Behind</div></div>
                     </div>
 
                     <!-- Data Grid -->
@@ -3048,7 +3050,7 @@
 <div id="anchorOverlay" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.6);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);align-items:center;justify-content:center" onclick="if(event.target===this)hideAnchorAnimation()">
     <div id="s4ResultPopup" style="background:linear-gradient(135deg,rgba(12,16,28,0.98),rgba(18,22,38,0.98));border:1px solid rgba(0,170,255,0.25);border-radius:6px;padding:2rem 2.5rem;max-width:460px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,0.5),0 0 40px rgba(0,170,255,0.08);position:relative;">
         <button onclick="hideAnchorAnimation()" style="position:absolute;top:10px;right:14px;background:none;border:none;color:var(--muted);font-size:1.3rem;cursor:pointer;line-height:1">&times;</button>
-        <div id="animStatus" style="font-size:1.05rem;font-weight:700;color:#fff;margin-bottom:0.8rem;display:flex;align-items:center;gap:8px"><i class="fas fa-spinner fa-spin" style="color:#00aaff"></i> Anchoring to XRPL...</div>
+        <div id="animStatus" style="font-size:1.05rem;font-weight:700;color:#fff;margin-bottom:0.8rem;display:flex;align-items:center;gap:8px"><i class="fas fa-spinner fa-spin" style="color:#00aaff"></i> Anchoring to Ledger...</div>
         <div id="animHash" style="font-family:monospace;font-size:0.72rem;color:var(--muted);word-break:break-all;background:rgba(255,255,255,0.03);padding:8px 10px;border-radius:3px;margin-bottom:0.6rem"></div>
         <div id="animClf" style="margin-bottom:0.6rem"></div>
         <div id="animFee" style="font-size:0.82rem;color:var(--gold)">0.01 Credits &rarr; Treasury</div>

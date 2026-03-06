@@ -1021,7 +1021,7 @@ async function anchorRecord() {
     panel.classList.add('show');
     updateTxLog();
     btn.disabled = false;
-    btn.innerHTML = '<i class="fas fa-anchor"></i> Anchor to XRPL';
+    btn.innerHTML = '<i class="fas fa-anchor"></i> Anchor to Ledger';
     // Auto-refresh metrics after anchor
     if (typeof loadPerformanceMetrics === 'function') try { loadPerformanceMetrics(); } catch(e) {}
     // Update Verify tab's recently anchored panel

@@ -296,12 +296,24 @@
         var atRisk = statusCounts['At Risk'] || 0;
         var delayed = statusCounts['Delayed'] || 0;
         var complete = statusCounts['Complete'] || 0;
-        var avgOWLD = '';
-        var owldDates = data.map(function(r){ return r.owld_date; }).filter(function(d){ return d; });
-        if (owldDates.length) {
-            var nextOwld = owldDates.filter(function(d){ return new Date(d) > new Date(); }).sort();
-            avgOWLD = nextOwld.length ? _fmtDate(nextOwld[0]) : _fmtDate(owldDates.sort().pop());
-        }
+        var nextMilestone = '';
+        var milDateKeys = ['construction_start_date','launch_date','builders_trials_date','acceptance_trials_date','contract_delivery_date','planned_delivery_date','pm_estimated_delivery','sail_away_date','arrival_date'];
+        var now = new Date();
+        var nearestDate = null;
+        var nearestLabel = '';
+        data.forEach(function(r) {
+            if (r.delivery_status === 'Complete' || r.delivery_status === 'Cancelled') return;
+            milDateKeys.forEach(function(k) {
+                if (!r[k]) return;
+                var d = new Date(r[k]);
+                if (isNaN(d.getTime()) || d <= now) return;
+                if (!nearestDate || d < nearestDate) {
+                    nearestDate = d;
+                    nearestLabel = (r.hull_number || r.vessel_type || '?') + ' — ' + _fmtDate(r[k]);
+                }
+            });
+        });
+        nextMilestone = nearestLabel || '—';
         var activeData = data.filter(function(r){ return r.delivery_status !== 'Complete' && r.delivery_status !== 'Cancelled'; });
         var programs = {};
         data.forEach(function(r) { programs[r.program_name] = true; });
@@ -312,7 +324,7 @@
         html += '<div class="stat-mini" style="text-align:center"><div class="stat-mini-val" style="color:#4ecb71;font-size:1.4rem">' + onTrack + '</div><div class="stat-mini-lbl">On Track</div></div>';
         html += '<div class="stat-mini" style="text-align:center"><div class="stat-mini-val" style="color:#c9a84c;font-size:1.4rem">' + atRisk + '</div><div class="stat-mini-lbl">At Risk</div></div>';
         html += '<div class="stat-mini" style="text-align:center"><div class="stat-mini-val" style="color:#ff4444;font-size:1.4rem">' + delayed + '</div><div class="stat-mini-lbl">Delayed</div></div>';
-        html += '<div class="stat-mini" style="text-align:center"><div class="stat-mini-val" style="color:#c9a84c;font-size:1.1rem">' + (avgOWLD || '—') + '</div><div class="stat-mini-lbl">Next OWLD</div></div>';
+        html += '<div class="stat-mini" style="text-align:center"><div class="stat-mini-val" style="color:#c9a84c;font-size:0.9rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="' + nextMilestone.replace(/"/g,'&quot;') + '">' + (nextMilestone.length > 20 ? nextMilestone.substring(0,18) + '…' : nextMilestone) + '</div><div class="stat-mini-lbl">Next Milestone</div></div>';
         html += '</div>';
 
         // Status + Program row with dropdowns
@@ -380,13 +392,22 @@
         _setTxt('milStatOnTrack', data.filter(function(r){ return r.delivery_status === 'On Track'; }).length);
         _setTxt('milStatAtRisk', data.filter(function(r){ return r.delivery_status === 'At Risk'; }).length);
         _setTxt('milStatDelayed', data.filter(function(r){ return r.delivery_status === 'Delayed'; }).length);
-        var avgOWLD = data.length ? (function(){
-            var owlds = data.map(function(r){ return r.owld_date; }).filter(function(d){ return d; });
-            if (!owlds.length) return '—';
-            var next = owlds.filter(function(d){ return new Date(d) > new Date(); }).sort();
-            return next.length ? _fmtDate(next[0]) : _fmtDate(owlds.sort().pop());
-        })() : '—';
-        _setTxt('milStatOWLD', avgOWLD);
+        var avgBehind = (function(){
+            var diffs = [];
+            data.forEach(function(r){
+                if (r.delivery_status === 'Complete' || r.delivery_status === 'Cancelled') return;
+                var planned = r.planned_delivery_date ? new Date(r.planned_delivery_date) : null;
+                var est = r.pm_estimated_delivery ? new Date(r.pm_estimated_delivery) : null;
+                if (planned && est && !isNaN(planned.getTime()) && !isNaN(est.getTime())) {
+                    var diff = Math.round((est - planned) / 86400000);
+                    if (diff > 0) diffs.push(diff);
+                }
+            });
+            if (!diffs.length) return '0d';
+            var avg = Math.round(diffs.reduce(function(a,b){ return a+b; }, 0) / diffs.length);
+            return avg + 'd';
+        })();
+        _setTxt('milStatAvgBehind', avgBehind);
     }
 
     // ============================================================
@@ -1192,5 +1213,80 @@
         }
     }
     window.anchorMilestones = anchorMilestones;
+
+    // ============================================================
+    //  PPTX BRIEF UPLOAD — Extract text, feed to AI agent
+    // ============================================================
+    function milUploadPPTX() {
+        var input = document.createElement('input');
+        input.type = 'file';
+        input.accept = '.pptx';
+        input.onchange = async function(e) {
+            var file = e.target.files[0];
+            if (!file) return;
+            if (!file.name.toLowerCase().endsWith('.pptx')) {
+                if (typeof S4 !== 'undefined' && S4.toast) S4.toast('Please select a .pptx file.', 'warning');
+                return;
+            }
+            if (typeof JSZip === 'undefined') {
+                if (typeof S4 !== 'undefined' && S4.toast) S4.toast('JSZip library not loaded. Please refresh and try again.', 'error');
+                return;
+            }
+            try {
+                if (typeof S4 !== 'undefined' && S4.toast) S4.toast('Extracting brief content...', 'info');
+                var arrayBuf = await file.arrayBuffer();
+                var zip = await JSZip.loadAsync(arrayBuf);
+                var slideTexts = [];
+                var slideFiles = Object.keys(zip.files).filter(function(f) {
+                    return /^ppt\/slides\/slide\d+\.xml$/i.test(f);
+                }).sort();
+                for (var i = 0; i < slideFiles.length; i++) {
+                    var xml = await zip.files[slideFiles[i]].async('text');
+                    var textContent = xml.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+                    if (textContent.length > 10) slideTexts.push('--- Slide ' + (i + 1) + ' ---\n' + textContent);
+                }
+                if (!slideTexts.length) {
+                    if (typeof S4 !== 'undefined' && S4.toast) S4.toast('No text content found in the PPTX file.', 'warning');
+                    return;
+                }
+                var briefText = slideTexts.join('\n\n');
+                // Show confirmation overlay
+                var overlay = document.createElement('div');
+                overlay.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.8);z-index:10001;display:flex;align-items:center;justify-content:center';
+                var modal = document.createElement('div');
+                modal.style.cssText = 'background:#0d1117;border:1px solid rgba(168,85,247,0.3);border-radius:6px;padding:24px;max-width:700px;width:90%;max-height:80vh;display:flex;flex-direction:column';
+                modal.innerHTML = '<div style="color:#a855f7;font-weight:700;font-size:1.1rem;margin-bottom:12px"><i class="fas fa-file-powerpoint" style="margin-right:8px"></i>Brief Extracted: ' + file.name + '</div>'
+                    + '<div style="color:var(--steel);font-size:0.82rem;margin-bottom:12px">' + slideFiles.length + ' slides extracted (' + briefText.length + ' characters). The AI agent will scan this content for vessel names, milestone dates, and schedule updates.</div>'
+                    + '<div style="flex:1;overflow:auto;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:3px;padding:12px;margin-bottom:16px;font-size:0.78rem;color:var(--muted);white-space:pre-wrap;max-height:300px">' + briefText.substring(0, 3000).replace(/</g, '&lt;') + (briefText.length > 3000 ? '\n\n[... truncated for preview ...]' : '') + '</div>'
+                    + '<div style="display:flex;gap:8px;justify-content:flex-end">'
+                    + '<button id="milPptxCancel" style="background:var(--surface);border:1px solid var(--border);color:var(--steel);border-radius:3px;padding:8px 20px;cursor:pointer;font-family:inherit">Cancel</button>'
+                    + '<button id="milPptxSend" style="background:linear-gradient(135deg,#a855f7,#7c3aed);color:#fff;border:none;border-radius:3px;padding:8px 20px;cursor:pointer;font-family:inherit;font-weight:600"><i class="fas fa-robot" style="margin-right:6px"></i>Send to AI Agent</button>'
+                    + '</div>';
+                overlay.appendChild(modal);
+                document.body.appendChild(overlay);
+                overlay.addEventListener('click', function(ev) { if (ev.target === overlay) overlay.remove(); });
+                modal.querySelector('#milPptxCancel').addEventListener('click', function() { overlay.remove(); });
+                modal.querySelector('#milPptxSend').addEventListener('click', function() {
+                    overlay.remove();
+                    // Send to AI agent via the chat input
+                    var prompt = 'I uploaded a program milestone briefing (PPTX). Please scan the following content and identify any vessel/hull names, milestone dates (delivery, trials, launch, sail-away, construction start), and schedule changes. Compare against current milestone data and suggest specific updates. Here is the briefing content:\n\n' + briefText.substring(0, 8000);
+                    var chatInput = document.getElementById('aiInput') || document.getElementById('chatInput');
+                    if (chatInput) {
+                        chatInput.value = prompt;
+                        var sendBtn = chatInput.parentElement.querySelector('button') || document.getElementById('aiSend');
+                        if (sendBtn) sendBtn.click();
+                    } else if (typeof window.handleAIResponse === 'function') {
+                        window.handleAIResponse(prompt);
+                    }
+                    if (typeof S4 !== 'undefined' && S4.toast) S4.toast('Brief sent to AI agent for analysis.', 'success');
+                });
+            } catch (err) {
+                console.error('PPTX parse error:', err);
+                if (typeof S4 !== 'undefined' && S4.toast) S4.toast('Error reading PPTX: ' + err.message, 'error');
+            }
+        };
+        input.click();
+    }
+    window.milUploadPPTX = milUploadPPTX;
 
 })();

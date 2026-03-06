@@ -619,7 +619,7 @@
     <!-- Anchor Button -->
     <div style="text-align:center;margin:24px 0">
         <button class="demo-btn" id="anchorBtn" disabled onclick="runAnchorDemo()">
-            <i class="fas fa-anchor"></i> Anchor to XRPL
+            <i class="fas fa-anchor"></i> Anchor to Ledger
         </button>
         <div id="anchorStatus" style="font-size:0.75rem;color:var(--muted);margin-top:8px"></div>
     </div>
@@ -2347,7 +2347,7 @@ function resetAnchorDemo() {
     
     var btn = document.getElementById('anchorBtn');
     btn.disabled = true;
-    btn.innerHTML = '<i class="fas fa-anchor"></i> Anchor to XRPL';
+    btn.innerHTML = '<i class="fas fa-anchor"></i> Anchor to Ledger';
     btn.style.background = '';
     document.getElementById('anchorStatus').textContent = '';
     document.getElementById('anchorResult').classList.remove('show');
