@@ -1946,20 +1946,13 @@ const OWNERS = {
 const COST_K = {ilsmgmt:45,maint:120,supply:250,se:80,techdata:150,training:60,manpower:35,
     compres:25,facilities:40,phst:30,design:55,ram:95,config:110,lsa:80,depot:200,cyber:65};
 
-// Format cost values: values in K → $485K or $2.2M
+// Format cost values: values in K → real dollar display
 function formatCost(costK) {
-    if (costK >= 1000) {
-        const m = costK / 1000;
-        return '$' + (m % 1 === 0 ? m.toFixed(0) : m.toFixed(1)) + 'M';
-    }
-    return '$' + costK + 'K';
+    return '$' + Math.round(costK * 1000).toLocaleString();
 }
-// Format cost values: values already in $M → $85M, $1.7B, $8.0T
+// Format cost values: values already in $M → real dollar display
 function formatCostM(valM) {
-    if (valM >= 1000000) { return '$' + (valM / 1000000).toFixed(1) + 'T'; }
-    if (valM >= 1000) { return '$' + (valM / 1000).toFixed(1) + 'B'; }
-    if (valM >= 1) { return '$' + valM.toFixed(0) + 'M'; }
-    return '$' + (valM * 1000).toFixed(0) + 'K';
+    return '$' + Math.round(valM * 1000000).toLocaleString();
 }
 
 // ── Program DRL Templates ──
@@ -5002,7 +4995,7 @@ function loadDMSMSData() {
     document.getElementById('dmsmsTotalParts').textContent = data.length;
     document.getElementById('dmsmsAtRisk').textContent = atRisk;
     document.getElementById('dmsmsResolved').textContent = resolved;
-    document.getElementById('dmsmsCost').textContent = totalCost >= 1000 ? '$' + (totalCost/1000).toFixed(1) + 'M' : '$' + totalCost + 'K';
+    document.getElementById('dmsmsCost').textContent = '$' + (totalCost * 1000).toLocaleString();
 
     const statusColors = {Active:'#00aaff','At Risk':'#ffa500',Obsolete:'#ff3333','End of Life':'#ff6666',Watch:'#ffcc00'};
     let html = '<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:0.82rem;">';
@@ -5016,7 +5009,7 @@ function loadDMSMSData() {
         html += '<td style="padding:8px;"><span style="color:' + color + ';font-weight:600;">' + d.status + '</span></td>';
         html += '<td style="padding:8px;color:' + (d.severity==='Critical'?'#ff3333':d.severity==='High'?'#00aaff':d.severity==='Medium'?'#ffcc00':d.severity==='Low'?'#66ccff':'var(--steel)') + ';">' + d.severity + '</td>';
         html += '<td style="padding:8px;color:var(--steel);">' + d.leadTime + ' wks</td>';
-        html += '<td style="padding:8px;color:' + (d.cost > 0 ? '#ffa500' : 'var(--steel)') + ';">' + (d.cost > 0 ? '$' + d.cost + 'K' : '—') + '</td>';
+        html += '<td style="padding:8px;color:' + (d.cost > 0 ? '#ffa500' : 'var(--steel)') + ';">' + (d.cost > 0 ? '$' + (d.cost * 1000).toLocaleString() : '—') + '</td>';
         html += '<td style="padding:8px;color:var(--steel);font-size:0.78rem;">' + d.alternate + '</td>';
         html += '<td style="padding:8px;color:' + (d.endOfSupport.includes('CRITICAL') ? '#ff3333' : 'var(--steel)') + ';">' + d.endOfSupport + '</td>';
         html += '</tr>';
@@ -5646,7 +5639,7 @@ function renderActionTimeline() {
         html += '<div style="font-size:0.75rem;color:var(--steel)">';
         html += '<span class="ai-tag ' + (item.severity || 'info') + '" style="font-size:0.68rem;margin-right:6px">' + (item.severity || 'info').toUpperCase() + '</span>';
         if (item.owner) html += '<span style="margin-right:8px"><i class="fas fa-user" style="margin-right:3px"></i>' + item.owner + '</span>';
-        if (item.cost) html += '<span style="color:#ffa500">$' + item.cost + 'K</span>';
+        if (item.cost) html += '<span style="color:#ffa500">$' + (item.cost * 1000).toLocaleString() + '</span>';
         html += '</div>';
         if (item.detail) html += '<div style="font-size:0.75rem;color:var(--muted);margin-top:4px;line-height:1.4">' + item.detail.substring(0, 120) + (item.detail.length > 120 ? '...' : '') + '</div>';
         html += '</div>';
@@ -5848,7 +5841,7 @@ function renderHubActions(filter) {
         html += '</div>';
         html += '<div class="ai-meta"><span class="ai-tag '+(item.severity||'info')+'">'+(item.severity||'info').toUpperCase()+'</span><span>'+(item.source||'').toUpperCase()+'</span>';
         if (item.owner) html += '<span><i class="fas fa-user" style="margin-right:3px"></i>'+item.owner+'</span>';
-        if (item.cost) html += '<span style="color:#ffa500">$'+item.cost+'K</span>';
+        if (item.cost) html += '<span style="color:#ffa500">$'+(item.cost * 1000).toLocaleString()+'</span>';
         if (item.due) html += '<span style="color:var(--accent)"><i class="fas fa-calendar-day" style="margin-right:3px"></i>'+item.due+'</span>';
         if (item.schedule) html += '<span><i class="fas fa-clock" style="margin-right:3px"></i>'+item.schedule+'</span>';
         html += '</div>';
@@ -7285,21 +7278,21 @@ function generateBudgetForecast() {
         totalNet += net; totalSavings += saved;
         html += '<tr style="border-bottom:1px solid rgba(255,255,255,0.04)">';
         html += '<td style="padding:6px 8px;color:#fff;font-weight:600">FY' + (new Date().getFullYear() + y).toString().slice(-2) + '</td>';
-        html += '<td style="padding:6px 8px;text-align:right;color:var(--steel)">$' + proc.toFixed(1) + 'M</td>';
-        html += '<td style="padding:6px 8px;text-align:right;color:var(--steel)">$' + sust.toFixed(1) + 'M</td>';
-        html += '<td style="padding:6px 8px;text-align:right;color:#ff6b6b">$' + obsol.toFixed(1) + 'M</td>';
-        html += '<td style="padding:6px 8px;text-align:right;color:#00cc88">-$' + saved.toFixed(1) + 'M</td>';
-        html += '<td style="padding:6px 8px;text-align:right;color:#fff;font-weight:600">$' + net.toFixed(1) + 'M</td>';
+        html += '<td style="padding:6px 8px;text-align:right;color:var(--steel)">$' + Math.round(proc * 1000000).toLocaleString() + '</td>';
+        html += '<td style="padding:6px 8px;text-align:right;color:var(--steel)">$' + Math.round(sust * 1000000).toLocaleString() + '</td>';
+        html += '<td style="padding:6px 8px;text-align:right;color:#ff6b6b">$' + Math.round(obsol * 1000000).toLocaleString() + '</td>';
+        html += '<td style="padding:6px 8px;text-align:right;color:#00cc88">-$' + Math.round(saved * 1000000).toLocaleString() + '</td>';
+        html += '<td style="padding:6px 8px;text-align:right;color:#fff;font-weight:600">$' + Math.round(net * 1000000).toLocaleString() + '</td>';
         html += '</tr>';
     }
     html += '<tr style="border-top:2px solid rgba(201,168,76,0.3);font-weight:700">';
     html += '<td style="padding:8px;color:#c9a84c">' + years + '-Year Total</td><td colspan="3"></td>';
-    html += '<td style="padding:8px;text-align:right;color:#00cc88">-$' + totalSavings.toFixed(1) + 'M</td>';
-    html += '<td style="padding:8px;text-align:right;color:#fff;font-size:0.88rem">$' + totalNet.toFixed(1) + 'M</td>';
+    html += '<td style="padding:8px;text-align:right;color:#00cc88">-$' + Math.round(totalSavings * 1000000).toLocaleString() + '</td>';
+    html += '<td style="padding:8px;text-align:right;color:#fff;font-size:0.88rem">$' + Math.round(totalNet * 1000000).toLocaleString() + '</td>';
     html += '</tr></tbody></table>';
     html += '<div style="margin-top:8px;font-size:0.72rem;color:var(--steel)">Forecast assumes ' + (inflationRate*100).toFixed(1) + '% annual inflation, ' + (obsolescenceGrowth*100).toFixed(1) + '% obsolescence growth, and ' + (s4Savings*100) + '% S4 automation savings. Adjust inputs in Lifecycle Cost Calculator for program-specific projections.</div>';
     out.innerHTML = html;
-    showWorkspaceNotification(years + '-year budget forecast generated — $' + totalSavings.toFixed(1) + 'M in projected savings');
+    showWorkspaceNotification(years + '-year budget forecast generated — $' + Math.round(totalSavings * 1000000).toLocaleString() + ' in projected savings');
 }
 
 // ═══════════════════════════════════════════════════════════════
@@ -7914,7 +7907,7 @@ function loadPredictiveData() {
     const accuracy = (87 + Math.random()*10).toFixed(1);
     document.getElementById('pdmPredictions').textContent = items.length;
     document.getElementById('pdmUrgent').textContent = urgent;
-    document.getElementById('pdmSavings').textContent = savings >= 1000 ? '$' + (savings/1000).toFixed(1) + 'M' : '$' + savings + 'K';
+    document.getElementById('pdmSavings').textContent = '$' + (savings * 1000).toLocaleString();
     document.getElementById('pdmAccuracy').textContent = accuracy + '%';
 
     let html = '';
@@ -7925,7 +7918,7 @@ function loadPredictiveData() {
         html += '<td style="padding:10px 8px;color:var(--steel);font-size:0.8rem;">'+it.mode+'</td>';
         html += '<td style="padding:10px 8px;text-align:center;"><div style="display:inline-block;padding:4px 10px;border-radius:3px;font-weight:700;font-size:0.82rem;background:'+confColor+'22;color:'+confColor+';border:1px solid '+confColor+'44;">'+it.confidence+'%</div></td>';
         html += '<td style="padding:10px 8px;text-align:center;color:'+(it.urgent?'#ff3b30':'var(--steel)')+';font-weight:'+(it.urgent?'700':'400')+';font-size:0.82rem;">'+it.eta+(it.urgent?' <i class="fas fa-exclamation-triangle"></i>':'')+'</td>';
-        html += '<td style="padding:10px 8px;text-align:right;color:#ff9500;font-weight:600;font-size:0.85rem;">$'+it.cost.toLocaleString()+'K</td>';
+        html += '<td style="padding:10px 8px;text-align:right;color:#ff9500;font-weight:600;font-size:0.85rem;">$'+(it.cost*1000).toLocaleString()+'</td>';
         html += '</tr>';
     });
     document.getElementById('pdmTableBody').innerHTML = html || '<tr><td colspan="5" style="text-align:center;padding:30px;color:var(--text-muted)">No predictions above confidence threshold.</td></tr>';
@@ -8335,7 +8328,7 @@ function calcLifecycle() {
     var totalOpHours = opHours * fleetSize * serviceLife;
     var costPerHour = totalOpHours > 0 ? (totalCost * 1000000) / totalOpHours : 0;
     
-    var fmt = function(n) { return n >= 1000 ? '$' + (n/1000).toFixed(1) + 'B' : '$' + n.toFixed(0) + 'M'; };
+    var fmt = function(n) { return '$' + Math.round(n * 1000000).toLocaleString(); };
     
     document.getElementById('lcTotalCost').textContent = fmt(totalCost);
     document.getElementById('lcSustCost').textContent = fmt(totalSust);
@@ -8346,7 +8339,7 @@ function calcLifecycle() {
     if (output) {
         output.innerHTML = '<div style="padding:12px;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.15);border-radius:3px;font-size:0.82rem;color:var(--steel);">' +
             '<strong style="color:#fff">Cost Breakdown:</strong><br>' +
-            'Acquisition: ' + fmt(totalAcq) + ' (' + fleetSize + ' units @ $' + acqCost + 'M each)<br>' +
+            'Acquisition: ' + fmt(totalAcq) + ' (' + fleetSize + ' units @ $' + (acqCost * 1000000).toLocaleString() + ' each)<br>' +
             'Sustainment (O&S): ' + fmt(totalSust) + ' (' + sustRate + '% annually over ' + serviceLife + ' years)<br>' +
             'DMSMS/Obsolescence: ' + fmt(dmsmsCost) + ' (est. 4% annually)<br>' +
             'Tech Refresh: ' + fmt(techRefresh) + ' (2% every 5 years)<br><br>' +

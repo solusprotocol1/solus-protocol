@@ -1599,4 +1599,52 @@ Hull Type, Hull #, Need (Replacement/Disposal/Addition/SLE/Transfer), Requestor,
 - Phase 3: POM/PB Brief Generator (auto-generated Gantt charts, pivot tables, budget exhibits, PPTX/PDF export)
 
 ---
+
+### Enhancement Round 3: Acquisition Planner Full Feature Suite + Cost Fixes
+
+**7 Enhancements Implemented (A–G):**
+1. **Status Workflow Tracker** — `status` column with 6 states (Draft → Submitted → Under Review → Approved → In Execution → Complete), color-coded badges, status filter bar in toolbar
+2. **Dashboard Summary Cards** — `#acqDashboardCards` renders KPI grid: total vessels, total cost, avg age, POM funded %, avg risk score, status breakdown, material condition breakdown
+3. **Row Detail / Expand Panel** — Expand button on each row opens full detail view with all fields, mini-Gantt progress bar, and risk score display
+4. **Bulk Actions** — Checkbox column, select-all, bulk approve/execute/complete/delete/export-selected with `#acqBulkBar` toolbar
+5. **Risk / Priority Scoring** — Auto-calculated 0–100 score based on material condition (30pts), age vs lifecycle (25pts), time pressure on needed-completion (25pts), and funding status (20pts). Color-coded display in grid and detail panel
+6. **Audit Trail / Change Log** — Every CRUD action logged with timestamp, user, action type, and details. `acqShowAuditLog()` modal overlay with filterable history per row or full log
+7. **Print / PDF Report** — `acqPrintReport()` opens clean printable report in new window with stats, risk scores, and full vessel table
+
+**Global Cost Display Fix — Removed K/B/M Suffixes:**
+- All cost values now display as real dollar amounts with `$` prefix and commas (e.g., `$2,850,000` instead of `$2,850K`)
+- `formatCost()` in engine.js: values in K → multiplied by 1000, formatted with `.toLocaleString()`
+- `formatCostM()` in engine.js: values in M → multiplied by 1,000,000, formatted with `.toLocaleString()`
+- Fixed in: DMSMS tool, Predictive Maintenance, Action Items, Budget Forecast, Lifecycle Cost Calculator, Acquisition Planner
+- Column labels updated: "Last ROH ($K)" → "Last ROH Cost", "Est Next FY ($K)" → "Est Next FY Cost", "Total Cost ($K)" → "Total Cost"
+
+**"30+ Year" → "Multi-Year" Text Fix:**
+- Updated all references in prod-app/src/index.html (5 locations) and demo-app/src/index.html (5 locations)
+- Acquisition JS header comment updated
+
+**Gantt Chart Rewrite — Scrollable Wide Layout:**
+- Fixed pixel width per month (50px) instead of percentage-based positioning
+- Horizontal scrolling container for full timeline visibility
+- Year/month ruler with grid lines
+- Milestone markers with date labels (Requested, Planned ROH, Needed By, Planned MI)
+- Lifecycle span bars and "Today" marker line
+- Per-vessel: condition badge, risk score, hull type in label column
+
+**Prod-App Demo Data Removal:**
+- `_getDemoRecords()` returns empty array in prod-app — users create or import their own data
+- Demo-app retains 6 sample vessels with real dollar values (converted from K to full dollars)
+
+**HTML Updates (both apps):**
+- Added `#acqDashboardCards` container above program switcher
+- Added `#acqBulkBar` bulk actions toolbar (hidden by default, shows on selection)
+- Added status filter bar with 6 color-coded filter buttons
+- Added Print Report and Audit Log buttons to toolbar
+- Fixed `$0K` → `$0` in stat badge
+
+**Files changed (both apps):**
+- `src/js/acquisition.js` — complete rewrite (~1130 lines prod, ~1140 lines demo)
+- `src/js/engine.js` — cost formatting fixes (~15 locations per app)
+- `src/index.html` — dashboard cards, bulk bar, status filter, print/audit buttons, 30+ year fixes, $0K fix
+
+---
 *This log is updated every session. Reference before making changes.*

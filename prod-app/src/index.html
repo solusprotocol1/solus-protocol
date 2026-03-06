@@ -923,7 +923,7 @@
                     <div class="ils-tool-card" data-category="operations" onclick="openILSTool('hub-acquisition')">
                         <span class="itc-icon"><i class="fas fa-ship" style="color:var(--accent);"></i></span>
                         <div class="itc-title">Acquisition Planner</div>
-                        <div class="itc-desc">30+ year service craft acquisition tracker — hull lifecycle, POM funding, ROH, and material condition.</div>
+                        <div class="itc-desc">Multi-year service craft acquisition tracker — hull lifecycle, POM funding, ROH, and material condition.</div>
                     </div>
 
                 </div>
@@ -2828,7 +2828,7 @@
                 </div>
             </div>
 
-            <!-- ══ HUB: ACQUISITION PLANNER — 30+ Year Service Craft Lifecycle Tracker ══ -->
+            <!-- ══ HUB: ACQUISITION PLANNER — Multi-Year Service Craft Lifecycle Tracker ══ -->
             <div class="ils-hub-panel" id="hub-acquisition">
                 <div class="s4-card">
                     <h3 style="display:flex;align-items:center;gap:8px">
@@ -2841,7 +2841,7 @@
                             <i class="fas fa-info-circle"></i> How Acquisition Planner Works
                         </summary>
                         <div style="padding:0 0 12px;color:var(--steel);font-size:0.82rem;line-height:1.6;">
-                            <p><strong style="color:#fff;">What this tool does:</strong> The Acquisition Planner replaces legacy spreadsheets for tracking 30+ year service craft and vessel acquisition lifecycles. Every hull type, hull number, POM funding status, material condition, ROH schedule, and justification is managed in a single auditable grid. Import directly from eNVCR, NVSRP, or any registry database.</p>
+                            <p><strong style="color:#fff;">What this tool does:</strong> The Acquisition Planner replaces legacy spreadsheets for tracking multi-year service craft and vessel acquisition lifecycles. Every hull type, hull number, POM funding status, material condition, ROH schedule, and justification is managed in a single auditable grid. Import directly from eNVCR, NVSRP, or any registry database.</p>
                             <p><strong style="color:#00aaff;">Step-by-step:</strong></p>
                             <ol style="margin:0 0 8px 16px;padding:0;">
                                 <li>Import existing data from eNVCR, CSV, JSON, or XML registries — or add records manually</li>
@@ -2857,7 +2857,10 @@
                         </div>
                     </details>
 
-                    <p style="color:var(--steel);font-size:0.9rem;margin-bottom:1rem">30+ year service craft/vessel acquisition lifecycle tracker. Import from eNVCR or other registries, manage hull types, POM funding, ROH schedules, and material condition across all your programs.</p>
+                    <p style="color:var(--steel);font-size:0.9rem;margin-bottom:1rem">Multi-year service craft/vessel acquisition lifecycle tracker. Import from eNVCR or other registries, manage hull types, POM funding, ROH schedules, and material condition across all your programs.</p>
+
+                    <!-- Dashboard Summary Cards -->
+                    <div id="acqDashboardCards"></div>
 
                     <!-- Program Switcher -->
                     <div id="acqProgramSwitcher" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;padding:8px 0;border-bottom:1px solid var(--border)"></div>
@@ -2872,9 +2875,31 @@
                         <button class="ai-quick-btn" onclick="acqToggleView('summary')"><i class="fas fa-chart-pie"></i> Summary</button>
                         <button class="ai-quick-btn" onclick="acqToggleView('gantt')" style="background:rgba(168,85,247,0.15);border-color:rgba(168,85,247,0.3);color:#a855f7"><i class="fas fa-chart-gantt"></i> Gantt Chart</button>
                         <button class="ai-quick-btn" onclick="acqToggleView('grid')"><i class="fas fa-table"></i> Grid</button>
+                        <button class="ai-quick-btn" onclick="acqPrintReport()" style="background:rgba(201,168,76,0.12);border-color:rgba(201,168,76,0.25);color:#c9a84c"><i class="fas fa-print"></i> Print Report</button>
+                        <button class="ai-quick-btn" onclick="acqShowAuditLog()" style="background:rgba(201,168,76,0.12);border-color:rgba(201,168,76,0.25);color:#c9a84c"><i class="fas fa-history"></i> Audit Log</button>
                         <span style="flex:1"></span>
                         <input type="text" id="acqSearchInput" placeholder="Search hull, region, builder..." oninput="acqFilter(this.value)" style="background:var(--surface);border:1px solid var(--border);color:#fff;border-radius:3px;padding:6px 12px;font-size:0.82rem;width:220px;font-family:inherit;">
                         <button onclick="anchorAcquisitionPlan()" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;border-radius:3px;padding:8px 16px;cursor:pointer;font-family:inherit;font-size:0.82rem;font-weight:600"><i class="fas fa-anchor"></i> Anchor to XRPL</button>
+                    </div>
+
+                    <!-- Bulk Actions Bar (hidden by default) -->
+                    <div id="acqBulkBar" style="display:none;align-items:center;gap:8px;padding:8px 12px;background:rgba(0,170,255,0.08);border:1px solid rgba(0,170,255,0.2);border-radius:3px;margin-bottom:12px;flex-wrap:wrap">
+                        <span id="acqBulkCount" style="color:#00aaff;font-weight:600;font-size:0.82rem">0 selected</span>
+                        <button class="ai-quick-btn" onclick="acqBulkSetStatus('Approved')" style="font-size:0.75rem;padding:4px 8px"><i class="fas fa-check"></i> Approve</button>
+                        <button class="ai-quick-btn" onclick="acqBulkSetStatus('In Execution')" style="font-size:0.75rem;padding:4px 8px"><i class="fas fa-play"></i> Execute</button>
+                        <button class="ai-quick-btn" onclick="acqBulkSetStatus('Complete')" style="font-size:0.75rem;padding:4px 8px"><i class="fas fa-flag-checkered"></i> Complete</button>
+                        <button class="ai-quick-btn" onclick="acqBulkExport()" style="font-size:0.75rem;padding:4px 8px"><i class="fas fa-download"></i> Export Selected</button>
+                        <button class="ai-quick-btn" onclick="acqBulkDelete()" style="font-size:0.75rem;padding:4px 8px;background:rgba(255,51,51,0.15);border-color:rgba(255,51,51,0.3);color:#ff3333"><i class="fas fa-trash"></i> Delete Selected</button>
+                    </div>
+
+                    <!-- Status Filter Bar -->
+                    <div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:8px">
+                        <button class="ai-quick-btn acq-status-filter-btn" data-status="Draft" onclick="acqFilterByStatus('Draft')" style="font-size:0.7rem;padding:3px 8px;background:rgba(139,148,158,0.1);border-color:rgba(139,148,158,0.2);color:#8b949e">Draft</button>
+                        <button class="ai-quick-btn acq-status-filter-btn" data-status="Submitted" onclick="acqFilterByStatus('Submitted')" style="font-size:0.7rem;padding:3px 8px;background:rgba(0,170,255,0.1);border-color:rgba(0,170,255,0.2);color:#00aaff">Submitted</button>
+                        <button class="ai-quick-btn acq-status-filter-btn" data-status="Under Review" onclick="acqFilterByStatus('Under Review')" style="font-size:0.7rem;padding:3px 8px;background:rgba(201,168,76,0.1);border-color:rgba(201,168,76,0.2);color:#c9a84c">Under Review</button>
+                        <button class="ai-quick-btn acq-status-filter-btn" data-status="Approved" onclick="acqFilterByStatus('Approved')" style="font-size:0.7rem;padding:3px 8px;background:rgba(78,203,113,0.1);border-color:rgba(78,203,113,0.2);color:#4ecb71">Approved</button>
+                        <button class="ai-quick-btn acq-status-filter-btn" data-status="In Execution" onclick="acqFilterByStatus('In Execution')" style="font-size:0.7rem;padding:3px 8px;background:rgba(168,85,247,0.1);border-color:rgba(168,85,247,0.2);color:#a855f7">In Execution</button>
+                        <button class="ai-quick-btn acq-status-filter-btn" data-status="Complete" onclick="acqFilterByStatus('Complete')" style="font-size:0.7rem;padding:3px 8px;background:rgba(0,204,136,0.1);border-color:rgba(0,204,136,0.2);color:#00cc88">Complete</button>
                     </div>
 
                     <!-- Stats Bar -->
@@ -2883,7 +2908,7 @@
                         <div class="stat-mini"><div class="stat-mini-val" id="acqStatFunded" style="color:#4ecb71">0</div><div class="stat-mini-lbl">POM Funded</div></div>
                         <div class="stat-mini"><div class="stat-mini-val" id="acqStatPending" style="color:#c9a84c">0</div><div class="stat-mini-lbl">Pending/Partial</div></div>
                         <div class="stat-mini"><div class="stat-mini-val" id="acqStatCritical" style="color:#ff4444">0</div><div class="stat-mini-lbl">Poor/Critical</div></div>
-                        <div class="stat-mini"><div class="stat-mini-val" id="acqStatCost" style="color:#c9a84c">$0K</div><div class="stat-mini-lbl">Total Cost</div></div>
+                        <div class="stat-mini"><div class="stat-mini-val" id="acqStatCost" style="color:#c9a84c">$0</div><div class="stat-mini-lbl">Total Cost</div></div>
                     </div>
 
                     <!-- Data Grid -->
