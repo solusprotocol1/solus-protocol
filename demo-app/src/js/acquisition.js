@@ -184,26 +184,46 @@
         data.forEach(function(r){ var s = r.status || 'Draft'; statusCounts[s] = (statusCounts[s]||0)+1; });
         var avgRisk = Math.round(data.reduce(function(s,r){ return s + _calculateRiskScore(r); }, 0) / totalVessels);
 
-        var html = '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:16px">';
+        var html = '<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:16px">';
         html += '<div class="stat-mini" style="text-align:center"><div class="stat-mini-val" style="color:#00aaff;font-size:1.4rem">' + totalVessels + '</div><div class="stat-mini-lbl">Total Vessels</div></div>';
         html += '<div class="stat-mini" style="text-align:center"><div class="stat-mini-val" style="color:#c9a84c;font-size:1.4rem">' + _formatDollar(totalCost) + '</div><div class="stat-mini-lbl">Total Cost</div></div>';
         html += '<div class="stat-mini" style="text-align:center"><div class="stat-mini-val" style="color:var(--steel);font-size:1.4rem">' + avgAge + ' yrs</div><div class="stat-mini-lbl">Avg Age</div></div>';
         html += '<div class="stat-mini" style="text-align:center"><div class="stat-mini-val" style="color:#4ecb71;font-size:1.4rem">' + pomPct + '%</div><div class="stat-mini-lbl">POM Funded</div></div>';
         html += '<div class="stat-mini" style="text-align:center"><div class="stat-mini-val" style="color:' + _riskColor(avgRisk) + ';font-size:1.4rem">' + avgRisk + '</div><div class="stat-mini-lbl">Avg Risk Score</div></div>';
-        // Status breakdown
-        html += '<div class="stat-mini" style="text-align:center"><div style="display:flex;gap:4px;flex-wrap:wrap;justify-content:center;margin-bottom:4px">';
+        html += '</div>';
+        // Status + Condition row as clean compact dropdowns
+        html += '<div style="display:flex;gap:10px;margin-bottom:16px">';
+        // Status breakdown dropdown
+        html += '<div class="stat-mini" style="flex:1;position:relative;cursor:pointer" onclick="this.querySelector(\'.acq-dd-panel\').style.display=this.querySelector(\'.acq-dd-panel\').style.display===\'block\'?\'none\':\'block\'">';
+        html += '<div style="display:flex;align-items:center;justify-content:space-between;padding:0 4px"><div><span style="color:#00aaff;font-weight:700;font-size:1rem">' + totalVessels + '</span> <span style="color:var(--steel);font-size:0.82rem">across ' + Object.keys(statusCounts).length + ' statuses</span></div><i class="fas fa-chevron-down" style="color:var(--muted);font-size:0.7rem"></i></div>';
+        html += '<div class="stat-mini-lbl" style="margin-top:4px">Status Breakdown</div>';
+        html += '<div class="acq-dd-panel" style="display:none;position:absolute;top:100%;left:0;right:0;z-index:50;background:#0d1117;border:1px solid rgba(255,255,255,0.15);border-radius:3px;margin-top:4px;padding:6px 0;box-shadow:0 8px 24px rgba(0,0,0,0.5)">';
         ACQ_STATUSES.forEach(function(s) {
             var cnt = statusCounts[s] || 0;
-            if (cnt > 0) html += '<span style="font-size:0.65rem;padding:1px 5px;border-radius:2px;background:' + ACQ_STATUS_COLORS[s] + '22;color:' + ACQ_STATUS_COLORS[s] + ';border:1px solid ' + ACQ_STATUS_COLORS[s] + '44">' + cnt + ' ' + s + '</span>';
+            var sc = ACQ_STATUS_COLORS[s] || '#8b949e';
+            html += '<div style="display:flex;align-items:center;justify-content:space-between;padding:5px 12px;font-size:0.8rem" onmouseover="this.style.background=\'rgba(255,255,255,0.04)\'" onmouseout="this.style.background=\'transparent\'">';
+            html += '<span style="display:flex;align-items:center;gap:8px"><span style="width:8px;height:8px;border-radius:50%;background:' + sc + ';display:inline-block"></span><span style="color:var(--steel)">' + s + '</span></span>';
+            html += '<span style="color:' + sc + ';font-weight:700">' + cnt + '</span></div>';
         });
-        html += '</div><div class="stat-mini-lbl">Status Breakdown</div></div>';
-        // Material condition breakdown
-        html += '<div class="stat-mini" style="text-align:center"><div style="display:flex;gap:4px;flex-wrap:wrap;justify-content:center;margin-bottom:4px">';
+        html += '</div></div>';
+        // Material condition dropdown
         var condColors = {Excellent:'#4ecb71',Good:'#00aaff',Fair:'#c9a84c',Poor:'#ff9500',Critical:'#ff3333',Unknown:'#555'};
-        Object.keys(condCounts).forEach(function(c) {
-            html += '<span style="font-size:0.65rem;padding:1px 5px;border-radius:2px;background:' + (condColors[c]||'#555') + '22;color:' + (condColors[c]||'#555') + '">' + condCounts[c] + ' ' + c + '</span>';
+        var condOrder = ['Excellent','Good','Fair','Poor','Critical'];
+        html += '<div class="stat-mini" style="flex:1;position:relative;cursor:pointer" onclick="this.querySelector(\'.acq-dd-panel\').style.display=this.querySelector(\'.acq-dd-panel\').style.display===\'block\'?\'none\':\'block\'">';
+        var topCond = Object.keys(condCounts).sort(function(a,b){ return condCounts[b]-condCounts[a]; })[0] || '-';
+        html += '<div style="display:flex;align-items:center;justify-content:space-between;padding:0 4px"><div><span style="color:' + (condColors[topCond]||'#555') + ';font-weight:700;font-size:1rem">' + topCond + '</span> <span style="color:var(--muted);font-size:0.82rem">most common (' + (condCounts[topCond]||0) + ')</span></div><i class="fas fa-chevron-down" style="color:var(--muted);font-size:0.7rem"></i></div>';
+        html += '<div class="stat-mini-lbl" style="margin-top:4px">Material Condition</div>';
+        html += '<div class="acq-dd-panel" style="display:none;position:absolute;top:100%;left:0;right:0;z-index:50;background:#0d1117;border:1px solid rgba(255,255,255,0.15);border-radius:3px;margin-top:4px;padding:6px 0;box-shadow:0 8px 24px rgba(0,0,0,0.5)">';
+        condOrder.forEach(function(c) {
+            var cnt = condCounts[c] || 0;
+            var cc = condColors[c] || '#555';
+            var pct = totalVessels > 0 ? Math.round(cnt / totalVessels * 100) : 0;
+            html += '<div style="padding:5px 12px;font-size:0.8rem" onmouseover="this.style.background=\'rgba(255,255,255,0.04)\'" onmouseout="this.style.background=\'transparent\'">';
+            html += '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px"><span style="display:flex;align-items:center;gap:8px"><span style="width:8px;height:8px;border-radius:50%;background:' + cc + ';display:inline-block"></span><span style="color:var(--steel)">' + c + '</span></span><span style="color:' + cc + ';font-weight:700">' + cnt + '</span></div>';
+            html += '<div style="height:3px;background:rgba(255,255,255,0.06);border-radius:2px"><div style="height:100%;width:' + pct + '%;background:' + cc + ';border-radius:2px"></div></div>';
+            html += '</div>';
         });
-        html += '</div><div class="stat-mini-lbl">Material Condition</div></div>';
+        html += '</div></div>';
         html += '</div>';
         el.innerHTML = html;
     }
@@ -887,12 +907,10 @@
             el.innerHTML = '<div style="text-align:center;padding:3rem;color:var(--muted)">No dates found in vessel records.</div>';
             return;
         }
-        var minDate = new Date(Math.min.apply(null, allDates));
         var maxDate = new Date(Math.max.apply(null, allDates));
-        var yearStart = minDate.getFullYear() - 1;
+        var yearStart = now.getFullYear();
         var yearEnd = maxDate.getFullYear() + 2;
-        if (now.getFullYear() < yearStart) yearStart = now.getFullYear() - 1;
-        if (now.getFullYear() > yearEnd) yearEnd = now.getFullYear() + 1;
+        if (yearEnd <= yearStart) yearEnd = yearStart + 3;
         var totalMonths = (yearEnd - yearStart) * 12;
 
         // Fixed pixel width per month for scrollable layout

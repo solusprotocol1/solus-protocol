@@ -1647,4 +1647,25 @@ Hull Type, Hull #, Need (Replacement/Disposal/Addition/SLE/Transfer), Requestor,
 - `src/index.html` — dashboard cards, bulk bar, status filter, print/audit buttons, 30+ year fixes, $0K fix
 
 ---
+
+### Enhancement Round 4: Dashboard Cards UX + Gantt Timeline Fix
+
+**Dashboard Cards — Status Breakdown & Material Condition Dropdowns:**
+- Replaced jumbled inline flex-wrap badges with clean click-to-expand dropdown panels
+- Status Breakdown: shows summary line ("6 across 4 statuses" + chevron), clicking reveals dropdown with each status type, colored dot, and count
+- Material Condition: shows most common condition as summary, clicking reveals dropdown with each condition, colored dot, count, and percentage progress bar
+- Top 5 KPI cards (Total Vessels, Total Cost, Avg Age, POM Funded, Avg Risk Score) now in dedicated 5-column grid row
+- Status Breakdown and Material Condition in separate flex row below for full-width dropdown space
+- Dropdown panels: dark background (#0d1117), border, shadow, hover highlights, z-index:50 for overlay
+
+**Gantt Chart — Start from Current Year:**
+- Changed `yearStart` from `minDate.getFullYear() - 1` (which pulled from 2014 due to old last_roh/last_dry_dock dates) to `now.getFullYear()`
+- Removed `minDate` variable entirely — chart now starts from current year
+- Added safety: `if (yearEnd <= yearStart) yearEnd = yearStart + 3` to ensure chart always has forward timeline
+- Historical dates (last_roh, last_dry_dock) no longer push the timeline back a decade
+
+**Files changed (both apps):**
+- `src/js/acquisition.js` — `_renderDashboardCards()` rewritten, `_renderGantt()` timeline start fix
+
+---
 *This log is updated every session. Reference before making changes.*
