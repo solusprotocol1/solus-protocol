@@ -1497,5 +1497,22 @@ Both applications visually verified in local preview (via `preview_server.py` on
 - `index.html` (root) — hero actions updated
 - `s4-about/index.html` — full tool list, demo CTA link
 
+#### Corrections (commit `c71054c`)
+- Restored root page "Explore Platform" button (was incorrectly changed to "About Us")
+- About page: added 8 missing tools to bring total to 24 tools listed
+- About page: "See a Demo" CTA now links to `/prod-app/demo.html`
+
+#### Auto-Demo + Auto-Walkthrough (commit `ac451f9`)
+- Root page "Explore Platform" now links to `/prod-app/dist/index.html?demo=1&tour=1`
+- Both apps' `_restoreDemoMode()` IIFE detects `?demo=1` URL param → auto-calls `enterDemoMode()`
+- If `?tour=1` also present → auto-starts walkthrough after 800ms delay
+- URL cleaned via `history.replaceState` after param consumption
+- Visitors clicking "Explore Platform" now land directly in the ILS Hub workspace in demo mode with the walkthrough tour auto-starting
+
+**Files changed:**
+- `index.html` (root) — Explore Platform href updated
+- `prod-app/src/js/navigation.js` — URL param handler in `_restoreDemoMode()`
+- `demo-app/src/js/navigation.js` — same URL param handler
+
 ---
 *This log is updated every session. Reference before making changes.*
