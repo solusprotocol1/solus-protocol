@@ -195,10 +195,12 @@
     function _getFilteredData() {
         var data = _acqData.slice();
 
-        // Program filter
-        if (_acqCurrentProgram && _acqCurrentProgram !== 'all') {
+        // Program filter (multi-select)
+        if (_acqSelectedPrograms !== null && _acqSelectedPrograms !== undefined) {
+            var sel = _acqSelectedPrograms;
             data = data.filter(function (r) {
-                return (r.program_name || r.custodian_activity || 'Default Program') === _acqCurrentProgram;
+                var p = r.program_name || r.custodian_activity || 'Default Program';
+                return sel.indexOf(p) >= 0;
             });
         }
 
@@ -714,6 +716,14 @@
     }
     window.acqToggleGantt = acqToggleGantt;
 
+    function _fmtDate(dateStr) {
+        if (!dateStr) return '';
+        var d = new Date(dateStr);
+        if (isNaN(d.getTime())) return dateStr;
+        var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+        return months[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
+    }
+
     function _renderGantt() {
         var el = document.getElementById('acqGanttView');
         if (!el) return;
@@ -724,129 +734,265 @@
             return;
         }
 
-        // Determine timeline range
+        // Determine timeline range from actual data
         var now = new Date();
-        var yearStart = now.getFullYear() - 2;
-        var yearEnd = now.getFullYear() + 12;
-
-        // Extract milestone dates per vessel
+        var allDates = [];
         data.forEach(function (r) {
-            // Ensure date_requested and needed_completion exist for timeline
-            if (r.needed_completion) {
-                var nc = new Date(r.needed_completion);
-                if (nc.getFullYear() > yearEnd) yearEnd = nc.getFullYear() + 1;
-            }
-            if (r.date_requested) {
-                var dr = new Date(r.date_requested);
-                if (dr.getFullYear() < yearStart) yearStart = dr.getFullYear();
-            }
+            ['date_requested','needed_completion','planned_roh','planned_mi','last_roh','last_dry_dock'].forEach(function (k) {
+                if (r[k]) { var d = new Date(r[k]); if (!isNaN(d.getTime())) allDates.push(d); }
+            });
         });
 
-        var totalYears = yearEnd - yearStart + 1;
+        if (!allDates.length) {
+            el.innerHTML = '<div style="text-align:center;padding:3rem;color:var(--muted)"><i class="fas fa-calendar-xmark" style="font-size:2rem;display:block;margin-bottom:12px;opacity:0.3"></i>No dates found in vessel records. Add date fields to visualize the timeline.</div>';
+            return;
+        }
+
+        var minDate = new Date(Math.min.apply(null, allDates));
+        var maxDate = new Date(Math.max.apply(null, allDates));
+
+        // Pad range by 1 year each side
+        var yearStart = minDate.getFullYear() - 1;
+        var yearEnd = maxDate.getFullYear() + 2;
+        // Ensure current year is visible
+        if (now.getFullYear() < yearStart) yearStart = now.getFullYear() - 1;
+        if (now.getFullYear() > yearEnd) yearEnd = now.getFullYear() + 1;
+
+        var totalMonths = (yearEnd - yearStart) * 12;
+        var timelineStart = new Date(yearStart, 0, 1);
+
+        function dateToPercent(d) {
+            if (!d || isNaN(d.getTime())) return -1;
+            var monthsFromStart = (d.getFullYear() - yearStart) * 12 + d.getMonth() + d.getDate() / 30;
+            return (monthsFromStart / totalMonths) * 100;
+        }
+
+        var labelW = 180;
         var html = '<div class="acq-gantt-wrap">';
 
-        // Header: title
-        html += '<div class="acq-gantt-header"><i class="fas fa-chart-gantt"></i> Acquisition Timeline — ' + yearStart + ' to ' + yearEnd + '</div>';
+        // Header
+        html += '<div class="acq-gantt-header"><i class="fas fa-chart-gantt"></i> Acquisition Timeline</div>';
 
         // Legend
         html += '<div class="acq-gantt-legend">';
+        html += '<span><span class="acq-gantt-dot" style="background:#4ecb71"></span> Lifecycle Span</span>';
         html += '<span><span class="acq-gantt-dot" style="background:#00aaff"></span> Date Requested</span>';
         html += '<span><span class="acq-gantt-dot" style="background:#c9a84c"></span> Planned ROH</span>';
         html += '<span><span class="acq-gantt-dot" style="background:#ff4444"></span> Needed By</span>';
-        html += '<span><span class="acq-gantt-dot" style="background:#4ecb71"></span> Lifecycle Span</span>';
         html += '<span><span class="acq-gantt-dot" style="background:#a855f7"></span> Planned MI</span>';
         html += '</div>';
 
-        // Timeline grid
-        html += '<div class="acq-gantt-grid" style="--gantt-cols:' + totalYears + '">';
-
-        // Year headers
-        html += '<div class="acq-gantt-label-col" style="border-bottom:1px solid var(--border)"><strong style="color:var(--steel);font-size:0.75rem">Vessel</strong></div>';
-        html += '<div class="acq-gantt-timeline-col" style="border-bottom:1px solid var(--border)">';
+        // Year ruler
+        html += '<div style="display:flex;border-bottom:2px solid var(--border);margin-bottom:0">';
+        html += '<div style="flex:0 0 ' + labelW + 'px;padding:4px 8px;font-size:0.7rem;color:var(--muted)"></div>';
+        html += '<div style="flex:1;position:relative;height:24px">';
         for (var y = yearStart; y <= yearEnd; y++) {
-            var isNow = y === now.getFullYear();
-            html += '<div class="acq-gantt-year' + (isNow ? ' acq-gantt-year-now' : '') + '">' + y + '</div>';
+            var yPct = ((y - yearStart) * 12 / totalMonths) * 100;
+            var isNowYear = y === now.getFullYear();
+            html += '<div style="position:absolute;left:' + yPct + '%;top:0;bottom:0;border-left:1px solid ' + (isNowYear ? 'rgba(0,170,255,0.6)' : 'rgba(255,255,255,0.08)') + ';padding-left:3px">';
+            html += '<span style="font-size:0.68rem;color:' + (isNowYear ? '#00aaff' : 'rgba(255,255,255,0.3)') + ';font-weight:' + (isNowYear ? '700' : '400') + '">' + y + '</span></div>';
         }
-        html += '</div>';
+        // "Today" marker
+        var todayPct = dateToPercent(now);
+        if (todayPct >= 0 && todayPct <= 100) {
+            html += '<div style="position:absolute;left:' + todayPct + '%;top:0;bottom:0;border-left:2px dashed rgba(0,170,255,0.5);z-index:3" title="Today: ' + _fmtDate(now.toISOString()) + '"></div>';
+        }
+        html += '</div></div>';
 
-        // Rows per vessel
-        data.forEach(function (r) {
+        // Vessel rows
+        data.forEach(function (r, idx) {
             var condCls = { Excellent: 'acq-badge-green', Good: 'acq-badge-blue', Fair: 'acq-badge-yellow', Poor: 'acq-badge-red', Critical: 'acq-badge-critical' };
-            var condBadge = r.material_condition ? '<span class="acq-badge ' + (condCls[r.material_condition] || '') + '" style="font-size:0.65rem;padding:1px 5px;margin-left:4px">' + r.material_condition + '</span>' : '';
+            var condBadge = r.material_condition ? ' <span class="acq-badge ' + (condCls[r.material_condition] || '') + '" style="font-size:0.6rem;padding:0px 4px;vertical-align:middle">' + r.material_condition + '</span>' : '';
+            var bgAlt = idx % 2 === 0 ? 'rgba(255,255,255,0.01)' : 'rgba(255,255,255,0.03)';
 
-            html += '<div class="acq-gantt-label-col"><strong>' + (r.hull_number || '—') + '</strong>' + condBadge + '</div>';
-            html += '<div class="acq-gantt-timeline-col">';
+            html += '<div style="display:flex;border-bottom:1px solid rgba(255,255,255,0.04);background:' + bgAlt + '">';
+            // Label
+            html += '<div style="flex:0 0 ' + labelW + 'px;padding:8px 8px;font-size:0.78rem;color:var(--steel);overflow:hidden;white-space:nowrap;text-overflow:ellipsis"><strong style="color:#fff">' + (r.hull_number || '—') + '</strong>' + condBadge + '</div>';
+            // Timeline
+            html += '<div style="flex:1;position:relative;min-height:36px">';
 
-            // Background year columns
+            // Year grid lines
             for (var y2 = yearStart; y2 <= yearEnd; y2++) {
+                var yPct2 = ((y2 - yearStart) * 12 / totalMonths) * 100;
                 var isNow2 = y2 === now.getFullYear();
-                html += '<div class="acq-gantt-cell' + (isNow2 ? ' acq-gantt-cell-now' : '') + '"></div>';
+                html += '<div style="position:absolute;left:' + yPct2 + '%;top:0;bottom:0;border-left:1px solid ' + (isNow2 ? 'rgba(0,170,255,0.15)' : 'rgba(255,255,255,0.03)') + '"></div>';
             }
 
-            // Overlay: lifecycle span bar
+            // Today line
+            if (todayPct >= 0 && todayPct <= 100) {
+                html += '<div style="position:absolute;left:' + todayPct + '%;top:0;bottom:0;border-left:2px dashed rgba(0,170,255,0.2);z-index:2"></div>';
+            }
+
+            // Lifecycle span bar
             if (r.date_requested && r.needed_completion) {
-                var startDate = new Date(r.date_requested);
-                var endDate = new Date(r.needed_completion);
-                var leftPct = ((startDate.getFullYear() + startDate.getMonth() / 12) - yearStart) / totalYears * 100;
-                var widthPct = ((endDate.getFullYear() + endDate.getMonth() / 12) - (startDate.getFullYear() + startDate.getMonth() / 12)) / totalYears * 100;
-                if (leftPct < 0) { widthPct += leftPct; leftPct = 0; }
-                if (widthPct > 0) {
-                    html += '<div class="acq-gantt-bar" style="left:' + leftPct + '%;width:' + widthPct + '%;background:rgba(78,203,113,0.25);border:1px solid rgba(78,203,113,0.5)" title="Lifecycle: ' + r.date_requested + ' → ' + r.needed_completion + '"></div>';
+                var startPct = dateToPercent(new Date(r.date_requested));
+                var endPct = dateToPercent(new Date(r.needed_completion));
+                if (startPct >= 0 && endPct >= 0 && endPct > startPct) {
+                    html += '<div class="acq-gantt-bar" style="left:' + startPct + '%;width:' + (endPct - startPct) + '%;background:rgba(78,203,113,0.2);border:1px solid rgba(78,203,113,0.45)" title="' + _fmtDate(r.date_requested) + ' → ' + _fmtDate(r.needed_completion) + '"></div>';
                 }
             }
 
-            // Milestone markers
-            _ganttMarker(r.date_requested, yearStart, totalYears, '#00aaff', 'Requested').forEach(function(m) { html += m; });
-            _ganttMarker(r.planned_roh, yearStart, totalYears, '#c9a84c', 'Planned ROH').forEach(function(m) { html += m; });
-            _ganttMarker(r.needed_completion, yearStart, totalYears, '#ff4444', 'Needed By').forEach(function(m) { html += m; });
-            _ganttMarker(r.planned_mi, yearStart, totalYears, '#a855f7', 'Planned MI').forEach(function(m) { html += m; });
+            // Milestone markers with date labels
+            var markers = [
+                { key: 'date_requested', color: '#00aaff', label: 'Requested' },
+                { key: 'planned_roh', color: '#c9a84c', label: 'Planned ROH' },
+                { key: 'needed_completion', color: '#ff4444', label: 'Needed By' },
+                { key: 'planned_mi', color: '#a855f7', label: 'Planned MI' }
+            ];
+            markers.forEach(function (m) {
+                if (!r[m.key]) return;
+                var d = new Date(r[m.key]);
+                var pct = dateToPercent(d);
+                if (pct < 0 || pct > 100) return;
+                var ttip = m.label + ': ' + _fmtDate(r[m.key]);
+                html += '<div class="acq-gantt-marker" style="left:' + pct + '%;background:' + m.color + '" title="' + ttip + '"></div>';
+                // Date label below marker
+                html += '<div style="position:absolute;left:' + pct + '%;top:70%;transform:translateX(-50%);font-size:0.55rem;color:' + m.color + ';white-space:nowrap;opacity:0.8;pointer-events:none">' + _fmtDate(r[m.key]) + '</div>';
+            });
 
-            html += '</div>';
+            html += '</div></div>';
         });
 
-        html += '</div></div>';
+        html += '</div>';
         el.innerHTML = html;
     }
 
-    function _ganttMarker(dateStr, yearStart, totalYears, color, label) {
-        if (!dateStr) return [];
-        var d = new Date(dateStr);
-        if (isNaN(d.getTime())) return [];
-        var pct = ((d.getFullYear() + d.getMonth() / 12) - yearStart) / totalYears * 100;
-        if (pct < 0 || pct > 100) return [];
-        return ['<div class="acq-gantt-marker" style="left:' + pct + '%;background:' + color + '" title="' + label + ': ' + dateStr + '"></div>'];
-    }
-
-    // ── Multi-Program Switcher ──────────────────────────────────────
+    // ── Multi-Program Switcher (Dropdown with multi-select + custom add) ──
     function _rebuildProgramList() {
         var progs = {};
         _acqData.forEach(function (r) {
             var p = r.program_name || r.custodian_activity || 'Default Program';
             progs[p] = true;
         });
-        _acqPrograms = ['All Programs'].concat(Object.keys(progs).sort());
+        _acqPrograms = Object.keys(progs).sort();
         _renderProgramSwitcher();
     }
 
     function _renderProgramSwitcher() {
         var el = document.getElementById('acqProgramSwitcher');
         if (!el) return;
-        var html = '';
+
+        // Build selected set
+        var selectedSet = _acqSelectedPrograms || null; // null = all
+
+        var html = '<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">';
+        html += '<label style="color:var(--steel);font-size:0.8rem;font-weight:600;white-space:nowrap"><i class="fas fa-sitemap" style="margin-right:4px"></i>Programs:</label>';
+
+        // Multi-select dropdown
+        html += '<div class="acq-prog-dropdown" style="position:relative;display:inline-block">';
+        html += '<button class="acq-prog-btn acq-prog-active" onclick="acqToggleProgramDropdown()" style="min-width:200px;text-align:left;display:flex;justify-content:space-between;align-items:center">';
+        var selLabel = !selectedSet ? 'All Programs (' + _acqPrograms.length + ')' : selectedSet.length + ' of ' + _acqPrograms.length + ' selected';
+        html += '<span>' + selLabel + '</span> <i class="fas fa-chevron-down" style="font-size:0.65rem;margin-left:8px;opacity:0.6"></i>';
+        html += '</button>';
+
+        // Dropdown panel (hidden by default)
+        html += '<div id="acqProgDropdownPanel" style="display:none;position:absolute;top:100%;left:0;z-index:100;min-width:280px;max-height:300px;overflow-y:auto;background:#0d1117;border:1px solid rgba(255,255,255,0.15);border-radius:3px;margin-top:4px;padding:8px 0;box-shadow:0 8px 24px rgba(0,0,0,0.5)">';
+
+        // "All Programs" option at top
+        html += '<label style="display:flex;align-items:center;gap:8px;padding:6px 12px;cursor:pointer;font-size:0.82rem;color:#8b949e;border-bottom:1px solid rgba(255,255,255,0.06);margin-bottom:4px">';
+        html += '<input type="checkbox" ' + (!selectedSet ? 'checked' : '') + ' onchange="acqSelectAllPrograms(this.checked)" style="accent-color:#00aaff;width:15px;height:15px"> <strong style="color:#fff">All Programs</strong></label>';
+
+        // Individual programs
         _acqPrograms.forEach(function (p) {
-            var active = (_acqCurrentProgram === 'all' && p === 'All Programs') || _acqCurrentProgram === p;
-            html += '<button class="acq-prog-btn' + (active ? ' acq-prog-active' : '') + '" onclick="acqSwitchProgram(\'' + p.replace(/'/g, "\\'") + '\')">' + p + '</button>';
+            var checked = !selectedSet || selectedSet.indexOf(p) >= 0;
+            var safeP = p.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+            html += '<label style="display:flex;align-items:center;gap:8px;padding:4px 12px;cursor:pointer;font-size:0.82rem;color:var(--steel);transition:background 0.15s" onmouseover="this.style.background=\'rgba(0,170,255,0.06)\'" onmouseout="this.style.background=\'transparent\'">';
+            html += '<input type="checkbox" ' + (checked ? 'checked' : '') + ' onchange="acqToggleProgram(\'' + safeP + '\', this.checked)" style="accent-color:#00aaff;width:15px;height:15px"> ' + p + '</label>';
         });
+
+        // "Add custom program" row
+        html += '<div style="border-top:1px solid rgba(255,255,255,0.06);margin-top:4px;padding:6px 12px">';
+        html += '<div style="display:flex;gap:6px"><input id="acqNewProgInput" type="text" placeholder="Add new program…" style="flex:1;background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.15);border-radius:3px;padding:5px 8px;font-size:0.8rem" onkeydown="if(event.key===\'Enter\')acqAddProgram()">';
+        html += '<button class="acq-prog-btn" onclick="acqAddProgram()" style="padding:4px 10px;font-size:0.78rem"><i class="fas fa-plus"></i></button></div></div>';
+        html += '</div></div>';
+
+        // Active program chips (when filtering)
+        if (selectedSet && selectedSet.length < _acqPrograms.length) {
+            selectedSet.forEach(function (p) {
+                html += '<span style="display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:3px;background:rgba(0,170,255,0.12);border:1px solid rgba(0,170,255,0.25);color:#00aaff;font-size:0.75rem;white-space:nowrap">' + p + ' <span onclick="acqToggleProgram(\'' + p.replace(/'/g, "\\'") + '\', false)" style="cursor:pointer;opacity:0.7;font-size:0.85rem">&times;</span></span>';
+            });
+        }
+
+        html += '</div>';
         el.innerHTML = html;
     }
 
-    function acqSwitchProgram(prog) {
-        _acqCurrentProgram = prog === 'All Programs' ? 'all' : prog;
+    // Track selected programs: null = all, array = specific selection
+    var _acqSelectedPrograms = null;
+
+    function acqToggleProgramDropdown() {
+        var panel = document.getElementById('acqProgDropdownPanel');
+        if (!panel) return;
+        panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+
+        // Close on outside click
+        if (panel.style.display === 'block') {
+            setTimeout(function () {
+                function closeHandler(e) {
+                    if (!panel.contains(e.target) && !e.target.closest('.acq-prog-dropdown')) {
+                        panel.style.display = 'none';
+                        document.removeEventListener('click', closeHandler);
+                    }
+                }
+                document.addEventListener('click', closeHandler);
+            }, 0);
+        }
+    }
+    window.acqToggleProgramDropdown = acqToggleProgramDropdown;
+
+    function acqSelectAllPrograms(checked) {
+        if (checked) {
+            _acqSelectedPrograms = null; // null = all
+        } else {
+            _acqSelectedPrograms = [];
+        }
+        _acqCurrentProgram = 'all';
         _renderProgramSwitcher();
         _renderAcqGrid();
         _updateAcqStats();
-        if (typeof S4 !== 'undefined' && S4.toast) S4.toast('Switched to: ' + prog, 'info');
     }
-    window.acqSwitchProgram = acqSwitchProgram;
+    window.acqSelectAllPrograms = acqSelectAllPrograms;
+
+    function acqToggleProgram(prog, checked) {
+        // If currently "all", switch to explicit selection
+        if (_acqSelectedPrograms === null) {
+            if (checked) return; // already all selected, nothing to do
+            _acqSelectedPrograms = _acqPrograms.filter(function (p) { return p !== prog; });
+        } else {
+            if (checked) {
+                if (_acqSelectedPrograms.indexOf(prog) < 0) _acqSelectedPrograms.push(prog);
+            } else {
+                _acqSelectedPrograms = _acqSelectedPrograms.filter(function (p) { return p !== prog; });
+            }
+            // If all are selected again, reset to null
+            if (_acqSelectedPrograms.length >= _acqPrograms.length) {
+                _acqSelectedPrograms = null;
+            }
+        }
+        _renderProgramSwitcher();
+        _renderAcqGrid();
+        _updateAcqStats();
+    }
+    window.acqToggleProgram = acqToggleProgram;
+
+    function acqAddProgram() {
+        var input = document.getElementById('acqNewProgInput');
+        if (!input || !input.value.trim()) return;
+        var name = input.value.trim();
+        if (_acqPrograms.indexOf(name) >= 0) {
+            if (typeof S4 !== 'undefined' && S4.toast) S4.toast('Program "' + name + '" already exists.', 'warning');
+            return;
+        }
+        _acqPrograms.push(name);
+        _acqPrograms.sort();
+        // Auto-select the new program
+        if (_acqSelectedPrograms !== null) {
+            _acqSelectedPrograms.push(name);
+        }
+        _renderProgramSwitcher();
+        if (typeof S4 !== 'undefined' && S4.toast) S4.toast('Program "' + name + '" added.', 'success');
+    }
+    window.acqAddProgram = acqAddProgram;
 
     // ── View Toggle: Grid vs Summary vs Gantt ───────────────────────
     function acqToggleView(view) {
