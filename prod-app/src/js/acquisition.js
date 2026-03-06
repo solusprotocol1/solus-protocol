@@ -966,7 +966,7 @@
 
         // Year/month ruler
         html += '<div style="display:flex">';
-        html += '<div style="flex:0 0 ' + labelW + 'px;padding:6px 8px;font-size:0.72rem;color:var(--muted);background:rgba(0,0,0,0.2);border-bottom:2px solid var(--border)">Vessel</div>';
+        html += '<div style="flex:0 0 ' + labelW + 'px;padding:6px 8px;font-size:0.72rem;color:var(--muted);background:#0d1117;border-bottom:2px solid var(--border);position:sticky;left:0;z-index:10">Vessel</div>';
         html += '<div style="width:' + totalWidth + 'px;position:relative;height:40px;background:rgba(0,0,0,0.15);border-bottom:2px solid var(--border)">';
         for (var y = yearStart; y <= yearEnd; y++) {
             var xYear = (y - yearStart) * 12 * MONTH_PX;
@@ -993,7 +993,8 @@
             var bgAlt = idx % 2 === 0 ? 'rgba(255,255,255,0.01)' : 'rgba(255,255,255,0.03)';
             html += '<div style="display:flex;min-width:' + (labelW + totalWidth) + 'px;border-bottom:1px solid rgba(255,255,255,0.04);background:' + bgAlt + '">';
             // Label column
-            html += '<div style="flex:0 0 ' + labelW + 'px;padding:10px 8px;font-size:0.8rem;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;background:rgba(0,0,0,0.1)">';
+            var stickyBg = idx % 2 === 0 ? '#0d1117' : '#111820';
+            html += '<div style="flex:0 0 ' + labelW + 'px;padding:10px 8px;font-size:0.8rem;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;background:' + stickyBg + ';position:sticky;left:0;z-index:10;border-right:1px solid rgba(255,255,255,0.06)">';
             html += '<strong style="color:#fff">' + (r.hull_number || '-') + '</strong>';
             if (r.material_condition) html += ' <span style="font-size:0.6rem;padding:1px 4px;border-radius:2px;background:' + (condCls[r.material_condition]||'#555') + '22;color:' + (condCls[r.material_condition]||'#555') + '">' + r.material_condition + '</span>';
             html += '<div style="font-size:0.65rem;color:var(--muted)">' + (r.hull_type || '') + ' | Risk: <span style="color:' + _riskColor(risk) + '">' + risk + '</span></div>';
