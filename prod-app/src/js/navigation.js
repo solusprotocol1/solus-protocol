@@ -791,6 +791,21 @@ function exitDemoMode() {
             var banner = document.getElementById('demoModeBanner');
             if (banner) banner.style.display = 'flex';
         }
+        // Auto-enter demo mode + walkthrough via URL params (?demo=1&tour=1)
+        var params = new URLSearchParams(window.location.search);
+        if (params.get('demo') === '1') {
+            // Clean URL without triggering reload
+            if (window.history.replaceState) {
+                var clean = window.location.pathname;
+                window.history.replaceState({}, '', clean);
+            }
+            enterDemoMode();
+            if (params.get('tour') === '1') {
+                setTimeout(function() {
+                    if (typeof window.startWalkthrough === 'function') window.startWalkthrough();
+                }, 800);
+            }
+        }
     }
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', check);
@@ -798,8 +813,6 @@ function exitDemoMode() {
         check();
     }
 })();
-
-// ═══ Quick Tour (lightweight guided walkthrough) ═══
 var _tourSteps = [
     { target: '#platformHub', title: 'Platform Hub', desc: 'Your command center. Select a module to begin — Anchor-S4 has 20+ defense tools.', position: 'bottom' },
     { target: '#ilsSubHub', title: 'Tool Grid', desc: 'Filter by category or search to find the right tool. Drag cards to reorder.', position: 'top' },
