@@ -439,7 +439,7 @@ var _steps = [
     },
     {
         id: 'summary', title: 'Ready to Get Started?', icon: 'fas fa-rocket', cat: 'Summary',
-        narr: 'That completes your tour of S4 Ledger \u2014 21 integrated tools purpose-built for defense logistics. Every record is permanently verified, every action is auditable, and every handoff is proven. Whether you are tracking a single part or managing an entire fleet, the platform scales with your mission. Sign in to get started.',
+        narr: 'That completes your tour of S4 Ledger \u2014 22 integrated tools purpose-built for defense logistics. Every record is permanently verified, every action is auditable, and every handoff is proven. Whether you are tracking a single part or managing an entire fleet, the platform scales with your mission. Sign in to get started.',
         mock: function() {
             return '<div class="wt-mock-welcome">'
                 + '<div class="wt-mock-logo"><i class="fas fa-rocket" style="font-size:3rem;color:var(--accent);"></i></div>'
