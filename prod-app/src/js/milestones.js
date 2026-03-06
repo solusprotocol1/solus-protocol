@@ -301,13 +301,13 @@
         data.forEach(function(r) { programs[r.program_name] = true; });
         var progCount = Object.keys(programs).length;
 
-        var html = '<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:16px">';
+        var html = '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:10px">';
         html += '<div class="stat-mini" style="text-align:center"><div class="stat-mini-val" style="color:#00aaff;font-size:1.4rem">' + total + '</div><div class="stat-mini-lbl">Total Milestones</div></div>';
         html += '<div class="stat-mini" style="text-align:center"><div class="stat-mini-val" style="color:#4ecb71;font-size:1.4rem">' + onTrack + '</div><div class="stat-mini-lbl">On Track</div></div>';
         html += '<div class="stat-mini" style="text-align:center"><div class="stat-mini-val" style="color:#c9a84c;font-size:1.4rem">' + atRisk + '</div><div class="stat-mini-lbl">At Risk</div></div>';
         html += '<div class="stat-mini" style="text-align:center"><div class="stat-mini-val" style="color:#ff4444;font-size:1.4rem">' + delayed + '</div><div class="stat-mini-lbl">Delayed</div></div>';
-        html += '<div class="stat-mini" style="text-align:center"><div class="stat-mini-val" style="color:#c9a84c;font-size:0.9rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="' + nextMilestone.replace(/"/g,'&quot;') + '">' + (nextMilestone.length > 20 ? nextMilestone.substring(0,18) + '…' : nextMilestone) + '</div><div class="stat-mini-lbl">Next Milestone</div></div>';
         html += '</div>';
+        html += '<div class="stat-mini" style="margin-bottom:16px;display:flex;align-items:center;gap:12px;padding:10px 14px"><div class="stat-mini-lbl" style="margin:0;white-space:nowrap"><i class="fas fa-calendar-check" style="color:#c9a84c;margin-right:6px"></i>Next Milestone</div><div style="color:#c9a84c;font-size:0.95rem;font-weight:600">' + nextMilestone + '</div></div>';
 
         // Status + Program row with dropdowns
         html += '<div style="display:flex;gap:10px;margin-bottom:16px">';
