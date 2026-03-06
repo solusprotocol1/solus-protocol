@@ -1455,4 +1455,47 @@ Both applications visually verified in local preview (via `preview_server.py` on
 - `src/js/navigation.js` — filterILSTools, searchILSTools, enterDemoMode, exitDemoMode, Quick Tour system
 
 ---
+
+### Session 20 — Walkthrough Overhaul, Timer Fix, UI Polish (commits `ffb5594` → `ead710b`)
+
+#### 26-Step Platform Walkthrough (commit `ffb5594`)
+- Built full 26-step guided "Watch Demo" tour covering all 20 ILS tools
+- Split-screen layout: narrator panel (left) + mock display (right)
+- Male Web Speech API voice narration with `_pickMaleVoice()`
+- Manual advance via Next button (no auto-advance)
+- Feedback drawer with thumbs up/down per step
+- Hero D1 tagline on landing page
+
+#### Walkthrough Overhaul (commit `ae3bca8`)
+- Slower pacing: manual Next advance only, removed auto-advance timers
+- Rewrote all 26 narrator texts — removed blockchain/XRPL jargon
+  - "Blockchain" → "secure verification ledger" / "digital fingerprint" / "tamper-proof verification stamp"
+- More professional tone, fixed spelling/grammar throughout
+- Removed play/pause button; Next button enables after narrator text completes
+
+#### Timer Bug Fix (commit `486fc77`)
+**Root cause:** Single shared `_wtTypeWriterTimer` variable. `onEnter` mock animations killed the narrator's active typewriter timer, stopping narrator text mid-sentence and leaving the Next button permanently disabled.
+
+**Fix:**
+- `_narrTypeWriter()` — dedicated timer (`_wtNarrTimer`), completion enables Next
+- `_mockTypeWriter()` — independent timers (`_mockTimers[]`), never touches narrator
+- `_clearAllTimers()` — clears both on step change
+- Steps 2+3 `onEnter` switched to `_mockTypeWriter` with immediate `done()`
+- Playwright regression test: `tests/e2e/walkthrough-timer.spec.js` (3 tests, all pass)
+
+#### UI Polish (commit `ead710b`)
+- **S4 Logo on walkthrough header** — replaced `fa-shield-halved` icon with `S4Ledger_logo.png` next to "S4 Ledger Platform Tour"
+- **"Explore Platform" → "See A Demo"** on both app landing pages (with play-circle icon)
+- **HIW ? popup disabled** — removed `setTimeout(showHIWModal, 300)` auto-popup on first tool visit in demo-app; ? buttons remain clickable
+- **Root page** — "Explore Platform" links to demo-app (unchanged); "See a Demo" moved to s4-about CTA section
+- **About page** — added 8 missing tools to the 20+ tools list (GFP Tracker, CDRL Validator, Contract Extractor, Provenance Chain, Cross-Program Analytics, Team Management, Anchor-S4, Verify Records); "See a Demo" CTA now links to `/prod-app/demo.html`
+
+**Files changed (both apps):**
+- `src/index.html` — walkthrough overlay logo, "See A Demo" button text
+- `src/js/walkthrough.js` — split typewriter timers, narrator/mock separation
+- `demo-app/src/js/navigation.js` — disabled HIW auto-popup
+- `index.html` (root) — hero actions updated
+- `s4-about/index.html` — full tool list, demo CTA link
+
+---
 *This log is updated every session. Reference before making changes.*
