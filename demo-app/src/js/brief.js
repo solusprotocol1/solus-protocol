@@ -1071,9 +1071,9 @@
         html += '<button class="ai-quick-btn" onclick="briefSlideLibrary()" title="Slide Library"><i class="fas fa-book"></i> Library</button>';
         html += '<button class="ai-quick-btn" onclick="briefSaveAsTemplate()" title="Save as Template"><i class="fas fa-file-export"></i></button>';
         html += '<button class="ai-quick-btn" onclick="briefAcronymGlossary()" title="Acronym Glossary"><i class="fas fa-spell-check"></i></button>';
-        html += '<button class="ai-quick-btn" onclick="briefAutoGenerate()" title="AI Auto-Brief" style="background:rgba(0,170,255,0.1);border-color:rgba(0,170,255,0.25);color:#00aaff"><i class="fas fa-magic"></i> AI</button>';
+        html += '<button class="ai-quick-btn" onclick="briefAIGenerate()" title="AI Auto-Brief" style="background:rgba(0,170,255,0.1);border-color:rgba(0,170,255,0.25);color:#00aaff"><i class="fas fa-magic"></i> AI</button>';
         html += '<button class="ai-quick-btn" onclick="briefToggleGrid()" title="Snap to Grid (' + (_snapToGrid ? 'ON' : 'OFF') + ')" style="' + (_snapToGrid ? 'color:#00cc88' : '') + '"><i class="fas fa-th"></i></button>';
-        html += '<button class="ai-quick-btn" onclick="briefToggleTheme()" title="Toggle Theme"><i class="fas ' + (_theme === 'dark' ? 'fa-sun' : 'fa-moon') + '"></i></button>';
+        html += '<button class="ai-quick-btn" onclick="briefToggleTheme()" title="Toggle Theme (' + _theme + ')"><i class="fas ' + (_theme === 'dark' ? 'fa-sun' : 'fa-moon') + '"></i></button>';
         html += '<button class="ai-quick-btn" onclick="briefToggleDodNumbering()" title="DoD Numbering (' + (_dodNumbering ? 'ON' : 'OFF') + ')" style="' + (_dodNumbering ? 'color:#ffd700' : '') + '"><i class="fas fa-list-ol"></i></button>';
         html += '<button class="ai-quick-btn" onclick="briefShowShortcuts()" title="Keyboard Shortcuts"><i class="fas fa-keyboard"></i></button>';
         html += '<button class="ai-quick-btn" onclick="briefAnalyticsPanel()" title="Analytics"><i class="fas fa-chart-pie"></i></button>';
@@ -1483,7 +1483,23 @@
     window.briefSelectElement = briefSelectElement;
 
     function briefCanvasClick(event) {
+        var canvas = document.getElementById('briefCanvas');
+        if (!canvas) return;
         if (event.target.id === 'briefCanvas' || event.target.closest('#briefCanvas') === event.target) {
+            // Annotation mode: place a mark on click
+            if (_annotationMode && _activeBrief && _activeBrief.slides[_activeSlideIdx]) {
+                var rect = canvas.getBoundingClientRect();
+                var scale = (canvas.offsetWidth > 0) ? ((_activeBrief.master || DEFAULT_MASTER).slideWidth || 960) / canvas.offsetWidth : 1;
+                var x = Math.round((event.clientX - rect.left) * scale);
+                var y = Math.round((event.clientY - rect.top) * scale);
+                var slide = _activeBrief.slides[_activeSlideIdx];
+                if (!slide.annotations) slide.annotations = [];
+                slide.annotations.push({ x: x, y: y, color: '#ff6b35', user: sessionStorage.getItem('s4_user_email') || 'Unknown', timestamp: new Date().toISOString() });
+                _isDirty = true;
+                _renderEditor();
+                _toast('Annotation placed', 'info');
+                return;
+            }
             _selectedElement = null;
             _renderEditor();
         }
@@ -3117,6 +3133,549 @@
         });
         return found;
     }
+
+    // ================================================================
+    //  SLIDE LIBRARY
+    // ================================================================
+    function briefSlideLibrary() {
+        // Load saved templates
+        var templates = [];
+        try { templates = JSON.parse(localStorage.getItem('s4_brief_templates') || '[]'); } catch (e) { templates = []; }
+        var html = '<div style="margin-bottom:12px;font-size:0.82rem;color:var(--steel)">Your saved templates and slides. Click to insert as a new brief.</div>';
+        if (templates.length) {
+            html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;max-height:300px;overflow-y:auto">';
+            templates.forEach(function (t, i) {
+                html += '<div class="stat-mini" style="cursor:pointer;padding:10px" onclick="briefLoadTemplate(' + i + ')" onmouseover="this.style.borderColor=\'#00aaff\'" onmouseout="this.style.borderColor=\'rgba(255,255,255,0.08)\'">';
+                html += '<div style="font-size:0.82rem;color:#fff;font-weight:600;margin-bottom:4px">' + _esc(t.title || 'Untitled') + '</div>';
+                html += '<div style="font-size:0.68rem;color:var(--muted)">' + (t.slides ? t.slides.length : 0) + ' slides &mdash; ' + _esc(t.brief_type || '') + '</div>';
+                html += '<div style="font-size:0.62rem;color:var(--muted)">' + (t.savedAt ? new Date(t.savedAt).toLocaleDateString() : '') + '</div>';
+                html += '<div style="margin-top:4px"><button class="ai-quick-btn" onclick="event.stopPropagation();briefDeleteTemplate(' + i + ')" style="font-size:0.62rem;padding:1px 6px;color:#ff4444"><i class="fas fa-trash"></i></button></div>';
+                html += '</div>';
+            });
+            html += '</div>';
+        } else {
+            html += '<div style="text-align:center;padding:30px;color:var(--muted);font-size:0.82rem"><i class="fas fa-book" style="font-size:2rem;display:block;margin-bottom:8px;opacity:0.3"></i>No saved templates yet.<br>Use "Save as Template" to add briefs here.</div>';
+        }
+        _showModal('Slide Library (' + templates.length + ' templates)', html);
+    }
+    window.briefSlideLibrary = briefSlideLibrary;
+
+    function briefLoadTemplate(idx) {
+        var templates = [];
+        try { templates = JSON.parse(localStorage.getItem('s4_brief_templates') || '[]'); } catch (e) { return; }
+        var t = templates[idx];
+        if (!t) return;
+        _closeModal();
+        var newBrief = {
+            id: _uid(), title: t.title + ' (from library)', brief_type: t.brief_type || 'STATUS',
+            slides: JSON.parse(JSON.stringify(t.slides || [])),
+            master: JSON.parse(JSON.stringify(t.master || DEFAULT_MASTER)),
+            program: _selectedProgram, vessel: _selectedVessel,
+            created_at: new Date().toISOString(), updated_at: new Date().toISOString(),
+            version: 1, comments: {}, edit_history: [], classification: 'UNCLASSIFIED'
+        };
+        newBrief.slides.forEach(function (s) { (s.elements || []).forEach(function (el) { el.id = _uid(); }); });
+        _briefs.push(newBrief);
+        _activeBrief = newBrief;
+        _activeSlideIdx = 0;
+        _selectedElement = null;
+        _currentView = 'editor';
+        _isDirty = true;
+        _saveBrief(newBrief, function () { _renderEditor(); _toast('Template loaded as new brief', 'success'); });
+    }
+    window.briefLoadTemplate = briefLoadTemplate;
+
+    function briefDeleteTemplate(idx) {
+        var templates = [];
+        try { templates = JSON.parse(localStorage.getItem('s4_brief_templates') || '[]'); } catch (e) { return; }
+        templates.splice(idx, 1);
+        try { localStorage.setItem('s4_brief_templates', JSON.stringify(templates)); } catch (e) { /* */ }
+        _toast('Template deleted', 'info');
+        briefSlideLibrary(); // re-render
+    }
+    window.briefDeleteTemplate = briefDeleteTemplate;
+
+    // ================================================================
+    //  ACRONYM GLOSSARY (user-facing wrapper)
+    // ================================================================
+    function briefAcronymGlossary() {
+        if (!_activeBrief) return;
+        var found = _generateGlossary(_activeBrief);
+        var keys = Object.keys(found).sort();
+        var html = '';
+        if (keys.length) {
+            html += '<div style="font-size:0.82rem;color:var(--steel);margin-bottom:10px">' + keys.length + ' acronyms detected in your brief:</div>';
+            html += '<div style="max-height:320px;overflow-y:auto">';
+            keys.forEach(function (k) {
+                html += '<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.04);font-size:0.82rem">';
+                html += '<strong style="color:#00aaff;min-width:80px">' + _esc(k) + '</strong>';
+                html += '<span style="color:var(--steel)">' + _esc(found[k]) + '</span></div>';
+            });
+            html += '</div>';
+        } else {
+            html += '<div style="text-align:center;padding:20px;color:var(--muted);font-size:0.82rem">No recognized DoD/Navy acronyms found in this brief.</div>';
+        }
+        html += '<div style="margin-top:12px;padding:8px;background:rgba(0,170,255,0.06);border-radius:4px;font-size:0.75rem;color:var(--muted)"><i class="fas fa-info-circle" style="color:#00aaff"></i> Glossary auto-scans all text elements. Add more text to detect additional acronyms.</div>';
+        _showModal('Acronym Glossary', html);
+    }
+    window.briefAcronymGlossary = briefAcronymGlossary;
+
+    // ================================================================
+    //  TOGGLE GRID
+    // ================================================================
+    function briefToggleGrid() {
+        _snapToGrid = !_snapToGrid;
+        _renderEditor();
+        _toast('Snap to Grid: ' + (_snapToGrid ? 'ON' : 'OFF'), 'info');
+    }
+    window.briefToggleGrid = briefToggleGrid;
+
+    // ================================================================
+    //  TOGGLE THEME
+    // ================================================================
+    function briefToggleTheme() {
+        if (!_activeBrief) return;
+        _theme = _theme === 'dark' ? 'light' : 'dark';
+        var master = _activeBrief.master || DEFAULT_MASTER;
+        if (_theme === 'light') {
+            master.bodyBg = '#f0f2f5';
+            master.bodyColor = '#1a1a2e';
+            master.headerBg = '#e2e4e8';
+            master.headerColor = '#000000';
+        } else {
+            master.bodyBg = '#0d1117';
+            master.bodyColor = '#c9d1d9';
+            master.headerBg = '#0a1628';
+            master.headerColor = '#ffffff';
+        }
+        _activeBrief.master = master;
+        _isDirty = true;
+        _renderEditor();
+        _toast('Theme: ' + _theme, 'info');
+    }
+    window.briefToggleTheme = briefToggleTheme;
+
+    // ================================================================
+    //  DOD NUMBERING TOGGLE
+    // ================================================================
+    function briefToggleDodNumbering() {
+        _dodNumbering = !_dodNumbering;
+        _renderEditor();
+        _toast('DoD Numbering: ' + (_dodNumbering ? 'ON' : 'OFF'), 'info');
+    }
+    window.briefToggleDodNumbering = briefToggleDodNumbering;
+
+    // ================================================================
+    //  KEYBOARD SHORTCUTS (wrapper)
+    // ================================================================
+    function briefShowShortcuts() {
+        _shortcutsHelp();
+    }
+    window.briefShowShortcuts = briefShowShortcuts;
+
+    // ================================================================
+    //  BRING TO FRONT / SEND TO BACK
+    // ================================================================
+    function briefBringToFront() {
+        if (!_activeBrief || !_selectedElement) { _toast('Select an element first', 'warning'); return; }
+        var slide = _activeBrief.slides[_activeSlideIdx];
+        if (!slide) return;
+        _pushUndo();
+        var maxZ = 1;
+        (slide.elements || []).forEach(function (el) { if ((el.zIndex || 1) > maxZ) maxZ = el.zIndex; });
+        _selectedElement.zIndex = maxZ + 1;
+        _isDirty = true;
+        _renderEditor();
+        _toast('Brought to front', 'info');
+    }
+    window.briefBringToFront = briefBringToFront;
+
+    function briefSendToBack() {
+        if (!_activeBrief || !_selectedElement) { _toast('Select an element first', 'warning'); return; }
+        _pushUndo();
+        _selectedElement.zIndex = 0;
+        _isDirty = true;
+        _renderEditor();
+        _toast('Sent to back', 'info');
+    }
+    window.briefSendToBack = briefSendToBack;
+
+    // ================================================================
+    //  SLIDE TRANSITIONS
+    // ================================================================
+    function briefSetTransition() {
+        if (!_activeBrief || !_activeBrief.slides[_activeSlideIdx]) return;
+        var current = _activeBrief.slides[_activeSlideIdx].transition || 'none';
+        var html = '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">';
+        ['none','fade','slide-left','slide-right','slide-up','zoom-in','zoom-out','dissolve','wipe'].forEach(function (t) {
+            var sel = t === current;
+            html += '<div class="stat-mini" style="cursor:pointer;padding:10px;text-align:center;border-color:' + (sel ? '#00aaff' : 'rgba(255,255,255,0.08)') + '" onclick="briefApplyTransition(\'' + t + '\')" onmouseover="this.style.borderColor=\'#00aaff\'" onmouseout="this.style.borderColor=\'' + (sel ? '#00aaff' : 'rgba(255,255,255,0.08)') + '\'">';
+            html += '<i class="fas ' + ({none:'fa-ban',fade:'fa-adjust','slide-left':'fa-arrow-left','slide-right':'fa-arrow-right','slide-up':'fa-arrow-up','zoom-in':'fa-search-plus','zoom-out':'fa-search-minus',dissolve:'fa-water',wipe:'fa-eraser'}[t] || 'fa-film') + '" style="font-size:1.1rem;color:' + (sel ? '#00aaff' : '#8b949e') + ';display:block;margin-bottom:4px"></i>';
+            html += '<div style="font-size:0.75rem;color:' + (sel ? '#fff' : 'var(--muted)') + '">' + t.replace('-', ' ') + '</div></div>';
+        });
+        html += '</div>';
+        _showModal('Slide Transition', html);
+    }
+    window.briefSetTransition = briefSetTransition;
+
+    function briefApplyTransition(t) {
+        if (!_activeBrief || !_activeBrief.slides[_activeSlideIdx]) return;
+        _activeBrief.slides[_activeSlideIdx].transition = t;
+        _isDirty = true;
+        _closeModal();
+        _renderEditor();
+        _toast('Transition: ' + t, 'info');
+    }
+    window.briefApplyTransition = briefApplyTransition;
+
+    // ================================================================
+    //  DRAG-AND-DROP (Canvas mouse handlers)
+    // ================================================================
+    function briefCanvasMouseDown(event) {
+        if (!_activeBrief || !_selectedElement) return;
+        if (_annotationMode) return; // annotation clicks handled by briefCanvasClick
+        var canvas = document.getElementById('briefCanvas');
+        if (!canvas) return;
+        var rect = canvas.getBoundingClientRect();
+        var scale = (canvas.offsetWidth > 0) ? ((_activeBrief.master || DEFAULT_MASTER).slideWidth || 960) / canvas.offsetWidth : 1;
+        _dragState = {
+            startX: (event.clientX - rect.left) * scale,
+            startY: (event.clientY - rect.top) * scale,
+            origX: _selectedElement.x,
+            origY: _selectedElement.y,
+            dragging: false
+        };
+    }
+    window.briefCanvasMouseDown = briefCanvasMouseDown;
+
+    function briefCanvasMouseMove(event) {
+        if (!_dragState || !_selectedElement) return;
+        var canvas = document.getElementById('briefCanvas');
+        if (!canvas) return;
+        var rect = canvas.getBoundingClientRect();
+        var scale = (canvas.offsetWidth > 0) ? ((_activeBrief.master || DEFAULT_MASTER).slideWidth || 960) / canvas.offsetWidth : 1;
+        var curX = (event.clientX - rect.left) * scale;
+        var curY = (event.clientY - rect.top) * scale;
+        var dx = curX - _dragState.startX;
+        var dy = curY - _dragState.startY;
+        if (!_dragState.dragging && (Math.abs(dx) > 3 || Math.abs(dy) > 3)) {
+            _dragState.dragging = true;
+            _pushUndo();
+        }
+        if (_dragState.dragging) {
+            var newX = _dragState.origX + dx;
+            var newY = _dragState.origY + dy;
+            if (_snapToGrid) {
+                newX = Math.round(newX / _gridSize) * _gridSize;
+                newY = Math.round(newY / _gridSize) * _gridSize;
+            }
+            _selectedElement.x = Math.max(0, newX);
+            _selectedElement.y = Math.max(0, newY);
+            // Live update the DOM element position
+            var elDom = document.querySelector('[data-eid="' + _selectedElement.id + '"]');
+            if (elDom) {
+                elDom.style.left = _selectedElement.x + 'px';
+                elDom.style.top = _selectedElement.y + 'px';
+            }
+        }
+    }
+    window.briefCanvasMouseMove = briefCanvasMouseMove;
+
+    function briefCanvasMouseUp(event) {
+        if (_dragState && _dragState.dragging) {
+            _isDirty = true;
+            // Full re-render to sync state
+            _renderEditor();
+        }
+        _dragState = null;
+    }
+    window.briefCanvasMouseUp = briefCanvasMouseUp;
+
+    // ================================================================
+    //  EDIT TABLE (double-click)
+    // ================================================================
+    function briefEditTable(eid) {
+        if (!_activeBrief || !_activeBrief.slides[_activeSlideIdx]) return;
+        var slide = _activeBrief.slides[_activeSlideIdx];
+        var el = null;
+        (slide.elements || []).forEach(function (e) { if (e.id === eid) el = e; });
+        if (!el || el.type !== 'table') return;
+        var data = el.data || [];
+        var html = '<div style="margin-bottom:10px;font-size:0.82rem;color:var(--steel)">Edit table cells. Changes save automatically.</div>';
+        html += '<div style="max-height:300px;overflow:auto;margin-bottom:10px">';
+        html += '<table style="border-collapse:collapse;width:100%">';
+        data.forEach(function (row, ri) {
+            html += '<tr>';
+            (row || []).forEach(function (cell, ci) {
+                html += '<td style="padding:2px"><input value="' + _esc(cell) + '" data-r="' + ri + '" data-c="' + ci + '" class="briefTableCell" style="width:100%;background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.12);border-radius:2px;padding:4px 6px;font-size:0.8rem" onchange="briefUpdateTableCell(\'' + eid + '\',' + ri + ',' + ci + ',this.value)"></td>';
+            });
+            html += '</tr>';
+        });
+        html += '</table></div>';
+        html += '<div style="display:flex;gap:6px;flex-wrap:wrap">';
+        html += '<button class="ai-quick-btn" onclick="briefTableAddRow(\'' + eid + '\')" style="font-size:0.75rem"><i class="fas fa-plus"></i> Row</button>';
+        html += '<button class="ai-quick-btn" onclick="briefTableAddCol(\'' + eid + '\')" style="font-size:0.75rem"><i class="fas fa-plus"></i> Col</button>';
+        html += '<button class="ai-quick-btn" onclick="briefTableRemoveRow(\'' + eid + '\')" style="font-size:0.75rem;color:#ff4444"><i class="fas fa-minus"></i> Row</button>';
+        html += '<button class="ai-quick-btn" onclick="briefTableRemoveCol(\'' + eid + '\')" style="font-size:0.75rem;color:#ff4444"><i class="fas fa-minus"></i> Col</button>';
+        html += '<button class="ai-quick-btn" onclick="briefCloseModal()" style="margin-left:auto">Done</button>';
+        html += '</div>';
+        _showModal('Edit Table', html);
+    }
+    window.briefEditTable = briefEditTable;
+
+    function briefUpdateTableCell(eid, r, c, val) {
+        if (!_activeBrief) return;
+        var slide = _activeBrief.slides[_activeSlideIdx];
+        var el; (slide.elements || []).forEach(function (e) { if (e.id === eid) el = e; });
+        if (!el || !el.data || !el.data[r]) return;
+        el.data[r][c] = val;
+        _isDirty = true;
+    }
+    window.briefUpdateTableCell = briefUpdateTableCell;
+
+    function briefTableAddRow(eid) {
+        if (!_activeBrief) return;
+        var slide = _activeBrief.slides[_activeSlideIdx];
+        var el; (slide.elements || []).forEach(function (e) { if (e.id === eid) el = e; });
+        if (!el || !el.data) return;
+        _pushUndo();
+        var cols = el.data[0] ? el.data[0].length : 4;
+        var newRow = [];
+        for (var i = 0; i < cols; i++) newRow.push('');
+        el.data.push(newRow);
+        el.rows = el.data.length;
+        _isDirty = true;
+        briefEditTable(eid); // re-render modal
+    }
+    window.briefTableAddRow = briefTableAddRow;
+
+    function briefTableAddCol(eid) {
+        if (!_activeBrief) return;
+        var slide = _activeBrief.slides[_activeSlideIdx];
+        var el; (slide.elements || []).forEach(function (e) { if (e.id === eid) el = e; });
+        if (!el || !el.data) return;
+        _pushUndo();
+        el.data.forEach(function (row, ri) { row.push(ri === 0 ? 'Header' : ''); });
+        el.cols = el.data[0].length;
+        _isDirty = true;
+        briefEditTable(eid);
+    }
+    window.briefTableAddCol = briefTableAddCol;
+
+    function briefTableRemoveRow(eid) {
+        if (!_activeBrief) return;
+        var slide = _activeBrief.slides[_activeSlideIdx];
+        var el; (slide.elements || []).forEach(function (e) { if (e.id === eid) el = e; });
+        if (!el || !el.data || el.data.length <= 1) return;
+        _pushUndo();
+        el.data.pop();
+        el.rows = el.data.length;
+        _isDirty = true;
+        briefEditTable(eid);
+    }
+    window.briefTableRemoveRow = briefTableRemoveRow;
+
+    function briefTableRemoveCol(eid) {
+        if (!_activeBrief) return;
+        var slide = _activeBrief.slides[_activeSlideIdx];
+        var el; (slide.elements || []).forEach(function (e) { if (e.id === eid) el = e; });
+        if (!el || !el.data || !el.data[0] || el.data[0].length <= 1) return;
+        _pushUndo();
+        el.data.forEach(function (row) { row.pop(); });
+        el.cols = el.data[0].length;
+        _isDirty = true;
+        briefEditTable(eid);
+    }
+    window.briefTableRemoveCol = briefTableRemoveCol;
+
+    // ================================================================
+    //  EDIT CHART (double-click)
+    // ================================================================
+    function briefEditChart(eid) {
+        if (!_activeBrief || !_activeBrief.slides[_activeSlideIdx]) return;
+        var slide = _activeBrief.slides[_activeSlideIdx];
+        var el; (slide.elements || []).forEach(function (e) { if (e.id === eid) el = e; });
+        if (!el || el.type !== 'chart') return;
+        var html = '<div style="margin-bottom:10px">';
+        html += '<label style="color:var(--steel);font-size:0.82rem;display:block;margin-bottom:4px">Chart Title</label>';
+        html += '<input id="briefChartTitle" value="' + _esc(el.title || '') + '" style="width:100%;background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.15);border-radius:4px;padding:6px 10px;font-size:0.85rem;margin-bottom:8px">';
+        html += '<label style="color:var(--steel);font-size:0.82rem;display:block;margin-bottom:4px">Chart Type</label>';
+        html += '<select id="briefChartType" style="width:100%;background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.15);border-radius:4px;padding:6px 10px;font-size:0.85rem;margin-bottom:8px">';
+        ['bar','line','pie','donut','stacked','horizontal'].forEach(function (t) {
+            html += '<option value="' + t + '"' + (t === (el.chartType || 'bar') ? ' selected' : '') + '>' + t.charAt(0).toUpperCase() + t.slice(1) + '</option>';
+        });
+        html += '</select>';
+        html += '<label style="color:var(--steel);font-size:0.82rem;display:block;margin-bottom:4px">Labels (comma-separated)</label>';
+        html += '<input id="briefChartLabels" value="' + _esc((el.labels || []).join(', ')) + '" style="width:100%;background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.15);border-radius:4px;padding:6px 10px;font-size:0.85rem;margin-bottom:8px">';
+        (el.datasets || []).forEach(function (ds, di) {
+            html += '<div style="display:flex;gap:6px;margin-bottom:6px;align-items:center">';
+            html += '<input value="' + _esc(ds.label || '') + '" placeholder="Series name" class="briefChartDS" data-di="' + di + '" data-field="label" style="flex:1;background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.12);border-radius:3px;padding:4px 6px;font-size:0.8rem">';
+            html += '<input value="' + _esc((ds.values || []).join(', ')) + '" placeholder="Values" class="briefChartDS" data-di="' + di + '" data-field="values" style="flex:2;background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.12);border-radius:3px;padding:4px 6px;font-size:0.8rem">';
+            html += '<input type="color" value="' + (ds.color || '#00aaff') + '" class="briefChartDS" data-di="' + di + '" data-field="color" style="width:28px;height:28px;border:none;padding:0;cursor:pointer">';
+            html += '</div>';
+        });
+        html += '</div>';
+        html += '<div style="display:flex;justify-content:flex-end;gap:6px">';
+        html += '<button class="ai-quick-btn" onclick="briefApplyChartEdit(\'' + eid + '\')" style="background:rgba(0,204,136,0.12);color:#00cc88"><i class="fas fa-check"></i> Apply</button>';
+        html += '<button class="ai-quick-btn" onclick="briefCloseModal()">Cancel</button>';
+        html += '</div>';
+        _showModal('Edit Chart', html);
+    }
+    window.briefEditChart = briefEditChart;
+
+    function briefApplyChartEdit(eid) {
+        if (!_activeBrief) return;
+        var slide = _activeBrief.slides[_activeSlideIdx];
+        var el; (slide.elements || []).forEach(function (e) { if (e.id === eid) el = e; });
+        if (!el) return;
+        _pushUndo();
+        var titleInp = document.getElementById('briefChartTitle');
+        var typeInp = document.getElementById('briefChartType');
+        var labelsInp = document.getElementById('briefChartLabels');
+        if (titleInp) el.title = titleInp.value.trim();
+        if (typeInp) el.chartType = typeInp.value;
+        if (labelsInp) el.labels = labelsInp.value.split(',').map(function (s) { return s.trim(); }).filter(Boolean);
+        document.querySelectorAll('.briefChartDS').forEach(function (inp) {
+            var di = parseInt(inp.getAttribute('data-di'), 10);
+            var field = inp.getAttribute('data-field');
+            if (!el.datasets[di]) return;
+            if (field === 'label') el.datasets[di].label = inp.value.trim();
+            else if (field === 'values') el.datasets[di].values = inp.value.split(',').map(function (s) { return parseFloat(s.trim()) || 0; });
+            else if (field === 'color') el.datasets[di].color = inp.value;
+        });
+        _isDirty = true;
+        _closeModal();
+        _renderEditor();
+        _toast('Chart updated', 'success');
+    }
+    window.briefApplyChartEdit = briefApplyChartEdit;
+
+    // ================================================================
+    //  CYCLE STOPLIGHT (double-click)
+    // ================================================================
+    function briefCycleStoplight(eid) {
+        if (!_activeBrief || !_activeBrief.slides[_activeSlideIdx]) return;
+        var slide = _activeBrief.slides[_activeSlideIdx];
+        var el; (slide.elements || []).forEach(function (e) { if (e.id === eid) el = e; });
+        if (!el) return;
+        _pushUndo();
+        if (el.items && el.items.length) {
+            // Show picker modal for each item
+            var html = '<div style="margin-bottom:12px;font-size:0.82rem;color:var(--steel)">Click a status to cycle R/Y/G:</div>';
+            el.items.forEach(function (item, ii) {
+                var colors = { green: '#4ecb71', yellow: '#f9c846', red: '#ff4444' };
+                var clr = colors[item.status] || '#6b7280';
+                html += '<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.04)">';
+                html += '<span style="color:#fff;font-size:0.85rem">' + _esc(item.label) + '</span>';
+                html += '<div style="display:flex;gap:6px">';
+                ['green','yellow','red'].forEach(function (s) {
+                    var bg = colors[s];
+                    var isCur = item.status === s;
+                    html += '<span onclick="briefSetStoplightStatus(\'' + eid + '\',' + ii + ',\'' + s + '\')" style="width:22px;height:22px;border-radius:50%;background:' + bg + ';cursor:pointer;display:inline-block;opacity:' + (isCur ? '1' : '0.3') + ';box-shadow:' + (isCur ? '0 0 8px ' + bg : 'none') + ';border:2px solid ' + (isCur ? '#fff' : 'transparent') + '"></span>';
+                });
+                html += '</div></div>';
+            });
+            _showModal('Stoplight Status', html);
+        } else {
+            // Simple single stoplight
+            var cycle = { green: 'yellow', yellow: 'red', red: 'green' };
+            el.status = cycle[el.status] || 'green';
+            _isDirty = true;
+            _renderEditor();
+        }
+    }
+    window.briefCycleStoplight = briefCycleStoplight;
+
+    function briefSetStoplightStatus(eid, itemIdx, status) {
+        if (!_activeBrief) return;
+        var slide = _activeBrief.slides[_activeSlideIdx];
+        var el; (slide.elements || []).forEach(function (e) { if (e.id === eid) el = e; });
+        if (!el || !el.items || !el.items[itemIdx]) return;
+        el.items[itemIdx].status = status;
+        _isDirty = true;
+        _closeModal();
+        _renderEditor();
+        _toast(_esc(el.items[itemIdx].label) + ' → ' + status, 'success');
+    }
+    window.briefSetStoplightStatus = briefSetStoplightStatus;
+
+    // ================================================================
+    //  EDIT RISK MATRIX (double-click)
+    // ================================================================
+    function briefEditRiskMatrix(eid) {
+        if (!_activeBrief || !_activeBrief.slides[_activeSlideIdx]) return;
+        var slide = _activeBrief.slides[_activeSlideIdx];
+        var el; (slide.elements || []).forEach(function (e) { if (e.id === eid) el = e; });
+        if (!el || el.type !== 'risk_matrix') return;
+        var items = el.items || [];
+        var html = '<div style="margin-bottom:10px;font-size:0.82rem;color:var(--steel)">Edit risk items. Likelihood & Consequence: 1 (low) to 5 (high).</div>';
+        html += '<div style="max-height:280px;overflow-y:auto;margin-bottom:10px">';
+        items.forEach(function (item, i) {
+            html += '<div style="display:flex;gap:6px;margin-bottom:6px;align-items:center">';
+            html += '<input value="' + _esc(item.label) + '" placeholder="Risk name" class="briefRMItem" data-i="' + i + '" data-f="label" style="flex:2;background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.12);border-radius:3px;padding:4px 6px;font-size:0.8rem">';
+            html += '<input type="number" min="1" max="5" value="' + (item.likelihood || 1) + '" class="briefRMItem" data-i="' + i + '" data-f="likelihood" style="width:50px;background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.12);border-radius:3px;padding:4px 6px;font-size:0.8rem;text-align:center" title="Likelihood">';
+            html += '<input type="number" min="1" max="5" value="' + (item.consequence || 1) + '" class="briefRMItem" data-i="' + i + '" data-f="consequence" style="width:50px;background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.12);border-radius:3px;padding:4px 6px;font-size:0.8rem;text-align:center" title="Consequence">';
+            html += '<button class="ai-quick-btn" onclick="briefRMRemoveItem(\'' + eid + '\',' + i + ')" style="color:#ff4444;padding:2px 6px"><i class="fas fa-times"></i></button>';
+            html += '</div>';
+        });
+        html += '</div>';
+        html += '<div style="display:flex;justify-content:space-between">';
+        html += '<button class="ai-quick-btn" onclick="briefRMAddItem(\'' + eid + '\')" style="font-size:0.78rem"><i class="fas fa-plus"></i> Add Risk</button>';
+        html += '<div style="display:flex;gap:6px">';
+        html += '<button class="ai-quick-btn" onclick="briefApplyRiskMatrix(\'' + eid + '\')" style="background:rgba(0,204,136,0.12);color:#00cc88"><i class="fas fa-check"></i> Apply</button>';
+        html += '<button class="ai-quick-btn" onclick="briefCloseModal()">Cancel</button>';
+        html += '</div></div>';
+        _showModal('Edit Risk Matrix', html);
+    }
+    window.briefEditRiskMatrix = briefEditRiskMatrix;
+
+    function briefApplyRiskMatrix(eid) {
+        if (!_activeBrief) return;
+        var slide = _activeBrief.slides[_activeSlideIdx];
+        var el; (slide.elements || []).forEach(function (e) { if (e.id === eid) el = e; });
+        if (!el) return;
+        _pushUndo();
+        var newItems = [];
+        document.querySelectorAll('.briefRMItem[data-f="label"]').forEach(function (inp) {
+            var i = parseInt(inp.getAttribute('data-i'), 10);
+            var lk = document.querySelector('.briefRMItem[data-i="' + i + '"][data-f="likelihood"]');
+            var cq = document.querySelector('.briefRMItem[data-i="' + i + '"][data-f="consequence"]');
+            newItems.push({
+                label: inp.value.trim() || 'Risk ' + (i + 1),
+                likelihood: Math.min(5, Math.max(1, parseInt(lk ? lk.value : 1, 10) || 1)),
+                consequence: Math.min(5, Math.max(1, parseInt(cq ? cq.value : 1, 10) || 1))
+            });
+        });
+        el.items = newItems;
+        _isDirty = true;
+        _closeModal();
+        _renderEditor();
+        _toast('Risk matrix updated', 'success');
+    }
+    window.briefApplyRiskMatrix = briefApplyRiskMatrix;
+
+    function briefRMAddItem(eid) {
+        if (!_activeBrief) return;
+        var slide = _activeBrief.slides[_activeSlideIdx];
+        var el; (slide.elements || []).forEach(function (e) { if (e.id === eid) el = e; });
+        if (!el) return;
+        el.items = el.items || [];
+        el.items.push({ label: 'New Risk', likelihood: 2, consequence: 3 });
+        _isDirty = true;
+        briefEditRiskMatrix(eid); // re-render modal
+    }
+    window.briefRMAddItem = briefRMAddItem;
+
+    function briefRMRemoveItem(eid, idx) {
+        if (!_activeBrief) return;
+        var slide = _activeBrief.slides[_activeSlideIdx];
+        var el; (slide.elements || []).forEach(function (e) { if (e.id === eid) el = e; });
+        if (!el || !el.items) return;
+        el.items.splice(idx, 1);
+        _isDirty = true;
+        briefEditRiskMatrix(eid); // re-render
+    }
+    window.briefRMRemoveItem = briefRMRemoveItem;
 
     // ================================================================
     //  KEYBOARD SHORTCUTS PANEL
