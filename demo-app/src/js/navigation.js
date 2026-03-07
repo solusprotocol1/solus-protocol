@@ -828,6 +828,27 @@ function enterDemoMode() {
     if (banner) banner.style.display = 'flex';
     var aiWrap = document.getElementById('aiFloatWrapper');
     if (aiWrap) aiWrap.style.display = 'flex';
+    // Seed demo stats so the stats strip shows meaningful data on first visit
+    _seedDemoStats();
+}
+
+function _seedDemoStats() {
+    try {
+        var existing = JSON.parse(localStorage.getItem('s4_demo_stats') || 'null');
+        if (existing && existing.anchored > 0) return; // already has data
+    } catch(e) {}
+    var seed = { anchored:4, verified:3, types:['DD1149','DD250','USN_SUPPLY_RECEIPT','CONTAINER_MANIFEST'], slsFees:0.04 };
+    localStorage.setItem('s4_demo_stats', JSON.stringify(seed));
+    // Also seed a few sample tx-log records
+    var sampleRecords = [
+        { record_type:'DD1149', record_label:'DD Form 1149 (Requisition)', branch:'USN', icon:'fa-file-alt', hash:'a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2', tx_hash:'TX8A3F29C1D4E507B612F84A9D03C71E562B8F6AD09E147C3850B2D6A7F91E043C', timestamp:new Date(Date.now()-86400000*3).toISOString(), content_preview:'NAVSEA PMS 400D — DDG-51 Flight III spare parts requisition' },
+        { record_type:'DD250', record_label:'DD Form 250 (MIRR)', branch:'USN', icon:'fa-clipboard-check', hash:'b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3', tx_hash:'TX7B4E38D2C5F608A723G95B0E14D82F673C9G7BE10F258D4961C3E7B8G02F154D', timestamp:new Date(Date.now()-86400000*2).toISOString(), content_preview:'Material Inspection & Receiving Report — LCS-19 hull components' },
+        { record_type:'USN_SUPPLY_RECEIPT', record_label:'Supply Receipt', branch:'USN', icon:'fa-box-open', hash:'c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4', tx_hash:'TX6C5F47E3D6G719B834H06C1F25E93G784D0H8CF21G369E5072D4F8C9H13G265E', timestamp:new Date(Date.now()-86400000*1).toISOString(), content_preview:'CVN-78 AIMD supply receipt — APU turbine blade set' },
+        { record_type:'CONTAINER_MANIFEST', record_label:'Container Manifest', branch:'JOINT', icon:'fa-ship', hash:'d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5', tx_hash:'TX5D6G56F4E7H820C945I17D2G36F04H895E1I9DG32H470F6183E5G9D0I24H376F', timestamp:new Date(Date.now()-86400000*0.5).toISOString(), content_preview:'Joint Logistics Over-the-Shore container manifest — USNS Watkins' }
+    ];
+    localStorage.setItem('s4_anchored_records', JSON.stringify(sampleRecords));
+    // Reload stats/log after seeding (engine.js loadStats will pick these up)
+    setTimeout(function() { if (typeof loadStats === 'function') loadStats(); }, 500);
 }
 
 function exitDemoMode() {

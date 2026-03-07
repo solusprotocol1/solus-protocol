@@ -25,6 +25,42 @@ window._currentTitle = _currentTitle;
 var _customVisibleTabs = JSON.parse(sessionStorage.getItem('s4_visible_tabs') || 'null');
 window._customVisibleTabs = _customVisibleTabs;
 
+// Recommended tools per role — top 3-4 most important for each persona
+var _recommendedTools = {
+    'ils_manager': ['hub-analysis','hub-compliance','hub-actions','hub-brief'],
+    'dmsms_analyst': ['hub-dmsms','hub-risk','hub-lifecycle'],
+    'auditor': ['hub-compliance','hub-vault','hub-reports'],
+    'contracts': ['hub-contract','hub-cdrl','hub-roi'],
+    'supply_chain': ['hub-risk','hub-readiness','hub-provenance','hub-sbom'],
+    'admin': ['hub-analysis','hub-compliance','hub-brief','hub-risk']
+};
+
+// Icon map for recommended tool cards
+var _toolIcons = {'hub-analysis':'fa-chart-line','hub-dmsms':'fa-exclamation-triangle','hub-readiness':'fa-chart-line','hub-compliance':'fa-shield-halved','hub-risk':'fa-triangle-exclamation','hub-actions':'fa-tasks','hub-predictive':'fa-brain','hub-lifecycle':'fa-clock','hub-roi':'fa-dollar-sign','hub-vault':'fa-vault','hub-docs':'fa-book','hub-reports':'fa-file-alt','hub-submissions':'fa-paper-plane','hub-sbom':'fa-microchip','hub-gfp':'fa-boxes-stacked','hub-cdrl':'fa-clipboard-check','hub-contract':'fa-file-contract','hub-provenance':'fa-link','hub-analytics':'fa-chart-pie','hub-team':'fa-users-gear','hub-acquisition':'fa-ship','hub-milestones':'fa-flag-checkered','hub-brief':'fa-briefcase'};
+
+function showRecommendedTools() {
+    var row = document.getElementById('recommendedToolsRow');
+    var grid = document.getElementById('recommendedToolsGrid');
+    if (!row || !grid) return;
+    var recs = _recommendedTools[_currentRole];
+    if (!recs || !recs.length) { row.style.display = 'none'; return; }
+    grid.innerHTML = '';
+    for (var i = 0; i < recs.length; i++) {
+        var toolId = recs[i];
+        var label = _allHubLabels[toolId] || toolId;
+        var icon = _toolIcons[toolId] || 'fa-wrench';
+        var card = document.createElement('div');
+        card.style.cssText = 'background:linear-gradient(135deg,rgba(201,168,76,0.08),rgba(201,168,76,0.02));border:1px solid rgba(201,168,76,0.2);border-radius:3px;padding:14px 16px;cursor:pointer;transition:all 0.25s;display:flex;align-items:center;gap:10px;';
+        card.setAttribute('data-tool', toolId);
+        card.onmouseover = function(){ this.style.borderColor='rgba(201,168,76,0.45)';this.style.transform='translateY(-1px)'; };
+        card.onmouseout = function(){ this.style.borderColor='rgba(201,168,76,0.2)';this.style.transform='translateY(0)'; };
+        card.onclick = (function(id){ return function(){ if(typeof openILSTool==='function') openILSTool(id); }; })(toolId);
+        card.innerHTML = '<i class="fas '+icon+'" style="color:#c9a84c;font-size:0.9rem;flex-shrink:0;"></i><span style="color:#fff;font-size:0.82rem;font-weight:600;">'+label+'</span>';
+        grid.appendChild(card);
+    }
+    row.style.display = 'block';
+}
+
 function showRoleSelector() {
     // Remove any existing modal first
     var existing = document.getElementById('roleModal');
@@ -187,6 +223,7 @@ function applyRole() {
     var aiWrap = document.getElementById('aiFloatWrapper');
     if (aiWrap) aiWrap.style.display = 'flex';
     if (typeof s4Notify === 'function') s4Notify('Role Applied', (title || _s4Roles[_currentRole]?.label || 'Custom') + ' — ' + visibleTabs.length + ' tools active', 'success');
+    showRecommendedTools();
 }
 
 function applyTabVisibility(visibleTabs) {
@@ -237,6 +274,7 @@ function initRoleSystem() {
         if (typeof reloadVaultForRole === 'function') reloadVaultForRole();
     }
     updateRoleBadge();
+    showRecommendedTools();
     // Show role selector if user is inside the platform but has no role set
     if (!_currentRole) {
         setTimeout(function() {
