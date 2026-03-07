@@ -409,6 +409,7 @@ function resetDemoSession() {
     localStorage.removeItem('s4_uploaded_docs');
     localStorage.removeItem('s4_doc_versions');
     localStorage.removeItem('s4_doc_notifications');
+    localStorage.removeItem('s4_getting_started_dismissed');
     // Clear role from sessionStorage (session-scoped)
     sessionStorage.removeItem('s4_user_role');
     sessionStorage.removeItem('s4_user_title');

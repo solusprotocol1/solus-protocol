@@ -173,55 +173,61 @@
         if (_cssInjected) return;
         _cssInjected = true;
         var css = '';
+        // Design token aliases (reference global :root vars)
+        var a = 'var(--accent,#00aaff)';
+        var bdr = 'var(--border,rgba(255,255,255,0.06))';
+        var tp = 'var(--text-primary,#f0f0f5)';
+        var ts = 'var(--text-secondary,#8b8fa3)';
+        var tm = 'var(--text-muted,#5a5e72)';
         // Animations
         css += '@keyframes briefFadeIn{from{opacity:0}to{opacity:1}}';
         css += '@keyframes briefSlideUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}';
         css += '@keyframes briefPulse{0%,100%{box-shadow:0 0 0 0 rgba(0,170,255,0.3)}50%{box-shadow:0 0 0 6px rgba(0,170,255,0)}}';
         css += '@keyframes briefGlow{0%,100%{opacity:0.6}50%{opacity:1}}';
         // Left sidebar
-        css += '.brief-sidebar{width:52px;min-width:52px;background:rgba(10,14,26,0.9);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-right:1px solid rgba(255,255,255,0.06);display:flex;flex-direction:column;align-items:center;padding:8px 0;gap:2px;overflow-y:auto;overflow-x:hidden}';
-        css += '.brief-sidebar-btn{width:40px;height:40px;display:flex;align-items:center;justify-content:center;border:none;background:transparent;color:#6e7681;cursor:pointer;border-radius:10px;font-size:0.88rem;transition:all 0.2s;position:relative}';
-        css += '.brief-sidebar-btn:hover{background:rgba(255,255,255,0.08);color:#e6edf3;transform:scale(1.08)}';
-        css += '.brief-sidebar-btn.active{background:linear-gradient(135deg,rgba(0,170,255,0.2),rgba(168,85,247,0.15));color:#00aaff;box-shadow:0 0 16px rgba(0,170,255,0.15)}';
-        css += '.brief-sidebar-divider{width:28px;height:1px;background:rgba(255,255,255,0.06);margin:6px 0}';
-        css += '.brief-sidebar-label{font-size:0.5rem;color:#484f58;text-transform:uppercase;letter-spacing:1px;margin-top:2px;text-align:center;line-height:1}';
+        css += '.brief-sidebar{width:52px;min-width:52px;background:rgba(10,14,26,0.9);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-right:1px solid ' + bdr + ';display:flex;flex-direction:column;align-items:center;padding:8px 0;gap:2px;overflow-y:auto;overflow-x:hidden}';
+        css += '.brief-sidebar-btn{width:40px;height:40px;display:flex;align-items:center;justify-content:center;border:none;background:transparent;color:' + tm + ';cursor:pointer;border-radius:10px;font-size:0.88rem;transition:all 0.2s;position:relative}';
+        css += '.brief-sidebar-btn:hover{background:rgba(255,255,255,0.08);color:' + tp + ';transform:scale(1.08)}';
+        css += '.brief-sidebar-btn.active{background:linear-gradient(135deg,rgba(0,170,255,0.2),rgba(168,85,247,0.15));color:' + a + ';box-shadow:0 0 16px rgba(0,170,255,0.15)}';
+        css += '.brief-sidebar-divider{width:28px;height:1px;background:' + bdr + ';margin:6px 0}';
+        css += '.brief-sidebar-label{font-size:0.5rem;color:' + tm + ';text-transform:uppercase;letter-spacing:1px;margin-top:2px;text-align:center;line-height:1}';
         // Slide panel
         css += '.brief-slide-panel{width:180px;min-width:180px;background:rgba(13,17,23,0.6);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-right:1px solid rgba(255,255,255,0.05);overflow-y:auto;padding:12px 10px}';
         css += '.brief-thumb{position:relative;cursor:pointer;margin-bottom:10px;border:2px solid rgba(255,255,255,0.05);border-radius:10px;overflow:hidden;transition:all 0.25s;background:rgba(255,255,255,0.02)}';
         css += '.brief-thumb:hover{border-color:rgba(0,170,255,0.25);transform:scale(1.03);box-shadow:0 4px 16px rgba(0,0,0,0.3)}';
-        css += '.brief-thumb.active{border-color:#00aaff;box-shadow:0 0 20px rgba(0,170,255,0.2);transform:scale(1.03)}';
+        css += '.brief-thumb.active{border-color:' + a + ';box-shadow:0 0 20px rgba(0,170,255,0.2);transform:scale(1.03)}';
         // Canvas stage
         css += '.brief-stage{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;background:radial-gradient(ellipse at center,rgba(0,170,255,0.02) 0%,rgba(13,17,23,0.5) 70%);padding:20px;overflow:auto;position:relative}';
         css += '.brief-canvas{position:relative;border-radius:8px;box-shadow:0 8px 48px rgba(0,0,0,0.5),0 0 0 1px rgba(255,255,255,0.08),0 0 80px rgba(0,170,255,0.04);overflow:hidden;transition:box-shadow 0.3s}';
         css += '.brief-canvas:hover{box-shadow:0 12px 64px rgba(0,0,0,0.6),0 0 0 1px rgba(255,255,255,0.12),0 0 100px rgba(0,170,255,0.06)}';
         // Format bar (floating)
         css += '.brief-format-bar{display:flex;align-items:center;gap:3px;background:rgba(10,14,26,0.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:6px 12px;box-shadow:0 8px 32px rgba(0,0,0,0.4);flex-wrap:wrap}';
-        css += '.brief-fmt-btn{width:32px;height:32px;display:flex;align-items:center;justify-content:center;background:transparent;border:1px solid transparent;color:#8b949e;cursor:pointer;border-radius:8px;font-size:0.82rem;transition:all 0.15s}';
-        css += '.brief-fmt-btn:hover{background:rgba(255,255,255,0.08);color:#e6edf3;border-color:rgba(255,255,255,0.1)}';
-        css += '.brief-fmt-btn.active{background:rgba(0,170,255,0.15);color:#00aaff;border-color:rgba(0,170,255,0.2)}';
+        css += '.brief-fmt-btn{width:32px;height:32px;display:flex;align-items:center;justify-content:center;background:transparent;border:1px solid transparent;color:' + ts + ';cursor:pointer;border-radius:8px;font-size:0.82rem;transition:all 0.15s}';
+        css += '.brief-fmt-btn:hover{background:rgba(255,255,255,0.08);color:' + tp + ';border-color:rgba(255,255,255,0.1)}';
+        css += '.brief-fmt-btn.active{background:rgba(0,170,255,0.15);color:' + a + ';border-color:rgba(0,170,255,0.2)}';
         css += '.brief-fmt-divider{width:1px;height:22px;background:rgba(255,255,255,0.08);margin:0 2px}';
         // Properties panel
         css += '.brief-props-panel{width:260px;min-width:240px;background:rgba(13,17,23,0.7);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-left:1px solid rgba(255,255,255,0.05);overflow-y:auto;padding:16px 12px;animation:briefSlideUp 0.2s ease}';
         css += '.brief-prop-group{margin-bottom:14px}';
-        css += '.brief-prop-label{font-size:0.68rem;color:#6e7681;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;font-weight:600}';
+        css += '.brief-prop-label{font-size:0.68rem;color:' + tm + ';text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;font-weight:600}';
         css += '.brief-prop-row{display:flex;align-items:center;gap:6px;margin-bottom:6px}';
-        css += '.brief-prop-input{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:6px;color:#e6edf3;padding:5px 8px;font-size:0.78rem;width:100%;transition:border-color 0.2s}';
+        css += '.brief-prop-input{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:6px;color:' + tp + ';padding:5px 8px;font-size:0.78rem;width:100%;transition:border-color 0.2s}';
         css += '.brief-prop-input:focus{border-color:rgba(0,170,255,0.4);outline:none}';
         // Modal glass
         css += '.brief-modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);z-index:9999;display:flex;align-items:center;justify-content:center;animation:briefFadeIn 0.2s ease}';
         css += '.brief-modal{background:rgba(13,17,23,0.95);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:28px;max-width:640px;width:92%;max-height:80vh;overflow-y:auto;box-shadow:0 24px 64px rgba(0,0,0,0.6),0 0 0 1px rgba(0,170,255,0.08);animation:briefSlideUp 0.25s ease}';
-        css += '.brief-modal h4{margin:0;color:#e6edf3;font-size:1.1rem;font-weight:600}';
-        css += '.brief-modal-close{background:none;border:1px solid rgba(255,255,255,0.08);color:#6e7681;width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:8px;cursor:pointer;font-size:1.1rem;transition:all 0.15s}';
-        css += '.brief-modal-close:hover{background:rgba(255,255,255,0.06);color:#e6edf3}';
+        css += '.brief-modal h4{margin:0;color:' + tp + ';font-size:1.1rem;font-weight:600}';
+        css += '.brief-modal-close{background:none;border:1px solid rgba(255,255,255,0.08);color:' + tm + ';width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:8px;cursor:pointer;font-size:1.1rem;transition:all 0.15s}';
+        css += '.brief-modal-close:hover{background:rgba(255,255,255,0.06);color:' + tp + '}';
         // List cards
-        css += '.brief-list-card{background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:22px;cursor:pointer;transition:all 0.3s}';
+        css += '.brief-list-card{background:rgba(255,255,255,0.025);border:1px solid ' + bdr + ';border-radius:14px;padding:22px;cursor:pointer;transition:all 0.3s}';
         css += '.brief-list-card:hover{border-color:rgba(0,170,255,0.25);background:rgba(0,170,255,0.03);transform:translateY(-3px);box-shadow:0 12px 32px rgba(0,0,0,0.3)}';
         // Element styles
         css += '.briefEl{transition:box-shadow 0.15s,border-color 0.15s}';
         css += '.briefEl:hover{box-shadow:0 0 0 1px rgba(0,170,255,0.25)}';
-        css += '.briefEl.selected{border:2px solid #00aaff !important;box-shadow:0 0 16px rgba(0,170,255,0.25);animation:briefPulse 2s infinite}';
+        css += '.briefEl.selected{border:2px solid ' + a + ' !important;box-shadow:0 0 16px rgba(0,170,255,0.25);animation:briefPulse 2s infinite}';
         // Resize handles
-        css += '.brief-resize-handle{position:absolute;width:8px;height:8px;background:#00aaff;border:1.5px solid #fff;border-radius:2px;z-index:100;transition:transform 0.1s}';
+        css += '.brief-resize-handle{position:absolute;width:8px;height:8px;background:' + a + ';border:1.5px solid #fff;border-radius:2px;z-index:100;transition:transform 0.1s}';
         css += '.brief-resize-handle:hover{transform:scale(1.3)}';
         css += '.brief-rh-nw{top:-4px;left:-4px;cursor:nw-resize}.brief-rh-ne{top:-4px;right:-4px;cursor:ne-resize}';
         css += '.brief-rh-sw{bottom:-4px;left:-4px;cursor:sw-resize}.brief-rh-se{bottom:-4px;right:-4px;cursor:se-resize}';
@@ -229,8 +235,8 @@
         css += '.brief-rh-w{left:-4px;top:50%;margin-top:-4px;cursor:w-resize}.brief-rh-e{right:-4px;top:50%;margin-top:-4px;cursor:e-resize}';
         // Zoom controls
         css += '.brief-zoom-bar{display:flex;align-items:center;gap:6px;background:rgba(10,14,26,0.9);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:4px 12px;position:absolute;bottom:16px;left:50%;transform:translateX(-50%);z-index:50}';
-        css += '.brief-zoom-btn{background:transparent;border:none;color:#8b949e;cursor:pointer;padding:4px 6px;border-radius:6px;font-size:0.8rem;transition:all 0.15s}';
-        css += '.brief-zoom-btn:hover{color:#e6edf3;background:rgba(255,255,255,0.06)}';
+        css += '.brief-zoom-btn{background:transparent;border:none;color:' + ts + ';cursor:pointer;padding:4px 6px;border-radius:6px;font-size:0.8rem;transition:all 0.15s}';
+        css += '.brief-zoom-btn:hover{color:' + tp + ';background:rgba(255,255,255,0.06)}';
         // Classification banner
         css += '.brief-class-banner{text-align:center;padding:4px 0;font-size:0.72rem;font-weight:700;letter-spacing:2px;border-radius:6px;margin-bottom:8px}';
         // Alignment guides
@@ -239,33 +245,33 @@
         css += '.brief-align-guide-v{top:0;bottom:0;width:1px;background:rgba(255,107,53,0.6);box-shadow:0 0 4px rgba(255,107,53,0.4)}';
         // Tooltips on sidebar
         css += '.brief-tip{position:relative}';
-        css += '.brief-tip::after{content:attr(data-tip);position:absolute;left:100%;top:50%;transform:translateY(-50%);margin-left:8px;background:rgba(0,0,0,0.92);color:#e6edf3;padding:5px 10px;border-radius:6px;font-size:0.72rem;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity 0.15s;z-index:999}';
+        css += '.brief-tip::after{content:attr(data-tip);position:absolute;left:100%;top:50%;transform:translateY(-50%);margin-left:8px;background:rgba(0,0,0,0.92);color:' + tp + ';padding:5px 10px;border-radius:6px;font-size:0.72rem;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity 0.15s;z-index:999}';
         css += '.brief-tip:hover::after{opacity:1}';
         // Notes
-        css += '.brief-notes{width:100%;height:56px;margin-top:12px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:8px;color:#c9d1d9;padding:8px 12px;font-size:0.8rem;resize:vertical;transition:border-color 0.2s}';
+        css += '.brief-notes{width:100%;height:56px;margin-top:12px;background:rgba(255,255,255,0.02);border:1px solid ' + bdr + ';border-radius:8px;color:' + ts + ';padding:8px 12px;font-size:0.8rem;resize:vertical;transition:border-color 0.2s}';
         css += '.brief-notes:focus{border-color:rgba(0,170,255,0.3);outline:none}';
         // Header bar
-        css += '.brief-header{display:flex;align-items:center;justify-content:space-between;padding:8px 16px;background:rgba(10,14,26,0.7);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,0.06);gap:8px;flex-wrap:wrap}';
+        css += '.brief-header{display:flex;align-items:center;justify-content:space-between;padding:8px 16px;background:rgba(10,14,26,0.7);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid ' + bdr + ';gap:8px;flex-wrap:wrap}';
         css += '.brief-header-left{display:flex;align-items:center;gap:8px}';
         css += '.brief-header-right{display:flex;align-items:center;gap:4px;flex-wrap:wrap}';
-        css += '.brief-action-btn{display:inline-flex;align-items:center;gap:5px;padding:6px 12px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px;color:#c9d1d9;cursor:pointer;font-size:0.78rem;font-weight:500;transition:all 0.2s;white-space:nowrap}';
-        css += '.brief-action-btn:hover{background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.15);color:#e6edf3;transform:translateY(-1px)}';
-        css += '.brief-action-btn.primary{background:linear-gradient(135deg,rgba(0,170,255,0.15),rgba(0,170,255,0.08));border-color:rgba(0,170,255,0.25);color:#00aaff}';
+        css += '.brief-action-btn{display:inline-flex;align-items:center;gap:5px;padding:6px 12px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px;color:' + ts + ';cursor:pointer;font-size:0.78rem;font-weight:500;transition:all 0.2s;white-space:nowrap}';
+        css += '.brief-action-btn:hover{background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.15);color:' + tp + ';transform:translateY(-1px)}';
+        css += '.brief-action-btn.primary{background:linear-gradient(135deg,rgba(0,170,255,0.15),rgba(0,170,255,0.08));border-color:rgba(0,170,255,0.25);color:' + a + '}';
         css += '.brief-action-btn.primary:hover{background:linear-gradient(135deg,rgba(0,170,255,0.25),rgba(0,170,255,0.15));box-shadow:0 4px 16px rgba(0,170,255,0.15)}';
-        css += '.brief-action-btn.danger{color:#ff6b6b;border-color:rgba(255,107,107,0.2)}';
+        css += '.brief-action-btn.danger{color:var(--red,#ff6b6b);border-color:rgba(255,107,107,0.2)}';
         css += '.brief-action-btn.danger:hover{background:rgba(255,107,107,0.1)}';
         // Comments panel
         css += '.brief-comments{width:260px;min-width:220px;background:rgba(13,17,23,0.7);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-left:1px solid rgba(255,255,255,0.05);overflow-y:auto;padding:14px 10px;max-height:620px}';
         // Empty state
         css += '.brief-empty{text-align:center;padding:80px 24px}';
         css += '.brief-empty i{font-size:3.5rem;opacity:0.15;margin-bottom:20px;display:block}';
-        css += '.brief-empty-title{font-size:1.2rem;color:#e6edf3;font-weight:600;margin-bottom:8px}';
-        css += '.brief-empty-sub{font-size:0.88rem;color:#6e7681;line-height:1.5}';
+        css += '.brief-empty-title{font-size:1.2rem;color:' + tp + ';font-weight:600;margin-bottom:8px}';
+        css += '.brief-empty-sub{font-size:0.88rem;color:' + tm + ';line-height:1.5}';
         // Select inputs
-        css += '.brief-select{background:rgba(255,255,255,0.04);color:#e6edf3;border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:6px 10px;font-size:0.8rem;transition:border-color 0.2s;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'10\' height=\'6\'%3E%3Cpath d=\'M0 0l5 6 5-6z\' fill=\'%236e7681\'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 8px center;padding-right:24px}';
+        css += '.brief-select{background:rgba(255,255,255,0.04);color:' + tp + ';border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:6px 10px;font-size:0.8rem;transition:border-color 0.2s;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'10\' height=\'6\'%3E%3Cpath d=\'M0 0l5 6 5-6z\' fill=\'%236e7681\'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 8px center;padding-right:24px}';
         css += '.brief-select:focus{border-color:rgba(0,170,255,0.4);outline:none}';
         // Title input
-        css += '.brief-title-input{background:transparent;border:1px solid transparent;border-radius:6px;color:#e6edf3;padding:5px 10px;font-size:0.95rem;font-weight:600;width:240px;transition:all 0.2s}';
+        css += '.brief-title-input{background:transparent;border:1px solid transparent;border-radius:6px;color:' + tp + ';padding:5px 10px;font-size:0.95rem;font-weight:600;width:240px;transition:all 0.2s}';
         css += '.brief-title-input:hover{border-color:rgba(255,255,255,0.08)}';
         css += '.brief-title-input:focus{border-color:rgba(0,170,255,0.3);background:rgba(255,255,255,0.03);outline:none}';
         // Badge
@@ -942,7 +948,11 @@
             html += '<div class="brief-empty">';
             html += '<i class="fas fa-briefcase"></i>';
             html += '<div class="brief-empty-title">' + (_briefs.length ? 'No briefs match this filter' : 'No briefs yet') + '</div>';
-            html += '<div class="brief-empty-sub">Click "New Brief" to create from a template, or import an existing PPTX.</div>';
+            html += '<div class="brief-empty-sub">Click "New Brief" to choose a template, or get started instantly.</div>';
+            if (!_briefs.length) {
+                html += '<button onclick="briefCreateFromTemplate(0)" style="margin-top:16px;padding:10px 28px;background:var(--accent,#00aaff);color:#fff;border:none;border-radius:8px;font-size:0.92rem;font-weight:600;cursor:pointer;transition:transform 0.15s,box-shadow 0.15s" onmouseover="this.style.transform=\'scale(1.04)\';this.style.boxShadow=\'0 4px 20px rgba(0,170,255,0.25)\'" onmouseout="this.style.transform=\'\';this.style.boxShadow=\'\'">';
+                html += '<i class="fas fa-bolt" style="margin-right:6px"></i>Quick Start — Program Status Brief</button>';
+            }
             html += '</div>';
         } else {
             html += '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px">';
@@ -1051,7 +1061,10 @@
             '{{date}}': dateStr,
             '{{program_name}}': progName,
             '{{fiscal_year}}': '' + fy,
-            '{{fiscal_year_end}}': '' + (fy + 5)
+            '{{fiscal_year_end}}': '' + (fy + 5),
+            '{{ai_executive_summary}}': 'This brief provides current program status for ' + progName + ' as of ' + dateStr + '.\n\nKey areas covered include milestone progress, schedule adherence, risk posture, and recommended actions for the upcoming period.\n\n[Edit this section to add program-specific details]',
+            '{{ai_risk_assessment}}': 'Risk assessment for ' + progName + ':\n\n• Schedule Risk — [Assess current schedule pressure]\n• Technical Risk — [Evaluate technical maturity]\n• Cost Risk — [Review budget status]\n• Supply Chain Risk — [Check vendor/material status]\n\n[Edit this section with current risk data]',
+            '{{ai_recommendations}}': 'Recommended next steps for ' + progName + ':\n\n1. [Action item with owner and due date]\n2. [Action item with owner and due date]\n3. [Action item with owner and due date]\n\nDecisions Required:\n• [Decision needed with deadline]'
         };
 
         // Pull milestone data if available

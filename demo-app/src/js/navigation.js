@@ -42,7 +42,35 @@ function showHub() {
     window._currentSection = null;
     // Update URL
     history.replaceState(null, '', window.location.pathname);
+    // Show Getting Started for first-time users
+    _showGettingStartedIfNew();
 }
+
+// ── Getting Started Day-One Flow ──
+function _showGettingStartedIfNew() {
+    var sec = document.getElementById('gettingStartedSection');
+    if (!sec) return;
+    if (localStorage.getItem('s4_getting_started_dismissed')) { sec.style.display = 'none'; return; }
+    if (!sessionStorage.getItem('s4_entered')) { sec.style.display = 'none'; return; }
+    sec.style.display = 'block';
+    // In demo mode, prompt first-time visitors to take the tour
+    if (!sessionStorage.getItem('s4_tour_prompted') && !localStorage.getItem('s4_tour_completed')) {
+        sessionStorage.setItem('s4_tour_prompted', '1');
+        setTimeout(function() {
+            if (typeof _toast === 'function') {
+                _toast('New here? Try the Guided Tour to see everything the platform can do.', 'info');
+            } else if (typeof window._toast === 'function') {
+                window._toast('New here? Try the Guided Tour to see everything the platform can do.', 'info');
+            }
+        }, 1500);
+    }
+}
+function dismissGettingStarted() {
+    localStorage.setItem('s4_getting_started_dismissed', '1');
+    var sec = document.getElementById('gettingStartedSection');
+    if (sec) { sec.style.transition = 'opacity 0.3s'; sec.style.opacity = '0'; setTimeout(function(){ sec.style.display = 'none'; sec.style.opacity = '1'; }, 300); }
+}
+window.dismissGettingStarted = dismissGettingStarted;
 
 function showSection(sectionId) {
     var hub = document.getElementById('platformHub');

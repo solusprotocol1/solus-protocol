@@ -17,6 +17,14 @@
     --radius: 3px;
     --radius-lg: 4px;
     --transition: 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+    /* App-level tokens (used across all platform components) */
+    --card: #111118;
+    --surface: #16161f;
+    --steel: #8b8fa3;
+    --muted: #5a5e72;
+    --gold: #c9a84c;
+    --green: #34c759;
+    --red: #ff6b6b;
 }
 
 /* ═══ Reset ═══ */

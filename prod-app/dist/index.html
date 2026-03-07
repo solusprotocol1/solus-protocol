@@ -67,9 +67,9 @@
     <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" integrity="sha384-9nhczxUqK87bcKHh20fSQcTGD4qq5GhayNYSYWqwBkINBhOfQLg/P5HG5lF1urn4" crossorigin="anonymous"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/qrcode@1.5.4/build/qrcode.min.js"></script>
     <!-- CSS is imported via main.js and extracted by Vite -->
-  <script type="module" crossorigin src="/prod-app/dist/assets/index-CmS0l8To.js"></script>
-  <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/engine-CBjgYLFE.js">
-  <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/navigation-bMlmAHKn.js">
+  <script type="module" crossorigin src="/prod-app/dist/assets/index-B2uS-m6q.js"></script>
+  <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/engine-f1AvCeRe.js">
+  <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/navigation-l8i0e8hb.js">
   <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/metrics-lnNr4VBV.js">
   <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/enhancements-CRgXuVPq.js">
   <link rel="stylesheet" crossorigin href="/prod-app/dist/assets/index-Dz01zSnn.css">
@@ -405,6 +405,44 @@
                     <button onclick="startQuickTour()" style="display:flex;align-items:center;gap:6px;background:rgba(0,170,255,0.08);border:1px solid rgba(0,170,255,0.2);border-radius:3px;padding:4px 12px;cursor:pointer;color:var(--accent);font-size:0.72rem;font-weight:600;font-family:inherit;margin-left:4px" title="Quick platform walkthrough"><i class="fas fa-route"></i> Quick Tour</button>
                 </div>
             </div>
+
+            <!-- ═══ GETTING STARTED — Day One Flow ═══ -->
+            <div id="gettingStartedSection" style="display:none;margin-bottom:28px;animation:fadeIn 0.4s ease;">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+                    <div>
+                        <h3 style="color:var(--text-primary,#f0f0f5);font-size:1.1rem;font-weight:700;margin:0;letter-spacing:-0.02em;">
+                            <i class="fas fa-compass" style="color:var(--accent);margin-right:8px;"></i>Getting Started
+                        </h3>
+                        <p style="color:var(--steel,#8b8fa3);font-size:0.82rem;margin:4px 0 0;">Choose your first action &mdash; each takes under 2 minutes.</p>
+                    </div>
+                    <button onclick="dismissGettingStarted()" style="background:transparent;border:1px solid var(--border,rgba(255,255,255,0.06));color:var(--steel,#8b8fa3);border-radius:3px;padding:4px 12px;font-size:0.72rem;cursor:pointer;font-family:inherit;transition:all 0.2s;" onmouseover="this.style.borderColor='rgba(255,255,255,0.15)'" onmouseout="this.style.borderColor='var(--border,rgba(255,255,255,0.06))'"><i class="fas fa-times" style="margin-right:4px;"></i>Dismiss</button>
+                </div>
+                <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;">
+                    <!-- Card 1: Anchor Your First Record -->
+                    <div onclick="showSection('sectionILS');setTimeout(function(){if(typeof openILSTool==='function')openILSTool('hubActions');},300)" style="background:linear-gradient(135deg,rgba(0,170,255,0.06),rgba(0,170,255,0.02));border:1px solid rgba(0,170,255,0.15);border-radius:3px;padding:24px 20px;cursor:pointer;transition:all 0.3s;" onmouseover="this.style.borderColor='rgba(0,170,255,0.35)';this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 24px rgba(0,0,0,0.2)'" onmouseout="this.style.borderColor='rgba(0,170,255,0.15)';this.style.transform='translateY(0)';this.style.boxShadow='none'" role="button" tabindex="0">
+                        <div style="width:40px;height:40px;border-radius:3px;background:rgba(0,170,255,0.12);display:flex;align-items:center;justify-content:center;margin-bottom:14px;"><i class="fas fa-anchor" style="color:var(--accent);font-size:1rem;"></i></div>
+                        <div style="color:var(--text-primary,#f0f0f5);font-weight:700;font-size:0.92rem;margin-bottom:6px;">Anchor Your First Record</div>
+                        <div style="color:var(--steel,#8b8fa3);font-size:0.78rem;line-height:1.5;">Select a record type, paste or upload content, and anchor it to the XRP Ledger in seconds.</div>
+                        <div style="margin-top:12px;color:var(--accent);font-size:0.72rem;font-weight:600;"><i class="fas fa-arrow-right" style="margin-right:4px;"></i>Start anchoring</div>
+                    </div>
+                    <!-- Card 2: Explore the 23+ Tools -->
+                    <div onclick="showSection('sectionILS')" style="background:linear-gradient(135deg,rgba(201,168,76,0.06),rgba(201,168,76,0.02));border:1px solid rgba(201,168,76,0.15);border-radius:3px;padding:24px 20px;cursor:pointer;transition:all 0.3s;" onmouseover="this.style.borderColor='rgba(201,168,76,0.35)';this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 24px rgba(0,0,0,0.2)'" onmouseout="this.style.borderColor='rgba(201,168,76,0.15)';this.style.transform='translateY(0)';this.style.boxShadow='none'" role="button" tabindex="0">
+                        <div style="width:40px;height:40px;border-radius:3px;background:rgba(201,168,76,0.12);display:flex;align-items:center;justify-content:center;margin-bottom:14px;"><i class="fas fa-brain" style="color:#c9a84c;font-size:1rem;"></i></div>
+                        <div style="color:var(--text-primary,#f0f0f5);font-weight:700;font-size:0.92rem;margin-bottom:6px;">Explore 23+ ILS Tools</div>
+                        <div style="color:var(--steel,#8b8fa3);font-size:0.78rem;line-height:1.5;">Gap analysis, compliance scoring, predictive maintenance, risk engines, and more &mdash; all in one suite.</div>
+                        <div style="margin-top:12px;color:#c9a84c;font-size:0.72rem;font-weight:600;"><i class="fas fa-arrow-right" style="margin-right:4px;"></i>Browse tools</div>
+                    </div>
+                    <!-- Card 3: Take the Guided Tour -->
+                    <div onclick="if(typeof startWalkthrough==='function')startWalkthrough()" style="background:linear-gradient(135deg,rgba(168,85,247,0.06),rgba(168,85,247,0.02));border:1px solid rgba(168,85,247,0.15);border-radius:3px;padding:24px 20px;cursor:pointer;transition:all 0.3s;" onmouseover="this.style.borderColor='rgba(168,85,247,0.35)';this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 24px rgba(0,0,0,0.2)'" onmouseout="this.style.borderColor='rgba(168,85,247,0.15)';this.style.transform='translateY(0)';this.style.boxShadow='none'" role="button" tabindex="0">
+                        <div style="width:40px;height:40px;border-radius:3px;background:rgba(168,85,247,0.12);display:flex;align-items:center;justify-content:center;margin-bottom:14px;"><i class="fas fa-route" style="color:#a855f7;font-size:1rem;"></i></div>
+                        <div style="color:var(--text-primary,#f0f0f5);font-weight:700;font-size:0.92rem;margin-bottom:6px;">Take the Guided Tour</div>
+                        <div style="color:var(--steel,#8b8fa3);font-size:0.78rem;line-height:1.5;">29-step interactive walkthrough with voice narration covering every tool and capability.</div>
+                        <div style="margin-top:12px;color:#a855f7;font-size:0.72rem;font-weight:600;"><i class="fas fa-arrow-right" style="margin-right:4px;"></i>Start tour</div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="font-size:0.68rem;color:var(--accent);font-weight:700;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:14px;">Modules</div>
             <div class="hub-grid">
                 
                 <div class="hub-card" data-section="sectionILS" onclick="showSection('sectionILS')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showSection('sectionILS')}">

@@ -37,6 +37,8 @@ function showHub() {
         var landing = document.getElementById('platformLanding');
         if (landing) landing.style.display = 'block';
     }
+    // Show Getting Started for first-time users
+    _showGettingStartedIfNew();
     _currentSection = null;
     window._currentSection = null;
     // Update URL
@@ -869,6 +871,23 @@ function _endTour() {
     if (tooltip) tooltip.innerHTML = '';
 }
 
+// ═══ Getting Started — Day One Flow ═══
+function _showGettingStartedIfNew() {
+    var gs = document.getElementById('gettingStartedSection');
+    if (!gs) return;
+    // Show only if user hasn't dismissed it and has completed onboarding
+    var dismissed = localStorage.getItem('s4_getting_started_dismissed');
+    var entered = sessionStorage.getItem('s4_entered');
+    if (dismissed) { gs.style.display = 'none'; return; }
+    if (entered) { gs.style.display = 'block'; }
+}
+
+function dismissGettingStarted() {
+    localStorage.setItem('s4_getting_started_dismissed', '1');
+    var gs = document.getElementById('gettingStartedSection');
+    if (gs) { gs.style.opacity = '0'; gs.style.transition = 'opacity 0.3s ease'; setTimeout(function(){ gs.style.display = 'none'; }, 300); }
+}
+
 // Export new functions
 window.enterDemoMode = enterDemoMode;
 window.exitDemoMode = exitDemoMode;
@@ -877,3 +896,4 @@ window.searchILSTools = searchILSTools;
 window.startQuickTour = startQuickTour;
 window._tourNext = _tourNext;
 window._tourPrev = _tourPrev;
+window.dismissGettingStarted = dismissGettingStarted;

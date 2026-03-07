@@ -637,7 +637,7 @@ document.addEventListener('DOMContentLoaded', function() {
         's4_sched_reports', 's4_selected_tier', 's4_stakes', 's4_submission_history',
         's4_subscription', 's4_sync_log', 's4_templates', 's4_tenant', 's4_tenants',
         's4_tour_completed', 's4_user_role', 's4_warranties', 's4_webhooks',
-        's4-theme', 's4_layout', 's4_language',
+        's4-theme', 's4_layout', 's4_language', 's4_getting_started_dismissed',
         's4Vault', 's4Vault_admin', 's4Vault_auditor', 's4Vault_viewer',
         's4_tool_card_order', 's4_offline_queue', 's4_offline_queue_enc', 's4_offline_last_sync'
     ];
