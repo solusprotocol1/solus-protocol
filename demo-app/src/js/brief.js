@@ -37,7 +37,7 @@
         bodySize: 16,
         headerBg: '#0a1628',
         headerColor: '#ffffff',
-        bodyBg: '#2c2c2e',
+        bodyBg: '#f5f5f7',
         bodyColor: '#c9d1d9',
         accentColor: '#00aaff',
         footerText: 'S4 Ledger — UNCLASSIFIED',
@@ -201,7 +201,7 @@
         css += '.brief-canvas{position:relative;border-radius:8px;box-shadow:0 8px 48px rgba(0,0,0,0.5),0 0 0 1px rgba(255,255,255,0.08),0 0 80px rgba(0,170,255,0.04);overflow:hidden;transition:box-shadow 0.3s}';
         css += '.brief-canvas:hover{box-shadow:0 12px 64px rgba(0,0,0,0.6),0 0 0 1px rgba(255,255,255,0.12),0 0 100px rgba(0,170,255,0.06)}';
         // Format bar (floating)
-        css += '.brief-format-bar{display:flex;align-items:center;gap:3px;background:rgba(10,14,26,0.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:6px 12px;box-shadow:0 8px 32px rgba(0,0,0,0.4);flex-wrap:wrap}';
+        css += '.brief-format-bar{display:flex;align-items:center;gap:3px;background:rgba(10,14,26,0.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(0,0,0,0.08);border-radius:12px;padding:6px 12px;box-shadow:0 8px 32px rgba(0,0,0,0.4);flex-wrap:wrap}';
         css += '.brief-fmt-btn{width:32px;height:32px;display:flex;align-items:center;justify-content:center;background:transparent;border:1px solid transparent;color:' + ts + ';cursor:pointer;border-radius:8px;font-size:0.82rem;transition:all 0.15s}';
         css += '.brief-fmt-btn:hover{background:rgba(255,255,255,0.08);color:' + tp + ';border-color:rgba(255,255,255,0.1)}';
         css += '.brief-fmt-btn.active{background:rgba(0,170,255,0.15);color:' + a + ';border-color:rgba(0,170,255,0.2)}';
@@ -211,13 +211,13 @@
         css += '.brief-prop-group{margin-bottom:14px}';
         css += '.brief-prop-label{font-size:0.68rem;color:' + tm + ';text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;font-weight:600}';
         css += '.brief-prop-row{display:flex;align-items:center;gap:6px;margin-bottom:6px}';
-        css += '.brief-prop-input{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:6px;color:' + tp + ';padding:5px 8px;font-size:0.78rem;width:100%;transition:border-color 0.2s}';
+        css += '.brief-prop-input{background:rgba(255,255,255,0.04);border:1px solid rgba(0,0,0,0.08);border-radius:6px;color:' + tp + ';padding:5px 8px;font-size:0.78rem;width:100%;transition:border-color 0.2s}';
         css += '.brief-prop-input:focus{border-color:rgba(0,170,255,0.4);outline:none}';
         // Modal glass
         css += '.brief-modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);z-index:9999;display:flex;align-items:center;justify-content:center;animation:briefFadeIn 0.2s ease}';
-        css += '.brief-modal{background:rgba(13,17,23,0.95);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:28px;max-width:640px;width:92%;max-height:80vh;overflow-y:auto;box-shadow:0 24px 64px rgba(0,0,0,0.6),0 0 0 1px rgba(0,170,255,0.08);animation:briefSlideUp 0.25s ease}';
+        css += '.brief-modal{background:rgba(13,17,23,0.95);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid rgba(0,0,0,0.08);border-radius:16px;padding:28px;max-width:640px;width:92%;max-height:80vh;overflow-y:auto;box-shadow:0 24px 64px rgba(0,0,0,0.6),0 0 0 1px rgba(0,170,255,0.08);animation:briefSlideUp 0.25s ease}';
         css += '.brief-modal h4{margin:0;color:' + tp + ';font-size:1.1rem;font-weight:600}';
-        css += '.brief-modal-close{background:none;border:1px solid rgba(255,255,255,0.08);color:' + tm + ';width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:8px;cursor:pointer;font-size:1.1rem;transition:all 0.15s}';
+        css += '.brief-modal-close{background:none;border:1px solid rgba(0,0,0,0.08);color:' + tm + ';width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:8px;cursor:pointer;font-size:1.1rem;transition:all 0.15s}';
         css += '.brief-modal-close:hover{background:rgba(255,255,255,0.06);color:' + tp + '}';
         // List cards
         css += '.brief-list-card{background:rgba(255,255,255,0.025);border:1px solid ' + bdr + ';border-radius:14px;padding:22px;cursor:pointer;transition:all 0.3s}';
@@ -234,7 +234,7 @@
         css += '.brief-rh-n{top:-4px;left:50%;margin-left:-4px;cursor:n-resize}.brief-rh-s{bottom:-4px;left:50%;margin-left:-4px;cursor:s-resize}';
         css += '.brief-rh-w{left:-4px;top:50%;margin-top:-4px;cursor:w-resize}.brief-rh-e{right:-4px;top:50%;margin-top:-4px;cursor:e-resize}';
         // Zoom controls
-        css += '.brief-zoom-bar{display:flex;align-items:center;gap:6px;background:rgba(10,14,26,0.9);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:4px 12px;position:absolute;bottom:16px;left:50%;transform:translateX(-50%);z-index:50}';
+        css += '.brief-zoom-bar{display:flex;align-items:center;gap:6px;background:rgba(10,14,26,0.9);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(0,0,0,0.08);border-radius:10px;padding:4px 12px;position:absolute;bottom:16px;left:50%;transform:translateX(-50%);z-index:50}';
         css += '.brief-zoom-btn{background:transparent;border:none;color:' + ts + ';cursor:pointer;padding:4px 6px;border-radius:6px;font-size:0.8rem;transition:all 0.15s}';
         css += '.brief-zoom-btn:hover{color:' + tp + ';background:rgba(255,255,255,0.06)}';
         // Classification banner
@@ -254,7 +254,7 @@
         css += '.brief-header{display:flex;align-items:center;justify-content:space-between;padding:8px 16px;background:rgba(10,14,26,0.7);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid ' + bdr + ';gap:8px;flex-wrap:wrap}';
         css += '.brief-header-left{display:flex;align-items:center;gap:8px}';
         css += '.brief-header-right{display:flex;align-items:center;gap:4px;flex-wrap:wrap}';
-        css += '.brief-action-btn{display:inline-flex;align-items:center;gap:5px;padding:6px 12px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px;color:' + ts + ';cursor:pointer;font-size:0.78rem;font-weight:500;transition:all 0.2s;white-space:nowrap}';
+        css += '.brief-action-btn{display:inline-flex;align-items:center;gap:5px;padding:6px 12px;background:rgba(255,255,255,0.04);border:1px solid rgba(0,0,0,0.08);border-radius:8px;color:' + ts + ';cursor:pointer;font-size:0.78rem;font-weight:500;transition:all 0.2s;white-space:nowrap}';
         css += '.brief-action-btn:hover{background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.15);color:' + tp + ';transform:translateY(-1px)}';
         css += '.brief-action-btn.primary{background:linear-gradient(135deg,rgba(0,170,255,0.15),rgba(0,170,255,0.08));border-color:rgba(0,170,255,0.25);color:' + a + '}';
         css += '.brief-action-btn.primary:hover{background:linear-gradient(135deg,rgba(0,170,255,0.25),rgba(0,170,255,0.15));box-shadow:0 4px 16px rgba(0,170,255,0.15)}';
@@ -268,10 +268,10 @@
         css += '.brief-empty-title{font-size:1.2rem;color:' + tp + ';font-weight:600;margin-bottom:8px}';
         css += '.brief-empty-sub{font-size:0.88rem;color:' + tm + ';line-height:1.5}';
         // Select inputs
-        css += '.brief-select{background:rgba(255,255,255,0.04);color:#e6edf3;border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:6px 10px;font-size:0.8rem;transition:border-color 0.2s;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'10\' height=\'6\'%3E%3Cpath d=\'M0 0l5 6 5-6z\' fill=\'%236e7681\'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 8px center;padding-right:24px}';
+        css += '.brief-select{background:rgba(255,255,255,0.04);color:' + tp + ';border:1px solid rgba(0,0,0,0.08);border-radius:8px;padding:6px 10px;font-size:0.8rem;transition:border-color 0.2s;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'10\' height=\'6\'%3E%3Cpath d=\'M0 0l5 6 5-6z\' fill=\'%236e7681\'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 8px center;padding-right:24px}';
         css += '.brief-select:focus{border-color:rgba(0,170,255,0.4);outline:none}';
         // Title input
-        css += '.brief-title-input{background:transparent;border:1px solid transparent;border-radius:6px;color:#e6edf3;padding:5px 10px;font-size:0.95rem;font-weight:600;width:240px;transition:all 0.2s}';
+        css += '.brief-title-input{background:transparent;border:1px solid transparent;border-radius:6px;color:' + tp + ';padding:5px 10px;font-size:0.95rem;font-weight:600;width:240px;transition:all 0.2s}';
         css += '.brief-title-input:hover{border-color:rgba(255,255,255,0.08)}';
         css += '.brief-title-input:focus{border-color:rgba(0,170,255,0.3);background:rgba(255,255,255,0.03);outline:none}';
         // Badge
@@ -429,7 +429,7 @@
             for (var c = 0; c < cols; c++) row.push(r === 0 ? 'Header ' + (c + 1) : '');
             data.push(row);
         }
-        return { id: _uid(), type: 'table', x: x, y: y, w: w, h: h, rows: rows, cols: cols, data: data, headerBg: opts.headerBg || '#0a1628', headerColor: opts.headerColor || '#ffffff', cellBg: opts.cellBg || 'rgba(255,255,255,0.03)', cellColor: opts.cellColor || '#c9d1d9', borderColor: opts.borderColor || 'rgba(255,255,255,0.1)', fontSize: opts.fontSize || 12 };
+        return { id: _uid(), type: 'table', x: x, y: y, w: w, h: h, rows: rows, cols: cols, data: data, headerBg: opts.headerBg || '#0a1628', headerColor: opts.headerColor || '#ffffff', cellBg: opts.cellBg || 'rgba(255,255,255,0.03)', cellColor: opts.cellColor || '#c9d1d9', borderColor: opts.borderColor || 'rgba(0,0,0,0.08)', fontSize: opts.fontSize || 12 };
     }
 
     function _makeChart(x, y, w, h, chartType, opts) {
@@ -884,7 +884,7 @@
                     _makeText(490, 365, 430, 22, 'DECISION REQUIRED', { fontSize: 13, bold: true, color: '#ffd700' }),
                     _makeText(490, 390, 430, 80, '{{exec_decision}}', { fontSize: 12, color: '#c9d1d9' }),
                     // Footer bar
-                    _makeShape(40, 480, 880, 1, { fill: 'rgba(255,255,255,0.1)', stroke: 'transparent' }),
+                    _makeShape(40, 480, 880, 1, { fill: 'rgba(0,0,0,0.08)', stroke: 'transparent' }),
                     _makeText(40, 486, 880, 20, 'Classification: UNCLASSIFIED  |  POC: {{exec_poc}}  |  Date: {{date}}', { fontSize: 10, color: '#8b949e', align: 'center' })
                 ])
             ]
@@ -909,7 +909,7 @@
         html += '</div></div>';
 
         // ── Program & Vessel selectors (glass bar) ──
-        html += '<div style="display:flex;gap:12px;margin-bottom:18px;flex-wrap:wrap;align-items:center;padding:12px 16px;background:rgba(255,255,255,0.02);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.06);border-radius:12px">';
+        html += '<div style="display:flex;gap:12px;margin-bottom:18px;flex-wrap:wrap;align-items:center;padding:12px 16px;background:rgba(255,255,255,0.02);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(0,0,0,0.06);border-radius:12px">';
         html += '<div style="display:flex;align-items:center;gap:8px">';
         html += '<label style="color:#6e7681;font-size:0.78rem;white-space:nowrap;font-weight:500"><i class="fas fa-project-diagram" style="color:#00aaff;margin-right:4px"></i>Program</label>';
         html += '<select id="briefProgramSelect" onchange="briefSelectProgram(this.value)" class="brief-select" style="min-width:200px">';
@@ -1002,7 +1002,7 @@
             var bt = BRIEF_TYPES[t.brief_type] || BRIEF_TYPES.STATUS;
             html += '<div class="stat-mini" style="cursor:pointer;padding:16px;text-align:center;transition:border-color 0.2s" onclick="briefCreateFromTemplate(' + i + ')" onmouseover="this.style.borderColor=\'' + bt.color + '\'" onmouseout="this.style.borderColor=\'rgba(255,255,255,0.08)\'">';
             html += '<i class="fas ' + bt.icon + '" style="font-size:1.5rem;color:' + bt.color + ';margin-bottom:8px;display:block"></i>';
-            html += '<div style="color:#fff;font-weight:600;font-size:0.88rem">' + _esc(t.title) + '</div>';
+            html += '<div style="color:#1d1d1f;font-weight:600;font-size:0.88rem">' + _esc(t.title) + '</div>';
             html += '<div style="color:var(--muted);font-size:0.72rem;margin-top:4px">' + t.slides.length + ' slides</div>';
             html += '</div>';
         });
@@ -1267,7 +1267,7 @@
             if (sel) html += '<button onclick="event.stopPropagation();briefDeleteSlide()" class="brief-fmt-btn" style="width:20px;height:20px;font-size:0.6rem;color:#ff6b6b" title="Delete"><i class="fas fa-times"></i></button>';
             html += '</div>';
             // Thumbnail preview
-            html += '<div style="background:' + (master.bodyBg || '#2c2c2e') + ';height:80px;margin:0 6px 6px 6px;border-radius:6px;overflow:hidden;position:relative">';
+            html += '<div style="background:' + (master.bodyBg || '#f5f5f7') + ';height:80px;margin:0 6px 6px 6px;border-radius:6px;overflow:hidden;position:relative">';
             var firstText = '';
             (s.elements || []).forEach(function (e) { if (e.type === 'text' && !firstText) firstText = (e.text || '').substring(0, 50); });
             html += '<div style="padding:6px;font-size:0.45rem;color:' + (master.bodyColor || '#c9d1d9') + ';overflow:hidden;line-height:1.3;opacity:0.7">' + _esc(firstText) + '</div>';
@@ -1303,8 +1303,8 @@
         html += '<button class="brief-fmt-btn" onclick="briefSetAlign(\'center\')" title="Center"><i class="fas fa-align-center"></i></button>';
         html += '<button class="brief-fmt-btn" onclick="briefSetAlign(\'right\')" title="Align Right"><i class="fas fa-align-right"></i></button>';
         html += '<div class="brief-fmt-divider"></div>';
-        html += '<label style="display:flex;align-items:center;gap:3px;font-size:0.7rem;color:#6e7681;cursor:pointer" title="Text Color">A <input type="color" id="briefColorPick" value="#ffffff" onchange="briefSetColor(this.value)" style="width:22px;height:22px;border:1px solid rgba(255,255,255,0.1);border-radius:4px;padding:0;cursor:pointer;background:transparent"></label>';
-        html += '<label style="display:flex;align-items:center;gap:3px;font-size:0.7rem;color:#6e7681;cursor:pointer" title="Fill"><i class="fas fa-fill-drip"></i> <input type="color" id="briefBgPick" value="#2c2c2e" onchange="briefSetBg(this.value)" style="width:22px;height:22px;border:1px solid rgba(255,255,255,0.1);border-radius:4px;padding:0;cursor:pointer;background:transparent"></label>';
+        html += '<label style="display:flex;align-items:center;gap:3px;font-size:0.7rem;color:#6e7681;cursor:pointer" title="Text Color">A <input type="color" id="briefColorPick" value="#ffffff" onchange="briefSetColor(this.value)" style="width:22px;height:22px;border:1px solid rgba(0,0,0,0.08);border-radius:4px;padding:0;cursor:pointer;background:transparent"></label>';
+        html += '<label style="display:flex;align-items:center;gap:3px;font-size:0.7rem;color:#6e7681;cursor:pointer" title="Fill"><i class="fas fa-fill-drip"></i> <input type="color" id="briefBgPick" value="#f5f5f7" onchange="briefSetBg(this.value)" style="width:22px;height:22px;border:1px solid rgba(0,0,0,0.08);border-radius:4px;padding:0;cursor:pointer;background:transparent"></label>';
         html += '<div class="brief-fmt-divider"></div>';
         html += '<button class="brief-fmt-btn" onclick="briefBringToFront()" title="Bring to Front"><i class="fas fa-layer-group"></i></button>';
         html += '<button class="brief-fmt-btn" onclick="briefSendToBack()" title="Send to Back"><i class="fas fa-level-down-alt"></i></button>';
@@ -1313,7 +1313,7 @@
         html += '</div>'; // end format bar
 
         // Canvas
-        html += '<div id="briefCanvas" class="brief-canvas" style="width:' + sw + 'px;height:' + sh + 'px;background:' + (master.bodyBg || '#2c2c2e') + ';transform:scale(' + scale.toFixed(3) + ');transform-origin:top center;cursor:' + (_annotationMode ? 'crosshair' : 'default') + '" onclick="briefCanvasClick(event)" onmousedown="briefCanvasMouseDown(event)" onmousemove="briefCanvasMouseMove(event)" onmouseup="briefCanvasMouseUp(event)">';
+        html += '<div id="briefCanvas" class="brief-canvas" style="width:' + sw + 'px;height:' + sh + 'px;background:' + (master.bodyBg || '#f5f5f7') + ';transform:scale(' + scale.toFixed(3) + ');transform-origin:top center;cursor:' + (_annotationMode ? 'crosshair' : 'default') + '" onclick="briefCanvasClick(event)" onmousedown="briefCanvasMouseDown(event)" onmousemove="briefCanvasMouseMove(event)" onmouseup="briefCanvasMouseUp(event)">';
         // Grid overlay
         if (_snapToGrid) {
             html += '<div style="position:absolute;top:0;left:0;right:0;bottom:24px;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,0.015) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.015) 1px,transparent 1px);background-size:' + _gridSize + 'px ' + _gridSize + 'px;z-index:0"></div>';
@@ -1351,7 +1351,7 @@
         // Zoom controls bar
         html += '<div class="brief-zoom-bar">';
         html += '<button class="brief-zoom-btn" onclick="briefZoom(-0.1)" title="Zoom Out"><i class="fas fa-minus"></i></button>';
-        html += '<span style="font-size:0.72rem;color:#8b949e;min-width:42px;text-align:center">' + Math.round(_canvasZoom * 100) + '%</span>';
+        html += '<span style="font-size:0.72rem;color:#666;min-width:42px;text-align:center">' + Math.round(_canvasZoom * 100) + '%</span>';
         html += '<button class="brief-zoom-btn" onclick="briefZoom(0.1)" title="Zoom In"><i class="fas fa-plus"></i></button>';
         html += '<button class="brief-zoom-btn" onclick="briefZoom(0)" title="Reset Zoom"><i class="fas fa-compress"></i></button>';
         html += '</div>';
@@ -1418,8 +1418,8 @@
         h += '</div>';
         // Appearance
         h += '<div class="brief-prop-group"><div class="brief-prop-label">Appearance</div>';
-        h += '<div class="brief-prop-row"><label style="color:#6e7681;font-size:0.72rem;width:50px">Color</label><input type="color" value="' + (elem.color || '#ffffff') + '" onchange="briefSetProp(\'color\',this.value)" style="width:32px;height:24px;border:1px solid rgba(255,255,255,0.1);border-radius:4px;padding:0;cursor:pointer"></div>';
-        h += '<div class="brief-prop-row"><label style="color:#6e7681;font-size:0.72rem;width:50px">Fill</label><input type="color" value="' + (elem.bg || elem.fill || '#2c2c2e') + '" onchange="briefSetProp(\'bg\',this.value)" style="width:32px;height:24px;border:1px solid rgba(255,255,255,0.1);border-radius:4px;padding:0;cursor:pointer"></div>';
+        h += '<div class="brief-prop-row"><label style="color:#6e7681;font-size:0.72rem;width:50px">Color</label><input type="color" value="' + (elem.color || '#ffffff') + '" onchange="briefSetProp(\'color\',this.value)" style="width:32px;height:24px;border:1px solid rgba(0,0,0,0.08);border-radius:4px;padding:0;cursor:pointer"></div>';
+        h += '<div class="brief-prop-row"><label style="color:#6e7681;font-size:0.72rem;width:50px">Fill</label><input type="color" value="' + (elem.bg || elem.fill || '#f5f5f7') + '" onchange="briefSetProp(\'bg\',this.value)" style="width:32px;height:24px;border:1px solid rgba(0,0,0,0.08);border-radius:4px;padding:0;cursor:pointer"></div>';
         h += '<div class="brief-prop-row"><label style="color:#6e7681;font-size:0.72rem;width:50px">Z-Index</label><input type="number" class="brief-prop-input" value="' + (elem.zIndex || 1) + '" onchange="briefSetProp(\'zIndex\',parseInt(this.value))" style="width:60px"></div>';
         h += '</div>';
         // Type-specific
@@ -1479,7 +1479,7 @@
                 thtml += '<tr>';
                 row.forEach(function (cell) {
                     var isH = ri === 0;
-                    thtml += '<' + (isH ? 'th' : 'td') + ' style="padding:3px 6px;border:1px solid ' + (elem.borderColor || 'rgba(255,255,255,0.1)') + ';background:' + (isH ? (elem.headerBg || '#0a1628') : (elem.cellBg || 'rgba(255,255,255,0.03)')) + ';color:' + (isH ? (elem.headerColor || '#fff') : (elem.cellColor || '#c9d1d9')) + ';font-weight:' + (isH ? '600' : '400') + ';text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + _esc(cell) + '</' + (isH ? 'th' : 'td') + '>';
+                    thtml += '<' + (isH ? 'th' : 'td') + ' style="padding:3px 6px;border:1px solid ' + (elem.borderColor || 'rgba(0,0,0,0.08)') + ';background:' + (isH ? (elem.headerBg || '#0a1628') : (elem.cellBg || 'rgba(255,255,255,0.03)')) + ';color:' + (isH ? (elem.headerColor || '#fff') : (elem.cellColor || '#c9d1d9')) + ';font-weight:' + (isH ? '600' : '400') + ';text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + _esc(cell) + '</' + (isH ? 'th' : 'td') + '>';
                 });
                 thtml += '</tr>';
             });
@@ -1560,7 +1560,7 @@
                 svg += '<text x="' + lx + '" y="' + ly + '" text-anchor="middle" fill="#fff" font-size="9" font-weight="600">' + _esc(labels[i] || '') + '</text>';
                 startAngle += angle;
             });
-            if (ct === 'donut') svg += '<circle cx="' + cx + '" cy="' + cy + '" r="' + (r * 0.5) + '" fill="' + ((_theme === 'dark') ? '#2c2c2e' : '#ffffff') + '"/>';
+            if (ct === 'donut') svg += '<circle cx="' + cx + '" cy="' + cy + '" r="' + (r * 0.5) + '" fill="' + '#ffffff' + '"/>';
         }
         // Axes for bar/line
         if (ct === 'bar' || ct === 'line') {
@@ -1583,10 +1583,10 @@
             var complete = milData.filter(function (r) { return r.delivery_status === 'Complete'; }).length;
             h += '<div style="font-size:0.7rem;font-weight:600;color:#a855f7;margin-bottom:6px"><i class="fas fa-tachometer-alt"></i> Milestone Summary</div>';
             h += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;flex:1">';
-            h += '<div style="text-align:center;padding:4px;background:rgba(0,204,136,0.1);border-radius:3px"><div style="font-size:1.2rem;font-weight:700;color:#00cc88">' + onTrack + '</div><div style="font-size:0.55rem;color:#8b949e">On Track</div></div>';
-            h += '<div style="text-align:center;padding:4px;background:rgba(255,170,0,0.1);border-radius:3px"><div style="font-size:1.2rem;font-weight:700;color:#ffaa00">' + atRisk + '</div><div style="font-size:0.55rem;color:#8b949e">At Risk</div></div>';
-            h += '<div style="text-align:center;padding:4px;background:rgba(255,68,68,0.1);border-radius:3px"><div style="font-size:1.2rem;font-weight:700;color:#ff4444">' + delayed + '</div><div style="font-size:0.55rem;color:#8b949e">Delayed</div></div>';
-            h += '<div style="text-align:center;padding:4px;background:rgba(0,170,255,0.1);border-radius:3px"><div style="font-size:1.2rem;font-weight:700;color:#00aaff">' + complete + '</div><div style="font-size:0.55rem;color:#8b949e">Complete</div></div>';
+            h += '<div style="text-align:center;padding:4px;background:rgba(0,204,136,0.1);border-radius:3px"><div style="font-size:1.2rem;font-weight:700;color:#00cc88">' + onTrack + '</div><div style="font-size:0.55rem;color:#666">On Track</div></div>';
+            h += '<div style="text-align:center;padding:4px;background:rgba(255,170,0,0.1);border-radius:3px"><div style="font-size:1.2rem;font-weight:700;color:#ffaa00">' + atRisk + '</div><div style="font-size:0.55rem;color:#666">At Risk</div></div>';
+            h += '<div style="text-align:center;padding:4px;background:rgba(255,68,68,0.1);border-radius:3px"><div style="font-size:1.2rem;font-weight:700;color:#ff4444">' + delayed + '</div><div style="font-size:0.55rem;color:#666">Delayed</div></div>';
+            h += '<div style="text-align:center;padding:4px;background:rgba(0,170,255,0.1);border-radius:3px"><div style="font-size:1.2rem;font-weight:700;color:#00aaff">' + complete + '</div><div style="font-size:0.55rem;color:#666">Complete</div></div>';
             h += '</div>';
         } else if (wt === 'schedule-variance') {
             h += '<div style="font-size:0.7rem;font-weight:600;color:#00aaff;margin-bottom:6px"><i class="fas fa-clock"></i> Schedule Variance</div>';
@@ -1599,7 +1599,7 @@
             });
             variances.slice(0, 6).forEach(function (v) {
                 var c = v.diff <= 0 ? '#00cc88' : (v.diff <= 30 ? '#ffaa00' : '#ff4444');
-                h += '<div style="display:flex;justify-content:space-between;padding:2px 0;font-size:0.65rem;border-bottom:1px solid rgba(255,255,255,0.04)"><span style="color:#c9d1d9">' + _esc(v.hull) + '</span><span style="color:' + c + ';font-weight:600">' + (v.diff > 0 ? '+' : '') + v.diff + 'd</span></div>';
+                h += '<div style="display:flex;justify-content:space-between;padding:2px 0;font-size:0.65rem;border-bottom:1px solid rgba(0,0,0,0.04)"><span style="color:#c9d1d9">' + _esc(v.hull) + '</span><span style="color:' + c + ';font-weight:600">' + (v.diff > 0 ? '+' : '') + v.diff + 'd</span></div>';
             });
             if (!variances.length) h += '<div style="color:var(--muted);font-size:0.7rem;text-align:center;padding:10px">No variance data</div>';
         } else if (wt === 'readiness-gauge') {
@@ -1627,12 +1627,12 @@
             ['#ffaa00','#ff4444','#ff6600','#ff6600','#ff0000']
         ];
         var rm = '<div style="width:100%;height:100%;position:relative;font-size:0.55rem">';
-        rm += '<div style="position:absolute;left:0;top:0;bottom:20px;width:18px;display:flex;align-items:center;justify-content:center"><span style="writing-mode:vertical-rl;transform:rotate(180deg);color:#8b949e;font-size:0.6rem;font-weight:600">LIKELIHOOD \u2192</span></div>';
-        rm += '<div style="position:absolute;left:25px;bottom:0;right:0;height:18px;text-align:center;color:#8b949e;font-size:0.6rem;font-weight:600">IMPACT \u2192</div>';
+        rm += '<div style="position:absolute;left:0;top:0;bottom:20px;width:18px;display:flex;align-items:center;justify-content:center"><span style="writing-mode:vertical-rl;transform:rotate(180deg);color:#666;font-size:0.6rem;font-weight:600">LIKELIHOOD \u2192</span></div>';
+        rm += '<div style="position:absolute;left:25px;bottom:0;right:0;height:18px;text-align:center;color:#666;font-size:0.6rem;font-weight:600">IMPACT \u2192</div>';
         for (var row = 0; row < 5; row++) {
             for (var col = 0; col < 5; col++) {
                 var cx = 25 + col * cellW, cy = (4 - row) * cellH;
-                rm += '<div style="position:absolute;left:' + cx + 'px;top:' + cy + 'px;width:' + cellW + 'px;height:' + cellH + 'px;background:' + riskColors[row][col] + ';opacity:0.25;border:1px solid rgba(255,255,255,0.1)"></div>';
+                rm += '<div style="position:absolute;left:' + cx + 'px;top:' + cy + 'px;width:' + cellW + 'px;height:' + cellH + 'px;background:' + riskColors[row][col] + ';opacity:0.25;border:1px solid rgba(0,0,0,0.08)"></div>';
             }
         }
         // Plot risk items
@@ -1726,7 +1726,7 @@
         slide.elements.forEach(function (el) { if (el.id === eid) elem = el; });
         if (!elem || elem.type !== 'text') return;
 
-        var html = '<textarea id="briefEditTextArea" style="width:100%;height:200px;background:#2c2c2e;color:#fff;border:1px solid rgba(255,255,255,0.15);border-radius:3px;padding:10px;font-size:0.9rem;font-family:inherit;resize:vertical">' + _esc(elem.text || '') + '</textarea>';
+        var html = '<textarea id="briefEditTextArea" style="width:100%;height:200px;background:#fff;color:#1d1d1f;border:1px solid rgba(255,255,255,0.15);border-radius:3px;padding:10px;font-size:0.9rem;font-family:inherit;resize:vertical">' + _esc(elem.text || '') + '</textarea>';
         html += '<div style="margin-top:10px;display:flex;justify-content:flex-end;gap:6px">';
         html += '<button class="ai-quick-btn" onclick="briefApplyTextEdit(\'' + eid + '\')"><i class="fas fa-check"></i> Apply</button>';
         html += '<button class="ai-quick-btn" onclick="briefCloseModal()">Cancel</button>';
@@ -1907,11 +1907,11 @@
         html += _masterField('Body Size', 'masterBodySize', m.bodySize || 16);
         html += _masterColorField('Header BG', 'masterHeaderBg', m.headerBg || '#0a1628');
         html += _masterColorField('Header Color', 'masterHeaderColor', m.headerColor || '#ffffff');
-        html += _masterColorField('Body BG', 'masterBodyBg', m.bodyBg || '#2c2c2e');
+        html += _masterColorField('Body BG', 'masterBodyBg', m.bodyBg || '#f5f5f7');
         html += _masterColorField('Body Color', 'masterBodyColor', m.bodyColor || '#c9d1d9');
         html += _masterColorField('Accent', 'masterAccent', m.accentColor || '#00aaff');
         html += '</div>';
-        html += '<div style="margin-top:10px"><label style="color:var(--steel);font-size:0.8rem">Footer Text</label><input id="masterFooter" value="' + _esc(m.footerText || '') + '" style="width:100%;background:#2c2c2e;color:#fff;border:1px solid rgba(255,255,255,0.15);border-radius:3px;padding:5px 8px;font-size:0.82rem;margin-top:4px"></div>';
+        html += '<div style="margin-top:10px"><label style="color:var(--steel);font-size:0.8rem">Footer Text</label><input id="masterFooter" value="' + _esc(m.footerText || '') + '" style="width:100%;background:#fff;color:#1d1d1f;border:1px solid rgba(255,255,255,0.15);border-radius:3px;padding:5px 8px;font-size:0.82rem;margin-top:4px"></div>';
         html += '<div style="margin-top:12px;display:flex;justify-content:flex-end;gap:6px">';
         html += '<button class="ai-quick-btn" onclick="briefApplyMaster()"><i class="fas fa-check"></i> Apply</button>';
         html += '<button class="ai-quick-btn" onclick="briefCloseModal()">Cancel</button>';
@@ -1921,10 +1921,10 @@
     window.briefSlideMaster = briefSlideMaster;
 
     function _masterField(label, id, val) {
-        return '<div><label style="color:var(--steel)">' + label + '</label><input id="' + id + '" value="' + _esc('' + val) + '" style="width:100%;background:#2c2c2e;color:#fff;border:1px solid rgba(255,255,255,0.15);border-radius:3px;padding:4px 8px;font-size:0.8rem;margin-top:2px"></div>';
+        return '<div><label style="color:var(--steel)">' + label + '</label><input id="' + id + '" value="' + _esc('' + val) + '" style="width:100%;background:#fff;color:#1d1d1f;border:1px solid rgba(255,255,255,0.15);border-radius:3px;padding:4px 8px;font-size:0.8rem;margin-top:2px"></div>';
     }
     function _masterColorField(label, id, val) {
-        return '<div><label style="color:var(--steel)">' + label + '</label><div style="display:flex;gap:4px;margin-top:2px"><input type="color" id="' + id + '" value="' + val + '" style="width:36px;height:28px;border:none;cursor:pointer"><input id="' + id + 'Text" value="' + val + '" style="flex:1;background:#2c2c2e;color:#fff;border:1px solid rgba(255,255,255,0.15);border-radius:3px;padding:4px;font-size:0.78rem" onchange="document.getElementById(\'' + id + '\').value=this.value"></div></div>';
+        return '<div><label style="color:var(--steel)">' + label + '</label><div style="display:flex;gap:4px;margin-top:2px"><input type="color" id="' + id + '" value="' + val + '" style="width:36px;height:28px;border:none;cursor:pointer"><input id="' + id + 'Text" value="' + val + '" style="flex:1;background:#fff;color:#1d1d1f;border:1px solid rgba(255,255,255,0.15);border-radius:3px;padding:4px;font-size:0.78rem" onchange="document.getElementById(\'' + id + '\').value=this.value"></div></div>';
     }
 
     function briefApplyMaster() {
@@ -1954,15 +1954,15 @@
         var b = _activeBrief;
         var html = '<div style="font-size:0.82rem">';
         html += '<label style="color:var(--steel)">Access Level</label>';
-        html += '<select id="briefAccessLevel" style="width:100%;background:#2c2c2e;color:#fff;border:1px solid rgba(255,255,255,0.15);border-radius:3px;padding:5px 8px;font-size:0.82rem;margin:4px 0 12px">';
+        html += '<select id="briefAccessLevel" style="width:100%;background:#fff;color:#1d1d1f;border:1px solid rgba(255,255,255,0.15);border-radius:3px;padding:5px 8px;font-size:0.82rem;margin:4px 0 12px">';
         ['private','team','org','public'].forEach(function (lv) {
             html += '<option value="' + lv + '"' + (b.access_level === lv ? ' selected' : '') + '>' + lv.charAt(0).toUpperCase() + lv.slice(1) + '</option>';
         });
         html += '</select>';
         html += '<label style="color:var(--steel)">Editors (comma-separated emails)</label>';
-        html += '<input id="briefEditors" value="' + _esc((b.editors || []).join(', ')) + '" style="width:100%;background:#2c2c2e;color:#fff;border:1px solid rgba(255,255,255,0.15);border-radius:3px;padding:5px 8px;font-size:0.82rem;margin:4px 0 12px">';
+        html += '<input id="briefEditors" value="' + _esc((b.editors || []).join(', ')) + '" style="width:100%;background:#fff;color:#1d1d1f;border:1px solid rgba(255,255,255,0.15);border-radius:3px;padding:5px 8px;font-size:0.82rem;margin:4px 0 12px">';
         html += '<label style="color:var(--steel)">Viewers (comma-separated emails)</label>';
-        html += '<input id="briefViewers" value="' + _esc((b.viewers || []).join(', ')) + '" style="width:100%;background:#2c2c2e;color:#fff;border:1px solid rgba(255,255,255,0.15);border-radius:3px;padding:5px 8px;font-size:0.82rem;margin:4px 0 12px">';
+        html += '<input id="briefViewers" value="' + _esc((b.viewers || []).join(', ')) + '" style="width:100%;background:#fff;color:#1d1d1f;border:1px solid rgba(255,255,255,0.15);border-radius:3px;padding:5px 8px;font-size:0.82rem;margin:4px 0 12px">';
         html += '</div>';
         html += '<div style="display:flex;justify-content:flex-end;gap:6px">';
         html += '<button class="ai-quick-btn" onclick="briefApplyShare()"><i class="fas fa-check"></i> Apply</button>';
@@ -2022,7 +2022,7 @@
         var doc = '<!DOCTYPE html><html><head><meta charset="utf-8"><title>' + _esc(brief.title) + '</title>';
         doc += '<style>@media print{.slide{page-break-after:always}.slide:last-child{page-break-after:auto}}';
         doc += 'body{margin:0;padding:20px;background:#1a1a2e;font-family:' + (master.fontFamily || 'sans-serif') + '}';
-        doc += '.slide{position:relative;width:' + sw + 'px;height:' + sh + 'px;margin:0 auto 20px;background:' + (master.bodyBg || '#2c2c2e') + ';border-radius:4px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.4)}';
+        doc += '.slide{position:relative;width:' + sw + 'px;height:' + sh + 'px;margin:0 auto 20px;background:' + (master.bodyBg || '#f5f5f7') + ';border-radius:4px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.4)}';
         doc += '.el{position:absolute;box-sizing:border-box;overflow:hidden;white-space:pre-wrap;word-wrap:break-word}';
         doc += '</style></head><body>';
 
@@ -2050,7 +2050,7 @@
                     doc += '<div class="el" style="' + s + '"><img src="' + el.src + '" style="width:100%;height:100%;object-fit:contain"></div>';
                 }
             });
-            doc += '<div style="position:absolute;bottom:0;left:0;right:0;height:24px;background:rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;font-size:10px;color:#8b949e">' + _esc(master.footerText || '') + '</div>';
+            doc += '<div style="position:absolute;bottom:0;left:0;right:0;height:24px;background:rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;font-size:10px;color:#666">' + _esc(master.footerText || '') + '</div>';
             doc += '</div>';
         });
 
@@ -2166,7 +2166,7 @@
         var html = '';
         html += '<div style="background:linear-gradient(135deg,rgba(0,170,255,0.08),rgba(168,85,247,0.06));border:1px solid rgba(0,170,255,0.15);border-radius:12px;padding:16px;margin-bottom:16px">';
         html += '<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px"><i class="fas fa-magic" style="color:#00aaff;font-size:1.1rem"></i><span style="color:#e6edf3;font-weight:600;font-size:0.95rem">AI Brief Assistant</span></div>';
-        html += '<div style="color:#8b949e;font-size:0.82rem;line-height:1.5;margin-bottom:12px">Generate professional defense-grade content for your <strong style="color:#00aaff">' + _esc(bt) + '</strong> brief: <strong style="color:#e6edf3">' + _esc(briefTitle) + '</strong></div>';
+        html += '<div style="color:#666;font-size:0.82rem;line-height:1.5;margin-bottom:12px">Generate professional defense-grade content for your <strong style="color:#00aaff">' + _esc(bt) + '</strong> brief: <strong style="color:#e6edf3">' + _esc(briefTitle) + '</strong></div>';
         html += '</div>';
 
         html += '<div style="margin-bottom:12px"><div style="font-size:0.78rem;color:#6e7681;font-weight:600;margin-bottom:6px">Current Slides:</div>' + slideList + '</div>';
@@ -2235,7 +2235,7 @@
             _toast('AI request sent \u2014 check the AI panel for results', 'info');
         } else {
             // No AI chat available - show the prompt for manual use
-            var resultHtml = '<div style="margin-bottom:12px;color:#8b949e;font-size:0.82rem">No AI agent connected. Copy this prompt to your AI assistant:</div>';
+            var resultHtml = '<div style="margin-bottom:12px;color:#666;font-size:0.82rem">No AI agent connected. Copy this prompt to your AI assistant:</div>';
             resultHtml += '<textarea class="brief-prop-input" style="height:200px;font-size:0.78rem" readonly>' + _esc(prompt) + '</textarea>';
             resultHtml += '<button class="brief-action-btn primary" onclick="navigator.clipboard.writeText(document.querySelector(\'.brief-modal textarea\').value);_toast(\'Copied!\',\'success\')" style="margin-top:8px"><i class="fas fa-copy"></i> Copy to Clipboard</button>';
             _showModal('AI Prompt Generated', resultHtml);
@@ -2279,7 +2279,7 @@
 
     function briefAddProgram() {
         var html = '<div style="font-size:0.85rem;color:var(--steel);margin-bottom:12px">Add a custom program to the dropdown.</div>';
-        html += '<input id="briefNewProgramInput" placeholder="e.g. PMS 500 — ZUMWALT Class" style="width:100%;background:#2c2c2e;color:#fff;border:1px solid rgba(255,255,255,0.15);border-radius:4px;padding:8px 12px;font-size:0.88rem;margin-bottom:12px">';
+        html += '<input id="briefNewProgramInput" placeholder="e.g. PMS 500 — ZUMWALT Class" style="width:100%;background:#fff;color:#1d1d1f;border:1px solid rgba(255,255,255,0.15);border-radius:4px;padding:8px 12px;font-size:0.88rem;margin-bottom:12px">';
         html += '<div style="display:flex;justify-content:flex-end;gap:6px">';
         html += '<button class="ai-quick-btn" onclick="briefConfirmAddProgram()"><i class="fas fa-check"></i> Add</button>';
         html += '<button class="ai-quick-btn" onclick="briefCloseModal()">Cancel</button>';
@@ -2307,8 +2307,8 @@
 
     function briefAddVessel() {
         if (!_selectedProgram) { _toast('Select a program first', 'warning'); return; }
-        var html = '<div style="font-size:0.85rem;color:var(--steel);margin-bottom:12px">Add a vessel / craft to <strong style="color:#fff">' + _esc(_selectedProgram) + '</strong>.</div>';
-        html += '<input id="briefNewVesselInput" placeholder="e.g. DDG 129 Jeremiah Denton" style="width:100%;background:#2c2c2e;color:#fff;border:1px solid rgba(255,255,255,0.15);border-radius:4px;padding:8px 12px;font-size:0.88rem;margin-bottom:12px">';
+        var html = '<div style="font-size:0.85rem;color:var(--steel);margin-bottom:12px">Add a vessel / craft to <strong style="color:#1d1d1f">' + _esc(_selectedProgram) + '</strong>.</div>';
+        html += '<input id="briefNewVesselInput" placeholder="e.g. DDG 129 Jeremiah Denton" style="width:100%;background:#fff;color:#1d1d1f;border:1px solid rgba(255,255,255,0.15);border-radius:4px;padding:8px 12px;font-size:0.88rem;margin-bottom:12px">';
         html += '<div style="display:flex;justify-content:flex-end;gap:6px">';
         html += '<button class="ai-quick-btn" onclick="briefConfirmAddVessel()"><i class="fas fa-check"></i> Add</button>';
         html += '<button class="ai-quick-btn" onclick="briefCloseModal()">Cancel</button>';
@@ -2370,7 +2370,7 @@
         if (!_activeBrief || !_activeBrief.comments || !_activeBrief.comments[slideIdx]) return;
         var comment = _activeBrief.comments[slideIdx][commentIdx];
         if (!comment) return;
-        var html = '<textarea id="briefEditCommentText" style="width:100%;height:80px;background:#2c2c2e;color:#fff;border:1px solid rgba(255,255,255,0.15);border-radius:4px;padding:8px 12px;font-size:0.85rem;resize:vertical;margin-bottom:12px">' + _esc(comment.text) + '</textarea>';
+        var html = '<textarea id="briefEditCommentText" style="width:100%;height:80px;background:#fff;color:#1d1d1f;border:1px solid rgba(255,255,255,0.15);border-radius:4px;padding:8px 12px;font-size:0.85rem;resize:vertical;margin-bottom:12px">' + _esc(comment.text) + '</textarea>';
         html += '<div style="display:flex;justify-content:flex-end;gap:6px">';
         html += '<button class="ai-quick-btn" onclick="briefConfirmEditComment(' + slideIdx + ',' + commentIdx + ')"><i class="fas fa-check"></i> Save</button>';
         html += '<button class="ai-quick-btn" onclick="briefCloseModal()">Cancel</button>';
@@ -2422,7 +2422,7 @@
             var recent = history.slice().reverse().slice(0, 50);
             recent.forEach(function (entry) {
                 var timeStr = entry.timestamp ? new Date(entry.timestamp).toLocaleString() : '';
-                html += '<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;border-bottom:1px solid rgba(255,255,255,0.04);font-size:0.8rem">';
+                html += '<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;border-bottom:1px solid rgba(0,0,0,0.04);font-size:0.8rem">';
                 html += '<div><span style="color:#00aaff;font-weight:600">' + _esc(entry.user || 'Unknown') + '</span> <span style="color:var(--muted)">' + _esc(entry.action || '') + '</span></div>';
                 html += '<span style="color:var(--muted);font-size:0.72rem;white-space:nowrap">' + timeStr + '</span>';
                 html += '</div>';
@@ -2486,20 +2486,20 @@
         var history = _activeBrief.approval_history || [];
         var html = '<div style="margin-bottom:16px">';
         html += '<label style="color:var(--steel);font-size:0.82rem;display:block;margin-bottom:6px">Current Status</label>';
-        html += '<select id="briefApprovalStatus" style="background:#2c2c2e;color:#fff;border:1px solid rgba(255,255,255,0.15);border-radius:4px;padding:6px 12px;font-size:0.85rem;width:100%">';
+        html += '<select id="briefApprovalStatus" style="background:#fff;color:#1d1d1f;border:1px solid rgba(255,255,255,0.15);border-radius:4px;padding:6px 12px;font-size:0.85rem;width:100%">';
         ['draft','in_review','approved','rejected','locked'].forEach(function (s) {
             var label = { draft: 'Draft', in_review: 'In Review', approved: 'Approved', rejected: 'Rejected — Changes Requested', locked: 'Locked (Final)' }[s] || s;
             html += '<option value="' + s + '"' + (s === status ? ' selected' : '') + '>' + label + '</option>';
         });
         html += '</select></div>';
         html += '<div style="margin-bottom:12px"><label style="color:var(--steel);font-size:0.82rem;display:block;margin-bottom:4px">Reviewer Note</label>';
-        html += '<textarea id="briefApprovalNote" placeholder="Add a note..." style="width:100%;height:60px;background:#2c2c2e;color:#fff;border:1px solid rgba(255,255,255,0.15);border-radius:4px;padding:8px;font-size:0.82rem;resize:vertical"></textarea></div>';
+        html += '<textarea id="briefApprovalNote" placeholder="Add a note..." style="width:100%;height:60px;background:#fff;color:#1d1d1f;border:1px solid rgba(255,255,255,0.15);border-radius:4px;padding:8px;font-size:0.82rem;resize:vertical"></textarea></div>';
         if (history.length) {
             html += '<div style="max-height:160px;overflow-y:auto;border-top:1px solid rgba(255,255,255,0.06);padding-top:10px;margin-bottom:12px">';
             html += '<div style="font-size:0.75rem;color:var(--muted);margin-bottom:6px;font-weight:600">History</div>';
             history.slice().reverse().forEach(function (h) {
                 var clr = { approved: '#4ecb71', rejected: '#ff4444', in_review: '#f97316', locked: '#00aaff' }[h.status] || '#8b949e';
-                html += '<div style="padding:4px 0;font-size:0.75rem;border-bottom:1px solid rgba(255,255,255,0.03)">';
+                html += '<div style="padding:4px 0;font-size:0.75rem;border-bottom:1px solid rgba(0,0,0,0.03)">';
                 html += '<span style="color:' + clr + ';font-weight:600">' + (h.status || '').replace('_', ' ').toUpperCase() + '</span>';
                 html += ' <span style="color:var(--muted)">by</span> <span style="color:#00aaff">' + _esc(h.user || '') + '</span>';
                 html += ' <span style="color:var(--muted);font-size:0.68rem">' + (h.timestamp ? new Date(h.timestamp).toLocaleString() : '') + '</span>';
@@ -2553,10 +2553,10 @@
         slides.forEach(function (s, i) {
             var textPreview = '';
             (s.elements || []).forEach(function (el) { if (el.type === 'text' && !textPreview) textPreview = (el.text || '').substring(0, 60); });
-            html += '<div style="padding:4px 0;font-size:0.72rem;color:var(--muted)"><span style="color:#fff">Slide ' + (i + 1) + ':</span> ' + _esc(s.title || '') + ' — ' + _esc(textPreview) + '</div>';
+            html += '<div style="padding:4px 0;font-size:0.72rem;color:var(--muted)"><span style="color:#1d1d1f">Slide ' + (i + 1) + ':</span> ' + _esc(s.title || '') + ' — ' + _esc(textPreview) + '</div>';
         });
         html += '</div>';
-        html += '<div style="border:1px solid rgba(255,255,255,0.1);border-radius:4px;padding:10px"><div style="color:var(--muted);font-weight:600;margin-bottom:8px;font-size:0.78rem">Edit History</div>';
+        html += '<div style="border:1px solid rgba(0,0,0,0.08);border-radius:4px;padding:10px"><div style="color:var(--muted);font-weight:600;margin-bottom:8px;font-size:0.78rem">Edit History</div>';
         history.slice().reverse().slice(0, 15).forEach(function (h) {
             html += '<div style="padding:3px 0;font-size:0.7rem;color:var(--muted)"><span style="color:#00aaff">' + _esc(h.user || '') + '</span> ' + _esc(h.action || '') + ' — ' + (h.timestamp ? new Date(h.timestamp).toLocaleString() : '') + '</div>';
         });
@@ -2591,7 +2591,7 @@
             // Classification banner top
             html += '<div style="position:fixed;top:0;left:0;right:0;height:28px;background:' + cls.bg + ';display:flex;align-items:center;justify-content:center;z-index:100000;font-size:0.75rem;font-weight:700;letter-spacing:2px;color:' + cls.color + '">' + cls.label + '</div>';
             // Slide
-            html += '<div style="position:relative;width:' + sw + 'px;height:' + sh + 'px;background:' + (master.bodyBg || '#2c2c2e') + ';border-radius:4px;transform:scale(' + scale.toFixed(3) + ');box-shadow:0 8px 48px rgba(0,0,0,0.8);overflow:hidden;margin-top:30px">';
+            html += '<div style="position:relative;width:' + sw + 'px;height:' + sh + 'px;background:' + (master.bodyBg || '#f5f5f7') + ';border-radius:4px;transform:scale(' + scale.toFixed(3) + ');box-shadow:0 8px 48px rgba(0,0,0,0.8);overflow:hidden;margin-top:30px">';
             (slide.elements || []).forEach(function (el) {
                 var s = 'position:absolute;left:' + el.x + 'px;top:' + el.y + 'px;width:' + el.w + 'px;height:' + el.h + 'px;';
                 if (el.type === 'text') {
@@ -2622,7 +2622,7 @@
                 }
             });
             // Footer
-            html += '<div style="position:absolute;bottom:0;left:0;right:0;height:24px;background:rgba(0,0,0,0.4);display:flex;align-items:center;justify-content:space-between;padding:0 12px;font-size:0.6rem;color:#8b949e">';
+            html += '<div style="position:absolute;bottom:0;left:0;right:0;height:24px;background:rgba(0,0,0,0.4);display:flex;align-items:center;justify-content:space-between;padding:0 12px;font-size:0.6rem;color:#666">';
             html += '<span>' + (master.footerText || '') + '</span>';
             html += '<span>Slide ' + (curSlide + 1) + ' of ' + slides.length + '</span>';
             html += '</div></div>';
@@ -2630,7 +2630,7 @@
             var elapsed = Math.floor((Date.now() - startTime) / 1000);
             var mins = Math.floor(elapsed / 60);
             var secs = elapsed % 60;
-            html += '<div style="position:fixed;bottom:0;left:0;right:0;height:48px;background:rgba(0,0,0,0.9);display:flex;align-items:center;justify-content:center;gap:16px;font-size:0.8rem;color:#8b949e;z-index:100000">';
+            html += '<div style="position:fixed;bottom:0;left:0;right:0;height:48px;background:rgba(0,0,0,0.35);display:flex;align-items:center;justify-content:center;gap:16px;font-size:0.8rem;color:#666;z-index:100000">';
             html += '<span style="cursor:pointer;padding:4px 12px;border-radius:4px;background:rgba(255,255,255,0.06)" onclick="document.getElementById(\'briefPresenterOverlay\').__prev()">&#9664; Prev</span>';
             html += '<span>' + (curSlide + 1) + ' / ' + slides.length + '</span>';
             html += '<span style="cursor:pointer;padding:4px 12px;border-radius:4px;background:rgba(255,255,255,0.06)" onclick="document.getElementById(\'briefPresenterOverlay\').__next()">Next &#9654;</span>';
@@ -2639,7 +2639,7 @@
             html += '</div>';
             // Speaker notes
             if (slide.notes) {
-                html += '<div style="position:fixed;bottom:48px;left:0;right:0;max-height:80px;background:rgba(0,0,0,0.85);padding:8px 16px;font-size:0.75rem;color:#8b949e;overflow-y:auto;z-index:100000;border-top:1px solid rgba(255,255,255,0.1)">';
+                html += '<div style="position:fixed;bottom:48px;left:0;right:0;max-height:80px;background:rgba(0,0,0,0.3);padding:8px 16px;font-size:0.75rem;color:#666;overflow-y:auto;z-index:100000;border-top:1px solid rgba(255,255,255,0.1)">';
                 html += '<strong style="color:#00aaff">Notes:</strong> ' + _esc(slide.notes);
                 html += '</div>';
             }
@@ -2772,7 +2772,7 @@
         var doc = '<!DOCTYPE html><html><head><meta charset="utf-8"><title>' + _esc(brief.title) + '</title>';
         doc += '<style>@page{margin:0;size:' + sw + 'px ' + (sh + 40) + 'px}@media print{.slide{page-break-after:always;break-after:page}.slide:last-child{page-break-after:auto}}';
         doc += '*{box-sizing:border-box;margin:0;padding:0}body{background:#fff;font-family:' + (master.fontFamily || 'sans-serif') + '}';
-        doc += '.slide{position:relative;width:' + sw + 'px;height:' + sh + 'px;background:' + (master.bodyBg || '#2c2c2e') + ';overflow:hidden}';
+        doc += '.slide{position:relative;width:' + sw + 'px;height:' + sh + 'px;background:' + (master.bodyBg || '#f5f5f7') + ';overflow:hidden}';
         doc += '.el{position:absolute;overflow:hidden;white-space:pre-wrap;word-wrap:break-word}';
         doc += '.cls-banner{width:100%;height:20px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;letter-spacing:2px}';
         doc += '</style></head><body>';
@@ -2797,7 +2797,7 @@
                     doc += '<div class="el" style="' + s + '"></div>';
                 }
             });
-            doc += '<div style="position:absolute;bottom:0;left:0;right:0;height:24px;background:rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;font-size:10px;color:#8b949e">' + (master.footerText || '') + '</div>';
+            doc += '<div style="position:absolute;bottom:0;left:0;right:0;height:24px;background:rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;font-size:10px;color:#666">' + (master.footerText || '') + '</div>';
             doc += '</div>';
         });
         doc += '<script>window.onload=function(){window.print();}<\/script></body></html>';
@@ -2813,7 +2813,7 @@
     function briefSaveAsTemplate() {
         if (!_activeBrief) return;
         var html = '<div style="font-size:0.85rem;color:var(--steel);margin-bottom:12px">Save this brief as a reusable template in your slide library.</div>';
-        html += '<input id="briefTplName" value="' + _esc(_activeBrief.title || 'Custom Template') + '" style="width:100%;background:#2c2c2e;color:#fff;border:1px solid rgba(255,255,255,0.15);border-radius:4px;padding:8px 12px;font-size:0.88rem;margin-bottom:12px">';
+        html += '<input id="briefTplName" value="' + _esc(_activeBrief.title || 'Custom Template') + '" style="width:100%;background:#fff;color:#1d1d1f;border:1px solid rgba(255,255,255,0.15);border-radius:4px;padding:8px 12px;font-size:0.88rem;margin-bottom:12px">';
         html += '<div style="display:flex;justify-content:flex-end;gap:6px">';
         html += '<button class="ai-quick-btn" onclick="briefConfirmSaveTemplate()" style="background:rgba(0,204,136,0.12);color:#00cc88"><i class="fas fa-check"></i> Save</button>';
         html += '<button class="ai-quick-btn" onclick="briefCloseModal()">Cancel</button>';
@@ -2869,7 +2869,7 @@
                 ['Row 3', 'Data', 'Data', 'Data']
             ],
             headerBg: 'rgba(0,170,255,0.2)', altRowBg: 'rgba(255,255,255,0.02)',
-            borderColor: 'rgba(255,255,255,0.1)', fontSize: 13, color: '#c9d1d9'
+            borderColor: 'rgba(0,0,0,0.08)', fontSize: 13, color: '#c9d1d9'
         };
         slide.elements.push(table);
         _isDirty = true;
@@ -2886,7 +2886,7 @@
             (row || []).forEach(function (cell) {
                 var bg = ri === 0 ? (el.headerBg || 'rgba(0,170,255,0.2)') : (ri % 2 === 0 ? (el.altRowBg || 'transparent') : 'transparent');
                 var fw = ri === 0 ? '600' : '400';
-                html += '<td style="padding:4px 8px;border:1px solid ' + (el.borderColor || 'rgba(255,255,255,0.1)') + ';background:' + bg + ';font-weight:' + fw + '">' + _esc(cell) + '</td>';
+                html += '<td style="padding:4px 8px;border:1px solid ' + (el.borderColor || 'rgba(0,0,0,0.08)') + ';background:' + bg + ';font-weight:' + fw + '">' + _esc(cell) + '</td>';
             });
             html += '</tr>';
         });
@@ -2931,7 +2931,7 @@
                 { label: 'Actual', values: [75, 82, 88, 0], color: '#4ecb71' }
             ],
             title: 'Chart Title',
-            bgColor: 'rgba(255,255,255,0.02)', gridColor: 'rgba(255,255,255,0.06)'
+            bgColor: 'rgba(255,255,255,0.02)', gridColor: 'rgba(0,0,0,0.06)'
         });
         _isDirty = true;
         _renderEditor();
@@ -2943,8 +2943,8 @@
         var ct = el.chartType || 'bar';
         var labels = el.labels || [];
         var datasets = el.datasets || [];
-        var html = '<div style="' + baseStyle + 'background:' + (el.bgColor || 'rgba(255,255,255,0.02)') + ';border:1px solid rgba(255,255,255,0.06);border-radius:4px;padding:8px;overflow:hidden">';
-        if (el.title) html += '<div style="font-size:11px;color:#fff;font-weight:600;margin-bottom:6px;text-align:center">' + _esc(el.title) + '</div>';
+        var html = '<div style="' + baseStyle + 'background:' + (el.bgColor || 'rgba(255,255,255,0.02)') + ';border:1px solid rgba(0,0,0,0.06);border-radius:4px;padding:8px;overflow:hidden">';
+        if (el.title) html += '<div style="font-size:11px;color:#1d1d1f;font-weight:600;margin-bottom:6px;text-align:center">' + _esc(el.title) + '</div>';
         var maxVal = 1;
         datasets.forEach(function (ds) { ds.values.forEach(function (v) { if (v > maxVal) maxVal = v; }); });
 
@@ -2991,7 +2991,7 @@
             // Grid lines
             for (var g = 0; g <= 4; g++) {
                 var gy = chartH - (g / 4) * chartH;
-                html += '<line x1="30" y1="' + gy + '" x2="100%" y2="' + gy + '" stroke="' + (el.gridColor || 'rgba(255,255,255,0.06)') + '" stroke-width="0.5"/>';
+                html += '<line x1="30" y1="' + gy + '" x2="100%" y2="' + gy + '" stroke="' + (el.gridColor || 'rgba(0,0,0,0.06)') + '" stroke-width="0.5"/>';
                 html += '<text x="0" y="' + (gy + 3) + '" fill="#8b949e" font-size="8">' + Math.round(maxVal * g / 4) + '</text>';
             }
             if (ct === 'line') {
@@ -3112,18 +3112,18 @@
             ['#ff4444','#ff4444','#ff6600','#ff6600','#cc0000']
         ];
         var html = '<div style="' + baseStyle + 'padding:6px;font-size:' + (el.fontSize || 10) + 'px">';
-        html += '<div style="text-align:center;font-size:11px;color:#fff;font-weight:600;margin-bottom:4px">Risk Assessment Matrix</div>';
+        html += '<div style="text-align:center;font-size:11px;color:#1d1d1f;font-weight:600;margin-bottom:4px">Risk Assessment Matrix</div>';
         html += '<div style="display:flex">';
-        html += '<div style="writing-mode:vertical-rl;transform:rotate(180deg);font-size:9px;color:#8b949e;display:flex;align-items:center;padding-right:4px">Likelihood &rarr;</div>';
+        html += '<div style="writing-mode:vertical-rl;transform:rotate(180deg);font-size:9px;color:#666;display:flex;align-items:center;padding-right:4px">Likelihood &rarr;</div>';
         html += '<div>';
         for (var row = 4; row >= 0; row--) {
             html += '<div style="display:flex">';
-            html += '<div style="width:18px;font-size:8px;color:#8b949e;display:flex;align-items:center;justify-content:center">' + (row + 1) + '</div>';
+            html += '<div style="width:18px;font-size:8px;color:#666;display:flex;align-items:center;justify-content:center">' + (row + 1) + '</div>';
             for (var col = 0; col < 5; col++) {
                 var bg = riskColors[row][col];
                 // Check if any items land in this cell
                 var itemsHere = (el.items || []).filter(function (item) { return item.likelihood === (row + 1) && item.consequence === (col + 1); });
-                html += '<div style="width:' + cellW + 'px;height:' + cellH + 'px;background:' + bg + ';opacity:0.7;border:1px solid rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;font-size:8px;color:#fff;font-weight:600;position:relative">';
+                html += '<div style="width:' + cellW + 'px;height:' + cellH + 'px;background:' + bg + ';opacity:0.7;border:1px solid rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;font-size:8px;color:#1d1d1f;font-weight:600;position:relative">';
                 itemsHere.forEach(function (it) {
                     html += '<span style="background:rgba(0,0,0,0.6);padding:1px 4px;border-radius:2px;font-size:7px;white-space:nowrap">' + _esc(it.label) + '</span>';
                 });
@@ -3134,10 +3134,10 @@
         // X-axis labels
         html += '<div style="display:flex;margin-left:18px">';
         for (var c = 1; c <= 5; c++) {
-            html += '<div style="width:' + cellW + 'px;text-align:center;font-size:8px;color:#8b949e">' + c + '</div>';
+            html += '<div style="width:' + cellW + 'px;text-align:center;font-size:8px;color:#666">' + c + '</div>';
         }
         html += '</div>';
-        html += '<div style="text-align:center;font-size:9px;color:#8b949e;margin-top:2px">Consequence &rarr;</div>';
+        html += '<div style="text-align:center;font-size:9px;color:#666;margin-top:2px">Consequence &rarr;</div>';
         html += '</div></div></div>';
         return html;
     }
@@ -3158,7 +3158,7 @@
         ].forEach(function (w) {
             html += '<div class="stat-mini" style="cursor:pointer;padding:12px;text-align:center" onclick="briefInsertWidgetType(\'' + w.source + '\')" onmouseover="this.style.borderColor=\'' + w.color + '\'" onmouseout="this.style.borderColor=\'rgba(255,255,255,0.08)\'">';
             html += '<i class="fas ' + w.icon + '" style="color:' + w.color + ';font-size:1.3rem;display:block;margin-bottom:6px"></i>';
-            html += '<div style="color:#fff;font-size:0.8rem">' + w.label + '</div></div>';
+            html += '<div style="color:#1d1d1f;font-size:0.8rem">' + w.label + '</div></div>';
         });
         html += '</div>';
         _showModal('Insert Live Data Widget', html);
@@ -3336,12 +3336,12 @@
         html += '<div class="stat-mini" style="text-align:center;padding:12px"><div style="font-size:1.4rem;font-weight:700;color:#c9a84c">' + totalChars.toLocaleString() + '</div><div style="font-size:0.72rem;color:var(--muted)">Characters</div></div>';
         html += '</div>';
         html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:0.82rem">';
-        html += '<div style="color:var(--steel)">Version: <strong style="color:#fff">' + (brief.version || 1) + '</strong></div>';
-        html += '<div style="color:var(--steel)">Views: <strong style="color:#fff">' + views + '</strong></div>';
-        html += '<div style="color:var(--steel)">Status: <strong style="color:#fff">' + (brief.approval_status || 'draft') + '</strong></div>';
-        html += '<div style="color:var(--steel)">Classification: <strong style="color:#fff">' + (brief.classification || 'UNCLASSIFIED') + '</strong></div>';
-        html += '<div style="color:var(--steel)">Text Boxes: <strong style="color:#fff">' + totalText + '</strong></div>';
-        html += '<div style="color:var(--steel)">Created: <strong style="color:#fff">' + (brief.created_at ? new Date(brief.created_at).toLocaleDateString() : 'N/A') + '</strong></div>';
+        html += '<div style="color:var(--steel)">Version: <strong style="color:#1d1d1f">' + (brief.version || 1) + '</strong></div>';
+        html += '<div style="color:var(--steel)">Views: <strong style="color:#1d1d1f">' + views + '</strong></div>';
+        html += '<div style="color:var(--steel)">Status: <strong style="color:#1d1d1f">' + (brief.approval_status || 'draft') + '</strong></div>';
+        html += '<div style="color:var(--steel)">Classification: <strong style="color:#1d1d1f">' + (brief.classification || 'UNCLASSIFIED') + '</strong></div>';
+        html += '<div style="color:var(--steel)">Text Boxes: <strong style="color:#1d1d1f">' + totalText + '</strong></div>';
+        html += '<div style="color:var(--steel)">Created: <strong style="color:#1d1d1f">' + (brief.created_at ? new Date(brief.created_at).toLocaleDateString() : 'N/A') + '</strong></div>';
         html += '</div>';
         // Est. speaking time: ~150 words/min, ~5 words/char ratio
         var words = Math.round(totalChars / 5);
@@ -3359,11 +3359,11 @@
         var sched = _activeBrief.schedule || {};
         var html = '<div style="margin-bottom:12px">';
         html += '<label style="color:var(--steel);font-size:0.82rem;display:block;margin-bottom:4px">Briefing Date & Time</label>';
-        html += '<input type="datetime-local" id="briefSchedDate" value="' + (sched.datetime || '') + '" style="width:100%;background:#2c2c2e;color:#fff;border:1px solid rgba(255,255,255,0.15);border-radius:4px;padding:8px 12px;font-size:0.85rem;margin-bottom:10px">';
+        html += '<input type="datetime-local" id="briefSchedDate" value="' + (sched.datetime || '') + '" style="width:100%;background:#fff;color:#1d1d1f;border:1px solid rgba(255,255,255,0.15);border-radius:4px;padding:8px 12px;font-size:0.85rem;margin-bottom:10px">';
         html += '<label style="color:var(--steel);font-size:0.82rem;display:block;margin-bottom:4px">Location / Meeting Link</label>';
-        html += '<input id="briefSchedLocation" value="' + _esc(sched.location || '') + '" placeholder="e.g. Conference Room 3A / Teams Link" style="width:100%;background:#2c2c2e;color:#fff;border:1px solid rgba(255,255,255,0.15);border-radius:4px;padding:8px 12px;font-size:0.85rem;margin-bottom:10px">';
+        html += '<input id="briefSchedLocation" value="' + _esc(sched.location || '') + '" placeholder="e.g. Conference Room 3A / Teams Link" style="width:100%;background:#fff;color:#1d1d1f;border:1px solid rgba(255,255,255,0.15);border-radius:4px;padding:8px 12px;font-size:0.85rem;margin-bottom:10px">';
         html += '<label style="color:var(--steel);font-size:0.82rem;display:block;margin-bottom:4px">Attendees (comma-separated emails)</label>';
-        html += '<textarea id="briefSchedAttendees" style="width:100%;height:50px;background:#2c2c2e;color:#fff;border:1px solid rgba(255,255,255,0.15);border-radius:4px;padding:8px;font-size:0.82rem;resize:vertical">' + _esc((sched.attendees || []).join(', ')) + '</textarea>';
+        html += '<textarea id="briefSchedAttendees" style="width:100%;height:50px;background:#fff;color:#1d1d1f;border:1px solid rgba(255,255,255,0.15);border-radius:4px;padding:8px;font-size:0.82rem;resize:vertical">' + _esc((sched.attendees || []).join(', ')) + '</textarea>';
         html += '</div>';
         html += '<div style="display:flex;justify-content:flex-end;gap:6px">';
         html += '<button class="ai-quick-btn" onclick="briefApplySchedule()" style="background:rgba(0,204,136,0.12);color:#00cc88"><i class="fas fa-check"></i> Save Schedule</button>';
@@ -3496,7 +3496,7 @@
             html += '<div style="font-size:0.82rem;color:var(--steel);margin-bottom:10px">' + keys.length + ' acronyms detected in your brief:</div>';
             html += '<div style="max-height:320px;overflow-y:auto">';
             keys.forEach(function (k) {
-                html += '<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.04);font-size:0.82rem">';
+                html += '<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid rgba(0,0,0,0.04);font-size:0.82rem">';
                 html += '<strong style="color:#00aaff;min-width:80px">' + _esc(k) + '</strong>';
                 html += '<span style="color:var(--steel)">' + _esc(found[k]) + '</span></div>';
             });
@@ -3598,7 +3598,7 @@
         var html = '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">';
         ['none','fade','slide-left','slide-right','slide-up','zoom-in','zoom-out','dissolve','wipe'].forEach(function (t) {
             var sel = t === current;
-            html += '<div class="stat-mini" style="cursor:pointer;padding:10px;text-align:center;border-color:' + (sel ? '#00aaff' : 'rgba(255,255,255,0.08)') + '" onclick="briefApplyTransition(\'' + t + '\')" onmouseover="this.style.borderColor=\'#00aaff\'" onmouseout="this.style.borderColor=\'' + (sel ? '#00aaff' : 'rgba(255,255,255,0.08)') + '\'">';
+            html += '<div class="stat-mini" style="cursor:pointer;padding:10px;text-align:center;border-color:' + (sel ? '#00aaff' : 'rgba(0,0,0,0.06)') + '" onclick="briefApplyTransition(\'' + t + '\')" onmouseover="this.style.borderColor=\'#00aaff\'" onmouseout="this.style.borderColor=\'' + (sel ? '#00aaff' : 'rgba(0,0,0,0.06)') + '\'">';
             html += '<i class="fas ' + ({none:'fa-ban',fade:'fa-adjust','slide-left':'fa-arrow-left','slide-right':'fa-arrow-right','slide-up':'fa-arrow-up','zoom-in':'fa-search-plus','zoom-out':'fa-search-minus',dissolve:'fa-water',wipe:'fa-eraser'}[t] || 'fa-film') + '" style="font-size:1.1rem;color:' + (sel ? '#00aaff' : '#8b949e') + ';display:block;margin-bottom:4px"></i>';
             html += '<div style="font-size:0.75rem;color:' + (sel ? '#fff' : 'var(--muted)') + '">' + t.replace('-', ' ') + '</div></div>';
         });
@@ -3696,7 +3696,7 @@
         data.forEach(function (row, ri) {
             html += '<tr>';
             (row || []).forEach(function (cell, ci) {
-                html += '<td style="padding:2px"><input value="' + _esc(cell) + '" data-r="' + ri + '" data-c="' + ci + '" class="briefTableCell" style="width:100%;background:#2c2c2e;color:#fff;border:1px solid rgba(255,255,255,0.12);border-radius:2px;padding:4px 6px;font-size:0.8rem" onchange="briefUpdateTableCell(\'' + eid + '\',' + ri + ',' + ci + ',this.value)"></td>';
+                html += '<td style="padding:2px"><input value="' + _esc(cell) + '" data-r="' + ri + '" data-c="' + ci + '" class="briefTableCell" style="width:100%;background:#fff;color:#1d1d1f;border:1px solid rgba(0,0,0,0.1);border-radius:2px;padding:4px 6px;font-size:0.8rem" onchange="briefUpdateTableCell(\'' + eid + '\',' + ri + ',' + ci + ',this.value)"></td>';
             });
             html += '</tr>';
         });
@@ -3787,19 +3787,19 @@
         if (!el || el.type !== 'chart') return;
         var html = '<div style="margin-bottom:10px">';
         html += '<label style="color:var(--steel);font-size:0.82rem;display:block;margin-bottom:4px">Chart Title</label>';
-        html += '<input id="briefChartTitle" value="' + _esc(el.title || '') + '" style="width:100%;background:#2c2c2e;color:#fff;border:1px solid rgba(255,255,255,0.15);border-radius:4px;padding:6px 10px;font-size:0.85rem;margin-bottom:8px">';
+        html += '<input id="briefChartTitle" value="' + _esc(el.title || '') + '" style="width:100%;background:#fff;color:#1d1d1f;border:1px solid rgba(255,255,255,0.15);border-radius:4px;padding:6px 10px;font-size:0.85rem;margin-bottom:8px">';
         html += '<label style="color:var(--steel);font-size:0.82rem;display:block;margin-bottom:4px">Chart Type</label>';
-        html += '<select id="briefChartType" style="width:100%;background:#2c2c2e;color:#fff;border:1px solid rgba(255,255,255,0.15);border-radius:4px;padding:6px 10px;font-size:0.85rem;margin-bottom:8px">';
+        html += '<select id="briefChartType" style="width:100%;background:#fff;color:#1d1d1f;border:1px solid rgba(255,255,255,0.15);border-radius:4px;padding:6px 10px;font-size:0.85rem;margin-bottom:8px">';
         ['bar','line','pie','donut','stacked','horizontal'].forEach(function (t) {
             html += '<option value="' + t + '"' + (t === (el.chartType || 'bar') ? ' selected' : '') + '>' + t.charAt(0).toUpperCase() + t.slice(1) + '</option>';
         });
         html += '</select>';
         html += '<label style="color:var(--steel);font-size:0.82rem;display:block;margin-bottom:4px">Labels (comma-separated)</label>';
-        html += '<input id="briefChartLabels" value="' + _esc((el.labels || []).join(', ')) + '" style="width:100%;background:#2c2c2e;color:#fff;border:1px solid rgba(255,255,255,0.15);border-radius:4px;padding:6px 10px;font-size:0.85rem;margin-bottom:8px">';
+        html += '<input id="briefChartLabels" value="' + _esc((el.labels || []).join(', ')) + '" style="width:100%;background:#fff;color:#1d1d1f;border:1px solid rgba(255,255,255,0.15);border-radius:4px;padding:6px 10px;font-size:0.85rem;margin-bottom:8px">';
         (el.datasets || []).forEach(function (ds, di) {
             html += '<div style="display:flex;gap:6px;margin-bottom:6px;align-items:center">';
-            html += '<input value="' + _esc(ds.label || '') + '" placeholder="Series name" class="briefChartDS" data-di="' + di + '" data-field="label" style="flex:1;background:#2c2c2e;color:#fff;border:1px solid rgba(255,255,255,0.12);border-radius:3px;padding:4px 6px;font-size:0.8rem">';
-            html += '<input value="' + _esc((ds.values || []).join(', ')) + '" placeholder="Values" class="briefChartDS" data-di="' + di + '" data-field="values" style="flex:2;background:#2c2c2e;color:#fff;border:1px solid rgba(255,255,255,0.12);border-radius:3px;padding:4px 6px;font-size:0.8rem">';
+            html += '<input value="' + _esc(ds.label || '') + '" placeholder="Series name" class="briefChartDS" data-di="' + di + '" data-field="label" style="flex:1;background:#fff;color:#1d1d1f;border:1px solid rgba(0,0,0,0.1);border-radius:3px;padding:4px 6px;font-size:0.8rem">';
+            html += '<input value="' + _esc((ds.values || []).join(', ')) + '" placeholder="Values" class="briefChartDS" data-di="' + di + '" data-field="values" style="flex:2;background:#fff;color:#1d1d1f;border:1px solid rgba(0,0,0,0.1);border-radius:3px;padding:4px 6px;font-size:0.8rem">';
             html += '<input type="color" value="' + (ds.color || '#00aaff') + '" class="briefChartDS" data-di="' + di + '" data-field="color" style="width:28px;height:28px;border:none;padding:0;cursor:pointer">';
             html += '</div>';
         });
@@ -3854,8 +3854,8 @@
             el.items.forEach(function (item, ii) {
                 var colors = { green: '#4ecb71', yellow: '#f9c846', red: '#ff4444' };
                 var clr = colors[item.status] || '#6b7280';
-                html += '<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.04)">';
-                html += '<span style="color:#fff;font-size:0.85rem">' + _esc(item.label) + '</span>';
+                html += '<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(0,0,0,0.04)">';
+                html += '<span style="color:#1d1d1f;font-size:0.85rem">' + _esc(item.label) + '</span>';
                 html += '<div style="display:flex;gap:6px">';
                 ['green','yellow','red'].forEach(function (s) {
                     var bg = colors[s];
@@ -3901,9 +3901,9 @@
         html += '<div style="max-height:280px;overflow-y:auto;margin-bottom:10px">';
         items.forEach(function (item, i) {
             html += '<div style="display:flex;gap:6px;margin-bottom:6px;align-items:center">';
-            html += '<input value="' + _esc(item.label) + '" placeholder="Risk name" class="briefRMItem" data-i="' + i + '" data-f="label" style="flex:2;background:#2c2c2e;color:#fff;border:1px solid rgba(255,255,255,0.12);border-radius:3px;padding:4px 6px;font-size:0.8rem">';
-            html += '<input type="number" min="1" max="5" value="' + (item.likelihood || 1) + '" class="briefRMItem" data-i="' + i + '" data-f="likelihood" style="width:50px;background:#2c2c2e;color:#fff;border:1px solid rgba(255,255,255,0.12);border-radius:3px;padding:4px 6px;font-size:0.8rem;text-align:center" title="Likelihood">';
-            html += '<input type="number" min="1" max="5" value="' + (item.consequence || 1) + '" class="briefRMItem" data-i="' + i + '" data-f="consequence" style="width:50px;background:#2c2c2e;color:#fff;border:1px solid rgba(255,255,255,0.12);border-radius:3px;padding:4px 6px;font-size:0.8rem;text-align:center" title="Consequence">';
+            html += '<input value="' + _esc(item.label) + '" placeholder="Risk name" class="briefRMItem" data-i="' + i + '" data-f="label" style="flex:2;background:#fff;color:#1d1d1f;border:1px solid rgba(0,0,0,0.1);border-radius:3px;padding:4px 6px;font-size:0.8rem">';
+            html += '<input type="number" min="1" max="5" value="' + (item.likelihood || 1) + '" class="briefRMItem" data-i="' + i + '" data-f="likelihood" style="width:50px;background:#fff;color:#1d1d1f;border:1px solid rgba(0,0,0,0.1);border-radius:3px;padding:4px 6px;font-size:0.8rem;text-align:center" title="Likelihood">';
+            html += '<input type="number" min="1" max="5" value="' + (item.consequence || 1) + '" class="briefRMItem" data-i="' + i + '" data-f="consequence" style="width:50px;background:#fff;color:#1d1d1f;border:1px solid rgba(0,0,0,0.1);border-radius:3px;padding:4px 6px;font-size:0.8rem;text-align:center" title="Consequence">';
             html += '<button class="ai-quick-btn" onclick="briefRMRemoveItem(\'' + eid + '\',' + i + ')" style="color:#ff4444;padding:2px 6px"><i class="fas fa-times"></i></button>';
             html += '</div>';
         });
@@ -4126,7 +4126,7 @@
         if (!b.approvals || b.approvals.length === 0) issues.push({ severity: 'info', msg: 'No approval signatures recorded' });
         _complianceResults = issues;
 
-        var html = '<div style="margin-bottom:12px;color:#8b949e;font-size:0.82rem">Scanned <strong style="color:#e6edf3">' + b.title + '</strong> (' + b.slides.length + ' slides)</div>';
+        var html = '<div style="margin-bottom:12px;color:#666;font-size:0.82rem">Scanned <strong style="color:#e6edf3">' + b.title + '</strong> (' + b.slides.length + ' slides)</div>';
         if (issues.length === 0) {
             html += '<div style="text-align:center;padding:24px;color:#00cc88"><i class="fas fa-check-circle" style="font-size:2rem;margin-bottom:8px;display:block"></i>All compliance checks passed!</div>';
         } else {
@@ -4163,7 +4163,7 @@
             if (texts.length) summary += '   ' + texts.join(' | ') + '\n';
         });
 
-        var html = '<div style="margin-bottom:12px;color:#8b949e;font-size:0.82rem">Auto-generated executive summary for <strong style="color:#e6edf3">' + _esc(b.title) + '</strong></div>';
+        var html = '<div style="margin-bottom:12px;color:#666;font-size:0.82rem">Auto-generated executive summary for <strong style="color:#e6edf3">' + _esc(b.title) + '</strong></div>';
         html += '<textarea class="brief-prop-input" style="height:280px;font-size:0.78rem;font-family:monospace" readonly>' + _esc(summary) + '</textarea>';
         html += '<div style="display:flex;gap:8px;margin-top:12px;justify-content:flex-end">';
         html += '<button class="brief-action-btn" onclick="briefCloseModal()">Close</button>';
@@ -4239,7 +4239,7 @@
         html += '<div style="background:#fff;display:inline-block;padding:16px;border-radius:12px;margin-bottom:16px">';
         html += '<canvas id="briefQRCanvas" width="' + qrSize + '" height="' + qrSize + '" style="image-rendering:pixelated"></canvas>';
         html += '</div>';
-        html += '<div style="color:#8b949e;font-size:0.8rem;margin-bottom:12px">Scan to verify brief integrity</div>';
+        html += '<div style="color:#666;font-size:0.8rem;margin-bottom:12px">Scan to verify brief integrity</div>';
         html += '<div style="color:#c9d1d9;font-size:0.78rem;margin-bottom:4px"><strong>' + _esc(b.title) + '</strong></div>';
         html += '<div style="color:#6e7681;font-size:0.72rem">ID: ' + b.id + '</div>';
         if (b.xrpl_tx) html += '<div style="color:#00cc88;font-size:0.72rem;margin-top:4px"><i class="fas fa-link"></i> XRPL Anchored</div>';
@@ -4315,7 +4315,7 @@
         _rehearsalTimer = 0;
         var html = '<div id="briefRehearsalPanel" style="text-align:center;padding:16px">';
         html += '<div style="font-size:2.5rem;font-weight:700;color:#e6edf3;font-variant-numeric:tabular-nums" id="briefRehearsalTime">00:00</div>';
-        html += '<div style="color:#8b949e;font-size:0.82rem;margin:8px 0 16px">Slide ' + (_activeSlideIdx + 1) + ' of ' + (_activeBrief ? _activeBrief.slides.length : 0) + '</div>';
+        html += '<div style="color:#666;font-size:0.82rem;margin:8px 0 16px">Slide ' + (_activeSlideIdx + 1) + ' of ' + (_activeBrief ? _activeBrief.slides.length : 0) + '</div>';
         html += '<div style="display:flex;gap:8px;justify-content:center">';
         html += '<button class="brief-action-btn primary" id="briefRehearsalToggle" onclick="briefToggleRehearsal()"><i class="fas fa-play"></i> Start</button>';
         html += '<button class="brief-action-btn" onclick="briefStopRehearsal();briefCloseModal()"><i class="fas fa-stop"></i> End</button>';
@@ -4369,14 +4369,14 @@
         ];
         var html = '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">';
         themes.forEach(function (t) {
-            html += '<div onclick="briefApplyTheme(\'' + t.bg + '\',\'' + t.text + '\',\'' + t.accent + '\',\'' + t.headerBg + '\')" style="cursor:pointer;padding:14px;border-radius:10px;border:1px solid rgba(255,255,255,0.08);background:' + t.bg + ';transition:all 0.2s" onmouseover="this.style.borderColor=\'' + t.accent + '\'" onmouseout="this.style.borderColor=\'rgba(255,255,255,0.08)\'">';
+            html += '<div onclick="briefApplyTheme(\'' + t.bg + '\',\'' + t.text + '\',\'' + t.accent + '\',\'' + t.headerBg + '\')" style="cursor:pointer;padding:14px;border-radius:10px;border:1px solid rgba(0,0,0,0.08);background:' + t.bg + ';transition:all 0.2s" onmouseover="this.style.borderColor=\'' + t.accent + '\'" onmouseout="this.style.borderColor=\'rgba(255,255,255,0.08)\'">';
             html += '<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">';
             html += '<div style="width:16px;height:16px;border-radius:50%;background:' + t.accent + '"></div>';
             html += '<span style="color:' + t.text + ';font-weight:600;font-size:0.82rem">' + t.name + '</span></div>';
             html += '<div style="display:flex;gap:4px">';
             html += '<div style="width:20px;height:8px;border-radius:2px;background:' + t.accent + '"></div>';
             html += '<div style="width:20px;height:8px;border-radius:2px;background:' + t.text + ';opacity:0.4"></div>';
-            html += '<div style="width:20px;height:8px;border-radius:2px;background:' + t.headerBg + ';border:1px solid rgba(255,255,255,0.1)"></div>';
+            html += '<div style="width:20px;height:8px;border-radius:2px;background:' + t.headerBg + ';border:1px solid rgba(0,0,0,0.08)"></div>';
             html += '</div></div>';
         });
         html += '</div>';
@@ -4404,7 +4404,7 @@
     // ── CDRL Auto-Formatting ──
     function briefCDRLFormat() {
         if (!_activeBrief) return;
-        var html = '<div style="margin-bottom:12px;color:#8b949e;font-size:0.82rem">Apply CDRL (Contract Data Requirements List) standard formatting to your brief.</div>';
+        var html = '<div style="margin-bottom:12px;color:#666;font-size:0.82rem">Apply CDRL (Contract Data Requirements List) standard formatting to your brief.</div>';
         html += '<div style="display:grid;gap:8px">';
         html += '<button class="brief-action-btn" onclick="briefApplyCDRL(\'DI-MGMT-81466\')" style="text-align:left;padding:12px"><strong style="color:#00aaff">DI-MGMT-81466</strong><br><span style="font-size:0.75rem;color:#6e7681">Program Status Report</span></button>';
         html += '<button class="brief-action-btn" onclick="briefApplyCDRL(\'DI-MGMT-81861\')" style="text-align:left;padding:12px"><strong style="color:#00aaff">DI-MGMT-81861</strong><br><span style="font-size:0.75rem;color:#6e7681">Integrated Master Schedule</span></button>';
@@ -4440,7 +4440,7 @@
     function briefCompare() {
         var data = _loadAllBriefs();
         if (data.length < 2) { _toast('Need at least 2 briefs to compare', 'warn'); return; }
-        var html = '<div style="margin-bottom:12px;color:#8b949e;font-size:0.82rem">Select two briefs to compare:</div>';
+        var html = '<div style="margin-bottom:12px;color:#666;font-size:0.82rem">Select two briefs to compare:</div>';
         html += '<div style="display:flex;gap:12px;margin-bottom:16px">';
         html += '<select id="briefCompA" class="brief-select" style="flex:1">';
         data.forEach(function (b) { html += '<option value="' + b.id + '"' + (b.id === (_activeBrief ? _activeBrief.id : '') ? ' selected' : '') + '>' + _esc(b.title) + '</option>'; });
@@ -4468,9 +4468,9 @@
 
         var html = '<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">';
         [a, b].forEach(function (br) {
-            html += '<div style="background:rgba(255,255,255,0.02);border-radius:10px;padding:14px;border:1px solid rgba(255,255,255,0.06)">';
+            html += '<div style="background:rgba(255,255,255,0.02);border-radius:10px;padding:14px;border:1px solid rgba(0,0,0,0.06)">';
             html += '<div style="font-weight:600;color:#e6edf3;margin-bottom:8px">' + _esc(br.title) + '</div>';
-            html += '<div style="font-size:0.78rem;color:#8b949e">';
+            html += '<div style="font-size:0.78rem;color:#666">';
             html += 'Type: <span style="color:#00aaff">' + br.brief_type + '</span><br>';
             html += 'Slides: ' + br.slides.length + '<br>';
             html += 'Elements: ' + br.slides.reduce(function (sum, s) { return sum + (s.elements || []).length; }, 0) + '<br>';
@@ -4491,7 +4491,7 @@
         var html = '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">';
         html += '<div><label class="brief-prop-label">Slide Width</label><input type="number" class="brief-prop-input" value="' + (m.slideWidth || 960) + '" onchange="briefSetMaster(\'slideWidth\',this.value)"></div>';
         html += '<div><label class="brief-prop-label">Slide Height</label><input type="number" class="brief-prop-input" value="' + (m.slideHeight || 540) + '" onchange="briefSetMaster(\'slideHeight\',this.value)"></div>';
-        html += '<div><label class="brief-prop-label">Background Color</label><input type="color" value="' + (m.bgColor || '#2c2c2e') + '" onchange="briefSetMaster(\'bgColor\',this.value)" style="width:100%;height:32px;border:none;cursor:pointer;border-radius:6px"></div>';
+        html += '<div><label class="brief-prop-label">Background Color</label><input type="color" value="' + (m.bgColor || '#f5f5f7') + '" onchange="briefSetMaster(\'bgColor\',this.value)" style="width:100%;height:32px;border:none;cursor:pointer;border-radius:6px"></div>';
         html += '<div><label class="brief-prop-label">Title Color</label><input type="color" value="' + (m.titleColor || '#e6edf3') + '" onchange="briefSetMaster(\'titleColor\',this.value)" style="width:100%;height:32px;border:none;cursor:pointer;border-radius:6px"></div>';
         html += '<div><label class="brief-prop-label">Body Color</label><input type="color" value="' + (m.bodyColor || '#c9d1d9') + '" onchange="briefSetMaster(\'bodyColor\',this.value)" style="width:100%;height:32px;border:none;cursor:pointer;border-radius:6px"></div>';
         html += '<div><label class="brief-prop-label">Font Family</label><input type="text" class="brief-prop-input" value="' + _esc(m.fontFamily || 'Inter, sans-serif') + '" onchange="briefSetMaster(\'fontFamily\',this.value)"></div>';
@@ -4523,11 +4523,11 @@
         var slide = _activeBrief.slides[_activeSlideIdx];
         if (!slide || !slide.elements || slide.elements.length === 0) { _toast('No elements on this slide', 'warn'); return; }
 
-        var html = '<div style="margin-bottom:12px;color:#8b949e;font-size:0.82rem">Drag to reorder. Elements appear in this sequence during presentation.</div>';
+        var html = '<div style="margin-bottom:12px;color:#666;font-size:0.82rem">Drag to reorder. Elements appear in this sequence during presentation.</div>';
         html += '<div id="briefBuildList" style="display:grid;gap:6px">';
         (slide.elements || []).forEach(function (el, i) {
             var label = el.type + (el.text ? ': ' + el.text.substring(0, 30) : '') + (el.label ? ': ' + el.label : '');
-            html += '<div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:rgba(255,255,255,0.03);border-radius:8px;border:1px solid rgba(255,255,255,0.06)">';
+            html += '<div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:rgba(255,255,255,0.03);border-radius:8px;border:1px solid rgba(0,0,0,0.06)">';
             html += '<span style="color:#00aaff;font-weight:700;width:24px;text-align:center">' + (i + 1) + '</span>';
             html += '<span style="flex:1;color:#c9d1d9;font-size:0.82rem">' + _esc(label) + '</span>';
             html += '<button class="brief-fmt-btn" onclick="briefBuildMoveUp(' + i + ')" title="Move up"><i class="fas fa-chevron-up"></i></button>';
@@ -4628,7 +4628,7 @@
             { label: 'Anchored', val: anchored, color: '#a855f7', icon: 'fa-link' }
         ];
         stats.forEach(function (s) {
-            html += '<div style="text-align:center;padding:16px;background:rgba(255,255,255,0.02);border-radius:10px;border:1px solid rgba(255,255,255,0.06)">';
+            html += '<div style="text-align:center;padding:16px;background:rgba(255,255,255,0.02);border-radius:10px;border:1px solid rgba(0,0,0,0.06)">';
             html += '<i class="fas ' + s.icon + '" style="color:' + s.color + ';font-size:1.2rem;margin-bottom:6px;display:block"></i>';
             html += '<div style="font-size:1.5rem;font-weight:700;color:#e6edf3">' + s.val + '</div>';
             html += '<div style="font-size:0.72rem;color:#6e7681">' + s.label + '</div></div>';
@@ -4655,7 +4655,7 @@
         if (!_activeBrief) return;
         var history = _activeBrief._history || [];
         if (history.length === 0) { _toast('No undo history available', 'info'); return; }
-        var html = '<div style="margin-bottom:12px;color:#8b949e;font-size:0.82rem">' + history.length + ' history states recorded</div>';
+        var html = '<div style="margin-bottom:12px;color:#666;font-size:0.82rem">' + history.length + ' history states recorded</div>';
         html += '<div style="max-height:300px;overflow-y:auto">';
         for (var i = history.length - 1; i >= 0; i--) {
             var isActive = i === (_activeBrief._historyIdx !== undefined ? _activeBrief._historyIdx : history.length - 1);
@@ -4688,7 +4688,7 @@
         if (!_activeBrief) return;
         var slide = _activeBrief.slides[_activeSlideIdx];
         if (!slide) return;
-        var html = '<div style="margin-bottom:12px;color:#8b949e;font-size:0.82rem">Show/hide elements based on classification level.</div>';
+        var html = '<div style="margin-bottom:12px;color:#666;font-size:0.82rem">Show/hide elements based on classification level.</div>';
         html += '<div style="margin-bottom:12px"><label class="brief-prop-label">Viewing Classification</label>';
         html += '<select id="briefCondClass" class="brief-select" style="width:100%">';
         ['UNCLASSIFIED', 'CUI', 'CONFIDENTIAL', 'SECRET', 'TOP SECRET'].forEach(function (c) {
@@ -4766,7 +4766,7 @@
         if (!_activeBrief) return;
         var b = _activeBrief;
         var perms = b.sharing || [];
-        var html = '<div style="margin-bottom:12px;color:#8b949e;font-size:0.82rem">Manage who can view or edit this brief.</div>';
+        var html = '<div style="margin-bottom:12px;color:#666;font-size:0.82rem">Manage who can view or edit this brief.</div>';
         html += '<div style="display:flex;gap:8px;margin-bottom:14px">';
         html += '<input type="email" id="briefShareEmail" class="brief-prop-input" placeholder="user@example.mil" style="flex:1">';
         html += '<select id="briefShareRole" class="brief-select" style="width:100px"><option value="viewer">Viewer</option><option value="editor">Editor</option><option value="approver">Approver</option></select>';
@@ -4832,7 +4832,7 @@
 
         var html = '<div style="text-align:center;margin-bottom:18px">';
         html += '<div style="font-size:2rem;font-weight:700;color:' + barColor + '">' + pct + '%</div>';
-        html += '<div style="font-size:0.82rem;color:#8b949e">Readiness Score</div>';
+        html += '<div style="font-size:0.82rem;color:#666">Readiness Score</div>';
         html += '<div style="width:100%;height:8px;background:rgba(255,255,255,0.05);border-radius:4px;margin-top:8px;overflow:hidden"><div style="width:' + pct + '%;height:100%;background:' + barColor + ';border-radius:4px;transition:width 0.5s"></div></div>';
         html += '</div>';
 
@@ -4894,8 +4894,8 @@
         ];
         var html = '<div style="max-height:300px;overflow-y:auto">';
         shortcuts.forEach(function (s) {
-            html += '<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.04);font-size:0.82rem">';
-            html += '<kbd style="background:rgba(255,255,255,0.08);padding:2px 8px;border-radius:3px;color:#fff;font-size:0.78rem;font-family:monospace">' + s[0] + '</kbd>';
+            html += '<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(0,0,0,0.04);font-size:0.82rem">';
+            html += '<kbd style="background:rgba(255,255,255,0.08);padding:2px 8px;border-radius:3px;color:#1d1d1f;font-size:0.78rem;font-family:monospace">' + s[0] + '</kbd>';
             html += '<span style="color:var(--steel)">' + s[1] + '</span>';
             html += '</div>';
         });
