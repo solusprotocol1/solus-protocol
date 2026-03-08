@@ -5977,7 +5977,7 @@ function refreshVaultMetrics() {
         breakdownEl.innerHTML = '<div style="margin-top:6px;font-weight:700;color:#00aaff;font-size:0.72rem;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">Type Distribution</div>' +
             top.map(function(e) {
                 var pct = count > 0 ? ((e[1] / count) * 100).toFixed(0) : 0;
-                return '<div style="display:flex;align-items:center;gap:6px;margin-bottom:3px"><div style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + e[0] + '</div><div style="width:80px;height:6px;background:var(--surface);border-radius:3px;overflow:hidden"><div style="height:100%;width:' + pct + '%;background:#00aaff;border-radius:3px"></div></div><div style="min-width:36px;text-align:right;color:#ccc">' + e[1] + '</div></div>';
+                return '<div style="display:flex;align-items:center;gap:6px;margin-bottom:3px"><div style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + e[0] + '</div><div style="width:80px;height:6px;background:var(--surface);border-radius:3px;overflow:hidden"><div style="height:100%;width:' + pct + '%;background:#00aaff;border-radius:3px"></div></div><div style="min-width:36px;text-align:right;color:#555">' + e[1] + '</div></div>';
             }).join('') +
             (sorted.length > 8 ? '<div style="color:var(--muted);font-size:0.7rem;margin-top:4px">+' + (sorted.length - 8) + ' more types</div>' : '');
     } else if (breakdownEl) {
@@ -6260,16 +6260,16 @@ function runVaultStressTest() {
         if (resultsDiv) {
             var sizeEstimate = (new Blob([JSON.stringify(s4Vault)]).size / 1024).toFixed(1);
             resultsDiv.innerHTML = '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-bottom:10px">'
-                + '<div style="padding:10px;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.12);border-radius:3px"><div style="color:#00aaff;font-size:1.1rem;font-weight:700">' + count.toLocaleString() + '</div><div style="color:#888;font-size:0.72rem">Records Generated</div></div>'
-                + '<div style="padding:10px;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.12);border-radius:3px"><div style="color:#00aaff;font-size:1.1rem;font-weight:700">' + s4Vault.length.toLocaleString() + '</div><div style="color:#888;font-size:0.72rem">Total Vault Records</div></div>'
-                + '<div style="padding:10px;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.12);border-radius:3px"><div style="color:#00aaff;font-size:1.1rem;font-weight:700">' + sizeEstimate + ' KB</div><div style="color:#888;font-size:0.72rem">Storage Used</div></div>'
-                + '<div style="padding:10px;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.12);border-radius:3px"><div style="color:#00aaff;font-size:1.1rem;font-weight:700">' + totalMs.toFixed(0) + ' ms</div><div style="color:#888;font-size:0.72rem">Total Time</div></div>'
+                + '<div style="padding:10px;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.12);border-radius:3px"><div style="color:#00aaff;font-size:1.1rem;font-weight:700">' + count.toLocaleString() + '</div><div style="color:#555;font-size:0.72rem">Records Generated</div></div>'
+                + '<div style="padding:10px;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.12);border-radius:3px"><div style="color:#00aaff;font-size:1.1rem;font-weight:700">' + s4Vault.length.toLocaleString() + '</div><div style="color:#555;font-size:0.72rem">Total Vault Records</div></div>'
+                + '<div style="padding:10px;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.12);border-radius:3px"><div style="color:#00aaff;font-size:1.1rem;font-weight:700">' + sizeEstimate + ' KB</div><div style="color:#555;font-size:0.72rem">Storage Used</div></div>'
+                + '<div style="padding:10px;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.12);border-radius:3px"><div style="color:#00aaff;font-size:1.1rem;font-weight:700">' + totalMs.toFixed(0) + ' ms</div><div style="color:#555;font-size:0.72rem">Total Time</div></div>'
                 + '</div>'
                 + '<table style="width:100%;font-size:0.75rem;border-collapse:collapse">'
-                + '<tr style="border-bottom:1px solid var(--border)"><td style="padding:4px 8px;color:#888">Record Generation</td><td style="padding:4px 8px;color:#1d1d1f;text-align:right">' + genMs.toFixed(1) + ' ms</td></tr>'
-                + '<tr style="border-bottom:1px solid var(--border)"><td style="padding:4px 8px;color:#888">Array Merge</td><td style="padding:4px 8px;color:#1d1d1f;text-align:right">' + mergeMs.toFixed(1) + ' ms</td></tr>'
-                + '<tr style="border-bottom:1px solid var(--border)"><td style="padding:4px 8px;color:#888">localStorage Save</td><td style="padding:4px 8px;color:#1d1d1f;text-align:right">' + saveMs.toFixed(1) + ' ms</td></tr>'
-                + '<tr><td style="padding:4px 8px;color:#888">DOM Render (page)</td><td style="padding:4px 8px;color:#1d1d1f;text-align:right">' + renderMs.toFixed(1) + ' ms</td></tr>'
+                + '<tr style="border-bottom:1px solid var(--border)"><td style="padding:4px 8px;color:#555">Record Generation</td><td style="padding:4px 8px;color:#1d1d1f;text-align:right">' + genMs.toFixed(1) + ' ms</td></tr>'
+                + '<tr style="border-bottom:1px solid var(--border)"><td style="padding:4px 8px;color:#555">Array Merge</td><td style="padding:4px 8px;color:#1d1d1f;text-align:right">' + mergeMs.toFixed(1) + ' ms</td></tr>'
+                + '<tr style="border-bottom:1px solid var(--border)"><td style="padding:4px 8px;color:#555">localStorage Save</td><td style="padding:4px 8px;color:#1d1d1f;text-align:right">' + saveMs.toFixed(1) + ' ms</td></tr>'
+                + '<tr><td style="padding:4px 8px;color:#555">DOM Render (page)</td><td style="padding:4px 8px;color:#1d1d1f;text-align:right">' + renderMs.toFixed(1) + ' ms</td></tr>'
                 + '</table>';
         }
         s4Notify('Stress Test Complete', count.toLocaleString() + ' records generated in ' + totalMs.toFixed(0) + 'ms. Total vault: ' + s4Vault.length.toLocaleString(), 'success');
@@ -8251,7 +8251,7 @@ function renderDiscrepancyTable(discrepancies) {
         '<td style="padding:5px 8px;border-color:var(--border);color:#1d1d1f">' + d.category + '</td>' +
         '<td style="padding:5px 8px;border-color:var(--border);font-family:monospace;font-size:.75rem">' + d.item + '</td>' +
         '<td style="padding:5px 8px;border-color:var(--border)">' + d.issue + '</td>' +
-        '<td style="padding:5px 8px;border-color:var(--border);color:#888">' + d.previous + '</td>' +
+        '<td style="padding:5px 8px;border-color:var(--border);color:#555">' + d.previous + '</td>' +
         '<td style="padding:5px 8px;border-color:var(--border);color:#1d1d1f">' + d.current + '</td>' +
         '<td style="padding:5px 8px;border-color:var(--border);color:' + (sevColors[d.severity]||'#888') + '">' + (d.impact||'') + '</td>' +
     '</tr>').join(''));

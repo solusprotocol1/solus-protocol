@@ -524,7 +524,7 @@ function initRoleSystem() {
             var risk = Math.min(100, 15 + (s.riskItems.length || 0) * 5);
             var budget = Math.min(100, 20 + s.ilsPct * 0.6);
             var withS4 = [tracking,audit,compliance,obsol,risk,budget].map(function(v){ return Math.min(100, v + 30 + Math.random()*5|0); });
-            return { type:'radar', data:{ labels:['Tracking','Audit','Compliance','Obsolescence','Risk','Budget'], datasets:[{label:'Current (Manual)',data:[tracking,audit,compliance,obsol,risk,budget],borderColor:'#ff6b6b',backgroundColor:'rgba(255,107,107,0.1)',pointBackgroundColor:'#ff6b6b'},{label:'With S4 Ledger',data:withS4,borderColor:'#00aaff',backgroundColor:'rgba(0,170,255,0.1)',pointBackgroundColor:'#00aaff'}]}, options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#8ea4b8',font:{size:10}}}},scales:{r:{grid:{color:'rgba(0,0,0,0.06)'},angleLines:{color:'rgba(0,0,0,0.06)'},pointLabels:{color:'#8ea4b8',font:{size:9}},ticks:{display:false}}}}};
+            return { type:'radar', data:{ labels:['Tracking','Audit','Compliance','Obsolescence','Risk','Budget'], datasets:[{label:'Current (Manual)',data:[tracking,audit,compliance,obsol,risk,budget],borderColor:'#ff6b6b',backgroundColor:'rgba(255,107,107,0.1)',pointBackgroundColor:'#ff6b6b'},{label:'With S4 Ledger',data:withS4,borderColor:'#00aaff',backgroundColor:'rgba(0,170,255,0.1)',pointBackgroundColor:'#00aaff'}]}, options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#555',font:{size:10}}}},scales:{r:{grid:{color:'rgba(0,0,0,0.06)'},angleLines:{color:'rgba(0,0,0,0.06)'},pointLabels:{color:'#555',font:{size:9}},ticks:{display:false}}}}};
         },
         gapBarChart: function() {
             var s = _getToolState();
@@ -534,7 +534,7 @@ function initRoleSystem() {
             var obsol = Math.max(0, 100 - (10 + (s.dmsmsItems.length||0)*8));
             var risk = Math.max(0, 100 - (15 + (s.riskItems.length||0)*5));
             var budget = Math.max(0, 100 - (20 + s.ilsPct * 0.6));
-            return { type:'bar', data:{ labels:['Tracking','Audit','Compliance','Obsolescence','Risk','Budget'], datasets:[{label:'Gap %',data:[tracking,audit,compliance,obsol,risk,budget],backgroundColor:['#ff6b6b','#fb923c','#c9a84c','#00aaff','#38bdf8','#06b6d4'],borderWidth:0,borderRadius:4}]}, options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#6b7d93',font:{size:9}},grid:{color:'rgba(0,0,0,0.03)'},max:100},y:{ticks:{color:'#8ea4b8',font:{size:9}},grid:{display:false}}}}};
+            return { type:'bar', data:{ labels:['Tracking','Audit','Compliance','Obsolescence','Risk','Budget'], datasets:[{label:'Gap %',data:[tracking,audit,compliance,obsol,risk,budget],backgroundColor:['#ff6b6b','#fb923c','#c9a84c','#00aaff','#38bdf8','#06b6d4'],borderWidth:0,borderRadius:4}]}, options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#555',font:{size:9}},grid:{color:'rgba(0,0,0,0.03)'},max:100},y:{ticks:{color:'#555',font:{size:9}},grid:{display:false}}}}};
         },
         dmsmsPieChart: function() {
             var s = _getToolState();
@@ -543,7 +543,7 @@ function initRoleSystem() {
             if (items.length > 0) {
                 items.forEach(function(it){ var st=(it.status||'').toLowerCase(); if(st.indexOf('obsolete')>=0) obsolete++; else if(st.indexOf('risk')>=0||st.indexOf('diminish')>=0) atRisk++; else if(st.indexOf('discontin')>=0) discontinued++; else if(st.indexOf('eol')>=0||st.indexOf('last')>=0) eol++; else active++; });
             } else { active=45; atRisk=20; obsolete=15; discontinued=10; eol=10; }
-            return { type:'doughnut', data:{ labels:['Active','At Risk','Obsolete','Discontinued','EOL Planned'], datasets:[{data:[active,atRisk,obsolete,discontinued,eol],backgroundColor:['#00aaff','#c9a84c','#ff6b6b','#00aaff','#6b7d93'],borderWidth:0}]}, options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{color:'#8ea4b8',font:{size:9},padding:6}}}}};
+            return { type:'doughnut', data:{ labels:['Active','At Risk','Obsolete','Discontinued','EOL Planned'], datasets:[{data:[active,atRisk,obsolete,discontinued,eol],backgroundColor:['#00aaff','#c9a84c','#ff6b6b','#00aaff','#6b7d93'],borderWidth:0}]}, options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{color:'#555',font:{size:9},padding:6}}}}};
         },
         readinessGauge: function() {
             var s = _getToolState();
@@ -554,7 +554,7 @@ function initRoleSystem() {
             var training = Math.min(100, base + 20);
             var maintenance = Math.min(100, base + 6 + (s.actionsDone * 3));
             var c4isr = Math.min(100, base + 12);
-            return { type:'bar', data:{ labels:['Personnel','Equipment','Supply','Training','Maintenance','C4ISR'], datasets:[{label:'Readiness %',data:[personnel,equipment,supply,training,maintenance,c4isr],backgroundColor:'rgba(0,170,255,0.6)',borderColor:'#00aaff',borderWidth:1,borderRadius:4}]}, options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#8ea4b8',font:{size:9}},grid:{display:false}},y:{ticks:{color:'#6b7d93',font:{size:9}},grid:{color:'rgba(0,0,0,0.03)'},beginAtZero:true,max:100}}}};
+            return { type:'bar', data:{ labels:['Personnel','Equipment','Supply','Training','Maintenance','C4ISR'], datasets:[{label:'Readiness %',data:[personnel,equipment,supply,training,maintenance,c4isr],backgroundColor:'rgba(0,170,255,0.6)',borderColor:'#00aaff',borderWidth:1,borderRadius:4}]}, options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#555',font:{size:9}},grid:{display:false}},y:{ticks:{color:'#555',font:{size:9}},grid:{color:'rgba(0,0,0,0.03)'},beginAtZero:true,max:100}}}};
         },
         complianceRadarChart: function() {
             var s = _getToolState();
@@ -564,7 +564,7 @@ function initRoleSystem() {
             var cmmc = s.comp[0] || 20;
             var iso = Math.min(100, 30 + s.ilsPct * 0.5);
             var sox = Math.min(100, 35 + s.vault * 3);
-            return { type:'polarArea', data:{ labels:['DFARS','ITAR','NIST 800-171','CMMC','ISO 27001','SOX'], datasets:[{data:[dfars,itar,nist,cmmc,iso,sox],backgroundColor:['rgba(0,170,255,0.5)','rgba(201,168,76,0.5)','rgba(56,189,248,0.5)','rgba(255,107,107,0.5)','rgba(0,170,255,0.5)','rgba(6,182,212,0.5)'],borderWidth:0}]}, options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{color:'#8ea4b8',font:{size:9},padding:6}}},scales:{r:{grid:{color:'rgba(0,0,0,0.06)'},ticks:{display:false}}}}};
+            return { type:'polarArea', data:{ labels:['DFARS','ITAR','NIST 800-171','CMMC','ISO 27001','SOX'], datasets:[{data:[dfars,itar,nist,cmmc,iso,sox],backgroundColor:['rgba(0,170,255,0.5)','rgba(201,168,76,0.5)','rgba(56,189,248,0.5)','rgba(255,107,107,0.5)','rgba(0,170,255,0.5)','rgba(6,182,212,0.5)'],borderWidth:0}]}, options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{color:'#555',font:{size:9},padding:6}}},scales:{r:{grid:{color:'rgba(0,0,0,0.06)'},ticks:{display:false}}}}};
         },
         roiLineChart: function() {
             var s = _getToolState();
@@ -592,7 +592,7 @@ function initRoleSystem() {
                     data.push(Math.round(-15 + 3.5 * qtr + 0.8 * Math.pow(qtr, 1.45)));
                 }}
             }
-            return { type:'line', data:{ labels:labels, datasets:[{label:'Cumulative ROI %',data:data,borderColor:'#00cc66',backgroundColor:'rgba(0,204,102,0.1)',fill:true,tension:0.3,pointRadius:2,pointBackgroundColor:'#00cc66'}]}, options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},title:{display:true,text:'5-Year Cumulative ROI',color:'#8ea4b8',font:{size:11}}},scales:{x:{ticks:{color:'#8ea4b8',font:{size:8},maxRotation:45},grid:{display:false}},y:{ticks:{color:'#6b7d93',font:{size:9},callback:function(v){return v+'%'}},grid:{color:'rgba(0,0,0,0.03)'},beginAtZero:true}}}};
+            return { type:'line', data:{ labels:labels, datasets:[{label:'Cumulative ROI %',data:data,borderColor:'#00cc66',backgroundColor:'rgba(0,204,102,0.1)',fill:true,tension:0.3,pointRadius:2,pointBackgroundColor:'#00cc66'}]}, options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},title:{display:true,text:'5-Year Cumulative ROI',color:'#555',font:{size:11}}},scales:{x:{ticks:{color:'#555',font:{size:8},maxRotation:45},grid:{display:false}},y:{ticks:{color:'#555',font:{size:9},callback:function(v){return v+'%'}},grid:{color:'rgba(0,0,0,0.03)'},beginAtZero:true}}}};
         },
         riskHeatChart: function() {
             var s = _getToolState();
@@ -605,14 +605,14 @@ function initRoleSystem() {
                 for (var i=0; i<nRisks; i++) { points.push({x: 1+Math.floor(Math.random()*9), y: 1+Math.floor(Math.random()*9)}); }
             }
             var colors = points.map(function(p){ var score=p.x*p.y; return score>=50?'rgba(255,70,70,0.8)':score>=25?'rgba(255,165,0,0.7)':score>=10?'rgba(201,168,76,0.6)':'rgba(0,170,255,0.5)'; });
-            return { type:'scatter', data:{ datasets:[{label:'Risk Items',data:points,backgroundColor:colors,borderColor:colors,pointRadius:7}]}, options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},title:{display:true,text:points.length+' Risk Items Mapped',color:'#8ea4b8',font:{size:11}}},scales:{x:{title:{display:true,text:'Likelihood →',color:'#8ea4b8',font:{size:9}},ticks:{color:'#6b7d93',font:{size:9}},grid:{color:'rgba(0,0,0,0.03)'},min:0,max:10},y:{title:{display:true,text:'Impact →',color:'#8ea4b8',font:{size:9}},ticks:{color:'#6b7d93',font:{size:9}},grid:{color:'rgba(0,0,0,0.03)'},min:0,max:10}}}};
+            return { type:'scatter', data:{ datasets:[{label:'Risk Items',data:points,backgroundColor:colors,borderColor:colors,pointRadius:7}]}, options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},title:{display:true,text:points.length+' Risk Items Mapped',color:'#555',font:{size:11}}},scales:{x:{title:{display:true,text:'Likelihood →',color:'#555',font:{size:9}},ticks:{color:'#555',font:{size:9}},grid:{color:'rgba(0,0,0,0.03)'},min:0,max:10},y:{title:{display:true,text:'Impact →',color:'#555',font:{size:9}},ticks:{color:'#555',font:{size:9}},grid:{color:'rgba(0,0,0,0.03)'},min:0,max:10}}}};
         },
         lifecyclePieChart: function() {
             var s = _getToolState();
             // Adjust curves based on DMSMS alerts and ILS completeness
             var dmsmsRisk = Math.min(30, (s.dmsmsItems.length || 0) * 5);
             var ilsBoost = Math.min(15, s.ilsPct * 0.15);
-            return { type:'line', data:{ labels:['Intro','Growth','Maturity','Sustain','Phase Out','Disposal'], datasets:[{label:'Availability %',data:[95-dmsmsRisk*0.1, 92-dmsmsRisk*0.2+ilsBoost, 88-dmsmsRisk*0.4+ilsBoost, 75-dmsmsRisk*0.6+ilsBoost*2, 50-dmsmsRisk*0.3+ilsBoost, 20+ilsBoost*0.5].map(function(v){return Math.round(Math.max(5,Math.min(100,v)));}),borderColor:'#00aaff',backgroundColor:'rgba(0,170,255,0.1)',fill:true,tension:0.3},{label:'Cost Index',data:[30,25+dmsmsRisk*0.3,35+dmsmsRisk*0.5,55+dmsmsRisk*0.8-ilsBoost,70+dmsmsRisk-ilsBoost*2,90+dmsmsRisk*0.5-ilsBoost].map(function(v){return Math.round(Math.max(5,Math.min(100,v)));}),borderColor:'#ff6b6b',backgroundColor:'rgba(255,107,107,0.05)',fill:true,tension:0.3}]}, options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#8ea4b8',font:{size:10}}}},scales:{x:{ticks:{color:'#8ea4b8',font:{size:9}},grid:{display:false}},y:{ticks:{color:'#6b7d93',font:{size:9}},grid:{color:'rgba(0,0,0,0.03)'},beginAtZero:true}}}};
+            return { type:'line', data:{ labels:['Intro','Growth','Maturity','Sustain','Phase Out','Disposal'], datasets:[{label:'Availability %',data:[95-dmsmsRisk*0.1, 92-dmsmsRisk*0.2+ilsBoost, 88-dmsmsRisk*0.4+ilsBoost, 75-dmsmsRisk*0.6+ilsBoost*2, 50-dmsmsRisk*0.3+ilsBoost, 20+ilsBoost*0.5].map(function(v){return Math.round(Math.max(5,Math.min(100,v)));}),borderColor:'#00aaff',backgroundColor:'rgba(0,170,255,0.1)',fill:true,tension:0.3},{label:'Cost Index',data:[30,25+dmsmsRisk*0.3,35+dmsmsRisk*0.5,55+dmsmsRisk*0.8-ilsBoost,70+dmsmsRisk-ilsBoost*2,90+dmsmsRisk*0.5-ilsBoost].map(function(v){return Math.round(Math.max(5,Math.min(100,v)));}),borderColor:'#ff6b6b',backgroundColor:'rgba(255,107,107,0.05)',fill:true,tension:0.3}]}, options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#555',font:{size:10}}}},scales:{x:{ticks:{color:'#555',font:{size:9}},grid:{display:false}},y:{ticks:{color:'#555',font:{size:9}},grid:{color:'rgba(0,0,0,0.03)'},beginAtZero:true}}}};
         }
     };
 

@@ -1154,7 +1154,7 @@
             doc.write('</tr>');
         });
         doc.write('</table>');
-        doc.write('<p style="color:#999;font-size:9px;margin-top:24px">S4 Ledger - Immutable Defense Logistics on the XRP Ledger | Acquisition Planner Report | UNCLASSIFIED</p>');
+        doc.write('<p style="color:#555;font-size:9px;margin-top:24px">S4 Ledger - Immutable Defense Logistics on the XRP Ledger | Acquisition Planner Report | UNCLASSIFIED</p>');
         doc.write('</body></html>');
         doc.close();
         setTimeout(function() { w.print(); }, 500);

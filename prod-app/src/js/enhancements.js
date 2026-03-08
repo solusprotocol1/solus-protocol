@@ -354,8 +354,8 @@ function renderFailureTimeline() {
             responsive: true,
             maintainAspectRatio: false,
             scales: {
-                x: {stacked:true,grid:{display:false},ticks:{color:'#8ea4b8',font:{size:10}}},
-                y: {stacked:true,grid:{color:'rgba(0,0,0,0.03)'},ticks:{color:'#8ea4b8',stepSize:1}}
+                x: {stacked:true,grid:{display:false},ticks:{color:'#555',font:{size:10}}},
+                y: {stacked:true,grid:{color:'rgba(0,0,0,0.03)'},ticks:{color:'#555',stepSize:1}}
             },
             plugins: {legend:{display:false},tooltip:{mode:'index',intersect:false}}
         }
@@ -1434,7 +1434,7 @@ console.log('[Round-13] Production subscription code loaded — Stripe Checkout 
         admin:       { label: 'Admin',       color: '#ff3b30', icon: 'fa-user-shield',       permissions: ['read','write','export','anchor','manage_users','settings','delete'] },
         ils_manager: { label: 'ILS Manager', color: '#ff9500', icon: 'fa-user-tie',          permissions: ['read','write','export','anchor','manage_analyses'] },
         analyst:     { label: 'Analyst',     color: '#00aaff', icon: 'fa-user-graduate',     permissions: ['read','write','export','anchor'] },
-        read_only:   { label: 'Read-Only',   color: '#8ea4b8', icon: 'fa-user-lock',         permissions: ['read'] }
+        read_only:   { label: 'Read-Only',   color: '#555', icon: 'fa-user-lock',         permissions: ['read'] }
     };
 
     // Team members loaded from Supabase — starts empty
@@ -2803,10 +2803,10 @@ function _updateThemeIcon(isLight) {
             var bg = match ? 'transparent' : 'rgba(255,165,0,0.04)';
             var icon = match ? '<i class="fas fa-equals" style="color:#30d158;font-size:0.65rem"></i>' : '<i class="fas fa-not-equal" style="color:#ffa500;font-size:0.65rem"></i>';
             return '<tr style="background:' + bg + '">' +
-                '<td style="padding:8px 12px;font-weight:600;color:#888;font-size:0.78rem;white-space:nowrap;border-bottom:1px solid rgba(0,0,0,0.04)">' + f.label + '</td>' +
-                '<td style="padding:8px 12px;color:#ccc;font-size:0.78rem;word-break:break-all;border-bottom:1px solid rgba(0,0,0,0.04);max-width:300px">' + va + '</td>' +
+                '<td style="padding:8px 12px;font-weight:600;color:#555;font-size:0.78rem;white-space:nowrap;border-bottom:1px solid rgba(0,0,0,0.04)">' + f.label + '</td>' +
+                '<td style="padding:8px 12px;color:#555;font-size:0.78rem;word-break:break-all;border-bottom:1px solid rgba(0,0,0,0.04);max-width:300px">' + va + '</td>' +
                 '<td style="padding:8px 12px;text-align:center;border-bottom:1px solid rgba(0,0,0,0.04)">' + icon + '</td>' +
-                '<td style="padding:8px 12px;color:#ccc;font-size:0.78rem;word-break:break-all;border-bottom:1px solid rgba(0,0,0,0.04);max-width:300px">' + vb + '</td>' +
+                '<td style="padding:8px 12px;color:#555;font-size:0.78rem;word-break:break-all;border-bottom:1px solid rgba(0,0,0,0.04);max-width:300px">' + vb + '</td>' +
                 '</tr>';
         }).join('');
 
@@ -2819,8 +2819,8 @@ function _updateThemeIcon(isLight) {
         overlay.innerHTML = '<div style="background:var(--card,#111);border:1px solid rgba(0,0,0,0.08);border-radius:3px;width:95%;max-width:900px;max-height:85vh;overflow-y:auto">' +
             '<div style="padding:20px 24px;border-bottom:1px solid rgba(0,0,0,0.06);display:flex;justify-content:space-between;align-items:center">' +
             '<div><h3 style="color:#1d1d1f;margin:0;font-size:1rem"><i class="fas fa-code-compare" style="margin-right:8px;color:#00aaff"></i>Record Comparison</h3>' +
-            '<p style="color:#888;font-size:0.75rem;margin:4px 0 0">' + matchCount + '/' + fields.length + ' fields match</p></div>' +
-            '<button onclick="this.closest(\'#s4CompareOverlay\').remove()" style="background:none;border:none;color:#888;font-size:1.3rem;cursor:pointer">&times;</button></div>' +
+            '<p style="color:#555;font-size:0.75rem;margin:4px 0 0">' + matchCount + '/' + fields.length + ' fields match</p></div>' +
+            '<button onclick="this.closest(\'#s4CompareOverlay\').remove()" style="background:none;border:none;color:#555;font-size:1.3rem;cursor:pointer">&times;</button></div>' +
             '<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse">' +
             '<thead><tr><th style="padding:10px 12px;color:#555;font-size:0.72rem;text-transform:uppercase;text-align:left;border-bottom:1px solid rgba(0,0,0,0.08)">Field</th>' +
             '<th style="padding:10px 12px;color:#00aaff;font-size:0.78rem;text-align:left;border-bottom:1px solid rgba(0,0,0,0.08)">' + (a.label||a.type||'Record A') + '</th>' +
@@ -2845,7 +2845,7 @@ function _updateThemeIcon(isLight) {
     shortcutsOverlay.id = 's4ShortcutsOverlay';
     shortcutsOverlay.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.3);z-index:99999;display:none;align-items:center;justify-content:center;backdrop-filter:blur(8px)';
     shortcutsOverlay.innerHTML = '<div style="background:var(--card,#111);border:1px solid rgba(0,0,0,0.08);border-radius:3px;padding:32px;max-width:560px;width:90%;max-height:80vh;overflow-y:auto">' +
-        '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px"><h3 style="color:#1d1d1f;font-size:1.1rem;margin:0"><i class="fas fa-keyboard" style="margin-right:8px;color:#00aaff"></i>Keyboard Shortcuts</h3><button onclick="toggleShortcuts()" style="background:none;border:none;color:#888;font-size:1.2rem;cursor:pointer">&times;</button></div>' +
+        '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px"><h3 style="color:#1d1d1f;font-size:1.1rem;margin:0"><i class="fas fa-keyboard" style="margin-right:8px;color:#00aaff"></i>Keyboard Shortcuts</h3><button onclick="toggleShortcuts()" style="background:none;border:none;color:#555;font-size:1.2rem;cursor:pointer">&times;</button></div>' +
         '<div style="display:grid;gap:8px">' +
         _shortcutRow('⌘/Ctrl + K', 'Open Global Search') +
         _shortcutRow('⌘/Ctrl + 1-6', 'Switch Platform Tabs') +
@@ -2863,7 +2863,7 @@ function _updateThemeIcon(isLight) {
 
     function _shortcutRow(key, desc) {
         return '<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:rgba(255,255,255,0.03);border-radius:3px">' +
-            '<span style="color:#ccc;font-size:0.85rem">' + desc + '</span>' +
+            '<span style="color:#555;font-size:0.85rem">' + desc + '</span>' +
             '<kbd style="background:rgba(0,170,255,0.1);color:#00aaff;padding:4px 10px;border-radius:3px;font-size:0.78rem;font-family:\'Inter\',monospace;font-weight:600;border:1px solid rgba(0,170,255,0.2)">' + key + '</kbd>' +
             '</div>';
     }
@@ -2907,8 +2907,8 @@ function _updateThemeIcon(isLight) {
     notifDrawer.style.cssText = 'position:fixed;top:0;right:-420px;width:400px;max-width:90vw;height:100vh;background:var(--card,#111);border-left:1px solid rgba(255,255,255,0.08);z-index:99997;transition:right 0.3s ease;overflow-y:auto;box-shadow:-8px 0 40px rgba(0,0,0,0.4)';
     notifDrawer.innerHTML = '<div style="padding:20px;border-bottom:1px solid rgba(0,0,0,0.06);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:var(--card,#111);z-index:1">' +
         '<h4 style="color:#1d1d1f;margin:0;font-size:0.95rem"><i class="fas fa-bell" style="margin-right:8px;color:#00aaff"></i>Notification History</h4>' +
-        '<div style="display:flex;gap:8px"><button onclick="clearNotifHistory()" style="background:none;border:1px solid rgba(0,0,0,0.08);color:#888;padding:4px 10px;border-radius:3px;font-size:0.72rem;cursor:pointer">Clear</button>' +
-        '<button onclick="toggleNotifHistory()" style="background:none;border:none;color:#888;font-size:1.2rem;cursor:pointer">&times;</button></div>' +
+        '<div style="display:flex;gap:8px"><button onclick="clearNotifHistory()" style="background:none;border:1px solid rgba(0,0,0,0.08);color:#555;padding:4px 10px;border-radius:3px;font-size:0.72rem;cursor:pointer">Clear</button>' +
+        '<button onclick="toggleNotifHistory()" style="background:none;border:none;color:#555;font-size:1.2rem;cursor:pointer">&times;</button></div>' +
         '</div>' +
         '<div id="notifHistoryList" style="padding:12px"></div>';
     document.body.appendChild(notifDrawer);
@@ -2940,8 +2940,8 @@ function _updateThemeIcon(isLight) {
             var ago = _timeAgo(n.time);
             return '<div style="padding:10px 12px;border-bottom:1px solid rgba(0,0,0,0.04);display:flex;gap:10px;align-items:flex-start">' +
                 '<i class="fas ' + (icons[n.type]||icons.info) + '" style="color:' + (colors[n.type]||colors.info) + ';margin-top:3px;font-size:0.85rem"></i>' +
-                '<div style="flex:1;min-width:0"><div style="font-weight:600;font-size:0.82rem;color:#ccc">' + (n.title||'Notification') + '</div>' +
-                '<div style="font-size:0.75rem;color:#888;margin-top:2px">' + (n.msg||'') + '</div>' +
+                '<div style="flex:1;min-width:0"><div style="font-weight:600;font-size:0.82rem;color:#555">' + (n.title||'Notification') + '</div>' +
+                '<div style="font-size:0.75rem;color:#555;margin-top:2px">' + (n.msg||'') + '</div>' +
                 '<div style="font-size:0.68rem;color:#555;margin-top:4px">' + ago + '</div></div></div>';
         }).join(''));
     }
@@ -3035,7 +3035,7 @@ function _updateThemeIcon(isLight) {
                 'onmouseover="this.style.background=\'rgba(0,170,255,0.06)\'" onmouseout="this.style.background=\'transparent\'" ' +
                 'onclick="' + (r.action || (r.hash ? 'loadRecordToVerify(\''+r.hash+'\')' : '')) + ';toggleGlobalSearch()">' +
                 '<i class="fas ' + (r.icon||'fa-file') + '" style="color:#00aaff;width:20px;text-align:center"></i>' +
-                '<div style="flex:1;min-width:0"><div style="font-size:0.85rem;color:#ccc;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + r.name + '</div>' +
+                '<div style="flex:1;min-width:0"><div style="font-size:0.85rem;color:#555;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + r.name + '</div>' +
                 '<div style="font-size:0.72rem;color:#666">' + r.desc + '</div></div>' +
                 '<span style="font-size:0.65rem;padding:2px 6px;border-radius:3px;background:' + (typeColors[r.type]||'#555') + '22;color:' + (typeColors[r.type]||'#555') + ';font-weight:600;text-transform:uppercase">' + (typeLabels[r.type]||r.type) + '</span>' +
                 '</div>';

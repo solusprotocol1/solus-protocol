@@ -50,7 +50,7 @@ async function loadPerformanceMetrics() {
             _metricsChartTimes = new Chart(timeCtx, {
                 type: 'line',
                 data: { labels: times.map(function(_, i) { return '#' + (i+1); }), datasets: [{ label: 'Anchor Time (s)', data: times, borderColor: '#00aaff', backgroundColor: 'rgba(0,170,255,0.1)', fill: true, tension: 0.3, pointRadius: 2, pointBackgroundColor: '#00aaff' }] },
-                options: { responsive: true, plugins: { legend: { display: false } }, scales: { x: { ticks: { color: '#6b7d93', font: { size: 9 } }, grid: { color: 'rgba(0,0,0,0.03)' } }, y: { ticks: { color: '#6b7d93', font: { size: 9 } }, grid: { color: 'rgba(0,0,0,0.03)' }, beginAtZero: true } } }
+                options: { responsive: true, plugins: { legend: { display: false } }, scales: { x: { ticks: { color: '#555', font: { size: 9 } }, grid: { color: 'rgba(0,0,0,0.03)' } }, y: { ticks: { color: '#555', font: { size: 9 } }, grid: { color: 'rgba(0,0,0,0.03)' }, beginAtZero: true } } }
             });
         }
 
@@ -62,7 +62,7 @@ async function loadPerformanceMetrics() {
             _metricsChartTypes = new Chart(typesCtx, {
                 type: 'doughnut',
                 data: { labels: Object.keys(types), datasets: [{ data: Object.values(types), backgroundColor: ['#00aaff','#c9a84c','#38bdf8','#ff6b6b','#00aaff','#fb923c','#06b6d4'], borderWidth: 0 }] },
-                options: { responsive: true, plugins: { legend: { position: 'right', labels: { color: '#8ea4b8', font: { size: 10 }, padding: 8 } } } }
+                options: { responsive: true, plugins: { legend: { position: 'right', labels: { color: '#555', font: { size: 10 }, padding: 8 } } } }
             });
         }
 
@@ -111,7 +111,7 @@ async function loadPerformanceMetrics() {
             _metricsChartTimes = new Chart(timeCtx, {
                 type: 'line',
                 data: { labels: times.map(function(_, i) { return '#' + (i+1); }), datasets: [{ label: 'Anchor Time (s)', data: times, borderColor: '#00aaff', backgroundColor: 'rgba(0,170,255,0.1)', fill: true, tension: 0.3, pointRadius: 2, pointBackgroundColor: '#00aaff' }] },
-                options: { responsive: true, plugins: { legend: { display: false } }, scales: { x: { ticks: { color: '#6b7d93', font: { size: 9 } }, grid: { color: 'rgba(0,0,0,0.03)' } }, y: { ticks: { color: '#6b7d93', font: { size: 9 } }, grid: { color: 'rgba(0,0,0,0.03)' }, beginAtZero: true } } }
+                options: { responsive: true, plugins: { legend: { display: false } }, scales: { x: { ticks: { color: '#555', font: { size: 9 } }, grid: { color: 'rgba(0,0,0,0.03)' } }, y: { ticks: { color: '#555', font: { size: 9 } }, grid: { color: 'rgba(0,0,0,0.03)' }, beginAtZero: true } } }
             });
         }
 
@@ -122,7 +122,7 @@ async function loadPerformanceMetrics() {
             _metricsChartTypes = new Chart(typesCtx, {
                 type: 'doughnut',
                 data: { labels: Object.keys(types), datasets: [{ data: Object.values(types), backgroundColor: ['#00aaff','#c9a84c','#38bdf8','#ff6b6b','#00aaff','#fb923c','#06b6d4'], borderWidth: 0 }] },
-                options: { responsive: true, plugins: { legend: { position: 'right', labels: { color: '#8ea4b8', font: { size: 10 }, padding: 8 } } } }
+                options: { responsive: true, plugins: { legend: { position: 'right', labels: { color: '#555', font: { size: 10 }, padding: 8 } } } }
             });
         }
 
@@ -548,15 +548,15 @@ function createS4Chart(canvasId, config) {
         responsive: true,
         maintainAspectRatio: false,
         plugins: {
-            legend: { labels: { color: '#8ea4b8', font: { family: 'Inter', size: 11, weight: '600' }, padding: 16, usePointStyle: true, pointStyle: 'circle' } },
-            tooltip: { backgroundColor: '#16161f', titleColor: '#fff', bodyColor: '#8ea4b8', borderColor: 'rgba(0,170,255,0.2)', borderWidth: 1, padding: 12, cornerRadius: 8, titleFont: { weight: '700' }, bodyFont: { size: 12 } }
+            legend: { labels: { color: '#555', font: { family: 'Inter', size: 11, weight: '600' }, padding: 16, usePointStyle: true, pointStyle: 'circle' } },
+            tooltip: { backgroundColor: '#ffffff', titleColor: '#1d1d1f', bodyColor: '#8ea4b8', borderColor: 'rgba(0,102,204,0.15)', borderWidth: 1, padding: 12, cornerRadius: 8, titleFont: { weight: '700' }, bodyFont: { size: 12 } }
         },
         scales: {}
     };
     if (config.type === 'bar' || config.type === 'line') {
         defaults.scales = {
-            x: { grid: { color: 'rgba(255,255,255,0.03)', drawBorder: false }, ticks: { color: '#8ea4b8', font: { size: 10 } } },
-            y: { grid: { color: 'rgba(255,255,255,0.03)', drawBorder: false }, ticks: { color: '#8ea4b8', font: { size: 10 } } }
+            x: { grid: { color: 'rgba(0,0,0,0.04)', drawBorder: false }, ticks: { color: '#555', font: { size: 10 } } },
+            y: { grid: { color: 'rgba(0,0,0,0.04)', drawBorder: false }, ticks: { color: '#555', font: { size: 10 } } }
         };
     }
     // Merge defaults
@@ -642,7 +642,7 @@ function renderGapAnalysisCharts() {
         options: {
             responsive: true,
             maintainAspectRatio: false,
-            scales: { r: { min: 0, max: 100, ticks: { display: false }, grid: { color: 'rgba(0,0,0,0.06)' }, angleLines: { color: 'rgba(0,0,0,0.06)' }, pointLabels: { color: '#8ea4b8', font: { size: 10 } } } },
+            scales: { r: { min: 0, max: 100, ticks: { display: false }, grid: { color: 'rgba(0,0,0,0.06)' }, angleLines: { color: 'rgba(0,0,0,0.06)' }, pointLabels: { color: '#555', font: { size: 10 } } } },
             plugins: { legend: { display: false } }
         }
     });
@@ -666,7 +666,7 @@ function renderGapAnalysisCharts() {
             responsive: true,
             maintainAspectRatio: false,
             indexAxis: 'y',
-            scales: { x: { min: 0, max: 100, grid: { color: 'rgba(0,0,0,0.03)' }, ticks: { color: '#8ea4b8' } }, y: { ticks: { color: '#8ea4b8', font: { size: 10 } }, grid: { display: false } } },
+            scales: { x: { min: 0, max: 100, grid: { color: 'rgba(0,0,0,0.03)' }, ticks: { color: '#555' } }, y: { ticks: { color: '#555', font: { size: 10 } }, grid: { display: false } } },
             plugins: { legend: { display: false } }
         }
     });
@@ -695,7 +695,7 @@ function renderDMSMSCharts() {
             maintainAspectRatio: false,
             cutout: '55%',
             plugins: {
-                legend: { position: 'bottom', labels: { color: '#8ea4b8', padding: 12, usePointStyle: true, pointStyle: 'circle', font: { size: 11 } } }
+                legend: { position: 'bottom', labels: { color: '#555', padding: 12, usePointStyle: true, pointStyle: 'circle', font: { size: 11 } } }
             }
         }
     });
@@ -749,8 +749,8 @@ function renderReadinessCharts() {
                 tooltip: { callbacks: { label: function(ctx) { return ctx.parsed.y + '%'; } } }
             },
             scales: {
-                x: { ticks: { color: '#8ea4b8', font: { size: 11 } }, grid: { display: false } },
-                y: { ticks: { color: '#6b7d93', font: { size: 10 }, callback: function(v) { return v + '%'; } }, grid: { color: 'rgba(0,0,0,0.03)' }, beginAtZero: true, max: 100 }
+                x: { ticks: { color: '#555', font: { size: 11 } }, grid: { display: false } },
+                y: { ticks: { color: '#555', font: { size: 10 }, callback: function(v) { return v + '%'; } }, grid: { color: 'rgba(0,0,0,0.03)' }, beginAtZero: true, max: 100 }
             }
         }
     });
@@ -787,8 +787,8 @@ function renderComplianceCharts() {
         options: {
             responsive: true,
             maintainAspectRatio: false,
-            scales: { r: { min: 0, max: 100, ticks: { display: false }, grid: { color: 'rgba(0,0,0,0.06)' }, angleLines: { color: 'rgba(0,0,0,0.06)' }, pointLabels: { color: '#8ea4b8', font: { size: 10 } } } },
-            plugins: { legend: { labels: { color: '#8ea4b8', usePointStyle: true, font: { size: 11 } } } }
+            scales: { r: { min: 0, max: 100, ticks: { display: false }, grid: { color: 'rgba(0,0,0,0.06)' }, angleLines: { color: 'rgba(0,0,0,0.06)' }, pointLabels: { color: '#555', font: { size: 10 } } } },
+            plugins: { legend: { labels: { color: '#555', usePointStyle: true, font: { size: 11 } } } }
         }
     });
 }
@@ -852,7 +852,7 @@ function renderROICharts() {
             },{
                 label: 'Break-Even Line',
                 data: new Array(20).fill(0),
-                borderColor: 'rgba(255,255,255,0.2)',
+                borderColor: 'rgba(0,0,0,0.12)',
                 borderDash: [5, 5],
                 borderWidth: 1,
                 pointRadius: 0,
@@ -863,10 +863,10 @@ function renderROICharts() {
             responsive: true,
             maintainAspectRatio: false,
             scales: {
-                y: { grid: { color: 'rgba(0,0,0,0.03)' }, ticks: { color: '#8ea4b8', callback: function(v) { return '$' + (v/1000).toFixed(0) + 'K'; } } },
-                x: { grid: { display: false }, ticks: { color: '#8ea4b8' } }
+                y: { grid: { color: 'rgba(0,0,0,0.03)' }, ticks: { color: '#555', callback: function(v) { return '$' + (v/1000).toFixed(0) + 'K'; } } },
+                x: { grid: { display: false }, ticks: { color: '#555' } }
             },
-            plugins: { legend: { labels: { color: '#8ea4b8', usePointStyle: true, font: { size: 11 } } } }
+            plugins: { legend: { labels: { color: '#555', usePointStyle: true, font: { size: 11 } } } }
         }
     });
 }
@@ -897,8 +897,8 @@ function renderRiskCharts() {
             maintainAspectRatio: false,
             indexAxis: 'y',
             scales: {
-                x: { min: 0, max: 100, grid: { color: 'rgba(0,0,0,0.03)' }, ticks: { color: '#8ea4b8' } },
-                y: { ticks: { color: '#8ea4b8', font: { size: 11 } }, grid: { display: false } }
+                x: { min: 0, max: 100, grid: { color: 'rgba(0,0,0,0.03)' }, ticks: { color: '#555' } },
+                y: { ticks: { color: '#555', font: { size: 11 } }, grid: { display: false } }
             },
             plugins: { legend: { display: false } }
         }
@@ -927,7 +927,7 @@ function renderLifecycleCharts() {
             maintainAspectRatio: false,
             cutout: '50%',
             plugins: {
-                legend: { position: 'bottom', labels: { color: '#8ea4b8', padding: 12, usePointStyle: true, pointStyle: 'circle', font: { size: 11 } } }
+                legend: { position: 'bottom', labels: { color: '#555', padding: 12, usePointStyle: true, pointStyle: 'circle', font: { size: 11 } } }
             }
         }
     });
@@ -1073,7 +1073,7 @@ function calcLifecycle() {
             + '<div><span style="color:var(--steel)">Acquisition (' + acqPct + '%)</span><br><strong style="color:#00aaff">' + fmtM(acqTotal) + '</strong></div>'
             + '<div><span style="color:var(--steel)">Sustainment (' + sustPct + '%)</span><br><strong style="color:#c9a84c">' + fmtM(sustTotal) + '</strong></div>'
             + '<div><span style="color:var(--steel)">DMSMS/Obsol (' + dmsmsPct + '%)</span><br><strong style="color:#ff4444">' + fmtM(dmsmsCost) + '</strong></div>'
-            + '<div><span style="color:var(--steel)">Disposal (' + disposalPct + '%)</span><br><strong style="color:#8ea4b8">' + fmtM(disposalCost) + '</strong></div>'
+            + '<div><span style="color:var(--steel)">Disposal (' + disposalPct + '%)</span><br><strong style="color:#555">' + fmtM(disposalCost) + '</strong></div>'
             + '<div><span style="color:var(--steel)">Personnel (' + personnelPct + '%)</span><br><strong style="color:#00cc66">' + fmtM(personnelCost) + '</strong></div>'
             + '<div><span style="color:var(--steel)">Training (' + trainingPct + '%)</span><br><strong style="color:#9b59b6">' + fmtM(trainingCost) + '</strong></div>'
             + '</div>'
