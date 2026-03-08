@@ -2234,6 +2234,702 @@ details:not([style*="display:none"]){background:transparent;border:none;border-r
 details:not([style*="display:none"]) summary{color:#6e6e73;font-weight:600;font-size:0.82rem;padding:8px 0;cursor:pointer}
 details:not([style*="display:none"]) > *:not(summary){color:#444;font-size:0.84rem;line-height:1.7}
 
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* ━━━ ROUND 8: APPLE-LEVEL TOOL INTERIOR DESIGN SYSTEM ━━━━━━━━━━━━ */
+/* ━━━ Every element INSIDE the 23+ tool panels — enterprise-grade ━━━ */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+/* ── R8-A: FORM INPUTS — Premium, generous, refined ── */
+/* Override inline background:#2c2c2e and color:#fff on inputs */
+.ils-hub-panel input[type="text"],
+.ils-hub-panel input[type="number"],
+.ils-hub-panel input[type="email"],
+.ils-hub-panel input[type="search"],
+.ils-hub-panel input[type="url"],
+.ils-hub-panel input[type="date"],
+.ils-hub-panel textarea,
+.ils-hub-panel select,
+.ils-hub-panel .form-control,
+.ils-hub-panel .form-select,
+.ils-hub-panel .form-control-sm,
+.ils-hub-panel .form-select-sm{
+    background:#fff!important;
+    color:#1d1d1f!important;
+    border:1.5px solid rgba(0,0,0,0.1)!important;
+    border-radius:10px!important;
+    padding:12px 16px!important;
+    font-size:0.88rem!important;
+    font-family:inherit!important;
+    transition:all 0.25s cubic-bezier(0.25,0.1,0.25,1)!important;
+    box-shadow:0 1px 2px rgba(0,0,0,0.04)!important;
+    -webkit-appearance:none!important;
+    appearance:none!important;
+    line-height:1.5!important;
+}
+.ils-hub-panel .form-control-sm,
+.ils-hub-panel .form-select-sm,
+.ils-hub-panel select[style*="font-size:.82rem"],
+.ils-hub-panel select[style*="font-size:0.82rem"]{
+    padding:10px 14px!important;
+    font-size:0.84rem!important;
+}
+.ils-hub-panel textarea{
+    min-height:80px!important;
+    resize:vertical!important;
+    line-height:1.6!important;
+}
+.ils-hub-panel input:focus,
+.ils-hub-panel textarea:focus,
+.ils-hub-panel select:focus,
+.ils-hub-panel .form-control:focus,
+.ils-hub-panel .form-select:focus{
+    border-color:#0071e3!important;
+    outline:none!important;
+    box-shadow:0 0 0 4px rgba(0,113,227,0.1),0 1px 2px rgba(0,0,0,0.04)!important;
+}
+.ils-hub-panel input::placeholder,
+.ils-hub-panel textarea::placeholder{
+    color:#86868b!important;
+    opacity:1!important;
+    font-weight:400!important;
+}
+/* Select dropdown arrow refinement */
+.ils-hub-panel select{
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%2386868b' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E")!important;
+    background-repeat:no-repeat!important;
+    background-position:right 14px center!important;
+    padding-right:36px!important;
+}
+/* Select option styling */
+.ils-hub-panel select option{
+    background:#fff!important;
+    color:#1d1d1f!important;
+    padding:8px!important;
+}
+/* Checkbox & Radio — Apple-style */
+.ils-hub-panel input[type="checkbox"],
+.ils-hub-panel input[type="radio"]{
+    width:20px!important;height:20px!important;
+    accent-color:#0071e3!important;
+    border-radius:6px!important;
+    cursor:pointer!important;
+    flex-shrink:0!important;
+    box-shadow:none!important;
+    padding:0!important;
+    min-height:auto!important;
+}
+/* Labels — refined typography */
+.ils-hub-panel label:not(.cal-event){
+    color:#6e6e73!important;
+    font-size:0.76rem!important;
+    font-weight:600!important;
+    text-transform:uppercase!important;
+    letter-spacing:0.6px!important;
+    margin-bottom:6px!important;
+    display:flex!important;
+    align-items:center!important;
+    gap:6px!important;
+}
+/* File upload zones — premium dashed */
+.ils-hub-panel [style*="border:2px dashed"],
+.ils-hub-panel .ils-dropzone{
+    border:2px dashed rgba(0,113,227,0.25)!important;
+    border-radius:14px!important;
+    padding:32px 24px!important;
+    background:rgba(0,113,227,0.02)!important;
+    transition:all 0.3s cubic-bezier(0.25,0.1,0.25,1)!important;
+    text-align:center!important;
+}
+.ils-hub-panel [style*="border:2px dashed"]:hover,
+.ils-hub-panel .ils-dropzone:hover{
+    border-color:rgba(0,113,227,0.5)!important;
+    background:rgba(0,113,227,0.04)!important;
+    box-shadow:0 4px 20px rgba(0,113,227,0.06)!important;
+}
+.ils-hub-panel [style*="border:2px dashed"] i,
+.ils-hub-panel .ils-dropzone i{
+    color:#0071e3!important;
+    font-size:2.2rem!important;
+    margin-bottom:10px!important;
+}
+
+/* ── R8-B: BUTTONS — Confident, solid, Apple-level ── */
+/* Primary action buttons (gold gradient → refined solid) */
+.ils-hub-panel button[style*="background:linear-gradient(135deg,#c9a84c"],
+.ils-hub-panel button[style*="background:linear-gradient(135deg, #c9a84c"]{
+    background:linear-gradient(135deg,#b8860b,#c9a84c)!important;
+    color:#fff!important;
+    border:none!important;
+    border-radius:10px!important;
+    padding:11px 22px!important;
+    font-weight:700!important;
+    font-size:0.84rem!important;
+    box-shadow:0 2px 12px rgba(184,134,11,0.2)!important;
+    transition:all 0.25s cubic-bezier(0.25,0.1,0.25,1)!important;
+    letter-spacing:0.01em!important;
+}
+.ils-hub-panel button[style*="background:linear-gradient(135deg,#c9a84c"]:hover,
+.ils-hub-panel button[style*="background:linear-gradient(135deg, #c9a84c"]:hover{
+    box-shadow:0 4px 20px rgba(184,134,11,0.3)!important;
+    transform:translateY(-1px)!important;
+}
+/* Primary blue buttons */
+.ils-hub-panel button[style*="background:linear-gradient(135deg,#00aaff"],
+.ils-hub-panel button[style*="background:linear-gradient(135deg, #00aaff"]{
+    background:linear-gradient(135deg,#0071e3,#00aaff)!important;
+    color:#fff!important;
+    border:none!important;
+    border-radius:10px!important;
+    padding:11px 22px!important;
+    font-weight:700!important;
+    font-size:0.84rem!important;
+    box-shadow:0 2px 12px rgba(0,113,227,0.2)!important;
+    transition:all 0.25s cubic-bezier(0.25,0.1,0.25,1)!important;
+}
+.ils-hub-panel button[style*="background:linear-gradient(135deg,#00aaff"]:hover,
+.ils-hub-panel button[style*="background:linear-gradient(135deg, #00aaff"]:hover{
+    box-shadow:0 4px 20px rgba(0,113,227,0.3)!important;
+    transform:translateY(-1px)!important;
+}
+/* Ghost/secondary buttons (inline-styled) */
+.ils-hub-panel button[style*="background:rgba(0,170,255,0.1"],
+.ils-hub-panel button[style*="background:rgba(0,170,255,0.08"]{
+    background:rgba(0,113,227,0.06)!important;
+    color:#0071e3!important;
+    border:1.5px solid rgba(0,113,227,0.15)!important;
+    border-radius:10px!important;
+    padding:10px 20px!important;
+    font-weight:600!important;
+    font-size:0.84rem!important;
+    transition:all 0.25s!important;
+}
+.ils-hub-panel button[style*="background:rgba(0,170,255,0.1"]:hover,
+.ils-hub-panel button[style*="background:rgba(0,170,255,0.08"]:hover{
+    background:rgba(0,113,227,0.1)!important;
+    border-color:rgba(0,113,227,0.3)!important;
+}
+/* Destructive/red buttons */
+.ils-hub-panel button[style*="background:rgba(255,51,51"],
+.ils-hub-panel button[style*="background:rgba(255,68,68"],
+.ils-hub-panel button[style*="color:#ff3333"],
+.ils-hub-panel button[style*="color:#ff6b6b"]{
+    background:rgba(204,51,51,0.06)!important;
+    color:#cc3333!important;
+    border:1.5px solid rgba(204,51,51,0.15)!important;
+    border-radius:10px!important;
+    padding:10px 20px!important;
+    font-weight:600!important;
+    transition:all 0.25s!important;
+}
+.ils-hub-panel button[style*="background:rgba(255,51,51"]:hover,
+.ils-hub-panel button[style*="color:#ff3333"]:hover{
+    background:rgba(204,51,51,0.1)!important;
+    border-color:rgba(204,51,51,0.3)!important;
+}
+/* All .btn inside tool panels — baseline upgrade */
+.ils-hub-panel .btn{
+    border-radius:10px!important;
+    font-weight:600!important;
+    font-family:inherit!important;
+    transition:all 0.25s cubic-bezier(0.25,0.1,0.25,1)!important;
+    letter-spacing:0.01em!important;
+}
+.ils-hub-panel .btn.btn-sm{
+    padding:9px 18px!important;
+    font-size:0.82rem!important;
+}
+/* .ai-quick-btn inside tools — refined pill style */
+.ils-hub-panel .ai-quick-btn{
+    background:rgba(0,113,227,0.05)!important;
+    border:1.5px solid rgba(0,113,227,0.1)!important;
+    color:#0071e3!important;
+    border-radius:20px!important;
+    padding:6px 14px!important;
+    font-size:0.76rem!important;
+    font-weight:600!important;
+    transition:all 0.2s!important;
+    cursor:pointer!important;
+}
+.ils-hub-panel .ai-quick-btn:hover{
+    background:rgba(0,113,227,0.1)!important;
+    border-color:rgba(0,113,227,0.25)!important;
+    transform:translateY(-1px)!important;
+}
+/* Button groups — generous breathing room */
+.ils-hub-panel [style*="display:flex"][style*="gap:8px"],
+.ils-hub-panel [style*="display:flex"][style*="gap:6px"]{
+    gap:10px!important;
+    flex-wrap:wrap!important;
+}
+/* + Action Item button (in headings) */
+.ils-hub-panel h3 .ai-quick-btn,
+.ils-hub-panel h3 button[style*="margin-left:auto"]{
+    border-radius:8px!important;
+    padding:5px 12px!important;
+    font-size:0.72rem!important;
+    font-weight:700!important;
+    background:rgba(0,113,227,0.06)!important;
+    color:#0071e3!important;
+    border:1px solid rgba(0,113,227,0.12)!important;
+}
+
+/* ── R8-C: TABLES — Clean, spacious, Apple data density ── */
+.ils-hub-panel table,
+.ils-hub-panel .table{
+    width:100%!important;
+    border-collapse:separate!important;
+    border-spacing:0!important;
+    font-size:0.84rem!important;
+    border-radius:12px!important;
+    overflow:hidden!important;
+    background:#fff!important;
+}
+.ils-hub-panel table thead,
+.ils-hub-panel .table thead{
+    background:rgba(0,113,227,0.03)!important;
+}
+.ils-hub-panel table th,
+.ils-hub-panel .table th{
+    background:rgba(0,113,227,0.03)!important;
+    color:#6e6e73!important;
+    font-weight:700!important;
+    text-transform:uppercase!important;
+    font-size:0.72rem!important;
+    letter-spacing:0.5px!important;
+    padding:14px 16px!important;
+    border-bottom:1.5px solid rgba(0,0,0,0.06)!important;
+    border-color:rgba(0,0,0,0.06)!important;
+    text-align:left!important;
+    position:sticky!important;
+    top:0!important;
+    z-index:1!important;
+}
+.ils-hub-panel table td,
+.ils-hub-panel .table td{
+    padding:12px 16px!important;
+    border-bottom:1px solid rgba(0,0,0,0.04)!important;
+    color:#1d1d1f!important;
+    font-size:0.84rem!important;
+    vertical-align:middle!important;
+}
+.ils-hub-panel table tbody tr:hover,
+.ils-hub-panel .table tbody tr:hover{
+    background:rgba(0,113,227,0.02)!important;
+}
+.ils-hub-panel table tbody tr:last-child td{
+    border-bottom:none!important;
+}
+/* Table wrapper scrollable containers */
+.ils-hub-panel [style*="max-height"][style*="overflow"]{
+    border:1px solid rgba(0,0,0,0.06)!important;
+    border-radius:12px!important;
+    box-shadow:0 1px 4px rgba(0,0,0,0.03)!important;
+    background:#fff!important;
+}
+
+/* ── R8-D: METRIC/STAT GRIDS — Elevated, Apple-like number displays ── */
+/* Inline-styled stat grids within tools */
+.ils-hub-panel [style*="display:grid"][style*="minmax(140px"]{
+    gap:14px!important;
+}
+.ils-hub-panel [style*="display:grid"][style*="minmax(140px"] > div,
+.ils-hub-panel [style*="display:grid"][style*="minmax(120px"] > div{
+    background:#fff!important;
+    border:1px solid rgba(0,0,0,0.06)!important;
+    border-radius:12px!important;
+    padding:18px 16px!important;
+    text-align:center!important;
+    transition:all 0.25s cubic-bezier(0.25,0.1,0.25,1)!important;
+    box-shadow:0 1px 3px rgba(0,0,0,0.04)!important;
+    position:relative!important;
+    overflow:hidden!important;
+}
+.ils-hub-panel [style*="display:grid"][style*="minmax(140px"] > div::before,
+.ils-hub-panel [style*="display:grid"][style*="minmax(120px"] > div::before{
+    content:''!important;
+    position:absolute!important;
+    top:0!important;left:0!important;right:0!important;
+    height:3px!important;
+    background:linear-gradient(90deg,#0071e3,#00aaff)!important;
+    opacity:0.6!important;
+    transition:opacity 0.3s!important;
+}
+.ils-hub-panel [style*="display:grid"][style*="minmax(140px"] > div:hover,
+.ils-hub-panel [style*="display:grid"][style*="minmax(120px"] > div:hover{
+    border-color:rgba(0,113,227,0.15)!important;
+    transform:translateY(-2px)!important;
+    box-shadow:0 6px 20px rgba(0,0,0,0.06)!important;
+}
+.ils-hub-panel [style*="display:grid"][style*="minmax(140px"] > div:hover::before,
+.ils-hub-panel [style*="display:grid"][style*="minmax(120px"] > div:hover::before{
+    opacity:1!important;
+}
+/* Stat number values */
+.ils-hub-panel [style*="display:grid"] > div > [style*="font-weight:800"],
+.ils-hub-panel [style*="display:grid"] > div > [style*="font-size:1.1rem"],
+.ils-hub-panel [style*="display:grid"] > div > [style*="font-size:1.2rem"],
+.ils-hub-panel [style*="display:grid"] > div > [style*="font-size:1.4rem"]{
+    color:#0071e3!important;
+    font-weight:800!important;
+    font-variant-numeric:tabular-nums!important;
+    letter-spacing:-0.03em!important;
+    line-height:1.1!important;
+}
+/* Stat label text */
+.ils-hub-panel [style*="display:grid"] > div > [style*="text-transform:uppercase"],
+.ils-hub-panel [style*="display:grid"] > div > [style*="font-size:0.68rem"],
+.ils-hub-panel [style*="display:grid"] > div > [style*="font-size:0.7rem"]{
+    color:#86868b!important;
+    font-size:0.7rem!important;
+    text-transform:uppercase!important;
+    letter-spacing:0.8px!important;
+    font-weight:600!important;
+}
+
+/* ── R8-E: SECTION ORGANIZATION — Clear visual hierarchy ── */
+/* Collapsible sections (custom toggles w/ chevron) */
+.ils-hub-panel [style*="border:1px solid rgba(0,170,255"]{
+    border:1px solid rgba(0,0,0,0.06)!important;
+    border-radius:12px!important;
+    overflow:hidden!important;
+    margin-bottom:14px!important;
+    box-shadow:0 1px 3px rgba(0,0,0,0.03)!important;
+    transition:all 0.25s!important;
+}
+.ils-hub-panel [style*="border:1px solid rgba(0,170,255"]:hover{
+    border-color:rgba(0,113,227,0.12)!important;
+    box-shadow:0 2px 8px rgba(0,0,0,0.05)!important;
+}
+/* Section headers (the clickable toggle bar) */
+.ils-hub-panel [style*="cursor:pointer"][style*="padding:12px 16px"][style*="background:rgba(0,170,255"]{
+    background:rgba(0,113,227,0.03)!important;
+    padding:14px 18px!important;
+}
+.ils-hub-panel [style*="cursor:pointer"][style*="padding:12px 16px"] strong{
+    color:#1d1d1f!important;
+    font-size:0.9rem!important;
+    font-weight:700!important;
+    letter-spacing:-0.01em!important;
+}
+/* Section count badges */
+.ils-hub-panel [style*="cursor:pointer"][style*="padding:12px"] span[style*="background:#00aaff22"],
+.ils-hub-panel [style*="cursor:pointer"][style*="padding:12px"] span[style*="background:rgba(0,170,255"]{
+    background:rgba(0,113,227,0.08)!important;
+    color:#0071e3!important;
+    border-radius:8px!important;
+    padding:3px 10px!important;
+    font-size:0.74rem!important;
+    font-weight:700!important;
+}
+/* Chevron icons inside section headers */
+.ils-hub-panel [style*="cursor:pointer"] i.fa-chevron-down,
+.ils-hub-panel [style*="cursor:pointer"] i.fa-chevron-right,
+.ils-hub-panel [style*="cursor:pointer"] i.fa-chevron-up{
+    color:#86868b!important;
+    font-size:0.72rem!important;
+    transition:transform 0.35s cubic-bezier(0.25,0.1,0.25,1)!important;
+}
+/* Section content areas */
+.ils-hub-panel [style*="padding:12px 16px"][style*="display:none"],
+.ils-hub-panel [style*="padding:12px 16px"]:not([style*="cursor:pointer"]):not([style*="display:grid"]){
+    padding:16px 18px!important;
+}
+
+/* ── R8-F: RESULT/OUTPUT AREAS — Refined containers ── */
+/* Report preview / result containers */
+.ils-hub-panel [style*="background:rgba(0,170,255,0.06)"][style*="border:1px solid"]{
+    background:rgba(0,113,227,0.02)!important;
+    border:1px solid rgba(0,113,227,0.08)!important;
+    border-radius:12px!important;
+    padding:20px!important;
+}
+/* Result container headings */
+.ils-hub-panel [style*="background:rgba(0,170,255,0.06)"] h5{
+    color:#1d1d1f!important;
+    font-weight:700!important;
+    font-size:0.9rem!important;
+}
+/* Monospace/code output */
+.ils-hub-panel [style*="font-family:monospace"],
+.ils-hub-panel pre,
+.ils-hub-panel code{
+    background:#f8f9fb!important;
+    color:#1d1d1f!important;
+    border:1px solid rgba(0,0,0,0.06)!important;
+    border-radius:10px!important;
+    padding:14px 16px!important;
+    font-family:'SF Mono','JetBrains Mono',Menlo,monospace!important;
+    font-size:0.82rem!important;
+    line-height:1.6!important;
+}
+/* Empty state placeholder text */
+.ils-hub-panel [style*="text-align:center"][style*="padding:40px"]{
+    padding:48px 24px!important;
+}
+.ils-hub-panel [style*="text-align:center"][style*="padding:40px"] i,
+.ils-hub-panel [style*="text-align:center"][style*="padding:48px"] i{
+    font-size:2.8rem!important;
+    color:rgba(0,0,0,0.12)!important;
+    margin-bottom:14px!important;
+}
+.ils-hub-panel [style*="text-align:center"][style*="padding:40px"] p,
+.ils-hub-panel [style*="text-align:center"][style*="padding:48px"] p{
+    color:#86868b!important;
+    font-size:0.88rem!important;
+    max-width:360px!important;
+    margin:0 auto!important;
+    line-height:1.6!important;
+}
+
+/* ── R8-G: PROGRESS/COMPLIANCE BARS — Refined ── */
+.ils-hub-panel .compliance-row{
+    background:#fff!important;
+    border:1px solid rgba(0,0,0,0.05)!important;
+    border-radius:10px!important;
+    padding:14px 16px!important;
+    margin-bottom:8px!important;
+    box-shadow:0 1px 2px rgba(0,0,0,0.03)!important;
+    transition:all 0.25s!important;
+}
+.ils-hub-panel .compliance-row:hover{
+    border-color:rgba(0,113,227,0.12)!important;
+    box-shadow:0 2px 8px rgba(0,0,0,0.05)!important;
+}
+/* Inline progress bars */
+.ils-hub-panel [style*="height:8px"][style*="border-radius"],
+.ils-hub-panel [style*="height:6px"][style*="border-radius"]{
+    height:6px!important;
+    background:rgba(0,0,0,0.04)!important;
+    border-radius:8px!important;
+    overflow:hidden!important;
+}
+
+/* ── R8-H: BADGES & STATUS PILLS — Apple-refined ── */
+/* Inline LIVE/REAL-TIME badges */
+.ils-hub-panel [style*="background:rgba(0,170,255,0.15)"][style*="font-size:0.65rem"],
+.ils-hub-panel [style*="background:rgba(0,170,255,0.15)"][style*="font-size:0.7rem"]{
+    background:rgba(0,113,227,0.08)!important;
+    color:#0071e3!important;
+    border-radius:20px!important;
+    padding:3px 10px!important;
+    font-weight:700!important;
+    font-size:0.68rem!important;
+    letter-spacing:0.3px!important;
+    border:1px solid rgba(0,113,227,0.1)!important;
+}
+/* Critical/warning dots → refined */
+.ils-hub-panel .ai-quick-btn span[style*="color:#c9a84c"]{
+    color:#b8860b!important;
+}
+/* Severity colors in filter buttons */
+.ils-hub-panel .ai-quick-btn span[style*="color:#ff"]{
+    color:#cc3333!important;
+}
+
+/* ── R8-I: TOOL PANEL TYPOGRAPHY — Clear hierarchy ── */
+/* Tool panel h3 heading — the main title */
+.ils-hub-panel .s4-card > h3,
+.ils-hub-panel .glass-card > h3{
+    font-size:1.15rem!important;
+    font-weight:800!important;
+    color:#1d1d1f!important;
+    letter-spacing:-0.025em!important;
+    margin-bottom:16px!important;
+    padding-bottom:14px!important;
+    border-bottom:1.5px solid rgba(0,0,0,0.06)!important;
+    display:flex!important;
+    align-items:center!important;
+    gap:10px!important;
+    line-height:1.3!important;
+}
+/* Tool icon in heading */
+.ils-hub-panel .s4-card > h3 > i:first-child,
+.ils-hub-panel .glass-card > h3 > i:first-child{
+    font-size:1rem!important;
+    width:36px!important;
+    height:36px!important;
+    display:flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    border-radius:10px!important;
+    background:rgba(0,113,227,0.06)!important;
+    flex-shrink:0!important;
+}
+/* Description paragraphs below title */
+.ils-hub-panel .s4-card > p:first-of-type{
+    color:#6e6e73!important;
+    font-size:0.9rem!important;
+    line-height:1.65!important;
+    margin-bottom:20px!important;
+    max-width:680px!important;
+}
+/* Section sub-headings inside tools */
+.ils-hub-panel h4,
+.ils-hub-panel h5{
+    color:#1d1d1f!important;
+    font-weight:700!important;
+    letter-spacing:-0.015em!important;
+}
+.ils-hub-panel h4{font-size:0.95rem!important;margin-bottom:12px!important;margin-top:20px!important}
+.ils-hub-panel h5{font-size:0.88rem!important;margin-bottom:10px!important}
+
+/* ── R8-J: ROW-BASED LAYOUTS — Generous spacing ── */
+/* Bootstrap-like .row inside tools */
+.ils-hub-panel .row{
+    margin-bottom:16px!important;
+}
+.ils-hub-panel .row > [class*="col-"]{
+    margin-bottom:12px!important;
+}
+/* Inline flex rows for form groups */
+.ils-hub-panel [style*="display:flex"][style*="gap"][style*="margin-bottom"]{
+    margin-bottom:16px!important;
+}
+
+/* ── R8-K: CARD INTERIOR SPACING — Generous, Apple-like whitespace ── */
+/* Override tight padding:20px to generous 32px */
+.ils-hub-panel .s4-card,
+.ils-hub-panel .glass-card{
+    padding:32px!important;
+    border-radius:16px!important;
+    box-shadow:0 1px 4px rgba(0,0,0,0.04),0 4px 16px rgba(0,0,0,0.03)!important;
+}
+/* Inner section separators — breathing room */
+.ils-hub-panel hr,
+.ils-hub-panel [style*="border-top:1px"]{
+    border-color:rgba(0,0,0,0.06)!important;
+    margin:20px 0!important;
+}
+
+/* ── R8-L: SCROLLBAR REFINEMENT ── */
+.ils-hub-panel ::-webkit-scrollbar{width:6px!important;height:6px!important}
+.ils-hub-panel ::-webkit-scrollbar-track{background:transparent!important;border-radius:8px!important}
+.ils-hub-panel ::-webkit-scrollbar-thumb{background:rgba(0,0,0,0.1)!important;border-radius:8px!important}
+.ils-hub-panel ::-webkit-scrollbar-thumb:hover{background:rgba(0,0,0,0.18)!important}
+
+/* ── R8-M: ICONS — Refined sizing and color ── */
+/* Font Awesome icons in tool headings */
+.ils-hub-panel i.fas,
+.ils-hub-panel i.far,
+.ils-hub-panel i.fab{
+    transition:color 0.2s!important;
+}
+/* Small inline icons in text */
+.ils-hub-panel span > i.fas,
+.ils-hub-panel span > i.far{
+    font-size:0.85em!important;
+}
+
+/* ── R8-N: SCORE RING / CIRCULAR PROGRESS — Polished ── */
+.ils-hub-panel svg circle[stroke="var(--border)"]{
+    stroke:rgba(0,0,0,0.06)!important;
+}
+/* Score value in center of ring */
+.ils-hub-panel [style*="font-size:2.2rem"][style*="font-weight:800"],
+.ils-hub-panel [style*="font-size:2rem"][style*="font-weight:800"]{
+    color:#1d1d1f!important;
+    letter-spacing:-0.03em!important;
+}
+
+/* ── R8-O: DARK INLINE COLOR OVERRIDES (tool interior) ── */
+/* White text → dark */
+.ils-hub-panel [style*="color:#fff"]:not(button):not(.btn):not([style*="background:linear-gradient"]):not(option){
+    color:#1d1d1f!important;
+}
+/* Grey text → Apple grey */
+.ils-hub-panel [style*="color:#ccc"]:not(button){color:#86868b!important}
+.ils-hub-panel [style*="color:#aaa"]:not(button){color:#86868b!important}
+.ils-hub-panel [style*="color:#999"]:not(button){color:#86868b!important}
+.ils-hub-panel [style*="color:#888"]:not(button){color:#6e6e73!important}
+.ils-hub-panel [style*="color:#777"]:not(button){color:#6e6e73!important}
+/* Dark backgrounds on inner divs */
+.ils-hub-panel [style*="background:#2c2c2e"]{background:#f8f9fb!important}
+.ils-hub-panel [style*="background:#1a1a2e"]{background:#f8f9fb!important}
+.ils-hub-panel [style*="background:var(--surface)"]:not(.stat-mini):not(.vault-stat):not(.kpi-card){
+    background:#f8f9fb!important;
+}
+/* Blue accent #00aaff → refined #0071e3 */
+.ils-hub-panel [style*="color:#00aaff"]:not(button):not(stop){color:#0071e3!important}
+/* Gold header text #c9a84c → refined enterprise gold */
+.ils-hub-panel th[style*="color:#c9a84c"]{color:#6e6e73!important}
+/* Border color catches */
+.ils-hub-panel [style*="border:1px solid rgba(255,255,255"]{border-color:rgba(0,0,0,0.06)!important}
+.ils-hub-panel [style*="border-bottom:1px solid rgba(255,255,255"]{border-bottom-color:rgba(0,0,0,0.04)!important}
+.ils-hub-panel [style*="border-color:var(--border)"]{border-color:rgba(0,0,0,0.06)!important}
+/* Inline bg rgba catches */
+.ils-hub-panel [style*="background:rgba(0,170,255,0.06)"]{background:rgba(0,113,227,0.03)!important}
+.ils-hub-panel [style*="background:rgba(0,170,255,0.04)"]{background:rgba(0,113,227,0.02)!important}
+.ils-hub-panel [style*="background:rgba(201,168,76,0.04)"]{background:rgba(184,134,11,0.03)!important}
+/* Inline border catches */
+.ils-hub-panel [style*="border:1px solid rgba(0,170,255,0.15)"]{border-color:rgba(0,113,227,0.08)!important}
+.ils-hub-panel [style*="border:2px solid rgba(0,170,255"]{border-color:rgba(0,113,227,0.15)!important}
+
+/* ── R8-P: VAULT RECORDS — Premium cards ── */
+.ils-hub-panel .vault-record{
+    background:#fff!important;
+    border:1px solid rgba(0,0,0,0.06)!important;
+    border-radius:14px!important;
+    padding:18px 20px!important;
+    margin-bottom:10px!important;
+    box-shadow:0 1px 4px rgba(0,0,0,0.04)!important;
+    transition:all 0.25s cubic-bezier(0.25,0.1,0.25,1)!important;
+}
+.ils-hub-panel .vault-record:hover{
+    border-color:rgba(0,113,227,0.15)!important;
+    box-shadow:0 4px 16px rgba(0,0,0,0.06)!important;
+    transform:translateY(-1px)!important;
+}
+
+/* ── R8-Q: DETAILS ELEMENTS (functional) — Premium expandable ── */
+.ils-hub-panel details:not([style*="display:none"]){
+    background:#fff!important;
+    border:1px solid rgba(0,0,0,0.06)!important;
+    border-radius:12px!important;
+    padding:0!important;
+    margin-bottom:12px!important;
+    overflow:hidden!important;
+    box-shadow:0 1px 3px rgba(0,0,0,0.03)!important;
+}
+.ils-hub-panel details:not([style*="display:none"]) summary{
+    padding:14px 18px!important;
+    color:#1d1d1f!important;
+    font-weight:600!important;
+    font-size:0.88rem!important;
+    cursor:pointer!important;
+    background:rgba(0,113,227,0.02)!important;
+    transition:background 0.2s!important;
+    list-style:none!important;
+}
+.ils-hub-panel details:not([style*="display:none"]) summary:hover{
+    background:rgba(0,113,227,0.04)!important;
+}
+.ils-hub-panel details:not([style*="display:none"]) summary::-webkit-details-marker{display:none!important}
+.ils-hub-panel details:not([style*="display:none"]) summary::before{
+    content:'\\f054'!important;
+    font-family:'Font Awesome 6 Free'!important;
+    font-weight:900!important;
+    font-size:0.65rem!important;
+    color:#86868b!important;
+    margin-right:10px!important;
+    transition:transform 0.3s cubic-bezier(0.25,0.1,0.25,1)!important;
+    display:inline-block!important;
+}
+.ils-hub-panel details[open]:not([style*="display:none"]) summary::before{
+    transform:rotate(90deg)!important;
+}
+.ils-hub-panel details:not([style*="display:none"]) > div,
+.ils-hub-panel details:not([style*="display:none"]) > p{
+    padding:16px 18px!important;
+    border-top:1px solid rgba(0,0,0,0.04)!important;
+}
+
+/* ── R8-R: OVERALL ANIMATION REFINEMENT ── */
+.ils-hub-panel *{
+    transition-timing-function:cubic-bezier(0.25,0.1,0.25,1);
+}
+
+/* ━━━ END ROUND 8 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
 /* ━━━ 4H: MOBILE RESPONSIVE POLISH ━━━ */
 @media(max-width:768px){
     .hero h1{font-size:1.8rem!important}
@@ -2244,10 +2940,15 @@ details:not([style*="display:none"]) > *:not(summary){color:#444;font-size:0.84r
     .tool-panel h3{font-size:0.95rem!important}
     .stat-strip{flex-direction:column!important;gap:8px!important}
     .subpage-back{top:8px!important}
+    /* Round 8 mobile */
+    .ils-hub-panel .s4-card,.ils-hub-panel .glass-card{padding:20px 18px!important;border-radius:12px!important}
+    .ils-hub-panel input,.ils-hub-panel select,.ils-hub-panel textarea{font-size:16px!important;padding:10px 14px!important}
+    .ils-hub-panel table th,.ils-hub-panel table td{padding:10px 12px!important;font-size:0.8rem!important}
 }
 @media(max-width:480px){
     .hero{padding:40px 0 30px!important}
     .hero h1{font-size:1.5rem!important}
     #platformLanding .col-md-4 > div{padding:18px 16px!important}
     .tool-panel input,.tool-panel select,.tool-panel textarea{font-size:16px!important}
+    .ils-hub-panel .s4-card,.ils-hub-panel .glass-card{padding:16px 14px!important}
 }
