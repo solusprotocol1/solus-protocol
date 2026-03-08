@@ -1301,8 +1301,35 @@
         .demo-mode-banner .dmb-signin:hover{background:rgba(0,170,255,0.2);border-color:var(--accent)}
         .demo-mode-banner{background:linear-gradient(135deg,rgba(201,168,76,0.08),rgba(0,119,204,0.04));border-color:rgba(201,168,76,0.2)}
 
-/* ═══ Hide <details> "How It Works" dropdowns — replaced by ? popup ═══ */
-.ils-hub-panel details,#tabAnchor details,#tabVerify details{display:none!important}
+/* ═══ C1: UNHIDE "How It Works" sections — Steve Jobs: educate users inline ═══ */
+/* Override inline display:none on <details> so users can discover help content */
+.ils-hub-panel details,#tabAnchor details,#tabVerify details,
+details[style*="display:none"]{display:block!important}
+/* Style the How It Works sections as clean Apple-like info cards */
+details[style*="display:none"] summary,
+.ils-hub-panel details summary,
+#tabAnchor details summary,
+#tabVerify details summary{font-weight:600;font-size:0.82rem;color:#0077cc;cursor:pointer;padding:10px 0 6px;list-style:none}
+details[style*="display:none"] summary::before,
+.ils-hub-panel details summary::before,
+#tabAnchor details summary::before,
+#tabVerify details summary::before{content:'ℹ️ ';margin-right:4px}
+details[style*="display:none"] summary::-webkit-details-marker,
+.ils-hub-panel details summary::-webkit-details-marker,
+#tabAnchor details summary::-webkit-details-marker,
+#tabVerify details summary::-webkit-details-marker{display:none}
+details[style*="display:none"][open] summary::after,
+.ils-hub-panel details[open] summary::after,
+#tabAnchor details[open] summary::after,
+#tabVerify details[open] summary::after{content:' ▾';font-size:0.7rem}
+details[style*="display:none"]:not([open]) summary::after,
+.ils-hub-panel details:not([open]) summary::after,
+#tabAnchor details:not([open]) summary::after,
+#tabVerify details:not([open]) summary::after{content:' ▸';font-size:0.7rem}
+/* Details content styling */
+details[style*="display:none"] > :not(summary),
+.ils-hub-panel details > :not(summary){color:#555;font-size:0.82rem;line-height:1.6}
+details[style*="display:none"]{background:rgba(0,119,204,0.03)!important;border:1px solid rgba(0,119,204,0.1)!important;border-radius:6px!important;padding:0 14px 8px!important;margin-bottom:14px!important}
 
 /* ═══ Platform Walkthrough ═══ */
 #s4WalkthroughOverlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:99999;display:flex;align-items:center;justify-content:center;animation:fadeIn 0.4s ease}
@@ -1678,3 +1705,138 @@ textarea,.result-panel,.tx-hash,.vault-hash,.wt-mock-hash,.hash-display,code,pre
 .post-action-btn,.sample-btn{border-radius:4px!important}
 /* Inputs — 4px */
 input,select,textarea,.form-control,.form-select,.type-search{border-radius:4px!important}
+
+/* ═══════════════════════════════════════════════════════════════════════ */
+/* ═══ ROUND 2: DARK MODE REMNANTS + LAYOUT + USER ORIENTATION FIXES ═══ */
+/* ═══════════════════════════════════════════════════════════════════════ */
+
+/* ── A1: Program Brief Engine — force light on ALL brief elements ── */
+/* Brief canvas, slides, toolbar, modals — all inline dark must be overridden */
+[id*="brief"] [style*="background:#2c2c2e"],[id*="brief"] [style*="background: #2c2c2e"],
+[id*="brief"] [style*="background:#1c1c1e"],[id*="brief"] [style*="background: #1c1c1e"],
+[id*="brief"] [style*="background:#0a0e1a"],[id*="brief"] [style*="background: #0a0e1a"],
+[id*="brief"] [style*="background:#0d1117"],[id*="brief"] [style*="background: #0d1117"],
+[id*="brief"] [style*="background:#050810"],[id*="brief"] [style*="background: #050810"],
+[id*="brief"] [style*="background:#111820"],[id*="brief"] [style*="background: #111820"]{background:#ffffff!important}
+[id*="brief"] [style*="color:#fff"],[id*="brief"] [style*="color: #fff"]{color:#1d1d1f!important}
+/* Brief slide panel backgrounds */
+[id*="brief"] [style*="background:#3a3a3c"],[id*="brief"] [style*="background: #3a3a3c"]{background:#f0f0f5!important}
+[id*="brief"] [style*="background:rgba(44"],[id*="brief"] [style*="background: rgba(44"]{background:#f5f5f7!important}
+[id*="brief"] [style*="background:rgba(0,0,0"]{background:rgba(0,0,0,0.03)!important}
+/* Brief inputs, selects, textareas — light */
+[id*="brief"] input,[id*="brief"] select,[id*="brief"] textarea{background:#fff!important;color:#1d1d1f!important;border-color:rgba(0,0,0,0.15)!important}
+/* Brief labels, headings, text */
+[id*="brief"] label,[id*="brief"] span,[id*="brief"] div:not([style*="background:linear"]){color:#1d1d1f}
+[id*="brief"] h1,[id*="brief"] h2,[id*="brief"] h3,[id*="brief"] h4,[id*="brief"] h5{color:#1d1d1f!important}
+[id*="brief"] p{color:#333}
+/* Brief slide sidebar thumbnails */
+[id*="brief"] [style*="border:2px solid #0a0e1a"],[id*="brief"] [style*="border: 2px solid #0a0e1a"]{border-color:rgba(0,0,0,0.12)!important}
+[id*="brief"] [style*="border:2px solid #2c2c2e"],[id*="brief"] [style*="border: 2px solid #2c2c2e"]{border-color:rgba(0,0,0,0.1)!important}
+/* Brief canvas itself — white background */
+[id*="brief"] canvas{background:#fff!important}
+/* Brief toolbar buttons */
+[id*="brief"] button:not([style*="background:linear"]){color:#1d1d1f}
+
+/* ── A2: Acquisition Planner — additional dark overrides ── */
+[id*="acq"] [style*="background:#0d1117"],[id*="acq"] [style*="background: #0d1117"],
+[id*="acq"] [style*="background:#0a0e1a"],[id*="acq"] [style*="background: #0a0e1a"]{background:#fff!important}
+[id*="acq"] [style*="color:#fff"],[id*="acq"] [style*="color: #fff"]{color:#1d1d1f!important}
+[id*="acq"] th[style*="color:#fff"],[id*="acq"] td[style*="color:#fff"]{color:#1d1d1f!important}
+
+/* ── A3: Milestones Tracker — force light ── */
+[id*="milestone"] [style*="background:#0d1117"],[id*="milestone"] [style*="background: #0d1117"],
+[id*="milestone"] [style*="background:#0a0e1a"],[id*="milestone"] [style*="background: #0a0e1a"],
+[id*="milestone"] [style*="background:#2c2c2e"],[id*="milestone"] [style*="background: #2c2c2e"]{background:#fff!important}
+[id*="milestone"] [style*="color:#fff"],[id*="milestone"] [style*="color: #fff"]{color:#1d1d1f!important}
+[id*="milestone"] input,[id*="milestone"] select,[id*="milestone"] textarea{background:#fff!important;color:#1d1d1f!important;border-color:rgba(0,0,0,0.15)!important}
+[id*="Mil"] [style*="background:#0d1117"],[id*="Mil"] [style*="background:#0a0e1a"],
+[id*="Mil"] [style*="background:#2c2c2e"]{background:#fff!important}
+[id*="Mil"] [style*="color:#fff"]{color:#1d1d1f!important}
+
+/* ── A4: Missing background:#050810 catch ── */
+[style*="background:#050810"],[style*="background: #050810"]{background:#f0f0f5!important}
+
+/* ── A5: Invisible white-alpha borders on light bg ── */
+[style*="border-bottom:1px solid rgba(255,255,255,0.03"]{border-bottom-color:rgba(0,0,0,0.06)!important}
+[style*="border-bottom:1px solid rgba(255,255,255,0.06"]{border-bottom-color:rgba(0,0,0,0.08)!important}
+[style*="border-bottom:1px solid rgba(255,255,255,0.04"]{border-bottom-color:rgba(0,0,0,0.06)!important}
+[style*="border:1px solid rgba(255,255,255,0.04"]{border-color:rgba(0,0,0,0.06)!important}
+
+/* ── A6: SVG fill dark colors ── */
+svg [fill="#2c2c2e"],svg [fill="#0a0e1a"],svg [fill="#0d1117"]{fill:#f0f0f5!important}
+
+/* ── A5 (cont): border:2px solid #2c2c2e (team avatars etc) ── */
+[style*="border:2px solid #2c2c2e"],[style*="border: 2px solid #2c2c2e"]{border-color:rgba(0,0,0,0.12)!important}
+
+/* ── B1+B2: Action Item & ILS Checklist — fix invisible dividers ── */
+.acq-summary-item{border-bottom-color:rgba(0,0,0,0.06)!important}
+
+/* ── B3: ILS action items — better spacing between cards ── */
+.ils-action-item{margin-bottom:12px!important;border:1px solid rgba(0,0,0,0.06);box-shadow:0 1px 3px rgba(0,0,0,0.04)}
+.ils-action-item .action-header{margin-bottom:8px!important}
+.ils-action-item .action-detail{margin-top:6px!important;padding-top:6px;border-top:1px solid rgba(0,0,0,0.04)}
+
+/* ── B4: Hub Action Items — consistent gap between items ── */
+.action-item{margin-bottom:10px!important;box-shadow:0 1px 3px rgba(0,0,0,0.04)}
+.action-item .ai-body{padding:2px 0}
+.action-item .ai-title{font-size:0.88rem;font-weight:600;color:#1d1d1f;margin-bottom:4px}
+.action-item .ai-meta{font-size:0.78rem;color:#666;display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+.action-item .ai-tag{font-size:0.72rem;padding:2px 8px;border-radius:3px}
+
+/* ── C2: Pulsing glow on primary action buttons — "click here" signal ── */
+@keyframes ctaPulse{0%{box-shadow:0 0 0 0 rgba(0,119,204,0.35)}70%{box-shadow:0 0 0 10px rgba(0,119,204,0)}100%{box-shadow:0 0 0 0 rgba(0,119,204,0)}}
+.btn-accent,.btn-anchor{animation:ctaPulse 2.5s ease-in-out 1}
+
+/* ── C3: Empty state guidance arrows ── */
+.tool-panel [id$="Results"]:empty::before,
+.tool-panel [id$="results"]:empty::before,
+.tool-panel [id$="Grid"]:empty::before{content:'⬆ Fill in the fields above, then click the blue button to get started';display:block;text-align:center;padding:32px 16px;color:#86868b;font-size:0.88rem;font-style:italic;background:rgba(0,119,204,0.02);border:1px dashed rgba(0,119,204,0.15);border-radius:6px;margin:16px 0}
+
+/* ── E1: Section dividers inside tools — visual breathing room ── */
+.tool-panel > h3,.tool-panel > h4{margin-top:28px!important;padding-top:16px;border-top:1px solid rgba(0,0,0,0.06)}
+.tool-panel > h3:first-child,.tool-panel > h4:first-child{margin-top:0!important;padding-top:0;border-top:none}
+
+/* ── E2: Stat cards — bolder, more prominent numbers ── */
+.stat-card .stat-val,.stat-mini .stat-mini-val{font-size:1.6rem!important;font-weight:800!important;color:#1d1d1f!important;letter-spacing:-0.02em}
+.stat-card .stat-label,.stat-mini .stat-mini-label{font-size:0.72rem!important;font-weight:600!important;color:#86868b!important;text-transform:uppercase;letter-spacing:0.5px}
+.stat-card,.stat-mini{background:#fff!important;border:1px solid rgba(0,0,0,0.06)!important;box-shadow:0 1px 4px rgba(0,0,0,0.04)!important;padding:16px 14px!important}
+
+/* ── E3: Input field styling normalization ── */
+.tool-panel input[type="text"],.tool-panel input[type="number"],.tool-panel input[type="date"],
+.tool-panel select,.tool-panel textarea{background:#fff!important;color:#1d1d1f!important;border:1px solid rgba(0,0,0,0.12)!important;padding:10px 12px!important;font-size:0.85rem!important;transition:border-color 0.2s,box-shadow 0.2s}
+.tool-panel input:focus,.tool-panel select:focus,.tool-panel textarea:focus{border-color:#0077cc!important;box-shadow:0 0 0 3px rgba(0,119,204,0.1)!important;outline:none}
+
+/* ── E4: Table styling — clean, consistent Apple aesthetic ── */
+.tool-panel table{width:100%;border-collapse:collapse;background:#fff;border-radius:6px;overflow:hidden;border:1px solid rgba(0,0,0,0.08)}
+.tool-panel table th{background:rgba(0,119,204,0.04)!important;color:#1d1d1f!important;font-weight:700;font-size:0.78rem;text-transform:uppercase;letter-spacing:0.3px;padding:10px 12px!important;border-bottom:2px solid rgba(0,0,0,0.08)!important;text-align:left}
+.tool-panel table td{padding:10px 12px!important;border-bottom:1px solid rgba(0,0,0,0.04)!important;color:#333;font-size:0.85rem}
+.tool-panel table tr:hover td{background:rgba(0,119,204,0.02)}
+.tool-panel table tr:last-child td{border-bottom:none!important}
+
+/* ── E5: Card shadow hierarchy ── */
+.s4-card,.glass-card,.hub-card,.ils-tool-card{box-shadow:0 1px 3px rgba(0,0,0,0.06)!important}
+.modal-box,.hiw-modal-box,.onboard-modal,.wt-container{box-shadow:0 8px 32px rgba(0,0,0,0.12)!important}
+
+/* ── E8: Whitespace between form groups ── */
+.tool-panel .form-group,.tool-panel .mb-2,.tool-panel .mb-3{margin-bottom:20px!important}
+.tool-panel label{display:block;margin-bottom:6px!important;font-weight:600;font-size:0.78rem;color:#555;text-transform:uppercase;letter-spacing:0.3px}
+
+/* ── F1: Landing CTA differentiation — demo button as outline ── */
+a[onclick*="enterDemoMode"]{background:transparent!important;border:2px solid #0077cc!important;color:#0077cc!important}
+a[onclick*="enterDemoMode"]:hover{background:rgba(0,119,204,0.06)!important}
+
+/* ── F2: Button color system ── */
+/* Gold for export/anchor secondary actions */
+.btn-export,.btn-gold{background:#daa520!important;color:#fff!important;border:none!important}
+.btn-export:hover,.btn-gold:hover{background:#c9941a!important}
+
+/* ── I1: Smooth scrolling ── */
+html{scroll-behavior:smooth}
+
+/* ── I3: Focus ring styling ── */
+*:focus-visible{outline:2px solid #0077cc!important;outline-offset:2px!important;border-radius:2px}
+input:focus-visible,select:focus-visible,textarea:focus-visible{outline:none!important}
+
+/* ── I4: Smooth panel open transition ── */
+.tool-panel,.ils-hub-panel{animation:fadeSlideIn 0.25s ease-out}
+@keyframes fadeSlideIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
