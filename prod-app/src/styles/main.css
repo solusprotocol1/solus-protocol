@@ -1960,6 +1960,53 @@ input::placeholder,textarea::placeholder,select::placeholder,.form-control::plac
 #hub-brief [style*="background:rgba(10,14,26"],
 #hub-brief [style*="background:rgba(13,17,23"]{background:#fff!important}
 
+/* ━━━ BRIEF STAGE/CANVAS/ZOOM — dark presentation area → light ━━━ */
+/* The slide canvas stage (dark radial gradient background area) */
+.brief-stage{background:linear-gradient(135deg,#f0f0f5 0%,#e8e8ed 100%)!important}
+/* The actual canvas element (dark #2c2c2e slide) */
+.brief-canvas,#briefCanvas{background:#fff!important;box-shadow:0 4px 24px rgba(0,0,0,0.08),0 1px 4px rgba(0,0,0,0.04)!important}
+/* Slide thumbnail panel (dark left panel) */
+.brief-slide-panel{background:rgba(245,245,247,0.98)!important;border-right-color:rgba(0,0,0,0.08)!important}
+/* Slide thumbnails */
+.brief-thumb{background:#fff!important;border-color:rgba(0,0,0,0.1)!important;box-shadow:0 1px 4px rgba(0,0,0,0.06)!important}
+.brief-thumb.active{border-color:#0071e3!important;box-shadow:0 0 0 2px rgba(0,113,227,0.2)!important}
+/* Zoom bar (dark pill at bottom) */
+.brief-zoom-bar{background:rgba(255,255,255,0.95)!important;border-color:rgba(0,0,0,0.1)!important;box-shadow:0 2px 12px rgba(0,0,0,0.08)!important;backdrop-filter:blur(12px)!important;-webkit-backdrop-filter:blur(12px)!important}
+.brief-zoom-bar > span{color:#6e6e73!important}
+.brief-zoom-btn{color:#6e6e73!important;background:rgba(0,0,0,0.04)!important;border-color:rgba(0,0,0,0.08)!important}
+.brief-zoom-btn:hover{background:rgba(0,0,0,0.08)!important;color:#1d1d1f!important}
+
+/* ━━━ HOW IT WORKS — hide ? buttons and force-hide all details in tools ━━━ */
+.hiw-help-btn{display:none!important}
+.ils-hub-panel > .s4-card > details,.ils-hub-panel > .row > div > .s4-card > details[style*="display:none"]{display:none!important}
+
+/* ━━━ ILS CHECKLIST — enterprise card layout ━━━ */
+#ilsChecklist{gap:10px!important;grid-template-columns:1fr 1fr!important}
+#ilsChecklist > label{background:#fff!important;border:1px solid rgba(0,0,0,0.08)!important;border-radius:12px!important;padding:14px 16px!important;transition:all 0.2s!important;box-shadow:0 1px 3px rgba(0,0,0,0.04)!important}
+#ilsChecklist > label:hover{border-color:rgba(0,113,227,0.2)!important;box-shadow:0 4px 12px rgba(0,0,0,0.06)!important;background:rgba(0,113,227,0.02)!important}
+#ilsChecklist > label > input[type="checkbox"]{width:18px!important;height:18px!important;accent-color:#0071e3!important;border-radius:4px!important;flex-shrink:0!important}
+#ilsChecklist > label > span{font-size:0.82rem!important;color:#1d1d1f!important;line-height:1.4!important}
+#ilsChecklist > label > span > span{display:inline-block!important;margin-top:4px!important;padding:2px 8px!important;border-radius:20px!important;font-size:0.68rem!important;font-weight:700!important;letter-spacing:0.3px!important}
+/* ILS Coverage results */
+#ilsCoverage > div{border-bottom-color:rgba(0,0,0,0.06)!important;padding:8px 0!important}
+
+/* ━━━ ACTION ITEMS — enterprise card layout ━━━ */
+.action-item{background:#fff!important;border:1px solid rgba(0,0,0,0.08)!important;border-left:3px solid #0071e3!important;border-radius:12px!important;padding:16px 18px!important;margin-bottom:12px!important;box-shadow:0 1px 3px rgba(0,0,0,0.04),0 4px 12px rgba(0,0,0,0.03)!important;transition:all 0.2s!important}
+.action-item:hover{box-shadow:0 8px 28px rgba(0,0,0,0.08),0 2px 6px rgba(0,0,0,0.03)!important;transform:translateY(-1px)!important}
+.action-item .ai-title{font-size:0.9rem!important;font-weight:600!important;color:#1d1d1f!important}
+.action-item .ai-meta{display:flex!important;flex-wrap:wrap!important;gap:6px 10px!important;margin-top:6px!important;font-size:0.78rem!important;color:#6e6e73!important}
+.action-item .ai-tag{font-size:0.72rem!important;padding:3px 10px!important;border-radius:20px!important;font-weight:700!important}
+.action-item .ai-tag.critical{background:rgba(255,59,48,0.08)!important;color:#ff3b30!important;border:1px solid rgba(255,59,48,0.15)!important}
+.action-item .ai-tag.warning{background:rgba(255,149,0,0.08)!important;color:#ff9500!important;border:1px solid rgba(255,149,0,0.15)!important}
+.action-item .ai-tag.info{background:rgba(0,113,227,0.08)!important;color:#0071e3!important;border:1px solid rgba(0,113,227,0.15)!important}
+.action-item .ai-check{width:20px!important;height:20px!important;border-radius:50%!important;border:2px solid rgba(0,0,0,0.15)!important;cursor:pointer!important;transition:all 0.2s!important;flex-shrink:0!important}
+.action-item .ai-check:hover{border-color:#0071e3!important}
+.action-item .ai-check.done{background:#34c759!important;border-color:#34c759!important}
+/* ILS gap analysis action items */
+.ils-action-item{background:#fff!important;border:1px solid rgba(0,0,0,0.08)!important;border-radius:12px!important;padding:14px 16px!important;margin-bottom:10px!important;box-shadow:0 1px 3px rgba(0,0,0,0.04)!important}
+.ils-action-item.critical{border-left:3px solid #ff3b30!important}
+.ils-action-item.warning{border-left:3px solid #ff9500!important}
+
 /* ILS tool panel muted text fixes */
 .ils-hub-panel [style*="color:#8b8fa3"],.ils-hub-panel [style*="color:#8b949e"]{color:#6e6e73!important}
 
@@ -2182,8 +2229,9 @@ button:disabled,button[disabled],.btn:disabled{opacity:0.45!important;cursor:not
 [style*="box-shadow:0 0 0 9999px rgba(0,0,0"]{box-shadow:none!important}
 
 /* ━━━ 4G: DETAILS/SUMMARY — only style visible ones, don't force-show hidden ━━━ */
-details:not([style*="display:none"]){background:rgba(0,113,227,0.02);border:1px solid rgba(0,113,227,0.08);border-radius:12px;padding:0 14px 8px;margin-bottom:14px;color:#1d1d1f}
-details:not([style*="display:none"]) summary{color:#0071e3;font-weight:600;font-size:0.84rem;padding:10px 0 6px;cursor:pointer}
+/* Functional details elements (paste data, history, etc) — clean, minimal */
+details:not([style*="display:none"]){background:transparent;border:none;border-radius:0;padding:0;margin-bottom:12px;color:#1d1d1f}
+details:not([style*="display:none"]) summary{color:#6e6e73;font-weight:600;font-size:0.82rem;padding:8px 0;cursor:pointer}
 details:not([style*="display:none"]) > *:not(summary){color:#444;font-size:0.84rem;line-height:1.7}
 
 /* ━━━ 4H: MOBILE RESPONSIVE POLISH ━━━ */
