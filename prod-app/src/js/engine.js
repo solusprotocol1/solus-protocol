@@ -6003,7 +6003,7 @@ function renderVault() {
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;gap:8px">
                 <div style="display:flex;align-items:center;gap:8px;min-width:0;flex:1;overflow:hidden">
                     <input type="checkbox" class="vault-cb" data-hash="${v.hash}" onchange="_updateBulkBar()" style="accent-color:#00aaff;cursor:pointer;flex-shrink:0">
-                    <span style="font-size:0.95rem;flex-shrink:0;width:20px;text-align:center;line-height:1">${v.icon || '<i class="fas fa-clipboard-list"></i>'}</span>
+                    <span style="font-size:0.95rem;flex-shrink:0;width:20px;text-align:center;line-height:1">${_renderIcon(v.icon)}</span>
                     <strong style="color:#fff;font-size:0.88rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${v.label || v.type}</strong>
                     <span style="font-size:0.72rem;color:var(--muted);flex-shrink:0;white-space:nowrap">${v.branch || ''}</span>
                 </div>
@@ -8380,7 +8380,7 @@ async function anchorLifecycle() {
     sessionRecords.push({hash:hash, type:'LIFECYCLE_COST', branch:'JOINT', timestamp:new Date().toISOString(), label:'Lifecycle Cost Analysis: ' + program, txHash:result.txHash});
     saveLocalRecord({hash:hash, record_type:'LIFECYCLE_COST', record_label:'Lifecycle Cost Analysis: ' + program, branch:'JOINT', timestamp:new Date().toISOString(), timestamp_display:new Date().toISOString().replace('T',' ').substring(0,19)+' UTC', fee:0.01, tx_hash:result.txHash, system:'Lifecycle Cost', explorer_url:result.explorerUrl, network:result.network});
     updateTxLog();
-    addToVault({hash:hash, txHash:result.txHash, type:'LIFECYCLE_COST', label:'Lifecycle Cost Analysis: ' + program, branch:'JOINT', icon:'fa-clock', content:text.substring(0,100), encrypted:false, timestamp:new Date().toISOString(), source:'Lifecycle Cost Estimator', fee:0.01, explorerUrl:result.explorerUrl, network:result.network});
+    addToVault({hash:hash, txHash:result.txHash, type:'LIFECYCLE_COST', label:'Lifecycle Cost Analysis: ' + program, branch:'JOINT', icon:'<i class="fas fa-clock"></i>', content:text.substring(0,100), encrypted:false, timestamp:new Date().toISOString(), source:'Lifecycle Cost Estimator', fee:0.01, explorerUrl:result.explorerUrl, network:result.network});
     
     if (typeof _updateSlsBalance === 'function') _updateSlsBalance();
     if (typeof window.loadPerformanceMetrics === 'function') try { window.loadPerformanceMetrics(); } catch(e) {}
@@ -8469,7 +8469,7 @@ async function anchorSBOM() {
     sessionRecords.push({hash:hash, type:'SBOM_SNAPSHOT', branch:'JOINT', timestamp:new Date().toISOString(), label:'SBOM: ' + program, txHash:result.txHash, content:text.substring(0,100)+(text.length>100?'...':''), fullContent:text});
     saveLocalRecord({hash:hash, record_type:'SBOM_SNAPSHOT', record_label:'SBOM: ' + program, branch:'JOINT', timestamp:new Date().toISOString(), timestamp_display:new Date().toISOString().replace('T',' ').substring(0,19)+' UTC', fee:0.01, tx_hash:result.txHash, system:'SBOM Viewer', explorer_url:result.explorerUrl, network:result.network});
     updateTxLog();
-    addToVault({hash:hash, txHash:result.txHash, type:'SBOM_SNAPSHOT', label:'SBOM: ' + program, branch:'JOINT', icon:'fa-microchip', content:text.substring(0,100)+(text.length>100?'...':''), fullContent:text, encrypted:false, timestamp:new Date().toISOString(), source:'SBOM Viewer', fee:0.01, explorerUrl:result.explorerUrl, network:result.network});
+    addToVault({hash:hash, txHash:result.txHash, type:'SBOM_SNAPSHOT', label:'SBOM: ' + program, branch:'JOINT', icon:'<i class="fas fa-microchip"></i>', content:text.substring(0,100)+(text.length>100?'...':''), fullContent:text, encrypted:false, timestamp:new Date().toISOString(), source:'SBOM Viewer', fee:0.01, explorerUrl:result.explorerUrl, network:result.network});
     
     document.getElementById('sbomAnchored').textContent = _sbomData.length;
     if (typeof _updateSlsBalance === 'function') _updateSlsBalance();
@@ -8492,7 +8492,7 @@ async function anchorGFP() {
     sessionRecords.push({hash:hash, type:'GFP_RECORD', branch:'JOINT', timestamp:new Date().toISOString(), label:'GFP Record', txHash:result.txHash, content:text.substring(0,100)+(text.length>100?'...':''), fullContent:text});
     saveLocalRecord({hash:hash, record_type:'GFP_RECORD', record_label:'GFP Record', branch:'JOINT', timestamp:new Date().toISOString(), timestamp_display:new Date().toISOString().replace('T',' ').substring(0,19)+' UTC', fee:0.01, tx_hash:result.txHash, system:'GFP Tracker', explorer_url:result.explorerUrl, network:result.network});
     updateTxLog();
-    addToVault({hash:hash, txHash:result.txHash, type:'GFP_RECORD', label:'GFP Record', branch:'JOINT', icon:'fa-box', content:text.substring(0,100)+(text.length>100?'...':''), fullContent:text, encrypted:false, timestamp:new Date().toISOString(), source:'GFP Tracker', fee:0.01, explorerUrl:result.explorerUrl, network:result.network});
+    addToVault({hash:hash, txHash:result.txHash, type:'GFP_RECORD', label:'GFP Record', branch:'JOINT', icon:'<i class="fas fa-box"></i>', content:text.substring(0,100)+(text.length>100?'...':''), fullContent:text, encrypted:false, timestamp:new Date().toISOString(), source:'GFP Tracker', fee:0.01, explorerUrl:result.explorerUrl, network:result.network});
     
     if (typeof _updateSlsBalance === 'function') _updateSlsBalance();
     if (typeof window.loadPerformanceMetrics === 'function') try { window.loadPerformanceMetrics(); } catch(e) {}
@@ -8513,7 +8513,7 @@ async function anchorCDRL() {
     sessionRecords.push({hash:hash, type:'CDRL_RECORD', branch:'JOINT', timestamp:new Date().toISOString(), label:'CDRL Deliverable', txHash:result.txHash, content:text.substring(0,100)+(text.length>100?'...':''), fullContent:text});
     saveLocalRecord({hash:hash, record_type:'CDRL_RECORD', record_label:'CDRL Deliverable', branch:'JOINT', timestamp:new Date().toISOString(), timestamp_display:new Date().toISOString().replace('T',' ').substring(0,19)+' UTC', fee:0.01, tx_hash:result.txHash, system:'CDRL Tracker', explorer_url:result.explorerUrl, network:result.network});
     updateTxLog();
-    addToVault({hash:hash, txHash:result.txHash, type:'CDRL_RECORD', label:'CDRL Deliverable', branch:'JOINT', icon:'fa-file-contract', content:text.substring(0,100)+(text.length>100?'...':''), fullContent:text, encrypted:false, timestamp:new Date().toISOString(), source:'CDRL Tracker', fee:0.01, explorerUrl:result.explorerUrl, network:result.network});
+    addToVault({hash:hash, txHash:result.txHash, type:'CDRL_RECORD', label:'CDRL Deliverable', branch:'JOINT', icon:'<i class="fas fa-file-contract"></i>', content:text.substring(0,100)+(text.length>100?'...':''), fullContent:text, encrypted:false, timestamp:new Date().toISOString(), source:'CDRL Tracker', fee:0.01, explorerUrl:result.explorerUrl, network:result.network});
     
     if (typeof _updateSlsBalance === 'function') _updateSlsBalance();
     if (typeof window.loadPerformanceMetrics === 'function') try { window.loadPerformanceMetrics(); } catch(e) {}
@@ -8534,7 +8534,7 @@ async function anchorContract() {
     sessionRecords.push({hash:hash, type:'CONTRACT_RECORD', branch:'JOINT', timestamp:new Date().toISOString(), label:'Contract Record', txHash:result.txHash, content:text.substring(0,100)+(text.length>100?'...':''), fullContent:text});
     saveLocalRecord({hash:hash, record_type:'CONTRACT_RECORD', record_label:'Contract Record', branch:'JOINT', timestamp:new Date().toISOString(), timestamp_display:new Date().toISOString().replace('T',' ').substring(0,19)+' UTC', fee:0.01, tx_hash:result.txHash, system:'Contract Admin', explorer_url:result.explorerUrl, network:result.network});
     updateTxLog();
-    addToVault({hash:hash, txHash:result.txHash, type:'CONTRACT_RECORD', label:'Contract Record', branch:'JOINT', icon:'fa-file-signature', content:text.substring(0,100)+(text.length>100?'...':''), fullContent:text, encrypted:false, timestamp:new Date().toISOString(), source:'Contract Admin', fee:0.01, explorerUrl:result.explorerUrl, network:result.network});
+    addToVault({hash:hash, txHash:result.txHash, type:'CONTRACT_RECORD', label:'Contract Record', branch:'JOINT', icon:'<i class="fas fa-file-signature"></i>', content:text.substring(0,100)+(text.length>100?'...':''), fullContent:text, encrypted:false, timestamp:new Date().toISOString(), source:'Contract Admin', fee:0.01, explorerUrl:result.explorerUrl, network:result.network});
     
     if (typeof _updateSlsBalance === 'function') _updateSlsBalance();
     if (typeof window.loadPerformanceMetrics === 'function') try { window.loadPerformanceMetrics(); } catch(e) {}
@@ -8555,7 +8555,7 @@ async function anchorChain() {
     sessionRecords.push({hash:hash, type:'SUPPLY_CHAIN', branch:'JOINT', timestamp:new Date().toISOString(), label:'Supply Chain Record', txHash:result.txHash, content:text.substring(0,100)+(text.length>100?'...':''), fullContent:text});
     saveLocalRecord({hash:hash, record_type:'SUPPLY_CHAIN', record_label:'Supply Chain Record', branch:'JOINT', timestamp:new Date().toISOString(), timestamp_display:new Date().toISOString().replace('T',' ').substring(0,19)+' UTC', fee:0.01, tx_hash:result.txHash, system:'Supply Chain', explorer_url:result.explorerUrl, network:result.network});
     updateTxLog();
-    addToVault({hash:hash, txHash:result.txHash, type:'SUPPLY_CHAIN', label:'Supply Chain Record', branch:'JOINT', icon:'fa-link', content:text.substring(0,100)+(text.length>100?'...':''), fullContent:text, encrypted:false, timestamp:new Date().toISOString(), source:'Supply Chain Tracker', fee:0.01, explorerUrl:result.explorerUrl, network:result.network});
+    addToVault({hash:hash, txHash:result.txHash, type:'SUPPLY_CHAIN', label:'Supply Chain Record', branch:'JOINT', icon:'<i class="fas fa-link"></i>', content:text.substring(0,100)+(text.length>100?'...':''), fullContent:text, encrypted:false, timestamp:new Date().toISOString(), source:'Supply Chain Tracker', fee:0.01, explorerUrl:result.explorerUrl, network:result.network});
     
     if (typeof _updateSlsBalance === 'function') _updateSlsBalance();
     if (typeof window.loadPerformanceMetrics === 'function') try { window.loadPerformanceMetrics(); } catch(e) {}
