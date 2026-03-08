@@ -51,3 +51,6 @@ import './js/walkthrough.js'
 
 // ── Web Vitals (LCP, FID, CLS, INP, TTFB) ──────────────────────
 import './js/web-vitals.js'
+
+// ── Enterprise Features (Round 11) ──────────────────────────────
+import './js/enterprise-features.js'
