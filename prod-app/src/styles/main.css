@@ -327,8 +327,8 @@
         .ils-hub-panel .hub-tool-header h4{
             border-bottom:none !important;padding-bottom:0 !important;margin-bottom:0 !important;
         }
-        /* ── Override inline styles on Details/Accordion ── */
-        .ils-hub-panel details{
+        /* ── Override inline styles on Details/Accordion (HIW only) ── */
+        .ils-hub-panel details[style*="display:none"]{
             margin-bottom:16px !important;
             background:rgba(0,170,255,0.03) !important;
             border:1px solid rgba(0,170,255,0.08) !important;
@@ -367,11 +367,11 @@
         .ils-tool-card.dragging{opacity:0.45;transform:scale(0.92);box-shadow:0 0 20px rgba(0,170,255,0.4) !important;z-index:1000}
         .ils-tool-card.drag-over{border:2px solid #00aaff !important;box-shadow:0 0 12px rgba(0,170,255,0.3) !important}
 
-        .ils-hub-panel details[open]{
+        .ils-hub-panel details[style*="display:none"][open]{
             background:rgba(0,170,255,0.05) !important;
             border-color:rgba(0,170,255,0.15) !important;
         }
-        .ils-hub-panel details summary{
+        .ils-hub-panel details[style*="display:none"] summary{
             cursor:pointer !important;
             padding:14px 0 !important;
             color:var(--accent) !important;
@@ -383,15 +383,15 @@
             transition:color 0.2s !important;
             list-style:none !important;
         }
-        .ils-hub-panel details summary::-webkit-details-marker{display:none !important}
-        .ils-hub-panel details summary::before{
+        .ils-hub-panel details[style*="display:none"] summary::-webkit-details-marker{display:none !important}
+        .ils-hub-panel details[style*="display:none"] summary::before{
             content:'\f054' !important;font-family:'Font Awesome 6 Free' !important;
             font-weight:900 !important;font-size:0.65rem !important;
             transition:transform 0.25s !important;color:var(--accent) !important;
             flex-shrink:0 !important;
         }
-        .ils-hub-panel details[open] summary::before{transform:rotate(90deg) !important}
-        .ils-hub-panel details > div{
+        .ils-hub-panel details[style*="display:none"][open] summary::before{transform:rotate(90deg) !important}
+        .ils-hub-panel details[style*="display:none"] > div{
             padding:0 0 14px !important;
             color:var(--steel) !important;
             font-size:0.82rem !important;
@@ -4328,9 +4328,7 @@ body.light-mode .s4-notif-panel-header{color:#1d1d1f}
 body.light-mode .s4-notif-item.unread{color:#1d1d1f}
 
 /* ─── R11 FIX: Force-hide HIW details elements ─── */
-.ils-hub-panel details[style*="display"],
-.ils-hub-panel > .s4-card > details,
-.s4-card > details[style]{display:none!important}
+.ils-hub-panel details[style*="display:none"]{display:none!important}
 
 /* ─── R11 FIX: Show-more collapsible for long content ─── */
 .s4-show-more-wrap{max-height:200px;overflow:hidden;position:relative;transition:max-height 0.4s ease}
@@ -4450,15 +4448,15 @@ body.light-mode .s4-quick-fab{background:#fff!important;border-color:rgba(0,0,0,
 body.light-mode .s4-quick-fab:hover{background:#f5f5f7!important;border-color:rgba(0,113,227,0.3)!important}
 
 /* ─── R13-O: Session lock / consent / login light mode ─── */
-body.light-mode #sessionLock{background:rgba(245,245,247,0.95)!important}
-body.light-mode #sessionLock *{color:#1d1d1f!important}
-body.light-mode #dodConsent{background:rgba(245,245,247,0.92)!important}
-body.light-mode #dodConsent > div{background:#fff!important;border-color:rgba(0,0,0,0.1)!important;box-shadow:0 16px 48px rgba(0,0,0,0.15)!important}
-body.light-mode #dodConsent *{color:#1d1d1f!important}
-body.light-mode #cacLogin{background:rgba(245,245,247,0.88)!important}
-body.light-mode #cacLogin > div{background:#fff!important;border-color:rgba(0,0,0,0.1)!important;box-shadow:0 16px 48px rgba(0,0,0,0.15)!important}
-body.light-mode #cacLogin input{background:#f5f5f7!important;color:#1d1d1f!important;border-color:rgba(0,0,0,0.12)!important}
-body.light-mode #cacLogin h2,body.light-mode #cacLogin label,body.light-mode #cacLogin p{color:#1d1d1f!important}
+body.light-mode #s4SessionLockOverlay{background:rgba(245,245,247,0.95)!important}
+body.light-mode #s4SessionLockOverlay *{color:#1d1d1f!important}
+body.light-mode #dodConsentBanner{background:rgba(245,245,247,0.95)!important}
+body.light-mode #dodConsentBanner > div{background:#fff!important;border-color:rgba(0,0,0,0.1)!important;box-shadow:0 16px 48px rgba(0,0,0,0.15)!important}
+body.light-mode #dodConsentBanner *{color:#1d1d1f!important}
+body.light-mode #cacLoginModal{background:rgba(245,245,247,0.95)!important}
+body.light-mode #cacLoginModal > div{background:#fff!important;border-color:rgba(0,0,0,0.1)!important;box-shadow:0 16px 48px rgba(0,0,0,0.15)!important}
+body.light-mode #cacLoginModal input{background:#f5f5f7!important;color:#1d1d1f!important;border-color:rgba(0,0,0,0.12)!important}
+body.light-mode #cacLoginModal h2,body.light-mode #cacLoginModal label,body.light-mode #cacLoginModal p{color:#1d1d1f!important}
 
 /* ─── R13-P: Hero section light mode ─── */
 body.light-mode .hero h1,body.light-mode .hero h2{color:#1d1d1f!important}
@@ -4490,10 +4488,15 @@ body.light-mode .acq-card,body.light-mode .acq-item{background:#fff!important;bo
 body.light-mode .ms-card,body.light-mode .ms-item,body.light-mode .ms-event{background:#fff!important;border-color:rgba(0,0,0,0.08)!important;color:#1d1d1f!important}
 
 /* ─── R13-U: Roles modal light mode ─── */
-body.light-mode #s4RoleModal{background:rgba(245,245,247,0.88)!important}
-body.light-mode #s4RoleModal > div{background:#fff!important;border-color:rgba(0,0,0,0.1)!important;box-shadow:0 16px 48px rgba(0,0,0,0.15)!important}
-body.light-mode #s4RoleModal *{color:#1d1d1f!important}
-body.light-mode #s4RoleModal input{background:#f5f5f7!important;color:#1d1d1f!important}
+body.light-mode #roleModal{background:rgba(245,245,247,0.95)!important;backdrop-filter:blur(20px)!important;-webkit-backdrop-filter:blur(20px)!important}
+body.light-mode #roleModal > div{background:#fff!important;border-color:rgba(0,0,0,0.1)!important;box-shadow:0 16px 48px rgba(0,0,0,0.15)!important;border-radius:20px!important}
+body.light-mode #roleModal *{color:#1d1d1f!important}
+body.light-mode #roleModal input{background:#f5f5f7!important;color:#1d1d1f!important}
+/* Role modal overlay + button normalization */
+#roleModal{background:rgba(245,245,247,0.95)!important;backdrop-filter:blur(20px)!important;-webkit-backdrop-filter:blur(20px)!important}
+#roleModal > div{border-radius:20px!important}
+#roleModal .role-card{border-radius:8px!important}
+#roleModal details{border-radius:8px!important}
 
 /* ━━━ END ROUND 13 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 

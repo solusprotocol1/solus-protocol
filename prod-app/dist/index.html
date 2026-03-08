@@ -67,12 +67,12 @@
     <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" integrity="sha384-9nhczxUqK87bcKHh20fSQcTGD4qq5GhayNYSYWqwBkINBhOfQLg/P5HG5lF1urn4" crossorigin="anonymous"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/qrcode@1.5.4/build/qrcode.min.js"></script>
     <!-- CSS is imported via main.js and extracted by Vite -->
-  <script type="module" crossorigin src="/prod-app/dist/assets/index-BvL1iZCi.js"></script>
+  <script type="module" crossorigin src="/prod-app/dist/assets/index-B700ZnTu.js"></script>
   <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/engine-BWE_XCB0.js">
   <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/navigation-C-K2oFyj.js">
   <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/metrics-BCEAU5Us.js">
   <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/enhancements-DoTPs1lX.js">
-  <link rel="stylesheet" crossorigin href="/prod-app/dist/assets/index-SZUz0C3H.css">
+  <link rel="stylesheet" crossorigin href="/prod-app/dist/assets/index-DbIabpMj.css">
 </head>
 <body class="light-mode" data-theme="light">
 <!-- Light mode always on -->
@@ -140,7 +140,7 @@
 </div>
 
 <!-- ═══ DoW CONSENT BANNER ═══ -->
-<div id="dodConsentBanner" role="dialog" aria-modal="true" aria-labelledby="dodConsentHeading" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(245,245,247,0.92);z-index:99999;align-items:center;justify-content:center;">
+<div id="dodConsentBanner" role="dialog" aria-modal="true" aria-labelledby="dodConsentHeading" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(245,245,247,0.95);z-index:99999;align-items:center;justify-content:center;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);">
     <div style="background:#fff;border:2px solid rgba(0,170,255,0.5);border-radius:3px;padding:40px;max-width:680px;width:95%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.7);">
         <div style="margin-bottom:20px;"><i class="fas fa-shield-halved" style="font-size:3rem;color:#00aaff;"></i></div>
         <h2 id="dodConsentHeading" style="color:#00aaff;font-size:1.3rem;font-weight:800;margin-bottom:12px;text-transform:uppercase;letter-spacing:1px;">U.S. Department of War Information System</h2>
@@ -161,7 +161,7 @@
 </div>
 
 <!-- ═══ CAC / LOGIN POPUP ═══ -->
-<div id="cacLoginModal" role="dialog" aria-modal="true" aria-labelledby="cacLoginHeading" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(245,245,247,0.88);z-index:99998;align-items:center;justify-content:center;">
+<div id="cacLoginModal" role="dialog" aria-modal="true" aria-labelledby="cacLoginHeading" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(245,245,247,0.95);z-index:99998;align-items:center;justify-content:center;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);">
     <div style="background:#fff;border:1px solid rgba(0,170,255,0.3);border-radius:3px;padding:40px;max-width:480px;width:95%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.7);">
         <div style="margin-bottom:24px;"><img src="/s4-assets/S4Ledger_logo.png" alt="" style="height:48px;width:48px;margin-bottom:8px;"><h3 id="cacLoginHeading" style="color:#1d1d1f;font-size:1.2rem;font-weight:800;margin:0;">S4 Ledger Platform Login</h3><p style="color:var(--steel);font-size:0.82rem;margin-top:4px;">Authenticate to access the Anchor-S4 workspace</p></div>
         <div id="cacLoginTabs" style="display:flex;gap:0;margin-bottom:24px;border:1px solid var(--border);border-radius:3px;overflow:hidden;">
@@ -861,80 +861,45 @@
                     <input type="text" class="ils-search" id="ilsToolSearch" placeholder="Search tools..." oninput="searchILSTools(this.value)" autocomplete="off" spellcheck="false" aria-label="Search ILS tools">
                 </div>
                 <div class="ils-sub-hub" id="ilsSubHub" style="display:grid !important;">
-                    <div class="ils-tool-card" data-category="analysis" onclick="openILSTool('hub-analysis')">
-                        <span class="itc-icon"><i class="fas fa-chart-line" style="color:var(--accent);"></i></span>
-                        <div class="itc-title">Gap Analysis</div>
-                        <div class="itc-desc">Identify logistics gaps across readiness, parts, and support elements for any platform.</div>
-                    </div>
-                    <div class="ils-tool-card" data-category="analysis" onclick="openILSTool('hub-dmsms')">
-                        <span class="itc-icon"><i class="fas fa-exclamation-triangle" style="color:var(--accent);"></i></span>
-                        <div class="itc-title">DMSMS Tracker</div>
-                        <div class="itc-desc">Track diminishing manufacturing sources and material shortages with risk alerts.</div>
-                    </div>
-                    <div class="ils-tool-card" data-category="analysis" onclick="openILSTool('hub-readiness')">
-                        <span class="itc-icon"><i class="fas fa-chart-line" style="color:var(--accent);"></i></span>
-                        <div class="itc-title">Readiness Calculator</div>
-                        <div class="itc-desc">Compute operational availability (Ao/Ai), MTBF, and readiness metrics.</div>
-                    </div>
                     <div class="ils-tool-card" data-category="compliance" onclick="openILSTool('hub-compliance')">
                         <span class="itc-icon"><i class="fas fa-shield-halved" style="color:var(--accent);"></i></span>
                         <div class="itc-title">Compliance Scorecard</div>
                         <div class="itc-desc">NIST 800-171 / CMMC compliance scoring with gap identification.</div>
                     </div>
-                    <div class="ils-tool-card" data-category="supply-chain" onclick="openILSTool('hub-risk')">
-                        <span class="itc-icon"><i class="fas fa-triangle-exclamation" style="color:var(--accent);"></i></span>
-                        <div class="itc-title">Supply Chain Risk</div>
-                        <div class="itc-desc">AI-powered supply chain risk assessment with threat scoring and mitigation.</div>
+                    <div class="ils-tool-card" data-category="analysis" onclick="openILSTool('hub-analysis')">
+                        <span class="itc-icon"><i class="fas fa-chart-line" style="color:var(--accent);"></i></span>
+                        <div class="itc-title">Gap Analysis</div>
+                        <div class="itc-desc">Identify logistics gaps across readiness, parts, and support elements for any platform.</div>
                     </div>
                     <div class="ils-tool-card" data-category="operations" onclick="openILSTool('hub-actions')" style="position:relative">
                         <span class="itc-icon"><i class="fas fa-tasks" style="color:var(--accent);"></i></span>
                         <div class="itc-title">Action Items <span id="actionItemBadge" style="display:inline-flex;align-items:center;justify-content:center;background:#ff4444;color:#1d1d1f;font-size:0.65rem;font-weight:800;min-width:20px;height:20px;border-radius:3px;padding:0 6px;margin-left:6px;vertical-align:middle"></span></div>
                         <div class="itc-desc">Track ILS action items, corrective actions, and follow-ups with deadlines.</div>
                     </div>
-                    <div class="ils-tool-card" data-category="analysis" onclick="openILSTool('hub-predictive')">
-                        <span class="itc-icon"><i class="fas fa-brain" style="color:var(--accent);"></i></span>
-                        <div class="itc-title">Predictive Maintenance</div>
-                        <div class="itc-desc">AI-driven failure prediction and maintenance scheduling optimization.</div>
-                    </div>
-                    <div class="ils-tool-card" data-category="analysis" onclick="openILSTool('hub-lifecycle')">
-                        <span class="itc-icon"><i class="fas fa-clock" style="color:var(--accent);"></i></span>
-                        <div class="itc-title">Lifecycle Cost</div>
-                        <div class="itc-desc">Total lifecycle cost estimation including procurement, sustainment, and disposal.</div>
-                    </div>
-                    <div class="ils-tool-card" data-category="analysis" onclick="openILSTool('hub-roi')">
-                        <span class="itc-icon"><i class="fas fa-dollar-sign" style="color:var(--accent);"></i></span>
-                        <div class="itc-title">ROI Calculator</div>
-                        <div class="itc-desc">Calculate return on investment for defense logistics and ILS investments.</div>
-                    </div>
                     <div class="ils-tool-card" data-category="compliance" onclick="openILSTool('hub-vault')">
                         <span class="itc-icon"><i class="fas fa-vault" style="color:var(--accent);"></i></span>
                         <div class="itc-title">Audit Vault</div>
                         <div class="itc-desc">Secure document vault for audit records with blockchain-anchored integrity.</div>
-                    </div>
-                    <div class="ils-tool-card" data-category="documents" onclick="openILSTool('hub-docs')">
-                        <span class="itc-icon"><i class="fas fa-book" style="color:var(--accent);"></i></span>
-                        <div class="itc-title">Document Library</div>
-                        <div class="itc-desc">Manage technical manuals, drawings, and provisioning documents.</div>
                     </div>
                     <div class="ils-tool-card" data-category="compliance" onclick="openILSTool('hub-reports')">
                         <span class="itc-icon"><i class="fas fa-file-alt" style="color:var(--accent);"></i></span>
                         <div class="itc-title">Report Generator</div>
                         <div class="itc-desc">Generate ILS reports for audits, reviews, and compliance submissions.</div>
                     </div>
+                    <div class="ils-tool-card" data-category="supply-chain" onclick="openILSTool('hub-risk')">
+                        <span class="itc-icon"><i class="fas fa-triangle-exclamation" style="color:var(--accent);"></i></span>
+                        <div class="itc-title">Supply Chain Risk</div>
+                        <div class="itc-desc">AI-powered supply chain risk assessment with threat scoring and mitigation.</div>
+                    </div>
+                    <div class="ils-tool-card" data-category="documents" onclick="openILSTool('hub-docs')">
+                        <span class="itc-icon"><i class="fas fa-book" style="color:var(--accent);"></i></span>
+                        <div class="itc-title">Document Library</div>
+                        <div class="itc-desc">Manage technical manuals, drawings, and provisioning documents.</div>
+                    </div>
                     <div class="ils-tool-card" data-category="documents" onclick="openILSTool('hub-submissions')">
                         <span class="itc-icon"><i class="fas fa-paper-plane" style="color:var(--accent);"></i></span>
                         <div class="itc-title">Submissions & PTD</div>
                         <div class="itc-desc">Manage provisioning technical data and CDRL submissions.</div>
-                    </div>
-                    <div class="ils-tool-card" data-category="supply-chain" onclick="openILSTool('hub-sbom')">
-                        <span class="itc-icon"><i class="fas fa-microchip" style="color:var(--accent);"></i></span>
-                        <div class="itc-title">SBOM Viewer</div>
-                        <div class="itc-desc">Software Bill of Materials — track components, CVEs, and blockchain attestation.</div>
-                    </div>
-                    <div class="ils-tool-card" data-category="supply-chain" onclick="openILSTool('hub-gfp')">
-                        <span class="itc-icon"><i class="fas fa-boxes-stacked" style="color:var(--accent);"></i></span>
-                        <div class="itc-title">GFP Tracker</div>
-                        <div class="itc-desc">Government-Furnished Property tracking — DD 1662, inventory management, and accountability.</div>
                     </div>
                     <div class="ils-tool-card" data-category="documents" onclick="openILSTool('hub-cdrl')">
                         <span class="itc-icon"><i class="fas fa-clipboard-check" style="color:var(--accent);"></i></span>
@@ -946,10 +911,45 @@
                         <div class="itc-title">Contract Extractor</div>
                         <div class="itc-desc">AI-powered clause extraction — FAR/DFARS, CDRL detection, and obligation mapping.</div>
                     </div>
+                    <div class="ils-tool-card" data-category="analysis" onclick="openILSTool('hub-dmsms')">
+                        <span class="itc-icon"><i class="fas fa-exclamation-triangle" style="color:var(--accent);"></i></span>
+                        <div class="itc-title">DMSMS Tracker</div>
+                        <div class="itc-desc">Track diminishing manufacturing sources and material shortages with risk alerts.</div>
+                    </div>
+                    <div class="ils-tool-card" data-category="analysis" onclick="openILSTool('hub-readiness')">
+                        <span class="itc-icon"><i class="fas fa-chart-line" style="color:var(--accent);"></i></span>
+                        <div class="itc-title">Readiness Calculator</div>
+                        <div class="itc-desc">Compute operational availability (Ao/Ai), MTBF, and readiness metrics.</div>
+                    </div>
+                    <div class="ils-tool-card" data-category="supply-chain" onclick="openILSTool('hub-sbom')">
+                        <span class="itc-icon"><i class="fas fa-microchip" style="color:var(--accent);"></i></span>
+                        <div class="itc-title">SBOM Viewer</div>
+                        <div class="itc-desc">Software Bill of Materials — track components, CVEs, and blockchain attestation.</div>
+                    </div>
+                    <div class="ils-tool-card" data-category="supply-chain" onclick="openILSTool('hub-gfp')">
+                        <span class="itc-icon"><i class="fas fa-boxes-stacked" style="color:var(--accent);"></i></span>
+                        <div class="itc-title">GFP Tracker</div>
+                        <div class="itc-desc">Government-Furnished Property tracking — DD 1662, inventory management, and accountability.</div>
+                    </div>
                     <div class="ils-tool-card" data-category="supply-chain" onclick="openILSTool('hub-provenance')">
                         <span class="itc-icon"><i class="fas fa-link" style="color:var(--accent);"></i></span>
                         <div class="itc-title">Provenance Chain</div>
                         <div class="itc-desc">Blockchain-verified chain of custody — QR codes and custody transfer tracking.</div>
+                    </div>
+                    <div class="ils-tool-card" data-category="analysis" onclick="openILSTool('hub-lifecycle')">
+                        <span class="itc-icon"><i class="fas fa-clock" style="color:var(--accent);"></i></span>
+                        <div class="itc-title">Lifecycle Cost</div>
+                        <div class="itc-desc">Total lifecycle cost estimation including procurement, sustainment, and disposal.</div>
+                    </div>
+                    <div class="ils-tool-card" data-category="analysis" onclick="openILSTool('hub-roi')">
+                        <span class="itc-icon"><i class="fas fa-dollar-sign" style="color:var(--accent);"></i></span>
+                        <div class="itc-title">ROI Calculator</div>
+                        <div class="itc-desc">Calculate return on investment for defense logistics and ILS investments.</div>
+                    </div>
+                    <div class="ils-tool-card" data-category="analysis" onclick="openILSTool('hub-predictive')">
+                        <span class="itc-icon"><i class="fas fa-brain" style="color:var(--accent);"></i></span>
+                        <div class="itc-title">Predictive Maintenance</div>
+                        <div class="itc-desc">AI-driven failure prediction and maintenance scheduling optimization.</div>
                     </div>
                     <div class="ils-tool-card" data-category="analysis" onclick="openILSTool('hub-analytics')">
                         <span class="itc-icon"><i class="fas fa-chart-pie" style="color:var(--accent);"></i></span>
@@ -967,13 +967,13 @@
                         <div class="itc-desc">Multi-year service craft acquisition tracker — hull lifecycle, POM funding, ROH, and material condition.</div>
                     </div>
                     <div class="ils-tool-card" data-category="operations" onclick="openILSTool('hub-milestones')">
-                        <span class="itc-icon"><i class="fas fa-flag-checkered" style="color:#00aaff;"></i></span>
+                        <span class="itc-icon"><i class="fas fa-flag-checkered" style="color:var(--accent);"></i></span>
                         <div class="itc-title">Program Milestones</div>
                         <div class="itc-desc">Track vessel construction milestones — contract award through delivery, OWLD variance, and Gantt timeline.</div>
                     </div>
 
                     <div class="ils-tool-card" data-category="operations" onclick="openILSTool('hub-brief')">
-                        <span class="itc-icon"><i class="fas fa-briefcase" style="color:#00aaff;"></i></span>
+                        <span class="itc-icon"><i class="fas fa-briefcase" style="color:var(--accent);"></i></span>
                         <div class="itc-title">Program Brief Engine</div>
                         <div class="itc-desc">Create slide-based briefs — POM, PB, ILSMT, ILSMP, IPR, Milestone Review — with templates, editing, and PPTX import.</div>
                     </div>
@@ -1466,7 +1466,7 @@
                     </div>
 
                     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:1rem">
-                        <button onclick="exportVault('csv')" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;border-radius:3px;padding:8px 16px"><i class="fas fa-file-csv"></i> Export CSV</button>
+                        <button onclick="exportVault('csv')" class="ai-quick-btn hover-lift" style="font-weight:700"><i class="fas fa-file-csv"></i> Export CSV</button>
                         <button onclick="exportVault('xlsx')" class="btn btn-sm hover-lift" style="background:rgba(0,0,0,0.04);color:#1d1d1f;border:none;border-radius:3px;padding:8px 16px;font-weight:700"><i class="fas fa-file-excel"></i> Export XLSX</button>
                         <button onclick="verifyAllVault()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;border-radius:3px;padding:8px 16px"><i class="fas fa-check-double"></i> Re-Verify All</button>
                         <button onclick="clearVault()" class="btn btn-sm" style="background:rgba(255,51,51,0.1);color:#ff3333;border:1px solid rgba(255,51,51,0.3);border-radius:3px;padding:8px 16px"><i class="fas fa-trash"></i> Clear Vault</button>
@@ -2780,7 +2780,7 @@
                             <label style="font-size:.78rem;color:var(--steel)">Export</label>
                             <div style="display:flex;gap:6px">
                                 <button onclick="exportAnalyticsReport()" class="btn btn-sm" style="background:rgba(0,170,255,0.1);color:#00aaff;border:1px solid rgba(0,170,255,0.3);border-radius:3px;padding:6px 12px;font-size:.78rem;flex:1"><i class="fas fa-file-pdf"></i> PDF</button>
-                                <button onclick="exportAnalyticsCSV()" class="btn btn-sm" style="background:rgba(201,168,76,0.1);color:#c9a84c;border:1px solid rgba(201,168,76,0.3);border-radius:3px;padding:6px 12px;font-size:.78rem;flex:1"><i class="fas fa-file-csv"></i> CSV</button>
+                                <button onclick="exportAnalyticsCSV()" class="btn btn-sm" style="background:rgba(0,170,255,0.1);color:#00aaff;border:1px solid rgba(0,170,255,0.3);border-radius:3px;padding:6px 12px;font-size:.78rem;flex:1"><i class="fas fa-file-csv"></i> CSV</button>
                             </div>
                         </div>
                     </div>

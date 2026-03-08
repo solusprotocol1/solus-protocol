@@ -1935,4 +1935,44 @@ Font Visibility Fixes:
 - ⬜ Tier 2-3 (JS-required): Command Dashboard, Role-based prioritization, Cross-tool data linking, Contextual AI, Workflow Playbooks, Program Health Heatmap, Delegation/Tasking, Export Aggregation, Multi-program Comparison — these require JS/HTML changes and cannot be implemented with CSS alone
 
 ---
+
+## Session 32 — R13-fix Commit
+**Date:** Latest session
+**Commit:** `8697d71`
+**Summary:** Critical fix for all 98 `:root[data-theme="light"]` selectors that were non-functional because `data-theme` was set on `<body>` not `<html>`. Added `data-theme="light"` to `<html>` element. Set light mode as default. Fixed s4-assets CSS variables.
+
+---
+
+## Session 33 — R14: End-to-End UX Audit & Fixes
+**Date:** Current session
+**Summary:** Comprehensive line-by-line audit of every task ever given, followed by systematic fixes.
+
+### Issues Found & Fixed:
+
+| # | Issue | Root Cause | Fix |
+|---|-------|------------|-----|
+| 1 | **Details/HIW styling leak** — Functional details (Vault Stress Test, paste data, submission history, tool access matrix, team activity log) styled with HIW blue tint | CSS `.ils-hub-panel details` at line 331 applied blue bg/border to ALL details. Force-hide rule `.ils-hub-panel > .s4-card > details` at line 4331 was too broad — also hid functional details | Narrowed all details CSS selectors to only target `details[style*="display:none"]` (HIW). Functional details now inherit R8-Q clean white styling |
+| 2 | **Overlay backgrounds inconsistent** — Session Lock (0.95+blur), DoD consent (0.92 no blur), CAC login (0.88 no blur), Onboarding (0.92+blur16), Role selector (0.88 no blur) | Each overlay was added in different sessions with different values | Standardized ALL overlays to `rgba(245,245,247,0.95)` + `backdrop-filter:blur(20px)`. Updated inline styles in HTML and CSS overrides |
+| 3 | **Role selector CSS targeting wrong ID** — CSS used `#s4RoleModal` but JS creates `id="roleModal"` | Mismatch between CSS and JS element ID | Fixed all CSS `#s4RoleModal` → `#roleModal`. Added overlay blur, border-radius normalization for role cards/content |
+| 4 | **R13-O CSS overlay IDs wrong** — CSS targeted `#sessionLock`, `#dodConsent`, `#cacLogin` but actual IDs are `#s4SessionLockOverlay`, `#dodConsentBanner`, `#cacLoginModal` | ID mismatch from R13 | Fixed all CSS selectors to match actual HTML element IDs |
+| 5 | **Tool cards not reordered by importance** | Tools were in development order, not usage priority | Reordered all 23 tool cards: Compliance → Gap Analysis → Action Items → Audit Vault → Reports → Supply Chain Risk → Docs → Submissions → CDRL → Contract → DMSMS → Readiness → SBOM → GFP → Provenance → Lifecycle → ROI → Predictive → Analytics → Team → Acquisition → Milestones → Brief |
+| 6 | **Hardcoded icon colors** — Milestones & Brief cards used `#00aaff` instead of `var(--accent)` | Copy-paste oversight in late-added tool cards | Changed both to `color:var(--accent)` |
+| 7 | **Export CSV button inconsistency** — Vault Export CSV had gradient blue, Analytics CSV had gold theme | Different sessions added different styling | Vault Export CSV → standard `ai-quick-btn`. Analytics CSV → blue theme (matching PDF button) |
+
+### Files Changed:
+- `prod-app/src/styles/main.css` — Details CSS selectors narrowed, overlay CSS IDs fixed, role modal CSS fixed
+- `prod-app/src/index.html` — Overlay backgrounds normalized, tool cards reordered, icon colors fixed, export buttons normalized
+- `demo-app/` — Synced from prod-app
+- Both apps rebuilt
+
+### Architecture after R14:
+| Metric | Value |
+|--------|-------|
+| CSS source lines | ~4555 |
+| CSS bundle (both apps) | 222 KB |
+| Tool card order | By importance (Compliance first, Brief last) |
+| Overlay consistency | All 5 overlays: rgba(245,245,247,0.95) + blur(20px) |
+| Details styling | HIW hidden; functional details clean white (R8-Q) |
+
+---
 *This log is updated every session. Reference before making changes.*
