@@ -1220,7 +1220,7 @@
             var kpis = el.querySelectorAll('.dc-kpi-value');
             if (kpis[0]) kpis[0].textContent = healthScore;
             if (kpis[1]) kpis[1].innerHTML = '<span style="color:' + riskColor + '">' + riskLevel + '</span>';
-            if (kpis[2]) kpis[2].textContent = (compScore || '--') + '%';
+            if (kpis[2]) kpis[2].textContent = (compScore != null ? compScore : '--') + '%';
             if (kpis[3]) kpis[3].textContent = anchored;
             if (kpis[4]) kpis[4].textContent = vault.length;
             if (kpis[5]) kpis[5].textContent = verified;

@@ -826,7 +826,7 @@
         .pulse-dot{width:8px;height:8px;border-radius:50%;background:var(--green);display:inline-block;animation:pulseGlow 2s infinite;margin-right:6px}
         .shimmer-text{color:var(--accent);font-weight:700}
         .stat-animate{animation:countUp 0.6s cubic-bezier(.4,0,.2,1) forwards}
-        .hover-lift{transition:all 0.3s cubic-bezier(.4,0,.2,1)}.hover-lift:hover{transform:translateY(-3px);box-shadow:0 12px 35px rgba(0,0,0,0.3)}
+        .hover-lift{transition:all 0.3s cubic-bezier(.4,0,.2,1)}.hover-lift:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,0.1)}
         .gradient-border{border:1px solid var(--border)!important}
         .workspace-notification{position:fixed;bottom:20px;right:20px;background:rgba(255,255,255,0.97);backdrop-filter:blur(12px);border:1px solid var(--accent);border-radius:8px;padding:14px 20px;color:#1d1d1f;font-size:0.85rem;z-index:10000;animation:slideUp 0.4s ease;box-shadow:0 8px 30px rgba(0,170,255,0.2);max-width:360px}
         .workspace-notification .notif-close{position:absolute;top:6px;right:10px;background:none;border:none;color:var(--muted);cursor:pointer;font-size:0.9rem}
@@ -3902,10 +3902,17 @@ a[href="#mainContent"]:focus{
 /* AI float button pulse on idle */
 .ai-float-toggle{
     animation:aiPulse 3s cubic-bezier(0.4,0,0.6,1) infinite!important;
+    background:linear-gradient(135deg,#0071e3,#00aaff)!important;
+    background-color:#0071e3!important;
+    border-radius:50%!important;
+    overflow:hidden!important;
+    border:none!important;
+    -webkit-appearance:none!important;
+    appearance:none!important;
 }
 @keyframes aiPulse{
     0%,100%{box-shadow:0 4px 20px rgba(0,113,227,0.25)}
-    50%{box-shadow:0 4px 30px rgba(0,113,227,0.4),0 0 0 8px rgba(0,113,227,0.08)}
+    50%{box-shadow:0 4px 24px rgba(0,113,227,0.35),0 0 0 6px rgba(0,113,227,0.06)}
 }
 
 /* ─── R10-K: ENHANCED DATA TABLE FEATURES ─── */
@@ -4243,6 +4250,12 @@ a[href="#mainContent"]:focus{
     background:linear-gradient(135deg,#00aaff,#40c4ff)!important;
     transform:translateY(-2px)!important;
     box-shadow:0 4px 16px rgba(0,113,227,0.25)!important;
+}
+
+/* ─── S29: Button size normalization across all tool panels ─── */
+.ils-hub-panel .btn.btn-sm:not(.ai-quick-btn):not(.s4-thumb){
+    font-size:0.82rem!important;
+    padding:8px 16px!important;
 }
 
 /* ─── S28: STEVE JOBS GLOBAL BORDER-RADIUS SWEEP ─── */

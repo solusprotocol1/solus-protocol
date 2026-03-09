@@ -67,12 +67,12 @@
     <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" integrity="sha384-9nhczxUqK87bcKHh20fSQcTGD4qq5GhayNYSYWqwBkINBhOfQLg/P5HG5lF1urn4" crossorigin="anonymous"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/qrcode@1.5.4/build/qrcode.min.js"></script>
     <!-- CSS is imported via main.js and extracted by Vite -->
-  <script type="module" crossorigin src="/prod-app/dist/assets/index-D_3sybv2.js"></script>
-  <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/engine-8E_Ind1P.js">
+  <script type="module" crossorigin src="/prod-app/dist/assets/index-BBmKa0y0.js"></script>
+  <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/engine-Bvm3ntmy.js">
   <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/navigation-YY6dXMqi.js">
   <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/metrics-BCEAU5Us.js">
   <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/enhancements-BGqcQvbP.js">
-  <link rel="stylesheet" crossorigin href="/prod-app/dist/assets/index-DKwGnzXM.css">
+  <link rel="stylesheet" crossorigin href="/prod-app/dist/assets/index-B98Dr8iX.css">
 </head>
 <body class="light-mode" data-theme="light">
 <!-- Light mode always on -->
@@ -95,7 +95,7 @@
 <nav id="mainNav" role="navigation" aria-label="Main navigation" style="position:fixed;top:28px;left:0;right:0;z-index:1000;background:rgba(255,255,255,0.98);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(0,0,0,0.06);height:64px;">
     <div style="max-width:1200px;margin:0 auto;padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:100%;">
         <a href="/" style="display:flex;align-items:center;gap:10px;text-decoration:none;color:#1d1d1f;font-weight:700;font-size:1rem;">
-            <img src="/s4-assets/S4Ledger_logo.png" alt="" style="height:32px;width:32px;">
+            <img src="/s4-assets/S4Ledger_logo.png" alt="S4 Ledger" style="height:32px;width:32px;">
             <span>S4 Ledger</span>
         </a>
         <ul id="navLinks" style="display:flex;align-items:center;gap:0.5rem;list-style:none;margin:0;padding:0;">
@@ -163,7 +163,7 @@
 <!-- ═══ CAC / LOGIN POPUP ═══ -->
 <div id="cacLoginModal" role="dialog" aria-modal="true" aria-labelledby="cacLoginHeading" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(245,245,247,0.95);z-index:99998;align-items:center;justify-content:center;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);">
     <div style="background:#fff;border:1px solid rgba(0,170,255,0.3);border-radius:16px;padding:40px;max-width:480px;width:95%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.15);">
-        <div style="margin-bottom:24px;"><img src="/s4-assets/S4Ledger_logo.png" alt="" style="height:48px;width:48px;margin-bottom:8px;"><h3 id="cacLoginHeading" style="color:#1d1d1f;font-size:1.2rem;font-weight:800;margin:0;">S4 Ledger Platform Login</h3><p style="color:var(--steel);font-size:0.82rem;margin-top:4px;">Authenticate to access the Anchor-S4 workspace</p></div>
+        <div style="margin-bottom:24px;"><img src="/s4-assets/S4Ledger_logo.png" alt="S4 Ledger" style="height:48px;width:48px;margin-bottom:8px;"><h3 id="cacLoginHeading" style="color:#1d1d1f;font-size:1.2rem;font-weight:800;margin:0;">S4 Ledger Platform Login</h3><p style="color:var(--steel);font-size:0.82rem;margin-top:4px;">Authenticate to access the Anchor-S4 workspace</p></div>
         <div id="cacLoginTabs" style="display:flex;gap:0;margin-bottom:24px;border:1px solid var(--border);border-radius:10px;overflow:hidden;">
             <button onclick="switchLoginTab('cac')" id="loginTabCac" style="flex:1;padding:10px;background:rgba(0,170,255,0.1);color:var(--accent);border:none;font-weight:700;font-size:0.82rem;cursor:pointer;"><i class="fas fa-id-card" style="margin-right:6px;"></i>CAC / PIV</button>
             <button onclick="switchLoginTab('account')" id="loginTabAcct" style="flex:1;padding:10px;background:transparent;color:var(--steel);border:none;font-weight:600;font-size:0.82rem;cursor:pointer;"><i class="fas fa-user" style="margin-right:6px;"></i>Account</button>
@@ -468,7 +468,7 @@
         <ul class="nav nav-pills mb-2" role="tablist" style="display:none !important;" id="hiddenTabNav">
 
             <li class="nav-item"><a class="nav-link" data-bs-toggle="pill" href="#tabAnchor" role="tab"><i class="fas fa-anchor"></i> Anchor</a></li>
-            <li class="nav-item"><a class="nav-link" data-bs-toggle="pill" href="#tabVerify" role="tab"><i class="fas fa-check-circle"></i> Verify</a></li>
+            <li class="nav-item"><a class="nav-link" data-bs-toggle="pill" href="#tabAnchor" role="tab"><i class="fas fa-check-circle"></i> Verify</a></li>
             <li class="nav-item"><a class="nav-link" data-bs-toggle="pill" href="#tabLog" role="tab"><i class="fas fa-list"></i> Transaction Log</a></li>
             <li class="nav-item"><a class="nav-link" data-bs-toggle="pill" href="#tabILS" role="tab"><i class="fas fa-brain"></i> Anchor-S4</a></li>
             <li class="nav-item"><a class="nav-link" data-bs-toggle="pill" href="#tabMetrics" role="tab"><i class="fas fa-chart-line"></i> Metrics</a></li>
@@ -481,12 +481,12 @@
             <div class="tab-pane fade" id="tabAnchor" role="tabpanel">
                 <div class="subpage-back">
                     <button class="back-btn" onclick="showHub()"><i class="fas fa-arrow-left"></i> Back</button>
-                    <div class="breadcrumb-text">Anchor Records</div>
+                    <div class="breadcrumb-text">Anchor & Verify Records</div>
                 </div>
                 <div class="row">
                     <div class="col-lg-7">
                         <div class="s4-card">
-                            <h3><i class="fas fa-anchor"></i> Anchor a Defense Record</h3>
+                            <h3><i class="fas fa-shield-halved"></i> Anchor & Verify Records</h3>
 <p style="color:var(--steel);font-size:0.9rem;margin-bottom:1rem">Upload or paste the original record to verify its hash matches what was anchored on XRPL.</p>
 
                             <!-- FILE UPLOAD VERIFICATION -->
@@ -676,7 +676,7 @@
                         </table>
                     </div>
                     <div style="text-align:center;margin-top:12px">
-                        <button onclick="loadPerformanceMetrics()" class="btn btn-sm" style="background:var(--accent);color:#000;border:none;border-radius:3px;padding:6px 20px;font-weight:600"><i class="fas fa-sync-alt"></i> Refresh Metrics</button>
+                        <button onclick="loadPerformanceMetrics()" class="btn btn-sm" style="background:var(--accent);color:#fff;border:none;border-radius:3px;padding:6px 20px;font-weight:600"><i class="fas fa-sync-alt"></i> Refresh Metrics</button>
                     </div>
                 </div>
             </div>
@@ -709,7 +709,7 @@
                         <div id="offlineQueueList" style="max-height:250px;overflow-y:auto;font-size:0.78rem"><div style="color:var(--muted);text-align:center;padding:1rem">Queue is empty. Hashes are queued automatically when offline.</div></div>
                     </div>
                     <div style="display:flex;gap:10px;justify-content:center;margin-top:14px">
-                        <button onclick="offlineSyncAll()" class="btn btn-sm" style="background:var(--green);color:#000;border:none;border-radius:3px;padding:6px 20px;font-weight:600"><i class="fas fa-upload"></i> Sync All to XRPL</button>
+                        <button onclick="offlineSyncAll()" class="btn btn-sm" style="background:var(--green);color:#fff;border:none;border-radius:3px;padding:6px 20px;font-weight:600"><i class="fas fa-upload"></i> Sync All to XRPL</button>
                         <button onclick="offlineQueueHash()" class="btn btn-sm" style="background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:3px;padding:6px 20px;font-weight:600"><i class="fas fa-plus"></i> Queue Vault Record</button>
                         <button onclick="offlineClearQueue()" class="btn btn-sm" style="background:var(--surface);color:var(--red);border:1px solid rgba(255,107,107,0.3);border-radius:3px;padding:6px 20px;font-weight:600"><i class="fas fa-trash"></i> Clear Queue</button>
                     </div>
@@ -1205,14 +1205,14 @@
             <!-- ═══ AUDIT RECORD VAULT ═══ -->
             <div class="ils-hub-panel" id="hub-vault">
                 <!-- ── Digital Thread Traceability (Competitive Differentiator) ── -->
-                <div id="digitalThreadPanel" style="margin-bottom:10px;background:linear-gradient(135deg,rgba(0,170,255,0.04),rgba(155,89,182,0.03));border:1px solid rgba(155,89,182,0.2);border-radius:8px;padding:12px 14px;">
-                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-                        <div style="font-size:0.78rem;font-weight:700;color:#9b59b6;text-transform:uppercase;letter-spacing:0.8px;display:flex;align-items:center;gap:6px;"><i class="fas fa-project-diagram"></i> Digital Thread</div>
-                        <div style="display:flex;align-items:center;gap:8px;">
-                            <select id="digitalThreadRecordSelect" aria-label="Select digital thread record" onchange="showDigitalThreadFromSelect()" style="background:#fff;color:#1d1d1f;border:1px solid rgba(155,89,182,0.3);border-radius:6px;padding:4px 10px;font-size:0.72rem;max-width:200px;">
+                <div id="digitalThreadPanel" style="margin-bottom:10px;background:linear-gradient(135deg,rgba(0,170,255,0.04),rgba(155,89,182,0.03));border:1px solid rgba(155,89,182,0.2);border-radius:8px;padding:10px 12px;">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+                        <div style="font-size:0.75rem;font-weight:700;color:#9b59b6;text-transform:uppercase;letter-spacing:0.8px;display:flex;align-items:center;gap:6px;"><i class="fas fa-project-diagram"></i> Digital Thread</div>
+                        <div style="display:flex;align-items:center;gap:6px;">
+                            <select id="digitalThreadRecordSelect" aria-label="Select digital thread record" onchange="showDigitalThreadFromSelect()" style="background:#fff;color:#1d1d1f;border:1px solid rgba(155,89,182,0.3);border-radius:6px;padding:3px 8px;font-size:0.7rem;max-width:180px;">
                                 <option value="">— Select record —</option>
                             </select>
-                            <button onclick="closeDigitalThread()" style="background:rgba(155,89,182,0.1);border:1px solid rgba(155,89,182,0.2);color:#9b59b6;cursor:pointer;font-size:0.72rem;width:26px;height:26px;display:flex;align-items:center;justify-content:center;padding:0;border-radius:6px;transition:all 0.2s;" title="Close Digital Thread"><i class="fas fa-times"></i></button>
+                            <button onclick="closeDigitalThread()" style="background:rgba(155,89,182,0.1);border:1px solid rgba(155,89,182,0.2);color:#9b59b6;cursor:pointer;font-size:0.68rem;width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;padding:0;border-radius:4px;transition:all 0.2s;line-height:1;" title="Close Digital Thread"><i class="fas fa-times"></i></button>
                         </div>
                     </div>
                     <div id="digitalThreadContent" style="font-size:0.8rem;"></div>
@@ -3233,7 +3233,7 @@
             var sh = document.getElementById('sectionSystems');
             if (sh) sh.style.display = 'none';
             var tabMap = {
-                'sectionAnchor':'tabAnchor','sectionVerify':'tabVerify','sectionLog':'tabLog',
+                'sectionAnchor':'tabAnchor','sectionVerify':'tabAnchor','sectionLog':'tabLog',
                 'sectionILS':'tabILS','sectionSystems':'sectionSystems',
                 'sectionMetrics':'tabMetrics','sectionOffline':'tabOffline'
             };
