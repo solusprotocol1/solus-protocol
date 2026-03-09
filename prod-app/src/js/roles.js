@@ -127,7 +127,7 @@ function showRoleSelector() {
 
     var cancelBtn = document.createElement('button');
     cancelBtn.textContent = 'Cancel';
-    cancelBtn.style.cssText = 'background:rgba(0,0,0,0.03);color:#86868b;border:1px solid rgba(0,0,0,0.1);border-radius:3px;padding:8px 20px;cursor:pointer';
+    cancelBtn.style.cssText = 'background:rgba(0,0,0,0.03);color:#86868b;border:1px solid rgba(0,0,0,0.1);border-radius:3px;padding:12px 28px;cursor:pointer;font-size:0.9rem';
     cancelBtn.addEventListener('click', function(evt) {
         evt.stopPropagation();
         modal.remove();
@@ -138,7 +138,7 @@ function showRoleSelector() {
 
     var applyBtn = document.createElement('button');
     applyBtn.textContent = 'Apply Role';
-    applyBtn.style.cssText = 'background:#00aaff;color:#fff;border:none;border-radius:3px;padding:8px 24px;cursor:pointer;font-weight:600';
+    applyBtn.style.cssText = 'background:linear-gradient(135deg,#0071e3,#00aaff);color:#fff;border:none;border-radius:3px;padding:12px 36px;cursor:pointer;font-weight:700;font-size:0.9rem';
     applyBtn.addEventListener('click', function(evt) {
         evt.stopPropagation();
         applyRole();

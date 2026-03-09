@@ -1029,9 +1029,23 @@
             fab.innerHTML = '<button class="s4-fab-trigger" onclick="S4.quickActions.toggle()" title="Quick Actions (Ctrl+.)" aria-label="Quick actions">' +
                 '<i class="fas fa-bolt"></i></button>' +
                 '<div class="s4-fab-menu" id="s4FabMenu" style="display:none"></div>';
+            // Start hidden — only show when platform workspace is visible
+            fab.style.display = 'none';
             document.body.appendChild(fab);
             this._el = fab;
             this._renderMenu();
+
+            // Show FAB only when platform workspace is visible
+            var self = this;
+            function _showWhenReady() {
+                var w = document.getElementById('platformWorkspace');
+                if (w && w.style.display === 'block') {
+                    fab.style.display = '';
+                } else {
+                    setTimeout(_showWhenReady, 300);
+                }
+            }
+            _showWhenReady();
 
             // Keyboard shortcut: Ctrl+.
             document.addEventListener('keydown', function(e) {
@@ -1792,10 +1806,10 @@
     // INITIALIZATION — Run after DOM is ready
     // ══════════════════════════════════════════════════════════════
     function initEnterpriseFeatures() {
-        // Wait for the platform workspace to be visible
+        // Wait for the platform workspace to be VISIBLE (not just existing in DOM)
         var ws = document.getElementById('platformWorkspace');
-        if (!ws) {
-            // Retry once after a short delay
+        if (!ws || ws.style.display === 'none' || ws.style.display === '') {
+            // Retry — platform not entered yet
             setTimeout(initEnterpriseFeatures, 500);
             return;
         }
