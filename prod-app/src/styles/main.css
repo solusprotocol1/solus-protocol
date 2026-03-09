@@ -4631,8 +4631,8 @@ body.light-mode .s4-command-palette input{color:#1d1d1f!important;border-color:r
 body.light-mode .s4-command-palette input::placeholder{color:rgba(0,0,0,0.35)!important}
 body.light-mode .s4-command-item{color:#1d1d1f!important}
 body.light-mode .s4-command-item:hover,body.light-mode .s4-command-item.active{background:rgba(0,113,227,0.06)!important}
-body.light-mode .s4-quick-fab{background:transparent!important;border-color:rgba(0,0,0,0.12)!important;box-shadow:0 4px 16px rgba(0,0,0,0.12)!important;color:#0071e3!important}
-body.light-mode .s4-quick-fab:hover{background:transparent!important;border-color:rgba(0,113,227,0.3)!important}
+body.light-mode .s4-quick-fab{background:transparent!important;border-color:transparent!important;box-shadow:none!important;color:#0071e3!important}
+body.light-mode .s4-quick-fab:hover{background:transparent!important;border-color:transparent!important}
 
 /* ─── R13-O: Session lock / consent / login light mode ─── */
 body.light-mode #s4SessionLockOverlay{background:rgba(245,245,247,0.95)!important}

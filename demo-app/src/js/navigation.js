@@ -609,6 +609,7 @@ var _hiwPanelIds = [
     'hub-roi','hub-vault','hub-docs','hub-reports',
     'hub-submissions','hub-sbom','hub-gfp','hub-cdrl',
     'hub-contract','hub-provenance','hub-analytics','hub-team',
+    'hub-acquisition','hub-milestones','hub-brief',
     'tabAnchor','tabAnchor'
 ];
 

@@ -3944,18 +3944,18 @@ function calcROI() {
     // Build output HTML
     var output = el('roiOutput');
     if (output) {
-        output.innerHTML = '<div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px;margin-top:12px">'
-            + '<div class="section-label"><i class="fas fa-chart-line"></i> ROI BREAKDOWN</div>'
-            + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:0.85rem;margin-bottom:16px">'
-            + '<div><span style="color:var(--steel)">Labor Automation (65%)</span><br><strong style="color:#00cc66">$' + formatNum(Math.round(laborSavings)) + '</strong></div>'
-            + '<div><span style="color:var(--steel)">Error Reduction (90%)</span><br><strong style="color:#00cc66">$' + formatNum(Math.round(errorSavings)) + '</strong></div>'
-            + '<div><span style="color:var(--steel)">Audit Cost Reduction (70%)</span><br><strong style="color:#00cc66">$' + formatNum(Math.round(auditSavings)) + '</strong></div>'
-            + '<div><span style="color:var(--steel)">S4 Ledger License</span><br><strong style="color:#ff6b6b">-$' + formatNum(Math.round(license)) + '</strong></div>'
+        output.innerHTML = '<div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px 10px;margin-top:6px">'
+            + '<div class="section-label" style="margin-bottom:3px;font-size:0.72rem"><i class="fas fa-chart-line"></i> ROI BREAKDOWN</div>'
+            + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:3px;margin-bottom:4px">'
+            + '<div style="display:flex;justify-content:space-between;align-items:center;padding:3px 6px;background:rgba(0,204,102,0.06);border-radius:6px;border:1px solid rgba(0,204,102,0.12)"><span style="color:var(--steel);font-size:0.74rem">Labor (65%)</span><strong style="color:#00cc66;font-size:0.88rem">$' + formatNum(Math.round(laborSavings)) + '</strong></div>'
+            + '<div style="display:flex;justify-content:space-between;align-items:center;padding:3px 6px;background:rgba(0,204,102,0.06);border-radius:6px;border:1px solid rgba(0,204,102,0.12)"><span style="color:var(--steel);font-size:0.74rem">Errors (90%)</span><strong style="color:#00cc66;font-size:0.88rem">$' + formatNum(Math.round(errorSavings)) + '</strong></div>'
+            + '<div style="display:flex;justify-content:space-between;align-items:center;padding:3px 6px;background:rgba(0,204,102,0.06);border-radius:6px;border:1px solid rgba(0,204,102,0.12)"><span style="color:var(--steel);font-size:0.74rem">Audit (70%)</span><strong style="color:#00cc66;font-size:0.88rem">$' + formatNum(Math.round(auditSavings)) + '</strong></div>'
+            + '<div style="display:flex;justify-content:space-between;align-items:center;padding:3px 6px;background:rgba(255,107,107,0.06);border-radius:6px;border:1px solid rgba(255,107,107,0.12)"><span style="color:var(--steel);font-size:0.74rem">S4 License</span><strong style="color:#ff6b6b;font-size:0.88rem">-$' + formatNum(Math.round(license)) + '</strong></div>'
             + '</div>'
-            + '<hr style="border-color:var(--border);margin:12px 0">'
-            + '<div style="display:flex;justify-content:space-between;align-items:center">'
-            + '<div><span style="color:var(--steel);font-size:0.82rem">Net Annual Savings</span><br><span style="font-size:1.5rem;font-weight:800;color:' + (netSavings > 0 ? '#00cc66' : '#ff4444') + '">$' + formatNum(Math.round(netSavings)) + '</span></div>'
-            + '<div><span style="color:var(--steel);font-size:0.82rem">Per-Record Savings</span><br><span style="font-size:1.1rem;font-weight:700;color:var(--accent)">$' + perRecordSavings.toFixed(2) + '/record</span></div>'
+            + '<div style="display:flex;justify-content:space-between;align-items:center;padding:4px 8px;background:rgba(0,113,227,0.04);border-radius:6px;border:1px solid rgba(0,113,227,0.1)">'
+            + '<div><span style="color:var(--steel);font-size:0.72rem">Net Savings</span><br><span style="font-size:1rem;font-weight:800;color:' + (netSavings > 0 ? '#00cc66' : '#ff4444') + '">$' + formatNum(Math.round(netSavings)) + '</span></div>'
+            + '<div style="text-align:center"><span style="color:var(--steel);font-size:0.72rem">ROI</span><br><span style="font-size:1rem;font-weight:800;color:' + (roiPct > 0 ? '#00cc66' : '#ff4444') + '">' + roiPct.toFixed(0) + '%</span></div>'
+            + '<div style="text-align:right"><span style="color:var(--steel);font-size:0.72rem">Payback</span><br><span style="font-size:0.92rem;font-weight:700;color:var(--accent)">' + paybackMonths + ' mo</span></div>'
             + '</div>'
             + '</div>';
     }
@@ -5002,29 +5002,28 @@ function calcReadiness() {
     const systems = READINESS_DEFAULTS[progKey] || READINESS_DEFAULTS.ddg51;
     const sysName = systems[sysIdx] ? systems[sysIdx].sys : 'System';
 
-    let html = '<div style="background:rgba(0,170,255,0.05);border:1px solid rgba(0,170,255,0.2);border-radius:8px;padding:16px;font-size:0.85rem;">';
-    html += '<div style="font-weight:700;color:#00aaff;margin-bottom:10px;font-size:1rem;">RAM Analysis: ' + sysName + '</div>';
-    html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">';
-    html += '<div><strong>Operational Availability (Ao):</strong></div><div style="color:' + (ao>=0.9?'#00aaff':ao>=0.75?'#ffa500':'#ff3333') + ';font-weight:700;">' + (ao*100).toFixed(2) + '%</div>';
-    html += '<div><strong>Inherent Availability (Ai):</strong></div><div style="color:#fff;">' + (ai*100).toFixed(2) + '%</div>';
-    html += '<div><strong>Failure Rate (λ):</strong></div><div style="color:#fff;">' + lambda.toFixed(6) + ' failures/hr</div>';
-    html += '<div><strong>30-Day Mission Reliability:</strong></div><div style="color:' + (missionReliability>=0.8?'#00aaff':'#ffa500') + ';">' + (missionReliability*100).toFixed(1) + '%</div>';
-    html += '<div><strong>Est. Annual Failures:</strong></div><div style="color:#fff;">' + annualFailures.toFixed(1) + '</div>';
-    html += '<div><strong>Est. Annual Downtime:</strong></div><div style="color:' + (annualDowntime<500?'#00aaff':'#00aaff') + ';">' + annualDowntime.toFixed(0) + ' hrs (' + (annualDowntime/24).toFixed(1) + ' days)</div>';
-    html += '<div><strong>Est. Annual Uptime:</strong></div><div style="color:#00aaff;">' + annualUptime.toFixed(0) + ' hrs</div>';
+    let html = '<div style="background:rgba(0,170,255,0.05);border:1px solid rgba(0,170,255,0.2);border-radius:8px;padding:8px 10px;font-size:0.82rem;">';
+    html += '<div style="font-weight:700;color:#00aaff;margin-bottom:3px;font-size:0.82rem;">RAM Analysis: ' + sysName + '</div>';
+    html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:1px 6px;">';
+    html += '<div style="display:flex;justify-content:space-between;padding:2px 0;border-bottom:1px solid rgba(0,0,0,0.04)"><span>Ao</span><span style="color:' + (ao>=0.9?'#00aaff':ao>=0.75?'#ffa500':'#ff3333') + ';font-weight:700;">' + (ao*100).toFixed(2) + '%</span></div>';
+    html += '<div style="display:flex;justify-content:space-between;padding:2px 0;border-bottom:1px solid rgba(0,0,0,0.04)"><span>Ai</span><span style="font-weight:600;">' + (ai*100).toFixed(2) + '%</span></div>';
+    html += '<div style="display:flex;justify-content:space-between;padding:2px 0;border-bottom:1px solid rgba(0,0,0,0.04)"><span>Failure Rate (\u03BB)</span><span>' + lambda.toFixed(6) + '/hr</span></div>';
+    html += '<div style="display:flex;justify-content:space-between;padding:2px 0;border-bottom:1px solid rgba(0,0,0,0.04)"><span>30-Day Reliability</span><span style="color:' + (missionReliability>=0.8?'#00aaff':'#ffa500') + ';font-weight:600;">' + (missionReliability*100).toFixed(1) + '%</span></div>';
+    html += '<div style="display:flex;justify-content:space-between;padding:2px 0;border-bottom:1px solid rgba(0,0,0,0.04)"><span>Annual Failures</span><span>' + annualFailures.toFixed(1) + '</span></div>';
+    html += '<div style="display:flex;justify-content:space-between;padding:2px 0;border-bottom:1px solid rgba(0,0,0,0.04)"><span>Annual Downtime</span><span style="color:#ffa500;">' + annualDowntime.toFixed(0) + ' hrs</span></div>';
     html += '</div>';
 
     // Assessment
-    html += '<div style="margin-top:12px;padding:10px;border-radius:8px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);">';
-    if (ao >= 0.95) html += '<span style="color:#00aaff;font-weight:700;">EXCELLENT</span> — System exceeds readiness requirements. Ao > 95% meets most high-priority program thresholds.';
-    else if (ao >= 0.90) html += '<span style="color:#00aaff;font-weight:700;">MEETS REQUIREMENTS</span> — Ao > 90% is acceptable for most defense programs. Monitor MLDT for improvement opportunities.';
-    else if (ao >= 0.80) html += '<span style="color:#ffa500;font-weight:700;">MARGINAL</span> — Ao between 80-90%. Consider reducing MLDT through pre-positioned spares or improving MTTR via better training/tools.';
-    else if (ao >= 0.70) html += '<span style="color:#00aaff;font-weight:700;">BELOW THRESHOLD</span> — Ao below 80%. Recommend: (1) LSA review of failure modes, (2) spares stocking analysis, (3) MTTR reduction plan.';
-    else html += '<span style="color:#ff3333;font-weight:700;">CRITICAL</span> — Ao below 70% indicates significant readiness risk. Immediate corrective action required: DMSMS review, redesign consideration, enhanced depot support.';
+    html += '<div style="margin-top:4px;padding:4px 6px;border-radius:6px;background:rgba(0,0,0,0.02);border:1px solid rgba(0,0,0,0.05);font-size:0.78rem;">';
+    if (ao >= 0.95) html += '<span style="color:#00aaff;font-weight:700;">EXCELLENT</span> — Ao > 95% exceeds all readiness requirements.';
+    else if (ao >= 0.90) html += '<span style="color:#00aaff;font-weight:700;">MEETS REQUIREMENTS</span> — Ao > 90% acceptable for most defense programs.';
+    else if (ao >= 0.80) html += '<span style="color:#ffa500;font-weight:700;">MARGINAL</span> — Ao 80-90%. Consider reducing MLDT or improving MTTR.';
+    else if (ao >= 0.70) html += '<span style="color:#00aaff;font-weight:700;">BELOW THRESHOLD</span> — Ao below 80%. Recommend LSA review and spares analysis.';
+    else html += '<span style="color:#ff3333;font-weight:700;">CRITICAL</span> — Ao below 70%. Immediate corrective action required.';
     html += '</div>';
 
     // Formula reference
-    html += '<div style="margin-top:10px;font-size:0.78rem;color:var(--steel);">';
+    html += '<div style="margin-top:3px;font-size:0.68rem;color:var(--steel);">';
     html += '<strong>Formulas:</strong> Ao = MTBF/(MTBF+MTTR+MLDT) | Ai = MTBF/(MTBF+MTTR) | λ = 1/MTBF | R(t) = e<sup>−λt</sup>';
     html += '</div></div>';
 
@@ -5086,8 +5085,8 @@ function showCustomProgramInput() {
         + '<div><label style="color:var(--steel);font-size:0.8rem;font-weight:600">Branch / Service</label><select id="customProgBranch" class="form-select" style="background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.15);border-radius:8px;padding:10px 14px;width:100%;margin-top:4px"><option value="USN">U.S. Navy</option><option value="USMC">U.S. Marine Corps</option><option value="USCG">U.S. Coast Guard</option></select></div>'
         + '</div>'
         + '<div style="display:flex;gap:10px;margin-top:24px;justify-content:flex-end">'
-        + '<button onclick="document.getElementById(\'customProgramModal\').remove();document.getElementById(\'ilsProgram\').value=\'\'" style="background:rgba(255,255,255,0.06);color:var(--steel);border:1px solid var(--border);border-radius:8px;padding:8px 20px;cursor:pointer;font-weight:600">Cancel</button>'
-        + '<button onclick="applyCustomProgram()" style="background:var(--accent);color:#fff;border:none;border-radius:8px;padding:8px 20px;cursor:pointer;font-weight:600">Apply Program</button>'
+        + '<button onclick="document.getElementById(\'customProgramModal\').remove();document.getElementById(\'ilsProgram\').value=\'\'" style="background:rgba(255,255,255,0.06);color:var(--steel);border:1px solid var(--border);border-radius:8px;padding:8px 16px;cursor:pointer;font-weight:600">Cancel</button>'
+        + '<button onclick="applyCustomProgram()" style="background:var(--accent);color:#fff;border:none;border-radius:8px;padding:8px 16px;cursor:pointer;font-weight:600">Apply Program</button>'
         + '</div></div>';
     document.body.appendChild(modal);
     setTimeout(function(){ document.getElementById('customProgName').focus(); }, 100);
@@ -6163,8 +6162,8 @@ function showDocUpload() {
         + '<div id="newDocFileInfo" style="display:none;padding:8px;background:rgba(0,204,102,0.06);border:1px solid rgba(0,204,102,0.2);border-radius:8px;font-size:0.82rem;color:#00cc66"></div>'
         + '</div>'
         + '<div style="display:flex;gap:10px;margin-top:20px;justify-content:flex-end">'
-        + '<button onclick="document.getElementById(\'docUploadModal\').remove()" style="background:rgba(255,255,255,0.06);color:var(--steel);border:1px solid var(--border);border-radius:8px;padding:8px 20px;cursor:pointer">Cancel</button>'
-        + '<button onclick="addNewDoc()" style="background:var(--accent);color:#fff;border:none;border-radius:8px;padding:8px 20px;cursor:pointer;font-weight:600">Add Document</button>'
+        + '<button onclick="document.getElementById(\'docUploadModal\').remove()" style="background:rgba(255,255,255,0.06);color:var(--steel);border:1px solid var(--border);border-radius:8px;padding:8px 16px;cursor:pointer">Cancel</button>'
+        + '<button onclick="addNewDoc()" style="background:var(--accent);color:#fff;border:none;border-radius:8px;padding:8px 16px;cursor:pointer;font-weight:600">Add Document</button>'
         + '</div></div>';
     document.body.appendChild(modal);
 }
@@ -6212,8 +6211,8 @@ function showDocVersionUpload() {
         + '<textarea id="versionContent" rows="8" style="background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.15);border-radius:8px;padding:10px;width:100%;font-family:monospace;font-size:0.82rem;margin-bottom:12px" placeholder="Paste updated document content..."></textarea>'
         + '<input id="versionNote" style="background:#0a0e1a;color:#fff;border:1px solid rgba(255,255,255,0.15);border-radius:8px;padding:10px;width:100%;margin-bottom:12px" placeholder="Change notes (optional)">'
         + '<div style="display:flex;gap:10px;justify-content:flex-end">'
-        + '<button onclick="document.getElementById(\'docVersionModal\').remove()" style="background:rgba(255,255,255,0.06);color:var(--steel);border:1px solid var(--border);border-radius:8px;padding:8px 20px;cursor:pointer">Cancel</button>'
-        + '<button onclick="uploadDocVersion()" style="background:#c9a84c;color:#000;border:none;border-radius:8px;padding:8px 20px;cursor:pointer;font-weight:600">Upload & Analyze</button>'
+        + '<button onclick="document.getElementById(\'docVersionModal\').remove()" style="background:rgba(255,255,255,0.06);color:var(--steel);border:1px solid var(--border);border-radius:8px;padding:8px 16px;cursor:pointer">Cancel</button>'
+        + '<button onclick="uploadDocVersion()" style="background:#c9a84c;color:#000;border:none;border-radius:8px;padding:8px 16px;cursor:pointer;font-weight:600">Upload & Analyze</button>'
         + '</div></div>';
     document.body.appendChild(modal);
 }
@@ -6309,7 +6308,7 @@ function showDiffResult(docId, diff, flags) {
         });
         html += '</div>';
     }
-    html += '<div style="text-align:right;margin-top:16px"><button onclick="this.closest(\'div\').parentElement.remove()" style="background:var(--accent);color:#fff;border:none;border-radius:8px;padding:8px 24px;cursor:pointer;font-weight:600">Close</button></div></div>';
+    html += '<div style="text-align:right;margin-top:16px"><button onclick="this.closest(\'div\').parentElement.remove()" style="background:var(--accent);color:#fff;border:none;border-radius:8px;padding:8px 16px;cursor:pointer;font-weight:600">Close</button></div></div>';
     modal.innerHTML = html;
     document.body.appendChild(modal);
 }
@@ -8330,13 +8329,17 @@ function calcLifecycle() {
     
     var output = document.getElementById('lifecycleOutput');
     if (output) {
-        output.innerHTML = '<div style="padding:12px;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.15);border-radius:8px;font-size:0.82rem;color:var(--steel);">' +
-            '<strong style="color:#fff">Cost Breakdown:</strong><br>' +
-            'Acquisition: ' + fmt(totalAcq) + ' (' + fleetSize + ' units @ $' + (acqCost * 1000000).toLocaleString() + ' each)<br>' +
-            'Sustainment (O&S): ' + fmt(totalSust) + ' (' + sustRate + '% annually over ' + serviceLife + ' years)<br>' +
-            'DMSMS/Obsolescence: ' + fmt(dmsmsCost) + ' (est. 4% annually)<br>' +
-            'Tech Refresh: ' + fmt(techRefresh) + ' (2% every 5 years)<br><br>' +
-            '<strong style="color:#00aaff">S4 Ledger Savings Potential:</strong> ' + fmt(dmsmsCost * 0.2) + ' (20% DMSMS reduction through proactive tracking)' +
+        output.innerHTML = '<div style="padding:8px 10px;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.15);border-radius:8px;font-size:0.82rem;">' +
+            '<div style="display:grid;grid-template-columns:1fr 1fr;gap:1px 6px;margin-bottom:4px">' +
+            '<div style="display:flex;justify-content:space-between;padding:2px 0;border-bottom:1px solid rgba(0,0,0,0.04)"><span style="color:var(--steel)">Acquisition</span><strong style="color:#1d1d1f">' + fmt(totalAcq) + '</strong></div>' +
+            '<div style="display:flex;justify-content:space-between;padding:2px 0;border-bottom:1px solid rgba(0,0,0,0.04)"><span style="color:var(--steel)">Sustainment</span><strong style="color:#1d1d1f">' + fmt(totalSust) + '</strong></div>' +
+            '<div style="display:flex;justify-content:space-between;padding:2px 0;border-bottom:1px solid rgba(0,0,0,0.04)"><span style="color:var(--steel)">DMSMS (4%)</span><strong style="color:#1d1d1f">' + fmt(dmsmsCost) + '</strong></div>' +
+            '<div style="display:flex;justify-content:space-between;padding:2px 0;border-bottom:1px solid rgba(0,0,0,0.04)"><span style="color:var(--steel)">Tech Refresh</span><strong style="color:#1d1d1f">' + fmt(techRefresh) + '</strong></div>' +
+            '</div>' +
+            '<div style="display:flex;justify-content:space-between;align-items:center;padding:4px 6px;background:rgba(0,170,255,0.06);border-radius:6px">' +
+            '<span style="color:#00aaff;font-weight:700;font-size:0.78rem"><i class="fas fa-chart-line" style="margin-right:4px"></i>S4 Savings</span>' +
+            '<strong style="color:#00cc66;font-size:0.88rem">' + fmt(dmsmsCost * 0.2) + '</strong>' +
+            '</div>' +
             '</div>';
     }
 }

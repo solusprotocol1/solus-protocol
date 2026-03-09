@@ -1271,7 +1271,7 @@
                         '<p style="margin:4px 0 0;color:var(--muted);font-size:0.82rem">Executive leadership view — real-time program health &amp; compliance posture</p></div>' +
                         '<div style="display:flex;gap:8px">' +
                             '<button onclick="S4.defenseDashboard.exportBriefing()" style="display:flex;align-items:center;gap:6px;padding:8px 16px;background:rgba(0,113,227,0.08);border:1px solid rgba(0,113,227,0.2);border-radius:8px;color:var(--accent);font-size:0.78rem;font-weight:600;cursor:pointer;font-family:inherit"><i class="fas fa-file-export"></i> Export Briefing</button>' +
-                            '<button onclick="S4.defenseDashboard.close()" style="width:36px;height:36px;border-radius:8px;border:1px solid rgba(0,0,0,0.08);background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:1rem"><i class="fas fa-times"></i></button>' +
+                            '<button onclick="S4.defenseDashboard.close()" style="width:32px;height:32px;border-radius:8px;border:1px solid rgba(0,0,0,0.08);background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:1rem"><i class="fas fa-times"></i></button>' +
                         '</div>' +
                     '</div>' +
                     '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px;margin-bottom:24px">' +
@@ -1379,7 +1379,7 @@
             html += '<div><label style="font-size:0.72rem;color:var(--muted);display:block;margin-bottom:4px">Condition</label><select id="alertRuleOp" style="padding:8px;border:1px solid rgba(0,0,0,0.1);border-radius:6px;font-size:0.82rem;background:#fff"><option value="<">drops below</option><option value=">">exceeds</option><option value="=">equals</option></select></div>';
             html += '<div><label style="font-size:0.72rem;color:var(--muted);display:block;margin-bottom:4px">Value</label><input type="number" id="alertRuleVal" placeholder="70" style="width:100%;padding:8px;border:1px solid rgba(0,0,0,0.1);border-radius:6px;font-size:0.82rem"></div></div>';
             html += '<div style="margin-top:8px"><label style="font-size:0.72rem;color:var(--muted);display:block;margin-bottom:4px">Alert Message</label><input type="text" id="alertRuleMsg" placeholder="e.g. Compliance score dropped below threshold" style="width:100%;padding:8px;border:1px solid rgba(0,0,0,0.1);border-radius:6px;font-size:0.82rem"></div>';
-            html += '<button onclick="S4.alertRules.addRule(document.getElementById(\'alertRuleMetric\').value,document.getElementById(\'alertRuleOp\').value,document.getElementById(\'alertRuleVal\').value,document.getElementById(\'alertRuleMsg\').value)" style="margin-top:10px;padding:8px 20px;background:#0071e3;color:#fff;border:none;border-radius:8px;font-size:0.82rem;font-weight:600;cursor:pointer;font-family:inherit"><i class="fas fa-plus" style="margin-right:6px"></i>Add Rule</button></div>';
+            html += '<button onclick="S4.alertRules.addRule(document.getElementById(\'alertRuleMetric\').value,document.getElementById(\'alertRuleOp\').value,document.getElementById(\'alertRuleVal\').value,document.getElementById(\'alertRuleMsg\').value)" style="margin-top:10px;padding:8px 16px;background:#0071e3;color:#fff;border:none;border-radius:8px;font-size:0.82rem;font-weight:600;cursor:pointer;font-family:inherit"><i class="fas fa-plus" style="margin-right:6px"></i>Add Rule</button></div>';
             // Existing Rules
             html += '<div style="font-size:0.82rem;font-weight:600;color:#1d1d1f;margin-bottom:10px">Active Rules (' + this._rules.length + ')</div>';
             if (!this._rules.length) {
@@ -1476,7 +1476,7 @@
             // Input
             html += '<div style="display:flex;gap:8px;margin-bottom:20px">';
             html += '<input type="text" id="annotationInput" placeholder="Add a comment... Use @name to mention someone" style="flex:1;padding:10px 14px;border:1px solid rgba(0,0,0,0.1);border-radius:8px;font-size:0.85rem;font-family:inherit" onkeydown="if(event.key===\'Enter\'){S4.annotations.addComment(this.value);this.value=\'\'}">';
-            html += '<button onclick="var inp=document.getElementById(\'annotationInput\');S4.annotations.addComment(inp.value);inp.value=\'\'" style="padding:10px 18px;background:#0071e3;color:#fff;border:none;border-radius:8px;font-size:0.82rem;font-weight:600;cursor:pointer;white-space:nowrap;font-family:inherit"><i class="fas fa-paper-plane" style="margin-right:4px"></i>Post</button></div>';
+            html += '<button onclick="var inp=document.getElementById(\'annotationInput\');S4.annotations.addComment(inp.value);inp.value=\'\'" style="padding:8px 16px;background:#0071e3;color:#fff;border:none;border-radius:8px;font-size:0.82rem;font-weight:600;cursor:pointer;white-space:nowrap;font-family:inherit"><i class="fas fa-paper-plane" style="margin-right:4px"></i>Post</button></div>';
             // Comments
             if (!topLevel.length) {
                 html += '<div style="text-align:center;color:var(--muted);padding:32px;font-size:0.85rem;border:1px dashed rgba(0,0,0,0.08);border-radius:10px"><i class="fas fa-comments" style="font-size:1.5rem;display:block;margin-bottom:8px;opacity:0.3"></i>No annotations yet. Start a discussion!</div>';
@@ -1628,13 +1628,13 @@
                     html += '</tbody></table></div>';
                 }
                 html += '</div><div style="display:flex;gap:8px;justify-content:flex-end">';
-                html += '<button onclick="S4.importExport.setStep(0)" style="padding:8px 20px;background:transparent;border:1px solid rgba(0,0,0,0.1);border-radius:8px;font-size:0.82rem;cursor:pointer;color:var(--muted);font-family:inherit">Back</button>';
-                html += '<button onclick="S4.importExport.processImport()" style="padding:8px 24px;background:#0071e3;color:#fff;border:none;border-radius:8px;font-size:0.82rem;font-weight:600;cursor:pointer;font-family:inherit"><i class="fas fa-download" style="margin-right:6px"></i>Import ' + (d ? d.records.length : 0) + ' Records</button></div>';
+                html += '<button onclick="S4.importExport.setStep(0)" style="padding:8px 16px;background:transparent;border:1px solid rgba(0,0,0,0.1);border-radius:8px;font-size:0.82rem;cursor:pointer;color:var(--muted);font-family:inherit">Back</button>';
+                html += '<button onclick="S4.importExport.processImport()" style="padding:8px 16px;background:#0071e3;color:#fff;border:none;border-radius:8px;font-size:0.82rem;font-weight:600;cursor:pointer;font-family:inherit"><i class="fas fa-download" style="margin-right:6px"></i>Import ' + (d ? d.records.length : 0) + ' Records</button></div>';
             } else if (this._step === 2) {
                 html += '<div style="text-align:center;padding:32px"><i class="fas fa-check-circle" style="font-size:3rem;color:#1a8a3e;margin-bottom:16px;display:block"></i>';
                 html += '<div style="font-size:1.1rem;font-weight:700;color:#1d1d1f;margin-bottom:8px">Import Complete!</div>';
                 html += '<div style="font-size:0.85rem;color:var(--muted);margin-bottom:20px">' + (this._data ? this._data.records.length : 0) + ' records added to your vault.</div>';
-                html += '<button onclick="S4.importExport.close()" style="padding:10px 28px;background:#0071e3;color:#fff;border:none;border-radius:8px;font-size:0.88rem;font-weight:600;cursor:pointer;font-family:inherit">Done</button></div>';
+                html += '<button onclick="S4.importExport.close()" style="padding:8px 16px;background:#0071e3;color:#fff;border:none;border-radius:8px;font-size:0.82rem;font-weight:600;cursor:pointer;font-family:inherit">Done</button></div>';
             }
             html += '</div></div>';
             this._el.innerHTML = html;
@@ -1705,7 +1705,7 @@
             html += '<div style="display:flex;gap:6px">';
             html += '<button onclick="S4.auditTimeline.exportLog()" style="padding:6px 14px;background:rgba(0,113,227,0.06);border:1px solid rgba(0,113,227,0.15);border-radius:6px;color:var(--accent);font-size:0.75rem;font-weight:600;cursor:pointer;font-family:inherit"><i class="fas fa-download" style="margin-right:4px"></i>Export</button>';
             html += '<button onclick="if(confirm(\'Clear all audit logs?\'))S4.auditTimeline.clearLog()" style="padding:6px 14px;background:rgba(204,51,51,0.06);border:1px solid rgba(204,51,51,0.15);border-radius:6px;color:#cc3333;font-size:0.75rem;font-weight:600;cursor:pointer;font-family:inherit"><i class="fas fa-eraser" style="margin-right:4px"></i>Clear</button>';
-            html += '<button onclick="S4.auditTimeline.close()" style="width:32px;height:32px;border-radius:6px;border:1px solid rgba(0,0,0,0.08);background:transparent;cursor:pointer;color:var(--muted)"><i class="fas fa-times"></i></button></div></div>';
+            html += '<button onclick="S4.auditTimeline.close()" style="width:32px;height:32px;border-radius:8px;border:1px solid rgba(0,0,0,0.08);background:transparent;cursor:pointer;color:var(--muted)"><i class="fas fa-times"></i></button></div></div>';
             // Filters
             html += '<div style="display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;padding:10px;background:rgba(0,0,0,0.015);border-radius:8px">';
             html += '<select onchange="S4.auditTimeline._filters.type=this.value;S4.auditTimeline._render()" style="padding:6px 10px;border:1px solid rgba(0,0,0,0.1);border-radius:6px;font-size:0.78rem;background:#fff"><option value="">All Types</option><option value="success">Success</option><option value="info">Info</option><option value="warning">Warning</option><option value="danger">Error</option></select>';
