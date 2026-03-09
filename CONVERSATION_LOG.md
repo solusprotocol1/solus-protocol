@@ -2061,4 +2061,95 @@ Converted all remaining Bootstrap `.row` input layouts to CSS grid:
 - `demo-app/` — All synced, both apps rebuilt
 
 ---
+
+## Session 28 — Steve Jobs Complete Visual Overhaul (Commit 02517f0)
+
+**Date**: March 9, 2026
+**Commit**: `02517f0`
+**Parent**: Session 27 commit `aa439c1`
+
+### Problem Statement
+User demanded a "Steve Jobs level" pixel-perfect sweep of the entire platform. Full visual audit revealed:
+- 19 duplicate AI recommendation boxes across tool panels
+- Calculator outputs too verbose (full paragraphs instead of compact results)
+- FAB (floating action button) had white box artifact
+- Navigation and Digital Thread panel had positioning issues
+- 28 help tooltips needed rewriting for clarity
+- Buttons inconsistent sizes across panels
+- Border-radius varied wildly (3px to 10px)
+
+### Fixes Applied
+1. Removed 19 duplicate AI recommendation containers
+2. Compacted ROI/Readiness/Lifecycle calculator outputs
+3. Fixed FAB white-box artifact
+4. Fixed nav and Digital Thread panel layout
+5. Rewrote all 28 help tooltips
+6. Standardized button sizing across all tools
+7. Border-radius sweep: normalized 3px to 10px
+
+### Files Changed:
+- `prod-app/src/index.html` — AI box removal, tooltip rewrites
+- `prod-app/src/styles/main.css` — Button normalization, border-radius sweep, FAB fix
+- `prod-app/src/js/engine.js` — Calculator output compaction
+- `prod-app/src/js/enterprise-features.js` — Help tooltip rewrites
+- `demo-app/` — All synced, both apps rebuilt
+
+---
+
+## Session 29 — Comprehensive Visual Audit & Fixes (Commits ec23b5d, a4299d2)
+
+**Date**: March 9, 2026
+**Commits**: `ec23b5d` (Round 1), `a4299d2` (Round 2)
+**Parent**: Session 28 commit `02517f0`
+
+### Problem Statement
+User returned furious that Session 28 fixes were incomplete. Demanded Steve Jobs-level pixel-perfect review with actual screenshots and verification of every component.
+
+### Audit Process
+1. **Playwright Visual Audit**: Captured 88 screenshots covering landing page, all 23 ILS tools (top/mid/bottom), calculators, Digital Thread, Action modal, Systems panel, Navigation, Defense Dashboard
+2. **DOM Audit**: Automated scan found 0 code leaks, 0 undefined/NaN, 0 broken images, 0 console errors, 340 buttons, 149 inputs
+3. **Deep Source Code Audit**: Sub-agent line-by-line review of main.css (4,809 lines), engine.js (8,891 lines), enterprise-features.js (1,955 lines), index.html (3,943 lines) — found 26 issues
+4. **Computed-Style Verification**: Programmatic check of all critical fixes via Playwright computed styles
+
+### Round 1 Fixes (ec23b5d)
+1. **Verify tab routing** — clicking Verify tab now correctly switches channels
+2. **Calculator compaction** — ROI, Readiness, Lifecycle outputs condensed
+3. **Digital Thread exit button** — 26px → 20px sizing fix
+4. **FAB reinforcement** — white-box artifact CSS fix
+5. **3 code leaks** — addAiMessage guard, SLS toast sanitization
+6. **2 black-text buttons** — fixed to white on dark background
+7. **Button normalization** — CSS sizing standardization
+8. **Hover shadow** — opacity adjustment
+9. **Alt text** — logo accessibility
+
+### Round 2 Fixes (a4299d2)
+1. **CRITICAL: `.btn-anchor` invisible text** — dark `#1d1d1f` on blue gradient → white `#fff !important`
+2. **CRITICAL: SLS flash toast** — white text on transparent background → dark `#1d1d1f`
+3. **CRITICAL: 7 buttons with `var(--accent);color:#fff`** — changed to `background:#0071e3` to survive CSS nuclear override (engine.js lines 5215, 6305, 6450 + enterprise-features.js lines 1386, 1483, 1636, 1641)
+4. **Avatar circle** — `var(--accent)` → `#0071e3` (enterprise-features.js line 1501)
+5. **Modal border-radius conflict** — 3-way conflict (3px at line 2240 vs 16px at line 1776 vs 20px at line 2277) → all standardized to 16px
+6. **Duplicate CSS rule** — removed duplicate `.hiw-modal-box .hiw-body strong` at line 387
+
+### Technical Context
+- CSS nuclear override at line 1700: `*[style*="color:#fff"]{color:#1d1d1f!important}` converts all white inline text to dark
+- Restore rules at lines 1706-1724 whitelist elements where white text should survive
+- Changed all `background:var(--accent)` on buttons to `background:#0071e3` because `#0071e3` matches the restore pattern `[style*="background:#00"]` regardless of specificity ordering
+
+### Verification Results
+- 88 screenshots captured and reviewed
+- 0 code leaks, 0 NaN, 0 undefined, 0 console errors
+- 0 broken images, 0 empty buttons
+- 340 buttons verified with readable contrast
+- 23 ILS tool panels confirmed present
+- Zero `background:var(--accent);color:#fff` remaining in any built JS
+- All modal border-radius computed to 16px
+
+### Files Changed:
+- `prod-app/src/styles/main.css` — `.btn-anchor` color fix, modal border-radius standardization, duplicate rule removal
+- `prod-app/src/js/engine.js` — Toast color fix, 3 button `var(--accent)` → `#0071e3`
+- `prod-app/src/js/enterprise-features.js` — 4 button + 1 avatar `var(--accent)` → `#0071e3`
+- `prod-app/dist/` — Rebuilt
+- `demo-app/` — All synced, both apps rebuilt
+
+---
 *This log is updated every session. Reference before making changes.*

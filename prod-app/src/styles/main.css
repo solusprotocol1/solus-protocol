@@ -59,11 +59,11 @@
         select,input,textarea{background:var(--surface)!important;color:var(--text)!important;border:1px solid var(--border)!important;border-radius:8px!important;padding:0.6rem 0.8rem!important;font-family:'Inter',sans-serif!important;font-size:0.95rem!important;width:100%}
         select:focus,input:focus,textarea:focus{border-color:var(--accent)!important;box-shadow:0 0 0 3px rgba(0,170,255,0.15)!important;outline:none}
         textarea{min-height:120px;resize:vertical;font-family:'Courier New',monospace!important;font-size:0.85rem!important}
-        .btn-accent{background:var(--accent);color:#fff;border:none;border-radius:8px;padding:11px 24px;font-weight:600;font-size:0.88rem;transition:all 0.25s cubic-bezier(0.25,0.1,0.25,1);cursor:pointer;letter-spacing:-0.01em;box-shadow:0 1px 3px rgba(0,113,227,0.2)}
+        .btn-accent{background:var(--accent);color:#fff;border:none;border-radius:8px;padding:10px 24px;font-weight:600;font-size:0.85rem;transition:all 0.25s cubic-bezier(0.25,0.1,0.25,1);cursor:pointer;letter-spacing:-0.01em;box-shadow:0 1px 3px rgba(0,113,227,0.2)}
         .btn-accent:hover{background:#0077ed;transform:translateY(-1px);color:#fff;box-shadow:0 4px 16px rgba(0,113,227,0.3)}
         .btn-accent:active{transform:translateY(0);box-shadow:0 1px 2px rgba(0,113,227,0.2)}
         .btn-accent:disabled{opacity:0.4;cursor:not-allowed;transform:none;box-shadow:none}
-        .btn-gold{background:linear-gradient(135deg,#0071e3,#00aaff);color:#fff;border:none;border-radius:10px;padding:10px 20px;font-weight:700;font-size:0.84rem;cursor:pointer;letter-spacing:-0.01em;box-shadow:0 2px 8px rgba(0,113,227,0.2);transition:all 0.25s cubic-bezier(0.25,0.1,0.25,1)}
+        .btn-gold{background:linear-gradient(135deg,#0071e3,#00aaff);color:#fff;border:none;border-radius:8px;padding:10px 24px;font-weight:700;font-size:0.85rem;cursor:pointer;letter-spacing:-0.01em;box-shadow:0 2px 8px rgba(0,113,227,0.2);transition:all 0.25s cubic-bezier(0.25,0.1,0.25,1)}
         .btn-gold:hover{background:linear-gradient(135deg,#005bb5,#0071e3);color:#fff;transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,113,227,0.25)}
         .result-panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.2rem;margin-top:1rem;display:none;font-family:'Courier New',monospace;font-size:0.85rem;box-shadow:var(--shadow-card)}
         .result-panel.show{display:block;animation:fadeIn 0.3s ease}
@@ -521,7 +521,7 @@
         .btn-anchor{
             background:linear-gradient(135deg,#00aaff,#0071e3) !important;
             color:#fff !important;border:none !important;border-radius:8px !important;
-            padding:10px 20px !important;font-size:0.82rem !important;font-weight:700 !important;
+            padding:10px 24px !important;font-size:0.85rem !important;font-weight:700 !important;
             cursor:pointer !important;transition:all 0.3s !important;
             display:inline-flex !important;align-items:center !important;gap:8px !important;
             font-family:inherit !important;box-shadow:0 2px 12px rgba(0,170,255,0.25) !important;
@@ -530,7 +530,7 @@
         .btn-export{
             background:rgba(0,170,255,0.08) !important;color:var(--accent) !important;
             border:1px solid rgba(0,170,255,0.2) !important;border-radius:8px !important;
-            padding:10px 20px !important;font-size:0.82rem !important;font-weight:700 !important;
+            padding:10px 24px !important;font-size:0.85rem !important;font-weight:700 !important;
             cursor:pointer !important;transition:all 0.2s !important;
             display:inline-flex !important;align-items:center !important;gap:8px !important;
             font-family:inherit !important;
@@ -876,7 +876,7 @@
         .ils-hub-panel .s4-card{border:1px solid var(--border);border-radius:8px;background:var(--card);padding:20px 24px}
         .ils-hub-panel .s4-card h3{font-size:1rem;font-weight:700;color:#1d1d1f;margin-bottom:14px;display:flex;align-items:center;gap:8px}
         .ils-hub-panel .s4-card h3 i{color:var(--accent);font-size:0.9rem}
-        .ils-hub-panel .form-control,.ils-hub-panel select,.ils-hub-panel .form-select{background:var(--surface);border:1px solid rgba(0,0,0,0.12);color:#1d1d1f;border-radius:3px;padding:8px 12px;font-size:0.85rem;font-family:inherit}
+        .ils-hub-panel .form-control,.ils-hub-panel select,.ils-hub-panel .form-select{background:var(--surface);border:1px solid rgba(0,0,0,0.12);color:#1d1d1f;border-radius:8px;padding:8px 12px;font-size:0.85rem;font-family:inherit}
         .ils-hub-panel .form-control:focus,.ils-hub-panel select:focus{border-color:var(--accent);outline:none;box-shadow:0 0 0 2px rgba(0,170,255,0.15)}
         .ils-hub-panel label{color:var(--steel);font-size:0.78rem;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px}
     
@@ -911,7 +911,7 @@
 
         /* ═══ Sub-page Navigation ═══ */
         .subpage-back { display:flex; align-items:center; gap:10px; margin-bottom:16px; padding:10px 0; }
-        .subpage-back .back-btn { background:rgba(0,170,255,0.08); border:1px solid rgba(0,170,255,0.2); color:var(--accent); border-radius:8px; padding:6px 14px; font-size:0.8rem; font-weight:600; cursor:pointer; transition:all 0.2s; font-family:inherit; display:flex; align-items:center; gap:6px; }
+        .subpage-back .back-btn { background:rgba(0,170,255,0.08); border:1px solid rgba(0,170,255,0.2); color:var(--accent); border-radius:8px; padding:7px 16px; font-size:0.82rem; font-weight:600; cursor:pointer; transition:all 0.2s; font-family:inherit; display:flex; align-items:center; gap:6px; }
         .subpage-back .back-btn:hover { background:rgba(0,170,255,0.15); border-color:var(--accent); }
         .subpage-back .breadcrumb-text { font-size:0.82rem; color:var(--muted); }
         .subpage-back .breadcrumb-text span { color:var(--accent); }
@@ -1776,15 +1776,14 @@ textarea,.result-panel,.tx-hash,.vault-hash,.wt-mock-hash,.hash-display,code,pre
 .modal-box,.hiw-modal-box,.wt-container,
 #dodConsentBanner > div,#cacLoginModal > div,#roleModal > div,
 .s4-command-palette{border-radius:16px!important}
-/* Buttons & interactive controls — 3px */
+/* Buttons & interactive controls — 8px (Apple HIG) */
 .btn-accent,.btn-gold,.onboard-btn,.onboard-btn-outline,
 .btn-anchor,.btn-export,.back-btn,.record-type-btn,
-.nav-pills .nav-link,.ai-quick-btn,
-.post-action-btn,.sample-btn{border-radius:3px!important}
-/* Pill-shaped tabs */
-.branch-tab,.ils-hub-tab{border-radius:20px!important}
-/* Inputs — 3px */
-input,select,textarea,.form-control,.form-select,.type-search{border-radius:3px!important}
+.ai-quick-btn,.post-action-btn,.sample-btn{border-radius:8px!important}
+/* Pill-shaped tabs — 20px */
+.branch-tab,.ils-hub-tab,.nav-pills .nav-link{border-radius:20px!important}
+/* Inputs — 8px */
+input,select,textarea,.form-control,.form-select,.type-search{border-radius:8px!important}
 
 /* ═══════════════════════════════════════════════════════════════════════ */
 /* ═══ ROUND 2: DARK MODE REMNANTS + LAYOUT + USER ORIENTATION FIXES ═══ */
@@ -4708,7 +4707,7 @@ body.light-mode #roleModal input{background:#f5f5f7!important;color:#1d1d1f!impo
 /* Header bar is inline-styled; CSS targets the wrapper div */
 
 /* ── R15-D: Tab bar compact for 23 tabs ── */
-.ils-hub-tab{padding:6px 12px !important;font-size:0.74rem !important;border-radius:16px !important}
+.ils-hub-tab{padding:6px 12px !important;font-size:0.74rem !important;border-radius:20px !important}
 .ils-hub-tab i{font-size:0.7rem !important}
 
 /* ── R15-E: Button normalization CSS safety net ── */
