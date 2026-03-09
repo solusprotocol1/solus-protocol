@@ -219,6 +219,29 @@
         .modal-overlay.active{opacity:1;pointer-events:all}
         .modal-box{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:2rem;max-width:480px;width:90%;animation:fadeIn 0.3s ease}
         .modal-box h4{color:var(--accent);margin-bottom:1rem}
+        .modal-box input[type="text"],
+        .modal-box input[type="number"],
+        .modal-box input[type="date"],
+        .modal-box select,
+        .modal-box textarea{
+            background:var(--surface) !important;
+            border:1px solid rgba(0,0,0,0.12) !important;
+            color:#1d1d1f !important;
+            border-radius:3px !important;
+            padding:8px 12px !important;
+            min-height:36px !important;
+            font-size:0.85rem !important;
+            font-family:inherit !important;
+            width:100% !important;
+            box-sizing:border-box !important;
+        }
+        .modal-box label{
+            color:var(--steel) !important;
+            font-size:0.78rem !important;
+            font-weight:600 !important;
+            margin-bottom:4px !important;
+            display:block !important;
+        }
         .modal-box .modal-close{position:absolute;top:12px;right:16px;background:none;border:none;color:var(--muted);font-size:1.2rem;cursor:pointer}
         /* ═══ TOAST NOTIFICATION SYSTEM ═══ */
         #s4ToastContainer{position:fixed;top:80px;right:20px;z-index:9997;display:flex;flex-direction:column;gap:8px;max-width:340px;pointer-events:none}
@@ -590,17 +613,28 @@
         /* ── Enhanced Form Controls ── */
         .ils-hub-panel input[type="text"],
         .ils-hub-panel input[type="number"],
+        .ils-hub-panel input[type="date"],
+        .ils-hub-panel input[type="email"],
+        .ils-hub-panel input[type="url"],
         .ils-hub-panel select,
+        .ils-hub-panel textarea,
         .ils-hub-panel .form-control,
         .ils-hub-panel .form-select{
             background:var(--surface) !important;
             border:1px solid rgba(0,0,0,0.12) !important;
             color:#1d1d1f !important;
             border-radius:3px !important;
-            padding:10px 14px !important;
+            padding:8px 12px !important;
+            min-height:36px !important;
             font-size:0.85rem !important;
             font-family:inherit !important;
+            width:100% !important;
+            box-sizing:border-box !important;
             transition:all 0.2s !important;
+        }
+        .ils-hub-panel textarea{
+            min-height:60px !important;
+            resize:vertical !important;
         }
         .ils-hub-panel input::placeholder,
         .ils-hub-panel textarea::placeholder{
@@ -609,6 +643,7 @@
         }
         .ils-hub-panel input:focus,
         .ils-hub-panel select:focus,
+        .ils-hub-panel textarea:focus,
         .ils-hub-panel .form-control:focus,
         .ils-hub-panel .form-select:focus{
             border-color:var(--accent) !important;
@@ -621,7 +656,25 @@
             font-weight:700 !important;
             text-transform:uppercase !important;
             letter-spacing:0.7px !important;
-            margin-bottom:6px !important;
+            margin-bottom:4px !important;
+            display:block !important;
+        }
+        .ils-hub-panel .row{
+            margin-bottom:4px !important;
+        }
+        .ils-hub-panel .mb-2{
+            margin-bottom:8px !important;
+        }
+        /* ── Action Button Row Spacing ── */
+        .ils-hub-panel .s4-card > div[style*="display:flex"][style*="gap"]{
+            margin:10px 0 !important;
+        }
+        .ils-hub-panel .s4-card > p + div[style*="display:flex"]{
+            margin-top:8px !important;
+        }
+        /* ── Stat Row Spacing ── */
+        .ils-hub-panel .stat-mini{
+            padding:8px 6px !important;
         }
         /* ── Tool Card Grid ── */
         .tool-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-bottom:20px}
@@ -2480,14 +2533,29 @@ details:not([style*="display:none"]) > *:not(summary){color:#444;font-size:0.84r
     padding:9px 18px!important;
     font-size:0.82rem!important;
 }
+/* Primary action buttons (gradient inline) → uniform blue */
+.ils-hub-panel .btn.btn-sm[style*="background:linear-gradient"]{
+    background:linear-gradient(135deg,#0071e3,#00aaff)!important;
+    color:#fff!important;
+    border:none!important;
+    border-radius:10px!important;
+    padding:9px 18px!important;
+    font-size:0.82rem!important;
+    font-weight:600!important;
+    box-shadow:0 2px 8px rgba(0,113,227,0.2)!important;
+}
+.ils-hub-panel .btn.btn-sm[style*="background:linear-gradient"]:hover{
+    box-shadow:0 4px 16px rgba(0,113,227,0.3)!important;
+    transform:translateY(-1px)!important;
+}
 /* .ai-quick-btn inside tools — refined pill style */
 .ils-hub-panel .ai-quick-btn{
     background:rgba(0,113,227,0.05)!important;
     border:1.5px solid rgba(0,113,227,0.1)!important;
     color:#0071e3!important;
-    border-radius:20px!important;
-    padding:6px 14px!important;
-    font-size:0.76rem!important;
+    border-radius:10px!important;
+    padding:8px 16px!important;
+    font-size:0.78rem!important;
     font-weight:600!important;
     transition:all 0.2s!important;
     cursor:pointer!important;

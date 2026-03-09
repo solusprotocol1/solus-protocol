@@ -1102,12 +1102,13 @@
             }
             menu.innerHTML = html;
 
-            // Bind actions
+            // Bind actions with error guards
             var buttons = menu.querySelectorAll('.s4-fab-item');
             for (var j = 0; j < buttons.length; j++) {
                 (function(idx) {
-                    buttons[idx].onclick = function() {
-                        actions[idx].action();
+                    buttons[idx].onclick = function(e) {
+                        e.stopPropagation();
+                        try { actions[idx].action(); } catch(err) { console.warn('FAB action error:', err); if (S4.toast) S4.toast('Action unavailable right now.','warning'); }
                         S4.quickActions.toggle();
                     };
                 })(j);

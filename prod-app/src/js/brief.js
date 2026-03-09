@@ -185,9 +185,9 @@
         css += '@keyframes briefPulse{0%,100%{box-shadow:0 0 0 0 rgba(0,170,255,0.3)}50%{box-shadow:0 0 0 6px rgba(0,170,255,0)}}';
         css += '@keyframes briefGlow{0%,100%{opacity:0.6}50%{opacity:1}}';
         // Left sidebar
-        css += '.brief-sidebar{width:220px;min-width:220px;background:rgba(245,245,247,0.95);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-right:1px solid ' + bdr + ';display:flex;flex-direction:column;padding:8px;gap:2px;overflow-y:auto;overflow-x:hidden}';
-        css += '.brief-sidebar-group{display:grid;grid-template-columns:1fr 1fr;gap:3px;width:100%}';
-        css += '.brief-sidebar-btn{display:flex;align-items:center;gap:5px;border:none;background:transparent;color:' + tm + ';cursor:pointer;border-radius:6px;font-size:0.72rem;transition:all 0.2s;padding:6px 8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}';
+        css += '.brief-sidebar{width:200px;min-width:200px;background:rgba(245,245,247,0.95);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-right:1px solid ' + bdr + ';display:flex;flex-direction:column;padding:8px;gap:2px;overflow-y:auto;overflow-x:hidden}';
+        css += '.brief-sidebar-group{display:flex;flex-direction:column;gap:1px;width:100%}';
+        css += '.brief-sidebar-btn{display:flex;align-items:center;gap:6px;border:none;background:transparent;color:' + tm + ';cursor:pointer;border-radius:6px;font-size:0.76rem;transition:all 0.2s;padding:6px 10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}';
         css += '.brief-sidebar-btn i{font-size:0.78rem;width:16px;text-align:center;flex-shrink:0;color:var(--accent,#00aaff)}';
         css += '.brief-sidebar-btn:hover{background:rgba(0,0,0,0.04);color:' + tp + '}';
         css += '.brief-sidebar-btn.active{background:rgba(0,113,227,0.1);color:var(--accent,#00aaff)}';

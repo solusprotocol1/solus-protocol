@@ -67,12 +67,12 @@
     <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" integrity="sha384-9nhczxUqK87bcKHh20fSQcTGD4qq5GhayNYSYWqwBkINBhOfQLg/P5HG5lF1urn4" crossorigin="anonymous"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/qrcode@1.5.4/build/qrcode.min.js"></script>
     <!-- CSS is imported via main.js and extracted by Vite -->
-  <script type="module" crossorigin src="/demo-app/dist/assets/index-ui7r84bT.js"></script>
+  <script type="module" crossorigin src="/demo-app/dist/assets/index-DSnVBIyv.js"></script>
   <link rel="modulepreload" crossorigin href="/demo-app/dist/assets/engine-DFv016wT.js">
   <link rel="modulepreload" crossorigin href="/demo-app/dist/assets/navigation-Bq6zu2hA.js">
   <link rel="modulepreload" crossorigin href="/demo-app/dist/assets/metrics-Bv4cOf5O.js">
-  <link rel="modulepreload" crossorigin href="/demo-app/dist/assets/enhancements-7e01C4aG.js">
-  <link rel="stylesheet" crossorigin href="/demo-app/dist/assets/index-CrpI8s9y.css">
+  <link rel="modulepreload" crossorigin href="/demo-app/dist/assets/enhancements-CE3aSwmv.js">
+  <link rel="stylesheet" crossorigin href="/demo-app/dist/assets/index-CAJXa2ue.css">
 </head>
 <body class="light-mode" data-theme="light">
 <!-- Light mode always on -->
@@ -915,10 +915,111 @@
 
                 <!-- ══ HUB: GAP ANALYSIS (original ILS content) ══ -->
                 <div class="ils-hub-panel" id="hub-analysis">
+                    <div class="s4-card">
+                        <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-brain" style="color:var(--accent)"></i> ILS Gap Analysis <button onclick="showAddActionModal('ils')" class="ai-quick-btn" style="margin-left:auto;font-size:0.72rem;padding:4px 10px"><i class="fas fa-plus"></i> Action Item</button></h3>
+                        <p style="color:var(--steel);font-size:0.9rem;margin-bottom:1rem">Upload your DRLs, spreadsheets, checklists, and documents. The analyzer will parse them, cross-reference against program requirements, and identify gaps, missing deliverables, and actionable items.</p>
+
+                        <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px 14px;margin-bottom:12px">
+                            <div><label>Program / Platform</label><select id="ilsProgram" aria-label="Select program" class="form-select" onchange="onILSProgramChange()"></select></div>
+                            <div><label>Hull # / Designation</label><input type="text" id="ilsHull" class="form-control" placeholder="Hull # / Designation"></div>
+                            <div><label>Program Office</label><input type="text" id="ilsOffice" class="form-control" placeholder="e.g. PMS 300"></div>
+                            <div><label>Acquisition Phase</label><select id="ilsPhase" aria-label="Select acquisition phase" class="form-select">
+                                <option value="pre_award">Pre-Award</option>
+                                <option value="design" selected>Design</option>
+                                <option value="construction">Construction</option>
+                                <option value="test_eval">Test & Evaluation</option>
+                                <option value="delivery">Delivery / Turnover</option>
+                                <option value="post_delivery">Post-Delivery</option>
+                            </select></div>
+                        </div>
+
+                        <label>Upload Documents <span style="color:var(--muted);font-weight:400">(DRLs, spreadsheets, PDFs, Word docs, checklists)</span></label>
+                        <div class="ils-dropzone" id="ilsDropzone" onclick="document.getElementById('ilsFileInput').click()">
+                            <i class="fas fa-cloud-upload-alt" style="color:var(--accent)"></i>
+                            <div style="font-weight:600;color:#1d1d1f;margin-bottom:4px">Drag & drop files here or click to browse</div>
+                            <div style="font-size:0.82rem;color:var(--muted)">Accepts .csv, .xlsx, .xls, .pdf, .docx, .txt — all processing done locally in your browser</div>
+                        </div>
+                        <input type="file" id="ilsFileInput" multiple accept=".csv,.xlsx,.xls,.txt,.tsv,.pdf,.docx,.doc" style="display:none" onchange="handleILSFiles(this.files)">
+                        <div style="margin:8px 0;display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+                            <span style="font-size:0.78rem;color:var(--muted)">Supports 23+ document types — DRL, LCSP, IUID, VRS, IMS, CDRL & more</span>
+                        </div>
+                        <div class="ils-file-list" id="ilsFileList"></div>
+
+                        <label>Program ILS Checklist <span style="color:var(--muted);font-weight:400">(auto-populated from uploads, or check manually)</span></label>
+                        <div id="ilsChecklist" style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:1rem;font-size:0.85rem;"></div>
+
+                        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:1rem">
+                            <button class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#0071e3,#00aaff);color:#fff;border:none;border-radius:3px;padding:8px 16px;font-weight:700" onclick="runFullILSAnalysis()"><i class="fas fa-chart-line"></i> Run Full Analysis</button>
+                            <button class="btn btn-sm hover-lift" style="background:rgba(0,170,255,0.1);color:#00aaff;border:1px solid rgba(0,170,255,0.3);border-radius:3px;padding:8px 16px" onclick="generateILSReport()"><i class="fas fa-file-export"></i> Generate Report</button>
+                            <button class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#0071e3,#00aaff);color:#fff;border:none;border-radius:3px;padding:8px 16px" onclick="anchorILSReport()"><i class="fas fa-anchor"></i> Anchor Report Hash</button>
+                        </div>
+                        <div id="ilsPostActions" style="display:none">
+                            <div class="post-actions">
+                                <button class="post-action-btn" onclick="sendILSAnalysis()"><i class="fas fa-paper-plane"></i> Send Analysis</button>
+                                <button class="post-action-btn" onclick="scheduleILSMeeting()"><i class="fas fa-calendar-plus"></i> Schedule Meeting</button>
+                                <button class="post-action-btn" onclick="exportActionTracker()"><i class="fas fa-clipboard-list"></i> Update Action Tracker</button>
+                                <button class="post-action-btn" onclick="printILSReport()"><i class="fas fa-print"></i> Print Report</button>
+                                <button class="post-action-btn" onclick="saveILSReport()"><i class="fas fa-save"></i> Save Report</button>
+                            </div>
+                        </div>
+                        <div class="result-panel" id="ilsResult"></div>
+
+                        <div id="ilsSummaryGrid" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px;">
+                            <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:14px 16px;">
+                                <h4 style="font-size:0.85rem;margin:0 0 8px;display:flex;align-items:center;gap:6px"><i class="fas fa-chart-pie" style="color:var(--accent)"></i> ILS Readiness Score</h4>
+                                <div id="ilsScoreContainer" style="text-align:center;padding:0.5rem 0">
+                                    <div style="font-size:2.5rem;font-weight:800;color:var(--muted)" id="ilsScore">--</div>
+                                    <div style="font-size:0.8rem;color:var(--steel)" id="ilsScoreLabel">Run analysis to score</div>
+                                    <div style="margin-top:8px" id="ilsGaugeBar">
+                                        <div style="background:var(--surface);border-radius:3px;height:8px;overflow:hidden;border:1px solid var(--border)">
+                                            <div id="ilsGaugeFill" style="height:100%;width:0%;background:linear-gradient(90deg,#ff3333,#ffa500,#00aaff);border-radius:3px;transition:width 0.8s ease"></div>
+                                        </div>
+                                        <div style="display:flex;justify-content:space-between;font-size:0.65rem;color:var(--muted);margin-top:2px"><span>Critical</span><span>Partial</span><span>Ready</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:14px 16px;">
+                                <h4 style="font-size:0.85rem;margin:0 0 8px;display:flex;align-items:center;gap:6px"><i class="fas fa-list-check" style="color:var(--accent)"></i> Element Coverage</h4>
+                                <div id="ilsCoverage" style="font-size:0.82rem">
+                                    <div style="color:var(--muted);padding:4px 0;font-size:0.8rem">Upload files to see coverage.</div>
+                                </div>
+                            </div>
+                            <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:14px 16px;">
+                                <h4 style="font-size:0.85rem;margin:0 0 8px;display:flex;align-items:center;gap:6px"><i class="fas fa-exclamation-triangle" style="color:#ffa500"></i> Action Items</h4>
+                                <div id="ilsActions" style="max-height:200px;overflow-y:auto">
+                                    <div style="color:var(--muted);padding:4px 0;font-size:0.8rem">Run analysis to generate action items.</div>
+                                </div>
+                            </div>
+                            <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:14px 16px;">
+                                <h4 style="font-size:0.85rem;margin:0 0 8px;display:flex;align-items:center;gap:6px"><i class="fas fa-dollar-sign" style="color:var(--accent)"></i> Cost & Schedule</h4>
+                                <div id="ilsCostSchedule" style="font-size:0.82rem">
+                                    <div style="color:var(--muted);padding:4px 0;font-size:0.8rem">Analysis required to estimate impact.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- AI Assistant Quick Buttons -->
+                    <div style="margin-top:16px;padding:12px;background:var(--surface);border:1px solid var(--border);border-radius:8px">
+                        <div style="font-size:0.82rem;color:var(--steel);margin-bottom:8px"><i class="fas fa-robot" style="color:var(--accent);margin-right:6px"></i><strong>AI Assistant</strong></div>
+                        <p style="color:var(--steel);font-size:0.78rem;margin:0 0 8px">Ask the S4 Agent to help analyze ILS gaps, prioritize findings, and estimate remediation impact.</p>
+                        <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px">
+                            <button class="ai-quick-btn" onclick="aiAsk('Summarize ILS gaps')">Summarize Gap Analysis</button>
+                            <button class="ai-quick-btn" onclick="aiAsk('What are my highest-risk gaps?')">Top Risks</button>
+                            <button class="ai-quick-btn" onclick="aiAsk('Estimate cost to close all gaps')">Cost Estimate</button>
+                            <button class="ai-quick-btn" onclick="aiAsk('Which gaps affect readiness most?')">Readiness Impact</button>
+                            <button class="ai-quick-btn" onclick="aiAsk('Draft a gap closure plan')">Closure Plan</button>
+                            <button class="ai-quick-btn" onclick="aiAsk('Compare my gaps to industry benchmarks')">Benchmark</button>
+                        </div>
+                        <div style="font-size:0.75rem;color:var(--muted);padding:6px 8px;background:rgba(0,113,227,0.03);border-radius:3px;border:1px solid var(--border)"><i class="fas fa-lightbulb" style="color:var(--accent);margin-right:4px"></i><strong>Tip:</strong> The agent can cross-reference gap analysis with compliance, risk, and readiness tools for a full picture.</div>
+                    </div>
+                </div><!-- /hub-analysis -->
+
+                <!-- ══ ACTION ITEMS MANAGER ══ -->
+                <div class="ils-hub-panel" id="hub-actions">
                 <div class="row">
-                    <div class="col-lg-12">
+                    <div class="col-lg-8">
                         <div class="s4-card">
-                            <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-brain"></i> ILS Gap Analysis <button onclick="showAddActionModal('ils')" class="ai-quick-btn" style="margin-left:auto;font-size:0.72rem;padding:4px 10px"><i class="fas fa-plus"></i> Action Item</button></h3>
+                            <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-tasks" style="color:var(--accent)"></i> Action Items <button onclick="showAddActionModal()" class="ai-quick-btn" style="margin-left:auto;font-size:0.72rem;padding:4px 10px"><i class="fas fa-plus"></i> Action Item</button></h3>
 <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1rem">
                                     <button class="ai-quick-btn" onclick="showAddActionModal()" style="background:rgba(0,170,255,0.2);border-color:var(--accent);font-weight:700"><i class="fas fa-plus"></i> Add New</button>
                                     <button class="ai-quick-btn" onclick="filterHubActions('all')" style="background:rgba(0,170,255,0.15);border-color:var(--accent)">All</button>
@@ -927,10 +1028,10 @@
                                     <button class="ai-quick-btn" onclick="filterHubActions('info')"><span style="color:#00aaff">●</span> Info</button>
                                     <button class="ai-quick-btn" onclick="filterHubActions('completed')"><span style="color:#00aaff">●</span> Completed</button>
                                     <span style="flex:1"></span>
-                                    <button class="ai-quick-btn" onclick="exportActionItems()"><i class="fas fa-download"></i> Export CSV</button>
-                                    <button class="ai-quick-btn" onclick="clearCompletedActions()"><i class="fas fa-broom"></i> Clear Done</button>
                                     <button class="ai-quick-btn" onclick="toggleActionTimeline()" id="timelineToggleBtn" title="Timeline View"><i class="fas fa-stream"></i> Timeline</button>
                                     <button class="ai-quick-btn" onclick="smartPrioritizeActions()" title="AI Smart Priority Sort"><i class="fas fa-wand-magic-sparkles"></i> Smart Sort</button>
+                                    <button class="ai-quick-btn" onclick="exportActionItems()"><i class="fas fa-download"></i> Export CSV</button>
+                                    <button class="ai-quick-btn" onclick="clearCompletedActions()"><i class="fas fa-broom"></i> Clear Done</button>
                                 </div>
                                 <!-- Bulk Action Bar -->
                                 <div id="actionBulkBar" style="display:none;background:rgba(0,170,255,0.08);border:1px solid rgba(0,170,255,0.2);border-radius:3px;padding:8px 14px;margin-bottom:10px;align-items:center;gap:10px;font-size:0.82rem">
@@ -1046,25 +1147,16 @@
                     <div class="s4-card">
                         <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-chart-line" style="color:var(--accent)"></i> Operational Readiness Calculator <button onclick="showAddActionModal('readiness')" class="ai-quick-btn" style="margin-left:auto;font-size:0.72rem;padding:4px 10px"><i class="fas fa-plus"></i> Action Item</button></h3>
                         <p style="color:var(--steel);font-size:0.9rem;margin-bottom:0.5rem">Calculate Operational Availability (Ao), Mean Time Between Failures (MTBF), Mean Time To Repair (MTTR), and Mean Logistics Delay Time (MLDT). Per MIL-STD-1390D and DoDI 5000.02.</p>
-<div class="row">
-                            <div class="col-md-6">
-                                <label>Select Program</label>
-                                <select id="readinessProgram" aria-label="Select readiness program" class="form-select mb-2"  onchange="loadReadinessData()"></select>
-                                <div class="row mb-2">
-                                    <div class="col-6"><input type="text" id="readinessHull" class="form-control" placeholder="Hull # / Tail #" style="background:#fff;color:#1d1d1f;border:1px solid rgba(0,0,0,0.06);font-size:0.85rem"></div>
-                                    <div class="col-6"><input type="text" id="readinessOffice" class="form-control" placeholder="Program Office" style="background:#fff;color:#1d1d1f;border:1px solid rgba(0,0,0,0.06);font-size:0.85rem"></div>
-                                </div>
-                                <label>Select System / Subsystem</label>
-                                <select id="readinessSystem" aria-label="Select system" class="form-select mb-2"  onchange="calcReadiness()"></select>
-                            </div>
-                            <div class="col-md-6">
-                                <label>MTBF (hours) — Mean Time Between Failures</label>
-                                <input type="number" id="inputMTBF" class="form-control mb-2"  placeholder="e.g., 2400" oninput="calcReadiness()">
-                                <label>MTTR (hours) — Mean Time To Repair</label>
-                                <input type="number" id="inputMTTR" class="form-control mb-2"  placeholder="e.g., 4.5" oninput="calcReadiness()">
-                                <label>MLDT (hours) — Mean Logistics Delay Time</label>
-                                <input type="number" id="inputMLDT" class="form-control mb-2"  placeholder="e.g., 24" oninput="calcReadiness()">
-                            </div>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px 14px;margin-bottom:12px">
+                                <div><label>Program</label><select id="readinessProgram" aria-label="Select readiness program" class="form-select" onchange="loadReadinessData()"></select></div>
+                                <div><label>Hull # / Tail #</label><input type="text" id="readinessHull" class="form-control" placeholder="Hull # / Tail #"></div>
+                                <div><label>Program Office</label><input type="text" id="readinessOffice" class="form-control" placeholder="Program Office"></div>
+                                <div><label>System / Subsystem</label><select id="readinessSystem" aria-label="Select system" class="form-select" onchange="calcReadiness()"></select></div>
+                                <div><label>MTBF (hrs)</label><input type="number" id="inputMTBF" class="form-control" placeholder="2400" oninput="calcReadiness()"></div>
+                                <div><label>MTTR (hrs)</label><input type="number" id="inputMTTR" class="form-control" placeholder="4.5" oninput="calcReadiness()"></div>
+                        </div>
+                        <div style="display:grid;grid-template-columns:1fr;max-width:33%;margin-bottom:8px">
+                                <div><label>MLDT (hrs)</label><input type="number" id="inputMLDT" class="form-control" placeholder="24" oninput="calcReadiness()"></div>
                         </div>
                         <div id="readinessOutput" style="margin-top:1rem"></div>
                         <div class="row mt-3">
@@ -1099,27 +1191,15 @@
                     <div class="s4-card">
                         <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-dollar-sign" style="color:var(--accent)"></i> S4 Ledger ROI Calculator <button onclick="showAddActionModal('roi')" class="ai-quick-btn" style="margin-left:auto;font-size:0.72rem;padding:4px 10px"><i class="fas fa-plus"></i> Action Item</button></h3>
                         <p style="color:var(--steel);font-size:0.9rem;margin-bottom:0.5rem">Calculate the return on investment from implementing S4 Ledger across your ILS, DMSMS, and readiness programs. Compare manual processes vs. automated blockchain-backed document management.</p>
-<div class="row">
-                            <div class="col-md-6">
-                                <label>Number of Programs Managed</label>
-                                <input type="number" id="roiPrograms" class="form-control mb-2"  placeholder="e.g., 5" value="5" oninput="calcROI()">
-                                <label>Average Records / Month (per program)</label>
-                                <input type="number" id="roiRecords" class="form-control mb-2"  placeholder="e.g., 200" value="200" oninput="calcROI()">
-                                <label>ILS Staff (FTEs doing manual work)</label>
-                                <input type="number" id="roiFTEs" class="form-control mb-2"  placeholder="e.g., 8" value="8" oninput="calcROI()">
-                                <label>Average Fully-Burdened Labor Rate ($/hr)</label>
-                                <input type="number" id="roiRate" class="form-control mb-2"  placeholder="e.g., 145" value="145" oninput="calcROI()">
-                            </div>
-                            <div class="col-md-6">
-                                <label>Current Annual Audit Cost ($)</label>
-                                <input type="number" id="roiAudit" class="form-control mb-2"  placeholder="e.g., 250000" value="250000" oninput="calcROI()">
-                                <label>Average Rework/Error Cost per Incident ($)</label>
-                                <input type="number" id="roiError" class="form-control mb-2"  placeholder="e.g., 8500" value="8500" oninput="calcROI()">
-                                <label>Estimated Error Incidents / Year</label>
-                                <input type="number" id="roiIncidents" class="form-control mb-2"  placeholder="e.g., 35" value="35" oninput="calcROI()">
-                                <label>S4 Ledger Annual License Cost ($)</label>
-                                <input type="number" id="roiLicense" class="form-control mb-2"  placeholder="e.g., 120000" value="120000" oninput="calcROI()">
-                            </div>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px 14px;margin-bottom:12px">
+                                <div><label>Programs Managed</label><input type="number" id="roiPrograms" class="form-control" placeholder="5" value="5" oninput="calcROI()"></div>
+                                <div><label>Records / Month (per program)</label><input type="number" id="roiRecords" class="form-control" placeholder="200" value="200" oninput="calcROI()"></div>
+                                <div><label>ILS Staff (FTEs)</label><input type="number" id="roiFTEs" class="form-control" placeholder="8" value="8" oninput="calcROI()"></div>
+                                <div><label>Burdened Labor Rate ($/hr)</label><input type="number" id="roiRate" class="form-control" placeholder="145" value="145" oninput="calcROI()"></div>
+                                <div><label>Annual Audit Cost ($)</label><input type="number" id="roiAudit" class="form-control" placeholder="250000" value="250000" oninput="calcROI()"></div>
+                                <div><label>Rework Cost / Incident ($)</label><input type="number" id="roiError" class="form-control" placeholder="8500" value="8500" oninput="calcROI()"></div>
+                                <div><label>Error Incidents / Year</label><input type="number" id="roiIncidents" class="form-control" placeholder="35" value="35" oninput="calcROI()"></div>
+                                <div><label>S4 Annual License ($)</label><input type="number" id="roiLicense" class="form-control" placeholder="120000" value="120000" oninput="calcROI()"></div>
                         </div>
                         <div id="roiOutput" style="margin-top:1rem"></div>
                         <div class="row mt-3">
@@ -1153,27 +1233,15 @@
                     <div class="s4-card">
                         <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-clock" style="color:var(--accent)"></i> Lifecycle Cost Estimator <button onclick="showAddActionModal('lifecycle')" class="ai-quick-btn" style="margin-left:auto;font-size:0.72rem;padding:4px 10px"><i class="fas fa-plus"></i> Action Item</button></h3>
                         <p style="color:var(--steel);font-size:0.9rem;margin-bottom:0.5rem">Project total ownership cost (TOC) over a weapon system's lifecycle. Factors in sustainment, DMSMS resolution, tech refresh, and depot maintenance per DoD 5000.73 and MIL-STD-881F.</p>
-<div class="row">
-                            <div class="col-md-6">
-                                <label>Select Program</label>
-                                <select id="lifecycleProgram" aria-label="Select lifecycle program" class="form-select mb-2"  onchange="calcLifecycle()"></select>
-                                <div class="row mb-2">
-                                    <div class="col-6"><input type="text" id="lifecycleHull" class="form-control" placeholder="Hull # / Tail #" style="background:#fff;color:#1d1d1f;border:1px solid rgba(0,0,0,0.06);font-size:0.85rem"></div>
-                                    <div class="col-6"><input type="text" id="lifecycleOffice" class="form-control" placeholder="Program Office" style="background:#fff;color:#1d1d1f;border:1px solid rgba(0,0,0,0.06);font-size:0.85rem"></div>
-                                </div>
-                                <label>Planned Service Life (years)</label>
-                                <input type="number" id="lcServiceLife" class="form-control mb-2"  placeholder="30" value="30" oninput="calcLifecycle()">
-                                <label>Annual Operating Hours</label>
-                                <input type="number" id="lcOpHours" class="form-control mb-2"  placeholder="2500" value="2500" oninput="calcLifecycle()">
-                            </div>
-                            <div class="col-md-6">
-                                <label>Acquisition Unit Cost ($M)</label>
-                                <input type="number" id="lcAcqCost" class="form-control mb-2"  placeholder="85" value="85" oninput="calcLifecycle()" step="0.1">
-                                <label>Fleet Size (number of units)</label>
-                                <input type="number" id="lcFleetSize" class="form-control mb-2"  placeholder="20" value="20" oninput="calcLifecycle()">
-                                <label>Annual Sustainment Rate (% of acquisition)</label>
-                                <input type="number" id="lcSustRate" class="form-control mb-2"  placeholder="8" value="8" oninput="calcLifecycle()" step="0.1">
-                            </div>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px 14px;margin-bottom:12px">
+                                <div><label>Program</label><select id="lifecycleProgram" aria-label="Select lifecycle program" class="form-select" onchange="calcLifecycle()"></select></div>
+                                <div><label>Hull # / Tail #</label><input type="text" id="lifecycleHull" class="form-control" placeholder="Hull # / Tail #"></div>
+                                <div><label>Program Office</label><input type="text" id="lifecycleOffice" class="form-control" placeholder="Program Office"></div>
+                                <div><label>Service Life (yrs)</label><input type="number" id="lcServiceLife" class="form-control" placeholder="30" value="30" oninput="calcLifecycle()"></div>
+                                <div><label>Annual Op Hours</label><input type="number" id="lcOpHours" class="form-control" placeholder="2500" value="2500" oninput="calcLifecycle()"></div>
+                                <div><label>Acq Unit Cost ($M)</label><input type="number" id="lcAcqCost" class="form-control" placeholder="85" value="85" oninput="calcLifecycle()" step="0.1"></div>
+                                <div><label>Fleet Size (units)</label><input type="number" id="lcFleetSize" class="form-control" placeholder="20" value="20" oninput="calcLifecycle()"></div>
+                                <div><label>Sustainment Rate (%)</label><input type="number" id="lcSustRate" class="form-control" placeholder="8" value="8" oninput="calcLifecycle()" step="0.1"></div>
                         </div>
                         <div id="lifecycleOutput" style="margin-top:1rem"></div>
                         <div class="row mt-3">
@@ -1267,9 +1335,9 @@
                     </div>
 
                     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:1rem">
-                        <button onclick="exportVault('csv')" class="ai-quick-btn hover-lift" style="font-weight:700"><i class="fas fa-file-csv"></i> Export CSV</button>
-                        <button onclick="exportVault('xlsx')" class="btn btn-sm hover-lift" style="background:rgba(0,0,0,0.04);color:#1d1d1f;border:none;border-radius:3px;padding:8px 16px;font-weight:700"><i class="fas fa-file-excel"></i> Export XLSX</button>
                         <button onclick="verifyAllVault()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#0071e3,#00aaff);color:#fff;border:none;border-radius:3px;padding:8px 16px"><i class="fas fa-check-double"></i> Re-Verify All</button>
+                        <button onclick="exportVault('csv')" class="btn btn-sm hover-lift" style="background:rgba(0,170,255,0.1);color:#00aaff;border:1px solid rgba(0,170,255,0.3);border-radius:3px;padding:8px 16px"><i class="fas fa-file-csv"></i> Export CSV</button>
+                        <button onclick="exportVault('xlsx')" class="btn btn-sm hover-lift" style="background:rgba(0,170,255,0.1);color:#00aaff;border:1px solid rgba(0,170,255,0.3);border-radius:3px;padding:8px 16px"><i class="fas fa-file-excel"></i> Export XLSX</button>
                         <button onclick="clearVault()" class="btn btn-sm" style="background:rgba(255,51,51,0.1);color:#ff3333;border:1px solid rgba(255,51,51,0.3);border-radius:3px;padding:8px 16px"><i class="fas fa-trash"></i> Clear Vault</button>
                     </div>
 
@@ -1361,16 +1429,17 @@
                     <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-book-open" style="color:var(--accent)"></i> Defense Document Library <span id="docCount" style="font-size:0.78rem;color:var(--muted)"></span><button onclick="showAddActionModal('docs')" class="ai-quick-btn" style="margin-left:auto;font-size:0.72rem;padding:4px 10px"><i class="fas fa-plus"></i> Action Item</button></h3>
                     <p style="color:var(--muted);font-size:0.85rem;margin-bottom:16px">Searchable reference library of MIL-STDs, OPNAVINSTs, DoD Directives, DFARS clauses, NIST standards, and service-specific regulations. Quick-reference while you work — no tab-switching needed.</p>
 <!-- Search & Filters -->
-                    <div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap">
-                        <input type="text" id="docSearch" class="form-control" aria-label="Search document library" style="flex:1;min-width:200px;background:#fff;color:#1d1d1f;border:1px solid rgba(0,0,0,0.08);border-radius:3px;padding:8px 14px;font-size:0.85rem" placeholder="Search by ID, title, keywords... (e.g., MIL-STD-1388, DMSMS, OPNAVINST)" oninput="renderDocLibrary()">
-                        <button onclick="showDocUpload()" style="background:rgba(0,170,255,0.1);border:1px solid rgba(0,170,255,0.3);color:var(--accent);border-radius:3px;padding:8px 16px;cursor:pointer;font-size:0.82rem;font-weight:600;white-space:nowrap;display:flex;align-items:center;gap:6px"><i class="fas fa-plus"></i> Add Document</button>
-                        <button onclick="showDocVersionUpload()" style="background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.3);color:#c9a84c;border-radius:3px;padding:8px 16px;cursor:pointer;font-size:0.82rem;font-weight:600;white-space:nowrap;display:flex;align-items:center;gap:6px"><i class="fas fa-brain"></i> Analyze Revision</button>
-                        <select id="docBranchFilter" aria-label="Filter documents by branch" class="form-select" style="width:auto;background:#fff;color:#1d1d1f;border:1px solid rgba(0,0,0,0.08);border-radius:3px;padding:8px 14px;font-size:0.85rem" onchange="renderDocLibrary()">
+                    <div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap;align-items:center">
+                        <button onclick="showDocUpload()" class="ai-quick-btn" style="background:rgba(0,170,255,0.2);border-color:var(--accent);font-weight:700"><i class="fas fa-plus"></i> Add Document</button>
+                        <button onclick="showDocVersionUpload()" class="ai-quick-btn"><i class="fas fa-brain"></i> Analyze Revision</button>
+                        <select id="docBranchFilter" aria-label="Filter documents by branch" class="form-select" style="width:auto" onchange="renderDocLibrary()">
                             <option value="all">All Branches</option>
                             <option value="USN">U.S. Navy</option>
                             <option value="USMC">U.S. Marine Corps</option>
                             <option value="USCG">U.S. Coast Guard</option>
                         </select>
+                        <span style="flex:1"></span>
+                        <input type="text" id="docSearch" class="form-control" aria-label="Search document library" style="flex:1;min-width:200px" placeholder="Search by ID, title, keywords... (e.g., MIL-STD-1388, DMSMS, OPNAVINST)" oninput="renderDocLibrary()">
                     </div>
                     <!-- Category Filter Row -->
                     <div class="doc-filter-bar" id="docCatFilters"></div>
@@ -2103,10 +2172,9 @@
                     <!-- Analysis Controls -->
                     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:1rem">
                         <button onclick="analyzeSubmission()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#0071e3,#00aaff);color:#fff;border:none;border-radius:3px;padding:8px 16px;font-weight:700"><i class="fas fa-magnifying-glass-chart"></i> Analyze &amp; Compare</button>
-
-                        <button onclick="anchorSubmissionReview()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#0071e3,#00aaff);color:#fff;border:none;border-radius:3px;padding:8px 16px"><i class="fas fa-anchor"></i> Anchor Review to Ledger</button>
-                        <button onclick="exportDiscrepancyReport()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#0071e3,#00aaff);color:#fff;border:none;border-radius:3px;padding:8px 16px"><i class="fas fa-file-pdf"></i> Export Discrepancy Report</button>
+                        <button onclick="exportDiscrepancyReport()" class="btn btn-sm hover-lift" style="background:rgba(0,170,255,0.1);color:#00aaff;border:1px solid rgba(0,170,255,0.3);border-radius:3px;padding:8px 16px"><i class="fas fa-file-pdf"></i> Export Discrepancy Report</button>
                         <button onclick="clearSubmissionReview()" class="btn btn-sm hover-lift" style="background:rgba(0,0,0,0.04);color:var(--steel);border:1px solid var(--border);border-radius:3px;padding:8px 16px"><i class="fas fa-trash-alt"></i> Clear</button>
+                        <button onclick="anchorSubmissionReview()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#0071e3,#00aaff);color:#fff;border:none;border-radius:3px;padding:8px 16px"><i class="fas fa-anchor"></i> Anchor Review to Ledger</button>
                     </div>
 
                     <!-- Stats -->
@@ -2567,9 +2635,10 @@
                     <!-- Action Buttons -->
                     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:1rem">
                         <button onclick="recordProvenanceEvent()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#0071e3,#00aaff);color:#fff;border:none;border-radius:3px;padding:8px 16px;font-weight:700"><i class="fas fa-link"></i> Record Transfer</button>
-                        <button onclick="anchorChain()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#0071e3,#00aaff);color:#fff;border:none;border-radius:3px;padding:8px 16px"><i class="fas fa-anchor"></i> Anchor Chain to Ledger</button>
                         <button onclick="generateProvenanceQR()" class="btn btn-sm hover-lift" style="background:rgba(0,170,255,0.1);color:#00aaff;border:1px solid rgba(0,170,255,0.3);border-radius:3px;padding:8px 16px"><i class="fas fa-qrcode"></i> Generate QR Tag</button>
                         <button onclick="verifyProvenanceChain()" class="btn btn-sm hover-lift" style="background:rgba(0,170,255,0.1);color:#00aaff;border:1px solid rgba(0,170,255,0.3);border-radius:3px;padding:8px 16px"><i class="fas fa-shield-check"></i> Verify Chain</button>
+                        <button onclick="exportProvenanceReport()" class="btn btn-sm hover-lift" style="background:rgba(0,170,255,0.1);color:#00aaff;border:1px solid rgba(0,170,255,0.3);border-radius:3px;padding:8px 16px"><i class="fas fa-download"></i> Export Report</button>
+                        <button onclick="anchorChain()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#0071e3,#00aaff);color:#fff;border:none;border-radius:3px;padding:8px 16px"><i class="fas fa-anchor"></i> Anchor Chain to Ledger</button>
                     </div>
 
                     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:16px">
@@ -2776,13 +2845,13 @@
                         <button class="ai-quick-btn" onclick="acqAddRow()" style="background:rgba(0,170,255,0.2);border-color:var(--accent);font-weight:700"><i class="fas fa-plus"></i> Add Vessel</button>
                         <button class="ai-quick-btn" onclick="acqImportDatabase()" title="Import from eNVCR, NVSRP, or other registry (CSV, JSON, XML)"><i class="fas fa-database"></i> Import Registry</button>
                         <button class="ai-quick-btn" onclick="acqImportCSV()"><i class="fas fa-upload"></i> Import CSV</button>
+                        <button class="ai-quick-btn" onclick="acqToggleView('summary')"><i class="fas fa-chart-pie"></i> Summary</button>
+                        <button class="ai-quick-btn" onclick="acqToggleView('gantt')"><i class="fas fa-chart-gantt"></i> Gantt Chart</button>
+                        <button class="ai-quick-btn" onclick="acqToggleView('grid')"><i class="fas fa-table"></i> Grid</button>
                         <button class="ai-quick-btn" onclick="acqExportCSV()"><i class="fas fa-download"></i> Export CSV</button>
                         <button class="ai-quick-btn" onclick="acqExportXLSX()"><i class="fas fa-file-excel"></i> Export Excel</button>
-                        <button class="ai-quick-btn" onclick="acqToggleView('summary')"><i class="fas fa-chart-pie"></i> Summary</button>
-                        <button class="ai-quick-btn" onclick="acqToggleView('gantt')" style="background:rgba(168,85,247,0.15);border-color:rgba(168,85,247,0.3);color:#a855f7"><i class="fas fa-chart-gantt"></i> Gantt Chart</button>
-                        <button class="ai-quick-btn" onclick="acqToggleView('grid')"><i class="fas fa-table"></i> Grid</button>
-                        <button class="ai-quick-btn" onclick="acqPrintReport()" style="background:rgba(201,168,76,0.12);border-color:rgba(201,168,76,0.25);color:#c9a84c"><i class="fas fa-print"></i> Print Report</button>
-                        <button class="ai-quick-btn" onclick="acqShowAuditLog()" style="background:rgba(201,168,76,0.12);border-color:rgba(201,168,76,0.25);color:#c9a84c"><i class="fas fa-history"></i> Audit Log</button>
+                        <button class="ai-quick-btn" onclick="acqPrintReport()"><i class="fas fa-print"></i> Print Report</button>
+                        <button class="ai-quick-btn" onclick="acqShowAuditLog()"><i class="fas fa-history"></i> Audit Log</button>
                         <span style="flex:1"></span>
                         <input type="text" id="acqSearchInput" placeholder="Search hull, region, builder..." oninput="acqFilter(this.value)" style="background:var(--surface);border:1px solid var(--border);color:#1d1d1f;border-radius:3px;padding:6px 12px;font-size:0.82rem;width:220px;font-family:inherit;">
                         <button onclick="anchorAcquisitionPlan()" style="background:linear-gradient(135deg,#0071e3,#00aaff);color:#fff;border:none;border-radius:3px;padding:8px 16px;cursor:pointer;font-family:inherit;font-size:0.82rem;font-weight:600"><i class="fas fa-anchor"></i> Anchor to Ledger</button>
@@ -2895,13 +2964,13 @@
                         <button class="ai-quick-btn" onclick="milAddRow()" style="background:rgba(168,85,247,0.2);border-color:rgba(168,85,247,0.4);color:#a855f7;font-weight:700"><i class="fas fa-plus"></i> Add Milestone</button>
                         <button class="ai-quick-btn" onclick="milShowVesselTypeEditor()"><i class="fas fa-ship"></i> Vessel Types</button>
                         <button class="ai-quick-btn" onclick="milImportCSV()"><i class="fas fa-upload"></i> Import CSV</button>
-                        <button class="ai-quick-btn" onclick="milUploadPPTX()" style="background:rgba(168,85,247,0.12);border-color:rgba(168,85,247,0.25);color:#a855f7"><i class="fas fa-file-powerpoint"></i> Upload Brief</button>
+                        <button class="ai-quick-btn" onclick="milUploadPPTX()"><i class="fas fa-file-powerpoint"></i> Upload Brief</button>
+                        <button class="ai-quick-btn" onclick="milToggleView('gantt')"><i class="fas fa-chart-gantt"></i> Gantt Chart</button>
+                        <button class="ai-quick-btn" onclick="milToggleView('grid')"><i class="fas fa-table"></i> Grid</button>
                         <button class="ai-quick-btn" onclick="milExportCSV()"><i class="fas fa-download"></i> Export CSV</button>
                         <button class="ai-quick-btn" onclick="milExportXLSX()"><i class="fas fa-file-excel"></i> Export Excel</button>
-                        <button class="ai-quick-btn" onclick="milToggleView('gantt')" style="background:rgba(168,85,247,0.15);border-color:rgba(168,85,247,0.3);color:#a855f7"><i class="fas fa-chart-gantt"></i> Gantt Chart</button>
-                        <button class="ai-quick-btn" onclick="milToggleView('grid')"><i class="fas fa-table"></i> Grid</button>
-                        <button class="ai-quick-btn" onclick="milPrintReport()" style="background:rgba(201,168,76,0.12);border-color:rgba(201,168,76,0.25);color:#c9a84c"><i class="fas fa-print"></i> Print Report</button>
-                        <button class="ai-quick-btn" onclick="milShowAuditLog()" style="background:rgba(201,168,76,0.12);border-color:rgba(201,168,76,0.25);color:#c9a84c"><i class="fas fa-history"></i> Audit Log</button>
+                        <button class="ai-quick-btn" onclick="milPrintReport()"><i class="fas fa-print"></i> Print Report</button>
+                        <button class="ai-quick-btn" onclick="milShowAuditLog()"><i class="fas fa-history"></i> Audit Log</button>
                         <span style="flex:1"></span>
                         <input type="text" id="milSearchInput" placeholder="Search hull, builder, program..." oninput="milFilter(this.value)" style="background:var(--surface);border:1px solid var(--border);color:#1d1d1f;border-radius:3px;padding:6px 12px;font-size:0.82rem;width:220px;font-family:inherit;">
                         <button onclick="anchorMilestones()" style="background:linear-gradient(135deg,#0071e3,#00aaff);color:#fff;border:none;border-radius:3px;padding:8px 16px;cursor:pointer;font-family:inherit;font-size:0.82rem;font-weight:600"><i class="fas fa-anchor"></i> Anchor to Ledger</button>
