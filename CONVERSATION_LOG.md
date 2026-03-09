@@ -1,5 +1,66 @@
 # S4 Ledger — Conversation Log & Fix Tracker
-## Last Updated: Session 27 — Visual Consistency Overhaul (Commit aa439c1)
+## Last Updated: Session 31 — Anchor/Verify Audit & Fix (Anchor form restored)
+
+---
+
+## Session 31 — Anchor/Verify Audit & Critical Fix
+
+### CRITICAL BUG FOUND & FIXED: Anchor Form Missing from Both Apps
+
+**Problem:** The entire anchor form HTML (`recordInput`, `anchorBtn`, `encryptCheck`, `anchorResult`, `recordTypeGrid`, `typeSearch`, `branchTypeCount`, `clfBanner`, `dropZone`, `fileUploadInput`) was **completely missing** from `tabAnchor` in both `demo-app/src/index.html` and `prod-app/src/index.html`. This meant:
+- `anchorRecord()` would crash with `TypeError: Cannot read properties of null` on first line
+- Users clicking "Anchor Your First Record" saw only the verify form — no way to anchor
+- `anchorToLedger()` (used by ILS tools) still worked fine since it doesn't depend on those elements
+
+**Root Cause:** At some point during refactoring, the anchor form was removed and only the verify form survived inside `tabAnchor`.
+
+**Fix Applied (all files):**
+
+| File | Change |
+|------|--------|
+| `prod-app/src/index.html` | Added full anchor form (branch tabs, record type grid, classification banner, file upload, record input, encrypt checkbox, anchor button, result panel, sidebar cards) above the verify form with a divider |
+| `demo-app/src/index.html` | Same as prod-app (with demo-appropriate color/text tweaks) |
+| `prod-app/src/js/navigation.js` | Changed `'sectionVerify': 'tabVerify'` → `'sectionVerify': 'tabAnchor'` (tabVerify doesn't exist) |
+| `demo-app/src/js/navigation.js` | Same fix |
+| `prod-app/src/js/enhancements.js` | Fixed 3 `tabVerify` references → `tabAnchor` (Ctrl+2, search tabs, Ctrl+Shift+V) |
+| `demo-app/src/js/enhancements.js` | Same 3 fixes |
+| `prod-app/src/js/enterprise-features.js` | Removed `tabVerify` from related links map |
+| `demo-app/src/js/enterprise-features.js` | Same fix |
+| `prod-app/src/js/navigation.js L612` | Fixed `tabVerify` in HIW panel IDs |
+| `demo-app/src/js/navigation.js L612` | Same fix |
+| `prod-app/src/js/engine.js` | Added `window.loadSample = loadSample` export (was missing) |
+
+### Architecture Clarification: tabAnchor Pane Layout
+
+There is **NO separate `tabVerify` tab/pane**. Both anchor and verify live in `tabAnchor`:
+```
+tabAnchor pane:
+  ├── Back button + breadcrumb "Anchor & Verify Records"
+  ├── ANCHOR FORM SECTION (new)
+  │   ├── col-lg-7: Branch tabs, record type grid, file upload, record input, encrypt check, anchor button
+  │   └── col-lg-5: Anchor Flow steps + What Gets Stored On-Chain
+  ├── DIVIDER ("or verify existing records")
+  └── VERIFY FORM SECTION (existing)
+      ├── col-lg-7: File drop zone, paste text, verify button, result
+      └── col-lg-5: Verification Use Cases + Recently Anchored Records
+```
+
+Both `showSection('sectionAnchor')` and `showSection('sectionVerify')` route to `tabAnchor`.
+
+### Function Status After Fix
+
+| Function | Status | Notes |
+|----------|--------|-------|
+| `anchorRecord()` | **FIXED** | All required HTML elements now present |
+| `anchorToLedger()` | **Working** | Used by ILS tools, never dependend on missing form |
+| `verifyRecord()` | **Working** | All HTML elements were already present |
+| `handleVerifyFileDrop()` | **Working** | Drag-drop file verification works |
+| `handleFileDrop()` | **Working** | Anchor file upload works (lives in metrics.js) |
+| `_anchorToXRPL()` | **Working** | POSTs to `/api/anchor` correctly |
+| `refreshVerifyRecents()` | **Working** | Recent records sidebar auto-refreshes |
+| `loadSample()` | **FIXED** | Now exported to `window` in prod-app |
+| Ctrl+2 shortcut | **FIXED** | Now routes to tabAnchor instead of non-existent tabVerify |
+| Ctrl+Shift+V | **FIXED** | Same fix |
 
 ---
 

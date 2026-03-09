@@ -2987,7 +2987,7 @@ function _updateThemeIcon(isLight) {
         // Search tab navigation
         var tabs = [
             {name:'Anchor Channel', tab:'tabAnchor', icon:'fa-anchor', desc:'Anchor records to blockchain'},
-            {name:'Verify Channel', tab:'tabVerify', icon:'fa-shield-halved', desc:'Verify record integrity'},
+            {name:'Verify Channel', tab:'tabAnchor', icon:'fa-shield-halved', desc:'Verify record integrity'},
             {name:'ILS Workspace', tab:'tabILS', icon:'fa-cogs', desc:'23+ ILS analysis tools'},
             {name:'Audit Vault', tab:'tabILS', panel:'hub-vault', icon:'fa-vault', desc:'View all anchored records'},
             {name:'Performance Dashboard', tab:'tabMetrics', icon:'fa-chart-line', desc:'API metrics & analytics'},
@@ -3107,7 +3107,7 @@ function _updateThemeIcon(isLight) {
         // Cmd/Ctrl + 1-6 — Tab switching
         if (isMod && e.key >= '1' && e.key <= '6') {
             e.preventDefault();
-            var tabMap = {'1':'tabAnchor','2':'tabVerify','3':'tabILS','4':'tabMetrics','5':'tabWallet','6':'tabILS'};
+            var tabMap = {'1':'tabAnchor','2':'tabAnchor','3':'tabILS','4':'tabMetrics','5':'tabWallet','6':'tabILS'};
             var tab = tabMap[e.key];
             if (tab) { var link = document.querySelector('a[href="#' + tab + '"]'); if (link) link.click(); }
             return;
@@ -3138,7 +3138,7 @@ function _updateThemeIcon(isLight) {
         // Cmd/Ctrl+Shift+V — Quick verify
         if (isMod && e.shiftKey && (e.key === 'v' || e.key === 'V')) {
             e.preventDefault();
-            var verifyTab = document.querySelector('a[href="#tabVerify"]');
+            var verifyTab = document.querySelector('a[href="#tabAnchor"]');
             if (verifyTab) verifyTab.click();
             setTimeout(function() { var inp = document.getElementById('verifyInput'); if (inp) inp.focus(); }, 300);
             return;

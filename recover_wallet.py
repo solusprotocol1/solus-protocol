@@ -21,9 +21,9 @@ import argparse
 TARGET_WALLET = "rJa6pkPaq6XEF1Vr3NX7DzqJzXTB8yQata"
 TREASURY_ADDRESS = "rMLmkrxpadq5z6oTDmq8GhQj9LKjf1KLqJ"
 SLS_ISSUER = "r95GyZac4butvVcsTWUPpxzekmyzaHsTA5"
-XRPL_TESTNET_URL = "https://s.altnet.rippletest.net:51234"
+XRPL_MAINNET_URL = "https://s2.ripple.com:51234"
 
-SUPABASE_URL = os.environ.get("SUPABASE_URL", "").strip()
+SUPABASE_URL = os.environ.get("SUPABASE_URL", "").strip().rstrip('/')
 SUPABASE_SERVICE_KEY = os.environ.get("SUPABASE_SERVICE_KEY", "").strip()
 WALLET_ENCRYPTION_KEY = os.environ.get("S4_WALLET_ENCRYPTION_KEY", "").strip()
 XRPL_TREASURY_SEED = os.environ.get("XRPL_TREASURY_SEED", "").strip()
@@ -61,13 +61,17 @@ def lookup_wallet_in_supabase():
         print("ERROR: SUPABASE_URL and SUPABASE_SERVICE_KEY required")
         return None
     import urllib.request
+    import ssl
+    ssl_ctx = ssl.create_default_context()
+    ssl_ctx.check_hostname = False
+    ssl_ctx.verify_mode = ssl.CERT_NONE
     url = f"{SUPABASE_URL}/rest/v1/wallets?address=eq.{TARGET_WALLET}&select=seed,email,plan"
     req = urllib.request.Request(url, headers={
         "apikey": SUPABASE_SERVICE_KEY,
         "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}",
     })
     try:
-        with urllib.request.urlopen(req, timeout=10) as resp:
+        with urllib.request.urlopen(req, timeout=10, context=ssl_ctx) as resp:
             rows = json.loads(resp.read())
             if rows:
                 row = rows[0]
@@ -87,9 +91,14 @@ def check_balances(client, address):
     # XRP balance
     try:
         acct = client.request(AccountInfo(account=address))
-        xrp_drops = int(acct.result["account_data"]["Balance"])
-        xrp = xrp_drops / 1_000_000
-    except Exception:
+        if "account_data" not in acct.result:
+            print(f"    WARNING: Account {address[:12]}... not found: {acct.result.get('error', 'unknown')}")
+            xrp = 0
+        else:
+            xrp_drops = int(acct.result["account_data"]["Balance"])
+            xrp = xrp_drops / 1_000_000
+    except Exception as e:
+        print(f"    ERROR checking XRP balance for {address[:12]}...: {e}")
         xrp = 0
     # SLS balance
     sls = 0
@@ -98,8 +107,8 @@ def check_balances(client, address):
         for line in lines.result.get("lines", []):
             if line["currency"] == "SLS" and line["account"] == SLS_ISSUER:
                 sls = float(line["balance"])
-    except Exception:
-        pass
+    except Exception as e:
+        print(f"    ERROR checking SLS balance for {address[:12]}...: {e}")
     return xrp, sls
 
 
@@ -119,22 +128,21 @@ def main():
     print(f"SLS Issuer:     {SLS_ISSUER}\n")
 
     # Step 1: Look up wallet seed
-    print("[1] Looking up wallet seed in Supabase...")
-    wallet_seed = lookup_wallet_in_supabase()
-    if not wallet_seed:
-        print("\n  Cannot proceed without wallet seed.")
-        print("  MANUAL OPTION: If you have the seed from Vercel logs or Xaman,")
-        print("  set it as env var TARGET_WALLET_SEED and re-run.")
-        manual_seed = os.environ.get("TARGET_WALLET_SEED", "").strip()
-        if manual_seed:
-            wallet_seed = manual_seed
-            print(f"  Using TARGET_WALLET_SEED from environment.")
-        else:
+    manual_seed = os.environ.get("TARGET_WALLET_SEED", "").strip()
+    if manual_seed:
+        print("[1] Using TARGET_WALLET_SEED from environment...")
+        wallet_seed = manual_seed
+    else:
+        print("[1] Looking up wallet seed in Supabase...")
+        wallet_seed = lookup_wallet_in_supabase()
+        if not wallet_seed:
+            print("\n  Cannot proceed without wallet seed.")
+            print("  MANUAL OPTION: set TARGET_WALLET_SEED env var and re-run.")
             return
     print(f"  Seed recovered: {wallet_seed[:8]}...{wallet_seed[-4:]}\n")
 
     # Step 2: Connect to XRPL
-    print("[2] Connecting to XRPL Testnet...")
+    print("[2] Connecting to XRPL Mainnet...")
     try:
         from xrpl.clients import JsonRpcClient
         from xrpl.wallet import Wallet
@@ -142,12 +150,12 @@ def main():
         from xrpl.models.amounts import IssuedCurrencyAmount
         from xrpl.transaction import submit_and_wait
         from xrpl.core.keypairs import derive_classic_address
-        from xrpl.utils import CryptoAlgorithm
+        from xrpl.constants import CryptoAlgorithm
     except ImportError:
         print("ERROR: pip install xrpl-py")
         return
 
-    client = JsonRpcClient(XRPL_TESTNET_URL)
+    client = JsonRpcClient(XRPL_MAINNET_URL)
     target_wallet = Wallet.from_seed(wallet_seed, algorithm=CryptoAlgorithm.SECP256K1)
     print(f"  Wallet address from seed: {target_wallet.address}")
     if target_wallet.address != TARGET_WALLET:

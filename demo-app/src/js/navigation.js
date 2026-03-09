@@ -62,7 +62,7 @@ function showSection(sectionId) {
     // Map sectionId to tab-pane ID
     var tabMap = {
         'sectionAnchor': 'tabAnchor',
-        'sectionVerify': 'tabVerify',
+        'sectionVerify': 'tabAnchor',
         'sectionLog': 'tabLog',
         'sectionILS': 'tabILS',
         'sectionSystems': 'sectionSystems',
@@ -609,7 +609,7 @@ var _hiwPanelIds = [
     'hub-roi','hub-vault','hub-docs','hub-reports',
     'hub-submissions','hub-sbom','hub-gfp','hub-cdrl',
     'hub-contract','hub-provenance','hub-analytics','hub-team',
-    'tabAnchor','tabVerify'
+    'tabAnchor','tabAnchor'
 ];
 
 function _showHIWModal(det) {

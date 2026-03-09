@@ -477,10 +477,87 @@
                     <button class="back-btn" onclick="showHub()"><i class="fas fa-arrow-left"></i> Back</button>
                     <div class="breadcrumb-text">Anchor & Verify Records</div>
                 </div>
+
+                <!-- ═══ ANCHOR FORM ═══ -->
+                <div class="row" id="anchorFormSection">
+                    <div class="col-lg-7">
+                        <div class="s4-card">
+                            <h3><i class="fas fa-anchor"></i> Anchor a Record</h3>
+                            <details style="margin-top:8px;margin-bottom:12px;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.15);border-radius:8px;padding:0 12px;">
+                                <summary style="cursor:pointer;padding:10px 0;color:#00aaff;font-weight:600;font-size:0.85rem;"><i class="fas fa-info-circle"></i> How Anchoring Works</summary>
+                                <div style="padding:0 0 12px;color:var(--steel);font-size:0.82rem;line-height:1.6;">
+                                    <p><strong>What's real:</strong> Every anchor creates an actual XRPL transaction with your record's SHA-256 hash stored in the memo field. The hash, transaction ID, timestamp, and XRPL explorer link are all genuine blockchain data you can independently verify.</p>
+                                    <p><strong>Live on Mainnet:</strong> Each anchor costs 0.01 $SLS paid from your wallet to the S4 Treasury. All transaction hashes and explorer links point to the live XRPL.</p>
+                                </div>
+                            </details>
+                            <label>1. Select Military Branch</label>
+                            <div class="branch-tabs" id="branchTabs">
+                                <button class="branch-tab active" onclick="selectBranch('USN',this)"><i class="fas fa-anchor"></i> U.S. Navy</button>
+                            </div>
+                            <label>2. Choose Record Type <span class="branch-count" id="branchTypeCount"></span></label>
+                            <input class="type-search" type="text" id="typeSearch" placeholder="Search record types..." oninput="renderTypeGrid()">
+                            <div class="record-type-grid" id="recordTypeGrid"></div>
+
+                            <div class="clf-banner" id="clfBanner"><span class="clf-icon"></span><span class="clf-badge" id="clfBadge"></span><span class="clf-text" id="clfText"></span></div>
+
+                            <label>3. Upload file or enter record content</label>
+                            <div id="dropZone" ondragover="event.preventDefault();this.classList.add('drag-over')" ondragleave="this.classList.remove('drag-over')" ondrop="handleFileDrop(event)" onclick="document.getElementById('fileUploadInput').click()" style="border:2px dashed rgba(0,170,255,0.3);border-radius:10px;padding:20px;text-align:center;cursor:pointer;margin-bottom:10px;background:rgba(0,170,255,0.03);transition:all 0.3s;">
+                                <i class="fas fa-cloud-upload-alt" style="font-size:1.5rem;color:var(--accent);margin-bottom:6px;display:block;"></i>
+                                <div style="color:var(--steel);font-size:0.82rem;">Drag &amp; drop a file here or <span style="color:var(--accent);text-decoration:underline;">click to browse</span></div>
+                                <div style="color:var(--muted);font-size:0.72rem;margin-top:4px;">PDF, Excel, Word, CSV, JSON, TXT &mdash; any file type</div>
+                                <input type="file" id="fileUploadInput" style="display:none" onchange="handleFileSelect(event)">
+                                <div id="dropFileName" style="display:none;margin-top:8px;color:var(--accent);font-weight:600;font-size:0.82rem;"></div>
+                            </div>
+                            <textarea id="recordInput" placeholder="Or paste/type your defense logistics record here..." oninput="this.dataset.autoFilled='false'"></textarea>
+                            <div class="mt-2 mb-3">
+                                <span style="color:var(--muted);font-size:0.8rem">Try a sample:</span>
+                                <span class="sample-btn" onclick="loadSample('supply')">Supply Receipt</span>
+                                <span class="sample-btn" onclick="loadSample('maintenance')">3-M Maint</span>
+                                <span class="sample-btn" onclick="loadSample('ordnance')">Ordnance Lot</span>
+                                <span class="sample-btn" onclick="loadSample('casrep')">CASREP</span>
+                                <span class="sample-btn" onclick="loadSample('custody')">Custody Transfer</span>
+                            </div>
+                            <div class="d-flex gap-2 align-items-center">
+                                <label class="form-check-label" style="font-size:0.85rem">
+                                    <input type="checkbox" id="encryptCheck" checked style="width:auto!important;margin-right:6px"> Encrypt before hashing (CUI protection)
+                                </label>
+                            </div>
+                            <button class="btn-accent mt-3" onclick="anchorRecord()" id="anchorBtn"><i class="fas fa-anchor"></i> Anchor to XRPL</button>
+                            <div class="result-panel" id="anchorResult"></div>
+                        </div>
+                    </div>
+                    <div class="col-lg-5">
+                        <div class="s4-card">
+                            <h3><i class="fas fa-diagram-project"></i> Anchor Flow</h3>
+                            <div style="font-size:0.9rem;line-height:2">
+                                <div><span style="color:var(--accent);font-weight:700">1.</span> Select branch &amp; record type</div>
+                                <div><span style="color:var(--accent);font-weight:700">2.</span> Enter or paste record content</div>
+                                <div><span style="color:var(--accent);font-weight:700">3.</span> Optional: encrypt for CUI protection</div>
+                                <div><span style="color:var(--accent);font-weight:700">4.</span> SHA-256 hash computed client-side</div>
+                                <div><span style="color:var(--accent);font-weight:700">5.</span> Hash anchored to XRPL memo field</div>
+                                <div><span style="color:var(--accent);font-weight:700">6.</span> $SLS micro-fee (0.01) paid to treasury</div>
+                                <div><span style="color:var(--accent);font-weight:700">7.</span> Record appears in Live Metrics dashboard</div>
+                            </div>
+                        </div>
+                        <div class="s4-card" style="margin-top:16px;">
+                            <h3><i class="fas fa-shield-halved"></i> What Gets Stored On-Chain</h3>
+                            <p style="font-size:0.85rem;color:var(--steel)"><strong>Only the SHA-256 hash</strong> of your record is stored on the XRP Ledger. No classified data, CUI, ITAR-controlled, or sensitive content ever touches the blockchain.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ═══ DIVIDER ═══ -->
+                <div style="display:flex;align-items:center;gap:16px;margin:32px 0;">
+                    <div style="flex:1;height:1px;background:var(--border);"></div>
+                    <span style="color:var(--muted);font-size:0.75rem;font-weight:600;text-transform:uppercase;letter-spacing:1px;">or verify existing records</span>
+                    <div style="flex:1;height:1px;background:var(--border);"></div>
+                </div>
+
+                <!-- ═══ VERIFY FORM ═══ -->
                 <div class="row">
                     <div class="col-lg-7">
                         <div class="s4-card">
-                            <h3><i class="fas fa-shield-halved"></i> Anchor & Verify Records</h3>
+                            <h3><i class="fas fa-shield-halved"></i> Verify Records</h3>
 <p style="color:var(--steel);font-size:0.9rem;margin-bottom:1rem">Upload or paste the original record to verify its hash matches what was anchored on XRPL.</p>
 
                             <!-- FILE UPLOAD VERIFICATION -->

@@ -11,3 +11,7 @@ toggle_test.html
 coverage/
 test-results/
 playwright-report/
+
+# Vercel environment files (contain secrets)
+.env.vercel
+.env.vercel-prod

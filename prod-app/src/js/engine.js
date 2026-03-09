@@ -8838,6 +8838,7 @@ window.loadReadinessData = loadReadinessData;
 window.loadRecordToVerify = loadRecordToVerify;
 window.loadRiskData = loadRiskData;
 window.loadSamplePackage = loadSamplePackage;
+window.loadSample = loadSample;
 window.logout = logout;
 window._updateSlsBalance = _updateSlsBalance;
 window._syncSlsBar = _syncSlsBar;

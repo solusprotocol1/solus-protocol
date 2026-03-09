@@ -329,10 +329,6 @@
                     { section: 'sectionLog', label: 'Transaction Log', icon: 'fa-list' },
                     { section: 'sectionILS', label: 'ILS Tools', icon: 'fa-brain' }
                 ],
-                'tabVerify': [
-                    { section: 'sectionAnchor', label: 'Anchor Records', icon: 'fa-anchor' },
-                    { section: 'sectionLog', label: 'Transaction Log', icon: 'fa-list' }
-                ],
                 'tabLog': [
                     { section: 'sectionAnchor', label: 'Anchor Records', icon: 'fa-anchor' },
                     { section: 'sectionVerify', label: 'Verify Records', icon: 'fa-check-circle' }
