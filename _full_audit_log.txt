@@ -1,0 +1,482 @@
+=== FAB AUDIT ===
+FAB trigger styles: {
+  "background": "rgba(0, 0, 0, 0) linear-gradient(135deg, rgb(0, 113, 227), rgb(0, 170, 255)) repeat scroll 0% 0% / auto padding-box border-box",
+  "backgroundColor": "rgba(0, 0, 0, 0)",
+  "border": "0px none rgb(255, 255, 255)",
+  "borderRadius": "50%",
+  "boxShadow": "rgba(0, 113, 227, 0.3) 0px 4px 16px 0px",
+  "outline": "rgb(255, 255, 255) none 0px",
+  "padding": "0px",
+  "width": "48px",
+  "height": "48px"
+}
+FAB parent styles: {
+  "background": "rgb(255, 255, 255) none repeat scroll 0% 0% / auto padding-box border-box",
+  "backgroundColor": "rgb(255, 255, 255)",
+  "border": "0px none rgba(0, 0, 0, 0.12)",
+  "boxShadow": "rgba(0, 0, 0, 0.12) 0px 4px 16px 0px",
+  "padding": "0px"
+}
+
+=== TOOL: hub-analysis ===
+  Buttons: 9 total, heights: [22,30,44], fonts: [10.88px,11.2px,11.52px,13.44px,13.6px], radii: [10px,8px]
+  ⚠️ CODE LEAKS: 1
+    "Maintenance Planning" in SPAN.
+  Action bolt present: true
+  Panel height: 1885px, cards: 2
+    Card [s4-card]: h=1885 pad=20px 24px margin=0px 0px 24px
+  Help ? icon: true
+
+=== TOOL: hub-actions ===
+  Buttons: 24 total, heights: [22,30,39,43,45], fonts: [10.88px,11.52px,12.48px,13.44px], radii: [10px,8px]
+  Action bolt present: false
+  Panel height: 904px, cards: 3
+    Card [s4-card]: h=868 pad=20px 24px margin=0px 0px 24px
+    Card [s4-card]: h=345 pad=20px 24px margin=0px 0px 24px
+    Card [s4-card]: h=161 pad=20px 24px margin=0px 0px 24px
+  Help ? icon: false
+
+=== TOOL: hub-dmsms ===
+  Buttons: 8 total, heights: [22,30,44], fonts: [10.88px,11.2px,11.52px,13.44px], radii: [10px,8px]
+  Action bolt present: true
+  Panel height: 2072px, cards: 1
+    Card [s4-card]: h=2072 pad=20px 24px margin=0px 0px 24px
+  Help ? icon: true
+
+=== TOOL: hub-readiness ===
+  Buttons: 8 total, heights: [22,30,44], fonts: [10.88px,11.2px,11.52px,13.44px], radii: [10px,8px]
+  Action bolt present: true
+  Panel height: 1348px, cards: 1
+    Card [s4-card]: h=1348 pad=20px 24px margin=0px 0px 24px
+  Help ? icon: true
+
+=== TOOL: hub-roi ===
+  Buttons: 8 total, heights: [22,30,44], fonts: [10.88px,11.2px,11.52px,13.44px], radii: [10px,8px]
+  ⚠️ CODE LEAKS: 1
+    "Calculate ROI for predictive maintenance" in BUTTON.s4-ai-prompt-chip
+  Action bolt present: true
+  Panel height: 1347px, cards: 1
+    Card [s4-card]: h=1347 pad=20px 24px margin=0px 0px 24px
+  Help ? icon: true
+
+=== TOOL: hub-lifecycle ===
+  Buttons: 8 total, heights: [22,30,44], fonts: [10.88px,11.2px,11.52px,13.44px], radii: [10px,8px]
+  ⚠️ CODE LEAKS: 2
+    "Model cost impact of deferred maintenance" in BUTTON.s4-ai-prompt-chip
+    "Project total ownership cost (TOC) over a weapon system's lifecycle. Factors in sustainment, DMSMS r" in P.
+  Action bolt present: true
+  Panel height: 1202px, cards: 1
+    Card [s4-card]: h=1202 pad=20px 24px margin=0px 0px 24px
+  Help ? icon: true
+
+=== TOOL: hub-vault ===
+  Buttons: 11 total, heights: [20,22,30,44], fonts: [10.88px,11.2px,11.52px,13.12px,13.44px], radii: [10px,8px]
+  ⚠️ CODE LEAKS: 1
+    "This is a sample provenance chain. Anchor records using any ILS tool to see real digital thread data" in DIV.
+  Action bolt present: true
+  Panel height: 1388px, cards: 1
+    Card [s4-card]: h=778 pad=20px 24px margin=0px 0px 24px
+  Help ? icon: true
+
+=== TOOL: hub-docs ===
+  Buttons: 28 total, heights: [22,30,34,39,43], fonts: [10.88px,11.2px,11.52px,12.48px,12px,13.44px], radii: [10px,8px]
+  ⚠️ CODE LEAKS: 26
+    "Maintenance" in BUTTON.doc-filter-btn
+    "Ordnance" in BUTTON.doc-filter-btn
+    "Provides standard for performing level of repair analysis (LORA) to determine optimal maintenance le" in DIV.doc-desc
+    "Reliability-Centered Maintenance (RCM)" in DIV.doc-title
+    "Requirements for implementing reliability-centered maintenance for military systems." in DIV.doc-desc
+    "Methods for predicting maintainability metrics including MTTR and maintenance man-hours." in DIV.doc-desc
+    "Ships Maintenance and Material Management (3-M)" in DIV.doc-title
+    "Governs the Navy 3-M system for planned maintenance, corrective maintenance, material condition docu" in DIV.doc-desc
+    "Maintenance" in SPAN.doc-tag
+    "NAMP — Naval Aviation Maintenance Program" in DIV.doc-title
+    "Master Standard for all naval aviation maintenance policies, procedures, and responsibilities." in DIV.doc-desc
+    "Maintenance" in SPAN.doc-tag
+    "Maintenance Policy for Navy Ships" in DIV.doc-title
+    "Establishes policy for depot-level maintenance planning and execution for Navy ships." in DIV.doc-desc
+    "Maintenance" in SPAN.doc-tag
+    "Condition Based Maintenance Plus (CBM+)" in DIV.doc-title
+    "Policy for implementing CBM+ to optimize maintenance through condition monitoring and predictive ana" in DIV.doc-desc
+    "Maintenance" in SPAN.doc-tag
+    "Naval Ships Technical Manual — general engineering standards and procedures for ship maintenance." in DIV.doc-desc
+    "Maintenance" in SPAN.doc-tag
+    "Maintenance" in SPAN.doc-tag
+    "Ordnance" in SPAN.doc-tag
+    "Navy Supply Financial Management" in DIV.doc-title
+    "Financial management procedures for Navy supply activities." in DIV.doc-desc
+    "Maintenance Planning (ILS Element)" in DIV.doc-title
+    "DAG guidance on maintenance concept development, LORA, and maintenance task analysis." in DIV.doc-desc
+  Action bolt present: false
+  Panel height: 1282px, cards: 1
+    Card [s4-card]: h=1282 pad=20px 24px margin=0px 0px 24px
+  Help ? icon: true
+
+=== TOOL: hub-compliance ===
+  Buttons: 8 total, heights: [22,30,44], fonts: [10.88px,11.2px,11.52px,13.44px], radii: [10px,8px]
+  Action bolt present: true
+  Panel height: 1857px, cards: 1
+    Card [s4-card]: h=1857 pad=20px 24px margin=0px 0px 24px
+  Help ? icon: true
+
+=== TOOL: hub-risk ===
+  Buttons: 9 total, heights: [22,30,44], fonts: [10.88px,11.2px,11.52px,13.12px,13.44px], radii: [10px,8px]
+  ⚠️ CODE LEAKS: 2
+    "• Financial distress signal" in DIV.
+    "• Financial distress signal" in DIV.
+  Action bolt present: true
+  Panel height: 1817px, cards: 1
+    Card [s4-card]: h=1817 pad=20px 24px margin=0px 0px 24px
+  Help ? icon: true
+
+=== TOOL: hub-reports ===
+  Buttons: 9 total, heights: [22,30,44], fonts: [10.88px,11.2px,11.52px,13.44px], radii: [10px,8px]
+  Action bolt present: true
+  Panel height: 703px, cards: 1
+    Card [s4-card]: h=703 pad=20px 24px margin=0px 0px 24px
+  Help ? icon: true
+
+=== TOOL: hub-predictive ===
+  Buttons: 9 total, heights: [22,30,44,60], fonts: [10.88px,11.2px,11.52px,13.44px,13.6px], radii: [10px,8px]
+  ⚠️ CODE LEAKS: 3
+    "Predictive Maintenance AI" in H3.
+    "AI Quick Prompts — Predictive Maintenance" in DIV.s4-ai-suggestions-header
+    "What maintenance can I defer safely?" in BUTTON.s4-ai-prompt-chip
+  Action bolt present: true
+  Panel height: 1034px, cards: 1
+    Card [s4-card]: h=1034 pad=20px 24px margin=0px 0px 24px
+  Help ? icon: true
+
+=== TOOL: hub-submissions ===
+  Buttons: 10 total, heights: [22,30,44], fonts: [10.88px,11.2px,11.52px,13.12px,13.44px,13.6px], radii: [10px,8px]
+  ⚠️ CODE LEAKS: 1
+    "Maintenance Plan Update" in OPTION.
+  Action bolt present: true
+  Panel height: 1213px, cards: 1
+    Card [s4-card]: h=519 pad=20px 24px margin=0px 0px 24px
+  Help ? icon: true
+
+=== TOOL: hub-sbom ===
+  Buttons: 9 total, heights: [22,30,44,60], fonts: [10.88px,11.2px,11.52px,13.12px,13.44px], radii: [10px,8px]
+  Action bolt present: true
+  Panel height: 1042px, cards: 1
+    Card [s4-card]: h=1042 pad=20px 24px margin=0px 0px 24px
+  Help ? icon: true
+
+=== TOOL: hub-acquisition ===
+  Buttons: 25 total, heights: [22,30,39,43,44,45], fonts: [11.2px,11.52px,12.48px,13.44px], radii: [10px,8px]
+  ⚠️ CODE LEAKS: 1
+    "The agent can cross-reference your acquisition data with lifecycle cost, readiness, and predictive m" in DIV.
+  Action bolt present: false
+  Panel height: 910px, cards: 2
+    Card [s4-card]: h=627 pad=20px 24px margin=0px 0px 24px
+    Card [s4-card]: h=259 pad=20px 24px margin=0px 0px 24px
+  Help ? icon: true
+
+=== TOOL: hub-milestones ===
+  Buttons: 24 total, heights: [22,30,39,43,44], fonts: [11.2px,11.52px,12.48px,13.44px], radii: [10px,8px]
+  Action bolt present: false
+  Panel height: 737px, cards: 1
+    Card [s4-card]: h=737 pad=20px 24px margin=0px 0px 24px
+  Help ? icon: true
+
+=== DIGITAL THREAD ===
+Digital Thread: {
+  "panelFound": true,
+  "panelClass": "",
+  "panelId": "digitalThreadPanel",
+  "panelHeight": 0,
+  "exitFound": true,
+  "exitClass": "",
+  "exitText": ""
+}
+
+=== ROI SPACING ===
+ROI breakdown elements:
+
+=== READINESS SPACING ===
+Readiness elements:
+
+=== LIFECYCLE COST SPACING ===
+
+=== GLOBAL BUTTON AUDIT ===
+Total visible buttons: 63
+  Height 22px: 2 buttons
+    "?" [s4-tool-help] in tabILS | pad=0px fs=11.2px bg=rgba(0, 113, 227, 0.08)
+    "?" [s4-tool-help] in  | pad=0px fs=11.2px bg=rgba(0, 113, 227, 0.08)
+  Height 28px: 2 buttons
+    "" [s4-thumb] in tabILS | pad=3px 8px fs=11.52px bg=rgba(0, 0, 0, 0)
+    "" [s4-thumb] in tabILS | pad=3px 8px fs=11.52px bg=rgba(0, 0, 0, 0)
+  Height 30px: 1 buttons
+    "Action Item" [ai-quick-btn] in  | pad=5px 12px fs=11.52px bg=rgba(0, 113, 227, 0.06)
+  Height 33px: 6 buttons
+    "×" [] in root | pad=0px fs=19.2px bg=rgba(0, 0, 0, 0)
+    "×" [] in root | pad=0px fs=19.2px bg=rgba(0, 0, 0, 0)
+    "×" [] in root | pad=0px fs=19.2px bg=rgba(0, 0, 0, 0)
+    "×" [] in root | pad=0px fs=19.2px bg=rgba(0, 0, 0, 0)
+    "Clear" [] in root | pad=4px 10px fs=11.52px bg=rgba(0, 0, 0, 0)
+    "×" [] in root | pad=0px fs=19.2px bg=rgba(0, 0, 0, 0)
+  Height 35px: 7 buttons
+    "All" [filter-tab active] in tabILS | pad=6px 16px fs=12.16px bg=rgba(0, 113, 227, 0.1)
+    "Analysis" [filter-tab] in tabILS | pad=6px 16px fs=12.16px bg=rgba(0, 113, 227, 0.06)
+    "Compliance" [filter-tab] in tabILS | pad=6px 16px fs=12.16px bg=rgba(0, 113, 227, 0.06)
+    "Supply Chain" [filter-tab] in tabILS | pad=6px 16px fs=12.16px bg=rgba(0, 113, 227, 0.06)
+    "Documents" [filter-tab] in tabILS | pad=6px 16px fs=12.16px bg=rgba(0, 113, 227, 0.06)
+    "Operations" [filter-tab] in tabILS | pad=6px 16px fs=12.16px bg=rgba(0, 113, 227, 0.06)
+    "" [fb-close] in root | pad=4px fs=16px bg=rgba(0, 0, 0, 0)
+  Height 36px: 1 buttons
+    "Close" [wallet-sidebar-close] in root | pad=6px 12px fs=12.8px bg=rgba(201, 168, 76, 0.1)
+  Height 38px: 4 buttons
+    "My Analyses" [] in tabILS | pad=8px 14px fs=12.8px bg=rgba(0, 0, 0, 0)
+    "Team" [] in tabILS | pad=8px 14px fs=12.8px bg=rgba(0, 0, 0, 0)
+    "Webhooks" [] in tabILS | pad=8px 14px fs=12.8px bg=rgba(0, 0, 0, 0)
+    "PDF Export" [] in tabILS | pad=8px 14px fs=12.8px bg=rgba(0, 0, 0, 0)
+  Height 39px: 14 buttons
+    "Add Milestone" [ai-quick-btn] in  | pad=8px 16px fs=12.48px bg=rgba(0, 113, 227, 0.05)
+    "Vessel Types" [ai-quick-btn] in  | pad=8px 16px fs=12.48px bg=rgba(0, 113, 227, 0.05)
+    "Import CSV" [ai-quick-btn] in  | pad=8px 16px fs=12.48px bg=rgba(0, 113, 227, 0.05)
+    "Upload Brief" [ai-quick-btn] in  | pad=8px 16px fs=12.48px bg=rgba(0, 113, 227, 0.05)
+    "Gantt Chart" [ai-quick-btn] in  | pad=8px 16px fs=12.48px bg=rgba(0, 113, 227, 0.05)
+    "Grid" [ai-quick-btn] in  | pad=8px 16px fs=12.48px bg=rgba(0, 113, 227, 0.05)
+    "Print Report" [ai-quick-btn] in  | pad=8px 16px fs=12.48px bg=rgba(0, 113, 227, 0.05)
+    "Audit Log" [ai-quick-btn] in  | pad=8px 16px fs=12.48px bg=rgba(0, 113, 227, 0.05)
+    "Milestone Summary" [ai-quick-btn] in  | pad=8px 16px fs=12.48px bg=rgba(0, 113, 227, 0.05)
+    "Delayed Vessels" [ai-quick-btn] in  | pad=8px 16px fs=12.48px bg=rgba(0, 113, 227, 0.05)
+    "OWLD Risk" [ai-quick-btn] in  | pad=8px 16px fs=12.48px bg=rgba(0, 113, 227, 0.05)
+    "Upcoming Trials" [ai-quick-btn] in  | pad=8px 16px fs=12.48px bg=rgba(0, 113, 227, 0.05)
+    "Status Brief" [ai-quick-btn] in  | pad=8px 16px fs=12.48px bg=rgba(0, 113, 227, 0.05)
+    "Delivery Variance" [ai-quick-btn] in  | pad=8px 16px fs=12.48px bg=rgba(0, 113, 227, 0.05)
+  Height 40px: 2 buttons
+    "Logout" [] in root | pad=6px 14px fs=12.48px bg=rgba(201, 168, 76, 0.08)
+    "Ledger Account 25,000 Credits" [wallet-trigger] in root | pad=8px 16px fs=13.12px bg=rgba(0, 0, 0, 0)
+  Height 42px: 3 buttons
+    "CAC / PIV" [] in root | pad=10px fs=13.12px bg=rgba(0, 170, 255, 0.1)
+    "Account" [] in root | pad=10px fs=13.12px bg=rgba(0, 0, 0, 0)
+    "Submit Feedback" [fb-submit] in root | pad=10px fs=13.12px bg=rgb(0, 113, 227)
+  Height 43px: 8 buttons
+    "0" [s4-notif-bell] in root | pad=8px 12px fs=16px bg=rgba(0, 0, 0, 0)
+    "Export CSV" [ai-quick-btn] in  | pad=10px 20px fs=13.44px bg=rgba(0, 0, 0, 0)
+    "Export Excel" [ai-quick-btn] in  | pad=10px 20px fs=13.44px bg=rgba(0, 0, 0, 0)
+    "On Track" [ai-quick-btn mil-sta] in  | pad=8px 16px fs=12.48px bg=rgba(0, 113, 227, 0.05)
+    "At Risk" [ai-quick-btn mil-sta] in  | pad=8px 16px fs=12.48px bg=rgba(0, 113, 227, 0.05)
+    "Delayed" [ai-quick-btn mil-sta] in  | pad=10px 20px fs=12.48px bg=rgba(204, 51, 51, 0.06)
+    "Complete" [ai-quick-btn mil-sta] in  | pad=8px 16px fs=12.48px bg=rgba(0, 113, 227, 0.05)
+    "Cancelled" [ai-quick-btn mil-sta] in  | pad=8px 16px fs=12.48px bg=rgba(0, 113, 227, 0.05)
+  Height 44px: 9 buttons
+    "Back" [back-btn] in tabILS | pad=7px 16px fs=13.12px bg=rgba(0, 170, 255, 0.08)
+    "Back to Tools" [back-btn] in tabILS | pad=6px 14px fs=12.8px bg=rgba(0, 170, 255, 0.08)
+    "Anchor to Ledger" [btn-anchor] in  | pad=10px 20px fs=13.44px bg=rgba(0, 0, 0, 0)
+    "Send via Email Client" [btn-accent] in root | pad=9.6px 28.8px fs=14.4px bg=rgba(0, 0, 0, 0)
+    "Copy to Clipboard" [] in root | pad=8px 16px fs=13.6px bg=rgba(0, 170, 255, 0.1)
+    "Open Teams" [btn-accent] in root | pad=9.6px 28.8px fs=14.4px bg=rgba(0, 0, 0, 0)
+    "Add to Calendar (.ics)" [] in root | pad=8px 16px fs=13.6px bg=rgba(0, 170, 255, 0.06)
+    "Save Action Item" [btn-accent] in root | pad=9.6px 28.8px fs=14.4px bg=rgba(0, 0, 0, 0)
+    "Cancel" [] in root | pad=8px 16px fs=13.6px bg=rgba(0, 170, 255, 0.1)
+  Height 45px: 1 buttons
+    "↑" [] in root | pad=0px fs=20.8px bg=rgb(0, 170, 255)
+  Height 48px: 3 buttons
+    "Authenticate with CAC" [] in root | pad=12px 36px fs=14.4px bg=rgba(0, 0, 0, 0)
+    "Start Setup" [onboard-btn] in root | pad=12px 36px fs=14.4px bg=rgb(0, 113, 227)
+    "" [s4-fab-trigger] in root | pad=0px fs=17.6px bg=rgba(0, 0, 0, 0)
+
+=== HELP TEXT AUDIT ===
+Sample help text length: 371
+Content: 1) Paste or upload any defense document or data. 2) S4 generates a SHA-256 hash and writes it to the XRP Ledger as a Memo. 3) Get an XRPL transaction link as proof of existence and timestamp. 4) Verif
+
+
+========================================
+ISSUES SUMMARY
+========================================
+1. [hub-analysis] Code leaks found
+     Leak: "Maintenance Planning"
+2. [hub-actions] 5 different button heights: [22,30,39,43,45]
+     Btn: "Action Item" h=30 pad=5px 12px
+     Btn: "Show overdue action items by priority" h=22 pad=3px 8px
+     Btn: "Generate action item summary for leaders" h=22 pad=3px 8px
+     Btn: "Which action items have the highest cost" h=22 pad=3px 8px
+     Btn: "Assign open items to responsible parties" h=22 pad=3px 8px
+     Btn: "Add New" h=45 pad=8px 16px
+     Btn: "All" h=45 pad=10px 20px
+     Btn: "● Critical" h=45 pad=8px 16px
+     Btn: "● Warning" h=45 pad=8px 16px
+     Btn: "● Info" h=45 pad=8px 16px
+     Btn: "● Completed" h=45 pad=8px 16px
+     Btn: "Timeline" h=45 pad=8px 16px
+     Btn: "Smart Sort" h=45 pad=8px 16px
+     Btn: "Export CSV" h=43 pad=10px 20px
+     Btn: "Anchor" h=43 pad=8px 16px
+     Btn: "Clear Done" h=43 pad=8px 16px
+     Btn: "" h=39 pad=8px 16px
+     Btn: "" h=39 pad=8px 16px
+     Btn: "Prioritize" h=39 pad=8px 16px
+     Btn: "Next Step" h=39 pad=8px 16px
+     Btn: "Total Risk" h=39 pad=8px 16px
+     Btn: "Status Brief" h=39 pad=8px 16px
+     Btn: "Delegate" h=39 pad=8px 16px
+     Btn: "Draft CAR" h=39 pad=8px 16px
+3. [hub-actions] Missing action lightning bolt
+4. [hub-roi] Code leaks found
+     Leak: "Calculate ROI for predictive maintenance"
+5. [hub-lifecycle] Code leaks found
+     Leak: "Model cost impact of deferred maintenance"
+     Leak: "Project total ownership cost (TOC) over a weapon system's lifecycle. Factors in sustainment, DMSMS r"
+6. [hub-vault] 4 different button heights: [20,22,30,44]
+     Btn: "" h=20 pad=0px
+     Btn: "?" h=22 pad=0px
+     Btn: "Action Item" h=30 pad=5px 12px
+     Btn: "Show chain of custody for recent anchors" h=22 pad=3px 8px
+     Btn: "Verify blockchain integrity of vault rec" h=22 pad=3px 8px
+     Btn: "Export audit trail for this quarter" h=22 pad=3px 8px
+     Btn: "Find records that need re-verification" h=22 pad=3px 8px
+     Btn: "Re-Verify All" h=44 pad=8px 16px
+     Btn: "Export CSV" h=44 pad=10px 20px
+     Btn: "Export XLSX" h=44 pad=10px 20px
+     Btn: "Clear Vault" h=44 pad=8px 16px
+7. [hub-vault] Code leaks found
+     Leak: "This is a sample provenance chain. Anchor records using any ILS tool to see real digital thread data"
+8. [hub-docs] 5 different button heights: [22,30,34,39,43]
+     Btn: "?" h=22 pad=0px
+     Btn: "Action Item" h=30 pad=5px 12px
+     Btn: "Which documents are expiring this quarte" h=22 pad=3px 8px
+     Btn: "Find missing deliverables in the DRL" h=22 pad=3px 8px
+     Btn: "Cross-reference CDRLs against contract r" h=22 pad=3px 8px
+     Btn: "Generate a document status dashboard" h=22 pad=3px 8px
+     Btn: "Add Document" h=39 pad=8px 16px
+     Btn: "Analyze Revision" h=39 pad=8px 16px
+     Btn: "Export Library" h=43 pad=10px 20px
+     Btn: "Anchor" h=39 pad=8px 16px
+     Btn: "All" h=34 pad=6px 12px
+     Btn: "Acquisition" h=34 pad=6px 12px
+     Btn: "Configuration" h=34 pad=6px 12px
+     Btn: "Cost Analysis" h=34 pad=6px 12px
+     Btn: "Cybersecurity" h=34 pad=6px 12px
+     Btn: "DMSMS" h=34 pad=6px 12px
+     Btn: "Engineering" h=34 pad=6px 12px
+     Btn: "ILS" h=34 pad=6px 12px
+     Btn: "Maintenance" h=34 pad=6px 12px
+     Btn: "Ordnance" h=34 pad=6px 12px
+     Btn: "Program Mgmt" h=34 pad=6px 12px
+     Btn: "Quality" h=34 pad=6px 12px
+     Btn: "Readiness" h=34 pad=6px 12px
+     Btn: "Safety" h=34 pad=6px 12px
+     Btn: "Security" h=34 pad=6px 12px
+     Btn: "Supply" h=34 pad=6px 12px
+     Btn: "Technical Data" h=34 pad=6px 12px
+     Btn: "Testing" h=34 pad=6px 12px
+9. [hub-docs] Code leaks found
+     Leak: "Maintenance"
+     Leak: "Ordnance"
+     Leak: "Provides standard for performing level of repair analysis (LORA) to determine optimal maintenance le"
+     Leak: "Reliability-Centered Maintenance (RCM)"
+     Leak: "Requirements for implementing reliability-centered maintenance for military systems."
+     Leak: "Methods for predicting maintainability metrics including MTTR and maintenance man-hours."
+     Leak: "Ships Maintenance and Material Management (3-M)"
+     Leak: "Governs the Navy 3-M system for planned maintenance, corrective maintenance, material condition docu"
+     Leak: "Maintenance"
+     Leak: "NAMP — Naval Aviation Maintenance Program"
+     Leak: "Master Standard for all naval aviation maintenance policies, procedures, and responsibilities."
+     Leak: "Maintenance"
+     Leak: "Maintenance Policy for Navy Ships"
+     Leak: "Establishes policy for depot-level maintenance planning and execution for Navy ships."
+     Leak: "Maintenance"
+     Leak: "Condition Based Maintenance Plus (CBM+)"
+     Leak: "Policy for implementing CBM+ to optimize maintenance through condition monitoring and predictive ana"
+     Leak: "Maintenance"
+     Leak: "Naval Ships Technical Manual — general engineering standards and procedures for ship maintenance."
+     Leak: "Maintenance"
+     Leak: "Maintenance"
+     Leak: "Ordnance"
+     Leak: "Navy Supply Financial Management"
+     Leak: "Financial management procedures for Navy supply activities."
+     Leak: "Maintenance Planning (ILS Element)"
+     Leak: "DAG guidance on maintenance concept development, LORA, and maintenance task analysis."
+10. [hub-docs] Missing action lightning bolt
+11. [hub-risk] Code leaks found
+     Leak: "• Financial distress signal"
+     Leak: "• Financial distress signal"
+12. [hub-predictive] 4 different button heights: [22,30,44,60]
+     Btn: "?" h=22 pad=0px
+     Btn: "Action Item" h=30 pad=5px 12px
+     Btn: "Predict next failure for top 10 LRUs" h=22 pad=3px 8px
+     Btn: "What maintenance can I defer safely?" h=22 pad=3px 8px
+     Btn: "Calculate cost savings from CBM+ adoptio" h=22 pad=3px 8px
+     Btn: "Generate a PdM implementation timeline" h=22 pad=3px 8px
+     Btn: "Run Predictions" h=60 pad=10px 24px
+     Btn: "Export Report" h=60 pad=10px 20px
+     Btn: "Anchor to Ledger" h=44 pad=10px 20px
+13. [hub-predictive] Code leaks found
+     Leak: "Predictive Maintenance AI"
+     Leak: "AI Quick Prompts — Predictive Maintenance"
+     Leak: "What maintenance can I defer safely?"
+14. [hub-submissions] Code leaks found
+     Leak: "Maintenance Plan Update"
+15. [hub-sbom] 4 different button heights: [22,30,44,60]
+     Btn: "?" h=22 pad=0px
+     Btn: "Action Item" h=30 pad=5px 12px
+     Btn: "Scan my BOM for single-source parts" h=22 pad=3px 8px
+     Btn: "Identify components with long lead times" h=22 pad=3px 8px
+     Btn: "Check SBOM against known vulnerabilities" h=22 pad=3px 8px
+     Btn: "Generate a BOM health report" h=22 pad=3px 8px
+     Btn: "Scan Components" h=60 pad=8px 16px
+     Btn: "Export SBOM" h=60 pad=10px 20px
+     Btn: "Anchor SBOM to Ledger" h=44 pad=10px 20px
+16. [hub-acquisition] 6 different button heights: [22,30,39,43,44,45]
+     Btn: "?" h=22 pad=0px
+     Btn: "Action Item" h=30 pad=5px 12px
+     Btn: "Add Vessel" h=39 pad=8px 16px
+     Btn: "Import Registry" h=39 pad=8px 16px
+     Btn: "Import CSV" h=39 pad=8px 16px
+     Btn: "Summary" h=39 pad=8px 16px
+     Btn: "Gantt Chart" h=39 pad=8px 16px
+     Btn: "Grid" h=39 pad=8px 16px
+     Btn: "Export CSV" h=43 pad=10px 20px
+     Btn: "Export Excel" h=43 pad=10px 20px
+     Btn: "Print Report" h=39 pad=8px 16px
+     Btn: "Audit Log" h=39 pad=8px 16px
+     Btn: "Anchor to Ledger" h=44 pad=10px 20px
+     Btn: "Draft" h=45 pad=8px 16px
+     Btn: "Submitted" h=45 pad=10px 20px
+     Btn: "Under Review" h=45 pad=8px 16px
+     Btn: "Approved" h=45 pad=8px 16px
+     Btn: "In Execution" h=45 pad=8px 16px
+     Btn: "Complete" h=45 pad=8px 16px
+     Btn: "Summarize Plan" h=39 pad=8px 16px
+     Btn: "Unfunded Vessels" h=39 pad=8px 16px
+     Btn: "Critical Condition" h=39 pad=8px 16px
+     Btn: "Overdue ROH" h=39 pad=8px 16px
+     Btn: "POM Brief" h=39 pad=8px 16px
+     Btn: "5-Year Cost" h=39 pad=8px 16px
+17. [hub-acquisition] Code leaks found
+     Leak: "The agent can cross-reference your acquisition data with lifecycle cost, readiness, and predictive m"
+18. [hub-acquisition] Missing action lightning bolt
+19. [hub-milestones] 5 different button heights: [22,30,39,43,44]
+     Btn: "?" h=22 pad=0px
+     Btn: "Action Item" h=30 pad=5px 12px
+     Btn: "Add Milestone" h=39 pad=8px 16px
+     Btn: "Vessel Types" h=39 pad=8px 16px
+     Btn: "Import CSV" h=39 pad=8px 16px
+     Btn: "Upload Brief" h=39 pad=8px 16px
+     Btn: "Gantt Chart" h=39 pad=8px 16px
+     Btn: "Grid" h=39 pad=8px 16px
+     Btn: "Export CSV" h=43 pad=10px 20px
+     Btn: "Export Excel" h=43 pad=10px 20px
+     Btn: "Print Report" h=39 pad=8px 16px
+     Btn: "Audit Log" h=39 pad=8px 16px
+     Btn: "Anchor to Ledger" h=44 pad=10px 20px
+     Btn: "On Track" h=43 pad=8px 16px
+     Btn: "At Risk" h=43 pad=8px 16px
+     Btn: "Delayed" h=43 pad=10px 20px
+     Btn: "Complete" h=43 pad=8px 16px
+     Btn: "Cancelled" h=43 pad=8px 16px
+     Btn: "Milestone Summary" h=39 pad=8px 16px
+     Btn: "Delayed Vessels" h=39 pad=8px 16px
+     Btn: "OWLD Risk" h=39 pad=8px 16px
+     Btn: "Upcoming Trials" h=39 pad=8px 16px
+     Btn: "Status Brief" h=39 pad=8px 16px
+     Btn: "Delivery Variance" h=39 pad=8px 16px
+20. [hub-milestones] Missing action lightning bolt
+
+Total issues: 20
+Screenshots saved to: /Users/nickfrankfort/Desktop/s4ledger-real/s4ledger/_audit_shots
+
+AUDIT COMPLETE

@@ -999,6 +999,31 @@ function hideAnchorAnimation() {
     document.getElementById('anchorOverlay').style.display = 'none';
 }
 
+// ═══ GENERIC ANCHOR-TO-LEDGER (for tools that use anchorToLedger(tool, label)) ═══
+async function anchorToLedger(toolName, label) {
+    // Gather a summary snapshot of the tool's visible content
+    var panel = document.getElementById('hub-' + toolName);
+    var content = label || (toolName + ' snapshot');
+    if (panel) {
+        var text = panel.innerText || '';
+        content = text.substring(0, 500);
+    }
+    var hash = await sha256(content);
+    showAnchorAnimation(hash, label || (toolName + ' anchored'), 'CUI');
+    var result = await _anchorToXRPL(hash, toolName.toUpperCase() + '_SNAPSHOT', content.substring(0, 100));
+    stats.anchored++; stats.types.add(toolName.toUpperCase()); stats.slsFees = Math.round((stats.slsFees + 0.01) * 100) / 100; updateStats(); saveStats();
+    sessionRecords.push({hash: hash, type: toolName.toUpperCase() + '_SNAPSHOT', branch: 'JOINT', timestamp: new Date().toISOString(), label: label || (toolName + ' anchored'), txHash: result.txHash});
+    saveLocalRecord({hash: hash, record_type: toolName.toUpperCase() + '_SNAPSHOT', record_label: label || (toolName + ' anchored'), branch: 'JOINT', timestamp: new Date().toISOString(), timestamp_display: new Date().toISOString().replace('T',' ').substring(0,19)+' UTC', fee: 0.01, tx_hash: result.txHash, system: toolName, explorer_url: result.explorerUrl, network: result.network});
+    updateTxLog();
+    addToVault({hash: hash, txHash: result.txHash, type: toolName.toUpperCase() + '_SNAPSHOT', label: label || (toolName + ' anchored'), branch: 'JOINT', icon: '<i class="fas fa-anchor"></i>', content: content.substring(0, 100), encrypted: false, timestamp: new Date().toISOString(), source: toolName, fee: 0.01, explorerUrl: result.explorerUrl, network: result.network});
+    if (typeof _updateSlsBalance === 'function') _updateSlsBalance();
+    if (typeof window.loadPerformanceMetrics === 'function') try { window.loadPerformanceMetrics(); } catch(e) {}
+    if (typeof refreshVerifyRecents === 'function') try { refreshVerifyRecents(); } catch(e) {}
+    setTimeout(function(){ document.getElementById('animStatus').innerHTML = '<i class="fas fa-check-circle" style="color:var(--accent)"></i> ' + (label || toolName + ' anchored') + '!'; }, 2200);
+    await new Promise(function(r){ setTimeout(r, 3500); });
+    hideAnchorAnimation();
+}
+
 
 async function _anchorToXRPL(hash, record_type, content_preview) {
     let txHash = null;
@@ -1230,7 +1255,7 @@ function loadRecordToVerify(idx) {
     }
     // Scroll to the verify form after tab switch
     setTimeout(function() {
-        var verifyCard = document.querySelector('#tabVerify .s4-card');
+        var verifyCard = document.querySelector('#tabAnchor .s4-card');
         if (verifyCard) verifyCard.scrollIntoView({behavior:'smooth', block:'start'});
     }, 150);
     // Show notification
@@ -1240,7 +1265,7 @@ function loadRecordToVerify(idx) {
 
 // Refresh on tab switch to Verify
 document.addEventListener('shown.bs.tab', function(e) {
-    if (e.target && (e.target.getAttribute('href') === '#tabVerify' || e.target.getAttribute('data-bs-target') === '#tabVerify')) {
+    if (e.target && (e.target.getAttribute('href') === '#tabAnchor' || e.target.getAttribute('data-bs-target') === '#tabAnchor')) {
         if (typeof refreshVerifyRecents === 'function') refreshVerifyRecents();
     }
 });
@@ -8872,6 +8897,7 @@ window.refreshVerifyRecents = refreshVerifyRecents;
 window._vaultKey = _vaultKey;
 window.getLocalRecords = getLocalRecords;
 window._anchorToXRPL = _anchorToXRPL;
+window.anchorToLedger = anchorToLedger;
 window.showAnchorAnimation = showAnchorAnimation;
 window.hideAnchorAnimation = hideAnchorAnimation;
 window.updateStats = updateStats;

@@ -3013,7 +3013,7 @@ details:not([style*="display:none"]) > *:not(summary){color:#444;font-size:0.84r
 }
 .ils-hub-panel details:not([style*="display:none"]) summary::-webkit-details-marker{display:none!important}
 .ils-hub-panel details:not([style*="display:none"]) summary::before{
-    content:'\\f054'!important;
+    content:'\f054'!important;
     font-family:'Font Awesome 6 Free'!important;
     font-weight:900!important;
     font-size:0.65rem!important;
@@ -4627,7 +4627,7 @@ body.light-mode .s4-command-palette input{color:#1d1d1f!important;border-color:r
 body.light-mode .s4-command-palette input::placeholder{color:rgba(0,0,0,0.35)!important}
 body.light-mode .s4-command-item{color:#1d1d1f!important}
 body.light-mode .s4-command-item:hover,body.light-mode .s4-command-item.active{background:rgba(0,113,227,0.06)!important}
-body.light-mode .s4-quick-fab{background:#fff!important;border-color:rgba(0,0,0,0.12)!important;box-shadow:0 4px 16px rgba(0,0,0,0.12)!important;color:#0071e3!important}
+body.light-mode .s4-quick-fab{background:transparent!important;border-color:rgba(0,0,0,0.12)!important;box-shadow:0 4px 16px rgba(0,0,0,0.12)!important;color:#0071e3!important}
 body.light-mode .s4-quick-fab:hover{background:#f5f5f7!important;border-color:rgba(0,113,227,0.3)!important}
 
 /* ─── R13-O: Session lock / consent / login light mode ─── */

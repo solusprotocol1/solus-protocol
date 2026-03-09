@@ -1011,7 +1011,7 @@
                                     <button class="ai-quick-btn" onclick="toggleActionTimeline()" id="timelineToggleBtn" title="Timeline View"><i class="fas fa-stream"></i> Timeline</button>
                                     <button class="ai-quick-btn" onclick="smartPrioritizeActions()" title="AI Smart Priority Sort"><i class="fas fa-wand-magic-sparkles"></i> Smart Sort</button>
                                     <button class="ai-quick-btn" onclick="exportActionItems()"><i class="fas fa-download"></i> Export CSV</button>
-                                    <button class="ai-quick-btn" onclick="anchorToLedger('actions','Action Items snapshot anchored')"><i class="fas fa-anchor"></i> Anchor</button>
+                                    <button class="ai-quick-btn" onclick="anchorToLedger('actions','Action Items snapshot anchored')"><i class="fas fa-anchor"></i> Anchor to Ledger</button>
                                     <button class="ai-quick-btn" onclick="clearCompletedActions()"><i class="fas fa-broom"></i> Clear Done</button>
                                 </div>
                                 <!-- Bulk Action Bar -->
@@ -1125,11 +1125,11 @@
                                 <div><label>MLDT (hrs)</label><input type="number" id="inputMLDT" class="form-control" placeholder="24" oninput="calcReadiness()"></div>
                         </div>
                         <div id="readinessOutput" style="margin-top:1rem"></div>
-                        <div class="row mt-3">
-                            <div class="col-md-3 col-6 mb-2"><div class="stat-mini"><div class="stat-mini-val" id="statAo" style="color:#00aaff">—</div><div class="stat-mini-label">Ao (Operational Avail.)</div></div></div>
-                            <div class="col-md-3 col-6 mb-2"><div class="stat-mini"><div class="stat-mini-val" id="statAi">—</div><div class="stat-mini-label">Ai (Inherent Avail.)</div></div></div>
-                            <div class="col-md-3 col-6 mb-2"><div class="stat-mini"><div class="stat-mini-val" id="statFailRate">—</div><div class="stat-mini-label">Failure Rate (λ)</div></div></div>
-                            <div class="col-md-3 col-6 mb-2"><div class="stat-mini"><div class="stat-mini-val" id="statMissReady">—</div><div class="stat-mini-label">Mission Readiness</div></div></div>
+                        <div id="readinessStatRow" class="row mt-2" style="display:none">
+                            <div class="col-md-3 col-6 mb-2"><div class="stat-mini" style="padding:6px 8px"><div class="stat-mini-val" id="statAo" style="color:#00aaff">—</div><div class="stat-mini-label">Ao (Operational Avail.)</div></div></div>
+                            <div class="col-md-3 col-6 mb-2"><div class="stat-mini" style="padding:6px 8px"><div class="stat-mini-val" id="statAi">—</div><div class="stat-mini-label">Ai (Inherent Avail.)</div></div></div>
+                            <div class="col-md-3 col-6 mb-2"><div class="stat-mini" style="padding:6px 8px"><div class="stat-mini-val" id="statFailRate">—</div><div class="stat-mini-label">Failure Rate (λ)</div></div></div>
+                            <div class="col-md-3 col-6 mb-2"><div class="stat-mini" style="padding:6px 8px"><div class="stat-mini-val" id="statMissReady">—</div><div class="stat-mini-label">Mission Readiness</div></div></div>
                         </div>
                         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:1rem">
                             <button onclick="exportReadiness()" class="btn btn-sm" style="background:linear-gradient(135deg,#0071e3,#00aaff);color:#fff;border:none;border-radius:3px;padding:8px 16px;"><i class="fas fa-download"></i> Export RAM Report</button>
@@ -1154,11 +1154,11 @@
                                 <div><label>S4 Annual License ($)</label><input type="number" id="roiLicense" class="form-control" placeholder="120000" value="120000" oninput="calcROI()"></div>
                         </div>
                         <div id="roiOutput" style="margin-top:1rem"></div>
-                        <div class="row mt-3">
-                            <div class="col-md-3 col-6 mb-2"><div class="stat-mini"><div class="stat-mini-val" id="roiSavings" style="color:#00aaff">—</div><div class="stat-mini-label">Annual Savings</div></div></div>
-                            <div class="col-md-3 col-6 mb-2"><div class="stat-mini"><div class="stat-mini-val" id="roiPercent">—</div><div class="stat-mini-label">ROI %</div></div></div>
-                            <div class="col-md-3 col-6 mb-2"><div class="stat-mini"><div class="stat-mini-val" id="roiPayback" style="color:#00aaff">—</div><div class="stat-mini-label">Payback Period</div></div></div>
-                            <div class="col-md-3 col-6 mb-2"><div class="stat-mini"><div class="stat-mini-val" id="roi5Year" style="color:#00aaff">—</div><div class="stat-mini-label">5-Year Net Savings</div></div></div>
+                        <div id="roiStatRow" class="row mt-2" style="display:none">
+                            <div class="col-md-3 col-6 mb-2"><div class="stat-mini" style="padding:6px 8px"><div class="stat-mini-val" id="roiSavings" style="color:#00aaff">—</div><div class="stat-mini-label">Annual Savings</div></div></div>
+                            <div class="col-md-3 col-6 mb-2"><div class="stat-mini" style="padding:6px 8px"><div class="stat-mini-val" id="roiPercent">—</div><div class="stat-mini-label">ROI %</div></div></div>
+                            <div class="col-md-3 col-6 mb-2"><div class="stat-mini" style="padding:6px 8px"><div class="stat-mini-val" id="roiPayback" style="color:#00aaff">—</div><div class="stat-mini-label">Payback Period</div></div></div>
+                            <div class="col-md-3 col-6 mb-2"><div class="stat-mini" style="padding:6px 8px"><div class="stat-mini-val" id="roi5Year" style="color:#00aaff">—</div><div class="stat-mini-label">5-Year Net Savings</div></div></div>
                         </div>
                         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:1rem">
                             <button onclick="exportROI()" class="btn btn-sm" style="background:linear-gradient(135deg,#0071e3,#00aaff);color:#fff;border:none;border-radius:3px;padding:8px 16px;"><i class="fas fa-download"></i> Export ROI Report</button>
@@ -1182,11 +1182,11 @@
                                 <div><label>Sustainment Rate (%)</label><input type="number" id="lcSustRate" class="form-control" placeholder="8" value="8" oninput="calcLifecycle()" step="0.1"></div>
                         </div>
                         <div id="lifecycleOutput" style="margin-top:1rem"></div>
-                        <div class="row mt-3">
-                            <div class="col-md-3 col-6 mb-2"><div class="stat-mini"><div class="stat-mini-val" id="lcTotalCost" style="color:#00aaff">—</div><div class="stat-mini-label">Total Ownership Cost</div></div></div>
-                            <div class="col-md-3 col-6 mb-2"><div class="stat-mini"><div class="stat-mini-val" id="lcSustCost" style="color:#00aaff">—</div><div class="stat-mini-label">Sustainment (O&S)</div></div></div>
-                            <div class="col-md-3 col-6 mb-2"><div class="stat-mini"><div class="stat-mini-val" id="lcDmsmsCost" style="color:#ff3333">—</div><div class="stat-mini-label">DMSMS/Obsol. Cost</div></div></div>
-                            <div class="col-md-3 col-6 mb-2"><div class="stat-mini"><div class="stat-mini-val" id="lcCostPerHr" style="color:#00aaff">—</div><div class="stat-mini-label">Cost per Op Hour</div></div></div>
+                        <div id="lifecycleStatRow" class="row mt-2" style="display:none">
+                            <div class="col-md-3 col-6 mb-2"><div class="stat-mini" style="padding:6px 8px"><div class="stat-mini-val" id="lcTotalCost" style="color:#00aaff">—</div><div class="stat-mini-label">Total Ownership Cost</div></div></div>
+                            <div class="col-md-3 col-6 mb-2"><div class="stat-mini" style="padding:6px 8px"><div class="stat-mini-val" id="lcSustCost" style="color:#00aaff">—</div><div class="stat-mini-label">Sustainment (O&S)</div></div></div>
+                            <div class="col-md-3 col-6 mb-2"><div class="stat-mini" style="padding:6px 8px"><div class="stat-mini-val" id="lcDmsmsCost" style="color:#ff3333">—</div><div class="stat-mini-label">DMSMS/Obsol. Cost</div></div></div>
+                            <div class="col-md-3 col-6 mb-2"><div class="stat-mini" style="padding:6px 8px"><div class="stat-mini-val" id="lcCostPerHr" style="color:#00aaff">—</div><div class="stat-mini-label">Cost per Op Hour</div></div></div>
                         </div>
                         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:1rem">
                             <button onclick="exportLifecycle()" class="btn btn-sm" style="background:linear-gradient(135deg,#0071e3,#00aaff);color:#fff;border:none;border-radius:3px;padding:8px 16px;"><i class="fas fa-download"></i> Export Lifecycle Report</button>
@@ -1206,7 +1206,7 @@
                             <select id="digitalThreadRecordSelect" aria-label="Select digital thread record" onchange="showDigitalThreadFromSelect()" style="background:#fff;color:#1d1d1f;border:1px solid rgba(155,89,182,0.3);border-radius:6px;padding:3px 8px;font-size:0.7rem;max-width:180px;">
                                 <option value="">— Select record —</option>
                             </select>
-                            <button onclick="closeDigitalThread()" style="background:rgba(155,89,182,0.1);border:1px solid rgba(155,89,182,0.2);color:#9b59b6;cursor:pointer;font-size:0.68rem;width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;padding:0;border-radius:4px;transition:all 0.2s;line-height:1;" title="Close Digital Thread"><i class="fas fa-times"></i></button>
+                            <button onclick="closeDigitalThread()" style="background:rgba(155,89,182,0.1);border:1px solid rgba(155,89,182,0.2);color:#9b59b6;cursor:pointer;font-size:0.68rem;width:26px;height:26px;display:inline-flex;align-items:center;justify-content:center;padding:0;border-radius:6px;transition:all 0.2s;line-height:1;" title="Close Digital Thread"><i class="fas fa-times"></i></button>
                         </div>
                     </div>
                     <div id="digitalThreadContent" style="font-size:0.8rem;"></div>
@@ -1343,7 +1343,7 @@
                         <button onclick="showDocUpload()" class="ai-quick-btn" style="background:rgba(0,170,255,0.2);border-color:var(--accent);font-weight:700"><i class="fas fa-plus"></i> Add Document</button>
                         <button onclick="showDocVersionUpload()" class="ai-quick-btn"><i class="fas fa-brain"></i> Analyze Revision</button>
                         <button onclick="exportDocLibrary()" class="ai-quick-btn"><i class="fas fa-download"></i> Export Library</button>
-                        <button onclick="anchorToLedger('docs','Document library anchored')" class="ai-quick-btn"><i class="fas fa-anchor"></i> Anchor</button>
+                        <button onclick="anchorToLedger('docs','Document library anchored')" class="ai-quick-btn"><i class="fas fa-anchor"></i> Anchor to Ledger</button>
                         <select id="docBranchFilter" aria-label="Filter documents by branch" class="form-select" style="width:auto" onchange="renderDocLibrary()">
                             <option value="all">All Branches</option>
                             <option value="USN">U.S. Navy</option>
@@ -2410,7 +2410,7 @@
                             <div style="display:flex;gap:6px">
                                 <button onclick="exportAnalyticsReport()" class="btn btn-sm" style="background:rgba(0,170,255,0.1);color:#00aaff;border:1px solid rgba(0,170,255,0.3);border-radius:3px;padding:6px 12px;font-size:.78rem;flex:1"><i class="fas fa-file-pdf"></i> PDF</button>
                                 <button onclick="exportAnalyticsCSV()" class="btn btn-sm" style="background:rgba(0,170,255,0.1);color:#00aaff;border:1px solid rgba(0,170,255,0.3);border-radius:3px;padding:6px 12px;font-size:.78rem;flex:1"><i class="fas fa-file-csv"></i> CSV</button>
-                                <button onclick="anchorToLedger('analytics','Cross-program analytics anchored')" class="btn btn-sm" style="background:rgba(201,168,76,0.08);color:#c9a84c;border:1px solid rgba(201,168,76,0.3);border-radius:3px;padding:6px 12px;font-size:.78rem;flex:1"><i class="fas fa-anchor"></i> Anchor</button>
+                                <button onclick="anchorToLedger('analytics','Cross-program analytics anchored')" class="btn btn-sm" style="background:rgba(201,168,76,0.08);color:#c9a84c;border:1px solid rgba(201,168,76,0.3);border-radius:3px;padding:6px 12px;font-size:.78rem;flex:1"><i class="fas fa-anchor"></i> Anchor to Ledger</button>
                             </div>
                         </div>
                     </div>

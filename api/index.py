@@ -1168,7 +1168,12 @@ def _provision_wallet(email, plan="starter"):
     Treasury funds the wallet with XRP (activation reserve, business expense),
     sets up SLS TrustLine, and delivers the plan's SLS allocation.
     Wallet seed is stored in Supabase for custodial anchor fee signing.
+    SAFETY: Only called after verified Stripe payment. Never call directly.
     Returns wallet credentials and SLS delivery status, or error."""
+    # Guard: require Stripe to be configured before creating real wallets
+    if not STRIPE_SECRET_KEY:
+        print("BLOCKED: _provision_wallet called without Stripe configured — refusing to create real wallet")
+        return {"error": "Wallet provisioning blocked — Stripe not configured"}
     _init_xrpl()
     if not _xrpl_client or not _xrpl_treasury_wallet or not XRPL_AVAILABLE:
         return None
@@ -3122,6 +3127,11 @@ class handler(BaseHTTPRequestHandler):
 
         elif route == "wallet_provision":
             self._log_request("wallet-provision")
+            # SAFETY: Wallet provisioning requires verified Stripe payment.
+            # Do NOT create real XRPL wallets without Stripe confirmation.
+            if not STRIPE_SECRET_KEY:
+                self._send_json({"error": "Wallet provisioning disabled — Stripe is not configured. No real wallets will be created.", "stripe_required": True}, 503)
+                return
             # Provision a new XRPL wallet: Treasury funds XRP + delivers SLS allocation
             email = data.get("email", "")
             organization = data.get("organization", "")
