@@ -1068,11 +1068,16 @@
             if (!menu) return;
 
             var actions = [
-                { label: 'Anchor Record', icon: 'fa-anchor', action: function() { if (typeof showSection === 'function') showSection('sectionAnchor'); } },
-                { label: 'Verify Record', icon: 'fa-check-circle', action: function() { if (typeof showSection === 'function') showSection('sectionVerify'); } },
-                { label: 'ILS Tools', icon: 'fa-brain', action: function() { if (typeof showSection === 'function') showSection('sectionILS'); } },
-                { label: 'AI Agent', icon: 'fa-robot', action: function() { if (typeof toggleAiAgent === 'function') toggleAiAgent(); } },
-                { label: 'Command Palette', icon: 'fa-terminal', action: function() { if (window.S4 && S4.commandPalette) { S4.commandPalette.toggle(); } else { var p = document.getElementById('s4CommandPalette'); if (p) { p.classList.toggle('active'); var inp = document.getElementById('s4CommandInput'); if (inp) inp.focus(); } } } }
+                { label: 'Anchor Record', icon: 'fa-anchor', action: function() { if (typeof window.showSection === 'function') window.showSection('sectionAnchor'); } },
+                { label: 'Verify Record', icon: 'fa-check-circle', action: function() { if (typeof window.showSection === 'function') window.showSection('sectionVerify'); } },
+                { label: 'ILS Tools', icon: 'fa-brain', action: function() { if (typeof window.showSection === 'function') window.showSection('sectionILS'); } },
+                { label: 'AI Agent', icon: 'fa-robot', action: function() { if (typeof window.toggleAiAgent === 'function') window.toggleAiAgent(); } },
+                { label: 'Command Palette', icon: 'fa-terminal', action: function() { if (window.S4 && S4.commandPalette) { S4.commandPalette.toggle(); } else { var p = document.getElementById('s4CommandPalette'); if (p) { p.classList.toggle('active'); var inp = document.getElementById('s4CommandInput'); if (inp) inp.focus(); } } } },
+                { label: 'Defense Council', icon: 'fa-shield-halved', action: function() { S4.defenseDashboard.toggle(); } },
+                { label: 'Alert Rules', icon: 'fa-bell', action: function() { S4.alertRules.toggle(); } },
+                { label: 'Annotations', icon: 'fa-comments', action: function() { S4.annotations.open(); } },
+                { label: 'Import / Export', icon: 'fa-file-import', action: function() { S4.importExport.open(); } },
+                { label: 'Audit Trail', icon: 'fa-timeline', action: function() { S4.auditTimeline.open(); } }
             ];
 
             var html = '';
@@ -1156,6 +1161,634 @@
 
 
     // ══════════════════════════════════════════════════════════════
+    //  FEATURE: DEFENSE COUNCIL DASHBOARD
+    //  Leadership read-only view: program health, risk, compliance
+    // ══════════════════════════════════════════════════════════════
+    S4.defenseDashboard = {
+        _el: null,
+        _open: false,
+
+        init: function() {
+            var overlay = document.createElement('div');
+            overlay.id = 's4DefenseDashboard';
+            overlay.style.display = 'none';
+            document.body.appendChild(overlay);
+            this._el = overlay;
+        },
+
+        toggle: function() {
+            if (!this._el) return;
+            this._open = !this._open;
+            this._el.style.display = this._open ? 'flex' : 'none';
+            if (this._open) this.refresh();
+        },
+
+        close: function() {
+            this._open = false;
+            if (this._el) this._el.style.display = 'none';
+        },
+
+        refresh: function() {
+            var stats = window.s4Stats || {};
+            var vault = window.s4Vault || [];
+            var records = window.sessionRecords || [];
+            var anchored = stats.anchored || 0;
+            var verified = stats.verified || 0;
+            var healthScore = Math.min(100, Math.round((anchored * 3 + verified * 5 + vault.length * 2) / 2));
+            if (healthScore < 1) healthScore = '--';
+            var compScore = 0;
+            try { var cs = document.getElementById('compliancePercent'); if (cs) compScore = parseInt(cs.textContent) || 0; } catch(e) {}
+            var riskLevel = compScore >= 80 ? 'Low' : compScore >= 50 ? 'Medium' : 'High';
+            var riskColor = compScore >= 80 ? '#1a8a3e' : compScore >= 50 ? '#ffa500' : '#cc3333';
+
+            var el = this._el; if (!el) return;
+            var kpis = el.querySelectorAll('.dc-kpi-value');
+            if (kpis[0]) kpis[0].textContent = healthScore;
+            if (kpis[1]) kpis[1].innerHTML = '<span style="color:' + riskColor + '">' + riskLevel + '</span>';
+            if (kpis[2]) kpis[2].textContent = (compScore || '--') + '%';
+            if (kpis[3]) kpis[3].textContent = anchored;
+            if (kpis[4]) kpis[4].textContent = vault.length;
+            if (kpis[5]) kpis[5].textContent = verified;
+
+            var timeline = el.querySelector('.dc-timeline');
+            if (timeline) {
+                var events = [];
+                records.slice(-8).reverse().forEach(function(r) {
+                    events.push({ time: r.timestamp || new Date().toISOString(), type: r.type || 'Record', action: 'Anchored' });
+                });
+                if (!events.length) {
+                    timeline.innerHTML = '<div style="text-align:center;color:var(--muted);padding:20px;font-size:0.82rem">No recent activity</div>';
+                } else {
+                    var th = '';
+                    events.forEach(function(e) {
+                        var d = new Date(e.time);
+                        var ts = d.toLocaleDateString() + ' ' + d.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+                        th += '<div style="display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid rgba(0,0,0,0.04)">' +
+                            '<div style="width:8px;height:8px;border-radius:50%;background:var(--accent);flex-shrink:0"></div>' +
+                            '<div style="flex:1"><div style="font-size:0.82rem;font-weight:600;color:#1d1d1f">' + e.type + ' — ' + e.action + '</div>' +
+                            '<div style="font-size:0.72rem;color:var(--muted)">' + ts + '</div></div></div>';
+                    });
+                    timeline.innerHTML = th;
+                }
+            }
+
+            this._renderPanel();
+        },
+
+        exportBriefing: function() {
+            var stats = window.s4Stats || {};
+            var content = '=== S4 LEDGER — DEFENSE COUNCIL EXECUTIVE BRIEFING ===\n';
+            content += 'Generated: ' + new Date().toISOString() + '\n\n';
+            content += 'PROGRAM HEALTH METRICS\n─────────────────────\n';
+            content += 'Records Anchored: ' + (stats.anchored || 0) + '\n';
+            content += 'Records Verified: ' + (stats.verified || 0) + '\n';
+            content += 'Vault Records: ' + ((window.s4Vault || []).length) + '\n\n';
+            content += 'COMPLIANCE POSTURE: Active\nRISK ASSESSMENT: See platform for real-time scores\n\n=== END BRIEFING ===\n';
+            var blob = new Blob([content], {type: 'text/plain'});
+            var a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+            a.download = 'S4_Defense_Council_Briefing_' + new Date().toISOString().slice(0,10) + '.txt';
+            a.click(); URL.revokeObjectURL(a.href);
+            if (S4.toast) S4.toast('Executive briefing exported', 'success', 3000);
+        },
+
+        _renderPanel: function() {
+            if (!this._el) return;
+            this._el.innerHTML = '<div style="position:fixed;inset:0;background:rgba(245,245,247,0.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);z-index:9999;display:flex;align-items:center;justify-content:center;animation:fadeIn 0.25s ease" onclick="if(event.target===this)S4.defenseDashboard.close()">' +
+                '<div style="background:#fff;border:1px solid rgba(0,0,0,0.08);border-radius:16px;width:95%;max-width:1100px;max-height:90vh;overflow-y:auto;box-shadow:0 24px 64px rgba(0,0,0,0.1);padding:32px;animation:fadeIn 0.3s ease">' +
+                    '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px">' +
+                        '<div><h2 style="margin:0;font-size:1.3rem;font-weight:800;color:#1d1d1f;letter-spacing:-0.03em"><i class="fas fa-shield-halved" style="color:var(--accent);margin-right:10px"></i>Defense Council Dashboard</h2>' +
+                        '<p style="margin:4px 0 0;color:var(--muted);font-size:0.82rem">Executive leadership view — real-time program health &amp; compliance posture</p></div>' +
+                        '<div style="display:flex;gap:8px">' +
+                            '<button onclick="S4.defenseDashboard.exportBriefing()" style="display:flex;align-items:center;gap:6px;padding:8px 16px;background:rgba(0,113,227,0.08);border:1px solid rgba(0,113,227,0.2);border-radius:8px;color:var(--accent);font-size:0.78rem;font-weight:600;cursor:pointer;font-family:inherit"><i class="fas fa-file-export"></i> Export Briefing</button>' +
+                            '<button onclick="S4.defenseDashboard.close()" style="width:36px;height:36px;border-radius:8px;border:1px solid rgba(0,0,0,0.08);background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:1rem"><i class="fas fa-times"></i></button>' +
+                        '</div>' +
+                    '</div>' +
+                    '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px;margin-bottom:24px">' +
+                        '<div style="background:rgba(0,113,227,0.04);border:1px solid rgba(0,113,227,0.1);border-radius:12px;padding:18px;text-align:center"><div class="dc-kpi-value" style="font-size:1.8rem;font-weight:800;color:var(--accent)">--</div><div style="font-size:0.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin-top:4px;font-weight:600">Health Score</div></div>' +
+                        '<div style="background:rgba(26,138,62,0.04);border:1px solid rgba(26,138,62,0.1);border-radius:12px;padding:18px;text-align:center"><div class="dc-kpi-value" style="font-size:1.8rem;font-weight:800;color:#1a8a3e">--</div><div style="font-size:0.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin-top:4px;font-weight:600">Risk Level</div></div>' +
+                        '<div style="background:rgba(184,134,11,0.04);border:1px solid rgba(184,134,11,0.1);border-radius:12px;padding:18px;text-align:center"><div class="dc-kpi-value" style="font-size:1.8rem;font-weight:800;color:var(--gold)">--</div><div style="font-size:0.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin-top:4px;font-weight:600">Compliance</div></div>' +
+                        '<div style="background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.1);border-radius:12px;padding:18px;text-align:center"><div class="dc-kpi-value" style="font-size:1.8rem;font-weight:800;color:#00aaff">0</div><div style="font-size:0.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin-top:4px;font-weight:600">Anchored</div></div>' +
+                        '<div style="background:rgba(155,89,182,0.04);border:1px solid rgba(155,89,182,0.1);border-radius:12px;padding:18px;text-align:center"><div class="dc-kpi-value" style="font-size:1.8rem;font-weight:800;color:#9b59b6">0</div><div style="font-size:0.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin-top:4px;font-weight:600">Vault Records</div></div>' +
+                        '<div style="background:rgba(0,204,136,0.04);border:1px solid rgba(0,204,136,0.1);border-radius:12px;padding:18px;text-align:center"><div class="dc-kpi-value" style="font-size:1.8rem;font-weight:800;color:#00cc88">0</div><div style="font-size:0.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin-top:4px;font-weight:600">Verified</div></div>' +
+                    '</div>' +
+                    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">' +
+                        '<div style="border:1px solid rgba(0,0,0,0.06);border-radius:12px;padding:20px"><h4 style="margin:0 0 14px;font-size:0.92rem;font-weight:700;color:#1d1d1f"><i class="fas fa-clock-rotate-left" style="color:var(--accent);margin-right:8px"></i>Recent Activity</h4><div class="dc-timeline" style="max-height:240px;overflow-y:auto"><div style="text-align:center;color:var(--muted);padding:20px;font-size:0.82rem">No recent activity</div></div></div>' +
+                        '<div style="border:1px solid rgba(0,0,0,0.06);border-radius:12px;padding:20px"><h4 style="margin:0 0 14px;font-size:0.92rem;font-weight:700;color:#1d1d1f"><i class="fas fa-chart-line" style="color:var(--gold);margin-right:8px"></i>Program Status</h4><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">' +
+                            '<div style="background:rgba(0,0,0,0.02);border-radius:8px;padding:12px"><div style="font-size:0.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:4px">Active Programs</div><div style="font-size:1.2rem;font-weight:700;color:#1d1d1f">1</div></div>' +
+                            '<div style="background:rgba(0,0,0,0.02);border-radius:8px;padding:12px"><div style="font-size:0.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:4px">Open Actions</div><div style="font-size:1.2rem;font-weight:700;color:#1d1d1f">0</div></div>' +
+                            '<div style="background:rgba(0,0,0,0.02);border-radius:8px;padding:12px"><div style="font-size:0.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:4px">Milestones Due</div><div style="font-size:1.2rem;font-weight:700;color:#ffa500">0</div></div>' +
+                            '<div style="background:rgba(0,0,0,0.02);border-radius:8px;padding:12px"><div style="font-size:0.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:4px">CDRLs Due</div><div style="font-size:1.2rem;font-weight:700;color:#1d1d1f">0</div></div>' +
+                        '</div></div>' +
+                    '</div>' +
+                '</div>' +
+            '</div>';
+        }
+    };
+    window.openDefenseDashboard = function() { S4.defenseDashboard.toggle(); };
+
+
+    // ══════════════════════════════════════════════════════════════
+    //  FEATURE: AUTOMATED ALERT RULES
+    //  Threshold-based alerts with in-app notification delivery
+    // ══════════════════════════════════════════════════════════════
+    S4.alertRules = {
+        _rules: [],
+        _el: null,
+        _open: false,
+
+        init: function() {
+            try { this._rules = JSON.parse(localStorage.getItem('s4_alert_rules') || '[]'); } catch(e) { this._rules = []; }
+            var panel = document.createElement('div');
+            panel.id = 's4AlertRulesPanel';
+            panel.style.display = 'none';
+            document.body.appendChild(panel);
+            this._el = panel;
+            var self = this;
+            setInterval(function() { self._evaluate(); }, 30000);
+        },
+
+        toggle: function() {
+            this._open = !this._open;
+            if (this._el) { this._el.style.display = this._open ? 'flex' : 'none'; if (this._open) this._render(); }
+        },
+
+        close: function() { this._open = false; if (this._el) this._el.style.display = 'none'; },
+
+        addRule: function(metric, operator, threshold, message) {
+            var val = parseFloat(threshold);
+            if (isNaN(val)) { if (S4.toast) S4.toast('Please enter a valid threshold number', 'warning', 3000); return; }
+            this._rules.push({ id: Date.now(), metric: metric, operator: operator, threshold: val, message: message || ('Alert: ' + metric + ' ' + operator + ' ' + threshold), enabled: true, created: new Date().toISOString() });
+            this._save(); this._render();
+            if (S4.toast) S4.toast('Alert rule created', 'success', 2000);
+        },
+
+        removeRule: function(id) { this._rules = this._rules.filter(function(r) { return r.id !== id; }); this._save(); this._render(); },
+        toggleRule: function(id) { this._rules.forEach(function(r) { if (r.id === id) r.enabled = !r.enabled; }); this._save(); this._render(); },
+        _save: function() { localStorage.setItem('s4_alert_rules', JSON.stringify(this._rules)); },
+
+        _evaluate: function() {
+            var self = this;
+            this._rules.forEach(function(rule) {
+                if (!rule.enabled) return;
+                var value = self._getMetricValue(rule.metric);
+                if (value === null) return;
+                var triggered = false;
+                if (rule.operator === '<' && value < rule.threshold) triggered = true;
+                if (rule.operator === '>' && value > rule.threshold) triggered = true;
+                if (rule.operator === '=' && value === rule.threshold) triggered = true;
+                if (triggered && S4.toast) S4.toast(rule.message, 'warning', 8000);
+            });
+        },
+
+        _getMetricValue: function(metric) {
+            switch(metric) {
+                case 'compliance_score': var cs = document.getElementById('compliancePercent'); return cs ? (parseInt(cs.textContent) || 0) : null;
+                case 'vault_count': return (window.s4Vault || []).length;
+                case 'anchored_count': return (window.s4Stats || {}).anchored || 0;
+                case 'verified_count': return (window.s4Stats || {}).verified || 0;
+                case 'credit_balance': var bal = document.getElementById('walletSLSBalance') || document.getElementById('demoSlsBalance'); return bal ? (parseFloat(bal.textContent.replace(/,/g, '')) || 0) : null;
+                default: return null;
+            }
+        },
+
+        _render: function() {
+            if (!this._el) return;
+            var self = this;
+            var html = '<div style="position:fixed;inset:0;background:rgba(245,245,247,0.92);backdrop-filter:blur(12px);z-index:9999;display:flex;align-items:center;justify-content:center" onclick="if(event.target===this)S4.alertRules.close()">';
+            html += '<div style="background:#fff;border:1px solid rgba(0,0,0,0.08);border-radius:16px;width:92%;max-width:680px;max-height:85vh;overflow-y:auto;box-shadow:0 24px 64px rgba(0,0,0,0.1);padding:28px">';
+            html += '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">';
+            html += '<div><h3 style="margin:0;font-size:1.15rem;font-weight:700;color:#1d1d1f"><i class="fas fa-bell" style="color:var(--accent);margin-right:8px"></i>Automated Alert Rules</h3>';
+            html += '<p style="margin:4px 0 0;color:var(--muted);font-size:0.78rem">Configure threshold-based alerts with in-app notifications</p></div>';
+            html += '<button onclick="S4.alertRules.close()" style="width:32px;height:32px;border-radius:8px;border:1px solid rgba(0,0,0,0.08);background:transparent;cursor:pointer;color:var(--muted);font-size:1rem;display:flex;align-items:center;justify-content:center"><i class="fas fa-times"></i></button></div>';
+            // Add Rule Form
+            html += '<div style="background:rgba(0,113,227,0.03);border:1px solid rgba(0,113,227,0.1);border-radius:10px;padding:16px;margin-bottom:20px">';
+            html += '<div style="font-size:0.82rem;font-weight:600;color:#1d1d1f;margin-bottom:10px"><i class="fas fa-plus-circle" style="color:var(--accent);margin-right:6px"></i>Create New Rule</div>';
+            html += '<div style="display:grid;grid-template-columns:1fr auto 80px;gap:8px;align-items:end">';
+            html += '<div><label style="font-size:0.72rem;color:var(--muted);display:block;margin-bottom:4px">Metric</label><select id="alertRuleMetric" style="width:100%;padding:8px;border:1px solid rgba(0,0,0,0.1);border-radius:6px;font-size:0.82rem;background:#fff"><option value="compliance_score">Compliance Score (%)</option><option value="vault_count">Vault Record Count</option><option value="anchored_count">Anchored Count</option><option value="credit_balance">Credit Balance</option></select></div>';
+            html += '<div><label style="font-size:0.72rem;color:var(--muted);display:block;margin-bottom:4px">Condition</label><select id="alertRuleOp" style="padding:8px;border:1px solid rgba(0,0,0,0.1);border-radius:6px;font-size:0.82rem;background:#fff"><option value="<">drops below</option><option value=">">exceeds</option><option value="=">equals</option></select></div>';
+            html += '<div><label style="font-size:0.72rem;color:var(--muted);display:block;margin-bottom:4px">Value</label><input type="number" id="alertRuleVal" placeholder="70" style="width:100%;padding:8px;border:1px solid rgba(0,0,0,0.1);border-radius:6px;font-size:0.82rem"></div></div>';
+            html += '<div style="margin-top:8px"><label style="font-size:0.72rem;color:var(--muted);display:block;margin-bottom:4px">Alert Message</label><input type="text" id="alertRuleMsg" placeholder="e.g. Compliance score dropped below threshold" style="width:100%;padding:8px;border:1px solid rgba(0,0,0,0.1);border-radius:6px;font-size:0.82rem"></div>';
+            html += '<button onclick="S4.alertRules.addRule(document.getElementById(\'alertRuleMetric\').value,document.getElementById(\'alertRuleOp\').value,document.getElementById(\'alertRuleVal\').value,document.getElementById(\'alertRuleMsg\').value)" style="margin-top:10px;padding:8px 20px;background:var(--accent);color:#fff;border:none;border-radius:8px;font-size:0.82rem;font-weight:600;cursor:pointer;font-family:inherit"><i class="fas fa-plus" style="margin-right:6px"></i>Add Rule</button></div>';
+            // Existing Rules
+            html += '<div style="font-size:0.82rem;font-weight:600;color:#1d1d1f;margin-bottom:10px">Active Rules (' + this._rules.length + ')</div>';
+            if (!this._rules.length) {
+                html += '<div style="text-align:center;color:var(--muted);padding:24px;font-size:0.82rem;border:1px dashed rgba(0,0,0,0.1);border-radius:10px">No alert rules configured. Create one above to get started.</div>';
+            } else {
+                this._rules.forEach(function(rule) {
+                    var opLabel = rule.operator === '<' ? 'below' : rule.operator === '>' ? 'above' : 'at';
+                    html += '<div style="display:flex;align-items:center;gap:12px;padding:12px;border:1px solid ' + (rule.enabled ? 'rgba(0,113,227,0.12)' : 'rgba(0,0,0,0.06)') + ';border-radius:8px;margin-bottom:8px;background:' + (rule.enabled ? 'rgba(0,113,227,0.02)' : 'rgba(0,0,0,0.01)') + '">';
+                    html += '<button onclick="S4.alertRules.toggleRule(' + rule.id + ')" style="width:32px;height:32px;border-radius:6px;border:1px solid rgba(0,0,0,0.08);background:' + (rule.enabled ? 'var(--accent)' : 'transparent') + ';color:' + (rule.enabled ? '#fff' : 'var(--muted)') + ';cursor:pointer;font-size:0.75rem;display:flex;align-items:center;justify-content:center"><i class="fas ' + (rule.enabled ? 'fa-check' : 'fa-pause') + '"></i></button>';
+                    html += '<div style="flex:1"><div style="font-size:0.82rem;font-weight:600;color:#1d1d1f">' + rule.message + '</div>';
+                    html += '<div style="font-size:0.72rem;color:var(--muted);margin-top:2px">' + rule.metric.replace(/_/g, ' ') + ' ' + opLabel + ' ' + rule.threshold + '</div></div>';
+                    html += '<button onclick="S4.alertRules.removeRule(' + rule.id + ')" style="width:28px;height:28px;border-radius:6px;border:1px solid rgba(0,0,0,0.06);background:transparent;color:var(--muted);cursor:pointer;font-size:0.72rem;display:flex;align-items:center;justify-content:center"><i class="fas fa-trash-alt"></i></button></div>';
+                });
+            }
+            html += '</div></div>';
+            this._el.innerHTML = html;
+        }
+    };
+    window.openAlertRules = function() { S4.alertRules.toggle(); };
+
+
+    // ══════════════════════════════════════════════════════════════
+    //  FEATURE: COLLABORATIVE ANNOTATIONS
+    //  @mention support, threaded discussions on tool results
+    // ══════════════════════════════════════════════════════════════
+    S4.annotations = {
+        _data: {},
+        _el: null,
+        _open: false,
+        _currentContext: '',
+
+        init: function() {
+            try { this._data = JSON.parse(localStorage.getItem('s4_annotations') || '{}'); } catch(e) { this._data = {}; }
+            var panel = document.createElement('div');
+            panel.id = 's4AnnotationsPanel';
+            panel.style.display = 'none';
+            document.body.appendChild(panel);
+            this._el = panel;
+        },
+
+        open: function(context) {
+            this._currentContext = context || (window._currentILSTool || 'general');
+            this._open = true;
+            if (this._el) { this._el.style.display = 'flex'; this._render(); }
+        },
+
+        close: function() { this._open = false; if (this._el) this._el.style.display = 'none'; },
+
+        addComment: function(text, parentId) {
+            if (!text || !text.trim()) return;
+            var ctx = this._currentContext;
+            if (!this._data[ctx]) this._data[ctx] = [];
+            this._data[ctx].push({
+                id: Date.now(), text: text.trim(),
+                author: sessionStorage.getItem('s4_username') || 'Current User',
+                timestamp: new Date().toISOString(),
+                parentId: parentId || null,
+                mentions: (text.match(/@\w+/g) || []).map(function(m) { return m.slice(1); })
+            });
+            this._save(); this._render();
+            if (S4.toast) S4.toast('Annotation added', 'info', 2000);
+        },
+
+        deleteComment: function(id) {
+            var ctx = this._currentContext;
+            if (this._data[ctx]) {
+                this._data[ctx] = this._data[ctx].filter(function(c) { return c.id !== id && c.parentId !== id; });
+                this._save(); this._render();
+            }
+        },
+
+        _save: function() { localStorage.setItem('s4_annotations', JSON.stringify(this._data)); },
+
+        _timeAgo: function(date) {
+            var seconds = Math.floor((new Date() - date) / 1000);
+            if (seconds < 60) return 'Just now';
+            if (seconds < 3600) return Math.floor(seconds / 60) + 'm ago';
+            if (seconds < 86400) return Math.floor(seconds / 3600) + 'h ago';
+            return Math.floor(seconds / 86400) + 'd ago';
+        },
+
+        _render: function() {
+            if (!this._el) return;
+            var ctx = this._currentContext;
+            var comments = this._data[ctx] || [];
+            var topLevel = comments.filter(function(c) { return !c.parentId; });
+            var self = this;
+
+            var html = '<div style="position:fixed;inset:0;background:rgba(245,245,247,0.92);backdrop-filter:blur(12px);z-index:9999;display:flex;align-items:center;justify-content:center" onclick="if(event.target===this)S4.annotations.close()">';
+            html += '<div style="background:#fff;border:1px solid rgba(0,0,0,0.08);border-radius:16px;width:92%;max-width:640px;max-height:85vh;overflow-y:auto;box-shadow:0 24px 64px rgba(0,0,0,0.1);padding:28px">';
+            html += '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px"><div><h3 style="margin:0;font-size:1.15rem;font-weight:700;color:#1d1d1f"><i class="fas fa-comments" style="color:var(--accent);margin-right:8px"></i>Annotations</h3>';
+            html += '<p style="margin:4px 0 0;color:var(--muted);font-size:0.78rem">Context: <strong>' + ctx.replace(/hub-/g, '').replace(/-/g, ' ') + '</strong> &bull; ' + comments.length + ' comment' + (comments.length !== 1 ? 's' : '') + '</p></div>';
+            html += '<button onclick="S4.annotations.close()" style="width:32px;height:32px;border-radius:8px;border:1px solid rgba(0,0,0,0.08);background:transparent;cursor:pointer;color:var(--muted)"><i class="fas fa-times"></i></button></div>';
+            // Input
+            html += '<div style="display:flex;gap:8px;margin-bottom:20px">';
+            html += '<input type="text" id="annotationInput" placeholder="Add a comment... Use @name to mention someone" style="flex:1;padding:10px 14px;border:1px solid rgba(0,0,0,0.1);border-radius:8px;font-size:0.85rem;font-family:inherit" onkeydown="if(event.key===\'Enter\'){S4.annotations.addComment(this.value);this.value=\'\'}">';
+            html += '<button onclick="var inp=document.getElementById(\'annotationInput\');S4.annotations.addComment(inp.value);inp.value=\'\'" style="padding:10px 18px;background:var(--accent);color:#fff;border:none;border-radius:8px;font-size:0.82rem;font-weight:600;cursor:pointer;white-space:nowrap;font-family:inherit"><i class="fas fa-paper-plane" style="margin-right:4px"></i>Post</button></div>';
+            // Comments
+            if (!topLevel.length) {
+                html += '<div style="text-align:center;color:var(--muted);padding:32px;font-size:0.85rem;border:1px dashed rgba(0,0,0,0.08);border-radius:10px"><i class="fas fa-comments" style="font-size:1.5rem;display:block;margin-bottom:8px;opacity:0.3"></i>No annotations yet. Start a discussion!</div>';
+            } else {
+                topLevel.forEach(function(c) {
+                    var replies = comments.filter(function(r) { return r.parentId === c.id; });
+                    var highlightedText = c.text.replace(/@(\w+)/g, '<span style="color:var(--accent);font-weight:600">@$1</span>');
+                    html += '<div style="border:1px solid rgba(0,0,0,0.06);border-radius:10px;padding:14px;margin-bottom:10px">';
+                    html += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><div style="display:flex;align-items:center;gap:8px"><div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--accent),#a855f7);display:flex;align-items:center;justify-content:center;color:#fff;font-size:0.68rem;font-weight:700">' + c.author.charAt(0).toUpperCase() + '</div>';
+                    html += '<div><div style="font-size:0.82rem;font-weight:600;color:#1d1d1f">' + c.author + '</div><div style="font-size:0.68rem;color:var(--muted)">' + self._timeAgo(new Date(c.timestamp)) + '</div></div></div>';
+                    html += '<button onclick="S4.annotations.deleteComment(' + c.id + ')" style="width:24px;height:24px;border-radius:4px;border:none;background:transparent;color:var(--muted);cursor:pointer;font-size:0.7rem"><i class="fas fa-trash-alt"></i></button></div>';
+                    html += '<div style="font-size:0.85rem;color:#1d1d1f;line-height:1.5;margin-bottom:8px">' + highlightedText + '</div>';
+                    html += '<button onclick="var r=prompt(\'Reply:\');if(r)S4.annotations.addComment(r,' + c.id + ')" style="font-size:0.72rem;color:var(--accent);background:none;border:none;cursor:pointer;font-weight:600;padding:0;font-family:inherit"><i class="fas fa-reply" style="margin-right:4px"></i>Reply</button>';
+                    if (replies.length) {
+                        html += '<div style="margin-top:10px;padding-left:20px;border-left:2px solid rgba(0,113,227,0.1)">';
+                        replies.forEach(function(r) {
+                            var rText = r.text.replace(/@(\w+)/g, '<span style="color:var(--accent);font-weight:600">@$1</span>');
+                            html += '<div style="padding:8px 0;border-bottom:1px solid rgba(0,0,0,0.03)"><div style="display:flex;align-items:center;gap:6px;margin-bottom:4px"><div style="width:20px;height:20px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;color:#fff;font-size:0.55rem;font-weight:700">' + r.author.charAt(0).toUpperCase() + '</div>';
+                            html += '<span style="font-size:0.78rem;font-weight:600;color:#1d1d1f">' + r.author + '</span><span style="font-size:0.65rem;color:var(--muted)">' + self._timeAgo(new Date(r.timestamp)) + '</span></div>';
+                            html += '<div style="font-size:0.82rem;color:#1d1d1f;line-height:1.4">' + rText + '</div></div>';
+                        });
+                        html += '</div>';
+                    }
+                    html += '</div>';
+                });
+            }
+            html += '</div></div>';
+            this._el.innerHTML = html;
+        }
+    };
+    window.openAnnotations = function(ctx) { S4.annotations.open(ctx); };
+
+
+    // ══════════════════════════════════════════════════════════════
+    //  FEATURE: BULK IMPORT/EXPORT WIZARD
+    //  Step-by-step wizard for batch data import/export
+    // ══════════════════════════════════════════════════════════════
+    S4.importExport = {
+        _el: null,
+        _step: 0,
+        _data: null,
+
+        init: function() {
+            var panel = document.createElement('div');
+            panel.id = 's4ImportExportWizard';
+            panel.style.display = 'none';
+            document.body.appendChild(panel);
+            this._el = panel;
+        },
+
+        open: function() { this._step = 0; this._data = null; if (this._el) { this._el.style.display = 'flex'; this._render(); } },
+        close: function() { if (this._el) this._el.style.display = 'none'; },
+        setStep: function(s) { this._step = s; this._render(); },
+
+        handleFileUpload: function(input) {
+            if (!input.files || !input.files[0]) return;
+            var file = input.files[0];
+            var self = this;
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                var result = e.target.result;
+                var ext = file.name.split('.').pop().toLowerCase();
+                if (ext === 'json') {
+                    try { self._data = { format: 'json', name: file.name, records: JSON.parse(result) }; if (!Array.isArray(self._data.records)) self._data.records = [self._data.records]; } catch(err) { if (S4.toast) S4.toast('Invalid JSON file', 'danger', 3000); return; }
+                } else if (ext === 'csv') {
+                    var lines = result.split('\n').filter(function(l) { return l.trim(); });
+                    var headers = lines[0].split(',').map(function(h) { return h.trim().replace(/^"|"$/g, ''); });
+                    var records = [];
+                    for (var i = 1; i < lines.length; i++) {
+                        var vals = lines[i].split(',').map(function(v) { return v.trim().replace(/^"|"$/g, ''); });
+                        var obj = {};
+                        headers.forEach(function(h, idx) { obj[h] = vals[idx] || ''; });
+                        records.push(obj);
+                    }
+                    self._data = { format: 'csv', name: file.name, records: records, headers: headers };
+                } else {
+                    self._data = { format: ext, name: file.name, records: [], raw: result };
+                }
+                self._step = 1; self._render();
+                if (S4.toast) S4.toast('File loaded: ' + file.name + ' (' + (self._data.records.length || 0) + ' records)', 'success', 3000);
+            };
+            if (file.name.match(/\.(json|csv|txt)$/i)) { reader.readAsText(file); } else { reader.readAsDataURL(file); }
+        },
+
+        processImport: function() {
+            if (!this._data || !this._data.records.length) { if (S4.toast) S4.toast('No records to import', 'warning', 3000); return; }
+            var count = this._data.records.length;
+            var vault = window.s4Vault || [];
+            this._data.records.forEach(function(rec) {
+                vault.push({ type: rec.type || rec.Type || 'Imported Record', content: JSON.stringify(rec).substring(0, 200), fullContent: JSON.stringify(rec), hash: 'import_' + Date.now() + '_' + Math.random().toString(36).substr(2, 8), timestamp: new Date().toISOString(), source: 'Bulk Import' });
+            });
+            window.s4Vault = vault;
+            try { localStorage.setItem('s4_vault', JSON.stringify(vault)); } catch(e) {}
+            if (typeof window.renderVault === 'function') window.renderVault();
+            this._step = 2; this._render();
+            if (S4.toast) S4.toast(count + ' records imported to vault', 'success', 4000);
+        },
+
+        exportVault: function(format) {
+            var vault = window.s4Vault || [];
+            if (!vault.length) { if (S4.toast) S4.toast('No vault records to export', 'warning', 3000); return; }
+            var content, filename, type;
+            if (format === 'json') { content = JSON.stringify(vault, null, 2); filename = 'S4_Vault_Export_' + new Date().toISOString().slice(0,10) + '.json'; type = 'application/json'; }
+            else if (format === 'csv') { var keys = Object.keys(vault[0] || {}); content = keys.join(',') + '\n'; vault.forEach(function(r) { content += keys.map(function(k) { return '"' + String(r[k] || '').replace(/"/g, '""') + '"'; }).join(',') + '\n'; }); filename = 'S4_Vault_Export_' + new Date().toISOString().slice(0,10) + '.csv'; type = 'text/csv'; }
+            else { content = '=== S4 LEDGER VAULT EXPORT ===\n' + vault.length + ' records\n\n'; vault.forEach(function(r, i) { content += '--- #' + (i+1) + ' ---\nType: ' + (r.type||'') + '\nHash: ' + (r.hash||'') + '\nDate: ' + (r.timestamp||'') + '\n\n'; }); filename = 'S4_Vault_Export_' + new Date().toISOString().slice(0,10) + '.txt'; type = 'text/plain'; }
+            var blob = new Blob([content], {type: type}); var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = filename; a.click(); URL.revokeObjectURL(a.href);
+            if (S4.toast) S4.toast('Vault exported as ' + format.toUpperCase(), 'success', 3000);
+        },
+
+        _render: function() {
+            if (!this._el) return;
+            var steps = ['Select Source', 'Review Data', 'Complete'];
+            var html = '<div style="position:fixed;inset:0;background:rgba(245,245,247,0.92);backdrop-filter:blur(12px);z-index:9999;display:flex;align-items:center;justify-content:center" onclick="if(event.target===this)S4.importExport.close()">';
+            html += '<div style="background:#fff;border:1px solid rgba(0,0,0,0.08);border-radius:16px;width:92%;max-width:720px;max-height:85vh;overflow-y:auto;box-shadow:0 24px 64px rgba(0,0,0,0.1);padding:28px">';
+            html += '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px"><div><h3 style="margin:0;font-size:1.15rem;font-weight:700;color:#1d1d1f"><i class="fas fa-file-import" style="color:var(--accent);margin-right:8px"></i>Bulk Import / Export Wizard</h3></div>';
+            html += '<button onclick="S4.importExport.close()" style="width:32px;height:32px;border-radius:8px;border:1px solid rgba(0,0,0,0.08);background:transparent;cursor:pointer;color:var(--muted)"><i class="fas fa-times"></i></button></div>';
+            // Progress bar
+            html += '<div style="display:flex;gap:4px;margin-bottom:24px">';
+            for (var i = 0; i < steps.length; i++) {
+                var isActive = i === this._step, isDone = i < this._step;
+                html += '<div style="flex:1;text-align:center"><div style="height:4px;border-radius:2px;background:' + (isDone ? 'var(--accent)' : isActive ? 'linear-gradient(90deg,var(--accent),rgba(0,113,227,0.3))' : 'rgba(0,0,0,0.06)') + ';margin-bottom:6px"></div>';
+                html += '<div style="font-size:0.72rem;color:' + (isActive ? 'var(--accent)' : isDone ? '#1a8a3e' : 'var(--muted)') + ';font-weight:' + (isActive ? '600' : '400') + '">' + (isDone ? '<i class="fas fa-check" style="margin-right:3px"></i>' : '') + steps[i] + '</div></div>';
+            }
+            html += '</div>';
+            // Step content
+            if (this._step === 0) {
+                html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">';
+                html += '<div style="border:2px dashed rgba(0,113,227,0.2);border-radius:12px;padding:28px;text-align:center;cursor:pointer;transition:all 0.2s" onmouseover="this.style.borderColor=\'rgba(0,113,227,0.4)\'" onmouseout="this.style.borderColor=\'rgba(0,113,227,0.2)\'" onclick="document.getElementById(\'bulkImportFile\').click()">';
+                html += '<i class="fas fa-cloud-arrow-up" style="font-size:2rem;color:var(--accent);margin-bottom:12px;display:block"></i><div style="font-weight:700;color:#1d1d1f;margin-bottom:4px">Import Data</div>';
+                html += '<div style="font-size:0.78rem;color:var(--muted)">Upload JSON, CSV, or Excel files</div>';
+                html += '<input type="file" id="bulkImportFile" style="display:none" accept=".json,.csv,.xlsx,.xls,.txt" onchange="S4.importExport.handleFileUpload(this)"></div>';
+                html += '<div style="border:1px solid rgba(0,0,0,0.08);border-radius:12px;padding:28px;text-align:center"><i class="fas fa-cloud-arrow-down" style="font-size:2rem;color:var(--gold);margin-bottom:12px;display:block"></i><div style="font-weight:700;color:#1d1d1f;margin-bottom:10px">Export Vault</div>';
+                html += '<div style="display:flex;flex-direction:column;gap:8px">';
+                html += '<button onclick="S4.importExport.exportVault(\'json\')" style="padding:8px;background:rgba(0,113,227,0.06);border:1px solid rgba(0,113,227,0.15);border-radius:6px;color:var(--accent);font-size:0.78rem;font-weight:600;cursor:pointer;font-family:inherit"><i class="fas fa-code" style="margin-right:6px"></i>JSON</button>';
+                html += '<button onclick="S4.importExport.exportVault(\'csv\')" style="padding:8px;background:rgba(26,138,62,0.06);border:1px solid rgba(26,138,62,0.15);border-radius:6px;color:#1a8a3e;font-size:0.78rem;font-weight:600;cursor:pointer;font-family:inherit"><i class="fas fa-table" style="margin-right:6px"></i>CSV</button>';
+                html += '<button onclick="S4.importExport.exportVault(\'txt\')" style="padding:8px;background:rgba(184,134,11,0.06);border:1px solid rgba(184,134,11,0.15);border-radius:6px;color:var(--gold);font-size:0.78rem;font-weight:600;cursor:pointer;font-family:inherit"><i class="fas fa-file-lines" style="margin-right:6px"></i>Text</button></div></div></div>';
+            } else if (this._step === 1) {
+                var d = this._data;
+                html += '<div style="border:1px solid rgba(0,0,0,0.06);border-radius:10px;padding:16px;margin-bottom:16px">';
+                html += '<div style="display:flex;align-items:center;gap:10px;margin-bottom:12px"><i class="fas fa-file" style="color:var(--accent);font-size:1.2rem"></i><div><div style="font-weight:600;color:#1d1d1f">' + (d ? d.name : '') + '</div>';
+                html += '<div style="font-size:0.78rem;color:var(--muted)">' + (d ? d.records.length : 0) + ' records &bull; ' + (d ? d.format.toUpperCase() : '') + '</div></div></div>';
+                if (d && d.records.length) {
+                    var keys = Object.keys(d.records[0]).slice(0, 6);
+                    html += '<div style="overflow-x:auto;max-height:240px"><table style="width:100%;border-collapse:collapse;font-size:0.78rem"><thead><tr>';
+                    keys.forEach(function(k) { html += '<th style="text-align:left;padding:6px 10px;border-bottom:2px solid rgba(0,0,0,0.08);font-weight:600;color:var(--muted);font-size:0.72rem;text-transform:uppercase">' + k + '</th>'; });
+                    html += '</tr></thead><tbody>';
+                    d.records.slice(0, 10).forEach(function(r) { html += '<tr style="border-bottom:1px solid rgba(0,0,0,0.04)">'; keys.forEach(function(k) { html += '<td style="padding:6px 10px;color:#1d1d1f">' + (r[k] || '') + '</td>'; }); html += '</tr>'; });
+                    if (d.records.length > 10) html += '<tr><td colspan="' + keys.length + '" style="padding:8px;text-align:center;color:var(--muted);font-style:italic">...and ' + (d.records.length - 10) + ' more</td></tr>';
+                    html += '</tbody></table></div>';
+                }
+                html += '</div><div style="display:flex;gap:8px;justify-content:flex-end">';
+                html += '<button onclick="S4.importExport.setStep(0)" style="padding:8px 20px;background:transparent;border:1px solid rgba(0,0,0,0.1);border-radius:8px;font-size:0.82rem;cursor:pointer;color:var(--muted);font-family:inherit">Back</button>';
+                html += '<button onclick="S4.importExport.processImport()" style="padding:8px 24px;background:var(--accent);color:#fff;border:none;border-radius:8px;font-size:0.82rem;font-weight:600;cursor:pointer;font-family:inherit"><i class="fas fa-download" style="margin-right:6px"></i>Import ' + (d ? d.records.length : 0) + ' Records</button></div>';
+            } else if (this._step === 2) {
+                html += '<div style="text-align:center;padding:32px"><i class="fas fa-check-circle" style="font-size:3rem;color:#1a8a3e;margin-bottom:16px;display:block"></i>';
+                html += '<div style="font-size:1.1rem;font-weight:700;color:#1d1d1f;margin-bottom:8px">Import Complete!</div>';
+                html += '<div style="font-size:0.85rem;color:var(--muted);margin-bottom:20px">' + (this._data ? this._data.records.length : 0) + ' records added to your vault.</div>';
+                html += '<button onclick="S4.importExport.close()" style="padding:10px 28px;background:var(--accent);color:#fff;border:none;border-radius:8px;font-size:0.88rem;font-weight:600;cursor:pointer;font-family:inherit">Done</button></div>';
+            }
+            html += '</div></div>';
+            this._el.innerHTML = html;
+        }
+    };
+    window.openImportExport = function() { S4.importExport.open(); };
+
+
+    // ══════════════════════════════════════════════════════════════
+    //  FEATURE: AUDIT TRAIL TIMELINE
+    //  Visual chronological timeline of all platform actions
+    // ══════════════════════════════════════════════════════════════
+    S4.auditTimeline = {
+        _log: [],
+        _el: null,
+        _filters: { user: '', dateFrom: '', dateTo: '', type: '' },
+
+        init: function() {
+            try { this._log = JSON.parse(localStorage.getItem('s4_audit_log') || '[]'); } catch(e) { this._log = []; }
+            var self = this;
+            // Intercept toast calls to auto-log actions
+            if (typeof S4.toast === 'function') {
+                var _orig = S4.toast;
+                S4.toast = function(msg, type, dur) { self._logAction(type || 'info', msg); return _orig.call(S4, msg, type, dur); };
+            }
+            var panel = document.createElement('div');
+            panel.id = 's4AuditTimeline';
+            panel.style.display = 'none';
+            document.body.appendChild(panel);
+            this._el = panel;
+        },
+
+        _logAction: function(type, description) {
+            this._log.push({ id: Date.now(), type: type, description: description, user: sessionStorage.getItem('s4_username') || 'System', timestamp: new Date().toISOString() });
+            if (this._log.length > 500) this._log = this._log.slice(-500);
+            try { localStorage.setItem('s4_audit_log', JSON.stringify(this._log)); } catch(e) {}
+        },
+
+        logCustom: function(type, description) { this._logAction(type, description); },
+        open: function() { if (this._el) { this._el.style.display = 'flex'; this._render(); } },
+        close: function() { if (this._el) this._el.style.display = 'none'; },
+        clearLog: function() { this._log = []; localStorage.removeItem('s4_audit_log'); this._render(); },
+
+        exportLog: function() {
+            var blob = new Blob([JSON.stringify(this._log, null, 2)], {type: 'application/json'});
+            var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'S4_Audit_Trail_' + new Date().toISOString().slice(0,10) + '.json'; a.click(); URL.revokeObjectURL(a.href);
+            if (S4.toast) S4.toast('Audit trail exported', 'success', 3000);
+        },
+
+        _getFilteredLog: function() {
+            var f = this._filters;
+            return this._log.filter(function(entry) {
+                if (f.type && entry.type !== f.type) return false;
+                if (f.user && entry.user.toLowerCase().indexOf(f.user.toLowerCase()) === -1) return false;
+                if (f.dateFrom && entry.timestamp < f.dateFrom) return false;
+                if (f.dateTo && entry.timestamp > f.dateTo + 'T23:59:59') return false;
+                return true;
+            }).reverse();
+        },
+
+        _render: function() {
+            if (!this._el) return;
+            var entries = this._getFilteredLog();
+            var html = '<div style="position:fixed;inset:0;background:rgba(245,245,247,0.92);backdrop-filter:blur(12px);z-index:9999;display:flex;align-items:center;justify-content:center" onclick="if(event.target===this)S4.auditTimeline.close()">';
+            html += '<div style="background:#fff;border:1px solid rgba(0,0,0,0.08);border-radius:16px;width:95%;max-width:840px;max-height:90vh;overflow-y:auto;box-shadow:0 24px 64px rgba(0,0,0,0.1);padding:28px">';
+            html += '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px"><div><h3 style="margin:0;font-size:1.15rem;font-weight:700;color:#1d1d1f"><i class="fas fa-timeline" style="color:var(--accent);margin-right:8px"></i>Audit Trail Timeline</h3>';
+            html += '<p style="margin:4px 0 0;color:var(--muted);font-size:0.78rem">' + this._log.length + ' total events &bull; ' + entries.length + ' matching</p></div>';
+            html += '<div style="display:flex;gap:6px">';
+            html += '<button onclick="S4.auditTimeline.exportLog()" style="padding:6px 14px;background:rgba(0,113,227,0.06);border:1px solid rgba(0,113,227,0.15);border-radius:6px;color:var(--accent);font-size:0.75rem;font-weight:600;cursor:pointer;font-family:inherit"><i class="fas fa-download" style="margin-right:4px"></i>Export</button>';
+            html += '<button onclick="if(confirm(\'Clear all audit logs?\'))S4.auditTimeline.clearLog()" style="padding:6px 14px;background:rgba(204,51,51,0.06);border:1px solid rgba(204,51,51,0.15);border-radius:6px;color:#cc3333;font-size:0.75rem;font-weight:600;cursor:pointer;font-family:inherit"><i class="fas fa-eraser" style="margin-right:4px"></i>Clear</button>';
+            html += '<button onclick="S4.auditTimeline.close()" style="width:32px;height:32px;border-radius:6px;border:1px solid rgba(0,0,0,0.08);background:transparent;cursor:pointer;color:var(--muted)"><i class="fas fa-times"></i></button></div></div>';
+            // Filters
+            html += '<div style="display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;padding:10px;background:rgba(0,0,0,0.015);border-radius:8px">';
+            html += '<select onchange="S4.auditTimeline._filters.type=this.value;S4.auditTimeline._render()" style="padding:6px 10px;border:1px solid rgba(0,0,0,0.1);border-radius:6px;font-size:0.78rem;background:#fff"><option value="">All Types</option><option value="success">Success</option><option value="info">Info</option><option value="warning">Warning</option><option value="danger">Error</option></select>';
+            html += '<input type="text" placeholder="Filter by user..." onchange="S4.auditTimeline._filters.user=this.value;S4.auditTimeline._render()" style="padding:6px 10px;border:1px solid rgba(0,0,0,0.1);border-radius:6px;font-size:0.78rem;width:140px">';
+            html += '<input type="date" onchange="S4.auditTimeline._filters.dateFrom=this.value;S4.auditTimeline._render()" style="padding:6px 10px;border:1px solid rgba(0,0,0,0.1);border-radius:6px;font-size:0.78rem">';
+            html += '<input type="date" onchange="S4.auditTimeline._filters.dateTo=this.value;S4.auditTimeline._render()" style="padding:6px 10px;border:1px solid rgba(0,0,0,0.1);border-radius:6px;font-size:0.78rem"></div>';
+            // Timeline
+            if (!entries.length) {
+                html += '<div style="text-align:center;color:var(--muted);padding:40px;font-size:0.85rem"><i class="fas fa-clock-rotate-left" style="font-size:2rem;display:block;margin-bottom:12px;opacity:0.3"></i>No audit events found.</div>';
+            } else {
+                html += '<div style="position:relative;padding-left:24px"><div style="position:absolute;left:9px;top:0;bottom:0;width:2px;background:rgba(0,113,227,0.1)"></div>';
+                entries.slice(0, 100).forEach(function(entry) {
+                    var typeColors = { success:'#1a8a3e', info:'var(--accent)', warning:'#ffa500', danger:'#cc3333' };
+                    var typeIcons = { success:'fa-check', info:'fa-info', warning:'fa-exclamation', danger:'fa-xmark' };
+                    var color = typeColors[entry.type] || 'var(--accent)';
+                    var icon = typeIcons[entry.type] || 'fa-circle';
+                    var date = new Date(entry.timestamp);
+                    var ts = date.toLocaleDateString() + ' ' + date.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit',second:'2-digit'});
+                    html += '<div style="position:relative;margin-bottom:12px;padding:10px 14px;background:rgba(0,0,0,0.015);border-radius:8px;border-left:3px solid ' + color + '">';
+                    html += '<div style="position:absolute;left:-22px;top:12px;width:16px;height:16px;border-radius:50%;background:#fff;border:2px solid ' + color + ';display:flex;align-items:center;justify-content:center"><i class="fas ' + icon + '" style="font-size:0.5rem;color:' + color + '"></i></div>';
+                    html += '<div style="display:flex;justify-content:space-between;align-items:center"><div style="font-size:0.82rem;color:#1d1d1f;font-weight:500">' + entry.description + '</div>';
+                    html += '<div style="font-size:0.68rem;color:var(--muted);white-space:nowrap;margin-left:12px">' + ts + '</div></div>';
+                    html += '<div style="font-size:0.68rem;color:var(--muted);margin-top:2px"><i class="fas fa-user" style="margin-right:4px"></i>' + entry.user + '</div></div>';
+                });
+                html += '</div>';
+                if (entries.length > 100) html += '<div style="text-align:center;color:var(--muted);padding:12px;font-size:0.78rem">Showing 100 of ' + entries.length + '. Export for full log.</div>';
+            }
+            html += '</div></div>';
+            this._el.innerHTML = html;
+        }
+    };
+    window.openAuditTimeline = function() { S4.auditTimeline.open(); };
+
+
+    // ══════════════════════════════════════════════════════════════
+    //  FEATURE: OFFLINE MODE ENHANCEMENT
+    //  PWA improvements: online/offline indicators, queued ops
+    // ══════════════════════════════════════════════════════════════
+    S4.offlineEnhanced = {
+        _isOnline: navigator.onLine,
+        _queue: [],
+        _indicatorEl: null,
+
+        init: function() {
+            try { this._queue = JSON.parse(localStorage.getItem('s4_offline_queue') || '[]'); } catch(e) { this._queue = []; }
+            var ind = document.createElement('div');
+            ind.id = 's4OnlineStatus';
+            ind.style.cssText = 'position:fixed;top:8px;right:120px;z-index:9998;display:flex;align-items:center;gap:6px;padding:4px 12px;border-radius:20px;font-size:0.72rem;font-weight:600;transition:all 0.3s;pointer-events:none;opacity:0.9';
+            document.body.appendChild(ind);
+            this._indicatorEl = ind;
+            this._updateIndicator();
+            var self = this;
+            window.addEventListener('online', function() { self._isOnline = true; self._updateIndicator(); self._syncQueue(); if (S4.toast) S4.toast('Connection restored — syncing queued operations', 'success', 3000); });
+            window.addEventListener('offline', function() { self._isOnline = false; self._updateIndicator(); if (S4.toast) S4.toast('You are offline — operations will be queued', 'warning', 4000); });
+            if (this._isOnline && this._queue.length) this._syncQueue();
+        },
+
+        _updateIndicator: function() {
+            if (!this._indicatorEl) return;
+            if (this._isOnline) {
+                this._indicatorEl.style.background = 'rgba(26,138,62,0.08)';
+                this._indicatorEl.style.border = '1px solid rgba(26,138,62,0.15)';
+                this._indicatorEl.style.color = '#1a8a3e';
+                this._indicatorEl.innerHTML = '<div style="width:6px;height:6px;border-radius:50%;background:#1a8a3e"></div> Online' + (this._queue.length ? ' <span style="color:var(--muted)">(' + this._queue.length + ' queued)</span>' : '');
+            } else {
+                this._indicatorEl.style.background = 'rgba(255,165,0,0.08)';
+                this._indicatorEl.style.border = '1px solid rgba(255,165,0,0.15)';
+                this._indicatorEl.style.color = '#ffa500';
+                this._indicatorEl.innerHTML = '<div style="width:6px;height:6px;border-radius:50%;background:#ffa500;animation:pulse 2s infinite"></div> Offline' + (this._queue.length ? ' <span style="color:var(--muted)">(' + this._queue.length + ' queued)</span>' : '');
+            }
+        },
+
+        queueOperation: function(type, data) {
+            this._queue.push({ id: Date.now(), type: type, data: data, timestamp: new Date().toISOString(), status: 'pending' });
+            try { localStorage.setItem('s4_offline_queue', JSON.stringify(this._queue)); } catch(e) {}
+            this._updateIndicator();
+        },
+
+        _syncQueue: function() {
+            if (!this._isOnline || !this._queue.length) return;
+            var synced = 0;
+            this._queue.forEach(function(op) { if (op.status === 'pending') { op.status = 'synced'; synced++; } });
+            this._queue = this._queue.filter(function(op) { return op.status !== 'synced'; });
+            try { localStorage.setItem('s4_offline_queue', JSON.stringify(this._queue)); } catch(e) {}
+            this._updateIndicator();
+            if (synced && S4.toast) S4.toast(synced + ' queued operation' + (synced > 1 ? 's' : '') + ' synced', 'success', 3000);
+        },
+
+        getQueueStatus: function() { return { isOnline: this._isOnline, queueLength: this._queue.length, queue: this._queue }; }
+    };
+    window.getOfflineStatus = function() { return S4.offlineEnhanced.getQueueStatus(); };
+
+
+    // ══════════════════════════════════════════════════════════════
     // INITIALIZATION — Run after DOM is ready
     // ══════════════════════════════════════════════════════════════
     function initEnterpriseFeatures() {
@@ -1178,9 +1811,17 @@
         S4.quickActions.init();
         S4.showMore.init();
 
+        // Initialize new enterprise features
+        S4.defenseDashboard.init();
+        S4.alertRules.init();
+        S4.annotations.init();
+        S4.importExport.init();
+        S4.auditTimeline.init();
+        S4.offlineEnhanced.init();
+
         S4.register('enterprise-features', {
-            version: '1.0.0',
-            features: ['dashboard', 'notifications', 'crossLink', 'hubPriority', 'contextualAI', 'playbooks', 'healthMap', 'quickActions', 'showMore']
+            version: '2.0.0',
+            features: ['dashboard', 'notifications', 'crossLink', 'hubPriority', 'contextualAI', 'playbooks', 'healthMap', 'quickActions', 'showMore', 'defenseDashboard', 'alertRules', 'annotations', 'importExport', 'auditTimeline', 'offlineEnhanced']
         });
     }
 

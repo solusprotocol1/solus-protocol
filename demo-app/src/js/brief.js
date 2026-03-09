@@ -955,7 +955,7 @@
             }
             html += '</div>';
         } else {
-            html += '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px">';
+            html += '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px">';
             filteredBriefs.forEach(function (b) {
                 var idx = _briefs.indexOf(b);
                 var bt = BRIEF_TYPES[b.brief_type] || BRIEF_TYPES.STATUS;
