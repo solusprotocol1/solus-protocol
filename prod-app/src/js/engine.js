@@ -4046,18 +4046,18 @@ function calcROI() {
     // Build output HTML
     var output = el('roiOutput');
     if (output) {
-        output.innerHTML = '<div style="background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:20px;margin-top:12px">'
-            + '<div class="section-label"><i class="fas fa-chart-line"></i> ROI BREAKDOWN</div>'
-            + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:0.85rem;margin-bottom:16px">'
-            + '<div><span style="color:var(--steel)">Labor Automation (65%)</span><br><strong style="color:#00cc66">$' + formatNum(Math.round(laborSavings)) + '</strong></div>'
-            + '<div><span style="color:var(--steel)">Error Reduction (90%)</span><br><strong style="color:#00cc66">$' + formatNum(Math.round(errorSavings)) + '</strong></div>'
-            + '<div><span style="color:var(--steel)">Audit Cost Reduction (70%)</span><br><strong style="color:#00cc66">$' + formatNum(Math.round(auditSavings)) + '</strong></div>'
-            + '<div><span style="color:var(--steel)">S4 Ledger License</span><br><strong style="color:#ff6b6b">-$' + formatNum(Math.round(license)) + '</strong></div>'
+        output.innerHTML = '<div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:14px 16px;margin-top:10px">'
+            + '<div class="section-label" style="margin-bottom:8px"><i class="fas fa-chart-line"></i> ROI BREAKDOWN</div>'
+            + '<div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;font-size:0.8rem;margin-bottom:10px">'
+            + '<div style="padding:8px 10px;background:rgba(0,204,102,0.06);border-radius:6px;border:1px solid rgba(0,204,102,0.12)"><div style="color:var(--steel);font-size:0.72rem;margin-bottom:2px">Labor (65%)</div><strong style="color:#00cc66;font-size:0.88rem">$' + formatNum(Math.round(laborSavings)) + '</strong></div>'
+            + '<div style="padding:8px 10px;background:rgba(0,204,102,0.06);border-radius:6px;border:1px solid rgba(0,204,102,0.12)"><div style="color:var(--steel);font-size:0.72rem;margin-bottom:2px">Errors (90%)</div><strong style="color:#00cc66;font-size:0.88rem">$' + formatNum(Math.round(errorSavings)) + '</strong></div>'
+            + '<div style="padding:8px 10px;background:rgba(0,204,102,0.06);border-radius:6px;border:1px solid rgba(0,204,102,0.12)"><div style="color:var(--steel);font-size:0.72rem;margin-bottom:2px">Audit (70%)</div><strong style="color:#00cc66;font-size:0.88rem">$' + formatNum(Math.round(auditSavings)) + '</strong></div>'
+            + '<div style="padding:8px 10px;background:rgba(255,107,107,0.06);border-radius:6px;border:1px solid rgba(255,107,107,0.12)"><div style="color:var(--steel);font-size:0.72rem;margin-bottom:2px">S4 License</div><strong style="color:#ff6b6b;font-size:0.88rem">-$' + formatNum(Math.round(license)) + '</strong></div>'
             + '</div>'
-            + '<hr style="border-color:var(--border);margin:12px 0">'
-            + '<div style="display:flex;justify-content:space-between;align-items:center">'
-            + '<div><span style="color:var(--steel);font-size:0.82rem">Net Annual Savings</span><br><span style="font-size:1.5rem;font-weight:800;color:' + (netSavings > 0 ? '#00cc66' : '#ff4444') + '">$' + formatNum(Math.round(netSavings)) + '</span></div>'
-            + '<div><span style="color:var(--steel);font-size:0.82rem">Per-Record Savings</span><br><span style="font-size:1.1rem;font-weight:700;color:var(--accent)">$' + perRecordSavings.toFixed(2) + '/record</span></div>'
+            + '<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:rgba(0,113,227,0.04);border-radius:6px;border:1px solid rgba(0,113,227,0.1)">'
+            + '<div><span style="color:var(--steel);font-size:0.72rem">Net Annual Savings</span><br><span style="font-size:1.15rem;font-weight:800;color:' + (netSavings > 0 ? '#00cc66' : '#ff4444') + '">$' + formatNum(Math.round(netSavings)) + '</span></div>'
+            + '<div style="text-align:center"><span style="color:var(--steel);font-size:0.72rem">ROI</span><br><span style="font-size:1.15rem;font-weight:800;color:' + (roiPct > 0 ? '#00cc66' : '#ff4444') + '">' + roiPct.toFixed(0) + '%</span></div>'
+            + '<div style="text-align:right"><span style="color:var(--steel);font-size:0.72rem">Per-Record</span><br><span style="font-size:1rem;font-weight:700;color:var(--accent)">$' + perRecordSavings.toFixed(2) + '</span></div>'
             + '</div>'
             + '</div>';
     }
@@ -5128,20 +5128,19 @@ function calcReadiness() {
     const systems = READINESS_DEFAULTS[progKey] || READINESS_DEFAULTS.ddg51;
     const sysName = systems[sysIdx] ? systems[sysIdx].sys : 'System';
 
-    let html = '<div style="background:rgba(0,170,255,0.05);border:1px solid rgba(0,170,255,0.2);border-radius:3px;padding:16px;font-size:0.85rem;">';
-    html += '<div style="font-weight:700;color:#00aaff;margin-bottom:10px;font-size:1rem;">RAM Analysis: ' + sysName + '</div>';
-    html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">';
-    html += '<div><strong>Operational Availability (Ao):</strong></div><div style="color:' + (ao>=0.9?'#00aaff':ao>=0.75?'#ffa500':'#ff3333') + ';font-weight:700;">' + (ao*100).toFixed(2) + '%</div>';
-    html += '<div><strong>Inherent Availability (Ai):</strong></div><div style="color:#1d1d1f;">' + (ai*100).toFixed(2) + '%</div>';
-    html += '<div><strong>Failure Rate (λ):</strong></div><div style="color:#1d1d1f;">' + lambda.toFixed(6) + ' failures/hr</div>';
-    html += '<div><strong>30-Day Mission Reliability:</strong></div><div style="color:' + (missionReliability>=0.8?'#00aaff':'#ffa500') + ';">' + (missionReliability*100).toFixed(1) + '%</div>';
-    html += '<div><strong>Est. Annual Failures:</strong></div><div style="color:#1d1d1f;">' + annualFailures.toFixed(1) + '</div>';
-    html += '<div><strong>Est. Annual Downtime:</strong></div><div style="color:' + (annualDowntime<500?'#00aaff':'#00aaff') + ';">' + annualDowntime.toFixed(0) + ' hrs (' + (annualDowntime/24).toFixed(1) + ' days)</div>';
-    html += '<div><strong>Est. Annual Uptime:</strong></div><div style="color:#00aaff;">' + annualUptime.toFixed(0) + ' hrs</div>';
+    let html = '<div style="background:rgba(0,170,255,0.05);border:1px solid rgba(0,170,255,0.2);border-radius:8px;padding:12px 14px;font-size:0.82rem;">';
+    html += '<div style="font-weight:700;color:#00aaff;margin-bottom:8px;font-size:0.92rem;">RAM Analysis: ' + sysName + '</div>';
+    html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:4px 12px;">';
+    html += '<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(0,0,0,0.04)"><span>Ao</span><span style="color:' + (ao>=0.9?'#00aaff':ao>=0.75?'#ffa500':'#ff3333') + ';font-weight:700;">' + (ao*100).toFixed(2) + '%</span></div>';
+    html += '<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(0,0,0,0.04)"><span>Ai</span><span style="font-weight:600;">' + (ai*100).toFixed(2) + '%</span></div>';
+    html += '<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(0,0,0,0.04)"><span>Failure Rate (\u03BB)</span><span>' + lambda.toFixed(6) + '/hr</span></div>';
+    html += '<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(0,0,0,0.04)"><span>30-Day Reliability</span><span style="color:' + (missionReliability>=0.8?'#00aaff':'#ffa500') + ';font-weight:600;">' + (missionReliability*100).toFixed(1) + '%</span></div>';
+    html += '<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(0,0,0,0.04)"><span>Annual Failures</span><span>' + annualFailures.toFixed(1) + '</span></div>';
+    html += '<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(0,0,0,0.04)"><span>Annual Downtime</span><span style="color:#ffa500;">' + annualDowntime.toFixed(0) + ' hrs</span></div>';
     html += '</div>';
 
     // Assessment
-    html += '<div style="margin-top:12px;padding:10px;border-radius:3px;background:rgba(0,0,0,0.02);border:1px solid rgba(0,0,0,0.05);">';
+    html += '<div style="margin-top:8px;padding:8px 10px;border-radius:6px;background:rgba(0,0,0,0.02);border:1px solid rgba(0,0,0,0.05);font-size:0.8rem;">';
     if (ao >= 0.95) html += '<span style="color:#00aaff;font-weight:700;">EXCELLENT</span> — System exceeds readiness requirements. Ao > 95% meets most high-priority program thresholds.';
     else if (ao >= 0.90) html += '<span style="color:#00aaff;font-weight:700;">MEETS REQUIREMENTS</span> — Ao > 90% is acceptable for most defense programs. Monitor MLDT for improvement opportunities.';
     else if (ao >= 0.80) html += '<span style="color:#ffa500;font-weight:700;">MARGINAL</span> — Ao between 80-90%. Consider reducing MLDT through pre-positioned spares or improving MTTR via better training/tools.';
@@ -5150,7 +5149,7 @@ function calcReadiness() {
     html += '</div>';
 
     // Formula reference
-    html += '<div style="margin-top:10px;font-size:0.78rem;color:var(--steel);">';
+    html += '<div style="margin-top:6px;font-size:0.72rem;color:var(--steel);">';
     html += '<strong>Formulas:</strong> Ao = MTBF/(MTBF+MTTR+MLDT) | Ai = MTBF/(MTBF+MTTR) | λ = 1/MTBF | R(t) = e<sup>−λt</sup>';
     html += '</div></div>';
 
@@ -8358,13 +8357,17 @@ function calcLifecycle() {
     
     var output = document.getElementById('lifecycleOutput');
     if (output) {
-        output.innerHTML = '<div style="padding:12px;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.15);border-radius:3px;font-size:0.82rem;color:var(--steel);">' +
-            '<strong style="color:#1d1d1f">Cost Breakdown:</strong><br>' +
-            'Acquisition: ' + fmt(totalAcq) + ' (' + fleetSize + ' units @ $' + (acqCost * 1000000).toLocaleString() + ' each)<br>' +
-            'Sustainment (O&S): ' + fmt(totalSust) + ' (' + sustRate + '% annually over ' + serviceLife + ' years)<br>' +
-            'DMSMS/Obsolescence: ' + fmt(dmsmsCost) + ' (est. 4% annually)<br>' +
-            'Tech Refresh: ' + fmt(techRefresh) + ' (2% every 5 years)<br><br>' +
-            '<strong style="color:#00aaff">S4 Ledger Savings Potential:</strong> ' + fmt(dmsmsCost * 0.2) + ' (20% DMSMS reduction through proactive tracking)' +
+        output.innerHTML = '<div style="padding:12px 14px;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.15);border-radius:8px;font-size:0.8rem;">' +
+            '<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px 16px;margin-bottom:10px">' +
+            '<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(0,0,0,0.04)"><span style="color:var(--steel)">Acquisition</span><strong style="color:#1d1d1f">' + fmt(totalAcq) + '</strong></div>' +
+            '<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(0,0,0,0.04)"><span style="color:var(--steel)">Sustainment</span><strong style="color:#1d1d1f">' + fmt(totalSust) + '</strong></div>' +
+            '<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(0,0,0,0.04)"><span style="color:var(--steel)">DMSMS (4%)</span><strong style="color:#1d1d1f">' + fmt(dmsmsCost) + '</strong></div>' +
+            '<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(0,0,0,0.04)"><span style="color:var(--steel)">Tech Refresh</span><strong style="color:#1d1d1f">' + fmt(techRefresh) + '</strong></div>' +
+            '</div>' +
+            '<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:rgba(0,170,255,0.06);border-radius:6px">' +
+            '<span style="color:#00aaff;font-weight:700;font-size:0.82rem"><i class="fas fa-chart-line" style="margin-right:4px"></i>S4 Savings</span>' +
+            '<strong style="color:#00cc66;font-size:0.95rem">' + fmt(dmsmsCost * 0.2) + '</strong>' +
+            '</div>' +
             '</div>';
     }
 }
