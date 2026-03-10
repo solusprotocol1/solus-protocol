@@ -2533,4 +2533,53 @@ The metrics.js Phase 3 selector matches `display:flex` + `gap:10` + `flex-wrap:w
 - Both `*/dist/` — Rebuilt and verified
 
 ---
+
+## Session 36b — ACTIONS Buttons Under Headers + Brief Composer Fix (March 2026)
+
+### Problem: Buttons Disconnected from ACTIONS Header
+The `.tool-actions-bar` CSS had `margin-top:20px`, `padding-top:16px`, and `border-top:1px solid` — creating 48px of separation (with a visual divider line) between the "⚡ ACTIONS" header and the actual action buttons. This made buttons appear disconnected from their header, not visually "underneath" it.
+
+### Problem: Brief Composer Missing ACTIONS
+- `hub-brief` had NO static action buttons — the `#briefContainer` is populated dynamically by brief.js, which runs after metrics.js `transformPanel()` already checked for action bars
+- In the brief.js editor view, the Anchor button said just "Anchor" with a `fa-link` icon — inconsistent with all other tools using "Anchor to Ledger" with `fa-anchor` and blue gradient
+
+### Fix (commit `dac881b`)
+1. **CSS**: `.tool-actions-bar` simplified to `margin-top:4px` only — removed `border-top`, `padding-top:16px`, and `margin-top:20px`. Buttons now sit directly under the ACTIONS header with 4px gap.
+2. **hub-brief HTML**: Added static action bar: New Brief → Import PPTX → Export PDF → Anchor to Ledger (with `display:flex;gap:10px;flex-wrap:wrap` pattern for Phase 3)
+3. **brief.js L1200**: Changed "Anchor" (`fa-link`) to "Anchor to Ledger" (`fa-anchor`) with `background:linear-gradient(135deg,#0071e3,#00aaff);color:#fff` matching all other Anchor to Ledger buttons
+
+### Comprehensive Audit Results (all 23 panels)
+Every panel has exactly ONE action bar matching the Phase 3 selector. Button order follows user workflow (primary action → export → Anchor to Ledger):
+- hub-analysis: Run Full Analysis → Generate Report → Anchor to Ledger
+- hub-actions: Add New → filter buttons → Export CSV → Anchor to Ledger
+- hub-dmsms: Export DMSMS Report → Anchor to Ledger
+- hub-readiness: Export RAM Report → Anchor to Ledger
+- hub-roi: Export ROI Report → Anchor to Ledger
+- hub-lifecycle: Export Lifecycle Report → Anchor to Ledger
+- hub-vault: Re-Verify All → Export CSV → Export XLSX → Clear Vault
+- hub-docs: Add Document → Analyze Revision → Export Library → Anchor to Ledger
+- hub-compliance: Export Scorecard → Anchor to Ledger
+- hub-risk: Refresh Analysis → Export Risk Report → Anchor to Ledger
+- hub-reports: Generate Report → Download Report → Anchor to Ledger
+- hub-predictive: Run Predictions → Export Report → Anchor to Ledger
+- hub-sbom: Scan Components → Export SBOM → Anchor to Ledger
+- hub-submissions: Analyze & Compare → Export Discrepancy Report → Clear → Anchor to Ledger
+- hub-gfp: Run Inventory Check → Export DD 1662 Report → Anchor to Ledger
+- hub-cdrl: Validate CDRLs → Export Compliance Report → Anchor to Ledger
+- hub-contract: Extract Clauses (AI) → Export Clause Matrix → Anchor to Ledger
+- hub-provenance: Record Transfer → Generate QR Tag → Verify Chain → Export Report → Anchor to Ledger
+- hub-analytics: Refresh → Export PDF → Export CSV → Anchor to Ledger
+- hub-team: Create Team → Invite Member → Export Access Audit → Access Review → Anchor to Ledger
+- hub-acquisition: Add Vessel → Import Registry → Import CSV → views → exports → Anchor to Ledger
+- hub-milestones: Add Milestone → Vessel Types → Import CSV → views → exports → Anchor to Ledger
+- hub-brief: New Brief → Import PPTX → Export PDF → Anchor to Ledger ← NEW
+
+### Files Changed
+- `prod-app/src/styles/main.css` — .tool-actions-bar: removed border-top, reduced margin from 20→4px, removed padding-top
+- `prod-app/src/index.html` — Added hub-brief static action bar
+- `prod-app/src/js/brief.js` — Anchor button → "Anchor to Ledger" with fa-anchor icon + blue gradient
+- `demo-app/src/` — Synced: index.html, main.css, brief.js
+- Both `*/dist/` — Rebuilt and verified
+
+---
 *This log is updated every session. Reference before making changes.*
