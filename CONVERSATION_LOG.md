@@ -2493,4 +2493,44 @@ Removed all dark mode code across CSS, HTML, and JS:
 - `demo-app/index.html` — Copied from demo dist
 
 ---
+
+## Session 36 — Fix Duplicate ACTIONS Headers & Ensure Full Panel Coverage (March 2026)
+
+### Problem 1: Duplicate ACTIONS Headers
+Two separate systems were injecting "⚡ ACTIONS" headers on every tool panel:
+1. **HTML-native** `s4-actions-label` divs (17 of them, added in prior session) — blue accent styling
+2. **metrics.js** `transformPanel()` Phase 4 — dynamically injects `section-label` ACTIONS before `.tool-actions-bar` containers
+
+The HTML labels used class `s4-actions-label` but the metrics.js guard checked for `section-label` — different classes meant the guard never triggered, so both appeared.
+
+### Fix (commit `045773b`)
+- Removed all 17 HTML `s4-actions-label` divs from `prod-app/src/index.html`
+- `metrics.js` `transformPanel()` is now the **single source of truth** for ACTIONS labels
+- Also handles CONFIGURATION and RESULTS section labels via same pipeline
+
+### Problem 2: Missing ACTIONS Headers on 5 Panels
+The metrics.js Phase 3 selector matches `display:flex` + `gap:10` + `flex-wrap:wrap` to identify action button containers. Five panels were missed:
+- **hub-actions**: `gap:8px` (not 10px)
+- **hub-docs**: `gap:8px` (not 10px)
+- **hub-acquisition**: `gap:8px` (not 10px)
+- **hub-milestones**: `gap:8px` (not 10px)
+- **hub-analytics**: No standalone action bar at all (export buttons buried in grid cell)
+
+### Fix (commit `4f12875`)
+- Changed `gap:8px` → `gap:10px` on 4 panels' main action bar divs
+- Added dedicated action bar for hub-analytics: Refresh, Export PDF, Export CSV, Anchor to Ledger
+- All 23 hub panels now matched by metrics.js Phase 3 → all get ACTIONS headers
+
+### Remaining gap:8px containers (intentionally NOT converted)
+- Status filter chips (gap:4px) — filter bars, not actions
+- Sub-section buttons inside `<details>` accordions — internal to expandable sections
+- Search/filter input bars — not action buttons
+- System status badges — informational, not actionable
+
+### Files Changed
+- `prod-app/src/index.html` — Removed 17 `s4-actions-label` divs; changed gap:8→10 on 4 panels; added analytics action bar
+- `demo-app/src/index.html` — Synced from prod
+- Both `*/dist/` — Rebuilt and verified
+
+---
 *This log is updated every session. Reference before making changes.*
