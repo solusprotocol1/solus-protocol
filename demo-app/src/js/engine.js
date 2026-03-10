@@ -5869,7 +5869,7 @@ function renderVault() {
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;gap:8px">
                 <div style="display:flex;align-items:center;gap:8px;min-width:0;flex:1;overflow:hidden">
                     <input type="checkbox" class="vault-cb" data-hash="${v.hash}" onchange="_updateBulkBar()" style="accent-color:#00aaff;cursor:pointer;flex-shrink:0">
-                    <span style="font-size:0.95rem;flex-shrink:0;width:20px;text-align:center;line-height:1">${v.icon || '<i class="fas fa-clipboard-list"></i>'}</span>
+                    <span style="font-size:0.95rem;flex-shrink:0;width:20px;text-align:center;line-height:1">${_renderIcon(v.icon)}</span>
                     <strong style="color:#fff;font-size:0.88rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${v.label || v.type}</strong>
                     <span style="font-size:0.72rem;color:var(--muted);flex-shrink:0;white-space:nowrap">${v.branch || ''}</span>
                 </div>
