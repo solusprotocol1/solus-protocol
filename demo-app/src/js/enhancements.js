@@ -8297,9 +8297,18 @@ window.verifyProvenanceChain = verifyProvenanceChain;
             '<div class="s4-tool-preview-title"><i class="fas fa-eye"></i>' + title + '</div>' +
             '<div class="s4-tool-preview-desc">' + desc.substring(0, 80) + (desc.length > 80 ? '...' : '') + '</div>' +
             '<div class="s4-tool-preview-snippet">' + info.snippet.replace(/\n/g, '<br>') + '</div>';
-        card.style.position = 'relative';
-        card.appendChild(el);
+        // Append to body with fixed positioning so overflow:hidden can't clip it
+        document.body.appendChild(el);
         _activePreview = el;
+        // Position above the card using viewport coordinates
+        var rect = card.getBoundingClientRect();
+        var elW = 240;
+        var left = rect.left + rect.width / 2 - elW / 2;
+        // Keep within viewport
+        if (left < 8) left = 8;
+        if (left + elW > window.innerWidth - 8) left = window.innerWidth - 8 - elW;
+        el.style.left = left + 'px';
+        el.style.bottom = (window.innerHeight - rect.top + 8) + 'px';
         // Force reflow then show
         el.offsetHeight;
         el.classList.add('visible');

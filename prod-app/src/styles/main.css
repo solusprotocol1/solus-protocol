@@ -5334,26 +5334,27 @@ button:active, .btn:active {
 
 /* ═══ CHANGE 13: Inline Tool Previews ═══ */
 .s4-tool-preview {
-    position:absolute; left:50%; bottom:calc(100% + 8px);
-    transform:translateX(-50%) translateY(4px);
+    position:fixed;
     width:240px; max-width:90vw;
     background:#fff; border:1px solid var(--border);
     border-radius:10px; padding:14px 16px;
     box-shadow:0 8px 30px rgba(0,0,0,0.12);
-    z-index:200;
+    z-index:10001;
     opacity:0; pointer-events:none;
     transition:opacity 0.2s ease, transform 0.2s ease;
+    transform:translateY(4px);
     font-size:0.75rem;
 }
 .s4-tool-preview.visible {
     opacity:1; pointer-events:auto;
-    transform:translateX(-50%) translateY(0);
+    transform:translateY(0);
 }
 .s4-tool-preview::after {
     content:''; position:absolute;
     left:50%; bottom:-6px; transform:translateX(-50%) rotate(45deg);
     width:10px; height:10px;
     background:#fff; border-right:1px solid var(--border); border-bottom:1px solid var(--border);
+    z-index:10001;
 }
 .s4-tool-preview-title {
     font-weight:700; color:var(--text); margin-bottom:6px;
