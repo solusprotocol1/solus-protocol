@@ -386,79 +386,114 @@ function closeILSTool() {
 })();
 
 // ═══ Wallet Sidebar ═══
+function _getCreditsData() {
+    var _tFallback = (window._onboardTiers && window._onboardTier) ? (window._onboardTiers[window._onboardTier]?.sls || 25000) : (parseInt(localStorage.getItem('s4_tier_allocation')) || 25000);
+    var _s = window._demoSession;
+    var allocation = _s ? (_s.subscription?.sls_allocation || _tFallback) : _tFallback;
+    var _stats = window._s4Stats || {anchored:0,verified:0,slsFees:0};
+    var spent = _stats.slsFees || 0;
+    var remaining = Math.round((allocation - spent) * 100) / 100;
+    var anchored = _stats.anchored || 0;
+    var plan = _s ? (_s.subscription?.label || 'Starter') : (localStorage.getItem('s4_tier_label') || 'Starter');
+    var addr = _s?.wallet?.address || '';
+    var pct = allocation > 0 ? Math.max(0, Math.min(100, (remaining / allocation) * 100)) : 100;
+    return { allocation: allocation, spent: spent, remaining: remaining, anchored: anchored, plan: plan, addr: addr, pct: pct };
+}
+
 function openWalletSidebar() {
     var sidebar = document.getElementById('walletSidebar');
     var overlay = document.getElementById('walletOverlay');
     if (sidebar) sidebar.classList.add('open');
     if (overlay) overlay.classList.add('show');
-    
-    // Always re-copy wallet content into sidebar for fresh data on every open
-    var body = document.getElementById('walletSidebarBody');
-    var walletPane = document.getElementById('tabWallet');
-    if (body && walletPane) {
-        body.innerHTML = walletPane.innerHTML;
-        body.dataset.loaded = 'true';
-        // Trigger wallet data load
-        if (typeof loadWalletData === 'function') loadWalletData();
-        
-        // Rewire flow details button to show INSIDE the sidebar
-        _rewireWalletFlowDetails(body);
-    }
-    
-    // Force-sync ALL balance elements (including sidebar clones) with current state
-    if (typeof window._syncSlsBar === 'function') { try { window._syncSlsBar(); } catch(e) {} }
-    else if (typeof _syncSlsBar === 'function') { try { _syncSlsBar(); } catch(e) {} }
-    
-    // Update wallet trigger balance
-    updateWalletTrigger();
-}
 
-function _rewireWalletFlowDetails(sidebarBody) {
-    // Find the "Flow Details" button inside the sidebar copy
-    var flowBtn = sidebarBody.querySelector('#slsToggleBtn');
-    if (!flowBtn) return;
-    
-    // Remove the original onclick toggle
-    flowBtn.removeAttribute('onclick');
-    
-    // Create inline flow details panel for the sidebar
-    var flowPanel = document.createElement('div');
-    flowPanel.id = 'sidebarFlowPanel';
-    flowPanel.style.cssText = 'display:none;margin-top:12px;background:linear-gradient(135deg,rgba(0,170,255,0.06),rgba(201,168,76,0.04));border:1px solid rgba(0,170,255,0.25);border-radius:3px;padding:16px 18px;';
-    flowPanel.innerHTML = '<div style="position:relative">'
-        + '<div style="position:absolute;top:-4px;right:0;background:linear-gradient(135deg,#00aaff,#c9a84c);padding:3px 12px;border-radius:0 10px 0 8px;font-size:0.62rem;font-weight:700;color:var(--text,#1d1d1f);letter-spacing:0.5px">LIVE PREVIEW</div>'
-        + '<h4 style="margin:0 0 4px;font-size:0.95rem;color:var(--text,#1d1d1f)"><i class="fas fa-flask" style="color:#00aaff;margin-right:6px"></i>Credit Economic Flow</h4>'
-        + '<p style="color:#6e6e73;font-size:0.72rem;margin:0 0 12px">See how the Credit economy works. <strong style="color:#c9a84c">Every anchor costs 0.01 Credits.</strong></p>'
-        + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">'
-        + '<div style="background:rgba(0,170,255,0.08);border:1px solid rgba(0,170,255,0.2);border-radius:3px;padding:10px;text-align:center"><div style="width:28px;height:28px;border-radius:50%;background:rgba(0,170,255,0.15);display:inline-flex;align-items:center;justify-content:center;margin-bottom:6px"><i class="fas fa-user-plus" style="color:#00aaff;font-size:0.75rem"></i></div><div style="font-size:0.68rem;font-weight:700;color:var(--text,#1d1d1f)">1. Account</div><div style="font-size:0.62rem;color:#6e6e73">Created &amp; provisioned</div></div>'
-        + '<div style="background:rgba(0,170,255,0.08);border:1px solid rgba(0,170,255,0.2);border-radius:3px;padding:10px;text-align:center"><div style="width:28px;height:28px;border-radius:50%;background:rgba(0,170,255,0.15);display:inline-flex;align-items:center;justify-content:center;margin-bottom:6px"><i class="fas fa-wallet" style="color:#00aaff;font-size:0.75rem"></i></div><div style="font-size:0.68rem;font-weight:700;color:var(--text,#1d1d1f)">2. Wallet Funded</div><div style="font-size:0.62rem;color:#6e6e73">12 XRP reserve</div></div>'
-        + '<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:3px;padding:10px;text-align:center"><div style="width:28px;height:28px;border-radius:50%;background:rgba(201,168,76,0.15);display:inline-flex;align-items:center;justify-content:center;margin-bottom:6px"><i class="fas fa-coins" style="color:#c9a84c;font-size:0.75rem"></i></div><div style="font-size:0.68rem;font-weight:700;color:var(--text,#1d1d1f)">3. Credits Allocated</div><div style="font-size:0.62rem;color:#6e6e73">Based on plan tier</div></div>'
-        + '<div style="background:rgba(0,170,255,0.08);border:1px solid rgba(0,170,255,0.2);border-radius:3px;padding:10px;text-align:center"><div style="width:28px;height:28px;border-radius:50%;background:rgba(0,170,255,0.15);display:inline-flex;align-items:center;justify-content:center;margin-bottom:6px"><i class="fas fa-arrow-right" style="color:#00aaff;font-size:0.75rem"></i></div><div style="font-size:0.68rem;font-weight:700;color:var(--text,#1d1d1f)">4. 0.01 Credits &rarr; Treasury</div><div style="font-size:0.62rem;color:#6e6e73">Per anchor fee</div></div>'
-        + '</div>'
-        + '<div style="margin-top:10px;padding:8px 12px;background:rgba(0,0,0,0.04);border-radius:3px;font-size:0.7rem">'
-        + '<div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px">'
-        + '<div><span style="color:#6e6e73">Wallet:</span> <span style="color:#00aaff;font-family:monospace" id="sidebarWalletAddr">rMLmk...f1KLqJ</span></div>'
-        + '<div><span style="color:#6e6e73">Balance:</span> <span style="color:#c9a84c;font-weight:700" id="sidebarSlsBal">' + (document.getElementById('slsBarBalance') ? document.getElementById('slsBarBalance').textContent : '25,000') + ' Credits</span></div>'
-        + '</div></div>'
-        + '</div>';
-    
-    // Insert flow panel after the slsBalanceBar in sidebar
-    var slsBar = sidebarBody.querySelector('#slsBalanceBar');
-    if (slsBar) {
-        slsBar.parentNode.insertBefore(flowPanel, slsBar.nextSibling);
-    } else {
-        sidebarBody.insertBefore(flowPanel, sidebarBody.firstChild ? sidebarBody.firstChild.nextSibling : null);
+    var body = document.getElementById('walletSidebarBody');
+    if (!body) return;
+
+    var d = _getCreditsData();
+
+    // Color logic: healthy (#007AFF), low/amber (#FF9500), critical (#FF3B30)
+    var balColor = d.pct > 20 ? '#007AFF' : d.pct > 5 ? '#FF9500' : '#FF3B30';
+    var barColor = balColor;
+    var allPaid = d.anchored > 0;
+
+    // Recent usage toast (only if anchors > 0)
+    var usageToast = '';
+    if (d.anchored > 0) {
+        usageToast = '<div class="ws-usage-toast">'
+            + '<i class="fas fa-bolt" style="color:#FF9500;margin-right:6px;font-size:0.7rem"></i>'
+            + '<span>-' + d.spent.toFixed(2) + ' $SLS (' + d.anchored + ' record' + (d.anchored !== 1 ? 's' : '') + ' anchored)</span>'
+            + '</div>';
     }
-    
-    // Wire up the button to toggle the SIDEBAR flow panel
-    var _sidebarFlowShown = false;
-    flowBtn.addEventListener('click', function() {
-        _sidebarFlowShown = !_sidebarFlowShown;
-        flowPanel.style.display = _sidebarFlowShown ? 'block' : 'none';
-        flowBtn.innerHTML = _sidebarFlowShown 
-            ? '<i class="fas fa-chevron-up" style="margin-right:4px"></i>Hide Flow Details'
-            : '<i class="fas fa-chart-simple" style="margin-right:4px"></i>Show Flow Details';
+
+    body.innerHTML = ''
+        // ── Hero: Credits Remaining ──
+        + '<div class="ws-credits-hero">'
+        +   '<div class="ws-credits-label">Credits Remaining</div>'
+        +   '<div class="ws-credits-amount" style="color:' + balColor + ';">'
+        +     '<span class="ws-credits-num">' + d.remaining.toLocaleString(undefined,{maximumFractionDigits:2}) + '</span>'
+        +     ' <span class="ws-credits-unit">$SLS</span>'
+        +   '</div>'
+        +   '<div class="ws-credits-sub">'
+        +     'Used Today: <strong>' + d.spent.toFixed(2) + '</strong>'
+        +     '<span class="ws-credits-sep">|</span>'
+        +     'Total Allocated: <strong>' + d.allocation.toLocaleString() + '</strong>'
+        +   '</div>'
+        // ── Progress bar ──
+        +   '<div class="ws-progress-track">'
+        +     '<div class="ws-progress-fill" style="width:' + d.pct.toFixed(1) + '%;background:' + barColor + ';"></div>'
+        +   '</div>'
+        + '</div>'
+
+        // ── Verified status ──
+        + (allPaid
+            ? '<div class="ws-verified-badge"><i class="fas fa-check-circle"></i> All Anchors Paid &amp; Verified</div>'
+            : '<div class="ws-verified-badge ws-verified-empty"><i class="fas fa-info-circle"></i> No anchors yet — start anchoring to see activity</div>')
+
+        // ── Usage toast ──
+        + usageToast
+
+        // ── Quick Stats ──
+        + '<div class="ws-stats-grid">'
+        +   '<div class="ws-stat-card">'
+        +     '<div class="ws-stat-icon" style="background:rgba(0,122,255,0.08);"><i class="fas fa-anchor" style="color:#007AFF;"></i></div>'
+        +     '<div class="ws-stat-val">' + d.anchored + '</div>'
+        +     '<div class="ws-stat-lbl">Anchors</div>'
+        +   '</div>'
+        +   '<div class="ws-stat-card">'
+        +     '<div class="ws-stat-icon" style="background:rgba(52,199,89,0.08);"><i class="fas fa-coins" style="color:#34C759;"></i></div>'
+        +     '<div class="ws-stat-val">' + Math.floor(d.remaining / 0.01).toLocaleString() + '</div>'
+        +     '<div class="ws-stat-lbl">Remaining</div>'
+        +   '</div>'
+        +   '<div class="ws-stat-card">'
+        +     '<div class="ws-stat-icon" style="background:rgba(255,149,0,0.08);"><i class="fas fa-tag" style="color:#FF9500;"></i></div>'
+        +     '<div class="ws-stat-val">' + d.plan + '</div>'
+        +     '<div class="ws-stat-lbl">Plan</div>'
+        +   '</div>'
+        + '</div>'
+
+        // ── Wallet address ──
+        + (d.addr ? '<div class="ws-wallet-addr">'
+        +   '<div class="ws-addr-label"><i class="fas fa-link" style="margin-right:4px;color:#007AFF;font-size:0.65rem;"></i>XRPL Wallet</div>'
+        +   '<div class="ws-addr-val">' + d.addr.substring(0,8) + '...' + d.addr.slice(-6) + '</div>'
+        + '</div>' : '')
+
+        // ── Top Up ──
+        + '<button class="ws-topup-btn" onclick="if(typeof showSection===\'function\'){showSection(\'sectionILS\');closeWalletSidebar();}"><i class="fas fa-plus-circle" style="margin-right:6px;"></i>Top Up Credits</button>'
+
+        // ── Rate info ──
+        + '<div class="ws-rate-footer">'
+        +   '<span>0.01 $SLS per anchor</span><span class="ws-credits-sep">•</span><span>~$0.0001 per record</span>'
+        + '</div>';
+
+    // Trigger the count-up animation on the hero number
+    requestAnimationFrame(function() {
+        var numEl = body.querySelector('.ws-credits-num');
+        if (numEl) {
+            numEl.classList.add('ws-num-enter');
+        }
     });
+
+    body.dataset.loaded = 'true';
 }
 
 function closeWalletSidebar() {
@@ -469,10 +504,10 @@ function closeWalletSidebar() {
 }
 
 function updateWalletTrigger() {
-    var bal = document.getElementById('slsBarBalance');
+    var d = _getCreditsData();
     var trigger = document.getElementById('walletTriggerBal');
-    if (bal && trigger) {
-        trigger.textContent = bal.textContent || '--';
+    if (trigger) {
+        trigger.textContent = d.remaining.toLocaleString(undefined,{maximumFractionDigits:2}) + ' Credits';
     }
 }
 

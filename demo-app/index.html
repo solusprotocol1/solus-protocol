@@ -67,12 +67,12 @@
     <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" integrity="sha384-9nhczxUqK87bcKHh20fSQcTGD4qq5GhayNYSYWqwBkINBhOfQLg/P5HG5lF1urn4" crossorigin="anonymous"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/qrcode@1.5.4/build/qrcode.min.js"></script>
     <!-- CSS is imported via main.js and extracted by Vite -->
-  <script type="module" crossorigin src="/demo-app/dist/assets/index-CFJhRRWy.js"></script>
+  <script type="module" crossorigin src="/demo-app/dist/assets/index-DM2S-KpZ.js"></script>
   <link rel="modulepreload" crossorigin href="/demo-app/dist/assets/engine-_gc9Aom0.js">
-  <link rel="modulepreload" crossorigin href="/demo-app/dist/assets/navigation-CeKIM94e.js">
+  <link rel="modulepreload" crossorigin href="/demo-app/dist/assets/navigation-D4zboIto.js">
   <link rel="modulepreload" crossorigin href="/demo-app/dist/assets/metrics-BF4aFrbM.js">
   <link rel="modulepreload" crossorigin href="/demo-app/dist/assets/enhancements-CcJrulQK.js">
-  <link rel="stylesheet" crossorigin href="/demo-app/dist/assets/index-DFHNoU6S.css">
+  <link rel="stylesheet" crossorigin href="/demo-app/dist/assets/index-vN3CQqrM.css">
 </head>
 <body class="light-mode">
 <!-- Light mode always on -->
@@ -3402,11 +3402,10 @@
 <div class="wallet-overlay" id="walletOverlay" onclick="closeWalletSidebar()"></div>
 <div class="wallet-sidebar" id="walletSidebar" role="complementary" aria-label="Ledger Account">
     <div class="wallet-sidebar-header">
-        <h3><i class="fas fa-wallet" style="color:var(--accent);"></i> Ledger Account</h3>
-        <button class="wallet-sidebar-close" onclick="closeWalletSidebar()"><i class="fas fa-times"></i> Close</button>
+        <h3><i class="fas fa-wallet" style="color:#007AFF;"></i> Ledger Account</h3>
+        <button class="wallet-sidebar-close" onclick="closeWalletSidebar()" style="background:rgba(0,122,255,0.06);border:1px solid rgba(0,122,255,0.12);color:#007AFF;border-radius:10px;"><i class="fas fa-times"></i></button>
     </div>
     <div class="wallet-sidebar-body" id="walletSidebarBody">
-        <!-- Wallet content will be moved here dynamically -->
         <div style="text-align:center;padding:40px 20px;color:var(--muted);">
             <i class="fas fa-spinner fa-spin" style="font-size:1.5rem;margin-bottom:12px;display:block;"></i>
             Loading wallet...
@@ -3570,14 +3569,14 @@
             var sidebar = document.getElementById('walletSidebar');
             var overlay = document.getElementById('walletOverlay');
             if (sidebar) sidebar.classList.add('open');
-            if (overlay) overlay.classList.add('open');
+            if (overlay) overlay.classList.add('show');
         };
 
         window.closeWalletSidebar = function closeWalletSidebar() {
             var sidebar = document.getElementById('walletSidebar');
             var overlay = document.getElementById('walletOverlay');
             if (sidebar) sidebar.classList.remove('open');
-            if (overlay) overlay.classList.remove('open');
+            if (overlay) overlay.classList.remove('show');
         };
 
         // Standalone startAuthFlow — shows DoW consent → CAC login → onboarding → role

@@ -934,12 +934,40 @@
         .wallet-sidebar-header h3 { font-size:1.1rem; font-weight:800; color:#1d1d1f; margin:0; display:flex; align-items:center; gap:8px; }
         .wallet-sidebar-close { background:rgba(201,168,76,0.1); border:1px solid rgba(201,168,76,0.2); color:#c9a84c; border-radius:8px; padding:6px 12px; font-size:0.8rem; cursor:pointer; font-family:inherit; }
         .wallet-sidebar-close:hover { background:rgba(201,168,76,0.2); }
-        .wallet-sidebar-body { padding:20px; overflow-y:auto; flex:1; min-height:0; padding-bottom:40px; font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; }
-        .wallet-overlay { display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.5); z-index:9998; }
+        .wallet-sidebar-body { padding:24px; overflow-y:auto; flex:1; min-height:0; padding-bottom:40px; font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','SF Pro Text','Inter','Segoe UI',sans-serif; }
+        .wallet-overlay { display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.45); z-index:9998; backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px); }
         .wallet-overlay.show { display:block; }
         .wallet-trigger { background:linear-gradient(135deg,rgba(26,58,92,0.3),rgba(0,170,255,0.1)); border:1px solid rgba(0,170,255,0.3); color:var(--accent); border-radius:8px; padding:8px 16px; font-size:0.82rem; font-weight:700; cursor:pointer; font-family:inherit; display:flex; align-items:center; gap:8px; transition:all 0.2s; }
         .wallet-trigger:hover { background:rgba(0,170,255,0.15); border-color:var(--accent); }
         .wallet-trigger .wt-bal { color:#c9a84c; font-weight:800; }
+
+        /* ═══ Wallet Sidebar — Credits View (redesigned) ═══ */
+        .ws-credits-hero{text-align:center;padding:28px 0 20px;border-bottom:1px solid var(--border,rgba(0,0,0,0.06));margin-bottom:20px}
+        .ws-credits-label{font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--steel,#86868b);margin-bottom:6px}
+        .ws-credits-amount{font-size:2rem;font-weight:800;letter-spacing:-0.03em;line-height:1.15}
+        .ws-credits-unit{font-size:0.85rem;font-weight:600;opacity:0.7;vertical-align:baseline}
+        .ws-credits-sub{font-size:0.75rem;color:var(--steel,#86868b);margin-top:8px;display:flex;align-items:center;justify-content:center;gap:0;flex-wrap:wrap}
+        .ws-credits-sep{margin:0 8px;opacity:0.3}
+        .ws-progress-track{height:5px;background:var(--border,rgba(0,0,0,0.06));border-radius:3px;margin-top:14px;overflow:hidden}
+        .ws-progress-fill{height:100%;border-radius:3px;transition:width 0.8s cubic-bezier(0.4,0,0.2,1)}
+        .ws-verified-badge{display:flex;align-items:center;gap:8px;padding:10px 14px;background:rgba(52,199,89,0.06);border:1px solid rgba(52,199,89,0.15);border-radius:12px;font-size:0.78rem;font-weight:600;color:#34C759;margin-bottom:16px}
+        .ws-verified-badge.ws-verified-empty{background:rgba(0,122,255,0.04);border-color:rgba(0,122,255,0.1);color:var(--steel,#86868b);font-weight:500}
+        .ws-usage-toast{display:flex;align-items:center;padding:10px 14px;background:rgba(255,149,0,0.06);border:1px solid rgba(255,149,0,0.15);border-radius:12px;font-size:0.75rem;font-weight:500;color:var(--text,#1d1d1f);margin-bottom:16px;animation:wsToastIn 0.4s ease-out}
+        .ws-stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px}
+        .ws-stat-card{background:var(--surface,#f5f5f7);border:1px solid var(--border,rgba(0,0,0,0.06));border-radius:12px;padding:14px 10px;text-align:center}
+        .ws-stat-icon{width:32px;height:32px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;margin-bottom:6px;font-size:0.8rem}
+        .ws-stat-val{font-size:0.95rem;font-weight:800;color:var(--text,#1d1d1f);letter-spacing:-0.01em}
+        .ws-stat-lbl{font-size:0.65rem;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--steel,#86868b);margin-top:2px}
+        .ws-wallet-addr{background:var(--surface,#f5f5f7);border:1px solid var(--border,rgba(0,0,0,0.06));border-radius:12px;padding:12px 14px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between}
+        .ws-addr-label{font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--steel,#86868b)}
+        .ws-addr-val{font-size:0.78rem;font-family:'SF Mono','Fira Code',monospace;color:var(--text,#1d1d1f);font-weight:500}
+        .ws-topup-btn{width:100%;background:transparent;border:1.5px solid #007AFF;color:#007AFF;border-radius:12px;padding:12px;font-size:0.85rem;font-weight:700;cursor:pointer;font-family:inherit;transition:all 0.2s;margin-bottom:12px}
+        .ws-topup-btn:hover{background:rgba(0,122,255,0.06)}
+        .ws-rate-footer{text-align:center;font-size:0.68rem;color:var(--muted,#aeaeb2);padding:4px 0}
+        /* Animation: fade-in + scale-up on the hero number */
+        .ws-credits-num{display:inline-block;opacity:0;transform:scale(0.7);transition:opacity 0.5s ease,transform 0.5s cubic-bezier(0.34,1.56,0.64,1)}
+        .ws-credits-num.ws-num-enter{opacity:1;transform:scale(1)}
+        @keyframes wsToastIn{0%{opacity:0;transform:translateY(-6px)}100%{opacity:1;transform:translateY(0)}}
 
         /* ═══ ILS Sub-Hub Cards ═══ */
         .ils-sub-hub { display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:14px; margin-bottom:20px; }
