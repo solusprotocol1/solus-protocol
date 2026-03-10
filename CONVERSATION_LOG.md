@@ -2610,4 +2610,50 @@ Every panel has exactly ONE action bar matching the Phase 3 selector. Button ord
 - Both `*/dist/` — Rebuilt and verified
 
 ---
+
+## Session 37 — Changes 16-20: Mobile, Accessibility, Error Recovery, Avatar, Polish
+**Commit:** `fb91b96` | **Date:** 2025-07-12
+
+### Change 16: Mobile-First Responsive Refinements
+- Hub grid breakpoints: 3-col ≥1025px, 2-col 641-1024px, 1-col ≤640px
+- Bottom-sheet wallet sidebar on ≤768px (100vw, 85vh, top border-radius)
+- Hamburger menu refactored from inline-style toggle to class-based `.mobile-open`
+- Today's Chain: horizontal scroll + snap on ≤768px
+- Tighter padding, full-width buttons on ≤640px
+
+### Change 17: Accessibility Polish
+- ARIA roles on hub cards (`role="button"` + `tabindex="0"` + Enter/Space handlers)
+- Score rings `role="img"` with dynamic `aria-label`
+- Toolbars `role="toolbar"` with `aria-label`
+- `:focus-visible` outlines (2px accent + 4px glow)
+- `.sr-only` utility class, `#s4A11yLive` screen-reader live region
+- `_s4Announce()` global function for screen-reader messages
+- `prefers-reduced-motion: reduce` disables all animations
+
+### Change 18: Inline Error Recovery Banners
+- `_s4ShowError(containerId, msg, {quickFix, retry})` — yellow left-border banner with Quick Fix / Retry / Dismiss
+- `_s4ShowSuccess(containerId, msg)` — green success variant with 5s auto-dismiss
+- Auto-announces errors to screen readers via `_s4Announce()`
+
+### Change 19: Avatar Popover & User Preferences
+- Avatar button in wallet trigger area with popover (preset selector, notifications toggle, sound toggle, shortcuts ref)
+- `_s4ToggleAvatar()`, `_s4SavePref()`, `_s4TogglePref()` global functions
+- localStorage persistence with `s4_user_prefs` key, auto-restored on boot
+- Outside-click dismiss
+
+### Change 20: Visual Consistency Polish
+- 10px border-radius standardized across all button types
+- Consistent card shadows (default → hover → elevated)
+- Icon sizing lock: 24px standard
+- Typography lock: body 0.9rem, h1 1.8rem, h2 1.4rem, h3 1.1rem, h4 0.95rem
+- Loading skeleton system: `@keyframes skeletonShimmer`, `.skeleton-card`, `.skeleton-line`, `.skeleton-circle`
+
+### Files Modified
+- `prod-app/src/styles/main.css` — ~180 lines CSS appended (all 5 changes)
+- `prod-app/src/index.html` — Avatar popover HTML, screen-reader live region, platform hub ARIA, hamburger class-based toggle
+- `prod-app/src/js/enhancements.js` — New IIFE with all JS for changes 16-20
+- `demo-app/src/` — Synced: main.css, index.html, enhancements.js (NOT engine.js)
+- Both `*/dist/` — Rebuilt and verified
+
+---
 *This log is updated every session. Reference before making changes.*
