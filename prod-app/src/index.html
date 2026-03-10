@@ -1011,7 +1011,7 @@
                     <div class="col-lg-8">
                         <div class="s4-card">
                             <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-tasks" style="color:var(--accent)"></i> Task Prioritizer <button onclick="showAddActionModal()" class="ai-quick-btn" style="margin-left:auto;font-size:0.72rem;padding:4px 10px"><i class="fas fa-plus"></i> Action Item</button></h3>
-<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1rem">
+<div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:1rem">
                                     <button class="ai-quick-btn" onclick="showAddActionModal()" style="background:rgba(0,170,255,0.2);border-color:var(--accent);font-weight:700"><i class="fas fa-plus"></i> Add New</button>
                                     <button class="ai-quick-btn" onclick="filterHubActions('all')" style="background:rgba(0,170,255,0.15);border-color:var(--accent)">All</button>
                                     <button class="ai-quick-btn" onclick="filterHubActions('critical')"><span style="color:#c9a84c">●</span> Critical</button>
@@ -1422,7 +1422,7 @@
                         <p style="font-size:0.8rem;color:var(--steel);margin-bottom:8px;"><strong>How S4 saves you money:</strong> Document management errors cause an average of <strong style="color:#00cc66">$75,000-$250,000</strong> per incident in rework and delays. S4 immutable hash verification eliminates document tampering risk and reduces version control errors by <strong style="color:#00cc66">95%</strong>. Automated CDRL tracking saves 10-15 hours/week per program.</p>
                     </details>
 <!-- Search & Filters -->
-                    <div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap;align-items:center">
+                    <div style="display:flex;gap:10px;margin-bottom:10px;flex-wrap:wrap;align-items:center">
                         <button onclick="showDocUpload()" class="ai-quick-btn" style="background:rgba(0,170,255,0.2);border-color:var(--accent);font-weight:700"><i class="fas fa-plus"></i> Add Document</button>
                         <button onclick="showDocVersionUpload()" class="ai-quick-btn"><i class="fas fa-brain"></i> Analyze Revision</button>
                         <button onclick="exportDocLibrary()" class="ai-quick-btn"><i class="fas fa-download"></i> Export Library</button>
@@ -2588,6 +2588,13 @@
                         </div>
                     </div>
 
+                    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:1rem">
+                        <button onclick="refreshAnalytics()" class="ai-quick-btn" style="background:rgba(0,170,255,0.2);border-color:var(--accent);font-weight:700"><i class="fas fa-sync-alt"></i> Refresh</button>
+                        <button onclick="exportAnalyticsReport()" class="ai-quick-btn"><i class="fas fa-file-pdf"></i> Export PDF</button>
+                        <button onclick="exportAnalyticsCSV()" class="ai-quick-btn"><i class="fas fa-file-csv"></i> Export CSV</button>
+                        <button onclick="anchorToLedger('analytics','Cross-program analytics anchored')" class="ai-quick-btn"><i class="fas fa-anchor"></i> Anchor to Ledger</button>
+                    </div>
+
                     <!-- Chart containers -->
                     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-bottom:16px">
                         <div style="background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.15);border-radius:8px;padding:16px">
@@ -2704,7 +2711,7 @@
                     <div id="acqProgramSwitcher" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;padding:8px 0;border-bottom:1px solid var(--border)"></div>
 
                     <!-- Toolbar -->
-                    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1rem;align-items:center">
+                    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:1rem;align-items:center">
                         <button class="ai-quick-btn" onclick="acqAddRow()" style="background:rgba(0,170,255,0.2);border-color:var(--accent);font-weight:700"><i class="fas fa-plus"></i> Add Vessel</button>
                         <button class="ai-quick-btn" onclick="acqImportDatabase()" title="Import from eNVCR, NVSRP, or other registry (CSV, JSON, XML)"><i class="fas fa-database"></i> Import Registry</button>
                         <button class="ai-quick-btn" onclick="acqImportCSV()"><i class="fas fa-upload"></i> Import CSV</button>
@@ -2815,7 +2822,7 @@
                     <div id="milProgramSwitcher" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;padding:8px 0;border-bottom:1px solid var(--border)"></div>
 
                     <!-- Toolbar -->
-                    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1rem;align-items:center">
+                    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:1rem;align-items:center">
                         <button class="ai-quick-btn" onclick="milAddRow()" style="background:rgba(168,85,247,0.2);border-color:rgba(168,85,247,0.4);color:#a855f7;font-weight:700"><i class="fas fa-plus"></i> Add Milestone</button>
                         <button class="ai-quick-btn" onclick="milShowVesselTypeEditor()"><i class="fas fa-ship"></i> Vessel Types</button>
                         <button class="ai-quick-btn" onclick="milImportCSV()"><i class="fas fa-upload"></i> Import CSV</button>
