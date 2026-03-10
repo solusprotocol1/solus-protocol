@@ -8404,6 +8404,32 @@ window.verifyProvenanceChain = verifyProvenanceChain;
         }
     });
 
+    // ─── Inject "⚡ ACTIONS" headers above tool action buttons ───
+    function _injectActionHeaders() {
+        var panels = document.querySelectorAll('.ils-hub-panel');
+        panels.forEach(function(panel) {
+            if (panel.querySelector('.s4-actions-label')) return;
+            // Find buttons with export/anchor onclick in this panel
+            var actionBtns = panel.querySelectorAll('button[onclick*="export"], button[onclick*="Export"], button[onclick*="anchor"], button[onclick*="Anchor"]');
+            if (actionBtns.length === 0) return;
+            // Find the parent flex row of the first action button
+            var firstBtn = actionBtns[0];
+            var row = firstBtn.parentElement;
+            if (!row || row.tagName !== 'DIV') return;
+            var st = row.getAttribute('style') || '';
+            // Only target dedicated action rows (flex + wrap), skip embedded toolbars
+            if (st.indexOf('flex') === -1 || st.indexOf('flex-wrap') === -1) return;
+            // Skip toolbar-heavy panels where actions are mixed with filters/views
+            var pid = panel.id;
+            if (pid === 'hub-actions' || pid === 'hub-acquisition' || pid === 'hub-milestones') return;
+            var label = document.createElement('div');
+            label.className = 's4-actions-label';
+            label.style.cssText = 'font-size:0.72rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:0.8px;display:flex;align-items:center;gap:6px;margin-bottom:4px;margin-top:10px;';
+            label.innerHTML = '<i class="fas fa-bolt"></i> ACTIONS';
+            row.parentNode.insertBefore(label, row);
+        });
+    }
+
     // ─── Boot Changes 11-15 ───
     function _bootChanges11to15() {
         _highlightDefaultChain();
@@ -8414,6 +8440,8 @@ window.verifyProvenanceChain = verifyProvenanceChain;
             _hookPreviews();
         }, 300);
         _hookBrandingUpload();
+        // Inject action headers after panels are rendered
+        setTimeout(_injectActionHeaders, 500);
     }
 
     if (document.readyState === 'loading') {

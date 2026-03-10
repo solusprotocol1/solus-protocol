@@ -338,19 +338,18 @@ function initRoleSystem() {
 
             var output = document.getElementById('roiOutput');
             if (output) {
-                output.innerHTML = '<div style="background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:20px;margin-top:12px">'
-                    + '<div class="section-label"><i class="fas fa-chart-line"></i> ROI BREAKDOWN</div>'
-                    + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:0.85rem;margin-bottom:16px">'
-                    + '<div><span style="color:var(--steel)">Labor Automation (65%)</span><br><strong style="color:#00cc66">$' + _bpFmt(laborSavings) + '</strong></div>'
-                    + '<div><span style="color:var(--steel)">Error Reduction (90%)</span><br><strong style="color:#00cc66">$' + _bpFmt(errorSavings) + '</strong></div>'
-                    + '<div><span style="color:var(--steel)">Audit Cost Reduction (70%)</span><br><strong style="color:#00cc66">$' + _bpFmt(auditSavings) + '</strong></div>'
-                    + '<div><span style="color:var(--steel)">S4 Ledger License</span><br><strong style="color:#ff6b6b">-$' + _bpFmt(license) + '</strong></div>'
+                output.innerHTML = '<div style="background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:10px 12px;margin-top:8px">'
+                    + '<div class="section-label" style="margin-bottom:4px;font-size:0.72rem"><i class="fas fa-chart-line"></i> ROI BREAKDOWN</div>'
+                    + '<div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:6px 10px;font-size:0.8rem;margin-bottom:8px">'
+                    + '<div style="padding:4px 6px;background:rgba(0,204,102,0.06);border-radius:5px;border:1px solid rgba(0,204,102,0.12)"><span style="color:var(--steel);font-size:0.72rem">Labor Automation (65%)</span><br><strong style="color:#00cc66;font-size:0.85rem">$' + _bpFmt(laborSavings) + '</strong></div>'
+                    + '<div style="padding:4px 6px;background:rgba(0,204,102,0.06);border-radius:5px;border:1px solid rgba(0,204,102,0.12)"><span style="color:var(--steel);font-size:0.72rem">Error Reduction (90%)</span><br><strong style="color:#00cc66;font-size:0.85rem">$' + _bpFmt(errorSavings) + '</strong></div>'
+                    + '<div style="padding:4px 6px;background:rgba(0,204,102,0.06);border-radius:5px;border:1px solid rgba(0,204,102,0.12)"><span style="color:var(--steel);font-size:0.72rem">Audit Cost (70%)</span><br><strong style="color:#00cc66;font-size:0.85rem">$' + _bpFmt(auditSavings) + '</strong></div>'
+                    + '<div style="padding:4px 6px;background:rgba(255,107,107,0.06);border-radius:5px;border:1px solid rgba(255,107,107,0.12)"><span style="color:var(--steel);font-size:0.72rem">S4 License</span><br><strong style="color:#ff6b6b;font-size:0.85rem">-$' + _bpFmt(license) + '</strong></div>'
                     + '</div>'
-                    + '<hr style="border-color:var(--border);margin:12px 0">'
-                    + '<div style="display:flex;justify-content:space-between;align-items:center">'
-                    + '<div><span style="color:var(--steel);font-size:0.82rem">Net Annual Savings</span><br><span style="font-size:1.5rem;font-weight:800;color:' + (netSavings > 0 ? '#00cc66' : '#ff4444') + '">$' + _bpFmt(netSavings) + '</span></div>'
-                    + '<div><span style="color:var(--steel);font-size:0.82rem">Per-Record Savings</span><br><span style="font-size:1.1rem;font-weight:700;color:var(--accent)">$' + perRecordSavings.toFixed(2) + '/record</span></div>'
-                    + '<div><span style="color:var(--steel);font-size:0.82rem">Volume Multiplier</span><br><span style="font-size:1.1rem;font-weight:700;color:var(--accent)">' + volumeMultiplier.toFixed(2) + 'x</span></div>'
+                    + '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;padding:6px 8px;background:rgba(0,113,227,0.04);border-radius:5px;border:1px solid rgba(0,113,227,0.1)">'
+                    + '<div><span style="color:var(--steel);font-size:0.7rem">Net Annual Savings</span><br><span style="font-size:1rem;font-weight:800;color:' + (netSavings > 0 ? '#00cc66' : '#ff4444') + '">$' + _bpFmt(netSavings) + '</span></div>'
+                    + '<div><span style="color:var(--steel);font-size:0.7rem">Per-Record Savings</span><br><span style="font-size:0.92rem;font-weight:700;color:var(--accent)">$' + perRecordSavings.toFixed(2) + '/record</span></div>'
+                    + '<div><span style="color:var(--steel);font-size:0.7rem">Volume Multiplier</span><br><span style="font-size:0.92rem;font-weight:700;color:var(--accent)">' + volumeMultiplier.toFixed(2) + 'x</span></div>'
                     + '</div></div>';
             }
 
@@ -635,6 +634,8 @@ function initRoleSystem() {
         }
         canvases.forEach(function(canvas) {
             if (canvas.getAttribute('data-bp-rendered')) return;
+            // Skip riskHeatChart — renderRiskCharts() in metrics.js handles it (bar chart)
+            if (canvas.id === 'riskHeatChart') return;
             var cfg = _chartConfigs[canvas.id];
             if (!cfg) {
                 console.log('[S4-BP-Charts] No config for canvas: ' + canvas.id);

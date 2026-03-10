@@ -67,11 +67,11 @@
     <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" integrity="sha384-9nhczxUqK87bcKHh20fSQcTGD4qq5GhayNYSYWqwBkINBhOfQLg/P5HG5lF1urn4" crossorigin="anonymous"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/qrcode@1.5.4/build/qrcode.min.js"></script>
     <!-- CSS is imported via main.js and extracted by Vite -->
-  <script type="module" crossorigin src="/demo-app/dist/assets/index-CdQB9rwZ.js"></script>
+  <script type="module" crossorigin src="/demo-app/dist/assets/index-8BZ5J1BY.js"></script>
   <link rel="modulepreload" crossorigin href="/demo-app/dist/assets/engine-_gc9Aom0.js">
-  <link rel="modulepreload" crossorigin href="/demo-app/dist/assets/navigation-C1fbh0ws.js">
+  <link rel="modulepreload" crossorigin href="/demo-app/dist/assets/navigation-CeKIM94e.js">
   <link rel="modulepreload" crossorigin href="/demo-app/dist/assets/metrics-C5CXBMPi.js">
-  <link rel="modulepreload" crossorigin href="/demo-app/dist/assets/enhancements-DpRov6Ji.js">
+  <link rel="modulepreload" crossorigin href="/demo-app/dist/assets/enhancements-CxQEi6UY.js">
   <link rel="stylesheet" crossorigin href="/demo-app/dist/assets/index-ClbNdPym.css">
 </head>
 <body class="light-mode">
@@ -1280,14 +1280,13 @@
             <div class="ils-hub-panel" id="hub-vault">
                 <!-- ── Digital Thread Traceability (Competitive Differentiator) ── -->
                 <div id="digitalThreadPanel" style="margin-bottom:8px;background:linear-gradient(135deg,rgba(0,170,255,0.04),rgba(0,170,255,0.03));border:1px solid rgba(0,170,255,0.2);border-radius:8px;padding:6px 10px;">
-                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
-                        <div style="font-size:0.72rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:0.8px;display:flex;align-items:center;gap:6px;"><i class="fas fa-project-diagram"></i> Digital Thread</div>
-                        <div style="display:flex;align-items:center;gap:6px;">
-                            <select id="digitalThreadRecordSelect" aria-label="Select digital thread record" onchange="showDigitalThreadFromSelect()" style="background:#fff;color:var(--text,#1d1d1f);border:1px solid rgba(0,170,255,0.3);border-radius:6px;padding:2px 6px;font-size:0.7rem;max-width:180px;">
-                                <option value="">— Select record —</option>
-                            </select>
-                            <button onclick="closeDigitalThread()" style="background:rgba(0,170,255,0.12);border:1px solid rgba(0,170,255,0.25);color:var(--accent);cursor:pointer;font-size:0.68rem;width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;padding:0;border-radius:50%;transition:all 0.2s;line-height:1;" title="Close Digital Thread"><i class="fas fa-times"></i></button>
-                        </div>
+                    <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;flex-wrap:nowrap;">
+                        <div style="font-size:0.72rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:0.8px;display:flex;align-items:center;gap:6px;flex-shrink:0;"><i class="fas fa-project-diagram"></i> Digital Thread</div>
+                        <div style="flex:1;"></div>
+                        <select id="digitalThreadRecordSelect" aria-label="Select digital thread record" onchange="showDigitalThreadFromSelect()" style="background:#fff;color:var(--text,#1d1d1f);border:1px solid rgba(0,170,255,0.3);border-radius:6px;padding:2px 6px;font-size:0.7rem;max-width:180px;flex-shrink:0;">
+                            <option value="">— Select record —</option>
+                        </select>
+                        <button onclick="closeDigitalThread()" style="background:rgba(0,170,255,0.12);border:1px solid rgba(0,170,255,0.25);color:var(--accent);cursor:pointer;font-size:0.68rem;width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;padding:0;border-radius:50%;transition:all 0.2s;line-height:1;flex-shrink:0;" title="Close Digital Thread"><i class="fas fa-times"></i></button>
                     </div>
                     <div id="digitalThreadContent" style="font-size:0.8rem;"></div>
                 </div>
