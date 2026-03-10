@@ -3018,8 +3018,8 @@ function _updateThemeIcon(isLight) {
 
         // Search ILS tools
         var ilsToolMap = {
-            'Provisioning':'hub-analysis','Reliability RAM':'hub-analysis','Supply Support':'hub-analysis','PHS&T':'hub-analysis','Technical Data':'hub-analysis','Manpower & Training':'hub-analysis',
-            'Design Interface':'hub-analysis','DMSMS':'hub-dmsms','Lifecycle Cost':'hub-lifecycle','Compliance Matrix':'hub-compliance','Risk Assessment':'hub-risk','Predictive Maintenance':'hub-predictive','Readiness':'hub-readiness','Submission Checker':'hub-submissions','SBOM Viewer':'hub-sbom'
+            'Gap Finder':'hub-analysis','Provisioning':'hub-analysis','Reliability RAM':'hub-analysis','Supply Support':'hub-analysis','PHS&T':'hub-analysis','Technical Data':'hub-analysis','Manpower & Training':'hub-analysis',
+            'Design Interface':'hub-analysis','Obsolescence Alert':'hub-dmsms','DMSMS':'hub-dmsms','Lifecycle Cost Estimator':'hub-lifecycle','Compliance Scorecard':'hub-compliance','Risk Radar':'hub-risk','Maintenance Predictor':'hub-predictive','Readiness Score':'hub-readiness','Submissions Hub':'hub-submissions','SBOM Scanner':'hub-sbom','Property Custodian':'hub-gfp','Chain of Custody':'hub-provenance','Deliverables Tracker':'hub-cdrl','Contract Analyzer':'hub-contract','Audit Vault':'hub-vault','Document Library':'hub-docs','Audit Builder':'hub-reports','Fleet Optimizer':'hub-acquisition','Milestone Monitor':'hub-milestones','Brief Composer':'hub-brief','Program Overview':'hub-analytics','Team Manager':'hub-team','Task Prioritizer':'hub-actions','ROI Calculator':'hub-roi'
         };
         Object.keys(ilsToolMap).forEach(function(tool) {
             if (tool.toLowerCase().includes(q)) results.push({type:'tool', name:tool, desc:'ILS Analysis Tool', icon:'fa-wrench', action:'showSection(\"sectionILS\");setTimeout(function(){openILSTool(\"'+ilsToolMap[tool]+'\")},100)'});
@@ -7397,5 +7397,365 @@ window.runGfpInventory = runGfpInventory;
 window.showDigitalThreadFromSelect = showDigitalThreadFromSelect;
 window.toggleTheme = toggleTheme;
 window.verifyProvenanceChain = verifyProvenanceChain;
+
+// ═══════════════════════════════════════════════════════
+// STEPS 2-5: Welcome Card, Continue Chain, Grid Sections, Report Sidebar
+// ═══════════════════════════════════════════════════════
+
+(function _s4Steps2to5() {
+    'use strict';
+
+    // ── Step 2: Welcome Card ──
+    var _welcomeTimer = null;
+
+    var _chainDefs = {
+        assess: ['hub-analysis', 'hub-compliance', 'hub-risk'],
+        audit:  ['hub-reports', 'hub-vault', 'hub-brief'],
+        cost:   ['hub-lifecycle', 'hub-roi', 'hub-analytics']
+    };
+
+    window._s4DismissWelcome = function() {
+        clearTimeout(_welcomeTimer);
+        var ov = document.getElementById('onboardOverlay');
+        if (ov) ov.style.display = 'none';
+        sessionStorage.setItem('s4_onboard_done', '1');
+        // Propagate tier data (use defaults since we skipped wizard)
+        var tier = localStorage.getItem('s4_selected_tier') || 'starter';
+        var tiers = { pilot:100, starter:25000, professional:100000, enterprise:500000 };
+        window._s4TierAllocation = tiers[tier] || 25000;
+        localStorage.setItem('s4_tier_allocation', String(window._s4TierAllocation));
+        if (typeof window._updateSlsBalance === 'function') window._updateSlsBalance();
+        if (typeof window.showRoleSelector === 'function') window.showRoleSelector();
+        if (typeof _s4ReleaseFocusTrap === 'function') _s4ReleaseFocusTrap();
+    };
+
+    window._s4StartChain = function(chainKey) {
+        window._s4DismissWelcome();
+        var tools = _chainDefs[chainKey];
+        if (!tools || !tools.length) return;
+        // Store chain so Continue Chain bar knows what's next
+        window._s4ActiveChain = tools.slice();
+        window._s4ActiveChainIdx = 0;
+        if (typeof window.openILSTool === 'function') {
+            window.openILSTool(tools[0]);
+        }
+    };
+
+    // Auto-init welcome card: show with countdown
+    function _initWelcome() {
+        // Hook into showOnboarding to show our welcome card instead 
+        var origShow = window.showOnboarding;
+        window.showOnboarding = function() {
+            var ov = document.getElementById('onboardOverlay');
+            if (!ov) return;
+            ov.style.display = 'flex';
+            // Reset progress bar animation
+            var bar = document.getElementById('s4WelcomeProgressBar');
+            if (bar) { bar.style.animation = 'none'; bar.offsetHeight; bar.style.animation = 's4-welcome-countdown 5s linear forwards'; }
+            // Auto-dismiss after 5s
+            clearTimeout(_welcomeTimer);
+            _welcomeTimer = setTimeout(function() {
+                window._s4DismissWelcome();
+            }, 5000);
+            if (typeof _s4TrapFocus === 'function') _s4TrapFocus(ov);
+        };
+        // Escape to dismiss
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                var ov = document.getElementById('onboardOverlay');
+                if (ov && ov.style.display === 'flex') {
+                    window._s4DismissWelcome();
+                }
+            }
+        });
+    }
+
+    // ── Step 3: Continue Chain Bar ──
+    var _chainMap = {
+        'hub-analysis':    [{id:'hub-compliance', label:'Compliance Scorecard', icon:'fa-shield-halved'}, {id:'hub-risk', label:'Risk Radar', icon:'fa-triangle-exclamation'}],
+        'hub-compliance':  [{id:'hub-reports', label:'Audit Builder', icon:'fa-file-alt'}, {id:'hub-analysis', label:'Gap Finder', icon:'fa-chart-line'}],
+        'hub-risk':        [{id:'hub-dmsms', label:'Obsolescence Alert', icon:'fa-exclamation-triangle'}, {id:'hub-provenance', label:'Chain of Custody', icon:'fa-link'}],
+        'hub-dmsms':       [{id:'hub-readiness', label:'Readiness Score', icon:'fa-chart-line'}, {id:'hub-predictive', label:'Maintenance Predictor', icon:'fa-brain'}],
+        'hub-readiness':   [{id:'hub-analysis', label:'Gap Finder', icon:'fa-chart-line'}, {id:'hub-predictive', label:'Maintenance Predictor', icon:'fa-brain'}],
+        'hub-predictive':  [{id:'hub-lifecycle', label:'Lifecycle Cost Estimator', icon:'fa-clock'}, {id:'hub-acquisition', label:'Fleet Optimizer', icon:'fa-ship'}],
+        'hub-lifecycle':   [{id:'hub-roi', label:'ROI Calculator', icon:'fa-dollar-sign'}, {id:'hub-analytics', label:'Program Overview', icon:'fa-chart-pie'}],
+        'hub-roi':         [{id:'hub-analytics', label:'Program Overview', icon:'fa-chart-pie'}, {id:'hub-lifecycle', label:'Lifecycle Cost Estimator', icon:'fa-clock'}],
+        'hub-reports':     [{id:'hub-vault', label:'Audit Vault', icon:'fa-vault'}, {id:'hub-brief', label:'Brief Composer', icon:'fa-briefcase'}],
+        'hub-vault':       [{id:'hub-brief', label:'Brief Composer', icon:'fa-briefcase'}, {id:'hub-reports', label:'Audit Builder', icon:'fa-file-alt'}],
+        'hub-docs':        [{id:'hub-submissions', label:'Submissions Hub', icon:'fa-paper-plane'}, {id:'hub-cdrl', label:'Deliverables Tracker', icon:'fa-clipboard-check'}],
+        'hub-submissions': [{id:'hub-cdrl', label:'Deliverables Tracker', icon:'fa-clipboard-check'}, {id:'hub-contract', label:'Contract Analyzer', icon:'fa-file-contract'}],
+        'hub-cdrl':        [{id:'hub-contract', label:'Contract Analyzer', icon:'fa-file-contract'}, {id:'hub-submissions', label:'Submissions Hub', icon:'fa-paper-plane'}],
+        'hub-contract':    [{id:'hub-risk', label:'Risk Radar', icon:'fa-triangle-exclamation'}, {id:'hub-sbom', label:'SBOM Scanner', icon:'fa-microchip'}],
+        'hub-sbom':        [{id:'hub-gfp', label:'Property Custodian', icon:'fa-boxes-stacked'}, {id:'hub-provenance', label:'Chain of Custody', icon:'fa-link'}],
+        'hub-gfp':         [{id:'hub-provenance', label:'Chain of Custody', icon:'fa-link'}, {id:'hub-sbom', label:'SBOM Scanner', icon:'fa-microchip'}],
+        'hub-provenance':  [{id:'hub-gfp', label:'Property Custodian', icon:'fa-boxes-stacked'}, {id:'hub-sbom', label:'SBOM Scanner', icon:'fa-microchip'}],
+        'hub-analytics':   [{id:'hub-milestones', label:'Milestone Monitor', icon:'fa-flag-checkered'}, {id:'hub-team', label:'Team Manager', icon:'fa-users-gear'}],
+        'hub-team':        [{id:'hub-analytics', label:'Program Overview', icon:'fa-chart-pie'}, {id:'hub-actions', label:'Task Prioritizer', icon:'fa-tasks'}],
+        'hub-actions':     [{id:'hub-analysis', label:'Gap Finder', icon:'fa-chart-line'}, {id:'hub-compliance', label:'Compliance Scorecard', icon:'fa-shield-halved'}],
+        'hub-acquisition': [{id:'hub-milestones', label:'Milestone Monitor', icon:'fa-flag-checkered'}, {id:'hub-lifecycle', label:'Lifecycle Cost Estimator', icon:'fa-clock'}],
+        'hub-milestones':  [{id:'hub-acquisition', label:'Fleet Optimizer', icon:'fa-ship'}, {id:'hub-brief', label:'Brief Composer', icon:'fa-briefcase'}],
+        'hub-brief':       [{id:'hub-reports', label:'Audit Builder', icon:'fa-file-alt'}, {id:'hub-docs', label:'Document Library', icon:'fa-book'}]
+    };
+
+    function _injectContinueChain(toolId) {
+        // Remove any existing chain bar
+        var existing = document.querySelectorAll('.s4-continue-chain');
+        existing.forEach(function(el) { el.remove(); });
+
+        // If active chain from welcome card, use that
+        var suggestions = _chainMap[toolId];
+        if (window._s4ActiveChain && window._s4ActiveChainIdx !== undefined) {
+            var nextIdx = window._s4ActiveChainIdx + 1;
+            if (nextIdx < window._s4ActiveChain.length) {
+                var nextTool = window._s4ActiveChain[nextIdx];
+                var nextInfo = null;
+                // Find info from chainMap
+                for (var k in _chainMap) {
+                    var arr = _chainMap[k];
+                    for (var i = 0; i < arr.length; i++) {
+                        if (arr[i].id === nextTool) { nextInfo = arr[i]; break; }
+                    }
+                    if (nextInfo) break;
+                }
+                if (nextInfo) suggestions = [nextInfo].concat(suggestions ? suggestions.filter(function(s){ return s.id !== nextTool; }).slice(0,1) : []);
+            } else {
+                // Chain complete
+                window._s4ActiveChain = null;
+                window._s4ActiveChainIdx = undefined;
+            }
+        }
+
+        if (!suggestions || !suggestions.length) return;
+
+        var panel = document.getElementById(toolId);
+        if (!panel) return;
+        // Find the last .s4-card in the panel
+        var cards = panel.querySelectorAll('.s4-card');
+        var target = cards.length ? cards[cards.length - 1] : panel;
+
+        var bar = document.createElement('div');
+        bar.className = 's4-continue-chain';
+        bar.innerHTML = '<span class="s4cc-label"><i class="fas fa-arrow-right" style="margin-right:4px"></i>Continue:</span>' +
+            suggestions.map(function(s) {
+                return '<button class="s4cc-btn" onclick="openILSTool(\'' + s.id + '\')"><i class="fas ' + s.icon + '"></i> ' + s.label + '</button>';
+            }).join('') +
+            (suggestions.length >= 2 ? '<button class="s4cc-btn s4cc-both" onclick="window._s4RunBoth(\'' + suggestions[0].id + '\',\'' + suggestions[1].id + '\')"><i class="fas fa-bolt"></i> Run Both</button>' : '');
+
+        target.appendChild(bar);
+    }
+
+    window._s4RunBoth = function(id1, id2) {
+        if (typeof window.openILSTool === 'function') {
+            window.openILSTool(id1);
+            // Queue the second tool after a brief delay
+            setTimeout(function() {
+                if (typeof window.openILSTool === 'function') window.openILSTool(id2);
+            }, 300);
+        }
+    };
+
+    // Hook into openILSTool to inject Continue Chain
+    function _hookContinueChain() {
+        var origOpen = window.openILSTool;
+        if (typeof origOpen !== 'function' || origOpen._s4ChainHooked) return;
+        var wrapped = function(toolId) {
+            origOpen.call(this, toolId);
+            // Update chain index if following a chain
+            if (window._s4ActiveChain) {
+                var idx = window._s4ActiveChain.indexOf(toolId);
+                if (idx >= 0) window._s4ActiveChainIdx = idx;
+            }
+            // Inject continue chain bar after a small delay (let panels render)
+            setTimeout(function() { _injectContinueChain(toolId); }, 500);
+            // Add to report sidebar
+            setTimeout(function() { _addToReport(toolId); }, 600);
+        };
+        wrapped._s4ChainHooked = true;
+        // Preserve any existing hooks
+        if (origOpen._s4R13Hooked) wrapped._s4R13Hooked = true;
+        window.openILSTool = wrapped;
+    }
+
+    // ── Step 4: Grid Sections & Badges ──
+    var _sections = [
+        {
+            label: 'Daily Essentials',
+            icon: 'fa-star',
+            tools: ['hub-compliance', 'hub-analysis', 'hub-actions', 'hub-risk', 'hub-readiness', 'hub-dmsms', 'hub-analytics', 'hub-milestones']
+        },
+        {
+            label: 'Deep Analysis',
+            icon: 'fa-microscope',
+            tools: ['hub-predictive', 'hub-lifecycle', 'hub-roi', 'hub-sbom', 'hub-gfp', 'hub-provenance', 'hub-acquisition', 'hub-contract']
+        },
+        {
+            label: 'Reporting',
+            icon: 'fa-file-alt',
+            tools: ['hub-reports', 'hub-vault', 'hub-docs', 'hub-submissions', 'hub-cdrl', 'hub-brief', 'hub-team']
+        }
+    ];
+
+    // Top 3 most used get badges
+    var _mostUsed = ['hub-compliance', 'hub-analysis', 'hub-risk'];
+
+    function _buildGridSections() {
+        var hub = document.getElementById('ilsSubHub');
+        if (!hub || hub.dataset.s4Sectioned) return;
+        hub.dataset.s4Sectioned = '1';
+
+        // Collect all tool cards by their onclick toolId
+        var cardMap = {};
+        hub.querySelectorAll('.ils-tool-card').forEach(function(card) {
+            var onclick = card.getAttribute('onclick') || '';
+            var m = onclick.match(/openILSTool\('([^']+)'\)/);
+            if (m) cardMap[m[1]] = card;
+        });
+
+        // Clear hub
+        var fragment = document.createDocumentFragment();
+
+        _sections.forEach(function(sec) {
+            // Section header (spans full grid)
+            var header = document.createElement('div');
+            header.className = 's4-grid-section-header';
+            header.style.gridColumn = '1 / -1';
+            header.innerHTML = '<i class="fas ' + sec.icon + ' s4gs-icon"></i><h3>' + sec.label + '</h3><span class="s4gs-count">' + sec.tools.length + ' tools</span>';
+            fragment.appendChild(header);
+
+            sec.tools.forEach(function(toolId) {
+                var card = cardMap[toolId];
+                if (card) {
+                    // Add Most Used badge
+                    if (_mostUsed.indexOf(toolId) >= 0 && !card.querySelector('.s4-most-used-badge')) {
+                        var badge = document.createElement('span');
+                        badge.className = 's4-most-used-badge';
+                        badge.textContent = 'Most Used';
+                        card.appendChild(badge);
+                    }
+                    fragment.appendChild(card);
+                }
+            });
+        });
+
+        hub.innerHTML = '';
+        hub.appendChild(fragment);
+    }
+
+    // ── Step 5: Report Sidebar ──
+    var _reportEntries = [];
+
+    var _toolNames = {
+        'hub-analysis':'Gap Finder','hub-dmsms':'Obsolescence Alert','hub-readiness':'Readiness Score',
+        'hub-compliance':'Compliance Scorecard','hub-risk':'Risk Radar','hub-actions':'Task Prioritizer',
+        'hub-predictive':'Maintenance Predictor','hub-lifecycle':'Lifecycle Cost Estimator','hub-roi':'ROI Calculator',
+        'hub-vault':'Audit Vault','hub-docs':'Document Library','hub-reports':'Audit Builder',
+        'hub-submissions':'Submissions Hub','hub-sbom':'SBOM Scanner','hub-gfp':'Property Custodian',
+        'hub-cdrl':'Deliverables Tracker','hub-contract':'Contract Analyzer','hub-provenance':'Chain of Custody',
+        'hub-analytics':'Program Overview','hub-team':'Team Manager','hub-acquisition':'Fleet Optimizer',
+        'hub-milestones':'Milestone Monitor','hub-brief':'Brief Composer'
+    };
+
+    function _addToReport(toolId) {
+        var name = _toolNames[toolId] || toolId;
+        var now = new Date();
+        var timeStr = now.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+
+        // Grab a summary from the panel's result area if available
+        var panel = document.getElementById(toolId);
+        var summary = '';
+        if (panel) {
+            var resultPanel = panel.querySelector('.result-panel.show');
+            if (resultPanel) {
+                var text = (resultPanel.textContent || '').trim();
+                summary = text.substring(0, 120) + (text.length > 120 ? '...' : '');
+            }
+        }
+
+        _reportEntries.push({ tool: name, time: timeStr, summary: summary, id: toolId });
+        _renderReport();
+    }
+
+    function _renderReport() {
+        var body = document.getElementById('s4ReportBody');
+        if (!body) return;
+
+        if (_reportEntries.length === 0) {
+            body.innerHTML = '<div class="s4rs-empty"><i class="fas fa-inbox" style="font-size:1.5rem;display:block;margin-bottom:8px;opacity:0.4"></i>Run tools to build your session report</div>';
+        } else {
+            body.innerHTML = _reportEntries.map(function(e, i) {
+                return '<div class="s4rs-entry">' +
+                    '<div class="s4rs-entry-title"><i class="fas fa-check-circle" style="color:var(--green);font-size:0.7rem"></i> ' + e.tool + '<span class="s4rs-entry-time">' + e.time + '</span></div>' +
+                    (e.summary ? '<div class="s4rs-entry-data">' + e.summary + '</div>' : '<div class="s4rs-entry-data" style="color:var(--muted);font-style:italic">Tool opened — results will update after run</div>') +
+                    '</div>';
+            }).join('');
+        }
+
+        // Update badge count
+        var countEl = document.getElementById('s4ReportCount');
+        if (countEl) {
+            if (_reportEntries.length > 0) {
+                countEl.textContent = String(_reportEntries.length);
+                countEl.style.display = 'flex';
+            } else {
+                countEl.style.display = 'none';
+            }
+        }
+    }
+
+    window._s4ToggleReport = function() {
+        var sidebar = document.getElementById('s4ReportSidebar');
+        if (sidebar) sidebar.classList.toggle('open');
+    };
+
+    window._s4ClearReport = function() {
+        _reportEntries = [];
+        _renderReport();
+    };
+
+    window._s4ExportReport = function() {
+        // Build printable HTML and open in new window for PDF
+        var html = '<!DOCTYPE html><html><head><title>S4 Session Report</title>' +
+            '<style>body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;padding:40px;color:#1d1d1f;max-width:800px;margin:0 auto}' +
+            'h1{font-size:22px;border-bottom:2px solid #007AFF;padding-bottom:8px;color:#007AFF}' +
+            '.entry{border:1px solid #e0e0e0;border-radius:8px;padding:14px;margin-bottom:10px}' +
+            '.entry-title{font-weight:700;font-size:14px;margin-bottom:4px}' +
+            '.entry-time{color:#888;font-size:12px;float:right}' +
+            '.entry-data{font-size:13px;color:#444;line-height:1.5}' +
+            '.footer{margin-top:30px;font-size:11px;color:#888;border-top:1px solid #e0e0e0;padding-top:10px}' +
+            '@media print{body{padding:20px}}</style></head><body>' +
+            '<h1>S4 Ledger — Session Report</h1>' +
+            '<p style="color:#444;font-size:13px">Generated: ' + new Date().toLocaleString() + '</p>';
+
+        _reportEntries.forEach(function(e) {
+            html += '<div class="entry"><div class="entry-title">' + e.tool + '<span class="entry-time">' + e.time + '</span></div>';
+            if (e.summary) html += '<div class="entry-data">' + e.summary + '</div>';
+            html += '</div>';
+        });
+
+        html += '<div class="footer">S4 Ledger — s4ledger.com — Immutable Defense Logistics on the XRP Ledger</div></body></html>';
+
+        var w = window.open('', '_blank');
+        if (w) {
+            w.document.write(html);
+            w.document.close();
+            setTimeout(function() { w.print(); }, 400);
+        }
+    };
+
+    // ── Boot all steps ──
+    function _bootSteps() {
+        _initWelcome();
+        _hookContinueChain();
+        _buildGridSections();
+        _renderReport();
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', _bootSteps);
+    } else {
+        // Delay slightly to ensure all other scripts have registered
+        setTimeout(_bootSteps, 100);
+    }
+})();
 
 })();

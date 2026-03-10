@@ -1,7 +1,7 @@
 /* S4 Ledger — Main Stylesheet
    Light-mode only — clean, professional, Apple-inspired */
 
-        :root{--bg:#f5f5f7;--surface:#ffffff;--card:#ffffff;--border:rgba(0,0,0,0.1);--border-hover:rgba(0,0,0,0.18);--accent:#0071e3;--gold:#b8860b;--steel:#444;--green:#1a8a3e;--red:#cc3333;--text:#1d1d1f;--text-primary:#1d1d1f;--text-secondary:#444;--muted:#6e6e73;--text-muted:#6e6e73;--radius:8px;--radius-lg:12px;--radius-sm:6px;--transition:0.3s cubic-bezier(0.25,0.1,0.25,1);--chart-text:#333;--chart-grid:rgba(0,0,0,0.08);--chart-bg:#fff;--chart-title:#1d1d1f;--shadow-card:0 1px 3px rgba(0,0,0,0.04),0 4px 12px rgba(0,0,0,0.03);--shadow-hover:0 8px 28px rgba(0,0,0,0.08),0 2px 6px rgba(0,0,0,0.03);--shadow-elevated:0 12px 40px rgba(0,0,0,0.1),0 4px 12px rgba(0,0,0,0.04)}
+        :root{--bg:#F8F9FA;--surface:#ffffff;--card:#ffffff;--border:rgba(0,0,0,0.1);--border-hover:rgba(0,0,0,0.18);--accent:#007AFF;--gold:#b8860b;--steel:#444;--green:#1a8a3e;--red:#cc3333;--text:#1d1d1f;--text-primary:#1d1d1f;--text-secondary:#444;--muted:#6e6e73;--text-muted:#6e6e73;--radius:12px;--radius-lg:16px;--radius-sm:8px;--transition:0.3s cubic-bezier(0.25,0.1,0.25,1);--chart-text:#333;--chart-grid:rgba(0,0,0,0.08);--chart-bg:#fff;--chart-title:#1d1d1f;--shadow-card:0 1px 3px rgba(0,0,0,0.04),0 4px 12px rgba(0,0,0,0.03);--shadow-hover:0 8px 24px rgba(0,0,0,0.08),0 2px 6px rgba(0,0,0,0.03);--shadow-elevated:0 12px 40px rgba(0,0,0,0.1),0 4px 12px rgba(0,0,0,0.04)}
         /* Inline style overrides — ensure dark values show correctly in light mode */
         [style*="color:#ccc"],[style*="color: #ccc"],[style*="color:#888"],[style*="color: #888"],[style*="color:#aaa"],[style*="color: #aaa"]{color:#333!important}
         [style*="color:#e0e0e0"],[style*="color: #e0e0e0"],[style*="color:#d1d5db"],[style*="color: #d1d5db"]{color:#1d1d1f!important}
@@ -955,7 +955,7 @@
         .ils-sub-hub.collapsed .ils-tool-card:nth-child(n+7) { display:none !important; }
         .show-more-tools { display:block; width:100%; text-align:center; padding:10px 0; background:none; border:1px dashed var(--border); border-radius:8px; color:var(--accent); font-size:0.82rem; font-weight:600; cursor:pointer; transition:all 0.2s; font-family:inherit; margin-top:4px; }
         .show-more-tools:hover { border-color:var(--accent); background:rgba(0,113,227,0.04); }
-        .ils-sub-hub { display:grid; grid-template-columns:repeat(auto-fill, minmax(260px, 1fr)); gap:14px; }
+        .ils-sub-hub { display:grid; grid-template-columns:repeat(2, 1fr); gap:14px; }
 
         /* ═══ APPLE-STYLE UI MODERNIZATION ═══ */
         /* Clean light canvas, refined surfaces, Apple typography */
@@ -4808,4 +4808,282 @@ body.light-mode #roleModal input{background:#f5f5f7!important;color:#1d1d1f!impo
     .s4-toast-container{right:10px!important;left:10px!important}
     .s4-toast{min-width:auto!important;max-width:100%!important}
     #searchBox,.search-filter{max-width:100%!important;padding:8px 14px 8px 36px!important}
+}
+
+/* ═══ VISUAL LANGUAGE (Steps 2-5) ═══ */
+/* Body typography */
+body { font-size:15px; line-height:1.6; }
+
+/* Buttons: 10px radius, micro-scale animation */
+button, .btn, .onboard-btn, .filter-tab, .back-btn {
+    border-radius:10px !important;
+    transition: all 0.2s ease;
+}
+button:active, .btn:active {
+    transform: scale(0.97);
+}
+
+/* Headings: 20px */
+.hub-header h2, .s4-card h3, .ils-hub-panel h3 { font-size:20px; }
+
+/* Card padding: 24px */
+.ils-tool-card { padding:24px !important; }
+
+/* ═══ STEP 2: Welcome Card ═══ */
+.s4-welcome-card {
+    position:fixed; inset:0;
+    background:rgba(248,249,250,0.92);
+    backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
+    z-index:10001;
+    display:flex; align-items:center; justify-content:center;
+    animation:fadeIn 0.4s ease;
+}
+.s4-welcome-inner {
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:var(--radius-lg);
+    width:520px; max-width:92vw;
+    padding:36px 32px;
+    box-shadow:var(--shadow-elevated);
+    animation:slideUp 0.4s ease;
+    text-align:center;
+}
+.s4-welcome-inner h2 {
+    font-size:1.4rem; font-weight:800; color:var(--text);
+    margin:0 0 6px;
+}
+.s4-welcome-inner .s4w-sub {
+    color:var(--steel); font-size:0.85rem; margin:0 0 24px;
+}
+.s4-welcome-chains {
+    display:flex; flex-direction:column; gap:10px;
+    margin-bottom:24px; text-align:left;
+}
+.s4-welcome-chain {
+    display:flex; align-items:center; gap:12px;
+    padding:12px 16px;
+    background:rgba(0,122,255,0.04);
+    border:1px solid rgba(0,122,255,0.12);
+    border-radius:var(--radius);
+    cursor:pointer;
+    transition:all 0.2s;
+}
+.s4-welcome-chain:hover {
+    background:rgba(0,122,255,0.08);
+    border-color:rgba(0,122,255,0.25);
+    transform:translateX(4px);
+}
+.s4-welcome-chain .s4wc-icon {
+    width:36px; height:36px; border-radius:10px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:0.9rem; flex-shrink:0;
+}
+.s4-welcome-chain .s4wc-label {
+    font-size:0.85rem; font-weight:700; color:var(--text);
+}
+.s4-welcome-chain .s4wc-steps {
+    font-size:0.72rem; color:var(--steel); margin-top:2px;
+}
+.s4-welcome-start {
+    display:inline-flex; align-items:center; gap:8px;
+    background:var(--accent); color:#fff;
+    border:none; border-radius:10px;
+    padding:12px 28px; font-size:0.9rem; font-weight:700;
+    cursor:pointer; transition:all 0.2s;
+    font-family:inherit;
+}
+.s4-welcome-start:hover { background:#0066e0; }
+.s4-welcome-start:active { transform:scale(0.97); }
+.s4-welcome-dismiss {
+    display:block; margin:12px auto 0;
+    background:none; border:none; color:var(--steel);
+    font-size:0.75rem; cursor:pointer; font-family:inherit;
+}
+.s4-welcome-progress {
+    position:absolute; bottom:0; left:0; right:0;
+    height:3px; background:rgba(0,122,255,0.1);
+    border-radius:0 0 var(--radius-lg) var(--radius-lg);
+    overflow:hidden;
+}
+.s4-welcome-progress-bar {
+    height:100%; background:var(--accent);
+    width:100%;
+    animation:s4-welcome-countdown 5s linear forwards;
+}
+@keyframes s4-welcome-countdown {
+    from { width:100%; }
+    to { width:0%; }
+}
+
+/* ═══ STEP 3: Continue Chain Bar ═══ */
+.s4-continue-chain {
+    display:flex; align-items:center; gap:10px;
+    padding:14px 20px;
+    background:rgba(0,122,255,0.04);
+    border:1px solid rgba(0,122,255,0.12);
+    border-radius:var(--radius);
+    margin-top:16px;
+    animation:fadeIn 0.3s ease;
+    flex-wrap:wrap;
+}
+.s4-continue-chain .s4cc-label {
+    font-size:0.78rem; font-weight:700; color:var(--accent);
+    white-space:nowrap;
+}
+.s4-continue-chain .s4cc-btn {
+    display:inline-flex; align-items:center; gap:6px;
+    background:#fff; border:1px solid rgba(0,122,255,0.2);
+    color:var(--accent);
+    border-radius:10px; padding:7px 14px;
+    font-size:0.78rem; font-weight:600;
+    cursor:pointer; transition:all 0.2s;
+    font-family:inherit;
+}
+.s4-continue-chain .s4cc-btn:hover {
+    background:rgba(0,122,255,0.08);
+    border-color:var(--accent);
+}
+.s4-continue-chain .s4cc-btn:active { transform:scale(0.97); }
+.s4-continue-chain .s4cc-both {
+    background:var(--accent); color:#fff;
+    border-color:var(--accent);
+    margin-left:auto;
+}
+.s4-continue-chain .s4cc-both:hover { background:#0066e0; }
+
+/* ═══ STEP 4: Tool Grid Sections ═══ */
+.s4-grid-section {
+    margin-bottom:24px;
+}
+.s4-grid-section-header {
+    display:flex; align-items:center; gap:8px;
+    margin-bottom:12px; padding:0 4px;
+}
+.s4-grid-section-header h3 {
+    font-size:0.85rem; font-weight:700; color:var(--text);
+    margin:0; letter-spacing:-0.01em; text-transform:uppercase;
+    opacity:0.7;
+}
+.s4-grid-section-header .s4gs-icon {
+    font-size:0.75rem; color:var(--accent); opacity:0.8;
+}
+.s4-grid-section-header .s4gs-count {
+    font-size:0.68rem; color:var(--steel);
+    margin-left:auto; font-weight:500;
+}
+.s4-grid-section .ils-sub-hub-section {
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:14px;
+}
+@media(max-width:768px) {
+    .s4-grid-section .ils-sub-hub-section {
+        grid-template-columns:1fr;
+    }
+}
+/* Most Used badge */
+.s4-most-used-badge {
+    position:absolute; top:8px; right:8px;
+    background:linear-gradient(135deg,#007AFF,#5856D6);
+    color:#fff; font-size:0.58rem; font-weight:700;
+    padding:3px 8px; border-radius:8px;
+    text-transform:uppercase; letter-spacing:0.04em;
+}
+.ils-tool-card { position:relative; }
+
+/* ═══ STEP 5: Report Sidebar ═══ */
+.s4-report-sidebar {
+    position:fixed; top:0; right:0; bottom:0;
+    width:340px; max-width:90vw;
+    background:#fff;
+    border-left:1px solid var(--border);
+    box-shadow:-4px 0 24px rgba(0,0,0,0.06);
+    z-index:9000;
+    display:flex; flex-direction:column;
+    transform:translateX(100%);
+    transition:transform 0.3s ease;
+}
+.s4-report-sidebar.open {
+    transform:translateX(0);
+}
+.s4-report-sidebar-header {
+    display:flex; align-items:center; justify-content:space-between;
+    padding:20px 20px 16px;
+    border-bottom:1px solid var(--border);
+}
+.s4-report-sidebar-header h3 {
+    font-size:0.95rem; font-weight:700; color:var(--text);
+    margin:0; display:flex; align-items:center; gap:8px;
+}
+.s4-report-sidebar-header .s4rs-close {
+    background:none; border:none; color:var(--steel);
+    font-size:1rem; cursor:pointer; padding:4px;
+}
+.s4-report-sidebar-body {
+    flex:1; overflow-y:auto; padding:16px 20px;
+}
+.s4-report-sidebar-body .s4rs-empty {
+    text-align:center; color:var(--steel); font-size:0.82rem;
+    padding:40px 0;
+}
+.s4-report-sidebar-body .s4rs-entry {
+    background:var(--bg); border:1px solid var(--border);
+    border-radius:var(--radius-sm); padding:12px 14px;
+    margin-bottom:10px;
+    animation:fadeIn 0.3s ease;
+}
+.s4-report-sidebar-body .s4rs-entry-title {
+    font-size:0.78rem; font-weight:700; color:var(--text);
+    margin-bottom:4px; display:flex; align-items:center; gap:6px;
+}
+.s4-report-sidebar-body .s4rs-entry-time {
+    font-size:0.65rem; color:var(--steel); margin-left:auto;
+}
+.s4-report-sidebar-body .s4rs-entry-data {
+    font-size:0.72rem; color:var(--steel); line-height:1.5;
+}
+.s4-report-sidebar-footer {
+    padding:16px 20px;
+    border-top:1px solid var(--border);
+    display:flex; gap:8px;
+}
+.s4-report-sidebar-footer .s4rs-export {
+    flex:1;
+    display:inline-flex; align-items:center; justify-content:center; gap:6px;
+    background:var(--accent); color:#fff;
+    border:none; border-radius:10px;
+    padding:10px 16px; font-size:0.82rem; font-weight:700;
+    cursor:pointer; font-family:inherit;
+    transition:all 0.2s;
+}
+.s4-report-sidebar-footer .s4rs-export:hover { background:#0066e0; }
+.s4-report-sidebar-footer .s4rs-export:active { transform:scale(0.97); }
+.s4-report-sidebar-footer .s4rs-clear {
+    background:none; border:1px solid var(--border);
+    color:var(--steel); border-radius:10px;
+    padding:10px 14px; font-size:0.78rem;
+    cursor:pointer; font-family:inherit;
+}
+/* Report toggle button (fixed) */
+.s4-report-toggle {
+    position:fixed; right:20px; bottom:80px;
+    width:48px; height:48px;
+    background:var(--accent); color:#fff;
+    border:none; border-radius:50%;
+    font-size:1rem; cursor:pointer;
+    box-shadow:0 4px 16px rgba(0,122,255,0.3);
+    z-index:8999;
+    display:flex; align-items:center; justify-content:center;
+    transition:all 0.2s;
+}
+.s4-report-toggle:hover { transform:scale(1.08); box-shadow:0 6px 20px rgba(0,122,255,0.4); }
+.s4-report-toggle:active { transform:scale(0.95); }
+.s4-report-toggle .s4rt-count {
+    position:absolute; top:-4px; right:-4px;
+    background:#ff3b30; color:#fff;
+    font-size:0.6rem; font-weight:800;
+    min-width:18px; height:18px;
+    border-radius:9px; display:flex;
+    align-items:center; justify-content:center;
+    padding:0 4px;
 }

@@ -256,107 +256,38 @@
                 <button class="dmb-signin" onclick="exitDemoMode()"><i class="fas fa-right-to-bracket" style="margin-right:4px;"></i>Sign In</button>
             </div>
         </div>
-    <!-- ═══ ONBOARDING WIZARD ═══ -->
-    <div class="onboard-overlay" id="onboardOverlay" style="display:none">
-        <div class="onboard-modal">
-            <div class="onboard-header">
-                <div style="font-size:2rem;margin-bottom:8px"><i class="fas fa-shield-halved" style="color:var(--accent)"></i></div>
-                <h2 style="margin:0;font-size:1.3rem;color:var(--text,#1d1d1f);font-weight:800">Welcome to S4 Ledger</h2>
-                <p style="color:var(--steel);font-size:0.82rem;margin:6px 0 0">Immutable Defense Logistics on the XRP Ledger</p>
-                <div class="onboard-progress" id="onboardProgress">
-                    <div class="onboard-dot active" data-step="0"></div>
-                    <div class="onboard-dot" data-step="1"></div>
-                    <div class="onboard-dot" data-step="2"></div>
-                    <div class="onboard-dot" data-step="3"></div>
-                    <div class="onboard-dot" data-step="4"></div>
+    <!-- ═══ WELCOME CARD (replaces onboarding wizard) ═══ -->
+    <div class="s4-welcome-card" id="onboardOverlay" style="display:none">
+        <div class="s4-welcome-inner" style="position:relative;overflow:hidden;">
+            <div style="font-size:2rem;margin-bottom:10px"><i class="fas fa-shield-halved" style="color:var(--accent)"></i></div>
+            <h2>Good morning, Operator</h2>
+            <p class="s4w-sub">Pick a workflow to jump in, or explore on your own.</p>
+            <div class="s4-welcome-chains">
+                <div class="s4-welcome-chain" onclick="window._s4StartChain('assess')">
+                    <div class="s4wc-icon" style="background:rgba(0,122,255,0.08);color:var(--accent)"><i class="fas fa-chart-line"></i></div>
+                    <div>
+                        <div class="s4wc-label">Morning Assessment</div>
+                        <div class="s4wc-steps">Gap Finder → Compliance Scorecard → Risk Radar</div>
+                    </div>
                 </div>
-            </div>
-            <div class="onboard-body">
-                <!-- Step 0: Welcome -->
-                <div class="onboard-step active" id="onboardStep0">
-                    <h4 style="color:var(--text,#1d1d1f);margin:0 0 12px;font-size:1rem"><i class="fas fa-shield-halved" style="color:var(--accent);margin-right:8px"></i>Platform Setup</h4>
-                    <p style="color:var(--steel);font-size:0.85rem;line-height:1.6;margin-bottom:16px">S4 Ledger will set up your account, provision your XRPL wallet, and allocate your Credits. This takes just a few seconds.</p>
-                    <div class="onboard-feature"><div class="onboard-icon" style="background:rgba(0,170,255,0.1);color:var(--accent)"><i class="fas fa-anchor"></i></div><div><strong style="color:var(--text,#1d1d1f)">Anchor Records</strong><div style="color:var(--steel);font-size:0.8rem">SHA-256 hash any document to the XRP Ledger in 3-5 seconds</div></div></div>
-                    <div class="onboard-feature"><div class="onboard-icon" style="background:rgba(201,168,76,0.1);color:var(--gold)"><i class="fas fa-coins"></i></div><div><strong style="color:var(--text,#1d1d1f)">Credit Economy</strong><div style="color:var(--steel);font-size:0.8rem">0.01 Credits per anchor (~$0.0001). Real on-chain token transfers.</div></div></div>
-                    <div class="onboard-feature"><div class="onboard-icon" style="background:rgba(0,170,255,0.1);color:var(--green)"><i class="fas fa-brain"></i></div><div><strong style="color:var(--text,#1d1d1f)">23+ ILS Tools</strong><div style="color:var(--steel);font-size:0.8rem">Gap analysis, DMSMS, readiness, compliance, risk, and more</div></div></div>
-                    <div class="onboard-feature"><div class="onboard-icon" style="background:rgba(0,170,255,0.1);color:#00aaff"><i class="fas fa-robot"></i></div><div><strong style="color:var(--text,#1d1d1f)">AI Agent</strong><div style="color:var(--steel);font-size:0.8rem">Context-aware assistant available on every tool and tab</div></div></div>
-                    <div style="text-align:center;margin-top:20px"><button class="onboard-btn"><i class="fas fa-arrow-right" style="margin-right:6px"></i>Start Setup</button></div>
+                <div class="s4-welcome-chain" onclick="window._s4StartChain('audit')">
+                    <div class="s4wc-icon" style="background:rgba(184,134,11,0.08);color:var(--gold)"><i class="fas fa-file-alt"></i></div>
+                    <div>
+                        <div class="s4wc-label">Audit Prep</div>
+                        <div class="s4wc-steps">Audit Builder → Audit Vault → Brief Composer</div>
+                    </div>
                 </div>
-
-                <!-- Step 1: Create Account -->
-                <div class="onboard-step" id="onboardStep1">
-                    <h4 style="color:var(--text,#1d1d1f);margin:0 0 12px;font-size:1rem"><i class="fas fa-user-plus" style="color:var(--accent);margin-right:8px"></i>Step 1: Account Created</h4>
-                    <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:16px">
-                        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px"><div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--accent),#0088cc);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:1.1rem">OP</div><div><div style="color:var(--text,#1d1d1f);font-weight:700">Platform Operator</div><div style="color:var(--steel);font-size:0.78rem">user@agency.mil</div></div></div>
-                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:0.78rem">
-                            <div style="color:var(--steel)">Account ID: <span style="color:var(--accent);font-family:monospace" id="onboardAcctId">—</span></div>
-                            <div style="color:var(--steel)">Org: <span style="color:var(--text,#1d1d1f)">Your Organization</span></div>
-                            <div style="color:var(--steel)">Role: <span style="color:var(--text,#1d1d1f)">Admin</span></div>
-                            <div style="color:var(--steel)">Status: <span style="color:var(--green)" id="onboardAcctStatus"><i class="fas fa-spinner fa-spin"></i> Creating...</span></div>
-                        </div>
-                    </div>
-                    <div id="onboardAcctDone" style="display:none;text-align:center;margin-top:16px"><button class="onboard-btn">Continue <i class="fas fa-arrow-right" style="margin-left:6px"></i></button></div>
-                </div>
-
-                <!-- Step 2: Wallet Funded -->
-                <div class="onboard-step" id="onboardStep2">
-                    <h4 style="color:var(--text,#1d1d1f);margin:0 0 12px;font-size:1rem"><i class="fas fa-wallet" style="color:var(--accent);margin-right:8px"></i>Step 2: XRP Wallet Funded</h4>
-                    <p style="color:var(--steel);font-size:0.82rem;margin-bottom:16px">Your XRPL wallet has been provisioned and funded with the base reserve required for on-chain operations.</p>
-                    <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:16px">
-                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:0.82rem">
-                            <div><div style="color:var(--steel);font-size:0.72rem;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">Wallet Address</div><div style="color:var(--green);font-family:monospace;font-size:0.75rem" id="onboardWalletAddr">—</div></div>
-                            <div><div style="color:var(--steel);font-size:0.72rem;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">XRP Balance</div><div style="font-size:1.3rem;font-weight:700;color:var(--green)" id="onboardXrpBal"><i class="fas fa-spinner fa-spin" style="font-size:0.8rem"></i></div></div>
-                            <div><div style="color:var(--steel);font-size:0.72rem;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">Network</div><div style="color:var(--text,#1d1d1f)">XRPL Mainnet</div></div>
-                            <div><div style="color:var(--steel);font-size:0.72rem;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">Trust Line</div><div style="color:var(--gold)" id="onboardTrustLine"><i class="fas fa-spinner fa-spin" style="font-size:0.8rem"></i></div></div>
-                        </div>
-                    </div>
-                    <div style="background:rgba(0,170,255,0.06);border:1px solid rgba(0,170,255,0.15);border-radius:8px;padding:10px 14px;font-size:0.78rem;color:var(--steel)"><i class="fas fa-info-circle" style="color:var(--accent);margin-right:6px"></i><strong style="color:var(--text,#1d1d1f)">Note:</strong> 12 XRP is the base reserve, funded automatically from the S4 Treasury when your account is provisioned. This covers XRPL transaction fees for anchoring.</div>
-                    <div id="onboardWalletDone" style="display:none;text-align:center;margin-top:16px"><button class="onboard-btn">Continue <i class="fas fa-arrow-right" style="margin-left:6px"></i></button></div>
-                </div>
-
-                <!-- Step 3: Credit Allocation -->
-                <div class="onboard-step" id="onboardStep3">
-                    <h4 style="color:var(--text,#1d1d1f);margin:0 0 12px;font-size:1rem"><i class="fas fa-coins" style="color:var(--gold);margin-right:8px"></i>Step 3: Credit Allocation</h4>
-                    <p style="color:var(--steel);font-size:0.82rem;margin-bottom:16px">Your Credit allocation is based on your subscription tier. Select a plan:</p>
-                    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:16px">
-                        <div class="onboard-tier" data-tier="pilot"><div style="font-size:0.72rem;color:var(--steel);text-transform:uppercase;letter-spacing:0.5px">Pilot</div><div style="font-size:1.1rem;font-weight:800;color:var(--text,#1d1d1f);margin:4px 0">Free</div><div style="color:var(--gold);font-weight:700;font-size:0.85rem">100 Credits</div></div>
-                        <div class="onboard-tier selected" data-tier="starter"><div style="font-size:0.72rem;color:var(--steel);text-transform:uppercase;letter-spacing:0.5px">Starter</div><div style="font-size:1.1rem;font-weight:800;color:var(--text,#1d1d1f);margin:4px 0">$999/mo</div><div style="color:var(--gold);font-weight:700;font-size:0.85rem">25,000 Credits</div></div>
-                        <div class="onboard-tier" data-tier="professional"><div style="font-size:0.72rem;color:var(--steel);text-transform:uppercase;letter-spacing:0.5px">Professional</div><div style="font-size:1.1rem;font-weight:800;color:var(--text,#1d1d1f);margin:4px 0">$2,499/mo</div><div style="color:var(--gold);font-weight:700;font-size:0.85rem">100,000 Credits</div></div>
-                        <div class="onboard-tier" data-tier="enterprise"><div style="font-size:0.72rem;color:var(--steel);text-transform:uppercase;letter-spacing:0.5px">Enterprise</div><div style="font-size:1.1rem;font-weight:800;color:var(--text,#1d1d1f);margin:4px 0">$9,999/mo</div><div style="color:var(--gold);font-weight:700;font-size:0.85rem">500,000 Credits</div></div>
-                    </div>
-                    <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:14px;text-align:center">
-                        <div style="color:var(--steel);font-size:0.78rem;margin-bottom:4px">Your Credit Balance</div>
-                        <div style="font-size:1.6rem;font-weight:800;color:var(--gold)" id="onboardSlsBal">25,000</div>
-                        <div style="color:var(--steel);font-size:0.72rem">= <span id="onboardSlsAnchors">2,500,000</span> anchors at 0.01 Credits each</div>
-                    </div>
-                    <div style="text-align:center;margin-top:16px"><button class="onboard-btn">Continue <i class="fas fa-arrow-right" style="margin-left:6px"></i></button></div>
-                </div>
-
-                <!-- Step 4: How Credits Work -->
-                <div class="onboard-step" id="onboardStep4">
-                    <h4 style="color:var(--text,#1d1d1f);margin:0 0 12px;font-size:1rem"><i class="fas fa-coins" style="color:var(--gold);margin-right:8px"></i>Step 4: How Your Credits Are Used</h4>
-                    <p style="color:var(--steel);font-size:0.82rem;margin-bottom:16px">Every time you anchor a record, a tiny Credit fee flows to the S4 Treasury on the XRP Ledger.</p>
-                    <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:16px">
-                        <div style="display:grid;grid-template-columns:1fr auto 1fr auto 1fr;align-items:center;gap:8px;text-align:center">
-                            <div style="padding:8px"><div style="width:44px;height:44px;border-radius:50%;background:rgba(0,170,255,0.1);display:inline-flex;align-items:center;justify-content:center;color:var(--accent);margin:0 auto 6px"><i class="fas fa-wallet"></i></div><div style="font-size:0.72rem;color:var(--steel)">Your Wallet</div></div>
-                            <div style="color:var(--gold);font-weight:700;font-size:0.78rem;white-space:nowrap"><i class="fas fa-arrow-right"></i><br>0.01 Credits</div>
-                            <div style="padding:8px"><div style="width:44px;height:44px;border-radius:50%;background:rgba(201,168,76,0.1);display:inline-flex;align-items:center;justify-content:center;color:var(--gold);margin:0 auto 6px"><i class="fas fa-landmark"></i></div><div style="font-size:0.72rem;color:var(--steel)">S4 Treasury</div></div>
-                            <div style="color:var(--accent);font-weight:700;font-size:0.78rem;white-space:nowrap"><i class="fas fa-arrow-right"></i><br>XRPL</div>
-                            <div style="padding:8px"><div style="width:44px;height:44px;border-radius:50%;background:rgba(0,170,255,0.1);display:inline-flex;align-items:center;justify-content:center;color:#00aaff;margin:0 auto 6px"><i class="fas fa-lock"></i></div><div style="font-size:0.72rem;color:var(--steel)">Immutable Record</div></div>
-                        </div>
-                    </div>
-                    <div style="font-size:0.82rem;color:var(--steel);line-height:1.6;margin-bottom:12px">
-                        <div style="margin-bottom:8px"><i class="fas fa-check" style="color:var(--accent);margin-right:8px;width:14px"></i><strong style="color:var(--text,#1d1d1f)">Steps 1-3</strong> happen automatically when you subscribe</div>
-                        <div style="margin-bottom:8px"><i class="fas fa-check" style="color:var(--gold);margin-right:8px;width:14px"></i><strong style="color:var(--gold)">Step 4 (0.01 Credits → Treasury)</strong> is a REAL on-chain transfer via XRPL</div>
-                        <div style="margin-bottom:8px"><i class="fas fa-check" style="color:var(--accent);margin-right:8px;width:14px"></i>Every anchor produces a verifiable XRPL transaction hash with your record's SHA-256 fingerprint</div>
-                        <div><i class="fas fa-check" style="color:var(--accent);margin-right:8px;width:14px"></i>Anyone can independently verify records on <a href="https://livenet.xrpl.org" target="_blank" style="color:var(--accent)">XRPL Explorer</a></div>
-                    </div>
-                    <div style="text-align:center;margin-top:20px;display:flex;gap:10px;justify-content:center">
-                        <button class="onboard-btn"><i class="fas fa-rocket" style="margin-right:6px"></i>Enter Platform</button>
-                        <a href="https://livenet.xrpl.org/accounts/rMLmkrxpadq5z6oTDmq8GhQj9LKjf1KLqJ" target="_blank" class="onboard-btn-outline"><i class="fas fa-external-link-alt" style="margin-right:6px"></i>View Treasury</a>
+                <div class="s4-welcome-chain" onclick="window._s4StartChain('cost')">
+                    <div class="s4wc-icon" style="background:rgba(26,138,62,0.08);color:var(--green)"><i class="fas fa-dollar-sign"></i></div>
+                    <div>
+                        <div class="s4wc-label">Cost Review</div>
+                        <div class="s4wc-steps">Lifecycle Cost Estimator → ROI Calculator → Program Overview</div>
                     </div>
                 </div>
             </div>
+            <button class="s4-welcome-start" onclick="window._s4DismissWelcome()"><i class="fas fa-rocket"></i> Start My Day</button>
+            <button class="s4-welcome-dismiss" onclick="window._s4DismissWelcome()">or press Escape</button>
+            <div class="s4-welcome-progress"><div class="s4-welcome-progress-bar" id="s4WelcomeProgressBar"></div></div>
         </div>
     </div>
 
@@ -427,15 +358,15 @@
             <div class="hub-grid">
                 
                 <div class="hub-card" data-section="sectionILS" onclick="showSection('sectionILS')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showSection('sectionILS')}">
-                    <div class="hc-icon" style="background:rgba(0,170,255,0.1);"><i class="fas fa-brain" style="color:#00aaff;"></i></div>
-                    <div class="hc-title">Anchor-S4 <span style="background:rgba(0,170,255,0.15);color:#00aaff;font-size:0.65rem;padding:2px 8px;border-radius:8px;font-weight:600;margin-left:6px;">23+ TOOLS</span></div>
-                    <div class="hc-desc">23+ integrated defense tools: Gap Analysis, DMSMS, Readiness, Compliance, Risk, Predictive Maintenance, ROI, Audit Vault, Acquisition Planner, Program Milestones, and more.</div>
+                    <div class="hc-icon" style="background:rgba(0,170,255,0.1);"><i class="fas fa-brain" style="color:var(--accent);"></i></div>
+                    <div class="hc-title">Anchor-S4 <span style="background:rgba(0,170,255,0.15);color:var(--accent);font-size:0.65rem;padding:2px 8px;border-radius:8px;font-weight:600;margin-left:6px;">23+ TOOLS</span></div>
+                    <div class="hc-desc">23+ integrated defense tools: Gap Finder, DMSMS, Readiness, Compliance, Risk, Maintenance Predictor, ROI, Audit Vault, Fleet Optimizer, Milestone Monitor, and more.</div>
                     <div class="hc-meta"><i class="fas fa-tools"></i> 23+ ILS tools &bull; AI-powered</div>
                     <div class="hc-arrow"><i class="fas fa-chevron-right"></i></div>
                 </div>
                 <div class="hub-card" data-section="sectionLog" onclick="showSection('sectionLog')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showSection('sectionLog')}">
-                    <div class="hc-icon" style="background:rgba(155,89,182,0.1);"><i class="fas fa-list" style="color:#a855f7;"></i></div>
-                    <div class="hc-title">Transaction Log <span style="background:rgba(155,89,182,0.15);color:#a855f7;font-size:0.65rem;padding:2px 8px;border-radius:8px;font-weight:600;margin-left:6px;">AUDIT</span></div>
+                    <div class="hc-icon" style="background:rgba(0,170,255,0.1);"><i class="fas fa-list" style="color:var(--accent);"></i></div>
+                    <div class="hc-title">Transaction Log <span style="background:rgba(0,170,255,0.15);color:var(--accent);font-size:0.65rem;padding:2px 8px;border-radius:8px;font-weight:600;margin-left:6px;">AUDIT</span></div>
                     <div class="hc-desc">Full audit trail of every anchored record with XRPL explorer links, timestamps, and hash verification status.</div>
                     <div class="hc-meta"><i class="fas fa-link"></i> On-chain explorer links</div>
                     <div class="hc-arrow"><i class="fas fa-chevron-right"></i></div>
@@ -486,9 +417,8 @@
                             <details style="margin-top:8px;margin-bottom:12px;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.15);border-radius:8px;padding:0 12px;">
                                 <summary style="cursor:pointer;padding:10px 0;color:#00aaff;font-weight:600;font-size:0.85rem;"><i class="fas fa-info-circle"></i> How Anchoring Works</summary>
                                 <div style="padding:0 0 12px;color:var(--steel);font-size:0.82rem;line-height:1.6;">
-                                    <p><strong style="color:#fff;">What's real:</strong> Every anchor creates an actual XRPL Mainnet transaction with your record's SHA-256 hash stored in the memo field. The hash, transaction ID, timestamp, and XRPL explorer link are all genuine blockchain data you can independently verify.</p>
-                                    <p><strong style="color:#fff;">Live on Mainnet:</strong> Each anchor costs 0.01 $SLS paid from your wallet to the S4 Treasury. All transaction hashes and explorer links point to the live XRPL.</p>
-                                    <p><strong style="color:#00aaff;">How S4 Ledger saves money:</strong> Traditional defense record notarization costs $25&ndash;$150 per document and takes days. S4 Ledger anchors records in seconds for fractions of a cent &mdash; a <strong>99.9% cost reduction</strong>.</p>
+                                    <p><strong>What's real:</strong> Every anchor creates an actual XRPL transaction with your record's SHA-256 hash stored in the memo field. The hash, transaction ID, timestamp, and XRPL explorer link are all genuine blockchain data you can independently verify.</p>
+                                    <p><strong>Live on Mainnet:</strong> Each anchor costs 0.01 $SLS paid from your wallet to the S4 Treasury. All transaction hashes and explorer links point to the live XRPL.</p>
                                 </div>
                             </details>
                             <label>1. Select Military Branch</label>
@@ -812,42 +742,42 @@
                                 <button onclick="showTeamPanel();this.closest('details').open=false" style="display:flex;align-items:center;gap:8px;width:100%;padding:8px 14px;background:none;border:none;color:var(--text,#1d1d1f);cursor:pointer;font-size:0.8rem;text-align:left;" onmouseover="this.style.background='rgba(0,170,255,0.06)'" onmouseout="this.style.background='none'"><i class="fas fa-users" style="color:var(--accent);width:16px;text-align:center"></i> Team</button>
                                 <button onclick="showWebhookSettings();this.closest('details').open=false" style="display:flex;align-items:center;gap:8px;width:100%;padding:8px 14px;background:none;border:none;color:var(--text,#1d1d1f);cursor:pointer;font-size:0.8rem;text-align:left;" onmouseover="this.style.background='rgba(0,170,255,0.06)'" onmouseout="this.style.background='none'"><i class="fas fa-plug" style="color:#00aaff;width:16px;text-align:center"></i> Webhooks</button>
                                 <div style="border-top:1px solid var(--border);margin:4px 0"></div>
-                                <button onclick="exportPDF();this.closest('details').open=false" style="display:flex;align-items:center;gap:8px;width:100%;padding:8px 14px;background:none;border:none;color:var(--text,#1d1d1f);cursor:pointer;font-size:0.8rem;text-align:left;" onmouseover="this.style.background='rgba(0,170,255,0.06)'" onmouseout="this.style.background='none'"><i class="fas fa-file-pdf" style="color:#00aaff;width:16px;text-align:center"></i> PDF Export</button>
+                                <button onclick="exportPDF();this.closest('details').open=false" style="display:flex;align-items:center;gap:8px;width:100%;padding:8px 14px;background:none;border:none;color:var(--text,#1d1d1f);cursor:pointer;font-size:0.8rem;text-align:left;" onmouseover="this.style.background='rgba(0,170,255,0.06)'" onmouseout="this.style.background='none'"><i class="fas fa-file-pdf" style="color:var(--accent);width:16px;text-align:center"></i> PDF Export</button>
                             </div>
                         </details>
                     </div>
                 </div>
                 <div class="ils-hub-tabs" id="ilsHubTabs" style="display:flex;">
-                    <button class="ils-hub-tab" onclick="switchHubTab('hub-analysis',this)"><i class="fas fa-chart-line"></i> Gap Analysis</button>
-                    <button class="ils-hub-tab" onclick="switchHubTab('hub-dmsms',this)"><i class="fas fa-exclamation-triangle"></i> DMSMS Tracker</button>
-                    <button class="ils-hub-tab" onclick="switchHubTab('hub-readiness',this)"><i class="fas fa-chart-line"></i> Readiness Calculator</button>
+                    <button class="ils-hub-tab" onclick="switchHubTab('hub-analysis',this)"><i class="fas fa-chart-line"></i> Gap Finder</button>
+                    <button class="ils-hub-tab" onclick="switchHubTab('hub-dmsms',this)"><i class="fas fa-exclamation-triangle"></i> Obsolescence Alert</button>
+                    <button class="ils-hub-tab" onclick="switchHubTab('hub-readiness',this)"><i class="fas fa-chart-line"></i> Readiness Score</button>
                     <button class="ils-hub-tab" onclick="switchHubTab('hub-compliance',this)"><i class="fas fa-shield-halved"></i> Compliance Scorecard</button>
-                    <button class="ils-hub-tab" onclick="switchHubTab('hub-risk',this)"><i class="fas fa-triangle-exclamation"></i> Supply Chain Risk</button>
-                    <button class="ils-hub-tab" onclick="switchHubTab('hub-actions',this)"><i class="fas fa-tasks"></i> Action Items <span id="hubActionBadge" style="background:#00aaff;color:var(--text,#1d1d1f);font-size:0.6rem;padding:1px 6px;border-radius:8px;margin-left:4px;font-weight:700;display:none"></span></button>
-                    <button class="ils-hub-tab" onclick="switchHubTab('hub-predictive',this)"><i class="fas fa-brain"></i> Predictive Maintenance</button>
-                    <button class="ils-hub-tab" onclick="switchHubTab('hub-lifecycle',this)"><i class="fas fa-clock"></i> Lifecycle Cost</button>
+                    <button class="ils-hub-tab" onclick="switchHubTab('hub-risk',this)"><i class="fas fa-triangle-exclamation"></i> Risk Radar</button>
+                    <button class="ils-hub-tab" onclick="switchHubTab('hub-actions',this)"><i class="fas fa-tasks"></i> Task Prioritizer <span id="hubActionBadge" style="background:var(--accent);color:#fff;font-size:0.6rem;padding:1px 6px;border-radius:8px;margin-left:4px;font-weight:700;display:none"></span></button>
+                    <button class="ils-hub-tab" onclick="switchHubTab('hub-predictive',this)"><i class="fas fa-brain"></i> Maintenance Predictor</button>
+                    <button class="ils-hub-tab" onclick="switchHubTab('hub-lifecycle',this)"><i class="fas fa-clock"></i> Lifecycle Cost Estimator</button>
                     <button class="ils-hub-tab" onclick="switchHubTab('hub-roi',this)"><i class="fas fa-dollar-sign"></i> ROI Calculator</button>
                     <button class="ils-hub-tab" onclick="switchHubTab('hub-vault',this)"><i class="fas fa-vault"></i> Audit Vault</button>
                     <button class="ils-hub-tab" onclick="switchHubTab('hub-docs',this)"><i class="fas fa-book"></i> Document Library</button>
-                    <button class="ils-hub-tab" onclick="switchHubTab('hub-reports',this)"><i class="fas fa-file-alt"></i> Report Generator</button>
-                    <button class="ils-hub-tab" onclick="switchHubTab('hub-submissions',this)"><i class="fas fa-paper-plane"></i> Submissions & PTD</button>
-                    <button class="ils-hub-tab" onclick="switchHubTab('hub-sbom',this)"><i class="fas fa-microchip"></i> SBOM Viewer</button>
-                    <button class="ils-hub-tab" onclick="switchHubTab('hub-gfp',this)"><i class="fas fa-boxes-stacked"></i> GFP Tracker</button>
-                    <button class="ils-hub-tab" onclick="switchHubTab('hub-cdrl',this)"><i class="fas fa-clipboard-check"></i> CDRL Validator</button>
-                    <button class="ils-hub-tab" onclick="switchHubTab('hub-contract',this)"><i class="fas fa-file-contract"></i> Contract Extractor</button>
-                    <button class="ils-hub-tab" onclick="switchHubTab('hub-provenance',this)"><i class="fas fa-link"></i> Provenance Chain</button>
-                    <button class="ils-hub-tab" onclick="switchHubTab('hub-analytics',this)"><i class="fas fa-chart-pie"></i> Cross-Program Analytics</button>
-                    <button class="ils-hub-tab" onclick="switchHubTab('hub-team',this)"><i class="fas fa-users-gear"></i> Team Management</button>
-                    <button class="ils-hub-tab" onclick="switchHubTab('hub-acquisition',this)"><i class="fas fa-ship"></i> Acquisition Planner</button>
-                    <button class="ils-hub-tab" onclick="switchHubTab('hub-milestones',this)"><i class="fas fa-flag-checkered"></i> Milestones</button>
-                    <button class="ils-hub-tab" onclick="switchHubTab('hub-brief',this)"><i class="fas fa-briefcase"></i> Program Brief</button>
+                    <button class="ils-hub-tab" onclick="switchHubTab('hub-reports',this)"><i class="fas fa-file-alt"></i> Audit Builder</button>
+                    <button class="ils-hub-tab" onclick="switchHubTab('hub-submissions',this)"><i class="fas fa-paper-plane"></i> Submissions Hub</button>
+                    <button class="ils-hub-tab" onclick="switchHubTab('hub-sbom',this)"><i class="fas fa-microchip"></i> SBOM Scanner</button>
+                    <button class="ils-hub-tab" onclick="switchHubTab('hub-gfp',this)"><i class="fas fa-boxes-stacked"></i> Property Custodian</button>
+                    <button class="ils-hub-tab" onclick="switchHubTab('hub-cdrl',this)"><i class="fas fa-clipboard-check"></i> Deliverables Tracker</button>
+                    <button class="ils-hub-tab" onclick="switchHubTab('hub-contract',this)"><i class="fas fa-file-contract"></i> Contract Analyzer</button>
+                    <button class="ils-hub-tab" onclick="switchHubTab('hub-provenance',this)"><i class="fas fa-link"></i> Chain of Custody</button>
+                    <button class="ils-hub-tab" onclick="switchHubTab('hub-analytics',this)"><i class="fas fa-chart-pie"></i> Program Overview</button>
+                    <button class="ils-hub-tab" onclick="switchHubTab('hub-team',this)"><i class="fas fa-users-gear"></i> Team Manager</button>
+                    <button class="ils-hub-tab" onclick="switchHubTab('hub-acquisition',this)"><i class="fas fa-ship"></i> Fleet Optimizer</button>
+                    <button class="ils-hub-tab" onclick="switchHubTab('hub-milestones',this)"><i class="fas fa-flag-checkered"></i> Milestone Monitor</button>
+                    <button class="ils-hub-tab" onclick="switchHubTab('hub-brief',this)"><i class="fas fa-briefcase"></i> Brief Composer</button>
                 </div>
 
                 <!-- Recommended for You (populated by roles.js after role selection) -->
                 <div id="recommendedToolsRow" style="display:none;margin-bottom:16px;">
                     <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
-                        <i class="fas fa-star" style="color:#00aaff;font-size:0.8rem;"></i>
-                        <span style="font-size:0.78rem;font-weight:700;color:#00aaff;letter-spacing:0.04em;text-transform:uppercase;">Recommended for You</span>
+                        <i class="fas fa-star" style="color:var(--accent);font-size:0.8rem;"></i>
+                        <span style="font-size:0.78rem;font-weight:700;color:var(--accent);letter-spacing:0.04em;text-transform:uppercase;">Recommended for You</span>
                     </div>
                     <div id="recommendedToolsGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;"></div>
                 </div>
@@ -872,12 +802,12 @@
                     </div>
                     <div class="ils-tool-card" data-category="analysis" onclick="openILSTool('hub-analysis')">
                         <span class="itc-icon"><i class="fas fa-chart-line" style="color:var(--accent);"></i></span>
-                        <div class="itc-title">Gap Analysis</div>
+                        <div class="itc-title">Gap Finder</div>
                         <div class="itc-desc">Identify logistics gaps across readiness, parts, and support elements for any platform.</div>
                     </div>
                     <div class="ils-tool-card" data-category="operations" onclick="openILSTool('hub-actions')" style="position:relative">
                         <span class="itc-icon"><i class="fas fa-tasks" style="color:var(--accent);"></i></span>
-                        <div class="itc-title">Action Items <span id="actionItemBadge" style="display:inline-flex;align-items:center;justify-content:center;background:#ff4444;color:var(--text,#1d1d1f);font-size:0.65rem;font-weight:800;min-width:20px;height:20px;border-radius:8px;padding:0 6px;margin-left:6px;vertical-align:middle"></span></div>
+                        <div class="itc-title">Task Prioritizer <span id="actionItemBadge" style="display:inline-flex;align-items:center;justify-content:center;background:#ff4444;color:var(--text,#1d1d1f);font-size:0.65rem;font-weight:800;min-width:20px;height:20px;border-radius:8px;padding:0 6px;margin-left:6px;vertical-align:middle"></span></div>
                         <div class="itc-desc">Track ILS action items, corrective actions, and follow-ups with deadlines.</div>
                     </div>
                     <div class="ils-tool-card" data-category="compliance" onclick="openILSTool('hub-vault')">
@@ -887,12 +817,12 @@
                     </div>
                     <div class="ils-tool-card" data-category="compliance" onclick="openILSTool('hub-reports')">
                         <span class="itc-icon"><i class="fas fa-file-alt" style="color:var(--accent);"></i></span>
-                        <div class="itc-title">Report Generator</div>
+                        <div class="itc-title">Audit Builder</div>
                         <div class="itc-desc">Generate ILS reports for audits, reviews, and compliance submissions.</div>
                     </div>
                     <div class="ils-tool-card" data-category="supply-chain" onclick="openILSTool('hub-risk')">
                         <span class="itc-icon"><i class="fas fa-triangle-exclamation" style="color:var(--accent);"></i></span>
-                        <div class="itc-title">Supply Chain Risk</div>
+                        <div class="itc-title">Risk Radar</div>
                         <div class="itc-desc">AI-powered supply chain risk assessment with threat scoring and mitigation.</div>
                     </div>
                     <div class="ils-tool-card" data-category="documents" onclick="openILSTool('hub-docs')">
@@ -902,47 +832,47 @@
                     </div>
                     <div class="ils-tool-card" data-category="documents" onclick="openILSTool('hub-submissions')">
                         <span class="itc-icon"><i class="fas fa-paper-plane" style="color:var(--accent);"></i></span>
-                        <div class="itc-title">Submissions & PTD</div>
+                        <div class="itc-title">Submissions Hub</div>
                         <div class="itc-desc">Manage provisioning technical data and CDRL submissions.</div>
                     </div>
                     <div class="ils-tool-card" data-category="documents" onclick="openILSTool('hub-cdrl')">
                         <span class="itc-icon"><i class="fas fa-clipboard-check" style="color:var(--accent);"></i></span>
-                        <div class="itc-title">CDRL Validator</div>
+                        <div class="itc-title">Deliverables Tracker</div>
                         <div class="itc-desc">Contract Data Requirements List validation — DI format checks and content analysis.</div>
                     </div>
                     <div class="ils-tool-card" data-category="documents" onclick="openILSTool('hub-contract')">
                         <span class="itc-icon"><i class="fas fa-file-contract" style="color:var(--accent);"></i></span>
-                        <div class="itc-title">Contract Extractor</div>
+                        <div class="itc-title">Contract Analyzer</div>
                         <div class="itc-desc">AI-powered clause extraction — FAR/DFARS, CDRL detection, and obligation mapping.</div>
                     </div>
                     <div class="ils-tool-card" data-category="analysis" onclick="openILSTool('hub-dmsms')">
                         <span class="itc-icon"><i class="fas fa-exclamation-triangle" style="color:var(--accent);"></i></span>
-                        <div class="itc-title">DMSMS Tracker</div>
+                        <div class="itc-title">Obsolescence Alert</div>
                         <div class="itc-desc">Track diminishing manufacturing sources and material shortages with risk alerts.</div>
                     </div>
                     <div class="ils-tool-card" data-category="analysis" onclick="openILSTool('hub-readiness')">
                         <span class="itc-icon"><i class="fas fa-chart-line" style="color:var(--accent);"></i></span>
-                        <div class="itc-title">Readiness Calculator</div>
+                        <div class="itc-title">Readiness Score</div>
                         <div class="itc-desc">Compute operational availability (Ao/Ai), MTBF, and readiness metrics.</div>
                     </div>
                     <div class="ils-tool-card" data-category="supply-chain" onclick="openILSTool('hub-sbom')">
                         <span class="itc-icon"><i class="fas fa-microchip" style="color:var(--accent);"></i></span>
-                        <div class="itc-title">SBOM Viewer</div>
+                        <div class="itc-title">SBOM Scanner</div>
                         <div class="itc-desc">Software Bill of Materials — track components, CVEs, and blockchain attestation.</div>
                     </div>
                     <div class="ils-tool-card" data-category="supply-chain" onclick="openILSTool('hub-gfp')">
                         <span class="itc-icon"><i class="fas fa-boxes-stacked" style="color:var(--accent);"></i></span>
-                        <div class="itc-title">GFP Tracker</div>
+                        <div class="itc-title">Property Custodian</div>
                         <div class="itc-desc">Government-Furnished Property tracking — DD 1662, inventory management, and accountability.</div>
                     </div>
                     <div class="ils-tool-card" data-category="supply-chain" onclick="openILSTool('hub-provenance')">
                         <span class="itc-icon"><i class="fas fa-link" style="color:var(--accent);"></i></span>
-                        <div class="itc-title">Provenance Chain</div>
+                        <div class="itc-title">Chain of Custody</div>
                         <div class="itc-desc">Blockchain-verified chain of custody — QR codes and custody transfer tracking.</div>
                     </div>
                     <div class="ils-tool-card" data-category="analysis" onclick="openILSTool('hub-lifecycle')">
                         <span class="itc-icon"><i class="fas fa-clock" style="color:var(--accent);"></i></span>
-                        <div class="itc-title">Lifecycle Cost</div>
+                        <div class="itc-title">Lifecycle Cost Estimator</div>
                         <div class="itc-desc">Total lifecycle cost estimation including procurement, sustainment, and disposal.</div>
                     </div>
                     <div class="ils-tool-card" data-category="analysis" onclick="openILSTool('hub-roi')">
@@ -952,33 +882,33 @@
                     </div>
                     <div class="ils-tool-card" data-category="analysis" onclick="openILSTool('hub-predictive')">
                         <span class="itc-icon"><i class="fas fa-brain" style="color:var(--accent);"></i></span>
-                        <div class="itc-title">Predictive Maintenance</div>
+                        <div class="itc-title">Maintenance Predictor</div>
                         <div class="itc-desc">AI-driven failure prediction and maintenance scheduling optimization.</div>
                     </div>
                     <div class="ils-tool-card" data-category="analysis" onclick="openILSTool('hub-analytics')">
                         <span class="itc-icon"><i class="fas fa-chart-pie" style="color:var(--accent);"></i></span>
-                        <div class="itc-title">Cross-Program Analytics</div>
+                        <div class="itc-title">Program Overview</div>
                         <div class="itc-desc">Multi-program dashboard — aggregate metrics, trends, and comparative analysis.</div>
                     </div>
                     <div class="ils-tool-card" data-category="operations" onclick="openILSTool('hub-team')">
                         <span class="itc-icon"><i class="fas fa-users-gear" style="color:var(--accent);"></i></span>
-                        <div class="itc-title">Team Management</div>
+                        <div class="itc-title">Team Manager</div>
                         <div class="itc-desc">Multi-tenant team operations — invitations, roles, and access control.</div>
                     </div>
                     <div class="ils-tool-card" data-category="operations" onclick="openILSTool('hub-acquisition')">
                         <span class="itc-icon"><i class="fas fa-ship" style="color:var(--accent);"></i></span>
-                        <div class="itc-title">Acquisition Planner</div>
+                        <div class="itc-title">Fleet Optimizer</div>
                         <div class="itc-desc">Multi-year service craft acquisition tracker — hull lifecycle, POM funding, ROH, and material condition.</div>
                     </div>
                     <div class="ils-tool-card" data-category="operations" onclick="openILSTool('hub-milestones')">
                         <span class="itc-icon"><i class="fas fa-flag-checkered" style="color:var(--accent);"></i></span>
-                        <div class="itc-title">Program Milestones</div>
+                        <div class="itc-title">Milestone Monitor</div>
                         <div class="itc-desc">Track vessel construction milestones — contract award through delivery, OWLD variance, and Gantt timeline.</div>
                     </div>
 
                     <div class="ils-tool-card" data-category="operations" onclick="openILSTool('hub-brief')">
                         <span class="itc-icon"><i class="fas fa-briefcase" style="color:var(--accent);"></i></span>
-                        <div class="itc-title">Program Brief Engine</div>
+                        <div class="itc-title">Brief Composer</div>
                         <div class="itc-desc">Create slide-based briefs — POM, PB, ILSMT, ILSMP, IPR, Milestone Review — with templates, editing, and PPTX import.</div>
                     </div>
 
@@ -988,11 +918,11 @@
                 <!-- ══ HUB: GAP ANALYSIS (original ILS content) ══ -->
                 <div class="ils-hub-panel" id="hub-analysis">
                     <div class="s4-card">
-                        <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-brain" style="color:var(--accent)"></i> ILS Gap Analysis <button onclick="showAddActionModal('ils')" class="ai-quick-btn" style="margin-left:auto;font-size:0.72rem;padding:4px 10px"><i class="fas fa-plus"></i> Action Item</button></h3>
+                        <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-brain" style="color:var(--accent)"></i> Gap Finder <button onclick="showAddActionModal('ils')" class="ai-quick-btn" style="margin-left:auto;font-size:0.72rem;padding:4px 10px"><i class="fas fa-plus"></i> Action Item</button></h3>
                         <p style="color:var(--steel);font-size:0.9rem;margin-bottom:1rem">Upload your DRLs, spreadsheets, checklists, and documents. The analyzer will parse them, cross-reference against program requirements, and identify gaps, missing deliverables, and actionable items.</p>
 <details style="display:none;margin-top:8px;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.15);border-radius:8px;padding:0 12px;">
                         <summary style="cursor:pointer;padding:8px 0;font-size:0.8rem;font-weight:700;color:#00aaff;">How It Works</summary>
-                        <p style="font-size:0.82rem;color:var(--steel);margin-bottom:6px;">The ILS Gap Analysis scans your program data against GEIA-STD-0007 requirements and identifies critical gaps in 12 logistics elements.</p>
+                        <p style="font-size:0.82rem;color:var(--steel);margin-bottom:6px;">The Gap Finder scans your program data against GEIA-STD-0007 requirements and identifies critical gaps in 12 logistics elements.</p>
                         <ol style="font-size:0.8rem;color:var(--steel);padding-left:18px;margin-bottom:8px;">
                             <li><strong>Select your program</strong> — Choose from pre-loaded defense platforms or add a custom program.</li>
                             <li><strong>Upload or auto-scan</strong> — ILS data files (CDRLs, tech manuals, provisioning docs) are analyzed automatically.</li>
@@ -1069,7 +999,7 @@
                                 </div>
                             </div>
                             <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:14px 16px;">
-                                <h4 style="font-size:0.85rem;margin:0 0 8px;display:flex;align-items:center;gap:6px"><i class="fas fa-exclamation-triangle" style="color:#ffa500"></i> Action Items</h4>
+                                <h4 style="font-size:0.85rem;margin:0 0 8px;display:flex;align-items:center;gap:6px"><i class="fas fa-exclamation-triangle" style="color:#ffa500"></i> Task Prioritizer</h4>
                                 <div id="ilsActions" style="max-height:200px;overflow-y:auto">
                                     <div style="color:var(--muted);padding:4px 0;font-size:0.8rem">Run analysis to generate action items.</div>
                                 </div>
@@ -1089,7 +1019,7 @@
                 <div class="row">
                     <div class="col-lg-8">
                         <div class="s4-card">
-                            <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-tasks" style="color:var(--accent)"></i> Action Items <button onclick="showAddActionModal()" class="ai-quick-btn" style="margin-left:auto;font-size:0.72rem;padding:4px 10px"><i class="fas fa-plus"></i> Action Item</button></h3>
+                            <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-tasks" style="color:var(--accent)"></i> Task Prioritizer <button onclick="showAddActionModal()" class="ai-quick-btn" style="margin-left:auto;font-size:0.72rem;padding:4px 10px"><i class="fas fa-plus"></i> Action Item</button></h3>
 <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1rem">
                                     <button class="ai-quick-btn" onclick="showAddActionModal()" style="background:rgba(0,170,255,0.2);border-color:var(--accent);font-weight:700"><i class="fas fa-plus"></i> Add New</button>
                                     <button class="ai-quick-btn" onclick="filterHubActions('all')" style="background:rgba(0,170,255,0.15);border-color:var(--accent)">All</button>
@@ -1101,7 +1031,7 @@
                                     <button class="ai-quick-btn" onclick="toggleActionTimeline()" id="timelineToggleBtn" title="Timeline View"><i class="fas fa-stream"></i> Timeline</button>
                                     <button class="ai-quick-btn" onclick="smartPrioritizeActions()" title="AI Smart Priority Sort"><i class="fas fa-wand-magic-sparkles"></i> Smart Sort</button>
                                     <button class="ai-quick-btn" onclick="exportActionItems()"><i class="fas fa-download"></i> Export CSV</button>
-                                    <button class="ai-quick-btn" onclick="anchorToLedger('actions','Action Items snapshot anchored')"><i class="fas fa-anchor"></i> Anchor to Ledger</button>
+                                    <button class="ai-quick-btn" onclick="anchorToLedger('actions','Task Prioritizer snapshot anchored')"><i class="fas fa-anchor"></i> Anchor to Ledger</button>
                                     <button class="ai-quick-btn" onclick="clearCompletedActions()"><i class="fas fa-broom"></i> Clear Done</button>
                                 </div>
                                 <!-- Bulk Action Bar -->
@@ -1112,7 +1042,7 @@
                                     <button class="ai-quick-btn" onclick="bulkActionSetSeverity('critical')" style="font-size:0.72rem"><span style="color:#c9a84c">●</span> Set Critical</button>
                                     <button class="ai-quick-btn" onclick="bulkActionSetSeverity('warning')" style="font-size:0.72rem"><span style="color:#ffa500">●</span> Set Warning</button>
                                     <button class="ai-quick-btn" onclick="bulkActionMarkDone()" style="font-size:0.72rem"><i class="fas fa-check"></i> Mark Done</button>
-                                    <button class="ai-quick-btn" onclick="bulkActionDelete()" style="font-size:0.72rem;color:#ef4444"><i class="fas fa-trash"></i> Delete</button>
+                                    <button class="ai-quick-btn" onclick="bulkActionDelete()" style="font-size:0.72rem;color:#ff6b6b"><i class="fas fa-trash"></i> Delete</button>
                                 </div>
                                 <div class="row mb-3">
                                     <div class="col-md-3 col-6 mb-2"><div class="stat-mini" style="cursor:pointer" onclick="filterHubActions('all')" title="Click to show all"><div class="stat-mini-val" id="hubAiTotal" style="color:#00aaff">0</div><div class="stat-mini-label">Total Actions</div></div></div>
@@ -1146,7 +1076,7 @@
                                 <p style="color:var(--steel);font-size:0.82rem;margin-bottom:12px">Ask the S4 Agent about your action items, priorities, risks, and next steps.</p>
 <details style="display:none;margin-top:8px;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.15);border-radius:8px;padding:0 12px;">
                         <summary style="cursor:pointer;padding:8px 0;font-size:0.8rem;font-weight:700;color:#00aaff;">How It Works</summary>
-                        <p style="font-size:0.82rem;color:var(--steel);margin-bottom:6px;">Action Items tracks every corrective action, risk mitigation, and follow-up task across all your programs in one place.</p>
+                        <p style="font-size:0.82rem;color:var(--steel);margin-bottom:6px;">Task Prioritizer tracks every corrective action, risk mitigation, and follow-up task across all your programs in one place.</p>
                         <ol style="font-size:0.8rem;color:var(--steel);padding-left:18px;margin-bottom:8px;">
                             <li><strong>Auto-generated actions</strong> — When ILS analysis finds gaps, action items are created automatically with priority, owner, and due date.</li>
                             <li><strong>Manual items</strong> — Add custom action items for any tool (readiness, compliance, risk, etc.).</li>
@@ -1181,7 +1111,7 @@
                 <!-- ══ WORKSPACE TOOLS (full embedded) ══ -->
                 <div class="ils-hub-panel" id="hub-dmsms">
                     <div class="s4-card">
-                        <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-exclamation-triangle" style="color:var(--accent)"></i> DMSMS / Obsolescence Tracker <button onclick="showAddActionModal('dmsms')" class="ai-quick-btn" style="margin-left:auto;font-size:0.72rem;padding:4px 10px"><i class="fas fa-plus"></i> Action Item</button></h3>
+                        <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-exclamation-triangle" style="color:var(--accent)"></i> Obsolescence Alert <button onclick="showAddActionModal('dmsms')" class="ai-quick-btn" style="margin-left:auto;font-size:0.72rem;padding:4px 10px"><i class="fas fa-plus"></i> Action Item</button></h3>
                         <p style="color:var(--steel);font-size:0.9rem;margin-bottom:0.5rem">Track Diminishing Manufacturing Sources and Material Shortages (DMSMS). Identify parts at risk of obsolescence, find alternates, and estimate resolution costs. Per DoDI 4245.14.</p>
 <details style="display:none;margin-top:8px;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.15);border-radius:8px;padding:0 12px;">
                         <summary style="cursor:pointer;padding:8px 0;font-size:0.8rem;font-weight:700;color:#00aaff;">How It Works</summary>
@@ -1224,11 +1154,11 @@
 
                 <div class="ils-hub-panel" id="hub-readiness">
                     <div class="s4-card">
-                        <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-chart-line" style="color:var(--accent)"></i> Operational Readiness Calculator <button onclick="showAddActionModal('readiness')" class="ai-quick-btn" style="margin-left:auto;font-size:0.72rem;padding:4px 10px"><i class="fas fa-plus"></i> Action Item</button></h3>
+                        <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-chart-line" style="color:var(--accent)"></i> Readiness Score <button onclick="showAddActionModal('readiness')" class="ai-quick-btn" style="margin-left:auto;font-size:0.72rem;padding:4px 10px"><i class="fas fa-plus"></i> Action Item</button></h3>
                         <p style="color:var(--steel);font-size:0.9rem;margin-bottom:0.5rem">Calculate Operational Availability (Ao), Mean Time Between Failures (MTBF), Mean Time To Repair (MTTR), and Mean Logistics Delay Time (MLDT). Per MIL-STD-1390D and DoDI 5000.02.</p>
 <details style="display:none;margin-top:8px;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.15);border-radius:8px;padding:0 12px;">
                         <summary style="cursor:pointer;padding:8px 0;font-size:0.8rem;font-weight:700;color:#00aaff;">How It Works</summary>
-                        <p style="font-size:0.82rem;color:var(--steel);margin-bottom:6px;">The Readiness Calculator computes Operational Availability (Ao), Inherent Availability (Ai), and mission reliability per MIL-STD-1390D.</p>
+                        <p style="font-size:0.82rem;color:var(--steel);margin-bottom:6px;">The Readiness Score computes Operational Availability (Ao), Inherent Availability (Ai), and mission reliability per MIL-STD-1390D.</p>
                         <ol style="font-size:0.8rem;color:var(--steel);padding-left:18px;margin-bottom:8px;">
                             <li><strong>Enter MTBF</strong> — Mean Time Between Failures in hours (e.g., 2,400 hrs for radar systems).</li>
                             <li><strong>Enter MTTR</strong> — Mean Time To Repair in hours (e.g., 4.5 hrs with trained personnel).</li>
@@ -1251,10 +1181,10 @@
                         </div>
                         <div id="readinessOutput" style="margin-top:1rem"></div>
                         <div id="readinessStatRow" class="row mt-2" style="display:none">
-                            <div class="col-md-3 col-6 mb-2"><div class="stat-mini" style="padding:6px 8px"><div class="stat-mini-val" id="statAo" style="color:#00aaff">—</div><div class="stat-mini-label">Ao (Operational Avail.)</div></div></div>
-                            <div class="col-md-3 col-6 mb-2"><div class="stat-mini" style="padding:6px 8px"><div class="stat-mini-val" id="statAi">—</div><div class="stat-mini-label">Ai (Inherent Avail.)</div></div></div>
-                            <div class="col-md-3 col-6 mb-2"><div class="stat-mini" style="padding:6px 8px"><div class="stat-mini-val" id="statFailRate">—</div><div class="stat-mini-label">Failure Rate (λ)</div></div></div>
-                            <div class="col-md-3 col-6 mb-2"><div class="stat-mini" style="padding:6px 8px"><div class="stat-mini-val" id="statMissReady">—</div><div class="stat-mini-label">Mission Readiness</div></div></div>
+                            <div class="col-md-3 col-6 mb-1"><div class="stat-mini" style="padding:6px 8px"><div class="stat-mini-val" id="statAo" style="color:#00aaff;font-size:0.95rem">—</div><div class="stat-mini-label">Ao</div></div></div>
+                            <div class="col-md-3 col-6 mb-1"><div class="stat-mini" style="padding:6px 8px"><div class="stat-mini-val" id="statAi" style="font-size:0.95rem">—</div><div class="stat-mini-label">Ai</div></div></div>
+                            <div class="col-md-3 col-6 mb-1"><div class="stat-mini" style="padding:6px 8px"><div class="stat-mini-val" id="statFailRate" style="font-size:0.95rem">—</div><div class="stat-mini-label">Failure Rate (λ)</div></div></div>
+                            <div class="col-md-3 col-6 mb-1"><div class="stat-mini" style="padding:6px 8px"><div class="stat-mini-val" id="statMissReady" style="font-size:0.95rem">—</div><div class="stat-mini-label">Mission Readiness</div></div></div>
                         </div>
                         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:1rem">
                             <button onclick="exportReadiness()" class="btn btn-sm" style="background:linear-gradient(135deg,#0071e3,#00aaff);color:#fff;border:none;border-radius:8px;padding:8px 16px;"><i class="fas fa-download"></i> Export RAM Report</button>
@@ -1266,7 +1196,7 @@
 
                 <div class="ils-hub-panel" id="hub-roi">
                     <div class="s4-card">
-                        <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-dollar-sign" style="color:var(--accent)"></i> S4 Ledger ROI Calculator <button onclick="showAddActionModal('roi')" class="ai-quick-btn" style="margin-left:auto;font-size:0.72rem;padding:4px 10px"><i class="fas fa-plus"></i> Action Item</button></h3>
+                        <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-dollar-sign" style="color:var(--accent)"></i> ROI Calculator <button onclick="showAddActionModal('roi')" class="ai-quick-btn" style="margin-left:auto;font-size:0.72rem;padding:4px 10px"><i class="fas fa-plus"></i> Action Item</button></h3>
                         <p style="color:var(--steel);font-size:0.9rem;margin-bottom:0.5rem">Calculate the return on investment from implementing S4 Ledger across your ILS, DMSMS, and readiness programs. Compare manual processes vs. automated blockchain-backed document management.</p>
 <details style="display:none;margin-top:8px;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.15);border-radius:8px;padding:0 12px;">
                         <summary style="cursor:pointer;padding:8px 0;font-size:0.8rem;font-weight:700;color:#00aaff;">How It Works</summary>
@@ -1296,10 +1226,10 @@
                         </div>
                         <div id="roiOutput" style="margin-top:1rem"></div>
                         <div id="roiStatRow" class="row mt-2" style="display:none">
-                            <div class="col-md-3 col-6 mb-2"><div class="stat-mini" style="padding:6px 8px"><div class="stat-mini-val" id="roiSavings" style="color:#00aaff">—</div><div class="stat-mini-label">Annual Savings</div></div></div>
-                            <div class="col-md-3 col-6 mb-2"><div class="stat-mini" style="padding:6px 8px"><div class="stat-mini-val" id="roiPercent">—</div><div class="stat-mini-label">ROI %</div></div></div>
-                            <div class="col-md-3 col-6 mb-2"><div class="stat-mini" style="padding:6px 8px"><div class="stat-mini-val" id="roiPayback" style="color:#00aaff">—</div><div class="stat-mini-label">Payback Period</div></div></div>
-                            <div class="col-md-3 col-6 mb-2"><div class="stat-mini" style="padding:6px 8px"><div class="stat-mini-val" id="roi5Year" style="color:#00aaff">—</div><div class="stat-mini-label">5-Year Net Savings</div></div></div>
+                            <div class="col-md-3 col-6 mb-1"><div class="stat-mini" style="padding:6px 8px"><div class="stat-mini-val" id="roiSavings" style="color:#00aaff;font-size:0.95rem">—</div><div class="stat-mini-label">Annual Savings</div></div></div>
+                            <div class="col-md-3 col-6 mb-1"><div class="stat-mini" style="padding:6px 8px"><div class="stat-mini-val" id="roiPercent" style="font-size:0.95rem">—</div><div class="stat-mini-label">ROI %</div></div></div>
+                            <div class="col-md-3 col-6 mb-1"><div class="stat-mini" style="padding:6px 8px"><div class="stat-mini-val" id="roiPayback" style="color:#00aaff;font-size:0.95rem">—</div><div class="stat-mini-label">Payback Period</div></div></div>
+                            <div class="col-md-3 col-6 mb-1"><div class="stat-mini" style="padding:6px 8px"><div class="stat-mini-val" id="roi5Year" style="color:#00aaff;font-size:0.95rem">—</div><div class="stat-mini-label">5-Year Net Savings</div></div></div>
                         </div>
                         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:1rem">
                             <button onclick="exportROI()" class="btn btn-sm" style="background:linear-gradient(135deg,#0071e3,#00aaff);color:#fff;border:none;border-radius:8px;padding:8px 16px;"><i class="fas fa-download"></i> Export ROI Report</button>
@@ -1310,11 +1240,11 @@
 
                 <div class="ils-hub-panel" id="hub-lifecycle">
                     <div class="s4-card">
-                        <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-clock" style="color:var(--accent)"></i> Lifecycle Cost Estimator <button onclick="showAddActionModal('lifecycle')" class="ai-quick-btn" style="margin-left:auto;font-size:0.72rem;padding:4px 10px"><i class="fas fa-plus"></i> Action Item</button></h3>
+                        <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-clock" style="color:var(--accent)"></i> Lifecycle Cost Estimator Estimator <button onclick="showAddActionModal('lifecycle')" class="ai-quick-btn" style="margin-left:auto;font-size:0.72rem;padding:4px 10px"><i class="fas fa-plus"></i> Action Item</button></h3>
                         <p style="color:var(--steel);font-size:0.9rem;margin-bottom:0.5rem">Project total ownership cost (TOC) over a weapon system's lifecycle. Factors in sustainment, DMSMS resolution, tech refresh, and depot maintenance per DoD 5000.73 and MIL-STD-881F.</p>
 <details style="display:none;margin-top:8px;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.15);border-radius:8px;padding:0 12px;">
                         <summary style="cursor:pointer;padding:8px 0;font-size:0.8rem;font-weight:700;color:#00aaff;">How It Works</summary>
-                        <p style="font-size:0.82rem;color:var(--steel);margin-bottom:6px;">The Lifecycle Cost Estimator projects total ownership cost (TOC) across acquisition, sustainment, DMSMS, and tech refresh.</p>
+                        <p style="font-size:0.82rem;color:var(--steel);margin-bottom:6px;">The Lifecycle Cost Estimator Estimator projects total ownership cost (TOC) across acquisition, sustainment, DMSMS, and tech refresh.</p>
                         <ol style="font-size:0.8rem;color:var(--steel);padding-left:18px;margin-bottom:8px;">
                             <li><strong>Set service life</strong> — How many years the platform will be in service (e.g., 30 years for ships, 20 for aircraft).</li>
                             <li><strong>Enter fleet size</strong> — Number of platforms in the fleet.</li>
@@ -1336,10 +1266,10 @@
                         </div>
                         <div id="lifecycleOutput" style="margin-top:1rem"></div>
                         <div id="lifecycleStatRow" class="row mt-2" style="display:none">
-                            <div class="col-md-3 col-6 mb-2"><div class="stat-mini" style="padding:6px 8px"><div class="stat-mini-val" id="lcTotalCost" style="color:#00aaff">—</div><div class="stat-mini-label">Total Ownership Cost</div></div></div>
-                            <div class="col-md-3 col-6 mb-2"><div class="stat-mini" style="padding:6px 8px"><div class="stat-mini-val" id="lcSustCost" style="color:#00aaff">—</div><div class="stat-mini-label">Sustainment (O&S)</div></div></div>
-                            <div class="col-md-3 col-6 mb-2"><div class="stat-mini" style="padding:6px 8px"><div class="stat-mini-val" id="lcDmsmsCost" style="color:#ff3333">—</div><div class="stat-mini-label">DMSMS/Obsol. Cost</div></div></div>
-                            <div class="col-md-3 col-6 mb-2"><div class="stat-mini" style="padding:6px 8px"><div class="stat-mini-val" id="lcCostPerHr" style="color:#00aaff">—</div><div class="stat-mini-label">Cost per Op Hour</div></div></div>
+                            <div class="col-md-3 col-6 mb-1"><div class="stat-mini" style="padding:6px 8px"><div class="stat-mini-val" id="lcTotalCost" style="color:#00aaff;font-size:0.95rem">—</div><div class="stat-mini-label">Total Cost</div></div></div>
+                            <div class="col-md-3 col-6 mb-1"><div class="stat-mini" style="padding:6px 8px"><div class="stat-mini-val" id="lcSustCost" style="color:#00aaff;font-size:0.95rem">—</div><div class="stat-mini-label">Sustainment</div></div></div>
+                            <div class="col-md-3 col-6 mb-1"><div class="stat-mini" style="padding:6px 8px"><div class="stat-mini-val" id="lcDmsmsCost" style="color:#ff3333;font-size:0.95rem">—</div><div class="stat-mini-label">DMSMS Cost</div></div></div>
+                            <div class="col-md-3 col-6 mb-1"><div class="stat-mini" style="padding:6px 8px"><div class="stat-mini-val" id="lcCostPerHr" style="color:#00aaff;font-size:0.95rem">—</div><div class="stat-mini-label">Cost/Op Hour</div></div></div>
                         </div>
                         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:1rem">
                             <button onclick="exportLifecycle()" class="btn btn-sm" style="background:linear-gradient(135deg,#0071e3,#00aaff);color:#fff;border:none;border-radius:8px;padding:8px 16px;"><i class="fas fa-download"></i> Export Lifecycle Report</button>
@@ -1352,17 +1282,17 @@
             <!-- ═══ AUDIT RECORD VAULT ═══ -->
             <div class="ils-hub-panel" id="hub-vault">
                 <!-- ── Digital Thread Traceability (Competitive Differentiator) ── -->
-                <div id="digitalThreadPanel" style="margin-bottom:8px;background:linear-gradient(135deg,rgba(0,170,255,0.04),rgba(155,89,182,0.03));border:1px solid rgba(155,89,182,0.2);border-radius:8px;padding:6px 10px;">
+                <div id="digitalThreadPanel" style="margin-bottom:8px;background:linear-gradient(135deg,rgba(0,170,255,0.04),rgba(0,170,255,0.03));border:1px solid rgba(0,170,255,0.2);border-radius:8px;padding:6px 10px;">
                     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
-                        <div style="font-size:0.72rem;font-weight:700;color:#a855f7;text-transform:uppercase;letter-spacing:0.8px;display:flex;align-items:center;gap:6px;"><i class="fas fa-project-diagram"></i> Digital Thread</div>
+                        <div style="font-size:0.72rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:0.8px;display:flex;align-items:center;gap:6px;"><i class="fas fa-project-diagram"></i> Digital Thread</div>
                         <div style="display:flex;align-items:center;gap:6px;">
-                            <select id="digitalThreadRecordSelect" aria-label="Select digital thread record" onchange="showDigitalThreadFromSelect()" style="background:#fff;color:var(--text,#1d1d1f);border:1px solid rgba(155,89,182,0.3);border-radius:6px;padding:3px 8px;font-size:0.7rem;max-width:180px;">
+                            <select id="digitalThreadRecordSelect" aria-label="Select digital thread record" onchange="showDigitalThreadFromSelect()" style="background:#fff;color:var(--text,#1d1d1f);border:1px solid rgba(0,170,255,0.3);border-radius:6px;padding:2px 6px;font-size:0.7rem;max-width:180px;">
                                 <option value="">— Select record —</option>
                             </select>
-                            <button onclick="closeDigitalThread()" style="background:rgba(155,89,182,0.1);border:1px solid rgba(155,89,182,0.2);color:#a855f7;cursor:pointer;font-size:0.68rem;width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;padding:0;border-radius:50%;transition:all 0.2s;line-height:1;" title="Close Digital Thread"><i class="fas fa-times"></i></button>
+                            <button onclick="closeDigitalThread()" style="background:rgba(0,170,255,0.12);border:1px solid rgba(0,170,255,0.25);color:var(--accent);cursor:pointer;font-size:0.68rem;width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;padding:0;border-radius:50%;transition:all 0.2s;line-height:1;" title="Close Digital Thread"><i class="fas fa-times"></i></button>
                         </div>
                     </div>
-                    <div id="digitalThreadContent" style="font-size:0.68rem;"></div>
+                    <div id="digitalThreadContent" style="font-size:0.8rem;"></div>
                 </div>
                 <div class="s4-card" style="animation:slideUp 0.4s ease">
                     <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-vault" style="color:var(--accent)"></i> Audit Record Vault <span style="background:rgba(0,170,255,0.15);color:#00aaff;font-size:0.65rem;padding:2px 8px;border-radius:8px;font-weight:600;margin-left:6px;">LIVE</span> <button onclick="showAddActionModal('vault')" class="ai-quick-btn" style="margin-left:auto;font-size:0.72rem;padding:4px 10px"><i class="fas fa-plus"></i> Action Item</button></h3>
@@ -1398,7 +1328,7 @@
                         <div style="margin-left:auto;display:flex;gap:6px">
                             <button onclick="bulkVaultExport('csv')" class="btn btn-sm" style="background:rgba(0,170,255,0.1);color:#00aaff;border:1px solid rgba(0,170,255,0.2);border-radius:8px;padding:4px 10px;font-size:0.75rem"><i class="fas fa-file-csv"></i> Export Selected</button>
                             <button onclick="bulkVaultVerify()" class="btn btn-sm" style="background:rgba(0,170,255,0.1);color:#00aaff;border:1px solid rgba(0,170,255,0.2);border-radius:8px;padding:4px 10px;font-size:0.75rem"><i class="fas fa-check-double"></i> Re-Verify Selected</button>
-                            <button onclick="openCompareView()" class="btn btn-sm" style="background:rgba(0,170,255,0.1);color:#00aaff;border:1px solid rgba(0,170,255,0.2);border-radius:8px;padding:4px 10px;font-size:0.75rem"><i class="fas fa-code-compare"></i> Compare (2)</button>
+                            <button onclick="openCompareView()" class="btn btn-sm" style="background:rgba(0,170,255,0.08);color:var(--accent);border:1px solid rgba(0,170,255,0.2);border-radius:8px;padding:4px 10px;font-size:0.75rem"><i class="fas fa-code-compare"></i> Compare (2)</button>
                             <button onclick="bulkVaultDelete()" class="btn btn-sm" style="background:rgba(255,51,51,0.08);color:#ff3333;border:1px solid rgba(255,51,51,0.2);border-radius:8px;padding:4px 10px;font-size:0.75rem"><i class="fas fa-trash"></i> Delete Selected</button>
                         </div>
                     </div>
@@ -1438,7 +1368,7 @@
                                 <div style="font-size:0.68rem;color:var(--steel);text-transform:uppercase;letter-spacing:0.5px">Records</div>
                             </div>
                             <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center">
-                                <div style="font-size:1.1rem;font-weight:800;color:#00aaff" id="vmStorageKB">0 KB</div>
+                                <div style="font-size:1.1rem;font-weight:800;color:var(--accent)" id="vmStorageKB">0 KB</div>
                                 <div style="font-size:0.68rem;color:var(--steel);text-transform:uppercase;letter-spacing:0.5px">Storage</div>
                             </div>
                             <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center">
@@ -1446,11 +1376,11 @@
                                 <div style="font-size:0.68rem;color:var(--steel);text-transform:uppercase;letter-spacing:0.5px">Unique Types</div>
                             </div>
                             <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center">
-                                <div style="font-size:1.1rem;font-weight:800;color:#00aaff" id="vmLatestRecord">—</div>
+                                <div style="font-size:1.1rem;font-weight:800;color:var(--accent)" id="vmLatestRecord">—</div>
                                 <div style="font-size:0.68rem;color:var(--steel);text-transform:uppercase;letter-spacing:0.5px">Latest</div>
                             </div>
                             <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center">
-                                <div style="font-size:1.1rem;font-weight:800;color:#a855f7" id="vmRenderMs">0 ms</div>
+                                <div style="font-size:1.1rem;font-weight:800;color:var(--accent)" id="vmRenderMs">0 ms</div>
                                 <div style="font-size:0.68rem;color:var(--steel);text-transform:uppercase;letter-spacing:0.5px">Render Time</div>
                             </div>
                             <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center">
@@ -1464,7 +1394,7 @@
 
                     <!-- Vault Stress Test Tool -->
                     <details style="margin-top:1rem;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.15);border-radius:8px;padding:0 12px;">
-                        <summary style="cursor:pointer;padding:10px 0;color:#00aaff;font-weight:600;font-size:0.82rem"><i class="fas fa-vial" style="margin-right:6px"></i> Vault Stress Test & Capacity Tool</summary>
+                        <summary style="cursor:pointer;padding:10px 0;color:var(--accent);font-weight:600;font-size:0.82rem"><i class="fas fa-vial" style="margin-right:6px"></i> Vault Stress Test & Capacity Tool</summary>
                         <div style="padding:0 0 14px">
                             <p style="color:var(--steel);font-size:0.78rem;margin-bottom:12px">Generate synthetic records to test vault performance at scale. Records are generated locally and stored in localStorage. Useful for benchmarking query speed, rendering performance, and export capability with large datasets.</p>
                             <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px">
@@ -1489,7 +1419,7 @@
             <!-- ═══ DEFENSE DOCUMENT REFERENCE LIBRARY ═══ -->
             <div class="ils-hub-panel" id="hub-docs">
                 <div class="s4-card" style="animation:slideUp 0.4s ease">
-                    <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-book-open" style="color:var(--accent)"></i> Defense Document Library <span id="docCount" style="font-size:0.78rem;color:var(--muted)"></span><button onclick="showAddActionModal('docs')" class="ai-quick-btn" style="margin-left:auto;font-size:0.72rem;padding:4px 10px"><i class="fas fa-plus"></i> Action Item</button></h3>
+                    <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-book-open" style="color:var(--accent)"></i> Document Library <span id="docCount" style="font-size:0.78rem;color:var(--muted)"></span><button onclick="showAddActionModal('docs')" class="ai-quick-btn" style="margin-left:auto;font-size:0.72rem;padding:4px 10px"><i class="fas fa-plus"></i> Action Item</button></h3>
                     <p style="color:var(--muted);font-size:0.85rem;margin-bottom:16px">Searchable reference library of MIL-STDs, OPNAVINSTs, DoD Directives, DFARS clauses, NIST standards, and service-specific regulations. Quick-reference while you work — no tab-switching needed.</p>
 <details style="display:none;margin-top:8px;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.15);border-radius:8px;padding:0 12px;">
                         <summary style="cursor:pointer;padding:8px 0;font-size:0.8rem;font-weight:700;color:#00aaff;">How It Works</summary>
@@ -1593,7 +1523,7 @@
                         <div class="compliance-row"><span class="compliance-label"><i class="fas fa-lock" style="color:#3498db;margin-right:8px"></i>NIST 800-171</span><div class="compliance-bar"><div class="fill" id="barNIST" style="width:0%;background:linear-gradient(90deg,#3498db,#00aaff)"></div></div><span class="compliance-pct" id="pctNIST">—</span></div>
                         <div class="compliance-row"><span class="compliance-label"><i class="fas fa-file-contract" style="color:#00aaff;margin-right:8px"></i>DFARS 252.204</span><div class="compliance-bar"><div class="fill" id="barDFARS" style="width:0%;background:linear-gradient(90deg,#00aaff,#f1c40f)"></div></div><span class="compliance-pct" id="pctDFARS">—</span></div>
                         <div class="compliance-row"><span class="compliance-label"><i class="fas fa-certificate" style="color:#00aaff;margin-right:8px"></i>FAR 46 Quality</span><div class="compliance-bar"><div class="fill" id="barFAR" style="width:0%;background:linear-gradient(90deg,#0071e3,#00aaff)"></div></div><span class="compliance-pct" id="pctFAR">—</span></div>
-                        <div class="compliance-row"><span class="compliance-label"><i class="fas fa-cubes" style="color:#a855f7;margin-right:8px"></i>GEIA-STD-0007 ILS</span><div class="compliance-bar"><div class="fill" id="barILS" style="width:0%;background:linear-gradient(90deg,#a855f7,#c39bd3)"></div></div><span class="compliance-pct" id="pctILS">—</span></div>
+                        <div class="compliance-row"><span class="compliance-label"><i class="fas fa-cubes" style="color:var(--accent);margin-right:8px"></i>GEIA-STD-0007 ILS</span><div class="compliance-bar"><div class="fill" id="barILS" style="width:0%;background:linear-gradient(90deg,#0071e3,#00aaff)"></div></div><span class="compliance-pct" id="pctILS">—</span></div>
                         <div class="compliance-row"><span class="compliance-label"><i class="fas fa-exclamation-triangle" style="color:#ff6b6b;margin-right:8px"></i>DMSMS (DoDI 4245.15)</span><div class="compliance-bar"><div class="fill" id="barDMSMSmgmt" style="width:0%;background:linear-gradient(90deg,#ff6b6b,#ff3333)"></div></div><span class="compliance-pct" id="pctDMSMSmgmt">—</span></div>
                     </div>
 
@@ -1642,9 +1572,9 @@
                     <!-- ── Evidence Manager ── -->
                     <div style="margin-top:12px;border:1px solid rgba(0,170,255,0.15);border-radius:8px;overflow:hidden">
                         <div onclick="toggleComplianceSection('evidence')" style="cursor:pointer;padding:12px 16px;background:rgba(0,170,255,0.04);display:flex;align-items:center;gap:8px">
-                            <i class="fas fa-paperclip" style="color:#00aaff"></i>
+                            <i class="fas fa-paperclip" style="color:var(--accent)"></i>
                             <strong style="color:var(--text,#1d1d1f);font-size:0.92rem">Evidence Manager</strong>
-                            <span id="evidenceCount" style="background:rgba(0,170,255,0.15);color:#00aaff;padding:2px 8px;border-radius:8px;font-size:0.72rem;font-weight:600">0</span>
+                            <span id="evidenceCount" style="background:rgba(0,170,255,0.15);color:var(--accent);padding:2px 8px;border-radius:8px;font-size:0.72rem;font-weight:600">0</span>
                             <i id="evidenceChevron" class="fas fa-chevron-down" style="margin-left:auto;color:var(--steel);font-size:0.75rem;transition:transform 0.3s"></i>
                         </div>
                         <div id="evidenceSection" style="display:none;padding:12px 16px">
@@ -1737,7 +1667,7 @@
             <!-- ══ HUB: AI SUPPLY CHAIN RISK ENGINE ══ -->
             <div class="ils-hub-panel" id="hub-risk">
                 <div class="s4-card">
-                    <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-triangle-exclamation" style="color:#ffa500"></i> AI Supply Chain Risk Engine <button onclick="showAddActionModal('risk')" class="ai-quick-btn" style="margin-left:auto;font-size:0.72rem;padding:4px 10px"><i class="fas fa-plus"></i> Action Item</button></h3>
+                    <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-triangle-exclamation" style="color:var(--accent)"></i> Risk Radar <button onclick="showAddActionModal('risk')" class="ai-quick-btn" style="margin-left:auto;font-size:0.72rem;padding:4px 10px"><i class="fas fa-plus"></i> Action Item</button></h3>
 <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px 14px;margin-bottom:12px">
                         <div><label>Program</label><select id="riskProgram" aria-label="Select risk program" onchange="loadRiskData()" style="font-size:0.88rem"></select></div>
                         <div><label>Hull # / Tail #</label><input type="text" id="riskHull" placeholder="Hull # / Tail #" style="font-size:0.82rem;background:#fff;color:var(--text,#1d1d1f);border:1px solid rgba(0,0,0,0.06);border-radius:8px;padding:5px 8px;width:100%"></div>
@@ -1752,14 +1682,14 @@
                         <div class="col-md-3 col-6 mb-2"><div style="text-align:center;padding:12px;background:rgba(0,170,255,0.1);border:1px solid rgba(0,170,255,0.3);border-radius:8px;"><div style="font-size:1.6rem;font-weight:800;color:#00aaff" id="riskLow">0</div><div style="font-size:0.75rem;color:var(--muted)">Low</div></div></div>
                     </div>
                     <!-- ── AI Threat Intelligence Score (vs Palantir Gotham) ── -->
-                    <div id="threatIntelPanel" style="margin-bottom:16px;background:linear-gradient(135deg,rgba(255,165,0,0.04),rgba(255,149,0,0.03));border:1px solid rgba(255,165,0,0.2);border-radius:8px;padding:16px;display:none;">
+                    <div id="threatIntelPanel" style="margin-bottom:16px;background:linear-gradient(135deg,rgba(0,170,255,0.04),rgba(0,170,255,0.02));border:1px solid rgba(0,170,255,0.15);border-radius:8px;padding:16px;display:none;">
                         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-                            <div style="font-size:0.82rem;font-weight:700;color:#ffa500;text-transform:uppercase;letter-spacing:0.8px;display:flex;align-items:center;gap:6px;"><i class="fas fa-crosshairs"></i> AI Threat Intelligence Score</div>
-                            <div id="threatScoreBadge" style="background:rgba(255,165,0,0.15);color:#ffa500;padding:4px 14px;border-radius:8px;font-size:0.85rem;font-weight:800;letter-spacing:0.5px;">— / 100</div>
+                            <div style="font-size:0.82rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:0.8px;display:flex;align-items:center;gap:6px;"><i class="fas fa-crosshairs"></i> AI Threat Intelligence Score</div>
+                            <div id="threatScoreBadge" style="background:rgba(0,170,255,0.15);color:var(--accent);padding:4px 14px;border-radius:8px;font-size:0.85rem;font-weight:800;letter-spacing:0.5px;">— / 100</div>
                         </div>
                         <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px;">
-                            <div style="text-align:center;padding:10px;background:rgba(0,170,255,0.08);border-radius:8px;border:1px solid rgba(0,170,255,0.15);">
-                                <div style="font-size:1.2rem;font-weight:800;color:#ffa500;" id="threatSingleSource">0</div>
+                            <div style="text-align:center;padding:10px;background:rgba(0,170,255,0.06);border-radius:8px;border:1px solid rgba(0,170,255,0.15);">
+                                <div style="font-size:1.2rem;font-weight:800;color:var(--accent);" id="threatSingleSource">0</div>
                                 <div style="font-size:0.68rem;color:var(--steel);text-transform:uppercase;">Single-Source</div>
                             </div>
                             <div style="text-align:center;padding:10px;background:rgba(255,149,0,0.08);border-radius:8px;border:1px solid rgba(255,149,0,0.15);">
@@ -1777,9 +1707,9 @@
                         <div id="threatAssessment" style="font-size:0.78rem;color:var(--steel);line-height:1.5;"></div>
                     </div>
                     <!-- Risk Table -->
-                    <div style="max-height:400px;overflow-y:auto;border:1px solid rgba(0,170,255,0.2);border-radius:8px;">
+                    <div style="max-height:400px;overflow-y:auto;border:1px solid rgba(0,170,255,0.15);border-radius:8px;">
                         <table style="width:100%;border-collapse:collapse;">
-                            <thead style="position:sticky;top:0;background:#fff;z-index:1;"><tr><th style="padding:10px 8px;font-size:0.78rem;text-transform:uppercase;color:#00aaff;border-bottom:2px solid rgba(255,165,0,0.2);text-align:left;">Part / NSN</th><th style="padding:10px 8px;font-size:0.78rem;text-transform:uppercase;color:#00aaff;border-bottom:2px solid rgba(255,165,0,0.2);text-align:left;">Supplier</th><th style="padding:10px 8px;font-size:0.78rem;text-transform:uppercase;color:#00aaff;border-bottom:2px solid rgba(255,165,0,0.2);text-align:center;">Risk Score</th><th style="padding:10px 8px;font-size:0.78rem;text-transform:uppercase;color:#00aaff;border-bottom:2px solid rgba(255,165,0,0.2);text-align:left;">Risk Factors</th><th style="padding:10px 8px;font-size:0.78rem;text-transform:uppercase;color:#00aaff;border-bottom:2px solid rgba(255,165,0,0.2);text-align:center;">ETA Impact</th></tr></thead>
+                            <thead style="position:sticky;top:0;background:#fff;z-index:1;"><tr><th style="padding:10px 8px;font-size:0.78rem;text-transform:uppercase;color:var(--steel);border-bottom:2px solid var(--border);text-align:left;">Part / NSN</th><th style="padding:10px 8px;font-size:0.78rem;text-transform:uppercase;color:var(--steel);border-bottom:2px solid var(--border);text-align:left;">Supplier</th><th style="padding:10px 8px;font-size:0.78rem;text-transform:uppercase;color:var(--steel);border-bottom:2px solid var(--border);text-align:center;">Risk Score</th><th style="padding:10px 8px;font-size:0.78rem;text-transform:uppercase;color:var(--steel);border-bottom:2px solid var(--border);text-align:left;">Risk Factors</th><th style="padding:10px 8px;font-size:0.78rem;text-transform:uppercase;color:var(--steel);border-bottom:2px solid var(--border);text-align:center;">ETA Impact</th></tr></thead>
                             <tbody id="riskTableBody"><tr><td colspan="5" style="text-align:center;padding:30px;color:var(--text-muted)">Click a program to load risk analysis...</td></tr></tbody>
                         </table>
                     </div>
@@ -1834,7 +1764,7 @@
                     <!-- ── Budget Forecasting ── -->
                     <div style="margin-top:12px;border:1px solid rgba(0,170,255,0.15);border-radius:8px;overflow:hidden">
                         <div onclick="toggleComplianceSection('budgetForecast')" style="cursor:pointer;padding:12px 16px;background:rgba(0,170,255,0.04);display:flex;align-items:center;gap:8px">
-                            <i class="fas fa-chart-line" style="color:#00aaff"></i>
+                            <i class="fas fa-chart-line" style="color:var(--accent)"></i>
                             <strong style="color:var(--text,#1d1d1f);font-size:0.92rem">Budget Forecasting</strong>
                             <i id="budgetForecastChevron" class="fas fa-chevron-down" style="margin-left:auto;color:var(--steel);font-size:0.75rem;transition:transform 0.3s"></i>
                         </div>
@@ -1879,7 +1809,7 @@
             <!-- ══ HUB: AUTOMATED AUDIT REPORT GENERATOR ══ -->
             <div class="ils-hub-panel" id="hub-reports">
                 <div class="s4-card">
-                    <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-file-pdf" style="color:var(--accent)"></i> Automated Audit Report Generator <button onclick="showAddActionModal('reports')" class="ai-quick-btn" style="margin-left:auto;font-size:0.72rem;padding:4px 10px"><i class="fas fa-plus"></i> Action Item</button></h3>
+                    <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-file-pdf" style="color:var(--accent)"></i> Audit Builder <button onclick="showAddActionModal('reports')" class="ai-quick-btn" style="margin-left:auto;font-size:0.72rem;padding:4px 10px"><i class="fas fa-plus"></i> Action Item</button></h3>
 <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px 14px;margin-bottom:12px">
                         <div><label>Report Type</label><select id="reportType" aria-label="Select report type" style="font-size:0.88rem"><option value="full_audit">Full Audit Package</option><option value="supply_chain">Supply Chain Verification</option><option value="maintenance">Maintenance Records</option><option value="compliance">Compliance Summary</option><option value="custody">Chain of Custody</option><option value="contract">Contract Deliverables</option></select></div>
                         <div><label>Time Period</label><select id="reportPeriod" aria-label="Select report period" style="font-size:0.88rem"><option value="30">Last 30 Days</option><option value="90">Last 90 Days</option><option value="180">Last 6 Months</option><option value="365">Last 12 Months</option><option value="all">All Time</option></select></div>
@@ -1911,9 +1841,9 @@
                             <p style="color:var(--steel);font-size:0.82rem;margin-bottom:12px">Generate a leadership-ready executive summary combining compliance posture, risk status, action item metrics, and financial impact.</p>
 <details style="display:none;margin-top:8px;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.15);border-radius:8px;padding:0 12px;">
                         <summary style="cursor:pointer;padding:8px 0;font-size:0.8rem;font-weight:700;color:#00aaff;">How It Works</summary>
-                        <p style="font-size:0.82rem;color:var(--steel);margin-bottom:6px;">The Report Generator creates formatted ILS reports ready for submission to program offices and oversight bodies.</p>
+                        <p style="font-size:0.82rem;color:var(--steel);margin-bottom:6px;">The Audit Builder creates formatted ILS reports ready for submission to program offices and oversight bodies.</p>
                         <ol style="font-size:0.8rem;color:var(--steel);padding-left:18px;margin-bottom:8px;">
-                            <li><strong>Select report type</strong> — ILS Gap Analysis, RAM Report, Lifecycle Cost, Compliance Summary, Risk Register, or Custom.</li>
+                            <li><strong>Select report type</strong> — Gap Finder, RAM Report, Lifecycle Cost Estimator, Compliance Summary, Risk Register, or Custom.</li>
                             <li><strong>Auto-populate</strong> — S4 pulls data from your latest calculations and analysis results.</li>
                             <li><strong>Export formats</strong> — Download as CSV, PDF summary, or formatted briefing slides.</li>
                             <li><strong>Anchor report hash</strong> — Every exported report is hash-anchored to prove what was submitted and when.</li>
@@ -1931,9 +1861,9 @@
                     <!-- ── Scheduled Reports ── -->
                     <div style="margin-top:12px;border:1px solid rgba(0,170,255,0.15);border-radius:8px;overflow:hidden">
                         <div onclick="toggleComplianceSection('schedReports')" style="cursor:pointer;padding:12px 16px;background:rgba(0,170,255,0.04);display:flex;align-items:center;gap:8px">
-                            <i class="fas fa-calendar-check" style="color:#00aaff"></i>
+                            <i class="fas fa-calendar-check" style="color:var(--accent)"></i>
                             <strong style="color:var(--text,#1d1d1f);font-size:0.92rem">Scheduled Reports</strong>
-                            <span id="schedReportCount" style="background:rgba(0,170,255,0.15);color:#00aaff;padding:2px 8px;border-radius:8px;font-size:0.72rem;font-weight:600">0</span>
+                            <span id="schedReportCount" style="background:rgba(0,170,255,0.15);color:var(--accent);padding:2px 8px;border-radius:8px;font-size:0.72rem;font-weight:600">0</span>
                             <i id="schedReportsChevron" class="fas fa-chevron-down" style="margin-left:auto;color:var(--steel);font-size:0.75rem;transition:transform 0.3s"></i>
                         </div>
                         <div id="schedReportsSection" style="display:none;padding:12px 16px">
@@ -1976,7 +1906,7 @@
                     <div style="margin-top:12px;border:1px solid rgba(255,107,107,0.15);border-radius:8px;overflow:hidden">
                         <div onclick="toggleComplianceSection('heatMap')" style="cursor:pointer;padding:12px 16px;background:rgba(255,107,107,0.04);display:flex;align-items:center;gap:8px">
                             <i class="fas fa-fire" style="color:#ff6b6b"></i>
-                            <strong style="color:var(--text,#1d1d1f);font-size:0.92rem">Supply Chain Risk Heat Map</strong>
+                            <strong style="color:var(--text,#1d1d1f);font-size:0.92rem">Risk Radar Heat Map</strong>
                             <i id="heatMapChevron" class="fas fa-chevron-down" style="margin-left:auto;color:var(--steel);font-size:0.75rem;transition:transform 0.3s"></i>
                         </div>
                         <div id="heatMapSection" style="display:none;padding:12px 16px">
@@ -1993,7 +1923,7 @@
             <!-- ══ HUB: PREDICTIVE MAINTENANCE AI ══ -->
             <div class="ils-hub-panel" id="hub-predictive">
                 <div class="s4-card">
-                    <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-brain" style="color:var(--accent)"></i> Predictive Maintenance AI <button onclick="showAddActionModal('predictive')" class="ai-quick-btn" style="margin-left:auto;font-size:0.72rem;padding:4px 10px"><i class="fas fa-plus"></i> Action Item</button></h3>
+                    <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-brain" style="color:var(--accent)"></i> Maintenance Predictor <button onclick="showAddActionModal('predictive')" class="ai-quick-btn" style="margin-left:auto;font-size:0.72rem;padding:4px 10px"><i class="fas fa-plus"></i> Action Item</button></h3>
 <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px 14px;margin-bottom:12px">
                         <div><label>Fleet / Platform</label><select id="pdmPlatform" aria-label="Select predictive maintenance platform" onchange="loadPredictiveData()" style="font-size:0.88rem"></select></div>
                         <div><label>Hull # / Tail #</label><input type="text" id="pdmHull" placeholder="Hull # / Tail # / Fleet" style="font-size:0.82rem;background:#fff;color:var(--text,#1d1d1f);border:1px solid rgba(0,0,0,0.06);border-radius:8px;padding:5px 8px;width:100%"></div>
@@ -2004,7 +1934,7 @@
                     <div class="row mb-3">
                         <div class="col-md-3 col-6"><div style="text-align:center;padding:12px;background:rgba(0,170,255,0.06);border:1px solid rgba(0,170,255,0.15);border-radius:8px;"><div style="font-size:1.6rem;font-weight:800;color:#00aaff" id="pdmPredictions">0</div><div style="font-size:0.72rem;color:var(--text-muted)">Predictions</div></div></div>
                         <div class="col-md-3 col-6"><div style="text-align:center;padding:12px;background:rgba(255,59,48,0.06);border:1px solid rgba(255,59,48,0.2);border-radius:8px;"><div style="font-size:1.6rem;font-weight:800;color:#ff3b30" id="pdmUrgent">0</div><div style="font-size:0.72rem;color:var(--text-muted)">Urgent (30 days)</div></div></div>
-                        <div class="col-md-3 col-6"><div style="text-align:center;padding:12px;background:rgba(0,170,255,0.06);border:1px solid rgba(0,170,255,0.2);border-radius:8px;"><div style="font-size:1.6rem;font-weight:800;color:#00aaff" id="pdmSavings">$0</div><div style="font-size:0.72rem;color:var(--text-muted)">Est. Savings</div></div></div>
+                        <div class="col-md-3 col-6"><div style="text-align:center;padding:12px;background:rgba(0,170,255,0.06);border:1px solid rgba(0,170,255,0.15);border-radius:8px;"><div style="font-size:1.6rem;font-weight:800;color:#00aaff" id="pdmSavings">$0</div><div style="font-size:0.72rem;color:var(--text-muted)">Est. Savings</div></div></div>
                         <div class="col-md-3 col-6"><div style="text-align:center;padding:12px;background:rgba(0,170,255,0.06);border:1px solid rgba(0,170,255,0.2);border-radius:8px;"><div style="font-size:1.6rem;font-weight:800;color:var(--accent)" id="pdmAccuracy">0%</div><div style="font-size:0.72rem;color:var(--text-muted)">Model Accuracy</div></div></div>
                     </div>
                     <!-- Predictions Table -->
@@ -2040,7 +1970,7 @@
             <!-- ══ HUB: SBOM VIEWER — SOFTWARE BILL OF MATERIALS ══ -->
             <div class="ils-hub-panel" id="hub-sbom">
                 <div class="s4-card">
-                    <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-microchip" style="color:#00aaff"></i> Software Bill of Materials (SBOM) <button onclick="showAddActionModal('sbom')" class="ai-quick-btn" style="margin-left:auto;font-size:0.72rem;padding:4px 10px"><i class="fas fa-plus"></i> Action Item</button></h3>
+                    <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-microchip" style="color:#00aaff"></i> SBOM Scanner <button onclick="showAddActionModal('sbom')" class="ai-quick-btn" style="margin-left:auto;font-size:0.72rem;padding:4px 10px"><i class="fas fa-plus"></i> Action Item</button></h3>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px 14px;margin-bottom:12px">
                         <div><label>Select Platform</label><select id="sbomProgram" aria-label="Select SBOM program" onchange="loadSBOMData()" style="font-size:0.88rem"></select></div>
                         <div><label>SBOM Format</label><select id="sbomFormat" aria-label="Select SBOM format" style="font-size:0.88rem"><option value="cyclonedx">CycloneDX 1.5</option><option value="spdx">SPDX 2.3</option><option value="s4native">S4 Native</option></select></div>
@@ -2050,7 +1980,7 @@
                         <div class="col-md-3 col-6"><div style="text-align:center;padding:12px;background:rgba(46,204,113,0.06);border:1px solid rgba(46,204,113,0.15);border-radius:8px;"><div style="font-size:1.6rem;font-weight:800;color:#2ecc71" id="sbomTotal">0</div><div style="font-size:0.72rem;color:var(--text-muted)">Components</div></div></div>
                         <div class="col-md-3 col-6"><div style="text-align:center;padding:12px;background:rgba(255,59,48,0.06);border:1px solid rgba(255,59,48,0.2);border-radius:8px;"><div style="font-size:1.6rem;font-weight:800;color:#ff3b30" id="sbomCVE">0</div><div style="font-size:0.72rem;color:var(--text-muted)">Known CVEs</div></div></div>
                         <div class="col-md-3 col-6"><div style="text-align:center;padding:12px;background:rgba(0,170,255,0.06);border:1px solid rgba(0,170,255,0.15);border-radius:8px;"><div style="font-size:1.6rem;font-weight:800;color:#00aaff" id="sbomVerified">0</div><div style="font-size:0.72rem;color:var(--text-muted)">Verified</div></div></div>
-                        <div class="col-md-3 col-6"><div style="text-align:center;padding:12px;background:rgba(0,170,255,0.06);border:1px solid rgba(0,170,255,0.2);border-radius:8px;"><div style="font-size:1.6rem;font-weight:800;color:#00aaff" id="sbomAnchored">0</div><div style="font-size:0.72rem;color:var(--text-muted)">Anchored</div></div></div>
+                        <div class="col-md-3 col-6"><div style="text-align:center;padding:12px;background:rgba(0,170,255,0.06);border:1px solid rgba(0,170,255,0.2);border-radius:8px;"><div style="font-size:1.6rem;font-weight:800;color:var(--accent)" id="sbomAnchored">0</div><div style="font-size:0.72rem;color:var(--text-muted)">Anchored</div></div></div>
                     </div>
                     <!-- SBOM Table -->
                     <div style="max-height:400px;overflow-y:auto;border:1px solid rgba(0,170,255,0.2);border-radius:8px;">
@@ -2069,7 +1999,7 @@
 
             <div class="ils-hub-panel" id="hub-submissions">
                 <div class="s4-card">
-                    <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-file-circle-check" style="color:#00aaff"></i> Submissions &amp; PTD <button onclick="showAddActionModal('submissions')" class="ai-quick-btn" style="margin-left:auto;font-size:0.72rem;padding:4px 10px"><i class="fas fa-plus"></i> Action Item</button></h3>
+                    <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-file-circle-check" style="color:var(--accent)"></i> Submissions Hub <button onclick="showAddActionModal('submissions')" class="ai-quick-btn" style="margin-left:auto;font-size:0.72rem;padding:4px 10px"><i class="fas fa-plus"></i> Action Item</button></h3>
                     <p style="color:var(--steel);font-size:0.9rem;margin-bottom:0.5rem">Upload and compare ILS data submissions from OEMs, shipbuilders, vendors, and contractors for Navy programs and programs. Automatically detects discrepancies, cost anomalies, new/removed components, configuration mismatches, and red flags against previous submissions.</p>
 <!-- Branch & Program Selection -->
                     <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px 14px;margin-bottom:12px">
@@ -2124,8 +2054,8 @@
                     <!-- File Upload Zone -->
 
                     <div id="subUploadZone" onclick="document.getElementById('subFileInput').click()" style="border:2px dashed rgba(0,170,255,0.35);border-radius:8px;padding:28px;text-align:center;cursor:pointer;margin-bottom:12px;background:rgba(0,170,255,0.04);transition:all 0.3s" ondragover="event.preventDefault();event.stopPropagation();this.style.borderColor='#00aaff'" ondragleave="this.style.borderColor='rgba(0,170,255,0.35)'" ondrop="handleSubFileDrop(event)">
-                        <i class="fas fa-cloud-upload-alt" style="font-size:2rem;color:#00aaff;margin-bottom:8px;display:block"></i>
-                        <div style="color:#00aaff;font-weight:600;font-size:.9rem">Upload Submission Data</div>
+                        <i class="fas fa-cloud-upload-alt" style="font-size:2rem;color:var(--accent);margin-bottom:8px;display:block"></i>
+                        <div style="color:var(--accent);font-weight:600;font-size:.9rem">Upload Submission Data</div>
                         <div style="color:var(--steel);font-size:.78rem;margin-top:4px">CSV, Excel (.xlsx), XML, JSON, PDF, or paste data below</div>
                         <div style="color:var(--steel);font-size:.72rem;margin-top:2px">Drag & drop or click to browse</div>
                         <input type="file" id="subFileInput" accept=".csv,.xlsx,.xls,.xml,.json,.pdf,.txt" multiple style="display:none" onchange="handleSubFileUpload(event)" />
@@ -2153,20 +2083,20 @@
 
                     <!-- Stats -->
                     <div class="row" style="gap:12px 0;margin-bottom:1rem">
-                        <div class="col-md-2 col-4"><div class="stat-mini"><div class="stat-mini-val" id="subTotalItems" style="color:#00aaff">0</div><div class="stat-mini-lbl">Items Reviewed</div></div></div>
+                        <div class="col-md-2 col-4"><div class="stat-mini"><div class="stat-mini-val" id="subTotalItems" style="color:var(--accent)">0</div><div class="stat-mini-lbl">Items Reviewed</div></div></div>
                         <div class="col-md-2 col-4"><div class="stat-mini"><div class="stat-mini-val" id="subNewItems" style="color:#00aaff">0</div><div class="stat-mini-lbl">New Components</div></div></div>
-                        <div class="col-md-2 col-4"><div class="stat-mini"><div class="stat-mini-val" id="subRemovedItems" style="color:#00aaff">0</div><div class="stat-mini-lbl">Removed Items</div></div></div>
-                        <div class="col-md-2 col-4"><div class="stat-mini"><div class="stat-mini-val" id="subCostDelta" style="color:#00aaff">$0</div><div class="stat-mini-lbl">Cost Delta</div></div></div>
-                        <div class="col-md-2 col-4"><div class="stat-mini"><div class="stat-mini-val" id="subDiscrepancies" style="color:#00aaff">0</div><div class="stat-mini-lbl">Discrepancies</div></div></div>
-                        <div class="col-md-2 col-4"><div class="stat-mini"><div class="stat-mini-val" id="subRedFlags" style="color:#ffa500">0</div><div class="stat-mini-lbl">Red Flags</div></div></div>
+                        <div class="col-md-2 col-4"><div class="stat-mini"><div class="stat-mini-val" id="subRemovedItems" style="color:var(--accent)">0</div><div class="stat-mini-lbl">Removed Items</div></div></div>
+                        <div class="col-md-2 col-4"><div class="stat-mini"><div class="stat-mini-val" id="subCostDelta" style="color:var(--accent)">$0</div><div class="stat-mini-lbl">Cost Delta</div></div></div>
+                        <div class="col-md-2 col-4"><div class="stat-mini"><div class="stat-mini-val" id="subDiscrepancies" style="color:#ff6b6b">0</div><div class="stat-mini-lbl">Discrepancies</div></div></div>
+                        <div class="col-md-2 col-4"><div class="stat-mini"><div class="stat-mini-val" id="subRedFlags" style="color:#ff6b6b">0</div><div class="stat-mini-lbl">Red Flags</div></div></div>
                     </div>
 
                     <!-- Discrepancy Results Table -->
                     <div id="subResultsContainer" style="display:none">
-                        <h5 style="color:#ffa500;margin-bottom:8px"><i class="fas fa-triangle-exclamation"></i> Discrepancy Report</h5>
+                        <h5 style="color:var(--accent);margin-bottom:8px"><i class="fas fa-triangle-exclamation"></i> Discrepancy Report</h5>
                         <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">
-                            <button onclick="filterDiscrepancies('all')" class="btn btn-sm" style="background:rgba(0,170,255,0.15);color:#00aaff;border:1px solid rgba(0,170,255,0.3);border-radius:8px;font-size:.75rem;padding:4px 10px">All</button>
-                            <button onclick="filterDiscrepancies('critical')" class="btn btn-sm" style="background:rgba(0,170,255,0.1);color:#00aaff;border:1px solid rgba(0,170,255,0.3);border-radius:8px;font-size:.75rem;padding:4px 10px">Critical</button>
+                            <button onclick="filterDiscrepancies('all')" class="btn btn-sm" style="background:rgba(0,170,255,0.1);color:var(--accent);border:1px solid rgba(0,170,255,0.2);border-radius:8px;font-size:.75rem;padding:4px 10px">All</button>
+                            <button onclick="filterDiscrepancies('critical')" class="btn btn-sm" style="background:rgba(0,170,255,0.08);color:var(--accent);border:1px solid rgba(0,170,255,0.2);border-radius:8px;font-size:.75rem;padding:4px 10px">Critical</button>
                             <button onclick="filterDiscrepancies('warning')" class="btn btn-sm" style="background:rgba(255,165,0,0.1);color:#ffa500;border:1px solid rgba(255,165,0,0.3);border-radius:8px;font-size:.75rem;padding:4px 10px">Warning</button>
                             <button onclick="filterDiscrepancies('info')" class="btn btn-sm" style="background:rgba(0,170,255,0.1);color:#00aaff;border:1px solid rgba(0,170,255,0.3);border-radius:8px;font-size:.75rem;padding:4px 10px">Info</button>
                             <button onclick="filterDiscrepancies('new')" class="btn btn-sm" style="background:rgba(0,170,255,0.06);color:#00aaff;border:1px solid rgba(0,170,255,0.3);border-radius:8px;font-size:.75rem;padding:4px 10px">New Items</button>
@@ -2176,20 +2106,20 @@
                             <table class="table table-sm" style="color:var(--steel);font-size:.78rem;margin:0">
                                 <thead style="position:sticky;top:0;background:var(--surface);z-index:1">
                                     <tr>
-                                        <th style="color:#00aaff;border-color:var(--border);padding:6px 8px">Severity</th>
-                                        <th style="color:#00aaff;border-color:var(--border);padding:6px 8px">Category</th>
-                                        <th style="color:#00aaff;border-color:var(--border);padding:6px 8px">Item / Part</th>
-                                        <th style="color:#00aaff;border-color:var(--border);padding:6px 8px">Issue</th>
-                                        <th style="color:#00aaff;border-color:var(--border);padding:6px 8px">Previous</th>
-                                        <th style="color:#00aaff;border-color:var(--border);padding:6px 8px">Current</th>
-                                        <th style="color:#00aaff;border-color:var(--border);padding:6px 8px">Impact</th>
+                                        <th style="color:var(--steel);border-color:var(--border);padding:6px 8px">Severity</th>
+                                        <th style="color:var(--steel);border-color:var(--border);padding:6px 8px">Category</th>
+                                        <th style="color:var(--steel);border-color:var(--border);padding:6px 8px">Item / Part</th>
+                                        <th style="color:var(--steel);border-color:var(--border);padding:6px 8px">Issue</th>
+                                        <th style="color:var(--steel);border-color:var(--border);padding:6px 8px">Previous</th>
+                                        <th style="color:var(--steel);border-color:var(--border);padding:6px 8px">Current</th>
+                                        <th style="color:var(--steel);border-color:var(--border);padding:6px 8px">Impact</th>
                                     </tr>
                                 </thead>
                                 <tbody id="subDiscrepancyTable"></tbody>
                             </table>
                         </div>
                         <!-- AI Summary -->
-                        <div id="subAiSummary" style="display:none;margin-top:12px;padding:12px;background:rgba(0,170,255,0.06);border:1px solid rgba(0,170,255,0.2);border-radius:8px">
+                        <div id="subAiSummary" style="display:none;margin-top:12px;padding:12px;background:rgba(0,170,255,0.06);border:1px solid rgba(0,170,255,0.15);border-radius:8px">
                             <h6 style="color:#00aaff;margin-bottom:6px"><i class="fas fa-robot"></i> AI Discrepancy Summary</h6>
                             <div id="subAiSummaryText" style="color:var(--steel);font-size:.82rem;line-height:1.6"></div>
                         </div>
@@ -2198,7 +2128,7 @@
                     <!-- Version Diff Viewer -->
                     <div style="margin-top:12px;border:1px solid rgba(0,170,255,0.15);border-radius:8px;overflow:hidden">
                         <div onclick="toggleComplianceSection('versionDiff')" style="cursor:pointer;padding:10px 14px;background:rgba(0,170,255,0.04);display:flex;align-items:center;gap:8px">
-                            <i class="fas fa-code-compare" style="color:#00aaff"></i>
+                            <i class="fas fa-code-compare" style="color:var(--accent)"></i>
                             <strong style="color:var(--text,#1d1d1f);font-size:0.88rem">Version Diff Viewer</strong>
                             <i id="versionDiffChevron" class="fas fa-chevron-down" style="margin-left:auto;color:var(--steel);font-size:0.75rem;transition:transform 0.3s"></i>
                         </div>
@@ -2229,7 +2159,7 @@
             <!-- ══ HUB: GFP TRACKER — GOVERNMENT-FURNISHED PROPERTY ══ -->
             <div class="ils-hub-panel" id="hub-gfp">
                 <div class="s4-card">
-                    <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-boxes-stacked" style="color:#00aaff"></i> GFP Tracker <button onclick="showAddActionModal('gfp')" class="ai-quick-btn" style="margin-left:auto;font-size:0.72rem;padding:4px 10px"><i class="fas fa-plus"></i> Action Item</button></h3>
+                    <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-boxes-stacked" style="color:#00aaff"></i> Property Custodian <button onclick="showAddActionModal('gfp')" class="ai-quick-btn" style="margin-left:auto;font-size:0.72rem;padding:4px 10px"><i class="fas fa-plus"></i> Action Item</button></h3>
                     <p style="color:var(--steel);font-size:0.9rem;margin-bottom:0.5rem">Government-Furnished Property tracking per FAR 52.245-1 and DFARS 252.245-7001. Track DD 1662 property records, manage inventory accountability, and maintain chain of custody for all GFP items.</p>
 <details style="display:none;margin-top:8px;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.15);border-radius:8px;padding:0 12px;">
                         <summary style="cursor:pointer;padding:8px 0;font-size:0.8rem;font-weight:700;color:#00aaff;">How It Works</summary>
@@ -2308,8 +2238,8 @@
 
                     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:16px">
                         <div class="stat-mini"><div class="stat-mini-val" id="gfpTotalItems" style="color:#00aaff">0</div><div class="stat-mini-lbl">Items Tracked</div></div>
-                        <div class="stat-mini"><div class="stat-mini-val" id="gfpTotalValue" style="color:#00aaff">$0</div><div class="stat-mini-lbl">Total Value</div></div>
-                        <div class="stat-mini"><div class="stat-mini-val" id="gfpAlerts" style="color:#00aaff">0</div><div class="stat-mini-lbl">Pending Alerts</div></div>
+                        <div class="stat-mini"><div class="stat-mini-val" id="gfpTotalValue" style="color:var(--accent)">$0</div><div class="stat-mini-lbl">Total Value</div></div>
+                        <div class="stat-mini"><div class="stat-mini-val" id="gfpAlerts" style="color:#ffa500">0</div><div class="stat-mini-lbl">Pending Alerts</div></div>
                         <div class="stat-mini"><div class="stat-mini-val" id="gfpServiceable" style="color:#00aaff">0</div><div class="stat-mini-lbl">Serviceable</div></div>
                     </div>
 
@@ -2328,7 +2258,7 @@
             <!-- ══ HUB: CDRL VALIDATOR ══ -->
             <div class="ils-hub-panel" id="hub-cdrl">
                 <div class="s4-card">
-                    <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-clipboard-check" style="color:#00aaff"></i> CDRL Validator <button onclick="showAddActionModal('cdrl')" class="ai-quick-btn" style="margin-left:auto;font-size:0.72rem;padding:4px 10px"><i class="fas fa-plus"></i> Action Item</button></h3>
+                    <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-clipboard-check" style="color:var(--accent)"></i> Deliverables Tracker <button onclick="showAddActionModal('cdrl')" class="ai-quick-btn" style="margin-left:auto;font-size:0.72rem;padding:4px 10px"><i class="fas fa-plus"></i> Action Item</button></h3>
                     <p style="color:var(--steel);font-size:0.9rem;margin-bottom:0.5rem">Contract Data Requirements List validation engine. Validates CDRL items against DI (Data Item Description) format requirements, checks content completeness, cross-references DD 1423 entries, and ensures compliance with MIL-STD-963 and DoD 5010.12-M.</p>
 <details style="display:none;margin-top:8px;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.15);border-radius:8px;padding:0 12px;">
                         <summary style="cursor:pointer;padding:8px 0;font-size:0.8rem;font-weight:700;color:#00aaff;">How It Works</summary>
@@ -2389,8 +2319,8 @@
 
                     <!-- File Upload Zone -->
                     <div id="cdrlUploadZone" onclick="document.getElementById('cdrlFileInput').click()" style="border:2px dashed rgba(0,170,255,0.35);border-radius:8px;padding:28px;text-align:center;cursor:pointer;margin-bottom:12px;background:rgba(0,170,255,0.04);transition:all 0.3s" ondragover="event.preventDefault();event.stopPropagation();this.style.borderColor='#00aaff'" ondragleave="this.style.borderColor='rgba(0,170,255,0.35)'" ondrop="handleCdrlFileDrop(event)">
-                        <i class="fas fa-cloud-upload-alt" style="font-size:2rem;color:#00aaff;margin-bottom:8px;display:block"></i>
-                        <div style="color:#00aaff;font-weight:600;font-size:.9rem">Upload CDRL Package / DD 1423</div>
+                        <i class="fas fa-cloud-upload-alt" style="font-size:2rem;color:var(--accent);margin-bottom:8px;display:block"></i>
+                        <div style="color:var(--accent);font-weight:600;font-size:.9rem">Upload CDRL Package / DD 1423</div>
                         <div style="color:var(--steel);font-size:.78rem;margin-top:4px">CSV, Excel (.xlsx), XML, JSON, PDF — DD 1423 forms, CDRL deliverables, or DI documents</div>
                         <div style="color:var(--steel);font-size:.72rem;margin-top:2px">Drag & drop or click to browse</div>
                         <input type="file" id="cdrlFileInput" accept=".csv,.xlsx,.xls,.xml,.json,.pdf,.txt,.doc,.docx" multiple style="display:none" onchange="handleCdrlFileUpload(event)" />
@@ -2404,9 +2334,9 @@
                     </div>
 
                     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:16px">
-                        <div class="stat-mini"><div class="stat-mini-val" id="cdrlTotal" style="color:#00aaff">0</div><div class="stat-mini-lbl">Total CDRLs</div></div>
+                        <div class="stat-mini"><div class="stat-mini-val" id="cdrlTotal" style="color:var(--accent)">0</div><div class="stat-mini-lbl">Total CDRLs</div></div>
                         <div class="stat-mini"><div class="stat-mini-val" id="cdrlCompliant" style="color:#00aaff">0</div><div class="stat-mini-lbl">Compliant</div></div>
-                        <div class="stat-mini"><div class="stat-mini-val" id="cdrlOverdue" style="color:#ffa500">0</div><div class="stat-mini-lbl">Overdue</div></div>
+                        <div class="stat-mini"><div class="stat-mini-val" id="cdrlOverdue" style="color:#ff6b6b">0</div><div class="stat-mini-lbl">Overdue</div></div>
                         <div class="stat-mini"><div class="stat-mini-val" id="cdrlScore" style="color:#00aaff">—</div><div class="stat-mini-lbl">Compliance Score</div></div>
                     </div>
 
@@ -2425,7 +2355,7 @@
             <!-- ══ HUB: CONTRACT EXTRACTOR ══ -->
             <div class="ils-hub-panel" id="hub-contract">
                 <div class="s4-card">
-                    <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-file-contract" style="color:#00aaff"></i> Contract Extractor <button onclick="showAddActionModal('contract')" class="ai-quick-btn" style="margin-left:auto;font-size:0.72rem;padding:4px 10px"><i class="fas fa-plus"></i> Action Item</button></h3>
+                    <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-file-contract" style="color:#00aaff"></i> Contract Analyzer <button onclick="showAddActionModal('contract')" class="ai-quick-btn" style="margin-left:auto;font-size:0.72rem;padding:4px 10px"><i class="fas fa-plus"></i> Action Item</button></h3>
                     <p style="color:var(--steel);font-size:0.9rem;margin-bottom:0.5rem">AI-powered contract clause extraction engine. Upload contract documents (SOWs, modifications, task orders) and automatically extract FAR/DFARS clauses, CDRL requirements, performance obligations, period of performance, and key terms.</p>
 <details style="display:none;margin-top:8px;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.15);border-radius:8px;padding:0 12px;">
                         <summary style="cursor:pointer;padding:8px 0;font-size:0.8rem;font-weight:700;color:#00aaff;">How It Works</summary>
@@ -2504,9 +2434,9 @@
 
                     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:16px">
                         <div class="stat-mini"><div class="stat-mini-val" id="contractClauses" style="color:#00aaff">0</div><div class="stat-mini-lbl">Clauses Extracted</div></div>
-                        <div class="stat-mini"><div class="stat-mini-val" id="contractCDRLs" style="color:#00aaff">0</div><div class="stat-mini-lbl">CDRLs Found</div></div>
+                        <div class="stat-mini"><div class="stat-mini-val" id="contractCDRLs" style="color:var(--accent)">0</div><div class="stat-mini-lbl">CDRLs Found</div></div>
                         <div class="stat-mini"><div class="stat-mini-val" id="contractObligations" style="color:#00aaff">0</div><div class="stat-mini-lbl">Obligations</div></div>
-                        <div class="stat-mini"><div class="stat-mini-val" id="contractFlags" style="color:#00aaff">0</div><div class="stat-mini-lbl">Flags / Risks</div></div>
+                        <div class="stat-mini"><div class="stat-mini-val" id="contractFlags" style="color:#ff6b6b">0</div><div class="stat-mini-lbl">Flags / Risks</div></div>
                     </div>
 
                     <!-- Chart container -->
@@ -2524,7 +2454,7 @@
             <!-- ══ HUB: PROVENANCE CHAIN ══ -->
             <div class="ils-hub-panel" id="hub-provenance">
                 <div class="s4-card">
-                    <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-link" style="color:#00aaff"></i> Provenance Chain <button onclick="showAddActionModal('provenance')" class="ai-quick-btn" style="margin-left:auto;font-size:0.72rem;padding:4px 10px"><i class="fas fa-plus"></i> Action Item</button></h3>
+                    <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-link" style="color:var(--accent)"></i> Chain of Custody <button onclick="showAddActionModal('provenance')" class="ai-quick-btn" style="margin-left:auto;font-size:0.72rem;padding:4px 10px"><i class="fas fa-plus"></i> Action Item</button></h3>
                     <p style="color:var(--steel);font-size:0.9rem;margin-bottom:0.5rem">Blockchain-verified chain of custody and provenance tracking. Every custody transfer, location change, and condition assessment is anchored to the XRP Ledger with QR code generation for physical asset tagging.</p>
 <details style="display:none;margin-top:8px;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.15);border-radius:8px;padding:0 12px;">
                         <summary style="cursor:pointer;padding:8px 0;font-size:0.8rem;font-weight:700;color:#00aaff;">How It Works</summary>
@@ -2587,8 +2517,8 @@
 
                     <!-- File Upload Zone -->
                     <div id="provUploadZone" onclick="document.getElementById('provFileInput').click()" style="border:2px dashed rgba(0,170,255,0.35);border-radius:8px;padding:28px;text-align:center;cursor:pointer;margin-bottom:12px;background:rgba(0,170,255,0.04);transition:all 0.3s" ondragover="event.preventDefault();event.stopPropagation();this.style.borderColor='#00aaff'" ondragleave="this.style.borderColor='rgba(0,170,255,0.35)'" ondrop="handleProvFileDrop(event)">
-                        <i class="fas fa-cloud-upload-alt" style="font-size:2rem;color:#00aaff;margin-bottom:8px;display:block"></i>
-                        <div style="color:#00aaff;font-weight:600;font-size:.9rem">Upload Custody Records / Asset Manifests</div>
+                        <i class="fas fa-cloud-upload-alt" style="font-size:2rem;color:var(--accent);margin-bottom:8px;display:block"></i>
+                        <div style="color:var(--accent);font-weight:600;font-size:.9rem">Upload Custody Records / Asset Manifests</div>
                         <div style="color:var(--steel);font-size:.78rem;margin-top:4px">CSV, Excel (.xlsx), XML, JSON, PDF — shipping documents, DD 1149, custody logs</div>
                         <div style="color:var(--steel);font-size:.72rem;margin-top:2px">Drag & drop or click to browse</div>
                         <input type="file" id="provFileInput" accept=".csv,.xlsx,.xls,.xml,.json,.pdf,.txt" multiple style="display:none" onchange="handleProvFileUpload(event)" />
@@ -2604,9 +2534,9 @@
                     </div>
 
                     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:16px">
-                        <div class="stat-mini"><div class="stat-mini-val" id="provEvents" style="color:#00aaff">0</div><div class="stat-mini-lbl">Chain Events</div></div>
+                        <div class="stat-mini"><div class="stat-mini-val" id="provEvents" style="color:var(--accent)">0</div><div class="stat-mini-lbl">Chain Events</div></div>
                         <div class="stat-mini"><div class="stat-mini-val" id="provItems" style="color:#00aaff">0</div><div class="stat-mini-lbl">Items Tracked</div></div>
-                        <div class="stat-mini"><div class="stat-mini-val" id="provAnchored" style="color:#00aaff">0</div><div class="stat-mini-lbl">XRPL Anchored</div></div>
+                        <div class="stat-mini"><div class="stat-mini-val" id="provAnchored" style="color:var(--accent)">0</div><div class="stat-mini-lbl">XRPL Anchored</div></div>
                         <div class="stat-mini"><div class="stat-mini-val" id="provGaps" style="color:#00aaff">0</div><div class="stat-mini-lbl">Gaps Detected</div></div>
                     </div>
 
@@ -2626,7 +2556,7 @@
             <!-- ══ HUB: CROSS-PROGRAM ANALYTICS ══ -->
             <div class="ils-hub-panel" id="hub-analytics">
                 <div class="s4-card">
-                    <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-chart-pie" style="color:#00aaff"></i> Cross-Program Analytics <button onclick="showAddActionModal('analytics')" class="ai-quick-btn" style="margin-left:auto;font-size:0.72rem;padding:4px 10px"><i class="fas fa-plus"></i> Action Item</button></h3>
+                    <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-chart-pie" style="color:#00aaff"></i> Program Overview <button onclick="showAddActionModal('analytics')" class="ai-quick-btn" style="margin-left:auto;font-size:0.72rem;padding:4px 10px"><i class="fas fa-plus"></i> Action Item</button></h3>
                     <p style="color:var(--steel);font-size:0.9rem;margin-bottom:0.5rem">Aggregate analytics dashboard spanning all ILS tools and programs. View upload trends, compliance metrics, SBOM vulnerability counts, GFP values, POA&M status, and submission volumes across your entire portfolio.</p>
 <details style="display:none;margin-top:8px;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.15);border-radius:8px;padding:0 12px;">
                         <summary style="cursor:pointer;padding:8px 0;font-size:0.8rem;font-weight:700;color:#00aaff;">How It Works</summary>
@@ -2664,7 +2594,7 @@
                             <div style="display:flex;gap:6px">
                                 <button onclick="exportAnalyticsReport()" class="btn btn-sm" style="background:rgba(0,170,255,0.1);color:#00aaff;border:1px solid rgba(0,170,255,0.3);border-radius:8px;padding:6px 12px;font-size:.78rem;flex:1"><i class="fas fa-file-pdf"></i> PDF</button>
                                 <button onclick="exportAnalyticsCSV()" class="btn btn-sm" style="background:rgba(0,170,255,0.1);color:#00aaff;border:1px solid rgba(0,170,255,0.3);border-radius:8px;padding:6px 12px;font-size:.78rem;flex:1"><i class="fas fa-file-csv"></i> CSV</button>
-                                <button onclick="anchorToLedger('analytics','Cross-program analytics anchored')" class="btn btn-sm" style="background:rgba(0,170,255,0.08);color:#00aaff;border:1px solid rgba(0,170,255,0.3);border-radius:8px;padding:6px 12px;font-size:.78rem;flex:1"><i class="fas fa-anchor"></i> Anchor to Ledger</button>
+                                <button onclick="anchorToLedger('analytics','Cross-program analytics anchored')" class="btn btn-sm" style="background:rgba(0,170,255,0.08);color:var(--accent);border:1px solid rgba(0,170,255,0.2);border-radius:8px;padding:6px 12px;font-size:.78rem;flex:1"><i class="fas fa-anchor"></i> Anchor to Ledger</button>
                             </div>
                         </div>
                     </div>
@@ -2676,7 +2606,7 @@
                             <canvas id="analyticsToolChart" style="max-height:200px;width:100%"></canvas>
                         </div>
                         <div style="background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.15);border-radius:8px;padding:16px">
-                            <div style="font-size:0.82rem;color:var(--steel);font-weight:600;margin-bottom:8px"><i class="fas fa-chart-line" style="color:#00aaff;margin-right:4px"></i> Activity Trend</div>
+                            <div style="font-size:0.82rem;color:var(--steel);font-weight:600;margin-bottom:8px"><i class="fas fa-chart-line" style="color:var(--accent);margin-right:4px"></i> Activity Trend</div>
                             <canvas id="analyticsTrendChart" style="max-height:200px;width:100%"></canvas>
                         </div>
                     </div>
@@ -2691,9 +2621,9 @@
             <!-- ══ HUB: TEAM MANAGEMENT — Full Admin Portal (differs from sidebar quick-view Team popup) ══ -->
             <div class="ils-hub-panel" id="hub-team">
                 <div class="s4-card">
-                    <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-users-gear" style="color:#00aaff"></i> Team & Access Management <button onclick="showAddActionModal('team')" class="ai-quick-btn" style="margin-left:auto;font-size:0.72rem;padding:4px 10px"><i class="fas fa-plus"></i> Action Item</button></h3>
+                    <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-users-gear" style="color:var(--accent)"></i> Team Manager <button onclick="showAddActionModal('team')" class="ai-quick-btn" style="margin-left:auto;font-size:0.72rem;padding:4px 10px"><i class="fas fa-plus"></i> Action Item</button></h3>
                     <p style="color:var(--steel);font-size:0.9rem;margin-bottom:0.5rem">Full team administration portal — create teams, assign program access, manage tool permissions, and audit team activity across all ILS tools. For quick team status, use the <strong style="color:#00aaff">Team</strong> button in the header bar.</p>
-<!-- Team Management Controls -->
+<!-- Team Manager Controls -->
                     <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px 14px;margin-bottom:12px">
                         <div>
                             <label style="font-size:.78rem;color:var(--steel)">Team</label>
@@ -2725,13 +2655,13 @@
                         <button onclick="inviteTeamMember()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#0071e3,#00aaff);color:#fff;border:none;border-radius:8px;padding:8px 16px"><i class="fas fa-user-plus"></i> Invite Member</button>
                         <button onclick="exportTeamAudit()" class="btn btn-sm hover-lift" style="background:rgba(0,170,255,0.1);color:#00aaff;border:1px solid rgba(0,170,255,0.3);border-radius:8px;padding:8px 16px"><i class="fas fa-clipboard-list"></i> Export Access Audit</button>
                         <button onclick="runAccessReview()" class="btn btn-sm hover-lift" style="background:rgba(0,170,255,0.1);color:#00aaff;border:1px solid rgba(0,170,255,0.3);border-radius:8px;padding:8px 16px"><i class="fas fa-shield-halved"></i> Access Review</button>
-                        <button onclick="anchorToLedger('team','Team access audit anchored')" class="btn btn-sm hover-lift" style="background:rgba(0,170,255,0.08);color:#00aaff;border:1px solid rgba(0,170,255,0.3);border-radius:8px;padding:8px 16px"><i class="fas fa-anchor"></i> Anchor to Ledger</button>
+                        <button onclick="anchorToLedger('team','Team access audit anchored')" class="btn btn-sm hover-lift" style="background:rgba(0,170,255,0.08);color:var(--accent);border:1px solid rgba(0,170,255,0.2);border-radius:8px;padding:8px 16px"><i class="fas fa-anchor"></i> Anchor to Ledger</button>
                     </div>
 
                     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:16px">
-                        <div class="stat-mini"><div class="stat-mini-val" id="teamCount" style="color:#00aaff">0</div><div class="stat-mini-lbl">Teams</div></div>
+                        <div class="stat-mini"><div class="stat-mini-val" id="teamCount" style="color:var(--accent)">0</div><div class="stat-mini-lbl">Teams</div></div>
                         <div class="stat-mini"><div class="stat-mini-val" id="teamMembers" style="color:#00aaff">0</div><div class="stat-mini-lbl">Total Members</div></div>
-                        <div class="stat-mini"><div class="stat-mini-val" id="teamPending" style="color:#00aaff">0</div><div class="stat-mini-lbl">Pending Invites</div></div>
+                        <div class="stat-mini"><div class="stat-mini-val" id="teamPending" style="color:#ffa500">0</div><div class="stat-mini-lbl">Pending Invites</div></div>
                         <div class="stat-mini"><div class="stat-mini-val" id="teamPrograms" style="color:#00aaff">0</div><div class="stat-mini-lbl">Programs Assigned</div></div>
                     </div>
 
@@ -2762,7 +2692,7 @@
             <div class="ils-hub-panel" id="hub-acquisition">
                 <div class="s4-card">
                     <h3 style="display:flex;align-items:center;gap:8px">
-                        <i class="fas fa-ship" style="color:#00aaff"></i> Acquisition Planner
+                        <i class="fas fa-ship" style="color:var(--accent)"></i> Fleet Optimizer
                         <button onclick="showAddActionModal('acquisition')" class="ai-quick-btn" style="margin-left:auto;font-size:0.72rem;padding:4px 10px"><i class="fas fa-plus"></i> Action Item</button>
                     </h3>
 <p style="color:var(--steel);font-size:0.9rem;margin-bottom:1rem">Multi-year service craft/vessel acquisition lifecycle tracker. Import from eNVCR or other registries, manage hull types, POM funding, ROH schedules, and material condition across all your programs.</p>
@@ -2827,7 +2757,7 @@
                         <div class="stat-mini"><div class="stat-mini-val" id="acqStatFunded" style="color:#4ecb71">0</div><div class="stat-mini-lbl">POM Funded</div></div>
                         <div class="stat-mini"><div class="stat-mini-val" id="acqStatPending" style="color:#ffa500">0</div><div class="stat-mini-lbl">Pending/Partial</div></div>
                         <div class="stat-mini"><div class="stat-mini-val" id="acqStatCritical" style="color:#ff4444">0</div><div class="stat-mini-lbl">Poor/Critical</div></div>
-                        <div class="stat-mini"><div class="stat-mini-val" id="acqStatCost" style="color:#00aaff">$0</div><div class="stat-mini-lbl">Total Cost</div></div>
+                        <div class="stat-mini"><div class="stat-mini-val" id="acqStatCost" style="color:var(--accent)">$0</div><div class="stat-mini-lbl">Total Cost</div></div>
                     </div>
 
                     <!-- Data Grid -->
@@ -2870,7 +2800,7 @@
             <div class="ils-hub-panel" id="hub-milestones">
                 <div class="s4-card">
                     <h3 style="display:flex;align-items:center;gap:8px">
-                        <i class="fas fa-flag-checkered" style="color:#00aaff"></i> Program Milestone Tracker
+                        <i class="fas fa-flag-checkered" style="color:#00aaff"></i> Milestone Monitor
                         <button onclick="showAddActionModal('milestones')" class="ai-quick-btn" style="margin-left:auto;font-size:0.72rem;padding:4px 10px"><i class="fas fa-plus"></i> Action Item</button>
                     </h3>
 
@@ -2924,7 +2854,7 @@
                     <!-- Status Filter Bar -->
                     <div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:8px">
                         <button class="ai-quick-btn mil-status-filter-btn" data-status="On Track" onclick="milFilterByStatus('On Track')" style="font-size:0.7rem;padding:3px 8px;background:rgba(78,203,113,0.1);border-color:rgba(78,203,113,0.2);color:#4ecb71">On Track</button>
-                        <button class="ai-quick-btn mil-status-filter-btn" data-status="At Risk" onclick="milFilterByStatus('At Risk')" style="font-size:0.7rem;padding:3px 8px;background:rgba(255,165,0,0.1);border-color:rgba(255,165,0,0.2);color:#ffa500">At Risk</button>
+                        <button class="ai-quick-btn mil-status-filter-btn" data-status="At Risk" onclick="milFilterByStatus('At Risk')" style="font-size:0.7rem;padding:3px 8px;background:rgba(255,107,107,0.1);border-color:rgba(255,107,107,0.2);color:#ff6b6b">At Risk</button>
                         <button class="ai-quick-btn mil-status-filter-btn" data-status="Delayed" onclick="milFilterByStatus('Delayed')" style="font-size:0.7rem;padding:3px 8px;background:rgba(255,68,68,0.1);border-color:rgba(255,68,68,0.2);color:#ff4444">Delayed</button>
                         <button class="ai-quick-btn mil-status-filter-btn" data-status="Complete" onclick="milFilterByStatus('Complete')" style="font-size:0.7rem;padding:3px 8px;background:rgba(0,204,136,0.1);border-color:rgba(0,204,136,0.2);color:#00cc88">Complete</button>
                         <button class="ai-quick-btn mil-status-filter-btn" data-status="Cancelled" onclick="milFilterByStatus('Cancelled')" style="font-size:0.7rem;padding:3px 8px;background:rgba(139,148,158,0.1);border-color:rgba(139,148,158,0.2);color:#8b949e">Cancelled</button>
@@ -2934,9 +2864,9 @@
                     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:16px">
                         <div class="stat-mini"><div class="stat-mini-val" id="milStatTotal" style="color:#a855f7">0</div><div class="stat-mini-lbl">Total Milestones</div></div>
                         <div class="stat-mini"><div class="stat-mini-val" id="milStatOnTrack" style="color:#4ecb71">0</div><div class="stat-mini-lbl">On Track</div></div>
-                        <div class="stat-mini"><div class="stat-mini-val" id="milStatAtRisk" style="color:#ffa500">0</div><div class="stat-mini-lbl">At Risk</div></div>
+                        <div class="stat-mini"><div class="stat-mini-val" id="milStatAtRisk" style="color:#ff6b6b">0</div><div class="stat-mini-lbl">At Risk</div></div>
                         <div class="stat-mini"><div class="stat-mini-val" id="milStatDelayed" style="color:#ff4444">0</div><div class="stat-mini-lbl">Delayed</div></div>
-                        <div class="stat-mini"><div class="stat-mini-val" id="milStatAvgBehind" style="color:#00aaff">0d</div><div class="stat-mini-lbl">Avg Days Behind</div></div>
+                        <div class="stat-mini"><div class="stat-mini-val" id="milStatAvgBehind" style="color:#ffa500">0d</div><div class="stat-mini-lbl">Avg Days Behind</div></div>
                     </div>
 
                     <!-- Data Grid -->
@@ -2969,7 +2899,7 @@
             <div class="ils-hub-panel" id="hub-brief">
                 <div class="s4-card">
                     <h3 style="display:flex;align-items:center;gap:8px">
-                        <i class="fas fa-briefcase" style="color:#00aaff"></i> Program Brief Engine
+                        <i class="fas fa-briefcase" style="color:#00aaff"></i> Brief Composer
                         <button onclick="showAddActionModal('brief')" class="ai-quick-btn" style="margin-left:auto;font-size:0.72rem;padding:4px 10px"><i class="fas fa-plus"></i> Action Item</button>
                     </h3>
 
@@ -3022,7 +2952,7 @@
                         </div>
                         <button class="ai-close-btn" onclick="toggleAiAgent()" title="Minimize"><i class="fas fa-chevron-down"></i></button>
                     </div>
-                    <div class="ai-context-label" id="aiContextLabel"><i class="fas fa-crosshairs"></i> Context: <span id="aiContextTool">Gap Analysis</span></div>
+                    <div class="ai-context-label" id="aiContextLabel"><i class="fas fa-crosshairs"></i> Context: <span id="aiContextTool">Gap Finder</span></div>
                     <div class="ai-chat-messages" id="aiChatMessages">
                         <div class="ai-msg bot"><div class="ai-label"><i class="fas fa-robot"></i> S4 Agent</div>Hello! I'm your Anchor-S4 Agent. I'm available on every tool — ask me anything about:<br>• Gap analysis &amp; DI requirements<br>• DMSMS obsolescence &amp; readiness<br>• ROI, lifecycle cost &amp; readiness scoring<br>• Audit vault &amp; compliance scoring<br>• Supply chain risk &amp; predictive maintenance<br>• Acquisition planning &amp; vessel lifecycle<br>• Defense documents &amp; standards<br>• Submission review &amp; discrepancy analysis<br><br>Switch tools — I'll follow along with contextual suggestions!</div>
                     </div>
@@ -3289,7 +3219,7 @@
         <h4 id="actionModalTitle"><i class="fas fa-plus-circle" style="color:var(--accent);margin-right:8px"></i>New Action Item</h4>
         <input type="hidden" id="actionModalEditId" value="">
         <div style="margin-bottom:10px">
-            <label style="font-size:0.82rem">Title <span style="color:#00aaff">*</span></label>
+            <label style="font-size:0.82rem">Title <span style="color:#ff6b6b">*</span></label>
             <input type="text" id="actionModalItemTitle" placeholder="e.g., Resolve obsolete part AN/SPY-6 radar module" style="font-size:0.85rem!important">
         </div>
         <div style="margin-bottom:10px">
@@ -3298,7 +3228,7 @@
         </div>
         <div class="row mb-2">
             <div class="col-6" style="margin-bottom:10px">
-                <label style="font-size:0.82rem">Severity <span style="color:#00aaff">*</span></label>
+                <label style="font-size:0.82rem">Severity <span style="color:#ff6b6b">*</span></label>
                 <select id="actionModalSeverity" style="font-size:0.85rem">
                     <option value="critical">Critical</option>
                     <option value="warning">Warning</option>
@@ -3309,15 +3239,15 @@
                 <label style="font-size:0.82rem">Source Tool</label>
                 <select id="actionModalSource" style="font-size:0.85rem">
                     <option value="manual">Manual</option>
-                    <option value="dmsms">DMSMS Tracker</option>
+                    <option value="dmsms">Obsolescence Alert</option>
                     <option value="readiness">Readiness</option>
                     <option value="warranty">Warranty</option>
                     <option value="parts">Parts Search</option>
                     <option value="roi">ROI Calculator</option>
-                    <option value="lifecycle">Lifecycle Cost</option>
-                    <option value="ils">Gap Analysis</option>
+                    <option value="lifecycle">Lifecycle Cost Estimator</option>
+                    <option value="ils">Gap Finder</option>
                     <option value="compliance">Compliance</option>
-                    <option value="risk">Supply Chain Risk</option>
+                    <option value="risk">Risk Radar</option>
                     <option value="predictive">Predictive Maint.</option>
                     <option value="sbom">SBOM</option>
                     <option value="submissions">Submissions</option>
@@ -4226,6 +4156,25 @@
 .s4-thumb.thumb-selected{background:rgba(0,170,255,0.1);border-color:var(--accent);color:var(--accent);}
 .s4-thumb.thumb-selected[data-positive="false"]{background:rgba(255,69,58,0.1);border-color:var(--red);color:var(--red);}
 </style>
+
+<!-- ═══ REPORT SIDEBAR (Step 5) ═══ -->
+<div class="s4-report-sidebar" id="s4ReportSidebar">
+    <div class="s4-report-sidebar-header">
+        <h3><i class="fas fa-clipboard-list" style="color:var(--accent)"></i> Session Report</h3>
+        <button class="s4rs-close" onclick="window._s4ToggleReport()"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="s4-report-sidebar-body" id="s4ReportBody">
+        <div class="s4rs-empty"><i class="fas fa-inbox" style="font-size:1.5rem;display:block;margin-bottom:8px;opacity:0.4"></i>Run tools to build your session report</div>
+    </div>
+    <div class="s4-report-sidebar-footer">
+        <button class="s4rs-export" onclick="window._s4ExportReport()"><i class="fas fa-file-pdf"></i> Export PDF</button>
+        <button class="s4rs-clear" onclick="window._s4ClearReport()">Clear</button>
+    </div>
+</div>
+<button class="s4-report-toggle" id="s4ReportToggle" onclick="window._s4ToggleReport()" title="Session Report">
+    <i class="fas fa-clipboard-list"></i>
+    <span class="s4rt-count" id="s4ReportCount" style="display:none">0</span>
+</button>
 
 </body>
 </html>
