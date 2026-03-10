@@ -953,7 +953,6 @@
                         <label>Program ILS Checklist <span style="color:var(--muted);font-weight:400">(auto-populated from uploads, or check manually)</span></label>
                         <div id="ilsChecklist" style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:1rem;font-size:0.85rem;"></div>
 
-                        <div class="s4-actions-label" style="font-size:0.72rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:0.8px;display:flex;align-items:center;gap:6px;margin-bottom:4px;margin-top:10px;"><i class="fas fa-bolt"></i> ACTIONS</div>
                         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:1rem">
                             <button class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#0071e3,#00aaff);color:#fff;border:none;border-radius:8px;padding:8px 16px;font-weight:700" onclick="runFullILSAnalysis()"><i class="fas fa-chart-line"></i> Run Full Analysis</button>
                             <button class="btn btn-sm hover-lift" style="background:rgba(0,170,255,0.1);color:#00aaff;border:1px solid rgba(0,170,255,0.3);border-radius:8px;padding:8px 16px" onclick="generateILSReport()"><i class="fas fa-file-export"></i> Generate Report</button>
@@ -1137,7 +1136,6 @@
                             <div class="col-md-3 col-6 mb-2"><div class="stat-mini"><div class="stat-mini-val" id="dmsmsResolved" style="color:#00aaff">0</div><div class="stat-mini-label">Resolved</div></div></div>
                             <div class="col-md-3 col-6 mb-2"><div class="stat-mini"><div class="stat-mini-val" id="dmsmsCost" style="color:#ffa500">$0</div><div class="stat-mini-label">Est. Resolution Cost</div></div></div>
                         </div>
-                        <div class="s4-actions-label" style="font-size:0.72rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:0.8px;display:flex;align-items:center;gap:6px;margin-bottom:4px;margin-top:10px;"><i class="fas fa-bolt"></i> ACTIONS</div>
                         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:1rem">
                             <button onclick="exportDMSMS()" class="btn btn-sm" style="background:linear-gradient(135deg,#0071e3,#00aaff);color:#fff;border:none;border-radius:8px;padding:8px 16px;"><i class="fas fa-download"></i> Export DMSMS Report</button>
                             <button onclick="anchorDMSMS()" class="btn btn-sm" style="background:linear-gradient(135deg,#0071e3,#00aaff);color:#fff;border:none;border-radius:8px;padding:8px 16px;"><i class="fas fa-anchor"></i> Anchor to Ledger</button>
@@ -1179,7 +1177,6 @@
                             <div class="col-md-3 col-6 mb-1"><div class="stat-mini" style="padding:6px 8px"><div class="stat-mini-val" id="statFailRate" style="font-size:0.95rem">—</div><div class="stat-mini-label">Failure Rate (λ)</div></div></div>
                             <div class="col-md-3 col-6 mb-1"><div class="stat-mini" style="padding:6px 8px"><div class="stat-mini-val" id="statMissReady" style="font-size:0.95rem">—</div><div class="stat-mini-label">Mission Readiness</div></div></div>
                         </div>
-                        <div class="s4-actions-label" style="font-size:0.72rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:0.8px;display:flex;align-items:center;gap:6px;margin-bottom:4px;margin-top:10px;"><i class="fas fa-bolt"></i> ACTIONS</div>
                         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:1rem">
                             <button onclick="exportReadiness()" class="btn btn-sm" style="background:linear-gradient(135deg,#0071e3,#00aaff);color:#fff;border:none;border-radius:8px;padding:8px 16px;"><i class="fas fa-download"></i> Export RAM Report</button>
                             <button onclick="anchorReadiness()" class="btn btn-sm" style="background:linear-gradient(135deg,#0071e3,#00aaff);color:#fff;border:none;border-radius:8px;padding:8px 16px;"><i class="fas fa-anchor"></i> Anchor to Ledger</button>
@@ -1225,7 +1222,6 @@
                             <div class="col-md-3 col-6 mb-1"><div class="stat-mini" style="padding:6px 8px"><div class="stat-mini-val" id="roiPayback" style="color:#00aaff;font-size:0.95rem">—</div><div class="stat-mini-label">Payback Period</div></div></div>
                             <div class="col-md-3 col-6 mb-1"><div class="stat-mini" style="padding:6px 8px"><div class="stat-mini-val" id="roi5Year" style="color:#00aaff;font-size:0.95rem">—</div><div class="stat-mini-label">5-Year Net Savings</div></div></div>
                         </div>
-                        <div class="s4-actions-label" style="font-size:0.72rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:0.8px;display:flex;align-items:center;gap:6px;margin-bottom:4px;margin-top:10px;"><i class="fas fa-bolt"></i> ACTIONS</div>
                         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:1rem">
                             <button onclick="exportROI()" class="btn btn-sm" style="background:linear-gradient(135deg,#0071e3,#00aaff);color:#fff;border:none;border-radius:8px;padding:8px 16px;"><i class="fas fa-download"></i> Export ROI Report</button>
                             <button onclick="anchorROI()" class="btn btn-sm" style="background:linear-gradient(135deg,#0071e3,#00aaff);color:#fff;border:none;border-radius:8px;padding:8px 16px;"><i class="fas fa-anchor"></i> Anchor to Ledger</button>
@@ -1266,7 +1262,6 @@
                             <div class="col-md-3 col-6 mb-1"><div class="stat-mini" style="padding:6px 8px"><div class="stat-mini-val" id="lcDmsmsCost" style="color:#ff3333;font-size:0.95rem">—</div><div class="stat-mini-label">DMSMS Cost</div></div></div>
                             <div class="col-md-3 col-6 mb-1"><div class="stat-mini" style="padding:6px 8px"><div class="stat-mini-val" id="lcCostPerHr" style="color:#00aaff;font-size:0.95rem">—</div><div class="stat-mini-label">Cost/Op Hour</div></div></div>
                         </div>
-                        <div class="s4-actions-label" style="font-size:0.72rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:0.8px;display:flex;align-items:center;gap:6px;margin-bottom:4px;margin-top:10px;"><i class="fas fa-bolt"></i> ACTIONS</div>
                         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:1rem">
                             <button onclick="exportLifecycle()" class="btn btn-sm" style="background:linear-gradient(135deg,#0071e3,#00aaff);color:#fff;border:none;border-radius:8px;padding:8px 16px;"><i class="fas fa-download"></i> Export Lifecycle Report</button>
                             <button onclick="anchorLifecycle()" class="btn btn-sm" style="background:linear-gradient(135deg,#0071e3,#00aaff);color:#fff;border:none;border-radius:8px;padding:8px 16px;"><i class="fas fa-anchor"></i> Anchor to Ledger</button>
@@ -1335,7 +1330,6 @@
                         </div>
                     </div>
 
-                    <div class="s4-actions-label" style="font-size:0.72rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:0.8px;display:flex;align-items:center;gap:6px;margin-bottom:4px;margin-top:10px;"><i class="fas fa-bolt"></i> ACTIONS</div>
                     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:1rem">
                         <button onclick="verifyAllVault()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#0071e3,#00aaff);color:#fff;border:none;border-radius:8px;padding:8px 16px"><i class="fas fa-check-double"></i> Re-Verify All</button>
                         <button onclick="exportVault('csv')" class="btn btn-sm hover-lift" style="background:rgba(0,170,255,0.1);color:#00aaff;border:1px solid rgba(0,170,255,0.3);border-radius:8px;padding:8px 16px"><i class="fas fa-file-csv"></i> Export CSV</button>
@@ -1651,7 +1645,6 @@
                         </div>
                     </div>
 
-                    <div class="s4-actions-label" style="font-size:0.72rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:0.8px;display:flex;align-items:center;gap:6px;margin-bottom:4px;margin-top:10px;"><i class="fas fa-bolt"></i> ACTIONS</div>
                     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:1rem">
                         <button onclick="exportCompliance()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#0071e3,#00aaff);color:#fff;border:none;border-radius:8px;padding:8px 16px"><i class="fas fa-download"></i> Export Scorecard</button>
                         <button onclick="anchorCompliance()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#0071e3,#00aaff);color:#fff;border:none;border-radius:8px;padding:8px 16px"><i class="fas fa-anchor"></i> Anchor to Ledger</button>
@@ -1709,7 +1702,6 @@
                             <tbody id="riskTableBody"><tr><td colspan="5" style="text-align:center;padding:30px;color:var(--text-muted)">Click a program to load risk analysis...</td></tr></tbody>
                         </table>
                     </div>
-                    <div class="s4-actions-label" style="font-size:0.72rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:0.8px;display:flex;align-items:center;gap:6px;margin-bottom:4px;margin-top:10px;"><i class="fas fa-bolt"></i> ACTIONS</div>
                     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:1rem">
                         <button onclick="loadRiskData()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#0071e3,#00aaff);color:#fff;border:none;border-radius:8px;padding:8px 16px"><i class="fas fa-sync-alt"></i> Refresh Analysis</button>
                         <button onclick="exportRisk()" class="btn btn-sm hover-lift" style="background:rgba(0,0,0,0.04);color:var(--text,#1d1d1f);border:none;border-radius:8px;padding:8px 16px;font-weight:700"><i class="fas fa-download"></i> Export Risk Report</button>
@@ -1820,7 +1812,6 @@
                         </div>
                         <div id="reportContent" style="font-size:0.85rem;color:var(--steel);line-height:1.7;">Select a report type and click Generate to preview your audit package.</div>
                     </div>
-                    <div class="s4-actions-label" style="font-size:0.72rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:0.8px;display:flex;align-items:center;gap:6px;margin-bottom:4px;margin-top:10px;"><i class="fas fa-bolt"></i> ACTIONS</div>
                     <div style="display:flex;gap:10px;flex-wrap:wrap;">
                         <button onclick="generateReport()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#0071e3,#00aaff);color:#fff;border:none;border-radius:8px;padding:8px 16px"><i class="fas fa-magic"></i> Generate Report</button>
                         <button onclick="downloadReport()" class="btn btn-sm hover-lift" style="background:rgba(0,0,0,0.04);color:var(--text,#1d1d1f);border:none;border-radius:8px;padding:8px 16px;font-weight:700"><i class="fas fa-download"></i> Download Report</button>
@@ -1955,7 +1946,6 @@
                             <span><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#34c759;margin-right:4px;"></span> Low</span>
                         </div>
                     </div>
-                    <div class="s4-actions-label" style="font-size:0.72rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:0.8px;display:flex;align-items:center;gap:6px;margin-bottom:4px;margin-top:10px;"><i class="fas fa-bolt"></i> ACTIONS</div>
                     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:1rem">
                         <button onclick="loadPredictiveData()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#0071e3,#00aaff);color:#fff;border:none;border-radius:8px;padding:8px 16px;font-weight:700"><i class="fas fa-sync-alt"></i> Run Predictions</button>
                         <button onclick="exportPredictive()" class="btn btn-sm hover-lift" style="background:rgba(0,0,0,0.04);color:var(--text,#1d1d1f);border:none;border-radius:8px;padding:8px 16px;font-weight:700"><i class="fas fa-download"></i> Export Report</button>
@@ -1988,7 +1978,6 @@
                             <tbody id="sbomTableBody"><tr><td colspan="6" style="text-align:center;padding:30px;color:var(--text-muted)">Select a platform to load SBOM data...</td></tr></tbody>
                         </table>
                     </div>
-                    <div class="s4-actions-label" style="font-size:0.72rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:0.8px;display:flex;align-items:center;gap:6px;margin-bottom:4px;margin-top:10px;"><i class="fas fa-bolt"></i> ACTIONS</div>
                     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:1rem">
                         <button onclick="loadSBOMData()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#0071e3,#00aaff);color:#fff;border:none;border-radius:8px;padding:8px 16px;font-weight:700"><i class="fas fa-sync-alt"></i> Scan Components</button>
                         <button onclick="exportSBOM()" class="btn btn-sm hover-lift" style="background:rgba(0,0,0,0.04);color:var(--text,#1d1d1f);border:none;border-radius:8px;padding:8px 16px;font-weight:700"><i class="fas fa-download"></i> Export SBOM</button>
@@ -2074,7 +2063,6 @@
                     </div>
 
                     <!-- Analysis Controls -->
-                    <div class="s4-actions-label" style="font-size:0.72rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:0.8px;display:flex;align-items:center;gap:6px;margin-bottom:4px;margin-top:10px;"><i class="fas fa-bolt"></i> ACTIONS</div>
                     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:1rem">
                         <button onclick="analyzeSubmission()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#0071e3,#00aaff);color:#fff;border:none;border-radius:8px;padding:8px 16px;font-weight:700"><i class="fas fa-magnifying-glass-chart"></i> Analyze &amp; Compare</button>
                         <button onclick="exportDiscrepancyReport()" class="btn btn-sm hover-lift" style="background:rgba(0,170,255,0.1);color:#00aaff;border:1px solid rgba(0,170,255,0.3);border-radius:8px;padding:8px 16px"><i class="fas fa-file-pdf"></i> Export Discrepancy Report</button>
@@ -2231,7 +2219,6 @@
                     </div>
 
                     <!-- Action Buttons -->
-                    <div class="s4-actions-label" style="font-size:0.72rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:0.8px;display:flex;align-items:center;gap:6px;margin-bottom:4px;margin-top:10px;"><i class="fas fa-bolt"></i> ACTIONS</div>
                     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:1rem">
                         <button onclick="runGfpInventory()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#0071e3,#00aaff);color:#fff;border:none;border-radius:8px;padding:8px 16px;font-weight:700"><i class="fas fa-magnifying-glass-chart"></i> Run Inventory Check</button>
                         <button onclick="exportGfpReport()" class="btn btn-sm hover-lift" style="background:rgba(0,170,255,0.1);color:#00aaff;border:1px solid rgba(0,170,255,0.3);border-radius:8px;padding:8px 16px"><i class="fas fa-file-pdf"></i> Export DD 1662 Report</button>
@@ -2329,7 +2316,6 @@
                     </div>
 
                     <!-- Action Buttons -->
-                    <div class="s4-actions-label" style="font-size:0.72rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:0.8px;display:flex;align-items:center;gap:6px;margin-bottom:4px;margin-top:10px;"><i class="fas fa-bolt"></i> ACTIONS</div>
                     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:1rem">
                         <button onclick="runCdrlValidation()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#0071e3,#00aaff);color:#fff;border:none;border-radius:8px;padding:8px 16px;font-weight:700"><i class="fas fa-check-double"></i> Validate CDRLs</button>
                         <button onclick="exportCdrlReport()" class="btn btn-sm hover-lift" style="background:rgba(0,170,255,0.1);color:#00aaff;border:1px solid rgba(0,170,255,0.3);border-radius:8px;padding:8px 16px"><i class="fas fa-file-pdf"></i> Export Compliance Report</button>
@@ -2429,7 +2415,6 @@
                     </div>
 
                     <!-- Action Buttons -->
-                    <div class="s4-actions-label" style="font-size:0.72rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:0.8px;display:flex;align-items:center;gap:6px;margin-bottom:4px;margin-top:10px;"><i class="fas fa-bolt"></i> ACTIONS</div>
                     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:1rem">
                         <button onclick="runContractExtraction()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#0071e3,#00aaff);color:#fff;border:none;border-radius:8px;padding:8px 16px;font-weight:700"><i class="fas fa-wand-magic-sparkles"></i> Extract Clauses (AI)</button>
                         <button onclick="exportContractMatrix()" class="btn btn-sm hover-lift" style="background:rgba(0,170,255,0.1);color:#00aaff;border:1px solid rgba(0,170,255,0.3);border-radius:8px;padding:8px 16px"><i class="fas fa-table"></i> Export Clause Matrix</button>
@@ -2529,7 +2514,6 @@
                     </div>
 
                     <!-- Action Buttons -->
-                    <div class="s4-actions-label" style="font-size:0.72rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:0.8px;display:flex;align-items:center;gap:6px;margin-bottom:4px;margin-top:10px;"><i class="fas fa-bolt"></i> ACTIONS</div>
                     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:1rem">
                         <button onclick="recordProvenanceEvent()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#0071e3,#00aaff);color:#fff;border:none;border-radius:8px;padding:8px 16px;font-weight:700"><i class="fas fa-link"></i> Record Transfer</button>
                         <button onclick="generateProvenanceQR()" class="btn btn-sm hover-lift" style="background:rgba(0,170,255,0.1);color:#00aaff;border:1px solid rgba(0,170,255,0.3);border-radius:8px;padding:8px 16px"><i class="fas fa-qrcode"></i> Generate QR Tag</button>
@@ -2655,7 +2639,6 @@
                     </div>
 
                     <!-- Action Buttons -->
-                    <div class="s4-actions-label" style="font-size:0.72rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:0.8px;display:flex;align-items:center;gap:6px;margin-bottom:4px;margin-top:10px;"><i class="fas fa-bolt"></i> ACTIONS</div>
                     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:1rem">
                         <button onclick="createNewTeam()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#0071e3,#00aaff);color:#fff;border:none;border-radius:8px;padding:8px 16px;font-weight:700"><i class="fas fa-plus-circle"></i> Create Team</button>
                         <button onclick="inviteTeamMember()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#0071e3,#00aaff);color:#fff;border:none;border-radius:8px;padding:8px 16px"><i class="fas fa-user-plus"></i> Invite Member</button>
