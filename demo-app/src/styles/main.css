@@ -5869,6 +5869,7 @@ body.dark-mode #mainNav button[aria-label="Menu"] { color:#E0E0FF!important; }
 [data-theme="dark"] .tool-panel span,
 [data-theme="dark"] .tool-panel label,
 [data-theme="dark"] .tool-panel li { color:var(--steel)!important; }
+[data-theme="dark"] .tool-panel table { background:var(--card)!important; }
 [data-theme="dark"] .tool-panel table,
 [data-theme="dark"] .tool-panel table th,
 [data-theme="dark"] .tool-panel table td { color:var(--text)!important; border-color:var(--border)!important; }
@@ -5987,6 +5988,7 @@ body.dark-mode #mainNav button[aria-label="Menu"] { color:#E0E0FF!important; }
 
 /* ── SLS / Wallet UI ── */
 [data-theme="dark"] .sls-stat-val { color:var(--text)!important; }
+[data-theme="dark"] .sls-stat-label { color:var(--muted)!important; }
 [data-theme="dark"] .sls-expand-btn { color:var(--steel)!important; border-color:var(--border)!important; background:rgba(255,255,255,0.04)!important; }
 [data-theme="dark"] .sls-expand-btn:hover { background:rgba(255,255,255,0.08)!important; color:var(--text)!important; }
 [data-theme="dark"] .sls-amt-btn { color:var(--steel)!important; border-color:var(--border)!important; background:rgba(255,255,255,0.04)!important; }
@@ -6000,11 +6002,12 @@ body.dark-mode #mainNav button[aria-label="Menu"] { color:#E0E0FF!important; }
 /* ── Action Items ── */
 [data-theme="dark"] .ai-title { color:var(--text)!important; }
 [data-theme="dark"] .ai-meta { color:var(--muted)!important; }
-[data-theme="dark"] .action-item { background:var(--surface)!important; border-color:var(--border)!important; }
+[data-theme="dark"] .action-item { background:var(--surface)!important; border-color:var(--border)!important; border-left-color:var(--accent)!important; }
 [data-theme="dark"] .action-item .ai-check { border-color:var(--border)!important; }
 
-/* ── Stat card label ── */
+/* ── Stat card label + value ── */
 [data-theme="dark"] .stat-card .stat-label { color:var(--muted)!important; }
+[data-theme="dark"] .stat-card .stat-val { color:var(--text)!important; }
 
 /* ── ILS action item (gap analysis) ── */
 [data-theme="dark"] .ils-action-item { background:var(--card)!important; border-color:var(--border)!important; }
@@ -6016,11 +6019,7 @@ body.dark-mode #mainNav button[aria-label="Menu"] { color:#E0E0FF!important; }
 
 /* ── Anchor result popup ── */
 [data-theme="dark"] #s4ResultPopup { background:linear-gradient(135deg,rgba(30,30,46,0.98),rgba(15,17,23,0.98))!important; border-color:rgba(0,122,255,0.3)!important; }
-[data-theme="dark"] #s4ResultPopup * { color:var(--text); }
-[data-theme="dark"] #s4ResultPopup [style*="color:#00aaff"],
-[data-theme="dark"] #s4ResultPopup [style*="color:var(--green)"],
-[data-theme="dark"] #s4ResultPopup [style*="color:var(--gold)"],
-[data-theme="dark"] #s4ResultPopup [style*="color:var(--red)"] { color:inherit!important; }
+[data-theme="dark"] #s4ResultPopup *:not([style*="color:#00aaff"]):not([style*="color:var(--green)"]):not([style*="color:var(--gold)"]):not([style*="color:var(--red)"]) { color:var(--text)!important; }
 [data-theme="dark"] #animHash { background:rgba(0,170,255,0.08)!important; border-color:rgba(0,170,255,0.2)!important; }
 
 /* ── Placeholders — ALL must be light in dark mode ── */

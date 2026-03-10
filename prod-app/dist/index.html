@@ -67,12 +67,12 @@
     <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" integrity="sha384-9nhczxUqK87bcKHh20fSQcTGD4qq5GhayNYSYWqwBkINBhOfQLg/P5HG5lF1urn4" crossorigin="anonymous"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/qrcode@1.5.4/build/qrcode.min.js"></script>
     <!-- CSS is imported via main.js and extracted by Vite -->
-  <script type="module" crossorigin src="/prod-app/dist/assets/index-xbTNXz20.js"></script>
+  <script type="module" crossorigin src="/prod-app/dist/assets/index-B8UYwaPM.js"></script>
   <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/engine-CccW-nR3.js">
   <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/navigation-B8pL4g6D.js">
   <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/metrics-vUB9g3hN.js">
   <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/enhancements-CuoGJjiO.js">
-  <link rel="stylesheet" crossorigin href="/prod-app/dist/assets/index-CshN1O3f.css">
+  <link rel="stylesheet" crossorigin href="/prod-app/dist/assets/index-B4ke-cVv.css">
 </head>
 <body class="light-mode" data-theme="light">
 <!-- Light mode always on -->
@@ -480,7 +480,7 @@
                                     <input type="checkbox" id="encryptCheck" checked style="width:auto!important;margin-right:6px"> Encrypt before hashing (CUI protection)
                                 </label>
                             </div>
-                            <button class="btn-accent mt-3" onclick="anchorRecord()" id="anchorBtn"><i class="fas fa-anchor"></i> Anchor to XRPL</button>
+                            <button class="btn-accent mt-3" onclick="anchorRecord()" id="anchorBtn"><i class="fas fa-anchor"></i> Anchor to Ledger</button>
                             <div class="result-panel" id="anchorResult"></div>
                         </div>
                     </div>
@@ -992,7 +992,7 @@
                         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:1rem">
                             <button class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#0071e3,#00aaff);color:#fff;border:none;border-radius:8px;padding:8px 16px;font-weight:700" onclick="runFullILSAnalysis()"><i class="fas fa-chart-line"></i> Run Full Analysis</button>
                             <button class="btn btn-sm hover-lift" style="background:rgba(0,170,255,0.1);color:#00aaff;border:1px solid rgba(0,170,255,0.3);border-radius:8px;padding:8px 16px" onclick="generateILSReport()"><i class="fas fa-file-export"></i> Generate Report</button>
-                            <button class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#0071e3,#00aaff);color:#fff;border:none;border-radius:8px;padding:8px 16px" onclick="anchorILSReport()"><i class="fas fa-anchor"></i> Anchor Report Hash</button>
+                            <button class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#0071e3,#00aaff);color:#fff;border:none;border-radius:8px;padding:8px 16px" onclick="anchorILSReport()"><i class="fas fa-anchor"></i> Anchor to Ledger</button>
                         </div>
                         <div id="ilsPostActions" style="display:none">
                             <div class="post-actions">
@@ -1853,7 +1853,7 @@
                     <div style="display:flex;gap:10px;flex-wrap:wrap;">
                         <button onclick="generateReport()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#0071e3,#00aaff);color:#fff;border:none;border-radius:8px;padding:8px 16px"><i class="fas fa-magic"></i> Generate Report</button>
                         <button onclick="downloadReport()" class="btn btn-sm hover-lift" style="background:rgba(0,0,0,0.04);color:var(--text,#1d1d1f);border:none;border-radius:8px;padding:8px 16px;font-weight:700"><i class="fas fa-download"></i> Download Report</button>
-                        <button onclick="anchorReport()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#0071e3,#00aaff);color:#fff;border:none;border-radius:8px;padding:8px 16px"><i class="fas fa-anchor"></i> Anchor Report Hash</button>
+                        <button onclick="anchorReport()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#0071e3,#00aaff);color:#fff;border:none;border-radius:8px;padding:8px 16px"><i class="fas fa-anchor"></i> Anchor to Ledger</button>
                     </div>
 
                     <!-- ── Executive Summary Generator ── -->
@@ -2019,7 +2019,7 @@
                     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:1rem">
                         <button onclick="loadSBOMData()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#0071e3,#00aaff);color:#fff;border:none;border-radius:8px;padding:8px 16px;font-weight:700"><i class="fas fa-sync-alt"></i> Scan Components</button>
                         <button onclick="exportSBOM()" class="btn btn-sm hover-lift" style="background:rgba(0,0,0,0.04);color:var(--text,#1d1d1f);border:none;border-radius:8px;padding:8px 16px;font-weight:700"><i class="fas fa-download"></i> Export SBOM</button>
-                        <button onclick="anchorSBOM()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#0071e3,#00aaff);color:#fff;border:none;border-radius:8px;padding:8px 16px"><i class="fas fa-anchor"></i> Anchor SBOM to Ledger</button>
+                        <button onclick="anchorSBOM()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#0071e3,#00aaff);color:#fff;border:none;border-radius:8px;padding:8px 16px"><i class="fas fa-anchor"></i> Anchor to Ledger</button>
                     </div>
                 </div>
             </div>
@@ -2105,7 +2105,7 @@
                         <button onclick="analyzeSubmission()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#0071e3,#00aaff);color:#fff;border:none;border-radius:8px;padding:8px 16px;font-weight:700"><i class="fas fa-magnifying-glass-chart"></i> Analyze &amp; Compare</button>
                         <button onclick="exportDiscrepancyReport()" class="btn btn-sm hover-lift" style="background:rgba(0,170,255,0.1);color:#00aaff;border:1px solid rgba(0,170,255,0.3);border-radius:8px;padding:8px 16px"><i class="fas fa-file-pdf"></i> Export Discrepancy Report</button>
                         <button onclick="clearSubmissionReview()" class="btn btn-sm hover-lift" style="background:rgba(0,0,0,0.04);color:var(--steel);border:1px solid var(--border);border-radius:8px;padding:8px 16px"><i class="fas fa-trash-alt"></i> Clear</button>
-                        <button onclick="anchorSubmissionReview()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#0071e3,#00aaff);color:#fff;border:none;border-radius:8px;padding:8px 16px"><i class="fas fa-anchor"></i> Anchor Review to Ledger</button>
+                        <button onclick="anchorSubmissionReview()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#0071e3,#00aaff);color:#fff;border:none;border-radius:8px;padding:8px 16px"><i class="fas fa-anchor"></i> Anchor to Ledger</button>
                     </div>
 
                     <!-- Stats -->
@@ -2557,7 +2557,7 @@
                         <button onclick="generateProvenanceQR()" class="btn btn-sm hover-lift" style="background:rgba(0,170,255,0.1);color:#00aaff;border:1px solid rgba(0,170,255,0.3);border-radius:8px;padding:8px 16px"><i class="fas fa-qrcode"></i> Generate QR Tag</button>
                         <button onclick="verifyProvenanceChain()" class="btn btn-sm hover-lift" style="background:rgba(0,170,255,0.1);color:#00aaff;border:1px solid rgba(0,170,255,0.3);border-radius:8px;padding:8px 16px"><i class="fas fa-shield-check"></i> Verify Chain</button>
                         <button onclick="exportProvenanceReport()" class="btn btn-sm hover-lift" style="background:rgba(0,170,255,0.1);color:#00aaff;border:1px solid rgba(0,170,255,0.3);border-radius:8px;padding:8px 16px"><i class="fas fa-download"></i> Export Report</button>
-                        <button onclick="anchorChain()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#0071e3,#00aaff);color:#fff;border:none;border-radius:8px;padding:8px 16px"><i class="fas fa-anchor"></i> Anchor Chain to Ledger</button>
+                        <button onclick="anchorChain()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#0071e3,#00aaff);color:#fff;border:none;border-radius:8px;padding:8px 16px"><i class="fas fa-anchor"></i> Anchor to Ledger</button>
                     </div>
 
                     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:16px">
