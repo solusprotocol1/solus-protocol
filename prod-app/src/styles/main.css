@@ -5766,3 +5766,158 @@ h4{font-size:0.95rem;font-weight:700}
 .skeleton-line.medium{width:80%}
 .skeleton-circle{width:40px;height:40px;border-radius:50%}
 .skeleton-card{height:80px;border-radius:10px;margin-bottom:12px}
+
+/* ═══════════════════════════════════════════════════════════════
+   CHANGE 21 — NON-INTRUSIVE ONBOARDING TOUR
+   4-step dismissible tooltips, first-load only
+   ═══════════════════════════════════════════════════════════════ */
+.s4-tour-overlay{position:fixed;inset:0;z-index:99998;background:rgba(0,0,0,0.35);opacity:0;transition:opacity 0.3s;pointer-events:auto}
+.s4-tour-overlay.visible{opacity:1}
+.s4-tour-tip{
+    position:absolute;z-index:99999;background:var(--surface,#fff);
+    border:2px solid #007AFF;border-radius:12px;padding:18px 20px;
+    width:280px;box-shadow:0 8px 32px rgba(0,0,0,0.18);
+    opacity:0;transform:translateY(8px);transition:opacity 0.35s,transform 0.35s;
+    font-size:0.84rem;line-height:1.55;color:var(--text);
+}
+.s4-tour-tip.visible{opacity:1;transform:translateY(0)}
+.s4-tour-tip::before{
+    content:'';position:absolute;width:12px;height:12px;background:var(--surface,#fff);
+    border-left:2px solid #007AFF;border-top:2px solid #007AFF;
+    transform:rotate(45deg);top:-8px;left:28px;
+}
+.s4-tour-tip.arrow-bottom::before{top:auto;bottom:-8px;transform:rotate(225deg)}
+.s4-tour-tip.arrow-right::before{top:18px;left:auto;right:-8px;transform:rotate(135deg)}
+.s4-tour-tip.arrow-left::before{top:18px;left:-8px;transform:rotate(-45deg)}
+.s4-tour-step{font-size:0.68rem;color:#007AFF;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:6px}
+.s4-tour-title{font-weight:700;font-size:0.92rem;margin-bottom:4px;color:var(--text)}
+.s4-tour-body{color:var(--muted);margin-bottom:14px}
+.s4-tour-footer{display:flex;align-items:center;justify-content:space-between}
+.s4-tour-dots{display:flex;gap:5px}
+.s4-tour-dot{width:7px;height:7px;border-radius:50%;background:rgba(0,122,255,0.2)}
+.s4-tour-dot.active{background:#007AFF}
+.s4-tour-next{
+    background:#007AFF;color:#fff;border:none;border-radius:8px;
+    padding:6px 16px;font-size:0.78rem;font-weight:600;cursor:pointer;
+    font-family:inherit;transition:background 0.2s;
+}
+.s4-tour-next:hover{background:#005ecb}
+.s4-tour-skip{
+    background:none;border:none;color:var(--muted);font-size:0.74rem;
+    cursor:pointer;font-family:inherit;padding:4px 8px;
+}
+.s4-tour-skip:hover{color:var(--text)}
+
+/* ═══════════════════════════════════════════════════════════════
+   CHANGE 22 — PERFORMANCE OPTIMIZATIONS
+   Shimmer loading states, debounce visuals
+   ═══════════════════════════════════════════════════════════════ */
+.s4-lazy-placeholder{
+    min-height:120px;border-radius:12px;overflow:hidden;
+    background:linear-gradient(90deg,rgba(0,0,0,0.03) 25%,rgba(0,0,0,0.06) 50%,rgba(0,0,0,0.03) 75%);
+    background-size:200px 100%;animation:skeletonShimmer 1.5s ease-in-out infinite;
+}
+.s4-shimmer-row{height:16px;border-radius:6px;margin-bottom:10px}
+.s4-shimmer-row:nth-child(2){width:85%}
+.s4-shimmer-row:nth-child(3){width:70%}
+.s4-debounce-indicator{
+    display:inline-flex;align-items:center;gap:6px;
+    font-size:0.72rem;color:var(--muted);padding:2px 10px;
+    border-radius:6px;background:rgba(0,122,255,0.06);
+    opacity:0;transition:opacity 0.2s;
+}
+.s4-debounce-indicator.active{opacity:1}
+
+/* ═══════════════════════════════════════════════════════════════
+   CHANGE 23 — EXPORT SUCCESS CELEBRATION
+   Confetti + toast + progress bar
+   ═══════════════════════════════════════════════════════════════ */
+@keyframes s4ConfettiFall{
+    0%{transform:translateY(-10px) rotate(0deg);opacity:1}
+    100%{transform:translateY(100vh) rotate(720deg);opacity:0}
+}
+.s4-confetti-piece{
+    position:fixed;top:-10px;z-index:100000;width:8px;height:8px;
+    border-radius:2px;pointer-events:none;
+    animation:s4ConfettiFall 2.5s cubic-bezier(0.25,0.46,0.45,0.94) forwards;
+}
+.s4-export-toast{
+    position:fixed;bottom:28px;right:28px;z-index:99999;
+    background:var(--surface,#fff);border:1px solid rgba(52,199,89,0.3);
+    border-left:4px solid #34c759;border-radius:12px;
+    padding:16px 20px;min-width:300px;max-width:380px;
+    box-shadow:0 8px 32px rgba(0,0,0,0.12);
+    opacity:0;transform:translateY(20px);transition:all 0.35s cubic-bezier(0.25,0.1,0.25,1);
+}
+.s4-export-toast.visible{opacity:1;transform:translateY(0)}
+.s4-export-toast-header{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.s4-export-toast-icon{
+    width:32px;height:32px;border-radius:50%;background:rgba(52,199,89,0.12);
+    display:flex;align-items:center;justify-content:center;color:#34c759;font-size:0.9rem;
+}
+.s4-export-toast-title{font-weight:700;font-size:0.88rem;color:var(--text)}
+.s4-export-toast-actions{display:flex;gap:8px;margin-top:10px}
+.s4-export-toast-actions button{
+    padding:5px 14px;border-radius:8px;font-size:0.76rem;font-weight:600;
+    cursor:pointer;font-family:inherit;border:none;transition:all 0.2s;
+}
+.s4-export-toast-actions .s4-et-open{background:#34c759;color:#fff}
+.s4-export-toast-actions .s4-et-open:hover{background:#2db84e}
+.s4-export-toast-actions .s4-et-share{background:rgba(52,199,89,0.1);color:#34c759;border:1px solid rgba(52,199,89,0.3)}
+.s4-export-toast-actions .s4-et-share:hover{background:rgba(52,199,89,0.18)}
+.s4-export-progress{
+    height:3px;border-radius:2px;background:rgba(0,0,0,0.06);
+    margin-top:10px;overflow:hidden;
+}
+.s4-export-progress-bar{
+    height:100%;border-radius:2px;background:linear-gradient(90deg,#007AFF,#34c759);
+    width:0;transition:width 1.2s cubic-bezier(0.25,0.1,0.25,1);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   CHANGE 24 — THEME CUSTOMIZATION TEASER
+   Accent color picker in avatar popover
+   ═══════════════════════════════════════════════════════════════ */
+.s4-accent-row{padding:8px 0}
+.s4-accent-label{font-size:0.84rem;color:var(--text);display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.s4-accent-label i{color:var(--accent);width:20px;text-align:center;font-size:0.82rem}
+.s4-accent-swatches{display:flex;gap:8px;padding:2px 0}
+.s4-accent-swatch{
+    width:28px;height:28px;border-radius:50%;border:2px solid transparent;
+    cursor:pointer;transition:all 0.2s;position:relative;
+}
+.s4-accent-swatch:hover{transform:scale(1.15)}
+.s4-accent-swatch.active{border-color:var(--text);box-shadow:0 0 0 3px rgba(0,122,255,0.2)}
+.s4-accent-swatch.active::after{
+    content:'\f00c';font-family:'Font Awesome 6 Free';font-weight:900;
+    position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    color:#fff;font-size:0.6rem;text-shadow:0 1px 2px rgba(0,0,0,0.3);
+}
+.s4-accent-teaser{
+    font-size:0.7rem;color:var(--muted);font-style:italic;
+    margin-top:6px;padding-left:28px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   CHANGE 25 — STRESS TEST MICRO-FIXES
+   Reset button, anti-overlap, anti-stutter
+   ═══════════════════════════════════════════════════════════════ */
+.s4-reset-all{
+    display:flex;align-items:center;justify-content:center;gap:6px;
+    width:100%;padding:8px;margin-top:4px;
+    background:rgba(255,59,48,0.06);color:#ff3b30;border:1px solid rgba(255,59,48,0.15);
+    border-radius:8px;font-size:0.76rem;font-weight:600;cursor:pointer;
+    font-family:inherit;transition:all 0.2s;
+}
+.s4-reset-all:hover{background:rgba(255,59,48,0.12)}
+/* Anti-stutter: hardware-accelerate animated elements */
+.hub-card,.ils-tool-card,.vault-record,.doc-card,.glass-card,.s4-card,.s4-avatar-popover,.wallet-sidebar,.s4-tour-tip,.s4-export-toast{
+    will-change:transform,opacity;
+}
+/* Anti-overlap: ensure z-index layering */
+.wallet-sidebar{z-index:1000}
+.s4-avatar-popover{z-index:1001}
+.s4-cmd-palette{z-index:9999}
+.s4-tour-overlay{z-index:99998}
+.s4-tour-tip{z-index:99999}
+.s4-export-toast{z-index:100000}

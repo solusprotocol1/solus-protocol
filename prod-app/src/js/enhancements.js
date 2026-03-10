@@ -8598,3 +8598,351 @@ window.verifyProvenanceChain = verifyProvenanceChain;
         setTimeout(_bootChanges16to20, 500);
     }
 })();
+
+// ═══════════════════════════════════════════════════════════════
+//  CHANGES 21-25: Onboarding, Perf, Celebration, Theme, Polish
+// ═══════════════════════════════════════════════════════════════
+(function() {
+    'use strict';
+
+    // ── CHANGE 21: Non-intrusive Onboarding Tour ──
+    var TOUR_STEPS = [
+        {target: '.s4-preset-btn, .s4-preset-select, #s4PrefPreset', title: 'Layout Presets', body: 'Switch between Classic, Compact, and Spacious views to customize your workspace.', arrow: 'top'},
+        {target: '#todayChainSection, .today-chain, .chain-timeline', title: "Today's Chain", body: 'Your real-time blockchain activity feed. Each dot is a verified transaction on XRPL.', arrow: 'top'},
+        {target: '.vault-record, .hub-card, .ils-tool-card', title: 'Hover Previews', body: 'Hover over any card for an instant data preview. Click to drill into full details.', arrow: 'top'},
+        {target: '.s4-export-fmt, [onclick*="export"], .s4rs-export', title: 'One-Click Export', body: 'Export any report as PDF, CSV, or print — all blockchain-verified and audit-ready.', arrow: 'top'}
+    ];
+
+    function _findTourTarget(step) {
+        var selectors = step.target.split(',');
+        for (var i = 0; i < selectors.length; i++) {
+            var el = document.querySelector(selectors[i].trim());
+            if (el && el.offsetParent !== null) return el;
+        }
+        return null;
+    }
+
+    function _runTour() {
+        if (localStorage.getItem('s4_tour_done')) return;
+        var overlay = document.createElement('div');
+        overlay.className = 's4-tour-overlay';
+        document.body.appendChild(overlay);
+        requestAnimationFrame(function() { overlay.classList.add('visible'); });
+
+        var currentStep = 0;
+
+        function _showStep(idx) {
+            // Remove previous tip
+            var old = document.querySelector('.s4-tour-tip');
+            if (old) old.remove();
+            if (idx >= TOUR_STEPS.length) { _endTour(); return; }
+            currentStep = idx;
+            var step = TOUR_STEPS[idx];
+            var target = _findTourTarget(step);
+            var tip = document.createElement('div');
+            tip.className = 's4-tour-tip' + (step.arrow === 'bottom' ? ' arrow-bottom' : '');
+            tip.setAttribute('role', 'dialog');
+            tip.setAttribute('aria-label', step.title);
+
+            var dotsHtml = '';
+            for (var d = 0; d < TOUR_STEPS.length; d++) {
+                dotsHtml += '<div class="s4-tour-dot' + (d === idx ? ' active' : '') + '"></div>';
+            }
+
+            tip.innerHTML = '<div class="s4-tour-step">Step ' + (idx + 1) + ' of ' + TOUR_STEPS.length + '</div>' +
+                '<div class="s4-tour-title">' + step.title + '</div>' +
+                '<div class="s4-tour-body">' + step.body + '</div>' +
+                '<div class="s4-tour-footer">' +
+                    '<div class="s4-tour-dots">' + dotsHtml + '</div>' +
+                    '<div style="display:flex;gap:6px">' +
+                        '<button class="s4-tour-skip">Skip</button>' +
+                        '<button class="s4-tour-next">' + (idx === TOUR_STEPS.length - 1 ? 'Done' : 'Next') + '</button>' +
+                    '</div>' +
+                '</div>';
+
+            document.body.appendChild(tip);
+
+            // Position relative to target
+            if (target) {
+                var rect = target.getBoundingClientRect();
+                var tipTop = rect.bottom + window.scrollY + 12;
+                var tipLeft = rect.left + window.scrollX + (rect.width / 2) - 140;
+                tipLeft = Math.max(12, Math.min(tipLeft, window.innerWidth - 300));
+                if (tipTop + 200 > window.innerHeight + window.scrollY) {
+                    tipTop = rect.top + window.scrollY - 200;
+                    tip.classList.add('arrow-bottom');
+                }
+                tip.style.top = tipTop + 'px';
+                tip.style.left = tipLeft + 'px';
+                target.scrollIntoView({behavior: 'smooth', block: 'center'});
+            } else {
+                tip.style.top = '50%';
+                tip.style.left = '50%';
+                tip.style.transform = 'translate(-50%, -50%)';
+            }
+
+            requestAnimationFrame(function() { tip.classList.add('visible'); });
+
+            tip.querySelector('.s4-tour-next').addEventListener('click', function() { _showStep(idx + 1); });
+            tip.querySelector('.s4-tour-skip').addEventListener('click', _endTour);
+
+            // Focus the next button for keyboard users
+            tip.querySelector('.s4-tour-next').focus();
+        }
+
+        function _endTour() {
+            localStorage.setItem('s4_tour_done', '1');
+            var tip = document.querySelector('.s4-tour-tip');
+            if (tip) { tip.classList.remove('visible'); setTimeout(function() { tip.remove(); }, 350); }
+            overlay.classList.remove('visible');
+            setTimeout(function() { overlay.remove(); }, 350);
+            if (typeof window._s4Announce === 'function') window._s4Announce('Onboarding tour complete');
+        }
+
+        setTimeout(function() { _showStep(0); }, 800);
+    }
+
+    // ── CHANGE 22: Performance Optimizations ──
+    // Debounce utility
+    function _debounce(fn, ms) {
+        var timer;
+        return function() {
+            var ctx = this, args = arguments;
+            clearTimeout(timer);
+            timer = setTimeout(function() { fn.apply(ctx, args); }, ms);
+        };
+    }
+
+    // Debounce chain runs (wrap existing runChain if present)
+    if (typeof window.runChain === 'function') {
+        var _origRunChain = window.runChain;
+        window.runChain = _debounce(function() {
+            _origRunChain.apply(this, arguments);
+        }, 300);
+    }
+
+    // Intersection Observer lazy loader for hub cards
+    function _setupLazyCards() {
+        if (!('IntersectionObserver' in window)) return;
+        var cards = document.querySelectorAll('.hub-card, .ils-tool-card, .doc-card');
+        if (cards.length === 0) return;
+        var observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('s4-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {rootMargin: '60px', threshold: 0.05});
+        cards.forEach(function(card) {
+            observer.observe(card);
+        });
+    }
+
+    // Shimmer placeholder injection for empty panels
+    window._s4ShimmerPanel = function(panelId) {
+        var panel = document.getElementById(panelId);
+        if (!panel) return;
+        var content = panel.querySelector('.tool-content, .card-body, .ils-tool-content');
+        if (!content || content.children.length > 0) return;
+        var placeholder = document.createElement('div');
+        placeholder.className = 's4-lazy-placeholder skeleton';
+        placeholder.innerHTML = '<div class="s4-shimmer-row skeleton" style="width:90%;margin:16px"></div>' +
+            '<div class="s4-shimmer-row skeleton" style="width:75%;margin:0 16px 10px"></div>' +
+            '<div class="s4-shimmer-row skeleton" style="width:60%;margin:0 16px 16px"></div>';
+        content.appendChild(placeholder);
+        return placeholder;
+    };
+
+    // ── CHANGE 23: Export Success Celebration ──
+    var CONFETTI_COLORS = ['#007AFF', '#34c759', '#ff9500', '#af52de', '#ff375f', '#00d4aa', '#c9a84c'];
+
+    function _fireConfetti() {
+        var count = 40;
+        for (var i = 0; i < count; i++) {
+            var piece = document.createElement('div');
+            piece.className = 's4-confetti-piece';
+            piece.style.left = (Math.random() * 100) + 'vw';
+            piece.style.background = CONFETTI_COLORS[Math.floor(Math.random() * CONFETTI_COLORS.length)];
+            piece.style.animationDelay = (Math.random() * 0.8) + 's';
+            piece.style.animationDuration = (2 + Math.random() * 1.5) + 's';
+            piece.style.width = (5 + Math.random() * 6) + 'px';
+            piece.style.height = (5 + Math.random() * 6) + 'px';
+            piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+            document.body.appendChild(piece);
+            (function(p) { setTimeout(function() { p.remove(); }, 4000); })(piece);
+        }
+    }
+
+    function _showExportToast(fileName) {
+        // Remove any existing export toast
+        var existing = document.querySelector('.s4-export-toast');
+        if (existing) existing.remove();
+
+        var toast = document.createElement('div');
+        toast.className = 's4-export-toast';
+        toast.setAttribute('role', 'status');
+        toast.innerHTML =
+            '<div class="s4-export-toast-header">' +
+                '<div class="s4-export-toast-icon"><i class="fas fa-check"></i></div>' +
+                '<div class="s4-export-toast-title">Report exported!</div>' +
+                '<button onclick="this.closest(\'.s4-export-toast\').remove()" style="margin-left:auto;background:none;border:none;color:var(--muted);cursor:pointer;font-size:0.9rem;padding:4px"><i class="fas fa-times"></i></button>' +
+            '</div>' +
+            '<div style="font-size:0.78rem;color:var(--muted)">' + (fileName || 'S4_Ledger_Report.pdf') + '</div>' +
+            '<div class="s4-export-progress"><div class="s4-export-progress-bar"></div></div>' +
+            '<div class="s4-export-toast-actions">' +
+                '<button class="s4-et-open" onclick="if(typeof window._s4Announce===\'function\')window._s4Announce(\'Opening report\');this.closest(\'.s4-export-toast\').remove()"><i class="fas fa-external-link" style="margin-right:4px"></i>Open</button>' +
+                '<button class="s4-et-share" onclick="if(navigator.share)navigator.share({title:\'S4 Report\',text:\'Blockchain-verified audit report\'});this.closest(\'.s4-export-toast\').remove()"><i class="fas fa-share-nodes" style="margin-right:4px"></i>Share</button>' +
+            '</div>';
+
+        document.body.appendChild(toast);
+        requestAnimationFrame(function() {
+            toast.classList.add('visible');
+            var bar = toast.querySelector('.s4-export-progress-bar');
+            if (bar) {
+                requestAnimationFrame(function() { bar.style.width = '100%'; });
+            }
+        });
+
+        if (typeof window._s4Announce === 'function') window._s4Announce('Report exported successfully');
+        setTimeout(function() {
+            if (toast.parentNode) {
+                toast.classList.remove('visible');
+                setTimeout(function() { if (toast.parentNode) toast.remove(); }, 400);
+            }
+        }, 8000);
+    }
+
+    window._s4ExportCelebrate = function(fileName) {
+        _fireConfetti();
+        _showExportToast(fileName);
+    };
+
+    // Monkey-patch existing export functions to add celebration
+    function _wrapExport(fnName) {
+        var orig = window[fnName];
+        if (typeof orig !== 'function') return;
+        window[fnName] = function() {
+            var result = orig.apply(this, arguments);
+            setTimeout(function() { window._s4ExportCelebrate(fnName.replace(/^export/, '') + '_report'); }, 400);
+            return result;
+        };
+    }
+    ['exportPDF', 'exportAnalyticsCSV', 'exportAnalyticsReport'].forEach(_wrapExport);
+
+    // Also wrap S4.vaultIO.exportCSV if available
+    if (typeof S4 !== 'undefined' && S4.vaultIO && typeof S4.vaultIO.exportCSV === 'function') {
+        var _origExportCSV = S4.vaultIO.exportCSV;
+        S4.vaultIO.exportCSV = function() {
+            var result = _origExportCSV.apply(this, arguments);
+            setTimeout(function() { window._s4ExportCelebrate('vault_export.csv'); }, 400);
+            return result;
+        };
+    }
+
+    // Wrap _s4ExportReport if present
+    if (typeof window._s4ExportReport === 'function') {
+        var _origSessionExport = window._s4ExportReport;
+        window._s4ExportReport = function() {
+            var result = _origSessionExport.apply(this, arguments);
+            setTimeout(function() { window._s4ExportCelebrate('session_report.html'); }, 400);
+            return result;
+        };
+    }
+
+    // ── CHANGE 24: Theme Customization / Accent Color Picker ──
+    var ACCENT_PRESETS = {
+        '#007AFF': {name: 'Ocean Blue',  hover: '#005ecb', rgb: '0,122,255'},
+        '#34c759': {name: 'Emerald',     hover: '#2db84e', rgb: '52,199,89'},
+        '#af52de': {name: 'Violet',      hover: '#9340c4', rgb: '175,82,222'},
+        '#ff9500': {name: 'Amber',       hover: '#e08600', rgb: '255,149,0'},
+        '#ff375f': {name: 'Rose',        hover: '#e02050', rgb: '255,55,95'}
+    };
+
+    window._s4SetAccent = function(color) {
+        var preset = ACCENT_PRESETS[color];
+        if (!preset) return;
+        document.documentElement.style.setProperty('--accent', color);
+        document.documentElement.style.setProperty('--accent-hover', preset.hover);
+        document.documentElement.style.setProperty('--accent-rgb', preset.rgb);
+        // Update swatch active state
+        var swatches = document.querySelectorAll('.s4-accent-swatch');
+        swatches.forEach(function(sw) {
+            sw.classList.toggle('active', sw.dataset.accent === color);
+        });
+        // Persist
+        try {
+            var prefs = JSON.parse(localStorage.getItem('s4_user_prefs') || '{}');
+            prefs.accentColor = color;
+            localStorage.setItem('s4_user_prefs', JSON.stringify(prefs));
+        } catch(e) {}
+        if (typeof window._s4Announce === 'function') window._s4Announce('Accent color changed to ' + preset.name);
+    };
+
+    function _restoreAccent() {
+        try {
+            var prefs = JSON.parse(localStorage.getItem('s4_user_prefs') || '{}');
+            if (prefs.accentColor && ACCENT_PRESETS[prefs.accentColor]) {
+                window._s4SetAccent(prefs.accentColor);
+            }
+        } catch(e) {}
+    }
+
+    // ── CHANGE 25: Reset All Preferences ──
+    window._s4ResetAll = function() {
+        if (!confirm('Reset all preferences to defaults? This cannot be undone.')) return;
+        localStorage.removeItem('s4_user_prefs');
+        localStorage.removeItem('s4_tour_done');
+        // Reset accent to default
+        document.documentElement.style.removeProperty('--accent');
+        document.documentElement.style.removeProperty('--accent-hover');
+        document.documentElement.style.removeProperty('--accent-rgb');
+        // Reset swatch visual
+        var swatches = document.querySelectorAll('.s4-accent-swatch');
+        swatches.forEach(function(sw) {
+            sw.classList.toggle('active', sw.dataset.accent === '#007AFF');
+        });
+        // Reset toggles
+        var notif = document.getElementById('s4PrefNotif');
+        if (notif) { notif.classList.add('on'); }
+        var sound = document.getElementById('s4PrefSound');
+        if (sound) { sound.classList.remove('on'); }
+        // Reset preset dropdown
+        var sel = document.getElementById('s4PrefPreset');
+        if (sel) sel.value = 'classic';
+        // Close popover
+        var pop = document.getElementById('s4AvatarPopover');
+        if (pop) pop.classList.remove('open');
+        if (typeof window._s4Announce === 'function') window._s4Announce('All preferences reset to defaults');
+        if (typeof S4 !== 'undefined' && S4.toast) S4.toast('Preferences reset to defaults.', 'info');
+    };
+
+    // ── CHANGE 25: Focus trap micro-fix — Escape closes popover ──
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            var pop = document.getElementById('s4AvatarPopover');
+            if (pop && pop.classList.contains('open')) {
+                pop.classList.remove('open');
+                var btn = document.getElementById('s4AvatarBtn');
+                if (btn) { btn.setAttribute('aria-expanded', 'false'); btn.focus(); }
+            }
+            // Also close export toast on escape
+            var toast = document.querySelector('.s4-export-toast');
+            if (toast) toast.remove();
+        }
+    });
+
+    // ── Boot 21-25 ──
+    function _bootChanges21to25() {
+        _setupLazyCards();
+        _restoreAccent();
+        // Delay tour to let UI settle
+        setTimeout(_runTour, 1500);
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', _bootChanges21to25);
+    } else {
+        setTimeout(_bootChanges21to25, 600);
+    }
+})();

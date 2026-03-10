@@ -316,9 +316,25 @@
                         <button class="s4-ap-toggle" id="s4PrefSound" onclick="window._s4TogglePref('sound')" aria-label="Toggle sound"></button>
                     </div>
                     <hr class="s4-ap-divider">
+                    <!-- Change 24: Accent Color Picker -->
+                    <div class="s4-accent-row">
+                        <div class="s4-accent-label"><i class="fas fa-swatchbook"></i> Accent Color</div>
+                        <div class="s4-accent-swatches" id="s4AccentSwatches">
+                            <div class="s4-accent-swatch active" data-accent="#007AFF" style="background:#007AFF" onclick="window._s4SetAccent('#007AFF')" title="Ocean Blue"></div>
+                            <div class="s4-accent-swatch" data-accent="#34c759" style="background:#34c759" onclick="window._s4SetAccent('#34c759')" title="Emerald"></div>
+                            <div class="s4-accent-swatch" data-accent="#af52de" style="background:#af52de" onclick="window._s4SetAccent('#af52de')" title="Violet"></div>
+                            <div class="s4-accent-swatch" data-accent="#ff9500" style="background:#ff9500" onclick="window._s4SetAccent('#ff9500')" title="Amber"></div>
+                            <div class="s4-accent-swatch" data-accent="#ff375f" style="background:#ff375f" onclick="window._s4SetAccent('#ff375f')" title="Rose"></div>
+                        </div>
+                        <div class="s4-accent-teaser">Theme engine coming soon — full dark/light/custom.</div>
+                    </div>
+                    <hr class="s4-ap-divider">
                     <div class="s4-ap-row"><span><i class="fas fa-keyboard"></i> Shortcuts</span>
                         <span style="font-size:0.72rem;color:var(--muted)">? key</span>
                     </div>
+                    <!-- Change 25: Hidden Reset All -->
+                    <hr class="s4-ap-divider">
+                    <button class="s4-reset-all" onclick="window._s4ResetAll()" title="Reset all preferences to defaults"><i class="fas fa-arrow-rotate-left"></i> Reset All Preferences</button>
                 </div>
             </div>
         </div>
