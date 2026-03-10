@@ -2638,123 +2638,6 @@ console.log('[Round-16c] All tech enhancements loaded — IndexedDB, WebSocket, 
     console.log('[Round-16] VDI compatibility module loaded');
 })();
 
-// ── LIGHT/DARK MODE TOGGLE ──
-// Platform-only theme switcher with localStorage persistence
-function toggleTheme() {
-    // Re-entrancy guard: capture-phase delegated handler + native onclick both fire
-    if (window._themeToggling) return;
-    window._themeToggling = true;
-    setTimeout(function(){ window._themeToggling = false; }, 0);
-    var body = document.body;
-    var isLight = body.classList.toggle('light-mode');
-    // Sync data-theme attribute for [data-theme="light"] CSS selectors
-    if (isLight) { body.setAttribute('data-theme', 'light'); document.documentElement.setAttribute('data-theme', 'light'); } else { body.removeAttribute('data-theme'); document.documentElement.removeAttribute('data-theme'); }
-    localStorage.setItem('s4-theme', isLight ? 'light' : 'dark');
-    _updateThemeIcon(isLight);
-    // Update nav link colors for light mode
-    var navLinks = document.querySelectorAll('#navLinks a:not([style*="background:#00aaff"]):not([style*="background:var(--accent)"])');
-    navLinks.forEach(function(a) {
-        if (a.classList.contains('theme-toggle')) return;
-        if (isLight) {
-            a.style.color = a.getAttribute('href') === '/prod-app/' ? '#0077cc' : 'rgba(0,0,0,0.6)';
-        } else {
-            a.style.color = a.getAttribute('href') === '/prod-app/' ? '#00aaff' : '#6e6e73';
-        }
-    });
-    // Update the main nav bar background
-    var nav = document.querySelector('nav');
-    if (nav) {
-        if (isLight) {
-            nav.style.background = 'rgba(255,255,255,0.92)';
-            nav.style.backdropFilter = 'blur(20px)';
-            nav.style.borderBottomColor = 'rgba(0,0,0,0.06)';
-        } else {
-            nav.style.background = 'rgba(5,8,16,0.92)';
-            nav.style.backdropFilter = 'blur(20px)';
-            nav.style.borderBottomColor = 'rgba(0,0,0,0.06)';
-        }
-    }
-    // Update logo brand text
-    var brand = document.querySelector('.nav-brand span, nav span');
-    if (brand) brand.style.color = isLight ? '#1d1d1f' : '#fff';
-    // Update hamburger menu button
-    var hamburger = document.querySelector('nav button[aria-label="Menu"]');
-    if (hamburger) hamburger.style.color = isLight ? '#1d1d1f' : '#fff';
-    // Update Chart.js chart colors for theme
-    if (typeof Chart !== 'undefined') {
-        var textColor = isLight ? '#3a4a5c' : '#ccc';
-        var gridColor = isLight ? 'rgba(0,0,0,0.08)' : 'rgba(0,0,0,0.06)';
-        var labelColor = isLight ? '#2c3e50' : '#ccc';
-        Chart.defaults.color = textColor;
-        Chart.defaults.borderColor = gridColor;
-        Object.values(Chart.instances || {}).forEach(function(c) {
-            if (!c || !c.options) return;
-            try {
-                if (c.options.scales) {
-                    Object.values(c.options.scales).forEach(function(s) {
-                        if (s.ticks) s.ticks.color = textColor;
-                        if (s.grid) s.grid.color = gridColor;
-                        if (s.title) s.title.color = labelColor;
-                        if (s.angleLines) s.angleLines.color = gridColor;
-                        if (s.pointLabels) s.pointLabels.color = textColor;
-                    });
-                }
-                if (c.options.plugins) {
-                    if (c.options.plugins.legend && c.options.plugins.legend.labels) {
-                        c.options.plugins.legend.labels.color = labelColor;
-                    }
-                    if (c.options.plugins.title) {
-                        c.options.plugins.title.color = labelColor;
-                    }
-                }
-                c.update('none');
-            } catch(e) {}
-        });
-    }
-}
-
-function _updateThemeIcon(isLight) {
-    var btn = document.getElementById('themeToggleBtn');
-    if (btn) {
-        btn.innerHTML = isLight ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
-        btn.title = isLight ? 'Switch to Dark Mode' : 'Switch to Light Mode';
-    }
-}
-
-// Apply saved theme on load (user-controlled only — no OS auto-detection)
-(function() {
-    var saved = localStorage.getItem('s4-theme');
-    // Default to light mode when no preference is saved
-    if (saved !== 'dark') {
-        document.body.classList.add('light-mode');
-        document.body.setAttribute('data-theme', 'light');
-        document.documentElement.setAttribute('data-theme', 'light');
-        _updateThemeIcon(true);
-        // Modules run after DOMContentLoaded, so apply nav colors directly
-        setTimeout(function() {
-            var nav = document.querySelector('nav');
-            if (nav) {
-                nav.style.background = 'rgba(255,255,255,0.92)';
-                nav.style.backdropFilter = 'blur(20px)';
-                nav.style.borderBottomColor = 'rgba(0,0,0,0.06)';
-            }
-            var brand = document.querySelector('.nav-brand span, nav span');
-            if (brand) brand.style.color = '#1d1d1f';
-            var hamburger = document.querySelector('nav button[aria-label="Menu"]');
-            if (hamburger) hamburger.style.color = '#1d1d1f';
-            var navLinks = document.querySelectorAll('#navLinks a:not([style*="background:#00aaff"]):not([style*="background:var(--accent)"])');
-            navLinks.forEach(function(a) {
-                if (a.classList.contains('theme-toggle')) return;
-                a.style.color = a.getAttribute('href') === '/prod-app/' ? '#0077cc' : 'rgba(0,0,0,0.6)';
-            });
-        }, 50);
-    }
-    // Override the inline failsafe with the full version (includes Chart.js)
-    window.toggleTheme = toggleTheme;
-    // NOTE: Do NOT add addEventListener here — the button already has onclick="toggleTheme()"
-    // Adding both causes double-fire: classList.toggle ON then immediately OFF = no visible change
-})();
-
 // ═══════════════════════════════════════════════════════════════
 //  RECORD COMPARISON VIEW (v1.0)
 // ═══════════════════════════════════════════════════════════════
@@ -2857,7 +2740,6 @@ function _updateThemeIcon(isLight) {
         _shortcutRow('Escape', 'Close Overlays & Panels') +
         _shortcutRow('?', 'Show This Help') +
         _shortcutRow('N', 'Notification History') +
-        _shortcutRow('T', 'Toggle Light/Dark Theme') +
         '</div>' +
         '<p style="color:#666;font-size:0.72rem;margin-top:16px;text-align:center">Press <kbd style="background:rgba(0,0,0,0.05);padding:2px 6px;border-radius:8px;font-size:0.7rem">?</kbd> at any time to show this help</p>' +
         '</div>';
@@ -3100,9 +2982,6 @@ function _updateThemeIcon(isLight) {
 
         // N — Notification history (only without modifier keys)
         if (!isMod && (e.key === 'n' || e.key === 'N')) { e.preventDefault(); toggleNotifHistory(); return; }
-
-        // T — Toggle theme (only without modifier keys)
-        if (!isMod && (e.key === 't' || e.key === 'T')) { e.preventDefault(); if (typeof toggleTheme === 'function') toggleTheme(); return; }
 
         // Cmd/Ctrl + 1-6 — Tab switching
         if (isMod && e.key >= '1' && e.key <= '6') {
@@ -3989,7 +3868,6 @@ function _updateThemeIcon(isLight) {
         {label:'Go to Dashboard',icon:'<i class="fas fa-tachometer-alt"></i>',category:'Navigation',action:function(){ if(typeof navigateTo==='function') navigateTo('dashboard'); }},
         {label:'Open Audit Vault',icon:'<i class="fas fa-vault"></i>',category:'Navigation',action:function(){ if(typeof navigateTo==='function') navigateTo('vaultPanel'); }},
         {label:'Start Onboarding Tour',icon:'<i class="fas fa-graduation-cap"></i>',category:'Help',action:function(){ S4.tour.start(); }},
-        {label:'Toggle Dark/Light Mode',icon:'<i class="fas fa-moon"></i>',category:'Settings',shortcut:'Cmd+Shift+D',action:function(){ if(typeof toggleTheme==='function') toggleTheme(); }},
         {label:'Export Vault as JSON',icon:'<i class="fas fa-download"></i>',category:'Data',action:function(){ if(typeof window.s4Vault!=='undefined') S4.vaultIO.exportJSON(s4Vault); }},
         {label:'Export Vault as CSV',icon:'<i class="fas fa-file-csv"></i>',category:'Data',action:function(){ if(typeof window.s4Vault!=='undefined') S4.vaultIO.exportCSV(s4Vault); }},
         {label:'Export Vault as PDF',icon:'<i class="fas fa-file-pdf"></i>',category:'Data',action:function(){ if(typeof window.s4Vault!=='undefined'){ var txt=s4Vault.map(function(r){return r.name+': '+r.hash}).join('\n'); S4.exportPDF('Audit Vault Report',txt); }}},
@@ -4218,44 +4096,15 @@ function _updateThemeIcon(isLight) {
 (function() {
     'use strict';
 
-    // ── 1. Theme Customization Engine ──
+    // ── 1. Theme Customization Engine (light mode only) ──
     S4.themeEngine = {
-        _presets: {
-            'default-dark': {accent:'#00aaff',bg:'#1d1d1f',bgSecondary:'#2d2d2f',text:'#f5f5f7',border:'#333'},
-            'midnight-blue': {accent:'#4a9eff',bg:'#0f1923',bgSecondary:'#1a2a3a',text:'#e0e8f0',border:'#2a3a4a'},
-            'military-green': {accent:'#7cb342',bg:'#1a1f14',bgSecondary:'#2a3024',text:'#e0e8d0',border:'#3a4034'},
-            'high-contrast': {accent:'#ffff00',bg:'#000000',bgSecondary:'#1a1a1a',text:'#ffffff',border:'#666'},
-            'warm-amber': {accent:'#c9a84c',bg:'#1f1a14',bgSecondary:'#2f2a24',text:'#f0e8d8',border:'#4a3f34'}
-        },
-        _custom: (function(){ try { return JSON.parse(localStorage.getItem('s4_custom_theme') || 'null'); } catch(_e) { return null; } })(),
-        getPresets: function() { return Object.keys(this._presets); },
-        apply: function(presetOrCustom) {
-            var theme = typeof presetOrCustom === 'string' ? this._presets[presetOrCustom] : presetOrCustom;
-            if (!theme) return;
-            var root = document.documentElement;
-            if (theme.accent) root.style.setProperty('--accent', theme.accent);
-            if (theme.bg) root.style.setProperty('--bg-primary', theme.bg);
-            if (theme.bgSecondary) root.style.setProperty('--bg-secondary', theme.bgSecondary);
-            if (theme.text) root.style.setProperty('--text-primary', theme.text);
-            if (theme.border) root.style.setProperty('--border-primary', theme.border);
-            this._custom = theme;
-            try { localStorage.setItem('s4_custom_theme', JSON.stringify(theme)); } catch(e) {}
-            if (S4.toast) S4.toast('Theme applied', 'success', 2000);
-        },
-        reset: function() {
-            var root = document.documentElement;
-            ['--accent','--bg-primary','--bg-secondary','--text-primary','--border-primary'].forEach(function(p) {
-                root.style.removeProperty(p);
-            });
-            this._custom = null;
-            try { localStorage.removeItem('s4_custom_theme'); } catch(e) {}
-        },
-        restore: function() {
-            if (this._custom) this.apply(this._custom);
-        }
+        _presets: {},
+        _custom: null,
+        getPresets: function() { return []; },
+        apply: function() {},
+        reset: function() {},
+        restore: function() {}
     };
-    // Restore custom theme on load
-    S4.themeEngine.restore();
 
     // ── 2. Drag-and-Drop Reorder System ──
     S4.dragDrop = {
@@ -7395,7 +7244,6 @@ window.runCdrlValidation = runCdrlValidation;
 window.runContractExtraction = runContractExtraction;
 window.runGfpInventory = runGfpInventory;
 window.showDigitalThreadFromSelect = showDigitalThreadFromSelect;
-window.toggleTheme = toggleTheme;
 window.verifyProvenanceChain = verifyProvenanceChain;
 
 // ═══════════════════════════════════════════════════════
@@ -7424,11 +7272,14 @@ window.verifyProvenanceChain = verifyProvenanceChain;
         var tiers = { pilot:100, starter:25000, professional:100000, enterprise:500000 };
         window._s4TierAllocation = tiers[tier] || 25000;
         localStorage.setItem('s4_tier_allocation', String(window._s4TierAllocation));
-        if (typeof window._updateSlsBalance === 'function') window._updateSlsBalance();
-        if (typeof window.showRoleSelector === 'function') window.showRoleSelector();
-        if (typeof _s4ReleaseFocusTrap === 'function') _s4ReleaseFocusTrap();
+        try { if (typeof window._updateSlsBalance === 'function') window._updateSlsBalance(); } catch(e) {}
+        try { if (typeof _s4ReleaseFocusTrap === 'function') _s4ReleaseFocusTrap(); } catch(e) {}
         // Show report toggle now that user is inside the platform
-        if (typeof _showReportToggle === 'function') _showReportToggle();
+        try { if (typeof _showReportToggle === 'function') _showReportToggle(); } catch(e) {}
+        // Show role selector after a tick so welcome fully hides first
+        setTimeout(function() {
+            try { if (typeof window.showRoleSelector === 'function') window.showRoleSelector(); } catch(e) {}
+        }, 100);
     };
 
     window._s4StartChain = function(chainKey) {
@@ -8130,51 +7981,6 @@ window.verifyProvenanceChain = verifyProvenanceChain;
         }
     }
 
-    // ─── CHANGE 10: Dark Mode Toggle ───
-    window._s4ToggleDark = function() {
-        var html = document.documentElement;
-        var body = document.body;
-        var isDark = html.getAttribute('data-theme') === 'dark';
-
-        if (isDark) {
-            // Switch to light
-            html.setAttribute('data-theme', 'light');
-            body.setAttribute('data-theme', 'light');
-            body.classList.remove('dark-mode');
-            body.classList.add('light-mode');
-            localStorage.setItem('s4-theme', 'light');
-        } else {
-            // Switch to dark
-            html.setAttribute('data-theme', 'dark');
-            body.setAttribute('data-theme', 'dark');
-            body.classList.remove('light-mode');
-            body.classList.add('dark-mode');
-            localStorage.setItem('s4-theme', 'dark');
-        }
-
-        // Update toggle icon
-        var btn = document.getElementById('s4DarkToggle');
-        if (btn) {
-            var icon = btn.querySelector('i');
-            if (icon) icon.className = 'fas ' + (isDark ? 'fa-moon' : 'fa-sun');
-        }
-
-        // Update Chart.js defaults
-        if (typeof Chart !== 'undefined') {
-            Chart.defaults.color = isDark ? '#333' : '#a0a0c0';
-            Chart.defaults.borderColor = isDark ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.06)';
-        }
-    };
-
-    function _initDarkMode() {
-        var stored = localStorage.getItem('s4-theme');
-        var btn = document.getElementById('s4DarkToggle');
-        if (btn) {
-            var icon = btn.querySelector('i');
-            if (icon) icon.className = 'fas ' + (stored === 'dark' ? 'fa-sun' : 'fa-moon');
-        }
-    }
-
     // ─── Boot all Round 2 features ───
     function _bootRound2() {
         _loadTodayChain();
@@ -8185,7 +7991,6 @@ window.verifyProvenanceChain = verifyProvenanceChain;
         _hookRunButtons();
         _hookChainProgress();
         _initShortcuts();
-        _initDarkMode();
     }
 
     if (document.readyState === 'loading') {

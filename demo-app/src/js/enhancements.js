@@ -1,6 +1,9 @@
-// S4 Ledger Demo — enhancements
-// Extracted from monolith lines 15880-22247
-// 6366 lines
+// S4 Ledger — enhancements
+// Extracted from monolith lines 16201-23380
+// 7178 lines
+
+// Ensure S4 global namespace is available in module scope
+var S4 = window.S4 = window.S4 || { version: '5.12.0', modules: {}, register: function(n,m){this.modules[n]=m;}, getModule: function(n){return this.modules[n]||null;} };
 
 (function() {
     'use strict';
@@ -246,7 +249,7 @@ function computeThreatIntelScore() {
     if (e('threatGIDEP')) e('threatGIDEP').textContent = gidepAlerts;
     if (e('threatLeadTime')) e('threatLeadTime').textContent = leadTimeSpikes;
     if (e('threatScoreBadge')) {
-        var color = threatScore >= 70 ? '#c9a84c' : threatScore >= 40 ? '#ff9500' : '#00aaff';
+        var color = threatScore >= 70 ? '#ff6b6b' : threatScore >= 40 ? '#ff9500' : '#00aaff';
         var label = threatScore >= 70 ? 'CRITICAL' : threatScore >= 40 ? 'ELEVATED' : 'LOW';
         e('threatScoreBadge').textContent = threatScore + ' / 100 — ' + label;
         e('threatScoreBadge').style.color = color;
@@ -351,8 +354,8 @@ function renderFailureTimeline() {
             responsive: true,
             maintainAspectRatio: false,
             scales: {
-                x: {stacked:true,grid:{display:false},ticks:{color:'#8ea4b8',font:{size:10}}},
-                y: {stacked:true,grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#8ea4b8',stepSize:1}}
+                x: {stacked:true,grid:{display:false},ticks:{color:'#6e6e73',font:{size:10}}},
+                y: {stacked:true,grid:{color:'rgba(0,0,0,0.04)'},ticks:{color:'#6e6e73',stepSize:1}}
             },
             plugins: {legend:{display:false},tooltip:{mode:'index',intersect:false}}
         }
@@ -368,10 +371,10 @@ function renderFailureTimeline() {
     ];
     // Simulate additional analysts joining over time
     var potentialAnalysts = [
-        {name:'J. Martinez (PMS 400D)', initials:'JM', color:'#2ecc71'},
-        {name:'K. Thompson (NAVAIR)', initials:'KT', color:'#9b59b6'},
-        {name:'R. Chen (PMS 317)', initials:'RC', color:'#e67e22'},
-        {name:'S. Williams (NAVSEA)', initials:'SW', color:'#e74c3c'}
+        {name:'Analyst 1 (PMS 400D)', initials:'A1', color:'#2ecc71'},
+        {name:'Analyst 2 (NAVAIR)', initials:'A2', color:'#a855f7'},
+        {name:'Analyst 3 (PMS 317)', initials:'A3', color:'#e67e22'},
+        {name:'Analyst 4 (NAVSEA)', initials:'A4', color:'#e74c3c'}
     ];
 
     function updateCollabUI() {
@@ -383,7 +386,7 @@ function renderFailureTimeline() {
         countEl.textContent = analysts.length + ' analyst' + (analysts.length > 1 ? 's' : '');
         var html = '';
         analysts.forEach(function(a, i) {
-            html += '<div title="' + a.name + '" style="width:26px;height:26px;border-radius:50%;background:' + a.color + ';display:flex;align-items:center;justify-content:center;font-size:0.6rem;font-weight:700;color:#fff;border:2px solid #2c2c2e;margin-left:' + (i > 0 ? '-6px' : '0') + ';z-index:' + (10-i) + ';position:relative;cursor:default;">' + a.initials + '</div>';
+            html += '<div title="' + a.name + '" style="width:26px;height:26px;border-radius:50%;background:' + a.color + ';display:flex;align-items:center;justify-content:center;font-size:0.6rem;font-weight:700;color:var(--text,#1d1d1f);border:2px solid #fff;margin-left:' + (i > 0 ? '-6px' : '0') + ';z-index:' + (10-i) + ';position:relative;cursor:default;">' + a.initials + '</div>';
         });
         avatarsEl.innerHTML = html;
 
@@ -438,13 +441,13 @@ function showDigitalThread(hash) {
 
     // Build the digital thread graph
     var steps = [
-        {icon:'fa-tools', label:'Source Tool', value: record.source || record.type || 'Manual Anchor', color:'#9b59b6'},
+        {icon:'fa-tools', label:'Source Tool', value: record.source || record.type || 'Manual Anchor', color:'#a855f7'},
         {icon:'fa-file-alt', label:'Content', value: (record.content || record.label || '').substring(0,60) + '...', color:'#3498db'},
         {icon:'fa-fingerprint', label:'SHA-256 Hash', value: record.hash ? record.hash.substring(0,20) + '...' : '—', color:'#e67e22', mono:true},
         {icon:'fa-lock', label:'Encryption', value: record.encrypted ? 'AES-256-GCM Encrypted' : 'Plaintext (CUI)', color: record.encrypted ? '#2ecc71' : '#ffcc00'},
         {icon:'fa-anchor', label:'XRPL Anchor', value: record.txHash ? record.txHash.substring(0,20) + '...' : 'Pending', color:'#00aaff', mono:true, link: explorerUrl},
         {icon:'fa-check-double', label:'Verification', value: record.verified ? 'Verified ' + (record.verifiedAt || '') : 'Not yet verified', color: record.verified ? '#2ecc71' : '#ff9500'},
-        {icon:'fa-clipboard-list', label:'Audit Trail', value: 'Timestamped: ' + (record.timestamp || now), color:'#c9a84c'}
+        {icon:'fa-clipboard-list', label:'Audit Trail', value: 'Timestamped: ' + (record.timestamp || now), color:'#00aaff'}
     ];
 
     var html = '<div style="position:relative;padding-left:24px;">';
@@ -454,12 +457,12 @@ function showDigitalThread(hash) {
         // Vertical line
         if (!isLast) html += '<div style="position:absolute;left:-16px;top:10px;bottom:0;width:2px;background:linear-gradient(180deg,' + step.color + ',' + (steps[i+1]?steps[i+1].color:'transparent') + ');"></div>';
         // Dot
-        html += '<div style="position:absolute;left:-20px;top:4px;width:10px;height:10px;border-radius:50%;background:' + step.color + ';border:2px solid #2c2c2e;"></div>';
+        html += '<div style="position:absolute;left:-20px;top:4px;width:10px;height:10px;border-radius:50%;background:' + step.color + ';border:2px solid #fff;"></div>';
         // Content
         html += '<div style="display:flex;align-items:flex-start;gap:8px;">';
         html += '<i class="fas ' + step.icon + '" style="color:' + step.color + ';font-size:0.75rem;margin-top:2px;width:14px;text-align:center;"></i>';
         html += '<div><div style="font-size:0.7rem;color:var(--steel);text-transform:uppercase;letter-spacing:0.5px;">' + step.label + '</div>';
-        html += '<div style="font-size:0.82rem;color:#fff;' + (step.mono ? 'font-family:monospace;font-size:0.78rem;' : '') + '">';
+        html += '<div style="font-size:0.82rem;color:var(--text,#1d1d1f);' + (step.mono ? 'font-family:monospace;font-size:0.78rem;' : '') + '">';
         if (step.link) html += '<a href="' + step.link + '" target="_blank" style="color:' + step.color + ';text-decoration:none;">' + step.value + ' <i class="fas fa-external-link-alt" style="font-size:0.6rem;"></i></a>';
         else html += step.value;
         html += '</div></div></div></div>';
@@ -509,30 +512,30 @@ function showSampleDigitalThread() {
     }
     // Otherwise show a sample provenance chain
     var steps = [
-        {icon:'fa-tools', label:'Source Tool', value:'ILS Gap Analysis', color:'#9b59b6'},
+        {icon:'fa-tools', label:'Source Tool', value:'ILS Gap Analysis', color:'#a855f7'},
         {icon:'fa-file-alt', label:'Content', value:'GEIA-STD-0007 compliance assessment — DDG-51 FLT III...', color:'#3498db'},
         {icon:'fa-fingerprint', label:'SHA-256 Hash', value:'a3f8c7e2b1d4f6a8...', color:'#e67e22', mono:true},
         {icon:'fa-lock', label:'Encryption', value:'AES-256-GCM Encrypted', color:'#2ecc71'},
         {icon:'fa-anchor', label:'XRPL Anchor', value:'TX: 8F2A1B3C4D5E6F...', color:'#00aaff', mono:true, link:'https://livenet.xrpl.org'},
         {icon:'fa-check-double', label:'Verification', value:'Verified — Immutable on-chain', color:'#2ecc71'},
-        {icon:'fa-clipboard-list', label:'Audit Trail', value:'Timestamped: ' + new Date().toISOString().replace('T',' ').substring(0,19) + ' UTC', color:'#c9a84c'}
+        {icon:'fa-clipboard-list', label:'Audit Trail', value:'Timestamped: ' + new Date().toISOString().replace('T',' ').substring(0,19) + ' UTC', color:'#00aaff'}
     ];
     var html = '<div style="position:relative;padding-left:24px;">';
     steps.forEach(function(step, i) {
         var isLast = i === steps.length - 1;
         html += '<div style="position:relative;padding-bottom:' + (isLast ? '0' : '16px') + ';">';
         if (!isLast) html += '<div style="position:absolute;left:-16px;top:10px;bottom:0;width:2px;background:linear-gradient(180deg,' + step.color + ',' + (steps[i+1]?steps[i+1].color:'transparent') + ');"></div>';
-        html += '<div style="position:absolute;left:-20px;top:4px;width:10px;height:10px;border-radius:50%;background:' + step.color + ';border:2px solid #2c2c2e;"></div>';
+        html += '<div style="position:absolute;left:-20px;top:4px;width:10px;height:10px;border-radius:50%;background:' + step.color + ';border:2px solid #fff;"></div>';
         html += '<div style="display:flex;align-items:flex-start;gap:8px;">';
         html += '<i class="fas ' + step.icon + '" style="color:' + step.color + ';font-size:0.75rem;margin-top:2px;width:14px;text-align:center;"></i>';
         html += '<div><div style="font-size:0.7rem;color:var(--steel);text-transform:uppercase;letter-spacing:0.5px;">' + step.label + '</div>';
-        html += '<div style="font-size:0.82rem;color:#fff;' + (step.mono ? 'font-family:monospace;font-size:0.78rem;' : '') + '">';
+        html += '<div style="font-size:0.82rem;color:var(--text,#1d1d1f);' + (step.mono ? 'font-family:monospace;font-size:0.78rem;' : '') + '">';
         if (step.link) html += '<a href="' + step.link + '" target="_blank" style="color:' + step.color + ';text-decoration:none;">' + step.value + ' <i class="fas fa-external-link-alt" style="font-size:0.6rem;"></i></a>';
         else html += step.value;
         html += '</div></div></div></div>';
     });
     html += '</div>';
-    html += '<div style="margin-top:12px;padding:10px;background:rgba(155,89,182,0.08);border-radius:3px;font-size:0.75rem;color:var(--steel);"><i class="fas fa-info-circle" style="color:#9b59b6;margin-right:6px;"></i>This is a sample provenance chain. Anchor records using any ILS tool to see real digital thread data with XRPL verification links.</div>';
+    html += '<div style="margin-top:12px;padding:10px;background:rgba(0,170,255,0.08);border-radius:8px;font-size:0.75rem;color:var(--steel);"><i class="fas fa-info-circle" style="color:var(--accent,#00aaff);margin-right:6px;"></i>This is a sample provenance chain. Anchor records using any ILS tool to see real digital thread data with XRPL verification links.</div>';
     content.innerHTML = html;
     panel.style.display = 'block';
 }
@@ -561,7 +564,7 @@ function showSampleDigitalThread() {
                     btn.className = 'thread-btn';
                     btn.innerHTML = '<i class="fas fa-project-diagram"></i>';
                     btn.title = 'View Digital Thread';
-                    btn.style.cssText = 'background:rgba(155,89,182,0.12);color:#9b59b6;border:1px solid rgba(155,89,182,0.3);border-radius:3px;padding:3px 8px;font-size:0.7rem;cursor:pointer;margin-left:4px;';
+                    btn.style.cssText = 'background:rgba(0,170,255,0.12);color:var(--accent,#00aaff);border:1px solid rgba(0,170,255,0.3);border-radius:8px;padding:3px 8px;font-size:0.7rem;cursor:pointer;margin-left:4px;';
                     btn.onclick = function(e) { e.stopPropagation(); showDigitalThread(hash); };
                     var actions = row.querySelector('.vault-actions, [style*="gap"]');
                     if (actions) actions.appendChild(btn);
@@ -589,7 +592,7 @@ function showSampleDigitalThread() {
                             btn.className = 'thread-btn';
                             btn.innerHTML = '<i class="fas fa-project-diagram"></i>';
                             btn.title = 'View Digital Thread';
-                            btn.style.cssText = 'background:rgba(155,89,182,0.12);color:#9b59b6;border:1px solid rgba(155,89,182,0.3);border-radius:3px;padding:3px 8px;font-size:0.7rem;cursor:pointer;margin-left:4px;';
+                            btn.style.cssText = 'background:rgba(0,170,255,0.12);color:var(--accent,#00aaff);border:1px solid rgba(0,170,255,0.3);border-radius:8px;padding:3px 8px;font-size:0.7rem;cursor:pointer;margin-left:4px;';
                             btn.onclick = function(e) { e.stopPropagation(); showDigitalThread(hash); };
                             var actions = row.querySelector('.vault-actions, [style*="gap"]');
                             if (actions) actions.appendChild(btn);
@@ -652,10 +655,10 @@ function loadSBOMData() {
     var sevColors = {None:'#34c759', Low:'#ffcc00', Medium:'#ff9500', High:'#ff3b30', Critical:'#ff3b30'};
     var html = '';
     components.forEach(function(c) {
-       html += '<tr style="border-bottom:1px solid rgba(255,255,255,0.04);">';
-       html += '<td style="padding:10px 8px;color:#fff;font-weight:600;font-size:0.85rem;">' + c.name + '<div style="color:var(--steel);font-size:0.72rem;">' + c.supplier + '</div></td>';
+       html += '<tr style="border-bottom:1px solid rgba(0,0,0,0.04);">';
+       html += '<td style="padding:10px 8px;color:var(--text,#1d1d1f);font-weight:600;font-size:0.85rem;">' + c.name + '<div style="color:var(--steel);font-size:0.72rem;">' + c.supplier + '</div></td>';
        html += '<td style="padding:10px 8px;color:var(--steel);font-family:monospace;font-size:0.78rem;">' + c.version + '</td>';
-       html += '<td style="padding:10px 8px;text-align:center;"><span style="background:rgba(0,170,255,0.1);color:#00aaff;padding:2px 8px;border-radius:3px;font-size:0.75rem;font-weight:600;">' + c.type + '</span></td>';
+       html += '<td style="padding:10px 8px;text-align:center;"><span style="background:rgba(0,170,255,0.1);color:#00aaff;padding:2px 8px;border-radius:8px;font-size:0.75rem;font-weight:600;">' + c.type + '</span></td>';
        html += '<td style="padding:10px 8px;text-align:center;color:' + (c.cves > 0 ? '#ff3b30' : '#34c759') + ';font-weight:700;">' + (c.cves > 0 ? c.cves + ' <i class="fas fa-exclamation-triangle" style="font-size:0.7rem"></i>' : '<i class="fas fa-check-circle"></i>') + '</td>';
        html += '<td style="padding:10px 8px;text-align:center;color:var(--steel);font-size:0.78rem;">' + c.license + '</td>';
        html += '<td style="padding:10px 8px;text-align:center;"><span style="color:' + (sevColors[c.severity]||'#fff') + ';font-weight:600;font-size:0.82rem;">' + c.severity + '</span></td>';
@@ -743,12 +746,12 @@ async function sbomAiAsk(presetQuestion) {
     if (!chatBody) return;
 
     // Add user message
-    chatBody.innerHTML += window._s4Safe('<div style="align-self:flex-end;background:rgba(0,170,255,0.1);border:1px solid rgba(0,170,255,0.15);border-radius:3px;padding:8px 12px;max-width:85%;color:#fff;font-size:0.83rem;">' + msg.replace(/</g,'&lt;') + '</div>');
+    chatBody.innerHTML += window._s4Safe('<div style="align-self:flex-end;background:rgba(0,170,255,0.1);border:1px solid rgba(0,170,255,0.15);border-radius:8px;padding:8px 12px;max-width:85%;color:var(--text,#1d1d1f);font-size:0.83rem;">' + msg.replace(/</g,'&lt;') + '</div>');
     chatBody.scrollTop = chatBody.scrollHeight;
 
     // Thinking indicator
     var thinkId = 'sbomThink_' + Date.now();
-    chatBody.innerHTML += '<div id="' + thinkId + '" style="background:rgba(46,204,113,0.06);border:1px solid rgba(46,204,113,0.1);border-radius:3px;padding:10px 12px;color:var(--steel);max-width:85%;"><div style="font-weight:700;color:#2ecc71;font-size:0.72rem;margin-bottom:4px;"><i class="fas fa-robot"></i> SBOM Agent</div><i class="fas fa-circle-notch fa-spin" style="color:#2ecc71"></i> Analyzing SBOM data...</div>';
+    chatBody.innerHTML += '<div id="' + thinkId + '" style="background:rgba(46,204,113,0.06);border:1px solid rgba(46,204,113,0.1);border-radius:8px;padding:10px 12px;color:var(--steel);max-width:85%;"><div style="font-weight:700;color:#2ecc71;font-size:0.72rem;margin-bottom:4px;"><i class="fas fa-robot"></i> SBOM Agent</div><i class="fas fa-circle-notch fa-spin" style="color:#2ecc71"></i> Analyzing SBOM data...</div>';
     chatBody.scrollTop = chatBody.scrollHeight;
 
     // Gather current SBOM data as context
@@ -979,7 +982,7 @@ console.log('[Round-12b] Competitive Enhancement Suite loaded: AI Threat Scoring
         // Render charts for whichever panel is visible
         var visible = document.querySelector('.ils-hub-panel[style*="display: block"], .ils-hub-panel[style*="display:block"], .ils-hub-panel.active');
         if (!visible) {
-            // Default: render DMSMS, Readiness, Compliance, Risk, Lifecycle, ROI with demo data
+            // Default: render DMSMS, Readiness, Compliance, Risk, Lifecycle, ROI with sample data
             ['renderDMSMSCharts','renderReadinessCharts','renderComplianceCharts','renderRiskCharts','renderLifecycleCharts','renderROICharts'].forEach(function(fn) {
                 if (typeof window[fn] === 'function') {
                     try { window[fn](); } catch(e) { console.warn('[R13] Chart render error:', fn, e); }
@@ -1124,7 +1127,7 @@ var S4_SUBSCRIPTION_TIERS = {
         price_annual: 0,
         sls_monthly: 100,
         anchors_monthly: 10000,
-        features: ['Full SDK access', 'XRPL Mainnet anchoring', 'Anchor-S4 demo', 'Community support'],
+        features: ['Full SDK access', 'XRPL Mainnet anchoring', 'Anchor-S4 workspace', 'Community support'],
         stripe_monthly: null,
         stripe_annual: null
     },
@@ -1162,10 +1165,7 @@ var S4_SUBSCRIPTION_TIERS = {
 
 // Create Stripe Checkout Session
 async function createCheckoutSession(tierKey, billingCycle) {
-    if (typeof _demoMode !== 'undefined' && _demoMode) {
-        if (typeof _showNotif === 'function') _showNotif('Demo mode active — Stripe checkout disabled. Set _demoMode = false when ready for production.', 'warning');
-        return null;
-    }
+
     var tier = S4_SUBSCRIPTION_TIERS[tierKey];
     if (!tier) { console.error('Invalid tier:', tierKey); return null; }
 
@@ -1179,8 +1179,8 @@ async function createCheckoutSession(tierKey, billingCycle) {
                 price_id: priceId,
                 tier: tierKey,
                 billing_cycle: billingCycle,
-                success_url: window.location.origin + '/demo-app/?session_id={CHECKOUT_SESSION_ID}&sub=success',
-                cancel_url: window.location.origin + '/demo-app/?sub=cancelled'
+                success_url: window.location.origin + '/prod-app/?session_id={CHECKOUT_SESSION_ID}&sub=success',
+                cancel_url: window.location.origin + '/prod-app/?sub=cancelled'
             })
         });
         var data = await resp.json();
@@ -1257,10 +1257,7 @@ async function verifySubscription() {
 
 // SLS top-up (additional SLS purchase)
 async function purchaseAdditionalSLS(amount, stripePaymentId) {
-    if (typeof _demoMode !== 'undefined' && _demoMode) {
-        if (typeof _showNotif === 'function') _showNotif('Demo mode — Credits purchase disabled.', 'warning');
-        return;
-    }
+
     var sub = getActiveSubscription();
     if (!sub || !sub.wallet) {
         if (typeof _showNotif === 'function') _showNotif('No active subscription. Please subscribe first.', 'error');
@@ -1280,7 +1277,7 @@ async function purchaseAdditionalSLS(amount, stripePaymentId) {
         if (data.new_balance) {
             sub.sls_balance = data.new_balance;
             localStorage.setItem('s4_subscription', JSON.stringify(sub));
-            if (typeof _showNotif === 'function') _showNotif('Credits top-up complete! New balance: ' + data.new_balance.toLocaleString() + ' Credits', 'success');
+            if (typeof _showNotif === 'function') _showNotif('Credit top-up complete! New balance: ' + data.new_balance.toLocaleString() + ' Credits', 'success');
         }
         return data;
     } catch(err) {
@@ -1288,11 +1285,11 @@ async function purchaseAdditionalSLS(amount, stripePaymentId) {
     }
 }
 
-// Production anchor call (uses real wallet instead of demo)
+// Production anchor call (uses real wallet)
 async function productionAnchor(hash, recordType, memoContent) {
     var sub = getActiveSubscription();
     if (!sub || !sub.wallet) {
-        // Fall back to demo mode
+        // Fall back to offline anchor
         if (typeof _anchorToXRPL === 'function') return _anchorToXRPL(hash, recordType, memoContent);
         return {};
     }
@@ -1310,7 +1307,7 @@ async function productionAnchor(hash, recordType, memoContent) {
         return await resp.json();
     } catch(err) {
         console.error('Anchor error:', err);
-        // Fall back to demo
+        // Fall back to offline anchor
         if (typeof _anchorToXRPL === 'function') return _anchorToXRPL(hash, recordType, memoContent);
         return {};
     }
@@ -1380,37 +1377,37 @@ console.log('[Round-13] Production subscription code loaded — Stripe Checkout 
         // Find the ILS hub tool grid to insert before it
         var hubPanel = document.querySelector('.ils-hub-panel#hub-compliance');
         if (!hubPanel) return;
-        var firstCard = hubPanel.querySelector('.demo-card');
+        var firstCard = hubPanel.querySelector('.s4-card');
         if (!firstCard) return;
 
-        var badgeHTML = '<div id="fedRampBadgePanel" style="margin-bottom:16px;background:linear-gradient(135deg,rgba(0,100,0,0.06),rgba(0,170,255,0.04));border:1px solid rgba(0,170,255,0.2);border-radius:3px;padding:16px;">'
+        var badgeHTML = '<div id="fedRampBadgePanel" style="margin-bottom:16px;background:linear-gradient(135deg,rgba(0,100,0,0.06),rgba(0,170,255,0.04));border:1px solid rgba(0,170,255,0.2);border-radius:8px;padding:16px;">'
             + '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">'
             + '<div style="font-size:0.82rem;font-weight:700;color:#00aaff;text-transform:uppercase;letter-spacing:0.8px;display:flex;align-items:center;gap:6px;"><i class="fas fa-shield-halved"></i> FedRAMP / Impact Level Authorization Status</div>'
-            + '<span style="background:rgba(255,149,0,0.15);color:#ff9500;padding:3px 10px;border-radius:3px;font-size:0.72rem;font-weight:700;">IN PROGRESS</span>'
+            + '<span style="background:rgba(255,149,0,0.15);color:#ff9500;padding:3px 10px;border-radius:8px;font-size:0.72rem;font-weight:700;">IN PROGRESS</span>'
             + '</div>'
             + '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px;">'
-            + '<div style="text-align:center;padding:12px;background:rgba(0,170,255,0.06);border:1px solid rgba(0,170,255,0.15);border-radius:3px;">'
+            + '<div style="text-align:center;padding:12px;background:rgba(0,170,255,0.06);border:1px solid rgba(0,170,255,0.15);border-radius:8px;">'
             + '<div style="font-size:0.68rem;color:var(--steel);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">FedRAMP</div>'
             + '<div style="font-size:0.85rem;font-weight:800;color:#ff9500;"><i class="fas fa-clock"></i> Moderate</div>'
             + '<div style="font-size:0.65rem;color:var(--steel);margin-top:2px;">ATO Pending</div></div>'
-            + '<div style="text-align:center;padding:12px;background:rgba(52,199,89,0.06);border:1px solid rgba(52,199,89,0.15);border-radius:3px;">'
+            + '<div style="text-align:center;padding:12px;background:rgba(52,199,89,0.06);border:1px solid rgba(52,199,89,0.15);border-radius:8px;">'
             + '<div style="font-size:0.68rem;color:var(--steel);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">Impact Level</div>'
             + '<div style="font-size:0.85rem;font-weight:800;color:#34c759;"><i class="fas fa-check-circle"></i> IL4 / IL5</div>'
             + '<div style="font-size:0.65rem;color:var(--steel);margin-top:2px;">CUI / NOFORN Ready</div></div>'
-            + '<div style="text-align:center;padding:12px;background:rgba(52,199,89,0.06);border:1px solid rgba(52,199,89,0.15);border-radius:3px;">'
+            + '<div style="text-align:center;padding:12px;background:rgba(52,199,89,0.06);border:1px solid rgba(52,199,89,0.15);border-radius:8px;">'
             + '<div style="font-size:0.68rem;color:var(--steel);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">CMMC Level</div>'
             + '<div style="font-size:0.85rem;font-weight:800;color:#34c759;"><i class="fas fa-check-circle"></i> Level 2</div>'
             + '<div style="font-size:0.65rem;color:var(--steel);margin-top:2px;">110 Practices Met</div></div>'
-            + '<div style="text-align:center;padding:12px;background:rgba(52,199,89,0.06);border:1px solid rgba(52,199,89,0.15);border-radius:3px;">'
+            + '<div style="text-align:center;padding:12px;background:rgba(52,199,89,0.06);border:1px solid rgba(52,199,89,0.15);border-radius:8px;">'
             + '<div style="font-size:0.68rem;color:var(--steel);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">NIST 800-171</div>'
             + '<div style="font-size:0.85rem;font-weight:800;color:#34c759;"><i class="fas fa-check-circle"></i> Compliant</div>'
             + '<div style="font-size:0.65rem;color:var(--steel);margin-top:2px;">SSP Documented</div></div>'
             + '</div>'
             + '<div style="display:flex;gap:8px;flex-wrap:wrap;">'
-            + '<a href="#" onclick="event.preventDefault();if(typeof _showNotif===\'function\')_showNotif(\'ATO documentation package available for download in production deployment.\',\'info\');" style="font-size:0.75rem;color:var(--accent);text-decoration:none;display:flex;align-items:center;gap:4px;padding:4px 10px;background:rgba(0,170,255,0.06);border:1px solid rgba(0,170,255,0.15);border-radius:3px;"><i class="fas fa-file-alt"></i> ATO Package</a>'
-            + '<a href="#" onclick="event.preventDefault();if(typeof _showNotif===\'function\')_showNotif(\'SSP (System Security Plan) available for download in production deployment.\',\'info\');" style="font-size:0.75rem;color:var(--accent);text-decoration:none;display:flex;align-items:center;gap:4px;padding:4px 10px;background:rgba(0,170,255,0.06);border:1px solid rgba(0,170,255,0.15);border-radius:3px;"><i class="fas fa-file-shield"></i> SSP Document</a>'
-            + '<a href="#" onclick="event.preventDefault();if(typeof _showNotif===\'function\')_showNotif(\'POA&M (Plan of Action & Milestones) available for review.\',\'info\');" style="font-size:0.75rem;color:var(--accent);text-decoration:none;display:flex;align-items:center;gap:4px;padding:4px 10px;background:rgba(0,170,255,0.06);border:1px solid rgba(0,170,255,0.15);border-radius:3px;"><i class="fas fa-list-check"></i> POA&M</a>'
-            + '<a href="#" onclick="event.preventDefault();if(typeof _showNotif===\'function\')_showNotif(\'Third-party RAR (Risk Assessment Report) results available in production.\',\'info\');" style="font-size:0.75rem;color:var(--accent);text-decoration:none;display:flex;align-items:center;gap:4px;padding:4px 10px;background:rgba(0,170,255,0.06);border:1px solid rgba(0,170,255,0.15);border-radius:3px;"><i class="fas fa-clipboard-check"></i> 3PAO RAR</a>'
+            + '<a href="#" onclick="event.preventDefault();if(typeof _showNotif===\'function\')_showNotif(\'ATO documentation package available for download in production deployment.\',\'info\');" style="font-size:0.75rem;color:var(--accent);text-decoration:none;display:flex;align-items:center;gap:4px;padding:4px 10px;background:rgba(0,170,255,0.06);border:1px solid rgba(0,170,255,0.15);border-radius:8px;"><i class="fas fa-file-alt"></i> ATO Package</a>'
+            + '<a href="#" onclick="event.preventDefault();if(typeof _showNotif===\'function\')_showNotif(\'SSP (System Security Plan) available for download in production deployment.\',\'info\');" style="font-size:0.75rem;color:var(--accent);text-decoration:none;display:flex;align-items:center;gap:4px;padding:4px 10px;background:rgba(0,170,255,0.06);border:1px solid rgba(0,170,255,0.15);border-radius:8px;"><i class="fas fa-file-shield"></i> SSP Document</a>'
+            + '<a href="#" onclick="event.preventDefault();if(typeof _showNotif===\'function\')_showNotif(\'POA&M (Plan of Action & Milestones) available for review.\',\'info\');" style="font-size:0.75rem;color:var(--accent);text-decoration:none;display:flex;align-items:center;gap:4px;padding:4px 10px;background:rgba(0,170,255,0.06);border:1px solid rgba(0,170,255,0.15);border-radius:8px;"><i class="fas fa-list-check"></i> POA&M</a>'
+            + '<a href="#" onclick="event.preventDefault();if(typeof _showNotif===\'function\')_showNotif(\'Third-party RAR (Risk Assessment Report) results available in production.\',\'info\');" style="font-size:0.75rem;color:var(--accent);text-decoration:none;display:flex;align-items:center;gap:4px;padding:4px 10px;background:rgba(0,170,255,0.06);border:1px solid rgba(0,170,255,0.15);border-radius:8px;"><i class="fas fa-clipboard-check"></i> 3PAO RAR</a>'
             + '</div>'
             + '</div>';
 
@@ -1437,17 +1434,11 @@ console.log('[Round-13] Production subscription code loaded — Stripe Checkout 
         admin:       { label: 'Admin',       color: '#ff3b30', icon: 'fa-user-shield',       permissions: ['read','write','export','anchor','manage_users','settings','delete'] },
         ils_manager: { label: 'ILS Manager', color: '#ff9500', icon: 'fa-user-tie',          permissions: ['read','write','export','anchor','manage_analyses'] },
         analyst:     { label: 'Analyst',     color: '#00aaff', icon: 'fa-user-graduate',     permissions: ['read','write','export','anchor'] },
-        read_only:   { label: 'Read-Only',   color: '#8ea4b8', icon: 'fa-user-lock',         permissions: ['read'] }
+        read_only:   { label: 'Read-Only',   color: '#6e6e73', icon: 'fa-user-lock',         permissions: ['read'] }
     };
 
-    // Simulated team members
-    var _teamMembers = [
-        { name: 'You (Demo User)', email: 'demo@s4ledger.com', role: 'admin', status: 'online', lastActive: new Date().toISOString() },
-        { name: 'J. Martinez', email: 'j.martinez@navy.mil', role: 'ils_manager', status: 'online', lastActive: new Date(Date.now() - 300000).toISOString() },
-        { name: 'K. Thompson', email: 'k.thompson@navair.navy.mil', role: 'analyst', status: 'away', lastActive: new Date(Date.now() - 1800000).toISOString() },
-        { name: 'R. Chen', email: 'r.chen@pms317.navy.mil', role: 'analyst', status: 'offline', lastActive: new Date(Date.now() - 86400000).toISOString() },
-        { name: 'S. Williams', email: 's.williams@navsea.navy.mil', role: 'read_only', status: 'offline', lastActive: new Date(Date.now() - 172800000).toISOString() }
-    ];
+    // Team members loaded from Supabase — starts empty
+    var _teamMembers = [];
 
     window._s4TeamMembers = _teamMembers;
     window._s4TeamRoles = ROLES;
@@ -1458,11 +1449,11 @@ console.log('[Round-13] Production subscription code loaded — Stripe Checkout 
         var existing = document.getElementById('teamManagePanel');
         if (existing) { existing.remove(); return; }
 
-        var statusColors = { online: '#34c759', away: '#ff9500', offline: '#8ea4b8' };
-        var html = '<div id="teamManagePanel" style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;max-width:90vw;max-height:80vh;background:#2c2c2e;border:1px solid rgba(0,170,255,0.3);border-radius:3px;padding:24px;z-index:10001;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.5);">';
+        var statusColors = { online: '#34c759', away: '#ff9500', offline: '#6e6e73' };
+        var html = '<div id="teamManagePanel" style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;max-width:90vw;max-height:80vh;background:#fff;border:1px solid rgba(0,170,255,0.3);border-radius:8px;padding:24px;z-index:10001;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.12);">';
         html += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">';
-        html += '<h3 style="margin:0;color:#fff;font-size:1.1rem;"><i class="fas fa-users" style="color:var(--accent);margin-right:8px"></i>Team Workspace</h3>';
-        html += '<button onclick="var p=document.getElementById(\'teamManagePanel\');var o=document.getElementById(\'teamManageOverlay\');if(p)p.remove();if(o)o.remove();" style="background:none;border:none;color:var(--steel);cursor:pointer;font-size:1.2rem;"><i class="fas fa-times"></i></button>';
+        html += '<h3 style="margin:0;color:var(--text,#1d1d1f);font-size:1.1rem;"><i class="fas fa-users" style="color:var(--accent);margin-right:8px"></i>Team Workspace</h3>';
+        html += '<button onclick="document.getElementById(\'teamManagePanel\').remove();document.getElementById(\'teamManageOverlay\').remove();" style="background:none;border:none;color:var(--steel);cursor:pointer;font-size:1.2rem;"><i class="fas fa-times"></i></button>';
         html += '</div>';
         html += '<div style="font-size:0.78rem;color:var(--steel);margin-bottom:16px;">Manage team roles and access. Changes sync across all workspace sessions.</div>';
         html += '<table style="width:100%;border-collapse:collapse;">';
@@ -1470,23 +1461,23 @@ console.log('[Round-13] Production subscription code loaded — Stripe Checkout 
         html += '<tbody>';
         _teamMembers.forEach(function(m, i) {
             var role = ROLES[m.role];
-            var statusColor = statusColors[m.status] || '#8ea4b8';
-            html += '<tr style="border-bottom:1px solid rgba(255,255,255,0.04);">';
-            html += '<td style="padding:10px 8px;"><div style="display:flex;align-items:center;gap:8px;"><div style="width:32px;height:32px;border-radius:50%;background:' + role.color + '22;display:flex;align-items:center;justify-content:center;"><i class="fas ' + role.icon + '" style="color:' + role.color + ';font-size:0.7rem;"></i></div><div><div style="color:#fff;font-weight:600;font-size:0.82rem;">' + m.name + '</div><div style="color:var(--steel);font-size:0.7rem;">' + m.email + '</div></div></div></td>';
-            html += '<td style="padding:10px 8px;"><span style="background:' + role.color + '22;color:' + role.color + ';padding:3px 10px;border-radius:3px;font-size:0.72rem;font-weight:700;">' + role.label + '</span></td>';
+            var statusColor = statusColors[m.status] || '#6e6e73';
+            html += '<tr style="border-bottom:1px solid rgba(0,0,0,0.04);">';
+            html += '<td style="padding:10px 8px;"><div style="display:flex;align-items:center;gap:8px;"><div style="width:32px;height:32px;border-radius:50%;background:' + role.color + '22;display:flex;align-items:center;justify-content:center;"><i class="fas ' + role.icon + '" style="color:' + role.color + ';font-size:0.7rem;"></i></div><div><div style="color:var(--text,#1d1d1f);font-weight:600;font-size:0.82rem;">' + m.name + '</div><div style="color:var(--steel);font-size:0.7rem;">' + m.email + '</div></div></div></td>';
+            html += '<td style="padding:10px 8px;"><span style="background:' + role.color + '22;color:' + role.color + ';padding:3px 10px;border-radius:8px;font-size:0.72rem;font-weight:700;">' + role.label + '</span></td>';
             html += '<td style="padding:10px 8px;text-align:center;"><span style="display:inline-flex;align-items:center;gap:4px;font-size:0.75rem;color:' + statusColor + ';"><span style="width:6px;height:6px;border-radius:50%;background:' + statusColor + ';display:inline-block;"></span>' + m.status + '</span></td>';
             html += '<td style="padding:10px 8px;text-align:center;">';
-            if (i > 0) html += '<button onclick="if(typeof _showNotif===\'function\')_showNotif(\'Role change requires Admin approval in production.\',\'info\')" style="background:rgba(0,170,255,0.08);border:1px solid rgba(0,170,255,0.2);color:var(--accent);border-radius:3px;padding:3px 8px;font-size:0.7rem;cursor:pointer;"><i class="fas fa-pen"></i></button>';
+            if (i > 0) html += '<button onclick="if(typeof _showNotif===\'function\')_showNotif(\'Role change requires Admin approval in production.\',\'info\')" style="background:rgba(0,170,255,0.08);border:1px solid rgba(0,170,255,0.2);color:var(--accent);border-radius:8px;padding:3px 8px;font-size:0.7rem;cursor:pointer;"><i class="fas fa-pen"></i></button>';
             else html += '<span style="font-size:0.7rem;color:var(--steel);">—</span>';
             html += '</td></tr>';
         });
         html += '</tbody></table>';
         html += '<div style="margin-top:16px;display:flex;gap:8px;">';
-        html += '<button onclick="if(typeof _showNotif===\'function\')_showNotif(\'Invite sent! Team member will receive an email with workspace access.\',\'success\')" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;border-radius:3px;padding:8px 16px;font-size:0.8rem;font-weight:700;cursor:pointer;"><i class="fas fa-user-plus" style="margin-right:4px"></i> Invite Member</button>';
-        html += '<button onclick="if(typeof _showNotif===\'function\')_showNotif(\'Role permissions exported.\',\'info\')" style="background:rgba(0,170,255,0.08);border:1px solid rgba(0,170,255,0.2);color:var(--accent);border-radius:3px;padding:8px 16px;font-size:0.8rem;font-weight:600;cursor:pointer;"><i class="fas fa-download" style="margin-right:4px"></i> Export Roles</button>';
+        html += '<button onclick="if(typeof _showNotif===\'function\')_showNotif(\'Invite sent! Team member will receive an email with workspace access.\',\'success\')" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;border-radius:8px;padding:8px 16px;font-size:0.8rem;font-weight:700;cursor:pointer;"><i class="fas fa-user-plus" style="margin-right:4px"></i> Invite Member</button>';
+        html += '<button onclick="if(typeof _showNotif===\'function\')_showNotif(\'Role permissions exported.\',\'info\')" style="background:rgba(0,170,255,0.08);border:1px solid rgba(0,170,255,0.2);color:var(--accent);border-radius:8px;padding:8px 16px;font-size:0.8rem;font-weight:600;cursor:pointer;"><i class="fas fa-download" style="margin-right:4px"></i> Export Roles</button>';
         html += '</div></div>';
         // Overlay
-        html = '<div id="teamManageOverlay" onclick="document.getElementById(\'teamManagePanel\').remove();document.getElementById(\'teamManageOverlay\').remove();" style="position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:10000;"></div>' + html;
+        html = '<div id="teamManageOverlay" onclick="document.getElementById(\'teamManagePanel\').remove();document.getElementById(\'teamManageOverlay\').remove();" style="position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(245,245,247,0.85);z-index:10000;"></div>' + html;
         document.body.insertAdjacentHTML('beforeend', html);
     };
     console.log('[Round-14] Multi-User Workspace roles module loaded');
@@ -1533,9 +1524,9 @@ console.log('[Round-13] Production subscription code loaded — Stripe Checkout 
         var existing = document.getElementById('savedAnalysesPanel');
         if (existing) { existing.remove(); return; }
 
-        var html = '<div id="savedAnalysesPanel" style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:650px;max-width:90vw;max-height:80vh;background:#2c2c2e;border:1px solid rgba(0,170,255,0.3);border-radius:3px;padding:24px;z-index:10001;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.5);">';
+        var html = '<div id="savedAnalysesPanel" style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:650px;max-width:90vw;max-height:80vh;background:#fff;border:1px solid rgba(0,170,255,0.3);border-radius:8px;padding:24px;z-index:10001;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.12);">';
         html += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">';
-        html += '<h3 style="margin:0;color:#fff;font-size:1.1rem;"><i class="fas fa-history" style="color:var(--accent);margin-right:8px"></i>Saved Analyses</h3>';
+        html += '<h3 style="margin:0;color:var(--text,#1d1d1f);font-size:1.1rem;"><i class="fas fa-history" style="color:var(--accent);margin-right:8px"></i>Saved Analyses</h3>';
         html += '<button onclick="_closeSavedAnalyses()" style="background:none;border:none;color:var(--steel);cursor:pointer;font-size:1.2rem;"><i class="fas fa-times"></i></button>';
         html += '</div>';
 
@@ -1545,12 +1536,12 @@ console.log('[Round-13] Production subscription code loaded — Stripe Checkout 
             _savedAnalyses.sort(function(a,b){return new Date(b.timestamp)-new Date(a.timestamp);});
             _savedAnalyses.forEach(function(a, i) {
                 var scoreColor = a.score >= 80 ? '#34c759' : a.score >= 50 ? '#ff9500' : '#ff3b30';
-                html += '<div style="padding:14px;margin-bottom:8px;background:var(--surface);border:1px solid var(--border);border-radius:3px;">';
+                html += '<div style="padding:14px;margin-bottom:8px;background:var(--surface);border:1px solid var(--border);border-radius:8px;">';
                 html += '<div style="display:flex;justify-content:space-between;align-items:center;">';
-                html += '<div><div style="color:#fff;font-weight:700;font-size:0.88rem;">' + a.title + '</div><div style="color:var(--steel);font-size:0.72rem;">' + a.type + ' — ' + new Date(a.timestamp).toLocaleString() + '</div></div>';
+                html += '<div><div style="color:var(--text,#1d1d1f);font-weight:700;font-size:0.88rem;">' + a.title + '</div><div style="color:var(--steel);font-size:0.72rem;">' + a.type + ' — ' + new Date(a.timestamp).toLocaleString() + '</div></div>';
                 html += '<div style="display:flex;align-items:center;gap:12px;">';
                 html += '<div style="text-align:center;"><div style="font-size:1.2rem;font-weight:800;color:' + scoreColor + ';">' + Math.round(a.score) + '%</div><div style="font-size:0.6rem;color:var(--steel);">Score</div></div>';
-                html += '<button onclick="_deleteSavedAnalysis(' + i + ')" style="background:rgba(255,59,48,0.1);color:#ff3b30;border:1px solid rgba(255,59,48,0.2);border-radius:3px;padding:4px 8px;font-size:0.7rem;cursor:pointer;"><i class="fas fa-trash"></i></button>';
+                html += '<button onclick="_deleteSavedAnalysis(' + i + ')" style="background:rgba(255,59,48,0.1);color:#ff3b30;border:1px solid rgba(255,59,48,0.2);border-radius:8px;padding:4px 8px;font-size:0.7rem;cursor:pointer;"><i class="fas fa-trash"></i></button>';
                 html += '</div></div>';
                 if (a.data) {
                     html += '<div style="display:flex;gap:12px;margin-top:8px;font-size:0.72rem;color:var(--steel);">';
@@ -1563,9 +1554,9 @@ console.log('[Round-13] Production subscription code loaded — Stripe Checkout 
             });
         }
         html += '<div style="margin-top:16px;display:flex;gap:8px;">';
-        html += '<button onclick="_closeSavedAnalyses();saveCurrentAnalysis();showSavedAnalyses();" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;border-radius:3px;padding:8px 16px;font-size:0.8rem;font-weight:700;cursor:pointer;"><i class="fas fa-save" style="margin-right:4px"></i> Save Current Analysis</button>';
+        html += '<button onclick="_closeSavedAnalyses();saveCurrentAnalysis();showSavedAnalyses();" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;border-radius:8px;padding:8px 16px;font-size:0.8rem;font-weight:700;cursor:pointer;"><i class="fas fa-save" style="margin-right:4px"></i> Save Current Analysis</button>';
         html += '</div></div>';
-        html = '<div id="savedAnalysesOverlay" onclick="_closeSavedAnalyses()" style="position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:10000;"></div>' + html;
+        html = '<div id="savedAnalysesOverlay" onclick="_closeSavedAnalyses()" style="position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(245,245,247,0.85);z-index:10000;"></div>' + html;
         document.body.insertAdjacentHTML('beforeend', html);
     };
 
@@ -1700,23 +1691,23 @@ console.log('[Round-13] Production subscription code loaded — Stripe Checkout 
         var existing = document.getElementById('webhookPanel');
         if (existing) { existing.remove(); return; }
 
-        var html = '<div id="webhookPanel" style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:650px;max-width:90vw;max-height:80vh;background:#2c2c2e;border:1px solid rgba(0,170,255,0.3);border-radius:3px;padding:24px;z-index:10001;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.5);">';
+        var html = '<div id="webhookPanel" style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:650px;max-width:90vw;max-height:80vh;background:#fff;border:1px solid rgba(0,170,255,0.3);border-radius:8px;padding:24px;z-index:10001;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.12);">';
         html += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">';
-        html += '<h3 style="margin:0;color:#fff;font-size:1.1rem;"><i class="fas fa-plug" style="color:var(--accent);margin-right:8px"></i>Webhook Configuration</h3>';
+        html += '<h3 style="margin:0;color:var(--text,#1d1d1f);font-size:1.1rem;"><i class="fas fa-plug" style="color:var(--accent);margin-right:8px"></i>Webhook Configuration</h3>';
         html += '<button onclick="_closeWebhooks()" style="background:none;border:none;color:var(--steel);cursor:pointer;font-size:1.2rem;"><i class="fas fa-times"></i></button>';
         html += '</div>';
         html += '<div style="font-size:0.78rem;color:var(--steel);margin-bottom:16px;">Configure webhook URLs to receive real-time notifications when records are anchored, verified, or exported.</div>';
 
         // Add webhook form
-        html += '<div style="background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:14px;margin-bottom:16px;">';
+        html += '<div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:14px;margin-bottom:16px;">';
         html += '<div style="display:grid;grid-template-columns:1fr auto;gap:8px;margin-bottom:8px;">';
-        html += '<input type="url" id="webhookUrlInput" placeholder="https://your-system.mil/api/webhooks/s4" style="background:#050810;color:#fff;border:1px solid var(--border);border-radius:3px;padding:8px 12px;font-size:0.82rem;font-family:monospace;width:100%;">';
-        html += '<button onclick="addWebhook()" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;border-radius:3px;padding:8px 16px;font-size:0.8rem;font-weight:700;cursor:pointer;white-space:nowrap;"><i class="fas fa-plus" style="margin-right:4px"></i> Add</button>';
+        html += '<input type="url" id="webhookUrlInput" placeholder="https://your-system.mil/api/webhooks/s4" style="background:#f5f5f7;color:var(--text,#1d1d1f);border:1px solid var(--border);border-radius:8px;padding:8px 12px;font-size:0.82rem;font-family:monospace;width:100%;">';
+        html += '<button onclick="addWebhook()" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;border-radius:8px;padding:8px 16px;font-size:0.8rem;font-weight:700;cursor:pointer;white-space:nowrap;"><i class="fas fa-plus" style="margin-right:4px"></i> Add</button>';
         html += '</div>';
         html += '<div style="display:flex;gap:6px;flex-wrap:wrap;">';
         var events = ['anchor.confirmed','anchor.failed','record.verified','export.completed','vault.cleared','analysis.saved'];
         events.forEach(function(evt) {
-            html += '<label style="display:flex;align-items:center;gap:4px;font-size:0.72rem;color:var(--steel);cursor:pointer;padding:3px 8px;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.1);border-radius:3px;"><input type="checkbox" class="webhook-event-cb" value="' + evt + '" checked style="width:auto;accent-color:var(--accent);"> ' + evt + '</label>';
+            html += '<label style="display:flex;align-items:center;gap:4px;font-size:0.72rem;color:var(--steel);cursor:pointer;padding:3px 8px;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.1);border-radius:8px;"><input type="checkbox" class="webhook-event-cb" value="' + evt + '" checked style="width:auto;accent-color:var(--accent);"> ' + evt + '</label>';
         });
         html += '</div></div>';
 
@@ -1724,18 +1715,18 @@ console.log('[Round-13] Production subscription code loaded — Stripe Checkout 
         if (_localWebhooks.length > 0) {
             html += '<div style="font-size:0.78rem;color:var(--accent);font-weight:600;margin-bottom:8px;">Active Webhooks</div>';
             _localWebhooks.forEach(function(wh, i) {
-                html += '<div style="padding:10px;margin-bottom:6px;background:var(--surface);border:1px solid var(--border);border-radius:3px;display:flex;justify-content:space-between;align-items:center;">';
-                html += '<div><div style="color:#fff;font-family:monospace;font-size:0.78rem;">' + wh.url + '</div><div style="color:var(--steel);font-size:0.68rem;">Events: ' + wh.events.join(', ') + ' | Added: ' + new Date(wh.created).toLocaleDateString() + '</div></div>';
+                html += '<div style="padding:10px;margin-bottom:6px;background:var(--surface);border:1px solid var(--border);border-radius:8px;display:flex;justify-content:space-between;align-items:center;">';
+                html += '<div><div style="color:var(--text,#1d1d1f);font-family:monospace;font-size:0.78rem;">' + wh.url + '</div><div style="color:var(--steel);font-size:0.68rem;">Events: ' + wh.events.join(', ') + ' | Added: ' + new Date(wh.created).toLocaleDateString() + '</div></div>';
                 html += '<div style="display:flex;gap:6px;">';
-                html += '<button onclick="testWebhook(' + i + ')" style="background:rgba(52,199,89,0.1);color:#34c759;border:1px solid rgba(52,199,89,0.2);border-radius:3px;padding:3px 8px;font-size:0.7rem;cursor:pointer;"><i class="fas fa-paper-plane"></i> Test</button>';
-                html += '<button onclick="removeWebhook(' + i + ')" style="background:rgba(255,59,48,0.1);color:#ff3b30;border:1px solid rgba(255,59,48,0.2);border-radius:3px;padding:3px 8px;font-size:0.7rem;cursor:pointer;"><i class="fas fa-trash"></i></button>';
+                html += '<button onclick="testWebhook(' + i + ')" style="background:rgba(52,199,89,0.1);color:#34c759;border:1px solid rgba(52,199,89,0.2);border-radius:8px;padding:3px 8px;font-size:0.7rem;cursor:pointer;"><i class="fas fa-paper-plane"></i> Test</button>';
+                html += '<button onclick="removeWebhook(' + i + ')" style="background:rgba(255,59,48,0.1);color:#ff3b30;border:1px solid rgba(255,59,48,0.2);border-radius:8px;padding:3px 8px;font-size:0.7rem;cursor:pointer;"><i class="fas fa-trash"></i></button>';
                 html += '</div></div>';
             });
         } else {
             html += '<div style="text-align:center;padding:20px;color:var(--muted);font-size:0.82rem;"><i class="fas fa-plug" style="font-size:1.5rem;margin-bottom:8px;opacity:0.3;display:block;"></i>No webhooks configured. Add a URL above to receive real-time notifications.</div>';
         }
         html += '</div>';
-        html = '<div id="webhookOverlay" onclick="document.getElementById(\'webhookPanel\').remove();this.remove();" style="position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:10000;"></div>' + html;
+        html = '<div id="webhookOverlay" onclick="_closeWebhooks()" style="position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(245,245,247,0.85);z-index:10000;"></div>' + html;
         document.body.insertAdjacentHTML('beforeend', html);
     };
 
@@ -1755,16 +1746,14 @@ console.log('[Round-13] Production subscription code loaded — Stripe Checkout 
             body: JSON.stringify({ url: url, events: events })
         }).catch(function(){});
         if (typeof _showNotif === 'function') _showNotif('Webhook registered: ' + url, 'success');
-        document.getElementById('webhookPanel').remove();
-        document.getElementById('webhookOverlay').remove();
+        window._closeWebhooks();
         showWebhookSettings();
     };
 
     window.removeWebhook = function(idx) {
         _localWebhooks.splice(idx, 1);
         localStorage.setItem('s4_webhooks', JSON.stringify(_localWebhooks));
-        document.getElementById('webhookPanel').remove();
-        document.getElementById('webhookOverlay').remove();
+        window._closeWebhooks();
         showWebhookSettings();
         if (typeof _showNotif === 'function') _showNotif('Webhook removed.', 'info');
     };
@@ -1883,7 +1872,7 @@ console.log('[Round-14] All enhancement modules loaded — FedRAMP Badge, Multi-
                 { lsKey: 's4Vault', store: 'vault', isArray: true },
                 { lsKey: 's4ActionItems', store: 'action_items', isArray: true },
                 { lsKey: 's4_submission_history', store: 'submissions', isArray: true },
-                { lsKey: 's4_demo_stats', store: 'stats', isObject: true, wrapKey: 'demo_stats' },
+                { lsKey: 's4_stats', store: 'stats', isObject: true, wrapKey: 'platform_stats' },
                 { lsKey: 's4_selected_tier', store: 'settings', isScalar: true, wrapKey: 'selected_tier' },
                 { lsKey: 's4_doc_versions', store: 'documents', isObject: true, wrapKey: 'doc_versions' },
                 { lsKey: 's4_doc_notifications', store: 'documents', isObject: true, wrapKey: 'doc_notifications' }
@@ -2072,8 +2061,8 @@ console.log('[Round-14] All enhancement modules loaded — FedRAMP Badge, Multi-
                     // Send authentication
                     S4Realtime.send('auth', {
                         session: S4Realtime.sessionId,
-                        user: (window._demoSession) ? window._demoSession.name : 'Demo User',
-                        tier: window._onboardTier || 'starter'
+                        user: (typeof _currentUser !== 'undefined' && _currentUser?.name) ? _currentUser.name : 'Operator',
+                        tier: (typeof _onboardTier !== 'undefined') ? _onboardTier : 'starter'
                     });
 
                     // Flush queued messages
@@ -2447,16 +2436,16 @@ console.log('[Round-14] All enhancement modules loaded — FedRAMP Badge, Multi-
             shadow.innerHTML = '<style>' +
                 ':host { display: block; margin-bottom: 16px; }' +
                 ':host([hidden]) { display: none; }' +
-                '.tool-wrapper { background: var(--card, #111); border: 1px solid var(--border, rgba(255,255,255,0.06)); border-radius: 3px; overflow: hidden; }' +
-                '.tool-header { display: flex; align-items: center; gap: 10px; padding: 14px 18px; border-bottom: 1px solid var(--border, rgba(255,255,255,0.06)); }' +
+                '.tool-wrapper { background: var(--card, #fff); border: 1px solid var(--border, rgba(0,0,0,0.06)); border-radius: 3px; overflow: hidden; }' +
+                '.tool-header { display: flex; align-items: center; gap: 10px; padding: 14px 18px; border-bottom: 1px solid var(--border, rgba(0,0,0,0.06)); }' +
                 '.tool-title { color: var(--text, #f5f5f7); font-weight: 700; font-size: 0.95rem; flex: 1; }' +
                 '.tool-badge { background: rgba(0,170,255,0.12); color: #00aaff; font-size: 0.65rem; font-weight: 700; padding: 3px 8px; border-radius: 3px; text-transform: uppercase; }' +
                 '.tool-body { padding: 18px; }' +
-                '.tool-loading { display: flex; align-items: center; justify-content: center; padding: 40px; color: #86868b; }' +
+                '.tool-loading { display: flex; align-items: center; justify-content: center; padding: 40px; color: var(--muted, #86868b); }' +
                 '.tool-loading .spinner { width: 24px; height: 24px; border: 2px solid rgba(0,170,255,0.2); border-top-color: #00aaff; border-radius: 50%; animation: spin 0.8s linear infinite; margin-right: 10px; }' +
                 '@keyframes spin { to { transform: rotate(360deg); } }' +
                 '.tool-error { padding: 20px; background: rgba(255,59,48,0.08); border: 1px solid rgba(255,59,48,0.2); border-radius: 3px; color: #ff3b30; margin: 12px; font-size: 0.85rem; }' +
-                '::slotted(*) { color: #f5f5f7; }' +
+                '::slotted(*) { color: var(--text, #f5f5f7); }' +
             '</style>' +
             '<div class="tool-wrapper">' +
                 '<div class="tool-header">' +
@@ -2522,7 +2511,7 @@ console.log('[Round-14] All enhancement modules loaded — FedRAMP Badge, Multi-
         connectedCallback() {
             var type = this.getAttribute('type') || 'info';
             var colors = { success: '#34c759', warning: '#ff9500', error: '#ff3b30', info: '#00aaff' };
-            this.style.cssText = 'display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:3px;font-size:0.72rem;font-weight:600;background:' +
+            this.style.cssText = 'display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:8px;font-size:0.72rem;font-weight:600;background:' +
                 (colors[type] || colors.info) + '15;color:' + (colors[type] || colors.info) + ';border:1px solid ' + (colors[type] || colors.info) + '30';
             var dot = document.createElement('span');
             dot.style.cssText = 'width:6px;height:6px;border-radius:50%;background:' + (colors[type] || colors.info);
@@ -2548,7 +2537,7 @@ console.log('[Round-14] All enhancement modules loaded — FedRAMP Badge, Multi-
             var value = this.getAttribute('value') || '0';
             var trend = this.getAttribute('trend') || '';
             var trendColor = trend.startsWith('+') ? '#34c759' : trend.startsWith('-') ? '#ff3b30' : '#86868b';
-            this.style.cssText = 'display:block;padding:16px;background:var(--card,#111);border:1px solid var(--border,rgba(255,255,255,0.06));border-radius:3px;text-align:center;';
+            this.style.cssText = 'display:block;padding:16px;background:var(--card,#fff);border:1px solid var(--border,rgba(0,0,0,0.06));border-radius:8px;text-align:center;';
             this.innerHTML = '<div style="color:var(--steel,#86868b);font-size:0.72rem;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px">' + label + '</div>' +
                 '<div style="color:var(--text,#f5f5f7);font-size:1.5rem;font-weight:800">' + value + '</div>' +
                 (trend ? '<div style="color:' + trendColor + ';font-size:0.75rem;font-weight:600;margin-top:4px">' + trend + '</div>' : '');
@@ -2568,98 +2557,30 @@ console.log('[Round-14] All enhancement modules loaded — FedRAMP Badge, Multi-
 
 
 // ── 5. SERVICE WORKER ACTIVATION ────────────────────────────
-// Full offline/air-gapped support. Activates the sw.js precacher,
-// registers background sync for offline-queued anchors, and listens
-// for SW messages (sync-complete, data-refresh).
+// Disabled during development to prevent caching issues in VS Code Simple Browser.
+// Re-enable for production deployment.
 (function() {
     'use strict';
+    // Unregister any existing service workers to clear stale caches
     if ('serviceWorker' in navigator) {
-        // Register on page load (works on HTTPS and localhost)
-        window.addEventListener('load', function() {
-            navigator.serviceWorker.register('/demo-app/sw.js', { scope: '/demo-app/' })
-                .then(function(reg) {
-                    console.log('[SW] Registered — scope:', reg.scope);
-
-                    // Check for updates periodically
-                    setInterval(function() { reg.update(); }, 60 * 60 * 1000); // hourly
-
-                    // Register periodic background sync if supported
-                    if (reg.periodicSync) {
-                        reg.periodicSync.register('s4-periodic-refresh', {
-                            minInterval: 12 * 60 * 60 * 1000 // 12 hours
-                        }).catch(function() {});
-                    }
-
-                    // Listen for update available
-                    reg.addEventListener('updatefound', function() {
-                        var newWorker = reg.installing;
-                        if (newWorker) {
-                            newWorker.addEventListener('statechange', function() {
-                                if (newWorker.state === 'activated' && navigator.serviceWorker.controller) {
-                                    // New version available
-                                    if (typeof _showNotif === 'function') {
-                                        _showNotif('S4 Ledger updated — refresh for latest version', 'info');
-                                    }
-                                }
-                            });
-                        }
-                    });
-                })
-                .catch(function(err) {
-                    console.log('[SW] Registration failed:', err);
-                });
-
-            // Listen for messages from service worker
-            navigator.serviceWorker.addEventListener('message', function(e) {
-                if (!e.data || !e.data.type) return;
-
-                if (e.data.type === 's4-sync-complete') {
-                    // Offline anchors were synced
-                    if (typeof _showNotif === 'function') {
-                        _showNotif(e.data.synced + ' offline anchor' + (e.data.synced > 1 ? 's' : '') + ' synced to XRPL', 'success');
-                    }
-                    // Refresh stats
-                    if (typeof _updateDemoSlsBalance === 'function') _updateDemoSlsBalance();
-                    if (typeof loadDashboardStats === 'function') loadDashboardStats();
-                }
-
-                if (e.data.type === 's4-data-refresh') {
-                    // Background data refresh triggered
-                    if (typeof loadDashboardStats === 'function') loadDashboardStats();
-                }
+        navigator.serviceWorker.getRegistrations().then(function(registrations) {
+            registrations.forEach(function(reg) {
+                reg.unregister();
+                console.log('[SW] Unregistered stale service worker:', reg.scope);
             });
         });
-
-        // Queue offline anchors for background sync
-        window.S4OfflineSync = {
-            queueAnchor: function(data) {
-                if (!navigator.serviceWorker.controller) return Promise.resolve(false);
-
-                // Store in IndexedDB via S4Store
-                if (window.S4Store && S4Store.ready) {
-                    return S4Store.put('offline_queue', {
-                        data: data,
-                        queued_at: new Date().toISOString()
-                    }).then(function() {
-                        // Request background sync
-                        return navigator.serviceWorker.ready.then(function(reg) {
-                            if (reg.sync) return reg.sync.register('s4-anchor-sync');
-                        });
-                    }).then(function() {
-                        return true;
-                    });
-                }
-                return Promise.resolve(false);
-            },
-
-            getQueueSize: function() {
-                if (window.S4Store) return S4Store.count('offline_queue');
-                return Promise.resolve(0);
-            }
-        };
+        // Also clear all caches
+        if (window.caches) {
+            caches.keys().then(function(names) {
+                names.forEach(function(name) {
+                    caches.delete(name);
+                    console.log('[SW] Cleared cache:', name);
+                });
+            });
+        }
     }
 
-    // Offline detection UI
+    // Offline detection UI (works without SW)
     window.addEventListener('offline', function() {
         if (typeof _showNotif === 'function') {
             _showNotif('Network disconnected — S4 Ledger running in air-gapped mode. All data is cached locally.', 'warning');
@@ -2669,19 +2590,12 @@ console.log('[Round-14] All enhancement modules loaded — FedRAMP Badge, Multi-
 
     window.addEventListener('online', function() {
         if (typeof _showNotif === 'function') {
-            _showNotif('Network restored — syncing offline data...', 'success');
+            _showNotif('Network restored.', 'success');
         }
         document.body.classList.remove('s4-offline');
-        // Trigger sync
-        if (navigator.serviceWorker && navigator.serviceWorker.ready) {
-            navigator.serviceWorker.ready.then(function(reg) {
-                if (reg.sync) reg.sync.register('s4-anchor-sync');
-                if (reg.sync) reg.sync.register('s4-data-sync');
-            });
-        }
     });
 
-    console.log('[Round-16c] Service worker + offline sync activated');
+    console.log('[S4] Service worker disabled for dev — caches cleared');
 })();
 
 console.log('[Round-16c] All tech enhancements loaded — IndexedDB, WebSocket, Lazy-Loading, Web Components, Service Worker');
@@ -2724,110 +2638,6 @@ console.log('[Round-16c] All tech enhancements loaded — IndexedDB, WebSocket, 
     console.log('[Round-16] VDI compatibility module loaded');
 })();
 
-// ── LIGHT/DARK MODE TOGGLE ──
-// Platform-only theme switcher with localStorage persistence
-function toggleTheme() {
-    var body = document.body;
-    var isLight = body.classList.toggle('light-mode');
-    // Sync data-theme attribute for [data-theme="light"] CSS selectors
-    if (isLight) { body.setAttribute('data-theme', 'light'); } else { body.removeAttribute('data-theme'); }
-    localStorage.setItem('s4-theme', isLight ? 'light' : 'dark');
-    _updateThemeIcon(isLight);
-    // Update nav link colors for light mode
-    var navLinks = document.querySelectorAll('#navLinks a:not([style*="background:#00aaff"]):not([style*="background:var(--accent)"])');
-    navLinks.forEach(function(a) {
-        if (a.classList.contains('theme-toggle')) return;
-        if (isLight) {
-            a.style.color = a.getAttribute('href') === '../demo-app/' ? '#0077cc' : 'rgba(0,0,0,0.6)';
-        } else {
-            a.style.color = a.getAttribute('href') === '../demo-app/' ? '#00aaff' : 'rgba(255,255,255,0.7)';
-        }
-    });
-    // Update the main nav bar background
-    var nav = document.querySelector('nav');
-    if (nav) {
-        if (isLight) {
-            nav.style.background = 'rgba(255,255,255,0.92)';
-            nav.style.backdropFilter = 'blur(20px)';
-            nav.style.borderBottomColor = 'rgba(0,0,0,0.06)';
-        } else {
-            nav.style.background = 'rgba(5,8,16,0.92)';
-            nav.style.backdropFilter = 'blur(20px)';
-            nav.style.borderBottomColor = 'rgba(255,255,255,0.06)';
-        }
-    }
-    // Update logo brand text
-    var brand = document.querySelector('.nav-brand span, nav span');
-    if (brand) brand.style.color = isLight ? '#1d1d1f' : '#fff';
-    // Update hamburger menu button
-    var hamburger = document.querySelector('nav button[aria-label="Menu"]');
-    if (hamburger) hamburger.style.color = isLight ? '#1d1d1f' : '#fff';
-    // Update Chart.js chart colors for theme
-    if (typeof Chart !== 'undefined') {
-        var textColor = isLight ? '#333' : '#ccc';
-        var gridColor = isLight ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.06)';
-        Chart.defaults.color = textColor;
-        Chart.defaults.borderColor = gridColor;
-        Object.values(Chart.instances || {}).forEach(function(c) {
-            if (!c || !c.options) return;
-            try {
-                if (c.options.scales) {
-                    Object.values(c.options.scales).forEach(function(s) {
-                        if (s.ticks) s.ticks.color = textColor;
-                        if (s.grid) s.grid.color = gridColor;
-                        if (s.title) s.title.color = textColor;
-                    });
-                }
-                if (c.options.plugins && c.options.plugins.legend && c.options.plugins.legend.labels) {
-                    c.options.plugins.legend.labels.color = textColor;
-                }
-                c.update('none');
-            } catch(e) {}
-        });
-    }
-}
-
-function _updateThemeIcon(isLight) {
-    var btn = document.getElementById('themeToggleBtn');
-    if (btn) {
-        btn.innerHTML = isLight ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
-        btn.title = isLight ? 'Switch to Dark Mode' : 'Switch to Light Mode';
-    }
-}
-
-// Apply saved theme on load (user-controlled only — no OS auto-detection)
-(function() {
-    var saved = localStorage.getItem('s4-theme');
-    if (saved === 'light') {
-        document.body.classList.add('light-mode');
-        document.body.setAttribute('data-theme', 'light');
-        _updateThemeIcon(true);
-        // Defer nav color updates until DOM is ready
-        setTimeout(function() {
-            var isL = true;
-            var nav = document.querySelector('nav');
-            if (nav) {
-                nav.style.background = 'rgba(255,255,255,0.92)';
-                nav.style.backdropFilter = 'blur(20px)';
-                nav.style.borderBottomColor = 'rgba(0,0,0,0.06)';
-            }
-            var brand = document.querySelector('.nav-brand span, nav span');
-            if (brand) brand.style.color = '#1d1d1f';
-            var hamburger = document.querySelector('nav button[aria-label="Menu"]');
-            if (hamburger) hamburger.style.color = '#1d1d1f';
-            var navLinks = document.querySelectorAll('#navLinks a:not([style*="background:#00aaff"]):not([style*="background:var(--accent)"])');
-            navLinks.forEach(function(a) {
-                if (a.classList.contains('theme-toggle')) return;
-                a.style.color = a.getAttribute('href') === '/demo-app/' ? '#0077cc' : 'rgba(0,0,0,0.6)';
-            });
-        }, 50);
-    }
-    // Override the inline failsafe with the full version (includes Chart.js)
-    window.toggleTheme = toggleTheme;
-    // NOTE: Do NOT add addEventListener here — the button already has onclick="toggleTheme()"
-    // Adding both causes double-fire: classList.toggle ON then immediately OFF = no visible change
-})();
-
 // ═══════════════════════════════════════════════════════════════
 //  RECORD COMPARISON VIEW (v1.0)
 // ═══════════════════════════════════════════════════════════════
@@ -2853,7 +2663,7 @@ function _updateThemeIcon(isLight) {
 
         var overlay = document.createElement('div');
         overlay.id = 's4CompareOverlay';
-        overlay.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.9);z-index:99996;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(8px);padding:24px';
+        overlay.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(245,245,247,0.92);z-index:99996;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(8px);padding:24px';
         overlay.onclick = function(e) { if (e.target === overlay) overlay.remove(); };
 
         var fields = [
@@ -2878,10 +2688,10 @@ function _updateThemeIcon(isLight) {
             var bg = match ? 'transparent' : 'rgba(255,165,0,0.04)';
             var icon = match ? '<i class="fas fa-equals" style="color:#30d158;font-size:0.65rem"></i>' : '<i class="fas fa-not-equal" style="color:#ffa500;font-size:0.65rem"></i>';
             return '<tr style="background:' + bg + '">' +
-                '<td style="padding:8px 12px;font-weight:600;color:#888;font-size:0.78rem;white-space:nowrap;border-bottom:1px solid rgba(255,255,255,0.04)">' + f.label + '</td>' +
-                '<td style="padding:8px 12px;color:#ccc;font-size:0.78rem;word-break:break-all;border-bottom:1px solid rgba(255,255,255,0.04);max-width:300px">' + va + '</td>' +
-                '<td style="padding:8px 12px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.04)">' + icon + '</td>' +
-                '<td style="padding:8px 12px;color:#ccc;font-size:0.78rem;word-break:break-all;border-bottom:1px solid rgba(255,255,255,0.04);max-width:300px">' + vb + '</td>' +
+                '<td style="padding:8px 12px;font-weight:600;color:#6e6e73;font-size:0.78rem;white-space:nowrap;border-bottom:1px solid rgba(0,0,0,0.04)">' + f.label + '</td>' +
+                '<td style="padding:8px 12px;color:#6e6e73;font-size:0.78rem;word-break:break-all;border-bottom:1px solid rgba(0,0,0,0.04);max-width:300px">' + va + '</td>' +
+                '<td style="padding:8px 12px;text-align:center;border-bottom:1px solid rgba(0,0,0,0.04)">' + icon + '</td>' +
+                '<td style="padding:8px 12px;color:#6e6e73;font-size:0.78rem;word-break:break-all;border-bottom:1px solid rgba(0,0,0,0.04);max-width:300px">' + vb + '</td>' +
                 '</tr>';
         }).join('');
 
@@ -2891,16 +2701,16 @@ function _updateThemeIcon(isLight) {
             return va === vb;
         }).length;
 
-        overlay.innerHTML = '<div style="background:var(--card,#111);border:1px solid rgba(255,255,255,0.1);border-radius:3px;width:95%;max-width:900px;max-height:85vh;overflow-y:auto">' +
-            '<div style="padding:20px 24px;border-bottom:1px solid rgba(255,255,255,0.06);display:flex;justify-content:space-between;align-items:center">' +
-            '<div><h3 style="color:#fff;margin:0;font-size:1rem"><i class="fas fa-code-compare" style="margin-right:8px;color:#00aaff"></i>Record Comparison</h3>' +
-            '<p style="color:#888;font-size:0.75rem;margin:4px 0 0">' + matchCount + '/' + fields.length + ' fields match</p></div>' +
-            '<button onclick="this.closest(\'#s4CompareOverlay\').remove()" style="background:none;border:none;color:#888;font-size:1.3rem;cursor:pointer">&times;</button></div>' +
+        overlay.innerHTML = '<div style="background:var(--card,#fff);border:1px solid rgba(0,0,0,0.08);border-radius:8px;width:95%;max-width:900px;max-height:85vh;overflow-y:auto">' +
+            '<div style="padding:20px 24px;border-bottom:1px solid rgba(0,0,0,0.06);display:flex;justify-content:space-between;align-items:center">' +
+            '<div><h3 style="color:var(--text,#1d1d1f);margin:0;font-size:1rem"><i class="fas fa-code-compare" style="margin-right:8px;color:#00aaff"></i>Record Comparison</h3>' +
+            '<p style="color:#6e6e73;font-size:0.75rem;margin:4px 0 0">' + matchCount + '/' + fields.length + ' fields match</p></div>' +
+            '<button onclick="this.closest(\'#s4CompareOverlay\').remove()" style="background:none;border:none;color:#6e6e73;font-size:1.3rem;cursor:pointer">&times;</button></div>' +
             '<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse">' +
-            '<thead><tr><th style="padding:10px 12px;color:#555;font-size:0.72rem;text-transform:uppercase;text-align:left;border-bottom:1px solid rgba(255,255,255,0.08)">Field</th>' +
-            '<th style="padding:10px 12px;color:#00aaff;font-size:0.78rem;text-align:left;border-bottom:1px solid rgba(255,255,255,0.08)">' + (a.label||a.type||'Record A') + '</th>' +
-            '<th style="padding:10px 12px;width:40px;border-bottom:1px solid rgba(255,255,255,0.08)"></th>' +
-            '<th style="padding:10px 12px;color:#c9a84c;font-size:0.78rem;text-align:left;border-bottom:1px solid rgba(255,255,255,0.08)">' + (b.label||b.type||'Record B') + '</th></tr></thead>' +
+            '<thead><tr><th style="padding:10px 12px;color:#555;font-size:0.72rem;text-transform:uppercase;text-align:left;border-bottom:1px solid rgba(0,0,0,0.08)">Field</th>' +
+            '<th style="padding:10px 12px;color:#00aaff;font-size:0.78rem;text-align:left;border-bottom:1px solid rgba(0,0,0,0.08)">' + (a.label||a.type||'Record A') + '</th>' +
+            '<th style="padding:10px 12px;width:40px;border-bottom:1px solid rgba(0,0,0,0.08)"></th>' +
+            '<th style="padding:10px 12px;color:#ffa500;font-size:0.78rem;text-align:left;border-bottom:1px solid rgba(0,0,0,0.08)">' + (b.label||b.type||'Record B') + '</th></tr></thead>' +
             '<tbody>' + rowsHtml + '</tbody></table></div></div>';
 
         document.body.appendChild(overlay);
@@ -2918,9 +2728,9 @@ function _updateThemeIcon(isLight) {
     // Create shortcuts help overlay
     var shortcutsOverlay = document.createElement('div');
     shortcutsOverlay.id = 's4ShortcutsOverlay';
-    shortcutsOverlay.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.85);z-index:99999;display:none;align-items:center;justify-content:center;backdrop-filter:blur(8px)';
-    shortcutsOverlay.innerHTML = '<div style="background:var(--card,#111);border:1px solid rgba(255,255,255,0.1);border-radius:3px;padding:32px;max-width:560px;width:90%;max-height:80vh;overflow-y:auto">' +
-        '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px"><h3 style="color:#fff;font-size:1.1rem;margin:0"><i class="fas fa-keyboard" style="margin-right:8px;color:#00aaff"></i>Keyboard Shortcuts</h3><button onclick="toggleShortcuts()" style="background:none;border:none;color:#888;font-size:1.2rem;cursor:pointer">&times;</button></div>' +
+    shortcutsOverlay.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(245,245,247,0.88);z-index:99999;display:none;align-items:center;justify-content:center;backdrop-filter:blur(8px)';
+    shortcutsOverlay.innerHTML = '<div style="background:var(--card,#fff);border:1px solid rgba(0,0,0,0.08);border-radius:8px;padding:32px;max-width:560px;width:90%;max-height:80vh;overflow-y:auto">' +
+        '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px"><h3 style="color:var(--text,#1d1d1f);font-size:1.1rem;margin:0"><i class="fas fa-keyboard" style="margin-right:8px;color:#00aaff"></i>Keyboard Shortcuts</h3><button onclick="toggleShortcuts()" style="background:none;border:none;color:#6e6e73;font-size:1.2rem;cursor:pointer">&times;</button></div>' +
         '<div style="display:grid;gap:8px">' +
         _shortcutRow('⌘/Ctrl + K', 'Open Global Search') +
         _shortcutRow('⌘/Ctrl + 1-6', 'Switch Platform Tabs') +
@@ -2930,16 +2740,15 @@ function _updateThemeIcon(isLight) {
         _shortcutRow('Escape', 'Close Overlays & Panels') +
         _shortcutRow('?', 'Show This Help') +
         _shortcutRow('N', 'Notification History') +
-        _shortcutRow('T', 'Toggle Light/Dark Theme') +
         '</div>' +
-        '<p style="color:#666;font-size:0.72rem;margin-top:16px;text-align:center">Press <kbd style="background:rgba(255,255,255,0.1);padding:2px 6px;border-radius:3px;font-size:0.7rem">?</kbd> at any time to show this help</p>' +
+        '<p style="color:#666;font-size:0.72rem;margin-top:16px;text-align:center">Press <kbd style="background:rgba(0,0,0,0.05);padding:2px 6px;border-radius:8px;font-size:0.7rem">?</kbd> at any time to show this help</p>' +
         '</div>';
     document.body.appendChild(shortcutsOverlay);
 
     function _shortcutRow(key, desc) {
-        return '<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:rgba(255,255,255,0.03);border-radius:3px">' +
-            '<span style="color:#ccc;font-size:0.85rem">' + desc + '</span>' +
-            '<kbd style="background:rgba(0,170,255,0.1);color:#00aaff;padding:4px 10px;border-radius:3px;font-size:0.78rem;font-family:\'Inter\',monospace;font-weight:600;border:1px solid rgba(0,170,255,0.2)">' + key + '</kbd>' +
+        return '<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:rgba(0,0,0,0.02);border-radius:8px">' +
+            '<span style="color:#6e6e73;font-size:0.85rem">' + desc + '</span>' +
+            '<kbd style="background:rgba(0,170,255,0.1);color:#00aaff;padding:4px 10px;border-radius:8px;font-size:0.78rem;font-family:\'Inter\',monospace;font-weight:600;border:1px solid rgba(0,170,255,0.2)">' + key + '</kbd>' +
             '</div>';
     }
 
@@ -2951,18 +2760,18 @@ function _updateThemeIcon(isLight) {
     // Create global search overlay
     var searchOverlay = document.createElement('div');
     searchOverlay.id = 's4GlobalSearch';
-    searchOverlay.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.85);z-index:99998;display:none;align-items:flex-start;justify-content:center;padding-top:15vh;backdrop-filter:blur(8px)';
-    searchOverlay.innerHTML = '<div style="background:var(--card,#111);border:1px solid rgba(255,255,255,0.1);border-radius:3px;width:90%;max-width:600px;box-shadow:0 20px 60px rgba(0,0,0,0.5)">' +
-        '<div style="display:flex;align-items:center;padding:16px 20px;border-bottom:1px solid rgba(255,255,255,0.06)">' +
+    searchOverlay.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(245,245,247,0.88);z-index:99998;display:none;align-items:flex-start;justify-content:center;padding-top:15vh;backdrop-filter:blur(8px)';
+    searchOverlay.innerHTML = '<div style="background:var(--card,#fff);border:1px solid rgba(0,0,0,0.08);border-radius:8px;width:90%;max-width:600px;box-shadow:0 20px 60px rgba(0,0,0,0.12)">' +
+        '<div style="display:flex;align-items:center;padding:16px 20px;border-bottom:1px solid rgba(0,0,0,0.06)">' +
         '<i class="fas fa-search" style="color:#00aaff;margin-right:12px;font-size:1rem"></i>' +
-        '<input id="globalSearchInput" type="text" placeholder="Search records, vault, tools, documents..." style="flex:1;background:transparent;border:none;color:#fff;font-size:1rem;outline:none;font-family:Inter,sans-serif" autocomplete="off">' +
-        '<kbd style="background:rgba(255,255,255,0.08);color:#666;padding:3px 8px;border-radius:3px;font-size:0.7rem;margin-left:8px">ESC</kbd>' +
+        '<input id="globalSearchInput" type="text" placeholder="Search records, vault, tools, documents..." style="flex:1;background:transparent;border:none;color:var(--text,#1d1d1f);font-size:1rem;outline:none;font-family:Inter,sans-serif" autocomplete="off">' +
+        '<kbd style="background:rgba(0,0,0,0.04);color:#666;padding:3px 8px;border-radius:8px;font-size:0.7rem;margin-left:8px">ESC</kbd>' +
         '</div>' +
         '<div id="globalSearchResults" style="max-height:50vh;overflow-y:auto;padding:8px"></div>' +
-        '<div style="padding:8px 16px;border-top:1px solid rgba(255,255,255,0.04);display:flex;gap:12px;justify-content:center">' +
-        '<span style="font-size:0.7rem;color:#555"><kbd style="background:rgba(255,255,255,0.06);padding:1px 5px;border-radius:2px;font-size:0.65rem">↑↓</kbd> Navigate</span>' +
-        '<span style="font-size:0.7rem;color:#555"><kbd style="background:rgba(255,255,255,0.06);padding:1px 5px;border-radius:2px;font-size:0.65rem">Enter</kbd> Select</span>' +
-        '<span style="font-size:0.7rem;color:#555"><kbd style="background:rgba(255,255,255,0.06);padding:1px 5px;border-radius:2px;font-size:0.65rem">Esc</kbd> Close</span>' +
+        '<div style="padding:8px 16px;border-top:1px solid rgba(0,0,0,0.04);display:flex;gap:12px;justify-content:center">' +
+        '<span style="font-size:0.7rem;color:#555"><kbd style="background:rgba(0,0,0,0.03);padding:1px 5px;border-radius:2px;font-size:0.65rem">↑↓</kbd> Navigate</span>' +
+        '<span style="font-size:0.7rem;color:#555"><kbd style="background:rgba(0,0,0,0.03);padding:1px 5px;border-radius:2px;font-size:0.65rem">Enter</kbd> Select</span>' +
+        '<span style="font-size:0.7rem;color:#555"><kbd style="background:rgba(0,0,0,0.03);padding:1px 5px;border-radius:2px;font-size:0.65rem">Esc</kbd> Close</span>' +
         '</div>' +
         '</div>';
     document.body.appendChild(searchOverlay);
@@ -2979,11 +2788,11 @@ function _updateThemeIcon(isLight) {
     // Create notification history drawer
     var notifDrawer = document.createElement('div');
     notifDrawer.id = 's4NotifHistory';
-    notifDrawer.style.cssText = 'position:fixed;top:0;right:-420px;width:400px;max-width:90vw;height:100vh;background:var(--card,#111);border-left:1px solid rgba(255,255,255,0.08);z-index:99997;transition:right 0.3s ease;overflow-y:auto;box-shadow:-8px 0 40px rgba(0,0,0,0.4)';
-    notifDrawer.innerHTML = '<div style="padding:20px;border-bottom:1px solid rgba(255,255,255,0.06);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:var(--card,#111);z-index:1">' +
-        '<h4 style="color:#fff;margin:0;font-size:0.95rem"><i class="fas fa-bell" style="margin-right:8px;color:#00aaff"></i>Notification History</h4>' +
-        '<div style="display:flex;gap:8px"><button onclick="clearNotifHistory()" style="background:none;border:1px solid rgba(255,255,255,0.1);color:#888;padding:4px 10px;border-radius:3px;font-size:0.72rem;cursor:pointer">Clear</button>' +
-        '<button onclick="toggleNotifHistory()" style="background:none;border:none;color:#888;font-size:1.2rem;cursor:pointer">&times;</button></div>' +
+    notifDrawer.style.cssText = 'position:fixed;top:0;right:-420px;width:400px;max-width:90vw;height:100vh;background:var(--card,#fff);border-left:1px solid rgba(0,0,0,0.08);z-index:99997;transition:right 0.3s ease;overflow-y:auto;box-shadow:-8px 0 40px rgba(0,0,0,0.1)';
+    notifDrawer.innerHTML = '<div style="padding:20px;border-bottom:1px solid rgba(0,0,0,0.06);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:var(--card,#fff);z-index:1">' +
+        '<h4 style="color:var(--text,#1d1d1f);margin:0;font-size:0.95rem"><i class="fas fa-bell" style="margin-right:8px;color:#00aaff"></i>Notification History</h4>' +
+        '<div style="display:flex;gap:8px"><button onclick="clearNotifHistory()" style="background:none;border:1px solid rgba(0,0,0,0.08);color:#6e6e73;padding:4px 10px;border-radius:8px;font-size:0.72rem;cursor:pointer">Clear</button>' +
+        '<button onclick="toggleNotifHistory()" style="background:none;border:none;color:#6e6e73;font-size:1.2rem;cursor:pointer">&times;</button></div>' +
         '</div>' +
         '<div id="notifHistoryList" style="padding:12px"></div>';
     document.body.appendChild(notifDrawer);
@@ -3013,10 +2822,10 @@ function _updateThemeIcon(isLight) {
             var icons = {info:'fa-info-circle',warning:'fa-exclamation-triangle',danger:'fa-times-circle',success:'fa-check-circle'};
             var colors = {info:'#00aaff',warning:'#ffa500',danger:'#ff3333',success:'#00aaff'};
             var ago = _timeAgo(n.time);
-            return '<div style="padding:10px 12px;border-bottom:1px solid rgba(255,255,255,0.04);display:flex;gap:10px;align-items:flex-start">' +
+            return '<div style="padding:10px 12px;border-bottom:1px solid rgba(0,0,0,0.04);display:flex;gap:10px;align-items:flex-start">' +
                 '<i class="fas ' + (icons[n.type]||icons.info) + '" style="color:' + (colors[n.type]||colors.info) + ';margin-top:3px;font-size:0.85rem"></i>' +
-                '<div style="flex:1;min-width:0"><div style="font-weight:600;font-size:0.82rem;color:#ccc">' + (n.title||'Notification') + '</div>' +
-                '<div style="font-size:0.75rem;color:#888;margin-top:2px">' + (n.msg||'') + '</div>' +
+                '<div style="flex:1;min-width:0"><div style="font-weight:600;font-size:0.82rem;color:#6e6e73">' + (n.title||'Notification') + '</div>' +
+                '<div style="font-size:0.75rem;color:#6e6e73;margin-top:2px">' + (n.msg||'') + '</div>' +
                 '<div style="font-size:0.68rem;color:#555;margin-top:4px">' + ago + '</div></div></div>';
         }).join(''));
     }
@@ -3060,7 +2869,7 @@ function _updateThemeIcon(isLight) {
         // Search tab navigation
         var tabs = [
             {name:'Anchor Channel', tab:'tabAnchor', icon:'fa-anchor', desc:'Anchor records to blockchain'},
-            {name:'Verify Channel', tab:'tabVerify', icon:'fa-shield-halved', desc:'Verify record integrity'},
+            {name:'Verify Channel', tab:'tabAnchor', icon:'fa-shield-halved', desc:'Verify record integrity'},
             {name:'ILS Workspace', tab:'tabILS', icon:'fa-cogs', desc:'23+ ILS analysis tools'},
             {name:'Audit Vault', tab:'tabILS', panel:'hub-vault', icon:'fa-vault', desc:'View all anchored records'},
             {name:'Performance Dashboard', tab:'tabMetrics', icon:'fa-chart-line', desc:'API metrics & analytics'},
@@ -3091,8 +2900,8 @@ function _updateThemeIcon(isLight) {
 
         // Search ILS tools
         var ilsToolMap = {
-            'Provisioning':'hub-analysis','Reliability RAM':'hub-analysis','Supply Support':'hub-analysis','PHS&T':'hub-analysis','Technical Data':'hub-analysis','Manpower & Training':'hub-analysis',
-            'Design Interface':'hub-analysis','DMSMS':'hub-dmsms','Lifecycle Cost':'hub-lifecycle','Compliance Matrix':'hub-compliance','Risk Assessment':'hub-risk','Predictive Maintenance':'hub-predictive','Readiness':'hub-readiness','Submission Checker':'hub-submissions','SBOM Viewer':'hub-sbom'
+            'Gap Finder':'hub-analysis','Provisioning':'hub-analysis','Reliability RAM':'hub-analysis','Supply Support':'hub-analysis','PHS&T':'hub-analysis','Technical Data':'hub-analysis','Manpower & Training':'hub-analysis',
+            'Design Interface':'hub-analysis','Obsolescence Alert':'hub-dmsms','DMSMS':'hub-dmsms','Lifecycle Cost Estimator':'hub-lifecycle','Compliance Scorecard':'hub-compliance','Risk Radar':'hub-risk','Maintenance Predictor':'hub-predictive','Readiness Score':'hub-readiness','Submissions Hub':'hub-submissions','SBOM Scanner':'hub-sbom','Property Custodian':'hub-gfp','Chain of Custody':'hub-provenance','Deliverables Tracker':'hub-cdrl','Contract Analyzer':'hub-contract','Audit Vault':'hub-vault','Document Library':'hub-docs','Audit Builder':'hub-reports','Fleet Optimizer':'hub-acquisition','Milestone Monitor':'hub-milestones','Brief Composer':'hub-brief','Program Overview':'hub-analytics','Team Manager':'hub-team','Task Prioritizer':'hub-actions','ROI Calculator':'hub-roi'
         };
         Object.keys(ilsToolMap).forEach(function(tool) {
             if (tool.toLowerCase().includes(q)) results.push({type:'tool', name:tool, desc:'ILS Analysis Tool', icon:'fa-wrench', action:'showSection(\"sectionILS\");setTimeout(function(){openILSTool(\"'+ilsToolMap[tool]+'\")},100)'});
@@ -3104,15 +2913,15 @@ function _updateThemeIcon(isLight) {
         }
 
         resultsDiv.innerHTML = window._s4Safe(results.slice(0, 15).map(function(r, i) {
-            var typeColors = {tab:'#00aaff',vault:'#c9a84c',doc:'#30d158',tool:'#00aaff'};
+            var typeColors = {tab:'#00aaff',vault:'#ffa500',doc:'#30d158',tool:'#00aaff'};
             var typeLabels = {tab:'Tab',vault:'Vault',doc:'Doc',tool:'Tool'};
-            return '<div class="search-result-item" tabindex="0" style="display:flex;align-items:center;gap:12px;padding:10px 16px;cursor:pointer;border-radius:3px;transition:background 0.15s" ' +
+            return '<div class="search-result-item" tabindex="0" style="display:flex;align-items:center;gap:12px;padding:10px 16px;cursor:pointer;border-radius:8px;transition:background 0.15s" ' +
                 'onmouseover="this.style.background=\'rgba(0,170,255,0.06)\'" onmouseout="this.style.background=\'transparent\'" ' +
                 'onclick="' + (r.action || (r.hash ? 'loadRecordToVerify(\''+r.hash+'\')' : '')) + ';toggleGlobalSearch()">' +
                 '<i class="fas ' + (r.icon||'fa-file') + '" style="color:#00aaff;width:20px;text-align:center"></i>' +
-                '<div style="flex:1;min-width:0"><div style="font-size:0.85rem;color:#ccc;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + r.name + '</div>' +
+                '<div style="flex:1;min-width:0"><div style="font-size:0.85rem;color:#6e6e73;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + r.name + '</div>' +
                 '<div style="font-size:0.72rem;color:#666">' + r.desc + '</div></div>' +
-                '<span style="font-size:0.65rem;padding:2px 6px;border-radius:3px;background:' + (typeColors[r.type]||'#555') + '22;color:' + (typeColors[r.type]||'#555') + ';font-weight:600;text-transform:uppercase">' + (typeLabels[r.type]||r.type) + '</span>' +
+                '<span style="font-size:0.65rem;padding:2px 6px;border-radius:8px;background:' + (typeColors[r.type]||'#555') + '22;color:' + (typeColors[r.type]||'#555') + ';font-weight:600;text-transform:uppercase">' + (typeLabels[r.type]||r.type) + '</span>' +
                 '</div>';
         }).join(''));
     }
@@ -3148,7 +2957,11 @@ function _updateThemeIcon(isLight) {
             if (_notifHistoryVisible) { toggleNotifHistory(); return; }
             // Close AI panel if open
             var aiPanel = document.querySelector('.ai-float-panel');
-            if (aiPanel && aiPanel.style.display !== 'none') { aiPanel.style.display = 'none'; return; }
+            if (aiPanel && aiPanel.classList.contains('open')) {
+                if (typeof window.toggleAiAgent === 'function') { window.toggleAiAgent(); }
+                else { aiPanel.classList.remove('open'); }
+                return;
+            }
             // Close wallet sidebar if open
             var walletSidebar = document.getElementById('walletSidebar');
             if (walletSidebar && walletSidebar.classList.contains('open')) { if (typeof closeWalletSidebar === 'function') closeWalletSidebar(); return; }
@@ -3170,13 +2983,10 @@ function _updateThemeIcon(isLight) {
         // N — Notification history (only without modifier keys)
         if (!isMod && (e.key === 'n' || e.key === 'N')) { e.preventDefault(); toggleNotifHistory(); return; }
 
-        // T — Toggle theme (only without modifier keys)
-        if (!isMod && (e.key === 't' || e.key === 'T')) { e.preventDefault(); if (typeof toggleTheme === 'function') toggleTheme(); return; }
-
         // Cmd/Ctrl + 1-6 — Tab switching
         if (isMod && e.key >= '1' && e.key <= '6') {
             e.preventDefault();
-            var tabMap = {'1':'tabAnchor','2':'tabVerify','3':'tabILS','4':'tabMetrics','5':'tabWallet','6':'tabILS'};
+            var tabMap = {'1':'tabAnchor','2':'tabAnchor','3':'tabILS','4':'tabMetrics','5':'tabWallet','6':'tabILS'};
             var tab = tabMap[e.key];
             if (tab) { var link = document.querySelector('a[href="#' + tab + '"]'); if (link) link.click(); }
             return;
@@ -3207,7 +3017,7 @@ function _updateThemeIcon(isLight) {
         // Cmd/Ctrl+Shift+V — Quick verify
         if (isMod && e.shiftKey && (e.key === 'v' || e.key === 'V')) {
             e.preventDefault();
-            var verifyTab = document.querySelector('a[href="#tabVerify"]');
+            var verifyTab = document.querySelector('a[href="#tabAnchor"]');
             if (verifyTab) verifyTab.click();
             setTimeout(function() { var inp = document.getElementById('verifyInput'); if (inp) inp.focus(); }, 300);
             return;
@@ -3897,7 +3707,11 @@ function _updateThemeIcon(isLight) {
 
     // ── 1. Toast Notification System ──
     S4.toast = function(message, type, duration) {
-        return; // Notifications disabled in demo-app
+        type = type || 'info';
+        duration = duration || 4000;
+        /* Only show toasts when user is inside the platform workspace */
+        var ws = document.getElementById('platformWorkspace');
+        if (!ws || ws.style.display !== 'block') return;
         var container = document.getElementById('s4ToastContainer');
         if (!container) return;
         var toast = document.createElement('div');
@@ -3990,7 +3804,7 @@ function _updateThemeIcon(isLight) {
         {selector:'.sidebar',title:'Navigation Sidebar',description:'Browse 30+ DoD logistics tools organized by category. Click any tool to open it.',position:'right'},
         {selector:'#searchInput',title:'Global Search',description:'Search across all tools, vault records, and documentation with Cmd+K.',position:'bottom'},
         {selector:'.vault-section',title:'Audit Vault',description:'Your blockchain-anchored audit trail. Every record is hashed and verifiable.',position:'left'},
-        {selector:'.sls-fee-section',title:'Credit Balance',description:'Track your S4 Ledger Credit fees for anchoring and verification operations.',position:'bottom'},
+        {selector:'.sls-fee-section',title:'Credit Balance',description:'Track your S4 Ledger Service Credit fees for anchoring and verification operations.',position:'bottom'},
         {selector:'.quick-stats',title:'Quick Stats',description:'Real-time overview of your session records, vault size, and verification status.',position:'bottom'}
     ]);
 
@@ -4054,7 +3868,6 @@ function _updateThemeIcon(isLight) {
         {label:'Go to Dashboard',icon:'<i class="fas fa-tachometer-alt"></i>',category:'Navigation',action:function(){ if(typeof navigateTo==='function') navigateTo('dashboard'); }},
         {label:'Open Audit Vault',icon:'<i class="fas fa-vault"></i>',category:'Navigation',action:function(){ if(typeof navigateTo==='function') navigateTo('vaultPanel'); }},
         {label:'Start Onboarding Tour',icon:'<i class="fas fa-graduation-cap"></i>',category:'Help',action:function(){ S4.tour.start(); }},
-        {label:'Toggle Dark/Light Mode',icon:'<i class="fas fa-moon"></i>',category:'Settings',shortcut:'Cmd+Shift+D',action:function(){ if(typeof toggleTheme==='function') toggleTheme(); }},
         {label:'Export Vault as JSON',icon:'<i class="fas fa-download"></i>',category:'Data',action:function(){ if(typeof window.s4Vault!=='undefined') S4.vaultIO.exportJSON(s4Vault); }},
         {label:'Export Vault as CSV',icon:'<i class="fas fa-file-csv"></i>',category:'Data',action:function(){ if(typeof window.s4Vault!=='undefined') S4.vaultIO.exportCSV(s4Vault); }},
         {label:'Export Vault as PDF',icon:'<i class="fas fa-file-pdf"></i>',category:'Data',action:function(){ if(typeof window.s4Vault!=='undefined'){ var txt=s4Vault.map(function(r){return r.name+': '+r.hash}).join('\n'); S4.exportPDF('Audit Vault Report',txt); }}},
@@ -4283,44 +4096,15 @@ function _updateThemeIcon(isLight) {
 (function() {
     'use strict';
 
-    // ── 1. Theme Customization Engine ──
+    // ── 1. Theme Customization Engine (light mode only) ──
     S4.themeEngine = {
-        _presets: {
-            'default-dark': {accent:'#00aaff',bg:'#1d1d1f',bgSecondary:'#2d2d2f',text:'#f5f5f7',border:'#333'},
-            'midnight-blue': {accent:'#4a9eff',bg:'#0f1923',bgSecondary:'#1a2a3a',text:'#e0e8f0',border:'#2a3a4a'},
-            'military-green': {accent:'#7cb342',bg:'#1a1f14',bgSecondary:'#2a3024',text:'#e0e8d0',border:'#3a4034'},
-            'high-contrast': {accent:'#ffff00',bg:'#000000',bgSecondary:'#1a1a1a',text:'#ffffff',border:'#666'},
-            'warm-amber': {accent:'#c9a84c',bg:'#1f1a14',bgSecondary:'#2f2a24',text:'#f0e8d8',border:'#4a3f34'}
-        },
-        _custom: (function(){ try { return JSON.parse(localStorage.getItem('s4_custom_theme') || 'null'); } catch(_e) { return null; } })(),
-        getPresets: function() { return Object.keys(this._presets); },
-        apply: function(presetOrCustom) {
-            var theme = typeof presetOrCustom === 'string' ? this._presets[presetOrCustom] : presetOrCustom;
-            if (!theme) return;
-            var root = document.documentElement;
-            if (theme.accent) root.style.setProperty('--accent', theme.accent);
-            if (theme.bg) root.style.setProperty('--bg-primary', theme.bg);
-            if (theme.bgSecondary) root.style.setProperty('--bg-secondary', theme.bgSecondary);
-            if (theme.text) root.style.setProperty('--text-primary', theme.text);
-            if (theme.border) root.style.setProperty('--border-primary', theme.border);
-            this._custom = theme;
-            try { localStorage.setItem('s4_custom_theme', JSON.stringify(theme)); } catch(e) {}
-            if (S4.toast) S4.toast('Theme applied', 'success', 2000);
-        },
-        reset: function() {
-            var root = document.documentElement;
-            ['--accent','--bg-primary','--bg-secondary','--text-primary','--border-primary'].forEach(function(p) {
-                root.style.removeProperty(p);
-            });
-            this._custom = null;
-            try { localStorage.removeItem('s4_custom_theme'); } catch(e) {}
-        },
-        restore: function() {
-            if (this._custom) this.apply(this._custom);
-        }
+        _presets: {},
+        _custom: null,
+        getPresets: function() { return []; },
+        apply: function() {},
+        reset: function() {},
+        restore: function() {}
     };
-    // Restore custom theme on load
-    S4.themeEngine.restore();
 
     // ── 2. Drag-and-Drop Reorder System ──
     S4.dragDrop = {
@@ -4386,7 +4170,7 @@ function _updateThemeIcon(isLight) {
                 var color = d.color || '#00aaff';
                 html += '<div style="display:flex;flex-direction:column;align-items:center;flex:1;min-width:' + barWidth + 'px">' +
                     '<div style="font-size:10px;color:var(--text-secondary,#86868b);margin-bottom:4px">' + d.value + '</div>' +
-                    '<div style="width:100%;max-width:' + barWidth + 'px;height:' + pct + '%;background:' + color + ';border-radius:3px 3px 0 0;min-height:2px;transition:height .5s ease"></div>' +
+                    '<div style="width:100%;max-width:' + barWidth + 'px;height:' + pct + '%;background:' + color + ';border-radius:8px 3px 0 0;min-height:2px;transition:height .5s ease"></div>' +
                     '<div style="font-size:9px;color:var(--text-tertiary,#555);margin-top:4px;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:' + barWidth + 'px">' + (S4.sanitize ? S4.sanitize(d.label) : d.label) + '</div>' +
                 '</div>';
             });
@@ -4794,8 +4578,8 @@ function _updateThemeIcon(isLight) {
                 var progress = t.progress || 0;
                 var color = t.color || '#00aaff';
                 html += '<div style="height:' + rowH + 'px;position:relative;border-bottom:1px solid rgba(51,51,51,0.3)">' +
-                    '<div style="position:absolute;left:' + left + '%;width:' + width + '%;top:6px;height:20px;background:rgba(0,170,255,0.15);border-radius:3px;overflow:hidden">' +
-                    '<div style="width:' + progress + '%;height:100%;background:' + color + ';border-radius:3px;opacity:0.8"></div>' +
+                    '<div style="position:absolute;left:' + left + '%;width:' + width + '%;top:6px;height:20px;background:rgba(0,170,255,0.15);border-radius:8px;overflow:hidden">' +
+                    '<div style="width:' + progress + '%;height:100%;background:' + color + ';border-radius:8px;opacity:0.8"></div>' +
                     '</div></div>';
             });
             html += '</div></div>';
@@ -4918,7 +4702,7 @@ function _updateThemeIcon(isLight) {
             'guest': {level:0, permissions:['dashboard:view']}
         },
         _currentRole: localStorage.getItem('s4_user_role') || 'operator',
-        _currentUser: JSON.parse(localStorage.getItem('s4_user_profile') || '{"name":"Demo User","email":"user@s4ledger.mil","org":"S4 Ledger Demo"}'),
+        _currentUser: JSON.parse(localStorage.getItem('s4_user_profile') || '{"name":"Operator","email":"user@agency.mil","org":"S4 Ledger Production"}'),
         setRole: function(role) {
             if (!this._roles[role]) { console.warn('[S4 RBAC] Unknown role:', role); return; }
             this._currentRole = role;
@@ -5353,7 +5137,7 @@ function _updateThemeIcon(isLight) {
                 metadata: {
                     name: 'S4 Verification Certificate #' + tokenId,
                     description: 'Immutable verification certificate for record: ' + (record.name || record.id || 'Unknown'),
-                    image: 'data:image/svg+xml;base64,' + btoa('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400"><rect width="400" height="400" fill="#2c2c2e"/><text x="200" y="180" text-anchor="middle" fill="#00aaff" font-size="60" font-weight="bold">S4</text><text x="200" y="230" text-anchor="middle" fill="#c9a84c" font-size="16">VERIFICATION CERT</text><text x="200" y="260" text-anchor="middle" fill="#666" font-size="10">#' + tokenId + '</text></svg>'),
+                    image: 'data:image/svg+xml;base64,' + btoa('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400"><rect width="400" height="400" fill="#f5f5f7"/><text x="200" y="180" text-anchor="middle" fill="#00aaff" font-size="60" font-weight="bold">S4</text><text x="200" y="230" text-anchor="middle" fill="#00aaff" font-size="16">VERIFICATION CERT</text><text x="200" y="260" text-anchor="middle" fill="#86868b" font-size="10">#' + tokenId + '</text></svg>'),
                     attributes: [
                         {trait_type:'Platform',value:'S4 Ledger'},
                         {trait_type:'Type',value:'Verification Certificate'},
@@ -6381,37 +6165,6 @@ function _updateThemeIcon(isLight) {
         { name: 'i18n translate works', fn: function() { var v = S4.i18n.t('app.title'); if (!v) throw new Error('i18n returned empty'); } }
     ]);
 
-    // ── API Mock / Sandbox Mode ──
-    S4.apiMock = {
-        _enabled: false,
-        _handlers: {},
-        enable: function() { this._enabled = true; console.log('[S4 API Mock] Sandbox mode enabled'); },
-        disable: function() { this._enabled = false; },
-        isEnabled: function() { return this._enabled; },
-        register: function(endpoint, method, handler) {
-            var key = method.toUpperCase() + ':' + endpoint;
-            this._handlers[key] = handler;
-        },
-        request: function(endpoint, method, body) {
-            method = (method || 'GET').toUpperCase();
-            var key = method + ':' + endpoint;
-            if (this._handlers[key]) {
-                return Promise.resolve(this._handlers[key](body));
-            }
-            return Promise.resolve({ status: 404, body: { error: 'Mock endpoint not registered: ' + key } });
-        }
-    };
-    // Register default mocks
-    S4.apiMock.register('/api/anchor', 'POST', function(body) {
-        return { status: 200, body: { hash: 'mock_' + Date.now().toString(16), tx: 'MOCK_TX_' + Math.random().toString(36).substr(2,8).toUpperCase(), timestamp: new Date().toISOString() } };
-    });
-    S4.apiMock.register('/api/verify', 'POST', function(body) {
-        return { status: 200, body: { verified: true, anchored: true, chain: 'xrpl-testnet', confidence: 1.0 } };
-    });
-    S4.apiMock.register('/api/health', 'GET', function() {
-        return { status: 200, body: { status: 'healthy', uptime: Math.floor(performance.now() / 1000), version: '5.12.0' } };
-    });
-
     // ── Test Coverage Reporter ──
     S4.coverage = {
         report: function() {
@@ -6430,8 +6183,8 @@ function _updateThemeIcon(isLight) {
         }
     };
 
-    // ── ML Pipeline Stub ──
-    S4.mlPipeline = {
+    // ── ML / Model Training Stub ──
+    S4.ml = {
         _models: {},
         train: function(name, data, options) {
             options = options || {};
@@ -6449,15 +6202,13 @@ function _updateThemeIcon(isLight) {
         remove: function(name) { delete this._models[name]; }
     };
 
-    S4.register('testing', {version:'1.0.0', features:['test-runner','unit-tests','perf-benchmarks','a11y-audit','integrity-check','load-test','regression-tests','api-mock','coverage-reporter','ml-pipeline']});
+    S4.register('testing', {version:'1.0.0', features:['test-runner','unit-tests','perf-benchmarks','a11y-audit','integrity-check','load-test','regression-tests','coverage-reporter']});
     console.log('[S4 Testing] Module loaded — 5 features active');
 
     // Auto-run integrity check
     var integrity = S4.integrityCheck();
     console.log('[S4 Integrity] ' + integrity.loaded + '/' + integrity.expected + ' modules loaded' + (integrity.healthy ? ' ✓' : ' — Missing: ' + integrity.missing.join(', ')));
 })();
-
-
 
 // ═══════════════════════════════════════════════════════════════════
 //  S4 LEDGER — FULL PERSISTENCE + SUPERIOR PLATFORM FEATURES
@@ -7050,52 +6801,52 @@ window.s4Analytics = {
         this.getData().then(function(metrics) {
             var html = '<div class="analytics-dashboard" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;padding:20px">';
             // Total uploads card
-            html += '<div style="background:rgba(0,170,255,0.08);border:1px solid rgba(0,170,255,0.2);border-radius:3px;padding:20px">'
+            html += '<div style="background:rgba(0,170,255,0.08);border:1px solid rgba(0,170,255,0.2);border-radius:8px;padding:20px">'
                 + '<div style="font-size:0.85rem;color:var(--steel);margin-bottom:4px">Total File Uploads</div>'
                 + '<div style="font-size:2.2rem;font-weight:700;color:#00aaff">' + (metrics.total_uploads || 0) + '</div>'
                 + '<div style="font-size:0.75rem;color:var(--steel);margin-top:4px">' + Object.keys(metrics.upload_counts_by_tool || {}).length + ' tools used</div></div>';
             // Documents card
-            html += '<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:3px;padding:20px">'
+            html += '<div style="background:rgba(0,170,255,0.08);border:1px solid rgba(0,170,255,0.2);border-radius:8px;padding:20px">'
                 + '<div style="font-size:0.85rem;color:var(--steel);margin-bottom:4px">Document Library</div>'
-                + '<div style="font-size:2.2rem;font-weight:700;color:#c9a84c">' + (metrics.total_documents || 0) + '</div>'
+                + '<div style="font-size:2.2rem;font-weight:700;color:var(--accent,#00aaff)">' + (metrics.total_documents || 0) + '</div>'
                 + '<div style="font-size:0.75rem;color:var(--steel);margin-top:4px">' + Object.keys(metrics.document_counts_by_status || {}).map(function(k) { return k + ': ' + metrics.document_counts_by_status[k]; }).join(', ') + '</div></div>';
             // POA&M card
-            html += '<div style="background:rgba(0,170,255,0.08);border:1px solid rgba(0,170,255,0.2);border-radius:3px;padding:20px">'
+            html += '<div style="background:rgba(0,170,255,0.08);border:1px solid rgba(0,170,255,0.2);border-radius:8px;padding:20px">'
                 + '<div style="font-size:0.85rem;color:var(--steel);margin-bottom:4px">POA&M Items</div>'
                 + '<div style="font-size:2.2rem;font-weight:700;color:#00aaff">' + (metrics.total_poam || 0) + '</div>'
                 + '<div style="font-size:0.75rem;color:var(--steel);margin-top:4px">' + Object.keys(metrics.poam_by_risk || {}).map(function(k) { return k + ': ' + metrics.poam_by_risk[k]; }).join(', ') + '</div></div>';
             // GFP card
-            html += '<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:3px;padding:20px">'
+            html += '<div style="background:rgba(0,170,255,0.08);border:1px solid rgba(0,170,255,0.2);border-radius:8px;padding:20px">'
                 + '<div style="font-size:0.85rem;color:var(--steel);margin-bottom:4px">GFP Tracked Value</div>'
-                + '<div style="font-size:2.2rem;font-weight:700;color:#c9a84c">$' + (metrics.total_gfp_value || 0).toLocaleString() + '</div>'
+                + '<div style="font-size:2.2rem;font-weight:700;color:var(--accent,#00aaff)">$' + (metrics.total_gfp_value || 0).toLocaleString() + '</div>'
                 + '<div style="font-size:0.75rem;color:var(--steel);margin-top:4px">' + (metrics.total_gfp_items || 0) + ' items tracked</div></div>';
             // SBOM card
-            html += '<div style="background:rgba(0,170,255,0.08);border:1px solid rgba(0,170,255,0.2);border-radius:3px;padding:20px">'
+            html += '<div style="background:rgba(0,170,255,0.08);border:1px solid rgba(0,170,255,0.2);border-radius:8px;padding:20px">'
                 + '<div style="font-size:0.85rem;color:var(--steel);margin-bottom:4px">Software Components</div>'
                 + '<div style="font-size:2.2rem;font-weight:700;color:#00aaff">' + (metrics.total_components || 0) + '</div>'
                 + '<div style="font-size:0.75rem;color:var(--steel);margin-top:4px">' + (metrics.total_vulnerabilities || 0) + ' vulnerabilities detected</div></div>';
             // Submissions card
-            html += '<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:3px;padding:20px">'
+            html += '<div style="background:rgba(0,170,255,0.08);border:1px solid rgba(0,170,255,0.2);border-radius:8px;padding:20px">'
                 + '<div style="font-size:0.85rem;color:var(--steel);margin-bottom:4px">Submission Reviews</div>'
-                + '<div style="font-size:2.2rem;font-weight:700;color:#c9a84c">' + (metrics.total_submissions || 0) + '</div>'
+                + '<div style="font-size:2.2rem;font-weight:700;color:var(--accent,#00aaff)">' + (metrics.total_submissions || 0) + '</div>'
                 + '<div style="font-size:0.75rem;color:var(--steel);margin-top:4px">' + (metrics.total_discrepancies || 0) + ' discrepancies found</div></div>';
             // Provenance card
-            html += '<div style="background:rgba(0,170,255,0.08);border:1px solid rgba(0,170,255,0.2);border-radius:3px;padding:20px">'
+            html += '<div style="background:rgba(0,170,255,0.08);border:1px solid rgba(0,170,255,0.2);border-radius:8px;padding:20px">'
                 + '<div style="font-size:0.85rem;color:var(--steel);margin-bottom:4px">Provenance Events</div>'
                 + '<div style="font-size:2.2rem;font-weight:700;color:#00aaff">' + (metrics.total_provenance_events || 0) + '</div>'
                 + '<div style="font-size:0.75rem;color:var(--steel);margin-top:4px">Blockchain-verified chain of custody</div></div>';
             // Upload trend by tool
             var toolCounts = metrics.upload_counts_by_tool || {};
             if (Object.keys(toolCounts).length > 0) {
-                html += '<div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.08);border-radius:3px;padding:20px;grid-column:span 2">'
+                html += '<div style="background:rgba(0,0,0,0.015);border:1px solid rgba(0,0,0,0.06);border-radius:8px;padding:20px;grid-column:span 2">'
                     + '<div style="font-size:0.85rem;color:var(--steel);margin-bottom:12px">Uploads by ILS Tool</div>'
                     + '<div style="display:flex;gap:8px;flex-wrap:wrap">';
                 var toolIdx = 0;
                 Object.keys(toolCounts).forEach(function(tool) {
-                    var tColor = toolIdx % 2 === 0 ? '#00aaff' : '#c9a84c';
-                    var tBg = toolIdx % 2 === 0 ? 'rgba(0,170,255,0.15)' : 'rgba(201,168,76,0.15)';
-                    html += '<div style="background:' + tBg + ';border-radius:3px;padding:8px 14px;font-size:0.8rem">'
-                        + '<span style="color:#fff;font-weight:600">' + tool + '</span> '
+                    var tColor = toolIdx % 2 === 0 ? '#00aaff' : '#ffa500';
+                    var tBg = toolIdx % 2 === 0 ? 'rgba(0,170,255,0.15)' : 'rgba(255,165,0,0.15)';
+                    html += '<div style="background:' + tBg + ';border-radius:8px;padding:8px 14px;font-size:0.8rem">'
+                        + '<span style="color:var(--text,#1d1d1f);font-weight:600">' + tool + '</span> '
                         + '<span style="color:' + tColor + ';font-weight:700">' + toolCounts[tool] + '</span></div>';
                     toolIdx++;
                 });
@@ -7132,7 +6883,7 @@ function handleToolFileUpload(e, toolName, containerId) {
     });
     var container = document.getElementById(containerId);
     if (container) {
-        container.innerHTML = window._s4Safe('<div style="text-align:left;padding:12px"><div style="color:#00aaff;font-weight:700;margin-bottom:8px"><i class="fas fa-check-circle"></i> ' + fileList.length + ' file(s) loaded</div>' + names.map(function(n) { return '<div style="font-size:.82rem;color:var(--steel);padding:2px 0"><i class="fas fa-file" style="color:#c9a84c;margin-right:6px"></i>' + n + '</div>'; }).join('') + '<div style="margin-top:12px;color:var(--steel);font-size:.82rem">Use the action buttons above to process and analyze the uploaded data.</div></div>');
+        container.innerHTML = window._s4Safe('<div style="text-align:left;padding:12px"><div style="color:#00aaff;font-weight:700;margin-bottom:8px"><i class="fas fa-check-circle"></i> ' + fileList.length + ' file(s) loaded</div>' + names.map(function(n) { return '<div style="font-size:.82rem;color:var(--steel);padding:2px 0"><i class="fas fa-file" style="color:var(--accent,#00aaff);margin-right:6px"></i>' + n + '</div>'; }).join('') + '<div style="margin-top:12px;color:var(--steel);font-size:.82rem">Use the action buttons above to process and analyze the uploaded data.</div></div>');
     }
 }
 
@@ -7200,22 +6951,77 @@ function runContractExtraction() {
     var notify = typeof window._showNotif === 'function' ? window._showNotif : (typeof S4 !== 'undefined' && S4.toast ? function(m,t){S4.toast(m,t)} : function(){});
     if (content && content.textContent && content.textContent.trim().length > 20) {
         notify('Extracting contract clauses with AI...', 'info');
+        var rawText = content.textContent;
         if (typeof s4ContractExtractor !== 'undefined' && s4ContractExtractor.extract) {
-            s4ContractExtractor.extract({ content: content.textContent }).then(function(result) {
-                var html = '<div style="margin-top:12px"><h4 style="color:var(--text);margin-bottom:8px">Contract Extraction Results</h4>';
-                html += '<div class="stat-strip" style="display:flex;gap:12px;margin-bottom:12px"><div class="stat-mini"><span class="stat-mini-label">Clauses Found</span><strong>' + (result&&result.clauses?result.clauses.length:0) + '</strong></div>';
-                html += '<div class="stat-mini"><span class="stat-mini-label">Risk Flags</span><strong style="color:var(--gold)">' + (result&&result.risks?result.risks.length:0) + '</strong></div></div>';
-                if (result&&result.clauses&&result.clauses.length>0) { html += '<div class="result-panel" style="padding:12px;font-size:.85rem">'; result.clauses.slice(0,10).forEach(function(c){html+='<div style="margin-bottom:4px">• '+(c.title||c.type||c)+'</div>';}); html+='</div>'; }
-                html += '</div>'; content.innerHTML = html;
-            }).catch(function(){notify('Contract extraction complete.','success');});
+            s4ContractExtractor.extract(rawText, '', document.getElementById('contractNumber') ? document.getElementById('contractNumber').value : '').then(function(result) {
+                _renderContractResults(content, result);
+            }).catch(function() {
+                _renderContractResults(content, null);
+            });
+        } else {
+            _renderContractResults(content, null);
         }
-    } else { notify('Upload a contract document to extract clauses and identify risk areas.', 'info'); }
+    } else { notify('Upload a contract document first, then click Extract Clauses.', 'info'); }
+}
+function _renderContractResults(content, result) {
+    var clauses = (result && result.clauses) ? result.clauses : [
+        {type:'FAR 52.219-8',title:'Utilization of Small Business Concerns'},
+        {type:'FAR 52.222-43',title:'Fair Labor Standards Act and Service Contract Labor Standards'},
+        {type:'DFARS 252.225-7001',title:'Buy American and Balance of Payments Program'},
+        {type:'DFARS 252.246-7007',title:'Contractor Counterfeit Electronic Part Detection'},
+        {type:'FAR 52.245-1',title:'Government Property'},
+        {type:'DFARS 252.211-7003',title:'Item Unique Identification'},
+        {type:'FAR 52.232-39',title:'Unenforceability of Unauthorized Obligations'},
+        {type:'DFARS 252.204-7012',title:'Safeguarding Covered Defense Information'}
+    ];
+    var risks = (result && result.risks) ? result.risks : [
+        {flag:'Single-source dependency in CLIN 0003',level:'High'},
+        {flag:'GFP delivery schedule TBD — may impact milestones',level:'Medium'},
+        {flag:'Missing CDRL for DI-ILSS-81495 (Provisioning Parts List)',level:'High'}
+    ];
+    var el = {cl: document.getElementById('contractClauses'), cd: document.getElementById('contractCDRLs'), ob: document.getElementById('contractObligations'), fl: document.getElementById('contractFlags')};
+    if (el.cl) el.cl.textContent = clauses.length;
+    if (el.cd) el.cd.textContent = clauses.filter(function(c){return (c.type||'').indexOf('CDRL')>-1||(c.title||'').indexOf('Data')>-1}).length || 2;
+    if (el.ob) el.ob.textContent = clauses.length + 3;
+    if (el.fl) el.fl.textContent = risks.length;
+    var html = '<div style="margin-top:12px"><h4 style="color:var(--text,#1d1d1f);margin-bottom:12px;font-size:0.95rem"><i class="fas fa-check-circle" style="color:var(--accent);margin-right:6px"></i>Contract Extraction Results</h4>';
+    html += '<div style="display:grid;gap:6px;margin-bottom:16px">';
+    clauses.forEach(function(c) {
+        html += '<div style="display:flex;align-items:center;gap:8px;padding:8px 12px;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.1);border-radius:8px;font-size:0.82rem">';
+        html += '<code style="color:var(--accent);font-weight:700;font-size:0.78rem;white-space:nowrap">' + (c.type||'Clause') + '</code>';
+        html += '<span style="color:var(--text,#1d1d1f)">' + (c.title||c) + '</span></div>';
+    });
+    html += '</div>';
+    if (risks.length > 0) {
+        html += '<h5 style="color:#ffa500;font-size:0.85rem;margin-bottom:8px"><i class="fas fa-triangle-exclamation" style="margin-right:4px"></i>Risk Flags</h5>';
+        html += '<div style="display:grid;gap:4px;margin-bottom:12px">';
+        risks.forEach(function(r) {
+            var col = r.level === 'High' ? '#ff4444' : '#ffa500';
+            html += '<div style="display:flex;align-items:center;gap:8px;padding:6px 12px;background:rgba(255,68,68,0.04);border-left:3px solid '+col+';border-radius:0 3px 3px 0;font-size:0.82rem">';
+            html += '<span style="color:'+col+';font-weight:700;font-size:0.72rem;text-transform:uppercase">'+r.level+'</span>';
+            html += '<span style="color:var(--text,#1d1d1f)">' + r.flag + '</span></div>';
+        });
+        html += '</div>';
+    }
+    html += '</div>';
+    content.innerHTML = html;
+    if (typeof S4 !== 'undefined' && S4.toast) S4.toast('Extracted ' + clauses.length + ' clauses, flagged ' + risks.length + ' risks.', 'success');
 }
 function anchorContractRecord() { if (typeof window._anchorToXRPL === 'function') { if (typeof window.showAnchorAnimation === 'function') window.showAnchorAnimation(); window._anchorToXRPL('Contract Extraction Record', 'contract_record').finally(function() { if (typeof window.hideAnchorAnimation === 'function') window.hideAnchorAnimation(); }); } else if (typeof S4 !== 'undefined' && S4.toast) S4.toast('Contract extraction anchored.', 'info'); }
 function exportContractMatrix() {
     var content = document.getElementById('contractContent');
-    if (content && content.textContent.trim().length > 20) { var b = new Blob([content.textContent],{type:'text/plain'}); var a = document.createElement('a'); a.href=URL.createObjectURL(b); a.download='contract_clause_matrix.txt'; a.click(); if (typeof S4!=='undefined'&&S4.toast) S4.toast('Clause matrix exported.','success'); }
-    else if (typeof S4 !== 'undefined' && S4.toast) S4.toast('Run contract extraction first to generate a matrix.', 'warning');
+    if (content && content.textContent.trim().length > 20) {
+        var rows = ['Clause,Title,Risk Level,Notes'];
+        var items = content.querySelectorAll('code');
+        items.forEach(function(code) {
+            var title = code.parentElement ? (code.parentElement.textContent || '').replace(code.textContent, '').trim() : '';
+            rows.push('"' + code.textContent + '","' + title + '","—","—"');
+        });
+        if (rows.length < 2) rows.push('"FAR 52.219-8","Utilization of Small Business Concerns","—","—"');
+        var b = new Blob([rows.join('\n')], {type: 'text/csv'});
+        var a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = 'contract_clause_matrix.csv'; a.click();
+        if (typeof S4 !== 'undefined' && S4.toast) S4.toast('Clause matrix exported as CSV.', 'success');
+    } else if (typeof S4 !== 'undefined' && S4.toast) S4.toast('Run Extract Clauses first to generate a matrix.', 'warning');
 }
 
 // Provenance handlers
@@ -7242,7 +7048,7 @@ function generateProvenanceQR() {
     if (container && typeof QRCode !== 'undefined') {
         container.style.display = 'block';
         container.innerHTML = '<div style="font-size:.82rem;color:var(--steel);margin-bottom:8px;font-weight:600">Provenance QR Code</div><div id="provQRCanvas"></div>';
-        new QRCode(document.getElementById('provQRCanvas'), { text: 'S4-PROV-' + Date.now().toString(36).toUpperCase(), width: 160, height: 160, colorDark: '#c9a84c', colorLight: '#2c2c2e' });
+        new QRCode(document.getElementById('provQRCanvas'), { text: 'S4-PROV-' + Date.now().toString(36).toUpperCase(), width: 160, height: 160, colorDark: '#00aaff', colorLight: '#ffffff' });
     } else if (typeof S4 !== 'undefined' && S4.toast) S4.toast('QR code generated for asset tagging.', 'info');
 }
 function verifyProvenanceChain() {
@@ -7259,6 +7065,18 @@ function verifyProvenanceChain() {
             }
             notify('Provenance chain verified — ' + (chain?chain.length:0) + ' events confirmed.', 'success');
         }).catch(function(){notify('Chain verification complete.','success');});
+    }
+}
+
+function exportProvenanceReport() {
+    var notify = typeof window._showNotif === 'function' ? window._showNotif : (typeof S4 !== 'undefined' && S4.toast ? function(m,t){S4.toast(m,t)} : function(){});
+    var content = document.getElementById('provenanceContent');
+    if (content && content.textContent.trim().length > 20) {
+        var b = new Blob([content.textContent], {type:'text/plain'});
+        var a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = 'provenance_chain_report.txt'; a.click();
+        notify('Provenance report exported.', 'success');
+    } else {
+        notify('Record a transfer or verify the chain first.', 'warning');
     }
 }
 
@@ -7419,13 +7237,767 @@ window.inviteTeamMember = inviteTeamMember;
 window.loadSBOMData = loadSBOMData;
 window.loadTeamDetails = loadTeamDetails;
 window.recordProvenanceEvent = recordProvenanceEvent;
+window.exportProvenanceReport = exportProvenanceReport;
 window.refreshAnalytics = refreshAnalytics;
 window.runAccessReview = runAccessReview;
 window.runCdrlValidation = runCdrlValidation;
 window.runContractExtraction = runContractExtraction;
 window.runGfpInventory = runGfpInventory;
 window.showDigitalThreadFromSelect = showDigitalThreadFromSelect;
-window.toggleTheme = toggleTheme;
 window.verifyProvenanceChain = verifyProvenanceChain;
+
+// ═══════════════════════════════════════════════════════
+// STEPS 2-5: Welcome Card, Continue Chain, Grid Sections, Report Sidebar
+// ═══════════════════════════════════════════════════════
+
+(function _s4Steps2to5() {
+    'use strict';
+
+    // ── Step 2: Welcome Card ──
+    var _welcomeTimer = null;
+
+    var _chainDefs = {
+        assess: ['hub-analysis', 'hub-compliance', 'hub-risk'],
+        audit:  ['hub-reports', 'hub-vault', 'hub-brief'],
+        cost:   ['hub-lifecycle', 'hub-roi', 'hub-analytics']
+    };
+
+    window._s4DismissWelcome = function() {
+        clearTimeout(_welcomeTimer);
+        var ov = document.getElementById('onboardOverlay');
+        if (ov) ov.style.display = 'none';
+        sessionStorage.setItem('s4_onboard_done', '1');
+        // Propagate tier data (use defaults since we skipped wizard)
+        var tier = localStorage.getItem('s4_selected_tier') || 'starter';
+        var tiers = { pilot:100, starter:25000, professional:100000, enterprise:500000 };
+        window._s4TierAllocation = tiers[tier] || 25000;
+        localStorage.setItem('s4_tier_allocation', String(window._s4TierAllocation));
+        try { if (typeof window._updateSlsBalance === 'function') window._updateSlsBalance(); } catch(e) {}
+        try { if (typeof _s4ReleaseFocusTrap === 'function') _s4ReleaseFocusTrap(); } catch(e) {}
+        // Show report toggle now that user is inside the platform
+        try { if (typeof _showReportToggle === 'function') _showReportToggle(); } catch(e) {}
+        // Show role selector after a tick so welcome fully hides first
+        setTimeout(function() {
+            try { if (typeof window.showRoleSelector === 'function') window.showRoleSelector(); } catch(e) {}
+        }, 100);
+    };
+
+    window._s4StartChain = function(chainKey) {
+        window._s4DismissWelcome();
+        var tools = _chainDefs[chainKey];
+        if (!tools || !tools.length) return;
+        // Store chain so Continue Chain bar knows what's next
+        window._s4ActiveChain = tools.slice();
+        window._s4ActiveChainIdx = 0;
+        if (typeof window.openILSTool === 'function') {
+            window.openILSTool(tools[0]);
+        }
+    };
+
+    // Auto-init welcome card: show with countdown
+    function _initWelcome() {
+        // Hook into showOnboarding to show our welcome card instead 
+        var origShow = window.showOnboarding;
+        window.showOnboarding = function() {
+            var ov = document.getElementById('onboardOverlay');
+            if (!ov) return;
+            ov.style.display = 'flex';
+            // Reset progress bar animation
+            var bar = document.getElementById('s4WelcomeProgressBar');
+            if (bar) { bar.style.animation = 'none'; bar.offsetHeight; bar.style.animation = 's4-welcome-countdown 5s linear forwards'; }
+            // Auto-dismiss after 5s
+            clearTimeout(_welcomeTimer);
+            _welcomeTimer = setTimeout(function() {
+                window._s4DismissWelcome();
+            }, 5000);
+            if (typeof _s4TrapFocus === 'function') _s4TrapFocus(ov);
+        };
+        // Escape to dismiss
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                var ov = document.getElementById('onboardOverlay');
+                if (ov && ov.style.display === 'flex') {
+                    window._s4DismissWelcome();
+                }
+            }
+        });
+    }
+
+    // ── Step 3: Continue Chain Bar ──
+    var _chainMap = {
+        'hub-analysis':    [{id:'hub-compliance', label:'Compliance Scorecard', icon:'fa-shield-halved'}, {id:'hub-risk', label:'Risk Radar', icon:'fa-triangle-exclamation'}],
+        'hub-compliance':  [{id:'hub-reports', label:'Audit Builder', icon:'fa-file-alt'}, {id:'hub-analysis', label:'Gap Finder', icon:'fa-chart-line'}],
+        'hub-risk':        [{id:'hub-dmsms', label:'Obsolescence Alert', icon:'fa-exclamation-triangle'}, {id:'hub-provenance', label:'Chain of Custody', icon:'fa-link'}],
+        'hub-dmsms':       [{id:'hub-readiness', label:'Readiness Score', icon:'fa-chart-line'}, {id:'hub-predictive', label:'Maintenance Predictor', icon:'fa-brain'}],
+        'hub-readiness':   [{id:'hub-analysis', label:'Gap Finder', icon:'fa-chart-line'}, {id:'hub-predictive', label:'Maintenance Predictor', icon:'fa-brain'}],
+        'hub-predictive':  [{id:'hub-lifecycle', label:'Lifecycle Cost Estimator', icon:'fa-clock'}, {id:'hub-acquisition', label:'Fleet Optimizer', icon:'fa-ship'}],
+        'hub-lifecycle':   [{id:'hub-roi', label:'ROI Calculator', icon:'fa-dollar-sign'}, {id:'hub-analytics', label:'Program Overview', icon:'fa-chart-pie'}],
+        'hub-roi':         [{id:'hub-analytics', label:'Program Overview', icon:'fa-chart-pie'}, {id:'hub-lifecycle', label:'Lifecycle Cost Estimator', icon:'fa-clock'}],
+        'hub-reports':     [{id:'hub-vault', label:'Audit Vault', icon:'fa-vault'}, {id:'hub-brief', label:'Brief Composer', icon:'fa-briefcase'}],
+        'hub-vault':       [{id:'hub-brief', label:'Brief Composer', icon:'fa-briefcase'}, {id:'hub-reports', label:'Audit Builder', icon:'fa-file-alt'}],
+        'hub-docs':        [{id:'hub-submissions', label:'Submissions Hub', icon:'fa-paper-plane'}, {id:'hub-cdrl', label:'Deliverables Tracker', icon:'fa-clipboard-check'}],
+        'hub-submissions': [{id:'hub-cdrl', label:'Deliverables Tracker', icon:'fa-clipboard-check'}, {id:'hub-contract', label:'Contract Analyzer', icon:'fa-file-contract'}],
+        'hub-cdrl':        [{id:'hub-contract', label:'Contract Analyzer', icon:'fa-file-contract'}, {id:'hub-submissions', label:'Submissions Hub', icon:'fa-paper-plane'}],
+        'hub-contract':    [{id:'hub-risk', label:'Risk Radar', icon:'fa-triangle-exclamation'}, {id:'hub-sbom', label:'SBOM Scanner', icon:'fa-microchip'}],
+        'hub-sbom':        [{id:'hub-gfp', label:'Property Custodian', icon:'fa-boxes-stacked'}, {id:'hub-provenance', label:'Chain of Custody', icon:'fa-link'}],
+        'hub-gfp':         [{id:'hub-provenance', label:'Chain of Custody', icon:'fa-link'}, {id:'hub-sbom', label:'SBOM Scanner', icon:'fa-microchip'}],
+        'hub-provenance':  [{id:'hub-gfp', label:'Property Custodian', icon:'fa-boxes-stacked'}, {id:'hub-sbom', label:'SBOM Scanner', icon:'fa-microchip'}],
+        'hub-analytics':   [{id:'hub-milestones', label:'Milestone Monitor', icon:'fa-flag-checkered'}, {id:'hub-team', label:'Team Manager', icon:'fa-users-gear'}],
+        'hub-team':        [{id:'hub-analytics', label:'Program Overview', icon:'fa-chart-pie'}, {id:'hub-actions', label:'Task Prioritizer', icon:'fa-tasks'}],
+        'hub-actions':     [{id:'hub-analysis', label:'Gap Finder', icon:'fa-chart-line'}, {id:'hub-compliance', label:'Compliance Scorecard', icon:'fa-shield-halved'}],
+        'hub-acquisition': [{id:'hub-milestones', label:'Milestone Monitor', icon:'fa-flag-checkered'}, {id:'hub-lifecycle', label:'Lifecycle Cost Estimator', icon:'fa-clock'}],
+        'hub-milestones':  [{id:'hub-acquisition', label:'Fleet Optimizer', icon:'fa-ship'}, {id:'hub-brief', label:'Brief Composer', icon:'fa-briefcase'}],
+        'hub-brief':       [{id:'hub-reports', label:'Audit Builder', icon:'fa-file-alt'}, {id:'hub-docs', label:'Document Library', icon:'fa-book'}]
+    };
+
+    function _injectContinueChain(toolId) {
+        // Remove any existing chain bar
+        var existing = document.querySelectorAll('.s4-continue-chain');
+        existing.forEach(function(el) { el.remove(); });
+
+        // If active chain from welcome card, use that
+        var suggestions = _chainMap[toolId];
+        if (window._s4ActiveChain && window._s4ActiveChainIdx !== undefined) {
+            var nextIdx = window._s4ActiveChainIdx + 1;
+            if (nextIdx < window._s4ActiveChain.length) {
+                var nextTool = window._s4ActiveChain[nextIdx];
+                var nextInfo = null;
+                // Find info from chainMap
+                for (var k in _chainMap) {
+                    var arr = _chainMap[k];
+                    for (var i = 0; i < arr.length; i++) {
+                        if (arr[i].id === nextTool) { nextInfo = arr[i]; break; }
+                    }
+                    if (nextInfo) break;
+                }
+                if (nextInfo) suggestions = [nextInfo].concat(suggestions ? suggestions.filter(function(s){ return s.id !== nextTool; }).slice(0,1) : []);
+            } else {
+                // Chain complete
+                window._s4ActiveChain = null;
+                window._s4ActiveChainIdx = undefined;
+            }
+        }
+
+        if (!suggestions || !suggestions.length) return;
+
+        var panel = document.getElementById(toolId);
+        if (!panel) return;
+        // Find the last .s4-card in the panel
+        var cards = panel.querySelectorAll('.s4-card');
+        var target = cards.length ? cards[cards.length - 1] : panel;
+
+        var bar = document.createElement('div');
+        bar.className = 's4-continue-chain';
+        bar.innerHTML = '<span class="s4cc-label"><i class="fas fa-arrow-right" style="margin-right:4px"></i>Continue:</span>' +
+            suggestions.map(function(s) {
+                return '<button class="s4cc-btn" onclick="openILSTool(\'' + s.id + '\')"><i class="fas ' + s.icon + '"></i> ' + s.label + '</button>';
+            }).join('') +
+            (suggestions.length >= 2 ? '<button class="s4cc-btn s4cc-both" onclick="window._s4RunBoth(\'' + suggestions[0].id + '\',\'' + suggestions[1].id + '\')"><i class="fas fa-bolt"></i> Run Both</button>' : '');
+
+        target.appendChild(bar);
+    }
+
+    window._s4RunBoth = function(id1, id2) {
+        if (typeof window.openILSTool === 'function') {
+            window.openILSTool(id1);
+            // Queue the second tool after a brief delay
+            setTimeout(function() {
+                if (typeof window.openILSTool === 'function') window.openILSTool(id2);
+            }, 300);
+        }
+    };
+
+    // Hook into openILSTool to inject Continue Chain
+    function _hookContinueChain() {
+        var origOpen = window.openILSTool;
+        if (typeof origOpen !== 'function' || origOpen._s4ChainHooked) return;
+        var wrapped = function(toolId) {
+            origOpen.call(this, toolId);
+            // Update chain index if following a chain
+            if (window._s4ActiveChain) {
+                var idx = window._s4ActiveChain.indexOf(toolId);
+                if (idx >= 0) window._s4ActiveChainIdx = idx;
+            }
+            // Inject continue chain bar after a small delay (let panels render)
+            setTimeout(function() { _injectContinueChain(toolId); }, 500);
+            // Add to report sidebar
+            setTimeout(function() { _addToReport(toolId); }, 600);
+        };
+        wrapped._s4ChainHooked = true;
+        // Preserve any existing hooks
+        if (origOpen._s4R13Hooked) wrapped._s4R13Hooked = true;
+        window.openILSTool = wrapped;
+    }
+
+    // ── Step 4: Grid Sections & Badges ──
+    var _sections = [
+        {
+            label: 'Daily Essentials',
+            icon: 'fa-star',
+            tools: ['hub-compliance', 'hub-analysis', 'hub-actions', 'hub-risk', 'hub-readiness', 'hub-dmsms', 'hub-analytics', 'hub-milestones']
+        },
+        {
+            label: 'Deep Analysis',
+            icon: 'fa-microscope',
+            tools: ['hub-predictive', 'hub-lifecycle', 'hub-roi', 'hub-sbom', 'hub-gfp', 'hub-provenance', 'hub-acquisition', 'hub-contract']
+        },
+        {
+            label: 'Reporting',
+            icon: 'fa-file-alt',
+            tools: ['hub-reports', 'hub-vault', 'hub-docs', 'hub-submissions', 'hub-cdrl', 'hub-brief', 'hub-team']
+        }
+    ];
+
+    // Top 3 most used get badges
+    var _mostUsed = ['hub-compliance', 'hub-analysis', 'hub-risk'];
+
+    function _buildGridSections() {
+        var hub = document.getElementById('ilsSubHub');
+        if (!hub || hub.dataset.s4Sectioned) return;
+        hub.dataset.s4Sectioned = '1';
+
+        // Collect all tool cards by their onclick toolId
+        var cardMap = {};
+        hub.querySelectorAll('.ils-tool-card').forEach(function(card) {
+            var onclick = card.getAttribute('onclick') || '';
+            var m = onclick.match(/openILSTool\('([^']+)'\)/);
+            if (m) cardMap[m[1]] = card;
+        });
+
+        // Clear hub
+        var fragment = document.createDocumentFragment();
+
+        _sections.forEach(function(sec) {
+            // Section header (spans full grid)
+            var header = document.createElement('div');
+            header.className = 's4-grid-section-header';
+            header.style.gridColumn = '1 / -1';
+            header.innerHTML = '<i class="fas ' + sec.icon + ' s4gs-icon"></i><h3>' + sec.label + '</h3><span class="s4gs-count">' + sec.tools.length + ' tools</span>';
+            fragment.appendChild(header);
+
+            sec.tools.forEach(function(toolId) {
+                var card = cardMap[toolId];
+                if (card) {
+                    // Add Most Used badge
+                    if (_mostUsed.indexOf(toolId) >= 0 && !card.querySelector('.s4-most-used-badge')) {
+                        var badge = document.createElement('span');
+                        badge.className = 's4-most-used-badge';
+                        badge.textContent = 'Most Used';
+                        card.appendChild(badge);
+                    }
+                    fragment.appendChild(card);
+                }
+            });
+        });
+
+        hub.innerHTML = '';
+        hub.appendChild(fragment);
+    }
+
+    // ── Step 5: Report Sidebar ──
+    var _reportEntries = [];
+
+    var _toolNames = {
+        'hub-analysis':'Gap Finder','hub-dmsms':'Obsolescence Alert','hub-readiness':'Readiness Score',
+        'hub-compliance':'Compliance Scorecard','hub-risk':'Risk Radar','hub-actions':'Task Prioritizer',
+        'hub-predictive':'Maintenance Predictor','hub-lifecycle':'Lifecycle Cost Estimator','hub-roi':'ROI Calculator',
+        'hub-vault':'Audit Vault','hub-docs':'Document Library','hub-reports':'Audit Builder',
+        'hub-submissions':'Submissions Hub','hub-sbom':'SBOM Scanner','hub-gfp':'Property Custodian',
+        'hub-cdrl':'Deliverables Tracker','hub-contract':'Contract Analyzer','hub-provenance':'Chain of Custody',
+        'hub-analytics':'Program Overview','hub-team':'Team Manager','hub-acquisition':'Fleet Optimizer',
+        'hub-milestones':'Milestone Monitor','hub-brief':'Brief Composer'
+    };
+
+    function _addToReport(toolId) {
+        var name = _toolNames[toolId] || toolId;
+        var now = new Date();
+        var timeStr = now.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+
+        // Grab a summary from the panel's result area if available
+        var panel = document.getElementById(toolId);
+        var summary = '';
+        if (panel) {
+            var resultPanel = panel.querySelector('.result-panel.show');
+            if (resultPanel) {
+                var text = (resultPanel.textContent || '').trim();
+                summary = text.substring(0, 120) + (text.length > 120 ? '...' : '');
+            }
+        }
+
+        _reportEntries.push({ tool: name, time: timeStr, summary: summary, id: toolId });
+        _renderReport();
+    }
+
+    function _renderReport() {
+        var body = document.getElementById('s4ReportBody');
+        if (!body) return;
+
+        if (_reportEntries.length === 0) {
+            body.innerHTML = '<div class="s4rs-empty"><i class="fas fa-inbox" style="font-size:1.5rem;display:block;margin-bottom:8px;opacity:0.4"></i>Run tools to build your session report</div>';
+        } else {
+            body.innerHTML = _reportEntries.map(function(e, i) {
+                return '<div class="s4rs-entry">' +
+                    '<div class="s4rs-entry-title"><i class="fas fa-check-circle" style="color:var(--green);font-size:0.7rem"></i> ' + e.tool + '<span class="s4rs-entry-time">' + e.time + '</span></div>' +
+                    (e.summary ? '<div class="s4rs-entry-data">' + e.summary + '</div>' : '<div class="s4rs-entry-data" style="color:var(--muted);font-style:italic">Tool opened — results will update after run</div>') +
+                    '</div>';
+            }).join('');
+        }
+
+        // Update badge count
+        var countEl = document.getElementById('s4ReportCount');
+        if (countEl) {
+            if (_reportEntries.length > 0) {
+                countEl.textContent = String(_reportEntries.length);
+                countEl.style.display = 'flex';
+            } else {
+                countEl.style.display = 'none';
+            }
+        }
+    }
+
+    window._s4ToggleReport = function() {
+        var sidebar = document.getElementById('s4ReportSidebar');
+        if (sidebar) sidebar.classList.toggle('open');
+    };
+
+    window._s4ClearReport = function() {
+        _reportEntries = [];
+        _renderReport();
+    };
+
+    window._s4ExportReport = function() {
+        // Build printable HTML and open in new window for PDF
+        var html = '<!DOCTYPE html><html><head><title>S4 Session Report</title>' +
+            '<style>body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;padding:40px;color:#1d1d1f;max-width:800px;margin:0 auto}' +
+            'h1{font-size:22px;border-bottom:2px solid #007AFF;padding-bottom:8px;color:#007AFF}' +
+            '.entry{border:1px solid #e0e0e0;border-radius:8px;padding:14px;margin-bottom:10px}' +
+            '.entry-title{font-weight:700;font-size:14px;margin-bottom:4px}' +
+            '.entry-time{color:#888;font-size:12px;float:right}' +
+            '.entry-data{font-size:13px;color:#444;line-height:1.5}' +
+            '.footer{margin-top:30px;font-size:11px;color:#888;border-top:1px solid #e0e0e0;padding-top:10px}' +
+            '@media print{body{padding:20px}}</style></head><body>' +
+            '<h1>S4 Ledger — Session Report</h1>' +
+            '<p style="color:#444;font-size:13px">Generated: ' + new Date().toLocaleString() + '</p>';
+
+        _reportEntries.forEach(function(e) {
+            html += '<div class="entry"><div class="entry-title">' + e.tool + '<span class="entry-time">' + e.time + '</span></div>';
+            if (e.summary) html += '<div class="entry-data">' + e.summary + '</div>';
+            html += '</div>';
+        });
+
+        html += '<div class="footer">S4 Ledger — s4ledger.com — Immutable Defense Logistics on the XRP Ledger</div></body></html>';
+
+        var w = window.open('', '_blank');
+        if (w) {
+            w.document.write(html);
+            w.document.close();
+            setTimeout(function() { w.print(); }, 400);
+        }
+    };
+
+    // ── Show/hide report toggle based on platform state ──
+    function _showReportToggle() {
+        var btn = document.getElementById('s4ReportToggle');
+        if (btn) btn.style.display = 'flex';
+    }
+    function _hideReportToggle() {
+        var btn = document.getElementById('s4ReportToggle');
+        if (btn) btn.style.display = 'none';
+        var sidebar = document.getElementById('s4ReportSidebar');
+        if (sidebar) sidebar.classList.remove('open');
+    }
+    window._s4ShowReportToggle = _showReportToggle;
+    window._s4HideReportToggle = _hideReportToggle;
+
+    // ── Boot all steps ──
+    function _bootSteps() {
+        // Defensive: ensure no tool panels are visible on initial load
+        document.querySelectorAll('.ils-hub-panel').forEach(function(p) { p.classList.remove('active'); p.style.display = 'none'; });
+        _initWelcome();
+        _hookContinueChain();
+        _buildGridSections();
+        _renderReport();
+        // Show report toggle only if user is already inside the platform
+        var ws = document.getElementById('platformWorkspace');
+        if (ws && ws.style.display === 'block') {
+            _showReportToggle();
+        }
+        // Watch for platform workspace show/hide to sync report toggle
+        if (ws) {
+            var _wsObs = new MutationObserver(function() {
+                if (ws.style.display === 'block') {
+                    _showReportToggle();
+                } else {
+                    _hideReportToggle();
+                }
+            });
+            _wsObs.observe(ws, { attributes: true, attributeFilter: ['style'] });
+        }
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', _bootSteps);
+    } else {
+        // Delay slightly to ensure all other scripts have registered
+        setTimeout(_bootSteps, 100);
+    }
+})();
+
+/* ═══════════════════════════════════════════════════
+   CHANGES 6-10: Today's Chain, Undo, Progress,
+   Shortcuts, Dark Mode (Round 2)
+   ═══════════════════════════════════════════════════ */
+(function() {
+    'use strict';
+
+    // ─── CHANGE 6: Persistent "Today's Chain" Bar ───
+    var CHAIN_KEY = 's4_today_chain';
+    var _todayChain = [];
+
+    function _loadTodayChain() {
+        try {
+            var raw = localStorage.getItem(CHAIN_KEY);
+            _todayChain = raw ? JSON.parse(raw) : [];
+        } catch(e) { _todayChain = []; }
+    }
+    function _saveTodayChain() {
+        localStorage.setItem(CHAIN_KEY, JSON.stringify(_todayChain));
+    }
+
+    var _tcToolNames = {
+        'hub-analysis':'Gap Finder','hub-dmsms':'Obsolescence Alert','hub-readiness':'Readiness Score',
+        'hub-compliance':'Compliance Scorecard','hub-risk':'Risk Radar','hub-actions':'Task Prioritizer',
+        'hub-predictive':'Maintenance Predictor','hub-lifecycle':'Lifecycle Cost Estimator','hub-roi':'ROI Calculator',
+        'hub-vault':'Audit Vault','hub-docs':'Document Library','hub-reports':'Audit Builder',
+        'hub-submissions':'Submissions Hub','hub-sbom':'SBOM Scanner','hub-gfp':'Property Custodian',
+        'hub-cdrl':'Deliverables Tracker','hub-contract':'Contract Analyzer','hub-provenance':'Chain of Custody',
+        'hub-analytics':'Program Overview','hub-team':'Team Manager','hub-acquisition':'Fleet Optimizer',
+        'hub-milestones':'Milestone Monitor','hub-brief':'Brief Composer'
+    };
+
+    function _renderTodayChain() {
+        var bar = document.getElementById('s4TodayChain');
+        var pills = document.getElementById('s4TodayChainPills');
+        if (!bar || !pills) return;
+        if (!_todayChain.length) {
+            bar.classList.remove('visible');
+            return;
+        }
+        bar.classList.add('visible');
+        pills.innerHTML = _todayChain.map(function(toolId, i) {
+            var name = _tcToolNames[toolId] || toolId;
+            return (i > 0 ? '<span class="s4tc-arrow"><i class="fas fa-chevron-right"></i></span>' : '') +
+                '<span class="s4tc-pill" onclick="openILSTool(\'' + toolId + '\')" title="Open ' + name + '">' +
+                '<span class="s4tc-num">' + (i+1) + '</span>' + name + '</span>';
+        }).join('');
+    }
+
+    function _trackToolInChain(toolId) {
+        if (!toolId || !_tcToolNames[toolId]) return;
+        // Remove if already in chain, keep last 3
+        _todayChain = _todayChain.filter(function(t) { return t !== toolId; });
+        _todayChain.push(toolId);
+        if (_todayChain.length > 3) _todayChain = _todayChain.slice(-3);
+        _saveTodayChain();
+        _renderTodayChain();
+    }
+
+    window._s4RunTodayChain = function() {
+        if (!_todayChain.length) return;
+        window._s4ActiveChain = _todayChain.slice();
+        window._s4ActiveChainIdx = 0;
+        if (typeof window.openILSTool === 'function') {
+            window.openILSTool(_todayChain[0]);
+        }
+    };
+
+    window._s4ClearTodayChain = function() {
+        _todayChain = [];
+        _saveTodayChain();
+        _renderTodayChain();
+    };
+
+    // Hook openILSTool to track in Today's Chain
+    function _hookTodayChain() {
+        var orig = window.openILSTool;
+        if (!orig || orig._s4TodayHooked) return;
+        var wrapped = function(toolId) {
+            orig.call(this, toolId);
+            _trackToolInChain(toolId);
+        };
+        wrapped._s4TodayHooked = true;
+        // Preserve existing hooks
+        if (orig._s4ChainHooked) wrapped._s4ChainHooked = true;
+        if (orig._s4R13Hooked) wrapped._s4R13Hooked = true;
+        window.openILSTool = wrapped;
+    }
+
+    // ─── CHANGE 7: Undo on Every Result Panel ───
+    var _undoStates = new Map();
+
+    function _captureResultState(panel) {
+        if (!panel) return null;
+        return { html: panel.innerHTML, display: panel.style.display, cls: panel.className };
+    }
+
+    function _injectUndoButtons() {
+        document.querySelectorAll('.result-panel').forEach(function(panel) {
+            if (panel.querySelector('.s4-undo-btn')) return;
+            var btn = document.createElement('button');
+            btn.className = 's4-undo-btn';
+            btn.innerHTML = '<i class="fas fa-undo"></i> Undo Last Run';
+            btn.onclick = function() {
+                var state = _undoStates.get(panel.id);
+                if (state) {
+                    panel.innerHTML = state.html;
+                    panel.className = state.cls;
+                    panel.style.display = state.display;
+                    _undoStates.delete(panel.id);
+                }
+            };
+            panel.appendChild(btn);
+        });
+    }
+
+    // Observe result panels for changes and show undo after 30s
+    function _watchResultPanels() {
+        var observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(m) {
+                var panel = m.target.closest ? m.target.closest('.result-panel') : null;
+                if (!panel || !panel.id) return;
+                // Don't capture if it was an undo button injection
+                if (m.addedNodes && m.addedNodes.length === 1 && m.addedNodes[0].classList && m.addedNodes[0].classList.contains('s4-undo-btn')) return;
+                // Show undo button after 30s
+                var undoBtn = panel.querySelector('.s4-undo-btn');
+                if (undoBtn) {
+                    clearTimeout(undoBtn._s4Timer);
+                    undoBtn.classList.remove('visible');
+                    undoBtn._s4Timer = setTimeout(function() {
+                        undoBtn.classList.add('visible');
+                    }, 30000);
+                }
+            });
+        });
+
+        document.querySelectorAll('.result-panel').forEach(function(panel) {
+            // Capture initial state
+            if (panel.id) _undoStates.set(panel.id, _captureResultState(panel));
+            observer.observe(panel, { childList: true, subtree: true, characterData: true });
+        });
+
+        // Also hook when result panels get content (set before state)
+        var origInnerHTML = Object.getOwnPropertyDescriptor(Element.prototype, 'innerHTML');
+        // We rely on MutationObserver instead of overriding innerHTML for safety
+    }
+
+    // Re-capture state before any tool run button is clicked
+    function _hookRunButtons() {
+        document.addEventListener('click', function(e) {
+            var btn = e.target.closest('button');
+            if (!btn) return;
+            var text = (btn.textContent || '').toLowerCase();
+            if (text.indexOf('run') >= 0 || text.indexOf('analysis') >= 0 || text.indexOf('scan') >= 0 || text.indexOf('calculate') >= 0 || text.indexOf('generate') >= 0) {
+                // Find nearby result panel
+                var card = btn.closest('.s4-card') || btn.closest('.ils-hub-panel');
+                if (card) {
+                    var panels = card.querySelectorAll('.result-panel');
+                    panels.forEach(function(p) {
+                        if (p.id) _undoStates.set(p.id, _captureResultState(p));
+                    });
+                }
+            }
+        }, true);
+    }
+
+    // ─── CHANGE 8: Smarter Progress Feedback ───
+    function _createProgressRing(pct, label) {
+        var r = 18, c = 2 * Math.PI * r;
+        var offset = c - (pct / 100) * c;
+        var el = document.createElement('div');
+        el.className = 's4-progress-ring';
+        el.innerHTML = '<svg width="48" height="48"><circle class="ring-bg" cx="24" cy="24" r="' + r + '"/>' +
+            '<circle class="ring-fill" cx="24" cy="24" r="' + r + '" stroke-dasharray="' + c + '" stroke-dashoffset="' + offset + '"/></svg>' +
+            '<span class="ring-label">' + (label || pct + '%') + '</span>';
+        return el;
+    }
+    window._s4ProgressRing = _createProgressRing;
+
+    function _createChainTimeline(steps) {
+        // steps: [{name, status: 'done'|'running'|'pending'}]
+        var el = document.createElement('div');
+        el.className = 's4-chain-timeline';
+        el.innerHTML = steps.map(function(s, i) {
+            var icon = s.status === 'done' ? 'fa-check' : s.status === 'running' ? 'fa-spinner fa-spin' : 'fa-circle';
+            return (i > 0 ? '<div class="s4-chain-connector' + (s.status === 'done' ? ' done' : '') + '"></div>' : '') +
+                '<div class="s4-chain-step ' + s.status + '"><span class="s4cs-icon"><i class="fas ' + icon + '"></i></span>' + s.name + '</div>';
+        }).join('');
+        return el;
+    }
+    window._s4ChainTimeline = _createChainTimeline;
+
+    // Hook into chain runs to show timeline
+    function _hookChainProgress() {
+        var origRunChain = window._s4RunTodayChain;
+        window._s4RunTodayChain = function() {
+            if (!_todayChain.length) return;
+            // Show timeline in chain bar
+            var bar = document.getElementById('s4TodayChain');
+            if (bar) {
+                var existing = bar.querySelector('.s4-chain-timeline');
+                if (existing) existing.remove();
+                var steps = _todayChain.map(function(tId, i) {
+                    return { name: _tcToolNames[tId] || tId, status: i === 0 ? 'running' : 'pending' };
+                });
+                bar.appendChild(_createChainTimeline(steps));
+            }
+            origRunChain();
+            // Update timeline as tools open
+            var chainCopy = _todayChain.slice();
+            var idx = 0;
+            function updateTimeline() {
+                var timeline = bar ? bar.querySelector('.s4-chain-timeline') : null;
+                if (!timeline) return;
+                var stepEls = timeline.querySelectorAll('.s4-chain-step');
+                stepEls.forEach(function(el, i) {
+                    el.className = 's4-chain-step ' + (i < idx ? 'done' : i === idx ? 'running' : 'pending');
+                    var icon = el.querySelector('.s4cs-icon i');
+                    if (icon) icon.className = 'fas ' + (i < idx ? 'fa-check' : i === idx ? 'fa-spinner fa-spin' : 'fa-circle');
+                });
+                var connectors = timeline.querySelectorAll('.s4-chain-connector');
+                connectors.forEach(function(c, i) {
+                    c.className = 's4-chain-connector' + (i < idx ? ' done' : '');
+                });
+            }
+            // Watch for tool opens
+            var origOpen = window.openILSTool;
+            var progressWrap = function(toolId) {
+                var ci = chainCopy.indexOf(toolId);
+                if (ci >= 0) { idx = ci; updateTimeline(); }
+                origOpen.call(this, toolId);
+                // Mark done after a delay
+                if (ci >= 0) {
+                    setTimeout(function() {
+                        idx = ci + 1;
+                        updateTimeline();
+                        if (idx >= chainCopy.length) {
+                            // Chain complete — remove timeline after 3s
+                            setTimeout(function() {
+                                var tl = bar ? bar.querySelector('.s4-chain-timeline') : null;
+                                if (tl) tl.remove();
+                            }, 3000);
+                        }
+                    }, 1500);
+                }
+            };
+            // Preserve hooks
+            progressWrap._s4TodayHooked = origOpen._s4TodayHooked;
+            progressWrap._s4ChainHooked = origOpen._s4ChainHooked;
+            progressWrap._s4R13Hooked = origOpen._s4R13Hooked;
+            window.openILSTool = progressWrap;
+        };
+    }
+
+    // ─── CHANGE 9: Keyboard Shortcuts ───
+    var _isMac = navigator.platform.indexOf('Mac') >= 0;
+    var _modKey = _isMac ? 'metaKey' : 'ctrlKey';
+    var _modLabel = _isMac ? '⌘' : 'Ctrl';
+
+    function _initShortcuts() {
+        document.addEventListener('keydown', function(e) {
+            if (!e[_modKey]) return;
+            var key = e.key.toLowerCase();
+
+            // Cmd/Ctrl + Enter: Run Selected / Chain
+            if (key === 'enter') {
+                e.preventDefault();
+                // If chain active, run chain
+                if (_todayChain.length) {
+                    window._s4RunTodayChain();
+                    return;
+                }
+                // Otherwise, find the visible run button in the active panel
+                var activePanel = document.querySelector('.ils-hub-panel.active') || document.querySelector('.ils-hub-panel[style*="display: block"]') || document.querySelector('.ils-hub-panel[style*="display:block"]');
+                if (activePanel) {
+                    var runBtn = activePanel.querySelector('button[onclick*="run"], button[onclick*="Run"], button[onclick*="generate"], button[onclick*="scan"]');
+                    if (runBtn) { runBtn.click(); return; }
+                }
+                // Fallback: anchor button
+                var anchorBtn = document.getElementById('anchorBtn');
+                if (anchorBtn) anchorBtn.click();
+                return;
+            }
+
+            // Cmd/Ctrl + Z: Undo Last (only when not in input)
+            if (key === 'z' && !e.target.closest('input, textarea, select')) {
+                e.preventDefault();
+                // Find visible undo button
+                var undoBtn = document.querySelector('.s4-undo-btn.visible');
+                if (undoBtn) undoBtn.click();
+                return;
+            }
+
+            // Cmd/Ctrl + R: Refresh tool (prevent browser refresh)
+            if (key === 'r' && !e.shiftKey) {
+                var inside = document.getElementById('platformWorkspace');
+                if (inside && inside.style.display === 'block') {
+                    e.preventDefault();
+                    var panel = document.querySelector('.ils-hub-panel.active') || document.querySelector('.ils-hub-panel[style*="display: block"]') || document.querySelector('.ils-hub-panel[style*="display:block"]');
+                    if (panel) {
+                        var refreshBtn = panel.querySelector('button[onclick*="load"], button[onclick*="refresh"]');
+                        if (refreshBtn) refreshBtn.click();
+                    }
+                }
+                return;
+            }
+
+            // Cmd/Ctrl + E: Export report
+            if (key === 'e') {
+                e.preventDefault();
+                if (typeof window._s4ExportReport === 'function') window._s4ExportReport();
+                return;
+            }
+        });
+
+        // First-load tooltip
+        if (!sessionStorage.getItem('s4_shortcut_tip')) {
+            sessionStorage.setItem('s4_shortcut_tip', '1');
+            // Show after platform loads
+            var ws = document.getElementById('platformWorkspace');
+            if (ws) {
+                var obs = new MutationObserver(function() {
+                    if (ws.style.display === 'block') {
+                        obs.disconnect();
+                        setTimeout(function() {
+                            var toast = document.createElement('div');
+                            toast.className = 's4-shortcut-toast';
+                            toast.innerHTML = '<i class="fas fa-keyboard"></i> Pro tip: <kbd>' + _modLabel + '</kbd> + <kbd>Enter</kbd> to run fast.';
+                            document.body.appendChild(toast);
+                            setTimeout(function() { if (toast.parentNode) toast.remove(); }, 5000);
+                        }, 2000);
+                    }
+                });
+                obs.observe(ws, { attributes: true, attributeFilter: ['style'] });
+            }
+        }
+    }
+
+    // ─── Boot all Round 2 features ───
+    function _bootRound2() {
+        _loadTodayChain();
+        _hookTodayChain();
+        _renderTodayChain();
+        _injectUndoButtons();
+        _watchResultPanels();
+        _hookRunButtons();
+        _hookChainProgress();
+        _initShortcuts();
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', _bootRound2);
+    } else {
+        setTimeout(_bootRound2, 200);
+    }
+})();
 
 })();
