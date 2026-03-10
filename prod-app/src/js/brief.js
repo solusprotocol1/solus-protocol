@@ -905,7 +905,7 @@
         html += '<div><div style="font-size:1.15rem;font-weight:700;color:var(--text,#1d1d1f);letter-spacing:-0.3px">Program Briefs</div>';
         html += '<div style="font-size:0.78rem;color:#6e6e73;margin-top:1px">' + _briefs.length + ' brief' + (_briefs.length !== 1 ? 's' : '') + ' in workspace</div></div>';
         html += '</div>';
-        html += '<div style="display:flex;gap:8px;flex-wrap:wrap">';
+        html += '<div style="display:flex;gap:10px;flex-wrap:wrap">';
         html += '<button class="brief-action-btn primary" onclick="briefNewFromTemplate()"><i class="fas fa-plus"></i> New Brief</button>';
         html += '<button class="brief-action-btn" onclick="briefImportPPTX()" style="color:#a855f7;border-color:rgba(168,85,247,0.2)"><i class="fas fa-file-powerpoint"></i> Import PPTX</button>';
         html += '</div></div>';

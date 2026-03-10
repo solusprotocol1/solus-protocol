@@ -542,8 +542,8 @@
         .btn-export:hover{background:rgba(0,170,255,0.15) !important;border-color:rgba(0,170,255,0.35) !important}
         /* ── Actions Bar ── */
         .tool-actions-bar{
-            display:flex !important;gap:10px !important;flex-wrap:wrap !important;
-            margin-top:4px !important;
+            display:flex !important;gap:14px !important;flex-wrap:wrap !important;
+            margin-top:10px !important;
         }
         /* ── Data Tables ── */
         .data-table{width:100%;border-collapse:separate;border-spacing:0;font-size:0.82rem;border:1px solid var(--border);border-radius:8px;overflow:hidden}

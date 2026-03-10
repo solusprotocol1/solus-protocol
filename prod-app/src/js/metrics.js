@@ -1225,7 +1225,7 @@ async function anchorLifecycle() {
         // ── Phase 3: Upgrade button containers to action bars ──
         panel.querySelectorAll('div[style]').forEach(function(div) {
             var s = div.getAttribute('style') || '';
-            if (s.includes('display:flex') && s.includes('gap:10') && s.includes('flex-wrap:wrap') && !div.classList.contains('ils-dropzone') && !div.querySelector('.ils-dropzone') && !div.closest('.post-actions')) {
+            if (s.includes('display:flex') && s.includes('gap:10') && s.includes('flex-wrap:wrap') && !div.classList.contains('ils-dropzone') && !div.querySelector('.ils-dropzone') && !div.closest('.post-actions') && !div.closest('#briefContainer')) {
                 // Check if it contains action buttons
                 var btns = div.querySelectorAll('button');
                 if (btns.length > 0) {
