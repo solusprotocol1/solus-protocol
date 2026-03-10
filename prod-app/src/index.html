@@ -3466,7 +3466,7 @@
                 if (subHub) subHub.style.display = 'grid';
                 var toolBack = document.getElementById('ilsToolBackBar');
                 if (toolBack) toolBack.style.display = 'none';
-                document.querySelectorAll('.ils-hub-panel').forEach(function(p){ p.classList.remove('active'); });
+                document.querySelectorAll('.ils-hub-panel').forEach(function(p){ p.classList.remove('active'); p.style.display = 'none'; });
             }
         };
 
@@ -3781,7 +3781,7 @@
                 if (hero) hero.style.display = '';
                 var _aiW = document.getElementById('aiFloatWrapper');
                 if (_aiW) _aiW.style.display = 'none';
-                document.querySelectorAll('.ils-hub-panel').forEach(function(p) { p.classList.remove('active'); });
+                document.querySelectorAll('.ils-hub-panel').forEach(function(p) { p.classList.remove('active'); p.style.display = 'none'; });
                 window.scrollTo(0, 0);
             };
         }

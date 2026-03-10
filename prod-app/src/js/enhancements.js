@@ -7744,6 +7744,8 @@ window.verifyProvenanceChain = verifyProvenanceChain;
 
     // ── Boot all steps ──
     function _bootSteps() {
+        // Defensive: ensure no tool panels are visible on initial load
+        document.querySelectorAll('.ils-hub-panel').forEach(function(p) { p.classList.remove('active'); p.style.display = 'none'; });
         _initWelcome();
         _hookContinueChain();
         _buildGridSections();

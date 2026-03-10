@@ -105,8 +105,10 @@ function showSection(sectionId) {
         if (subHub) subHub.style.display = 'grid';
         var toolBack = document.getElementById('ilsToolBackBar');
         if (toolBack) toolBack.style.display = 'none';
-        // Hide all ILS panels
-        document.querySelectorAll('.ils-hub-panel').forEach(function(p) { p.classList.remove('active'); });
+        // Hide all ILS panels (clear both class AND inline display)
+        document.querySelectorAll('.ils-hub-panel').forEach(function(p) { p.classList.remove('active'); p.style.display = 'none'; });
+        _currentILSTool = null;
+        window._currentILSTool = null;
     }
 }
 
