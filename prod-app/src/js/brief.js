@@ -19,7 +19,7 @@
         STATUS:    { label: 'Program Status Brief', icon: 'fa-chart-bar', color: '#00aaff' },
         MILESTONE: { label: 'Milestone Review', icon: 'fa-flag-checkered', color: '#00aaff' },
         POM:       { label: 'POM Brief', icon: 'fa-file-invoice-dollar', color: '#4ecb71' },
-        PB:        { label: "President's Budget Brief", icon: 'fa-landmark', color: '#c9a84c' },
+        PB:        { label: "President's Budget Brief", icon: 'fa-landmark', color: '#ffa500' },
         ILSMT:     { label: 'ILSMT Brief', icon: 'fa-users-cog', color: '#00cc88' },
         ILSMP:     { label: 'ILSMP Brief', icon: 'fa-clipboard-list', color: '#3b82f6' },
         IPR:       { label: 'IPR Brief', icon: 'fa-tasks', color: '#f97316' },
@@ -462,7 +462,7 @@
                     _makeText(40, 40, 880, 60, 'Program Status Brief', { fontSize: 36, bold: true, color: '#ffffff', align: 'center' }),
                     _makeText(40, 120, 880, 30, '{{program_name}}', { fontSize: 20, color: '#00aaff', align: 'center' }),
                     _makeText(40, 170, 880, 24, '{{date}}', { fontSize: 16, color: '#8b949e', align: 'center' }),
-                    _makeText(40, 440, 880, 24, 'UNCLASSIFIED', { fontSize: 14, color: '#c9a84c', align: 'center', bold: true })
+                    _makeText(40, 440, 880, 24, 'UNCLASSIFIED', { fontSize: 14, color: '#ffa500', align: 'center', bold: true })
                 ]),
                 _makeSlide('Executive Summary', [
                     _makeText(40, 40, 880, 40, 'Executive Summary', { fontSize: 28, bold: true, color: '#ffffff' }),
@@ -558,26 +558,26 @@
         return {
             brief_type: 'PB',
             title: "President's Budget Brief",
-            master: Object.assign({}, DEFAULT_MASTER, { accentColor: '#c9a84c' }),
+            master: Object.assign({}, DEFAULT_MASTER, { accentColor: '#ffa500' }),
             slides: [
                 _makeSlide('Title Slide', [
                     _makeText(40, 40, 880, 60, "President's Budget (PB) Overview", { fontSize: 32, bold: true, color: '#ffffff', align: 'center' }),
-                    _makeText(40, 120, 880, 30, 'FY{{fiscal_year}}', { fontSize: 20, color: '#c9a84c', align: 'center' }),
+                    _makeText(40, 120, 880, 30, 'FY{{fiscal_year}}', { fontSize: 20, color: '#ffa500', align: 'center' }),
                     _makeText(40, 170, 880, 24, '{{program_name}}', { fontSize: 16, color: '#8b949e', align: 'center' })
                 ]),
                 _makeSlide('Budget Summary', [
                     _makeText(40, 40, 880, 40, 'Budget Summary', { fontSize: 28, bold: true, color: '#ffffff' }),
-                    _makeShape(40, 88, 880, 2, { fill: '#c9a84c', stroke: 'transparent' }),
+                    _makeShape(40, 88, 880, 2, { fill: '#ffa500', stroke: 'transparent' }),
                     _makeText(40, 110, 880, 380, '{{pb_budget_table}}', { fontSize: 14, color: '#1d1d1f' })
                 ]),
                 _makeSlide('Congressional Justification', [
                     _makeText(40, 40, 880, 40, 'Congressional Justification', { fontSize: 28, bold: true, color: '#ffffff' }),
-                    _makeShape(40, 88, 880, 2, { fill: '#c9a84c', stroke: 'transparent' }),
+                    _makeShape(40, 88, 880, 2, { fill: '#ffa500', stroke: 'transparent' }),
                     _makeText(40, 110, 880, 380, '{{pb_justification}}', { fontSize: 16, color: '#1d1d1f' })
                 ]),
                 _makeSlide('Program Changes', [
                     _makeText(40, 40, 880, 40, 'Changes from POM to PB', { fontSize: 28, bold: true, color: '#ffffff' }),
-                    _makeShape(40, 88, 880, 2, { fill: '#c9a84c', stroke: 'transparent' }),
+                    _makeShape(40, 88, 880, 2, { fill: '#ffa500', stroke: 'transparent' }),
                     _makeText(40, 110, 880, 380, '{{pb_changes}}', { fontSize: 16, color: '#1d1d1f' })
                 ])
             ]
@@ -879,7 +879,7 @@
                     _makeText(40, 290, 430, 22, 'MILESTONES', { fontSize: 13, bold: true, color: '#f97316' }),
                     _makeText(40, 315, 430, 100, '{{exec_milestones}}', { fontSize: 11, color: '#1d1d1f' }),
                     // Right column
-                    _makeText(490, 55, 430, 22, 'BUDGET SUMMARY', { fontSize: 13, bold: true, color: '#c9a84c' }),
+                    _makeText(490, 55, 430, 22, 'BUDGET SUMMARY', { fontSize: 13, bold: true, color: '#ffa500' }),
                     _makeChart(490, 78, 430, 140, 'bar', { title: '', labels: ['RDT&E','Proc','O&S'], values: [45,120,30], colors: ['#00aaff','#00cc88','#f97316'] }),
                     _makeText(490, 230, 430, 22, 'TOP RISKS', { fontSize: 13, bold: true, color: '#ff4444' }),
                     _makeText(490, 255, 430, 100, '{{exec_risks}}', { fontSize: 11, color: '#1d1d1f' }),
@@ -902,7 +902,7 @@
         html += '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px">';
         html += '<div style="display:flex;align-items:center;gap:12px">';
         html += '<div style="width:3px;height:28px;background:linear-gradient(180deg,#00aaff,#a855f7);border-radius:2px"></div>';
-        html += '<div><div style="font-size:1.15rem;font-weight:700;color:#1d1d1f;letter-spacing:-0.3px">Program Briefs</div>';
+        html += '<div><div style="font-size:1.15rem;font-weight:700;color:var(--text,#1d1d1f);letter-spacing:-0.3px">Program Briefs</div>';
         html += '<div style="font-size:0.78rem;color:#6e6e73;margin-top:1px">' + _briefs.length + ' brief' + (_briefs.length !== 1 ? 's' : '') + ' in workspace</div></div>';
         html += '</div>';
         html += '<div style="display:flex;gap:8px;flex-wrap:wrap">';
@@ -970,7 +970,7 @@
                 html += '<div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:12px">';
                 html += '<div style="width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,' + bt.color + '22,' + bt.color + '08);display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="fas ' + bt.icon + '" style="color:' + bt.color + ';font-size:1rem"></i></div>';
                 html += '<div style="flex:1;min-width:0">';
-                html += '<div style="color:#1d1d1f;font-weight:600;font-size:0.92rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + _esc(b.title) + '</div>';
+                html += '<div style="color:var(--text,#1d1d1f);font-weight:600;font-size:0.92rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + _esc(b.title) + '</div>';
                 html += '<div style="font-size:0.75rem;color:#6e6e73;margin-top:2px">' + bt.label + '</div>';
                 html += '</div></div>';
                 // Meta row
@@ -1004,7 +1004,7 @@
             var bt = BRIEF_TYPES[t.brief_type] || BRIEF_TYPES.STATUS;
             html += '<div class="stat-mini" style="cursor:pointer;padding:16px;text-align:center;transition:border-color 0.2s" onclick="briefCreateFromTemplate(' + i + ')" onmouseover="this.style.borderColor=\'' + bt.color + '\'" onmouseout="this.style.borderColor=\'rgba(0,0,0,0.06)\'">';
             html += '<i class="fas ' + bt.icon + '" style="font-size:1.5rem;color:' + bt.color + ';margin-bottom:8px;display:block"></i>';
-            html += '<div style="color:#1d1d1f;font-weight:600;font-size:0.88rem">' + _esc(t.title) + '</div>';
+            html += '<div style="color:var(--text,#1d1d1f);font-weight:600;font-size:0.88rem">' + _esc(t.title) + '</div>';
             html += '<div style="color:var(--muted);font-size:0.72rem;margin-top:4px">' + t.slides.length + ' slides</div>';
             html += '</div>';
         });
@@ -1197,7 +1197,7 @@
         html += '<button class="brief-action-btn" onclick="briefPresenterMode()" style="color:#a855f7;border-color:rgba(168,85,247,0.2)"><i class="fas fa-desktop"></i> Present</button>';
         html += '<button class="brief-action-btn" onclick="briefExportPPTX()" style="color:#f97316;border-color:rgba(249,115,22,0.2)"><i class="fas fa-file-powerpoint"></i> PPTX</button>';
         html += '<button class="brief-action-btn" onclick="briefExportPDF()"><i class="fas fa-file-pdf"></i> PDF</button>';
-        html += '<button class="brief-action-btn" onclick="briefAnchor()" style="color:#c9a84c;border-color:rgba(201,168,76,0.2)"><i class="fas fa-link"></i> Anchor</button>';
+        html += '<button class="brief-action-btn" onclick="briefAnchor()" style="color:var(--accent,#00aaff);border-color:rgba(0,170,255,0.2)"><i class="fas fa-link"></i> Anchor</button>';
         html += '<button class="brief-action-btn primary" onclick="briefSaveNow()"><i class="fas fa-save"></i> Save</button>';
         html += '</div></div>';
 
@@ -1375,7 +1375,7 @@
         // ═══ CONTEXTUAL RIGHT PANEL ═══
         if (_showComments) {
             html += '<div class="brief-comments">';
-            html += '<div style="font-size:0.88rem;font-weight:600;color:#1d1d1f;margin-bottom:12px;display:flex;align-items:center;gap:8px"><i class="fas fa-comments" style="color:#00aaff"></i>Comments</div>';
+            html += '<div style="font-size:0.88rem;font-weight:600;color:var(--text,#1d1d1f);margin-bottom:12px;display:flex;align-items:center;gap:8px"><i class="fas fa-comments" style="color:#00aaff"></i>Comments</div>';
             var slideComments = (brief.comments && brief.comments[_activeSlideIdx]) || [];
             if (slideComments.length) {
                 slideComments.forEach(function (c, ci) {
@@ -1385,7 +1385,7 @@
                     html += '<span style="color:#00aaff;font-weight:600;font-size:0.75rem">' + _esc(c.user || 'Unknown') + '</span>';
                     html += '<span style="color:#86868b;font-size:0.65rem">' + timeStr + '</span>';
                     html += '</div>';
-                    html += '<div style="color:#1d1d1f;font-size:0.8rem;line-height:1.5">' + _esc(c.text) + '</div>';
+                    html += '<div style="color:var(--text,#1d1d1f);font-size:0.8rem;line-height:1.5">' + _esc(c.text) + '</div>';
                     if (c.edited) html += '<div style="color:#86868b;font-size:0.62rem;margin-top:3px;font-style:italic">(edited)</div>';
                     html += '<div style="display:flex;gap:4px;margin-top:6px">';
                     html += '<button class="brief-fmt-btn" onclick="briefEditComment(' + _activeSlideIdx + ',' + ci + ')" style="width:26px;height:26px;font-size:0.65rem"><i class="fas fa-pen"></i></button>';
@@ -1417,7 +1417,7 @@
         var elem = _selectedElement;
         if (!elem) return '';
         var h = '<div class="brief-props-panel">';
-        h += '<div style="font-size:0.88rem;font-weight:600;color:#1d1d1f;margin-bottom:14px;display:flex;align-items:center;gap:8px"><i class="fas fa-sliders-h" style="color:#a855f7"></i>Properties</div>';
+        h += '<div style="font-size:0.88rem;font-weight:600;color:var(--text,#1d1d1f);margin-bottom:14px;display:flex;align-items:center;gap:8px"><i class="fas fa-sliders-h" style="color:#a855f7"></i>Properties</div>';
         // Position
         h += '<div class="brief-prop-group"><div class="brief-prop-label">Position</div>';
         h += '<div class="brief-prop-row"><label style="color:#6e6e73;font-size:0.72rem;width:24px">X</label><input type="number" class="brief-prop-input" value="' + (elem.x || 0) + '" onchange="briefSetProp(\'x\',parseInt(this.value))" style="width:80px"></div>';
@@ -1611,7 +1611,7 @@
             });
             variances.slice(0, 6).forEach(function (v) {
                 var c = v.diff <= 0 ? '#00cc88' : (v.diff <= 30 ? '#ffaa00' : '#ff4444');
-                h += '<div style="display:flex;justify-content:space-between;padding:2px 0;font-size:0.65rem;border-bottom:1px solid rgba(0,0,0,0.04)"><span style="color:#1d1d1f">' + _esc(v.hull) + '</span><span style="color:' + c + ';font-weight:600">' + (v.diff > 0 ? '+' : '') + v.diff + 'd</span></div>';
+                h += '<div style="display:flex;justify-content:space-between;padding:2px 0;font-size:0.65rem;border-bottom:1px solid rgba(0,0,0,0.04)"><span style="color:var(--text,#1d1d1f)">' + _esc(v.hull) + '</span><span style="color:' + c + ';font-weight:600">' + (v.diff > 0 ? '+' : '') + v.diff + 'd</span></div>';
             });
             if (!variances.length) h += '<div style="color:var(--muted);font-size:0.7rem;text-align:center;padding:10px">No variance data</div>';
         } else if (wt === 'readiness-gauge') {
@@ -1620,7 +1620,7 @@
             h += '<div style="text-align:center;padding:10px"><div style="font-size:2rem;font-weight:700;color:' + (readyPct >= 80 ? '#00cc88' : readyPct >= 60 ? '#ffaa00' : '#ff4444') + '">' + readyPct + '%</div>';
             h += '<div style="height:8px;background:rgba(0,0,0,0.05);border-radius:4px;margin-top:6px"><div style="height:100%;width:' + readyPct + '%;background:' + (readyPct >= 80 ? '#00cc88' : readyPct >= 60 ? '#ffaa00' : '#ff4444') + ';border-radius:4px"></div></div></div>';
         } else if (wt === 'cost-trend') {
-            h += '<div style="font-size:0.7rem;font-weight:600;color:#c9a84c;margin-bottom:6px"><i class="fas fa-dollar-sign"></i> Cost Trend</div>';
+            h += '<div style="font-size:0.7rem;font-weight:600;color:#ffa500;margin-bottom:6px"><i class="fas fa-dollar-sign"></i> Cost Trend</div>';
             h += '<div style="color:var(--muted);font-size:0.65rem;text-align:center;padding:10px">Connect cost data source<br>for live tracking</div>';
         }
         h += '</div>';
@@ -1738,7 +1738,7 @@
         slide.elements.forEach(function (el) { if (el.id === eid) elem = el; });
         if (!elem || elem.type !== 'text') return;
 
-        var html = '<textarea id="briefEditTextArea" style="width:100%;height:200px;background:#fff;color:#1d1d1f;border:1px solid rgba(0,0,0,0.12);border-radius:3px;padding:10px;font-size:0.9rem;font-family:inherit;resize:vertical">' + _esc(elem.text || '') + '</textarea>';
+        var html = '<textarea id="briefEditTextArea" style="width:100%;height:200px;background:#fff;color:var(--text,#1d1d1f);border:1px solid rgba(0,0,0,0.12);border-radius:3px;padding:10px;font-size:0.9rem;font-family:inherit;resize:vertical">' + _esc(elem.text || '') + '</textarea>';
         html += '<div style="margin-top:10px;display:flex;justify-content:flex-end;gap:6px">';
         html += '<button class="ai-quick-btn" onclick="briefApplyTextEdit(\'' + eid + '\')"><i class="fas fa-check"></i> Apply</button>';
         html += '<button class="ai-quick-btn" onclick="briefCloseModal()">Cancel</button>';
@@ -1923,7 +1923,7 @@
         html += _masterColorField('Body Color', 'masterBodyColor', m.bodyColor || '#1d1d1f');
         html += _masterColorField('Accent', 'masterAccent', m.accentColor || '#00aaff');
         html += '</div>';
-        html += '<div style="margin-top:10px"><label style="color:var(--steel);font-size:0.8rem">Footer Text</label><input id="masterFooter" value="' + _esc(m.footerText || '') + '" style="width:100%;background:#fff;color:#1d1d1f;border:1px solid rgba(0,0,0,0.12);border-radius:3px;padding:5px 8px;font-size:0.82rem;margin-top:4px"></div>';
+        html += '<div style="margin-top:10px"><label style="color:var(--steel);font-size:0.8rem">Footer Text</label><input id="masterFooter" value="' + _esc(m.footerText || '') + '" style="width:100%;background:#fff;color:var(--text,#1d1d1f);border:1px solid rgba(0,0,0,0.12);border-radius:3px;padding:5px 8px;font-size:0.82rem;margin-top:4px"></div>';
         html += '<div style="margin-top:12px;display:flex;justify-content:flex-end;gap:6px">';
         html += '<button class="ai-quick-btn" onclick="briefApplyMaster()"><i class="fas fa-check"></i> Apply</button>';
         html += '<button class="ai-quick-btn" onclick="briefCloseModal()">Cancel</button>';
@@ -1933,10 +1933,10 @@
     window.briefSlideMaster = briefSlideMaster;
 
     function _masterField(label, id, val) {
-        return '<div><label style="color:var(--steel)">' + label + '</label><input id="' + id + '" value="' + _esc('' + val) + '" style="width:100%;background:#fff;color:#1d1d1f;border:1px solid rgba(0,0,0,0.12);border-radius:3px;padding:4px 8px;font-size:0.8rem;margin-top:2px"></div>';
+        return '<div><label style="color:var(--steel)">' + label + '</label><input id="' + id + '" value="' + _esc('' + val) + '" style="width:100%;background:#fff;color:var(--text,#1d1d1f);border:1px solid rgba(0,0,0,0.12);border-radius:3px;padding:4px 8px;font-size:0.8rem;margin-top:2px"></div>';
     }
     function _masterColorField(label, id, val) {
-        return '<div><label style="color:var(--steel)">' + label + '</label><div style="display:flex;gap:4px;margin-top:2px"><input type="color" id="' + id + '" value="' + val + '" style="width:36px;height:28px;border:none;cursor:pointer"><input id="' + id + 'Text" value="' + val + '" style="flex:1;background:#fff;color:#1d1d1f;border:1px solid rgba(0,0,0,0.12);border-radius:3px;padding:4px;font-size:0.78rem" onchange="document.getElementById(\'' + id + '\').value=this.value"></div></div>';
+        return '<div><label style="color:var(--steel)">' + label + '</label><div style="display:flex;gap:4px;margin-top:2px"><input type="color" id="' + id + '" value="' + val + '" style="width:36px;height:28px;border:none;cursor:pointer"><input id="' + id + 'Text" value="' + val + '" style="flex:1;background:#fff;color:var(--text,#1d1d1f);border:1px solid rgba(0,0,0,0.12);border-radius:3px;padding:4px;font-size:0.78rem" onchange="document.getElementById(\'' + id + '\').value=this.value"></div></div>';
     }
 
     function briefApplyMaster() {
@@ -1966,15 +1966,15 @@
         var b = _activeBrief;
         var html = '<div style="font-size:0.82rem">';
         html += '<label style="color:var(--steel)">Access Level</label>';
-        html += '<select id="briefAccessLevel" style="width:100%;background:#fff;color:#1d1d1f;border:1px solid rgba(0,0,0,0.12);border-radius:3px;padding:5px 8px;font-size:0.82rem;margin:4px 0 12px">';
+        html += '<select id="briefAccessLevel" style="width:100%;background:#fff;color:var(--text,#1d1d1f);border:1px solid rgba(0,0,0,0.12);border-radius:3px;padding:5px 8px;font-size:0.82rem;margin:4px 0 12px">';
         ['private','team','org','public'].forEach(function (lv) {
             html += '<option value="' + lv + '"' + (b.access_level === lv ? ' selected' : '') + '>' + lv.charAt(0).toUpperCase() + lv.slice(1) + '</option>';
         });
         html += '</select>';
         html += '<label style="color:var(--steel)">Editors (comma-separated emails)</label>';
-        html += '<input id="briefEditors" value="' + _esc((b.editors || []).join(', ')) + '" style="width:100%;background:#fff;color:#1d1d1f;border:1px solid rgba(0,0,0,0.12);border-radius:3px;padding:5px 8px;font-size:0.82rem;margin:4px 0 12px">';
+        html += '<input id="briefEditors" value="' + _esc((b.editors || []).join(', ')) + '" style="width:100%;background:#fff;color:var(--text,#1d1d1f);border:1px solid rgba(0,0,0,0.12);border-radius:3px;padding:5px 8px;font-size:0.82rem;margin:4px 0 12px">';
         html += '<label style="color:var(--steel)">Viewers (comma-separated emails)</label>';
-        html += '<input id="briefViewers" value="' + _esc((b.viewers || []).join(', ')) + '" style="width:100%;background:#fff;color:#1d1d1f;border:1px solid rgba(0,0,0,0.12);border-radius:3px;padding:5px 8px;font-size:0.82rem;margin:4px 0 12px">';
+        html += '<input id="briefViewers" value="' + _esc((b.viewers || []).join(', ')) + '" style="width:100%;background:#fff;color:var(--text,#1d1d1f);border:1px solid rgba(0,0,0,0.12);border-radius:3px;padding:5px 8px;font-size:0.82rem;margin:4px 0 12px">';
         html += '</div>';
         html += '<div style="display:flex;justify-content:flex-end;gap:6px">';
         html += '<button class="ai-quick-btn" onclick="briefApplyShare()"><i class="fas fa-check"></i> Apply</button>';
@@ -2173,12 +2173,12 @@
         var bt = _activeBrief.brief_type || 'STATUS';
         var briefTitle = _activeBrief.title || 'Untitled';
         var slideList = '';
-        _activeBrief.slides.forEach(function (s, i) { slideList += '<div style="padding:4px 8px;background:rgba(0,0,0,0.02);border-radius:6px;margin-bottom:4px;font-size:0.78rem;color:#1d1d1f"><span style="color:#00aaff;font-weight:600">' + (i + 1) + '.</span> ' + _esc(s.title || 'Untitled') + '</div>'; });
+        _activeBrief.slides.forEach(function (s, i) { slideList += '<div style="padding:4px 8px;background:rgba(0,0,0,0.02);border-radius:6px;margin-bottom:4px;font-size:0.78rem;color:var(--text,#1d1d1f)"><span style="color:#00aaff;font-weight:600">' + (i + 1) + '.</span> ' + _esc(s.title || 'Untitled') + '</div>'; });
 
         var html = '';
         html += '<div style="background:linear-gradient(135deg,rgba(0,170,255,0.08),rgba(168,85,247,0.06));border:1px solid rgba(0,170,255,0.15);border-radius:12px;padding:16px;margin-bottom:16px">';
-        html += '<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px"><i class="fas fa-magic" style="color:#00aaff;font-size:1.1rem"></i><span style="color:#1d1d1f;font-weight:600;font-size:0.95rem">AI Brief Assistant</span></div>';
-        html += '<div style="color:#86868b;font-size:0.82rem;line-height:1.5;margin-bottom:12px">Generate professional defense-grade content for your <strong style="color:#00aaff">' + _esc(bt) + '</strong> brief: <strong style="color:#1d1d1f">' + _esc(briefTitle) + '</strong></div>';
+        html += '<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px"><i class="fas fa-magic" style="color:#00aaff;font-size:1.1rem"></i><span style="color:var(--text,#1d1d1f);font-weight:600;font-size:0.95rem">AI Brief Assistant</span></div>';
+        html += '<div style="color:#86868b;font-size:0.82rem;line-height:1.5;margin-bottom:12px">Generate professional defense-grade content for your <strong style="color:#00aaff">' + _esc(bt) + '</strong> brief: <strong style="color:var(--text,#1d1d1f)">' + _esc(briefTitle) + '</strong></div>';
         html += '</div>';
 
         html += '<div style="margin-bottom:12px"><div style="font-size:0.78rem;color:#6e6e73;font-weight:600;margin-bottom:6px">Current Slides:</div>' + slideList + '</div>';
@@ -2291,7 +2291,7 @@
 
     function briefAddProgram() {
         var html = '<div style="font-size:0.85rem;color:var(--steel);margin-bottom:12px">Add a custom program to the dropdown.</div>';
-        html += '<input id="briefNewProgramInput" placeholder="e.g. PMS 500 — ZUMWALT Class" style="width:100%;background:#fff;color:#1d1d1f;border:1px solid rgba(0,0,0,0.12);border-radius:4px;padding:8px 12px;font-size:0.88rem;margin-bottom:12px">';
+        html += '<input id="briefNewProgramInput" placeholder="e.g. PMS 500 — ZUMWALT Class" style="width:100%;background:#fff;color:var(--text,#1d1d1f);border:1px solid rgba(0,0,0,0.12);border-radius:4px;padding:8px 12px;font-size:0.88rem;margin-bottom:12px">';
         html += '<div style="display:flex;justify-content:flex-end;gap:6px">';
         html += '<button class="ai-quick-btn" onclick="briefConfirmAddProgram()"><i class="fas fa-check"></i> Add</button>';
         html += '<button class="ai-quick-btn" onclick="briefCloseModal()">Cancel</button>';
@@ -2319,8 +2319,8 @@
 
     function briefAddVessel() {
         if (!_selectedProgram) { _toast('Select a program first', 'warning'); return; }
-        var html = '<div style="font-size:0.85rem;color:var(--steel);margin-bottom:12px">Add a vessel / craft to <strong style="color:#1d1d1f">' + _esc(_selectedProgram) + '</strong>.</div>';
-        html += '<input id="briefNewVesselInput" placeholder="e.g. DDG 129 Jeremiah Denton" style="width:100%;background:#fff;color:#1d1d1f;border:1px solid rgba(0,0,0,0.12);border-radius:4px;padding:8px 12px;font-size:0.88rem;margin-bottom:12px">';
+        var html = '<div style="font-size:0.85rem;color:var(--steel);margin-bottom:12px">Add a vessel / craft to <strong style="color:var(--text,#1d1d1f)">' + _esc(_selectedProgram) + '</strong>.</div>';
+        html += '<input id="briefNewVesselInput" placeholder="e.g. DDG 129 Jeremiah Denton" style="width:100%;background:#fff;color:var(--text,#1d1d1f);border:1px solid rgba(0,0,0,0.12);border-radius:4px;padding:8px 12px;font-size:0.88rem;margin-bottom:12px">';
         html += '<div style="display:flex;justify-content:flex-end;gap:6px">';
         html += '<button class="ai-quick-btn" onclick="briefConfirmAddVessel()"><i class="fas fa-check"></i> Add</button>';
         html += '<button class="ai-quick-btn" onclick="briefCloseModal()">Cancel</button>';
@@ -2382,7 +2382,7 @@
         if (!_activeBrief || !_activeBrief.comments || !_activeBrief.comments[slideIdx]) return;
         var comment = _activeBrief.comments[slideIdx][commentIdx];
         if (!comment) return;
-        var html = '<textarea id="briefEditCommentText" style="width:100%;height:80px;background:#fff;color:#1d1d1f;border:1px solid rgba(0,0,0,0.12);border-radius:4px;padding:8px 12px;font-size:0.85rem;resize:vertical;margin-bottom:12px">' + _esc(comment.text) + '</textarea>';
+        var html = '<textarea id="briefEditCommentText" style="width:100%;height:80px;background:#fff;color:var(--text,#1d1d1f);border:1px solid rgba(0,0,0,0.12);border-radius:4px;padding:8px 12px;font-size:0.85rem;resize:vertical;margin-bottom:12px">' + _esc(comment.text) + '</textarea>';
         html += '<div style="display:flex;justify-content:flex-end;gap:6px">';
         html += '<button class="ai-quick-btn" onclick="briefConfirmEditComment(' + slideIdx + ',' + commentIdx + ')"><i class="fas fa-check"></i> Save</button>';
         html += '<button class="ai-quick-btn" onclick="briefCloseModal()">Cancel</button>';
@@ -2498,14 +2498,14 @@
         var history = _activeBrief.approval_history || [];
         var html = '<div style="margin-bottom:16px">';
         html += '<label style="color:var(--steel);font-size:0.82rem;display:block;margin-bottom:6px">Current Status</label>';
-        html += '<select id="briefApprovalStatus" style="background:#fff;color:#1d1d1f;border:1px solid rgba(0,0,0,0.12);border-radius:4px;padding:6px 12px;font-size:0.85rem;width:100%">';
+        html += '<select id="briefApprovalStatus" style="background:#fff;color:var(--text,#1d1d1f);border:1px solid rgba(0,0,0,0.12);border-radius:4px;padding:6px 12px;font-size:0.85rem;width:100%">';
         ['draft','in_review','approved','rejected','locked'].forEach(function (s) {
             var label = { draft: 'Draft', in_review: 'In Review', approved: 'Approved', rejected: 'Rejected — Changes Requested', locked: 'Locked (Final)' }[s] || s;
             html += '<option value="' + s + '"' + (s === status ? ' selected' : '') + '>' + label + '</option>';
         });
         html += '</select></div>';
         html += '<div style="margin-bottom:12px"><label style="color:var(--steel);font-size:0.82rem;display:block;margin-bottom:4px">Reviewer Note</label>';
-        html += '<textarea id="briefApprovalNote" placeholder="Add a note..." style="width:100%;height:60px;background:#fff;color:#1d1d1f;border:1px solid rgba(0,0,0,0.12);border-radius:4px;padding:8px;font-size:0.82rem;resize:vertical"></textarea></div>';
+        html += '<textarea id="briefApprovalNote" placeholder="Add a note..." style="width:100%;height:60px;background:#fff;color:var(--text,#1d1d1f);border:1px solid rgba(0,0,0,0.12);border-radius:4px;padding:8px;font-size:0.82rem;resize:vertical"></textarea></div>';
         if (history.length) {
             html += '<div style="max-height:160px;overflow-y:auto;border-top:1px solid rgba(0,0,0,0.06);padding-top:10px;margin-bottom:12px">';
             html += '<div style="font-size:0.75rem;color:var(--muted);margin-bottom:6px;font-weight:600">History</div>';
@@ -2565,7 +2565,7 @@
         slides.forEach(function (s, i) {
             var textPreview = '';
             (s.elements || []).forEach(function (el) { if (el.type === 'text' && !textPreview) textPreview = (el.text || '').substring(0, 60); });
-            html += '<div style="padding:4px 0;font-size:0.72rem;color:var(--muted)"><span style="color:#1d1d1f">Slide ' + (i + 1) + ':</span> ' + _esc(s.title || '') + ' — ' + _esc(textPreview) + '</div>';
+            html += '<div style="padding:4px 0;font-size:0.72rem;color:var(--muted)"><span style="color:var(--text,#1d1d1f)">Slide ' + (i + 1) + ':</span> ' + _esc(s.title || '') + ' — ' + _esc(textPreview) + '</div>';
         });
         html += '</div>';
         html += '<div style="border:1px solid rgba(0,0,0,0.08);border-radius:4px;padding:10px"><div style="color:var(--muted);font-weight:600;margin-bottom:8px;font-size:0.78rem">Edit History</div>';
@@ -2825,7 +2825,7 @@
     function briefSaveAsTemplate() {
         if (!_activeBrief) return;
         var html = '<div style="font-size:0.85rem;color:var(--steel);margin-bottom:12px">Save this brief as a reusable template in your slide library.</div>';
-        html += '<input id="briefTplName" value="' + _esc(_activeBrief.title || 'Custom Template') + '" style="width:100%;background:#fff;color:#1d1d1f;border:1px solid rgba(0,0,0,0.12);border-radius:4px;padding:8px 12px;font-size:0.88rem;margin-bottom:12px">';
+        html += '<input id="briefTplName" value="' + _esc(_activeBrief.title || 'Custom Template') + '" style="width:100%;background:#fff;color:var(--text,#1d1d1f);border:1px solid rgba(0,0,0,0.12);border-radius:4px;padding:8px 12px;font-size:0.88rem;margin-bottom:12px">';
         html += '<div style="display:flex;justify-content:flex-end;gap:6px">';
         html += '<button class="ai-quick-btn" onclick="briefConfirmSaveTemplate()" style="background:rgba(0,204,136,0.12);color:#00cc88"><i class="fas fa-check"></i> Save</button>';
         html += '<button class="ai-quick-btn" onclick="briefCloseModal()">Cancel</button>';
@@ -2922,7 +2922,7 @@
         ].forEach(function (c) {
             html += '<div class="stat-mini" style="cursor:pointer;padding:16px;text-align:center" onclick="briefInsertChartType(\'' + c.type + '\')" onmouseover="this.style.borderColor=\'#00aaff\'" onmouseout="this.style.borderColor=\'rgba(0,0,0,0.08)\'">';
             html += '<i class="fas ' + c.icon + '" style="font-size:1.5rem;color:#00aaff;display:block;margin-bottom:6px"></i>';
-            html += '<div style="color:#1d1d1f;font-size:0.82rem">' + c.label + '</div></div>';
+            html += '<div style="color:var(--text,#1d1d1f);font-size:0.82rem">' + c.label + '</div></div>';
         });
         html += '</div>';
         _showModal('Insert Chart', html);
@@ -2956,7 +2956,7 @@
         var labels = el.labels || [];
         var datasets = el.datasets || [];
         var html = '<div style="' + baseStyle + 'background:' + (el.bgColor || 'rgba(0,0,0,0.02)') + ';border:1px solid rgba(0,0,0,0.05);border-radius:4px;padding:8px;overflow:hidden">';
-        if (el.title) html += '<div style="font-size:11px;color:#1d1d1f;font-weight:600;margin-bottom:6px;text-align:center">' + _esc(el.title) + '</div>';
+        if (el.title) html += '<div style="font-size:11px;color:var(--text,#1d1d1f);font-weight:600;margin-bottom:6px;text-align:center">' + _esc(el.title) + '</div>';
         var maxVal = 1;
         datasets.forEach(function (ds) { ds.values.forEach(function (v) { if (v > maxVal) maxVal = v; }); });
 
@@ -2964,7 +2964,7 @@
             var total = 0;
             var vals = datasets[0] ? datasets[0].values : [];
             vals.forEach(function (v) { total += v; });
-            var colors = ['#00aaff', '#4ecb71', '#f97316', '#a855f7', '#f38181', '#c9a84c'];
+            var colors = ['#00aaff', '#4ecb71', '#f97316', '#a855f7', '#f38181', '#ffa500'];
             html += '<div style="display:flex;align-items:center;gap:12px;height:calc(100% - 24px)">';
             // SVG pie/donut
             html += '<svg viewBox="0 0 100 100" style="width:60%;height:100%">';
@@ -3083,7 +3083,7 @@
             var clr = colors[item.status] || colors.gray;
             html += '<div style="display:flex;align-items:center;gap:6px;flex:1;min-width:100px;padding:6px 10px;background:rgba(0,0,0,0.02);border-radius:4px;border-left:3px solid ' + clr + '">';
             html += '<span style="width:14px;height:14px;background:' + clr + ';border-radius:50%;display:inline-block;flex-shrink:0;box-shadow:0 0 6px ' + clr + '"></span>';
-            html += '<span style="font-size:' + (el.fontSize || 13) + 'px;color:#1d1d1f">' + _esc(item.label) + '</span>';
+            html += '<span style="font-size:' + (el.fontSize || 13) + 'px;color:var(--text,#1d1d1f)">' + _esc(item.label) + '</span>';
             html += '</div>';
         });
         html += '</div>';
@@ -3124,7 +3124,7 @@
             ['#ff4444','#ff4444','#ff6600','#ff6600','#cc0000']
         ];
         var html = '<div style="' + baseStyle + 'padding:6px;font-size:' + (el.fontSize || 10) + 'px">';
-        html += '<div style="text-align:center;font-size:11px;color:#1d1d1f;font-weight:600;margin-bottom:4px">Risk Assessment Matrix</div>';
+        html += '<div style="text-align:center;font-size:11px;color:var(--text,#1d1d1f);font-weight:600;margin-bottom:4px">Risk Assessment Matrix</div>';
         html += '<div style="display:flex">';
         html += '<div style="writing-mode:vertical-rl;transform:rotate(180deg);font-size:9px;color:#86868b;display:flex;align-items:center;padding-right:4px">Likelihood &rarr;</div>';
         html += '<div>';
@@ -3135,7 +3135,7 @@
                 var bg = riskColors[row][col];
                 // Check if any items land in this cell
                 var itemsHere = (el.items || []).filter(function (item) { return item.likelihood === (row + 1) && item.consequence === (col + 1); });
-                html += '<div style="width:' + cellW + 'px;height:' + cellH + 'px;background:' + bg + ';opacity:0.7;border:1px solid rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;font-size:8px;color:#1d1d1f;font-weight:600;position:relative">';
+                html += '<div style="width:' + cellW + 'px;height:' + cellH + 'px;background:' + bg + ';opacity:0.7;border:1px solid rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;font-size:8px;color:var(--text,#1d1d1f);font-weight:600;position:relative">';
                 itemsHere.forEach(function (it) {
                     html += '<span style="background:rgba(0,0,0,0.6);padding:1px 4px;border-radius:2px;font-size:7px;white-space:nowrap">' + _esc(it.label) + '</span>';
                 });
@@ -3163,14 +3163,14 @@
         [
             { source: 'milestones', icon: 'fa-flag-checkered', label: 'Milestone Status', color: '#00aaff' },
             { source: 'readiness', icon: 'fa-heartbeat', label: 'Readiness (Ao)', color: '#4ecb71' },
-            { source: 'cost', icon: 'fa-dollar-sign', label: 'Cost Estimate', color: '#c9a84c' },
+            { source: 'cost', icon: 'fa-dollar-sign', label: 'Cost Estimate', color: '#ffa500' },
             { source: 'risk', icon: 'fa-exclamation-triangle', label: 'Risk Score', color: '#f97316' },
             { source: 'compliance', icon: 'fa-shield-alt', label: 'Compliance Score', color: '#3b82f6' },
             { source: 'schedule', icon: 'fa-calendar-check', label: 'Schedule Variance', color: '#a855f7' }
         ].forEach(function (w) {
             html += '<div class="stat-mini" style="cursor:pointer;padding:12px;text-align:center" onclick="briefInsertWidgetType(\'' + w.source + '\')" onmouseover="this.style.borderColor=\'' + w.color + '\'" onmouseout="this.style.borderColor=\'rgba(0,0,0,0.08)\'">';
             html += '<i class="fas ' + w.icon + '" style="color:' + w.color + ';font-size:1.3rem;display:block;margin-bottom:6px"></i>';
-            html += '<div style="color:#1d1d1f;font-size:0.8rem">' + w.label + '</div></div>';
+            html += '<div style="color:var(--text,#1d1d1f);font-size:0.8rem">' + w.label + '</div></div>';
         });
         html += '</div>';
         _showModal('Insert Live Data Widget', html);
@@ -3199,7 +3199,7 @@
             widget.title = 'Readiness Metrics'; widget.color = '#4ecb71';
         } else if (source === 'cost') {
             widget.data = { total: '$2.4B', variance: '+3.2%', trend: 'up' };
-            widget.title = 'Cost Estimate'; widget.color = '#c9a84c';
+            widget.title = 'Cost Estimate'; widget.color = '#ffa500';
         } else if (source === 'risk') {
             widget.data = { score: 'Medium', high: 3, medium: 7, low: 12 };
             widget.title = 'Risk Summary'; widget.color = '#f97316';
@@ -3236,7 +3236,7 @@
         ].forEach(function (l) {
             html += '<div class="stat-mini" style="cursor:pointer;padding:14px;text-align:center" onclick="briefApplyLayout(\'' + l.layout + '\')" onmouseover="this.style.borderColor=\'#00aaff\'" onmouseout="this.style.borderColor=\'rgba(0,0,0,0.08)\'">';
             html += '<i class="fas ' + l.icon + '" style="color:#00aaff;font-size:1.2rem;display:block;margin-bottom:4px"></i>';
-            html += '<div style="color:#1d1d1f;font-size:0.78rem">' + l.label + '</div></div>';
+            html += '<div style="color:var(--text,#1d1d1f);font-size:0.78rem">' + l.label + '</div></div>';
         });
         html += '</div>';
         _showModal('Smart Layout', html);
@@ -3345,20 +3345,20 @@
         var html = '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:16px">';
         html += '<div class="stat-mini" style="text-align:center;padding:12px"><div style="font-size:1.4rem;font-weight:700;color:#00aaff">' + slides.length + '</div><div style="font-size:0.72rem;color:var(--muted)">Slides</div></div>';
         html += '<div class="stat-mini" style="text-align:center;padding:12px"><div style="font-size:1.4rem;font-weight:700;color:#4ecb71">' + totalElements + '</div><div style="font-size:0.72rem;color:var(--muted)">Elements</div></div>';
-        html += '<div class="stat-mini" style="text-align:center;padding:12px"><div style="font-size:1.4rem;font-weight:700;color:#c9a84c">' + totalChars.toLocaleString() + '</div><div style="font-size:0.72rem;color:var(--muted)">Characters</div></div>';
+        html += '<div class="stat-mini" style="text-align:center;padding:12px"><div style="font-size:1.4rem;font-weight:700;color:var(--accent,#00aaff)">' + totalChars.toLocaleString() + '</div><div style="font-size:0.72rem;color:var(--muted)">Characters</div></div>';
         html += '</div>';
         html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:0.82rem">';
-        html += '<div style="color:var(--steel)">Version: <strong style="color:#1d1d1f">' + (brief.version || 1) + '</strong></div>';
-        html += '<div style="color:var(--steel)">Views: <strong style="color:#1d1d1f">' + views + '</strong></div>';
-        html += '<div style="color:var(--steel)">Status: <strong style="color:#1d1d1f">' + (brief.approval_status || 'draft') + '</strong></div>';
-        html += '<div style="color:var(--steel)">Classification: <strong style="color:#1d1d1f">' + (brief.classification || 'UNCLASSIFIED') + '</strong></div>';
-        html += '<div style="color:var(--steel)">Text Boxes: <strong style="color:#1d1d1f">' + totalText + '</strong></div>';
-        html += '<div style="color:var(--steel)">Created: <strong style="color:#1d1d1f">' + (brief.created_at ? new Date(brief.created_at).toLocaleDateString() : 'N/A') + '</strong></div>';
+        html += '<div style="color:var(--steel)">Version: <strong style="color:var(--text,#1d1d1f)">' + (brief.version || 1) + '</strong></div>';
+        html += '<div style="color:var(--steel)">Views: <strong style="color:var(--text,#1d1d1f)">' + views + '</strong></div>';
+        html += '<div style="color:var(--steel)">Status: <strong style="color:var(--text,#1d1d1f)">' + (brief.approval_status || 'draft') + '</strong></div>';
+        html += '<div style="color:var(--steel)">Classification: <strong style="color:var(--text,#1d1d1f)">' + (brief.classification || 'UNCLASSIFIED') + '</strong></div>';
+        html += '<div style="color:var(--steel)">Text Boxes: <strong style="color:var(--text,#1d1d1f)">' + totalText + '</strong></div>';
+        html += '<div style="color:var(--steel)">Created: <strong style="color:var(--text,#1d1d1f)">' + (brief.created_at ? new Date(brief.created_at).toLocaleDateString() : 'N/A') + '</strong></div>';
         html += '</div>';
         // Est. speaking time: ~150 words/min, ~5 words/char ratio
         var words = Math.round(totalChars / 5);
         var speakMins = Math.max(1, Math.round(words / 150));
-        html += '<div style="margin-top:12px;padding:10px;background:rgba(0,170,255,0.06);border:1px solid rgba(0,170,255,0.15);border-radius:4px;font-size:0.82rem;color:var(--steel)"><i class="fas fa-clock" style="color:#00aaff;margin-right:6px"></i>Estimated presentation time: <strong style="color:#1d1d1f">~' + speakMins + ' min</strong> (' + words + ' words)</div>';
+        html += '<div style="margin-top:12px;padding:10px;background:rgba(0,170,255,0.06);border:1px solid rgba(0,170,255,0.15);border-radius:4px;font-size:0.82rem;color:var(--steel)"><i class="fas fa-clock" style="color:#00aaff;margin-right:6px"></i>Estimated presentation time: <strong style="color:var(--text,#1d1d1f)">~' + speakMins + ' min</strong> (' + words + ' words)</div>';
         _showModal('Brief Analytics', html);
     }
     window.briefAnalyticsPanel = briefAnalyticsPanel;
@@ -3371,11 +3371,11 @@
         var sched = _activeBrief.schedule || {};
         var html = '<div style="margin-bottom:12px">';
         html += '<label style="color:var(--steel);font-size:0.82rem;display:block;margin-bottom:4px">Briefing Date & Time</label>';
-        html += '<input type="datetime-local" id="briefSchedDate" value="' + (sched.datetime || '') + '" style="width:100%;background:#fff;color:#1d1d1f;border:1px solid rgba(0,0,0,0.12);border-radius:4px;padding:8px 12px;font-size:0.85rem;margin-bottom:10px">';
+        html += '<input type="datetime-local" id="briefSchedDate" value="' + (sched.datetime || '') + '" style="width:100%;background:#fff;color:var(--text,#1d1d1f);border:1px solid rgba(0,0,0,0.12);border-radius:4px;padding:8px 12px;font-size:0.85rem;margin-bottom:10px">';
         html += '<label style="color:var(--steel);font-size:0.82rem;display:block;margin-bottom:4px">Location / Meeting Link</label>';
-        html += '<input id="briefSchedLocation" value="' + _esc(sched.location || '') + '" placeholder="e.g. Conference Room 3A / Teams Link" style="width:100%;background:#fff;color:#1d1d1f;border:1px solid rgba(0,0,0,0.12);border-radius:4px;padding:8px 12px;font-size:0.85rem;margin-bottom:10px">';
+        html += '<input id="briefSchedLocation" value="' + _esc(sched.location || '') + '" placeholder="e.g. Conference Room 3A / Teams Link" style="width:100%;background:#fff;color:var(--text,#1d1d1f);border:1px solid rgba(0,0,0,0.12);border-radius:4px;padding:8px 12px;font-size:0.85rem;margin-bottom:10px">';
         html += '<label style="color:var(--steel);font-size:0.82rem;display:block;margin-bottom:4px">Attendees (comma-separated emails)</label>';
-        html += '<textarea id="briefSchedAttendees" style="width:100%;height:50px;background:#fff;color:#1d1d1f;border:1px solid rgba(0,0,0,0.12);border-radius:4px;padding:8px;font-size:0.82rem;resize:vertical">' + _esc((sched.attendees || []).join(', ')) + '</textarea>';
+        html += '<textarea id="briefSchedAttendees" style="width:100%;height:50px;background:#fff;color:var(--text,#1d1d1f);border:1px solid rgba(0,0,0,0.12);border-radius:4px;padding:8px;font-size:0.82rem;resize:vertical">' + _esc((sched.attendees || []).join(', ')) + '</textarea>';
         html += '</div>';
         html += '<div style="display:flex;justify-content:flex-end;gap:6px">';
         html += '<button class="ai-quick-btn" onclick="briefApplySchedule()" style="background:rgba(0,204,136,0.12);color:#00cc88"><i class="fas fa-check"></i> Save Schedule</button>';
@@ -3447,7 +3447,7 @@
             html += '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px;max-height:300px;overflow-y:auto">';
             templates.forEach(function (t, i) {
                 html += '<div class="stat-mini" style="cursor:pointer;padding:10px" onclick="briefLoadTemplate(' + i + ')" onmouseover="this.style.borderColor=\'#00aaff\'" onmouseout="this.style.borderColor=\'rgba(0,0,0,0.08)\'">';
-                html += '<div style="font-size:0.82rem;color:#1d1d1f;font-weight:600;margin-bottom:4px">' + _esc(t.title || 'Untitled') + '</div>';
+                html += '<div style="font-size:0.82rem;color:var(--text,#1d1d1f);font-weight:600;margin-bottom:4px">' + _esc(t.title || 'Untitled') + '</div>';
                 html += '<div style="font-size:0.68rem;color:var(--muted)">' + (t.slides ? t.slides.length : 0) + ' slides &mdash; ' + _esc(t.brief_type || '') + '</div>';
                 html += '<div style="font-size:0.62rem;color:var(--muted)">' + (t.savedAt ? new Date(t.savedAt).toLocaleDateString() : '') + '</div>';
                 html += '<div style="margin-top:4px"><button class="ai-quick-btn" onclick="event.stopPropagation();briefDeleteTemplate(' + i + ')" style="font-size:0.62rem;padding:1px 6px;color:#ff4444"><i class="fas fa-trash"></i></button></div>';
@@ -3708,7 +3708,7 @@
         data.forEach(function (row, ri) {
             html += '<tr>';
             (row || []).forEach(function (cell, ci) {
-                html += '<td style="padding:2px"><input value="' + _esc(cell) + '" data-r="' + ri + '" data-c="' + ci + '" class="briefTableCell" style="width:100%;background:#fff;color:#1d1d1f;border:1px solid rgba(0,0,0,0.1);border-radius:2px;padding:4px 6px;font-size:0.8rem" onchange="briefUpdateTableCell(\'' + eid + '\',' + ri + ',' + ci + ',this.value)"></td>';
+                html += '<td style="padding:2px"><input value="' + _esc(cell) + '" data-r="' + ri + '" data-c="' + ci + '" class="briefTableCell" style="width:100%;background:#fff;color:var(--text,#1d1d1f);border:1px solid rgba(0,0,0,0.1);border-radius:2px;padding:4px 6px;font-size:0.8rem" onchange="briefUpdateTableCell(\'' + eid + '\',' + ri + ',' + ci + ',this.value)"></td>';
             });
             html += '</tr>';
         });
@@ -3799,19 +3799,19 @@
         if (!el || el.type !== 'chart') return;
         var html = '<div style="margin-bottom:10px">';
         html += '<label style="color:var(--steel);font-size:0.82rem;display:block;margin-bottom:4px">Chart Title</label>';
-        html += '<input id="briefChartTitle" value="' + _esc(el.title || '') + '" style="width:100%;background:#fff;color:#1d1d1f;border:1px solid rgba(0,0,0,0.12);border-radius:4px;padding:6px 10px;font-size:0.85rem;margin-bottom:8px">';
+        html += '<input id="briefChartTitle" value="' + _esc(el.title || '') + '" style="width:100%;background:#fff;color:var(--text,#1d1d1f);border:1px solid rgba(0,0,0,0.12);border-radius:4px;padding:6px 10px;font-size:0.85rem;margin-bottom:8px">';
         html += '<label style="color:var(--steel);font-size:0.82rem;display:block;margin-bottom:4px">Chart Type</label>';
-        html += '<select id="briefChartType" style="width:100%;background:#fff;color:#1d1d1f;border:1px solid rgba(0,0,0,0.12);border-radius:4px;padding:6px 10px;font-size:0.85rem;margin-bottom:8px">';
+        html += '<select id="briefChartType" style="width:100%;background:#fff;color:var(--text,#1d1d1f);border:1px solid rgba(0,0,0,0.12);border-radius:4px;padding:6px 10px;font-size:0.85rem;margin-bottom:8px">';
         ['bar','line','pie','donut','stacked','horizontal'].forEach(function (t) {
             html += '<option value="' + t + '"' + (t === (el.chartType || 'bar') ? ' selected' : '') + '>' + t.charAt(0).toUpperCase() + t.slice(1) + '</option>';
         });
         html += '</select>';
         html += '<label style="color:var(--steel);font-size:0.82rem;display:block;margin-bottom:4px">Labels (comma-separated)</label>';
-        html += '<input id="briefChartLabels" value="' + _esc((el.labels || []).join(', ')) + '" style="width:100%;background:#fff;color:#1d1d1f;border:1px solid rgba(0,0,0,0.12);border-radius:4px;padding:6px 10px;font-size:0.85rem;margin-bottom:8px">';
+        html += '<input id="briefChartLabels" value="' + _esc((el.labels || []).join(', ')) + '" style="width:100%;background:#fff;color:var(--text,#1d1d1f);border:1px solid rgba(0,0,0,0.12);border-radius:4px;padding:6px 10px;font-size:0.85rem;margin-bottom:8px">';
         (el.datasets || []).forEach(function (ds, di) {
             html += '<div style="display:flex;gap:6px;margin-bottom:6px;align-items:center">';
-            html += '<input value="' + _esc(ds.label || '') + '" placeholder="Series name" class="briefChartDS" data-di="' + di + '" data-field="label" style="flex:1;background:#fff;color:#1d1d1f;border:1px solid rgba(0,0,0,0.1);border-radius:3px;padding:4px 6px;font-size:0.8rem">';
-            html += '<input value="' + _esc((ds.values || []).join(', ')) + '" placeholder="Values" class="briefChartDS" data-di="' + di + '" data-field="values" style="flex:2;background:#fff;color:#1d1d1f;border:1px solid rgba(0,0,0,0.1);border-radius:3px;padding:4px 6px;font-size:0.8rem">';
+            html += '<input value="' + _esc(ds.label || '') + '" placeholder="Series name" class="briefChartDS" data-di="' + di + '" data-field="label" style="flex:1;background:#fff;color:var(--text,#1d1d1f);border:1px solid rgba(0,0,0,0.1);border-radius:3px;padding:4px 6px;font-size:0.8rem">';
+            html += '<input value="' + _esc((ds.values || []).join(', ')) + '" placeholder="Values" class="briefChartDS" data-di="' + di + '" data-field="values" style="flex:2;background:#fff;color:var(--text,#1d1d1f);border:1px solid rgba(0,0,0,0.1);border-radius:3px;padding:4px 6px;font-size:0.8rem">';
             html += '<input type="color" value="' + (ds.color || '#00aaff') + '" class="briefChartDS" data-di="' + di + '" data-field="color" style="width:28px;height:28px;border:none;padding:0;cursor:pointer">';
             html += '</div>';
         });
@@ -3867,7 +3867,7 @@
                 var colors = { green: '#4ecb71', yellow: '#f9c846', red: '#ff4444' };
                 var clr = colors[item.status] || '#6b7280';
                 html += '<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(0,0,0,0.04)">';
-                html += '<span style="color:#1d1d1f;font-size:0.85rem">' + _esc(item.label) + '</span>';
+                html += '<span style="color:var(--text,#1d1d1f);font-size:0.85rem">' + _esc(item.label) + '</span>';
                 html += '<div style="display:flex;gap:6px">';
                 ['green','yellow','red'].forEach(function (s) {
                     var bg = colors[s];
@@ -3913,9 +3913,9 @@
         html += '<div style="max-height:280px;overflow-y:auto;margin-bottom:10px">';
         items.forEach(function (item, i) {
             html += '<div style="display:flex;gap:6px;margin-bottom:6px;align-items:center">';
-            html += '<input value="' + _esc(item.label) + '" placeholder="Risk name" class="briefRMItem" data-i="' + i + '" data-f="label" style="flex:2;background:#fff;color:#1d1d1f;border:1px solid rgba(0,0,0,0.1);border-radius:3px;padding:4px 6px;font-size:0.8rem">';
-            html += '<input type="number" min="1" max="5" value="' + (item.likelihood || 1) + '" class="briefRMItem" data-i="' + i + '" data-f="likelihood" style="width:50px;background:#fff;color:#1d1d1f;border:1px solid rgba(0,0,0,0.1);border-radius:3px;padding:4px 6px;font-size:0.8rem;text-align:center" title="Likelihood">';
-            html += '<input type="number" min="1" max="5" value="' + (item.consequence || 1) + '" class="briefRMItem" data-i="' + i + '" data-f="consequence" style="width:50px;background:#fff;color:#1d1d1f;border:1px solid rgba(0,0,0,0.1);border-radius:3px;padding:4px 6px;font-size:0.8rem;text-align:center" title="Consequence">';
+            html += '<input value="' + _esc(item.label) + '" placeholder="Risk name" class="briefRMItem" data-i="' + i + '" data-f="label" style="flex:2;background:#fff;color:var(--text,#1d1d1f);border:1px solid rgba(0,0,0,0.1);border-radius:3px;padding:4px 6px;font-size:0.8rem">';
+            html += '<input type="number" min="1" max="5" value="' + (item.likelihood || 1) + '" class="briefRMItem" data-i="' + i + '" data-f="likelihood" style="width:50px;background:#fff;color:var(--text,#1d1d1f);border:1px solid rgba(0,0,0,0.1);border-radius:3px;padding:4px 6px;font-size:0.8rem;text-align:center" title="Likelihood">';
+            html += '<input type="number" min="1" max="5" value="' + (item.consequence || 1) + '" class="briefRMItem" data-i="' + i + '" data-f="consequence" style="width:50px;background:#fff;color:var(--text,#1d1d1f);border:1px solid rgba(0,0,0,0.1);border-radius:3px;padding:4px 6px;font-size:0.8rem;text-align:center" title="Consequence">';
             html += '<button class="ai-quick-btn" onclick="briefRMRemoveItem(\'' + eid + '\',' + i + ')" style="color:#ff4444;padding:2px 6px"><i class="fas fa-times"></i></button>';
             html += '</div>';
         });
@@ -4138,7 +4138,7 @@
         if (!b.approvals || b.approvals.length === 0) issues.push({ severity: 'info', msg: 'No approval signatures recorded' });
         _complianceResults = issues;
 
-        var html = '<div style="margin-bottom:12px;color:#86868b;font-size:0.82rem">Scanned <strong style="color:#1d1d1f">' + b.title + '</strong> (' + b.slides.length + ' slides)</div>';
+        var html = '<div style="margin-bottom:12px;color:#86868b;font-size:0.82rem">Scanned <strong style="color:var(--text,#1d1d1f)">' + b.title + '</strong> (' + b.slides.length + ' slides)</div>';
         if (issues.length === 0) {
             html += '<div style="text-align:center;padding:24px;color:#00cc88"><i class="fas fa-check-circle" style="font-size:2rem;margin-bottom:8px;display:block"></i>All compliance checks passed!</div>';
         } else {
@@ -4147,7 +4147,7 @@
             issues.forEach(function (iss) {
                 html += '<div style="display:flex;align-items:flex-start;gap:10px;padding:10px 12px;margin-bottom:6px;background:rgba(0,0,0,0.015);border-radius:8px;border-left:3px solid ' + colors[iss.severity] + '">';
                 html += '<i class="fas ' + icons[iss.severity] + '" style="color:' + colors[iss.severity] + ';margin-top:2px"></i>';
-                html += '<span style="color:#1d1d1f;font-size:0.82rem">' + _esc(iss.msg) + '</span></div>';
+                html += '<span style="color:var(--text,#1d1d1f);font-size:0.82rem">' + _esc(iss.msg) + '</span></div>';
             });
         }
         html += '<div style="margin-top:14px;text-align:right"><button class="brief-action-btn" onclick="briefCloseModal()">Close</button></div>';
@@ -4175,7 +4175,7 @@
             if (texts.length) summary += '   ' + texts.join(' | ') + '\n';
         });
 
-        var html = '<div style="margin-bottom:12px;color:#86868b;font-size:0.82rem">Auto-generated executive summary for <strong style="color:#1d1d1f">' + _esc(b.title) + '</strong></div>';
+        var html = '<div style="margin-bottom:12px;color:#86868b;font-size:0.82rem">Auto-generated executive summary for <strong style="color:var(--text,#1d1d1f)">' + _esc(b.title) + '</strong></div>';
         html += '<textarea class="brief-prop-input" style="height:280px;font-size:0.78rem;font-family:monospace" readonly>' + _esc(summary) + '</textarea>';
         html += '<div style="display:flex;gap:8px;margin-top:12px;justify-content:flex-end">';
         html += '<button class="brief-action-btn" onclick="briefCloseModal()">Close</button>';
@@ -4252,7 +4252,7 @@
         html += '<canvas id="briefQRCanvas" width="' + qrSize + '" height="' + qrSize + '" style="image-rendering:pixelated"></canvas>';
         html += '</div>';
         html += '<div style="color:#86868b;font-size:0.8rem;margin-bottom:12px">Scan to verify brief integrity</div>';
-        html += '<div style="color:#1d1d1f;font-size:0.78rem;margin-bottom:4px"><strong>' + _esc(b.title) + '</strong></div>';
+        html += '<div style="color:var(--text,#1d1d1f);font-size:0.78rem;margin-bottom:4px"><strong>' + _esc(b.title) + '</strong></div>';
         html += '<div style="color:#6e6e73;font-size:0.72rem">ID: ' + b.id + '</div>';
         if (b.xrpl_tx) html += '<div style="color:#00cc88;font-size:0.72rem;margin-top:4px"><i class="fas fa-link"></i> XRPL Anchored</div>';
         html += '<div style="margin-top:16px;display:flex;gap:8px;justify-content:center">';
@@ -4326,7 +4326,7 @@
         if (_rehearsalInterval) { briefStopRehearsal(); return; }
         _rehearsalTimer = 0;
         var html = '<div id="briefRehearsalPanel" style="text-align:center;padding:16px">';
-        html += '<div style="font-size:2.5rem;font-weight:700;color:#1d1d1f;font-variant-numeric:tabular-nums" id="briefRehearsalTime">00:00</div>';
+        html += '<div style="font-size:2.5rem;font-weight:700;color:var(--text,#1d1d1f);font-variant-numeric:tabular-nums" id="briefRehearsalTime">00:00</div>';
         html += '<div style="color:#86868b;font-size:0.82rem;margin:8px 0 16px">Slide ' + (_activeSlideIdx + 1) + ' of ' + (_activeBrief ? _activeBrief.slides.length : 0) + '</div>';
         html += '<div style="display:flex;gap:8px;justify-content:center">';
         html += '<button class="brief-action-btn primary" id="briefRehearsalToggle" onclick="briefToggleRehearsal()"><i class="fas fa-play"></i> Start</button>';
@@ -4481,7 +4481,7 @@
         var html = '<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">';
         [a, b].forEach(function (br) {
             html += '<div style="background:rgba(0,0,0,0.015);border-radius:10px;padding:14px;border:1px solid rgba(0,0,0,0.05)">';
-            html += '<div style="font-weight:600;color:#1d1d1f;margin-bottom:8px">' + _esc(br.title) + '</div>';
+            html += '<div style="font-weight:600;color:var(--text,#1d1d1f);margin-bottom:8px">' + _esc(br.title) + '</div>';
             html += '<div style="font-size:0.78rem;color:#86868b">';
             html += 'Type: <span style="color:#00aaff">' + br.brief_type + '</span><br>';
             html += 'Slides: ' + br.slides.length + '<br>';
@@ -4541,7 +4541,7 @@
             var label = el.type + (el.text ? ': ' + el.text.substring(0, 30) : '') + (el.label ? ': ' + el.label : '');
             html += '<div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:rgba(0,0,0,0.02);border-radius:8px;border:1px solid rgba(0,0,0,0.05)">';
             html += '<span style="color:#00aaff;font-weight:700;width:24px;text-align:center">' + (i + 1) + '</span>';
-            html += '<span style="flex:1;color:#1d1d1f;font-size:0.82rem">' + _esc(label) + '</span>';
+            html += '<span style="flex:1;color:var(--text,#1d1d1f);font-size:0.82rem">' + _esc(label) + '</span>';
             html += '<button class="brief-fmt-btn" onclick="briefBuildMoveUp(' + i + ')" title="Move up"><i class="fas fa-chevron-up"></i></button>';
             html += '<button class="brief-fmt-btn" onclick="briefBuildMoveDown(' + i + ')" title="Move down"><i class="fas fa-chevron-down"></i></button>';
             html += '</div>';
@@ -4642,16 +4642,16 @@
         stats.forEach(function (s) {
             html += '<div style="text-align:center;padding:16px;background:rgba(0,0,0,0.015);border-radius:10px;border:1px solid rgba(0,0,0,0.05)">';
             html += '<i class="fas ' + s.icon + '" style="color:' + s.color + ';font-size:1.2rem;margin-bottom:6px;display:block"></i>';
-            html += '<div style="font-size:1.5rem;font-weight:700;color:#1d1d1f">' + s.val + '</div>';
+            html += '<div style="font-size:1.5rem;font-weight:700;color:var(--text,#1d1d1f)">' + s.val + '</div>';
             html += '<div style="font-size:0.72rem;color:#6e6e73">' + s.label + '</div></div>';
         });
         html += '</div>';
 
-        html += '<div style="margin-bottom:12px"><div style="font-weight:600;color:#1d1d1f;font-size:0.85rem;margin-bottom:8px">By Type</div>';
+        html += '<div style="margin-bottom:12px"><div style="font-weight:600;color:var(--text,#1d1d1f);font-size:0.85rem;margin-bottom:8px">By Type</div>';
         Object.keys(byType).forEach(function (t) {
             var pct = Math.round(byType[t] / data.length * 100);
             html += '<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">';
-            html += '<span style="width:80px;font-size:0.78rem;color:#1d1d1f">' + t + '</span>';
+            html += '<span style="width:80px;font-size:0.78rem;color:var(--text,#1d1d1f)">' + t + '</span>';
             html += '<div style="flex:1;height:8px;background:rgba(0,0,0,0.03);border-radius:4px;overflow:hidden"><div style="width:' + pct + '%;height:100%;background:linear-gradient(90deg,#00aaff,#00cc88);border-radius:4px"></div></div>';
             html += '<span style="width:30px;text-align:right;font-size:0.78rem;color:#6e6e73">' + byType[t] + '</span></div>';
         });
@@ -4673,7 +4673,7 @@
             var isActive = i === (_activeBrief._historyIdx !== undefined ? _activeBrief._historyIdx : history.length - 1);
             html += '<div onclick="briefRestoreHistory(' + i + ')" style="display:flex;align-items:center;gap:10px;padding:10px;cursor:pointer;background:' + (isActive ? 'rgba(0,170,255,0.08)' : 'transparent') + ';border-radius:8px;border-left:3px solid ' + (isActive ? '#00aaff' : 'transparent') + ';margin-bottom:4px;transition:background 0.15s" onmouseover="this.style.background=\'rgba(0,0,0,0.03)\'" onmouseout="this.style.background=\'' + (isActive ? 'rgba(0,170,255,0.08)' : 'transparent') + '\'">';
             html += '<span style="color:' + (isActive ? '#00aaff' : '#6e7681') + ';font-weight:600;width:28px;text-align:center">' + (i + 1) + '</span>';
-            html += '<span style="color:#1d1d1f;font-size:0.82rem">State ' + (i + 1) + (isActive ? ' (current)' : '') + '</span></div>';
+            html += '<span style="color:var(--text,#1d1d1f);font-size:0.82rem">State ' + (i + 1) + (isActive ? ' (current)' : '') + '</span></div>';
         }
         html += '</div>';
         html += '<div style="margin-top:14px;text-align:right"><button class="brief-action-btn" onclick="briefCloseModal()">Close</button></div>';
@@ -4712,7 +4712,7 @@
             var lbl = el.type + (el.text ? ': ' + el.text.substring(0, 25) : '') + (el.label ? ': ' + el.label : '');
             var minClass = el.minClassification || 'UNCLASSIFIED';
             html += '<div style="display:flex;align-items:center;gap:8px;padding:8px;margin-bottom:4px;background:rgba(0,0,0,0.015);border-radius:6px">';
-            html += '<span style="flex:1;font-size:0.78rem;color:#1d1d1f">' + _esc(lbl) + '</span>';
+            html += '<span style="flex:1;font-size:0.78rem;color:var(--text,#1d1d1f)">' + _esc(lbl) + '</span>';
             html += '<select class="brief-select" style="width:120px;font-size:0.72rem" onchange="briefSetElementClass(\'' + el.id + '\',this.value)">';
             ['UNCLASSIFIED', 'CUI', 'CONFIDENTIAL', 'SECRET', 'TOP SECRET'].forEach(function (c) {
                 html += '<option value="' + c + '"' + (c === minClass ? ' selected' : '') + '>' + c + '</option>';
@@ -4789,7 +4789,7 @@
             perms.forEach(function (p, i) {
                 var roleColor = p.role === 'editor' ? '#00cc88' : p.role === 'approver' ? '#a855f7' : '#00aaff';
                 html += '<div style="display:flex;align-items:center;gap:8px;padding:8px;background:rgba(0,0,0,0.015);border-radius:6px;margin-bottom:4px">';
-                html += '<span style="flex:1;font-size:0.82rem;color:#1d1d1f">' + _esc(p.email) + '</span>';
+                html += '<span style="flex:1;font-size:0.82rem;color:var(--text,#1d1d1f)">' + _esc(p.email) + '</span>';
                 html += '<span style="font-size:0.72rem;color:' + roleColor + ';font-weight:600;text-transform:uppercase">' + p.role + '</span>';
                 html += '<button class="brief-fmt-btn" onclick="briefRemoveShare(' + i + ')" title="Remove"><i class="fas fa-times"></i></button>';
                 html += '</div>';
@@ -4851,7 +4851,7 @@
         checks.forEach(function (c) {
             html += '<div style="display:flex;align-items:center;gap:10px;padding:8px 10px;margin-bottom:4px;background:rgba(0,0,0,0.015);border-radius:6px">';
             html += '<i class="fas ' + (c.pass ? 'fa-check-circle' : 'fa-times-circle') + '" style="color:' + (c.pass ? '#00cc88' : '#ff4444') + '"></i>';
-            html += '<span style="flex:1;font-size:0.82rem;color:#1d1d1f">' + c.name + '</span>';
+            html += '<span style="flex:1;font-size:0.82rem;color:var(--text,#1d1d1f)">' + c.name + '</span>';
             if (c.detail) html += '<span style="font-size:0.72rem;color:#6e6e73">' + _esc(c.detail) + '</span>';
             html += '</div>';
         });
@@ -4907,7 +4907,7 @@
         var html = '<div style="max-height:300px;overflow-y:auto">';
         shortcuts.forEach(function (s) {
             html += '<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(0,0,0,0.04);font-size:0.82rem">';
-            html += '<kbd style="background:rgba(0,0,0,0.04);padding:2px 8px;border-radius:3px;color:#1d1d1f;font-size:0.78rem;font-family:monospace">' + s[0] + '</kbd>';
+            html += '<kbd style="background:rgba(0,0,0,0.04);padding:2px 8px;border-radius:3px;color:var(--text,#1d1d1f);font-size:0.78rem;font-family:monospace">' + s[0] + '</kbd>';
             html += '<span style="color:var(--steel)">' + s[1] + '</span>';
             html += '</div>';
         });
@@ -4940,7 +4940,7 @@
         overlay.id = 'briefModalOverlay';
         overlay.className = 'brief-modal-overlay';
         overlay.innerHTML = '<div class="brief-modal">' +
-            '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px"><h4 style="margin:0;color:#1d1d1f;font-size:1.05rem;font-weight:600;display:flex;align-items:center;gap:8px"><i class="fas fa-briefcase" style="color:#00aaff"></i>' + title + '</h4>' +
+            '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px"><h4 style="margin:0;color:var(--text,#1d1d1f);font-size:1.05rem;font-weight:600;display:flex;align-items:center;gap:8px"><i class="fas fa-briefcase" style="color:#00aaff"></i>' + title + '</h4>' +
             '<button onclick="briefCloseModal()" class="brief-modal-close">&times;</button></div>' +
             bodyHtml + '</div>';
         overlay.addEventListener('click', function (e) { if (e.target === overlay) _closeModal(); });

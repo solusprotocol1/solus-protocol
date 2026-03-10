@@ -249,7 +249,7 @@ function computeThreatIntelScore() {
     if (e('threatGIDEP')) e('threatGIDEP').textContent = gidepAlerts;
     if (e('threatLeadTime')) e('threatLeadTime').textContent = leadTimeSpikes;
     if (e('threatScoreBadge')) {
-        var color = threatScore >= 70 ? '#c9a84c' : threatScore >= 40 ? '#ff9500' : '#00aaff';
+        var color = threatScore >= 70 ? '#ff6b6b' : threatScore >= 40 ? '#ff9500' : '#00aaff';
         var label = threatScore >= 70 ? 'CRITICAL' : threatScore >= 40 ? 'ELEVATED' : 'LOW';
         e('threatScoreBadge').textContent = threatScore + ' / 100 — ' + label;
         e('threatScoreBadge').style.color = color;
@@ -372,7 +372,7 @@ function renderFailureTimeline() {
     // Simulate additional analysts joining over time
     var potentialAnalysts = [
         {name:'Analyst 1 (PMS 400D)', initials:'A1', color:'#2ecc71'},
-        {name:'Analyst 2 (NAVAIR)', initials:'A2', color:'#9b59b6'},
+        {name:'Analyst 2 (NAVAIR)', initials:'A2', color:'#a855f7'},
         {name:'Analyst 3 (PMS 317)', initials:'A3', color:'#e67e22'},
         {name:'Analyst 4 (NAVSEA)', initials:'A4', color:'#e74c3c'}
     ];
@@ -386,7 +386,7 @@ function renderFailureTimeline() {
         countEl.textContent = analysts.length + ' analyst' + (analysts.length > 1 ? 's' : '');
         var html = '';
         analysts.forEach(function(a, i) {
-            html += '<div title="' + a.name + '" style="width:26px;height:26px;border-radius:50%;background:' + a.color + ';display:flex;align-items:center;justify-content:center;font-size:0.6rem;font-weight:700;color:#1d1d1f;border:2px solid #fff;margin-left:' + (i > 0 ? '-6px' : '0') + ';z-index:' + (10-i) + ';position:relative;cursor:default;">' + a.initials + '</div>';
+            html += '<div title="' + a.name + '" style="width:26px;height:26px;border-radius:50%;background:' + a.color + ';display:flex;align-items:center;justify-content:center;font-size:0.6rem;font-weight:700;color:var(--text,#1d1d1f);border:2px solid #fff;margin-left:' + (i > 0 ? '-6px' : '0') + ';z-index:' + (10-i) + ';position:relative;cursor:default;">' + a.initials + '</div>';
         });
         avatarsEl.innerHTML = html;
 
@@ -441,13 +441,13 @@ function showDigitalThread(hash) {
 
     // Build the digital thread graph
     var steps = [
-        {icon:'fa-tools', label:'Source Tool', value: record.source || record.type || 'Manual Anchor', color:'#9b59b6'},
+        {icon:'fa-tools', label:'Source Tool', value: record.source || record.type || 'Manual Anchor', color:'#a855f7'},
         {icon:'fa-file-alt', label:'Content', value: (record.content || record.label || '').substring(0,60) + '...', color:'#3498db'},
         {icon:'fa-fingerprint', label:'SHA-256 Hash', value: record.hash ? record.hash.substring(0,20) + '...' : '—', color:'#e67e22', mono:true},
         {icon:'fa-lock', label:'Encryption', value: record.encrypted ? 'AES-256-GCM Encrypted' : 'Plaintext (CUI)', color: record.encrypted ? '#2ecc71' : '#ffcc00'},
         {icon:'fa-anchor', label:'XRPL Anchor', value: record.txHash ? record.txHash.substring(0,20) + '...' : 'Pending', color:'#00aaff', mono:true, link: explorerUrl},
         {icon:'fa-check-double', label:'Verification', value: record.verified ? 'Verified ' + (record.verifiedAt || '') : 'Not yet verified', color: record.verified ? '#2ecc71' : '#ff9500'},
-        {icon:'fa-clipboard-list', label:'Audit Trail', value: 'Timestamped: ' + (record.timestamp || now), color:'#c9a84c'}
+        {icon:'fa-clipboard-list', label:'Audit Trail', value: 'Timestamped: ' + (record.timestamp || now), color:'#00aaff'}
     ];
 
     var html = '<div style="position:relative;padding-left:24px;">';
@@ -462,7 +462,7 @@ function showDigitalThread(hash) {
         html += '<div style="display:flex;align-items:flex-start;gap:8px;">';
         html += '<i class="fas ' + step.icon + '" style="color:' + step.color + ';font-size:0.75rem;margin-top:2px;width:14px;text-align:center;"></i>';
         html += '<div><div style="font-size:0.7rem;color:var(--steel);text-transform:uppercase;letter-spacing:0.5px;">' + step.label + '</div>';
-        html += '<div style="font-size:0.82rem;color:#1d1d1f;' + (step.mono ? 'font-family:monospace;font-size:0.78rem;' : '') + '">';
+        html += '<div style="font-size:0.82rem;color:var(--text,#1d1d1f);' + (step.mono ? 'font-family:monospace;font-size:0.78rem;' : '') + '">';
         if (step.link) html += '<a href="' + step.link + '" target="_blank" style="color:' + step.color + ';text-decoration:none;">' + step.value + ' <i class="fas fa-external-link-alt" style="font-size:0.6rem;"></i></a>';
         else html += step.value;
         html += '</div></div></div></div>';
@@ -512,13 +512,13 @@ function showSampleDigitalThread() {
     }
     // Otherwise show a sample provenance chain
     var steps = [
-        {icon:'fa-tools', label:'Source Tool', value:'ILS Gap Analysis', color:'#9b59b6'},
+        {icon:'fa-tools', label:'Source Tool', value:'ILS Gap Analysis', color:'#a855f7'},
         {icon:'fa-file-alt', label:'Content', value:'GEIA-STD-0007 compliance assessment — DDG-51 FLT III...', color:'#3498db'},
         {icon:'fa-fingerprint', label:'SHA-256 Hash', value:'a3f8c7e2b1d4f6a8...', color:'#e67e22', mono:true},
         {icon:'fa-lock', label:'Encryption', value:'AES-256-GCM Encrypted', color:'#2ecc71'},
         {icon:'fa-anchor', label:'XRPL Anchor', value:'TX: 8F2A1B3C4D5E6F...', color:'#00aaff', mono:true, link:'https://livenet.xrpl.org'},
         {icon:'fa-check-double', label:'Verification', value:'Verified — Immutable on-chain', color:'#2ecc71'},
-        {icon:'fa-clipboard-list', label:'Audit Trail', value:'Timestamped: ' + new Date().toISOString().replace('T',' ').substring(0,19) + ' UTC', color:'#c9a84c'}
+        {icon:'fa-clipboard-list', label:'Audit Trail', value:'Timestamped: ' + new Date().toISOString().replace('T',' ').substring(0,19) + ' UTC', color:'#00aaff'}
     ];
     var html = '<div style="position:relative;padding-left:24px;">';
     steps.forEach(function(step, i) {
@@ -529,13 +529,13 @@ function showSampleDigitalThread() {
         html += '<div style="display:flex;align-items:flex-start;gap:8px;">';
         html += '<i class="fas ' + step.icon + '" style="color:' + step.color + ';font-size:0.75rem;margin-top:2px;width:14px;text-align:center;"></i>';
         html += '<div><div style="font-size:0.7rem;color:var(--steel);text-transform:uppercase;letter-spacing:0.5px;">' + step.label + '</div>';
-        html += '<div style="font-size:0.82rem;color:#1d1d1f;' + (step.mono ? 'font-family:monospace;font-size:0.78rem;' : '') + '">';
+        html += '<div style="font-size:0.82rem;color:var(--text,#1d1d1f);' + (step.mono ? 'font-family:monospace;font-size:0.78rem;' : '') + '">';
         if (step.link) html += '<a href="' + step.link + '" target="_blank" style="color:' + step.color + ';text-decoration:none;">' + step.value + ' <i class="fas fa-external-link-alt" style="font-size:0.6rem;"></i></a>';
         else html += step.value;
         html += '</div></div></div></div>';
     });
     html += '</div>';
-    html += '<div style="margin-top:12px;padding:10px;background:rgba(155,89,182,0.08);border-radius:8px;font-size:0.75rem;color:var(--steel);"><i class="fas fa-info-circle" style="color:#9b59b6;margin-right:6px;"></i>This is a sample provenance chain. Anchor records using any ILS tool to see real digital thread data with XRPL verification links.</div>';
+    html += '<div style="margin-top:12px;padding:10px;background:rgba(0,170,255,0.08);border-radius:8px;font-size:0.75rem;color:var(--steel);"><i class="fas fa-info-circle" style="color:var(--accent,#00aaff);margin-right:6px;"></i>This is a sample provenance chain. Anchor records using any ILS tool to see real digital thread data with XRPL verification links.</div>';
     content.innerHTML = html;
     panel.style.display = 'block';
 }
@@ -564,7 +564,7 @@ function showSampleDigitalThread() {
                     btn.className = 'thread-btn';
                     btn.innerHTML = '<i class="fas fa-project-diagram"></i>';
                     btn.title = 'View Digital Thread';
-                    btn.style.cssText = 'background:rgba(155,89,182,0.12);color:#9b59b6;border:1px solid rgba(155,89,182,0.3);border-radius:8px;padding:3px 8px;font-size:0.7rem;cursor:pointer;margin-left:4px;';
+                    btn.style.cssText = 'background:rgba(0,170,255,0.12);color:var(--accent,#00aaff);border:1px solid rgba(0,170,255,0.3);border-radius:8px;padding:3px 8px;font-size:0.7rem;cursor:pointer;margin-left:4px;';
                     btn.onclick = function(e) { e.stopPropagation(); showDigitalThread(hash); };
                     var actions = row.querySelector('.vault-actions, [style*="gap"]');
                     if (actions) actions.appendChild(btn);
@@ -592,7 +592,7 @@ function showSampleDigitalThread() {
                             btn.className = 'thread-btn';
                             btn.innerHTML = '<i class="fas fa-project-diagram"></i>';
                             btn.title = 'View Digital Thread';
-                            btn.style.cssText = 'background:rgba(155,89,182,0.12);color:#9b59b6;border:1px solid rgba(155,89,182,0.3);border-radius:8px;padding:3px 8px;font-size:0.7rem;cursor:pointer;margin-left:4px;';
+                            btn.style.cssText = 'background:rgba(0,170,255,0.12);color:var(--accent,#00aaff);border:1px solid rgba(0,170,255,0.3);border-radius:8px;padding:3px 8px;font-size:0.7rem;cursor:pointer;margin-left:4px;';
                             btn.onclick = function(e) { e.stopPropagation(); showDigitalThread(hash); };
                             var actions = row.querySelector('.vault-actions, [style*="gap"]');
                             if (actions) actions.appendChild(btn);
@@ -656,7 +656,7 @@ function loadSBOMData() {
     var html = '';
     components.forEach(function(c) {
        html += '<tr style="border-bottom:1px solid rgba(0,0,0,0.04);">';
-       html += '<td style="padding:10px 8px;color:#1d1d1f;font-weight:600;font-size:0.85rem;">' + c.name + '<div style="color:var(--steel);font-size:0.72rem;">' + c.supplier + '</div></td>';
+       html += '<td style="padding:10px 8px;color:var(--text,#1d1d1f);font-weight:600;font-size:0.85rem;">' + c.name + '<div style="color:var(--steel);font-size:0.72rem;">' + c.supplier + '</div></td>';
        html += '<td style="padding:10px 8px;color:var(--steel);font-family:monospace;font-size:0.78rem;">' + c.version + '</td>';
        html += '<td style="padding:10px 8px;text-align:center;"><span style="background:rgba(0,170,255,0.1);color:#00aaff;padding:2px 8px;border-radius:8px;font-size:0.75rem;font-weight:600;">' + c.type + '</span></td>';
        html += '<td style="padding:10px 8px;text-align:center;color:' + (c.cves > 0 ? '#ff3b30' : '#34c759') + ';font-weight:700;">' + (c.cves > 0 ? c.cves + ' <i class="fas fa-exclamation-triangle" style="font-size:0.7rem"></i>' : '<i class="fas fa-check-circle"></i>') + '</td>';
@@ -746,7 +746,7 @@ async function sbomAiAsk(presetQuestion) {
     if (!chatBody) return;
 
     // Add user message
-    chatBody.innerHTML += window._s4Safe('<div style="align-self:flex-end;background:rgba(0,170,255,0.1);border:1px solid rgba(0,170,255,0.15);border-radius:8px;padding:8px 12px;max-width:85%;color:#1d1d1f;font-size:0.83rem;">' + msg.replace(/</g,'&lt;') + '</div>');
+    chatBody.innerHTML += window._s4Safe('<div style="align-self:flex-end;background:rgba(0,170,255,0.1);border:1px solid rgba(0,170,255,0.15);border-radius:8px;padding:8px 12px;max-width:85%;color:var(--text,#1d1d1f);font-size:0.83rem;">' + msg.replace(/</g,'&lt;') + '</div>');
     chatBody.scrollTop = chatBody.scrollHeight;
 
     // Thinking indicator
@@ -1452,7 +1452,7 @@ console.log('[Round-13] Production subscription code loaded — Stripe Checkout 
         var statusColors = { online: '#34c759', away: '#ff9500', offline: '#6e6e73' };
         var html = '<div id="teamManagePanel" style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;max-width:90vw;max-height:80vh;background:#fff;border:1px solid rgba(0,170,255,0.3);border-radius:8px;padding:24px;z-index:10001;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.12);">';
         html += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">';
-        html += '<h3 style="margin:0;color:#1d1d1f;font-size:1.1rem;"><i class="fas fa-users" style="color:var(--accent);margin-right:8px"></i>Team Workspace</h3>';
+        html += '<h3 style="margin:0;color:var(--text,#1d1d1f);font-size:1.1rem;"><i class="fas fa-users" style="color:var(--accent);margin-right:8px"></i>Team Workspace</h3>';
         html += '<button onclick="document.getElementById(\'teamManagePanel\').remove();document.getElementById(\'teamManageOverlay\').remove();" style="background:none;border:none;color:var(--steel);cursor:pointer;font-size:1.2rem;"><i class="fas fa-times"></i></button>';
         html += '</div>';
         html += '<div style="font-size:0.78rem;color:var(--steel);margin-bottom:16px;">Manage team roles and access. Changes sync across all workspace sessions.</div>';
@@ -1463,7 +1463,7 @@ console.log('[Round-13] Production subscription code loaded — Stripe Checkout 
             var role = ROLES[m.role];
             var statusColor = statusColors[m.status] || '#6e6e73';
             html += '<tr style="border-bottom:1px solid rgba(0,0,0,0.04);">';
-            html += '<td style="padding:10px 8px;"><div style="display:flex;align-items:center;gap:8px;"><div style="width:32px;height:32px;border-radius:50%;background:' + role.color + '22;display:flex;align-items:center;justify-content:center;"><i class="fas ' + role.icon + '" style="color:' + role.color + ';font-size:0.7rem;"></i></div><div><div style="color:#1d1d1f;font-weight:600;font-size:0.82rem;">' + m.name + '</div><div style="color:var(--steel);font-size:0.7rem;">' + m.email + '</div></div></div></td>';
+            html += '<td style="padding:10px 8px;"><div style="display:flex;align-items:center;gap:8px;"><div style="width:32px;height:32px;border-radius:50%;background:' + role.color + '22;display:flex;align-items:center;justify-content:center;"><i class="fas ' + role.icon + '" style="color:' + role.color + ';font-size:0.7rem;"></i></div><div><div style="color:var(--text,#1d1d1f);font-weight:600;font-size:0.82rem;">' + m.name + '</div><div style="color:var(--steel);font-size:0.7rem;">' + m.email + '</div></div></div></td>';
             html += '<td style="padding:10px 8px;"><span style="background:' + role.color + '22;color:' + role.color + ';padding:3px 10px;border-radius:8px;font-size:0.72rem;font-weight:700;">' + role.label + '</span></td>';
             html += '<td style="padding:10px 8px;text-align:center;"><span style="display:inline-flex;align-items:center;gap:4px;font-size:0.75rem;color:' + statusColor + ';"><span style="width:6px;height:6px;border-radius:50%;background:' + statusColor + ';display:inline-block;"></span>' + m.status + '</span></td>';
             html += '<td style="padding:10px 8px;text-align:center;">';
@@ -1526,7 +1526,7 @@ console.log('[Round-13] Production subscription code loaded — Stripe Checkout 
 
         var html = '<div id="savedAnalysesPanel" style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:650px;max-width:90vw;max-height:80vh;background:#fff;border:1px solid rgba(0,170,255,0.3);border-radius:8px;padding:24px;z-index:10001;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.12);">';
         html += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">';
-        html += '<h3 style="margin:0;color:#1d1d1f;font-size:1.1rem;"><i class="fas fa-history" style="color:var(--accent);margin-right:8px"></i>Saved Analyses</h3>';
+        html += '<h3 style="margin:0;color:var(--text,#1d1d1f);font-size:1.1rem;"><i class="fas fa-history" style="color:var(--accent);margin-right:8px"></i>Saved Analyses</h3>';
         html += '<button onclick="_closeSavedAnalyses()" style="background:none;border:none;color:var(--steel);cursor:pointer;font-size:1.2rem;"><i class="fas fa-times"></i></button>';
         html += '</div>';
 
@@ -1538,7 +1538,7 @@ console.log('[Round-13] Production subscription code loaded — Stripe Checkout 
                 var scoreColor = a.score >= 80 ? '#34c759' : a.score >= 50 ? '#ff9500' : '#ff3b30';
                 html += '<div style="padding:14px;margin-bottom:8px;background:var(--surface);border:1px solid var(--border);border-radius:8px;">';
                 html += '<div style="display:flex;justify-content:space-between;align-items:center;">';
-                html += '<div><div style="color:#1d1d1f;font-weight:700;font-size:0.88rem;">' + a.title + '</div><div style="color:var(--steel);font-size:0.72rem;">' + a.type + ' — ' + new Date(a.timestamp).toLocaleString() + '</div></div>';
+                html += '<div><div style="color:var(--text,#1d1d1f);font-weight:700;font-size:0.88rem;">' + a.title + '</div><div style="color:var(--steel);font-size:0.72rem;">' + a.type + ' — ' + new Date(a.timestamp).toLocaleString() + '</div></div>';
                 html += '<div style="display:flex;align-items:center;gap:12px;">';
                 html += '<div style="text-align:center;"><div style="font-size:1.2rem;font-weight:800;color:' + scoreColor + ';">' + Math.round(a.score) + '%</div><div style="font-size:0.6rem;color:var(--steel);">Score</div></div>';
                 html += '<button onclick="_deleteSavedAnalysis(' + i + ')" style="background:rgba(255,59,48,0.1);color:#ff3b30;border:1px solid rgba(255,59,48,0.2);border-radius:8px;padding:4px 8px;font-size:0.7rem;cursor:pointer;"><i class="fas fa-trash"></i></button>';
@@ -1693,7 +1693,7 @@ console.log('[Round-13] Production subscription code loaded — Stripe Checkout 
 
         var html = '<div id="webhookPanel" style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:650px;max-width:90vw;max-height:80vh;background:#fff;border:1px solid rgba(0,170,255,0.3);border-radius:8px;padding:24px;z-index:10001;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.12);">';
         html += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">';
-        html += '<h3 style="margin:0;color:#1d1d1f;font-size:1.1rem;"><i class="fas fa-plug" style="color:var(--accent);margin-right:8px"></i>Webhook Configuration</h3>';
+        html += '<h3 style="margin:0;color:var(--text,#1d1d1f);font-size:1.1rem;"><i class="fas fa-plug" style="color:var(--accent);margin-right:8px"></i>Webhook Configuration</h3>';
         html += '<button onclick="_closeWebhooks()" style="background:none;border:none;color:var(--steel);cursor:pointer;font-size:1.2rem;"><i class="fas fa-times"></i></button>';
         html += '</div>';
         html += '<div style="font-size:0.78rem;color:var(--steel);margin-bottom:16px;">Configure webhook URLs to receive real-time notifications when records are anchored, verified, or exported.</div>';
@@ -1701,7 +1701,7 @@ console.log('[Round-13] Production subscription code loaded — Stripe Checkout 
         // Add webhook form
         html += '<div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:14px;margin-bottom:16px;">';
         html += '<div style="display:grid;grid-template-columns:1fr auto;gap:8px;margin-bottom:8px;">';
-        html += '<input type="url" id="webhookUrlInput" placeholder="https://your-system.mil/api/webhooks/s4" style="background:#f5f5f7;color:#1d1d1f;border:1px solid var(--border);border-radius:8px;padding:8px 12px;font-size:0.82rem;font-family:monospace;width:100%;">';
+        html += '<input type="url" id="webhookUrlInput" placeholder="https://your-system.mil/api/webhooks/s4" style="background:#f5f5f7;color:var(--text,#1d1d1f);border:1px solid var(--border);border-radius:8px;padding:8px 12px;font-size:0.82rem;font-family:monospace;width:100%;">';
         html += '<button onclick="addWebhook()" style="background:linear-gradient(135deg,#00aaff,#0088cc);color:#fff;border:none;border-radius:8px;padding:8px 16px;font-size:0.8rem;font-weight:700;cursor:pointer;white-space:nowrap;"><i class="fas fa-plus" style="margin-right:4px"></i> Add</button>';
         html += '</div>';
         html += '<div style="display:flex;gap:6px;flex-wrap:wrap;">';
@@ -1716,7 +1716,7 @@ console.log('[Round-13] Production subscription code loaded — Stripe Checkout 
             html += '<div style="font-size:0.78rem;color:var(--accent);font-weight:600;margin-bottom:8px;">Active Webhooks</div>';
             _localWebhooks.forEach(function(wh, i) {
                 html += '<div style="padding:10px;margin-bottom:6px;background:var(--surface);border:1px solid var(--border);border-radius:8px;display:flex;justify-content:space-between;align-items:center;">';
-                html += '<div><div style="color:#1d1d1f;font-family:monospace;font-size:0.78rem;">' + wh.url + '</div><div style="color:var(--steel);font-size:0.68rem;">Events: ' + wh.events.join(', ') + ' | Added: ' + new Date(wh.created).toLocaleDateString() + '</div></div>';
+                html += '<div><div style="color:var(--text,#1d1d1f);font-family:monospace;font-size:0.78rem;">' + wh.url + '</div><div style="color:var(--steel);font-size:0.68rem;">Events: ' + wh.events.join(', ') + ' | Added: ' + new Date(wh.created).toLocaleDateString() + '</div></div>';
                 html += '<div style="display:flex;gap:6px;">';
                 html += '<button onclick="testWebhook(' + i + ')" style="background:rgba(52,199,89,0.1);color:#34c759;border:1px solid rgba(52,199,89,0.2);border-radius:8px;padding:3px 8px;font-size:0.7rem;cursor:pointer;"><i class="fas fa-paper-plane"></i> Test</button>';
                 html += '<button onclick="removeWebhook(' + i + ')" style="background:rgba(255,59,48,0.1);color:#ff3b30;border:1px solid rgba(255,59,48,0.2);border-radius:8px;padding:3px 8px;font-size:0.7rem;cursor:pointer;"><i class="fas fa-trash"></i></button>';
@@ -2820,14 +2820,14 @@ function _updateThemeIcon(isLight) {
 
         overlay.innerHTML = '<div style="background:var(--card,#fff);border:1px solid rgba(0,0,0,0.08);border-radius:8px;width:95%;max-width:900px;max-height:85vh;overflow-y:auto">' +
             '<div style="padding:20px 24px;border-bottom:1px solid rgba(0,0,0,0.06);display:flex;justify-content:space-between;align-items:center">' +
-            '<div><h3 style="color:#1d1d1f;margin:0;font-size:1rem"><i class="fas fa-code-compare" style="margin-right:8px;color:#00aaff"></i>Record Comparison</h3>' +
+            '<div><h3 style="color:var(--text,#1d1d1f);margin:0;font-size:1rem"><i class="fas fa-code-compare" style="margin-right:8px;color:#00aaff"></i>Record Comparison</h3>' +
             '<p style="color:#6e6e73;font-size:0.75rem;margin:4px 0 0">' + matchCount + '/' + fields.length + ' fields match</p></div>' +
             '<button onclick="this.closest(\'#s4CompareOverlay\').remove()" style="background:none;border:none;color:#6e6e73;font-size:1.3rem;cursor:pointer">&times;</button></div>' +
             '<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse">' +
             '<thead><tr><th style="padding:10px 12px;color:#555;font-size:0.72rem;text-transform:uppercase;text-align:left;border-bottom:1px solid rgba(0,0,0,0.08)">Field</th>' +
             '<th style="padding:10px 12px;color:#00aaff;font-size:0.78rem;text-align:left;border-bottom:1px solid rgba(0,0,0,0.08)">' + (a.label||a.type||'Record A') + '</th>' +
             '<th style="padding:10px 12px;width:40px;border-bottom:1px solid rgba(0,0,0,0.08)"></th>' +
-            '<th style="padding:10px 12px;color:#c9a84c;font-size:0.78rem;text-align:left;border-bottom:1px solid rgba(0,0,0,0.08)">' + (b.label||b.type||'Record B') + '</th></tr></thead>' +
+            '<th style="padding:10px 12px;color:#ffa500;font-size:0.78rem;text-align:left;border-bottom:1px solid rgba(0,0,0,0.08)">' + (b.label||b.type||'Record B') + '</th></tr></thead>' +
             '<tbody>' + rowsHtml + '</tbody></table></div></div>';
 
         document.body.appendChild(overlay);
@@ -2847,7 +2847,7 @@ function _updateThemeIcon(isLight) {
     shortcutsOverlay.id = 's4ShortcutsOverlay';
     shortcutsOverlay.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(245,245,247,0.88);z-index:99999;display:none;align-items:center;justify-content:center;backdrop-filter:blur(8px)';
     shortcutsOverlay.innerHTML = '<div style="background:var(--card,#fff);border:1px solid rgba(0,0,0,0.08);border-radius:8px;padding:32px;max-width:560px;width:90%;max-height:80vh;overflow-y:auto">' +
-        '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px"><h3 style="color:#1d1d1f;font-size:1.1rem;margin:0"><i class="fas fa-keyboard" style="margin-right:8px;color:#00aaff"></i>Keyboard Shortcuts</h3><button onclick="toggleShortcuts()" style="background:none;border:none;color:#6e6e73;font-size:1.2rem;cursor:pointer">&times;</button></div>' +
+        '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px"><h3 style="color:var(--text,#1d1d1f);font-size:1.1rem;margin:0"><i class="fas fa-keyboard" style="margin-right:8px;color:#00aaff"></i>Keyboard Shortcuts</h3><button onclick="toggleShortcuts()" style="background:none;border:none;color:#6e6e73;font-size:1.2rem;cursor:pointer">&times;</button></div>' +
         '<div style="display:grid;gap:8px">' +
         _shortcutRow('⌘/Ctrl + K', 'Open Global Search') +
         _shortcutRow('⌘/Ctrl + 1-6', 'Switch Platform Tabs') +
@@ -2882,7 +2882,7 @@ function _updateThemeIcon(isLight) {
     searchOverlay.innerHTML = '<div style="background:var(--card,#fff);border:1px solid rgba(0,0,0,0.08);border-radius:8px;width:90%;max-width:600px;box-shadow:0 20px 60px rgba(0,0,0,0.12)">' +
         '<div style="display:flex;align-items:center;padding:16px 20px;border-bottom:1px solid rgba(0,0,0,0.06)">' +
         '<i class="fas fa-search" style="color:#00aaff;margin-right:12px;font-size:1rem"></i>' +
-        '<input id="globalSearchInput" type="text" placeholder="Search records, vault, tools, documents..." style="flex:1;background:transparent;border:none;color:#1d1d1f;font-size:1rem;outline:none;font-family:Inter,sans-serif" autocomplete="off">' +
+        '<input id="globalSearchInput" type="text" placeholder="Search records, vault, tools, documents..." style="flex:1;background:transparent;border:none;color:var(--text,#1d1d1f);font-size:1rem;outline:none;font-family:Inter,sans-serif" autocomplete="off">' +
         '<kbd style="background:rgba(0,0,0,0.04);color:#666;padding:3px 8px;border-radius:8px;font-size:0.7rem;margin-left:8px">ESC</kbd>' +
         '</div>' +
         '<div id="globalSearchResults" style="max-height:50vh;overflow-y:auto;padding:8px"></div>' +
@@ -2908,7 +2908,7 @@ function _updateThemeIcon(isLight) {
     notifDrawer.id = 's4NotifHistory';
     notifDrawer.style.cssText = 'position:fixed;top:0;right:-420px;width:400px;max-width:90vw;height:100vh;background:var(--card,#fff);border-left:1px solid rgba(0,0,0,0.08);z-index:99997;transition:right 0.3s ease;overflow-y:auto;box-shadow:-8px 0 40px rgba(0,0,0,0.1)';
     notifDrawer.innerHTML = '<div style="padding:20px;border-bottom:1px solid rgba(0,0,0,0.06);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:var(--card,#fff);z-index:1">' +
-        '<h4 style="color:#1d1d1f;margin:0;font-size:0.95rem"><i class="fas fa-bell" style="margin-right:8px;color:#00aaff"></i>Notification History</h4>' +
+        '<h4 style="color:var(--text,#1d1d1f);margin:0;font-size:0.95rem"><i class="fas fa-bell" style="margin-right:8px;color:#00aaff"></i>Notification History</h4>' +
         '<div style="display:flex;gap:8px"><button onclick="clearNotifHistory()" style="background:none;border:1px solid rgba(0,0,0,0.08);color:#6e6e73;padding:4px 10px;border-radius:8px;font-size:0.72rem;cursor:pointer">Clear</button>' +
         '<button onclick="toggleNotifHistory()" style="background:none;border:none;color:#6e6e73;font-size:1.2rem;cursor:pointer">&times;</button></div>' +
         '</div>' +
@@ -3031,7 +3031,7 @@ function _updateThemeIcon(isLight) {
         }
 
         resultsDiv.innerHTML = window._s4Safe(results.slice(0, 15).map(function(r, i) {
-            var typeColors = {tab:'#00aaff',vault:'#c9a84c',doc:'#30d158',tool:'#00aaff'};
+            var typeColors = {tab:'#00aaff',vault:'#ffa500',doc:'#30d158',tool:'#00aaff'};
             var typeLabels = {tab:'Tab',vault:'Vault',doc:'Doc',tool:'Tool'};
             return '<div class="search-result-item" tabindex="0" style="display:flex;align-items:center;gap:12px;padding:10px 16px;cursor:pointer;border-radius:8px;transition:background 0.15s" ' +
                 'onmouseover="this.style.background=\'rgba(0,170,255,0.06)\'" onmouseout="this.style.background=\'transparent\'" ' +
@@ -5288,7 +5288,7 @@ function _updateThemeIcon(isLight) {
                 metadata: {
                     name: 'S4 Verification Certificate #' + tokenId,
                     description: 'Immutable verification certificate for record: ' + (record.name || record.id || 'Unknown'),
-                    image: 'data:image/svg+xml;base64,' + btoa('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400"><rect width="400" height="400" fill="#f5f5f7"/><text x="200" y="180" text-anchor="middle" fill="#00aaff" font-size="60" font-weight="bold">S4</text><text x="200" y="230" text-anchor="middle" fill="#c9a84c" font-size="16">VERIFICATION CERT</text><text x="200" y="260" text-anchor="middle" fill="#86868b" font-size="10">#' + tokenId + '</text></svg>'),
+                    image: 'data:image/svg+xml;base64,' + btoa('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400"><rect width="400" height="400" fill="#f5f5f7"/><text x="200" y="180" text-anchor="middle" fill="#00aaff" font-size="60" font-weight="bold">S4</text><text x="200" y="230" text-anchor="middle" fill="#00aaff" font-size="16">VERIFICATION CERT</text><text x="200" y="260" text-anchor="middle" fill="#86868b" font-size="10">#' + tokenId + '</text></svg>'),
                     attributes: [
                         {trait_type:'Platform',value:'S4 Ledger'},
                         {trait_type:'Type',value:'Verification Certificate'},
@@ -6957,9 +6957,9 @@ window.s4Analytics = {
                 + '<div style="font-size:2.2rem;font-weight:700;color:#00aaff">' + (metrics.total_uploads || 0) + '</div>'
                 + '<div style="font-size:0.75rem;color:var(--steel);margin-top:4px">' + Object.keys(metrics.upload_counts_by_tool || {}).length + ' tools used</div></div>';
             // Documents card
-            html += '<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:20px">'
+            html += '<div style="background:rgba(0,170,255,0.08);border:1px solid rgba(0,170,255,0.2);border-radius:8px;padding:20px">'
                 + '<div style="font-size:0.85rem;color:var(--steel);margin-bottom:4px">Document Library</div>'
-                + '<div style="font-size:2.2rem;font-weight:700;color:#c9a84c">' + (metrics.total_documents || 0) + '</div>'
+                + '<div style="font-size:2.2rem;font-weight:700;color:var(--accent,#00aaff)">' + (metrics.total_documents || 0) + '</div>'
                 + '<div style="font-size:0.75rem;color:var(--steel);margin-top:4px">' + Object.keys(metrics.document_counts_by_status || {}).map(function(k) { return k + ': ' + metrics.document_counts_by_status[k]; }).join(', ') + '</div></div>';
             // POA&M card
             html += '<div style="background:rgba(0,170,255,0.08);border:1px solid rgba(0,170,255,0.2);border-radius:8px;padding:20px">'
@@ -6967,9 +6967,9 @@ window.s4Analytics = {
                 + '<div style="font-size:2.2rem;font-weight:700;color:#00aaff">' + (metrics.total_poam || 0) + '</div>'
                 + '<div style="font-size:0.75rem;color:var(--steel);margin-top:4px">' + Object.keys(metrics.poam_by_risk || {}).map(function(k) { return k + ': ' + metrics.poam_by_risk[k]; }).join(', ') + '</div></div>';
             // GFP card
-            html += '<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:20px">'
+            html += '<div style="background:rgba(0,170,255,0.08);border:1px solid rgba(0,170,255,0.2);border-radius:8px;padding:20px">'
                 + '<div style="font-size:0.85rem;color:var(--steel);margin-bottom:4px">GFP Tracked Value</div>'
-                + '<div style="font-size:2.2rem;font-weight:700;color:#c9a84c">$' + (metrics.total_gfp_value || 0).toLocaleString() + '</div>'
+                + '<div style="font-size:2.2rem;font-weight:700;color:var(--accent,#00aaff)">$' + (metrics.total_gfp_value || 0).toLocaleString() + '</div>'
                 + '<div style="font-size:0.75rem;color:var(--steel);margin-top:4px">' + (metrics.total_gfp_items || 0) + ' items tracked</div></div>';
             // SBOM card
             html += '<div style="background:rgba(0,170,255,0.08);border:1px solid rgba(0,170,255,0.2);border-radius:8px;padding:20px">'
@@ -6977,9 +6977,9 @@ window.s4Analytics = {
                 + '<div style="font-size:2.2rem;font-weight:700;color:#00aaff">' + (metrics.total_components || 0) + '</div>'
                 + '<div style="font-size:0.75rem;color:var(--steel);margin-top:4px">' + (metrics.total_vulnerabilities || 0) + ' vulnerabilities detected</div></div>';
             // Submissions card
-            html += '<div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:20px">'
+            html += '<div style="background:rgba(0,170,255,0.08);border:1px solid rgba(0,170,255,0.2);border-radius:8px;padding:20px">'
                 + '<div style="font-size:0.85rem;color:var(--steel);margin-bottom:4px">Submission Reviews</div>'
-                + '<div style="font-size:2.2rem;font-weight:700;color:#c9a84c">' + (metrics.total_submissions || 0) + '</div>'
+                + '<div style="font-size:2.2rem;font-weight:700;color:var(--accent,#00aaff)">' + (metrics.total_submissions || 0) + '</div>'
                 + '<div style="font-size:0.75rem;color:var(--steel);margin-top:4px">' + (metrics.total_discrepancies || 0) + ' discrepancies found</div></div>';
             // Provenance card
             html += '<div style="background:rgba(0,170,255,0.08);border:1px solid rgba(0,170,255,0.2);border-radius:8px;padding:20px">'
@@ -6994,10 +6994,10 @@ window.s4Analytics = {
                     + '<div style="display:flex;gap:8px;flex-wrap:wrap">';
                 var toolIdx = 0;
                 Object.keys(toolCounts).forEach(function(tool) {
-                    var tColor = toolIdx % 2 === 0 ? '#00aaff' : '#c9a84c';
-                    var tBg = toolIdx % 2 === 0 ? 'rgba(0,170,255,0.15)' : 'rgba(201,168,76,0.15)';
+                    var tColor = toolIdx % 2 === 0 ? '#00aaff' : '#ffa500';
+                    var tBg = toolIdx % 2 === 0 ? 'rgba(0,170,255,0.15)' : 'rgba(255,165,0,0.15)';
                     html += '<div style="background:' + tBg + ';border-radius:8px;padding:8px 14px;font-size:0.8rem">'
-                        + '<span style="color:#1d1d1f;font-weight:600">' + tool + '</span> '
+                        + '<span style="color:var(--text,#1d1d1f);font-weight:600">' + tool + '</span> '
                         + '<span style="color:' + tColor + ';font-weight:700">' + toolCounts[tool] + '</span></div>';
                     toolIdx++;
                 });
@@ -7034,7 +7034,7 @@ function handleToolFileUpload(e, toolName, containerId) {
     });
     var container = document.getElementById(containerId);
     if (container) {
-        container.innerHTML = window._s4Safe('<div style="text-align:left;padding:12px"><div style="color:#00aaff;font-weight:700;margin-bottom:8px"><i class="fas fa-check-circle"></i> ' + fileList.length + ' file(s) loaded</div>' + names.map(function(n) { return '<div style="font-size:.82rem;color:var(--steel);padding:2px 0"><i class="fas fa-file" style="color:#c9a84c;margin-right:6px"></i>' + n + '</div>'; }).join('') + '<div style="margin-top:12px;color:var(--steel);font-size:.82rem">Use the action buttons above to process and analyze the uploaded data.</div></div>');
+        container.innerHTML = window._s4Safe('<div style="text-align:left;padding:12px"><div style="color:#00aaff;font-weight:700;margin-bottom:8px"><i class="fas fa-check-circle"></i> ' + fileList.length + ' file(s) loaded</div>' + names.map(function(n) { return '<div style="font-size:.82rem;color:var(--steel);padding:2px 0"><i class="fas fa-file" style="color:var(--accent,#00aaff);margin-right:6px"></i>' + n + '</div>'; }).join('') + '<div style="margin-top:12px;color:var(--steel);font-size:.82rem">Use the action buttons above to process and analyze the uploaded data.</div></div>');
     }
 }
 
@@ -7140,17 +7140,17 @@ function _renderContractResults(content, result) {
     clauses.forEach(function(c) {
         html += '<div style="display:flex;align-items:center;gap:8px;padding:8px 12px;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.1);border-radius:8px;font-size:0.82rem">';
         html += '<code style="color:var(--accent);font-weight:700;font-size:0.78rem;white-space:nowrap">' + (c.type||'Clause') + '</code>';
-        html += '<span style="color:#1d1d1f">' + (c.title||c) + '</span></div>';
+        html += '<span style="color:var(--text,#1d1d1f)">' + (c.title||c) + '</span></div>';
     });
     html += '</div>';
     if (risks.length > 0) {
-        html += '<h5 style="color:#c9a84c;font-size:0.85rem;margin-bottom:8px"><i class="fas fa-triangle-exclamation" style="margin-right:4px"></i>Risk Flags</h5>';
+        html += '<h5 style="color:#ffa500;font-size:0.85rem;margin-bottom:8px"><i class="fas fa-triangle-exclamation" style="margin-right:4px"></i>Risk Flags</h5>';
         html += '<div style="display:grid;gap:4px;margin-bottom:12px">';
         risks.forEach(function(r) {
-            var col = r.level === 'High' ? '#ff4444' : '#c9a84c';
+            var col = r.level === 'High' ? '#ff4444' : '#ffa500';
             html += '<div style="display:flex;align-items:center;gap:8px;padding:6px 12px;background:rgba(255,68,68,0.04);border-left:3px solid '+col+';border-radius:0 3px 3px 0;font-size:0.82rem">';
             html += '<span style="color:'+col+';font-weight:700;font-size:0.72rem;text-transform:uppercase">'+r.level+'</span>';
-            html += '<span style="color:#1d1d1f">' + r.flag + '</span></div>';
+            html += '<span style="color:var(--text,#1d1d1f)">' + r.flag + '</span></div>';
         });
         html += '</div>';
     }
@@ -7199,7 +7199,7 @@ function generateProvenanceQR() {
     if (container && typeof QRCode !== 'undefined') {
         container.style.display = 'block';
         container.innerHTML = '<div style="font-size:.82rem;color:var(--steel);margin-bottom:8px;font-weight:600">Provenance QR Code</div><div id="provQRCanvas"></div>';
-        new QRCode(document.getElementById('provQRCanvas'), { text: 'S4-PROV-' + Date.now().toString(36).toUpperCase(), width: 160, height: 160, colorDark: '#c9a84c', colorLight: '#ffffff' });
+        new QRCode(document.getElementById('provQRCanvas'), { text: 'S4-PROV-' + Date.now().toString(36).toUpperCase(), width: 160, height: 160, colorDark: '#00aaff', colorLight: '#ffffff' });
     } else if (typeof S4 !== 'undefined' && S4.toast) S4.toast('QR code generated for asset tagging.', 'info');
 }
 function verifyProvenanceChain() {

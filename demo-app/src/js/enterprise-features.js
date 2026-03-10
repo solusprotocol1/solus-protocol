@@ -54,7 +54,7 @@
             var kpis = [
                 { label: 'Anchored', value: sessionCount, icon: 'fa-anchor', accent: 'var(--accent, #00aaff)' },
                 { label: 'Verified', value: stats.verified || 0, icon: 'fa-check-circle', accent: '#34c759' },
-                { label: 'Vault Records', value: vaultCount, icon: 'fa-vault', accent: '#c9a84c' },
+                { label: 'Vault Records', value: vaultCount, icon: 'fa-vault', accent: 'var(--accent, #00aaff)' },
                 { label: 'Record Types', value: stats.types ? (stats.types.size || 0) : 0, icon: 'fa-layer-group', accent: '#a855f7' },
                 { label: 'Credit Fees', value: (stats.slsFees || 0).toFixed(4), icon: 'fa-coins', accent: '#f59e0b' },
                 { label: 'Offline Queue', value: offlineQueue.length, icon: 'fa-wifi-slash', accent: offlineQueue.length > 0 ? '#ff6b6b' : '#8b8fa3' }
@@ -1120,7 +1120,7 @@
         _threshold: 220, // px — collapse if content taller than this
 
         init: function() {
-            // Target lists, tables, and scrollable areas in ILS panels
+            // Target lists, tabevel and les, and scrollable areas in ILS panels
             var selectors = [
                 '.ils-hub-panel .result-panel',
                 '.ils-hub-panel table',
@@ -1236,7 +1236,7 @@
                         var ts = d.toLocaleDateString() + ' ' + d.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
                         th += '<div style="display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid rgba(0,0,0,0.04)">' +
                             '<div style="width:8px;height:8px;border-radius:50%;background:var(--accent);flex-shrink:0"></div>' +
-                            '<div style="flex:1"><div style="font-size:0.82rem;font-weight:600;color:#1d1d1f">' + e.type + ' — ' + e.action + '</div>' +
+                            '<div style="flex:1"><div style="font-size:0.82rem;font-weight:600;color:var(--text,#1d1d1f)">' + e.type + ' — ' + e.action + '</div>' +
                             '<div style="font-size:0.72rem;color:var(--muted)">' + ts + '</div></div></div>';
                     });
                     timeline.innerHTML = th;
@@ -1267,7 +1267,7 @@
             this._el.innerHTML = '<div style="position:fixed;inset:0;background:rgba(245,245,247,0.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);z-index:9999;display:flex;align-items:center;justify-content:center;animation:fadeIn 0.25s ease" onclick="if(event.target===this)S4.defenseDashboard.close()">' +
                 '<div style="background:#fff;border:1px solid rgba(0,0,0,0.08);border-radius:16px;width:95%;max-width:1100px;max-height:90vh;overflow-y:auto;box-shadow:0 24px 64px rgba(0,0,0,0.1);padding:32px;animation:fadeIn 0.3s ease">' +
                     '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px">' +
-                        '<div><h2 style="margin:0;font-size:1.3rem;font-weight:800;color:#1d1d1f;letter-spacing:-0.03em"><i class="fas fa-shield-halved" style="color:var(--accent);margin-right:10px"></i>Defense Council Dashboard</h2>' +
+                        '<div><h2 style="margin:0;font-size:1.3rem;font-weight:800;color:var(--text,#1d1d1f);letter-spacing:-0.03em"><i class="fas fa-shield-halved" style="color:var(--accent);margin-right:10px"></i>Defense Council Dashboard</h2>' +
                         '<p style="margin:4px 0 0;color:var(--muted);font-size:0.82rem">Executive leadership view — real-time program health &amp; compliance posture</p></div>' +
                         '<div style="display:flex;gap:8px">' +
                             '<button onclick="S4.defenseDashboard.exportBriefing()" style="display:flex;align-items:center;gap:6px;padding:8px 16px;background:rgba(0,113,227,0.08);border:1px solid rgba(0,113,227,0.2);border-radius:8px;color:var(--accent);font-size:0.78rem;font-weight:600;cursor:pointer;font-family:inherit"><i class="fas fa-file-export"></i> Export Briefing</button>' +
@@ -1279,16 +1279,16 @@
                         '<div style="background:rgba(26,138,62,0.04);border:1px solid rgba(26,138,62,0.1);border-radius:12px;padding:18px;text-align:center"><div class="dc-kpi-value" style="font-size:1.8rem;font-weight:800;color:#1a8a3e">--</div><div style="font-size:0.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin-top:4px;font-weight:600">Risk Level</div></div>' +
                         '<div style="background:rgba(184,134,11,0.04);border:1px solid rgba(184,134,11,0.1);border-radius:12px;padding:18px;text-align:center"><div class="dc-kpi-value" style="font-size:1.8rem;font-weight:800;color:var(--gold)">--</div><div style="font-size:0.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin-top:4px;font-weight:600">Compliance</div></div>' +
                         '<div style="background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.1);border-radius:12px;padding:18px;text-align:center"><div class="dc-kpi-value" style="font-size:1.8rem;font-weight:800;color:#00aaff">0</div><div style="font-size:0.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin-top:4px;font-weight:600">Anchored</div></div>' +
-                        '<div style="background:rgba(155,89,182,0.04);border:1px solid rgba(155,89,182,0.1);border-radius:12px;padding:18px;text-align:center"><div class="dc-kpi-value" style="font-size:1.8rem;font-weight:800;color:#9b59b6">0</div><div style="font-size:0.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin-top:4px;font-weight:600">Vault Records</div></div>' +
+                        '<div style="background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.1);border-radius:12px;padding:18px;text-align:center"><div class="dc-kpi-value" style="font-size:1.8rem;font-weight:800;color:var(--accent)">0</div><div style="font-size:0.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin-top:4px;font-weight:600">Vault Records</div></div>' +
                         '<div style="background:rgba(0,204,136,0.04);border:1px solid rgba(0,204,136,0.1);border-radius:12px;padding:18px;text-align:center"><div class="dc-kpi-value" style="font-size:1.8rem;font-weight:800;color:#00cc88">0</div><div style="font-size:0.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin-top:4px;font-weight:600">Verified</div></div>' +
                     '</div>' +
                     '<div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">' +
-                        '<div style="border:1px solid rgba(0,0,0,0.06);border-radius:12px;padding:20px"><h4 style="margin:0 0 14px;font-size:0.92rem;font-weight:700;color:#1d1d1f"><i class="fas fa-clock-rotate-left" style="color:var(--accent);margin-right:8px"></i>Recent Activity</h4><div class="dc-timeline" style="max-height:240px;overflow-y:auto"><div style="text-align:center;color:var(--muted);padding:20px;font-size:0.82rem">No recent activity</div></div></div>' +
-                        '<div style="border:1px solid rgba(0,0,0,0.06);border-radius:12px;padding:20px"><h4 style="margin:0 0 14px;font-size:0.92rem;font-weight:700;color:#1d1d1f"><i class="fas fa-chart-line" style="color:var(--gold);margin-right:8px"></i>Program Status</h4><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">' +
-                            '<div style="background:rgba(0,0,0,0.02);border-radius:8px;padding:12px"><div style="font-size:0.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:4px">Active Programs</div><div style="font-size:1.2rem;font-weight:700;color:#1d1d1f">1</div></div>' +
-                            '<div style="background:rgba(0,0,0,0.02);border-radius:8px;padding:12px"><div style="font-size:0.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:4px">Open Actions</div><div style="font-size:1.2rem;font-weight:700;color:#1d1d1f">0</div></div>' +
+                        '<div style="border:1px solid rgba(0,0,0,0.06);border-radius:12px;padding:20px"><h4 style="margin:0 0 14px;font-size:0.92rem;font-weight:700;color:var(--text,#1d1d1f)"><i class="fas fa-clock-rotate-left" style="color:var(--accent);margin-right:8px"></i>Recent Activity</h4><div class="dc-timeline" style="max-height:240px;overflow-y:auto"><div style="text-align:center;color:var(--muted);padding:20px;font-size:0.82rem">No recent activity</div></div></div>' +
+                        '<div style="border:1px solid rgba(0,0,0,0.06);border-radius:12px;padding:20px"><h4 style="margin:0 0 14px;font-size:0.92rem;font-weight:700;color:var(--text,#1d1d1f)"><i class="fas fa-chart-line" style="color:var(--gold);margin-right:8px"></i>Program Status</h4><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">' +
+                            '<div style="background:rgba(0,0,0,0.02);border-radius:8px;padding:12px"><div style="font-size:0.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:4px">Active Programs</div><div style="font-size:1.2rem;font-weight:700;color:var(--text,#1d1d1f)">1</div></div>' +
+                            '<div style="background:rgba(0,0,0,0.02);border-radius:8px;padding:12px"><div style="font-size:0.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:4px">Open Actions</div><div style="font-size:1.2rem;font-weight:700;color:var(--text,#1d1d1f)">0</div></div>' +
                             '<div style="background:rgba(0,0,0,0.02);border-radius:8px;padding:12px"><div style="font-size:0.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:4px">Milestones Due</div><div style="font-size:1.2rem;font-weight:700;color:#ffa500">0</div></div>' +
-                            '<div style="background:rgba(0,0,0,0.02);border-radius:8px;padding:12px"><div style="font-size:0.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:4px">CDRLs Due</div><div style="font-size:1.2rem;font-weight:700;color:#1d1d1f">0</div></div>' +
+                            '<div style="background:rgba(0,0,0,0.02);border-radius:8px;padding:12px"><div style="font-size:0.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:4px">CDRLs Due</div><div style="font-size:1.2rem;font-weight:700;color:var(--text,#1d1d1f)">0</div></div>' +
                         '</div></div>' +
                     '</div>' +
                 '</div>' +
@@ -1368,12 +1368,12 @@
             var html = '<div style="position:fixed;inset:0;background:rgba(245,245,247,0.92);backdrop-filter:blur(12px);z-index:9999;display:flex;align-items:center;justify-content:center" onclick="if(event.target===this)S4.alertRules.close()">';
             html += '<div style="background:#fff;border:1px solid rgba(0,0,0,0.08);border-radius:16px;width:92%;max-width:680px;max-height:85vh;overflow-y:auto;box-shadow:0 24px 64px rgba(0,0,0,0.1);padding:28px">';
             html += '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">';
-            html += '<div><h3 style="margin:0;font-size:1.15rem;font-weight:700;color:#1d1d1f"><i class="fas fa-bell" style="color:var(--accent);margin-right:8px"></i>Automated Alert Rules</h3>';
+            html += '<div><h3 style="margin:0;font-size:1.15rem;font-weight:700;color:var(--text,#1d1d1f)"><i class="fas fa-bell" style="color:var(--accent);margin-right:8px"></i>Automated Alert Rules</h3>';
             html += '<p style="margin:4px 0 0;color:var(--muted);font-size:0.78rem">Configure threshold-based alerts with in-app notifications</p></div>';
             html += '<button onclick="S4.alertRules.close()" style="width:32px;height:32px;border-radius:8px;border:1px solid rgba(0,0,0,0.08);background:transparent;cursor:pointer;color:var(--muted);font-size:1rem;display:flex;align-items:center;justify-content:center"><i class="fas fa-times"></i></button></div>';
             // Add Rule Form
             html += '<div style="background:rgba(0,113,227,0.03);border:1px solid rgba(0,113,227,0.1);border-radius:10px;padding:16px;margin-bottom:20px">';
-            html += '<div style="font-size:0.82rem;font-weight:600;color:#1d1d1f;margin-bottom:10px"><i class="fas fa-plus-circle" style="color:var(--accent);margin-right:6px"></i>Create New Rule</div>';
+            html += '<div style="font-size:0.82rem;font-weight:600;color:var(--text,#1d1d1f);margin-bottom:10px"><i class="fas fa-plus-circle" style="color:var(--accent);margin-right:6px"></i>Create New Rule</div>';
             html += '<div style="display:grid;grid-template-columns:1fr auto 80px;gap:8px;align-items:end">';
             html += '<div><label style="font-size:0.72rem;color:var(--muted);display:block;margin-bottom:4px">Metric</label><select id="alertRuleMetric" style="width:100%;padding:8px;border:1px solid rgba(0,0,0,0.1);border-radius:6px;font-size:0.82rem;background:#fff"><option value="compliance_score">Compliance Score (%)</option><option value="vault_count">Vault Record Count</option><option value="anchored_count">Anchored Count</option><option value="credit_balance">Credit Balance</option></select></div>';
             html += '<div><label style="font-size:0.72rem;color:var(--muted);display:block;margin-bottom:4px">Condition</label><select id="alertRuleOp" style="padding:8px;border:1px solid rgba(0,0,0,0.1);border-radius:6px;font-size:0.82rem;background:#fff"><option value="<">drops below</option><option value=">">exceeds</option><option value="=">equals</option></select></div>';
@@ -1381,7 +1381,7 @@
             html += '<div style="margin-top:8px"><label style="font-size:0.72rem;color:var(--muted);display:block;margin-bottom:4px">Alert Message</label><input type="text" id="alertRuleMsg" placeholder="e.g. Compliance score dropped below threshold" style="width:100%;padding:8px;border:1px solid rgba(0,0,0,0.1);border-radius:6px;font-size:0.82rem"></div>';
             html += '<button onclick="S4.alertRules.addRule(document.getElementById(\'alertRuleMetric\').value,document.getElementById(\'alertRuleOp\').value,document.getElementById(\'alertRuleVal\').value,document.getElementById(\'alertRuleMsg\').value)" style="margin-top:10px;padding:8px 16px;background:#0071e3;color:#fff;border:none;border-radius:8px;font-size:0.82rem;font-weight:600;cursor:pointer;font-family:inherit"><i class="fas fa-plus" style="margin-right:6px"></i>Add Rule</button></div>';
             // Existing Rules
-            html += '<div style="font-size:0.82rem;font-weight:600;color:#1d1d1f;margin-bottom:10px">Active Rules (' + this._rules.length + ')</div>';
+            html += '<div style="font-size:0.82rem;font-weight:600;color:var(--text,#1d1d1f);margin-bottom:10px">Active Rules (' + this._rules.length + ')</div>';
             if (!this._rules.length) {
                 html += '<div style="text-align:center;color:var(--muted);padding:24px;font-size:0.82rem;border:1px dashed rgba(0,0,0,0.1);border-radius:10px">No alert rules configured. Create one above to get started.</div>';
             } else {
@@ -1389,7 +1389,7 @@
                     var opLabel = rule.operator === '<' ? 'below' : rule.operator === '>' ? 'above' : 'at';
                     html += '<div style="display:flex;align-items:center;gap:12px;padding:12px;border:1px solid ' + (rule.enabled ? 'rgba(0,113,227,0.12)' : 'rgba(0,0,0,0.06)') + ';border-radius:8px;margin-bottom:8px;background:' + (rule.enabled ? 'rgba(0,113,227,0.02)' : 'rgba(0,0,0,0.01)') + '">';
                     html += '<button onclick="S4.alertRules.toggleRule(' + rule.id + ')" style="width:32px;height:32px;border-radius:6px;border:1px solid rgba(0,0,0,0.08);background:' + (rule.enabled ? 'var(--accent)' : 'transparent') + ';color:' + (rule.enabled ? '#fff' : 'var(--muted)') + ';cursor:pointer;font-size:0.75rem;display:flex;align-items:center;justify-content:center"><i class="fas ' + (rule.enabled ? 'fa-check' : 'fa-pause') + '"></i></button>';
-                    html += '<div style="flex:1"><div style="font-size:0.82rem;font-weight:600;color:#1d1d1f">' + rule.message + '</div>';
+                    html += '<div style="flex:1"><div style="font-size:0.82rem;font-weight:600;color:var(--text,#1d1d1f)">' + rule.message + '</div>';
                     html += '<div style="font-size:0.72rem;color:var(--muted);margin-top:2px">' + rule.metric.replace(/_/g, ' ') + ' ' + opLabel + ' ' + rule.threshold + '</div></div>';
                     html += '<button onclick="S4.alertRules.removeRule(' + rule.id + ')" style="width:28px;height:28px;border-radius:6px;border:1px solid rgba(0,0,0,0.06);background:transparent;color:var(--muted);cursor:pointer;font-size:0.72rem;display:flex;align-items:center;justify-content:center"><i class="fas fa-trash-alt"></i></button></div>';
                 });
@@ -1470,7 +1470,7 @@
 
             var html = '<div style="position:fixed;inset:0;background:rgba(245,245,247,0.92);backdrop-filter:blur(12px);z-index:9999;display:flex;align-items:center;justify-content:center" onclick="if(event.target===this)S4.annotations.close()">';
             html += '<div style="background:#fff;border:1px solid rgba(0,0,0,0.08);border-radius:16px;width:92%;max-width:640px;max-height:85vh;overflow-y:auto;box-shadow:0 24px 64px rgba(0,0,0,0.1);padding:28px">';
-            html += '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px"><div><h3 style="margin:0;font-size:1.15rem;font-weight:700;color:#1d1d1f"><i class="fas fa-comments" style="color:var(--accent);margin-right:8px"></i>Annotations</h3>';
+            html += '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px"><div><h3 style="margin:0;font-size:1.15rem;font-weight:700;color:var(--text,#1d1d1f)"><i class="fas fa-comments" style="color:var(--accent);margin-right:8px"></i>Annotations</h3>';
             html += '<p style="margin:4px 0 0;color:var(--muted);font-size:0.78rem">Context: <strong>' + ctx.replace(/hub-/g, '').replace(/-/g, ' ') + '</strong> &bull; ' + comments.length + ' comment' + (comments.length !== 1 ? 's' : '') + '</p></div>';
             html += '<button onclick="S4.annotations.close()" style="width:32px;height:32px;border-radius:8px;border:1px solid rgba(0,0,0,0.08);background:transparent;cursor:pointer;color:var(--muted)"><i class="fas fa-times"></i></button></div>';
             // Input
@@ -1486,17 +1486,17 @@
                     var highlightedText = c.text.replace(/@(\w+)/g, '<span style="color:var(--accent);font-weight:600">@$1</span>');
                     html += '<div style="border:1px solid rgba(0,0,0,0.06);border-radius:10px;padding:14px;margin-bottom:10px">';
                     html += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><div style="display:flex;align-items:center;gap:8px"><div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--accent),#a855f7);display:flex;align-items:center;justify-content:center;color:#fff;font-size:0.68rem;font-weight:700">' + c.author.charAt(0).toUpperCase() + '</div>';
-                    html += '<div><div style="font-size:0.82rem;font-weight:600;color:#1d1d1f">' + c.author + '</div><div style="font-size:0.68rem;color:var(--muted)">' + self._timeAgo(new Date(c.timestamp)) + '</div></div></div>';
+                    html += '<div><div style="font-size:0.82rem;font-weight:600;color:var(--text,#1d1d1f)">' + c.author + '</div><div style="font-size:0.68rem;color:var(--muted)">' + self._timeAgo(new Date(c.timestamp)) + '</div></div></div>';
                     html += '<button onclick="S4.annotations.deleteComment(' + c.id + ')" style="width:24px;height:24px;border-radius:4px;border:none;background:transparent;color:var(--muted);cursor:pointer;font-size:0.7rem"><i class="fas fa-trash-alt"></i></button></div>';
-                    html += '<div style="font-size:0.85rem;color:#1d1d1f;line-height:1.5;margin-bottom:8px">' + highlightedText + '</div>';
+                    html += '<div style="font-size:0.85rem;color:var(--text,#1d1d1f);line-height:1.5;margin-bottom:8px">' + highlightedText + '</div>';
                     html += '<button onclick="var r=prompt(\'Reply:\');if(r)S4.annotations.addComment(r,' + c.id + ')" style="font-size:0.72rem;color:var(--accent);background:none;border:none;cursor:pointer;font-weight:600;padding:0;font-family:inherit"><i class="fas fa-reply" style="margin-right:4px"></i>Reply</button>';
                     if (replies.length) {
                         html += '<div style="margin-top:10px;padding-left:20px;border-left:2px solid rgba(0,113,227,0.1)">';
                         replies.forEach(function(r) {
                             var rText = r.text.replace(/@(\w+)/g, '<span style="color:var(--accent);font-weight:600">@$1</span>');
                             html += '<div style="padding:8px 0;border-bottom:1px solid rgba(0,0,0,0.03)"><div style="display:flex;align-items:center;gap:6px;margin-bottom:4px"><div style="width:20px;height:20px;border-radius:50%;background:#0071e3;display:flex;align-items:center;justify-content:center;color:#fff;font-size:0.55rem;font-weight:700">' + r.author.charAt(0).toUpperCase() + '</div>';
-                            html += '<span style="font-size:0.78rem;font-weight:600;color:#1d1d1f">' + r.author + '</span><span style="font-size:0.65rem;color:var(--muted)">' + self._timeAgo(new Date(r.timestamp)) + '</span></div>';
-                            html += '<div style="font-size:0.82rem;color:#1d1d1f;line-height:1.4">' + rText + '</div></div>';
+                            html += '<span style="font-size:0.78rem;font-weight:600;color:var(--text,#1d1d1f)">' + r.author + '</span><span style="font-size:0.65rem;color:var(--muted)">' + self._timeAgo(new Date(r.timestamp)) + '</span></div>';
+                            html += '<div style="font-size:0.82rem;color:var(--text,#1d1d1f);line-height:1.4">' + rText + '</div></div>';
                         });
                         html += '</div>';
                     }
@@ -1591,7 +1591,7 @@
             var steps = ['Select Source', 'Review Data', 'Complete'];
             var html = '<div style="position:fixed;inset:0;background:rgba(245,245,247,0.92);backdrop-filter:blur(12px);z-index:9999;display:flex;align-items:center;justify-content:center" onclick="if(event.target===this)S4.importExport.close()">';
             html += '<div style="background:#fff;border:1px solid rgba(0,0,0,0.08);border-radius:16px;width:92%;max-width:720px;max-height:85vh;overflow-y:auto;box-shadow:0 24px 64px rgba(0,0,0,0.1);padding:28px">';
-            html += '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px"><div><h3 style="margin:0;font-size:1.15rem;font-weight:700;color:#1d1d1f"><i class="fas fa-file-import" style="color:var(--accent);margin-right:8px"></i>Bulk Import / Export Wizard</h3></div>';
+            html += '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px"><div><h3 style="margin:0;font-size:1.15rem;font-weight:700;color:var(--text,#1d1d1f)"><i class="fas fa-file-import" style="color:var(--accent);margin-right:8px"></i>Bulk Import / Export Wizard</h3></div>';
             html += '<button onclick="S4.importExport.close()" style="width:32px;height:32px;border-radius:8px;border:1px solid rgba(0,0,0,0.08);background:transparent;cursor:pointer;color:var(--muted)"><i class="fas fa-times"></i></button></div>';
             // Progress bar
             html += '<div style="display:flex;gap:4px;margin-bottom:24px">';
@@ -1605,10 +1605,10 @@
             if (this._step === 0) {
                 html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">';
                 html += '<div style="border:2px dashed rgba(0,113,227,0.2);border-radius:12px;padding:28px;text-align:center;cursor:pointer;transition:all 0.2s" onmouseover="this.style.borderColor=\'rgba(0,113,227,0.4)\'" onmouseout="this.style.borderColor=\'rgba(0,113,227,0.2)\'" onclick="document.getElementById(\'bulkImportFile\').click()">';
-                html += '<i class="fas fa-cloud-arrow-up" style="font-size:2rem;color:var(--accent);margin-bottom:12px;display:block"></i><div style="font-weight:700;color:#1d1d1f;margin-bottom:4px">Import Data</div>';
+                html += '<i class="fas fa-cloud-arrow-up" style="font-size:2rem;color:var(--accent);margin-bottom:12px;display:block"></i><div style="font-weight:700;color:var(--text,#1d1d1f);margin-bottom:4px">Import Data</div>';
                 html += '<div style="font-size:0.78rem;color:var(--muted)">Upload JSON, CSV, or Excel files</div>';
                 html += '<input type="file" id="bulkImportFile" style="display:none" accept=".json,.csv,.xlsx,.xls,.txt" onchange="S4.importExport.handleFileUpload(this)"></div>';
-                html += '<div style="border:1px solid rgba(0,0,0,0.08);border-radius:12px;padding:28px;text-align:center"><i class="fas fa-cloud-arrow-down" style="font-size:2rem;color:var(--gold);margin-bottom:12px;display:block"></i><div style="font-weight:700;color:#1d1d1f;margin-bottom:10px">Export Vault</div>';
+                html += '<div style="border:1px solid rgba(0,0,0,0.08);border-radius:12px;padding:28px;text-align:center"><i class="fas fa-cloud-arrow-down" style="font-size:2rem;color:var(--gold);margin-bottom:12px;display:block"></i><div style="font-weight:700;color:var(--text,#1d1d1f);margin-bottom:10px">Export Vault</div>';
                 html += '<div style="display:flex;flex-direction:column;gap:8px">';
                 html += '<button onclick="S4.importExport.exportVault(\'json\')" style="padding:8px;background:rgba(0,113,227,0.06);border:1px solid rgba(0,113,227,0.15);border-radius:6px;color:var(--accent);font-size:0.78rem;font-weight:600;cursor:pointer;font-family:inherit"><i class="fas fa-code" style="margin-right:6px"></i>JSON</button>';
                 html += '<button onclick="S4.importExport.exportVault(\'csv\')" style="padding:8px;background:rgba(26,138,62,0.06);border:1px solid rgba(26,138,62,0.15);border-radius:6px;color:#1a8a3e;font-size:0.78rem;font-weight:600;cursor:pointer;font-family:inherit"><i class="fas fa-table" style="margin-right:6px"></i>CSV</button>';
@@ -1616,14 +1616,14 @@
             } else if (this._step === 1) {
                 var d = this._data;
                 html += '<div style="border:1px solid rgba(0,0,0,0.06);border-radius:10px;padding:16px;margin-bottom:16px">';
-                html += '<div style="display:flex;align-items:center;gap:10px;margin-bottom:12px"><i class="fas fa-file" style="color:var(--accent);font-size:1.2rem"></i><div><div style="font-weight:600;color:#1d1d1f">' + (d ? d.name : '') + '</div>';
+                html += '<div style="display:flex;align-items:center;gap:10px;margin-bottom:12px"><i class="fas fa-file" style="color:var(--accent);font-size:1.2rem"></i><div><div style="font-weight:600;color:var(--text,#1d1d1f)">' + (d ? d.name : '') + '</div>';
                 html += '<div style="font-size:0.78rem;color:var(--muted)">' + (d ? d.records.length : 0) + ' records &bull; ' + (d ? d.format.toUpperCase() : '') + '</div></div></div>';
                 if (d && d.records.length) {
                     var keys = Object.keys(d.records[0]).slice(0, 6);
                     html += '<div style="overflow-x:auto;max-height:240px"><table style="width:100%;border-collapse:collapse;font-size:0.78rem"><thead><tr>';
                     keys.forEach(function(k) { html += '<th style="text-align:left;padding:6px 10px;border-bottom:2px solid rgba(0,0,0,0.08);font-weight:600;color:var(--muted);font-size:0.72rem;text-transform:uppercase">' + k + '</th>'; });
                     html += '</tr></thead><tbody>';
-                    d.records.slice(0, 10).forEach(function(r) { html += '<tr style="border-bottom:1px solid rgba(0,0,0,0.04)">'; keys.forEach(function(k) { html += '<td style="padding:6px 10px;color:#1d1d1f">' + (r[k] || '') + '</td>'; }); html += '</tr>'; });
+                    d.records.slice(0, 10).forEach(function(r) { html += '<tr style="border-bottom:1px solid rgba(0,0,0,0.04)">'; keys.forEach(function(k) { html += '<td style="padding:6px 10px;color:var(--text,#1d1d1f)">' + (r[k] || '') + '</td>'; }); html += '</tr>'; });
                     if (d.records.length > 10) html += '<tr><td colspan="' + keys.length + '" style="padding:8px;text-align:center;color:var(--muted);font-style:italic">...and ' + (d.records.length - 10) + ' more</td></tr>';
                     html += '</tbody></table></div>';
                 }
@@ -1632,7 +1632,7 @@
                 html += '<button onclick="S4.importExport.processImport()" style="padding:8px 16px;background:#0071e3;color:#fff;border:none;border-radius:8px;font-size:0.82rem;font-weight:600;cursor:pointer;font-family:inherit"><i class="fas fa-download" style="margin-right:6px"></i>Import ' + (d ? d.records.length : 0) + ' Records</button></div>';
             } else if (this._step === 2) {
                 html += '<div style="text-align:center;padding:32px"><i class="fas fa-check-circle" style="font-size:3rem;color:#1a8a3e;margin-bottom:16px;display:block"></i>';
-                html += '<div style="font-size:1.1rem;font-weight:700;color:#1d1d1f;margin-bottom:8px">Import Complete!</div>';
+                html += '<div style="font-size:1.1rem;font-weight:700;color:var(--text,#1d1d1f);margin-bottom:8px">Import Complete!</div>';
                 html += '<div style="font-size:0.85rem;color:var(--muted);margin-bottom:20px">' + (this._data ? this._data.records.length : 0) + ' records added to your vault.</div>';
                 html += '<button onclick="S4.importExport.close()" style="padding:8px 16px;background:#0071e3;color:#fff;border:none;border-radius:8px;font-size:0.82rem;font-weight:600;cursor:pointer;font-family:inherit">Done</button></div>';
             }
@@ -1700,7 +1700,7 @@
             var entries = this._getFilteredLog();
             var html = '<div style="position:fixed;inset:0;background:rgba(245,245,247,0.92);backdrop-filter:blur(12px);z-index:9999;display:flex;align-items:center;justify-content:center" onclick="if(event.target===this)S4.auditTimeline.close()">';
             html += '<div style="background:#fff;border:1px solid rgba(0,0,0,0.08);border-radius:16px;width:95%;max-width:840px;max-height:90vh;overflow-y:auto;box-shadow:0 24px 64px rgba(0,0,0,0.1);padding:28px">';
-            html += '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px"><div><h3 style="margin:0;font-size:1.15rem;font-weight:700;color:#1d1d1f"><i class="fas fa-timeline" style="color:var(--accent);margin-right:8px"></i>Audit Trail Timeline</h3>';
+            html += '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px"><div><h3 style="margin:0;font-size:1.15rem;font-weight:700;color:var(--text,#1d1d1f)"><i class="fas fa-timeline" style="color:var(--accent);margin-right:8px"></i>Audit Trail Timeline</h3>';
             html += '<p style="margin:4px 0 0;color:var(--muted);font-size:0.78rem">' + this._log.length + ' total events &bull; ' + entries.length + ' matching</p></div>';
             html += '<div style="display:flex;gap:6px">';
             html += '<button onclick="S4.auditTimeline.exportLog()" style="padding:6px 14px;background:rgba(0,113,227,0.06);border:1px solid rgba(0,113,227,0.15);border-radius:6px;color:var(--accent);font-size:0.75rem;font-weight:600;cursor:pointer;font-family:inherit"><i class="fas fa-download" style="margin-right:4px"></i>Export</button>';
@@ -1726,7 +1726,7 @@
                     var ts = date.toLocaleDateString() + ' ' + date.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit',second:'2-digit'});
                     html += '<div style="position:relative;margin-bottom:12px;padding:10px 14px;background:rgba(0,0,0,0.015);border-radius:8px;border-left:3px solid ' + color + '">';
                     html += '<div style="position:absolute;left:-22px;top:12px;width:16px;height:16px;border-radius:50%;background:#fff;border:2px solid ' + color + ';display:flex;align-items:center;justify-content:center"><i class="fas ' + icon + '" style="font-size:0.5rem;color:' + color + '"></i></div>';
-                    html += '<div style="display:flex;justify-content:space-between;align-items:center"><div style="font-size:0.82rem;color:#1d1d1f;font-weight:500">' + entry.description + '</div>';
+                    html += '<div style="display:flex;justify-content:space-between;align-items:center"><div style="font-size:0.82rem;color:var(--text,#1d1d1f);font-weight:500">' + entry.description + '</div>';
                     html += '<div style="font-size:0.68rem;color:var(--muted);white-space:nowrap;margin-left:12px">' + ts + '</div></div>';
                     html += '<div style="font-size:0.68rem;color:var(--muted);margin-top:2px"><i class="fas fa-user" style="margin-right:4px"></i>' + entry.user + '</div></div>';
                 });
@@ -1839,7 +1839,7 @@
             var css = document.createElement('style');
             css.textContent = '.s4-tool-help{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:rgba(0,113,227,0.08);color:var(--accent,#0071e3);border:1px solid rgba(0,113,227,0.2);font-size:0.7rem;font-weight:700;cursor:pointer;margin-left:8px;transition:all 0.2s;flex-shrink:0;vertical-align:middle;line-height:1}'
                 + '.s4-tool-help:hover{background:rgba(0,113,227,0.15);transform:scale(1.1)}'
-                + '.s4-help-popover{position:absolute;top:100%;left:0;right:0;background:#fff;border:1px solid rgba(0,113,227,0.2);border-radius:8px;padding:14px 16px;font-size:0.8rem;color:#1d1d1f;line-height:1.65;font-weight:400;z-index:100;box-shadow:0 8px 24px rgba(0,0,0,0.1);margin-top:8px;max-width:520px;max-height:300px;overflow-y:auto;animation:briefFadeIn 0.15s ease}';
+                + '.s4-help-popover{position:absolute;top:100%;left:0;right:0;background:#fff;border:1px solid rgba(0,113,227,0.2);border-radius:8px;padding:14px 16px;font-size:0.8rem;color:var(--text,#1d1d1f);line-height:1.65;font-weight:400;z-index:100;box-shadow:0 8px 24px rgba(0,0,0,0.1);margin-top:8px;max-width:520px;max-height:300px;overflow-y:auto;animation:briefFadeIn 0.15s ease}';
             document.head.appendChild(css);
 
             // Find all tool panels and inject help icons

@@ -1316,7 +1316,7 @@
         .s4-widget .widget-value{font-size:28px;font-weight:700;color:var(--text-primary,#1d1d1f);margin:0 0 4px}
         .s4-widget .widget-change{font-size:12px}
         .s4-widget .widget-change.positive{color:#00aaff}
-        .s4-widget .widget-change.negative{color:#c9a84c}
+        .s4-widget .widget-change.negative{color:#ffa500}
 
         /* Mobile Responsive Enhancements */
         @media (max-width: 768px) {
@@ -1624,7 +1624,7 @@ canvas{background:rgba(255,255,255,0.95)!important;border-radius:8px}
 .acq-badge{display:inline-block;padding:2px 8px;border-radius:2px;font-size:0.72rem;font-weight:600;white-space:nowrap}
 .acq-badge-green{background:rgba(78,203,113,0.12);color:#4ecb71;border:1px solid rgba(78,203,113,0.3)}
 .acq-badge-red{background:rgba(255,68,68,0.1);color:#ff4444;border:1px solid rgba(255,68,68,0.25)}
-.acq-badge-yellow{background:rgba(201,168,76,0.12);color:#c9a84c;border:1px solid rgba(201,168,76,0.3)}
+.acq-badge-yellow{background:rgba(255,165,0,0.12);color:#ffa500;border:1px solid rgba(255,165,0,0.3)}
 .acq-badge-blue{background:rgba(0,170,255,0.1);color:#00aaff;border:1px solid rgba(0,170,255,0.25)}
 .acq-badge-purple{background:rgba(178,102,255,0.1);color:#b266ff;border:1px solid rgba(178,102,255,0.25)}
 .acq-badge-critical{background:rgba(255,0,0,0.15);color:#ff2222;border:1px solid rgba(255,0,0,0.35);animation:acqPulse 2s infinite}
@@ -1634,7 +1634,7 @@ canvas{background:rgba(255,255,255,0.95)!important;border-radius:8px}
 .acq-summary-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
 .acq-summary-type{font-weight:700;color:#1d1d1f;font-size:0.9rem}
 .acq-summary-count{font-size:0.78rem;color:var(--muted)}
-.acq-summary-cost{font-size:0.88rem;font-weight:700;color:#c9a84c;margin-bottom:8px}
+.acq-summary-cost{font-size:0.88rem;font-weight:700;color:var(--accent,#00aaff);margin-bottom:8px}
 .acq-summary-list{border-top:1px solid var(--border);padding-top:8px}
 .acq-summary-item{padding:4px 0;font-size:0.82rem;color:var(--steel);border-bottom:1px solid rgba(0,0,0,0.04)}
 .acq-table-wrap{background:#fff;border-color:rgba(0,0,0,0.08)}
@@ -4412,8 +4412,8 @@ a[href="#mainContent"]:focus{
 .s4-cross-link-chip:hover{background:rgba(0,170,255,0.12);border-color:rgba(0,170,255,0.3);transform:translateY(-1px)}
 
 /* ─── R11-D: ROLE-BASED PRIORITIZATION ─── */
-.hub-card.s4-recommended{border-color:rgba(201,168,76,0.35)!important;box-shadow:0 0 0 1px rgba(201,168,76,0.15)}
-.hub-card.s4-recommended::after{content:'RECOMMENDED';position:absolute;top:8px;right:8px;font-size:0.55rem;font-weight:700;color:#c9a84c;background:rgba(201,168,76,0.12);padding:2px 8px;border-radius:2px;letter-spacing:0.08em}
+.hub-card.s4-recommended{border-color:rgba(0,170,255,0.35)!important;box-shadow:0 0 0 1px rgba(0,170,255,0.15)}
+.hub-card.s4-recommended::after{content:'RECOMMENDED';position:absolute;top:8px;right:8px;font-size:0.55rem;font-weight:700;color:var(--accent,#00aaff);background:rgba(0,170,255,0.12);padding:2px 8px;border-radius:2px;letter-spacing:0.08em}
 
 /* ─── R11-E: CONTEXTUAL AI PROMPTS ─── */
 .s4-ai-suggestions{margin:10px 0 14px;padding:10px 14px;background:rgba(168,85,247,0.04);border:1px solid rgba(168,85,247,0.12);border-radius:4px}

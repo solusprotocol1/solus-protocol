@@ -161,7 +161,7 @@ function _flashSlsBalance(newBalance, fee) {
     if (existing) existing.remove();
     var toast = document.createElement('div');
     toast.id = 'slsFlashToast';
-    toast.style.cssText = 'position:fixed;top:80px;right:24px;z-index:99999;background:linear-gradient(135deg,rgba(0,170,255,0.15),rgba(201,168,76,0.1));border:1px solid rgba(201,168,76,0.4);border-radius:8px;padding:16px 24px;font-size:0.9rem;color:#1d1d1f;box-shadow:0 8px 32px rgba(0,0,0,0.12);backdrop-filter:blur(6px);animation:slsToastIn 0.4s ease-out;min-width:260px;';
+    toast.style.cssText = 'position:fixed;top:80px;right:24px;z-index:99999;background:linear-gradient(135deg,rgba(0,170,255,0.15),rgba(201,168,76,0.1));border:1px solid rgba(201,168,76,0.4);border-radius:8px;padding:16px 24px;font-size:0.9rem;color:var(--text,#1d1d1f);box-shadow:0 8px 32px rgba(0,0,0,0.12);backdrop-filter:blur(6px);animation:slsToastIn 0.4s ease-out;min-width:260px;';
     toast.innerHTML = '<div style="font-weight:700;color:#c9a84c;margin-bottom:6px;font-size:0.8rem;text-transform:uppercase;letter-spacing:0.5px"><i class="fas fa-coins" style="margin-right:6px"></i>Credit Balance Updated</div>'
         + '<div style="font-size:1.4rem;font-weight:800;color:#c9a84c;">' + _s4Safe(String(newBalance)) + ' <span style="font-size:0.8rem;font-weight:600;">Credits</span></div>'
         + '<div style="font-size:0.78rem;color:#ff6b6b;margin-top:4px;">-' + _s4Safe(fee.toFixed(2)) + ' Credits (anchor fee)</div>';
@@ -989,7 +989,7 @@ function showAnchorAnimation(hash, typeLabel, clfLevel) {
     document.getElementById('animFee').innerHTML = '0.01 Credits &rarr; Treasury';
     overlay.style.display = 'flex';
     setTimeout(() => {
-        document.getElementById('animStatus').innerHTML = '<i class="fas fa-check-circle" style="color:#00aaff"></i> ' + typeLabel + ' Anchored!';
+        document.getElementById('animStatus').innerHTML = '<i class="fas fa-check-circle" style="color:#00aaff"></i> ' + _esc(typeLabel) + ' Anchored!';
         document.getElementById('animStatus').style.color = '#00aaff';
         document.getElementById('animSuccess').innerHTML = '<span style="color:var(--green)">&#x2713; Record secured on XRPL</span>';
     }, 2000);
@@ -1019,7 +1019,7 @@ async function anchorToLedger(toolName, label) {
     if (typeof _updateSlsBalance === 'function') _updateSlsBalance();
     if (typeof window.loadPerformanceMetrics === 'function') try { window.loadPerformanceMetrics(); } catch(e) {}
     if (typeof refreshVerifyRecents === 'function') try { refreshVerifyRecents(); } catch(e) {}
-    setTimeout(function(){ document.getElementById('animStatus').innerHTML = '<i class="fas fa-check-circle" style="color:var(--accent)"></i> ' + (label || toolName + ' anchored') + '!'; }, 2200);
+    setTimeout(function(){ document.getElementById('animStatus').innerHTML = '<i class="fas fa-check-circle" style="color:var(--accent)"></i> ' + _esc(label || toolName + ' anchored') + '!'; }, 2200);
     await new Promise(function(r){ setTimeout(r, 3500); });
     hideAnchorAnimation();
 }
@@ -1224,7 +1224,7 @@ function refreshVerifyRecents() {
         return '<div style="display:flex;align-items:center;gap:10px;padding:8px 10px;border:1px solid rgba(0,0,0,0.05);border-radius:8px;margin-bottom:4px;transition:all 0.2s;background:rgba(0,0,0,0.015);">'
             + '<span style="color:var(--accent);font-size:0.8rem;width:20px;text-align:center;display:inline-block">' + _renderIcon(r.icon) + '</span>'
             + '<div style="flex:1;min-width:0;cursor:pointer" onclick="loadRecordToVerify(' + idx + ')">'
-            + '<div style="font-size:0.78rem;font-weight:600;color:#1d1d1f;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + r.label + '</div>'
+            + '<div style="font-size:0.78rem;font-weight:600;color:var(--text,#1d1d1f);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + _esc(r.label) + '</div>'
             + '<div style="font-size:0.65rem;color:var(--muted);font-family:monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + r.hash.substring(0,24) + '...</div>'
             + '</div>'
             + '<span style="font-size:0.65rem;color:var(--steel);white-space:nowrap;">' + ago + '</span>'
@@ -1357,7 +1357,7 @@ async function verifyFiles(fileList) {
     // Render results
     var html = '<div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden;">';
     html += '<div style="padding:12px 16px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">';
-    html += '<span style="color:#1d1d1f;font-weight:700;font-size:0.88rem;"><i class="fas fa-shield-halved" style="color:var(--accent);margin-right:6px;"></i>File Verification Results</span>';
+    html += '<span style="color:var(--text,#1d1d1f);font-weight:700;font-size:0.88rem;"><i class="fas fa-shield-halved" style="color:var(--accent);margin-right:6px;"></i>File Verification Results</span>';
     var matched = results.filter(function(r) { return r.matched; }).length;
     var failed = results.filter(function(r) { return !r.matched && !r.noAnchor; }).length;
     var notFound = results.filter(function(r) { return r.noAnchor; }).length;
@@ -1376,7 +1376,7 @@ async function verifyFiles(fileList) {
         html += '<div style="padding:12px 16px;border-bottom:1px solid rgba(0,0,0,0.03);display:flex;gap:12px;align-items:flex-start;">';
         html += '<div style="width:32px;height:32px;border-radius:8px;background:rgba(0,170,255,0.08);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="fas fa-file" style="color:var(--accent);font-size:0.85rem;"></i></div>';
         html += '<div style="flex:1;min-width:0;">';
-        html += '<div style="color:#1d1d1f;font-weight:600;font-size:0.82rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + r.fileName + ' <span style="color:var(--muted);font-weight:400;">(' + r.fileSize + ')</span></div>';
+        html += '<div style="color:var(--text,#1d1d1f);font-weight:600;font-size:0.82rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + r.fileName + ' <span style="color:var(--muted);font-weight:400;">(' + r.fileSize + ')</span></div>';
         html += '<div style="font-family:monospace;font-size:0.7rem;color:var(--muted);margin:3px 0;word-break:break-all;">SHA-256: ' + r.hash + '</div>';
         html += '<div style="color:' + statusColor + ';font-size:0.78rem;font-weight:600;"><i class="fas ' + statusIcon + '" style="margin-right:4px;"></i>' + statusText + '</div>';
         if (r.matchedRecord) {
@@ -1510,6 +1510,12 @@ function _renderIcon(ic) {
     return ic;
 }
 
+// HTML-entity escape for user/tool content injected into innerHTML
+function _esc(s) {
+    if (!s) return '';
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
 function updateTxLog() {
     const log = document.getElementById('txLog');
     if (!sessionRecords.length) return;
@@ -1517,7 +1523,7 @@ function updateTxLog() {
     for (let i = sessionRecords.length - 1; i >= 0; i--) {
         const r = sessionRecords[i];
         const time = new Date(r.timestamp).toLocaleTimeString('en-US',{hour12:false});
-        log.innerHTML += window._s4Safe('<div class="tx-entry"><div class="tx-icon">' + _renderIcon(r.icon) + '</div><div class="tx-info"><div class="tx-type">' + r.label + ' <span style="color:var(--muted);font-size:0.75rem">(' + r.branch + ')</span></div><div class="tx-hash">' + r.hash.substring(0,32) + '...</div></div><div><span class="tx-badge anchored">Anchored</span><div class="tx-time">' + time + '</div></div></div>');
+        log.innerHTML += window._s4Safe('<div class="tx-entry"><div class="tx-icon">' + _renderIcon(r.icon) + '</div><div class="tx-info"><div class="tx-type">' + _esc(r.label) + ' <span style="color:var(--muted);font-size:0.75rem">(' + _esc(r.branch) + ')</span></div><div class="tx-hash">' + r.hash.substring(0,32) + '...</div></div><div><span class="tx-badge anchored">Anchored</span><div class="tx-time">' + time + '</div></div></div>');
     }
 }
 
@@ -3164,7 +3170,7 @@ function renderToolFileList(toolId) {
         const sz = f.size > 1048576 ? (f.size/1048576).toFixed(1)+'MB' : (f.size/1024).toFixed(0)+'KB';
         const icon = /\.xlsx?$/i.test(f.name) ? 'fa-file-excel' : /\.csv$/i.test(f.name) ? 'fa-file-csv' : /\.pdf$/i.test(f.name) ? 'fa-file-pdf' : /\.docx$/i.test(f.name) ? 'fa-file-word' : 'fa-file-alt';
         return '<div class="ils-file-item"><div class="file-info"><i class="fas '+icon+'" style="color:var(--accent);margin-right:8px"></i>'
-            + '<span style="font-weight:600;color:#1d1d1f">'+f.name+'</span></div>'
+            + '<span style="font-weight:600;color:var(--text,#1d1d1f)">'+_esc(f.name)+'</span></div>'
             + '<div class="file-stats">'+f.rows+' rows detected \u00b7 '+sz+'</div>'
             + "<button class=\"file-remove\" onclick=\"removeToolFile('"+toolId+"','"+f.id+"')\">\u00d7</button></div>";
     }).join('');
@@ -3283,7 +3289,7 @@ function renderFileList() {
         const sz = f.size > 1048576 ? (f.size/1048576).toFixed(1)+'MB' : (f.size/1024).toFixed(0)+'KB';
         const icon = /\.xlsx?$/i.test(f.name) ? 'fa-file-excel' : /\.csv$/i.test(f.name) ? 'fa-file-csv' : /\.pdf$/i.test(f.name) ? 'fa-file-pdf' : /\.docx$/i.test(f.name) ? 'fa-file-word' : 'fa-file-alt';
         return '<div class="ils-file-item"><div class="file-info"><i class="fas '+icon+'" style="color:var(--accent);margin-right:8px"></i>'
-            + '<span style="font-weight:600;color:#1d1d1f">'+f.name+'</span></div>'
+            + '<span style="font-weight:600;color:var(--text,#1d1d1f)">'+_esc(f.name)+'</span></div>'
             + '<div class="file-stats">'+f.records.length+' DRL items detected from '+f.totalRows+' rows \u00b7 '+sz+'</div>'
             + '<button class="file-remove" onclick="removeILSFile(\''+f.id+'\')">\u00d7</button></div>';
     }).join('');
@@ -3899,10 +3905,10 @@ function renderILSActions(actions) {
 
 function renderActionItem(a) {
     return '<div class="ils-action-item '+(a.severity==='critical'?'critical':'warning')+'">'
-        + '<div class="action-header"><span class="action-title">'+a.id+': '+a.title+'</span><span class="action-owner">'+a.owner+'</span></div>'
-        + '<div class="action-detail"><strong>Action:</strong> '+a.action+'</div>'
-        + '<div class="action-detail"><strong>Est. Cost:</strong> '+formatCost(a.cost)+' &middot; <strong>Schedule Risk:</strong> '+a.schedule
-        + (a.secondary ? ' &middot; <strong>Coord:</strong> '+a.secondary : '') + '</div></div>';
+        + '<div class="action-header"><span class="action-title">'+_esc(a.id)+': '+_esc(a.title)+'</span><span class="action-owner">'+_esc(a.owner)+'</span></div>'
+        + '<div class="action-detail"><strong>Action:</strong> '+_esc(a.action)+'</div>'
+        + '<div class="action-detail"><strong>Est. Cost:</strong> '+formatCost(a.cost)+' &middot; <strong>Schedule Risk:</strong> '+_esc(a.schedule)
+        + (a.secondary ? ' &middot; <strong>Coord:</strong> '+_esc(a.secondary) : '') + '</div></div>';
 }
 
 function renderILSCost(actions, totalCost, critGaps) {
@@ -4627,7 +4633,7 @@ function generateAiResponse(query) {
         var onTrack = milData.filter(function(r){ return r.delivery_status==='On Track'; });
         var txt = '<strong>Program Milestone Status</strong><br><br>';
         txt += '<strong>' + milData.length + '</strong> vessels tracked \u2014 ';
-        txt += '<span style="color:#4ecb71">' + onTrack.length + ' On Track</span> | <span style="color:#c9a84c">' + atRisk.length + ' At Risk</span> | <span style="color:#ff4444">' + delayed.length + ' Delayed</span><br><br>';
+        txt += '<span style="color:#4ecb71">' + onTrack.length + ' On Track</span> | <span style="color:#ffa500">' + atRisk.length + ' At Risk</span> | <span style="color:#ff4444">' + delayed.length + ' Delayed</span><br><br>';
         if (delayed.length) { txt += '<strong>Delayed Vessels:</strong><br>'; delayed.forEach(function(r){ txt += '\u2022 <strong>' + r.hull_number + '</strong> (' + r.program_name + ') \u2014 ' + (r.notes || 'No details') + '<br>'; }); txt += '<br>'; }
         if (atRisk.length) { txt += '<strong>At-Risk Vessels:</strong><br>'; atRisk.forEach(function(r){ txt += '\u2022 <strong>' + r.hull_number + '</strong> (' + r.program_name + ') \u2014 ' + (r.notes || 'No details') + '<br>'; }); }
         return txt;
@@ -5049,7 +5055,7 @@ function loadDMSMSData() {
     data.forEach(d => {
         const color = statusColors[d.status] || '#fff';
         html += '<tr style="border-bottom:1px solid rgba(0,0,0,0.05);">';
-        html += '<td style="padding:8px;color:#1d1d1f;font-weight:600;">' + d.system + '</td>';
+        html += '<td style="padding:8px;color:var(--text,#1d1d1f);font-weight:600;">' + d.system + '</td>';
         html += '<td style="padding:8px;color:var(--steel);font-family:monospace;font-size:0.78rem;">' + d.nsn + '</td>';
         html += '<td style="padding:8px;color:var(--steel);">' + d.manufacturer + '</td>';
         html += '<td style="padding:8px;"><span style="color:' + color + ';font-weight:600;">' + d.status + '</span></td>';
@@ -5227,13 +5233,13 @@ function showCustomProgramInput() {
     modal.id = 'customProgramModal';
     modal.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(245,245,247,0.88);z-index:10000;display:flex;align-items:center;justify-content:center;animation:fadeIn 0.3s ease';
     modal.innerHTML = '<div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:32px;max-width:520px;width:90%;max-height:80vh;overflow-y:auto">'
-        + '<h3 style="color:#1d1d1f;margin:0 0 8px"><i class="fas fa-plus-circle" style="color:var(--accent);margin-right:8px"></i>Custom Program / Platform</h3>'
+        + '<h3 style="color:var(--text,#1d1d1f);margin:0 0 8px"><i class="fas fa-plus-circle" style="color:var(--accent);margin-right:8px"></i>Custom Program / Platform</h3>'
         + '<p style="color:var(--steel);font-size:0.85rem;margin-bottom:20px">Enter your program details. A GEIA-STD-0007 ILS template will be applied.</p>'
         + '<div style="display:grid;gap:12px">'
-        + '<div><label style="color:var(--steel);font-size:0.8rem;font-weight:600">Program Name *</label><input id="customProgName" class="form-control" style="background:#f5f5f7;color:#1d1d1f;border:1px solid rgba(0,0,0,0.12);border-radius:8px;padding:10px 14px;width:100%;margin-top:4px" placeholder="e.g., MH-60S Seahawk, DDG-51 Flight III"></div>'
-        + '<div><label style="color:var(--steel);font-size:0.8rem;font-weight:600">Hull / Serial / Tail Number</label><input id="customProgHull" class="form-control" style="background:#f5f5f7;color:#1d1d1f;border:1px solid rgba(0,0,0,0.12);border-radius:8px;padding:10px 14px;width:100%;margin-top:4px" placeholder="e.g., DDG-133, 168451"></div>'
-        + '<div><label style="color:var(--steel);font-size:0.8rem;font-weight:600">Acquiring Office</label><input id="customProgOffice" class="form-control" style="background:#f5f5f7;color:#1d1d1f;border:1px solid rgba(0,0,0,0.12);border-radius:8px;padding:10px 14px;width:100%;margin-top:4px" placeholder="e.g., PMS 400D, PMA-299"></div>'
-        + '<div><label style="color:var(--steel);font-size:0.8rem;font-weight:600">Branch / Service</label><select id="customProgBranch" class="form-select" style="background:#f5f5f7;color:#1d1d1f;border:1px solid rgba(0,0,0,0.12);border-radius:8px;padding:10px 14px;width:100%;margin-top:4px"><option value="USN">U.S. Navy</option><option value="USMC">U.S. Marine Corps</option><option value="USCG">U.S. Coast Guard</option></select></div>'
+        + '<div><label style="color:var(--steel);font-size:0.8rem;font-weight:600">Program Name *</label><input id="customProgName" class="form-control" style="background:#f5f5f7;color:var(--text,#1d1d1f);border:1px solid rgba(0,0,0,0.12);border-radius:8px;padding:10px 14px;width:100%;margin-top:4px" placeholder="e.g., MH-60S Seahawk, DDG-51 Flight III"></div>'
+        + '<div><label style="color:var(--steel);font-size:0.8rem;font-weight:600">Hull / Serial / Tail Number</label><input id="customProgHull" class="form-control" style="background:#f5f5f7;color:var(--text,#1d1d1f);border:1px solid rgba(0,0,0,0.12);border-radius:8px;padding:10px 14px;width:100%;margin-top:4px" placeholder="e.g., DDG-133, 168451"></div>'
+        + '<div><label style="color:var(--steel);font-size:0.8rem;font-weight:600">Acquiring Office</label><input id="customProgOffice" class="form-control" style="background:#f5f5f7;color:var(--text,#1d1d1f);border:1px solid rgba(0,0,0,0.12);border-radius:8px;padding:10px 14px;width:100%;margin-top:4px" placeholder="e.g., PMS 400D, PMA-299"></div>'
+        + '<div><label style="color:var(--steel);font-size:0.8rem;font-weight:600">Branch / Service</label><select id="customProgBranch" class="form-select" style="background:#f5f5f7;color:var(--text,#1d1d1f);border:1px solid rgba(0,0,0,0.12);border-radius:8px;padding:10px 14px;width:100%;margin-top:4px"><option value="USN">U.S. Navy</option><option value="USMC">U.S. Marine Corps</option><option value="USCG">U.S. Coast Guard</option></select></div>'
         + '</div>'
         + '<div style="display:flex;gap:10px;margin-top:24px;justify-content:flex-end">'
         + '<button onclick="document.getElementById(\'customProgramModal\').remove();document.getElementById(\'ilsProgram\').value=\'\'" style="background:rgba(0,0,0,0.03);color:var(--steel);border:1px solid var(--border);border-radius:8px;padding:8px 16px;cursor:pointer;font-weight:600">Cancel</button>'
@@ -5578,7 +5584,7 @@ function openProdFeatures(){
   var list=document.getElementById('prodFeaturesList');
   var html='';
   _prodFeatures.forEach(function(g){
-    html+='<div style="margin-bottom:18px"><h5 style="color:#c9a84c;font-size:0.82rem;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:8px"><i class="fas '+g.icon+'" style="margin-right:6px"></i>'+g.cat+'</h5>';
+    html+='<div style="margin-bottom:18px"><h5 style="color:var(--accent);font-size:0.82rem;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:8px"><i class="fas '+g.icon+'" style="margin-right:6px"></i>'+g.cat+'</h5>';
     g.items.forEach(function(f){
       html+='<div style="display:flex;align-items:flex-start;gap:10px;padding:8px 12px;margin-bottom:4px;background:var(--surface);border-radius:8px;border:1px solid var(--border)">';
       html+='<div style="flex:1"><strong style="font-size:0.85rem">'+f.name+'</strong><p style="margin:2px 0 0;font-size:0.78rem;color:var(--steel)">'+f.desc+'</p></div>';
@@ -5671,7 +5677,7 @@ function renderActionTimeline() {
         return (a.created || '') < (b.created || '') ? -1 : 1;
     });
     if (!items.length) { container.innerHTML = '<div style="color:var(--muted);text-align:center;padding:2rem">No open action items.</div>'; return; }
-    var sevColors = {critical: '#c9a84c', warning: '#ffa500', info: '#00aaff'};
+    var sevColors = {critical: '#ff6b6b', warning: '#ffa500', info: '#00aaff'};
     var html = '<div style="position:relative;padding-left:28px">';
     html += '<div style="position:absolute;left:10px;top:0;bottom:0;width:2px;background:rgba(0,170,255,0.2)"></div>';
     items.forEach(function(item, i) {
@@ -5679,14 +5685,14 @@ function renderActionTimeline() {
         var dateLabel = item.due ? item.due : (item.schedule || 'No date');
         html += '<div style="position:relative;margin-bottom:16px;padding:10px 14px;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.1);border-radius:8px;border-left:3px solid ' + color + '">';
         html += '<div style="position:absolute;left:-24px;top:14px;width:12px;height:12px;border-radius:50%;background:' + color + ';border:2px solid var(--bg)"></div>';
-        html += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px"><strong style="color:#1d1d1f;font-size:0.85rem">' + item.title + '</strong>';
+        html += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px"><strong style="color:var(--text,#1d1d1f);font-size:0.85rem">' + _esc(item.title) + '</strong>';
         html += '<span style="font-size:0.72rem;color:' + color + ';font-weight:600">' + dateLabel + '</span></div>';
         html += '<div style="font-size:0.75rem;color:var(--steel)">';
         html += '<span class="ai-tag ' + (item.severity || 'info') + '" style="font-size:0.68rem;margin-right:6px">' + (item.severity || 'info').toUpperCase() + '</span>';
-        if (item.owner) html += '<span style="margin-right:8px"><i class="fas fa-user" style="margin-right:3px"></i>' + item.owner + '</span>';
+        if (item.owner) html += '<span style="margin-right:8px"><i class="fas fa-user" style="margin-right:3px"></i>' + _esc(item.owner) + '</span>';
         if (item.cost) html += '<span style="color:#ffa500">$' + (item.cost * 1000).toLocaleString() + '</span>';
         html += '</div>';
-        if (item.detail) html += '<div style="font-size:0.75rem;color:var(--muted);margin-top:4px;line-height:1.4">' + item.detail.substring(0, 120) + (item.detail.length > 120 ? '...' : '') + '</div>';
+        if (item.detail) html += '<div style="font-size:0.75rem;color:var(--muted);margin-top:4px;line-height:1.4">' + _esc(item.detail.substring(0, 120)) + (item.detail.length > 120 ? '...' : '') + '</div>';
         html += '</div>';
     });
     html += '</div>';
@@ -5880,17 +5886,17 @@ function renderHubActions(filter) {
         html += '<div class="ai-check'+(item.done?' done':'')+'" onclick="toggleActionDone(\''+eid+'\');renderHubActions()" title="Toggle done"></div>';
         html += '</div>';
         html += '<div class="ai-body">';
-        html += '<div class="ai-title" style="display:flex;align-items:center;gap:6px">'+(sourceIcons[item.source]||'<i class="fas fa-thumbtack" style="color:var(--accent)"></i>')+' <span style="flex:1;cursor:text" ondblclick="inlineEditActionTitle(\''+eid+'\',this)" title="Double-click to edit title">'+item.title+'</span>';
+        html += '<div class="ai-title" style="display:flex;align-items:center;gap:6px">'+(sourceIcons[item.source]||'<i class="fas fa-thumbtack" style="color:var(--accent)"></i>')+' <span style="flex:1;cursor:text" ondblclick="inlineEditActionTitle(\''+eid+'\',this)" title="Double-click to edit title">'+_esc(item.title)+'</span>';
         html += '<button onclick="editActionItem(\''+eid+'\')" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:0.75rem;padding:2px 5px;opacity:0.5" title="Edit" onmouseover="this.style.opacity=1;this.style.color=\'#00aaff\'" onmouseout="this.style.opacity=0.5;this.style.color=\'var(--muted)\'"><i class="fas fa-pen-to-square"></i></button>';
-        html += '<button onclick="deleteActionItem(\''+eid+'\')" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:0.75rem;padding:2px 5px;opacity:0.5" title="Delete" onmouseover="this.style.opacity=1;this.style.color=\'#c9a84c\'" onmouseout="this.style.opacity=0.5;this.style.color=\'var(--muted)\'"><i class="fas fa-trash"></i></button>';
+        html += '<button onclick="deleteActionItem(\''+eid+'\')" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:0.75rem;padding:2px 5px;opacity:0.5" title="Delete" onmouseover="this.style.opacity=1;this.style.color=\'#ff6b6b\'" onmouseout="this.style.opacity=0.5;this.style.color=\'var(--muted)\'"><i class="fas fa-trash"></i></button>';
         html += '</div>';
         html += '<div class="ai-meta"><span class="ai-tag '+(item.severity||'info')+'">'+(item.severity||'info').toUpperCase()+'</span><span>'+(item.source||'').toUpperCase()+'</span>';
-        if (item.owner) html += '<span><i class="fas fa-user" style="margin-right:3px"></i>'+item.owner+'</span>';
+        if (item.owner) html += '<span><i class="fas fa-user" style="margin-right:3px"></i>'+_esc(item.owner)+'</span>';
         if (item.cost) html += '<span style="color:#ffa500">$'+(item.cost * 1000).toLocaleString()+'</span>';
         if (item.due) html += '<span style="color:var(--accent)"><i class="fas fa-calendar-day" style="margin-right:3px"></i>'+item.due+'</span>';
         if (item.schedule) html += '<span><i class="fas fa-clock" style="margin-right:3px"></i>'+item.schedule+'</span>';
         html += '</div>';
-        if (item.detail) html += '<div style="color:var(--steel);font-size:0.78rem;margin-top:4px">'+item.detail+'</div>';
+        if (item.detail) html += '<div style="color:var(--steel);font-size:0.78rem;margin-top:4px">'+_esc(item.detail)+'</div>';
         html += '</div></div>';
     });
     container.innerHTML = window._s4Safe(html);
@@ -6033,8 +6039,8 @@ function renderVault() {
                 <div style="display:flex;align-items:center;gap:8px;min-width:0;flex:1;overflow:hidden">
                     <input type="checkbox" class="vault-cb" data-hash="${v.hash}" onchange="_updateBulkBar()" style="accent-color:#00aaff;cursor:pointer;flex-shrink:0">
                     <span style="font-size:0.95rem;flex-shrink:0;width:20px;text-align:center;line-height:1">${_renderIcon(v.icon)}</span>
-                    <strong style="color:#1d1d1f;font-size:0.88rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${v.label || v.type}</strong>
-                    <span style="font-size:0.72rem;color:var(--muted);flex-shrink:0;white-space:nowrap">${v.branch || ''}</span>
+                    <strong style="color:var(--text,#1d1d1f);font-size:0.88rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${_esc(v.label || v.type)}</strong>
+                    <span style="font-size:0.72rem;color:var(--muted);flex-shrink:0;white-space:nowrap">${_esc(v.branch || '')}</span>
                 </div>
                 <div style="display:flex;gap:6px;flex-shrink:0">
                     ${v.verified ? '<span class="vault-badge verified"><i class="fas fa-check-circle"></i> Verified</span>' : '<span class="vault-badge anchored"><i class="fas fa-anchor"></i> Anchored</span>'}
@@ -6042,11 +6048,11 @@ function renderVault() {
                 </div>
             </div>
             <div class="vault-hash"><i class="fas fa-fingerprint" style="margin-right:6px;opacity:0.6"></i>${v.hash}</div>
-            ${v.content ? '<div style="font-size:0.78rem;color:var(--steel);margin-bottom:8px;padding:6px 10px;background:var(--surface);border-radius:8px"><i class="fas fa-file-lines" style="margin-right:6px;opacity:0.5"></i>' + v.content + '</div>' : ''}
+            ${v.content ? '<div style="font-size:0.78rem;color:var(--steel);margin-bottom:8px;padding:6px 10px;background:var(--surface);border-radius:8px"><i class="fas fa-file-lines" style="margin-right:6px;opacity:0.5"></i>' + _esc(v.content) + '</div>' : ''}
             <div class="vault-meta">
                 <span><i class="fas fa-clock"></i> ${new Date(v.timestamp).toLocaleString()}</span>
                 <span><i class="fas fa-hashtag"></i> TX: ${v.explorerUrl ? '<a href="'+v.explorerUrl+'" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none">'+(v.txHash||'').substring(0,16)+'… <i class="fas fa-external-link-alt" style="font-size:0.6rem"></i></a>' : (v.txHash||'').substring(0,16)+'...'}</span>
-                ${v.source ? '<span><i class="fas fa-tools"></i> ' + v.source + '</span>' : ''}
+                ${v.source ? '<span><i class="fas fa-tools"></i> ' + _esc(v.source) + '</span>' : ''}
                 <span><i class="fas fa-coins"></i> 0.01 Credits</span>
             </div>
         </div>
@@ -6264,10 +6270,10 @@ function runVaultStressTest() {
                 + '<div style="padding:10px;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.12);border-radius:8px"><div style="color:#00aaff;font-size:1.1rem;font-weight:700">' + totalMs.toFixed(0) + ' ms</div><div style="color:#6e6e73;font-size:0.72rem">Total Time</div></div>'
                 + '</div>'
                 + '<table style="width:100%;font-size:0.75rem;border-collapse:collapse">'
-                + '<tr style="border-bottom:1px solid var(--border)"><td style="padding:4px 8px;color:#6e6e73">Record Generation</td><td style="padding:4px 8px;color:#1d1d1f;text-align:right">' + genMs.toFixed(1) + ' ms</td></tr>'
-                + '<tr style="border-bottom:1px solid var(--border)"><td style="padding:4px 8px;color:#6e6e73">Array Merge</td><td style="padding:4px 8px;color:#1d1d1f;text-align:right">' + mergeMs.toFixed(1) + ' ms</td></tr>'
-                + '<tr style="border-bottom:1px solid var(--border)"><td style="padding:4px 8px;color:#6e6e73">localStorage Save</td><td style="padding:4px 8px;color:#1d1d1f;text-align:right">' + saveMs.toFixed(1) + ' ms</td></tr>'
-                + '<tr><td style="padding:4px 8px;color:#6e6e73">DOM Render (page)</td><td style="padding:4px 8px;color:#1d1d1f;text-align:right">' + renderMs.toFixed(1) + ' ms</td></tr>'
+                + '<tr style="border-bottom:1px solid var(--border)"><td style="padding:4px 8px;color:#6e6e73">Record Generation</td><td style="padding:4px 8px;color:var(--text,#1d1d1f);text-align:right">' + genMs.toFixed(1) + ' ms</td></tr>'
+                + '<tr style="border-bottom:1px solid var(--border)"><td style="padding:4px 8px;color:#6e6e73">Array Merge</td><td style="padding:4px 8px;color:var(--text,#1d1d1f);text-align:right">' + mergeMs.toFixed(1) + ' ms</td></tr>'
+                + '<tr style="border-bottom:1px solid var(--border)"><td style="padding:4px 8px;color:#6e6e73">localStorage Save</td><td style="padding:4px 8px;color:var(--text,#1d1d1f);text-align:right">' + saveMs.toFixed(1) + ' ms</td></tr>'
+                + '<tr><td style="padding:4px 8px;color:#6e6e73">DOM Render (page)</td><td style="padding:4px 8px;color:var(--text,#1d1d1f);text-align:right">' + renderMs.toFixed(1) + ' ms</td></tr>'
                 + '</table>';
         }
         s4Notify('Stress Test Complete', count.toLocaleString() + ' records generated in ' + totalMs.toFixed(0) + 'ms. Total vault: ' + s4Vault.length.toLocaleString(), 'success');
@@ -6315,12 +6321,12 @@ function showDocUpload() {
     modal.id = 'docUploadModal';
     modal.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(245,245,247,0.88);z-index:10000;display:flex;align-items:center;justify-content:center';
     modal.innerHTML = '<div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:32px;max-width:560px;width:90%">'
-        + '<h3 style="color:#1d1d1f;margin:0 0 16px"><i class="fas fa-file-upload" style="color:var(--accent);margin-right:8px"></i>Add New Document</h3>'
+        + '<h3 style="color:var(--text,#1d1d1f);margin:0 0 16px"><i class="fas fa-file-upload" style="color:var(--accent);margin-right:8px"></i>Add New Document</h3>'
         + '<div style="display:grid;gap:12px">'
-        + '<input id="newDocId" style="background:#f5f5f7;color:#1d1d1f;border:1px solid rgba(0,0,0,0.12);border-radius:8px;padding:10px" placeholder="Document ID (e.g., GEIA-STD-0007, MIL-STD-1388-2B)">'
-        + '<input id="newDocTitle" style="background:#f5f5f7;color:#1d1d1f;border:1px solid rgba(0,0,0,0.12);border-radius:8px;padding:10px" placeholder="Title">'
-        + '<textarea id="newDocContent" rows="6" style="background:#f5f5f7;color:#1d1d1f;border:1px solid rgba(0,0,0,0.12);border-radius:8px;padding:10px;font-family:monospace;font-size:0.82rem" placeholder="Paste document content or notes..."></textarea>'
-        + '<select id="newDocCat" style="background:#f5f5f7;color:#1d1d1f;border:1px solid rgba(0,0,0,0.12);border-radius:8px;padding:10px"><option>ILS</option><option>DMSMS</option><option>Readiness</option><option>Cybersecurity</option><option>Quality</option><option>Logistics</option><option>Configuration</option><option>Other</option></select>'
+        + '<input id="newDocId" style="background:#f5f5f7;color:var(--text,#1d1d1f);border:1px solid rgba(0,0,0,0.12);border-radius:8px;padding:10px" placeholder="Document ID (e.g., GEIA-STD-0007, MIL-STD-1388-2B)">'
+        + '<input id="newDocTitle" style="background:#f5f5f7;color:var(--text,#1d1d1f);border:1px solid rgba(0,0,0,0.12);border-radius:8px;padding:10px" placeholder="Title">'
+        + '<textarea id="newDocContent" rows="6" style="background:#f5f5f7;color:var(--text,#1d1d1f);border:1px solid rgba(0,0,0,0.12);border-radius:8px;padding:10px;font-family:monospace;font-size:0.82rem" placeholder="Paste document content or notes..."></textarea>'
+        + '<select id="newDocCat" style="background:#f5f5f7;color:var(--text,#1d1d1f);border:1px solid rgba(0,0,0,0.12);border-radius:8px;padding:10px"><option>ILS</option><option>DMSMS</option><option>Readiness</option><option>Cybersecurity</option><option>Quality</option><option>Logistics</option><option>Configuration</option><option>Other</option></select>'
         + '<div id="docUploadDropzone" ondragover="event.preventDefault();event.stopPropagation();this.style.borderColor=\'var(--accent)\';this.style.background=\'rgba(0,170,255,0.08)\'" ondragleave="this.style.borderColor=\'rgba(0,170,255,0.3)\';this.style.background=\'rgba(0,170,255,0.02)\'" ondrop="event.preventDefault();event.stopPropagation();this.style.borderColor=\'rgba(0,170,255,0.3)\';this.style.background=\'rgba(0,170,255,0.02)\';if(event.dataTransfer.files.length){var inp=document.getElementById(\'newDocFile\');inp.files=event.dataTransfer.files;handleDocFileSelect(inp)}" onclick="document.getElementById(\'newDocFile\').click()" style="border:2px dashed rgba(0,170,255,0.3);border-radius:8px;padding:28px 20px;text-align:center;color:var(--muted);cursor:pointer;background:rgba(0,170,255,0.02);transition:all 0.3s"><i class="fas fa-cloud-upload-alt" style="font-size:2rem;margin-bottom:10px;display:block;color:var(--accent)"></i><div style=\'font-size:0.9rem;color:var(--steel);font-weight:600;margin-bottom:6px\'>Drag & drop your file here</div><div style=\'font-size:0.78rem;color:var(--muted)\'>or <span style=\'color:var(--accent);text-decoration:underline\'>click to browse</span></div><div style=\'font-size:0.72rem;color:var(--muted);margin-top:8px\'>PDF, Word, Excel, CSV, TXT — any document type</div><input type="file" id="newDocFile" style="display:none" accept=".pdf,.docx,.xlsx,.txt,.csv,.json" onchange="handleDocFileSelect(this)"></div>'
         + '<div style="background:rgba(0,170,255,0.06);border:1px solid rgba(0,170,255,0.15);border-radius:8px;padding:10px 14px;margin-top:12px;font-size:0.78rem;color:var(--steel)"><i class="fas fa-robot" style="color:#00aaff;margin-right:6px"></i><strong style="color:#00aaff">S4 AI Agent</strong> will automatically scan uploads for discrepancies, compliance gaps, unauthorized changes, and red flags.</div>'
         + '<div id="newDocFileInfo" style="display:none;padding:8px;background:rgba(0,204,102,0.06);border:1px solid rgba(0,204,102,0.2);border-radius:8px;font-size:0.82rem;color:#00cc66"></div>'
@@ -6369,14 +6375,14 @@ function showDocVersionUpload() {
     modal.id = 'docVersionModal';
     modal.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(245,245,247,0.88);z-index:10000;display:flex;align-items:center;justify-content:center';
     modal.innerHTML = '<div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:32px;max-width:560px;width:90%;max-height:80vh;overflow-y:auto">'
-        + '<h3 style="color:#1d1d1f;margin:0 0 16px"><i class="fas fa-code-branch" style="color:#c9a84c;margin-right:8px"></i>Upload New Version</h3>'
+        + '<h3 style="color:var(--text,#1d1d1f);margin:0 0 16px"><i class="fas fa-code-branch" style="color:var(--accent);margin-right:8px"></i>Upload New Version</h3>'
         + '<p style="color:var(--steel);font-size:0.85rem;margin-bottom:16px">Upload a revised version of an existing document. Our AI agent will analyze it for discrepancies, changes, errors, omissions, and cost modifications — then flag anything that needs attention.</p>'
-        + '<select id="versionDocId" style="background:#f5f5f7;color:#1d1d1f;border:1px solid rgba(0,0,0,0.12);border-radius:8px;padding:10px;width:100%;margin-bottom:12px"><option value="">Select document...</option>' + ids.map(function(i){return '<option value="'+i+'">'+i+' (v'+_docVersions[i].length+')</option>';}).join('') + '</select>'
-        + '<textarea id="versionContent" rows="8" style="background:#f5f5f7;color:#1d1d1f;border:1px solid rgba(0,0,0,0.12);border-radius:8px;padding:10px;width:100%;font-family:monospace;font-size:0.82rem;margin-bottom:12px" placeholder="Paste updated document content..."></textarea>'
-        + '<input id="versionNote" style="background:#f5f5f7;color:#1d1d1f;border:1px solid rgba(0,0,0,0.12);border-radius:8px;padding:10px;width:100%;margin-bottom:12px" placeholder="Change notes (optional)">'
+        + '<select id="versionDocId" style="background:#f5f5f7;color:var(--text,#1d1d1f);border:1px solid rgba(0,0,0,0.12);border-radius:8px;padding:10px;width:100%;margin-bottom:12px"><option value="">Select document...</option>' + ids.map(function(i){return '<option value="'+i+'">'+i+' (v'+_docVersions[i].length+')</option>';}).join('') + '</select>'
+        + '<textarea id="versionContent" rows="8" style="background:#f5f5f7;color:var(--text,#1d1d1f);border:1px solid rgba(0,0,0,0.12);border-radius:8px;padding:10px;width:100%;font-family:monospace;font-size:0.82rem;margin-bottom:12px" placeholder="Paste updated document content..."></textarea>'
+        + '<input id="versionNote" style="background:#f5f5f7;color:var(--text,#1d1d1f);border:1px solid rgba(0,0,0,0.12);border-radius:8px;padding:10px;width:100%;margin-bottom:12px" placeholder="Change notes (optional)">'
         + '<div style="display:flex;gap:10px;justify-content:flex-end">'
         + '<button onclick="document.getElementById(\'docVersionModal\').remove()" style="background:rgba(0,0,0,0.03);color:var(--steel);border:1px solid var(--border);border-radius:8px;padding:8px 16px;cursor:pointer">Cancel</button>'
-        + '<button onclick="uploadDocVersion()" style="background:#c9a84c;color:#000;border:none;border-radius:8px;padding:8px 16px;cursor:pointer;font-weight:600">Upload & Analyze</button>'
+        + '<button onclick="uploadDocVersion()" style="background:var(--accent);color:#fff;border:none;border-radius:8px;padding:8px 16px;cursor:pointer;font-weight:600">Upload & Analyze</button>'
         + '</div></div>';
     document.body.appendChild(modal);
 }
@@ -6437,7 +6443,7 @@ function showRedFlagAlert(docId, flags) {
     var html = '<div style="position:fixed;top:80px;right:20px;background:#fff5f5;border:2px solid #ff4444;border-radius:8px;padding:20px;max-width:400px;z-index:10001;animation:slideUp 0.3s ease;box-shadow:0 8px 32px rgba(255,0,0,0.2)">'
         + '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><h4 style="color:#ff4444;margin:0"><i class="fas fa-flag"></i> Red Flags: '+docId+'</h4><button onclick="this.closest(\'div\').parentElement.remove()" style="background:none;border:none;color:#ff4444;cursor:pointer;font-size:1.2rem">&times;</button></div>';
     flags.forEach(function(f) {
-        var col = f.severity === 'critical' ? '#ff0000' : f.severity === 'high' ? '#ff4444' : f.severity === 'medium' ? '#ff8800' : '#c9a84c';
+        var col = f.severity === 'critical' ? '#ff0000' : f.severity === 'high' ? '#ff4444' : f.severity === 'medium' ? '#ff8800' : '#ffa500';
         html += '<div style="padding:8px;margin-bottom:6px;background:rgba(255,0,0,0.05);border-left:3px solid '+col+';border-radius:0 6px 6px 0;font-size:0.82rem;color:var(--steel)"><span style="color:'+col+';font-weight:700;text-transform:uppercase;font-size:0.7rem">'+f.severity+'</span> '+f.msg+'</div>';
     });
     html += '</div>';
@@ -6451,12 +6457,12 @@ function showDiffResult(docId, diff, flags) {
     var modal = document.createElement('div');
     modal.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(245,245,247,0.88);z-index:10000;display:flex;align-items:center;justify-content:center';
     var html = '<div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:32px;max-width:640px;width:90%;max-height:80vh;overflow-y:auto">'
-        + '<h3 style="color:#1d1d1f;margin:0 0 16px"><i class="fas fa-brain" style="color:#c9a84c;margin-right:8px"></i>Document Intelligence Analysis: '+docId+'</h3>'
+        + '<h3 style="color:var(--text,#1d1d1f);margin:0 0 16px"><i class="fas fa-brain" style="color:var(--accent);margin-right:8px"></i>Document Intelligence Analysis: '+docId+'</h3>'
                 + '<div style="background:rgba(0,170,255,0.06);border:1px solid rgba(0,170,255,0.15);border-radius:8px;padding:10px 14px;margin-bottom:16px;font-size:0.8rem;color:var(--steel)"><i class="fas fa-robot" style="color:#00aaff;margin-right:6px"></i><strong style="color:#00aaff">S4 AI Agent:</strong> Analyzed document for discrepancies, unauthorized changes, errors, omissions, and cost modifications.</div>'
         + '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px">'
         + '<div style="background:rgba(0,204,102,0.06);border:1px solid rgba(0,204,102,0.2);border-radius:8px;padding:12px;text-align:center"><div style="font-size:1.4rem;font-weight:800;color:#00cc66">+'+diff.added+'</div><div style="font-size:0.75rem;color:var(--steel)">Lines Added</div></div>'
         + '<div style="background:rgba(255,68,68,0.06);border:1px solid rgba(255,68,68,0.2);border-radius:8px;padding:12px;text-align:center"><div style="font-size:1.4rem;font-weight:800;color:#ff4444">-'+diff.removed+'</div><div style="font-size:0.75rem;color:var(--steel)">Lines Removed</div></div>'
-        + '<div style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:12px;text-align:center"><div style="font-size:1.4rem;font-weight:800;color:#c9a84c">~'+diff.changed+'</div><div style="font-size:0.75rem;color:var(--steel)">Lines Modified</div></div>'
+        + '<div style="background:rgba(0,170,255,0.06);border:1px solid rgba(0,170,255,0.15);border-radius:8px;padding:12px;text-align:center"><div style="font-size:1.4rem;font-weight:800;color:var(--accent)">~'+diff.changed+'</div><div style="font-size:0.75rem;color:var(--steel)">Lines Modified</div></div>'
         + '</div>';
     if (flags.length > 0) {
         html += '<div style="background:rgba(255,0,0,0.04);border:1px solid rgba(255,68,68,0.2);border-radius:8px;padding:12px;margin-bottom:16px"><div style="color:#ff4444;font-weight:700;margin-bottom:8px"><i class="fas fa-flag"></i> Red Flags ('+flags.length+')</div>';
@@ -6468,7 +6474,7 @@ function showDiffResult(docId, diff, flags) {
         diff.details.forEach(function(d) {
             if (d.type==='add') html += '<div style="color:#00cc66">+ L'+d.line+': '+d.text.substring(0,80)+'</div>';
             else if (d.type==='del') html += '<div style="color:#ff4444">- L'+d.line+': '+d.text.substring(0,80)+'</div>';
-            else html += '<div style="color:#c9a84c">~ L'+d.line+': '+d.old.substring(0,40)+' → '+d.new.substring(0,40)+'</div>';
+            else html += '<div style="color:#ffa500">~ L'+d.line+': '+d.old.substring(0,40)+' → '+d.new.substring(0,40)+'</div>';
         });
         html += '</div>';
     }
@@ -6597,7 +6603,7 @@ function calcCompliance() {
     if (vault === 0) recs.push('<i class="fas fa-arrow-right" style="color:var(--accent);margin-right:6px"></i> <strong>Anchor your first record</strong> to establish a tamper-proof audit trail and start building your compliance posture.');
     if (cmmc < 80) recs.push('<i class="fas fa-arrow-right" style="color:#e74c3c;margin-right:6px"></i> <strong>Increase anchored records</strong> — CMMC Level 2 requires demonstrable data integrity controls. Anchor 20+ records to reach 80%+ coverage.');
     if (encryptedCount < vault * 0.5 && vault > 0) recs.push('<i class="fas fa-arrow-right" style="color:#3498db;margin-right:6px"></i> <strong>Enable encryption</strong> on more records — over 50% of your records are unencrypted. CUI requires protection per NIST 800-171.');
-    if (ils < 70) recs.push('<i class="fas fa-arrow-right" style="color:#9b59b6;margin-right:6px"></i> <strong>Use more ILS tools</strong> — run DMSMS checks, readiness calculations, and lifecycle estimates to improve GEIA-STD-0007 ILS compliance.');
+    if (ils < 70) recs.push('<i class="fas fa-arrow-right" style="color:var(--accent,#00aaff);margin-right:6px"></i> <strong>Use more ILS tools</strong> — run DMSMS checks, readiness calculations, and lifecycle estimates to improve GEIA-STD-0007 ILS compliance.');
     if (actions > 0 && actionsDone / actions < 0.5) recs.push('<i class="fas fa-arrow-right" style="color:var(--accent);margin-right:6px"></i> <strong>Resolve open action items</strong> — ' + (actions - actionsDone) + ' of ' + actions + ' items are still open. Completing these improves FAR 46 quality scores.');
     if (dmsmsRecords === 0) recs.push('<i class="fas fa-arrow-right" style="color:#ff6b6b;margin-right:6px"></i> <strong>Run a DMSMS analysis</strong> and anchor the results to demonstrate proactive obsolescence management per DoDI 4245.15.');
     if (recs.length === 0) recs.push('<i class="fas fa-check-circle" style="color:var(--accent);margin-right:6px"></i> <strong>Excellent compliance posture!</strong> Continue anchoring records and monitoring DMSMS, readiness, and warranty status.');
@@ -6716,12 +6722,12 @@ function renderPOAM() {
     if (_poamItems.length === 0) { tbody.innerHTML = ''; if (empty) empty.style.display = 'block'; return; }
     if (empty) empty.style.display = 'none';
     tbody.innerHTML = window._s4Safe(_poamItems.map(function(p, i) {
-        var riskColor = p.risk === 'High' ? '#ff6b6b' : p.risk === 'Moderate' ? '#c9a84c' : '#00aaff';
-        var statusColor = p.status === 'Closed' ? 'var(--green)' : p.status === 'In Progress' ? '#00aaff' : p.status === 'Accepted Risk' ? '#c9a84c' : '#ff6b6b';
+        var riskColor = p.risk === 'High' ? '#ff6b6b' : p.risk === 'Moderate' ? '#ffa500' : '#00aaff';
+        var statusColor = p.status === 'Closed' ? 'var(--green)' : p.status === 'In Progress' ? '#00aaff' : p.status === 'Accepted Risk' ? '#ffa500' : '#ff6b6b';
         var overdue = p.due && new Date(p.due) < new Date() && p.status !== 'Closed';
         return '<tr style="border-bottom:1px solid rgba(0,0,0,0.04)">'
             + '<td style="padding:6px 8px;color:#00aaff;font-weight:600;font-size:0.78rem">' + p.id + '</td>'
-            + '<td style="padding:6px 8px;color:#1d1d1f;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + (p.weakness||'').replace(/"/g,'&quot;') + '">' + (p.weakness||'') + '</td>'
+            + '<td style="padding:6px 8px;color:var(--text,#1d1d1f);max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + (p.weakness||'').replace(/"/g,'&quot;') + '">' + (p.weakness||'') + '</td>'
             + '<td style="padding:6px 8px;color:var(--steel)">' + (p.control||'') + '</td>'
             + '<td style="padding:6px 8px"><span style="color:' + riskColor + ';font-weight:600">' + (p.risk||'') + '</span></td>'
             + '<td style="padding:6px 8px;color:var(--steel);max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + (p.milestone||'') + '</td>'
@@ -6802,9 +6808,9 @@ function renderEvidence() {
     if (empty) empty.style.display = 'none';
     list.innerHTML = window._s4Safe(_evidenceItems.map(function(e, i) {
         var icon = e.type.indexOf('pdf') >= 0 ? 'fa-file-pdf' : e.type.indexOf('image') >= 0 ? 'fa-file-image' : e.type.indexOf('sheet') >= 0 || e.filename.match(/\.xlsx?$/i) ? 'fa-file-excel' : 'fa-file';
-        return '<div style="display:flex;align-items:center;gap:10px;padding:8px;margin-bottom:4px;background:rgba(0,0,0,0.015);border-radius:8px;border-left:3px solid #c9a84c">'
-            + '<i class="fas ' + icon + '" style="color:#c9a84c;font-size:1rem;width:20px;text-align:center"></i>'
-            + '<div style="flex:1;min-width:0"><div style="color:#1d1d1f;font-size:0.82rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + e.filename + '</div><div style="font-size:0.72rem;color:var(--steel)">' + e.control + ' | ' + e.size + ' | ' + new Date(e.timestamp).toLocaleDateString() + (e.hash ? ' | <span style="color:#00aaff">Hash: ' + e.hash + '</span>' : '') + '</div></div>'
+        return '<div style="display:flex;align-items:center;gap:10px;padding:8px;margin-bottom:4px;background:rgba(0,0,0,0.015);border-radius:8px;border-left:3px solid var(--accent)">'
+            + '<i class="fas ' + icon + '" style="color:var(--accent);font-size:1rem;width:20px;text-align:center"></i>'
+            + '<div style="flex:1;min-width:0"><div style="color:var(--text,#1d1d1f);font-size:0.82rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + e.filename + '</div><div style="font-size:0.72rem;color:var(--steel)">' + e.control + ' | ' + e.size + ' | ' + new Date(e.timestamp).toLocaleDateString() + (e.hash ? ' | <span style="color:#00aaff">Hash: ' + e.hash + '</span>' : '') + '</div></div>'
             + '<span style="font-size:0.72rem;color:#00aaff;background:#00aaff11;padding:2px 6px;border-radius:8px">' + e.status + '</span>'
             + '<button onclick="removeEvidence(' + i + ')" style="background:none;border:none;color:#ff6b6b;cursor:pointer;font-size:0.78rem" title="Remove"><i class="fas fa-times"></i></button>'
             + '</div>';
@@ -6863,11 +6869,11 @@ function runMonitoringScan() {
         else score = 55 + Math.min(vault * 3, 35);
         score = Math.min(score, 100);
         var status = score >= 80 ? 'Operational' : score >= 50 ? 'Degraded' : 'At Risk';
-        var color = score >= 80 ? '#00cc88' : score >= 50 ? '#c9a84c' : '#ff6b6b';
+        var color = score >= 80 ? '#00cc88' : score >= 50 ? '#ffa500' : '#ff6b6b';
         var icon = score >= 80 ? 'fa-check-circle' : score >= 50 ? 'fa-exclamation-circle' : 'fa-times-circle';
         return '<div style="background:rgba(0,0,0,0.015);border:1px solid ' + color + '33;border-radius:8px;padding:10px;text-align:center">'
             + '<i class="fas ' + icon + '" style="color:' + color + ';font-size:1.1rem;margin-bottom:4px;display:block"></i>'
-            + '<div style="color:#1d1d1f;font-size:0.78rem;font-weight:600">' + c.id + '</div>'
+            + '<div style="color:var(--text,#1d1d1f);font-size:0.78rem;font-weight:600">' + c.id + '</div>'
             + '<div style="color:var(--steel);font-size:0.7rem;margin-bottom:4px">' + c.name + '</div>'
             + '<span style="font-size:0.68rem;padding:2px 6px;border-radius:8px;background:' + color + '22;color:' + color + ';font-weight:600">' + status + ' (' + score + '%)</span>'
             + '</div>';
@@ -6946,7 +6952,7 @@ function calcFedRAMP() {
         var bar = document.getElementById('fedrampBar' + fam);
         var pctEl = document.getElementById('fedrampPct' + fam);
         if (bar) bar.style.width = pct + '%';
-        if (pctEl) { pctEl.textContent = pct + '%'; pctEl.style.color = pct >= 75 ? '#00aaff' : pct >= 50 ? '#c9a84c' : '#ff6b6b'; }
+        if (pctEl) { pctEl.textContent = pct + '%'; pctEl.style.color = pct >= 75 ? '#00aaff' : pct >= 50 ? '#ffa500' : '#ff6b6b'; }
     });
 
     var el = function(id, val) { var e = document.getElementById(id); if(e) e.textContent = val; };
@@ -6996,7 +7002,7 @@ function runVersionDiff() {
     var vB = document.getElementById('diffVersionB')?.value;
     var output = document.getElementById('diffOutput');
     if (!output) return;
-    if (!vA || !vB) { output.innerHTML = '<div style="color:#c9a84c;padding:12px">Please select both Version A and Version B to compare.</div>'; return; }
+    if (!vA || !vB) { output.innerHTML = '<div style="color:var(--accent);padding:12px">Please select both Version A and Version B to compare.</div>'; return; }
     if (vA === vB) { output.innerHTML = '<div style="color:var(--steel);padding:12px">Same version selected. No differences.</div>'; return; }
 
     // Compare data from vault submissions
@@ -7009,9 +7015,9 @@ function runVersionDiff() {
     }
 
     var html = '<div style="margin-bottom:8px;color:var(--steel);font-size:0.78rem"><strong>Comparing:</strong> ' + (document.getElementById('diffVersionA')?.selectedOptions[0]?.text||vA) + ' → ' + (document.getElementById('diffVersionB')?.selectedOptions[0]?.text||vB) + '</div>';
-    html += '<div style="display:flex;gap:12px;margin-bottom:10px"><span style="color:#00cc88;font-size:0.78rem"><i class="fas fa-plus-circle"></i> ' + diffs.filter(function(d){return d.type==='added'}).length + ' Added</span><span style="color:#ff6b6b;font-size:0.78rem"><i class="fas fa-minus-circle"></i> ' + diffs.filter(function(d){return d.type==='removed'}).length + ' Removed</span><span style="color:#c9a84c;font-size:0.78rem"><i class="fas fa-pen-to-square"></i> ' + diffs.filter(function(d){return d.type==='modified'}).length + ' Modified</span></div>';
+    html += '<div style="display:flex;gap:12px;margin-bottom:10px"><span style="color:#00cc88;font-size:0.78rem"><i class="fas fa-plus-circle"></i> ' + diffs.filter(function(d){return d.type==='added'}).length + ' Added</span><span style="color:#ff6b6b;font-size:0.78rem"><i class="fas fa-minus-circle"></i> ' + diffs.filter(function(d){return d.type==='removed'}).length + ' Removed</span><span style="color:#ffa500;font-size:0.78rem"><i class="fas fa-pen-to-square"></i> ' + diffs.filter(function(d){return d.type==='modified'}).length + ' Modified</span></div>';
     diffs.forEach(function(d) {
-        var color = d.type === 'added' ? '#00cc88' : d.type === 'removed' ? '#ff6b6b' : '#c9a84c';
+        var color = d.type === 'added' ? '#00cc88' : d.type === 'removed' ? '#ff6b6b' : '#ffa500';
         var prefix = d.type === 'added' ? '+' : d.type === 'removed' ? '-' : '~';
         html += '<div style="margin-bottom:4px;padding:6px 8px;background:' + color + '08;border-left:3px solid ' + color + ';border-radius:0 3px 3px 0">';
         html += '<div style="color:' + color + ';font-weight:600">' + prefix + ' ' + d.field + '</div>';
@@ -7042,23 +7048,23 @@ function generateExecSummary() {
 
     var html = '<div style="border:1px solid rgba(0,170,255,0.2);border-radius:8px;overflow:hidden">';
     html += '<div style="background:rgba(0,170,255,0.08);padding:16px;border-bottom:1px solid rgba(0,170,255,0.15)">';
-    html += '<div style="display:flex;justify-content:space-between;align-items:center"><strong style="color:#1d1d1f;font-size:1.05rem"><i class="fas fa-file-lines" style="color:#00aaff;margin-right:8px"></i>S4 Ledger — Executive Summary</strong><span style="color:var(--steel);font-size:0.78rem">' + now.toLocaleDateString() + '</span></div></div>';
+    html += '<div style="display:flex;justify-content:space-between;align-items:center"><strong style="color:var(--text,#1d1d1f);font-size:1.05rem"><i class="fas fa-file-lines" style="color:#00aaff;margin-right:8px"></i>S4 Ledger — Executive Summary</strong><span style="color:var(--steel);font-size:0.78rem">' + now.toLocaleDateString() + '</span></div></div>';
     html += '<div style="padding:16px">';
 
-    html += '<div style="margin-bottom:16px"><strong style="color:#00aaff;font-size:0.88rem">1. Compliance Posture</strong><div style="margin-top:6px">Overall compliance score: <strong style="color:#1d1d1f">' + compScore + ' (Grade ' + grade + ')</strong>. ';
+    html += '<div style="margin-bottom:16px"><strong style="color:#00aaff;font-size:0.88rem">1. Compliance Posture</strong><div style="margin-top:6px">Overall compliance score: <strong style="color:var(--text,#1d1d1f)">' + compScore + ' (Grade ' + grade + ')</strong>. ';
     html += vault > 0 ? vault + ' records blockchain-anchored with ' + encrypted + ' encrypted.' : 'No records anchored yet — initial baseline pending.';
-    html += poamOpen > 0 ? ' <span style="color:#c9a84c">' + poamOpen + ' open POA&M items require attention.</span>' : ' All POA&M items resolved.';
+    html += poamOpen > 0 ? ' <span style="color:#ffa500">' + poamOpen + ' open POA&M items require attention.</span>' : ' All POA&M items resolved.';
     html += '</div></div>';
 
-    html += '<div style="margin-bottom:16px"><strong style="color:#00aaff;font-size:0.88rem">2. Action Item Status</strong><div style="margin-top:6px">' + actions + ' total action items tracked. <strong style="color:#1d1d1f">' + done + ' completed</strong>' + (actions > 0 ? ' (' + Math.round(done/actions*100) + '% completion rate)' : '') + '.';
-    if (actions - done > 0) html += ' <span style="color:#c9a84c">' + (actions - done) + ' items still open.</span>';
+    html += '<div style="margin-bottom:16px"><strong style="color:#00aaff;font-size:0.88rem">2. Action Item Status</strong><div style="margin-top:6px">' + actions + ' total action items tracked. <strong style="color:var(--text,#1d1d1f)">' + done + ' completed</strong>' + (actions > 0 ? ' (' + Math.round(done/actions*100) + '% completion rate)' : '') + '.';
+    if (actions - done > 0) html += ' <span style="color:#ffa500">' + (actions - done) + ' items still open.</span>';
     html += '</div></div>';
 
     html += '<div style="margin-bottom:16px"><strong style="color:#00aaff;font-size:0.88rem">3. Evidence & Audit Readiness</strong><div style="margin-top:6px">' + evCount + ' evidence artifacts attached to compliance controls. ';
-    html += evCount >= 5 ? '<span style="color:var(--green)">Audit package is well-documented.</span>' : '<span style="color:#c9a84c">Additional evidence artifacts recommended for audit readiness.</span>';
+    html += evCount >= 5 ? '<span style="color:var(--green)">Audit package is well-documented.</span>' : '<span style="color:#ffa500">Additional evidence artifacts recommended for audit readiness.</span>';
     html += '</div></div>';
 
-    html += '<div style="margin-bottom:16px"><strong style="color:#00aaff;font-size:0.88rem">4. Financial Impact</strong><div style="margin-top:6px">Estimated cost avoidance: <strong style="color:#1d1d1f">$' + estSavings + 'K</strong> through automated compliance tracking, blockchain-anchored records, and reduced audit preparation labor. Traditional manual processes would require 3-5x more FTE hours.</div></div>';
+    html += '<div style="margin-bottom:16px"><strong style="color:#00aaff;font-size:0.88rem">4. Financial Impact</strong><div style="margin-top:6px">Estimated cost avoidance: <strong style="color:var(--text,#1d1d1f)">$' + estSavings + 'K</strong> through automated compliance tracking, blockchain-anchored records, and reduced audit preparation labor. Traditional manual processes would require 3-5x more FTE hours.</div></div>';
 
     html += '<div style="padding:10px;background:rgba(0,170,255,0.06);border-radius:8px;border-left:3px solid #00aaff"><strong style="color:#00aaff">Recommendation:</strong> ';
     if (vault < 5) html += 'Increase record anchoring activity to establish a stronger compliance baseline.';
@@ -7133,7 +7139,7 @@ function renderScheduledReports() {
         var statusColor = r.active ? '#00aaff' : 'var(--steel)';
         return '<div style="display:flex;align-items:center;gap:10px;padding:8px;margin-bottom:4px;background:rgba(0,0,0,0.015);border-radius:8px;border-left:3px solid ' + statusColor + '">'
             + '<i class="fas fa-calendar-check" style="color:' + statusColor + '"></i>'
-            + '<div style="flex:1"><div style="color:#1d1d1f;font-size:0.82rem">' + r.label + ' <span style="color:var(--steel);font-size:0.72rem">(' + r.frequency + ')</span></div><div style="font-size:0.72rem;color:var(--steel)">Next: ' + r.nextRun + '</div></div>'
+            + '<div style="flex:1"><div style="color:var(--text,#1d1d1f);font-size:0.82rem">' + _esc(r.label) + ' <span style="color:var(--steel);font-size:0.72rem">(' + _esc(r.frequency) + ')</span></div><div style="font-size:0.72rem;color:var(--steel)">Next: ' + _esc(r.nextRun) + '</div></div>'
             + '<button onclick="toggleScheduledReport(' + i + ')" style="background:none;border:none;color:' + (r.active ? '#00aaff' : 'var(--steel)') + ';cursor:pointer;font-size:0.78rem" title="Toggle"><i class="fas fa-' + (r.active ? 'toggle-on' : 'toggle-off') + '"></i></button>'
             + '<button onclick="removeScheduledReport(' + i + ')" style="background:none;border:none;color:#ff6b6b;cursor:pointer;font-size:0.78rem" title="Delete"><i class="fas fa-trash"></i></button>'
             + '</div>';
@@ -7167,16 +7173,16 @@ function generateFleetComparison() {
     html += '<th style="padding:8px;text-align:left">Program</th><th style="padding:8px;text-align:center">Compliance</th><th style="padding:8px;text-align:center">Readiness</th><th style="padding:8px;text-align:center">Risk</th><th style="padding:8px;text-align:center">Actions</th><th style="padding:8px;text-align:center">DMSMS</th><th style="padding:8px;text-align:right">Savings</th>';
     html += '</tr></thead><tbody>';
     programs.forEach(function(p) {
-        var compColor = p.compliance >= 85 ? '#00cc88' : p.compliance >= 70 ? '#c9a84c' : '#ff6b6b';
-        var readColor = p.readiness >= 80 ? '#00cc88' : p.readiness >= 60 ? '#c9a84c' : '#ff6b6b';
-        var riskColor = p.risk === 'Low' ? '#00cc88' : p.risk === 'Moderate' ? '#c9a84c' : '#ff6b6b';
+        var compColor = p.compliance >= 85 ? '#00cc88' : p.compliance >= 70 ? '#ffa500' : '#ff6b6b';
+        var readColor = p.readiness >= 80 ? '#00cc88' : p.readiness >= 60 ? '#ffa500' : '#ff6b6b';
+        var riskColor = p.risk === 'Low' ? '#00cc88' : p.risk === 'Moderate' ? '#ffa500' : '#ff6b6b';
         html += '<tr style="border-bottom:1px solid rgba(0,0,0,0.04)">';
-        html += '<td style="padding:8px;color:#1d1d1f;font-weight:600">' + p.name + '</td>';
+        html += '<td style="padding:8px;color:var(--text,#1d1d1f);font-weight:600">' + p.name + '</td>';
         html += '<td style="padding:8px;text-align:center;color:' + compColor + ';font-weight:600">' + p.compliance + '%</td>';
         html += '<td style="padding:8px;text-align:center;color:' + readColor + '">' + p.readiness + '%</td>';
         html += '<td style="padding:8px;text-align:center"><span style="padding:2px 8px;border-radius:8px;background:' + riskColor + '22;color:' + riskColor + ';font-size:0.72rem;font-weight:600">' + p.risk + '</span></td>';
         html += '<td style="padding:8px;text-align:center;color:var(--steel)">' + p.resolved + '/' + p.actions + '</td>';
-        html += '<td style="padding:8px;text-align:center;color:' + (p.dmsms > 5 ? '#ff6b6b' : '#c9a84c') + '">' + p.dmsms + ' items</td>';
+        html += '<td style="padding:8px;text-align:center;color:' + (p.dmsms > 5 ? '#ff6b6b' : '#ffa500') + '">' + p.dmsms + ' items</td>';
         html += '<td style="padding:8px;text-align:right;color:#00aaff;font-weight:600">' + p.savings + '</td>';
         html += '</tr>';
     });
@@ -7204,18 +7210,18 @@ function generateHeatMap() {
 
     var html = '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px">';
     categories.forEach(function(c) {
-        var color = c.risk >= 80 ? '#ff3333' : c.risk >= 60 ? '#ff6b6b' : c.risk >= 40 ? '#c9a84c' : '#00cc88';
-        var bg = c.risk >= 80 ? 'rgba(255,51,51,0.12)' : c.risk >= 60 ? 'rgba(255,107,107,0.08)' : c.risk >= 40 ? 'rgba(201,168,76,0.06)' : 'rgba(0,204,136,0.06)';
+        var color = c.risk >= 80 ? '#ff3333' : c.risk >= 60 ? '#ff6b6b' : c.risk >= 40 ? '#ffa500' : '#00cc88';
+        var bg = c.risk >= 80 ? 'rgba(255,51,51,0.12)' : c.risk >= 60 ? 'rgba(255,107,107,0.08)' : c.risk >= 40 ? 'rgba(255,165,0,0.06)' : 'rgba(0,204,136,0.06)';
         var label = c.risk >= 80 ? 'CRITICAL' : c.risk >= 60 ? 'HIGH' : c.risk >= 40 ? 'MODERATE' : 'LOW';
         html += '<div style="background:' + bg + ';border:1px solid ' + color + '33;border-radius:8px;padding:12px;text-align:center">';
         html += '<div style="font-size:1.4rem;font-weight:800;color:' + color + '">' + c.risk + '</div>';
-        html += '<div style="color:#1d1d1f;font-size:0.8rem;font-weight:600;margin:4px 0">' + c.name + '</div>';
+        html += '<div style="color:var(--text,#1d1d1f);font-size:0.8rem;font-weight:600;margin:4px 0">' + c.name + '</div>';
         html += '<div style="font-size:0.68rem;color:' + color + ';font-weight:700;margin-bottom:6px">' + label + '</div>';
         html += '<div style="font-size:0.68rem;color:var(--steel);line-height:1.4">' + c.suppliers.slice(0,3).join(', ') + '</div>';
         html += '</div>';
     });
     html += '</div>';
-    html += '<div style="margin-top:10px;display:flex;gap:12px;font-size:0.72rem;color:var(--steel)"><span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#ff3333;margin-right:4px"></span>Critical (80+)</span><span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#ff6b6b;margin-right:4px"></span>High (60-79)</span><span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#c9a84c;margin-right:4px"></span>Moderate (40-59)</span><span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#00cc88;margin-right:4px"></span>Low (&lt;40)</span></div>';
+    html += '<div style="margin-top:10px;display:flex;gap:12px;font-size:0.72rem;color:var(--steel)"><span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#ff3333;margin-right:4px"></span>Critical (80+)</span><span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#ff6b6b;margin-right:4px"></span>High (60-79)</span><span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#ffa500;margin-right:4px"></span>Moderate (40-59)</span><span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#00cc88;margin-right:4px"></span>Low (&lt;40)</span></div>';
     out.innerHTML = html;
     showWorkspaceNotification('Risk heat map generated — ' + categories.length + ' categories analyzed');
 }
@@ -7234,11 +7240,11 @@ function generateRemediationPlans() {
     ];
 
     var html = plans.map(function(p) {
-        var sColor = p.severity === 'Critical' ? '#ff3333' : p.severity === 'High' ? '#ff6b6b' : '#c9a84c';
+        var sColor = p.severity === 'Critical' ? '#ff3333' : p.severity === 'High' ? '#ff6b6b' : '#ffa500';
         return '<div style="margin-bottom:10px;border:1px solid ' + sColor + '33;border-radius:8px;overflow:hidden">'
             + '<div style="padding:10px 14px;background:' + sColor + '08;display:flex;align-items:center;gap:8px">'
             + '<span style="background:' + sColor + '22;color:' + sColor + ';padding:2px 8px;border-radius:8px;font-size:0.7rem;font-weight:700">' + p.severity + '</span>'
-            + '<strong style="color:#1d1d1f;font-size:0.82rem">' + p.risk + '</strong>'
+            + '<strong style="color:var(--text,#1d1d1f);font-size:0.82rem">' + p.risk + '</strong>'
             + '<span style="margin-left:auto;color:var(--steel);font-size:0.72rem">' + p.timeline + ' | ' + p.cost + '</span></div>'
             + '<div style="padding:10px 14px">'
             + p.steps.map(function(s, i) { return '<div style="padding:3px 0;color:var(--steel);font-size:0.78rem"><span style="color:#00aaff;margin-right:6px;font-weight:700">' + (i+1) + '.</span>' + s + '</div>'; }).join('')
@@ -7262,7 +7268,7 @@ function runAnomalyDetection() {
     if (s4Vault) {
         var sources = {}; s4Vault.forEach(function(v) { sources[v.source] = (sources[v.source]||0) + 1; });
         var maxSource = Object.keys(sources).sort(function(a,b){ return sources[b]-sources[a]; })[0];
-        if (maxSource && sources[maxSource] > vault * 0.6 && vault > 3) anomalies.push({ type:'Distribution Skew', severity:'Low', desc:'Over 60% of anchored records come from "' + maxSource + '". Consider diversifying tool usage for balanced compliance coverage.', icon:'fa-chart-pie', color:'#c9a84c' });
+        if (maxSource && sources[maxSource] > vault * 0.6 && vault > 3) anomalies.push({ type:'Distribution Skew', severity:'Low', desc:'Over 60% of anchored records come from "' + maxSource + '". Consider diversifying tool usage for balanced compliance coverage.', icon:'fa-chart-pie', color:'#ffa500' });
 
         var now = Date.now();
         var recent = s4Vault.filter(function(v) { return now - new Date(v.timestamp).getTime() < 3600000; }).length;
@@ -7288,7 +7294,7 @@ function runAnomalyDetection() {
     html += anomalies.map(function(a) {
         return '<div style="display:flex;gap:10px;padding:8px;margin-bottom:4px;background:' + a.color + '08;border-left:3px solid ' + a.color + ';border-radius:0 3px 3px 0">'
             + '<i class="fas ' + a.icon + '" style="color:' + a.color + ';font-size:1rem;margin-top:2px"></i>'
-            + '<div><div style="color:#1d1d1f;font-size:0.82rem;font-weight:600">' + a.type + ' <span style="color:' + a.color + ';font-size:0.7rem;font-weight:400">' + a.severity + '</span></div><div style="color:var(--steel);font-size:0.78rem;margin-top:2px">' + a.desc + '</div></div></div>';
+            + '<div><div style="color:var(--text,#1d1d1f);font-size:0.82rem;font-weight:600">' + a.type + ' <span style="color:' + a.color + ';font-size:0.7rem;font-weight:400">' + a.severity + '</span></div><div style="color:var(--steel);font-size:0.78rem;margin-top:2px">' + a.desc + '</div></div></div>';
     }).join('');
     out.innerHTML = html;
     showWorkspaceNotification('Anomaly scan complete — ' + anomalies.length + ' findings');
@@ -7308,8 +7314,8 @@ function generateBudgetForecast() {
     var s4Savings = 0.12; // 12% reduction from S4 automation
 
     var html = '<table style="width:100%;border-collapse:collapse;font-size:0.78rem">';
-    html += '<thead><tr style="background:rgba(201,168,76,0.08);color:#c9a84c">';
-    html += '<th style="padding:8px;text-align:left">Year</th><th style="padding:8px;text-align:right">Procurement</th><th style="padding:8px;text-align:right">Sustainment</th><th style="padding:8px;text-align:right">DMSMS/Obsol.</th><th style="padding:8px;text-align:right">S4 Savings</th><th style="padding:8px;text-align:right;color:#1d1d1f">Net Forecast</th>';
+    html += '<thead><tr style="background:rgba(0,170,255,0.08);color:var(--accent)">';
+    html += '<th style="padding:8px;text-align:left">Year</th><th style="padding:8px;text-align:right">Procurement</th><th style="padding:8px;text-align:right">Sustainment</th><th style="padding:8px;text-align:right">DMSMS/Obsol.</th><th style="padding:8px;text-align:right">S4 Savings</th><th style="padding:8px;text-align:right;color:var(--text,#1d1d1f)">Net Forecast</th>';
     html += '</tr></thead><tbody>';
 
     var totalNet = 0, totalSavings = 0;
@@ -7322,18 +7328,18 @@ function generateBudgetForecast() {
         var net = gross - saved;
         totalNet += net; totalSavings += saved;
         html += '<tr style="border-bottom:1px solid rgba(0,0,0,0.04)">';
-        html += '<td style="padding:6px 8px;color:#1d1d1f;font-weight:600">FY' + (new Date().getFullYear() + y).toString().slice(-2) + '</td>';
+        html += '<td style="padding:6px 8px;color:var(--text,#1d1d1f);font-weight:600">FY' + (new Date().getFullYear() + y).toString().slice(-2) + '</td>';
         html += '<td style="padding:6px 8px;text-align:right;color:var(--steel)">$' + Math.round(proc * 1000000).toLocaleString() + '</td>';
         html += '<td style="padding:6px 8px;text-align:right;color:var(--steel)">$' + Math.round(sust * 1000000).toLocaleString() + '</td>';
         html += '<td style="padding:6px 8px;text-align:right;color:#ff6b6b">$' + Math.round(obsol * 1000000).toLocaleString() + '</td>';
         html += '<td style="padding:6px 8px;text-align:right;color:#00cc88">-$' + Math.round(saved * 1000000).toLocaleString() + '</td>';
-        html += '<td style="padding:6px 8px;text-align:right;color:#1d1d1f;font-weight:600">$' + Math.round(net * 1000000).toLocaleString() + '</td>';
+        html += '<td style="padding:6px 8px;text-align:right;color:var(--text,#1d1d1f);font-weight:600">$' + Math.round(net * 1000000).toLocaleString() + '</td>';
         html += '</tr>';
     }
-    html += '<tr style="border-top:2px solid rgba(201,168,76,0.3);font-weight:700">';
-    html += '<td style="padding:8px;color:#c9a84c">' + years + '-Year Total</td><td colspan="3"></td>';
+    html += '<tr style="border-top:2px solid rgba(0,170,255,0.3);font-weight:700">';
+    html += '<td style="padding:8px;color:var(--accent)">' + years + '-Year Total</td><td colspan="3"></td>';
     html += '<td style="padding:8px;text-align:right;color:#00cc88">-$' + Math.round(totalSavings * 1000000).toLocaleString() + '</td>';
-    html += '<td style="padding:8px;text-align:right;color:#1d1d1f;font-size:0.88rem">$' + Math.round(totalNet * 1000000).toLocaleString() + '</td>';
+    html += '<td style="padding:8px;text-align:right;color:var(--text,#1d1d1f);font-size:0.88rem">$' + Math.round(totalNet * 1000000).toLocaleString() + '</td>';
     html += '</tr></tbody></table>';
     html += '<div style="margin-top:8px;font-size:0.72rem;color:var(--steel)">Forecast assumes ' + (inflationRate*100).toFixed(1) + '% annual inflation, ' + (obsolescenceGrowth*100).toFixed(1) + '% obsolescence growth, and ' + (s4Savings*100) + '% S4 automation savings. Adjust inputs in Lifecycle Cost Calculator for program-specific projections.</div>';
     out.innerHTML = html;
@@ -7370,16 +7376,16 @@ function _extractFromText(text, filename) {
     var diCodes = text.match(/DI-[A-Z]+-\d+[A-Z]*/gi) || [];
 
     var html = '<div style="border:1px solid rgba(0,170,255,0.2);border-radius:8px;overflow:hidden">';
-    html += '<div style="padding:10px 14px;background:rgba(0,170,255,0.08);border-bottom:1px solid rgba(0,170,255,0.15)"><strong style="color:#1d1d1f"><i class="fas fa-file-invoice" style="color:#00aaff;margin-right:6px"></i>' + filename + '</strong> <span style="color:var(--steel);font-size:0.72rem">(' + text.length + ' chars)</span></div>';
+    html += '<div style="padding:10px 14px;background:rgba(0,170,255,0.08);border-bottom:1px solid rgba(0,170,255,0.15)"><strong style="color:var(--text,#1d1d1f)"><i class="fas fa-file-invoice" style="color:#00aaff;margin-right:6px"></i>' + filename + '</strong> <span style="color:var(--steel);font-size:0.72rem">(' + text.length + ' chars)</span></div>';
     html += '<div style="padding:12px 14px">';
 
     var sections = [
         { label:'NSNs Detected', items:nsns, color:'#00aaff', icon:'fa-barcode' },
-        { label:'CAGE Codes', items:cages, color:'#c9a84c', icon:'fa-building' },
+        { label:'CAGE Codes', items:cages, color:'var(--accent)', icon:'fa-building' },
         { label:'Dollar Amounts', items:dollars, color:'#00cc88', icon:'fa-dollar-sign' },
         { label:'Dates', items:dates, color:'#00aaff', icon:'fa-calendar' },
         { label:'Contract Numbers', items:contracts, color:'#ff6b6b', icon:'fa-file-contract' },
-        { label:'MIL-STD References', items:milSpecs, color:'#c9a84c', icon:'fa-shield-halved' },
+        { label:'MIL-STD References', items:milSpecs, color:'var(--accent)', icon:'fa-shield-halved' },
         { label:'DI Codes', items:diCodes, color:'#00aaff', icon:'fa-hashtag' }
     ];
 
@@ -7475,10 +7481,10 @@ function renderTemplates() {
     if (!list) return;
     var filtered = _templateFilter === 'all' ? _templates : _templates.filter(function(t) { return t.category === _templateFilter; });
     list.innerHTML = filtered.map(function(t) {
-        var catColor = t.category === 'contract' ? '#c9a84c' : t.category === 'engineering' ? '#00aaff' : t.category === 'logistics' ? '#00aaff' : '#00cc88';
+        var catColor = t.category === 'contract' ? 'var(--accent)' : t.category === 'engineering' ? '#00aaff' : t.category === 'logistics' ? '#00aaff' : '#00cc88';
         return '<div style="display:flex;align-items:flex-start;gap:10px;padding:10px;margin-bottom:4px;background:rgba(0,0,0,0.015);border-radius:8px;border-left:3px solid ' + catColor + '">'
             + '<i class="fas ' + t.icon + '" style="color:' + catColor + ';font-size:1.1rem;margin-top:2px"></i>'
-            + '<div style="flex:1"><div style="color:#1d1d1f;font-size:0.82rem;font-weight:600">' + t.name + ' <span style="color:var(--steel);font-size:0.68rem;font-weight:400">' + t.id + '</span></div><div style="color:var(--steel);font-size:0.75rem;margin-top:2px">' + t.desc + '</div><div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:6px">' + t.fields.map(function(f) { return '<span style="background:' + catColor + '11;color:' + catColor + ';padding:1px 6px;border-radius:8px;font-size:0.68rem">' + f + '</span>'; }).join('') + '</div></div>'
+            + '<div style="flex:1"><div style="color:var(--text,#1d1d1f);font-size:0.82rem;font-weight:600">' + t.name + ' <span style="color:var(--steel);font-size:0.68rem;font-weight:400">' + t.id + '</span></div><div style="color:var(--steel);font-size:0.75rem;margin-top:2px">' + t.desc + '</div><div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:6px">' + t.fields.map(function(f) { return '<span style="background:' + catColor + '11;color:' + catColor + ';padding:1px 6px;border-radius:8px;font-size:0.68rem">' + f + '</span>'; }).join('') + '</div></div>'
             + '<button onclick="downloadTemplate(\'' + t.id + '\')" style="background:none;border:1px solid ' + catColor + '44;color:' + catColor + ';cursor:pointer;border-radius:8px;padding:4px 10px;font-size:0.72rem;white-space:nowrap" title="Download"><i class="fas fa-download"></i> Get</button>'
             + '</div>';
     }).join('');
@@ -7600,7 +7606,7 @@ function loadRiskData() {
     let html = '';
     items.forEach(it => {
         html += '<tr style="border-bottom:1px solid rgba(0,0,0,0.04);">';
-        html += '<td style="padding:10px 8px;"><div style="color:#1d1d1f;font-weight:600;font-size:0.85rem;">'+it.part+'</div><div style="color:var(--text-muted);font-family:monospace;font-size:0.72rem;">'+it.nsn+'</div></td>';
+        html += '<td style="padding:10px 8px;"><div style="color:var(--text,#1d1d1f);font-weight:600;font-size:0.85rem;">'+it.part+'</div><div style="color:var(--text-muted);font-family:monospace;font-size:0.72rem;">'+it.nsn+'</div></td>';
         html += '<td style="padding:10px 8px;color:var(--steel);font-size:0.82rem;">'+it.supplier+'</td>';
         html += '<td style="padding:10px 8px;text-align:center;"><div style="display:inline-block;padding:4px 12px;border-radius:8px;font-weight:700;font-size:0.82rem;background:'+levelColors[it.level]+'22;color:'+levelColors[it.level]+';border:1px solid '+levelColors[it.level]+'44;">'+it.score+'</div></td>';
         html += '<td style="padding:10px 8px;font-size:0.78rem;color:var(--steel);">'+it.factors.map(f=>'<div style="margin-bottom:2px;">• '+f+'</div>').join('')+'</td>';
@@ -7694,10 +7700,10 @@ function generateReport() {
     const startDate = new Date(now.getTime() - period * 86400000);
 
     // Build preview
-    let html = '<div style="border:1px solid rgba(201,168,76,0.2);border-radius:8px;overflow:hidden;">';
-    html += '<div style="background:rgba(0,170,255,0.06);padding:16px;border-bottom:1px solid rgba(201,168,76,0.2);">';
+    let html = '<div style="border:1px solid rgba(0,170,255,0.15);border-radius:8px;overflow:hidden;">';
+    html += '<div style="background:rgba(0,170,255,0.06);padding:16px;border-bottom:1px solid rgba(0,170,255,0.15);">';
     html += '<div style="display:flex;justify-content:space-between;align-items:center;">';
-    html += '<div><span style="font-size:1.3rem;margin-right:8px;"><i class="fas '+(rt.icon||'fa-file')+'" style="color:'+(rt.color||'var(--accent)')+'"></i></span><strong style="color:#1d1d1f;font-size:1.05rem;">'+rt.title+'</strong></div>';
+    html += '<div><span style="font-size:1.3rem;margin-right:8px;"><i class="fas '+(rt.icon||'fa-file')+'" style="color:'+(rt.color||'var(--accent)')+'"></i></span><strong style="color:var(--text,#1d1d1f);font-size:1.05rem;">'+rt.title+'</strong></div>';
     html += '<span style="background:#00aaff22;color:#00aaff;padding:4px 10px;border-radius:8px;font-size:0.75rem;font-weight:600;">GENERATED</span></div>';
     html += '<div style="color:var(--text-muted);font-size:0.78rem;margin-top:6px;">Period: '+startDate.toLocaleDateString()+' — '+now.toLocaleDateString()+' | Records: '+totalRecords+' | Format: '+format.toUpperCase()+'</div></div>';
 
@@ -7714,7 +7720,7 @@ function generateReport() {
         const complianceScore = Math.min(baseScore + sectionVariance, 100).toFixed(1);
         html += '<div style="padding:10px 12px;margin-bottom:6px;background:rgba(0,0,0,0.015);border-radius:8px;border-left:3px solid '+(i%2===0?'#00aaff':'#00aaff')+';">';
         html += '<div style="display:flex;justify-content:space-between;align-items:center;">';
-        html += '<strong style="color:#1d1d1f;font-size:0.88rem;">'+(i+1)+'. '+section+'</strong>';
+        html += '<strong style="color:var(--text,#1d1d1f);font-size:0.88rem;">'+(i+1)+'. '+section+'</strong>';
         html += '<span style="color:var(--steel);font-size:0.78rem;">'+sectionRecords+' items | Score: '+complianceScore+'%</span></div></div>';
     });
 
@@ -7959,7 +7965,7 @@ function loadPredictiveData() {
     items.forEach(it => {
         const confColor = it.confidence >= 90 ? '#ff3b30' : it.confidence >= 80 ? '#ff9500' : it.confidence >= 70 ? '#ffcc00' : '#34c759';
         html += '<tr style="border-bottom:1px solid rgba(0,0,0,0.04);'+(it.urgent?'background:rgba(255,59,48,0.04);':'') +'">';
-        html += '<td style="padding:10px 8px;"><div style="color:#1d1d1f;font-weight:600;font-size:0.82rem;">'+it.system+'</div><div style="color:var(--text-muted);font-size:0.72rem;">'+it.component+'</div></td>';
+        html += '<td style="padding:10px 8px;"><div style="color:var(--text,#1d1d1f);font-weight:600;font-size:0.82rem;">'+it.system+'</div><div style="color:var(--text-muted);font-size:0.72rem;">'+it.component+'</div></td>';
         html += '<td style="padding:10px 8px;color:var(--steel);font-size:0.8rem;">'+it.mode+'</td>';
         html += '<td style="padding:10px 8px;text-align:center;"><div style="display:inline-block;padding:4px 10px;border-radius:8px;font-weight:700;font-size:0.82rem;background:'+confColor+'22;color:'+confColor+';border:1px solid '+confColor+'44;">'+it.confidence+'%</div></td>';
         html += '<td style="padding:10px 8px;text-align:center;color:'+(it.urgent?'#ff3b30':'var(--steel)')+';font-weight:'+(it.urgent?'700':'400')+';font-size:0.82rem;">'+it.eta+(it.urgent?' <i class="fas fa-exclamation-triangle"></i>':'')+'</td>';
@@ -8246,11 +8252,11 @@ function renderDiscrepancyTable(discrepancies) {
 
     tbody.innerHTML = window._s4Safe(filtered.map(d => '<tr style="border-color:var(--border)">' +
         '<td style="padding:5px 8px;border-color:var(--border);white-space:nowrap"><i class="fas ' + (sevIcons[d.severity]||'fa-circle') + '" style="color:' + (sevColors[d.severity]||'#888') + ';margin-right:4px"></i><span style="color:' + (sevColors[d.severity]||'#888') + ';font-weight:600;text-transform:uppercase;font-size:.7rem">' + d.severity + '</span></td>' +
-        '<td style="padding:5px 8px;border-color:var(--border);color:#1d1d1f">' + d.category + '</td>' +
+        '<td style="padding:5px 8px;border-color:var(--border);color:var(--text,#1d1d1f)">' + d.category + '</td>' +
         '<td style="padding:5px 8px;border-color:var(--border);font-family:monospace;font-size:.75rem">' + d.item + '</td>' +
         '<td style="padding:5px 8px;border-color:var(--border)">' + d.issue + '</td>' +
         '<td style="padding:5px 8px;border-color:var(--border);color:#6e6e73">' + d.previous + '</td>' +
-        '<td style="padding:5px 8px;border-color:var(--border);color:#1d1d1f">' + d.current + '</td>' +
+        '<td style="padding:5px 8px;border-color:var(--border);color:var(--text,#1d1d1f)">' + d.current + '</td>' +
         '<td style="padding:5px 8px;border-color:var(--border);color:' + (sevColors[d.severity]||'#888') + '">' + (d.impact||'') + '</td>' +
     '</tr>').join(''));
 
@@ -8384,10 +8390,10 @@ function calcLifecycle() {
     if (output) {
         output.innerHTML = '<div style="padding:8px 10px;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.15);border-radius:8px;font-size:0.82rem;">' +
             '<div style="display:grid;grid-template-columns:1fr 1fr;gap:1px 6px;margin-bottom:4px">' +
-            '<div style="display:flex;justify-content:space-between;padding:2px 0;border-bottom:1px solid rgba(0,0,0,0.04)"><span style="color:var(--steel)">Acquisition</span><strong style="color:#1d1d1f">' + fmt(totalAcq) + '</strong></div>' +
-            '<div style="display:flex;justify-content:space-between;padding:2px 0;border-bottom:1px solid rgba(0,0,0,0.04)"><span style="color:var(--steel)">Sustainment</span><strong style="color:#1d1d1f">' + fmt(totalSust) + '</strong></div>' +
-            '<div style="display:flex;justify-content:space-between;padding:2px 0;border-bottom:1px solid rgba(0,0,0,0.04)"><span style="color:var(--steel)">DMSMS (4%)</span><strong style="color:#1d1d1f">' + fmt(dmsmsCost) + '</strong></div>' +
-            '<div style="display:flex;justify-content:space-between;padding:2px 0;border-bottom:1px solid rgba(0,0,0,0.04)"><span style="color:var(--steel)">Tech Refresh</span><strong style="color:#1d1d1f">' + fmt(techRefresh) + '</strong></div>' +
+            '<div style="display:flex;justify-content:space-between;padding:2px 0;border-bottom:1px solid rgba(0,0,0,0.04)"><span style="color:var(--steel)">Acquisition</span><strong style="color:var(--text,#1d1d1f)">' + fmt(totalAcq) + '</strong></div>' +
+            '<div style="display:flex;justify-content:space-between;padding:2px 0;border-bottom:1px solid rgba(0,0,0,0.04)"><span style="color:var(--steel)">Sustainment</span><strong style="color:var(--text,#1d1d1f)">' + fmt(totalSust) + '</strong></div>' +
+            '<div style="display:flex;justify-content:space-between;padding:2px 0;border-bottom:1px solid rgba(0,0,0,0.04)"><span style="color:var(--steel)">DMSMS (4%)</span><strong style="color:var(--text,#1d1d1f)">' + fmt(dmsmsCost) + '</strong></div>' +
+            '<div style="display:flex;justify-content:space-between;padding:2px 0;border-bottom:1px solid rgba(0,0,0,0.04)"><span style="color:var(--steel)">Tech Refresh</span><strong style="color:var(--text,#1d1d1f)">' + fmt(techRefresh) + '</strong></div>' +
             '</div>' +
             '<div style="display:flex;justify-content:space-between;align-items:center;padding:4px 6px;background:rgba(0,170,255,0.06);border-radius:6px">' +
             '<span style="color:#00aaff;font-weight:700;font-size:0.78rem"><i class="fas fa-chart-line" style="margin-right:4px"></i>S4 Savings</span>' +
@@ -8463,7 +8469,7 @@ function loadSBOMData() {
             var statusColor = c.status === 'verified' ? '#00cc66' : c.status === 'flagged' ? '#ff3b30' : '#ffa500';
             var cveColor = c.cves > 0 ? '#ff3b30' : '#00cc66';
             return '<tr style="border-bottom:1px solid rgba(0,0,0,0.04)">' +
-                '<td style="padding:8px;font-size:0.82rem;color:#1d1d1f">' + c.name + '</td>' +
+                '<td style="padding:8px;font-size:0.82rem;color:var(--text,#1d1d1f)">' + c.name + '</td>' +
                 '<td style="padding:8px;font-size:0.82rem;color:var(--steel);font-family:monospace">' + c.version + '</td>' +
                 '<td style="padding:8px;font-size:0.78rem;color:var(--steel);text-align:center">' + c.type + '</td>' +
                 '<td style="padding:8px;font-size:0.82rem;text-align:center;color:' + cveColor + ';font-weight:600">' + c.cves + '</td>' +
@@ -8622,7 +8628,7 @@ function loadSubmissionHistory() {
     container.innerHTML = window._s4Safe(_subHistory.slice(0, 20).map(h => {
         const sevColor = h.stats.criticals > 3 ? '#ff4444' : h.stats.criticals > 0 ? '#ffa500' : '#00aaff';
         return '<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 8px;border-bottom:1px solid var(--border);font-size:.78rem">' +
-            '<div><span style="color:#1d1d1f;font-weight:600">' + (SUBMISSION_TYPES[h.meta.docType]||h.meta.docType) + '</span> <span style="color:var(--steel)">— ' + h.meta.program + ' (' + h.meta.branch + ')</span></div>' +
+            '<div><span style="color:var(--text,#1d1d1f);font-weight:600">' + (SUBMISSION_TYPES[h.meta.docType]||h.meta.docType) + '</span> <span style="color:var(--steel)">— ' + h.meta.program + ' (' + h.meta.branch + ')</span></div>' +
             '<div style="display:flex;gap:12px;align-items:center">' +
                 '<span style="color:' + sevColor + ';font-weight:600">' + h.stats.discrepancies + ' disc. / ' + h.stats.criticals + ' crit.</span>' +
                 '<span style="color:var(--steel);font-size:.72rem">' + new Date(h.timestamp).toLocaleDateString() + '</span>' +
@@ -8653,7 +8659,7 @@ function clearSubmissionReview() {
     document.getElementById('subDiscrepancyTable').innerHTML = '';
     document.getElementById('subResultsContainer').style.display = 'none';
     document.getElementById('subAiSummary').style.display = 'none';
-    document.getElementById('subUploadZone').innerHTML = '<i class="fas fa-cloud-upload-alt" style="font-size:2rem;color:#c9a84c;margin-bottom:8px;display:block"></i><div style="color:#c9a84c;font-weight:600;font-size:.9rem">Upload Submission Data</div><div style="color:var(--steel);font-size:.78rem;margin-top:4px">CSV, Excel (.xlsx), XML, JSON, PDF, or paste data below</div><div style="color:var(--steel);font-size:.72rem;margin-top:2px">Drag & drop or click to browse</div>';
+    document.getElementById('subUploadZone').innerHTML = '<i class="fas fa-cloud-upload-alt" style="font-size:2rem;color:var(--accent);margin-bottom:8px;display:block"></i><div style="color:var(--accent);font-weight:600;font-size:.9rem">Upload Submission Data</div><div style="color:var(--steel);font-size:.78rem;margin-top:4px">CSV, Excel (.xlsx), XML, JSON, PDF, or paste data below</div><div style="color:var(--steel);font-size:.72rem;margin-top:2px">Drag & drop or click to browse</div>';
     document.getElementById('subVendor').value = '';
     document.getElementById('subCustomPlatform').value = '';
     document.getElementById('subCustomDocType').value = '';

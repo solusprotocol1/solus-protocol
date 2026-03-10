@@ -11,7 +11,7 @@
     // -- Status Workflow States --
     var ACQ_STATUSES = ['Draft','Submitted','Under Review','Approved','In Execution','Complete'];
     var ACQ_STATUS_COLORS = {
-        'Draft':'#8b949e','Submitted':'#00aaff','Under Review':'#c9a84c',
+        'Draft':'#8b949e','Submitted':'#00aaff','Under Review':'#ffa500',
         'Approved':'#4ecb71','In Execution':'#a855f7','Complete':'#00cc88'
     };
 
@@ -98,7 +98,7 @@
     function _riskColor(score) {
         if (score >= 75) return '#ff3333';
         if (score >= 50) return '#ff9500';
-        if (score >= 25) return '#c9a84c';
+        if (score >= 25) return '#ffa500';
         return '#4ecb71';
     }
 
@@ -121,7 +121,7 @@
         overlay.onclick = function(e) { if (e.target === overlay) document.body.removeChild(overlay); };
         var inner = document.createElement('div');
         inner.style.cssText = 'background:#fff;border:1px solid rgba(0,0,0,0.12);border-radius:6px;padding:20px;max-width:800px;width:90%;max-height:80vh;overflow:auto';
-        inner.innerHTML = '<div style="display:flex;justify-content:space-between;margin-bottom:12px"><h3 style="color:#1d1d1f;margin:0"><i class="fas fa-history" style="color:#c9a84c;margin-right:8px"></i>Audit Log' + (rowId ? ' - Row ' + rowId : '') + '</h3></div>' + html;
+        inner.innerHTML = '<div style="display:flex;justify-content:space-between;margin-bottom:12px"><h3 style="color:var(--text,#1d1d1f);margin:0"><i class="fas fa-history" style="color:var(--accent,#00aaff);margin-right:8px"></i>Audit Log' + (rowId ? ' - Row ' + rowId : '') + '</h3></div>' + html;
         overlay.appendChild(inner);
         document.body.appendChild(overlay);
     }
@@ -180,7 +180,7 @@
 
         var html = '<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:16px">';
         html += '<div class="stat-mini" style="text-align:center"><div class="stat-mini-val" style="color:#00aaff;font-size:1.4rem">' + totalVessels + '</div><div class="stat-mini-lbl">Total Vessels</div></div>';
-        html += '<div class="stat-mini" style="text-align:center"><div class="stat-mini-val" style="color:#c9a84c;font-size:1.4rem">' + _formatDollar(totalCost) + '</div><div class="stat-mini-lbl">Total Cost</div></div>';
+        html += '<div class="stat-mini" style="text-align:center"><div class="stat-mini-val" style="color:var(--accent,#00aaff);font-size:1.4rem">' + _formatDollar(totalCost) + '</div><div class="stat-mini-lbl">Total Cost</div></div>';
         html += '<div class="stat-mini" style="text-align:center"><div class="stat-mini-val" style="color:var(--steel);font-size:1.4rem">' + avgAge + ' yrs</div><div class="stat-mini-lbl">Avg Age</div></div>';
         html += '<div class="stat-mini" style="text-align:center"><div class="stat-mini-val" style="color:#4ecb71;font-size:1.4rem">' + pomPct + '%</div><div class="stat-mini-lbl">POM Funded</div></div>';
         html += '<div class="stat-mini" style="text-align:center"><div class="stat-mini-val" style="color:' + _riskColor(avgRisk) + ';font-size:1.4rem">' + avgRisk + '</div><div class="stat-mini-lbl">Avg Risk Score</div></div>';
@@ -201,7 +201,7 @@
         });
         html += '</div></div>';
         // Material condition dropdown
-        var condColors = {Excellent:'#4ecb71',Good:'#00aaff',Fair:'#c9a84c',Poor:'#ff9500',Critical:'#ff3333',Unknown:'#555'};
+        var condColors = {Excellent:'#4ecb71',Good:'#00aaff',Fair:'#ffa500',Poor:'#ff9500',Critical:'#ff3333',Unknown:'#555'};
         var condOrder = ['Excellent','Good','Fair','Poor','Critical'];
         html += '<div id="acqDDCondTrigger" class="stat-mini" style="flex:1;position:relative;cursor:pointer;overflow:visible">';
         var topCond = Object.keys(condCounts).sort(function(a,b){ return condCounts[b]-condCounts[a]; })[0] || '-';
@@ -303,7 +303,7 @@
                     html += '<button class="acq-btn acq-btn-edit" onclick="acqEditRow(\'' + rowKey + '\')" title="Edit"><i class="fas fa-pen"></i></button> ';
                     html += '<button class="acq-btn acq-btn-del" onclick="acqDeleteRow(\'' + rowKey + '\')" title="Delete"><i class="fas fa-trash"></i></button> ';
                     html += '<button class="acq-btn" onclick="acqToggleRowDetail(\'' + rowKey + '\')" title="Details" style="background:rgba(168,85,247,0.15);border-color:rgba(168,85,247,0.3);color:#a855f7;padding:3px 6px;font-size:0.7rem;border-radius:3px;cursor:pointer"><i class="fas fa-expand"></i></button> ';
-                    html += '<button class="acq-btn" onclick="acqShowAuditLog(\'' + rowKey + '\')" title="History" style="background:rgba(201,168,76,0.12);border-color:rgba(201,168,76,0.25);color:#c9a84c;padding:3px 6px;font-size:0.7rem;border-radius:3px;cursor:pointer"><i class="fas fa-history"></i></button>';
+                    html += '<button class="acq-btn" onclick="acqShowAuditLog(\'' + rowKey + '\')" title="History" style="background:rgba(0,170,255,0.12);border-color:rgba(0,170,255,0.25);color:var(--accent,#00aaff);padding:3px 6px;font-size:0.7rem;border-radius:3px;cursor:pointer"><i class="fas fa-history"></i></button>';
                     html += '</td>';
                 }
                 html += '</tr>';
@@ -376,7 +376,7 @@
         var rColor = _riskColor(risk);
         var html = '<div style="background:rgba(0,170,255,0.03);border:1px solid rgba(0,170,255,0.12);border-radius:3px;padding:16px;margin:4px 0 8px">';
         html += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">';
-        html += '<h4 style="margin:0;color:#1d1d1f"><i class="fas fa-ship" style="color:#c9a84c;margin-right:8px"></i>' + (row.hull_number || 'Unknown') + ' - ' + (row.hull_type || '') + '</h4>';
+        html += '<h4 style="margin:0;color:var(--text,#1d1d1f)"><i class="fas fa-ship" style="color:var(--accent,#00aaff);margin-right:8px"></i>' + (row.hull_number || 'Unknown') + ' - ' + (row.hull_type || '') + '</h4>';
         html += '<div style="display:inline-block;padding:4px 12px;border-radius:3px;font-weight:700;font-size:0.88rem;background:' + rColor + '22;color:' + rColor + ';border:1px solid ' + rColor + '44">Risk: ' + risk + '/100</div>';
         html += '</div>';
         html += '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;font-size:0.82rem">';
@@ -385,7 +385,7 @@
             if (col.type === 'number' && col.key.indexOf('cost') >= 0 && val !== '-') val = _formatDollar(val);
             else if (col.type === 'date' && val !== '-') val = _fmtDate(val);
             else if (col.type === 'number' && val !== '-') val = Number(val).toLocaleString();
-            html += '<div><span style="color:var(--muted);font-size:0.72rem;display:block">' + col.label + '</span><span style="color:#1d1d1f">' + val + '</span></div>';
+            html += '<div><span style="color:var(--muted);font-size:0.72rem;display:block">' + col.label + '</span><span style="color:var(--text,#1d1d1f)">' + val + '</span></div>';
         });
         html += '</div>';
         // Mini Gantt for this vessel
@@ -956,7 +956,7 @@
         html += '<div class="acq-gantt-legend" style="margin-bottom:8px">';
         html += '<span><span class="acq-gantt-dot" style="background:#4ecb71"></span> Lifecycle Span</span>';
         html += '<span><span class="acq-gantt-dot" style="background:#00aaff"></span> Date Requested</span>';
-        html += '<span><span class="acq-gantt-dot" style="background:#c9a84c"></span> Planned ROH</span>';
+        html += '<span><span class="acq-gantt-dot" style="background:#ffa500"></span> Planned ROH</span>';
         html += '<span><span class="acq-gantt-dot" style="background:#ff4444"></span> Needed By</span>';
         html += '<span><span class="acq-gantt-dot" style="background:#a855f7"></span> Planned MI</span>';
         html += '</div>';
@@ -988,14 +988,14 @@
 
         // Vessel rows
         data.forEach(function (r, idx) {
-            var condCls = { Excellent: '#4ecb71', Good: '#00aaff', Fair: '#c9a84c', Poor: '#ff9500', Critical: '#ff3333' };
+            var condCls = { Excellent: '#4ecb71', Good: '#00aaff', Fair: '#ffa500', Poor: '#ff9500', Critical: '#ff3333' };
             var risk = _calculateRiskScore(r);
             var bgAlt = idx % 2 === 0 ? 'rgba(0,0,0,0.01)' : 'rgba(0,0,0,0.03)';
             html += '<div style="display:flex;min-width:' + (labelW + totalWidth) + 'px;border-bottom:1px solid rgba(0,0,0,0.04);background:' + bgAlt + '">';
             // Label column
             var stickyBg = idx % 2 === 0 ? '#f5f5f7' : '#eef0f4';
             html += '<div style="flex:0 0 ' + labelW + 'px;padding:10px 8px;font-size:0.8rem;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;background:' + stickyBg + ';position:sticky;left:0;z-index:10;border-right:1px solid rgba(0,0,0,0.06)">';
-            html += '<strong style="color:#1d1d1f">' + (r.hull_number || '-') + '</strong>';
+            html += '<strong style="color:var(--text,#1d1d1f)">' + (r.hull_number || '-') + '</strong>';
             if (r.material_condition) html += ' <span style="font-size:0.6rem;padding:1px 4px;border-radius:2px;background:' + (condCls[r.material_condition]||'#555') + '22;color:' + (condCls[r.material_condition]||'#555') + '">' + r.material_condition + '</span>';
             html += '<div style="font-size:0.65rem;color:var(--muted)">' + (r.hull_type || '') + ' | Risk: <span style="color:' + _riskColor(risk) + '">' + risk + '</span></div>';
             html += '</div>';
@@ -1020,7 +1020,7 @@
             // Milestone markers
             var markers = [
                 { key: 'date_requested', color: '#00aaff', label: 'Requested' },
-                { key: 'planned_roh', color: '#c9a84c', label: 'Planned ROH' },
+                { key: 'planned_roh', color: '#ffa500', label: 'Planned ROH' },
                 { key: 'needed_completion', color: '#ff4444', label: 'Needed By' },
                 { key: 'planned_mi', color: '#a855f7', label: 'Planned MI' }
             ];
@@ -1057,14 +1057,14 @@
         var selLabel = !selectedSet ? 'All Programs (' + _acqPrograms.length + ')' : selectedSet.length + ' of ' + _acqPrograms.length + ' selected';
         html += '<span>' + selLabel + '</span> <i class="fas fa-chevron-down" style="font-size:0.65rem;margin-left:8px;opacity:0.6"></i></button>';
         html += '<div id="acqProgDropdownPanel" style="display:none;position:absolute;top:100%;left:0;z-index:100;min-width:280px;max-height:300px;overflow-y:auto;background:#fff;border:1px solid rgba(0,0,0,0.12);border-radius:3px;margin-top:4px;padding:8px 0;box-shadow:0 8px 24px rgba(0,0,0,0.1)">';
-        html += '<label style="display:flex;align-items:center;gap:8px;padding:6px 12px;cursor:pointer;font-size:0.82rem;color:#86868b;border-bottom:1px solid rgba(0,0,0,0.06);margin-bottom:4px"><input type="checkbox" ' + (!selectedSet ? 'checked' : '') + ' onchange="acqSelectAllPrograms(this.checked)" style="accent-color:#00aaff;width:15px;height:15px"> <strong style="color:#1d1d1f">All Programs</strong></label>';
+        html += '<label style="display:flex;align-items:center;gap:8px;padding:6px 12px;cursor:pointer;font-size:0.82rem;color:#86868b;border-bottom:1px solid rgba(0,0,0,0.06);margin-bottom:4px"><input type="checkbox" ' + (!selectedSet ? 'checked' : '') + ' onchange="acqSelectAllPrograms(this.checked)" style="accent-color:#00aaff;width:15px;height:15px"> <strong style="color:var(--text,#1d1d1f)">All Programs</strong></label>';
         _acqPrograms.forEach(function (p) {
             var checked = !selectedSet || selectedSet.indexOf(p) >= 0;
             var safeP = p.replace(/'/g, "\\'").replace(/"/g, '&quot;');
             html += '<label style="display:flex;align-items:center;gap:8px;padding:4px 12px;cursor:pointer;font-size:0.82rem;color:var(--steel)" onmouseover="this.style.background=\'rgba(0,170,255,0.06)\'" onmouseout="this.style.background=\'transparent\'">';
             html += '<input type="checkbox" ' + (checked ? 'checked' : '') + ' onchange="acqToggleProgram(\'' + safeP + '\',this.checked)" style="accent-color:#00aaff;width:15px;height:15px"> ' + p + '</label>';
         });
-        html += '<div style="border-top:1px solid rgba(0,0,0,0.06);margin-top:4px;padding:6px 12px"><div style="display:flex;gap:6px"><input id="acqNewProgInput" type="text" placeholder="Add new program..." style="flex:1;background:#f5f5f7;color:#1d1d1f;border:1px solid rgba(0,0,0,0.12);border-radius:3px;padding:5px 8px;font-size:0.8rem" onkeydown="if(event.key===\'Enter\')acqAddProgram()">';
+        html += '<div style="border-top:1px solid rgba(0,0,0,0.06);margin-top:4px;padding:6px 12px"><div style="display:flex;gap:6px"><input id="acqNewProgInput" type="text" placeholder="Add new program..." style="flex:1;background:#f5f5f7;color:var(--text,#1d1d1f);border:1px solid rgba(0,0,0,0.12);border-radius:3px;padding:5px 8px;font-size:0.8rem" onkeydown="if(event.key===\'Enter\')acqAddProgram()">';
         html += '<button class="acq-prog-btn" onclick="acqAddProgram()" style="padding:4px 10px;font-size:0.78rem"><i class="fas fa-plus"></i></button></div></div>';
         html += '</div></div>';
         if (selectedSet && selectedSet.length < _acqPrograms.length) {

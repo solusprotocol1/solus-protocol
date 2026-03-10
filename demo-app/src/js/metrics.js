@@ -61,7 +61,7 @@ async function loadPerformanceMetrics() {
             if (_metricsChartTypes) _metricsChartTypes.destroy();
             _metricsChartTypes = new Chart(typesCtx, {
                 type: 'doughnut',
-                data: { labels: Object.keys(types), datasets: [{ data: Object.values(types), backgroundColor: ['#00aaff','#c9a84c','#38bdf8','#ff6b6b','#00aaff','#fb923c','#06b6d4'], borderWidth: 0 }] },
+                data: { labels: Object.keys(types), datasets: [{ data: Object.values(types), backgroundColor: ['#00aaff','#ffa500','#38bdf8','#ff6b6b','#00aaff','#fb923c','#06b6d4'], borderWidth: 0 }] },
                 options: { responsive: true, plugins: { legend: { position: 'right', labels: { color: '#6e6e73', font: { size: 10 }, padding: 8 } } } }
             });
         }
@@ -121,7 +121,7 @@ async function loadPerformanceMetrics() {
             if (typeof _metricsChartTypes !== 'undefined' && _metricsChartTypes) _metricsChartTypes.destroy();
             _metricsChartTypes = new Chart(typesCtx, {
                 type: 'doughnut',
-                data: { labels: Object.keys(types), datasets: [{ data: Object.values(types), backgroundColor: ['#00aaff','#c9a84c','#38bdf8','#ff6b6b','#00aaff','#fb923c','#06b6d4'], borderWidth: 0 }] },
+                data: { labels: Object.keys(types), datasets: [{ data: Object.values(types), backgroundColor: ['#00aaff','#ffa500','#38bdf8','#ff6b6b','#00aaff','#fb923c','#06b6d4'], borderWidth: 0 }] },
                 options: { responsive: true, plugins: { legend: { position: 'right', labels: { color: '#6e6e73', font: { size: 10 }, padding: 8 } } } }
             });
         }
@@ -574,14 +574,14 @@ function createS4Chart(canvasId, config) {
 // Color palette for Anchor-S4 charts
 var S4_CHART_COLORS = {
     accent: '#00aaff',
-    gold: '#c9a84c',
+    gold: '#ffa500',
     red: '#ff4444',
     green: '#00cc66',
     orange: '#ff8c00',
     purple: '#8b5cf6',
     teal: '#14b8a6',
     pink: '#f472b6',
-    series: ['#00aaff','#c9a84c','#ff4444','#00cc66','#ff8c00','#8b5cf6','#14b8a6','#f472b6','rgba(0,170,255,0.5)','rgba(201,168,76,0.5)']
+    series: ['#00aaff','#ffa500','#ff4444','#00cc66','#ff8c00','#8b5cf6','#14b8a6','#f472b6','rgba(0,170,255,0.5)','rgba(255,165,0,0.5)']
 };
 
 // KPI animation counter
@@ -777,8 +777,8 @@ function renderComplianceCharts() {
             },{
                 label: 'Target',
                 data: [95, 95, 100, 100, 90, 85, 95],
-                backgroundColor: 'rgba(201,168,76,0.06)',
-                borderColor: 'rgba(201,168,76,0.5)',
+                backgroundColor: 'rgba(255,165,0,0.06)',
+                borderColor: 'rgba(255,165,0,0.5)',
                 borderWidth: 1,
                 borderDash: [4,4],
                 pointRadius: 2
@@ -917,7 +917,7 @@ function renderLifecycleCharts() {
             labels: ['Acquisition','Sustainment (O&S)','DMSMS / Obsol.','Disposal','Personnel','Training'],
             datasets: [{
                 data: (window._lifecycleChartData && window._lifecycleChartData.length === 6) ? window._lifecycleChartData : [28, 42, 12, 5, 8, 5],
-                backgroundColor: ['#00aaff','#c9a84c','#ff4444','#6e6e73','#00cc66','#9b59b6'],
+                backgroundColor: ['#00aaff','#ffa500','#ff4444','#6e6e73','#00cc66','#a855f7'],
                 borderWidth: 0,
                 hoverOffset: 8
             }]
@@ -1071,17 +1071,17 @@ function calcLifecycle() {
             + '<div class="section-label"><i class="fas fa-clock"></i> LIFECYCLE COST BREAKDOWN \u2014 ' + platName + '</div>'
             + '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;font-size:0.85rem;margin-bottom:16px">'
             + '<div><span style="color:var(--steel)">Acquisition (' + acqPct + '%)</span><br><strong style="color:#00aaff">' + fmtM(acqTotal) + '</strong></div>'
-            + '<div><span style="color:var(--steel)">Sustainment (' + sustPct + '%)</span><br><strong style="color:#c9a84c">' + fmtM(sustTotal) + '</strong></div>'
+            + '<div><span style="color:var(--steel)">Sustainment (' + sustPct + '%)</span><br><strong style="color:#ffa500">' + fmtM(sustTotal) + '</strong></div>'
             + '<div><span style="color:var(--steel)">DMSMS/Obsol (' + dmsmsPct + '%)</span><br><strong style="color:#ff4444">' + fmtM(dmsmsCost) + '</strong></div>'
             + '<div><span style="color:var(--steel)">Disposal (' + disposalPct + '%)</span><br><strong style="color:#6e6e73">' + fmtM(disposalCost) + '</strong></div>'
             + '<div><span style="color:var(--steel)">Personnel (' + personnelPct + '%)</span><br><strong style="color:#00cc66">' + fmtM(personnelCost) + '</strong></div>'
-            + '<div><span style="color:var(--steel)">Training (' + trainingPct + '%)</span><br><strong style="color:#9b59b6">' + fmtM(trainingCost) + '</strong></div>'
+            + '<div><span style="color:var(--steel)">Training (' + trainingPct + '%)</span><br><strong style="color:#a855f7">' + fmtM(trainingCost) + '</strong></div>'
             + '</div>'
             + '<hr style="border-color:var(--border);margin:12px 0">'
             + '<div style="display:flex;justify-content:space-between;align-items:center">'
             + '<div><span style="color:var(--steel);font-size:0.82rem">Total Ownership Cost</span><br><span style="font-size:1.5rem;font-weight:800;color:#00aaff">' + fmtM(totalCost) + '</span></div>'
             + '<div><span style="color:var(--steel);font-size:0.82rem">Cost per Op Hour</span><br><span style="font-size:1.1rem;font-weight:700;color:var(--accent)">$' + costPerHour.toFixed(0) + '/hr</span></div>'
-            + '<div><span style="color:var(--steel);font-size:0.82rem">Fleet Size</span><br><span style="font-size:1.1rem;font-weight:700;color:#1d1d1f">' + fleetSize + ' units \u00d7 ' + serviceLife + ' yrs</span></div>'
+            + '<div><span style="color:var(--steel);font-size:0.82rem">Fleet Size</span><br><span style="font-size:1.1rem;font-weight:700;color:var(--text,#1d1d1f)">' + fleetSize + ' units \u00d7 ' + serviceLife + ' yrs</span></div>'
             + '</div>'
             + '</div>';
     }
@@ -1492,11 +1492,11 @@ function showCalDay(day) {
     var items = actionDates[day] || [];
     if (items.length === 0) { detail.style.display = 'none'; return; }
     var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-    var html = '<div style="font-weight:700;color:#1d1d1f;margin-bottom:6px"><i class="fas fa-calendar-day" style="color:var(--accent);margin-right:4px"></i>' + months[_calMonth] + ' ' + day + ', ' + _calYear + '</div>';
+    var html = '<div style="font-weight:700;color:var(--text,#1d1d1f);margin-bottom:6px"><i class="fas fa-calendar-day" style="color:var(--accent);margin-right:4px"></i>' + months[_calMonth] + ' ' + day + ', ' + _calYear + '</div>';
     items.forEach(function(item) {
         var col = item.severity === 'critical' ? '#ff3333' : (item.severity === 'warning' ? '#ffa500' : '#00aaff');
         html += '<div style="padding:6px 8px;background:rgba(0,0,0,0.2);border-left:3px solid ' + col + ';border-radius:4px;margin-bottom:4px">'
-            + '<div style="font-weight:600;color:#1d1d1f;font-size:0.8rem">' + (item.title || 'Action Item') + '</div>'
+            + '<div style="font-weight:600;color:var(--text,#1d1d1f);font-size:0.8rem">' + (item.title || 'Action Item') + '</div>'
             + (item.owner ? '<div style="font-size:0.72rem;color:var(--steel)">Owner: ' + item.owner + '</div>' : '')
             + '</div>';
     });

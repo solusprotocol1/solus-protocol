@@ -67,12 +67,6 @@
     <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" integrity="sha384-9nhczxUqK87bcKHh20fSQcTGD4qq5GhayNYSYWqwBkINBhOfQLg/P5HG5lF1urn4" crossorigin="anonymous"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/qrcode@1.5.4/build/qrcode.min.js"></script>
     <!-- CSS is imported via main.js and extracted by Vite -->
-  <script type="module" crossorigin src="/prod-app/dist/assets/index-CSKIuw29.js"></script>
-  <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/engine-CccW-nR3.js">
-  <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/navigation-A6NaObdY.js">
-  <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/metrics-vUB9g3hN.js">
-  <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/enhancements-DHRBxs5e.js">
-  <link rel="stylesheet" crossorigin href="/prod-app/dist/assets/index-oYwcXZqT.css">
 </head>
 <body class="light-mode" data-theme="light">
 <!-- Light mode always on -->
@@ -433,15 +427,15 @@
             <div class="hub-grid">
                 
                 <div class="hub-card" data-section="sectionILS" onclick="showSection('sectionILS')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showSection('sectionILS')}">
-                    <div class="hc-icon" style="background:rgba(0,170,255,0.1);"><i class="fas fa-brain" style="color:var(--accent);"></i></div>
-                    <div class="hc-title">Anchor-S4 <span style="background:rgba(0,170,255,0.15);color:var(--accent);font-size:0.65rem;padding:2px 8px;border-radius:8px;font-weight:600;margin-left:6px;">23+ TOOLS</span></div>
+                    <div class="hc-icon" style="background:rgba(201,168,76,0.1);"><i class="fas fa-brain" style="color:#c9a84c;"></i></div>
+                    <div class="hc-title">Anchor-S4 <span style="background:rgba(201,168,76,0.15);color:#c9a84c;font-size:0.65rem;padding:2px 8px;border-radius:8px;font-weight:600;margin-left:6px;">23+ TOOLS</span></div>
                     <div class="hc-desc">23+ integrated defense tools: Gap Analysis, DMSMS, Readiness, Compliance, Risk, Predictive Maintenance, ROI, Audit Vault, Acquisition Planner, Program Milestones, and more.</div>
                     <div class="hc-meta"><i class="fas fa-tools"></i> 23+ ILS tools &bull; AI-powered</div>
                     <div class="hc-arrow"><i class="fas fa-chevron-right"></i></div>
                 </div>
                 <div class="hub-card" data-section="sectionLog" onclick="showSection('sectionLog')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showSection('sectionLog')}">
-                    <div class="hc-icon" style="background:rgba(0,170,255,0.1);"><i class="fas fa-list" style="color:var(--accent);"></i></div>
-                    <div class="hc-title">Transaction Log <span style="background:rgba(0,170,255,0.15);color:var(--accent);font-size:0.65rem;padding:2px 8px;border-radius:8px;font-weight:600;margin-left:6px;">AUDIT</span></div>
+                    <div class="hc-icon" style="background:rgba(155,89,182,0.1);"><i class="fas fa-list" style="color:#9b59b6;"></i></div>
+                    <div class="hc-title">Transaction Log <span style="background:rgba(155,89,182,0.15);color:#9b59b6;font-size:0.65rem;padding:2px 8px;border-radius:8px;font-weight:600;margin-left:6px;">AUDIT</span></div>
                     <div class="hc-desc">Full audit trail of every anchored record with XRPL explorer links, timestamps, and hash verification status.</div>
                     <div class="hc-meta"><i class="fas fa-link"></i> On-chain explorer links</div>
                     <div class="hc-arrow"><i class="fas fa-chevron-right"></i></div>
@@ -799,7 +793,7 @@
                     <div class="breadcrumb-text">Anchor-S4</div>
                 </div>
                 <!-- ═══ ILS WORKSPACE ═══ -->
-                <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 20px;margin-bottom:16px;background:linear-gradient(135deg,rgba(0,170,255,0.04) 0%,rgba(0,170,255,0.03) 100%);border:1px solid rgba(0,170,255,0.1);border-radius:8px;">
+                <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 20px;margin-bottom:16px;background:linear-gradient(135deg,rgba(0,170,255,0.04) 0%,rgba(201,168,76,0.03) 100%);border:1px solid rgba(0,170,255,0.1);border-radius:8px;">
                     <div style="display:flex;align-items:center;gap:14px;">
                         <div style="width:42px;height:42px;border-radius:8px;background:rgba(0,170,255,0.1);display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="fas fa-anchor" style="color:#00aaff;font-size:1.1rem"></i></div>
                         <div>
@@ -817,7 +811,7 @@
                                 <button onclick="showTeamPanel();this.closest('details').open=false" style="display:flex;align-items:center;gap:8px;width:100%;padding:8px 14px;background:none;border:none;color:#1d1d1f;cursor:pointer;font-size:0.8rem;text-align:left;" onmouseover="this.style.background='rgba(0,170,255,0.06)'" onmouseout="this.style.background='none'"><i class="fas fa-users" style="color:var(--accent);width:16px;text-align:center"></i> Team</button>
                                 <button onclick="showWebhookSettings();this.closest('details').open=false" style="display:flex;align-items:center;gap:8px;width:100%;padding:8px 14px;background:none;border:none;color:#1d1d1f;cursor:pointer;font-size:0.8rem;text-align:left;" onmouseover="this.style.background='rgba(0,170,255,0.06)'" onmouseout="this.style.background='none'"><i class="fas fa-plug" style="color:#00aaff;width:16px;text-align:center"></i> Webhooks</button>
                                 <div style="border-top:1px solid var(--border);margin:4px 0"></div>
-                                <button onclick="exportPDF();this.closest('details').open=false" style="display:flex;align-items:center;gap:8px;width:100%;padding:8px 14px;background:none;border:none;color:#1d1d1f;cursor:pointer;font-size:0.8rem;text-align:left;" onmouseover="this.style.background='rgba(0,170,255,0.06)'" onmouseout="this.style.background='none'"><i class="fas fa-file-pdf" style="color:var(--accent);width:16px;text-align:center"></i> PDF Export</button>
+                                <button onclick="exportPDF();this.closest('details').open=false" style="display:flex;align-items:center;gap:8px;width:100%;padding:8px 14px;background:none;border:none;color:#1d1d1f;cursor:pointer;font-size:0.8rem;text-align:left;" onmouseover="this.style.background='rgba(201,168,76,0.06)'" onmouseout="this.style.background='none'"><i class="fas fa-file-pdf" style="color:#c9a84c;width:16px;text-align:center"></i> PDF Export</button>
                             </div>
                         </details>
                     </div>
@@ -828,7 +822,7 @@
                     <button class="ils-hub-tab" onclick="switchHubTab('hub-readiness',this)"><i class="fas fa-chart-line"></i> Readiness Calculator</button>
                     <button class="ils-hub-tab" onclick="switchHubTab('hub-compliance',this)"><i class="fas fa-shield-halved"></i> Compliance Scorecard</button>
                     <button class="ils-hub-tab" onclick="switchHubTab('hub-risk',this)"><i class="fas fa-triangle-exclamation"></i> Supply Chain Risk</button>
-                    <button class="ils-hub-tab" onclick="switchHubTab('hub-actions',this)"><i class="fas fa-tasks"></i> Action Items <span id="hubActionBadge" style="background:var(--accent);color:#fff;font-size:0.6rem;padding:1px 6px;border-radius:8px;margin-left:4px;font-weight:700;display:none"></span></button>
+                    <button class="ils-hub-tab" onclick="switchHubTab('hub-actions',this)"><i class="fas fa-tasks"></i> Action Items <span id="hubActionBadge" style="background:#c9a84c;color:#1d1d1f;font-size:0.6rem;padding:1px 6px;border-radius:8px;margin-left:4px;font-weight:700;display:none"></span></button>
                     <button class="ils-hub-tab" onclick="switchHubTab('hub-predictive',this)"><i class="fas fa-brain"></i> Predictive Maintenance</button>
                     <button class="ils-hub-tab" onclick="switchHubTab('hub-lifecycle',this)"><i class="fas fa-clock"></i> Lifecycle Cost</button>
                     <button class="ils-hub-tab" onclick="switchHubTab('hub-roi',this)"><i class="fas fa-dollar-sign"></i> ROI Calculator</button>
@@ -851,8 +845,8 @@
                 <!-- Recommended for You (populated by roles.js after role selection) -->
                 <div id="recommendedToolsRow" style="display:none;margin-bottom:16px;">
                     <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
-                        <i class="fas fa-star" style="color:var(--accent);font-size:0.8rem;"></i>
-                        <span style="font-size:0.78rem;font-weight:700;color:var(--accent);letter-spacing:0.04em;text-transform:uppercase;">Recommended for You</span>
+                        <i class="fas fa-star" style="color:#c9a84c;font-size:0.8rem;"></i>
+                        <span style="font-size:0.78rem;font-weight:700;color:#c9a84c;letter-spacing:0.04em;text-transform:uppercase;">Recommended for You</span>
                     </div>
                     <div id="recommendedToolsGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;"></div>
                 </div>
@@ -1117,7 +1111,7 @@
                                     <button class="ai-quick-btn" onclick="bulkActionSetSeverity('critical')" style="font-size:0.72rem"><span style="color:#c9a84c">●</span> Set Critical</button>
                                     <button class="ai-quick-btn" onclick="bulkActionSetSeverity('warning')" style="font-size:0.72rem"><span style="color:#ffa500">●</span> Set Warning</button>
                                     <button class="ai-quick-btn" onclick="bulkActionMarkDone()" style="font-size:0.72rem"><i class="fas fa-check"></i> Mark Done</button>
-                                    <button class="ai-quick-btn" onclick="bulkActionDelete()" style="font-size:0.72rem;color:#ff6b6b"><i class="fas fa-trash"></i> Delete</button>
+                                    <button class="ai-quick-btn" onclick="bulkActionDelete()" style="font-size:0.72rem;color:#c9a84c"><i class="fas fa-trash"></i> Delete</button>
                                 </div>
                                 <div class="row mb-3">
                                     <div class="col-md-3 col-6 mb-2"><div class="stat-mini" style="cursor:pointer" onclick="filterHubActions('all')" title="Click to show all"><div class="stat-mini-val" id="hubAiTotal" style="color:#00aaff">0</div><div class="stat-mini-label">Total Actions</div></div></div>
@@ -1357,14 +1351,14 @@
             <!-- ═══ AUDIT RECORD VAULT ═══ -->
             <div class="ils-hub-panel" id="hub-vault">
                 <!-- ── Digital Thread Traceability (Competitive Differentiator) ── -->
-                <div id="digitalThreadPanel" style="margin-bottom:8px;background:linear-gradient(135deg,rgba(0,170,255,0.04),rgba(0,170,255,0.03));border:1px solid rgba(0,170,255,0.2);border-radius:8px;padding:6px 10px;">
+                <div id="digitalThreadPanel" style="margin-bottom:8px;background:linear-gradient(135deg,rgba(0,170,255,0.04),rgba(155,89,182,0.03));border:1px solid rgba(155,89,182,0.2);border-radius:8px;padding:6px 10px;">
                     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
-                        <div style="font-size:0.72rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:0.8px;display:flex;align-items:center;gap:6px;"><i class="fas fa-project-diagram"></i> Digital Thread</div>
+                        <div style="font-size:0.72rem;font-weight:700;color:#9b59b6;text-transform:uppercase;letter-spacing:0.8px;display:flex;align-items:center;gap:6px;"><i class="fas fa-project-diagram"></i> Digital Thread</div>
                         <div style="display:flex;align-items:center;gap:6px;">
-                            <select id="digitalThreadRecordSelect" aria-label="Select digital thread record" onchange="showDigitalThreadFromSelect()" style="background:#fff;color:#1d1d1f;border:1px solid rgba(0,170,255,0.3);border-radius:6px;padding:2px 6px;font-size:0.7rem;max-width:180px;">
+                            <select id="digitalThreadRecordSelect" aria-label="Select digital thread record" onchange="showDigitalThreadFromSelect()" style="background:#fff;color:#1d1d1f;border:1px solid rgba(155,89,182,0.3);border-radius:6px;padding:2px 6px;font-size:0.7rem;max-width:180px;">
                                 <option value="">— Select record —</option>
                             </select>
-                            <button onclick="closeDigitalThread()" style="background:rgba(0,170,255,0.12);border:1px solid rgba(0,170,255,0.25);color:var(--accent);cursor:pointer;font-size:0.68rem;width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;padding:0;border-radius:50%;transition:all 0.2s;line-height:1;" title="Close Digital Thread"><i class="fas fa-times"></i></button>
+                            <button onclick="closeDigitalThread()" style="background:rgba(155,89,182,0.12);border:1px solid rgba(155,89,182,0.25);color:#9b59b6;cursor:pointer;font-size:0.68rem;width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;padding:0;border-radius:50%;transition:all 0.2s;line-height:1;" title="Close Digital Thread"><i class="fas fa-times"></i></button>
                         </div>
                     </div>
                     <div id="digitalThreadContent" style="font-size:0.8rem;"></div>
@@ -1403,7 +1397,7 @@
                         <div style="margin-left:auto;display:flex;gap:6px">
                             <button onclick="bulkVaultExport('csv')" class="btn btn-sm" style="background:rgba(0,170,255,0.1);color:#00aaff;border:1px solid rgba(0,170,255,0.2);border-radius:8px;padding:4px 10px;font-size:0.75rem"><i class="fas fa-file-csv"></i> Export Selected</button>
                             <button onclick="bulkVaultVerify()" class="btn btn-sm" style="background:rgba(0,170,255,0.1);color:#00aaff;border:1px solid rgba(0,170,255,0.2);border-radius:8px;padding:4px 10px;font-size:0.75rem"><i class="fas fa-check-double"></i> Re-Verify Selected</button>
-                            <button onclick="openCompareView()" class="btn btn-sm" style="background:rgba(0,170,255,0.08);color:var(--accent);border:1px solid rgba(0,170,255,0.2);border-radius:8px;padding:4px 10px;font-size:0.75rem"><i class="fas fa-code-compare"></i> Compare (2)</button>
+                            <button onclick="openCompareView()" class="btn btn-sm" style="background:rgba(201,168,76,0.1);color:#c9a84c;border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:4px 10px;font-size:0.75rem"><i class="fas fa-code-compare"></i> Compare (2)</button>
                             <button onclick="bulkVaultDelete()" class="btn btn-sm" style="background:rgba(255,51,51,0.08);color:#ff3333;border:1px solid rgba(255,51,51,0.2);border-radius:8px;padding:4px 10px;font-size:0.75rem"><i class="fas fa-trash"></i> Delete Selected</button>
                         </div>
                     </div>
@@ -1431,7 +1425,7 @@
                     </div>
 
                     <!-- Vault Analytics Dashboard -->
-                    <details style="margin-top:1rem;background:linear-gradient(135deg,rgba(0,170,255,0.04),rgba(0,170,255,0.03));border:1px solid rgba(0,170,255,0.15);border-radius:8px;padding:0 16px;">
+                    <details style="margin-top:1rem;background:linear-gradient(135deg,rgba(0,170,255,0.04),rgba(201,168,76,0.03));border:1px solid rgba(0,170,255,0.15);border-radius:8px;padding:0 16px;">
                         <summary style="cursor:pointer;padding:12px 0;display:flex;align-items:center;gap:6px;font-size:0.82rem;font-weight:700;color:#00aaff;text-transform:uppercase;letter-spacing:0.8px"><i class="fas fa-chart-bar"></i> Vault Analytics <i class="fas fa-chevron-down" style="margin-left:auto;font-size:0.7rem;color:var(--steel)"></i></summary>
                     <div id="vaultMetricsDashboard" style="padding-bottom:16px;">
                         <div style="display:flex;justify-content:flex-end;align-items:center;margin-bottom:12px;">
@@ -1443,7 +1437,7 @@
                                 <div style="font-size:0.68rem;color:var(--steel);text-transform:uppercase;letter-spacing:0.5px">Records</div>
                             </div>
                             <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center">
-                                <div style="font-size:1.1rem;font-weight:800;color:var(--accent)" id="vmStorageKB">0 KB</div>
+                                <div style="font-size:1.1rem;font-weight:800;color:#c9a84c" id="vmStorageKB">0 KB</div>
                                 <div style="font-size:0.68rem;color:var(--steel);text-transform:uppercase;letter-spacing:0.5px">Storage</div>
                             </div>
                             <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center">
@@ -1451,11 +1445,11 @@
                                 <div style="font-size:0.68rem;color:var(--steel);text-transform:uppercase;letter-spacing:0.5px">Unique Types</div>
                             </div>
                             <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center">
-                                <div style="font-size:1.1rem;font-weight:800;color:var(--accent)" id="vmLatestRecord">—</div>
+                                <div style="font-size:1.1rem;font-weight:800;color:#c9a84c" id="vmLatestRecord">—</div>
                                 <div style="font-size:0.68rem;color:var(--steel);text-transform:uppercase;letter-spacing:0.5px">Latest</div>
                             </div>
                             <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center">
-                                <div style="font-size:1.1rem;font-weight:800;color:var(--accent)" id="vmRenderMs">0 ms</div>
+                                <div style="font-size:1.1rem;font-weight:800;color:#9b59b6" id="vmRenderMs">0 ms</div>
                                 <div style="font-size:0.68rem;color:var(--steel);text-transform:uppercase;letter-spacing:0.5px">Render Time</div>
                             </div>
                             <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center">
@@ -1468,8 +1462,8 @@
                     </details>
 
                     <!-- Vault Stress Test Tool -->
-                    <details style="margin-top:1rem;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.15);border-radius:8px;padding:0 12px;">
-                        <summary style="cursor:pointer;padding:10px 0;color:var(--accent);font-weight:600;font-size:0.82rem"><i class="fas fa-vial" style="margin-right:6px"></i> Vault Stress Test & Capacity Tool</summary>
+                    <details style="margin-top:1rem;background:rgba(201,168,76,0.04);border:1px solid rgba(201,168,76,0.15);border-radius:8px;padding:0 12px;">
+                        <summary style="cursor:pointer;padding:10px 0;color:#c9a84c;font-weight:600;font-size:0.82rem"><i class="fas fa-vial" style="margin-right:6px"></i> Vault Stress Test & Capacity Tool</summary>
                         <div style="padding:0 0 14px">
                             <p style="color:var(--steel);font-size:0.78rem;margin-bottom:12px">Generate synthetic records to test vault performance at scale. Records are generated locally and stored in localStorage. Useful for benchmarking query speed, rendering performance, and export capability with large datasets.</p>
                             <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px">
@@ -1598,7 +1592,7 @@
                         <div class="compliance-row"><span class="compliance-label"><i class="fas fa-lock" style="color:#3498db;margin-right:8px"></i>NIST 800-171</span><div class="compliance-bar"><div class="fill" id="barNIST" style="width:0%;background:linear-gradient(90deg,#3498db,#00aaff)"></div></div><span class="compliance-pct" id="pctNIST">—</span></div>
                         <div class="compliance-row"><span class="compliance-label"><i class="fas fa-file-contract" style="color:#00aaff;margin-right:8px"></i>DFARS 252.204</span><div class="compliance-bar"><div class="fill" id="barDFARS" style="width:0%;background:linear-gradient(90deg,#00aaff,#f1c40f)"></div></div><span class="compliance-pct" id="pctDFARS">—</span></div>
                         <div class="compliance-row"><span class="compliance-label"><i class="fas fa-certificate" style="color:#00aaff;margin-right:8px"></i>FAR 46 Quality</span><div class="compliance-bar"><div class="fill" id="barFAR" style="width:0%;background:linear-gradient(90deg,#0071e3,#00aaff)"></div></div><span class="compliance-pct" id="pctFAR">—</span></div>
-                        <div class="compliance-row"><span class="compliance-label"><i class="fas fa-cubes" style="color:var(--accent);margin-right:8px"></i>GEIA-STD-0007 ILS</span><div class="compliance-bar"><div class="fill" id="barILS" style="width:0%;background:linear-gradient(90deg,#0071e3,#00aaff)"></div></div><span class="compliance-pct" id="pctILS">—</span></div>
+                        <div class="compliance-row"><span class="compliance-label"><i class="fas fa-cubes" style="color:#9b59b6;margin-right:8px"></i>GEIA-STD-0007 ILS</span><div class="compliance-bar"><div class="fill" id="barILS" style="width:0%;background:linear-gradient(90deg,#9b59b6,#c39bd3)"></div></div><span class="compliance-pct" id="pctILS">—</span></div>
                         <div class="compliance-row"><span class="compliance-label"><i class="fas fa-exclamation-triangle" style="color:#ff6b6b;margin-right:8px"></i>DMSMS (DoDI 4245.15)</span><div class="compliance-bar"><div class="fill" id="barDMSMSmgmt" style="width:0%;background:linear-gradient(90deg,#ff6b6b,#ff3333)"></div></div><span class="compliance-pct" id="pctDMSMSmgmt">—</span></div>
                     </div>
 
@@ -1645,11 +1639,11 @@
                     </div>
 
                     <!-- ── Evidence Manager ── -->
-                    <div style="margin-top:12px;border:1px solid rgba(0,170,255,0.15);border-radius:8px;overflow:hidden">
-                        <div onclick="toggleComplianceSection('evidence')" style="cursor:pointer;padding:12px 16px;background:rgba(0,170,255,0.04);display:flex;align-items:center;gap:8px">
-                            <i class="fas fa-paperclip" style="color:var(--accent)"></i>
+                    <div style="margin-top:12px;border:1px solid rgba(201,168,76,0.15);border-radius:8px;overflow:hidden">
+                        <div onclick="toggleComplianceSection('evidence')" style="cursor:pointer;padding:12px 16px;background:rgba(201,168,76,0.04);display:flex;align-items:center;gap:8px">
+                            <i class="fas fa-paperclip" style="color:#c9a84c"></i>
                             <strong style="color:#1d1d1f;font-size:0.92rem">Evidence Manager</strong>
-                            <span id="evidenceCount" style="background:rgba(0,170,255,0.15);color:var(--accent);padding:2px 8px;border-radius:8px;font-size:0.72rem;font-weight:600">0</span>
+                            <span id="evidenceCount" style="background:rgba(201,168,76,0.15);color:#c9a84c;padding:2px 8px;border-radius:8px;font-size:0.72rem;font-weight:600">0</span>
                             <i id="evidenceChevron" class="fas fa-chevron-down" style="margin-left:auto;color:var(--steel);font-size:0.75rem;transition:transform 0.3s"></i>
                         </div>
                         <div id="evidenceSection" style="display:none;padding:12px 16px">
@@ -1674,7 +1668,7 @@
                                 <button onclick="exportEvidenceLog()" class="btn btn-sm hover-lift" style="background:rgba(0,0,0,0.03);color:#1d1d1f;border:1px solid rgba(0,0,0,0.08);border-radius:8px;padding:6px 14px;font-size:0.8rem"><i class="fas fa-download"></i> Export Log</button>
                             </div>
                             <div id="evidenceList" style="max-height:260px;overflow-y:auto"></div>
-                            <div id="evidenceEmpty" style="text-align:center;padding:20px;color:var(--steel);font-size:0.82rem"><i class="fas fa-folder-open" style="font-size:1.5rem;margin-bottom:8px;display:block;color:rgba(0,170,255,0.3)"></i>No evidence attached. Select a control and upload a document.</div>
+                            <div id="evidenceEmpty" style="text-align:center;padding:20px;color:var(--steel);font-size:0.82rem"><i class="fas fa-folder-open" style="font-size:1.5rem;margin-bottom:8px;display:block;color:rgba(201,168,76,0.3)"></i>No evidence attached. Select a control and upload a document.</div>
                         </div>
                     </div>
 
@@ -1718,7 +1712,7 @@
                             </div>
                             <div style="display:flex;gap:16px;margin-bottom:12px;flex-wrap:wrap">
                                 <div style="text-align:center"><div id="fedrampSatisfied" style="font-size:1.6rem;font-weight:800;color:#00aaff">0</div><div style="font-size:0.72rem;color:var(--steel)">Satisfied</div></div>
-                                <div style="text-align:center"><div id="fedrampPartial" style="font-size:1.6rem;font-weight:800;color:#ffa500">0</div><div style="font-size:0.72rem;color:var(--steel)">Partial</div></div>
+                                <div style="text-align:center"><div id="fedrampPartial" style="font-size:1.6rem;font-weight:800;color:#c9a84c">0</div><div style="font-size:0.72rem;color:var(--steel)">Partial</div></div>
                                 <div style="text-align:center"><div id="fedrampNotMet" style="font-size:1.6rem;font-weight:800;color:#ff6b6b">0</div><div style="font-size:0.72rem;color:var(--steel)">Not Met</div></div>
                                 <div style="text-align:center"><div id="fedrampTotal" style="font-size:1.6rem;font-weight:800;color:var(--steel)">0</div><div style="font-size:0.72rem;color:var(--steel)">Total Controls</div></div>
                             </div>
@@ -1742,7 +1736,7 @@
             <!-- ══ HUB: AI SUPPLY CHAIN RISK ENGINE ══ -->
             <div class="ils-hub-panel" id="hub-risk">
                 <div class="s4-card">
-                    <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-triangle-exclamation" style="color:var(--accent)"></i> AI Supply Chain Risk Engine <button onclick="showAddActionModal('risk')" class="ai-quick-btn" style="margin-left:auto;font-size:0.72rem;padding:4px 10px"><i class="fas fa-plus"></i> Action Item</button></h3>
+                    <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-triangle-exclamation" style="color:#c9a84c"></i> AI Supply Chain Risk Engine <button onclick="showAddActionModal('risk')" class="ai-quick-btn" style="margin-left:auto;font-size:0.72rem;padding:4px 10px"><i class="fas fa-plus"></i> Action Item</button></h3>
 <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px 14px;margin-bottom:12px">
                         <div><label>Program</label><select id="riskProgram" aria-label="Select risk program" onchange="loadRiskData()" style="font-size:0.88rem"></select></div>
                         <div><label>Hull # / Tail #</label><input type="text" id="riskHull" placeholder="Hull # / Tail #" style="font-size:0.82rem;background:#fff;color:#1d1d1f;border:1px solid rgba(0,0,0,0.06);border-radius:8px;padding:5px 8px;width:100%"></div>
@@ -1757,14 +1751,14 @@
                         <div class="col-md-3 col-6 mb-2"><div style="text-align:center;padding:12px;background:rgba(0,170,255,0.1);border:1px solid rgba(0,170,255,0.3);border-radius:8px;"><div style="font-size:1.6rem;font-weight:800;color:#00aaff" id="riskLow">0</div><div style="font-size:0.75rem;color:var(--muted)">Low</div></div></div>
                     </div>
                     <!-- ── AI Threat Intelligence Score (vs Palantir Gotham) ── -->
-                    <div id="threatIntelPanel" style="margin-bottom:16px;background:linear-gradient(135deg,rgba(0,170,255,0.04),rgba(0,170,255,0.02));border:1px solid rgba(0,170,255,0.15);border-radius:8px;padding:16px;display:none;">
+                    <div id="threatIntelPanel" style="margin-bottom:16px;background:linear-gradient(135deg,rgba(201,168,76,0.04),rgba(255,149,0,0.03));border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:16px;display:none;">
                         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-                            <div style="font-size:0.82rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:0.8px;display:flex;align-items:center;gap:6px;"><i class="fas fa-crosshairs"></i> AI Threat Intelligence Score</div>
-                            <div id="threatScoreBadge" style="background:rgba(0,170,255,0.15);color:var(--accent);padding:4px 14px;border-radius:8px;font-size:0.85rem;font-weight:800;letter-spacing:0.5px;">— / 100</div>
+                            <div style="font-size:0.82rem;font-weight:700;color:#c9a84c;text-transform:uppercase;letter-spacing:0.8px;display:flex;align-items:center;gap:6px;"><i class="fas fa-crosshairs"></i> AI Threat Intelligence Score</div>
+                            <div id="threatScoreBadge" style="background:rgba(201,168,76,0.15);color:#c9a84c;padding:4px 14px;border-radius:8px;font-size:0.85rem;font-weight:800;letter-spacing:0.5px;">— / 100</div>
                         </div>
                         <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px;">
-                            <div style="text-align:center;padding:10px;background:rgba(0,170,255,0.06);border-radius:8px;border:1px solid rgba(0,170,255,0.15);">
-                                <div style="font-size:1.2rem;font-weight:800;color:var(--accent);" id="threatSingleSource">0</div>
+                            <div style="text-align:center;padding:10px;background:rgba(201,168,76,0.08);border-radius:8px;border:1px solid rgba(201,168,76,0.15);">
+                                <div style="font-size:1.2rem;font-weight:800;color:#c9a84c;" id="threatSingleSource">0</div>
                                 <div style="font-size:0.68rem;color:var(--steel);text-transform:uppercase;">Single-Source</div>
                             </div>
                             <div style="text-align:center;padding:10px;background:rgba(255,149,0,0.08);border-radius:8px;border:1px solid rgba(255,149,0,0.15);">
@@ -1782,9 +1776,9 @@
                         <div id="threatAssessment" style="font-size:0.78rem;color:var(--steel);line-height:1.5;"></div>
                     </div>
                     <!-- Risk Table -->
-                    <div style="max-height:400px;overflow-y:auto;border:1px solid rgba(0,170,255,0.15);border-radius:8px;">
+                    <div style="max-height:400px;overflow-y:auto;border:1px solid rgba(201,168,76,0.2);border-radius:8px;">
                         <table style="width:100%;border-collapse:collapse;">
-                            <thead style="position:sticky;top:0;background:#fff;z-index:1;"><tr><th style="padding:10px 8px;font-size:0.78rem;text-transform:uppercase;color:var(--steel);border-bottom:2px solid var(--border);text-align:left;">Part / NSN</th><th style="padding:10px 8px;font-size:0.78rem;text-transform:uppercase;color:var(--steel);border-bottom:2px solid var(--border);text-align:left;">Supplier</th><th style="padding:10px 8px;font-size:0.78rem;text-transform:uppercase;color:var(--steel);border-bottom:2px solid var(--border);text-align:center;">Risk Score</th><th style="padding:10px 8px;font-size:0.78rem;text-transform:uppercase;color:var(--steel);border-bottom:2px solid var(--border);text-align:left;">Risk Factors</th><th style="padding:10px 8px;font-size:0.78rem;text-transform:uppercase;color:var(--steel);border-bottom:2px solid var(--border);text-align:center;">ETA Impact</th></tr></thead>
+                            <thead style="position:sticky;top:0;background:#fff;z-index:1;"><tr><th style="padding:10px 8px;font-size:0.78rem;text-transform:uppercase;color:#c9a84c;border-bottom:2px solid rgba(201,168,76,0.2);text-align:left;">Part / NSN</th><th style="padding:10px 8px;font-size:0.78rem;text-transform:uppercase;color:#c9a84c;border-bottom:2px solid rgba(201,168,76,0.2);text-align:left;">Supplier</th><th style="padding:10px 8px;font-size:0.78rem;text-transform:uppercase;color:#c9a84c;border-bottom:2px solid rgba(201,168,76,0.2);text-align:center;">Risk Score</th><th style="padding:10px 8px;font-size:0.78rem;text-transform:uppercase;color:#c9a84c;border-bottom:2px solid rgba(201,168,76,0.2);text-align:left;">Risk Factors</th><th style="padding:10px 8px;font-size:0.78rem;text-transform:uppercase;color:#c9a84c;border-bottom:2px solid rgba(201,168,76,0.2);text-align:center;">ETA Impact</th></tr></thead>
                             <tbody id="riskTableBody"><tr><td colspan="5" style="text-align:center;padding:30px;color:var(--text-muted)">Click a program to load risk analysis...</td></tr></tbody>
                         </table>
                     </div>
@@ -1837,9 +1831,9 @@
                     </div>
 
                     <!-- ── Budget Forecasting ── -->
-                    <div style="margin-top:12px;border:1px solid rgba(0,170,255,0.15);border-radius:8px;overflow:hidden">
-                        <div onclick="toggleComplianceSection('budgetForecast')" style="cursor:pointer;padding:12px 16px;background:rgba(0,170,255,0.04);display:flex;align-items:center;gap:8px">
-                            <i class="fas fa-chart-line" style="color:var(--accent)"></i>
+                    <div style="margin-top:12px;border:1px solid rgba(201,168,76,0.15);border-radius:8px;overflow:hidden">
+                        <div onclick="toggleComplianceSection('budgetForecast')" style="cursor:pointer;padding:12px 16px;background:rgba(201,168,76,0.04);display:flex;align-items:center;gap:8px">
+                            <i class="fas fa-chart-line" style="color:#c9a84c"></i>
                             <strong style="color:#1d1d1f;font-size:0.92rem">Budget Forecasting</strong>
                             <i id="budgetForecastChevron" class="fas fa-chevron-down" style="margin-left:auto;color:var(--steel);font-size:0.75rem;transition:transform 0.3s"></i>
                         </div>
@@ -1891,7 +1885,7 @@
                         <div><label>Format</label><select id="reportFormat" aria-label="Select report format" style="font-size:0.88rem"><option value="pdf">PDF Report</option><option value="csv">CSV Data Export</option><option value="json">JSON Package</option></select></div>
                     </div>
                     <!-- Report Preview -->
-                    <div id="reportPreview" style="background:rgba(0,170,255,0.06);border:1px solid rgba(0,170,255,0.15);border-radius:8px;padding:16px;margin-bottom:1rem;">
+                    <div id="reportPreview" style="background:rgba(0,170,255,0.06);border:1px solid rgba(201,168,76,0.15);border-radius:8px;padding:16px;margin-bottom:1rem;">
                         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
                             <h5 style="margin:0;color:#00aaff;"><i class="fas fa-eye"></i> Report Preview</h5>
                             <span style="font-size:0.8rem;color:var(--text-muted)" id="reportRecordCount">0 records available</span>
@@ -1934,11 +1928,11 @@
                     </div>
 
                     <!-- ── Scheduled Reports ── -->
-                    <div style="margin-top:12px;border:1px solid rgba(0,170,255,0.15);border-radius:8px;overflow:hidden">
-                        <div onclick="toggleComplianceSection('schedReports')" style="cursor:pointer;padding:12px 16px;background:rgba(0,170,255,0.04);display:flex;align-items:center;gap:8px">
-                            <i class="fas fa-calendar-check" style="color:var(--accent)"></i>
+                    <div style="margin-top:12px;border:1px solid rgba(201,168,76,0.15);border-radius:8px;overflow:hidden">
+                        <div onclick="toggleComplianceSection('schedReports')" style="cursor:pointer;padding:12px 16px;background:rgba(201,168,76,0.04);display:flex;align-items:center;gap:8px">
+                            <i class="fas fa-calendar-check" style="color:#c9a84c"></i>
                             <strong style="color:#1d1d1f;font-size:0.92rem">Scheduled Reports</strong>
-                            <span id="schedReportCount" style="background:rgba(0,170,255,0.15);color:var(--accent);padding:2px 8px;border-radius:8px;font-size:0.72rem;font-weight:600">0</span>
+                            <span id="schedReportCount" style="background:rgba(201,168,76,0.15);color:#c9a84c;padding:2px 8px;border-radius:8px;font-size:0.72rem;font-weight:600">0</span>
                             <i id="schedReportsChevron" class="fas fa-chevron-down" style="margin-left:auto;color:var(--steel);font-size:0.75rem;transition:transform 0.3s"></i>
                         </div>
                         <div id="schedReportsSection" style="display:none;padding:12px 16px">
@@ -1959,7 +1953,7 @@
                                 <button onclick="addScheduledReport()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#0071e3,#00aaff);color:#fff;border:none;border-radius:8px;padding:6px 14px;font-size:0.8rem"><i class="fas fa-plus"></i> Schedule</button>
                             </div>
                             <div id="schedReportList"></div>
-                            <div id="schedReportEmpty" style="text-align:center;padding:16px;color:var(--steel);font-size:0.82rem"><i class="fas fa-clock" style="font-size:1.2rem;margin-bottom:6px;display:block;color:rgba(0,170,255,0.3)"></i>No scheduled reports yet.</div>
+                            <div id="schedReportEmpty" style="text-align:center;padding:16px;color:var(--steel);font-size:0.82rem"><i class="fas fa-clock" style="font-size:1.2rem;margin-bottom:6px;display:block;color:rgba(201,168,76,0.3)"></i>No scheduled reports yet.</div>
                         </div>
                     </div>
 
@@ -2009,7 +2003,7 @@
                     <div class="row mb-3">
                         <div class="col-md-3 col-6"><div style="text-align:center;padding:12px;background:rgba(0,170,255,0.06);border:1px solid rgba(0,170,255,0.15);border-radius:8px;"><div style="font-size:1.6rem;font-weight:800;color:#00aaff" id="pdmPredictions">0</div><div style="font-size:0.72rem;color:var(--text-muted)">Predictions</div></div></div>
                         <div class="col-md-3 col-6"><div style="text-align:center;padding:12px;background:rgba(255,59,48,0.06);border:1px solid rgba(255,59,48,0.2);border-radius:8px;"><div style="font-size:1.6rem;font-weight:800;color:#ff3b30" id="pdmUrgent">0</div><div style="font-size:0.72rem;color:var(--text-muted)">Urgent (30 days)</div></div></div>
-                        <div class="col-md-3 col-6"><div style="text-align:center;padding:12px;background:rgba(0,170,255,0.06);border:1px solid rgba(0,170,255,0.15);border-radius:8px;"><div style="font-size:1.6rem;font-weight:800;color:#00aaff" id="pdmSavings">$0</div><div style="font-size:0.72rem;color:var(--text-muted)">Est. Savings</div></div></div>
+                        <div class="col-md-3 col-6"><div style="text-align:center;padding:12px;background:rgba(0,170,255,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;"><div style="font-size:1.6rem;font-weight:800;color:#00aaff" id="pdmSavings">$0</div><div style="font-size:0.72rem;color:var(--text-muted)">Est. Savings</div></div></div>
                         <div class="col-md-3 col-6"><div style="text-align:center;padding:12px;background:rgba(0,170,255,0.06);border:1px solid rgba(0,170,255,0.2);border-radius:8px;"><div style="font-size:1.6rem;font-weight:800;color:var(--accent)" id="pdmAccuracy">0%</div><div style="font-size:0.72rem;color:var(--text-muted)">Model Accuracy</div></div></div>
                     </div>
                     <!-- Predictions Table -->
@@ -2020,7 +2014,7 @@
                         </table>
                     </div>
                                         <!-- Predictive Failure Timeline (vs Oracle Asset Mgmt) -->
-                    <div id="failureTimelinePanel" style="margin-top:16px;background:linear-gradient(135deg,rgba(0,170,255,0.04),rgba(0,170,255,0.03));border:1px solid rgba(0,170,255,0.2);border-radius:8px;padding:16px;display:none;">
+                    <div id="failureTimelinePanel" style="margin-top:16px;background:linear-gradient(135deg,rgba(0,170,255,0.04),rgba(201,168,76,0.03));border:1px solid rgba(0,170,255,0.2);border-radius:8px;padding:16px;display:none;">
                         <div style="font-size:0.82rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:12px;display:flex;align-items:center;gap:6px;"><i class="fas fa-timeline"></i> Projected Failure Timeline (12-Month Forecast)</div>
                         <div id="failureTimelineChart" style="position:relative;height:200px;overflow-x:auto;overflow-y:hidden;">
                             <canvas id="failureTimelineCanvas" height="180"></canvas>
@@ -2055,7 +2049,7 @@
                         <div class="col-md-3 col-6"><div style="text-align:center;padding:12px;background:rgba(46,204,113,0.06);border:1px solid rgba(46,204,113,0.15);border-radius:8px;"><div style="font-size:1.6rem;font-weight:800;color:#2ecc71" id="sbomTotal">0</div><div style="font-size:0.72rem;color:var(--text-muted)">Components</div></div></div>
                         <div class="col-md-3 col-6"><div style="text-align:center;padding:12px;background:rgba(255,59,48,0.06);border:1px solid rgba(255,59,48,0.2);border-radius:8px;"><div style="font-size:1.6rem;font-weight:800;color:#ff3b30" id="sbomCVE">0</div><div style="font-size:0.72rem;color:var(--text-muted)">Known CVEs</div></div></div>
                         <div class="col-md-3 col-6"><div style="text-align:center;padding:12px;background:rgba(0,170,255,0.06);border:1px solid rgba(0,170,255,0.15);border-radius:8px;"><div style="font-size:1.6rem;font-weight:800;color:#00aaff" id="sbomVerified">0</div><div style="font-size:0.72rem;color:var(--text-muted)">Verified</div></div></div>
-                        <div class="col-md-3 col-6"><div style="text-align:center;padding:12px;background:rgba(0,170,255,0.06);border:1px solid rgba(0,170,255,0.2);border-radius:8px;"><div style="font-size:1.6rem;font-weight:800;color:var(--accent)" id="sbomAnchored">0</div><div style="font-size:0.72rem;color:var(--text-muted)">Anchored</div></div></div>
+                        <div class="col-md-3 col-6"><div style="text-align:center;padding:12px;background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;"><div style="font-size:1.6rem;font-weight:800;color:#c9a84c" id="sbomAnchored">0</div><div style="font-size:0.72rem;color:var(--text-muted)">Anchored</div></div></div>
                     </div>
                     <!-- SBOM Table -->
                     <div style="max-height:400px;overflow-y:auto;border:1px solid rgba(0,170,255,0.2);border-radius:8px;">
@@ -2074,7 +2068,7 @@
 
             <div class="ils-hub-panel" id="hub-submissions">
                 <div class="s4-card">
-                    <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-file-circle-check" style="color:var(--accent)"></i> Submissions &amp; PTD <button onclick="showAddActionModal('submissions')" class="ai-quick-btn" style="margin-left:auto;font-size:0.72rem;padding:4px 10px"><i class="fas fa-plus"></i> Action Item</button></h3>
+                    <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-file-circle-check" style="color:#c9a84c"></i> Submissions &amp; PTD <button onclick="showAddActionModal('submissions')" class="ai-quick-btn" style="margin-left:auto;font-size:0.72rem;padding:4px 10px"><i class="fas fa-plus"></i> Action Item</button></h3>
                     <p style="color:var(--steel);font-size:0.9rem;margin-bottom:0.5rem">Upload and compare ILS data submissions from OEMs, shipbuilders, vendors, and contractors for Navy programs and programs. Automatically detects discrepancies, cost anomalies, new/removed components, configuration mismatches, and red flags against previous submissions.</p>
 <!-- Branch & Program Selection -->
                     <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px 14px;margin-bottom:12px">
@@ -2128,9 +2122,9 @@
 
                     <!-- File Upload Zone -->
 
-                    <div id="subUploadZone" onclick="document.getElementById('subFileInput').click()" style="border:2px dashed rgba(0,170,255,0.35);border-radius:8px;padding:28px;text-align:center;cursor:pointer;margin-bottom:12px;background:rgba(0,170,255,0.04);transition:all 0.3s" ondragover="event.preventDefault();event.stopPropagation();this.style.borderColor='#00aaff'" ondragleave="this.style.borderColor='rgba(0,170,255,0.35)'" ondrop="handleSubFileDrop(event)">
-                        <i class="fas fa-cloud-upload-alt" style="font-size:2rem;color:var(--accent);margin-bottom:8px;display:block"></i>
-                        <div style="color:var(--accent);font-weight:600;font-size:.9rem">Upload Submission Data</div>
+                    <div id="subUploadZone" onclick="document.getElementById('subFileInput').click()" style="border:2px dashed rgba(201,168,76,0.35);border-radius:8px;padding:28px;text-align:center;cursor:pointer;margin-bottom:12px;background:rgba(201,168,76,0.04);transition:all 0.3s" ondragover="event.preventDefault();event.stopPropagation();this.style.borderColor='#c9a84c'" ondragleave="this.style.borderColor='rgba(201,168,76,0.35)'" ondrop="handleSubFileDrop(event)">
+                        <i class="fas fa-cloud-upload-alt" style="font-size:2rem;color:#c9a84c;margin-bottom:8px;display:block"></i>
+                        <div style="color:#c9a84c;font-weight:600;font-size:.9rem">Upload Submission Data</div>
                         <div style="color:var(--steel);font-size:.78rem;margin-top:4px">CSV, Excel (.xlsx), XML, JSON, PDF, or paste data below</div>
                         <div style="color:var(--steel);font-size:.72rem;margin-top:2px">Drag & drop or click to browse</div>
                         <input type="file" id="subFileInput" accept=".csv,.xlsx,.xls,.xml,.json,.pdf,.txt" multiple style="display:none" onchange="handleSubFileUpload(event)" />
@@ -2158,20 +2152,20 @@
 
                     <!-- Stats -->
                     <div class="row" style="gap:12px 0;margin-bottom:1rem">
-                        <div class="col-md-2 col-4"><div class="stat-mini"><div class="stat-mini-val" id="subTotalItems" style="color:var(--accent)">0</div><div class="stat-mini-lbl">Items Reviewed</div></div></div>
+                        <div class="col-md-2 col-4"><div class="stat-mini"><div class="stat-mini-val" id="subTotalItems" style="color:#c9a84c">0</div><div class="stat-mini-lbl">Items Reviewed</div></div></div>
                         <div class="col-md-2 col-4"><div class="stat-mini"><div class="stat-mini-val" id="subNewItems" style="color:#00aaff">0</div><div class="stat-mini-lbl">New Components</div></div></div>
-                        <div class="col-md-2 col-4"><div class="stat-mini"><div class="stat-mini-val" id="subRemovedItems" style="color:var(--accent)">0</div><div class="stat-mini-lbl">Removed Items</div></div></div>
-                        <div class="col-md-2 col-4"><div class="stat-mini"><div class="stat-mini-val" id="subCostDelta" style="color:var(--accent)">$0</div><div class="stat-mini-lbl">Cost Delta</div></div></div>
-                        <div class="col-md-2 col-4"><div class="stat-mini"><div class="stat-mini-val" id="subDiscrepancies" style="color:#ff6b6b">0</div><div class="stat-mini-lbl">Discrepancies</div></div></div>
-                        <div class="col-md-2 col-4"><div class="stat-mini"><div class="stat-mini-val" id="subRedFlags" style="color:#ff6b6b">0</div><div class="stat-mini-lbl">Red Flags</div></div></div>
+                        <div class="col-md-2 col-4"><div class="stat-mini"><div class="stat-mini-val" id="subRemovedItems" style="color:#c9a84c">0</div><div class="stat-mini-lbl">Removed Items</div></div></div>
+                        <div class="col-md-2 col-4"><div class="stat-mini"><div class="stat-mini-val" id="subCostDelta" style="color:#c9a84c">$0</div><div class="stat-mini-lbl">Cost Delta</div></div></div>
+                        <div class="col-md-2 col-4"><div class="stat-mini"><div class="stat-mini-val" id="subDiscrepancies" style="color:#c9a84c">0</div><div class="stat-mini-lbl">Discrepancies</div></div></div>
+                        <div class="col-md-2 col-4"><div class="stat-mini"><div class="stat-mini-val" id="subRedFlags" style="color:#c9a84c">0</div><div class="stat-mini-lbl">Red Flags</div></div></div>
                     </div>
 
                     <!-- Discrepancy Results Table -->
                     <div id="subResultsContainer" style="display:none">
-                        <h5 style="color:var(--accent);margin-bottom:8px"><i class="fas fa-triangle-exclamation"></i> Discrepancy Report</h5>
+                        <h5 style="color:#c9a84c;margin-bottom:8px"><i class="fas fa-triangle-exclamation"></i> Discrepancy Report</h5>
                         <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">
-                            <button onclick="filterDiscrepancies('all')" class="btn btn-sm" style="background:rgba(0,170,255,0.1);color:var(--accent);border:1px solid rgba(0,170,255,0.2);border-radius:8px;font-size:.75rem;padding:4px 10px">All</button>
-                            <button onclick="filterDiscrepancies('critical')" class="btn btn-sm" style="background:rgba(0,170,255,0.08);color:var(--accent);border:1px solid rgba(0,170,255,0.2);border-radius:8px;font-size:.75rem;padding:4px 10px">Critical</button>
+                            <button onclick="filterDiscrepancies('all')" class="btn btn-sm" style="background:rgba(201,168,76,0.15);color:#c9a84c;border:1px solid rgba(201,168,76,0.3);border-radius:8px;font-size:.75rem;padding:4px 10px">All</button>
+                            <button onclick="filterDiscrepancies('critical')" class="btn btn-sm" style="background:rgba(201,168,76,0.1);color:#c9a84c;border:1px solid rgba(201,168,76,0.3);border-radius:8px;font-size:.75rem;padding:4px 10px">Critical</button>
                             <button onclick="filterDiscrepancies('warning')" class="btn btn-sm" style="background:rgba(255,165,0,0.1);color:#ffa500;border:1px solid rgba(255,165,0,0.3);border-radius:8px;font-size:.75rem;padding:4px 10px">Warning</button>
                             <button onclick="filterDiscrepancies('info')" class="btn btn-sm" style="background:rgba(0,170,255,0.1);color:#00aaff;border:1px solid rgba(0,170,255,0.3);border-radius:8px;font-size:.75rem;padding:4px 10px">Info</button>
                             <button onclick="filterDiscrepancies('new')" class="btn btn-sm" style="background:rgba(0,170,255,0.06);color:#00aaff;border:1px solid rgba(0,170,255,0.3);border-radius:8px;font-size:.75rem;padding:4px 10px">New Items</button>
@@ -2181,29 +2175,29 @@
                             <table class="table table-sm" style="color:var(--steel);font-size:.78rem;margin:0">
                                 <thead style="position:sticky;top:0;background:var(--surface);z-index:1">
                                     <tr>
-                                        <th style="color:var(--steel);border-color:var(--border);padding:6px 8px">Severity</th>
-                                        <th style="color:var(--steel);border-color:var(--border);padding:6px 8px">Category</th>
-                                        <th style="color:var(--steel);border-color:var(--border);padding:6px 8px">Item / Part</th>
-                                        <th style="color:var(--steel);border-color:var(--border);padding:6px 8px">Issue</th>
-                                        <th style="color:var(--steel);border-color:var(--border);padding:6px 8px">Previous</th>
-                                        <th style="color:var(--steel);border-color:var(--border);padding:6px 8px">Current</th>
-                                        <th style="color:var(--steel);border-color:var(--border);padding:6px 8px">Impact</th>
+                                        <th style="color:#c9a84c;border-color:var(--border);padding:6px 8px">Severity</th>
+                                        <th style="color:#c9a84c;border-color:var(--border);padding:6px 8px">Category</th>
+                                        <th style="color:#c9a84c;border-color:var(--border);padding:6px 8px">Item / Part</th>
+                                        <th style="color:#c9a84c;border-color:var(--border);padding:6px 8px">Issue</th>
+                                        <th style="color:#c9a84c;border-color:var(--border);padding:6px 8px">Previous</th>
+                                        <th style="color:#c9a84c;border-color:var(--border);padding:6px 8px">Current</th>
+                                        <th style="color:#c9a84c;border-color:var(--border);padding:6px 8px">Impact</th>
                                     </tr>
                                 </thead>
                                 <tbody id="subDiscrepancyTable"></tbody>
                             </table>
                         </div>
                         <!-- AI Summary -->
-                        <div id="subAiSummary" style="display:none;margin-top:12px;padding:12px;background:rgba(0,170,255,0.06);border:1px solid rgba(0,170,255,0.15);border-radius:8px">
+                        <div id="subAiSummary" style="display:none;margin-top:12px;padding:12px;background:rgba(0,170,255,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px">
                             <h6 style="color:#00aaff;margin-bottom:6px"><i class="fas fa-robot"></i> AI Discrepancy Summary</h6>
                             <div id="subAiSummaryText" style="color:var(--steel);font-size:.82rem;line-height:1.6"></div>
                         </div>
                     </div>
 
                     <!-- Version Diff Viewer -->
-                    <div style="margin-top:12px;border:1px solid rgba(0,170,255,0.15);border-radius:8px;overflow:hidden">
-                        <div onclick="toggleComplianceSection('versionDiff')" style="cursor:pointer;padding:10px 14px;background:rgba(0,170,255,0.04);display:flex;align-items:center;gap:8px">
-                            <i class="fas fa-code-compare" style="color:var(--accent)"></i>
+                    <div style="margin-top:12px;border:1px solid rgba(201,168,76,0.15);border-radius:8px;overflow:hidden">
+                        <div onclick="toggleComplianceSection('versionDiff')" style="cursor:pointer;padding:10px 14px;background:rgba(201,168,76,0.04);display:flex;align-items:center;gap:8px">
+                            <i class="fas fa-code-compare" style="color:#c9a84c"></i>
                             <strong style="color:#1d1d1f;font-size:0.88rem">Version Diff Viewer</strong>
                             <i id="versionDiffChevron" class="fas fa-chevron-down" style="margin-left:auto;color:var(--steel);font-size:0.75rem;transition:transform 0.3s"></i>
                         </div>
@@ -2313,8 +2307,8 @@
 
                     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:16px">
                         <div class="stat-mini"><div class="stat-mini-val" id="gfpTotalItems" style="color:#00aaff">0</div><div class="stat-mini-lbl">Items Tracked</div></div>
-                        <div class="stat-mini"><div class="stat-mini-val" id="gfpTotalValue" style="color:var(--accent)">$0</div><div class="stat-mini-lbl">Total Value</div></div>
-                        <div class="stat-mini"><div class="stat-mini-val" id="gfpAlerts" style="color:#ffa500">0</div><div class="stat-mini-lbl">Pending Alerts</div></div>
+                        <div class="stat-mini"><div class="stat-mini-val" id="gfpTotalValue" style="color:#c9a84c">$0</div><div class="stat-mini-lbl">Total Value</div></div>
+                        <div class="stat-mini"><div class="stat-mini-val" id="gfpAlerts" style="color:#c9a84c">0</div><div class="stat-mini-lbl">Pending Alerts</div></div>
                         <div class="stat-mini"><div class="stat-mini-val" id="gfpServiceable" style="color:#00aaff">0</div><div class="stat-mini-lbl">Serviceable</div></div>
                     </div>
 
@@ -2333,7 +2327,7 @@
             <!-- ══ HUB: CDRL VALIDATOR ══ -->
             <div class="ils-hub-panel" id="hub-cdrl">
                 <div class="s4-card">
-                    <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-clipboard-check" style="color:var(--accent)"></i> CDRL Validator <button onclick="showAddActionModal('cdrl')" class="ai-quick-btn" style="margin-left:auto;font-size:0.72rem;padding:4px 10px"><i class="fas fa-plus"></i> Action Item</button></h3>
+                    <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-clipboard-check" style="color:#c9a84c"></i> CDRL Validator <button onclick="showAddActionModal('cdrl')" class="ai-quick-btn" style="margin-left:auto;font-size:0.72rem;padding:4px 10px"><i class="fas fa-plus"></i> Action Item</button></h3>
                     <p style="color:var(--steel);font-size:0.9rem;margin-bottom:0.5rem">Contract Data Requirements List validation engine. Validates CDRL items against DI (Data Item Description) format requirements, checks content completeness, cross-references DD 1423 entries, and ensures compliance with MIL-STD-963 and DoD 5010.12-M.</p>
 <details style="display:none;margin-top:8px;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.15);border-radius:8px;padding:0 12px;">
                         <summary style="cursor:pointer;padding:8px 0;font-size:0.8rem;font-weight:700;color:#00aaff;">How It Works</summary>
@@ -2393,9 +2387,9 @@
                     </div>
 
                     <!-- File Upload Zone -->
-                    <div id="cdrlUploadZone" onclick="document.getElementById('cdrlFileInput').click()" style="border:2px dashed rgba(0,170,255,0.35);border-radius:8px;padding:28px;text-align:center;cursor:pointer;margin-bottom:12px;background:rgba(0,170,255,0.04);transition:all 0.3s" ondragover="event.preventDefault();event.stopPropagation();this.style.borderColor='#00aaff'" ondragleave="this.style.borderColor='rgba(0,170,255,0.35)'" ondrop="handleCdrlFileDrop(event)">
-                        <i class="fas fa-cloud-upload-alt" style="font-size:2rem;color:var(--accent);margin-bottom:8px;display:block"></i>
-                        <div style="color:var(--accent);font-weight:600;font-size:.9rem">Upload CDRL Package / DD 1423</div>
+                    <div id="cdrlUploadZone" onclick="document.getElementById('cdrlFileInput').click()" style="border:2px dashed rgba(201,168,76,0.35);border-radius:8px;padding:28px;text-align:center;cursor:pointer;margin-bottom:12px;background:rgba(201,168,76,0.04);transition:all 0.3s" ondragover="event.preventDefault();event.stopPropagation();this.style.borderColor='#c9a84c'" ondragleave="this.style.borderColor='rgba(201,168,76,0.35)'" ondrop="handleCdrlFileDrop(event)">
+                        <i class="fas fa-cloud-upload-alt" style="font-size:2rem;color:#c9a84c;margin-bottom:8px;display:block"></i>
+                        <div style="color:#c9a84c;font-weight:600;font-size:.9rem">Upload CDRL Package / DD 1423</div>
                         <div style="color:var(--steel);font-size:.78rem;margin-top:4px">CSV, Excel (.xlsx), XML, JSON, PDF — DD 1423 forms, CDRL deliverables, or DI documents</div>
                         <div style="color:var(--steel);font-size:.72rem;margin-top:2px">Drag & drop or click to browse</div>
                         <input type="file" id="cdrlFileInput" accept=".csv,.xlsx,.xls,.xml,.json,.pdf,.txt,.doc,.docx" multiple style="display:none" onchange="handleCdrlFileUpload(event)" />
@@ -2409,9 +2403,9 @@
                     </div>
 
                     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:16px">
-                        <div class="stat-mini"><div class="stat-mini-val" id="cdrlTotal" style="color:var(--accent)">0</div><div class="stat-mini-lbl">Total CDRLs</div></div>
+                        <div class="stat-mini"><div class="stat-mini-val" id="cdrlTotal" style="color:#c9a84c">0</div><div class="stat-mini-lbl">Total CDRLs</div></div>
                         <div class="stat-mini"><div class="stat-mini-val" id="cdrlCompliant" style="color:#00aaff">0</div><div class="stat-mini-lbl">Compliant</div></div>
-                        <div class="stat-mini"><div class="stat-mini-val" id="cdrlOverdue" style="color:#ff6b6b">0</div><div class="stat-mini-lbl">Overdue</div></div>
+                        <div class="stat-mini"><div class="stat-mini-val" id="cdrlOverdue" style="color:#c9a84c">0</div><div class="stat-mini-lbl">Overdue</div></div>
                         <div class="stat-mini"><div class="stat-mini-val" id="cdrlScore" style="color:#00aaff">—</div><div class="stat-mini-lbl">Compliance Score</div></div>
                     </div>
 
@@ -2421,7 +2415,7 @@
                     </div>
 
                     <div id="cdrlContent" style="min-height:100px;color:var(--steel);font-size:0.85rem;text-align:center;padding:40px 20px">
-                        <i class="fas fa-clipboard-check" style="font-size:2rem;color:rgba(0,170,255,0.3);margin-bottom:8px;display:block"></i>
+                        <i class="fas fa-clipboard-check" style="font-size:2rem;color:rgba(201,168,76,0.3);margin-bottom:8px;display:block"></i>
                         Upload DD 1423 or CDRL packages above to begin validation. Results and compliance scores display here.
                     </div>
                 </div>
@@ -2509,9 +2503,9 @@
 
                     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:16px">
                         <div class="stat-mini"><div class="stat-mini-val" id="contractClauses" style="color:#00aaff">0</div><div class="stat-mini-lbl">Clauses Extracted</div></div>
-                        <div class="stat-mini"><div class="stat-mini-val" id="contractCDRLs" style="color:var(--accent)">0</div><div class="stat-mini-lbl">CDRLs Found</div></div>
+                        <div class="stat-mini"><div class="stat-mini-val" id="contractCDRLs" style="color:#c9a84c">0</div><div class="stat-mini-lbl">CDRLs Found</div></div>
                         <div class="stat-mini"><div class="stat-mini-val" id="contractObligations" style="color:#00aaff">0</div><div class="stat-mini-lbl">Obligations</div></div>
-                        <div class="stat-mini"><div class="stat-mini-val" id="contractFlags" style="color:#ff6b6b">0</div><div class="stat-mini-lbl">Flags / Risks</div></div>
+                        <div class="stat-mini"><div class="stat-mini-val" id="contractFlags" style="color:#c9a84c">0</div><div class="stat-mini-lbl">Flags / Risks</div></div>
                     </div>
 
                     <!-- Chart container -->
@@ -2529,7 +2523,7 @@
             <!-- ══ HUB: PROVENANCE CHAIN ══ -->
             <div class="ils-hub-panel" id="hub-provenance">
                 <div class="s4-card">
-                    <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-link" style="color:var(--accent)"></i> Provenance Chain <button onclick="showAddActionModal('provenance')" class="ai-quick-btn" style="margin-left:auto;font-size:0.72rem;padding:4px 10px"><i class="fas fa-plus"></i> Action Item</button></h3>
+                    <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-link" style="color:#c9a84c"></i> Provenance Chain <button onclick="showAddActionModal('provenance')" class="ai-quick-btn" style="margin-left:auto;font-size:0.72rem;padding:4px 10px"><i class="fas fa-plus"></i> Action Item</button></h3>
                     <p style="color:var(--steel);font-size:0.9rem;margin-bottom:0.5rem">Blockchain-verified chain of custody and provenance tracking. Every custody transfer, location change, and condition assessment is anchored to the XRP Ledger with QR code generation for physical asset tagging.</p>
 <details style="display:none;margin-top:8px;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.15);border-radius:8px;padding:0 12px;">
                         <summary style="cursor:pointer;padding:8px 0;font-size:0.8rem;font-weight:700;color:#00aaff;">How It Works</summary>
@@ -2591,9 +2585,9 @@
                     </div>
 
                     <!-- File Upload Zone -->
-                    <div id="provUploadZone" onclick="document.getElementById('provFileInput').click()" style="border:2px dashed rgba(0,170,255,0.35);border-radius:8px;padding:28px;text-align:center;cursor:pointer;margin-bottom:12px;background:rgba(0,170,255,0.04);transition:all 0.3s" ondragover="event.preventDefault();event.stopPropagation();this.style.borderColor='#00aaff'" ondragleave="this.style.borderColor='rgba(0,170,255,0.35)'" ondrop="handleProvFileDrop(event)">
-                        <i class="fas fa-cloud-upload-alt" style="font-size:2rem;color:var(--accent);margin-bottom:8px;display:block"></i>
-                        <div style="color:var(--accent);font-weight:600;font-size:.9rem">Upload Custody Records / Asset Manifests</div>
+                    <div id="provUploadZone" onclick="document.getElementById('provFileInput').click()" style="border:2px dashed rgba(201,168,76,0.35);border-radius:8px;padding:28px;text-align:center;cursor:pointer;margin-bottom:12px;background:rgba(201,168,76,0.04);transition:all 0.3s" ondragover="event.preventDefault();event.stopPropagation();this.style.borderColor='#c9a84c'" ondragleave="this.style.borderColor='rgba(201,168,76,0.35)'" ondrop="handleProvFileDrop(event)">
+                        <i class="fas fa-cloud-upload-alt" style="font-size:2rem;color:#c9a84c;margin-bottom:8px;display:block"></i>
+                        <div style="color:#c9a84c;font-weight:600;font-size:.9rem">Upload Custody Records / Asset Manifests</div>
                         <div style="color:var(--steel);font-size:.78rem;margin-top:4px">CSV, Excel (.xlsx), XML, JSON, PDF — shipping documents, DD 1149, custody logs</div>
                         <div style="color:var(--steel);font-size:.72rem;margin-top:2px">Drag & drop or click to browse</div>
                         <input type="file" id="provFileInput" accept=".csv,.xlsx,.xls,.xml,.json,.pdf,.txt" multiple style="display:none" onchange="handleProvFileUpload(event)" />
@@ -2609,9 +2603,9 @@
                     </div>
 
                     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:16px">
-                        <div class="stat-mini"><div class="stat-mini-val" id="provEvents" style="color:var(--accent)">0</div><div class="stat-mini-lbl">Chain Events</div></div>
+                        <div class="stat-mini"><div class="stat-mini-val" id="provEvents" style="color:#c9a84c">0</div><div class="stat-mini-lbl">Chain Events</div></div>
                         <div class="stat-mini"><div class="stat-mini-val" id="provItems" style="color:#00aaff">0</div><div class="stat-mini-lbl">Items Tracked</div></div>
-                        <div class="stat-mini"><div class="stat-mini-val" id="provAnchored" style="color:var(--accent)">0</div><div class="stat-mini-lbl">XRPL Anchored</div></div>
+                        <div class="stat-mini"><div class="stat-mini-val" id="provAnchored" style="color:#c9a84c">0</div><div class="stat-mini-lbl">XRPL Anchored</div></div>
                         <div class="stat-mini"><div class="stat-mini-val" id="provGaps" style="color:#00aaff">0</div><div class="stat-mini-lbl">Gaps Detected</div></div>
                     </div>
 
@@ -2622,7 +2616,7 @@
                     <div id="provQRContainer" style="display:none;margin-bottom:16px;text-align:center"></div>
 
                     <div id="provenanceContent" style="min-height:100px;color:var(--steel);font-size:0.85rem;text-align:center;padding:40px 20px">
-                        <i class="fas fa-link" style="font-size:2rem;color:rgba(0,170,255,0.3);margin-bottom:8px;display:block"></i>
+                        <i class="fas fa-link" style="font-size:2rem;color:rgba(201,168,76,0.3);margin-bottom:8px;display:block"></i>
                         Record custody transfers above or upload asset manifests. Provenance chain timeline renders here with blockchain verification.
                     </div>
                 </div>
@@ -2669,7 +2663,7 @@
                             <div style="display:flex;gap:6px">
                                 <button onclick="exportAnalyticsReport()" class="btn btn-sm" style="background:rgba(0,170,255,0.1);color:#00aaff;border:1px solid rgba(0,170,255,0.3);border-radius:8px;padding:6px 12px;font-size:.78rem;flex:1"><i class="fas fa-file-pdf"></i> PDF</button>
                                 <button onclick="exportAnalyticsCSV()" class="btn btn-sm" style="background:rgba(0,170,255,0.1);color:#00aaff;border:1px solid rgba(0,170,255,0.3);border-radius:8px;padding:6px 12px;font-size:.78rem;flex:1"><i class="fas fa-file-csv"></i> CSV</button>
-                                <button onclick="anchorToLedger('analytics','Cross-program analytics anchored')" class="btn btn-sm" style="background:rgba(0,170,255,0.08);color:var(--accent);border:1px solid rgba(0,170,255,0.2);border-radius:8px;padding:6px 12px;font-size:.78rem;flex:1"><i class="fas fa-anchor"></i> Anchor to Ledger</button>
+                                <button onclick="anchorToLedger('analytics','Cross-program analytics anchored')" class="btn btn-sm" style="background:rgba(201,168,76,0.08);color:#c9a84c;border:1px solid rgba(201,168,76,0.3);border-radius:8px;padding:6px 12px;font-size:.78rem;flex:1"><i class="fas fa-anchor"></i> Anchor to Ledger</button>
                             </div>
                         </div>
                     </div>
@@ -2680,8 +2674,8 @@
                             <div style="font-size:0.82rem;color:var(--steel);font-weight:600;margin-bottom:8px"><i class="fas fa-chart-bar" style="color:#00aaff;margin-right:4px"></i> Uploads by Tool</div>
                             <canvas id="analyticsToolChart" style="max-height:200px;width:100%"></canvas>
                         </div>
-                        <div style="background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.15);border-radius:8px;padding:16px">
-                            <div style="font-size:0.82rem;color:var(--steel);font-weight:600;margin-bottom:8px"><i class="fas fa-chart-line" style="color:var(--accent);margin-right:4px"></i> Activity Trend</div>
+                        <div style="background:rgba(201,168,76,0.04);border:1px solid rgba(201,168,76,0.15);border-radius:8px;padding:16px">
+                            <div style="font-size:0.82rem;color:var(--steel);font-weight:600;margin-bottom:8px"><i class="fas fa-chart-line" style="color:#c9a84c;margin-right:4px"></i> Activity Trend</div>
                             <canvas id="analyticsTrendChart" style="max-height:200px;width:100%"></canvas>
                         </div>
                     </div>
@@ -2696,7 +2690,7 @@
             <!-- ══ HUB: TEAM MANAGEMENT — Full Admin Portal (differs from sidebar quick-view Team popup) ══ -->
             <div class="ils-hub-panel" id="hub-team">
                 <div class="s4-card">
-                    <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-users-gear" style="color:var(--accent)"></i> Team & Access Management <button onclick="showAddActionModal('team')" class="ai-quick-btn" style="margin-left:auto;font-size:0.72rem;padding:4px 10px"><i class="fas fa-plus"></i> Action Item</button></h3>
+                    <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-users-gear" style="color:#c9a84c"></i> Team & Access Management <button onclick="showAddActionModal('team')" class="ai-quick-btn" style="margin-left:auto;font-size:0.72rem;padding:4px 10px"><i class="fas fa-plus"></i> Action Item</button></h3>
                     <p style="color:var(--steel);font-size:0.9rem;margin-bottom:0.5rem">Full team administration portal — create teams, assign program access, manage tool permissions, and audit team activity across all ILS tools. For quick team status, use the <strong style="color:#00aaff">Team</strong> button in the header bar.</p>
 <!-- Team Management Controls -->
                     <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px 14px;margin-bottom:12px">
@@ -2730,13 +2724,13 @@
                         <button onclick="inviteTeamMember()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#0071e3,#00aaff);color:#fff;border:none;border-radius:8px;padding:8px 16px"><i class="fas fa-user-plus"></i> Invite Member</button>
                         <button onclick="exportTeamAudit()" class="btn btn-sm hover-lift" style="background:rgba(0,170,255,0.1);color:#00aaff;border:1px solid rgba(0,170,255,0.3);border-radius:8px;padding:8px 16px"><i class="fas fa-clipboard-list"></i> Export Access Audit</button>
                         <button onclick="runAccessReview()" class="btn btn-sm hover-lift" style="background:rgba(0,170,255,0.1);color:#00aaff;border:1px solid rgba(0,170,255,0.3);border-radius:8px;padding:8px 16px"><i class="fas fa-shield-halved"></i> Access Review</button>
-                        <button onclick="anchorToLedger('team','Team access audit anchored')" class="btn btn-sm hover-lift" style="background:rgba(0,170,255,0.08);color:var(--accent);border:1px solid rgba(0,170,255,0.2);border-radius:8px;padding:8px 16px"><i class="fas fa-anchor"></i> Anchor to Ledger</button>
+                        <button onclick="anchorToLedger('team','Team access audit anchored')" class="btn btn-sm hover-lift" style="background:rgba(201,168,76,0.08);color:#c9a84c;border:1px solid rgba(201,168,76,0.3);border-radius:8px;padding:8px 16px"><i class="fas fa-anchor"></i> Anchor to Ledger</button>
                     </div>
 
                     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:16px">
-                        <div class="stat-mini"><div class="stat-mini-val" id="teamCount" style="color:var(--accent)">0</div><div class="stat-mini-lbl">Teams</div></div>
+                        <div class="stat-mini"><div class="stat-mini-val" id="teamCount" style="color:#c9a84c">0</div><div class="stat-mini-lbl">Teams</div></div>
                         <div class="stat-mini"><div class="stat-mini-val" id="teamMembers" style="color:#00aaff">0</div><div class="stat-mini-lbl">Total Members</div></div>
-                        <div class="stat-mini"><div class="stat-mini-val" id="teamPending" style="color:#ffa500">0</div><div class="stat-mini-lbl">Pending Invites</div></div>
+                        <div class="stat-mini"><div class="stat-mini-val" id="teamPending" style="color:#c9a84c">0</div><div class="stat-mini-lbl">Pending Invites</div></div>
                         <div class="stat-mini"><div class="stat-mini-val" id="teamPrograms" style="color:#00aaff">0</div><div class="stat-mini-lbl">Programs Assigned</div></div>
                     </div>
 
@@ -2757,7 +2751,7 @@
                     </details>
 
                     <div id="teamContent" style="min-height:100px;color:var(--steel);font-size:0.85rem;text-align:center;padding:40px 20px">
-                        <i class="fas fa-users-gear" style="font-size:2rem;color:rgba(0,170,255,0.3);margin-bottom:8px;display:block"></i>
+                        <i class="fas fa-users-gear" style="font-size:2rem;color:rgba(201,168,76,0.3);margin-bottom:8px;display:block"></i>
                         Create a team or select an existing team above. Full team administration with program assignments and audit trails.
                     </div>
                 </div>
@@ -2767,7 +2761,7 @@
             <div class="ils-hub-panel" id="hub-acquisition">
                 <div class="s4-card">
                     <h3 style="display:flex;align-items:center;gap:8px">
-                        <i class="fas fa-ship" style="color:var(--accent)"></i> Acquisition Planner
+                        <i class="fas fa-ship" style="color:#c9a84c"></i> Acquisition Planner
                         <button onclick="showAddActionModal('acquisition')" class="ai-quick-btn" style="margin-left:auto;font-size:0.72rem;padding:4px 10px"><i class="fas fa-plus"></i> Action Item</button>
                     </h3>
 <p style="color:var(--steel);font-size:0.9rem;margin-bottom:1rem">Multi-year service craft/vessel acquisition lifecycle tracker. Import from eNVCR or other registries, manage hull types, POM funding, ROH schedules, and material condition across all your programs.</p>
@@ -2820,7 +2814,7 @@
                     <div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:8px">
                         <button class="ai-quick-btn acq-status-filter-btn" data-status="Draft" onclick="acqFilterByStatus('Draft')" style="font-size:0.7rem;padding:3px 8px;background:rgba(139,148,158,0.1);border-color:rgba(139,148,158,0.2);color:#8b949e">Draft</button>
                         <button class="ai-quick-btn acq-status-filter-btn" data-status="Submitted" onclick="acqFilterByStatus('Submitted')" style="font-size:0.7rem;padding:3px 8px;background:rgba(0,170,255,0.1);border-color:rgba(0,170,255,0.2);color:#00aaff">Submitted</button>
-                        <button class="ai-quick-btn acq-status-filter-btn" data-status="Under Review" onclick="acqFilterByStatus('Under Review')" style="font-size:0.7rem;padding:3px 8px;background:rgba(255,165,0,0.1);border-color:rgba(255,165,0,0.2);color:#ffa500">Under Review</button>
+                        <button class="ai-quick-btn acq-status-filter-btn" data-status="Under Review" onclick="acqFilterByStatus('Under Review')" style="font-size:0.7rem;padding:3px 8px;background:rgba(201,168,76,0.1);border-color:rgba(201,168,76,0.2);color:#c9a84c">Under Review</button>
                         <button class="ai-quick-btn acq-status-filter-btn" data-status="Approved" onclick="acqFilterByStatus('Approved')" style="font-size:0.7rem;padding:3px 8px;background:rgba(78,203,113,0.1);border-color:rgba(78,203,113,0.2);color:#4ecb71">Approved</button>
                         <button class="ai-quick-btn acq-status-filter-btn" data-status="In Execution" onclick="acqFilterByStatus('In Execution')" style="font-size:0.7rem;padding:3px 8px;background:rgba(168,85,247,0.1);border-color:rgba(168,85,247,0.2);color:#a855f7">In Execution</button>
                         <button class="ai-quick-btn acq-status-filter-btn" data-status="Complete" onclick="acqFilterByStatus('Complete')" style="font-size:0.7rem;padding:3px 8px;background:rgba(0,204,136,0.1);border-color:rgba(0,204,136,0.2);color:#00cc88">Complete</button>
@@ -2830,9 +2824,9 @@
                     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:16px">
                         <div class="stat-mini"><div class="stat-mini-val" id="acqStatTotal" style="color:#00aaff">0</div><div class="stat-mini-lbl">Total Vessels</div></div>
                         <div class="stat-mini"><div class="stat-mini-val" id="acqStatFunded" style="color:#4ecb71">0</div><div class="stat-mini-lbl">POM Funded</div></div>
-                        <div class="stat-mini"><div class="stat-mini-val" id="acqStatPending" style="color:#ffa500">0</div><div class="stat-mini-lbl">Pending/Partial</div></div>
+                        <div class="stat-mini"><div class="stat-mini-val" id="acqStatPending" style="color:#c9a84c">0</div><div class="stat-mini-lbl">Pending/Partial</div></div>
                         <div class="stat-mini"><div class="stat-mini-val" id="acqStatCritical" style="color:#ff4444">0</div><div class="stat-mini-lbl">Poor/Critical</div></div>
-                        <div class="stat-mini"><div class="stat-mini-val" id="acqStatCost" style="color:var(--accent)">$0</div><div class="stat-mini-lbl">Total Cost</div></div>
+                        <div class="stat-mini"><div class="stat-mini-val" id="acqStatCost" style="color:#c9a84c">$0</div><div class="stat-mini-lbl">Total Cost</div></div>
                     </div>
 
                     <!-- Data Grid -->
@@ -2929,7 +2923,7 @@
                     <!-- Status Filter Bar -->
                     <div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:8px">
                         <button class="ai-quick-btn mil-status-filter-btn" data-status="On Track" onclick="milFilterByStatus('On Track')" style="font-size:0.7rem;padding:3px 8px;background:rgba(78,203,113,0.1);border-color:rgba(78,203,113,0.2);color:#4ecb71">On Track</button>
-                        <button class="ai-quick-btn mil-status-filter-btn" data-status="At Risk" onclick="milFilterByStatus('At Risk')" style="font-size:0.7rem;padding:3px 8px;background:rgba(255,107,107,0.1);border-color:rgba(255,107,107,0.2);color:#ff6b6b">At Risk</button>
+                        <button class="ai-quick-btn mil-status-filter-btn" data-status="At Risk" onclick="milFilterByStatus('At Risk')" style="font-size:0.7rem;padding:3px 8px;background:rgba(201,168,76,0.1);border-color:rgba(201,168,76,0.2);color:#c9a84c">At Risk</button>
                         <button class="ai-quick-btn mil-status-filter-btn" data-status="Delayed" onclick="milFilterByStatus('Delayed')" style="font-size:0.7rem;padding:3px 8px;background:rgba(255,68,68,0.1);border-color:rgba(255,68,68,0.2);color:#ff4444">Delayed</button>
                         <button class="ai-quick-btn mil-status-filter-btn" data-status="Complete" onclick="milFilterByStatus('Complete')" style="font-size:0.7rem;padding:3px 8px;background:rgba(0,204,136,0.1);border-color:rgba(0,204,136,0.2);color:#00cc88">Complete</button>
                         <button class="ai-quick-btn mil-status-filter-btn" data-status="Cancelled" onclick="milFilterByStatus('Cancelled')" style="font-size:0.7rem;padding:3px 8px;background:rgba(139,148,158,0.1);border-color:rgba(139,148,158,0.2);color:#8b949e">Cancelled</button>
@@ -2939,9 +2933,9 @@
                     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:16px">
                         <div class="stat-mini"><div class="stat-mini-val" id="milStatTotal" style="color:#a855f7">0</div><div class="stat-mini-lbl">Total Milestones</div></div>
                         <div class="stat-mini"><div class="stat-mini-val" id="milStatOnTrack" style="color:#4ecb71">0</div><div class="stat-mini-lbl">On Track</div></div>
-                        <div class="stat-mini"><div class="stat-mini-val" id="milStatAtRisk" style="color:#ff6b6b">0</div><div class="stat-mini-lbl">At Risk</div></div>
+                        <div class="stat-mini"><div class="stat-mini-val" id="milStatAtRisk" style="color:#c9a84c">0</div><div class="stat-mini-lbl">At Risk</div></div>
                         <div class="stat-mini"><div class="stat-mini-val" id="milStatDelayed" style="color:#ff4444">0</div><div class="stat-mini-lbl">Delayed</div></div>
-                        <div class="stat-mini"><div class="stat-mini-val" id="milStatAvgBehind" style="color:#ffa500">0d</div><div class="stat-mini-lbl">Avg Days Behind</div></div>
+                        <div class="stat-mini"><div class="stat-mini-val" id="milStatAvgBehind" style="color:#c9a84c">0d</div><div class="stat-mini-lbl">Avg Days Behind</div></div>
                     </div>
 
                     <!-- Data Grid -->
@@ -3059,7 +3053,7 @@
                     </div>
                     <div style="display:flex;gap:8px;align-items:center">
                         <button class="sls-expand-btn" id="slsToggleBtn" onclick="toggleFlowBox()"><i class="fas fa-chart-simple" style="margin-right:4px"></i>Flow Details</button>
-                        <button class="sls-expand-btn" onclick="logout()" style="border-color:rgba(0,170,255,0.3);color:#c9a84c;" title="Reset session & clear cache"><i class="fas fa-right-from-bracket" style="margin-right:4px"></i>Logout</button>
+                        <button class="sls-expand-btn" onclick="logout()" style="border-color:rgba(201,168,76,0.3);color:#c9a84c;" title="Reset session & clear cache"><i class="fas fa-right-from-bracket" style="margin-right:4px"></i>Logout</button>
                     </div>
                 </div>
                 <div style="max-width:900px;margin:0 auto;padding:1rem 0">
@@ -3294,7 +3288,7 @@
         <h4 id="actionModalTitle"><i class="fas fa-plus-circle" style="color:var(--accent);margin-right:8px"></i>New Action Item</h4>
         <input type="hidden" id="actionModalEditId" value="">
         <div style="margin-bottom:10px">
-            <label style="font-size:0.82rem">Title <span style="color:#ff6b6b">*</span></label>
+            <label style="font-size:0.82rem">Title <span style="color:#c9a84c">*</span></label>
             <input type="text" id="actionModalItemTitle" placeholder="e.g., Resolve obsolete part AN/SPY-6 radar module" style="font-size:0.85rem!important">
         </div>
         <div style="margin-bottom:10px">
@@ -3303,7 +3297,7 @@
         </div>
         <div class="row mb-2">
             <div class="col-6" style="margin-bottom:10px">
-                <label style="font-size:0.82rem">Severity <span style="color:#ff6b6b">*</span></label>
+                <label style="font-size:0.82rem">Severity <span style="color:#c9a84c">*</span></label>
                 <select id="actionModalSeverity" style="font-size:0.85rem">
                     <option value="critical">Critical</option>
                     <option value="warning">Warning</option>
@@ -3448,6 +3442,7 @@
 <!-- ═══ ROUND 11: UNIVERSAL CHART REACTIVITY ENGINE ═══ -->
 
     <!-- S4 Ledger Modular JS (extracted from monolith) -->
+    <script type="module" src="/main.js"></script>
 
     <!-- Global error monitoring -->
     <script>

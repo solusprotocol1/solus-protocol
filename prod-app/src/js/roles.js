@@ -51,12 +51,12 @@ function showRecommendedTools() {
         var icon = _toolIcons[toolId] || 'fa-wrench';
         var card = document.createElement('div');
         card.className = 'ils-tool-card';
-        card.style.cssText = 'border-left:3px solid rgba(201,168,76,0.4);';
+        card.style.cssText = 'border-left:3px solid rgba(0,170,255,0.4);';
         card.setAttribute('data-tool', toolId);
-        card.onmouseover = function(){ this.style.borderColor='rgba(201,168,76,0.6)';this.style.transform='translateY(-2px)'; };
-        card.onmouseout = function(){ this.style.borderColor='';this.style.borderLeftColor='rgba(201,168,76,0.4)';this.style.transform='translateY(0)'; };
+        card.onmouseover = function(){ this.style.borderColor='rgba(0,170,255,0.6)';this.style.transform='translateY(-2px)'; };
+        card.onmouseout = function(){ this.style.borderColor='';this.style.borderLeftColor='rgba(0,170,255,0.4)';this.style.transform='translateY(0)'; };
         card.onclick = (function(id){ return function(){ if(typeof openILSTool==='function') openILSTool(id); }; })(toolId);
-        card.innerHTML = '<div class="itc-icon" style="background:rgba(201,168,76,0.10);"><i class="fas '+icon+'" style="color:#c9a84c;"></i></div><div><div class="itc-title">'+label+'</div><div class="itc-desc">Recommended for your role</div></div>';
+        card.innerHTML = '<div class="itc-icon" style="background:rgba(0,170,255,0.10);"><i class="fas '+icon+'" style="color:var(--accent,#00aaff);"></i></div><div><div class="itc-title">'+label+'</div><div class="itc-desc">Recommended for your role</div></div>';
         grid.appendChild(card);
     }
     row.style.display = 'block';
@@ -75,9 +75,9 @@ function showRoleSelector() {
     contentDiv.style.cssText = 'background:#fff;border:1px solid rgba(0,0,0,0.1);border-radius:3px;padding:32px;max-width:620px;width:95%;max-height:85vh;overflow-y:auto';
 
     // Header
-    contentDiv.innerHTML = '<h3 style="color:#1d1d1f;margin:0 0 4px"><i class="fas fa-user-cog" style="color:#00aaff;margin-right:8px"></i>Configure Your Role</h3>'
+    contentDiv.innerHTML = '<h3 style="color:var(--text,#1d1d1f);margin:0 0 4px"><i class="fas fa-user-cog" style="color:#00aaff;margin-right:8px"></i>Configure Your Role</h3>'
         + '<p style="color:#86868b;font-size:0.85rem;margin-bottom:20px">Select your role to see relevant tools. You can customize visible tools and your displayed title.</p>'
-        + '<div style="margin-bottom:16px"><label style="color:#86868b;font-size:0.8rem;font-weight:600">Your Display Title</label><input id="roleTitle" value="'+(_currentTitle||'')+'" style="background:#fff;color:#1d1d1f;border:1px solid rgba(0,0,0,0.12);border-radius:3px;padding:10px;width:100%;margin-top:4px;box-sizing:border-box" placeholder="e.g., ILS Analyst, Logistics Specialist, Contract Manager"></div>';
+        + '<div style="margin-bottom:16px"><label style="color:#86868b;font-size:0.8rem;font-weight:600">Your Display Title</label><input id="roleTitle" value="'+(_currentTitle||'')+'" style="background:#fff;color:var(--text,#1d1d1f);border:1px solid rgba(0,0,0,0.12);border-radius:3px;padding:10px;width:100%;margin-top:4px;box-sizing:border-box" placeholder="e.g., ILS Analyst, Logistics Specialist, Contract Manager"></div>';
 
     // Build role cards grid using DOM (not innerHTML) for reliable event binding
     var grid = document.createElement('div');
@@ -92,7 +92,7 @@ function showRoleSelector() {
             card.className = 'role-card';
             card.setAttribute('data-role', key);
             card.style.cssText = 'border:2px solid '+(isSelected ? '#00aaff' : 'rgba(0,0,0,0.1)')+';border-radius:3px;padding:14px;cursor:pointer;transition:all 0.2s;user-select:none;'+(isSelected ? 'background:rgba(0,170,255,0.15);box-shadow:0 0 12px rgba(0,170,255,0.2)' : '');
-            card.innerHTML = '<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;pointer-events:none"><i class="fas '+r.icon+'" style="color:#00aaff;font-size:1.1rem"></i><strong style="color:#1d1d1f;font-size:0.9rem">'+r.label+'</strong></div>'
+            card.innerHTML = '<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;pointer-events:none"><i class="fas '+r.icon+'" style="color:#00aaff;font-size:1.1rem"></i><strong style="color:var(--text,#1d1d1f);font-size:0.9rem">'+r.label+'</strong></div>'
                 + '<div style="color:#86868b;font-size:0.78rem;pointer-events:none">'+r.desc+'</div>'
                 + '<div style="color:#6e6e73;font-size:0.72rem;margin-top:4px;pointer-events:none">'+r.tabs.length+' tools</div>';
 
@@ -534,7 +534,7 @@ function initRoleSystem() {
             var obsol = Math.max(0, 100 - (10 + (s.dmsmsItems.length||0)*8));
             var risk = Math.max(0, 100 - (15 + (s.riskItems.length||0)*5));
             var budget = Math.max(0, 100 - (20 + s.ilsPct * 0.6));
-            return { type:'bar', data:{ labels:['Tracking','Audit','Compliance','Obsolescence','Risk','Budget'], datasets:[{label:'Gap %',data:[tracking,audit,compliance,obsol,risk,budget],backgroundColor:['#ff6b6b','#fb923c','#c9a84c','#00aaff','#38bdf8','#06b6d4'],borderWidth:0,borderRadius:4}]}, options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#6e6e73',font:{size:9}},grid:{color:'rgba(0,0,0,0.04)'},max:100},y:{ticks:{color:'#6e6e73',font:{size:9}},grid:{display:false}}}}};
+            return { type:'bar', data:{ labels:['Tracking','Audit','Compliance','Obsolescence','Risk','Budget'], datasets:[{label:'Gap %',data:[tracking,audit,compliance,obsol,risk,budget],backgroundColor:['#ff6b6b','#fb923c','#ffa500','#00aaff','#38bdf8','#06b6d4'],borderWidth:0,borderRadius:4}]}, options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#6e6e73',font:{size:9}},grid:{color:'rgba(0,0,0,0.04)'},max:100},y:{ticks:{color:'#6e6e73',font:{size:9}},grid:{display:false}}}}};
         },
         dmsmsPieChart: function() {
             var s = _getToolState();
@@ -543,7 +543,7 @@ function initRoleSystem() {
             if (items.length > 0) {
                 items.forEach(function(it){ var st=(it.status||'').toLowerCase(); if(st.indexOf('obsolete')>=0) obsolete++; else if(st.indexOf('risk')>=0||st.indexOf('diminish')>=0) atRisk++; else if(st.indexOf('discontin')>=0) discontinued++; else if(st.indexOf('eol')>=0||st.indexOf('last')>=0) eol++; else active++; });
             } else { active=45; atRisk=20; obsolete=15; discontinued=10; eol=10; }
-            return { type:'doughnut', data:{ labels:['Active','At Risk','Obsolete','Discontinued','EOL Planned'], datasets:[{data:[active,atRisk,obsolete,discontinued,eol],backgroundColor:['#00aaff','#c9a84c','#ff6b6b','#00aaff','#6e6e73'],borderWidth:0}]}, options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{color:'#6e6e73',font:{size:9},padding:6}}}}};
+            return { type:'doughnut', data:{ labels:['Active','At Risk','Obsolete','Discontinued','EOL Planned'], datasets:[{data:[active,atRisk,obsolete,discontinued,eol],backgroundColor:['#00aaff','#ffa500','#ff6b6b','#00aaff','#6e6e73'],borderWidth:0}]}, options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{color:'#6e6e73',font:{size:9},padding:6}}}}};
         },
         readinessGauge: function() {
             var s = _getToolState();
@@ -564,7 +564,7 @@ function initRoleSystem() {
             var cmmc = s.comp[0] || 20;
             var iso = Math.min(100, 30 + s.ilsPct * 0.5);
             var sox = Math.min(100, 35 + s.vault * 3);
-            return { type:'polarArea', data:{ labels:['DFARS','ITAR','NIST 800-171','CMMC','ISO 27001','SOX'], datasets:[{data:[dfars,itar,nist,cmmc,iso,sox],backgroundColor:['rgba(0,170,255,0.5)','rgba(201,168,76,0.5)','rgba(56,189,248,0.5)','rgba(255,107,107,0.5)','rgba(0,170,255,0.5)','rgba(6,182,212,0.5)'],borderWidth:0}]}, options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{color:'#6e6e73',font:{size:9},padding:6}}},scales:{r:{grid:{color:'rgba(0,0,0,0.06)'},ticks:{display:false}}}}};
+            return { type:'polarArea', data:{ labels:['DFARS','ITAR','NIST 800-171','CMMC','ISO 27001','SOX'], datasets:[{data:[dfars,itar,nist,cmmc,iso,sox],backgroundColor:['rgba(0,170,255,0.5)','rgba(255,165,0,0.5)','rgba(56,189,248,0.5)','rgba(255,107,107,0.5)','rgba(0,170,255,0.5)','rgba(6,182,212,0.5)'],borderWidth:0}]}, options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{color:'#6e6e73',font:{size:9},padding:6}}},scales:{r:{grid:{color:'rgba(0,0,0,0.06)'},ticks:{display:false}}}}};
         },
         roiLineChart: function() {
             var s = _getToolState();
@@ -604,7 +604,7 @@ function initRoleSystem() {
                 var nRisks = Math.max(3, Math.min(12, 3 + s.vault + s.actions));
                 for (var i=0; i<nRisks; i++) { points.push({x: 1+Math.floor(Math.random()*9), y: 1+Math.floor(Math.random()*9)}); }
             }
-            var colors = points.map(function(p){ var score=p.x*p.y; return score>=50?'rgba(255,70,70,0.8)':score>=25?'rgba(255,165,0,0.7)':score>=10?'rgba(201,168,76,0.6)':'rgba(0,170,255,0.5)'; });
+            var colors = points.map(function(p){ var score=p.x*p.y; return score>=50?'rgba(255,70,70,0.8)':score>=25?'rgba(255,165,0,0.7)':score>=10?'rgba(255,165,0,0.6)':'rgba(0,170,255,0.5)'; });
             return { type:'scatter', data:{ datasets:[{label:'Risk Items',data:points,backgroundColor:colors,borderColor:colors,pointRadius:7}]}, options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},title:{display:true,text:points.length+' Risk Items Mapped',color:'#6e6e73',font:{size:11}}},scales:{x:{title:{display:true,text:'Likelihood →',color:'#6e6e73',font:{size:9}},ticks:{color:'#6e6e73',font:{size:9}},grid:{color:'rgba(0,0,0,0.04)'},min:0,max:10},y:{title:{display:true,text:'Impact →',color:'#6e6e73',font:{size:9}},ticks:{color:'#6e6e73',font:{size:9}},grid:{color:'rgba(0,0,0,0.04)'},min:0,max:10}}}};
         },
         lifecyclePieChart: function() {
