@@ -2719,4 +2719,39 @@ Onboarding tour tooltips were randomly positioned — the tooltip appeared but d
 - Both `*/dist/` — Rebuilt and verified
 
 ---
+
+## Session 40 — Fix Change 21: Tour Navigates INTO Each Feature
+**Commit:** `d65b170` | **Date:** 2025-03-10
+
+### Problem
+Tour tooltips were randomly pointing at surface-level selectors on the hub page instead of actually taking the user into the feature being described. User couldn't see the actual Presets, Today's Chain, or Export UI.
+
+### Root Cause
+Tour steps used CSS selectors (`_findTourTarget`) that matched whatever element happened to be in the DOM — usually a generic hub card. No actual navigation was performed.
+
+### Fix — Complete Rewrite with `setup()`/`teardown()` Architecture
+Each step now has:
+- **`setup()`** — Navigates INTO the feature and returns the target element to highlight
+- **`teardown()`** — Undoes the UI change before the next step
+
+| Step | What `setup()` Does | Target Highlighted |
+|------|--------------------|--------------------|
+| 1 Workflow Presets | Opens Settings `<details>` dropdown | First `.s4-preset-btn` |
+| 2 Today's Chain | Makes `#s4TodayChain` visible + `display:flex` | The chain bar itself |
+| 3 Tool Cards | Ensures `#ilsSubHub` grid is showing, hides any open tool | First `.ils-tool-card` |
+| 4 One-Click Export | Calls `_s4OpenExport()` to show export overlay | First `.s4-export-fmt` button |
+
+**On tour end (`_endTour`):**
+- Teardowns last step
+- Closes Settings dropdown
+- Closes export overlay
+- Restores previous tool panel (if user was in one) or hub grid
+- Smooth-scrolls back to saved `scrollX/Y` position
+
+### Files Modified
+- `prod-app/src/js/enhancements.js` — Complete rewrite of tour: removed `_findTourTarget`, new `setup()/teardown()` per step, full UI state save/restore
+- `demo-app/src/js/enhancements.js` — Synced (NOT engine.js)
+- Both `*/dist/` — Rebuilt and verified
+
+---
 *This log is updated every session. Reference before making changes.*
