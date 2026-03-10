@@ -8606,28 +8606,85 @@ window.verifyProvenanceChain = verifyProvenanceChain;
     'use strict';
 
     // ── CHANGE 21: Non-intrusive Onboarding Tour ──
+    // Each step has setup() to navigate INTO the feature and teardown() to undo it
     var TOUR_STEPS = [
-        {target: '.s4-preset-btn, .s4-preset-select, #s4PrefPreset', title: 'Layout Presets', body: 'Switch between Classic, Compact, and Spacious views to customize your workspace.', arrow: 'top'},
-        {target: '#todayChainSection, .today-chain, .chain-timeline', title: "Today's Chain", body: 'Your real-time blockchain activity feed. Each dot is a verified transaction on XRPL.', arrow: 'top'},
-        {target: '.vault-record, .hub-card, .ils-tool-card', title: 'Hover Previews', body: 'Hover over any card for an instant data preview. Click to drill into full details.', arrow: 'top'},
-        {target: '.s4-export-fmt, [onclick*="export"], .s4rs-export', title: 'One-Click Export', body: 'Export any report as PDF, CSV, or print — all blockchain-verified and audit-ready.', arrow: 'top'}
-    ];
-
-    function _findTourTarget(step) {
-        var selectors = step.target.split(',');
-        for (var i = 0; i < selectors.length; i++) {
-            var el = document.querySelector(selectors[i].trim());
-            if (el && el.offsetParent !== null) return el;
+        {
+            title: 'Workflow Presets',
+            body: 'Choose a ready-made workflow — Standard ILS Daily, Audit Prep, or Obsolescence Sweep — and the platform queues the right tools for you automatically.',
+            setup: function() {
+                // Open the Settings <details> dropdown to reveal presets
+                var menu = document.getElementById('s4WorkspaceMenu');
+                if (menu) menu.open = true;
+                return document.querySelector('#s4PresetsList .s4-preset-btn') || menu;
+            },
+            teardown: function() {
+                var menu = document.getElementById('s4WorkspaceMenu');
+                if (menu) menu.open = false;
+            }
+        },
+        {
+            title: "Today's Chain",
+            body: 'Your personal workflow queue. As you open tools, they chain here. Hit "Run Chain" to replay your workflow — or build a custom one from Presets.',
+            setup: function() {
+                // Make Today's Chain visible and scroll to it
+                var bar = document.getElementById('s4TodayChain');
+                if (bar) {
+                    bar.classList.add('visible');
+                    bar.style.display = 'flex';
+                }
+                return bar;
+            },
+            teardown: function() {
+                // Leave it visible — it's useful. No teardown needed.
+            }
+        },
+        {
+            title: 'Tool Cards & Hover Previews',
+            body: 'Each card is a full-featured tool. Hover any card for an instant data preview — or click to dive in. 23 tools, zero learning curve.',
+            setup: function() {
+                // Make sure we're on the hub (not inside a tool panel)
+                var subHub = document.getElementById('ilsSubHub');
+                if (subHub) subHub.style.display = 'grid';
+                var backBar = document.getElementById('ilsToolBackBar');
+                if (backBar) backBar.style.display = 'none';
+                // Hide any open tool panel
+                document.querySelectorAll('.ils-hub-panel').forEach(function(p) {
+                    p.classList.remove('active'); p.style.display = 'none';
+                });
+                // Target the first visible tool card
+                return document.querySelector('#ilsSubHub .ils-tool-card');
+            },
+            teardown: function() {
+                // Already on hub, nothing to undo
+            }
+        },
+        {
+            title: 'One-Click Export',
+            body: 'Export any analysis as PDF, CSV, or JSON — blockchain-verified and audit-ready. Share with your team or compliance officers in one click.',
+            setup: function() {
+                // Open the global export overlay
+                if (typeof window._s4OpenExport === 'function') window._s4OpenExport();
+                // Wait a beat for it to render, then return target
+                var overlay = document.getElementById('s4ExportOverlay');
+                if (overlay) overlay.style.display = 'flex';
+                return document.querySelector('.s4-export-fmt') || overlay;
+            },
+            teardown: function() {
+                if (typeof window._s4CloseExport === 'function') window._s4CloseExport();
+                var overlay = document.getElementById('s4ExportOverlay');
+                if (overlay) overlay.style.display = 'none';
+            }
         }
-        return null;
-    }
+    ];
 
     function _runTour() {
         if (localStorage.getItem('s4_tour_done')) return;
 
-        // Save where the user is right now so we can return them
+        // Save the user's entire UI state so we can restore it
         var savedScrollX = window.scrollX;
         var savedScrollY = window.scrollY;
+        var savedToolId = window._currentILSTool || null;
+        var savedSubHubDisplay = (document.getElementById('ilsSubHub') || {}).style && document.getElementById('ilsSubHub').style.display;
 
         var overlay = document.createElement('div');
         overlay.className = 's4-tour-overlay';
@@ -8694,14 +8751,21 @@ window.verifyProvenanceChain = verifyProvenanceChain;
         }
 
         function _showStep(idx) {
-            // Remove previous tip
+            // Remove previous tip and teardown previous step
             var old = document.querySelector('.s4-tour-tip');
             if (old) { old.classList.remove('visible'); old.remove(); }
             _clearHighlight();
+            // Teardown the previous step's UI changes
+            if (idx > 0 && TOUR_STEPS[idx - 1].teardown) TOUR_STEPS[idx - 1].teardown();
             if (idx >= TOUR_STEPS.length) { _endTour(); return; }
             currentStep = idx;
             var step = TOUR_STEPS[idx];
-            var target = _findTourTarget(step);
+
+            // Run setup() to navigate INTO the feature — returns the target element
+            var target = null;
+            if (step.setup) {
+                target = step.setup();
+            }
 
             var dotsHtml = '';
             for (var d = 0; d < TOUR_STEPS.length; d++) {
@@ -8728,31 +8792,48 @@ window.verifyProvenanceChain = verifyProvenanceChain;
 
             document.body.appendChild(tip);
 
-            if (target) {
-                // Scroll the target into the center of the viewport FIRST
-                target.scrollIntoView({behavior: 'smooth', block: 'center'});
-                // Wait for the scroll to settle, THEN position + highlight + reveal
+            // Give the UI a moment to render the setup() changes, then scroll + highlight + position
+            setTimeout(function() {
+                if (target && target.getBoundingClientRect) {
+                    target.scrollIntoView({behavior: 'smooth', block: 'center'});
+                }
+                // Wait for scroll to settle
                 setTimeout(function() {
                     _highlightTarget(target);
                     _positionTip(tip, target, step);
                     requestAnimationFrame(function() { tip.classList.add('visible'); });
                     tip.querySelector('.s4-tour-next').focus();
-                }, 500);
-            } else {
-                // No target found — center the tooltip in viewport
-                _positionTip(tip, null, step);
-                requestAnimationFrame(function() { tip.classList.add('visible'); });
-                tip.querySelector('.s4-tour-next').focus();
-            }
+                }, 450);
+            }, 150);
         }
 
         function _endTour() {
             localStorage.setItem('s4_tour_done', '1');
             _clearHighlight();
+            // Teardown the last step
+            if (currentStep < TOUR_STEPS.length && TOUR_STEPS[currentStep].teardown) {
+                TOUR_STEPS[currentStep].teardown();
+            }
             var tip = document.querySelector('.s4-tour-tip');
             if (tip) { tip.classList.remove('visible'); setTimeout(function() { tip.remove(); }, 350); }
             overlay.classList.remove('visible');
             setTimeout(function() { overlay.remove(); }, 350);
+            // Restore the UI back to the state before the tour
+            // Close Settings dropdown
+            var menu = document.getElementById('s4WorkspaceMenu');
+            if (menu) menu.open = false;
+            // Close export overlay
+            if (typeof window._s4CloseExport === 'function') window._s4CloseExport();
+            var expOv = document.getElementById('s4ExportOverlay');
+            if (expOv) expOv.style.display = 'none';
+            // If user was in a tool before tour, re-open it; otherwise show hub
+            if (savedToolId && typeof window.openILSTool === 'function') {
+                window.openILSTool(savedToolId);
+            } else {
+                // Restore the hub card grid
+                var subHub = document.getElementById('ilsSubHub');
+                if (subHub) subHub.style.display = savedSubHubDisplay || 'grid';
+            }
             // Scroll the user back to exactly where they were
             window.scrollTo({left: savedScrollX, top: savedScrollY, behavior: 'smooth'});
             if (typeof window._s4Announce === 'function') window._s4Announce('Onboarding tour complete');
