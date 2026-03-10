@@ -1,5 +1,5 @@
 # S4 Ledger — Conversation Log & Fix Tracker
-## Last Updated: Session 34 — Steve Jobs Visual Overhaul Complete (Gold/Purple Elimination)
+## Last Updated: Session 35 — Dark Mode Removal & Start My Day Fix (Commit 1f1a6c4)
 
 ---
 
@@ -2432,6 +2432,63 @@ User demanded complete Steve Jobs visual overhaul — eliminate old gold (#c9a84
 - `demo-app/src/js/` — 7 files restored from commit 3377227
 - `demo-app/src/styles/main.css` — Synced from prod
 - `demo-app/src/index.html` — Synced from prod
+- Both `*/dist/` — Rebuilt and verified
+- `demo-app/index.html` — Copied from demo dist
+
+---
+
+## Session 35 — Dark Mode Removal & Start My Day Button Fix (Commit 1f1a6c4)
+
+### Decision
+User decided to remove dark mode entirely after multiple unsuccessful rounds (rounds 1-5). Also reported that the "Start My Day" welcome popup button wasn't working when clicked.
+
+### Dark Mode Removal — Complete
+Removed all dark mode code across CSS, HTML, and JS:
+
+**CSS (main.css) — 883 lines removed:**
+- `[data-theme="dark"]` CSS variable block
+- All dark override rules (lines 5210-6092)
+- `.s4-dark-toggle` style block
+- `.theme-toggle` hidden rule
+
+**HTML (index.html) — 4 changes:**
+- `<html lang="en" data-theme="light">` → `<html lang="en">`
+- `<meta name="color-scheme" content="dark">` → `content="light"`
+- Removed entire inline theme script (localStorage s4-theme, Chart.js dark colors)
+- Removed both toggle buttons (`.theme-toggle` and `.s4-dark-toggle`)
+
+**JS (enhancements.js) — ~200 lines removed across 10 locations:**
+1. `toggleTheme()` function (~75 lines)
+2. `_updateThemeIcon()` function
+3. Theme loader IIFE (read/apply s4-theme from localStorage)
+4. `_shortcutRow('T', 'Toggle Light/Dark Theme')` from shortcuts help
+5. `T` keyboard shortcut handler
+6. "Toggle Dark/Light Mode" command palette entry
+7. `window._s4ToggleDark()` function (~35 lines)
+8. `_initDarkMode()` function
+9. `_initDarkMode()` call from `_bootRound2()`
+10. `S4.themeEngine` dark presets → replaced with light-only stub
+
+### Start My Day Button Fix — Root Cause Found
+**Root cause:** `window.toggleTheme = toggleTheme;` (line 7247) referenced the removed `toggleTheme` function, throwing a `ReferenceError` that crashed the entire enhancements.js IIFE before `window._s4DismissWelcome` could be defined. The button's `onclick="window._s4DismissWelcome()"` would silently fail because the function didn't exist.
+
+**Fixes applied:**
+- Removed stale `window.toggleTheme = toggleTheme;` reference
+- Fixed `S4.themeEngine` stub that had literal `\n` characters (entire definition was treated as a comment)
+- Added try/catch guards around all calls in `_s4DismissWelcome`
+- Added 100ms `setTimeout` for `showRoleSelector()` so welcome overlay fully hides first
+
+### Sync & Build
+- Synced to demo-app: main.css, index.html, enhancements.js, roles.js, navigation.js, metrics.js
+- Did NOT copy engine.js (demo has _demoMode/_demoSession)
+- Both apps rebuilt, demo landing page copied
+- Verified: zero `toggleTheme` references in built JS, demo engine retains `_demoMode`
+
+### Files Changed
+- `prod-app/src/styles/main.css` — 883 lines of dark CSS removed
+- `prod-app/src/index.html` — Toggle buttons, inline script, meta tag, data-theme removed
+- `prod-app/src/js/enhancements.js` — All dark mode JS removed, Start My Day fix, themeEngine stub fix
+- `demo-app/src/` — Synced: main.css, index.html, enhancements.js, roles.js, navigation.js, metrics.js
 - Both `*/dist/` — Rebuilt and verified
 - `demo-app/index.html` — Copied from demo dist
 
