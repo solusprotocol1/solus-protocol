@@ -2914,6 +2914,13 @@
                         <p style="font-size:0.8rem;color:var(--steel);margin-bottom:8px;"><strong>How S4 saves you money:</strong> Program status briefings take <strong>15-30 hours</strong> to prepare manually. S4 generates complete briefings in <strong style="color:#00cc66">under 2 minutes</strong> — saving <strong style="color:#00cc66">$2,250-$4,500 per briefing</strong>. Monthly briefings across 10 programs: <strong style="color:#00cc66">$270,000-$540,000/year</strong> in labor savings.</p>
                     </details>
 
+                    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:1rem">
+                        <button onclick="briefNewFromTemplate()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#0071e3,#00aaff);color:#fff;border:none;border-radius:8px;padding:8px 16px;font-weight:700"><i class="fas fa-plus"></i> New Brief</button>
+                        <button onclick="briefImportPPTX()" class="btn btn-sm hover-lift" style="background:rgba(0,170,255,0.1);color:#00aaff;border:1px solid rgba(0,170,255,0.3);border-radius:8px;padding:8px 16px"><i class="fas fa-file-powerpoint"></i> Import PPTX</button>
+                        <button onclick="briefExportPDF()" class="btn btn-sm hover-lift" style="background:rgba(0,170,255,0.1);color:#00aaff;border:1px solid rgba(0,170,255,0.3);border-radius:8px;padding:8px 16px"><i class="fas fa-file-pdf"></i> Export PDF</button>
+                        <button onclick="anchorToLedger('brief','Program brief anchored')" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#0071e3,#00aaff);color:#fff;border:none;border-radius:8px;padding:8px 16px"><i class="fas fa-anchor"></i> Anchor to Ledger</button>
+                    </div>
+
                     <!-- Brief Engine Container -->
                     <div id="briefContainer">
                         <div style="color:var(--muted);text-align:center;padding:2rem;font-size:0.85rem">

@@ -1197,7 +1197,7 @@
         html += '<button class="brief-action-btn" onclick="briefPresenterMode()" style="color:#a855f7;border-color:rgba(168,85,247,0.2)"><i class="fas fa-desktop"></i> Present</button>';
         html += '<button class="brief-action-btn" onclick="briefExportPPTX()" style="color:#f97316;border-color:rgba(249,115,22,0.2)"><i class="fas fa-file-powerpoint"></i> PPTX</button>';
         html += '<button class="brief-action-btn" onclick="briefExportPDF()"><i class="fas fa-file-pdf"></i> PDF</button>';
-        html += '<button class="brief-action-btn" onclick="briefAnchor()" style="color:var(--accent,#00aaff);border-color:rgba(0,170,255,0.2)"><i class="fas fa-link"></i> Anchor</button>';
+        html += '<button class="brief-action-btn" onclick="briefAnchor()" style="background:linear-gradient(135deg,#0071e3,#00aaff);color:#fff;border:none"><i class="fas fa-anchor"></i> Anchor to Ledger</button>';
         html += '<button class="brief-action-btn primary" onclick="briefSaveNow()"><i class="fas fa-save"></i> Save</button>';
         html += '</div></div>';
 

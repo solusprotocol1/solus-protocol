@@ -67,12 +67,12 @@
     <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" integrity="sha384-9nhczxUqK87bcKHh20fSQcTGD4qq5GhayNYSYWqwBkINBhOfQLg/P5HG5lF1urn4" crossorigin="anonymous"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/qrcode@1.5.4/build/qrcode.min.js"></script>
     <!-- CSS is imported via main.js and extracted by Vite -->
-  <script type="module" crossorigin src="/prod-app/dist/assets/index-DsYSz0ex.js"></script>
+  <script type="module" crossorigin src="/prod-app/dist/assets/index-lNXyykRB.js"></script>
   <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/engine-CccW-nR3.js">
   <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/navigation-DkpKoSK0.js">
   <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/metrics-vUB9g3hN.js">
   <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/enhancements-NlDJogfx.js">
-  <link rel="stylesheet" crossorigin href="/prod-app/dist/assets/index-ClbNdPym.css">
+  <link rel="stylesheet" crossorigin href="/prod-app/dist/assets/index--0nDaLgC.css">
 </head>
 <body class="light-mode">
 <!-- Light mode always on -->
@@ -2919,6 +2919,13 @@
                         </ol>
                         <p style="font-size:0.8rem;color:var(--steel);margin-bottom:8px;"><strong>How S4 saves you money:</strong> Program status briefings take <strong>15-30 hours</strong> to prepare manually. S4 generates complete briefings in <strong style="color:#00cc66">under 2 minutes</strong> — saving <strong style="color:#00cc66">$2,250-$4,500 per briefing</strong>. Monthly briefings across 10 programs: <strong style="color:#00cc66">$270,000-$540,000/year</strong> in labor savings.</p>
                     </details>
+
+                    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:1rem">
+                        <button onclick="briefNewFromTemplate()" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#0071e3,#00aaff);color:#fff;border:none;border-radius:8px;padding:8px 16px;font-weight:700"><i class="fas fa-plus"></i> New Brief</button>
+                        <button onclick="briefImportPPTX()" class="btn btn-sm hover-lift" style="background:rgba(0,170,255,0.1);color:#00aaff;border:1px solid rgba(0,170,255,0.3);border-radius:8px;padding:8px 16px"><i class="fas fa-file-powerpoint"></i> Import PPTX</button>
+                        <button onclick="briefExportPDF()" class="btn btn-sm hover-lift" style="background:rgba(0,170,255,0.1);color:#00aaff;border:1px solid rgba(0,170,255,0.3);border-radius:8px;padding:8px 16px"><i class="fas fa-file-pdf"></i> Export PDF</button>
+                        <button onclick="anchorToLedger('brief','Program brief anchored')" class="btn btn-sm hover-lift" style="background:linear-gradient(135deg,#0071e3,#00aaff);color:#fff;border:none;border-radius:8px;padding:8px 16px"><i class="fas fa-anchor"></i> Anchor to Ledger</button>
+                    </div>
 
                     <!-- Brief Engine Container -->
                     <div id="briefContainer">
