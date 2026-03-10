@@ -67,24 +67,37 @@
     <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" integrity="sha384-9nhczxUqK87bcKHh20fSQcTGD4qq5GhayNYSYWqwBkINBhOfQLg/P5HG5lF1urn4" crossorigin="anonymous"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/qrcode@1.5.4/build/qrcode.min.js"></script>
     <!-- CSS is imported via main.js and extracted by Vite -->
-  <script type="module" crossorigin src="/prod-app/dist/assets/index-D5BWmRtU.js"></script>
+  <script type="module" crossorigin src="/prod-app/dist/assets/index-Bq18ZGsV.js"></script>
   <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/engine-CccW-nR3.js">
   <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/navigation-DDQa8R6R.js">
   <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/metrics-vUB9g3hN.js">
-  <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/enhancements-D1yZpIKy.js">
-  <link rel="stylesheet" crossorigin href="/prod-app/dist/assets/index-DSEjoRz0.css">
+  <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/enhancements-CuoGJjiO.js">
+  <link rel="stylesheet" crossorigin href="/prod-app/dist/assets/index-IqaI5pHb.css">
 </head>
 <body class="light-mode" data-theme="light">
 <!-- Light mode always on -->
 <script>
 (function(){
-  /* Force light mode — no toggle needed */
-  document.body.classList.add('light-mode');
-  document.body.setAttribute('data-theme','light');
-  localStorage.setItem('s4-theme','light');
+  /* Respect stored theme preference (Change 10: Dark Mode) */
+  var stored = localStorage.getItem('s4-theme');
+  if (stored === 'dark') {
+    document.documentElement.setAttribute('data-theme','dark');
+    document.body.classList.remove('light-mode');
+    document.body.classList.add('dark-mode');
+    document.body.setAttribute('data-theme','dark');
+  } else {
+    document.documentElement.setAttribute('data-theme','light');
+    document.body.classList.add('light-mode');
+    document.body.setAttribute('data-theme','light');
+    localStorage.setItem('s4-theme','light');
+  }
   window.toggleTheme=function(){};
-  /* Chart.js colors for light mode */
-  if(typeof Chart!=='undefined'){Chart.defaults.color='#333';Chart.defaults.borderColor='rgba(0,0,0,0.1)';}
+  /* Chart.js colors for current mode */
+  if(typeof Chart!=='undefined'){
+    var isDark = stored === 'dark';
+    Chart.defaults.color = isDark ? '#a0a0c0' : '#333';
+    Chart.defaults.borderColor = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.1)';
+  }
 })();
 </script>
 <!-- Skip Navigation Link (Section 508 / a11y) -->
@@ -106,6 +119,7 @@
             <li><a href="https://github.com/s4ledger/s4-ledger" target="_blank" style="color:#6e6e73;padding:0.5rem 0.75rem;font-size:0.875rem;font-weight:500;text-decoration:none;border-radius:8px;">Docs</a></li>
             <li><a href="/s4-contact/" style="background:#00aaff;color:#fff;padding:0.5rem 1.25rem;font-size:0.875rem;font-weight:600;text-decoration:none;border-radius:8px;margin-left:0.5rem;">Contact Us</a></li>
             <li><button class="theme-toggle" onclick="toggleTheme()" title="Toggle Light/Dark Mode" aria-label="Toggle Light/Dark Mode" id="themeToggleBtn"><i class="fas fa-sun"></i></button></li>
+            <li><button class="s4-dark-toggle" id="s4DarkToggle" onclick="window._s4ToggleDark()" title="Toggle Dark Mode" aria-label="Toggle Dark Mode"><i class="fas fa-moon"></i></button></li>
         </ul>
         <button onclick="toggleMobileNav(this)" aria-label="Menu" aria-expanded="false" aria-controls="navLinks" style="display:none;background:none;border:none;color:var(--text);font-size:1.25rem;cursor:pointer;padding:0.5rem;">
             <i class="fas fa-bars"></i>
@@ -263,6 +277,13 @@
             </div>
         </div>
     <!-- ═══ WELCOME CARD (replaces onboarding wizard) ═══ -->
+    <!-- ═══ CHANGE 6: Today's Chain Bar ═══ -->
+    <div class="s4-today-chain" id="s4TodayChain">
+        <span class="s4tc-label"><i class="fas fa-link"></i> Today's Chain</span>
+        <div class="s4tc-pills" id="s4TodayChainPills"></div>
+        <button class="s4tc-run" id="s4TodayChainRun" onclick="window._s4RunTodayChain()"><i class="fas fa-play"></i> Run Chain</button>
+        <button class="s4tc-clear" onclick="window._s4ClearTodayChain()" title="Clear chain">&times;</button>
+    </div>
     <div class="s4-welcome-card" id="onboardOverlay" style="display:none">
         <div class="s4-welcome-inner" style="position:relative;overflow:hidden;">
             <div style="font-size:2rem;margin-bottom:10px"><i class="fas fa-shield-halved" style="color:var(--accent)"></i></div>

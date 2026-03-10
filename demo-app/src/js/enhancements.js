@@ -7792,4 +7792,407 @@ window.verifyProvenanceChain = verifyProvenanceChain;
     }
 })();
 
+/* ═══════════════════════════════════════════════════
+   CHANGES 6-10: Today's Chain, Undo, Progress,
+   Shortcuts, Dark Mode (Round 2)
+   ═══════════════════════════════════════════════════ */
+(function() {
+    'use strict';
+
+    // ─── CHANGE 6: Persistent "Today's Chain" Bar ───
+    var CHAIN_KEY = 's4_today_chain';
+    var _todayChain = [];
+
+    function _loadTodayChain() {
+        try {
+            var raw = localStorage.getItem(CHAIN_KEY);
+            _todayChain = raw ? JSON.parse(raw) : [];
+        } catch(e) { _todayChain = []; }
+    }
+    function _saveTodayChain() {
+        localStorage.setItem(CHAIN_KEY, JSON.stringify(_todayChain));
+    }
+
+    var _tcToolNames = {
+        'hub-analysis':'Gap Finder','hub-dmsms':'Obsolescence Alert','hub-readiness':'Readiness Score',
+        'hub-compliance':'Compliance Scorecard','hub-risk':'Risk Radar','hub-actions':'Task Prioritizer',
+        'hub-predictive':'Maintenance Predictor','hub-lifecycle':'Lifecycle Cost Estimator','hub-roi':'ROI Calculator',
+        'hub-vault':'Audit Vault','hub-docs':'Document Library','hub-reports':'Audit Builder',
+        'hub-submissions':'Submissions Hub','hub-sbom':'SBOM Scanner','hub-gfp':'Property Custodian',
+        'hub-cdrl':'Deliverables Tracker','hub-contract':'Contract Analyzer','hub-provenance':'Chain of Custody',
+        'hub-analytics':'Program Overview','hub-team':'Team Manager','hub-acquisition':'Fleet Optimizer',
+        'hub-milestones':'Milestone Monitor','hub-brief':'Brief Composer'
+    };
+
+    function _renderTodayChain() {
+        var bar = document.getElementById('s4TodayChain');
+        var pills = document.getElementById('s4TodayChainPills');
+        if (!bar || !pills) return;
+        if (!_todayChain.length) {
+            bar.classList.remove('visible');
+            return;
+        }
+        bar.classList.add('visible');
+        pills.innerHTML = _todayChain.map(function(toolId, i) {
+            var name = _tcToolNames[toolId] || toolId;
+            return (i > 0 ? '<span class="s4tc-arrow"><i class="fas fa-chevron-right"></i></span>' : '') +
+                '<span class="s4tc-pill" onclick="openILSTool(\'' + toolId + '\')" title="Open ' + name + '">' +
+                '<span class="s4tc-num">' + (i+1) + '</span>' + name + '</span>';
+        }).join('');
+    }
+
+    function _trackToolInChain(toolId) {
+        if (!toolId || !_tcToolNames[toolId]) return;
+        // Remove if already in chain, keep last 3
+        _todayChain = _todayChain.filter(function(t) { return t !== toolId; });
+        _todayChain.push(toolId);
+        if (_todayChain.length > 3) _todayChain = _todayChain.slice(-3);
+        _saveTodayChain();
+        _renderTodayChain();
+    }
+
+    window._s4RunTodayChain = function() {
+        if (!_todayChain.length) return;
+        window._s4ActiveChain = _todayChain.slice();
+        window._s4ActiveChainIdx = 0;
+        if (typeof window.openILSTool === 'function') {
+            window.openILSTool(_todayChain[0]);
+        }
+    };
+
+    window._s4ClearTodayChain = function() {
+        _todayChain = [];
+        _saveTodayChain();
+        _renderTodayChain();
+    };
+
+    // Hook openILSTool to track in Today's Chain
+    function _hookTodayChain() {
+        var orig = window.openILSTool;
+        if (!orig || orig._s4TodayHooked) return;
+        var wrapped = function(toolId) {
+            orig.call(this, toolId);
+            _trackToolInChain(toolId);
+        };
+        wrapped._s4TodayHooked = true;
+        // Preserve existing hooks
+        if (orig._s4ChainHooked) wrapped._s4ChainHooked = true;
+        if (orig._s4R13Hooked) wrapped._s4R13Hooked = true;
+        window.openILSTool = wrapped;
+    }
+
+    // ─── CHANGE 7: Undo on Every Result Panel ───
+    var _undoStates = new Map();
+
+    function _captureResultState(panel) {
+        if (!panel) return null;
+        return { html: panel.innerHTML, display: panel.style.display, cls: panel.className };
+    }
+
+    function _injectUndoButtons() {
+        document.querySelectorAll('.result-panel').forEach(function(panel) {
+            if (panel.querySelector('.s4-undo-btn')) return;
+            var btn = document.createElement('button');
+            btn.className = 's4-undo-btn';
+            btn.innerHTML = '<i class="fas fa-undo"></i> Undo Last Run';
+            btn.onclick = function() {
+                var state = _undoStates.get(panel.id);
+                if (state) {
+                    panel.innerHTML = state.html;
+                    panel.className = state.cls;
+                    panel.style.display = state.display;
+                    _undoStates.delete(panel.id);
+                }
+            };
+            panel.appendChild(btn);
+        });
+    }
+
+    // Observe result panels for changes and show undo after 30s
+    function _watchResultPanels() {
+        var observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(m) {
+                var panel = m.target.closest ? m.target.closest('.result-panel') : null;
+                if (!panel || !panel.id) return;
+                // Don't capture if it was an undo button injection
+                if (m.addedNodes && m.addedNodes.length === 1 && m.addedNodes[0].classList && m.addedNodes[0].classList.contains('s4-undo-btn')) return;
+                // Show undo button after 30s
+                var undoBtn = panel.querySelector('.s4-undo-btn');
+                if (undoBtn) {
+                    clearTimeout(undoBtn._s4Timer);
+                    undoBtn.classList.remove('visible');
+                    undoBtn._s4Timer = setTimeout(function() {
+                        undoBtn.classList.add('visible');
+                    }, 30000);
+                }
+            });
+        });
+
+        document.querySelectorAll('.result-panel').forEach(function(panel) {
+            // Capture initial state
+            if (panel.id) _undoStates.set(panel.id, _captureResultState(panel));
+            observer.observe(panel, { childList: true, subtree: true, characterData: true });
+        });
+
+        // Also hook when result panels get content (set before state)
+        var origInnerHTML = Object.getOwnPropertyDescriptor(Element.prototype, 'innerHTML');
+        // We rely on MutationObserver instead of overriding innerHTML for safety
+    }
+
+    // Re-capture state before any tool run button is clicked
+    function _hookRunButtons() {
+        document.addEventListener('click', function(e) {
+            var btn = e.target.closest('button');
+            if (!btn) return;
+            var text = (btn.textContent || '').toLowerCase();
+            if (text.indexOf('run') >= 0 || text.indexOf('analysis') >= 0 || text.indexOf('scan') >= 0 || text.indexOf('calculate') >= 0 || text.indexOf('generate') >= 0) {
+                // Find nearby result panel
+                var card = btn.closest('.s4-card') || btn.closest('.ils-hub-panel');
+                if (card) {
+                    var panels = card.querySelectorAll('.result-panel');
+                    panels.forEach(function(p) {
+                        if (p.id) _undoStates.set(p.id, _captureResultState(p));
+                    });
+                }
+            }
+        }, true);
+    }
+
+    // ─── CHANGE 8: Smarter Progress Feedback ───
+    function _createProgressRing(pct, label) {
+        var r = 18, c = 2 * Math.PI * r;
+        var offset = c - (pct / 100) * c;
+        var el = document.createElement('div');
+        el.className = 's4-progress-ring';
+        el.innerHTML = '<svg width="48" height="48"><circle class="ring-bg" cx="24" cy="24" r="' + r + '"/>' +
+            '<circle class="ring-fill" cx="24" cy="24" r="' + r + '" stroke-dasharray="' + c + '" stroke-dashoffset="' + offset + '"/></svg>' +
+            '<span class="ring-label">' + (label || pct + '%') + '</span>';
+        return el;
+    }
+    window._s4ProgressRing = _createProgressRing;
+
+    function _createChainTimeline(steps) {
+        // steps: [{name, status: 'done'|'running'|'pending'}]
+        var el = document.createElement('div');
+        el.className = 's4-chain-timeline';
+        el.innerHTML = steps.map(function(s, i) {
+            var icon = s.status === 'done' ? 'fa-check' : s.status === 'running' ? 'fa-spinner fa-spin' : 'fa-circle';
+            return (i > 0 ? '<div class="s4-chain-connector' + (s.status === 'done' ? ' done' : '') + '"></div>' : '') +
+                '<div class="s4-chain-step ' + s.status + '"><span class="s4cs-icon"><i class="fas ' + icon + '"></i></span>' + s.name + '</div>';
+        }).join('');
+        return el;
+    }
+    window._s4ChainTimeline = _createChainTimeline;
+
+    // Hook into chain runs to show timeline
+    function _hookChainProgress() {
+        var origRunChain = window._s4RunTodayChain;
+        window._s4RunTodayChain = function() {
+            if (!_todayChain.length) return;
+            // Show timeline in chain bar
+            var bar = document.getElementById('s4TodayChain');
+            if (bar) {
+                var existing = bar.querySelector('.s4-chain-timeline');
+                if (existing) existing.remove();
+                var steps = _todayChain.map(function(tId, i) {
+                    return { name: _tcToolNames[tId] || tId, status: i === 0 ? 'running' : 'pending' };
+                });
+                bar.appendChild(_createChainTimeline(steps));
+            }
+            origRunChain();
+            // Update timeline as tools open
+            var chainCopy = _todayChain.slice();
+            var idx = 0;
+            function updateTimeline() {
+                var timeline = bar ? bar.querySelector('.s4-chain-timeline') : null;
+                if (!timeline) return;
+                var stepEls = timeline.querySelectorAll('.s4-chain-step');
+                stepEls.forEach(function(el, i) {
+                    el.className = 's4-chain-step ' + (i < idx ? 'done' : i === idx ? 'running' : 'pending');
+                    var icon = el.querySelector('.s4cs-icon i');
+                    if (icon) icon.className = 'fas ' + (i < idx ? 'fa-check' : i === idx ? 'fa-spinner fa-spin' : 'fa-circle');
+                });
+                var connectors = timeline.querySelectorAll('.s4-chain-connector');
+                connectors.forEach(function(c, i) {
+                    c.className = 's4-chain-connector' + (i < idx ? ' done' : '');
+                });
+            }
+            // Watch for tool opens
+            var origOpen = window.openILSTool;
+            var progressWrap = function(toolId) {
+                var ci = chainCopy.indexOf(toolId);
+                if (ci >= 0) { idx = ci; updateTimeline(); }
+                origOpen.call(this, toolId);
+                // Mark done after a delay
+                if (ci >= 0) {
+                    setTimeout(function() {
+                        idx = ci + 1;
+                        updateTimeline();
+                        if (idx >= chainCopy.length) {
+                            // Chain complete — remove timeline after 3s
+                            setTimeout(function() {
+                                var tl = bar ? bar.querySelector('.s4-chain-timeline') : null;
+                                if (tl) tl.remove();
+                            }, 3000);
+                        }
+                    }, 1500);
+                }
+            };
+            // Preserve hooks
+            progressWrap._s4TodayHooked = origOpen._s4TodayHooked;
+            progressWrap._s4ChainHooked = origOpen._s4ChainHooked;
+            progressWrap._s4R13Hooked = origOpen._s4R13Hooked;
+            window.openILSTool = progressWrap;
+        };
+    }
+
+    // ─── CHANGE 9: Keyboard Shortcuts ───
+    var _isMac = navigator.platform.indexOf('Mac') >= 0;
+    var _modKey = _isMac ? 'metaKey' : 'ctrlKey';
+    var _modLabel = _isMac ? '⌘' : 'Ctrl';
+
+    function _initShortcuts() {
+        document.addEventListener('keydown', function(e) {
+            if (!e[_modKey]) return;
+            var key = e.key.toLowerCase();
+
+            // Cmd/Ctrl + Enter: Run Selected / Chain
+            if (key === 'enter') {
+                e.preventDefault();
+                // If chain active, run chain
+                if (_todayChain.length) {
+                    window._s4RunTodayChain();
+                    return;
+                }
+                // Otherwise, find the visible run button in the active panel
+                var activePanel = document.querySelector('.ils-hub-panel.active') || document.querySelector('.ils-hub-panel[style*="display: block"]') || document.querySelector('.ils-hub-panel[style*="display:block"]');
+                if (activePanel) {
+                    var runBtn = activePanel.querySelector('button[onclick*="run"], button[onclick*="Run"], button[onclick*="generate"], button[onclick*="scan"]');
+                    if (runBtn) { runBtn.click(); return; }
+                }
+                // Fallback: anchor button
+                var anchorBtn = document.getElementById('anchorBtn');
+                if (anchorBtn) anchorBtn.click();
+                return;
+            }
+
+            // Cmd/Ctrl + Z: Undo Last (only when not in input)
+            if (key === 'z' && !e.target.closest('input, textarea, select')) {
+                e.preventDefault();
+                // Find visible undo button
+                var undoBtn = document.querySelector('.s4-undo-btn.visible');
+                if (undoBtn) undoBtn.click();
+                return;
+            }
+
+            // Cmd/Ctrl + R: Refresh tool (prevent browser refresh)
+            if (key === 'r' && !e.shiftKey) {
+                var inside = document.getElementById('platformWorkspace');
+                if (inside && inside.style.display === 'block') {
+                    e.preventDefault();
+                    var panel = document.querySelector('.ils-hub-panel.active') || document.querySelector('.ils-hub-panel[style*="display: block"]') || document.querySelector('.ils-hub-panel[style*="display:block"]');
+                    if (panel) {
+                        var refreshBtn = panel.querySelector('button[onclick*="load"], button[onclick*="refresh"]');
+                        if (refreshBtn) refreshBtn.click();
+                    }
+                }
+                return;
+            }
+
+            // Cmd/Ctrl + E: Export report
+            if (key === 'e') {
+                e.preventDefault();
+                if (typeof window._s4ExportReport === 'function') window._s4ExportReport();
+                return;
+            }
+        });
+
+        // First-load tooltip
+        if (!sessionStorage.getItem('s4_shortcut_tip')) {
+            sessionStorage.setItem('s4_shortcut_tip', '1');
+            // Show after platform loads
+            var ws = document.getElementById('platformWorkspace');
+            if (ws) {
+                var obs = new MutationObserver(function() {
+                    if (ws.style.display === 'block') {
+                        obs.disconnect();
+                        setTimeout(function() {
+                            var toast = document.createElement('div');
+                            toast.className = 's4-shortcut-toast';
+                            toast.innerHTML = '<i class="fas fa-keyboard"></i> Pro tip: <kbd>' + _modLabel + '</kbd> + <kbd>Enter</kbd> to run fast.';
+                            document.body.appendChild(toast);
+                            setTimeout(function() { if (toast.parentNode) toast.remove(); }, 5000);
+                        }, 2000);
+                    }
+                });
+                obs.observe(ws, { attributes: true, attributeFilter: ['style'] });
+            }
+        }
+    }
+
+    // ─── CHANGE 10: Dark Mode Toggle ───
+    window._s4ToggleDark = function() {
+        var html = document.documentElement;
+        var body = document.body;
+        var isDark = html.getAttribute('data-theme') === 'dark';
+
+        if (isDark) {
+            // Switch to light
+            html.setAttribute('data-theme', 'light');
+            body.setAttribute('data-theme', 'light');
+            body.classList.remove('dark-mode');
+            body.classList.add('light-mode');
+            localStorage.setItem('s4-theme', 'light');
+        } else {
+            // Switch to dark
+            html.setAttribute('data-theme', 'dark');
+            body.setAttribute('data-theme', 'dark');
+            body.classList.remove('light-mode');
+            body.classList.add('dark-mode');
+            localStorage.setItem('s4-theme', 'dark');
+        }
+
+        // Update toggle icon
+        var btn = document.getElementById('s4DarkToggle');
+        if (btn) {
+            var icon = btn.querySelector('i');
+            if (icon) icon.className = 'fas ' + (isDark ? 'fa-moon' : 'fa-sun');
+        }
+
+        // Update Chart.js defaults
+        if (typeof Chart !== 'undefined') {
+            Chart.defaults.color = isDark ? '#333' : '#a0a0c0';
+            Chart.defaults.borderColor = isDark ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.06)';
+        }
+    };
+
+    function _initDarkMode() {
+        var stored = localStorage.getItem('s4-theme');
+        var btn = document.getElementById('s4DarkToggle');
+        if (btn) {
+            var icon = btn.querySelector('i');
+            if (icon) icon.className = 'fas ' + (stored === 'dark' ? 'fa-sun' : 'fa-moon');
+        }
+    }
+
+    // ─── Boot all Round 2 features ───
+    function _bootRound2() {
+        _loadTodayChain();
+        _hookTodayChain();
+        _renderTodayChain();
+        _injectUndoButtons();
+        _watchResultPanels();
+        _hookRunButtons();
+        _hookChainProgress();
+        _initShortcuts();
+        _initDarkMode();
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', _bootRound2);
+    } else {
+        setTimeout(_bootRound2, 200);
+    }
+})();
+
 })();
