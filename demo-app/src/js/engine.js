@@ -4177,98 +4177,226 @@ function assignResponsiblePerson(person) {
     s4Notify('Assigned', toolName + ' assigned to ' + person + '.', 'success');
 }
 
-// ── Quick Leadership Summary ──
-function showLeadershipSummary() {
-    const modal = document.getElementById('leadershipSummaryModal');
-    if (!modal) return;
+// ── Program Summary Report ──
+function _buildSummaryData() {
     const period = document.getElementById('leadershipPeriod')?.value || 'session';
     const now = new Date();
     let cutoff = null;
+    const labels = { session:'Current Session', daily:'Last 24 Hours', weekly:'Last 7 Days', monthly:'Last 30 Days', yearly:'Last 365 Days' };
     if (period === 'daily') cutoff = new Date(now - 86400000);
     else if (period === 'weekly') cutoff = new Date(now - 7 * 86400000);
     else if (period === 'monthly') cutoff = new Date(now - 30 * 86400000);
     else if (period === 'yearly') cutoff = new Date(now - 365 * 86400000);
 
     const recs = sessionRecords.filter(r => !cutoff || new Date(r.timestamp) >= cutoff);
-    const noteCount = _s4ImpactNotes.filter(n => !cutoff || new Date(n.timestamp) >= cutoff).length;
+    const notes = _s4ImpactNotes.filter(n => !cutoff || new Date(n.timestamp) >= cutoff);
     let assignments = [];
     try { assignments = JSON.parse(localStorage.getItem('s4_assignments') || '[]'); } catch(e) {}
     const recentAssignments = assignments.filter(a => !cutoff || new Date(a.assignedAt) >= cutoff);
 
-    let html = '<div style="font-size:0.78rem;color:var(--muted);margin-bottom:12px">' + (cutoff ? 'Period: ' + cutoff.toLocaleDateString() + ' — ' + now.toLocaleDateString() : 'Current Session') + '</div>';
-    html += '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:16px">'
-      + '<div style="text-align:center;padding:12px;background:rgba(0,170,255,0.06);border:1px solid rgba(0,170,255,0.15);border-radius:8px"><div style="font-size:1.6rem;font-weight:800;color:var(--accent)">'+recs.length+'</div><div style="font-size:0.72rem;color:var(--muted)">Records Anchored</div></div>'
-      + '<div style="text-align:center;padding:12px;background:rgba(52,199,89,0.06);border:1px solid rgba(52,199,89,0.15);border-radius:8px"><div style="font-size:1.6rem;font-weight:800;color:var(--green)">'+stats.verified+'</div><div style="font-size:0.72rem;color:var(--muted)">Verified</div></div>'
-      + '<div style="text-align:center;padding:12px;background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:8px"><div style="font-size:1.6rem;font-weight:800;color:#c9a84c">'+noteCount+'</div><div style="font-size:0.72rem;color:var(--muted)">Impact Notes</div></div>'
-    + '</div>';
+    // Compute total estimated impact from notes
+    let totalImpact = 0;
+    notes.forEach(n => {
+        if (n.estimatedImpact) {
+            const num = parseFloat(String(n.estimatedImpact).replace(/[$,]/g, ''));
+            if (!isNaN(num)) totalImpact += num;
+        }
+    });
 
-    if (ilsResults) {
-        html += '<div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px;margin-bottom:12px">'
-          + '<div style="font-size:0.78rem;font-weight:700;color:var(--steel);margin-bottom:6px"><i class="fas fa-chart-line" style="color:var(--accent)"></i> Latest Analysis</div>'
-          + '<div style="font-size:0.85rem;color:var(--steel)"><strong>'+ilsResults.prog.name+'</strong> — '+ilsResults.pct+'% readiness, '+ilsResults.critGaps+' critical gap'+(ilsResults.critGaps!==1?'s':'')+'</div>'
-          + (ilsResults.totalCost > 0 ? '<div style="font-size:0.82rem;color:#c9a84c;margin-top:4px">Est. risk: '+formatCost(ilsResults.totalCost)+'</div>' : '')
-        + '</div>';
+    // Key issues from ILS data + notes
+    let issues = [];
+    if (ilsResults && ilsResults.actions) {
+        ilsResults.actions.slice(0, 5).forEach(a => {
+            issues.push({ desc: a.title, impact: a.cost ? formatCost(a.cost) : null, type: a.severity || 'action' });
+        });
     }
+    notes.forEach(n => {
+        if (n.tool && n.tool !== 'Current Tool') {
+            issues.push({ desc: n.tool + (n.readiness ? ' — ' + n.readiness + ' readiness' : '') + (n.criticalGaps ? ', ' + n.criticalGaps + ' critical gap(s)' : ''), impact: n.estimatedImpact || null, type: 'note' });
+        }
+    });
 
-    if (recentAssignments.length) {
-        html += '<div style="font-size:0.78rem;font-weight:700;color:var(--steel);margin-bottom:6px"><i class="fas fa-user-check" style="color:var(--accent)"></i> Recent Assignments</div>';
-        html += '<div style="max-height:120px;overflow-y:auto;margin-bottom:12px">';
-        recentAssignments.slice(-5).forEach(a => {
-            html += '<div style="font-size:0.8rem;color:var(--steel);padding:4px 0;border-bottom:1px solid var(--border)"><strong>'+a.person+'</strong> — '+(a.program||a.tool||'Tool')+' <span style="color:var(--muted);font-size:0.72rem">'+new Date(a.assignedAt).toLocaleDateString()+'</span></div>';
+    return { now, cutoff, period, periodLabel: labels[period] || 'Current Session', recs, notes, recentAssignments, totalImpact, issues };
+}
+
+// Store last-generated text for copy/PDF
+let _lastSummaryText = '';
+
+function exportProgramSummary() {
+    const d = _buildSummaryData();
+    const modal = document.getElementById('programSummaryModal');
+    if (!modal) return;
+
+    // Build formatted HTML preview
+    let html = '';
+    html += '<div style="background:linear-gradient(135deg,rgba(0,170,255,0.04),rgba(0,113,227,0.06));border:1px solid rgba(0,170,255,0.12);border-radius:10px;padding:16px 20px;margin-bottom:16px">';
+    html += '<div style="font-size:1.05rem;font-weight:800;color:var(--steel);letter-spacing:0.5px">S4 LEDGER \u2014 PROGRAM SUMMARY</div>';
+    html += '<div style="font-size:0.78rem;color:var(--muted);margin-top:4px">Report Generated: ' + d.now.toLocaleString() + '</div>';
+    html += '<div style="font-size:0.78rem;color:var(--muted)">Period: ' + (d.cutoff ? d.cutoff.toLocaleDateString() + ' \u2014 ' + d.now.toLocaleDateString() : d.periodLabel) + '</div>';
+    html += '</div>';
+
+    // Highlights
+    html += '<div style="font-size:0.82rem;font-weight:700;color:var(--steel);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px"><i class="fas fa-chart-bar" style="color:var(--accent);margin-right:4px"></i> Highlights</div>';
+    html += '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:16px">';
+    html += '<div style="text-align:center;padding:14px 8px;background:rgba(0,170,255,0.05);border:1px solid rgba(0,170,255,0.12);border-radius:8px"><div style="font-size:1.5rem;font-weight:800;color:var(--accent)">' + d.recs.length + '</div><div style="font-size:0.72rem;color:var(--muted)">Records Anchored</div></div>';
+    html += '<div style="text-align:center;padding:14px 8px;background:rgba(52,199,89,0.05);border:1px solid rgba(52,199,89,0.12);border-radius:8px"><div style="font-size:1.5rem;font-weight:800;color:var(--green)">' + stats.verified + '</div><div style="font-size:0.72rem;color:var(--muted)">Records Verified</div></div>';
+    html += '<div style="text-align:center;padding:14px 8px;background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.15);border-radius:8px"><div style="font-size:1.5rem;font-weight:800;color:#c9a84c">' + (d.totalImpact > 0 ? '$' + d.totalImpact.toLocaleString() : '$0') + '</div><div style="font-size:0.72rem;color:var(--muted)">Est. Program Impact</div></div>';
+    html += '</div>';
+
+    // Key Issues & Actions
+    if (d.issues.length) {
+        html += '<div style="font-size:0.82rem;font-weight:700;color:var(--steel);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px"><i class="fas fa-exclamation-triangle" style="color:#c9a84c;margin-right:4px"></i> Key Issues & Actions</div>';
+        html += '<div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 14px;margin-bottom:16px">';
+        d.issues.forEach(iss => {
+            html += '<div style="font-size:0.82rem;color:var(--steel);padding:5px 0;border-bottom:1px solid rgba(0,0,0,0.04);display:flex;justify-content:space-between;gap:8px">';
+            html += '<span>\u2022 ' + iss.desc + '</span>';
+            if (iss.impact) html += '<span style="color:#c9a84c;font-weight:600;white-space:nowrap">' + iss.impact + '</span>';
+            html += '</div>';
         });
         html += '</div>';
     }
 
-    html += '<div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px">'
-      + '<button onclick="exportLeadershipSummary()" style="background:linear-gradient(135deg,#0071e3,#00aaff);color:#fff;border:none;border-radius:8px;padding:8px 16px;font-size:0.82rem;font-weight:600;cursor:pointer"><i class="fas fa-file-export"></i> Export Summary for Leadership</button>'
-      + '<button onclick="document.getElementById(\'leadershipSummaryModal\').classList.remove(\'active\')" style="background:rgba(0,0,0,0.05);color:var(--steel);border:1px solid var(--border);border-radius:8px;padding:8px 16px;font-size:0.82rem;cursor:pointer">Close</button>'
-    + '</div>';
+    // Ownership
+    if (d.recentAssignments.length) {
+        html += '<div style="font-size:0.82rem;font-weight:700;color:var(--steel);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px"><i class="fas fa-user-check" style="color:var(--accent);margin-right:4px"></i> Ownership</div>';
+        html += '<div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 14px;margin-bottom:16px">';
+        d.recentAssignments.forEach(a => {
+            html += '<div style="font-size:0.82rem;color:var(--steel);padding:4px 0;border-bottom:1px solid rgba(0,0,0,0.04)">\u2022 <strong>' + a.person + '</strong> \u2014 ' + (a.program || a.tool || 'Tool') + ' <span style="color:var(--muted);font-size:0.72rem">(' + new Date(a.assignedAt).toLocaleDateString() + ')</span></div>';
+        });
+        html += '</div>';
+    }
 
-    document.getElementById('leadershipSummaryBody').innerHTML = html;
+    // Summary paragraph
+    html += '<div style="font-size:0.82rem;font-weight:700;color:var(--steel);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px"><i class="fas fa-align-left" style="color:var(--accent);margin-right:4px"></i> Summary</div>';
+    let summaryText = 'During this ' + d.periodLabel.toLowerCase() + ', ' + d.recs.length + ' record' + (d.recs.length !== 1 ? 's were' : ' was') + ' anchored to the XRPL ledger and ' + stats.verified + ' verification' + (stats.verified !== 1 ? 's were' : ' was') + ' completed.';
+    if (d.totalImpact > 0) summaryText += ' The total estimated program impact from flagged items is $' + d.totalImpact.toLocaleString() + '.';
+    if (d.issues.length) summaryText += ' ' + d.issues.length + ' key issue' + (d.issues.length !== 1 ? 's were' : ' was') + ' identified requiring attention.';
+    if (d.recentAssignments.length) summaryText += ' ' + d.recentAssignments.length + ' task' + (d.recentAssignments.length !== 1 ? 's have' : ' has') + ' been assigned to responsible personnel.';
+    summaryText += ' All records are immutably anchored and independently verifiable.';
+    html += '<div style="background:rgba(0,170,255,0.03);border:1px solid rgba(0,170,255,0.10);border-radius:8px;padding:12px 14px;font-size:0.82rem;color:var(--steel);line-height:1.65;margin-bottom:12px">' + summaryText + '</div>';
+
+    // Footer
+    html += '<div style="text-align:center;font-size:0.72rem;color:var(--muted);padding-top:8px;border-top:1px solid var(--border)">Generated by S4 Ledger | s4ledger.com</div>';
+
+    document.getElementById('programSummaryBody').innerHTML = html;
     modal.classList.add('active');
+
+    // Build plain text version for copy/PDF
+    _lastSummaryText = _buildSummaryPlainText(d, summaryText);
 }
 
-function exportLeadershipSummary() {
-    const period = document.getElementById('leadershipPeriod')?.value || 'session';
-    const now = new Date();
-    let cutoff = null;
-    if (period === 'daily') cutoff = new Date(now - 86400000);
-    else if (period === 'weekly') cutoff = new Date(now - 7 * 86400000);
-    else if (period === 'monthly') cutoff = new Date(now - 30 * 86400000);
-    else if (period === 'yearly') cutoff = new Date(now - 365 * 86400000);
-
-    const recs = sessionRecords.filter(r => !cutoff || new Date(r.timestamp) >= cutoff);
-    let txt = 'S4 LEDGER — LEADERSHIP SUMMARY\n';
-    txt += '════════════════════════════════\n';
-    txt += 'Report Generated: ' + now.toLocaleString() + '\n';
-    txt += 'Period: ' + (cutoff ? cutoff.toLocaleDateString() + ' — ' + now.toLocaleDateString() : 'Current Session') + '\n\n';
-    txt += 'HIGHLIGHTS\n';
-    txt += '  Records Anchored: ' + recs.length + '\n';
-    txt += '  Records Verified: ' + stats.verified + '\n';
-    txt += '  Impact Notes Saved: ' + _s4ImpactNotes.length + '\n\n';
-    if (ilsResults) {
-        txt += 'LATEST ANALYSIS\n';
-        txt += '  Program: ' + ilsResults.prog.name + (ilsResults.hull ? ' (' + ilsResults.hull + ')' : '') + '\n';
-        txt += '  Readiness: ' + ilsResults.pct + '%\n';
-        txt += '  Critical Gaps: ' + ilsResults.critGaps + '\n';
-        txt += '  Est. Risk Cost: ' + formatCost(ilsResults.totalCost) + '\n\n';
+function _buildSummaryPlainText(d, summaryParagraph) {
+    let t = '';
+    t += 'S4 LEDGER \u2014 PROGRAM SUMMARY\n';
+    t += '\u2550'.repeat(40) + '\n';
+    t += 'Report Generated: ' + d.now.toLocaleString() + '\n';
+    t += 'Period: ' + (d.cutoff ? d.cutoff.toLocaleDateString() + ' \u2014 ' + d.now.toLocaleDateString() : d.periodLabel) + '\n\n';
+    t += 'HIGHLIGHTS\n';
+    t += '  \u2022 Records Anchored: ' + d.recs.length + '\n';
+    t += '  \u2022 Records Verified: ' + stats.verified + '\n';
+    t += '  \u2022 Total Estimated Program Impact: ' + (d.totalImpact > 0 ? '$' + d.totalImpact.toLocaleString() : '$0') + '\n\n';
+    if (d.issues.length) {
+        t += 'KEY ISSUES & ACTIONS\n';
+        d.issues.forEach(iss => {
+            t += '  \u2022 ' + iss.desc + (iss.impact ? ' (' + iss.impact + ')' : '') + '\n';
+        });
+        t += '\n';
     }
-    let assignments = [];
-    try { assignments = JSON.parse(localStorage.getItem('s4_assignments') || '[]'); } catch(e) {}
-    const recentAssignments = assignments.filter(a => !cutoff || new Date(a.assignedAt) >= cutoff);
-    if (recentAssignments.length) {
-        txt += 'ASSIGNMENTS\n';
-        recentAssignments.forEach(a => { txt += '  • ' + a.person + ' — ' + (a.program||a.tool||'Tool') + ' (' + new Date(a.assignedAt).toLocaleDateString() + ')\n'; });
-        txt += '\n';
+    if (d.recentAssignments.length) {
+        t += 'OWNERSHIP\n';
+        d.recentAssignments.forEach(a => {
+            t += '  \u2022 ' + a.person + ' \u2014 ' + (a.program || a.tool || 'Tool') + ' (' + new Date(a.assignedAt).toLocaleDateString() + ')\n';
+        });
+        t += '\n';
     }
-    txt += 'Generated by S4 Ledger | s4ledger.com\n';
-    const blob = new Blob([txt], {type:'text/plain'});
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = 'S4_Leadership_Summary_' + now.toISOString().split('T')[0] + '.txt';
-    a.click();
-    s4Notify('Exported', 'Leadership summary downloaded.', 'success');
+    t += 'SUMMARY\n';
+    t += summaryParagraph + '\n\n';
+    t += 'Generated by S4 Ledger | s4ledger.com\n';
+    return t;
 }
+
+function downloadProgramSummaryPDF() {
+    // Build a print-ready HTML document and trigger browser print-to-PDF
+    var content = document.getElementById('programSummaryBody');
+    if (!content) return;
+    var printWin = window.open('', '_blank', 'width=800,height=1000');
+    if (!printWin) { s4Notify('Blocked', 'Please allow popups to download PDF.', 'warning'); return; }
+    printWin.document.write('<!DOCTYPE html><html><head><meta charset="utf-8"><title>S4 Ledger \u2014 Program Summary</title>');
+    printWin.document.write('<style>');
+    printWin.document.write('body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,sans-serif;color:#1d1d1f;padding:40px 50px;line-height:1.6;max-width:750px;margin:0 auto}');
+    printWin.document.write('h1{font-size:18px;letter-spacing:1px;border-bottom:2px solid #00aaff;padding-bottom:8px;margin-bottom:4px}');
+    printWin.document.write('.meta{font-size:12px;color:#6e6e73;margin-bottom:20px}');
+    printWin.document.write('.section-title{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:#1d1d1f;margin:20px 0 8px;border-bottom:1px solid #e5e5e5;padding-bottom:4px}');
+    printWin.document.write('.stat-row{display:flex;gap:20px;margin-bottom:16px}');
+    printWin.document.write('.stat-box{flex:1;text-align:center;border:1px solid #e5e5e5;border-radius:6px;padding:12px}');
+    printWin.document.write('.stat-num{font-size:22px;font-weight:800;color:#0071e3}');
+    printWin.document.write('.stat-num.green{color:#34c759}.stat-num.gold{color:#c9a84c}');
+    printWin.document.write('.stat-label{font-size:11px;color:#6e6e73;margin-top:2px}');
+    printWin.document.write('ul{margin:0;padding-left:18px}li{font-size:13px;margin-bottom:4px}');
+    printWin.document.write('.impact{color:#c9a84c;font-weight:600}');
+    printWin.document.write('.summary-box{background:#f5f5f7;border-radius:6px;padding:12px 16px;font-size:13px;line-height:1.7;margin-top:8px}');
+    printWin.document.write('.footer{text-align:center;font-size:10px;color:#8e8e93;margin-top:30px;border-top:1px solid #e5e5e5;padding-top:10px}');
+    printWin.document.write('@media print{body{padding:20px 30px}}');
+    printWin.document.write('</style></head><body>');
+
+    var d = _buildSummaryData();
+    var summaryParagraph = _lastSummaryText.split('SUMMARY\n')[1]?.split('\n\nGenerated')[0] || '';
+
+    printWin.document.write('<h1>S4 LEDGER \u2014 PROGRAM SUMMARY</h1>');
+    printWin.document.write('<div class="meta">Report Generated: ' + d.now.toLocaleString() + '<br>Period: ' + (d.cutoff ? d.cutoff.toLocaleDateString() + ' \u2014 ' + d.now.toLocaleDateString() : d.periodLabel) + '</div>');
+
+    printWin.document.write('<div class="section-title">Highlights</div>');
+    printWin.document.write('<div class="stat-row">');
+    printWin.document.write('<div class="stat-box"><div class="stat-num">' + d.recs.length + '</div><div class="stat-label">Records Anchored</div></div>');
+    printWin.document.write('<div class="stat-box"><div class="stat-num green">' + stats.verified + '</div><div class="stat-label">Records Verified</div></div>');
+    printWin.document.write('<div class="stat-box"><div class="stat-num gold">' + (d.totalImpact > 0 ? '$' + d.totalImpact.toLocaleString() : '$0') + '</div><div class="stat-label">Est. Program Impact</div></div>');
+    printWin.document.write('</div>');
+
+    if (d.issues.length) {
+        printWin.document.write('<div class="section-title">Key Issues & Actions</div><ul>');
+        d.issues.forEach(function(iss) {
+            printWin.document.write('<li>' + iss.desc + (iss.impact ? ' <span class="impact">(' + iss.impact + ')</span>' : '') + '</li>');
+        });
+        printWin.document.write('</ul>');
+    }
+
+    if (d.recentAssignments.length) {
+        printWin.document.write('<div class="section-title">Ownership</div><ul>');
+        d.recentAssignments.forEach(function(a) {
+            printWin.document.write('<li><strong>' + a.person + '</strong> \u2014 ' + (a.program || a.tool || 'Tool') + ' (' + new Date(a.assignedAt).toLocaleDateString() + ')</li>');
+        });
+        printWin.document.write('</ul>');
+    }
+
+    printWin.document.write('<div class="section-title">Summary</div>');
+    printWin.document.write('<div class="summary-box">' + summaryParagraph + '</div>');
+    printWin.document.write('<div class="footer">Generated by S4 Ledger | s4ledger.com</div>');
+    printWin.document.write('</body></html>');
+    printWin.document.close();
+    setTimeout(function() { printWin.print(); }, 400);
+    s4Notify('PDF Ready', 'Use your browser\'s print dialog to save as PDF.', 'success');
+}
+
+function copyProgramSummaryText() {
+    if (!_lastSummaryText) { s4Notify('Nothing to Copy', 'Generate a summary first.', 'warning'); return; }
+    navigator.clipboard.writeText(_lastSummaryText).then(function() {
+        s4Notify('Copied', 'Summary copied to clipboard \u2014 paste into Outlook or Word.', 'success');
+    }).catch(function() {
+        // Fallback
+        var ta = document.createElement('textarea');
+        ta.value = _lastSummaryText;
+        ta.style.cssText = 'position:fixed;opacity:0';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        s4Notify('Copied', 'Summary copied to clipboard.', 'success');
+    });
+}
+
+// Keep old names as aliases for backward compat
+function showLeadershipSummary() { exportProgramSummary(); }
+function exportLeadershipSummary() { exportProgramSummary(); }
 
 function scheduleILSMeeting() {
     if (!ilsResults) return;
@@ -9074,5 +9202,8 @@ window.showWorkspaceNotification = showWorkspaceNotification;
 window.anchorToLedger = anchorToLedger;
 window.showLeadershipSummary = showLeadershipSummary;
 window.exportLeadershipSummary = exportLeadershipSummary;
+window.exportProgramSummary = exportProgramSummary;
+window.downloadProgramSummaryPDF = downloadProgramSummaryPDF;
+window.copyProgramSummaryText = copyProgramSummaryText;
 window.saveImpactToNotes = saveImpactToNotes;
 window.assignResponsiblePerson = assignResponsiblePerson;

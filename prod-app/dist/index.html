@@ -67,8 +67,8 @@
     <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" integrity="sha384-9nhczxUqK87bcKHh20fSQcTGD4qq5GhayNYSYWqwBkINBhOfQLg/P5HG5lF1urn4" crossorigin="anonymous"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/qrcode@1.5.4/build/qrcode.min.js"></script>
     <!-- CSS is imported via main.js and extracted by Vite -->
-  <script type="module" crossorigin src="/prod-app/dist/assets/index-DFNmpfoj.js"></script>
-  <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/engine-Ds8t8KTX.js">
+  <script type="module" crossorigin src="/prod-app/dist/assets/index-uwGBO76o.js"></script>
+  <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/engine-aLMTbCde.js">
   <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/navigation-DPFf6ce8.js">
   <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/metrics-CE3sqmpZ.js">
   <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/enhancements-DxdoupxZ.js">
@@ -835,7 +835,6 @@
                         <button class="filter-tab" data-filter="operations" onclick="filterILSTools('operations',this)"><i class="fas fa-tasks"></i> Operations</button>
                     </div>
                     <input type="text" class="ils-search" id="ilsToolSearch" placeholder="Search tools..." oninput="searchILSTools(this.value)" autocomplete="off" spellcheck="false" aria-label="Search ILS tools">
-                    <button onclick="showLeadershipSummary()" style="display:inline-flex;align-items:center;gap:5px;padding:6px 14px;border-radius:8px;font-size:0.78rem;font-weight:600;background:rgba(201,168,76,0.10);border:1px solid rgba(201,168,76,0.25);color:#c9a84c;cursor:pointer;transition:all 0.2s;white-space:nowrap;flex-shrink:0" title="Quick Leadership Summary"><i class="fas fa-chart-bar"></i> Leadership Brief</button>
                 </div>
                 <div class="ils-sub-hub" id="ilsSubHub" style="display:grid !important;">
                     <div class="ils-tool-card" data-category="compliance" onclick="openILSTool('hub-compliance')">
@@ -3260,13 +3259,16 @@
     </div>
 </div>
 
-<!-- ══ LEADERSHIP SUMMARY MODAL ══ -->
-<div id="leadershipSummaryModal" class="modal-overlay" onclick="if(event.target===this)this.classList.remove('active')">
-    <div class="modal-box" style="position:relative;max-width:560px">
-        <button onclick="document.getElementById('leadershipSummaryModal').classList.remove('active')" style="position:absolute;top:12px;right:16px;background:none;border:none;color:var(--muted);font-size:1.2rem;cursor:pointer">&times;</button>
-        <h4 style="display:flex;align-items:center;gap:8px;margin-bottom:4px"><i class="fas fa-chart-bar" style="color:var(--accent)"></i> Quick Leadership Summary</h4>
-        <div id="leadershipSummaryBody" style="padding:8px 0;color:var(--steel);">
-            <div style="text-align:center;padding:2rem;color:var(--muted)">Loading summary...</div>
+<!-- ══ PROGRAM SUMMARY REPORT MODAL ══ -->
+<div id="programSummaryModal" class="modal-overlay" onclick="if(event.target===this)this.classList.remove('active')">
+    <div class="modal-box" style="position:relative;max-width:680px;max-height:85vh;display:flex;flex-direction:column">
+        <button onclick="document.getElementById('programSummaryModal').classList.remove('active')" style="position:absolute;top:12px;right:16px;background:none;border:none;color:var(--muted);font-size:1.2rem;cursor:pointer;z-index:1">&times;</button>
+        <h4 style="display:flex;align-items:center;gap:8px;margin-bottom:4px;flex-shrink:0"><i class="fas fa-file-alt" style="color:var(--accent)"></i> Program Summary</h4>
+        <div id="programSummaryBody" style="padding:8px 0;color:var(--steel);overflow-y:auto;flex:1;font-size:0.85rem;line-height:1.6"></div>
+        <div style="display:flex;gap:8px;justify-content:flex-end;padding-top:12px;border-top:1px solid var(--border);flex-shrink:0">
+            <button onclick="downloadProgramSummaryPDF()" style="background:linear-gradient(135deg,#0071e3,#00aaff);color:#fff;border:none;border-radius:8px;padding:8px 18px;font-size:0.82rem;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px"><i class="fas fa-file-pdf"></i> Download PDF</button>
+            <button onclick="copyProgramSummaryText()" style="background:rgba(0,170,255,0.08);color:var(--accent);border:1px solid rgba(0,170,255,0.25);border-radius:8px;padding:8px 18px;font-size:0.82rem;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px"><i class="fas fa-copy"></i> Copy for Email / Word</button>
+            <button onclick="document.getElementById('programSummaryModal').classList.remove('active')" style="background:rgba(0,0,0,0.05);color:var(--steel);border:1px solid var(--border);border-radius:8px;padding:8px 16px;font-size:0.82rem;cursor:pointer">Close</button>
         </div>
     </div>
 </div>
@@ -4262,10 +4264,9 @@
             <option value="monthly">Monthly</option>
             <option value="yearly">Yearly</option>
         </select>
-        <button onclick="exportLeadershipSummary()" style="padding:4px 10px;border-radius:6px;font-size:0.72rem;font-weight:600;background:rgba(201,168,76,0.10);border:1px solid rgba(201,168,76,0.25);color:#c9a84c;cursor:pointer;white-space:nowrap" title="Export summary for leadership"><i class="fas fa-file-export"></i> Export</button>
     </div>
     <div class="s4-report-sidebar-footer">
-        <button class="s4rs-export" onclick="window._s4OpenExport()"><i class="fas fa-file-pdf"></i> Export PDF</button>
+        <button class="s4rs-export" onclick="exportProgramSummary()"><i class="fas fa-file-export"></i> Export Summary</button>
         <button class="s4rs-clear" onclick="window._s4ClearReport()">Clear</button>
     </div>
 </div>
