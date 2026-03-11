@@ -4486,6 +4486,25 @@ function _buildSummaryData() {
 }
 
 let _lastSummaryText = '';
+let _summaryAIEnhanced = false;
+
+function _getAIMockText() {
+    return {
+        execOverview: 'All critical records anchored and verified with zero integrity exceptions. 2 obsolescence risks identified across the fleet with an estimated $75K combined impact requiring near-term action. Compliance posture at 92% — on track for next audit cycle. Program health is stable with no blockers to milestone delivery.',
+        issues: [
+            { desc: 'Part XYZ-4420 flagged for obsolescence — last-time-buy window closes Q3 2026. Assigned to John Doe (SEA21) for sourcing alternatives.', impact: '$45,000' },
+            { desc: 'DMSMS Alert: Firmware v2.1 for LRU-8800 no longer supported by OEM. Replacement qualification in progress — est. 90-day lead time.', impact: '$30,000' },
+            { desc: 'Warranty claim WC-2026-018 pending escalation to SEA21 — original vendor dispute on coverage period.', impact: '$12,500' }
+        ],
+        nextSteps: [
+            'Escalate warranty claim WC-2026-018 to SEA21 contracting officer by Friday.',
+            'Schedule last-time-buy decision meeting for Part XYZ-4420 with supply chain and engineering leads.',
+            'Complete firmware qualification testing for LRU-8800 replacement and update SBOM.',
+            'Submit updated CDRL A005 to program office with corrected provisioning data.',
+            'Run compliance re-assessment after Q2 policy updates take effect.'
+        ]
+    };
+}
 
 function _buildExecOverview(d) {
     let o = '';
@@ -4516,8 +4535,20 @@ function exportProgramSummary() {
     html += '<div style="font-size:0.78rem;color:var(--muted)">Period: ' + (d.cutoff ? d.cutoff.toLocaleDateString() + ' \u2013 ' + d.now.toLocaleDateString() : d.periodLabel) + '</div>';
     html += '</div>';
 
+    // AI Enhancement checkbox
+    html += '<div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;padding:8px 12px;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.10);border-radius:8px">';
+    html += '<input type="checkbox" id="summaryAIToggle" ' + (_summaryAIEnhanced ? 'checked' : '') + ' onchange="_summaryAIEnhanced=this.checked;exportProgramSummary()" style="accent-color:#00aaff;width:16px;height:16px;cursor:pointer">';
+    html += '<label for="summaryAIToggle" style="font-size:0.78rem;font-weight:600;color:var(--steel);cursor:pointer;display:flex;align-items:center;gap:6px"><i class="fas fa-wand-magic-sparkles" style="color:var(--accent);font-size:0.72rem"></i> Enhance with AI Insights</label>';
+    html += '<span style="font-size:0.68rem;color:var(--muted);margin-left:auto">' + (_summaryAIEnhanced ? 'AI-Enhanced' : 'Raw Data Only') + '</span>';
+    html += '</div>';
+
+    const aiMock = _summaryAIEnhanced ? _getAIMockText() : null;
+    const displayOverview = aiMock ? aiMock.execOverview : execOverview;
+    const displayIssues = aiMock ? aiMock.issues : d.issues;
+    const displayNextSteps = aiMock ? aiMock.nextSteps : d.nextSteps;
+
     html += '<div style="font-size:0.82rem;font-weight:700;color:var(--steel);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px"><i class="fas fa-briefcase" style="color:var(--accent);margin-right:4px"></i> Executive Overview</div>';
-    html += '<div style="background:rgba(0,170,255,0.03);border:1px solid rgba(0,170,255,0.10);border-radius:8px;padding:12px 14px;font-size:0.82rem;color:var(--steel);line-height:1.65;margin-bottom:16px">' + execOverview + '</div>';
+    html += '<div style="background:rgba(0,170,255,0.03);border:1px solid rgba(0,170,255,0.10);border-radius:8px;padding:12px 14px;font-size:0.82rem;color:var(--steel);line-height:1.65;margin-bottom:16px">' + displayOverview + '</div>';
 
     html += '<div style="font-size:0.82rem;font-weight:700;color:var(--steel);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px"><i class="fas fa-chart-bar" style="color:var(--accent);margin-right:4px"></i> Key Highlights</div>';
     html += '<div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 14px;margin-bottom:16px">';
@@ -4528,8 +4559,8 @@ function exportProgramSummary() {
 
     html += '<div style="font-size:0.82rem;font-weight:700;color:var(--steel);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px"><i class="fas fa-exclamation-triangle" style="color:#c9a84c;margin-right:4px"></i> Critical Issues & Risks</div>';
     html += '<div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 14px;margin-bottom:16px">';
-    if (d.issues.length) {
-        d.issues.forEach(iss => {
+    if (displayIssues.length) {
+        displayIssues.forEach(iss => {
             html += '<div style="font-size:0.82rem;color:var(--steel);padding:5px 0;border-bottom:1px solid rgba(0,0,0,0.04);display:flex;justify-content:space-between;gap:8px">';
             html += '<span>\u2022 ' + iss.desc + '</span>';
             if (iss.impact) html += '<span style="color:#c9a84c;font-weight:600;white-space:nowrap">' + iss.impact + '</span>';
@@ -4568,7 +4599,7 @@ function exportProgramSummary() {
 
     html += '<div style="font-size:0.82rem;font-weight:700;color:var(--steel);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px"><i class="fas fa-arrow-right" style="color:var(--accent);margin-right:4px"></i> Next Steps</div>';
     html += '<div style="background:rgba(0,170,255,0.03);border:1px solid rgba(0,170,255,0.10);border-radius:8px;padding:12px 14px;font-size:0.82rem;color:var(--steel);line-height:1.65;margin-bottom:12px">';
-    d.nextSteps.forEach(s => { html += '\u2022 ' + s + '<br>'; });
+    displayNextSteps.forEach(s => { html += '\u2022 ' + s + '<br>'; });
     html += '</div>';
 
     html += '<div style="text-align:center;font-size:0.72rem;color:var(--muted);padding-top:8px;border-top:1px solid var(--border)">Generated by S4 Ledger | s4ledger.com</div>';
@@ -4580,7 +4611,10 @@ function exportProgramSummary() {
 }
 
 function _buildSummaryPlainText(d) {
-    const execOverview = _buildExecOverview(d);
+    const aiMock = _summaryAIEnhanced ? _getAIMockText() : null;
+    const execOverview = aiMock ? aiMock.execOverview : _buildExecOverview(d);
+    const displayIssues = aiMock ? aiMock.issues : d.issues;
+    const displayNextSteps = aiMock ? aiMock.nextSteps : d.nextSteps;
     let t = '';
     t += 'S4 LEDGER \u2013 PROGRAM STATUS SUMMARY\n';
     t += '\u2550'.repeat(44) + '\n';
@@ -4596,8 +4630,8 @@ function _buildSummaryPlainText(d) {
     t += '  \u2022 Estimated Program Impact: ' + (d.totalImpact > 0 ? '$' + d.totalImpact.toLocaleString() : '$0') + ' (savings or cost avoidance)\n\n';
 
     t += 'CRITICAL ISSUES & RISKS\n';
-    if (d.issues.length) {
-        d.issues.forEach(iss => { t += '  \u2022 ' + iss.desc + (iss.impact ? ' \u2014 ' + iss.impact + ' impact' : '') + '\n'; });
+    if (displayIssues.length) {
+        displayIssues.forEach(iss => { t += '  \u2022 ' + iss.desc + (iss.impact ? ' \u2014 ' + iss.impact + ' impact' : '') + '\n'; });
     } else {
         t += '  No critical issues identified during this period.\n';
     }
@@ -4624,7 +4658,7 @@ function _buildSummaryPlainText(d) {
     t += '\n';
 
     t += 'NEXT STEPS\n';
-    d.nextSteps.forEach(s => { t += '  \u2022 ' + s + '\n'; });
+    displayNextSteps.forEach(s => { t += '  \u2022 ' + s + '\n'; });
     t += '\n';
 
     t += 'Generated by S4 Ledger | s4ledger.com\n';
@@ -4655,7 +4689,10 @@ function downloadProgramSummaryPDF() {
     printWin.document.write('</style></head><body>');
 
     var d = _buildSummaryData();
-    var execOverview = _buildExecOverview(d);
+    var aiMock = _summaryAIEnhanced ? _getAIMockText() : null;
+    var execOverview = aiMock ? aiMock.execOverview : _buildExecOverview(d);
+    var displayIssues = aiMock ? aiMock.issues : d.issues;
+    var displayNextSteps = aiMock ? aiMock.nextSteps : d.nextSteps;
     var cClass = 'badge-' + d.complianceColor.toLowerCase();
 
     printWin.document.write('<h1>S4 LEDGER \u2013 PROGRAM STATUS SUMMARY</h1>');
@@ -4672,9 +4709,9 @@ function downloadProgramSummaryPDF() {
     printWin.document.write('</ul>');
 
     printWin.document.write('<div class="section-title">Critical Issues & Risks</div>');
-    if (d.issues.length) {
+    if (displayIssues.length) {
         printWin.document.write('<ul>');
-        d.issues.forEach(function(iss) {
+        displayIssues.forEach(function(iss) {
             printWin.document.write('<li>' + iss.desc + (iss.impact ? ' \u2013 <span class="impact">' + iss.impact + '</span>' : '') + '</li>');
         });
         printWin.document.write('</ul>');
@@ -4709,7 +4746,7 @@ function downloadProgramSummaryPDF() {
 
     printWin.document.write('<div class="section-title">Next Steps</div>');
     printWin.document.write('<div class="next-box">');
-    d.nextSteps.forEach(function(s) { printWin.document.write('\u2022 ' + s + '<br>'); });
+    displayNextSteps.forEach(function(s) { printWin.document.write('\u2022 ' + s + '<br>'); });
     printWin.document.write('</div>');
 
     printWin.document.write('<div class="footer">Generated by S4 Ledger | s4ledger.com</div>');
@@ -9424,6 +9461,7 @@ window.showWorkspaceNotification = showWorkspaceNotification;
 window.showLeadershipSummary = showLeadershipSummary;
 window.exportLeadershipSummary = exportLeadershipSummary;
 window.exportProgramSummary = exportProgramSummary;
+Object.defineProperty(window, '_summaryAIEnhanced', { get() { return _summaryAIEnhanced; }, set(v) { _summaryAIEnhanced = v; } });
 window.downloadProgramSummaryPDF = downloadProgramSummaryPDF;
 window.copyProgramSummaryText = copyProgramSummaryText;
 window.saveImpactToNotes = saveImpactToNotes;

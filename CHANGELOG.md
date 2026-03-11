@@ -1,5 +1,13 @@
 # Changelog
 
+## [5.12.6] — 2026-03-11
+### Added
+- "Enhance with AI Insights" checkbox in Export Summary modal (default unchecked)
+- When checked, Executive Overview, Critical Issues & Risks, and Next Steps sections display hardcoded mock AI executive text
+- AI mock text flows through all three outputs: modal HTML, Copy for Email/Word plaintext, and Download PDF
+- `_summaryAIEnhanced` flag with `Object.defineProperty` window binding, `_getAIMockText()` mock data function
+- Both demo-app and prod-app updated identically
+
 ## [5.12.5] — 2026-03-11
 ### Fixed
 - "How It Works" dropdown: removed `display:none!important` from `.hiw-help-btn` CSS — ? help buttons now visible on all 23 tool panels in both demo-app and prod-app
