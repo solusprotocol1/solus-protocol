@@ -7014,6 +7014,14 @@ var _drlDemoData = [
 ];
 
 var _drlFieldKeys = ['di','transmittalSerial','spRev','coordDueDate','desDateBasDay','submittalGuidance','coordCalcDate','actualDate','rcvD','calDaysReview','smeTarget','authority','responseDate','notes','status'];
+// §35-40 state variables
+var _drlSelectedRows = {};
+var _drlSavedViews = { custom: null };
+var _drlCurrentView = 'all';
+var _drlPreviousSnapshot = null;
+var _drlCompareMode = false;
+var _drlChangeHistory = {};
+
 
 function switchCdrlView(view) {
     var valView = document.getElementById('cdrlView-validation');
@@ -7086,6 +7094,7 @@ function _drlMakeCellEditable(td, rowIdx, fieldKey, prefix) {
         renderDrlStatusTable(prefix || '');
         if (prefix === 'sub') renderDrlStatusTable('');
         else renderDrlStatusTable('sub');
+        _drlRecordChange(rowIdx, fieldKey, current, val);
         // TODO: POST updated row to backend API to persist and anchor the change
         // e.g. fetch('/api/drl/update', { method:'POST', body: JSON.stringify({ rowIdx, fieldKey, value: val }) })
         if (typeof S4 !== 'undefined' && S4.toast) S4.toast('Cell updated & anchored.', 'success');
@@ -7101,6 +7110,7 @@ function _drlMakeCellEditable(td, rowIdx, fieldKey, prefix) {
 function drlSetStatus(rowIdx, newStatus, prefix) {
     var data = window._drlTrackerData || _drlDemoData;
     if (!data[rowIdx]) return;
+    _drlRecordChange(rowIdx, 'status', data[rowIdx].status, newStatus);
     data[rowIdx].status = newStatus;
     // TODO: POST status change to backend API to persist and anchor
     // e.g. fetch('/api/drl/status', { method:'POST', body: JSON.stringify({ rowIdx, status: newStatus }) })
@@ -7117,6 +7127,7 @@ function drlAddWorkflowLink(rowIdx, prefix) {
     if (!url || !url.trim()) return;
     url = url.trim();
     if (!/^https?:\/\//i.test(url)) { if (typeof S4 !== 'undefined' && S4.toast) S4.toast('Please enter a valid URL starting with http:// or https://', 'warning'); return; }
+    _drlRecordChange(rowIdx, 'workflowLink', data[rowIdx].workflowLink || '', url);
     data[rowIdx].workflowLink = url;
     // TODO: POST workflow link to backend API to persist and anchor
     // e.g. fetch('/api/drl/workflow-link', { method:'POST', body: JSON.stringify({ rowIdx, url }) })
@@ -7132,23 +7143,105 @@ function renderDrlStatusTable(prefix) {
     var tbody = document.getElementById(tbodyId);
     if (!tbody) return;
     var data = window._drlTrackerData || _drlDemoData;
+
+    // §36 — apply saved view filter
+    var filteredData = data;
+    var filterLabel = '';
+    if (_drlCurrentView === 'overdue') { filteredData = data.filter(function(r){return r.status==='past-due'||r.status==='late';}); filterLabel='Overdue Only'; }
+    else if (_drlCurrentView === 'thisweek') {
+        var now = new Date(); var weekEnd = new Date(now); weekEnd.setDate(now.getDate()+7);
+        filteredData = data.filter(function(r){ if(!r.coordDueDate) return false; var d=new Date(r.coordDueDate); return d>=now && d<=weekEnd; });
+        filterLabel='This Week Due';
+    }
+    else if (_drlCurrentView === 'highcrit') { filteredData = data.filter(function(r){return r.status==='past-due'||r.status==='approaching';}); filterLabel='High Criticality'; }
+    else if (_drlCurrentView === 'assigned') { filteredData = data.filter(function(r){return r.authority && r.authority.trim()!=='';}); filterLabel='My Assigned'; }
+    else if (_drlCurrentView === 'custom' && _drlSavedViews.custom) {
+        var cv = _drlSavedViews.custom;
+        filteredData = data.filter(function(r){ return !cv.statusFilter || r.status === cv.statusFilter; });
+        filterLabel = cv.name || 'Custom View';
+    }
+
+    // Build index map from filteredData back to data array
+    var idxMap = [];
+    filteredData.forEach(function(row) { idxMap.push(data.indexOf(row)); });
+
     var onTime = 0, approaching = 0, pastDue = 0, omissions = 0;
     var diMissCounts = {};
     data.forEach(function(r) { if (r.status === 'past-due') { diMissCounts[r.di] = (diMissCounts[r.di] || 0) + 1; } });
     var dash = '<span style="color:var(--steel);opacity:0.5">\u2014</span>';
-    var html = '';
-    data.forEach(function(row, idx) {
-        var c = _getDrlStatusColor(row.status);
+
+    // Full-data stats (not filtered)
+    data.forEach(function(row) {
         var isOmission = diMissCounts[row.di] && diMissCounts[row.di] >= 2;
         if (row.status === 'on-time' || row.status === 'completed') onTime++;
         else if (row.status === 'approaching' || row.status === 'in-progress') approaching++;
         else if (row.status === 'past-due' || row.status === 'late') pastDue++;
         if (isOmission && row.status === 'past-due') omissions++;
+    });
+
+    // §35 — Summary stats bar (rendered into dedicated div)
+    var statsBarId = pre ? pre + 'DrlSummaryBar' : 'drlSummaryBar';
+    var statsBar = document.getElementById(statsBarId);
+    if (statsBar) {
+        var total = data.length;
+        var onTimePct = total > 0 ? Math.round(onTime / total * 100) : 0;
+        statsBar.innerHTML = '<div style="display:flex;align-items:center;gap:16px;padding:8px 14px;background:var(--surface);border:1px solid var(--border);border-radius:10px;font-size:.78rem;font-weight:600">' +
+            '<span style="color:#ff3b30"><i class="fas fa-circle-exclamation"></i> Overdue: ' + pastDue + '</span>' +
+            '<span style="color:var(--border);font-size:.6rem">|</span>' +
+            '<span style="color:#ff9500"><i class="fas fa-clock"></i> Upcoming: ' + approaching + '</span>' +
+            '<span style="color:var(--border);font-size:.6rem">|</span>' +
+            '<span style="color:#34c759"><i class="fas fa-check-circle"></i> On Time: ' + onTimePct + '%</span>' +
+            (filterLabel ? '<span style="color:var(--border);font-size:.6rem">|</span><span style="color:#007AFF;font-size:.72rem"><i class="fas fa-filter"></i> ' + filterLabel + '</span>' : '') +
+            '</div>';
+    }
+
+    // §37 — Bulk toolbar (rendered into dedicated div)
+    var bulkBarId = pre ? pre + 'DrlBulkBar' : 'drlBulkBar';
+    var bulkBar = document.getElementById(bulkBarId);
+    if (bulkBar) {
+        var selCount = 0;
+        Object.keys(_drlSelectedRows).forEach(function(k) { if (_drlSelectedRows[k]) selCount++; });
+        if (selCount > 0) {
+            bulkBar.style.display = 'block';
+            bulkBar.innerHTML = '<div style="display:flex;align-items:center;gap:10px;padding:8px 14px;background:rgba(0,122,255,0.06);border:1px solid rgba(0,122,255,0.2);border-radius:10px;font-size:.78rem">' +
+                '<span style="font-weight:700;color:#007AFF">' + selCount + ' selected</span>' +
+                '<button onclick="drlBulkMarkCompleted(\'' + pre + '\')" style="font-size:.72rem;padding:4px 10px;border-radius:6px;border:none;background:#34c759;color:#fff;font-weight:700;cursor:pointer"><i class="fas fa-check"></i> Mark All Completed</button>' +
+                '<button onclick="drlBulkAssignReviewer(\'' + pre + '\')" style="font-size:.72rem;padding:4px 10px;border-radius:6px;border:1px solid #007AFF;background:transparent;color:#007AFF;font-weight:600;cursor:pointer"><i class="fas fa-user-check"></i> Assign Reviewer</button>' +
+                '<button onclick="drlExportSelected(\'' + pre + '\')" style="font-size:.72rem;padding:4px 10px;border-radius:6px;border:1px solid var(--border);background:transparent;color:var(--steel);font-weight:600;cursor:pointer"><i class="fas fa-file-csv"></i> Export Selected</button>' +
+                '<button onclick="drlClearSelection(\'' + pre + '\')" style="font-size:.72rem;padding:4px 10px;border-radius:6px;border:none;background:transparent;color:var(--steel);cursor:pointer;margin-left:auto"><i class="fas fa-times"></i> Clear</button>' +
+                '</div>';
+        } else {
+            bulkBar.style.display = 'none';
+            bulkBar.innerHTML = '';
+        }
+    }
+
+    var html = '';
+    filteredData.forEach(function(row, fIdx) {
+        var idx = idxMap[fIdx];
+        var c = _getDrlStatusColor(row.status);
+        var isOmission = diMissCounts[row.di] && diMissCounts[row.di] >= 2;
         var td = 'padding:6px 7px;border-color:var(--border);white-space:nowrap;cursor:pointer';
         var tdW = 'padding:6px 7px;border-color:var(--border);max-width:180px;cursor:pointer';
         var pre2 = pre ? "'" + pre + "'" : "''";
         function ec(key, val, style) { return '<td style="' + style + '" onclick="window._drlMakeCellEditable(this,' + idx + ',\'' + key + '\',' + pre2 + ')" title="Click to edit">' + (val || dash) + '</td>'; }
-        html += '<tr style="background:' + c.bg + ';border-left:3px solid ' + c.badge + '">';
+
+        // §40 — Compare mode: highlight changed rows
+        var rowBorder = c.badge;
+        var rowBg = c.bg;
+        if (_drlCompareMode && _drlPreviousSnapshot) {
+            var prev = _drlPreviousSnapshot[idx];
+            if (prev) {
+                if (prev.status !== row.status) { rowBorder = '#007AFF'; rowBg = 'rgba(0,122,255,0.08)'; }
+            } else { rowBorder = '#007AFF'; rowBg = 'rgba(0,122,255,0.06)'; }
+        }
+
+        html += '<tr style="background:' + rowBg + ';border-left:3px solid ' + rowBorder + '">';
+
+        // §37 — Checkbox column
+        var checked = _drlSelectedRows[idx] ? ' checked' : '';
+        html += '<td style="padding:6px 4px;border-color:var(--border);text-align:center"><input type="checkbox" onchange="drlToggleRow(' + idx + ',this.checked,\'' + pre + '\')" ' + checked + ' style="cursor:pointer;accent-color:#007AFF"></td>';
+
         html += ec('di', '<span style="font-weight:600">' + _escHtml(row.di) + '</span>', td);
         html += ec('transmittalSerial', row.transmittalSerial ? _escHtml(row.transmittalSerial) : '', td);
         html += ec('spRev', row.spRev ? _escHtml(row.spRev) : '', td);
@@ -7167,10 +7260,11 @@ function renderDrlStatusTable(prefix) {
         html += '<td style="' + td + '" onclick="window._drlMakeCellEditable(this,' + idx + ',\'status\',' + pre2 + ')" title="Click to edit"><span style="display:inline-block;padding:2px 10px;border-radius:20px;font-size:.72rem;font-weight:700;color:#fff;background:' + c.badge + '">' + c.label;
         if (isOmission && row.status === 'past-due') html += ' <i class="fas fa-flag" title="Repeated omission"></i>';
         html += '</span></td>';
-        // Actions column
+        // Actions column — §39 adds envelope icon
         html += '<td style="padding:6px 5px;border-color:var(--border);white-space:nowrap">';
         html += '<button onclick="drlSetStatus(' + idx + ',\'in-progress\',' + pre2 + ')" style="font-size:.65rem;padding:2px 7px;border-radius:4px;border:none;background:#ff9500;color:#fff;font-weight:700;cursor:pointer;margin-right:3px" title="Mark In-Progress">In-Prog</button>';
-        html += '<button onclick="drlSetStatus(' + idx + ',\'completed\',' + pre2 + ')" style="font-size:.65rem;padding:2px 7px;border-radius:4px;border:none;background:#34c759;color:#fff;font-weight:700;cursor:pointer" title="Mark Completed">Done</button>';
+        html += '<button onclick="drlSetStatus(' + idx + ',\'completed\',' + pre2 + ')" style="font-size:.65rem;padding:2px 7px;border-radius:4px;border:none;background:#34c759;color:#fff;font-weight:700;cursor:pointer;margin-right:3px" title="Mark Completed">Done</button>';
+        html += '<button onclick="drlSendEmail(' + idx + ')" style="font-size:.65rem;padding:2px 6px;border-radius:4px;border:1px solid var(--border);background:transparent;color:#007AFF;cursor:pointer" title="Email row data"><i class="fas fa-envelope"></i></button>';
         if (row.workflowLink) html += '<br><label style="font-size:.6rem;color:var(--steel);cursor:pointer;margin-top:2px;display:inline-block"><input type="checkbox" style="margin-right:3px;vertical-align:middle"> Push to External</label>';
         html += '</td>';
         // Workflow Link column
@@ -7181,6 +7275,8 @@ function renderDrlStatusTable(prefix) {
             html += '<button onclick="drlAddWorkflowLink(' + idx + ',' + pre2 + ')" style="font-size:.65rem;padding:2px 7px;border-radius:4px;border:1px solid #007AFF;background:transparent;color:#007AFF;font-weight:600;cursor:pointer"><i class="fas fa-plus"></i> Add Link</button>';
         }
         html += '</td>';
+        // §38 — History icon column
+        html += '<td style="padding:6px 5px;border-color:var(--border);text-align:center"><button onclick="drlShowHistory(' + idx + ')" style="font-size:.72rem;padding:3px 6px;border-radius:4px;border:1px solid var(--border);background:transparent;color:var(--steel);cursor:pointer" title="View change history"><i class="fas fa-clock-rotate-left"></i></button></td>';
         html += '</tr>';
     });
     tbody.innerHTML = html;
@@ -7209,7 +7305,6 @@ function renderDrlStatusTable(prefix) {
         } else { banner.style.display = 'none'; }
     }
 }
-
 function _escHtml(s) { if (!s) return ''; var d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
 
 // AI Assist: sends DRL data to AI agents for analysis
@@ -7367,6 +7462,209 @@ function importDrlSpreadsheet(prefix) {
         reader.readAsText(file);
     };
     input.click();
+}
+
+// ═══════════════════════════════════════════════════════
+// §35-40 — DRL Enhancement Functions
+// ═══════════════════════════════════════════════════════
+
+// §36 — Saved Views
+function drlSwitchView(viewName, prefix) {
+    _drlCurrentView = viewName;
+    _drlSelectedRows = {};
+    renderDrlStatusTable(prefix || '');
+    if ((prefix||'')==='sub') renderDrlStatusTable(''); else renderDrlStatusTable('sub');
+    if (typeof S4 !== 'undefined' && S4.toast) {
+        var labels = {all:'All Items',assigned:'My Assigned',overdue:'Overdue Only',thisweek:'This Week Due',highcrit:'High Criticality',custom:'Custom View'};
+        S4.toast('View: ' + (labels[viewName]||viewName), 'info');
+    }
+}
+
+function drlSaveCustomView(prefix) {
+    var name = prompt('Name this saved view:');
+    if (!name || !name.trim()) return;
+    var statusFilter = prompt('Filter by status (leave blank for all):\npast-due, late, approaching, on-time, completed, in-progress');
+    _drlSavedViews.custom = { name: name.trim(), statusFilter: (statusFilter||'').trim() || null };
+    _drlCurrentView = 'custom';
+    renderDrlStatusTable(prefix || '');
+    if ((prefix||'')==='sub') renderDrlStatusTable(''); else renderDrlStatusTable('sub');
+    if (typeof S4 !== 'undefined' && S4.toast) S4.toast('Custom view "' + name.trim() + '" saved.', 'success');
+}
+
+// §37 — Row selection & bulk actions
+function drlToggleRow(idx, checked, prefix) {
+    _drlSelectedRows[idx] = checked;
+    renderDrlStatusTable(prefix || '');
+    if ((prefix||'')==='sub') renderDrlStatusTable(''); else renderDrlStatusTable('sub');
+}
+
+function drlToggleAll(checked, prefix) {
+    var data = window._drlTrackerData || _drlDemoData;
+    for (var i = 0; i < data.length; i++) _drlSelectedRows[i] = checked;
+    renderDrlStatusTable(prefix || '');
+    if ((prefix||'')==='sub') renderDrlStatusTable(''); else renderDrlStatusTable('sub');
+}
+
+function drlBulkMarkCompleted(prefix) {
+    var data = window._drlTrackerData || _drlDemoData;
+    var count = 0;
+    Object.keys(_drlSelectedRows).forEach(function(k) {
+        if (_drlSelectedRows[k] && data[k]) {
+            _drlRecordChange(parseInt(k), 'status', data[k].status, 'completed');
+            data[k].status = 'completed';
+            count++;
+        }
+    });
+    _drlSelectedRows = {};
+    renderDrlStatusTable(prefix || '');
+    if ((prefix||'')==='sub') renderDrlStatusTable(''); else renderDrlStatusTable('sub');
+    if (typeof S4 !== 'undefined' && S4.toast) S4.toast(count + ' item' + (count!==1?'s':'') + ' marked completed.', 'success');
+}
+
+function drlBulkAssignReviewer(prefix) {
+    var reviewer = prompt('Enter reviewer name to assign:');
+    if (!reviewer || !reviewer.trim()) return;
+    var data = window._drlTrackerData || _drlDemoData;
+    var count = 0;
+    Object.keys(_drlSelectedRows).forEach(function(k) {
+        if (_drlSelectedRows[k] && data[k]) {
+            _drlRecordChange(parseInt(k), 'authority', data[k].authority, reviewer.trim());
+            data[k].authority = reviewer.trim();
+            count++;
+        }
+    });
+    _drlSelectedRows = {};
+    renderDrlStatusTable(prefix || '');
+    if ((prefix||'')==='sub') renderDrlStatusTable(''); else renderDrlStatusTable('sub');
+    if (typeof S4 !== 'undefined' && S4.toast) S4.toast(count + ' item' + (count!==1?'s':'') + ' assigned to ' + reviewer.trim() + '.', 'success');
+}
+
+function drlExportSelected(prefix) {
+    var data = window._drlTrackerData || _drlDemoData;
+    var selected = [];
+    Object.keys(_drlSelectedRows).forEach(function(k) { if (_drlSelectedRows[k] && data[k]) selected.push(data[k]); });
+    if (selected.length === 0) { if (typeof S4 !== 'undefined' && S4.toast) S4.toast('No rows selected.', 'warning'); return; }
+    var headers = ['DI Number','Transmittal Serial #','SharePoint Rev','Coordinated Due Date','Des Date / Bas. Day?','Submittal Guidance','Coord. Calculated Date','Actual Submission Date','RCV D','Cal. Days to Review','SME Reviewer Target','Release Authority','Response Posted Date','Notes','Status','Workflow Link'];
+    var rows = [headers.join(',')];
+    selected.forEach(function(r) {
+        rows.push(['"'+(r.di||'')+'"','"'+(r.transmittalSerial||'')+'"','"'+(r.spRev||'')+'"','"'+(r.coordDueDate||'')+'"','"'+(r.desDateBasDay||'')+'"','"'+(r.submittalGuidance||'').replace(/"/g,'""')+'"','"'+(r.coordCalcDate||'')+'"','"'+(r.actualDate||'')+'"','"'+(r.rcvD||'')+'"',r.calDaysReview||'','"'+(r.smeTarget||'')+'"','"'+(r.authority||'')+'"','"'+(r.responseDate||'')+'"','"'+(r.notes||'').replace(/"/g,'""')+'"','"'+(r.status||'')+'"','"'+(r.workflowLink||'')+'"'].join(','));
+    });
+    var blob = new Blob([rows.join('\n')], { type: 'text/csv;charset=utf-8;' });
+    var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'drl_selected_export.csv'; a.click();
+    if (typeof S4 !== 'undefined' && S4.toast) S4.toast('Exported ' + selected.length + ' selected rows.', 'success');
+}
+
+function drlClearSelection(prefix) {
+    _drlSelectedRows = {};
+    renderDrlStatusTable(prefix || '');
+    if ((prefix||'')==='sub') renderDrlStatusTable(''); else renderDrlStatusTable('sub');
+}
+
+// §38 — History sidebar
+function _drlRecordChange(rowIdx, field, oldVal, newVal) {
+    if (!_drlChangeHistory[rowIdx]) _drlChangeHistory[rowIdx] = [];
+    _drlChangeHistory[rowIdx].push({
+        field: field,
+        oldVal: oldVal || '',
+        newVal: newVal || '',
+        timestamp: new Date().toISOString(),
+        user: 'Current User'
+    });
+}
+
+function drlShowHistory(rowIdx) {
+    var data = window._drlTrackerData || _drlDemoData;
+    var row = data[rowIdx];
+    if (!row) return;
+    // Remove existing sidebar
+    var existing = document.getElementById('drlHistorySidebar');
+    if (existing) existing.remove();
+    var sidebar = document.createElement('div');
+    sidebar.id = 'drlHistorySidebar';
+    sidebar.style.cssText = 'position:fixed;top:0;right:0;width:380px;height:100vh;background:var(--surface,#fff);border-left:1px solid var(--border,#e0e0e0);box-shadow:-4px 0 20px rgba(0,0,0,0.1);z-index:10001;overflow-y:auto;padding:20px;font-size:.82rem;transition:transform 0.25s ease;animation:drlSlideIn 0.25s ease';
+    var history = _drlChangeHistory[rowIdx] || [];
+    var historyHtml = '';
+    if (history.length === 0) {
+        historyHtml = '<div style="text-align:center;color:var(--steel);padding:30px 10px"><i class="fas fa-clock" style="font-size:1.6rem;opacity:0.3;display:block;margin-bottom:8px"></i>No changes recorded yet for this item.<br><span style="font-size:.74rem">Changes will appear here as edits are made.</span></div>';
+    } else {
+        history.slice().reverse().forEach(function(entry) {
+            var dt = new Date(entry.timestamp);
+            var timeStr = dt.toLocaleDateString() + ' ' + dt.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+            historyHtml += '<div style="padding:10px 0;border-bottom:1px solid var(--border,#eee)">' +
+                '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px"><span style="font-weight:700;color:var(--text)">' + _escHtml(entry.field) + '</span><span style="font-size:.7rem;color:var(--steel)">' + timeStr + '</span></div>' +
+                '<div style="font-size:.76rem"><span style="color:#ff3b30;text-decoration:line-through">' + _escHtml(entry.oldVal || '(empty)') + '</span> <i class="fas fa-arrow-right" style="color:var(--steel);font-size:.6rem;margin:0 4px"></i> <span style="color:#34c759;font-weight:600">' + _escHtml(entry.newVal || '(empty)') + '</span></div>' +
+                '<div style="font-size:.7rem;color:var(--steel);margin-top:2px"><i class="fas fa-user" style="margin-right:3px"></i>' + _escHtml(entry.user) + '</div>' +
+                '</div>';
+        });
+    }
+    sidebar.innerHTML = '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border,#eee)">' +
+        '<div><h4 style="margin:0;font-size:.92rem"><i class="fas fa-clock-rotate-left" style="color:#007AFF;margin-right:6px"></i>Change History</h4>' +
+        '<div style="font-size:.76rem;color:var(--steel);margin-top:2px">' + _escHtml(row.di) + ' \u2014 ' + _escHtml(row.transmittalSerial||'') + '</div></div>' +
+        '<button onclick="document.getElementById(\'drlHistorySidebar\').remove()" style="background:none;border:none;font-size:1.1rem;color:var(--steel);cursor:pointer;padding:4px 8px"><i class="fas fa-times"></i></button></div>' +
+        '<div>' + historyHtml + '</div>';
+    document.body.appendChild(sidebar);
+}
+
+// §39 — Email draft
+function drlSendEmail(rowIdx) {
+    var data = window._drlTrackerData || _drlDemoData;
+    var row = data[rowIdx];
+    if (!row) return;
+    var subject = encodeURIComponent('DRL Action Required: ' + row.di + ' - ' + (row.transmittalSerial||''));
+    var body = encodeURIComponent(
+        'DRL/DI Status Update\n' +
+        '=====================\n\n' +
+        'DI Number: ' + (row.di||'N/A') + '\n' +
+        'Transmittal: ' + (row.transmittalSerial||'N/A') + '\n' +
+        'Rev: ' + (row.spRev||'N/A') + '\n' +
+        'Due Date: ' + (row.coordDueDate||'N/A') + '\n' +
+        'Status: ' + (row.status||'N/A') + '\n' +
+        'Release Authority: ' + (row.authority||'N/A') + '\n' +
+        'Notes: ' + (row.notes||'N/A') + '\n' +
+        (row.workflowLink ? 'Workflow Link: ' + row.workflowLink + '\n' : '') +
+        '\n---\nSent from S4 Ledger DRL/DI Status Tracker'
+    );
+    var mailto = 'mailto:?subject=' + subject + '&body=' + body;
+    window.open(mailto, '_blank');
+    if (typeof S4 !== 'undefined' && S4.toast) S4.toast('Email draft opened.', 'success');
+}
+
+// §40 — Compare to Previous Period
+function drlComparePrevious(prefix) {
+    var data = window._drlTrackerData || _drlDemoData;
+    if (data.length === 0) { if (typeof S4 !== 'undefined' && S4.toast) S4.toast('No data to compare.', 'info'); return; }
+    if (_drlCompareMode) {
+        // Turn off compare mode
+        _drlCompareMode = false;
+        renderDrlStatusTable(prefix || '');
+        if ((prefix||'')==='sub') renderDrlStatusTable(''); else renderDrlStatusTable('sub');
+        if (typeof S4 !== 'undefined' && S4.toast) S4.toast('Compare mode off.', 'info');
+        return;
+    }
+    if (!_drlPreviousSnapshot) {
+        // Take first snapshot
+        _drlPreviousSnapshot = data.map(function(r) { return JSON.parse(JSON.stringify(r)); });
+        if (typeof S4 !== 'undefined' && S4.toast) S4.toast('Snapshot saved. Make changes, then Compare again to highlight differences.', 'info');
+        return;
+    }
+    // Enable compare mode
+    _drlCompareMode = true;
+    renderDrlStatusTable(prefix || '');
+    if ((prefix||'')==='sub') renderDrlStatusTable(''); else renderDrlStatusTable('sub');
+    if (typeof S4 !== 'undefined' && S4.toast) {
+        var changes = 0;
+        data.forEach(function(r, i) { if (_drlPreviousSnapshot[i] && _drlPreviousSnapshot[i].status !== r.status) changes++; });
+        S4.toast('Compare mode: ' + changes + ' change' + (changes!==1?'s':'') + ' highlighted in blue.', 'success');
+    }
+}
+
+function drlResetSnapshot(prefix) {
+    var data = window._drlTrackerData || _drlDemoData;
+    _drlPreviousSnapshot = data.map(function(r) { return JSON.parse(JSON.stringify(r)); });
+    _drlCompareMode = false;
+    renderDrlStatusTable(prefix || '');
+    if ((prefix||'')==='sub') renderDrlStatusTable(''); else renderDrlStatusTable('sub');
+    if (typeof S4 !== 'undefined' && S4.toast) S4.toast('Snapshot reset to current state.', 'info');
 }
 
 // Contract handlers
@@ -7660,6 +7958,19 @@ window.drlAiAssist = drlAiAssist;
 window.drlSetStatus = drlSetStatus;
 window.drlAddWorkflowLink = drlAddWorkflowLink;
 window._drlMakeCellEditable = _drlMakeCellEditable;
+window.drlSwitchView = drlSwitchView;
+window.drlSaveCustomView = drlSaveCustomView;
+window.drlToggleRow = drlToggleRow;
+window.drlToggleAll = drlToggleAll;
+window.drlBulkMarkCompleted = drlBulkMarkCompleted;
+window.drlBulkAssignReviewer = drlBulkAssignReviewer;
+window.drlExportSelected = drlExportSelected;
+window.drlClearSelection = drlClearSelection;
+window.drlShowHistory = drlShowHistory;
+window.drlSendEmail = drlSendEmail;
+window.drlComparePrevious = drlComparePrevious;
+window.drlResetSnapshot = drlResetSnapshot;
+window._drlRecordChange = _drlRecordChange;
 window.exportContractMatrix = exportContractMatrix;
 window.exportGfpReport = exportGfpReport;
 window.exportSBOM = exportSBOM;
