@@ -478,24 +478,35 @@ function closeDigitalThread() {
     if (panel) panel.style.display = 'none';
 }
 
-// Helper: populate digital thread dropdown from vault records
+// Helper: populate digital thread dropdown from vault + session records
 function populateDigitalThreadDropdown() {
     var sel = document.getElementById('digitalThreadRecordSelect');
-    if (!sel || typeof window.s4Vault === 'undefined') return;
-    var html = '<option value="">— Select a vault record —</option>';
-    window.s4Vault.forEach(function(v, i) {
+    if (!sel) return;
+    var vault = Array.isArray(window.s4Vault) ? window.s4Vault : [];
+    var session = Array.isArray(window.sessionRecords) ? window.sessionRecords : [];
+    // Merge: vault first, then session records not already in vault (by hash)
+    var seen = {};
+    var merged = [];
+    vault.forEach(function(v) { if (v.hash) { seen[v.hash] = true; merged.push(v); } });
+    session.forEach(function(r) { if (r.hash && !seen[r.hash]) { seen[r.hash] = true; merged.push(r); } });
+    var html = '<option value="">' + (merged.length ? '\u2014 Select a record (' + merged.length + ') \u2014' : '\u2014 No records yet \u2014') + '</option>';
+    merged.forEach(function(v, i) {
         var lbl = (v.label || v.type || 'Record').substring(0, 50);
-        html += '<option value="' + i + '">' + lbl + '</option>';
+        var dt = v.timestamp ? ' (' + new Date(v.timestamp).toLocaleDateString() + ')' : '';
+        html += '<option value="' + i + '">' + lbl + dt + '</option>';
     });
     sel.innerHTML = html;
+    // Store merged list for selection lookup
+    window._digitalThreadMerged = merged;
 }
 
 function showDigitalThreadFromSelect() {
     var sel = document.getElementById('digitalThreadRecordSelect');
     if (!sel || !sel.value) return;
     var idx = parseInt(sel.value);
-    if (typeof window.s4Vault !== 'undefined' && s4Vault[idx]) {
-        showDigitalThread(window.s4Vault[idx].hash);
+    var merged = window._digitalThreadMerged || window.s4Vault || [];
+    if (merged[idx] && merged[idx].hash) {
+        showDigitalThread(merged[idx].hash);
     }
 }
 
