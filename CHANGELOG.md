@@ -5,8 +5,11 @@
 - Onboarding tour steps 1 ("Workflow Presets") and 3 ("Tool Cards & Hover Previews"): now navigate into the ILS section before highlighting, so the target elements are actually visible on screen
 - Onboarding tour step 1 ("Workflow Presets"): highlight now targets the Settings menu element itself rather than a preset button inside the absolutely-positioned dropdown — gives a stable, visible highlight anchor
 - Onboarding tour no longer fires before the user enters Anchor-S4 — replaced blind 1.5s boot timer with an observer that waits for `#tabILS` to become active before starting the tour
+- Ledger Account sidebar: overlay backdrop-filter blur was covering the sidebar itself (z-index layering — overlay 9998 above sidebar 1000); sidebar now z-index 10001, overlay 10000, no blur
 ### Changed
 - Ledger Account sidebar completely redesigned: hero credits display (32px bold, color-coded by health), progress bar, verified badge, usage toast, 3-column stats grid, wallet address card, Top Up outline button
+- Sidebar widened from 400px → 480px with increased padding (28px/32px) for better readability
+- Overlay reduced from rgba(0,0,0,0.45) + blur(2px) to a subtle rgba(0,0,0,0.18) dim — no blur
 - Sidebar now renders its own focused credits view instead of cloning the full tabWallet pane
 - Fade-in + scale-up animation on credits number on open
 - SF Pro / system font stack, 12px radius cards, generous spacing
