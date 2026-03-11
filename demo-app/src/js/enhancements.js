@@ -9282,7 +9282,11 @@ function _hookForProductivity() {
     var wrapped = function(toolId) {
         orig.call(this, toolId);
         setTimeout(function() { _trackRecentTool(toolId); }, 100);
-        setTimeout(function() { _injectCopyBullet(toolId); }, 800);
+        setTimeout(function() {
+            _injectCopyBullet(toolId);
+            _injectStatusBar(toolId);
+            _injectRerun(toolId);
+        }, 800);
     };
     wrapped._s4ProdHooked = true;
     if (orig._s4ChainHooked) wrapped._s4ChainHooked = true;
@@ -9290,29 +9294,39 @@ function _hookForProductivity() {
     window.openILSTool = wrapped;
 }
 
-// ── SECTION 28: Copy Tool Result as Bullet Point ──
+// ── SECTION 28 / 30: Copy as Bullet (small green, next to Anchor button) ──
 function _injectCopyBullet(toolId) {
     var panel = document.getElementById(toolId);
     if (!panel) return;
     var existing = panel.querySelector('.s4-copy-bullet-btn');
-    if (existing) existing.remove();
+    if (existing) return;
 
-    var resultPanel = panel.querySelector('.result-panel');
-    if (!resultPanel) return;
+    // Find the anchor button row (flex container with Anchor to Ledger)
+    var anchorBtn = null;
+    var btns = panel.querySelectorAll('button');
+    for (var i = 0; i < btns.length; i++) {
+        if (/Anchor to/i.test(btns[i].textContent)) { anchorBtn = btns[i]; break; }
+    }
+    var target = anchorBtn ? anchorBtn.parentElement : null;
+    if (!target) {
+        // Fallback: find the action row or last .s4-card
+        var cards = panel.querySelectorAll('.s4-card');
+        target = cards.length ? cards[cards.length - 1] : panel;
+    }
 
     var btn = document.createElement('button');
     btn.className = 's4-copy-bullet-btn';
-    btn.innerHTML = '<i class="fas fa-copy" style="margin-right:5px"></i>Copy as Bullet Point';
+    btn.innerHTML = '<i class="fas fa-copy" style="margin-right:4px"></i>Copy as Bullet';
     Object.assign(btn.style, {
-        display:'flex', alignItems:'center', justifyContent:'center', gap:'4px',
-        width:'100%', padding:'8px 14px', marginTop:'10px',
-        background:'rgba(0,122,255,0.06)', border:'1px solid rgba(0,122,255,0.12)',
-        borderRadius:'10px', color:'var(--accent,#007AFF)', fontSize:'0.78rem', fontWeight:'600',
+        display:'inline-flex', alignItems:'center', gap:'3px',
+        padding:'6px 12px', background:'rgba(16,185,129,0.10)',
+        border:'1px solid rgba(16,185,129,0.25)', borderRadius:'8px',
+        color:'#10B981', fontSize:'0.78rem', fontWeight:'600',
         cursor:'pointer', fontFamily:'inherit', transition:'all 0.2s ease',
-        letterSpacing:'0.01em'
+        whiteSpace:'nowrap'
     });
-    btn.onmouseover = function() { btn.style.background = 'rgba(0,122,255,0.12)'; };
-    btn.onmouseout = function() { btn.style.background = 'rgba(0,122,255,0.06)'; };
+    btn.onmouseover = function() { btn.style.background = 'rgba(16,185,129,0.18)'; };
+    btn.onmouseout = function() { btn.style.background = 'rgba(16,185,129,0.10)'; };
 
     var toolName = _TOOL_NAMES[toolId] || toolId;
 
@@ -9326,8 +9340,8 @@ function _injectCopyBullet(toolId) {
         var bullet = '\u2022 ' + toolName + ' \u2014 ' + (text || 'Tool completed.') + ' (' + new Date().toLocaleDateString() + ')';
         if (navigator.clipboard && navigator.clipboard.writeText) {
             navigator.clipboard.writeText(bullet).then(function() {
-                btn.innerHTML = '<i class="fas fa-check" style="margin-right:5px;color:#34c759"></i>Copied!';
-                setTimeout(function() { btn.innerHTML = '<i class="fas fa-copy" style="margin-right:5px"></i>Copy as Bullet Point'; }, 2000);
+                btn.innerHTML = '<i class="fas fa-check" style="margin-right:4px;color:#10B981"></i>Copied!';
+                setTimeout(function() { btn.innerHTML = '<i class="fas fa-copy" style="margin-right:4px"></i>Copy as Bullet'; }, 2000);
             });
         } else {
             var ta = document.createElement('textarea');
@@ -9337,13 +9351,80 @@ function _injectCopyBullet(toolId) {
             ta.select();
             document.execCommand('copy');
             document.body.removeChild(ta);
-            btn.innerHTML = '<i class="fas fa-check" style="margin-right:5px;color:#34c759"></i>Copied!';
-            setTimeout(function() { btn.innerHTML = '<i class="fas fa-copy" style="margin-right:5px"></i>Copy as Bullet Point'; }, 2000);
+            btn.innerHTML = '<i class="fas fa-check" style="margin-right:4px;color:#10B981"></i>Copied!';
+            setTimeout(function() { btn.innerHTML = '<i class="fas fa-copy" style="margin-right:4px"></i>Copy as Bullet'; }, 2000);
         }
     };
 
-    var card = resultPanel.closest('.s4-card') || resultPanel.parentElement;
-    if (card) card.appendChild(btn);
+    target.appendChild(btn);
+}
+
+// ── SECTION 31: Status Color Bar at top of tool result ──
+function _injectStatusBar(toolId) {
+    var panel = document.getElementById(toolId);
+    if (!panel) return;
+    if (panel.querySelector('.s4-status-bar')) return;
+
+    var rp = panel.querySelector('.result-panel');
+    if (!rp) return;
+
+    var bar = document.createElement('div');
+    bar.className = 's4-status-bar';
+
+    // Determine status based on result text
+    var text = (rp.textContent || '').toLowerCase();
+    var status = 'green', label = 'Good', icon = 'fa-check-circle';
+    if (/critical|fail|overdue|expired|non-compliant|action needed|high risk/i.test(text)) {
+        status = 'red'; label = 'Action Needed'; icon = 'fa-exclamation-circle';
+    } else if (/warning|watch|moderate|partial|below|aging|caution|at risk/i.test(text)) {
+        status = 'yellow'; label = 'Watch'; icon = 'fa-exclamation-triangle';
+    }
+
+    var colors = { green:'#10B981', yellow:'#f59e0b', red:'#ef4444' };
+    var bgs = { green:'rgba(16,185,129,0.08)', yellow:'rgba(245,158,11,0.08)', red:'rgba(239,68,68,0.08)' };
+    var borders = { green:'rgba(16,185,129,0.25)', yellow:'rgba(245,158,11,0.25)', red:'rgba(239,68,68,0.25)' };
+
+    Object.assign(bar.style, {
+        display:'flex', alignItems:'center', gap:'6px',
+        padding:'6px 12px', marginBottom:'8px',
+        background:bgs[status], border:'1px solid ' + borders[status],
+        borderRadius:'8px', fontSize:'0.74rem', fontWeight:'600',
+        color:colors[status], transition:'all 0.3s ease'
+    });
+    bar.innerHTML = '<i class="fas ' + icon + '"></i> ' + label;
+
+    rp.insertBefore(bar, rp.firstChild);
+}
+
+// ── SECTION 32: Re-run with same inputs ──
+function _injectRerun(toolId) {
+    var panel = document.getElementById(toolId);
+    if (!panel) return;
+    if (panel.querySelector('.s4-rerun-link')) return;
+
+    var rp = panel.querySelector('.result-panel');
+    if (!rp) return;
+
+    var link = document.createElement('button');
+    link.className = 's4-rerun-link';
+    link.innerHTML = '<i class="fas fa-redo" style="margin-right:4px;font-size:0.6rem"></i>Re-run with same inputs';
+    Object.assign(link.style, {
+        display:'flex', alignItems:'center', gap:'3px',
+        marginTop:'8px', padding:'0', background:'none', border:'none',
+        color:'var(--muted,#6e6e73)', fontSize:'0.72rem', fontWeight:'500',
+        cursor:'pointer', fontFamily:'inherit', transition:'color 0.2s',
+        textDecoration:'none'
+    });
+    link.onmouseover = function() { link.style.color = 'var(--accent,#007AFF)'; };
+    link.onmouseout = function() { link.style.color = 'var(--muted,#6e6e73)'; };
+    link.onclick = function() {
+        if (typeof window.openILSTool === 'function') {
+            window.openILSTool(toolId);
+        }
+    };
+
+    var card = rp.closest('.s4-card') || rp.parentElement;
+    if (card) card.appendChild(link);
 }
 
 // ── SECTION 29: Gradient Progress Ring on Activity Toggle ──
@@ -9366,8 +9447,6 @@ function _updateProgressRing() {
     var angle = Math.round(pct * 3.6);
 
     // The toggle button itself fills with a conic gradient showing progress.
-    // At 0%: default accent blue. 1-49%: partial fill steel→blue.
-    // 50-89%: partial fill blue→teal. 90%+: full green gradient.
     if (pct === 0) {
         btn.style.background = 'var(--accent,#007AFF)';
         btn.style.boxShadow = '0 4px 16px rgba(0,122,255,0.3)';
@@ -9385,6 +9464,24 @@ function _updateProgressRing() {
     if (pct >= 90) btn.title = 'Activity \u2014 ready for export';
     else if (pct > 0) btn.title = 'Activity (' + pct + '% ready)';
     else btn.title = 'Activity';
+
+    // Also update the Export Summary button color + percentage
+    var expBtn = document.querySelector('.s4-report-sidebar-footer .s4rs-export');
+    if (expBtn) {
+        if (pct >= 90) {
+            expBtn.style.background = 'linear-gradient(135deg,#10B981,#34D399)';
+            expBtn.innerHTML = '<i class="fas fa-file-export"></i> Export Summary \u2014 ' + pct + '%';
+        } else if (pct >= 50) {
+            expBtn.style.background = 'linear-gradient(135deg,#06B6D4,#0EA5E9)';
+            expBtn.innerHTML = '<i class="fas fa-file-export"></i> Export Summary \u2014 ' + pct + '%';
+        } else if (pct > 0) {
+            expBtn.style.background = 'var(--accent,#007AFF)';
+            expBtn.innerHTML = '<i class="fas fa-file-export"></i> Export Summary \u2014 ' + pct + '%';
+        } else {
+            expBtn.style.background = '';
+            expBtn.innerHTML = '<i class="fas fa-file-export"></i> Export Summary';
+        }
+    }
 }
 
 // ── SECTION 30: Floating Speed Tip Badge ──
@@ -9416,7 +9513,7 @@ function _showSpeedTip() {
     setTip();
 
     Object.assign(badge.style, {
-        position:'fixed', bottom:'18px', left:'18px',
+        position:'fixed', bottom:'34px', left:'18px',
         background:'rgba(255,255,255,0.92)', backdropFilter:'blur(12px)', WebkitBackdropFilter:'blur(12px)',
         border:'1px solid rgba(0,0,0,0.08)', borderRadius:'10px', padding:'8px 14px',
         fontSize:'0.75rem', fontWeight:'500', color:'var(--steel,#3a3a3c)',
@@ -9425,6 +9522,18 @@ function _showSpeedTip() {
         boxShadow:'0 2px 12px rgba(0,0,0,0.08)', maxWidth:'320px', lineHeight:'1.4',
         pointerEvents:'none'
     });
+
+    // Label under the speed tip badge
+    var tipLabel = document.createElement('span');
+    tipLabel.textContent = 'Tips';
+    Object.assign(tipLabel.style, {
+        position:'absolute', bottom:'-14px', left:'50%', transform:'translateX(-50%)',
+        fontSize:'0.55rem', fontWeight:'600', color:'rgba(0,0,0,0.42)',
+        whiteSpace:'nowrap', letterSpacing:'0.02em',
+        fontFamily:'-apple-system,BlinkMacSystemFont,SF Pro Text,system-ui,sans-serif',
+        pointerEvents:'none'
+    });
+    badge.appendChild(tipLabel);
 
     document.body.appendChild(badge);
     setTimeout(function() { badge.style.opacity = '1'; }, 10000);
@@ -9442,7 +9551,70 @@ function _showSpeedTip() {
     }, 40000);
 }
 
-// ── Boot Sections 26-30 ──
+// ── SECTION 33: Session Complete Checkmark ──
+function _checkSessionComplete() {
+    var header = document.querySelector('.s4-report-sidebar-header h3');
+    if (!header) return;
+    var existing = document.getElementById('s4SessionCompleteCheck');
+    var pct = _computeSmartPct();
+    if (pct >= 90) {
+        if (!existing) {
+            var mark = document.createElement('span');
+            mark.id = 's4SessionCompleteCheck';
+            mark.innerHTML = ' <i class="fas fa-check-circle" style="color:#10B981;font-size:0.72rem"></i>';
+            mark.title = 'Session complete — ready to export';
+            Object.assign(mark.style, {
+                marginLeft:'6px', display:'inline-flex', alignItems:'center',
+                animation:'fadeIn 0.4s ease'
+            });
+            header.appendChild(mark);
+        }
+    } else if (existing) {
+        existing.remove();
+    }
+}
+
+// ── SECTION 34: Print-Friendly View Toggle in Export Modal ──
+function _injectPrintFriendlyToggle() {
+    var exportBody = document.querySelector('.s4-export-body');
+    if (!exportBody || document.getElementById('s4PrintFriendlySection')) return;
+
+    var section = document.createElement('div');
+    section.id = 's4PrintFriendlySection';
+    section.className = 's4-export-section';
+    section.innerHTML =
+        '<label class="s4-export-label">Layout</label>' +
+        '<label class="s4-export-check" style="display:flex;align-items:center;gap:8px">' +
+            '<input type="checkbox" id="s4PrintFriendlyToggle">' +
+            '<span style="display:flex;align-items:center;gap:5px"><i class="fas fa-print" style="color:var(--muted);font-size:0.72rem"></i> Print-Friendly View</span>' +
+        '</label>' +
+        '<div id="s4PrintFriendlyHint" style="display:none;font-size:0.7rem;color:var(--muted);margin-top:4px;padding-left:24px">Wider margins, no modals — optimized for paper or PDF</div>';
+    exportBody.appendChild(section);
+
+    var toggle = document.getElementById('s4PrintFriendlyToggle');
+    var hint = document.getElementById('s4PrintFriendlyHint');
+    var preview = document.getElementById('s4ExportPreview');
+    if (toggle) {
+        toggle.addEventListener('change', function() {
+            if (hint) hint.style.display = toggle.checked ? 'block' : 'none';
+            if (preview) {
+                if (toggle.checked) {
+                    preview.style.border = '2px solid var(--accent,#007AFF)';
+                    preview.style.background = '#fff';
+                    var page = preview.querySelector('.s4-export-preview-page');
+                    if (page) { page.style.padding = '24px'; page.style.maxWidth = '460px'; page.style.margin = '0 auto'; }
+                } else {
+                    preview.style.border = '';
+                    preview.style.background = '';
+                    var page = preview.querySelector('.s4-export-preview-page');
+                    if (page) { page.style.padding = ''; page.style.maxWidth = ''; page.style.margin = ''; }
+                }
+            }
+        });
+    }
+}
+
+// ── Boot Sections 26-34 ──
 function _bootSections26to30() {
     _waitForWorkspaceThenHint();
     _hookForProductivity();
@@ -9463,6 +9635,23 @@ function _bootSections26to30() {
             origClear();
             _sessionToolCount = 0;
             _updateProgressRing();
+            _checkSessionComplete();
+        };
+    }
+
+    // Section 33: observe progress changes for session complete checkmark
+    var _origUpdate = _updateProgressRing;
+    _updateProgressRing = function() {
+        _origUpdate();
+        _checkSessionComplete();
+    };
+
+    // Section 34: inject print-friendly toggle when export modal opens
+    var origOpen = window._s4OpenExport;
+    if (typeof origOpen === 'function') {
+        window._s4OpenExport = function() {
+            origOpen();
+            setTimeout(_injectPrintFriendlyToggle, 100);
         };
     }
 }

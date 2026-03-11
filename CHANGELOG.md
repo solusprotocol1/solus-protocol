@@ -1,5 +1,16 @@
 # Changelog
 
+## [5.12.10] — 2026-03-11
+### Changed
+- **Export Summary button** now changes color based on progress ring stage (blue → teal → green) and shows current percentage (e.g. "Export Summary — 90%")
+- **Speed Tip badge** (lightning bolt) now shows a "Tips" label below it, matching the Activity and Agent toggle label style
+- **Section 30 — Copy as Bullet**: small green "Copy as Bullet" button placed next to the existing Anchor to Ledger button in each tool result; copies a clean plain-English bullet point ready for briefings or emails
+- **Section 31 — Status Color Bar**: subtle colored bar at the top of each tool result (green = Good, yellow = Watch, red = Action Needed) based on result text keywords; instant visual triage
+- **Section 32 — Re-run with same inputs**: small muted "Re-run with same inputs" link at the bottom of each tool result panel; re-opens the tool instantly for repeat workflows
+- **Section 33 — Session Complete checkmark**: green checkmark appears next to "Activity" sidebar header when session readiness ≥ 90%; gives users a clear "I'm done" signal
+- **Section 34 — Print-Friendly View toggle**: new Layout section in the Export Summary modal with a "Print-Friendly View" checkbox; when checked, switches preview to wider margins and clean paper-ready layout
+- Both demo-app and prod-app updated identically
+
 ## [5.12.9] — 2026-03-11
 ### Changed
 - **Floating button cleanup**: removed the standalone Recent Actions toggle (3rd floating button) that was cluttering the bottom-right corner; reduced from 3 stacked buttons to 2 clean ones (Activity + Agent)
