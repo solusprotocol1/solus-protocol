@@ -1093,17 +1093,28 @@ console.log('[Round-12b] Competitive Enhancement Suite loaded: AI Threat Scoring
         container.className = 's4-tool-post-actions';
         container.style.cssText = 'margin-top:16px;';
 
+        // Check if this tool should get multi-person assignment
+        var useMulti = typeof _MULTI_ASSIGN_TOOLS !== 'undefined' && _MULTI_ASSIGN_TOOLS.has && _MULTI_ASSIGN_TOOLS.has(toolId) && typeof _buildMultiAssignHTML === 'function';
+        var assignHTML;
+        if (useMulti) {
+            assignHTML = '<div style="background:var(--surface,#fff);border:1px solid var(--border,rgba(0,0,0,0.1));border-radius:8px;padding:10px 14px">'
+                + '<label style="font-size:0.82rem;font-weight:600;color:var(--steel,#3a3a3c);white-space:nowrap;display:block;margin-bottom:8px"><i class="fas fa-users" style="color:var(--accent,#00aaff);margin-right:4px"></i> Assign Responsibility</label>'
+                + _buildMultiAssignHTML('s4Assign_' + toolId)
+                + '</div>';
+        } else {
+            assignHTML = '<div style="background:var(--surface,#fff);border:1px solid var(--border,rgba(0,0,0,0.1));border-radius:8px;padding:10px 14px;display:flex;align-items:center;gap:8px;flex-wrap:wrap">'
+                + '<label style="font-size:0.82rem;font-weight:600;color:var(--steel,#3a3a3c);white-space:nowrap"><i class="fas fa-user-check" style="color:var(--accent,#00aaff);margin-right:4px"></i> Assign Responsible Person</label>'
+                + (typeof _buildAssignDropdownHTML === 'function' ? _buildAssignDropdownHTML('s4AssignPerson_' + toolId) :
+                    '<select onchange="assignResponsiblePerson(this.value)" style="flex:1;padding:6px 10px;border:1px solid var(--border,rgba(0,0,0,0.1));border-radius:8px;font-size:0.82rem;color:var(--steel,#3a3a3c);background:var(--surface,#fff);cursor:pointer"><option value="">— Select —</option></select>')
+                + '</div>';
+        }
+
         // Impact banner (gold)
         container.innerHTML =
             '<div class="s4-impact-banner" style="background:rgba(201,168,76,0.10);border:1px solid rgba(201,168,76,0.35);border-radius:8px;padding:12px 14px;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;gap:10px">' +
                 '<div style="display:flex;align-items:center;gap:8px;font-size:0.85rem"><i class="fas fa-flag" style="color:#c9a84c"></i> <span style="color:var(--steel)">Flag findings from this tool for leadership review</span></div>' +
                 '<button onclick="saveImpactToNotes()" style="background:rgba(201,168,76,0.15);color:#c9a84c;border:1px solid rgba(201,168,76,0.35);border-radius:8px;padding:5px 12px;font-size:0.78rem;font-weight:600;cursor:pointer;white-space:nowrap;transition:all 0.2s"><i class="fas fa-sticky-note"></i> Save to Notes</button>' +
-            '</div>' +
-            '<div style="background:var(--surface,#fff);border:1px solid var(--border,rgba(0,0,0,0.1));border-radius:8px;padding:10px 14px;display:flex;align-items:center;gap:8px;flex-wrap:wrap">' +
-                '<label style="font-size:0.82rem;font-weight:600;color:var(--steel,#3a3a3c);white-space:nowrap"><i class="fas fa-user-check" style="color:var(--accent,#00aaff);margin-right:4px"></i> Assign Responsible Person</label>' +
-                (typeof _buildAssignDropdownHTML === 'function' ? _buildAssignDropdownHTML('s4AssignPerson_' + toolId) :
-                    '<select onchange="assignResponsiblePerson(this.value)" style="flex:1;padding:6px 10px;border:1px solid var(--border,rgba(0,0,0,0.1));border-radius:8px;font-size:0.82rem;color:var(--steel,#3a3a3c);background:var(--surface,#fff);cursor:pointer"><option value="">— Select —</option></select>') +
-            '</div>';
+            '</div>' + assignHTML;
 
         target.appendChild(container);
     }

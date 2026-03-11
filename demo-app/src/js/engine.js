@@ -4158,6 +4158,9 @@ const _s4DirectoryContacts = [
     { name: 'Ms. Lisa Johnson', email: 'lisa.johnson@navy.mil', role: 'Quality Assurance Lead' }
 ];
 
+// Tools that get multi-person assignment (Primary + Contributors + Reviewer)
+const _MULTI_ASSIGN_TOOLS = new Set(['hub-reports','hub-compliance','hub-cdrl','hub-submissions','hub-actions','hub-analytics','hub-team']);
+
 function _getAssignContacts() {
     // Merge directory contacts with any custom-saved contacts
     let saved = [];
@@ -4180,7 +4183,61 @@ function _buildAssignDropdownHTML(selectId) {
     return html;
 }
 
-function assignResponsiblePerson(person) {
+function _buildSelectOptions() {
+    const contacts = _getAssignContacts();
+    let opts = '<option value="">\u2014 Select person \u2014</option>';
+    contacts.forEach(c => {
+        opts += '<option value="' + c.name + ' - ' + c.email + '">' + c.name + ' (' + c.role + ') \u2014 ' + c.email + '</option>';
+    });
+    return opts;
+}
+
+function _buildMultiAssignHTML(baseId) {
+    const selStyle = 'flex:1;min-width:160px;padding:6px 10px;border:1px solid var(--border,rgba(0,0,0,0.1));border-radius:8px;font-size:0.82rem;color:var(--steel,#3a3a3c);background:var(--surface,#fff);cursor:pointer';
+    const inputStyle = 'flex:1;min-width:140px;padding:6px 10px;border:1px solid var(--border,rgba(0,0,0,0.1));border-radius:8px;font-size:0.78rem;color:var(--steel,#3a3a3c);background:var(--surface,#fff)';
+    const tagBase = 'display:inline-block;padding:1px 7px;border-radius:4px;font-size:0.68rem;font-weight:700;margin-right:6px;vertical-align:middle';
+    const opts = _buildSelectOptions();
+    let h = '';
+    h += '<div id="' + baseId + '_wrap" style="width:100%">';
+    // Primary Responsible (required)
+    h += '<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px">';
+    h += '<span style="' + tagBase + ';background:rgba(0,170,255,0.12);color:#0071e3">Primary</span>';
+    h += '<select id="' + baseId + '_primary" onchange="assignResponsiblePerson(this.value,\'Primary Responsible\')" style="' + selStyle + '">' + opts + '</select>';
+    h += '<input type="text" placeholder="Or type: Name - email@domain" onkeydown="if(event.key===\'Enter\'){assignResponsiblePerson(this.value,\'Primary Responsible\');this.value=\'\';}" style="' + inputStyle + '">';
+    h += '</div>';
+    // Contributors area
+    h += '<div id="' + baseId + '_contributors"></div>';
+    h += '<a href="#" onclick="event.preventDefault();_addAssignRow(\'' + baseId + '\',\'Contributor\')" style="font-size:0.78rem;color:var(--accent,#00aaff);text-decoration:none;font-weight:600;display:inline-block;margin:4px 0"><i class="fas fa-plus" style="font-size:0.68rem;margin-right:3px"></i> Add Contributor</a>';
+    // Reviewer area
+    h += '<div id="' + baseId + '_reviewers"></div>';
+    h += '<a href="#" onclick="event.preventDefault();_addAssignRow(\'' + baseId + '\',\'Reviewer\')" style="font-size:0.78rem;color:#34c759;text-decoration:none;font-weight:600;display:inline-block;margin:4px 0 0 14px"><i class="fas fa-plus" style="font-size:0.68rem;margin-right:3px"></i> Add Reviewer</a>';
+    h += '</div>';
+    return h;
+}
+
+let _multiAssignCounter = 0;
+function _addAssignRow(baseId, role) {
+    const containerId = role === 'Reviewer' ? baseId + '_reviewers' : baseId + '_contributors';
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    _multiAssignCounter++;
+    const rowId = baseId + '_' + role.toLowerCase() + '_' + _multiAssignCounter;
+    const selStyle = 'flex:1;min-width:160px;padding:6px 10px;border:1px solid var(--border,rgba(0,0,0,0.1));border-radius:8px;font-size:0.82rem;color:var(--steel,#3a3a3c);background:var(--surface,#fff);cursor:pointer';
+    const inputStyle = 'flex:1;min-width:140px;padding:6px 10px;border:1px solid var(--border,rgba(0,0,0,0.1));border-radius:8px;font-size:0.78rem;color:var(--steel,#3a3a3c);background:var(--surface,#fff)';
+    const tagBase = 'display:inline-block;padding:1px 7px;border-radius:4px;font-size:0.68rem;font-weight:700;margin-right:6px;vertical-align:middle';
+    const tagColor = role === 'Reviewer' ? 'background:rgba(52,199,89,0.12);color:#34c759' : 'background:rgba(201,168,76,0.12);color:#c9a84c';
+    const opts = _buildSelectOptions();
+    const row = document.createElement('div');
+    row.id = rowId;
+    row.style.cssText = 'display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px;';
+    row.innerHTML = '<span style="' + tagBase + ';' + tagColor + '">' + role + '</span>'
+        + '<select onchange="assignResponsiblePerson(this.value,\'' + role + '\')" style="' + selStyle + '">' + opts + '</select>'
+        + '<input type="text" placeholder="Or type: Name - email@domain" onkeydown="if(event.key===\'Enter\'){assignResponsiblePerson(this.value,\'' + role + '\');this.value=\'\';}" style="' + inputStyle + '">'
+        + '<button onclick="this.parentElement.remove()" style="background:none;border:none;color:var(--muted,#6e6e73);cursor:pointer;font-size:0.82rem;padding:2px 4px" title="Remove"><i class="fas fa-times"></i></button>';
+    container.appendChild(row);
+}
+
+function assignResponsiblePerson(person, role) {
     if (!person) return;
     const activePanel = document.querySelector('.ils-hub-panel[style*="display: block"], .ils-hub-panel[style*="display:block"]');
     const toolName = activePanel ? (activePanel.querySelector('h3')?.textContent?.trim() || 'Current Tool') : 'Current Tool';
@@ -4194,6 +4251,7 @@ function assignResponsiblePerson(person) {
     const assignment = {
         person: personName,
         email: personEmail,
+        role: role || 'Responsible',
         tool: toolName,
         assignedAt: new Date().toISOString()
     };
@@ -4216,7 +4274,8 @@ function assignResponsiblePerson(person) {
         }
     }
     const displayName = personEmail ? personName + ' (' + personEmail + ')' : personName;
-    s4Notify('Assigned', toolName + ' assigned to ' + displayName + '.', 'success');
+    const roleTag = role ? ' as ' + role : '';
+    s4Notify('Assigned', toolName + ' \u2013 ' + displayName + roleTag + '.', 'success');
 }
 
 // ── Program Status Summary Report (Executive-Ready) ──
@@ -4349,9 +4408,12 @@ function exportProgramSummary() {
     html += '<div style="font-size:0.82rem;font-weight:700;color:var(--steel);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px"><i class="fas fa-user-check" style="color:var(--accent);margin-right:4px"></i> Actions & Ownership</div>';
     html += '<div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 14px;margin-bottom:16px">';
     if (d.recentAssignments.length) {
+        const _roleColors = { 'Primary Responsible':'background:rgba(0,170,255,0.12);color:#0071e3', 'Contributor':'background:rgba(201,168,76,0.12);color:#c9a84c', 'Reviewer':'background:rgba(52,199,89,0.12);color:#34c759' };
         d.recentAssignments.forEach(a => {
             const ownerDisplay = a.email ? a.person + ' (' + a.email + ')' : a.person;
-            html += '<div style="font-size:0.82rem;color:var(--steel);padding:4px 0;border-bottom:1px solid rgba(0,0,0,0.04)">\u2022 ' + (a.program || a.tool || 'Action item') + ' \u2013 Assigned to <strong>' + ownerDisplay + '</strong> <span style="color:var(--muted);font-size:0.72rem">(' + new Date(a.assignedAt).toLocaleDateString() + ')</span> <span style="display:inline-block;padding:1px 6px;border-radius:4px;font-size:0.68rem;font-weight:600;background:rgba(52,199,89,0.12);color:#34c759">Open</span></div>';
+            const roleLabel = a.role || 'Responsible';
+            const roleSt = _roleColors[roleLabel] || 'background:rgba(0,170,255,0.08);color:var(--accent)';
+            html += '<div style="font-size:0.82rem;color:var(--steel);padding:4px 0;border-bottom:1px solid rgba(0,0,0,0.04)"><span style="display:inline-block;padding:1px 6px;border-radius:4px;font-size:0.68rem;font-weight:700;margin-right:5px;' + roleSt + '">' + roleLabel + '</span>' + (a.program || a.tool || 'Action item') + ' \u2013 <strong>' + ownerDisplay + '</strong> <span style="color:var(--muted);font-size:0.72rem">(' + new Date(a.assignedAt).toLocaleDateString() + ')</span></div>';
         });
     } else {
         html += '<div style="font-size:0.82rem;color:var(--muted);padding:8px 0;font-style:italic">No actions assigned during this period.</div>';
@@ -4413,7 +4475,8 @@ function _buildSummaryPlainText(d) {
     if (d.recentAssignments.length) {
         d.recentAssignments.forEach(a => {
             const ownerDisplay = a.email ? a.person + ' (' + a.email + ')' : a.person;
-            t += '  \u2022 ' + (a.program || a.tool || 'Action item') + ' \u2013 Assigned to ' + ownerDisplay + ' (' + new Date(a.assignedAt).toLocaleDateString() + ') \u2013 Status: Open\n';
+            const roleLabel = a.role || 'Responsible';
+            t += '  \u2022 [' + roleLabel + '] ' + (a.program || a.tool || 'Action item') + ' \u2013 ' + ownerDisplay + ' (' + new Date(a.assignedAt).toLocaleDateString() + ')\n';
         });
     } else {
         t += '  No actions assigned during this period.\n';
@@ -4492,7 +4555,9 @@ function downloadProgramSummaryPDF() {
         printWin.document.write('<ul>');
         d.recentAssignments.forEach(function(a) {
             var ownerDisplay = a.email ? a.person + ' (' + a.email + ')' : a.person;
-            printWin.document.write('<li>' + (a.program || a.tool || 'Action item') + ' \u2013 Assigned to <strong>' + ownerDisplay + '</strong> (' + new Date(a.assignedAt).toLocaleDateString() + ') <span class="badge-open">Open</span></li>');
+            var roleLabel = a.role || 'Responsible';
+            var roleCls = roleLabel === 'Primary Responsible' ? 'badge-green' : roleLabel === 'Reviewer' ? 'badge-yellow' : 'badge-open';
+            printWin.document.write('<li><span class="' + roleCls + '">' + roleLabel + '</span> ' + (a.program || a.tool || 'Action item') + ' \u2013 <strong>' + ownerDisplay + '</strong> (' + new Date(a.assignedAt).toLocaleDateString() + ')</li>');
         });
         printWin.document.write('</ul>');
     } else {
@@ -9355,3 +9420,6 @@ window.copyProgramSummaryText = copyProgramSummaryText;
 window.saveImpactToNotes = saveImpactToNotes;
 window.assignResponsiblePerson = assignResponsiblePerson;
 window._buildAssignDropdownHTML = _buildAssignDropdownHTML;
+window._buildMultiAssignHTML = _buildMultiAssignHTML;
+window._addAssignRow = _addAssignRow;
+window._MULTI_ASSIGN_TOOLS = _MULTI_ASSIGN_TOOLS;
