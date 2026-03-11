@@ -1,5 +1,18 @@
 # Changelog
 
+## [5.12.5] — 2026-03-11
+### Fixed
+- "How It Works" dropdown: removed `display:none!important` from `.hiw-help-btn` CSS — ? help buttons now visible on all 23 tool panels in both demo-app and prod-app
+- Strengthened CSS details hiding rule to cover all DOM nesting levels (hub panels with `.row > div > .s4-card` wrappers)
+- Added hidden `<details>` How It Works content for 5 panels that were missing it: Submissions Hub, Team Manager, Verification Vault, Maintenance Predictor, SBOM Scanner — ? button now has modal content for every tool
+
+### Added (5.12.4)
+- Multi-person responsibility for 7 key tools: Audit Builder, Compliance Scorecard, Deliverables Tracker, Submissions Hub, Task Prioritizer, Program Overview, Team Coordinator
+- Each multi-assign tool now supports: Primary Responsible (required), + Add Contributor (repeatable, gold tag), + Add Reviewer (green tag)
+- Role tags flow through to Export Summary HTML, plaintext, and PDF (Primary=blue, Contributor=gold, Reviewer=green)
+- All other tools retain original single-person assign dropdown
+- `_MULTI_ASSIGN_TOOLS` Set, `_buildMultiAssignHTML()`, `_addAssignRow()` added to engine.js; `_injectToolPostActions()` branching in enhancements.js
+
 ## [5.12.3] — 2026-03-10
 ### Fixed
 - Prod-app: full visual parity with demo-app — ported all UI/color changes from past 2 days
