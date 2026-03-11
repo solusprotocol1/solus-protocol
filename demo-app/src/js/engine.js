@@ -9072,3 +9072,7 @@ window.renderVault = renderVault;
 window.loadStats = loadStats;
 window.showWorkspaceNotification = showWorkspaceNotification;
 window.anchorToLedger = anchorToLedger;
+window.showLeadershipSummary = showLeadershipSummary;
+window.exportLeadershipSummary = exportLeadershipSummary;
+window.saveImpactToNotes = saveImpactToNotes;
+window.assignResponsiblePerson = assignResponsiblePerson;

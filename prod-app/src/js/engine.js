@@ -9082,3 +9082,7 @@ window.updateAiContext = updateAiContext;
 window.renderVault = renderVault;
 window.loadStats = loadStats;
 window.showWorkspaceNotification = showWorkspaceNotification;
+window.showLeadershipSummary = showLeadershipSummary;
+window.exportLeadershipSummary = exportLeadershipSummary;
+window.saveImpactToNotes = saveImpactToNotes;
+window.assignResponsiblePerson = assignResponsiblePerson;
