@@ -1,5 +1,17 @@
 # Changelog
 
+## [5.12.11] — 2026-03-11
+### Added
+- **DRL / DI Status Tracker** — new view toggle inside the existing Deliverables Tracker (hub-cdrl). Toggle between "CDRL Validation" (existing) and "DRL / DI Status Tracker" (new) with a segmented control.
+- **DRL Status Table** — 10-column scrollable table: DI Number, Transmittal Serial # / SharePoint Rev, Calculated Due Date, Actual Submission Date, RCV / Review Days, SME Reviewer, Release Authority, Response Posted Date, Status, Notes.
+- **Color-coded rows** — Red (past due), Orange (late / approaching), Green (on time). Status pills with matching badge colors for instant visual triage.
+- **Repeated Omission Detection** — DI numbers with 2+ consecutive past-due items are flagged with a red flag icon and a prominent omission banner with escalation recommendation.
+- **Export DRL Status Spreadsheet** — one-click CSV export of all DRL/DI tracker data with proper column headers.
+- **Import Existing Spreadsheet** — (prod-app only) file picker to import CSV DRL data, auto-parsed into the tracker table.
+- **Demo data** — (demo-app only) 8 realistic DRL rows covering on-time, late, approaching, past-due, and repeated omission scenarios.
+- **Anchor DRL Status** — anchor the current DRL/DI status snapshot to the XRPL ledger.
+- Summary stat cards: Total DIs, On Time, Approaching, Past Due, Repeated Omissions.
+
 ## [5.12.10] — 2026-03-11
 ### Changed
 - **Export Summary button** now changes color based on progress ring stage (blue → teal → green) and shows current percentage (e.g. "Export Summary — 90%")

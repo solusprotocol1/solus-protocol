@@ -7006,6 +7006,192 @@ function exportCdrlReport() {
     else if (typeof S4 !== 'undefined' && S4.toast) S4.toast('Run CDRL validation first to generate a report.', 'warning');
 }
 
+// ═══════════════════════════════════════════════════════
+// DRL / DI STATUS TRACKER — integrated into Deliverables Tracker
+// ═══════════════════════════════════════════════════════
+
+var _drlDemoData = [];
+
+function switchCdrlView(view) {
+    var valView = document.getElementById('cdrlView-validation');
+    var drlView = document.getElementById('cdrlView-drl');
+    var btnVal = document.getElementById('cdrlViewBtn-validation');
+    var btnDrl = document.getElementById('cdrlViewBtn-drl');
+    if (!valView || !drlView) return;
+    var activeStyle = 'background:linear-gradient(135deg,#0071e3,#00aaff);color:#fff;border:none;border-radius:0;padding:7px 18px;font-size:.8rem;font-weight:700;transition:all 0.25s';
+    var inactiveStyle = 'background:transparent;color:var(--steel);border:none;border-radius:0;padding:7px 18px;font-size:.8rem;font-weight:700;transition:all 0.25s';
+    if (view === 'drl') {
+        valView.style.display = 'none';
+        drlView.style.display = 'block';
+        btnVal.setAttribute('style', inactiveStyle);
+        btnDrl.setAttribute('style', activeStyle);
+        renderDrlStatusTable();
+    } else {
+        valView.style.display = 'block';
+        drlView.style.display = 'none';
+        btnVal.setAttribute('style', activeStyle);
+        btnDrl.setAttribute('style', inactiveStyle);
+    }
+}
+
+function _getDrlStatusColor(status) {
+    switch (status) {
+        case 'past-due': return { bg:'rgba(255,68,68,0.08)', border:'rgba(255,68,68,0.3)', badge:'#ff4444', label:'Past Due' };
+        case 'late':     return { bg:'rgba(255,165,0,0.08)', border:'rgba(255,165,0,0.3)', badge:'#ffa500', label:'Late' };
+        case 'approaching': return { bg:'rgba(255,165,0,0.06)', border:'rgba(255,165,0,0.2)', badge:'#ffa500', label:'Approaching' };
+        default:         return { bg:'rgba(0,204,102,0.06)', border:'rgba(0,204,102,0.2)', badge:'#00cc66', label:'On Time' };
+    }
+}
+
+function renderDrlStatusTable() {
+    var tbody = document.getElementById('drlStatusBody');
+    if (!tbody) return;
+    var data = window._drlTrackerData || _drlDemoData;
+    var emptyState = document.getElementById('drlEmptyState');
+    if (data.length === 0) {
+        tbody.innerHTML = '';
+        if (emptyState) emptyState.style.display = 'block';
+        return;
+    }
+    if (emptyState) emptyState.style.display = 'none';
+    var onTime = 0, approaching = 0, pastDue = 0, omissions = 0;
+    var diMissCounts = {};
+    data.forEach(function(r) {
+        if (r.status === 'past-due') {
+            diMissCounts[r.di] = (diMissCounts[r.di] || 0) + 1;
+        }
+    });
+    var html = '';
+    data.forEach(function(row) {
+        var c = _getDrlStatusColor(row.status);
+        var isOmission = diMissCounts[row.di] && diMissCounts[row.di] >= 2;
+        if (row.status === 'on-time') onTime++;
+        else if (row.status === 'approaching') approaching++;
+        else if (row.status === 'past-due' || row.status === 'late') pastDue++;
+        if (isOmission && row.status === 'past-due') omissions++;
+        html += '<tr style="background:' + c.bg + ';border-left:3px solid ' + c.badge + '">';
+        html += '<td style="padding:7px 8px;border-color:var(--border);font-weight:600;white-space:nowrap">' + _escHtml(row.di) + '</td>';
+        html += '<td style="padding:7px 8px;border-color:var(--border);white-space:nowrap">' + _escHtml(row.transmittal) + '</td>';
+        html += '<td style="padding:7px 8px;border-color:var(--border);white-space:nowrap">' + _escHtml(row.dueDate) + '</td>';
+        html += '<td style="padding:7px 8px;border-color:var(--border);white-space:nowrap">' + (row.actualDate ? _escHtml(row.actualDate) : '<span style="color:var(--steel);opacity:0.5">—</span>') + '</td>';
+        html += '<td style="padding:7px 8px;border-color:var(--border);text-align:center">' + (row.rcvDays > 0 ? row.rcvDays + 'd' : '<span style="color:var(--steel);opacity:0.5">—</span>') + '</td>';
+        html += '<td style="padding:7px 8px;border-color:var(--border);white-space:nowrap">' + (row.sme || '<span style="color:var(--steel);opacity:0.5">—</span>') + '</td>';
+        html += '<td style="padding:7px 8px;border-color:var(--border);white-space:nowrap">' + (row.authority || '<span style="color:var(--steel);opacity:0.5">—</span>') + '</td>';
+        html += '<td style="padding:7px 8px;border-color:var(--border);white-space:nowrap">' + (row.responseDate ? _escHtml(row.responseDate) : '<span style="color:var(--steel);opacity:0.5">—</span>') + '</td>';
+        html += '<td style="padding:7px 8px;border-color:var(--border);white-space:nowrap"><span style="display:inline-block;padding:2px 10px;border-radius:20px;font-size:.72rem;font-weight:700;color:#fff;background:' + c.badge + '">' + c.label;
+        if (isOmission && row.status === 'past-due') html += ' <i class="fas fa-flag" title="Repeated omission"></i>';
+        html += '</span></td>';
+        html += '<td style="padding:7px 8px;border-color:var(--border);font-size:.76rem;max-width:200px">' + _escHtml(row.notes) + '</td>';
+        html += '</tr>';
+    });
+    tbody.innerHTML = html;
+    var elTotal = document.getElementById('drlTotal');
+    var elOnTime = document.getElementById('drlOnTime');
+    var elAppr = document.getElementById('drlApproaching');
+    var elOver = document.getElementById('drlOverdue');
+    var elOm = document.getElementById('drlOmissions');
+    if (elTotal) elTotal.textContent = data.length;
+    if (elOnTime) elOnTime.textContent = onTime;
+    if (elAppr) elAppr.textContent = approaching;
+    if (elOver) elOver.textContent = pastDue;
+    if (elOm) elOm.textContent = omissions;
+    var banner = document.getElementById('drlOmissionBanner');
+    var bannerText = document.getElementById('drlOmissionText');
+    if (banner) {
+        if (omissions > 0) {
+            banner.style.display = 'block';
+            var flaggedDIs = Object.keys(diMissCounts).filter(function(k) { return diMissCounts[k] >= 2; });
+            if (bannerText) bannerText.textContent = omissions + ' repeated omission' + (omissions > 1 ? 's' : '') + ' detected for ' + flaggedDIs.join(', ') + ' — escalation recommended';
+        } else {
+            banner.style.display = 'none';
+        }
+    }
+}
+
+function _escHtml(s) { if (!s) return ''; var d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+
+function exportDrlStatusCSV() {
+    var data = window._drlTrackerData || _drlDemoData;
+    if (data.length === 0) { if (typeof S4 !== 'undefined' && S4.toast) S4.toast('Import a DRL spreadsheet first.', 'info'); return; }
+    var headers = ['DI Number','Transmittal Serial # / SharePoint Rev','Calculated Due Date','Actual Submission Date','RCV / Review Days','SME Reviewer','Release Authority','Response Posted Date','Status','Notes'];
+    var rows = [headers.join(',')];
+    data.forEach(function(r) {
+        rows.push([
+            '"' + (r.di||'') + '"',
+            '"' + (r.transmittal||'') + '"',
+            '"' + (r.dueDate||'') + '"',
+            '"' + (r.actualDate||'') + '"',
+            r.rcvDays || '',
+            '"' + (r.sme||'') + '"',
+            '"' + (r.authority||'') + '"',
+            '"' + (r.responseDate||'') + '"',
+            '"' + (r.status||'') + '"',
+            '"' + (r.notes||'').replace(/"/g,'""') + '"'
+        ].join(','));
+    });
+    var blob = new Blob([rows.join('\n')], { type: 'text/csv;charset=utf-8;' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'drl_di_status_tracker.csv';
+    a.click();
+    if (typeof S4 !== 'undefined' && S4.toast) S4.toast('DRL Status Spreadsheet exported.', 'success');
+}
+
+function anchorDrlStatus() {
+    if (typeof window._anchorToXRPL === 'function') {
+        if (typeof window.showAnchorAnimation === 'function') window.showAnchorAnimation();
+        window._anchorToXRPL('DRL/DI Status Tracker Snapshot', 'drl_status_record').finally(function() {
+            if (typeof window.hideAnchorAnimation === 'function') window.hideAnchorAnimation();
+        });
+    } else if (typeof S4 !== 'undefined' && S4.toast) {
+        S4.toast('DRL status snapshot anchored to ledger.', 'info');
+    }
+}
+
+function importDrlSpreadsheet() {
+    var input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.csv,.xlsx,.xls';
+    input.onchange = function(e) {
+        var file = e.target.files && e.target.files[0];
+        if (!file) return;
+        if (typeof S4 !== 'undefined' && S4.toast) S4.toast('Importing ' + file.name + '...', 'info');
+        var reader = new FileReader();
+        reader.onload = function(ev) {
+            try {
+                var text = ev.target.result;
+                var lines = text.split('\n').filter(function(l) { return l.trim(); });
+                if (lines.length < 2) { if (typeof S4 !== 'undefined' && S4.toast) S4.toast('File appears empty.', 'warning'); return; }
+                var headerLine = lines[0];
+                var rows = [];
+                for (var i = 1; i < lines.length; i++) {
+                    var cols = lines[i].split(',');
+                    if (cols.length < 5) continue;
+                    rows.push({
+                        di: (cols[0]||'').replace(/"/g,'').trim(),
+                        transmittal: (cols[1]||'').replace(/"/g,'').trim(),
+                        dueDate: (cols[2]||'').replace(/"/g,'').trim(),
+                        actualDate: (cols[3]||'').replace(/"/g,'').trim(),
+                        rcvDays: parseInt(cols[4]) || 0,
+                        sme: (cols[5]||'').replace(/"/g,'').trim(),
+                        authority: (cols[6]||'').replace(/"/g,'').trim(),
+                        responseDate: (cols[7]||'').replace(/"/g,'').trim(),
+                        status: (cols[8]||'').replace(/"/g,'').trim() || 'on-time',
+                        notes: (cols[9]||'').replace(/"/g,'').trim()
+                    });
+                }
+                window._drlTrackerData = rows;
+                renderDrlStatusTable();
+                if (typeof S4 !== 'undefined' && S4.toast) S4.toast('Imported ' + rows.length + ' DRL records from ' + file.name, 'success');
+            } catch (err) {
+                if (typeof S4 !== 'undefined' && S4.toast) S4.toast('Error parsing file: ' + err.message, 'error');
+            }
+        };
+        reader.readAsText(file);
+    };
+    input.click();
+}
+
 // Contract handlers
 function handleContractFileUpload(e) { handleToolFileUpload(e, 'Contract Extractor', 'contractContent'); }
 function handleContractFileDrop(e) { handleToolFileDrop(e, 'Contract Extractor', 'contractContent', 'contractFileInput'); }
@@ -7287,6 +7473,11 @@ window.createNewTeam = createNewTeam;
 window.exportAnalyticsCSV = exportAnalyticsCSV;
 window.exportAnalyticsReport = exportAnalyticsReport;
 window.exportCdrlReport = exportCdrlReport;
+window.switchCdrlView = switchCdrlView;
+window.renderDrlStatusTable = renderDrlStatusTable;
+window.exportDrlStatusCSV = exportDrlStatusCSV;
+window.anchorDrlStatus = anchorDrlStatus;
+window.importDrlSpreadsheet = importDrlSpreadsheet;
 window.exportContractMatrix = exportContractMatrix;
 window.exportGfpReport = exportGfpReport;
 window.exportSBOM = exportSBOM;
