@@ -87,6 +87,7 @@
             <li><a href="/s4-pricing/" style="color:#6e6e73;padding:0.5rem 0.75rem;font-size:0.875rem;font-weight:500;text-decoration:none;border-radius:8px;">Pricing</a></li>
             <li><a href="/s4-investors/" style="color:#6e6e73;padding:0.5rem 0.75rem;font-size:0.875rem;font-weight:500;text-decoration:none;border-radius:8px;">Company</a></li>
             <li><a href="https://github.com/s4ledger/s4-ledger" target="_blank" style="color:#6e6e73;padding:0.5rem 0.75rem;font-size:0.875rem;font-weight:500;text-decoration:none;border-radius:8px;">Docs</a></li>
+            <li><a href="#" onclick="showLeadershipSummary();return false;" style="color:#00aaff;padding:0.5rem 0.75rem;font-size:0.875rem;font-weight:600;text-decoration:none;border-radius:8px;display:inline-flex;align-items:center;gap:5px;background:rgba(0,170,255,0.08);border:1px solid rgba(0,170,255,0.2);"><i class="fas fa-chart-bar" style="font-size:0.75rem"></i> Leadership Brief</a></li>
             <li><a href="/s4-contact/" style="background:#00aaff;color:#fff;padding:0.5rem 1.25rem;font-size:0.875rem;font-weight:600;text-decoration:none;border-radius:8px;margin-left:0.5rem;">Contact Us</a></li>
         </ul>
         <button onclick="toggleMobileNav(this)" aria-label="Menu" aria-expanded="false" aria-controls="navLinks" style="display:none;background:none;border:none;color:var(--text);font-size:1.25rem;cursor:pointer;padding:0.5rem;">
@@ -756,6 +757,15 @@
                     <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
                         <span style="display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:8px;font-size:0.72rem;font-weight:600;background:rgba(0,204,102,0.08);border:1px solid rgba(0,204,102,0.15);color:#00cc66"><i class="fas fa-circle" style="font-size:0.4rem"></i> Live</span>
                         <span style="display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:8px;font-size:0.72rem;font-weight:600;background:rgba(0,170,255,0.06);border:1px solid rgba(0,170,255,0.12);color:var(--accent)"><i class="fas fa-shield-halved"></i> IL4/IL5</span>
+                        <!-- Session Report Period -->
+                        <select id="leadershipPeriod" style="padding:4px 10px;border:1px solid rgba(0,170,255,0.15);border-radius:8px;font-size:0.72rem;font-weight:600;color:var(--accent);background:rgba(0,170,255,0.06);cursor:pointer;appearance:auto;">
+                            <option value="session">This Session</option>
+                            <option value="daily">Daily</option>
+                            <option value="weekly">Weekly</option>
+                            <option value="monthly">Monthly</option>
+                            <option value="yearly">Yearly</option>
+                        </select>
+                        <button onclick="showLeadershipSummary()" style="display:inline-flex;align-items:center;gap:5px;padding:4px 12px;border-radius:8px;font-size:0.72rem;font-weight:600;background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);color:#c9a84c;cursor:pointer;transition:all 0.2s;" title="Export session summary for leadership"><i class="fas fa-file-export"></i> Leadership Brief</button>
                         <!-- Unified Workspace Menu -->
                         <details class="s4-workspace-menu" id="s4WorkspaceMenu" style="position:relative;">
                             <summary style="display:inline-flex;align-items:center;gap:5px;padding:4px 12px;border-radius:8px;font-size:0.78rem;font-weight:600;background:rgba(0,170,255,0.06);border:1px solid rgba(0,170,255,0.15);color:var(--accent);cursor:pointer;list-style:none;transition:all 0.2s;user-select:none;" title="Workspace settings"><i class="fas fa-sliders"></i> Settings</summary>
@@ -3249,6 +3259,17 @@
         <div style="display:flex;gap:8px;flex-wrap:wrap">
             <button class="btn-accent" onclick="createTeamsMeeting()"><i class="fab fa-microsoft"></i> Open Teams</button>
             <button style="background:rgba(0,170,255,0.06);border:1px solid rgba(0,170,255,0.15);color:var(--accent);border-radius:8px;padding:8px 16px;cursor:pointer;font-size:0.85rem;font-family:inherit;font-weight:600" onclick="createCalendarEvent()"><i class="fas fa-calendar-alt"></i> Add to Calendar (.ics)</button>
+        </div>
+    </div>
+</div>
+
+<!-- ══ LEADERSHIP SUMMARY MODAL ══ -->
+<div id="leadershipSummaryModal" class="modal-overlay" onclick="if(event.target===this)this.classList.remove('active')">
+    <div class="modal-box" style="position:relative;max-width:560px">
+        <button onclick="document.getElementById('leadershipSummaryModal').classList.remove('active')" style="position:absolute;top:12px;right:16px;background:none;border:none;color:var(--muted);font-size:1.2rem;cursor:pointer">&times;</button>
+        <h4 style="display:flex;align-items:center;gap:8px;margin-bottom:4px"><i class="fas fa-chart-bar" style="color:var(--accent)"></i> Quick Leadership Summary</h4>
+        <div id="leadershipSummaryBody" style="padding:8px 0;color:var(--steel);">
+            <div style="text-align:center;padding:2rem;color:var(--muted)">Loading summary...</div>
         </div>
     </div>
 </div>
