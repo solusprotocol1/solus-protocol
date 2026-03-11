@@ -2206,9 +2206,9 @@ input::placeholder,textarea::placeholder,select::placeholder,.form-control::plac
 .brief-zoom-btn{color:#6e6e73!important;background:rgba(0,0,0,0.04)!important;border-color:rgba(0,0,0,0.08)!important}
 .brief-zoom-btn:hover{background:rgba(0,0,0,0.08)!important;color:#1d1d1f!important}
 
-/* ━━━ HOW IT WORKS — hide ? buttons and force-hide all details in tools ━━━ */
-.hiw-help-btn{display:none!important}
-.ils-hub-panel > .s4-card > details,.ils-hub-panel > .row > div > .s4-card > details[style*="display:none"]{display:none!important}
+/* ━━━ HOW IT WORKS — ? buttons visible, force-hide all details dropdowns in tools ━━━ */
+.ils-hub-panel details[style*="display:none"]{display:none!important}
+.ils-hub-panel > .s4-card > details,.ils-hub-panel > .row > div > .s4-card > details{display:none!important}
 
 /* ━━━ ILS CHECKLIST — enterprise card layout ━━━ */
 #ilsChecklist{gap:10px!important;grid-template-columns:1fr 1fr!important}

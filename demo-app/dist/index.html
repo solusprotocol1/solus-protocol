@@ -67,12 +67,12 @@
     <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" integrity="sha384-9nhczxUqK87bcKHh20fSQcTGD4qq5GhayNYSYWqwBkINBhOfQLg/P5HG5lF1urn4" crossorigin="anonymous"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/qrcode@1.5.4/build/qrcode.min.js"></script>
     <!-- CSS is imported via main.js and extracted by Vite -->
-  <script type="module" crossorigin src="/demo-app/dist/assets/index-Dp8UTP6n.js"></script>
+  <script type="module" crossorigin src="/demo-app/dist/assets/index-BxYeDKvI.js"></script>
   <link rel="modulepreload" crossorigin href="/demo-app/dist/assets/engine-B-JVEZre.js">
   <link rel="modulepreload" crossorigin href="/demo-app/dist/assets/navigation-DqQtR5Ds.js">
   <link rel="modulepreload" crossorigin href="/demo-app/dist/assets/metrics-BF4aFrbM.js">
   <link rel="modulepreload" crossorigin href="/demo-app/dist/assets/enhancements-CzRfvyFH.js">
-  <link rel="stylesheet" crossorigin href="/demo-app/dist/assets/index-BCkSNiZA.css">
+  <link rel="stylesheet" crossorigin href="/demo-app/dist/assets/index-752fLB6P.css">
 </head>
 <body class="light-mode">
 <!-- Light mode always on -->
@@ -1337,6 +1337,17 @@
                 <div class="s4-card" style="animation:slideUp 0.4s ease">
                     <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-vault" style="color:var(--accent)"></i> Audit Record Vault <span style="background:rgba(0,170,255,0.15);color:#00aaff;font-size:0.65rem;padding:2px 8px;border-radius:8px;font-weight:600;margin-left:6px;">LIVE</span> <button onclick="showAddActionModal('vault')" class="ai-quick-btn" style="margin-left:auto;font-size:0.72rem;padding:4px 10px"><i class="fas fa-plus"></i> Action Item</button></h3>
                     <p style="color:var(--muted);font-size:0.85rem;margin-bottom:16px">Every record you anchor is stored here with its hash, original content preview, timestamp, and verification status — your single source of auditing proof. No more searching the XRPL manually.</p>
+<details style="display:none;margin-top:8px;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.15);border-radius:8px;padding:0 12px;">
+                        <summary style="cursor:pointer;padding:8px 0;font-size:0.8rem;font-weight:700;color:#00aaff;">How It Works</summary>
+                        <p style="font-size:0.82rem;color:var(--steel);margin-bottom:6px;">The Audit Record Vault stores every anchored record with its cryptographic hash, original content preview, timestamp, and verification status.</p>
+                        <ol style="font-size:0.8rem;color:var(--steel);padding-left:18px;margin-bottom:8px;">
+                            <li><strong>Automatic archiving</strong> — Every time you anchor data from any tool, a record is created in the vault with full metadata.</li>
+                            <li><strong>Instant verification</strong> — Click any record to verify it against the XRPL ledger in real time. Tampered records are flagged immediately.</li>
+                            <li><strong>Search &amp; filter</strong> — Find any record by type, program, date range, or hash. Export records for external audits.</li>
+                            <li><strong>Audit-ready</strong> — Present the vault directly to auditors as cryptographic proof of data integrity and chain of custody.</li>
+                        </ol>
+                        <p style="font-size:0.8rem;color:var(--steel);margin-bottom:8px;"><strong>How S4 saves you money:</strong> Failed audits can result in contract suspensions costing $500K-$5M. Manual audit preparation takes 100+ hours per review cycle. S4 reduces audit prep to <strong style="color:#00cc66">under 1 hour</strong> and provides tamper-proof evidence that passes <strong style="color:#00cc66">100% of integrity checks</strong>.</p>
+                    </details>
 <!-- Vault Stats -->
                     <div class="vault-stats" id="vaultStats">
                         <div class="vault-stat hover-lift"><div class="stat-val stat-animate" id="vaultTotal">0</div><div class="stat-lbl">Total Records</div></div>
@@ -1964,6 +1975,17 @@
             <div class="ils-hub-panel" id="hub-predictive">
                 <div class="s4-card">
                     <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-brain" style="color:var(--accent)"></i> Maintenance Predictor <button onclick="showAddActionModal('predictive')" class="ai-quick-btn" style="margin-left:auto;font-size:0.72rem;padding:4px 10px"><i class="fas fa-plus"></i> Action Item</button></h3>
+<details style="display:none;margin-top:8px;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.15);border-radius:8px;padding:0 12px;">
+                        <summary style="cursor:pointer;padding:8px 0;font-size:0.8rem;font-weight:700;color:#00aaff;">How It Works</summary>
+                        <p style="font-size:0.82rem;color:var(--steel);margin-bottom:6px;">Maintenance Predictor uses AI to forecast equipment failures, schedule preventive maintenance, and optimize fleet readiness.</p>
+                        <ol style="font-size:0.8rem;color:var(--steel);padding-left:18px;margin-bottom:8px;">
+                            <li><strong>Fleet selection</strong> — Choose your platform, hull/tail number, and prediction window (30-365 days).</li>
+                            <li><strong>AI prediction</strong> — S4 analyzes MTBF data, operating conditions, and maintenance history to forecast failure probabilities.</li>
+                            <li><strong>Confidence scoring</strong> — Each prediction includes a confidence level so you can prioritize high-probability failures.</li>
+                            <li><strong>Actionable alerts</strong> — Auto-generates maintenance action items with scheduling recommendations and cost estimates.</li>
+                        </ol>
+                        <p style="font-size:0.8rem;color:var(--steel);margin-bottom:8px;"><strong>How S4 saves you money:</strong> Unplanned maintenance costs 3-5x more than planned maintenance. S4 predictive analytics reduce unplanned downtime by <strong style="color:#00cc66">60%</strong> and extend equipment life by <strong style="color:#00cc66">15-25%</strong> — saving $200K-$2M per fleet annually.</p>
+                    </details>
 <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px 14px;margin-bottom:12px">
                         <div><label>Fleet / Platform</label><select id="pdmPlatform" aria-label="Select predictive maintenance platform" onchange="loadPredictiveData()" style="font-size:0.88rem"></select></div>
                         <div><label>Hull # / Tail #</label><input type="text" id="pdmHull" placeholder="Hull # / Tail # / Fleet" style="font-size:0.82rem;background:#fff;color:var(--text,#1d1d1f);border:1px solid rgba(0,0,0,0.06);border-radius:8px;padding:5px 8px;width:100%"></div>
@@ -2011,6 +2033,17 @@
             <div class="ils-hub-panel" id="hub-sbom">
                 <div class="s4-card">
                     <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-microchip" style="color:#00aaff"></i> SBOM Scanner <button onclick="showAddActionModal('sbom')" class="ai-quick-btn" style="margin-left:auto;font-size:0.72rem;padding:4px 10px"><i class="fas fa-plus"></i> Action Item</button></h3>
+<details style="display:none;margin-top:8px;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.15);border-radius:8px;padding:0 12px;">
+                        <summary style="cursor:pointer;padding:8px 0;font-size:0.8rem;font-weight:700;color:#00aaff;">How It Works</summary>
+                        <p style="font-size:0.82rem;color:var(--steel);margin-bottom:6px;">SBOM Scanner catalogs every software and firmware component in your defense systems, identifying vulnerabilities and license risks.</p>
+                        <ol style="font-size:0.8rem;color:var(--steel);padding-left:18px;margin-bottom:8px;">
+                            <li><strong>Select platform &amp; format</strong> — Choose your system and SBOM format (CycloneDX 1.5, SPDX 2.3, or S4 Native).</li>
+                            <li><strong>Auto-scan</strong> — S4 catalogs all software components, versions, and dependencies across the selected platform.</li>
+                            <li><strong>CVE detection</strong> — Cross-references findings against NVD and CISA KEV databases to flag known vulnerabilities.</li>
+                            <li><strong>Compliance check</strong> — Validates against EO 14028 and DoD SBOM requirements. Generates remediation plans for non-compliant components.</li>
+                        </ol>
+                        <p style="font-size:0.8rem;color:var(--steel);margin-bottom:8px;"><strong>How S4 saves you money:</strong> A single undetected software vulnerability can cost $1M-$50M in breach response. Manual SBOM generation takes 40-80 hours per system. S4 automates <strong style="color:#00cc66">95% of the SBOM process</strong> and provides continuous vulnerability monitoring that replaces expensive periodic audits.</p>
+                    </details>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px 14px;margin-bottom:12px">
                         <div><label>Select Platform</label><select id="sbomProgram" aria-label="Select SBOM program" onchange="loadSBOMData()" style="font-size:0.88rem"></select></div>
                         <div><label>SBOM Format</label><select id="sbomFormat" aria-label="Select SBOM format" style="font-size:0.88rem"><option value="cyclonedx">CycloneDX 1.5</option><option value="spdx">SPDX 2.3</option><option value="s4native">S4 Native</option></select></div>
@@ -2041,6 +2074,17 @@
                 <div class="s4-card">
                     <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-file-circle-check" style="color:var(--accent)"></i> Submissions Hub <button onclick="showAddActionModal('submissions')" class="ai-quick-btn" style="margin-left:auto;font-size:0.72rem;padding:4px 10px"><i class="fas fa-plus"></i> Action Item</button></h3>
                     <p style="color:var(--steel);font-size:0.9rem;margin-bottom:0.5rem">Upload and compare ILS data submissions from OEMs, shipbuilders, vendors, and contractors for Navy programs and programs. Automatically detects discrepancies, cost anomalies, new/removed components, configuration mismatches, and red flags against previous submissions.</p>
+<details style="display:none;margin-top:8px;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.15);border-radius:8px;padding:0 12px;">
+                        <summary style="cursor:pointer;padding:8px 0;font-size:0.8rem;font-weight:700;color:#00aaff;">How It Works</summary>
+                        <p style="font-size:0.82rem;color:var(--steel);margin-bottom:6px;">The Submissions Hub centralizes ILS data ingestion from OEMs, shipbuilders, vendors, and contractors.</p>
+                        <ol style="font-size:0.8rem;color:var(--steel);padding-left:18px;margin-bottom:8px;">
+                            <li><strong>Upload submissions</strong> &mdash; Drag-and-drop or browse ILS data packages (ALSPs, provisioning docs, CDRLs) from any source.</li>
+                            <li><strong>Auto-compare</strong> &mdash; S4 diffs new submissions against previous baselines, flagging discrepancies, cost anomalies, and configuration mismatches.</li>
+                            <li><strong>Red-flag detection</strong> &mdash; AI identifies suspicious patterns such as part number changes, cost spikes, and removed components.</li>
+                            <li><strong>Anchor submissions</strong> &mdash; Lock each submission to the ledger to prove what was received, when, and from whom.</li>
+                        </ol>
+                        <p style="font-size:0.8rem;color:var(--steel);margin-bottom:8px;"><strong>How S4 saves you money:</strong> Manual submission comparison takes 8-16 hours per data package at $150/hr. S4 completes the same comparison in under 2 minutes &mdash; saving <strong style="color:#00cc66">90% on labor</strong> and catching discrepancies that manual review misses <strong style="color:#00cc66">40% of the time</strong>.</p>
+                    </details>
 <!-- Branch & Program Selection -->
                     <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px 14px;margin-bottom:12px">
                                 <option value="VRSL">Vendor Recommended Spares List (VRS)</option>
@@ -2670,6 +2714,17 @@
                 <div class="s4-card">
                     <h3 style="display:flex;align-items:center;gap:8px"><i class="fas fa-users-gear" style="color:var(--accent)"></i> Team Manager <button onclick="showAddActionModal('team')" class="ai-quick-btn" style="margin-left:auto;font-size:0.72rem;padding:4px 10px"><i class="fas fa-plus"></i> Action Item</button></h3>
                     <p style="color:var(--steel);font-size:0.9rem;margin-bottom:0.5rem">Full team administration portal — create teams, assign program access, manage tool permissions, and audit team activity across all ILS tools. For quick team status, use the <strong style="color:#00aaff">Team</strong> button in the header bar.</p>
+<details style="display:none;margin-top:8px;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.15);border-radius:8px;padding:0 12px;">
+                        <summary style="cursor:pointer;padding:8px 0;font-size:0.8rem;font-weight:700;color:#00aaff;">How It Works</summary>
+                        <p style="font-size:0.82rem;color:var(--steel);margin-bottom:6px;">Team Manager provides full team administration — create teams, assign roles, manage program access, and audit activity across all ILS tools.</p>
+                        <ol style="font-size:0.8rem;color:var(--steel);padding-left:18px;margin-bottom:8px;">
+                            <li><strong>Create teams</strong> — Organize personnel by program, function, or project. Assign team leads and define reporting chains.</li>
+                            <li><strong>Manage permissions</strong> — Control who can view, edit, and anchor data for each tool and program.</li>
+                            <li><strong>Track activity</strong> — Real-time audit log of every team member's actions across all ILS tools.</li>
+                            <li><strong>Cross-program visibility</strong> — See team workload, assignments, and status across all programs from one dashboard.</li>
+                        </ol>
+                        <p style="font-size:0.8rem;color:var(--steel);margin-bottom:8px;"><strong>How S4 saves you money:</strong> Poor access control and team coordination issues cause an average of $25,000-$100,000 in rework per program. S4 team management reduces coordination errors by <strong style="color:#00cc66">75%</strong> and provides instant visibility that replaces hours of weekly status meetings.</p>
+                    </details>
 <!-- Team Manager Controls -->
                     <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px 14px;margin-bottom:12px">
                         <div>
