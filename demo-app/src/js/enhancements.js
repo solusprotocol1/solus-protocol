@@ -7001,16 +7001,16 @@ function exportCdrlReport() {
 // ═══════════════════════════════════════════════════════
 
 var _drlDemoData = [
-    { di:'DI-ILSS-81495',  transmittalSerial:'TSN-2025-0041', spRev:'Rev 3', coordDueDate:'2025-06-15', desDateBasDay:'2025-06-10 / BD', submittalGuidance:'Per CDRL A005', coordCalcDate:'2025-06-13', actualDate:'2025-06-12', rcvD:'Y', calDaysReview:8, smeTarget:'2025-06-20', authority:'CAPT R. Hughes', responseDate:'2025-06-20', notes:'Provisioning Parts List — approved on first review', status:'on-time', workflowLink:'https://nserc.navy.mil/task/PPL-2025-0041' },
-    { di:'DI-ILSS-81491',  transmittalSerial:'TSN-2025-0038', spRev:'Rev 1', coordDueDate:'2025-05-30', desDateBasDay:'2025-05-25 / BD', submittalGuidance:'Per CDRL A003', coordCalcDate:'2025-05-28', actualDate:'2025-06-04', rcvD:'Y', calDaysReview:14, smeTarget:'2025-06-18', authority:'CDR S. Kim', responseDate:'2025-06-18', notes:'LSAR data — 5 days past due, minor corrections required', status:'late', workflowLink:'https://nserc.navy.mil/task/LSAR-2025-0038' },
-    { di:'DI-MGMT-81466',  transmittalSerial:'TSN-2025-0052', spRev:'Rev 2', coordDueDate:'2025-07-01', desDateBasDay:'2025-06-26 / BD', submittalGuidance:'Per CDRL B002', coordCalcDate:'2025-06-29', actualDate:'', rcvD:'', calDaysReview:0, smeTarget:'', authority:'', responseDate:'', notes:'Configuration Status Accounting — due in 2 weeks', status:'on-time', workflowLink:'' },
-    { di:'DI-SESS-81517',  transmittalSerial:'TSN-2025-0029', spRev:'Rev 4', coordDueDate:'2025-04-15', desDateBasDay:'2025-04-10 / CD', submittalGuidance:'Per CDRL C001', coordCalcDate:'2025-04-12', actualDate:'', rcvD:'', calDaysReview:0, smeTarget:'', authority:'', responseDate:'', notes:'Support Equipment Recommendation — missed, no submission received', status:'past-due', workflowLink:'https://nserc.navy.mil/task/SE-2025-0029' },
-    { di:'DI-ILSS-81495',  transmittalSerial:'TSN-2025-0033', spRev:'Rev 2', coordDueDate:'2025-03-30', desDateBasDay:'2025-03-25 / BD', submittalGuidance:'Per CDRL A005', coordCalcDate:'2025-03-28', actualDate:'', rcvD:'', calDaysReview:0, smeTarget:'', authority:'', responseDate:'', notes:'Provisioning Parts List (Q1) — second consecutive miss', status:'past-due', workflowLink:'' },
-    { di:'DI-TMSS-80939',  transmittalSerial:'TSN-2025-0045', spRev:'Rev 1', coordDueDate:'2025-06-28', desDateBasDay:'2025-06-23 / BD', submittalGuidance:'Per CDRL D004', coordCalcDate:'2025-06-26', actualDate:'2025-06-25', rcvD:'Y', calDaysReview:5, smeTarget:'2025-06-30', authority:'CAPT R. Hughes', responseDate:'2025-06-30', notes:'Technical Manual update — accepted', status:'on-time', workflowLink:'https://nserc.navy.mil/task/TM-2025-0045' },
-    { di:'DI-MISC-80711A', transmittalSerial:'TSN-2025-0050', spRev:'Rev 1', coordDueDate:'2025-07-10', desDateBasDay:'2025-07-05 / CD', submittalGuidance:'Per CDRL E001', coordCalcDate:'2025-07-08', actualDate:'', rcvD:'', calDaysReview:0, smeTarget:'', authority:'', responseDate:'', notes:'Test & Evaluation Report — due in 5 days', status:'approaching', workflowLink:'https://nserc.navy.mil/task/TE-2025-0050' },
-    { di:'DI-ILSS-81491',  transmittalSerial:'TSN-2025-0022', spRev:'Rev 3', coordDueDate:'2025-02-28', desDateBasDay:'2025-02-23 / BD', submittalGuidance:'Per CDRL A003', coordCalcDate:'2025-02-26', actualDate:'', rcvD:'', calDaysReview:0, smeTarget:'', authority:'', responseDate:'', notes:'LSAR data (Q4) — third consecutive omission, escalation recommended', status:'past-due', workflowLink:'' },
-    { di:'DI-RELI-81400',  transmittalSerial:'TSN-2025-0055', spRev:'Rev 1', coordDueDate:'2025-07-05', desDateBasDay:'2025-07-01 / BD', submittalGuidance:'Per CDRL F003', coordCalcDate:'2025-07-03', actualDate:'2025-07-02', rcvD:'Y', calDaysReview:7, smeTarget:'2025-07-09', authority:'CDR S. Kim', responseDate:'', notes:'FRACAS reliability report — under review', status:'on-time', workflowLink:'https://nserc.navy.mil/task/FRACAS-2025-0055' },
-    { di:'DI-PACK-81222',  transmittalSerial:'TSN-2025-0048', spRev:'Rev 2', coordDueDate:'2025-06-20', desDateBasDay:'2025-06-15 / CD', submittalGuidance:'Per CDRL G002', coordCalcDate:'2025-06-18', actualDate:'2025-06-19', rcvD:'Y', calDaysReview:10, smeTarget:'2025-06-29', authority:'LCDR M. Davis', responseDate:'2025-06-28', notes:'Packaging data — approved with comment', status:'on-time', workflowLink:'https://nserc.navy.mil/task/PKG-2025-0048' },
+    { di:'DI-ILSS-81495',  transmittalSerial:'TSN-2025-0041', spRev:'Rev 3', coordDueDate:'2025-06-15', desDateBasDay:'2025-06-10 / BD', submittalGuidance:'Per CDRL A005', coordCalcDate:'2025-06-13', actualDate:'2025-06-12', rcvD:'Y', calDaysReview:8, smeTarget:'2025-06-20', authority:'CAPT R. Hughes', responseDate:'2025-06-20', notes:'Provisioning Parts List — approved on first review', status:'on-time', workflowLink:'https://nserc.navy.mil/task/PPL-2025-0041', vendor:'Huntington Ingalls' },
+    { di:'DI-ILSS-81491',  transmittalSerial:'TSN-2025-0038', spRev:'Rev 1', coordDueDate:'2025-05-30', desDateBasDay:'2025-05-25 / BD', submittalGuidance:'Per CDRL A003', coordCalcDate:'2025-05-28', actualDate:'2025-06-04', rcvD:'Y', calDaysReview:14, smeTarget:'2025-06-18', authority:'CDR S. Kim', responseDate:'2025-06-18', notes:'LSAR data — 5 days past due, minor corrections required', status:'late', workflowLink:'https://nserc.navy.mil/task/LSAR-2025-0038', vendor:'General Dynamics NASSCO' },
+    { di:'DI-MGMT-81466',  transmittalSerial:'TSN-2025-0052', spRev:'Rev 2', coordDueDate:'2025-07-01', desDateBasDay:'2025-06-26 / BD', submittalGuidance:'Per CDRL B002', coordCalcDate:'2025-06-29', actualDate:'', rcvD:'', calDaysReview:0, smeTarget:'', authority:'', responseDate:'', notes:'Configuration Status Accounting — due in 2 weeks', status:'on-time', workflowLink:'', vendor:'Huntington Ingalls' },
+    { di:'DI-SESS-81517',  transmittalSerial:'TSN-2025-0029', spRev:'Rev 4', coordDueDate:'2025-04-15', desDateBasDay:'2025-04-10 / CD', submittalGuidance:'Per CDRL C001', coordCalcDate:'2025-04-12', actualDate:'', rcvD:'', calDaysReview:0, smeTarget:'', authority:'', responseDate:'', notes:'Support Equipment Recommendation — missed, no submission received', status:'past-due', workflowLink:'https://nserc.navy.mil/task/SE-2025-0029', vendor:'Lockheed Martin' },
+    { di:'DI-ILSS-81495',  transmittalSerial:'TSN-2025-0033', spRev:'Rev 2', coordDueDate:'2025-03-30', desDateBasDay:'2025-03-25 / BD', submittalGuidance:'Per CDRL A005', coordCalcDate:'2025-03-28', actualDate:'', rcvD:'', calDaysReview:0, smeTarget:'', authority:'', responseDate:'', notes:'Provisioning Parts List (Q1) — second consecutive miss', status:'past-due', workflowLink:'', vendor:'Huntington Ingalls' },
+    { di:'DI-TMSS-80939',  transmittalSerial:'TSN-2025-0045', spRev:'Rev 1', coordDueDate:'2025-06-28', desDateBasDay:'2025-06-23 / BD', submittalGuidance:'Per CDRL D004', coordCalcDate:'2025-06-26', actualDate:'2025-06-25', rcvD:'Y', calDaysReview:5, smeTarget:'2025-06-30', authority:'CAPT R. Hughes', responseDate:'2025-06-30', notes:'Technical Manual update — accepted', status:'on-time', workflowLink:'https://nserc.navy.mil/task/TM-2025-0045', vendor:'Bath Iron Works' },
+    { di:'DI-MISC-80711A', transmittalSerial:'TSN-2025-0050', spRev:'Rev 1', coordDueDate:'2025-07-10', desDateBasDay:'2025-07-05 / CD', submittalGuidance:'Per CDRL E001', coordCalcDate:'2025-07-08', actualDate:'', rcvD:'', calDaysReview:0, smeTarget:'', authority:'', responseDate:'', notes:'Test & Evaluation Report — due in 5 days', status:'approaching', workflowLink:'https://nserc.navy.mil/task/TE-2025-0050', vendor:'Raytheon' },
+    { di:'DI-ILSS-81491',  transmittalSerial:'TSN-2025-0022', spRev:'Rev 3', coordDueDate:'2025-02-28', desDateBasDay:'2025-02-23 / BD', submittalGuidance:'Per CDRL A003', coordCalcDate:'2025-02-26', actualDate:'', rcvD:'', calDaysReview:0, smeTarget:'', authority:'', responseDate:'', notes:'LSAR data (Q4) — third consecutive omission, escalation recommended', status:'past-due', workflowLink:'', vendor:'General Dynamics NASSCO' },
+    { di:'DI-RELI-81400',  transmittalSerial:'TSN-2025-0055', spRev:'Rev 1', coordDueDate:'2025-07-05', desDateBasDay:'2025-07-01 / BD', submittalGuidance:'Per CDRL F003', coordCalcDate:'2025-07-03', actualDate:'2025-07-02', rcvD:'Y', calDaysReview:7, smeTarget:'2025-07-09', authority:'CDR S. Kim', responseDate:'', notes:'FRACAS reliability report — under review', status:'on-time', workflowLink:'https://nserc.navy.mil/task/FRACAS-2025-0055', vendor:'Lockheed Martin' },
+    { di:'DI-PACK-81222',  transmittalSerial:'TSN-2025-0048', spRev:'Rev 2', coordDueDate:'2025-06-20', desDateBasDay:'2025-06-15 / CD', submittalGuidance:'Per CDRL G002', coordCalcDate:'2025-06-18', actualDate:'2025-06-19', rcvD:'Y', calDaysReview:10, smeTarget:'2025-06-29', authority:'LCDR M. Davis', responseDate:'2025-06-28', notes:'Packaging data — approved with comment', status:'on-time', workflowLink:'https://nserc.navy.mil/task/PKG-2025-0048', vendor:'Bath Iron Works' },
 ];
 
 var _drlFieldKeys = ['di','transmittalSerial','spRev','coordDueDate','desDateBasDay','submittalGuidance','coordCalcDate','actualDate','rcvD','calDaysReview','smeTarget','authority','responseDate','notes','status'];
@@ -7021,6 +7021,8 @@ var _drlCurrentView = 'all';
 var _drlPreviousSnapshot = null;
 var _drlCompareMode = false;
 var _drlChangeHistory = {};
+var _drlVendorFilter = {};
+var _drlSubscribeState = {};
 
 
 function switchCdrlView(view) {
@@ -7165,6 +7167,24 @@ function renderDrlStatusTable(prefix) {
     var idxMap = [];
     filteredData.forEach(function(row) { idxMap.push(data.indexOf(row)); });
 
+    // §41 — Vendor filter
+    var vendorKey = pre || '_main';
+    var vendorVal = _drlVendorFilter[vendorKey] || '';
+    var vendorDropId = pre ? pre + 'DrlVendorFilter' : 'drlVendorFilter';
+    var vendorDrop = document.getElementById(vendorDropId);
+    if (vendorDrop) {
+        var vendors = {};
+        data.forEach(function(r){ if(r.vendor) vendors[r.vendor]=1; });
+        var opts = '<option value="">All</option>';
+        Object.keys(vendors).sort().forEach(function(v){ opts += '<option value="'+_escHtml(v)+'"'+(vendorVal===v?' selected':'')+'>'+_escHtml(v)+'</option>'; });
+        vendorDrop.innerHTML = opts;
+    }
+    if (vendorVal) {
+        var vFiltered = []; var vIdxMap = [];
+        filteredData.forEach(function(row, i){ if(row.vendor === vendorVal){ vFiltered.push(row); vIdxMap.push(idxMap[i]); } });
+        filteredData = vFiltered; idxMap = vIdxMap;
+    }
+
     var onTime = 0, approaching = 0, pastDue = 0, omissions = 0;
     var diMissCounts = {};
     data.forEach(function(r) { if (r.status === 'past-due') { diMissCounts[r.di] = (diMissCounts[r.di] || 0) + 1; } });
@@ -7306,6 +7326,31 @@ function renderDrlStatusTable(prefix) {
     }
 }
 function _escHtml(s) { if (!s) return ''; var d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+
+// §41 — Filter by Shipbuilder/Vendor
+function drlFilterByVendor(prefix) {
+    var pre = prefix || '';
+    var vendorKey = pre || '_main';
+    var selId = pre ? pre + 'DrlVendorFilter' : 'drlVendorFilter';
+    var sel = document.getElementById(selId);
+    _drlVendorFilter[vendorKey] = sel ? sel.value : '';
+    renderDrlStatusTable(pre);
+}
+
+// §41 — Subscribe to Alerts toggle
+function drlToggleSubscribe(prefix) {
+    var pre = prefix || '';
+    var subKey = pre || '_main';
+    var cbId = pre ? pre + 'DrlSubscribeCb' : 'drlSubscribeCb';
+    var bannerId = pre ? pre + 'DrlSubscribeBanner' : 'drlSubscribeBanner';
+    var cb = document.getElementById(cbId);
+    var banner = document.getElementById(bannerId);
+    var on = cb ? cb.checked : false;
+    _drlSubscribeState[subKey] = on;
+    if (banner) {
+        banner.style.display = on ? 'block' : 'none';
+    }
+}
 
 // AI Assist: sends DRL data to AI agents for analysis
 async function drlAiAssist(prefix) {
@@ -7968,6 +8013,8 @@ window.drlExportSelected = drlExportSelected;
 window.drlClearSelection = drlClearSelection;
 window.drlShowHistory = drlShowHistory;
 window.drlSendEmail = drlSendEmail;
+window.drlFilterByVendor = drlFilterByVendor;
+window.drlToggleSubscribe = drlToggleSubscribe;
 window.drlComparePrevious = drlComparePrevious;
 window.drlResetSnapshot = drlResetSnapshot;
 window._drlRecordChange = _drlRecordChange;

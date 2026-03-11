@@ -7020,6 +7020,8 @@ var _drlCurrentView = 'all';
 var _drlPreviousSnapshot = null;
 var _drlCompareMode = false;
 var _drlChangeHistory = {};
+var _drlVendorFilter = {};
+var _drlSubscribeState = {};
 
 
 function switchCdrlView(view) {
@@ -7164,6 +7166,24 @@ function renderDrlStatusTable(prefix) {
     var idxMap = [];
     filteredData.forEach(function(row) { idxMap.push(data.indexOf(row)); });
 
+    // §41 — Vendor filter
+    var vendorKey = pre || '_main';
+    var vendorVal = _drlVendorFilter[vendorKey] || '';
+    var vendorDropId = pre ? pre + 'DrlVendorFilter' : 'drlVendorFilter';
+    var vendorDrop = document.getElementById(vendorDropId);
+    if (vendorDrop) {
+        var vendors = {};
+        data.forEach(function(r){ if(r.vendor) vendors[r.vendor]=1; });
+        var opts = '<option value="">All</option>';
+        Object.keys(vendors).sort().forEach(function(v){ opts += '<option value="'+_escHtml(v)+'"'+(vendorVal===v?' selected':'')+'>'+_escHtml(v)+'</option>'; });
+        vendorDrop.innerHTML = opts;
+    }
+    if (vendorVal) {
+        var vFiltered = []; var vIdxMap = [];
+        filteredData.forEach(function(row, i){ if(row.vendor === vendorVal){ vFiltered.push(row); vIdxMap.push(idxMap[i]); } });
+        filteredData = vFiltered; idxMap = vIdxMap;
+    }
+
     var onTime = 0, approaching = 0, pastDue = 0, omissions = 0;
     var diMissCounts = {};
     data.forEach(function(r) { if (r.status === 'past-due') { diMissCounts[r.di] = (diMissCounts[r.di] || 0) + 1; } });
@@ -7305,6 +7325,31 @@ function renderDrlStatusTable(prefix) {
     }
 }
 function _escHtml(s) { if (!s) return ''; var d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+
+// §41 — Filter by Shipbuilder/Vendor
+function drlFilterByVendor(prefix) {
+    var pre = prefix || '';
+    var vendorKey = pre || '_main';
+    var selId = pre ? pre + 'DrlVendorFilter' : 'drlVendorFilter';
+    var sel = document.getElementById(selId);
+    _drlVendorFilter[vendorKey] = sel ? sel.value : '';
+    renderDrlStatusTable(pre);
+}
+
+// §41 — Subscribe to Alerts toggle
+function drlToggleSubscribe(prefix) {
+    var pre = prefix || '';
+    var subKey = pre || '_main';
+    var cbId = pre ? pre + 'DrlSubscribeCb' : 'drlSubscribeCb';
+    var bannerId = pre ? pre + 'DrlSubscribeBanner' : 'drlSubscribeBanner';
+    var cb = document.getElementById(cbId);
+    var banner = document.getElementById(bannerId);
+    var on = cb ? cb.checked : false;
+    _drlSubscribeState[subKey] = on;
+    if (banner) {
+        banner.style.display = on ? 'block' : 'none';
+    }
+}
 
 // AI Assist: sends DRL data to AI agents for analysis
 async function drlAiAssist(prefix) {
@@ -7967,6 +8012,8 @@ window.drlExportSelected = drlExportSelected;
 window.drlClearSelection = drlClearSelection;
 window.drlShowHistory = drlShowHistory;
 window.drlSendEmail = drlSendEmail;
+window.drlFilterByVendor = drlFilterByVendor;
+window.drlToggleSubscribe = drlToggleSubscribe;
 window.drlComparePrevious = drlComparePrevious;
 window.drlResetSnapshot = drlResetSnapshot;
 window._drlRecordChange = _drlRecordChange;

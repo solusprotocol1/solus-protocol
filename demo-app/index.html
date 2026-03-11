@@ -67,11 +67,11 @@
     <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" integrity="sha384-9nhczxUqK87bcKHh20fSQcTGD4qq5GhayNYSYWqwBkINBhOfQLg/P5HG5lF1urn4" crossorigin="anonymous"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/qrcode@1.5.4/build/qrcode.min.js"></script>
     <!-- CSS is imported via main.js and extracted by Vite -->
-  <script type="module" crossorigin src="/demo-app/dist/assets/index-Dndeqg6H.js"></script>
+  <script type="module" crossorigin src="/demo-app/dist/assets/index-COR5QjLk.js"></script>
   <link rel="modulepreload" crossorigin href="/demo-app/dist/assets/engine-xXCZYzDT.js">
   <link rel="modulepreload" crossorigin href="/demo-app/dist/assets/navigation-DqQtR5Ds.js">
   <link rel="modulepreload" crossorigin href="/demo-app/dist/assets/metrics-BF4aFrbM.js">
-  <link rel="modulepreload" crossorigin href="/demo-app/dist/assets/enhancements-opw5fY-O.js">
+  <link rel="modulepreload" crossorigin href="/demo-app/dist/assets/enhancements-DZo2deXx.js">
   <link rel="stylesheet" crossorigin href="/demo-app/dist/assets/index-VIQKg1L7.css">
 </head>
 <body class="light-mode">
@@ -2299,6 +2299,16 @@
                         </div>
                         <!-- §37 Bulk Action Toolbar -->
                         <div id="subDrlBulkBar" style="display:none;margin-bottom:12px"></div>
+                        <!-- §41 Vendor Filter + Subscribe Toggle -->
+                        <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:10px">
+                            <label style="font-size:.76rem;color:var(--steel);display:flex;align-items:center;gap:6px"><i class="fas fa-industry" style="color:var(--accent)"></i> Filter by Shipbuilder/Vendor
+                                <select id="subDrlVendorFilter" onchange="drlFilterByVendor('sub')" class="form-control form-control-sm" style="background:var(--surface);color:var(--text,#1d1d1f);border:1px solid var(--border);border-radius:8px;font-size:.78rem;width:auto;min-width:140px;padding:4px 8px"><option value="">All</option></select>
+                            </label>
+                            <label style="margin-left:auto;font-size:.76rem;color:var(--steel);display:flex;align-items:center;gap:6px;cursor:pointer"><i class="fas fa-bell" style="color:#ff9500"></i> Subscribe to Alerts
+                                <input type="checkbox" id="subDrlSubscribeCb" onchange="drlToggleSubscribe('sub')" style="cursor:pointer;accent-color:#007AFF;width:16px;height:16px">
+                            </label>
+                        </div>
+                        <div id="subDrlSubscribeBanner" style="display:none;background:rgba(255,149,0,0.08);border:1px solid rgba(255,149,0,0.25);border-radius:8px;padding:8px 14px;margin-bottom:10px;font-size:.78rem;color:#ff9500"><i class="fas fa-bell"></i> You will receive email alerts for overdue or high-criticality items in this view.</div>
                         <!-- Action Buttons -->
                         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
                             <button onclick="exportDrlStatusCSV('sub')" class="btn btn-sm" style="font-size:.78rem"><i class="fas fa-file-csv"></i> Export DRL Status Spreadsheet</button>
@@ -2578,6 +2588,16 @@
                         </div>
                         <!-- §37 Bulk Action Toolbar -->
                         <div id="drlBulkBar" style="display:none;margin-bottom:12px"></div>
+                        <!-- §41 Vendor Filter + Subscribe Toggle -->
+                        <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:10px">
+                            <label style="font-size:.76rem;color:var(--steel);display:flex;align-items:center;gap:6px"><i class="fas fa-industry" style="color:var(--accent)"></i> Filter by Shipbuilder/Vendor
+                                <select id="drlVendorFilter" onchange="drlFilterByVendor('')" class="form-control form-control-sm" style="background:var(--surface);color:var(--text,#1d1d1f);border:1px solid var(--border);border-radius:8px;font-size:.78rem;width:auto;min-width:140px;padding:4px 8px"><option value="">All</option></select>
+                            </label>
+                            <label style="margin-left:auto;font-size:.76rem;color:var(--steel);display:flex;align-items:center;gap:6px;cursor:pointer"><i class="fas fa-bell" style="color:#ff9500"></i> Subscribe to Alerts
+                                <input type="checkbox" id="drlSubscribeCb" onchange="drlToggleSubscribe('')" style="cursor:pointer;accent-color:#007AFF;width:16px;height:16px">
+                            </label>
+                        </div>
+                        <div id="drlSubscribeBanner" style="display:none;background:rgba(255,149,0,0.08);border:1px solid rgba(255,149,0,0.25);border-radius:8px;padding:8px 14px;margin-bottom:10px;font-size:.78rem;color:#ff9500"><i class="fas fa-bell"></i> You will receive email alerts for overdue or high-criticality items in this view.</div>
 
                         <!-- Action buttons (demo-app: no Import) -->
                         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px">
