@@ -1061,9 +1061,49 @@ console.log('[Round-12b] Competitive Enhancement Suite loaded: AI Threat Scoring
                 if (fn && typeof window[fn] === 'function') {
                     try { window[fn](); } catch(e) {}
                 }
+                // ── Inject impact banner + assign person into tool panel ──
+                _injectToolPostActions(toolId);
             }, 400);
         };
         window.openILSTool._s4R13Hooked = true;
+    }
+
+    // ── Universal Post-Tool Actions: Impact Banner + Assign Responsible Person ──
+    function _injectToolPostActions(toolId) {
+        var panel = document.getElementById(toolId);
+        if (!panel) return;
+        // Don't double-inject
+        if (panel.querySelector('.s4-tool-post-actions')) return;
+        // Find the last s4-card in this panel to append to
+        var cards = panel.querySelectorAll('.s4-card');
+        var target = cards.length ? cards[cards.length - 1] : panel;
+
+        var container = document.createElement('div');
+        container.className = 's4-tool-post-actions';
+        container.style.cssText = 'margin-top:16px;';
+
+        // Impact banner (gold)
+        container.innerHTML =
+            '<div class="s4-impact-banner" style="background:rgba(201,168,76,0.10);border:1px solid rgba(201,168,76,0.35);border-radius:8px;padding:12px 14px;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;gap:10px">' +
+                '<div style="display:flex;align-items:center;gap:8px;font-size:0.85rem"><i class="fas fa-flag" style="color:#c9a84c"></i> <span style="color:var(--steel)">Flag findings from this tool for leadership review</span></div>' +
+                '<button onclick="saveImpactToNotes()" style="background:rgba(201,168,76,0.15);color:#c9a84c;border:1px solid rgba(201,168,76,0.35);border-radius:8px;padding:5px 12px;font-size:0.78rem;font-weight:600;cursor:pointer;white-space:nowrap;transition:all 0.2s"><i class="fas fa-sticky-note"></i> Save to Notes</button>' +
+            '</div>' +
+            '<div style="background:var(--surface,#fff);border:1px solid var(--border,rgba(0,0,0,0.1));border-radius:8px;padding:10px 14px;display:flex;align-items:center;gap:10px">' +
+                '<label style="font-size:0.82rem;font-weight:600;color:var(--steel,#3a3a3c);white-space:nowrap"><i class="fas fa-user-check" style="color:var(--accent,#00aaff);margin-right:4px"></i> Assign Responsible Person</label>' +
+                '<select onchange="assignResponsiblePerson(this.value)" style="flex:1;padding:6px 10px;border:1px solid var(--border,rgba(0,0,0,0.1));border-radius:8px;font-size:0.82rem;color:var(--steel,#3a3a3c);background:var(--surface,#fff);cursor:pointer">' +
+                    '<option value="">— Select —</option>' +
+                    '<option value="Program Manager">Program Manager</option>' +
+                    '<option value="ILS Manager">ILS Manager</option>' +
+                    '<option value="Logistics Lead">Logistics Lead</option>' +
+                    '<option value="Engineering Lead">Engineering Lead</option>' +
+                    '<option value="Contracts Officer">Contracts Officer</option>' +
+                    '<option value="Supply Chain Manager">Supply Chain Manager</option>' +
+                    '<option value="Configuration Manager">Configuration Manager</option>' +
+                    '<option value="Quality Assurance Lead">Quality Assurance Lead</option>' +
+                '</select>' +
+            '</div>';
+
+        target.appendChild(container);
     }
 
     // 5. Ensure all calc/load functions trigger chart re-render

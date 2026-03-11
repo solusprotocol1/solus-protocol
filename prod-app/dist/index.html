@@ -67,11 +67,11 @@
     <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" integrity="sha384-9nhczxUqK87bcKHh20fSQcTGD4qq5GhayNYSYWqwBkINBhOfQLg/P5HG5lF1urn4" crossorigin="anonymous"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/qrcode@1.5.4/build/qrcode.min.js"></script>
     <!-- CSS is imported via main.js and extracted by Vite -->
-  <script type="module" crossorigin src="/prod-app/dist/assets/index-BY615ZDE.js"></script>
-  <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/engine-CT82ejcu.js">
+  <script type="module" crossorigin src="/prod-app/dist/assets/index-BaGcCjQI.js"></script>
+  <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/engine-DnUqTcVX.js">
   <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/navigation-DPFf6ce8.js">
   <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/metrics-CE3sqmpZ.js">
-  <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/enhancements-CUGdkrjg.js">
+  <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/enhancements-DxdoupxZ.js">
   <link rel="stylesheet" crossorigin href="/prod-app/dist/assets/index-BCkSNiZA.css">
 </head>
 <body class="light-mode">
@@ -93,7 +93,6 @@
             <li><a href="/s4-pricing/" style="color:#6e6e73;padding:0.5rem 0.75rem;font-size:0.875rem;font-weight:500;text-decoration:none;border-radius:8px;">Pricing</a></li>
             <li><a href="/s4-investors/" style="color:#6e6e73;padding:0.5rem 0.75rem;font-size:0.875rem;font-weight:500;text-decoration:none;border-radius:8px;">Company</a></li>
             <li><a href="https://github.com/s4ledger/s4-ledger" target="_blank" style="color:#6e6e73;padding:0.5rem 0.75rem;font-size:0.875rem;font-weight:500;text-decoration:none;border-radius:8px;">Docs</a></li>
-            <li><a href="#" onclick="showLeadershipSummary();return false;" style="color:#00aaff;padding:0.5rem 0.75rem;font-size:0.875rem;font-weight:600;text-decoration:none;border-radius:8px;display:inline-flex;align-items:center;gap:5px;background:rgba(0,170,255,0.08);border:1px solid rgba(0,170,255,0.2);"><i class="fas fa-chart-bar" style="font-size:0.75rem"></i> Leadership Brief</a></li>
             <li><a href="/s4-contact/" style="background:#00aaff;color:#fff;padding:0.5rem 1.25rem;font-size:0.875rem;font-weight:600;text-decoration:none;border-radius:8px;margin-left:0.5rem;">Contact Us</a></li>
         </ul>
         <button onclick="toggleMobileNav(this)" aria-label="Menu" aria-expanded="false" aria-controls="navLinks" style="display:none;background:none;border:none;color:var(--text);font-size:1.25rem;cursor:pointer;padding:0.5rem;">
@@ -752,7 +751,7 @@
                     <div class="breadcrumb-text">Anchor-S4</div>
                 </div>
                 <!-- ═══ ILS WORKSPACE ═══ -->
-                <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 20px;margin-bottom:16px;background:linear-gradient(135deg,rgba(0,170,255,0.04) 0%,rgba(0,170,255,0.03) 100%);border:1px solid rgba(0,170,255,0.1);border-radius:8px;">
+                <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 16px;margin-bottom:12px;background:linear-gradient(135deg,rgba(0,170,255,0.04) 0%,rgba(0,170,255,0.03) 100%);border:1px solid rgba(0,170,255,0.1);border-radius:8px;">
                     <div style="display:flex;align-items:center;gap:14px;">
                         <div style="width:42px;height:42px;border-radius:8px;background:rgba(0,170,255,0.1);display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="fas fa-anchor" style="color:#00aaff;font-size:1.1rem"></i></div>
                         <div>
@@ -760,18 +759,9 @@
                             <p style="font-size:0.78rem;color:var(--steel);margin:2px 0 0;line-height:1.4">Defense logistics workspace &mdash; 23+ integrated tools</p>
                         </div>
                     </div>
-                    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
-                        <span style="display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:8px;font-size:0.72rem;font-weight:600;background:rgba(0,204,102,0.08);border:1px solid rgba(0,204,102,0.15);color:#00cc66"><i class="fas fa-circle" style="font-size:0.4rem"></i> Live</span>
-                        <span style="display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:8px;font-size:0.72rem;font-weight:600;background:rgba(0,170,255,0.06);border:1px solid rgba(0,170,255,0.12);color:var(--accent)"><i class="fas fa-shield-halved"></i> IL4/IL5</span>
-                        <!-- Session Report Period -->
-                        <select id="leadershipPeriod" style="padding:4px 10px;border:1px solid rgba(0,170,255,0.15);border-radius:8px;font-size:0.72rem;font-weight:600;color:var(--accent);background:rgba(0,170,255,0.06);cursor:pointer;appearance:auto;">
-                            <option value="session">This Session</option>
-                            <option value="daily">Daily</option>
-                            <option value="weekly">Weekly</option>
-                            <option value="monthly">Monthly</option>
-                            <option value="yearly">Yearly</option>
-                        </select>
-                        <button onclick="showLeadershipSummary()" style="display:inline-flex;align-items:center;gap:5px;padding:4px 12px;border-radius:8px;font-size:0.72rem;font-weight:600;background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);color:#c9a84c;cursor:pointer;transition:all 0.2s;" title="Export session summary for leadership"><i class="fas fa-file-export"></i> Leadership Brief</button>
+                    <div style="display:flex;align-items:center;gap:6px;">
+                        <span style="display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:8px;font-size:0.7rem;font-weight:600;background:rgba(0,204,102,0.08);border:1px solid rgba(0,204,102,0.15);color:#00cc66"><i class="fas fa-circle" style="font-size:0.35rem"></i> Live</span>
+                        <span style="display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:8px;font-size:0.7rem;font-weight:600;background:rgba(0,170,255,0.06);border:1px solid rgba(0,170,255,0.12);color:var(--accent)"><i class="fas fa-shield-halved"></i> IL4/IL5</span>
                         <!-- Unified Workspace Menu -->
                         <details class="s4-workspace-menu" id="s4WorkspaceMenu" style="position:relative;">
                             <summary style="display:inline-flex;align-items:center;gap:5px;padding:4px 12px;border-radius:8px;font-size:0.78rem;font-weight:600;background:rgba(0,170,255,0.06);border:1px solid rgba(0,170,255,0.15);color:var(--accent);cursor:pointer;list-style:none;transition:all 0.2s;user-select:none;" title="Workspace settings"><i class="fas fa-sliders"></i> Settings</summary>
@@ -845,6 +835,7 @@
                         <button class="filter-tab" data-filter="operations" onclick="filterILSTools('operations',this)"><i class="fas fa-tasks"></i> Operations</button>
                     </div>
                     <input type="text" class="ils-search" id="ilsToolSearch" placeholder="Search tools..." oninput="searchILSTools(this.value)" autocomplete="off" spellcheck="false" aria-label="Search ILS tools">
+                    <button onclick="showLeadershipSummary()" style="display:inline-flex;align-items:center;gap:5px;padding:6px 14px;border-radius:8px;font-size:0.78rem;font-weight:600;background:rgba(201,168,76,0.10);border:1px solid rgba(201,168,76,0.25);color:#c9a84c;cursor:pointer;transition:all 0.2s;white-space:nowrap;flex-shrink:0" title="Quick Leadership Summary"><i class="fas fa-chart-bar"></i> Leadership Brief</button>
                 </div>
                 <div class="ils-sub-hub" id="ilsSubHub" style="display:grid !important;">
                     <div class="ils-tool-card" data-category="compliance" onclick="openILSTool('hub-compliance')">
@@ -4261,6 +4252,17 @@
     </div>
     <div class="s4-report-sidebar-body" id="s4ReportBody">
         <div class="s4rs-empty"><i class="fas fa-inbox" style="font-size:1.5rem;display:block;margin-bottom:8px;opacity:0.4"></i>Run tools to build your session report</div>
+    </div>
+    <div style="padding:8px 16px;border-top:1px solid var(--border);display:flex;align-items:center;gap:8px">
+        <label style="font-size:0.72rem;font-weight:600;color:var(--steel);white-space:nowrap">Period</label>
+        <select id="leadershipPeriod" style="flex:1;padding:4px 8px;border:1px solid var(--border);border-radius:6px;font-size:0.72rem;color:var(--steel);background:var(--surface,#fff);cursor:pointer">
+            <option value="session">This Session</option>
+            <option value="daily">Daily</option>
+            <option value="weekly">Weekly</option>
+            <option value="monthly">Monthly</option>
+            <option value="yearly">Yearly</option>
+        </select>
+        <button onclick="exportLeadershipSummary()" style="padding:4px 10px;border-radius:6px;font-size:0.72rem;font-weight:600;background:rgba(201,168,76,0.10);border:1px solid rgba(201,168,76,0.25);color:#c9a84c;cursor:pointer;white-space:nowrap" title="Export summary for leadership"><i class="fas fa-file-export"></i> Export</button>
     </div>
     <div class="s4-report-sidebar-footer">
         <button class="s4rs-export" onclick="window._s4OpenExport()"><i class="fas fa-file-pdf"></i> Export PDF</button>
