@@ -36,7 +36,7 @@
     <!-- Flankspeed / Nautilus VDI / DoW Network Compatibility -->
     <meta name="format-detection" content="telephone=no">
     <!-- Content Security Policy (Production) -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://cdn.sheetjs.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://fonts.googleapis.com; font-src 'self' https://cdnjs.cloudflare.com https://fonts.gstatic.com; img-src 'self' data: https://s4ledger.com https://livenet.xrpl.org https://cdn.jsdelivr.net; connect-src 'self' https://s4ledger.com https://ysmwkkdpjgjokukxolel.supabase.co https://xrplcluster.com https://livenet.xrpl.org wss://xrplcluster.com; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests;">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://cdn.sheetjs.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://fonts.googleapis.com; font-src 'self' https://cdnjs.cloudflare.com https://fonts.gstatic.com; img-src 'self' data: https://s4ledger.com https://livenet.xrpl.org https://cdn.jsdelivr.net; connect-src 'self' https://s4ledger.com https://ysmwkkdpjgjokukxolel.supabase.co https://xrplcluster.com https://livenet.xrpl.org wss://xrplcluster.com; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self';">
     <!-- Preconnect & DNS-Prefetch for faster CDN resolution -->
     <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
     <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
@@ -3402,10 +3402,11 @@
 <div class="wallet-overlay" id="walletOverlay" onclick="closeWalletSidebar()"></div>
 <div class="wallet-sidebar" id="walletSidebar" role="complementary" aria-label="Ledger Account">
     <div class="wallet-sidebar-header">
-        <h3><i class="fas fa-wallet" style="color:#007AFF;"></i> Ledger Account</h3>
-        <button class="wallet-sidebar-close" onclick="closeWalletSidebar()" style="background:rgba(0,122,255,0.06);border:1px solid rgba(0,122,255,0.12);color:#007AFF;border-radius:10px;"><i class="fas fa-times"></i></button>
+        <h3><i class="fas fa-wallet" style="color:var(--accent);"></i> Ledger Account</h3>
+        <button class="wallet-sidebar-close" onclick="closeWalletSidebar()"><i class="fas fa-times"></i> Close</button>
     </div>
     <div class="wallet-sidebar-body" id="walletSidebarBody">
+        <!-- Wallet content will be moved here dynamically -->
         <div style="text-align:center;padding:40px 20px;color:var(--muted);">
             <i class="fas fa-spinner fa-spin" style="font-size:1.5rem;margin-bottom:12px;display:block;"></i>
             Loading wallet...
@@ -3569,14 +3570,14 @@
             var sidebar = document.getElementById('walletSidebar');
             var overlay = document.getElementById('walletOverlay');
             if (sidebar) sidebar.classList.add('open');
-            if (overlay) overlay.classList.add('show');
+            if (overlay) overlay.classList.add('open');
         };
 
         window.closeWalletSidebar = function closeWalletSidebar() {
             var sidebar = document.getElementById('walletSidebar');
             var overlay = document.getElementById('walletOverlay');
             if (sidebar) sidebar.classList.remove('open');
-            if (overlay) overlay.classList.remove('show');
+            if (overlay) overlay.classList.remove('open');
         };
 
         // Standalone startAuthFlow — shows DoW consent → CAC login → onboarding → role
