@@ -3816,19 +3816,9 @@ function renderILSResult() {
               + '<button onclick="saveImpactToNotes()" style="background:rgba(201,168,76,0.15);color:#c9a84c;border:1px solid rgba(201,168,76,0.35);border-radius:8px;padding:5px 12px;font-size:0.78rem;font-weight:600;cursor:pointer;white-space:nowrap;transition:all 0.2s"><i class="fas fa-sticky-note"></i> Save to Notes</button>'
             + '</div>' : '')
         // ── Assign Responsible Person ──
-        + '<div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 14px;margin:0.8rem 0;display:flex;align-items:center;gap:10px">'
+        + '<div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 14px;margin:0.8rem 0;display:flex;align-items:center;gap:8px;flex-wrap:wrap">'
           + '<label style="font-size:0.82rem;font-weight:600;color:var(--steel);white-space:nowrap"><i class="fas fa-user-check" style="color:var(--accent);margin-right:4px"></i> Assign Responsible Person</label>'
-          + '<select id="ilsResponsiblePerson" onchange="assignResponsiblePerson(this.value)" style="flex:1;padding:6px 10px;border:1px solid var(--border);border-radius:8px;font-size:0.82rem;color:var(--steel);background:var(--surface);cursor:pointer">'
-            + '<option value="">— Select —</option>'
-            + '<option value="Program Manager">Program Manager</option>'
-            + '<option value="ILS Manager">ILS Manager</option>'
-            + '<option value="Logistics Lead">Logistics Lead</option>'
-            + '<option value="Engineering Lead">Engineering Lead</option>'
-            + '<option value="Contracts Officer">Contracts Officer</option>'
-            + '<option value="Supply Chain Manager">Supply Chain Manager</option>'
-            + '<option value="Configuration Manager">Configuration Manager</option>'
-            + '<option value="Quality Assurance Lead">Quality Assurance Lead</option>'
-          + '</select>'
+          + _buildAssignDropdownHTML('ilsResponsiblePerson')
         + '</div>'
         + '<div style="margin-top:1rem;font-size:0.78rem;color:var(--muted)">Analysis based on DoD 5000 series ILS requirements per program type. Always verify against your contract-specific DRL.</div>';
     panel.classList.add('show');
@@ -4155,13 +4145,55 @@ function saveImpactToNotes() {
 // Load saved notes on init
 try { _s4ImpactNotes = JSON.parse(localStorage.getItem('s4_impact_notes') || '[]'); } catch(e) { _s4ImpactNotes = []; }
 
-// ── Assign Responsible Person ──
+// ── Assign Responsible Person (Smart Dropdown) ──
+// Default directory contacts for prod (Navy.mil suggestions) and demo
+const _s4DirectoryContacts = [
+    { name: 'CDR James Mitchell', email: 'james.mitchell@navy.mil', role: 'Program Manager' },
+    { name: 'LCDR Sarah Chen', email: 'sarah.chen@navy.mil', role: 'ILS Manager' },
+    { name: 'LT Michael Torres', email: 'michael.torres@navy.mil', role: 'Logistics Lead' },
+    { name: 'LT Rachel Adams', email: 'rachel.adams@navy.mil', role: 'Engineering Lead' },
+    { name: 'Mr. David Park', email: 'david.park@navy.mil', role: 'Contracts Officer' },
+    { name: 'Ms. Karen Williams', email: 'karen.williams@navy.mil', role: 'Supply Chain Manager' },
+    { name: 'Mr. Robert Nguyen', email: 'robert.nguyen@navy.mil', role: 'Configuration Manager' },
+    { name: 'Ms. Lisa Johnson', email: 'lisa.johnson@navy.mil', role: 'Quality Assurance Lead' }
+];
+
+function _getAssignContacts() {
+    // Merge directory contacts with any custom-saved contacts
+    let saved = [];
+    try { saved = JSON.parse(localStorage.getItem('s4_custom_contacts') || '[]'); } catch(e) {}
+    const all = _s4DirectoryContacts.concat(saved);
+    // Deduplicate by email
+    const seen = new Set();
+    return all.filter(c => { if (seen.has(c.email)) return false; seen.add(c.email); return true; });
+}
+
+function _buildAssignDropdownHTML(selectId) {
+    const contacts = _getAssignContacts();
+    let html = '<select id="' + selectId + '" onchange="assignResponsiblePerson(this.value)" style="flex:1;padding:6px 10px;border:1px solid var(--border,rgba(0,0,0,0.1));border-radius:8px;font-size:0.82rem;color:var(--steel,#3a3a3c);background:var(--surface,#fff);cursor:pointer">';
+    html += '<option value="">— Select or type below —</option>';
+    contacts.forEach(c => {
+        html += '<option value="' + c.name + ' - ' + c.email + '">' + c.name + ' (' + c.role + ') — ' + c.email + '</option>';
+    });
+    html += '</select>';
+    html += '<input type="text" placeholder="Or type: Name - email@domain" style="flex:1;padding:6px 10px;border:1px solid var(--border,rgba(0,0,0,0.1));border-radius:8px;font-size:0.78rem;color:var(--steel,#3a3a3c);background:var(--surface,#fff);min-width:0" onkeydown="if(event.key===\'Enter\'){assignResponsiblePerson(this.value);this.value=\'\';}">';
+    return html;
+}
+
 function assignResponsiblePerson(person) {
     if (!person) return;
     const activePanel = document.querySelector('.ils-hub-panel[style*="display: block"], .ils-hub-panel[style*="display:block"]');
     const toolName = activePanel ? (activePanel.querySelector('h3')?.textContent?.trim() || 'Current Tool') : 'Current Tool';
+    // Parse "Name - email" format
+    let personName = person, personEmail = '';
+    const dashIdx = person.indexOf(' - ');
+    if (dashIdx > 0) {
+        personName = person.substring(0, dashIdx).trim();
+        personEmail = person.substring(dashIdx + 3).trim();
+    }
     const assignment = {
-        person: person,
+        person: personName,
+        email: personEmail,
         tool: toolName,
         assignedAt: new Date().toISOString()
     };
@@ -4174,7 +4206,17 @@ function assignResponsiblePerson(person) {
     try { assignments = JSON.parse(localStorage.getItem('s4_assignments') || '[]'); } catch(e) {}
     assignments.push(assignment);
     try { localStorage.setItem('s4_assignments', JSON.stringify(assignments)); } catch(e) {}
-    s4Notify('Assigned', toolName + ' assigned to ' + person + '.', 'success');
+    // Save custom contact for future suggestions if it has an email and isn't already in directory
+    if (personEmail && !_s4DirectoryContacts.some(c => c.email === personEmail)) {
+        let saved = [];
+        try { saved = JSON.parse(localStorage.getItem('s4_custom_contacts') || '[]'); } catch(e) {}
+        if (!saved.some(c => c.email === personEmail)) {
+            saved.push({ name: personName, email: personEmail, role: 'Custom' });
+            try { localStorage.setItem('s4_custom_contacts', JSON.stringify(saved)); } catch(e) {}
+        }
+    }
+    const displayName = personEmail ? personName + ' (' + personEmail + ')' : personName;
+    s4Notify('Assigned', toolName + ' assigned to ' + displayName + '.', 'success');
 }
 
 // ── Program Summary Report ──
@@ -4243,28 +4285,33 @@ function exportProgramSummary() {
     html += '<div style="text-align:center;padding:14px 8px;background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.15);border-radius:8px"><div style="font-size:1.5rem;font-weight:800;color:#c9a84c">' + (d.totalImpact > 0 ? '$' + d.totalImpact.toLocaleString() : '$0') + '</div><div style="font-size:0.72rem;color:var(--muted)">Est. Program Impact</div></div>';
     html += '</div>';
 
-    // Key Issues & Actions
+    // Key Issues & Actions (always shown)
+    html += '<div style="font-size:0.82rem;font-weight:700;color:var(--steel);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px"><i class="fas fa-exclamation-triangle" style="color:#c9a84c;margin-right:4px"></i> Key Issues & Actions</div>';
+    html += '<div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 14px;margin-bottom:16px">';
     if (d.issues.length) {
-        html += '<div style="font-size:0.82rem;font-weight:700;color:var(--steel);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px"><i class="fas fa-exclamation-triangle" style="color:#c9a84c;margin-right:4px"></i> Key Issues & Actions</div>';
-        html += '<div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 14px;margin-bottom:16px">';
         d.issues.forEach(iss => {
             html += '<div style="font-size:0.82rem;color:var(--steel);padding:5px 0;border-bottom:1px solid rgba(0,0,0,0.04);display:flex;justify-content:space-between;gap:8px">';
             html += '<span>\u2022 ' + iss.desc + '</span>';
             if (iss.impact) html += '<span style="color:#c9a84c;font-weight:600;white-space:nowrap">' + iss.impact + '</span>';
             html += '</div>';
         });
-        html += '</div>';
+    } else {
+        html += '<div style="font-size:0.82rem;color:var(--muted);padding:8px 0;font-style:italic">No key issues identified during this period.</div>';
     }
+    html += '</div>';
 
-    // Ownership
+    // Ownership (always shown)
+    html += '<div style="font-size:0.82rem;font-weight:700;color:var(--steel);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px"><i class="fas fa-user-check" style="color:var(--accent);margin-right:4px"></i> Ownership</div>';
+    html += '<div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 14px;margin-bottom:16px">';
     if (d.recentAssignments.length) {
-        html += '<div style="font-size:0.82rem;font-weight:700;color:var(--steel);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px"><i class="fas fa-user-check" style="color:var(--accent);margin-right:4px"></i> Ownership</div>';
-        html += '<div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 14px;margin-bottom:16px">';
         d.recentAssignments.forEach(a => {
-            html += '<div style="font-size:0.82rem;color:var(--steel);padding:4px 0;border-bottom:1px solid rgba(0,0,0,0.04)">\u2022 <strong>' + a.person + '</strong> \u2014 ' + (a.program || a.tool || 'Tool') + ' <span style="color:var(--muted);font-size:0.72rem">(' + new Date(a.assignedAt).toLocaleDateString() + ')</span></div>';
+            const ownerDisplay = a.email ? a.person + ' (' + a.email + ')' : a.person;
+            html += '<div style="font-size:0.82rem;color:var(--steel);padding:4px 0;border-bottom:1px solid rgba(0,0,0,0.04)">\u2022 Responsible: <strong>' + ownerDisplay + '</strong> \u2014 ' + (a.program || a.tool || 'Tool') + ' <span style="color:var(--muted);font-size:0.72rem">(' + new Date(a.assignedAt).toLocaleDateString() + ')</span></div>';
         });
-        html += '</div>';
+    } else {
+        html += '<div style="font-size:0.82rem;color:var(--muted);padding:8px 0;font-style:italic">No assignments made during this period.</div>';
     }
+    html += '</div>';
 
     // Summary paragraph
     html += '<div style="font-size:0.82rem;font-weight:700;color:var(--steel);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px"><i class="fas fa-align-left" style="color:var(--accent);margin-right:4px"></i> Summary</div>';
@@ -4295,20 +4342,25 @@ function _buildSummaryPlainText(d, summaryParagraph) {
     t += '  \u2022 Records Anchored: ' + d.recs.length + '\n';
     t += '  \u2022 Records Verified: ' + stats.verified + '\n';
     t += '  \u2022 Total Estimated Program Impact: ' + (d.totalImpact > 0 ? '$' + d.totalImpact.toLocaleString() : '$0') + '\n\n';
+    t += 'KEY ISSUES & ACTIONS\n';
     if (d.issues.length) {
-        t += 'KEY ISSUES & ACTIONS\n';
         d.issues.forEach(iss => {
             t += '  \u2022 ' + iss.desc + (iss.impact ? ' (' + iss.impact + ')' : '') + '\n';
         });
-        t += '\n';
+    } else {
+        t += '  No key issues identified during this period.\n';
     }
+    t += '\n';
+    t += 'OWNERSHIP\n';
     if (d.recentAssignments.length) {
-        t += 'OWNERSHIP\n';
         d.recentAssignments.forEach(a => {
-            t += '  \u2022 ' + a.person + ' \u2014 ' + (a.program || a.tool || 'Tool') + ' (' + new Date(a.assignedAt).toLocaleDateString() + ')\n';
+            const ownerDisplay = a.email ? a.person + ' (' + a.email + ')' : a.person;
+            t += '  \u2022 Responsible: ' + ownerDisplay + ' \u2014 ' + (a.program || a.tool || 'Tool') + ' (' + new Date(a.assignedAt).toLocaleDateString() + ')\n';
         });
-        t += '\n';
+    } else {
+        t += '  No assignments made during this period.\n';
     }
+    t += '\n';
     t += 'SUMMARY\n';
     t += summaryParagraph + '\n\n';
     t += 'Generated by S4 Ledger | s4ledger.com\n';
@@ -4352,20 +4404,27 @@ function downloadProgramSummaryPDF() {
     printWin.document.write('<div class="stat-box"><div class="stat-num gold">' + (d.totalImpact > 0 ? '$' + d.totalImpact.toLocaleString() : '$0') + '</div><div class="stat-label">Est. Program Impact</div></div>');
     printWin.document.write('</div>');
 
+    printWin.document.write('<div class="section-title">Key Issues & Actions</div>');
     if (d.issues.length) {
-        printWin.document.write('<div class="section-title">Key Issues & Actions</div><ul>');
+        printWin.document.write('<ul>');
         d.issues.forEach(function(iss) {
             printWin.document.write('<li>' + iss.desc + (iss.impact ? ' <span class="impact">(' + iss.impact + ')</span>' : '') + '</li>');
         });
         printWin.document.write('</ul>');
+    } else {
+        printWin.document.write('<p style="font-size:13px;color:#8e8e93;font-style:italic;margin:4px 0 8px">No key issues identified during this period.</p>');
     }
 
+    printWin.document.write('<div class="section-title">Ownership</div>');
     if (d.recentAssignments.length) {
-        printWin.document.write('<div class="section-title">Ownership</div><ul>');
+        printWin.document.write('<ul>');
         d.recentAssignments.forEach(function(a) {
-            printWin.document.write('<li><strong>' + a.person + '</strong> \u2014 ' + (a.program || a.tool || 'Tool') + ' (' + new Date(a.assignedAt).toLocaleDateString() + ')</li>');
+            var ownerDisplay = a.email ? a.person + ' (' + a.email + ')' : a.person;
+            printWin.document.write('<li>Responsible: <strong>' + ownerDisplay + '</strong> \u2014 ' + (a.program || a.tool || 'Tool') + ' (' + new Date(a.assignedAt).toLocaleDateString() + ')</li>');
         });
         printWin.document.write('</ul>');
+    } else {
+        printWin.document.write('<p style="font-size:13px;color:#8e8e93;font-style:italic;margin:4px 0 8px">No assignments made during this period.</p>');
     }
 
     printWin.document.write('<div class="section-title">Summary</div>');
@@ -9207,3 +9266,4 @@ window.downloadProgramSummaryPDF = downloadProgramSummaryPDF;
 window.copyProgramSummaryText = copyProgramSummaryText;
 window.saveImpactToNotes = saveImpactToNotes;
 window.assignResponsiblePerson = assignResponsiblePerson;
+window._buildAssignDropdownHTML = _buildAssignDropdownHTML;
