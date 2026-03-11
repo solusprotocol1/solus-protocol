@@ -1,5 +1,15 @@
 # Changelog
 
+## [5.12.8] — 2026-03-11
+### Added
+- **Section 26 — Cmd/Ctrl+K Shortcut Hint**: once-per-session floating hint at bottom of viewport when workspace loads; fades after 8 seconds; detects Mac vs Windows for correct modifier key display
+- **Section 27 — Recent Actions Pill**: top-right pill next to avatar shows last 3 tools used; one-click buttons re-run any recent tool instantly
+- **Section 28 — Copy Tool Result as Bullet Point**: "Copy as Bullet Point" button appended after every tool run; formats as `• ToolName — result text (date)` and copies to clipboard
+- **Section 29 — Progress Ring on Export Summary**: conic-gradient border on Export Summary button tracks unique tools used this session as a percentage; label shows "Session X% ready for summary"
+- **Section 30 — Floating Speed Tip Badge**: bottom-left badge rotates 3 productivity tips every 10 seconds; auto-hides after 40 seconds; stops appearing after 3 sessions via localStorage counter
+- New `_hookForProductivity()` wrapper on `openILSTool` chains with existing hooks (`_s4ChainHooked`, `_s4R13Hooked`) for tool tracking and copy-bullet injection
+- Both demo-app and prod-app updated identically
+
 ## [5.12.7] — 2026-03-11
 ### Changed
 - "Enhance with AI Insights" checkbox now calls **real AI agents** (Azure OpenAI → OpenAI GPT-4o → Anthropic Claude cascade) instead of hardcoded mock text

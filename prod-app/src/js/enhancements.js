@@ -9176,3 +9176,341 @@ window.verifyProvenanceChain = verifyProvenanceChain;
         setTimeout(_bootChanges21to25, 600);
     }
 })();
+
+// ═══ SECTIONS 26-30 — Productivity Layer ═══
+(function() {
+'use strict';
+
+// ── SECTION 26: Cmd/Ctrl+K Shortcut Hint ──
+function _showShortcutHint() {
+    if (sessionStorage.getItem('s4_cmdk_shown')) return;
+    var ws = document.getElementById('platformWorkspace');
+    if (!ws || ws.style.display !== 'block') return;
+    sessionStorage.setItem('s4_cmdk_shown', '1');
+    var hint = document.createElement('div');
+    hint.id = 's4CmdKHint';
+    hint.setAttribute('role', 'status');
+    hint.setAttribute('aria-live', 'polite');
+    var isMac = /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent || '');
+    hint.innerHTML = '<i class="fas fa-keyboard" style="margin-right:6px;opacity:0.7"></i>Press <kbd>' + (isMac ? '\u2318' : 'Ctrl') + '</kbd> + <kbd>K</kbd> to jump to any tool instantly.';
+    Object.assign(hint.style, {
+        position:'fixed', bottom:'18px', left:'50%', transform:'translateX(-50%)',
+        background:'rgba(0,0,0,0.78)', backdropFilter:'blur(12px)', WebkitBackdropFilter:'blur(12px)',
+        color:'#fff', padding:'10px 22px', borderRadius:'12px', fontSize:'0.82rem', fontWeight:'500',
+        fontFamily:'-apple-system,BlinkMacSystemFont,SF Pro Text,system-ui,sans-serif',
+        zIndex:'99999', opacity:'0', transition:'opacity 0.5s ease', pointerEvents:'none',
+        boxShadow:'0 4px 20px rgba(0,0,0,0.18)', letterSpacing:'0.01em', lineHeight:'1.4'
+    });
+    document.body.appendChild(hint);
+    requestAnimationFrame(function() { hint.style.opacity = '1'; });
+    setTimeout(function() {
+        hint.style.opacity = '0';
+        setTimeout(function() { if (hint.parentNode) hint.parentNode.removeChild(hint); }, 600);
+    }, 8000);
+}
+
+// Watch for platform workspace to appear then show hint
+function _waitForWorkspaceThenHint() {
+    var ws = document.getElementById('platformWorkspace');
+    if (ws && ws.style.display === 'block') { setTimeout(_showShortcutHint, 1500); return; }
+    var obs = new MutationObserver(function(mutations) {
+        var el = document.getElementById('platformWorkspace');
+        if (el && el.style.display === 'block') {
+            obs.disconnect();
+            setTimeout(_showShortcutHint, 1500);
+        }
+    });
+    obs.observe(document.body, { attributes: true, subtree: true, attributeFilter: ['style'] });
+    // Fallback
+    setTimeout(function() { obs.disconnect(); _showShortcutHint(); }, 10000);
+}
+
+// ── SECTION 27: Recent Actions Pill ──
+var _recentTools = [];
+
+function _trackRecentTool(toolId) {
+    var toolNames = {
+        'hub-analysis':'Gap Finder','hub-dmsms':'Obsolescence Alert','hub-readiness':'Readiness Score',
+        'hub-compliance':'Compliance Scorecard','hub-risk':'Risk Radar','hub-actions':'Task Prioritizer',
+        'hub-predictive':'Maintenance Predictor','hub-lifecycle':'Lifecycle Cost','hub-roi':'ROI Calculator',
+        'hub-vault':'Audit Vault','hub-docs':'Document Library','hub-reports':'Audit Builder',
+        'hub-submissions':'Submissions Hub','hub-sbom':'SBOM Scanner','hub-gfp':'Property Custodian',
+        'hub-cdrl':'Deliverables Tracker','hub-contract':'Contract Analyzer','hub-provenance':'Chain of Custody',
+        'hub-analytics':'Program Overview','hub-team':'Team Manager','hub-acquisition':'Fleet Optimizer',
+        'hub-milestones':'Milestone Monitor','hub-brief':'Brief Composer'
+    };
+    var name = toolNames[toolId] || toolId;
+    // Remove if already in list, add to front
+    _recentTools = _recentTools.filter(function(t) { return t.id !== toolId; });
+    _recentTools.unshift({ id: toolId, name: name, time: Date.now() });
+    if (_recentTools.length > 3) _recentTools = _recentTools.slice(0, 3);
+    _renderRecentPill();
+    _updateProgressRing();
+}
+
+function _renderRecentPill() {
+    var pill = document.getElementById('s4RecentPill');
+    if (!pill) {
+        // Create pill next to avatar
+        var avatarWrap = document.getElementById('s4AvatarBtn');
+        if (!avatarWrap) return;
+        var container = avatarWrap.parentElement;
+        pill = document.createElement('div');
+        pill.id = 's4RecentPill';
+        Object.assign(pill.style, {
+            position:'relative', display:'inline-flex', alignItems:'center', gap:'2px',
+            background:'rgba(0,122,255,0.06)', border:'1px solid rgba(0,122,255,0.12)',
+            borderRadius:'10px', padding:'3px 4px', marginRight:'4px', cursor:'default',
+            fontSize:'0.72rem', fontWeight:'600', color:'var(--steel,#3a3a3c)',
+            fontFamily:'-apple-system,BlinkMacSystemFont,SF Pro Text,system-ui,sans-serif',
+            transition:'opacity 0.3s ease', maxHeight:'28px'
+        });
+        container.insertBefore(pill, avatarWrap);
+    }
+    if (_recentTools.length === 0) { pill.style.display = 'none'; return; }
+    pill.style.display = 'inline-flex';
+    pill.innerHTML = '<i class="fas fa-history" style="color:var(--accent,#007AFF);font-size:0.65rem;margin:0 3px"></i>' +
+        _recentTools.map(function(t) {
+            return '<button onclick="if(typeof openILSTool===\'function\')openILSTool(\'' + t.id + '\')" title="Re-run ' + (typeof S4 !== 'undefined' && S4.sanitize ? S4.sanitize(t.name) : t.name) + '" style="background:rgba(0,122,255,0.08);border:1px solid rgba(0,122,255,0.10);color:var(--accent,#007AFF);border-radius:6px;padding:2px 7px;font-size:0.68rem;font-weight:600;cursor:pointer;white-space:nowrap;font-family:inherit;transition:background 0.2s">' + (typeof S4 !== 'undefined' && S4.sanitize ? S4.sanitize(t.name) : t.name) + '</button>';
+        }).join('');
+}
+
+// Hook into openILSTool for recent tracking + session count
+function _hookForProductivity() {
+    var orig = window.openILSTool;
+    if (typeof orig !== 'function' || orig._s4ProdHooked) return;
+    var wrapped = function(toolId) {
+        orig.call(this, toolId);
+        setTimeout(function() { _trackRecentTool(toolId); }, 100);
+        // Section 28: inject copy-bullet button after tool runs
+        setTimeout(function() { _injectCopyBullet(toolId); }, 800);
+    };
+    wrapped._s4ProdHooked = true;
+    // Preserve existing hooks
+    if (orig._s4ChainHooked) wrapped._s4ChainHooked = true;
+    if (orig._s4R13Hooked) wrapped._s4R13Hooked = true;
+    window.openILSTool = wrapped;
+}
+
+// ── SECTION 28: Copy Tool Result as Bullet Point ──
+function _injectCopyBullet(toolId) {
+    var panel = document.getElementById(toolId);
+    if (!panel) return;
+    // Remove any existing bullet button in this panel
+    var existing = panel.querySelector('.s4-copy-bullet-btn');
+    if (existing) existing.remove();
+
+    var resultPanel = panel.querySelector('.result-panel');
+    if (!resultPanel) return;
+
+    var btn = document.createElement('button');
+    btn.className = 's4-copy-bullet-btn';
+    btn.innerHTML = '<i class="fas fa-copy" style="margin-right:5px"></i>Copy as Bullet Point';
+    Object.assign(btn.style, {
+        display:'flex', alignItems:'center', justifyContent:'center', gap:'4px',
+        width:'100%', padding:'8px 14px', marginTop:'10px',
+        background:'rgba(0,122,255,0.06)', border:'1px solid rgba(0,122,255,0.12)',
+        borderRadius:'10px', color:'var(--accent,#007AFF)', fontSize:'0.78rem', fontWeight:'600',
+        cursor:'pointer', fontFamily:'inherit', transition:'all 0.2s ease',
+        letterSpacing:'0.01em'
+    });
+    btn.onmouseover = function() { btn.style.background = 'rgba(0,122,255,0.12)'; };
+    btn.onmouseout = function() { btn.style.background = 'rgba(0,122,255,0.06)'; };
+
+    var toolNames = {
+        'hub-analysis':'Gap Finder','hub-dmsms':'Obsolescence Alert','hub-readiness':'Readiness Score',
+        'hub-compliance':'Compliance Scorecard','hub-risk':'Risk Radar','hub-actions':'Task Prioritizer',
+        'hub-predictive':'Maintenance Predictor','hub-lifecycle':'Lifecycle Cost','hub-roi':'ROI Calculator',
+        'hub-vault':'Audit Vault','hub-docs':'Document Library','hub-reports':'Audit Builder',
+        'hub-submissions':'Submissions Hub','hub-sbom':'SBOM Scanner','hub-gfp':'Property Custodian',
+        'hub-cdrl':'Deliverables Tracker','hub-contract':'Contract Analyzer','hub-provenance':'Chain of Custody',
+        'hub-analytics':'Program Overview','hub-team':'Team Manager','hub-acquisition':'Fleet Optimizer',
+        'hub-milestones':'Milestone Monitor','hub-brief':'Brief Composer'
+    };
+    var toolName = toolNames[toolId] || toolId;
+
+    btn.onclick = function() {
+        var text = '';
+        var rp = panel.querySelector('.result-panel.show') || panel.querySelector('.result-panel');
+        if (rp) {
+            text = (rp.textContent || '').trim().replace(/\s+/g, ' ');
+            if (text.length > 200) text = text.substring(0, 200) + '...';
+        }
+        var bullet = '\u2022 ' + toolName + ' \u2014 ' + (text || 'Tool completed.') + ' (' + new Date().toLocaleDateString() + ')';
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(bullet).then(function() {
+                btn.innerHTML = '<i class="fas fa-check" style="margin-right:5px;color:#34c759"></i>Copied!';
+                setTimeout(function() { btn.innerHTML = '<i class="fas fa-copy" style="margin-right:5px"></i>Copy as Bullet Point'; }, 2000);
+            });
+        } else {
+            // Fallback
+            var ta = document.createElement('textarea');
+            ta.value = bullet;
+            ta.style.cssText = 'position:fixed;left:-9999px';
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            document.body.removeChild(ta);
+            btn.innerHTML = '<i class="fas fa-check" style="margin-right:5px;color:#34c759"></i>Copied!';
+            setTimeout(function() { btn.innerHTML = '<i class="fas fa-copy" style="margin-right:5px"></i>Copy as Bullet Point'; }, 2000);
+        }
+    };
+
+    // Insert after result panel or at end of card
+    var card = resultPanel.closest('.s4-card') || resultPanel.parentElement;
+    if (card) card.appendChild(btn);
+}
+
+// ── SECTION 29: Progress Ring Around Export Summary Button ──
+var _sessionToolSet = new Set();
+var _totalToolCount = 23;
+
+function _updateProgressRing() {
+    var exportBtn = document.querySelector('.s4rs-export');
+    if (!exportBtn) return;
+
+    // Count unique tools used this session
+    _recentTools.forEach(function(t) { _sessionToolSet.add(t.id); });
+    var pct = Math.min(Math.round((_sessionToolSet.size / _totalToolCount) * 100), 100);
+
+    // Find or create the ring wrapper
+    var wrapper = document.getElementById('s4ExportRingWrap');
+    if (!wrapper) {
+        wrapper = document.createElement('div');
+        wrapper.id = 's4ExportRingWrap';
+        Object.assign(wrapper.style, {
+            position:'relative', display:'inline-flex', alignItems:'center', width:'100%'
+        });
+        exportBtn.parentNode.insertBefore(wrapper, exportBtn);
+        wrapper.appendChild(exportBtn);
+
+        // Add progress label below
+        var label = document.createElement('div');
+        label.id = 's4ExportRingLabel';
+        Object.assign(label.style, {
+            fontSize:'0.65rem', color:'var(--muted,#6e6e73)', textAlign:'center',
+            marginTop:'4px', fontWeight:'500', letterSpacing:'0.01em',
+            fontFamily:'-apple-system,BlinkMacSystemFont,SF Pro Text,system-ui,sans-serif'
+        });
+        wrapper.appendChild(label);
+    }
+
+    // Update button border as a progress indicator
+    var angle = Math.round(pct * 3.6);
+    if (pct === 0) {
+        exportBtn.style.background = '';
+        exportBtn.style.borderImage = '';
+    } else {
+        exportBtn.style.borderImage = 'none';
+        exportBtn.style.borderColor = 'transparent';
+        exportBtn.style.backgroundImage = 'linear-gradient(var(--surface,#fff),var(--surface,#fff)),conic-gradient(var(--accent,#007AFF) ' + angle + 'deg, rgba(0,0,0,0.06) ' + angle + 'deg)';
+        exportBtn.style.backgroundOrigin = 'border-box';
+        exportBtn.style.backgroundClip = 'padding-box, border-box';
+        exportBtn.style.border = '2px solid transparent';
+    }
+
+    var label = document.getElementById('s4ExportRingLabel');
+    if (label) {
+        if (_sessionToolSet.size > 0) {
+            label.textContent = 'Session ' + pct + '% ready for summary';
+            label.style.display = 'block';
+        } else {
+            label.style.display = 'none';
+        }
+    }
+}
+
+// ── SECTION 30: Floating Speed Tip Badge ──
+var _speedTips = [
+    'Press \u2318/Ctrl + K to jump to any tool instantly.',
+    'Click the Session Report icon to see everything you\u2019ve done today.',
+    'Use the time period dropdown to compare daily, weekly, or monthly data.'
+];
+
+function _showSpeedTip() {
+    var sessionCount = parseInt(localStorage.getItem('s4_speed_tip_sessions') || '0', 10);
+    if (sessionCount >= 3) return;
+    if (!sessionStorage.getItem('s4_speed_tip_counted')) {
+        sessionStorage.setItem('s4_speed_tip_counted', '1');
+        localStorage.setItem('s4_speed_tip_sessions', String(sessionCount + 1));
+    }
+
+    var ws = document.getElementById('platformWorkspace');
+    if (!ws || ws.style.display !== 'block') return;
+
+    var badge = document.createElement('div');
+    badge.id = 's4SpeedTip';
+    badge.setAttribute('role', 'status');
+
+    var tipIdx = 0;
+    function setTip() {
+        badge.innerHTML = '<i class="fas fa-bolt" style="color:#f5a623;margin-right:6px;font-size:0.7rem"></i><span id="s4SpeedTipText">' + _speedTips[tipIdx] + '</span>';
+    }
+    setTip();
+
+    Object.assign(badge.style, {
+        position:'fixed', bottom:'18px', left:'18px',
+        background:'rgba(255,255,255,0.92)', backdropFilter:'blur(12px)', WebkitBackdropFilter:'blur(12px)',
+        border:'1px solid rgba(0,0,0,0.08)', borderRadius:'10px', padding:'8px 14px',
+        fontSize:'0.75rem', fontWeight:'500', color:'var(--steel,#3a3a3c)',
+        fontFamily:'-apple-system,BlinkMacSystemFont,SF Pro Text,system-ui,sans-serif',
+        zIndex:'99998', opacity:'0', transition:'opacity 0.5s ease',
+        boxShadow:'0 2px 12px rgba(0,0,0,0.08)', maxWidth:'320px', lineHeight:'1.4',
+        pointerEvents:'none'
+    });
+
+    document.body.appendChild(badge);
+    // Fade in after Cmd+K hint starts fading
+    setTimeout(function() { badge.style.opacity = '1'; }, 10000);
+
+    // Rotate tips every 10 seconds
+    var rotateId = setInterval(function() {
+        tipIdx = (tipIdx + 1) % _speedTips.length;
+        badge.style.opacity = '0';
+        setTimeout(function() {
+            setTip();
+            badge.style.opacity = '1';
+        }, 500);
+    }, 10000);
+
+    // Auto-hide after 40 seconds total
+    setTimeout(function() {
+        clearInterval(rotateId);
+        badge.style.opacity = '0';
+        setTimeout(function() { if (badge.parentNode) badge.parentNode.removeChild(badge); }, 600);
+    }, 40000);
+}
+
+// ── Boot Sections 26-30 ──
+function _bootSections26to30() {
+    _waitForWorkspaceThenHint();
+    _hookForProductivity();
+
+    // Speed tip — delayed so it doesn't overlap with Cmd+K hint
+    var speedObs = new MutationObserver(function() {
+        var el = document.getElementById('platformWorkspace');
+        if (el && el.style.display === 'block') {
+            speedObs.disconnect();
+            setTimeout(_showSpeedTip, 3000);
+        }
+    });
+    speedObs.observe(document.body, { attributes: true, subtree: true, attributeFilter: ['style'] });
+    setTimeout(function() { speedObs.disconnect(); }, 20000);
+
+    // Update progress ring whenever report sidebar renders
+    var origClear = window._s4ClearReport;
+    if (typeof origClear === 'function') {
+        window._s4ClearReport = function() {
+            origClear();
+            _sessionToolSet.clear();
+            _updateProgressRing();
+        };
+    }
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', _bootSections26to30);
+} else {
+    setTimeout(_bootSections26to30, 800);
+}
+})();
