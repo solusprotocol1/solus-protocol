@@ -1951,7 +1951,7 @@ input,select,textarea,.form-control,.form-select,.type-search{border-radius:8px!
 /* Brief canvas itself — white background */
 [id*="brief"] canvas{background:#fff!important}
 /* Brief toolbar buttons */
-[id*="brief"] button:not([style*="background:linear"]){color:#1d1d1f}
+[id*="brief"] button:not([style*="background:linear"]):not(.s4-actions-trigger){color:#1d1d1f}
 
 /* ── A2: Acquisition Planner — additional dark overrides ── */
 [id*="acq"] [style*="background:#0d1117"],[id*="acq"] [style*="background: #0d1117"],
