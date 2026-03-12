@@ -6594,6 +6594,16 @@ h4{font-size:0.95rem;font-weight:700}
 .s4-hl-share-copy-link:hover{background:rgba(0,122,255,0.06)}
 .s4-hl-share-link-meta{font-size:0.72rem;color:var(--muted,#6e6e73);margin-top:6px;display:flex;align-items:center;gap:4px}
 .s4-hl-share-link-meta i{font-size:0.68rem;opacity:0.6}
+/* ── R79-85 Personal Insight overlay ── */
+.s4-insight-overlay{position:fixed;bottom:24px;right:24px;z-index:10002;animation:s4InsightSlide 0.25s ease}
+@keyframes s4InsightSlide{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.s4-insight-card{background:var(--surface,#fff);border:1px solid var(--border,rgba(0,0,0,0.1));border-radius:12px;padding:14px 16px;max-width:420px;box-shadow:0 8px 32px rgba(0,0,0,0.12);position:relative}
+.s4-insight-close{position:absolute;top:6px;right:8px;background:none;border:none;font-size:1.1rem;color:var(--muted,#6e6e73);cursor:pointer;line-height:1;padding:2px 5px}
+.s4-insight-close:hover{color:var(--text,#1d1d1f)}
+.s4-insight-body{display:flex;align-items:flex-start;gap:10px;font-size:0.82rem;line-height:1.5;color:var(--text,#1d1d1f);padding-right:16px}
+.s4-insight-body i{color:#007AFF;font-size:0.9rem;margin-top:2px;flex-shrink:0}
+.s4-insight-copy{display:flex;align-items:center;gap:5px;margin-top:8px;padding:5px 12px;border-radius:8px;font-size:0.72rem;font-weight:600;cursor:pointer;border:1px solid var(--border,rgba(0,0,0,0.1));background:var(--surface,#fff);color:var(--muted,#6e6e73);transition:all 0.15s}
+.s4-insight-copy:hover{background:rgba(0,122,255,0.06);color:#007AFF}
 .s4-hl-template-panel{background:var(--surface,#fff);border:1px solid var(--border,rgba(0,0,0,0.08));border-radius:10px;padding:12px 14px;margin-bottom:14px;animation:s4FadeIn 0.2s}
 .s4-hl-template-panel h4{font-size:0.82rem;font-weight:700;color:var(--text,#1d1d1f);margin:0 0 8px;display:flex;align-items:center;gap:6px}
 .s4-hl-template-panel h4 i{color:#007AFF;font-size:0.75rem}
