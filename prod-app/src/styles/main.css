@@ -6328,17 +6328,57 @@ h4{font-size:0.95rem;font-weight:700}
     border-color:transparent;box-shadow:0 2px 8px rgba(0,113,227,0.25);
 }
 
+/* ── v5.12.26 — Action button color hierarchy ── */
+.s4-btn-primary{
+    background:#2563eb !important;
+    color:#fff !important;
+    border:none !important;
+    box-shadow:0 1px 3px rgba(37,99,235,0.3) !important;
+}
+.s4-btn-primary:hover{
+    background:#1d4ed8 !important;
+    box-shadow:0 2px 6px rgba(37,99,235,0.4) !important;
+    transform:translateY(-1px);
+}
+.s4-btn-secondary{
+    background:transparent !important;
+    color:#374151 !important;
+    border:1px solid #d1d5db !important;
+    box-shadow:none !important;
+}
+.s4-btn-secondary:hover{
+    background:#f3f4f6 !important;
+    color:#374151 !important;
+}
+.s4-btn-secondary i{color:#6b7280 !important}
+.s4-btn-secondary:hover i{color:#374151 !important}
+/* Inside dropdown menus: all items uniform (menu pattern) */
+.s4-actions-list .s4-btn-primary,
+.s4-actions-list .s4-btn-secondary{
+    background:transparent !important;
+    color:var(--text,#1d1d1f) !important;
+    border:none !important;
+    box-shadow:none !important;
+}
+.s4-actions-list .s4-btn-primary:hover,
+.s4-actions-list .s4-btn-secondary:hover{
+    background:rgba(0,170,255,0.08) !important;
+    transform:none;
+}
+.s4-actions-list .s4-btn-primary i,
+.s4-actions-list .s4-btn-secondary i{color:var(--accent,#00aaff) !important}
+
 /* ── v5.12.25 — Actions dropdown & spacing polish ── */
 .s4-actions-menu{position:relative;display:inline-block}
 .s4-actions-trigger{
     display:inline-flex;align-items:center;gap:6px;
     padding:8px 20px;border-radius:10px;
-    background:linear-gradient(135deg,#0071e3,#00aaff);
+    background:#2563eb;
     color:#fff;border:none;font-size:0.82rem;
     font-weight:700;cursor:pointer;font-family:inherit;
-    transition:all 0.2s ease;box-shadow:0 2px 8px rgba(0,113,227,0.18);
+    transition:all 0.2s ease;box-shadow:0 1px 3px rgba(37,99,235,0.3);
 }
-.s4-actions-trigger:hover{filter:brightness(1.08);transform:translateY(-1px)}
+.s4-actions-trigger:hover{background:#1d4ed8;transform:translateY(-1px);box-shadow:0 2px 6px rgba(37,99,235,0.4)}
 .s4-actions-trigger .fa-chevron-down{font-size:0.6rem;transition:transform 0.25s;opacity:0.8}
 .s4-actions-trigger.s4-open .fa-chevron-down{transform:rotate(180deg)}
 .s4-actions-list{
