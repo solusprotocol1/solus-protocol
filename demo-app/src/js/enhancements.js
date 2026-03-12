@@ -11201,3 +11201,110 @@ function _s4Toast(msg, type) {
 }
 
 })();
+
+// ═══════════════════════════════════════════════════════════
+// v5.12.25 — Button density cleanup: Actions dropdowns
+// ═══════════════════════════════════════════════════════════
+(function(){
+'use strict';
+
+function _s4ConvertButtonDensity() {
+    var panels = document.querySelectorAll('.ils-hub-panel');
+
+    panels.forEach(function(panel) {
+        var flexRows = panel.querySelectorAll('div[style*="display:flex"][style*="flex-wrap:wrap"]');
+
+        flexRows.forEach(function(row) {
+            // Only consider direct button children
+            var children = Array.from(row.children);
+            var buttons = children.filter(function(el) { return el.tagName === 'BUTTON'; });
+
+            // Need 3+ buttons to merit a dropdown
+            if (buttons.length < 3) return;
+
+            // Skip rows that contain non-button interactive elements (toolbars with search, selects, spacers)
+            var hasNonBtn = children.some(function(el) {
+                var tag = el.tagName;
+                return tag === 'INPUT' || tag === 'SELECT' || tag === 'LABEL' || tag === 'A' ||
+                       (tag === 'SPAN' && el.style && el.style.flex);
+            });
+            if (hasNonBtn) return;
+
+            // Skip quick filter pill rows
+            if (row.classList.contains('s4-quick-filter-pills')) return;
+
+            // Skip rows inside collapsed sub-sections (POA&M, Evidence Manager, etc.)
+            if (row.closest('[id$="Section"]') || row.closest('details[style*="display:none"]')) return;
+
+            // Skip rows inside hidden div containers (ilsPostActions, etc.)
+            if (row.closest('[style*="display:none"]')) return;
+
+            // Only convert rows that have at least one action-type button
+            var hasAction = buttons.some(function(b) {
+                var t = b.textContent.trim().toLowerCase();
+                return t.indexOf('export') !== -1 || t.indexOf('anchor') !== -1 ||
+                       t.indexOf('download') !== -1 || t.indexOf('generate') !== -1 ||
+                       t.indexOf('verify') !== -1 || t.indexOf('clear') !== -1 ||
+                       t.indexOf('snapshot') !== -1 || t.indexOf('brief') !== -1;
+            });
+            if (!hasAction) return;
+
+            // Build the Actions dropdown
+            var menu = document.createElement('div');
+            menu.className = 's4-actions-menu';
+
+            var trigger = document.createElement('button');
+            trigger.className = 's4-actions-trigger';
+            trigger.setAttribute('type', 'button');
+            trigger.innerHTML = '<i class="fas fa-bolt"></i> Actions <i class="fas fa-chevron-down"></i>';
+
+            var list = document.createElement('div');
+            list.className = 's4-actions-list';
+
+            // Move all buttons into the dropdown list (preserves onclick attributes)
+            buttons.forEach(function(btn) { list.appendChild(btn); });
+
+            trigger.addEventListener('click', function(e) {
+                e.stopPropagation();
+                var wasOpen = list.classList.contains('s4-open');
+                // Close every other open dropdown first
+                document.querySelectorAll('.s4-actions-list.s4-open').forEach(function(l) { l.classList.remove('s4-open'); });
+                document.querySelectorAll('.s4-actions-trigger.s4-open').forEach(function(t) { t.classList.remove('s4-open'); });
+                if (!wasOpen) {
+                    list.classList.add('s4-open');
+                    trigger.classList.add('s4-open');
+                }
+            });
+
+            // Close dropdown after any button click inside
+            list.addEventListener('click', function() {
+                list.classList.remove('s4-open');
+                trigger.classList.remove('s4-open');
+            });
+
+            menu.appendChild(trigger);
+            menu.appendChild(list);
+
+            // Replace the flex row contents with the dropdown
+            while (row.firstChild) row.removeChild(row.firstChild);
+            row.appendChild(menu);
+        });
+    });
+
+    // Global: close all dropdowns on outside click
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.s4-actions-menu')) {
+            document.querySelectorAll('.s4-actions-list.s4-open').forEach(function(l) { l.classList.remove('s4-open'); });
+            document.querySelectorAll('.s4-actions-trigger.s4-open').forEach(function(t) { t.classList.remove('s4-open'); });
+        }
+    });
+}
+
+// Boot after DOM ready + a tick for other scripts to finish
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() { setTimeout(_s4ConvertButtonDensity, 500); });
+} else {
+    setTimeout(_s4ConvertButtonDensity, 500);
+}
+
+})();

@@ -6327,3 +6327,49 @@ h4{font-size:0.95rem;font-weight:700}
     background:linear-gradient(135deg,#0071e3,#00aaff);color:#fff;
     border-color:transparent;box-shadow:0 2px 8px rgba(0,113,227,0.25);
 }
+
+/* ── v5.12.25 — Actions dropdown & spacing polish ── */
+.s4-actions-menu{position:relative;display:inline-block}
+.s4-actions-trigger{
+    display:inline-flex;align-items:center;gap:6px;
+    padding:8px 20px;border-radius:10px;
+    background:linear-gradient(135deg,#0071e3,#00aaff);
+    color:#fff;border:none;font-size:0.82rem;
+    font-weight:700;cursor:pointer;font-family:inherit;
+    transition:all 0.2s ease;box-shadow:0 2px 8px rgba(0,113,227,0.18);
+}
+.s4-actions-trigger:hover{filter:brightness(1.08);transform:translateY(-1px)}
+.s4-actions-trigger .fa-chevron-down{font-size:0.6rem;transition:transform 0.25s;opacity:0.8}
+.s4-actions-trigger.s4-open .fa-chevron-down{transform:rotate(180deg)}
+.s4-actions-list{
+    display:none;flex-direction:column;gap:2px;
+    position:absolute;top:calc(100% + 6px);left:0;
+    min-width:280px;max-width:360px;
+    background:var(--surface,#fff);border:1px solid var(--border,rgba(0,0,0,0.08));
+    border-radius:12px;padding:6px;
+    box-shadow:0 8px 30px rgba(0,0,0,0.12),0 2px 8px rgba(0,0,0,0.06);
+    z-index:1000;
+}
+.s4-actions-list.s4-open{display:flex}
+.s4-actions-list button{
+    display:flex !important;align-items:center !important;gap:8px !important;
+    width:100% !important;text-align:left !important;
+    padding:10px 14px !important;margin:0 !important;
+    border-radius:8px !important;
+    background:transparent !important;
+    color:var(--text,#1d1d1f) !important;
+    border:none !important;
+    font-size:0.82rem !important;font-weight:600 !important;
+    cursor:pointer;transition:background 0.15s;
+    white-space:nowrap;box-shadow:none !important;
+    line-height:1.4 !important;
+}
+.s4-actions-list button:hover{background:rgba(0,170,255,0.08) !important}
+.s4-actions-list button i{width:16px;text-align:center;color:var(--accent,#00aaff) !important;font-size:0.82rem !important}
+/* Spacing: 24px between major tool sections */
+.ils-hub-panel .row.mt-2{margin-top:24px !important}
+.ils-hub-panel .row.mt-3{margin-top:24px !important}
+.ils-hub-panel .s4-actions-menu{margin-top:0}
+.ils-hub-panel div[style*="display:grid"][style*="gap:12px"]{margin-bottom:20px !important}
+.ils-hub-panel div[style*="margin-top:1rem"]:has(> .s4-actions-menu){margin-top:24px !important}
+.ils-hub-panel div[style*="margin-bottom:1rem"]:has(> .s4-actions-menu){margin-bottom:24px !important}
