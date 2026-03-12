@@ -6142,3 +6142,173 @@ h4{font-size:0.95rem;font-weight:700}
 .s4-eod-copy:hover{opacity:0.85}
 .s4-eod-close{background:var(--surface,#f5f5f7);border:1px solid var(--border);color:var(--text,#1d1d1f)}
 .s4-eod-close:hover{background:rgba(0,0,0,0.04)}
+
+/* ═══ SPACING & ALIGNMENT OVERRIDES — v5.12.23 ═══ */
+/* Increase button-row gaps from 10px → 16px across all ILS tools */
+.ils-hub-panel div[style*="display:flex"][style*="gap:10px"][style*="flex-wrap:wrap"]{
+    gap:16px !important;
+}
+/* Action button rows: ensure comfortable horizontal padding */
+.ils-hub-panel div[style*="display:flex"][style*="flex-wrap:wrap"]{
+    padding-left:2px !important;
+    padding-right:2px !important;
+}
+/* Input grids: widen vertical gap from 10px → 16px, horizontal from 14px → 18px */
+.ils-hub-panel div[style*="grid-template-columns"][style*="gap:10px 14px"]{
+    gap:16px 18px !important;
+    margin-bottom:20px !important;
+}
+/* Summary / chart grids: increase gap from 12px/16px → 20px */
+.ils-hub-panel div[style*="grid-template-columns:1fr 1fr"][style*="gap:12px"]{
+    gap:20px !important;
+    margin-top:20px !important;
+}
+.ils-hub-panel div[style*="grid-template-columns:repeat(auto-fit"][style*="gap:16px"]{
+    gap:20px !important;
+}
+/* Stat-mini cards: override cramped 6px 8px inline padding */
+.ils-hub-panel .stat-mini[style*="padding:6px 8px"]{
+    padding:14px 12px !important;
+}
+/* Stat-mini cards: ensure minimum padding globally */
+.ils-hub-panel .stat-mini{
+    padding:16px 14px !important;
+}
+/* Stat-mini value size: don't let inline font-size shrink below 1.1rem */
+.ils-hub-panel .stat-mini .stat-mini-val[style*="font-size:0.95rem"]{
+    font-size:1.1rem !important;
+}
+/* Stat rows: add vertical breathing room */
+.ils-hub-panel .row.mt-2,
+.ils-hub-panel .row.mb-3{
+    margin-top:16px !important;
+    margin-bottom:16px !important;
+}
+/* Bootstrap col spacing: comfortable bottom margin */
+.ils-hub-panel [class*="col-"][class*="mb-1"]{
+    margin-bottom:12px !important;
+}
+.ils-hub-panel [class*="col-"][class*="mb-2"]{
+    margin-bottom:14px !important;
+}
+/* Acquisition status filter: increase gap from 4px → 10px */
+.acq-status-filter-btn{
+    padding:5px 12px !important;
+    font-size:0.76rem !important;
+}
+#hub-acquisition div[style*="gap:4px"]{
+    gap:10px !important;
+    margin-bottom:14px !important;
+}
+/* Collapsible section headers: breathe */
+.ils-hub-panel div[style*="cursor:pointer"][style*="padding:12px 16px"]{
+    padding:14px 18px !important;
+}
+/* Collapsible section bodies */
+.ils-hub-panel div[style*="display:none"][style*="padding:12px 16px"],
+.ils-hub-panel div[style*="padding:12px 16px"]:not([style*="cursor:pointer"]){
+    padding:16px 20px !important;
+}
+/* Collapsible section spacing between stacked sections */
+.ils-hub-panel div[style*="margin-top:12px"][style*="border:1px solid"]{
+    margin-top:18px !important;
+}
+.ils-hub-panel div[style*="margin-top:20px"][style*="border:1px solid"]{
+    margin-top:24px !important;
+}
+/* POA&M / table cells: wider padding */
+.ils-hub-panel table th[style*="padding:8px"],
+.ils-hub-panel table th[style*="padding:6px"]{
+    padding:10px 12px !important;
+}
+.ils-hub-panel table td{
+    padding:10px 12px !important;
+}
+/* Upload dropzones: generous padding */
+.ils-dropzone,
+.ils-hub-panel div[style*="border:2px dashed"][style*="padding:28px"]{
+    padding:32px !important;
+    line-height:1.6 !important;
+}
+.ils-hub-panel .ils-dropzone div[style*="margin-bottom:4px"]{
+    margin-bottom:8px !important;
+}
+/* Digital thread panel (vault): relaxed padding */
+#hub-vault div[style*="padding:6px 10px"]{
+    padding:10px 14px !important;
+}
+/* Filter/search bars: comfortable flex gaps */
+.ils-hub-panel div[style*="display:flex"][style*="gap:8px"][style*="flex-wrap:wrap"]{
+    gap:12px !important;
+}
+.ils-hub-panel div[style*="display:flex"][style*="gap:6px"]{
+    gap:10px !important;
+}
+/* Bulk action bars: increase padding */
+.ils-hub-panel div[style*="padding:8px 14px"][style*="gap:10px"]{
+    padding:12px 18px !important;
+    gap:14px !important;
+}
+/* Button row margin-bottom: 1rem → 1.25rem for more space before content */
+.ils-hub-panel div[style*="flex-wrap:wrap"][style*="margin-bottom:1rem"]{
+    margin-bottom:1.25rem !important;
+}
+/* Post-action button groups (after running tools) */
+.ils-hub-panel .post-actions{
+    gap:12px !important;
+    padding:8px 0 !important;
+}
+/* Submissions 6-col stats: more padding */
+.ils-hub-panel [class*="col-md-2"][class*="col-4"]{
+    margin-bottom:12px !important;
+}
+/* Vault pagination: comfortable gap */
+.ils-hub-panel div[style*="gap:8px"]:not([style*="flex-wrap"]){
+    gap:10px !important;
+}
+/* Monitoring grid items: increase gap */
+.ils-hub-panel div[style*="grid-template-columns:repeat(auto-fill,minmax(200px,1fr))"][style*="gap:8px"]{
+    gap:14px !important;
+}
+/* Vault analytics metric grids */
+.ils-hub-panel div[style*="grid-template-columns:repeat(auto-fill,minmax(140px,1fr))"][style*="gap:10px"]{
+    gap:14px !important;
+}
+/* Stats grids with minmax(130/140): comfortable gap */
+.ils-hub-panel div[style*="grid-template-columns:repeat(auto-fit,minmax(1"][style*="gap:12px"]{
+    gap:16px !important;
+}
+/* Card internal sections: breathe between p and form elements */
+.ils-hub-panel .s4-card > p{
+    margin-bottom:1.25rem !important;
+}
+/* Checklist grids: increase gap */
+.ils-hub-panel div[style*="grid-template-columns:1fr 1fr"][style*="gap:6px"]{
+    gap:10px !important;
+    margin-bottom:1.25rem !important;
+}
+/* Calendar controls: comfortable spacing */
+.ils-hub-panel div[style*="gap:6px"]:not(.ils-hub-panel div[style*="grid-template-columns"]){
+    gap:10px !important;
+}
+/* Submit notes textarea: breathe */
+.ils-hub-panel textarea[rows="2"]{
+    margin-top:4px !important;
+    margin-bottom:12px !important;
+}
+/* View toggle button pairs: slight gap for visual clarity */
+.ils-hub-panel div[style*="gap:0"][style*="border-radius:10px"]{
+    gap:0 !important;
+}
+/* Chart containers in boxes: internal breathing */
+.ils-hub-panel div[style*="padding:16px"][style*="border-radius:8px"]{
+    padding:20px !important;
+}
+/* Result panel: top margin for separation */
+.ils-hub-panel .result-panel{
+    margin-top:16px !important;
+}
+/* FedRAMP rows: increase margin-bottom */
+.ils-hub-panel div[style*="margin-bottom:4px"][style*="border-radius"]{
+    margin-bottom:8px !important;
+}
