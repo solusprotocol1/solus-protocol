@@ -6370,6 +6370,8 @@ h4{font-size:0.95rem;font-weight:700}
 
 /* ── v5.12.25 — Actions dropdown & spacing polish ── */
 .s4-actions-menu{position:relative;display:inline-block}
+.s4-actions-header{display:flex;align-items:center;gap:6px;font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:var(--text,#1d1d1f);margin-bottom:8px}
+.s4-actions-header i{color:#34c759;font-size:0.7rem}
 .s4-actions-trigger{
     display:inline-flex;align-items:center;gap:6px;
     padding:8px 20px;border-radius:10px;

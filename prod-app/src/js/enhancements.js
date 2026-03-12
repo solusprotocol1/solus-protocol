@@ -10050,39 +10050,28 @@ function _hookForProductivity() {
     window.openILSTool = wrapped;
 }
 
-// ── SECTION 28 / 30: Copy as Bullet (small green, next to Anchor button) ──
+// ── SECTION 28 / 30: Copy as Bullet (into Actions dropdown) ──
 function _injectCopyBullet(toolId) {
     var panel = document.getElementById(toolId);
     if (!panel) return;
     var existing = panel.querySelector('.s4-copy-bullet-btn');
     if (existing) return;
 
-    // Find the anchor button row (flex container with Anchor to Ledger)
-    var anchorBtn = null;
-    var btns = panel.querySelectorAll('button');
-    for (var i = 0; i < btns.length; i++) {
-        if (/Anchor to/i.test(btns[i].textContent)) { anchorBtn = btns[i]; break; }
-    }
-    var target = anchorBtn ? anchorBtn.parentElement : null;
-    if (!target) {
-        // Fallback: find the action row or last .s4-card
+    // Find the Actions dropdown list inside this panel
+    var actionsList = panel.querySelector('.s4-actions-list');
+    if (!actionsList) {
+        // No dropdown yet — find the first flex-wrap action row as fallback
         var cards = panel.querySelectorAll('.s4-card');
-        target = cards.length ? cards[cards.length - 1] : panel;
+        var target = cards.length ? cards[cards.length - 1] : panel;
+        // We'll let _s4ConvertButtonDensity absorb it later
+        var actionsList = null;
     }
 
     var btn = document.createElement('button');
     btn.className = 's4-copy-bullet-btn';
-    btn.innerHTML = '<i class="fas fa-copy" style="margin-right:4px"></i>Copy as Bullet';
-    Object.assign(btn.style, {
-        display:'inline-flex', alignItems:'center', gap:'3px',
-        padding:'6px 12px', background:'rgba(16,185,129,0.10)',
-        border:'1px solid rgba(16,185,129,0.25)', borderRadius:'8px',
-        color:'#10B981', fontSize:'0.78rem', fontWeight:'600',
-        cursor:'pointer', fontFamily:'inherit', transition:'all 0.2s ease',
-        whiteSpace:'nowrap'
-    });
-    btn.onmouseover = function() { btn.style.background = 'rgba(16,185,129,0.18)'; };
-    btn.onmouseout = function() { btn.style.background = 'rgba(16,185,129,0.10)'; };
+    btn.innerHTML = '<i class="fas fa-copy"></i> Copy as Bullet';
+    // No inline styles — let .s4-actions-list button CSS handle it
+    btn.style.cssText = '';
 
     var toolName = _TOOL_NAMES[toolId] || toolId;
 
@@ -10096,8 +10085,8 @@ function _injectCopyBullet(toolId) {
         var bullet = '\u2022 ' + toolName + ' \u2014 ' + (text || 'Tool completed.') + ' (' + new Date().toLocaleDateString() + ')';
         if (navigator.clipboard && navigator.clipboard.writeText) {
             navigator.clipboard.writeText(bullet).then(function() {
-                btn.innerHTML = '<i class="fas fa-check" style="margin-right:4px;color:#10B981"></i>Copied!';
-                setTimeout(function() { btn.innerHTML = '<i class="fas fa-copy" style="margin-right:4px"></i>Copy as Bullet'; }, 2000);
+                btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                setTimeout(function() { btn.innerHTML = '<i class="fas fa-copy"></i> Copy as Bullet'; }, 2000);
             });
         } else {
             var ta = document.createElement('textarea');
@@ -10107,12 +10096,16 @@ function _injectCopyBullet(toolId) {
             ta.select();
             document.execCommand('copy');
             document.body.removeChild(ta);
-            btn.innerHTML = '<i class="fas fa-check" style="margin-right:4px;color:#10B981"></i>Copied!';
-            setTimeout(function() { btn.innerHTML = '<i class="fas fa-copy" style="margin-right:4px"></i>Copy as Bullet'; }, 2000);
+            btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+            setTimeout(function() { btn.innerHTML = '<i class="fas fa-copy"></i> Copy as Bullet'; }, 2000);
         }
     };
 
-    target.appendChild(btn);
+    if (actionsList) {
+        actionsList.appendChild(btn);
+    } else if (target) {
+        target.appendChild(btn);
+    }
 }
 
 // ── SECTION 31: Status Color Bar at top of tool result ──
@@ -11247,13 +11240,24 @@ function _classifyBtn(btn) {
 function _buildDropdown(actionBtns) {
     var menu = document.createElement('div');
     menu.className = 's4-actions-menu';
+    var header = document.createElement('div');
+    header.className = 's4-actions-header';
+    header.innerHTML = '<i class="fas fa-bolt"></i> ACTIONS';
     var trigger = document.createElement('button');
     trigger.className = 's4-actions-trigger';
     trigger.setAttribute('type', 'button');
     trigger.innerHTML = '<i class="fas fa-bolt"></i> Actions <i class="fas fa-chevron-down"></i>';
     var list = document.createElement('div');
     list.className = 's4-actions-list';
-    actionBtns.forEach(function(btn) { _classifyBtn(btn); list.appendChild(btn); });
+    actionBtns.forEach(function(btn) {
+        _classifyBtn(btn);
+        // Strip inline styles so .s4-actions-list button CSS takes full control
+        btn.style.cssText = '';
+        // Also strip inline styles from child icons
+        var icons = btn.querySelectorAll('i');
+        icons.forEach(function(ic) { ic.style.cssText = ''; });
+        list.appendChild(btn);
+    });
     trigger.addEventListener('click', function(e) {
         e.stopPropagation();
         var wasOpen = list.classList.contains('s4-open');
@@ -11265,6 +11269,7 @@ function _buildDropdown(actionBtns) {
         list.classList.remove('s4-open');
         trigger.classList.remove('s4-open');
     });
+    menu.appendChild(header);
     menu.appendChild(trigger);
     menu.appendChild(list);
     return menu;
@@ -11274,55 +11279,70 @@ function _s4ConvertButtonDensity(targetPanel) {
     var panels = targetPanel ? [targetPanel] : Array.from(document.querySelectorAll('.ils-hub-panel'));
 
     panels.forEach(function(panel) {
+        // ONE dropdown per panel — check if it already exists
+        var existingMenu = panel.querySelector('.s4-actions-menu');
+        var existingList = existingMenu ? existingMenu.querySelector('.s4-actions-list') : null;
+        var firstRow = null; // row where the dropdown will live
+
         var flexRows = panel.querySelectorAll('div[style*="display:flex"][style*="flex-wrap:wrap"]');
+        var allActionBtns = [];
 
         flexRows.forEach(function(row) {
             // Skip quick filter pill rows
             if (row.classList.contains('s4-quick-filter-pills')) return;
 
-            // If dropdown already exists, absorb any late-injected action buttons
-            var existingMenu = row.querySelector('.s4-actions-menu');
-            if (existingMenu) {
-                var children = Array.from(row.children);
-                var lateBtns = children.filter(function(el) {
-                    return el.tagName === 'BUTTON' && _isActionBtn(el);
-                });
-                if (lateBtns.length > 0) {
-                    var list = existingMenu.querySelector('.s4-actions-list');
-                    lateBtns.forEach(function(btn) { _classifyBtn(btn); list.appendChild(btn); });
-                }
-                return;
-            }
-
             var children = Array.from(row.children);
             var buttons = children.filter(function(el) { return el.tagName === 'BUTTON'; });
-            if (buttons.length < 2) return;
+            if (buttons.length < 1) return;
 
-            // Detect mixed rows (contain non-button interactive elements)
-            var hasNonBtn = children.some(function(el) {
-                var tag = el.tagName;
-                return tag === 'INPUT' || tag === 'SELECT' || tag === 'LABEL' || tag === 'A' ||
-                       (tag === 'SPAN' && el.style && el.style.flex);
+            var actionBtns = buttons.filter(_isActionBtn);
+            if (actionBtns.length === 0) return;
+
+            // Remember the first row that has action buttons (dropdown goes here)
+            if (!firstRow) firstRow = row;
+
+            // Remove action buttons from this row
+            actionBtns.forEach(function(btn) {
+                btn.remove();
+                allActionBtns.push(btn);
             });
 
-            // Separate action buttons from non-action
-            var actionBtns = buttons.filter(_isActionBtn);
-            var nonActionBtns = buttons.filter(function(b) { return !_isActionBtn(b); });
-
-            if (actionBtns.length < 2) return;
-
-            if (!hasNonBtn && nonActionBtns.length === 0) {
-                // Pure action row: wrap ALL buttons into dropdown
-                var menu = _buildDropdown(buttons);
-                while (row.firstChild) row.removeChild(row.firstChild);
-                row.appendChild(menu);
-            } else {
-                // Mixed row: extract only action buttons into dropdown, leave rest in place
-                var menu = _buildDropdown(actionBtns);
-                actionBtns.forEach(function(btn) { btn.remove(); });
-                row.appendChild(menu);
+            // If the row is now empty (only had action buttons), hide it
+            var remaining = Array.from(row.children).filter(function(el) {
+                return el.tagName !== 'DIV' || !el.classList.contains('s4-actions-menu');
+            });
+            var hasContent = remaining.some(function(el) {
+                return el.tagName === 'BUTTON' || el.tagName === 'INPUT' ||
+                       el.tagName === 'SELECT' || el.tagName === 'LABEL';
+            });
+            if (!hasContent && !row.querySelector('.s4-actions-menu')) {
+                row.style.display = 'none';
             }
         });
+
+        if (allActionBtns.length === 0 && !existingList) return;
+
+        if (existingList) {
+            // Ensure existing dropdown has the ACTIONS header
+            if (existingMenu && !existingMenu.querySelector('.s4-actions-header')) {
+                var hdr = document.createElement('div');
+                hdr.className = 's4-actions-header';
+                hdr.innerHTML = '<i class="fas fa-bolt"></i> ACTIONS';
+                existingMenu.insertBefore(hdr, existingMenu.firstChild);
+            }
+            // Absorb newly found action buttons into existing dropdown
+            allActionBtns.forEach(function(btn) {
+                _classifyBtn(btn);
+                btn.style.cssText = '';
+                btn.querySelectorAll('i').forEach(function(ic) { ic.style.cssText = ''; });
+                existingList.appendChild(btn);
+            });
+        } else if (allActionBtns.length >= 1 && firstRow) {
+            // Build the single dropdown and place it in the first action row
+            var menu = _buildDropdown(allActionBtns);
+            firstRow.style.display = '';
+            firstRow.appendChild(menu);
+        }
     });
 
     // Global close handler (attach once)
