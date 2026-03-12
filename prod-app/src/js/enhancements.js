@@ -10040,6 +10040,8 @@ function _hookForProductivity() {
                 setTimeout(function() {
                     var p = document.getElementById(toolId);
                     if (p) window._s4ConvertButtonDensity(p);
+                    // Re-inject Copy as Bullet into dropdown now that it exists
+                    setTimeout(function() { _injectCopyBullet(toolId); }, 100);
                 }, 200);
             }
         }, 800);
@@ -10057,20 +10059,9 @@ function _injectCopyBullet(toolId) {
     var existing = panel.querySelector('.s4-copy-bullet-btn');
     if (existing) return;
 
-    // Find the Actions dropdown list inside this panel
-    var actionsList = panel.querySelector('.s4-actions-list');
-    if (!actionsList) {
-        // No dropdown yet — find the first flex-wrap action row as fallback
-        var cards = panel.querySelectorAll('.s4-card');
-        var target = cards.length ? cards[cards.length - 1] : panel;
-        // We'll let _s4ConvertButtonDensity absorb it later
-        var actionsList = null;
-    }
-
     var btn = document.createElement('button');
     btn.className = 's4-copy-bullet-btn';
     btn.innerHTML = '<i class="fas fa-copy"></i> Copy as Bullet';
-    // No inline styles — let .s4-actions-list button CSS handle it
     btn.style.cssText = '';
 
     var toolName = _TOOL_NAMES[toolId] || toolId;
@@ -10101,11 +10092,13 @@ function _injectCopyBullet(toolId) {
         }
     };
 
+    // Always inject into the Actions dropdown list if it exists
+    var actionsList = panel.querySelector('.s4-actions-list');
     if (actionsList) {
         actionsList.appendChild(btn);
-    } else if (target) {
-        target.appendChild(btn);
     }
+    // If no dropdown yet, defer — _s4ConvertButtonDensity will create the dropdown
+    // and a subsequent call will place this button
 }
 
 // ── SECTION 31: Status Color Bar at top of tool result ──

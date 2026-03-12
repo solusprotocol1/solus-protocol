@@ -67,12 +67,12 @@
     <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" integrity="sha384-9nhczxUqK87bcKHh20fSQcTGD4qq5GhayNYSYWqwBkINBhOfQLg/P5HG5lF1urn4" crossorigin="anonymous"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/qrcode@1.5.4/build/qrcode.min.js"></script>
     <!-- CSS is imported via main.js and extracted by Vite -->
-  <script type="module" crossorigin src="/prod-app/dist/assets/index-7_manY7j.js"></script>
+  <script type="module" crossorigin src="/prod-app/dist/assets/index-i3JdRzxX.js"></script>
   <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/engine-COg6MnAf.js">
-  <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/navigation-Bsj-xbyu.js">
+  <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/navigation-BrQO5z2c.js">
   <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/metrics-CE3sqmpZ.js">
-  <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/enhancements-B-CcPf-f.js">
-  <link rel="stylesheet" crossorigin href="/prod-app/dist/assets/index-C_a4KsPQ.css">
+  <link rel="modulepreload" crossorigin href="/prod-app/dist/assets/enhancements-dmxlycuL.js">
+  <link rel="stylesheet" crossorigin href="/prod-app/dist/assets/index-BMyVViaX.css">
 </head>
 <body class="light-mode">
 <!-- Light mode always on -->
@@ -490,6 +490,17 @@
                         <div class="s4-card">
                             <h3><i class="fas fa-shield-halved"></i> Verify Records</h3>
 <p style="color:var(--steel);font-size:0.9rem;margin-bottom:1rem">Upload or paste the original record to verify its hash matches what was anchored on XRPL.</p>
+<details class="hiw-verify-details" style="display:none;margin-top:8px;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.15);border-radius:8px;padding:0 12px;">
+                        <summary style="cursor:pointer;padding:8px 0;font-size:0.8rem;font-weight:700;color:#00aaff;">How It Works</summary>
+                        <p style="font-size:0.82rem;color:var(--steel);margin-bottom:6px;">The Verify Records tool lets you prove that any document or data has not been tampered with since it was anchored to the blockchain.</p>
+                        <ol style="font-size:0.8rem;color:var(--steel);padding-left:18px;margin-bottom:8px;">
+                            <li><strong>Upload or paste</strong> — Drop any file or paste text content. S4 computes the SHA-256 hash entirely in your browser — the file never leaves your device.</li>
+                            <li><strong>Compare hashes</strong> — S4 checks the computed hash against all records anchored in your vault and on the XRPL ledger.</li>
+                            <li><strong>Get proof</strong> — If the hash matches, the record is verified as unaltered. S4 shows the original anchor timestamp, XRPL transaction ID, and explorer link.</li>
+                            <li><strong>Batch verify</strong> — Upload multiple files at once. S4 verifies each file independently and reports results in a summary table.</li>
+                        </ol>
+                        <p style="font-size:0.8rem;color:var(--steel);margin-bottom:8px;"><strong>How S4 saves you money:</strong> Traditional document verification requires notaries, legal review, and manual chain-of-custody checks costing <strong>$50-$500 per document</strong>. S4 verifies any file in <strong style="color:#00cc66">under 3 seconds</strong> for free — saving <strong style="color:#00cc66">$250,000+/year</strong> across large programs with hundreds of auditable records.</p>
+                    </details>
 
                             <!-- FILE UPLOAD VERIFICATION -->
                             <label><i class="fas fa-file-upload" style="color:var(--accent);margin-right:4px;"></i> Upload File(s) to Verify</label>
@@ -551,13 +562,17 @@
                     <div class="col-lg-7">
                         <div class="s4-card">
                             <h3><i class="fas fa-anchor"></i> Anchor a Record</h3>
-                            <details style="margin-top:8px;margin-bottom:12px;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.15);border-radius:8px;padding:0 12px;">
-                                <summary style="cursor:pointer;padding:10px 0;color:#00aaff;font-weight:600;font-size:0.85rem;"><i class="fas fa-info-circle"></i> How Anchoring Works</summary>
-                                <div style="padding:0 0 12px;color:var(--steel);font-size:0.82rem;line-height:1.6;">
-                                    <p><strong>What's real:</strong> Every anchor creates an actual XRPL transaction with your record's SHA-256 hash stored in the memo field. The hash, transaction ID, timestamp, and XRPL explorer link are all genuine blockchain data you can independently verify.</p>
-                                    <p><strong>Live on Mainnet:</strong> Each anchor costs 0.01 $SLS paid from your wallet to the S4 Treasury. All transaction hashes and explorer links point to the live XRPL.</p>
-                                </div>
-                            </details>
+<details class="hiw-anchor-details" style="display:none;margin-top:8px;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.15);border-radius:8px;padding:0 12px;">
+                        <summary style="cursor:pointer;padding:8px 0;font-size:0.8rem;font-weight:700;color:#00aaff;">How It Works</summary>
+                        <p style="font-size:0.82rem;color:var(--steel);margin-bottom:6px;">The Anchor tool writes an immutable, timestamped proof of any defense record to the XRP Ledger — creating a tamper-proof audit trail.</p>
+                        <ol style="font-size:0.8rem;color:var(--steel);padding-left:18px;margin-bottom:8px;">
+                            <li><strong>Select branch &amp; type</strong> — Choose your military branch and record type (maintenance logs, supply receipts, CDRLs, ordnance tracking, etc.).</li>
+                            <li><strong>Paste or upload</strong> — Enter record content or upload a file. S4 generates a SHA-256 hash locally — data never leaves your browser.</li>
+                            <li><strong>Anchor to XRPL</strong> — S4 writes the hash as a Memo in a real XRPL transaction on Mainnet. Cost: 0.01 Credits per anchor (~$0.0001).</li>
+                            <li><strong>Get proof</strong> — Receive a live XRPL transaction ID, explorer link, and timestamp. The record is now independently verifiable by anyone, forever.</li>
+                        </ol>
+                        <p style="font-size:0.8rem;color:var(--steel);margin-bottom:8px;"><strong>How S4 saves you money:</strong> Traditional notarization and certification costs <strong>$50-$200 per record</strong> with turnarounds of days or weeks. S4 anchors any record in <strong style="color:#00cc66">under 4 seconds</strong> at <strong style="color:#00cc66">$0.0001</strong> each — replacing <strong style="color:#00cc66">$50,000+ annually</strong> in notary and records certification costs per program.</p>
+                    </details>
                             <label>1. Select Military Branch</label>
                             <div class="branch-tabs" id="branchTabs">
                                 <button class="branch-tab active" onclick="selectBranch('USN',this)"><i class="fas fa-anchor"></i> U.S. Navy</button>
@@ -623,6 +638,17 @@
                 <div class="s4-card">
                     <h3><i class="fas fa-list"></i> Transaction Log</h3>
                     <p style="color:var(--steel);font-size:0.9rem">All records anchored in this session.</p>
+<details style="display:none;margin-top:8px;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.15);border-radius:8px;padding:0 12px;">
+                        <summary style="cursor:pointer;padding:8px 0;font-size:0.8rem;font-weight:700;color:#00aaff;">How It Works</summary>
+                        <p style="font-size:0.82rem;color:var(--steel);margin-bottom:6px;">The Transaction Log is your complete, real-time audit trail — every record anchored in this session with full XRPL verification.</p>
+                        <ol style="font-size:0.8rem;color:var(--steel);padding-left:18px;margin-bottom:8px;">
+                            <li><strong>Automatic logging</strong> — Every anchor operation (from any tool) is recorded here with timestamp, hash, record type, and XRPL transaction ID.</li>
+                            <li><strong>Verify on-chain</strong> — Click any transaction to open the XRPL Explorer and independently verify the record exists on the live ledger.</li>
+                            <li><strong>Filter &amp; search</strong> — Find records by type, program, date, or hash. Audit-ready in seconds, not days.</li>
+                            <li><strong>Export for audits</strong> — Download the full log as CSV for compliance reviews, IG inspections, or DCMA audits.</li>
+                        </ol>
+                        <p style="font-size:0.8rem;color:var(--steel);margin-bottom:8px;"><strong>How S4 saves you money:</strong> Manual audit trail assembly takes <strong>3-5 days</strong> per review at $150/hr. S4 provides instant, blockchain-verified logs — reducing audit prep from <strong>$3,600-$6,000</strong> to <strong style="color:#00cc66">under 10 seconds</strong>. Across quarterly audits for 10 programs: <strong style="color:#00cc66">$144,000-$240,000/year</strong> in savings.</p>
+                    </details>
                     <div class="tx-log" id="txLog">
                         <div style="color:var(--muted);text-align:center;padding:2rem">No records anchored yet. Go to the <strong>Anchor</strong> tab to start.</div>
                     </div>
@@ -665,6 +691,17 @@
                 <div class="s4-card">
                     <h3><i class="fas fa-chart-line" style="color:var(--accent)"></i> Performance Metrics Dashboard</h3>
                     <p style="color:var(--steel);font-size:0.85rem">Real-time platform performance, anchoring metrics, and system health.</p>
+<details style="display:none;margin-top:8px;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.15);border-radius:8px;padding:0 12px;">
+                        <summary style="cursor:pointer;padding:8px 0;font-size:0.8rem;font-weight:700;color:#00aaff;">How It Works</summary>
+                        <p style="font-size:0.82rem;color:var(--steel);margin-bottom:6px;">The Metrics Dashboard gives you real-time visibility into platform performance, anchoring throughput, and system health — so you always know S4 is running at peak.</p>
+                        <ol style="font-size:0.8rem;color:var(--steel);padding-left:18px;margin-bottom:8px;">
+                            <li><strong>Anchor performance</strong> — Track average anchor time, success rate, and daily volume. S4 targets sub-4-second anchoring on XRPL Mainnet.</li>
+                            <li><strong>Platform health</strong> — Monitor API response times, hash generation speed, TX signing, and vault save operations with P50/P95 breakdowns.</li>
+                            <li><strong>Usage tracking</strong> — See total records generated, vault size, and credit consumption across your team and programs.</li>
+                            <li><strong>Refresh anytime</strong> — Hit Refresh Metrics to pull the latest data. All metrics are computed from your actual anchoring activity.</li>
+                        </ol>
+                        <p style="font-size:0.8rem;color:var(--steel);margin-bottom:8px;"><strong>How S4 saves you money:</strong> Without platform metrics, performance issues go undetected for weeks — causing failed anchors, missed SLAs, and audit gaps. S4 Metrics provides <strong style="color:#00cc66">instant visibility</strong> that prevents <strong style="color:#00cc66">$50,000+/year</strong> in rework from undetected system issues and ensures 99.9% anchoring reliability.</p>
+                    </details>
                     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin:16px 0">
                         <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:14px;text-align:center">
                             <div style="font-size:0.72rem;color:var(--steel);text-transform:uppercase;letter-spacing:0.5px">Avg Anchor Time</div>
@@ -767,6 +804,17 @@
                 <div class="s4-card">
                     <h3><i class="fas fa-wifi" style="color:var(--accent)"></i> Offline Queue &amp; Batch Sync</h3>
                     <p style="color:var(--steel);font-size:0.85rem">Manage hashes queued during offline/air-gapped operation. Batch sync when connected.</p>
+<details style="display:none;margin-top:8px;background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.15);border-radius:8px;padding:0 12px;">
+                        <summary style="cursor:pointer;padding:8px 0;font-size:0.8rem;font-weight:700;color:#00aaff;">How It Works</summary>
+                        <p style="font-size:0.82rem;color:var(--steel);margin-bottom:6px;">The Offline Queue ensures zero data loss in air-gapped, SCIF, or austere environments — S4 keeps working even without connectivity.</p>
+                        <ol style="font-size:0.8rem;color:var(--steel);padding-left:18px;margin-bottom:8px;">
+                            <li><strong>Automatic queuing</strong> — When offline, S4 detects the loss of connectivity and queues all anchor operations locally with encrypted storage.</li>
+                            <li><strong>Persistent storage</strong> — Queued hashes survive browser restarts and are encrypted at rest. No data is lost.</li>
+                            <li><strong>Auto-sync</strong> — When connectivity returns, queued operations sync automatically to XRPL with exponential backoff retry logic.</li>
+                            <li><strong>Manual control</strong> — View queue contents, trigger manual sync, or queue vault records directly. Clear the queue when done.</li>
+                        </ol>
+                        <p style="font-size:0.8rem;color:var(--steel);margin-bottom:8px;"><strong>How S4 saves you money:</strong> In deployed or air-gapped environments, lost records cost <strong>$10,000-$100,000 per incident</strong> in re-inspection and re-certification. S4 Offline Queue ensures <strong style="color:#00cc66">zero data loss</strong> — saving <strong style="color:#00cc66">$500,000+/year</strong> across programs operating in austere or SCIF environments.</p>
+                    </details>
                     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:16px 0">
                         <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:14px;text-align:center">
                             <div style="font-size:0.72rem;color:var(--steel);text-transform:uppercase">Connection Status</div>

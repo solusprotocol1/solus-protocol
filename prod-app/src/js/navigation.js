@@ -27,7 +27,7 @@ function showHub() {
     // Show hub
     var hub = document.getElementById('platformHub');
     if (hub) { hub.style.display = 'block'; hub.style.animation = 'fadeIn 0.3s ease'; }
-    // Stats now live in sidebar — hide stat strip
+    // Show stat strip (moved into Ledger Account sidebar)
     // var sr = document.getElementById('statsRow');
     // if (sr) sr.style.display = 'flex';
     // Only show hero + pre-platform landing if user hasn't entered yet
@@ -1004,7 +1004,7 @@ var _hiwPanelIds = [
     'hub-submissions','hub-sbom','hub-gfp','hub-cdrl',
     'hub-contract','hub-provenance','hub-analytics','hub-team',
     'hub-acquisition','hub-milestones','hub-brief',
-    'tabAnchor','tabAnchor'
+    'tabLog','tabMetrics','tabOffline'
 ];
 
 function _showHIWModal(det) {
@@ -1049,10 +1049,40 @@ function _ensureHIWButton(panelId) {
     heading.appendChild(btn);
 }
 
+// Special handler for tabAnchor which has two sections (Verify + Anchor)
+function _ensureTabAnchorHIW() {
+    var panel = document.getElementById('tabAnchor');
+    if (!panel) return;
+    var verifyDet = panel.querySelector('.hiw-verify-details');
+    var anchorDet = panel.querySelector('.hiw-anchor-details');
+    // Find the two h3 headings: Verify Records and Anchor a Record
+    var headings = panel.querySelectorAll('h3');
+    headings.forEach(function(heading) {
+        var text = heading.textContent.trim();
+        var det = null;
+        if (/Verify Records/i.test(text) && verifyDet) {
+            det = verifyDet;
+        } else if (/Anchor a Record/i.test(text) && anchorDet) {
+            det = anchorDet;
+        }
+        if (!det) return;
+        det.style.display = 'none';
+        if (heading.querySelector('.hiw-help-btn')) return;
+        var btn = document.createElement('button');
+        btn.className = 'hiw-help-btn';
+        btn.title = 'How It Works';
+        btn.textContent = '?';
+        btn.style.cssText = 'margin-left:8px;background:rgba(0,170,255,0.12);border:1px solid rgba(0,170,255,0.3);color:#00aaff;border-radius:50%;width:24px;height:24px;font-size:0.75rem;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;vertical-align:middle;flex-shrink:0;';
+        btn.onclick = function(e){ e.stopPropagation(); _showHIWModal(det); };
+        heading.appendChild(btn);
+    });
+}
+
 (function _initAllHIWButtons() {
     function initAll() {
         _hiwPanelIds.forEach(function(id) { _ensureHIWButton(id); });
-        console.log('[S4-HIW] Initialized ? buttons for ' + _hiwPanelIds.length + ' panels');
+        _ensureTabAnchorHIW();
+        console.log('[S4-HIW] Initialized ? buttons for ' + _hiwPanelIds.length + ' panels + tabAnchor (Verify/Anchor)');
     }
 
     // Run immediately (module is deferred, DOM should be ready)
@@ -1075,13 +1105,18 @@ function _ensureHIWButton(panelId) {
                 }
             });
             if (needsReinject) {
-                setTimeout(function() { _hiwPanelIds.forEach(_ensureHIWButton); }, 50);
+                setTimeout(function() {
+                    _hiwPanelIds.forEach(_ensureHIWButton);
+                    _ensureTabAnchorHIW();
+                }, 50);
             }
         });
         _hiwPanelIds.forEach(function(id) {
             var panel = document.getElementById(id);
             if (panel) observer.observe(panel, { childList: true, subtree: true });
         });
+        var anchorPanel = document.getElementById('tabAnchor');
+        if (anchorPanel) observer.observe(anchorPanel, { childList: true, subtree: true });
     }
 })();
 

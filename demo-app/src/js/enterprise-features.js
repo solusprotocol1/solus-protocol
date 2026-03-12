@@ -1813,84 +1813,9 @@
     // TOOL HELP ICONS — ? button on each tool heading
     // ══════════════════════════════════════════════════════════════
     S4.toolHelp = {
-        _helpMap: {
-            'hub-analysis': '1) Select your program from the dropdown. 2) Choose a system to analyze — S4 pre-loads MIL-STD-1388 ILS elements. 3) Run analysis to identify gaps in spares, training, support equipment, tech data, and more. 4) Export findings as PDF or anchor the report hash to XRPL for tamper-proof audit evidence. S4 Ledger reduces audit prep time by 80% and saves $2.8M annually per program by catching ILS gaps before they cause readiness failures.',
-            'hub-dmsms': '1) Upload or enter your parts list — S4 checks against GIDEP, DLA, and OEM lifecycle databases. 2) View flagged parts by risk severity: Critical (EOS), At Risk (DMIL notice), Monitored. 3) Review alternate sources and bridge-buy recommendations. 4) Export the DMSMS report or anchor to XRPL. S4 Ledger saves programs $1.2M-$4.5M annually by identifying obsolescence 18+ months earlier than manual tracking, reducing emergency procurements by 65%.',
-            'hub-readiness': '1) Select your program and system. 2) Enter MTBF, MTTR, and MLDT values (or use S4 defaults from historical data). 3) Calculate to see Operational Availability (Ao), Inherent Availability (Ai), failure rate, and 30-day mission reliability. 4) Export or anchor the readiness snapshot. Ao > 90% meets most DoD thresholds. S4 Ledger improves readiness tracking accuracy by 45% and reduces MLDT by 30% through better spares visibility — saving $850K per ship per year.',
-            'hub-roi': '1) Enter your program count, monthly records, FTEs, and labor rate. 2) Input current audit costs, error costs per incident, and S4 license fee. 3) Calculate to see savings breakdown: Labor Automation (65% reduction), Error Reduction (90%), Audit Cost Reduction (70%). 4) View net annual savings, ROI %, payback period, and 5-year projection. Typical DoD programs see 400-800% ROI with payback in 2-4 months. S4 Ledger saves $3.2M annually for a mid-size program.',
-            'hub-lifecycle': '1) Enter service life, operating hours, acquisition cost, fleet size, and sustainment rate. 2) S4 calculates total ownership cost across acquisition, sustainment (O&S), DMSMS, and tech refresh. 3) View cost per operating hour and S4 savings potential. 4) Anchor the estimate to XRPL for historical comparison. S4 Ledger reduces lifecycle cost estimation errors by 35% and identifies $2M+ in DMSMS savings through proactive obsolescence management.',
-            'hub-vault': '1) Anchor any record from any tool — it automatically appears here with hash, timestamp, and XRPL tx link. 2) Click any record to verify integrity on-chain. 3) Use the Digital Thread panel to trace full provenance chains across records. 4) Export vault contents as PDF or CSV for audits. S4 Ledger eliminates $500K+ annual notarization and records management costs. Verification takes 3 seconds vs. 3+ days manually.',
-            'hub-docs': '1) Upload technical data packages (TDPs), manuals, or engineering drawings. 2) S4 hashes each document and anchors to XRPL automatically. 3) Track versions — any modification creates a new hash, proving exactly when changes occurred. 4) Search by document type, system, or date. S4 Ledger prevents $1.5M+ annually in rework caused by unauthorized TDP changes and reduces document retrieval time from hours to seconds.',
-            'hub-compliance': '1) Select your compliance framework: CMMC, NIST 800-171, DFARS 252.204-7012, or custom. 2) S4 auto-scores your program against each control requirement. 3) View gaps with remediation guidance and estimated cost/time to close. 4) Anchor compliance snapshots for audit evidence. S4 Ledger reduces audit response time from 6+ weeks to under 48 hours and cuts compliance management costs by 60% ($400K+ annually).',
-            'hub-risk': '1) Add risks with description, probability (1-5), and impact (1-5). 2) S4 calculates risk scores and color-codes by severity. 3) Assign mitigation actions with due dates and owners. 4) Anchor risk register snapshots to prove risks were identified and tracked on schedule. S4 Ledger eliminates risk tracking disputes and provides blockchain-verified evidence for PPBE milestone reviews — preventing $2M+ in program delays.',
-            'hub-reports': '1) Select report type: ILS Summary, Readiness Brief, DMSMS Status, Compliance Snapshot, or Executive Summary. 2) S4 auto-populates from your tool data — no manual re-entry. 3) Export as PDF or CSV. 4) Anchor the report hash for immutable proof of when data was reported. S4 Ledger reduces report generation from 40+ hours to under 5 minutes — saving $180K per program annually in analyst labor.',
-            'hub-predictive': '1) Enter equipment type, operating hours, maintenance history, and environmental conditions. 2) S4 AI analyzes failure patterns and predicts next likely failure window. 3) View recommended maintenance actions with cost-benefit analysis. 4) Anchor predictions for accountability tracking. S4 Ledger reduces unplanned maintenance by 45% and extends equipment life by 20-30% — saving $1.8M per major system annually.',
-            'hub-sbom': '1) Upload or paste your software bill of materials. 2) S4 scans for known vulnerabilities (CVE), license compliance, and supply chain risks. 3) View component dependency tree with risk scores. 4) Anchor SBOM versions to meet EO 14028 and CMMC Level 3 requirements automatically. S4 Ledger reduces SBOM management from 120+ hours to 2 hours per release cycle — saving $250K annually in cybersecurity compliance labor.',
-            'hub-submissions': '1) Track CDRLs, DIDs, and contractor deliverables with due dates and status. 2) S4 timestamps every submission automatically — no more he-said-she-said disputes. 3) View overdue items and send automated reminders. 4) Anchor submission receipts to prove on-time delivery. S4 Ledger eliminates $600K+ annually in contract disputes and late delivery penalties through blockchain-verified timestamps.',
-            'hub-gfp': '1) Enter GFP items with serial numbers, location, custodian, and condition. 2) S4 tracks custody transfers with timestamps and digital signatures. 3) Generate FAR 45.602 property reports automatically. 4) Anchor custody events to XRPL for indisputable chain of custody. S4 Ledger reduces GFP loss/dispute write-offs by 85% — saving $1.2M+ annually per large program.',
-            'hub-cdrl': '1) Enter CDRL line items with DID numbers, due dates, and responsible parties. 2) Track deliverable status: Draft, Review, Submitted, Accepted, Rejected. 3) Attach document hashes and anchor acceptance events. 4) Export CDRL status reports for contract reviews. S4 Ledger reduces CDRL tracking overhead by 70% and eliminates $300K annually in missed deliverable penalties.',
-            'hub-contract': '1) Enter program baselines, configuration items, and change proposals. 2) Track ECPs, waivers, and deviations with approval workflows. 3) Every configuration change is hashed and anchored — preventing unauthorized modifications. 4) Generate configuration status accounting reports. S4 Ledger prevents $2.5M+ annually in rework from unauthorized configuration changes.',
-            'hub-provenance': '1) Enter supply chain data: manufacturer, distributor, lot numbers, and test certificates. 2) S4 builds a cryptographic chain of custody from OEM to installation. 3) Scan for counterfeit indicators against GIDEP and ERAI databases. 4) Anchor each custody transfer to XRPL. S4 Ledger catches 95% of counterfeit parts before installation — preventing $5M+ in safety incidents and recalls per program.',
-            'hub-analytics': '1) View real-time dashboards across all tools: anchoring volume, compliance trends, risk heatmaps, readiness tracking. 2) Drill down by program, time range, or tool. 3) Export charts and data for briefings. 4) All analytics data points are backed by blockchain-anchored records. S4 Ledger provides 360-degree program visibility that saves 15+ analyst-hours per week in manual data aggregation.',
-            'hub-team': '1) Create teams and assign members with role-based permissions: Admin, Analyst, Viewer, Auditor. 2) Control tool access per team — e.g. Finance sees ROI, Engineers see DMSMS. 3) Audit every permission change on XRPL. 4) Generate access reports for CMMC/NIST compliance. S4 Ledger meets NIST 800-171 access control requirements automatically — saving $200K annually in IAM compliance labor.',
-            'hub-acquisition': '1) Select your acquisition pathway: ACAT I/II/III, MTA, or Software. 2) Track milestone gates: MSA, Milestone A/B/C, FRP, FOC. 3) Link milestone evidence to blockchain-anchored artifacts. 4) Generate acquisition status reports for DAES/SAR. S4 Ledger provides blockchain-verified milestone evidence that saves 6+ months in acquisition review cycles and prevents $10M+ in program delays.',
-            'hub-milestones': '1) Create milestones with deadlines, owners, and dependencies. 2) Track status: Not Started, In Progress, Complete, Overdue. 3) View Gantt-style timeline with critical path. 4) Anchor status changes to XRPL for indisputable progress records. S4 Ledger reduces schedule disputes by 90% — each status change is timestamped and immutable.',
-            'hub-brief': '1) Select brief type: Program Status, Decision Brief, or Technical Review. 2) S4 auto-populates slides from your tool data — readiness, risk, compliance, cost. 3) Customize with program-specific context. 4) Export as PDF and anchor the final version to XRPL. S4 Ledger reduces brief preparation from 2+ weeks to under 1 hour — saving $120K per program annually.',
-            'tabAnchor': '1) Paste or upload any defense document or data. 2) S4 generates a SHA-256 hash and writes it to the XRP Ledger as a Memo. 3) Get an XRPL transaction link as proof of existence and timestamp. 4) Verify anytime by re-hashing the original document and checking the ledger. Cost: 0.01 XRP per anchor (< $0.01). S4 Ledger replaces $50K+ annual notary and certification costs.',
-            'tabLog': '1) View all anchored records with timestamps, hashes, and XRPL verification links. 2) Click any transaction to verify on-chain in the XRPL explorer. 3) Filter by record type, date, or program. 4) Export the log as CSV for audits. S4 Ledger reduces audit lookup time from 3+ days to under 10 seconds.',
-            'tabMetrics': '1) View platform usage: total anchors, verifications, active programs, and credit balance. 2) Monitor performance: API response times, anchor success rates, and queue status. 3) Track team activity and tool adoption. S4 Ledger provides real-time operational visibility across your entire ILS program.',
-            'tabOffline': '1) When offline, S4 automatically queues anchor operations with encrypted local storage. 2) When connectivity returns, queued operations sync automatically with exponential backoff. 3) View queue status and manually trigger sync if needed. S4 Ledger ensures zero data loss in air-gapped or austere environments.',
-            'tabWallet': '1) View your XRP wallet balance and transaction history. 2) Monitor credit usage and remaining anchoring capacity. 3) Add credits through the platform. Each anchor costs 0.01 credits (~$0.006). S4 Ledger anchoring costs 99.9% less than traditional notarization.',
-            'tabILS': '1) Access 23+ integrated logistics tools from the hub. 2) Each tool is purpose-built for defense ILS workflows. 3) All tools share data — run gap analysis, link to DMSMS, check readiness, generate reports, all from one platform. S4 Ledger eliminates $500K+ annually in tool sprawl and manual data re-entry across disconnected systems.'
-        },
+        _helpMap: {},
         init: function() {
-            var self = this;
-            // Inject CSS for help button
-            var css = document.createElement('style');
-            css.textContent = '.s4-tool-help{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:rgba(0,113,227,0.08);color:var(--accent,#0071e3);border:1px solid rgba(0,113,227,0.2);font-size:0.7rem;font-weight:700;cursor:pointer;margin-left:8px;transition:all 0.2s;flex-shrink:0;vertical-align:middle;line-height:1}'
-                + '.s4-tool-help:hover{background:rgba(0,113,227,0.15);transform:scale(1.1)}'
-                + '.s4-help-popover{position:absolute;top:100%;left:0;right:0;background:#fff;border:1px solid rgba(0,113,227,0.2);border-radius:8px;padding:14px 16px;font-size:0.8rem;color:var(--text,#1d1d1f);line-height:1.65;font-weight:400;z-index:100;box-shadow:0 8px 24px rgba(0,0,0,0.1);margin-top:8px;max-width:520px;max-height:300px;overflow-y:auto;animation:briefFadeIn 0.15s ease}';
-            document.head.appendChild(css);
-
-            // Find all tool panels and inject help icons
-            var panels = document.querySelectorAll('.ils-hub-panel, .tab-pane');
-            panels.forEach(function(panel) {
-                var id = panel.id;
-                var helpText = self._helpMap[id];
-                if (!helpText) return;
-                var heading = panel.querySelector('h3');
-                if (!heading) return;
-                // Don't add duplicate help icons
-                if (heading.querySelector('.s4-tool-help')) return;
-                // Make heading position relative for popover
-                heading.style.position = 'relative';
-                var btn = document.createElement('button');
-                btn.className = 's4-tool-help';
-                btn.textContent = '?';
-                btn.title = 'About this tool';
-                btn.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    var existing = heading.querySelector('.s4-help-popover');
-                    if (existing) { existing.remove(); return; }
-                    // Close any other open popovers
-                    document.querySelectorAll('.s4-help-popover').forEach(function(p) { p.remove(); });
-                    var pop = document.createElement('div');
-                    pop.className = 's4-help-popover';
-                    pop.textContent = helpText;
-                    heading.appendChild(pop);
-                    // Close on outside click
-                    setTimeout(function() {
-                        document.addEventListener('click', function closeHelp() {
-                            pop.remove();
-                            document.removeEventListener('click', closeHelp);
-                        }, { once: true });
-                    }, 10);
-                });
-                // Insert before the ai-quick-btn if present, otherwise append
-                var quickBtn = heading.querySelector('.ai-quick-btn');
-                if (quickBtn) { heading.insertBefore(btn, quickBtn); }
-                else { heading.appendChild(btn); }
-            });
+            // Disabled — all How It Works ? popups are now handled by the unified HIW system in navigation.js
         }
     };
 

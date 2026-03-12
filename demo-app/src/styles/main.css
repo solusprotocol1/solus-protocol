@@ -6409,6 +6409,27 @@ h4{font-size:0.95rem;font-weight:700}
 }
 .s4-actions-list button:hover{background:rgba(0,170,255,0.08) !important}
 .s4-actions-list button i{width:16px;text-align:center;color:var(--accent,#00aaff) !important;font-size:0.82rem !important}
+/* Override brief-action-btn styles inside the dropdown */
+.s4-actions-list .brief-action-btn,
+.s4-actions-list .brief-action-btn.primary,
+.s4-actions-list .brief-action-btn.danger,
+.s4-actions-list .s4-copy-bullet-btn{
+    display:flex !important;align-items:center !important;gap:8px !important;
+    width:100% !important;text-align:left !important;
+    padding:10px 14px !important;margin:0 !important;
+    border-radius:8px !important;
+    background:transparent !important;
+    color:var(--text,#1d1d1f) !important;
+    border:none !important;box-shadow:none !important;
+    font-size:0.82rem !important;font-weight:600 !important;
+    cursor:pointer;transition:background 0.15s;
+    white-space:nowrap;line-height:1.4 !important;
+}
+.s4-actions-list .brief-action-btn:hover,
+.s4-actions-list .brief-action-btn.primary:hover,
+.s4-actions-list .s4-copy-bullet-btn:hover{background:rgba(0,170,255,0.08) !important}
+.s4-actions-list .brief-action-btn i,
+.s4-actions-list .s4-copy-bullet-btn i{width:16px;text-align:center;color:var(--accent,#00aaff) !important;font-size:0.82rem !important}
 /* Spacing: 24px between major tool sections */
 .ils-hub-panel .row.mt-2{margin-top:24px !important}
 .ils-hub-panel .row.mt-3{margin-top:24px !important}
