@@ -12913,23 +12913,19 @@ function _collectAllText() {
     return lines.join('\n');
 }
 
-// Inject into Actions menu for hub-analytics only
+// Inject beside (not inside) Actions menu for hub-analytics only
 function _injectHighlightsBtn() {
     var panel = document.getElementById('hub-analytics');
     if (!panel) return;
-    var actionsList = panel.querySelector('.s4-actions-list');
-    if (!actionsList) return;
-    if (actionsList.querySelector('.s4-hl-menu-btn')) return;
-
-    var sep = document.createElement('div');
-    sep.className = 's4-actions-sep';
-    actionsList.appendChild(sep);
+    if (panel.querySelector('.s4-hl-standalone-btn')) return;
+    var actionsMenu = panel.querySelector('.s4-actions-menu');
+    if (!actionsMenu) return;
 
     var btn = document.createElement('button');
-    btn.className = 's4-hl-menu-btn';
+    btn.className = 's4-hl-standalone-btn';
     btn.innerHTML = '<i class="fas fa-file-alt"></i> Create / Update Highlights Document';
     btn.onclick = function() { _openHighlightsModal(); };
-    actionsList.appendChild(btn);
+    actionsMenu.parentNode.insertBefore(btn, actionsMenu.nextSibling);
 }
 
 // Hook
