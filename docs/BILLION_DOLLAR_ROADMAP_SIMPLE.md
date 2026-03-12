@@ -72,7 +72,7 @@ Think of it like this:
 
 - **The military** maintains thousands of weapon systems — jets, ships, tanks, missiles. Each one has thousands of parts, hundreds of documents, and years of maintenance history.
 - **Right now**, most of this tracking is done with spreadsheets, PDFs, and 20-year-old software systems that don't talk to each other. It's slow, expensive, error-prone, and easy to fake.
-- **S4 Ledger** replaces all of that with one modern platform. It has 20+ built-in tools that handle everything from tracking parts to predicting when something will break, plus a defense database import tool that connects to 24 DoW/DoN systems. And it stamps every record onto a blockchain — which means no one can secretly change the records after the fact.
+- **S4 Ledger** replaces all of that with one modern platform. It has 23 built-in tools that handle everything from tracking parts to predicting when something will break, plus a defense database import tool that connects to 24 DoW/DoN systems. And it stamps every record onto a blockchain — which means no one can secretly change the records after the fact.
 
 **The bottom line:** S4 Ledger saves the government a LOT of money and makes defense logistics dramatically better. And that means S4 Systems (the company) can grow from a small consulting firm into a billion-dollar technology company.
 
@@ -86,29 +86,25 @@ The military runs thousands of "programs" — each one is basically a weapon sys
 
 **For each program, S4 Ledger saves roughly $1.02 million to $2.6 million per year** by replacing manual work with automated tools.
 
-Here's a simple breakdown of the 20+ tools and what they replace:
+Here's a simple breakdown of the 23 tools and what they replace:
 
 | What S4 Ledger Does For You | What It Replaces | Money Saved Per Year |
 |---|---|---|
-| **Finds parts that are going obsolete** (DMSMS Tracker) | A full-time analyst manually searching databases | $60K–$200K |
+| **Finds parts that are going obsolete** (Obsolescence Alert) | A full-time analyst manually searching databases | $60K–$200K |
 | **Prepares audit packages automatically** (Audit Vault) | Weeks of an employee compiling paperwork | $45K–$150K |
-| **Predicts when equipment will break** (Predictive Maintenance AI) | Surprise breakdowns that cost millions | $80K–$250K |
-| **Monitors supply chain risks** (AI Risk Engine) | Manual audits and gut feelings | $75K–$200K |
-| **Manages configuration & engineering changes** (Digital Thread Bridge) | Spreadsheets and email chains | $60K–$150K |
-| **Tracks contract deliverables** (Contract Lifecycle Mgmt) | Missed deadlines and disputes | $40K–$100K |
-| **Generates provisioning data** (PTD Manager) | Expensive legacy software (ICAPS) + labor | $50K–$120K |
-| **Creates audit reports** (Report Generator) | Manual compilation for every audit | $30K–$80K |
-| **Identifies gaps in logistics plans** (Gap Analysis) | Consultants spending weeks on analysis | $40K–$80K |
+| **Predicts when equipment will break** (Maintenance Predictor) | Surprise breakdowns that cost millions | $80K–$250K |
+| **Monitors supply chain risks** (Risk Radar) | Manual audits and gut feelings | $75K–$200K |
+| **Tracks contract deliverables** (Contract Analyzer) | Missed deadlines and disputes | $40K–$100K |
+| **Creates audit reports** (Audit Builder) | Manual compilation for every audit | $30K–$80K |
+| **Identifies gaps in logistics plans** (Gap Finder) | Consultants spending weeks on analysis | $40K–$80K |
 | **Estimates lifecycle costs** (Lifecycle Cost Estimator) | Specialized analysts with spreadsheets | $30K–$80K |
-| **Calculates equipment readiness** (Readiness Calculator) | Manual spreadsheet tracking | $25K–$60K |
-| **Tracks warranties** (Warranty Tracker) | Contract admin digging through file cabinets | $20K–$50K |
+| **Calculates equipment readiness** (Readiness Score) | Manual spreadsheet tracking | $25K–$60K |
 | **Scores compliance** (Compliance Scorecard) | CMMC assessments from consultants | $10K–$35K |
 | **Calculates return on investment** (ROI Calculator) | Hiring a consultant | $10K–$20K |
-| **Cross-references part numbers** (Parts Cross-Ref) | Manual lookups across databases | $15K–$40K |
-| **Manages action items** (Action Items & Alerts) | Meetings, emails, and sticky notes | $10K–$25K |
+| **Manages action items** (Task Prioritizer) | Meetings, emails, and sticky notes | $10K–$25K |
 | **Stores reference documents** (Document Library) | Hunting down MIL-STD documents | $5K–$15K |
 | **AI Assistant** (AI Agent) | Nothing — this capability didn't exist | Brand new capability |
-| **Reviews vendor submissions for errors** (ILIE) | Contractors manually compare new submissions line-by-line against previous versions (40–120 hours each) | $120K–$500K |
+| **Reviews vendor submissions for errors** (Submissions Hub) | Contractors manually compare new submissions line-by-line against previous versions (40–120 hours each) | $120K–$500K |
 | **Imports data from 24 DoW systems** (Defense Database Import) | Manual data reconciliation across GCSS, DPAS, MERLIN, and 21 more | $300K–$500K |
 | **TOTAL** | | **~$1.02M–$2.6M / year** |
 
@@ -175,8 +171,8 @@ This is the "grow fast" phase:
 - Reach 50+ paying customers
 
 **New tools built in this phase:**
-1. **AI Supply Chain Risk Engine** — Predicts when a critical part supplier is going to stop making something, 18–24 months before it happens. Imagine your phone warning you about a car recall before it's announced. Each customer saves $200K–$500K/year.
-2. **Automated Audit Report Generator** — Turn months of audit preparation into one button click. Creates complete, ready-to-submit audit packages. Replaces $45K–$150K of manual labor per audit.
+1. **Risk Radar (AI Supply Chain Risk Engine)** — Predicts when a critical part supplier is going to stop making something, 18–24 months before it happens. Imagine your phone warning you about a car recall before it's announced. Each customer saves $200K–$500K/year.
+2. **Audit Builder (Automated Audit Report Generator)** — Turn months of audit preparation into one button click. Creates complete, ready-to-submit audit packages. Replaces $45K–$150K of manual labor per audit.
 3. **Contract Lifecycle Management** — Tracks every deliverable, deadline, and change in defense contracts. Automatically warns you when things are late or over budget. Avoids $100K–$400K per contract in disputes.
 
 ---
@@ -193,7 +189,7 @@ This is the "go big" phase:
 
 **More tools built in this phase:**
 4. **Digital Thread Bridge** — Connects to the big engineering software platforms (PTC Windchill, Siemens Teamcenter, Dassault 3DEXPERIENCE). Every engineering change gets blockchain-stamped. S4 Ledger becomes the "trust layer" for the entire design-to-retirement lifecycle.
-5. **Predictive Maintenance AI** — Analyzes maintenance data across ALL customers (anonymized) to predict equipment failures before they happen. Like how Google Maps uses everyone's location data to predict traffic — individual records stay private, but patterns help everyone.
+5. **Maintenance Predictor (Predictive Maintenance AI)** — Analyzes maintenance data across ALL customers (anonymized) to predict equipment failures before they happen. Like how Google Maps uses everyone's location data to predict traffic — individual records stay private, but patterns help everyone.
 6. **Classified Cloud Deployment** — Set up S4 Ledger on the military's secret networks (AWS GovCloud, Azure Government Secret). Single contracts here can be $1M–$5M/year.
 
 ---
@@ -280,7 +276,7 @@ Here are the six things your CEO needs to hear:
 The U.S. military spends over **$150 billion a year** on logistics. The software supporting this is mostly outdated, fragmented, and overpriced. No one has built a single, modern platform that handles everything AND proves records haven't been tampered with.
 
 ### 2. We Already Have a Working Product
-This isn't a PowerPoint dream. S4 Ledger is a **live, functional platform** with 20+ tools, a developer toolkit, and real blockchain integration. It cost the company zero dollars to build — Nick built it on his own time.
+This isn't a PowerPoint dream. S4 Ledger is a **live, functional platform** with 23 tools, a developer toolkit, and real blockchain integration. It cost the company zero dollars to build — Nick built it on his own time.
 
 ### 3. The Savings Are Insane
 S4 Ledger saves the government **~$1.02M–$2.6M per program per year**. It costs them **$12K–$120K/year**. That's a **15x to 100x return on investment**. The government does not say no to that kind of math.

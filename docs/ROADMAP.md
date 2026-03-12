@@ -11,7 +11,7 @@
 
 ## Phase 2 — Defense Platform (Q1 – Q2 2026) ✅ Complete
 
-- 20+ tool ILS Workspace (Gap Analysis, DMSMS Tracker, Readiness Calculator, Parts Cross-Reference, ROI Calculator, Lifecycle Cost Estimator, Warranty Tracker, Action Items, Audit Record Vault, Document Library, Compliance Scorecard, Provisioning & PTD Manager, AI Supply Chain Risk Engine, Audit Report Generator, Contract Lifecycle Management, Digital Thread / Config Bridge, Predictive Maintenance AI, Defense Database Import, Integrated Logistics Insights Engine (ILIE), AI Agent)
+- 23 tool ILS Workspace (Gap Finder, Obsolescence Alert, Readiness Score, Compliance Scorecard, Risk Radar, Task Prioritizer, Maintenance Predictor, Lifecycle Cost Estimator, ROI Calculator, Audit Vault, Document Library, Audit Builder, Submissions Hub, SBOM Scanner, Property Custodian, Deliverables Tracker, Contract Analyzer, Chain of Custody, Program Overview, Team Manager, Fleet Optimizer, Milestone Monitor, Brief Composer)
 - 500+ pre-loaded military platforms across the U.S. Navy (500+ platforms, 37 real defense suppliers, 25 DoW contracts)
 - 156+ pre-built record types across 9 branches (USN, USA, USAF, USMC, USCG, DLA, Joint, SOCOM, USSF) (any defense record type supported)
 - NIST 800-171 / CMMC compliance documentation and Compliance Scorecard

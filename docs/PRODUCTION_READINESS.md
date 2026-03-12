@@ -65,9 +65,9 @@ This document tracks every requirement for taking S4 Ledger to a fully productio
 
 | Area | Status | MVP Score | Enterprise Score |
 |------|--------|-----------|-----------------|
-| **Frontend / Demo** | ILS Workspace (unified command center with 20+ ILS tools (hub/card layout)), 20+ ILS tools + action items + AI Agent, universal program support, 156+ pre-built record types across 9 defense branches, PDF/DOCX document parsing, cross-document discrepancy detection, ITAR warning banner, login portal, SDK Playground with 20 interactive function boxes, Metrics dashboard auto-refresh (5s), Transactions page with filters, Treasury Wallet widget, classification banners, dark/light mode, S4 color palette (PMS 325/385), drag-reorder tool cards, first-visit How It Works UX, real QR codes | **98%** | **95%** |
+| **Frontend / Demo** | ILS Workspace (unified command center with 23 ILS tools (hub/card layout)), 23 ILS tools + action items + AI Agent, universal program support, 156+ pre-built record types across 9 defense branches, PDF/DOCX document parsing, cross-document discrepancy detection, ITAR warning banner, login portal, SDK Playground with 20 interactive function boxes, Metrics dashboard auto-refresh (5s), Transactions page with filters, Treasury Wallet widget, classification banners, dark/light mode, S4 color palette (PMS 325/385), drag-reorder tool cards, first-visit How It Works UX, real QR codes | **98%** | **95%** |
 | **API / Backend** | Serverless API v5.12.1, 90+ endpoints including 12 HarborLink integration endpoints, subscription-based SLS provisioning, Stripe payment verification, AI cascade (Azure OpenAI → OpenAI GPT-4o → Anthropic Claude Sonnet → client-side fallback), RAG endpoint, /api/state/save + /api/state/load for Supabase persistence, /api/demo/provision for demo SLS flow, rate limiting, security headers, health check, OpenAPI 3.0 spec, server-side JWT validation | **92%** | **85%** |
-| **XRPL Integration** | $SLS LIVE on XRPL Mainnet (100M total). Full mainnet anchoring live — all 20+ ILS tools anchor to mainnet with explorer links. 3-wallet architecture (Issuer, Treasury, Ops). secp256k1 (Xaman-compatible). 0.01 SLS fee per anchor. | **100%** | **98%** |
+| **XRPL Integration** | $SLS LIVE on XRPL Mainnet (100M total). Full mainnet anchoring live — all 23 ILS tools anchor to mainnet with explorer links. 3-wallet architecture (Issuer, Treasury, Ops). secp256k1 (Xaman-compatible). 0.01 SLS fee per anchor. | **100%** | **98%** |
 | **SDK** | Python SDK with 21 functions including 11 new HarborLink methods (webhooks, composite, batch, custody, proof chain, file hash, bulk verify, org records), CLI tool, CSV/XML/JSON import, encryption, SDK Playground with 20 clickable function boxes | **92%** | **90%** |
 | **Infrastructure** | Vercel deployment, SSL, CDN, PWA manifest, custom 404, security headers, **Supabase PostgreSQL persistence** (43+ tables, user state sync, 100% localStorage coverage), automated database backups, encryption at rest (AES-256 via Supabase), offline queue with client-side encryption — no GovCloud, no multi-region, no external monitoring/APM | **85%** | **70%** |
 | **Authentication** | Real Supabase Auth (sign in, sign up, password reset, session restore), JWT token issuance + server-side JWT validation (_validate_supabase_jwt, _get_auth_user), login portal, API key system, wallet provisioning, subscription-gated SLS delivery, role-based access controls (UI), session state persistence via Supabase, SSO scaffolding (CAC/PIV, Microsoft) — no MFA enforcement, no key rotation | **80%** | **65%** |
@@ -226,11 +226,11 @@ This document tracks every requirement for taking S4 Ledger to a fully productio
 ### 4.2 Migration Execution
 | Item | Status | Priority | Notes |
 |------|--------|----------|-------|
-| Parallel running period | ✅ Complete | **High** | Tested on testnet, migrated to mainnet, verified all 20+ tools |
+| Parallel running period | ✅ Complete | **High** | Tested on testnet, migrated to mainnet, verified all 23 tools |
 | Data migration plan | ✅ Complete | **High** | Testnet anchors documented; fresh start on mainnet with real transactions |
 | Rollback procedures | ✅ Complete | **Critical** | XRPL_NETWORK=testnet env var reverts to testnet instantly |
 | Partner notification plan | ✅ Complete | Medium | Mainnet migration documented in CHANGELOG, MAINNET_MIGRATION.md |
-| Post-migration verification | ✅ Complete | **Critical** | All 20+ ILS tools verified anchoring on mainnet with explorer links |
+| Post-migration verification | ✅ Complete | **Critical** | All 23 ILS tools verified anchoring on mainnet with explorer links |
 
 *See [MAINNET_MIGRATION.md](MAINNET_MIGRATION.md) for the complete step-by-step guide.*
 
@@ -254,7 +254,7 @@ This document tracks every requirement for taking S4 Ledger to a fully productio
 | Item | Status | Priority | Notes |
 |------|--------|----------|-------|
 | Architecture Decision Records (ADRs) | ⬜ Pending | Medium | Document key technical decisions |
-| User Training Guide | ✅ Complete | **High** | USER_TRAINING_GUIDE.md v4.0.4 — plain-English rewrite (high-school readable), all 20+ ILS tools, subscription model, document analysis, FAQ |
+| User Training Guide | ✅ Complete | **High** | USER_TRAINING_GUIDE.md v4.0.4 — plain-English rewrite (high-school readable), all 23 ILS tools, subscription model, document analysis, FAQ |
 | Runbook / Operations manual | ⬜ Pending | **High** | Incident procedures, deployment steps |
 | Disaster recovery plan | ⬜ Pending | **Critical** | RTO/RPO targets, recovery procedures |
 | Business continuity plan | ⬜ Pending | **High** | Key person risk, vendor dependencies |
@@ -290,13 +290,13 @@ This document tracks every requirement for taking S4 Ledger to a fully productio
 | Item | Status | Priority | Notes |
 |------|--------|----------|-------|
 | Landing page | ✅ Active | **Critical** | Trust signals, compliance badges, CTA |
-| Demo App | ✅ Active | **Critical** | 20+ ILS tools, 156+ pre-built record types across 9 defense branches, 20+ ILS tools in hub/card workspace |
+| Demo App | ✅ Active | **Critical** | 23 ILS tools, 156+ pre-built record types across 9 defense branches, 23 ILS tools in hub/card workspace |
 | SDK Playground | ✅ Active | **Critical** | Interactive with live API, 500+ platform selector, hull/designation + program office input |
 | Live Metrics dashboard | ✅ Active | **High** | Real-time with Chart.js, platform filter |
 | Transaction browser | ✅ Active | **High** | Filters, pagination, CSV export, platform filter |
 | Investor portal | ✅ Active | **High** | Market opportunity, tokenomics |
-| Audit Record Vault | ✅ Active | **High** | Auto-saves all anchored records for audit |
-| Defense Doc Library | ✅ Active | **High** | 100+ real MIL-STDs, OPNAVINSTs, DoW refs |
+| Audit Vault | ✅ Active | **High** | Auto-saves all anchored records for audit |
+| Document Library | ✅ Active | **High** | 100+ real MIL-STDs, OPNAVINSTs, DoW refs |
 | Compliance Scorecard | ✅ Active | **High** | CMMC/NIST/DFARS/FAR/ILS/DMSMS scoring |
 | Terms of Service page | ✅ Active | **Critical** | s4-terms/ |
 | Privacy Policy page | ✅ Active | **Critical** | s4-privacy/ |
@@ -382,8 +382,8 @@ This document tracks every requirement for taking S4 Ledger to a fully productio
 - [x] Landing page ILS Analyzer showcase ✅
 - [x] OpenAPI 3.0 spec ✅ (v3.9.8 — all 90+ endpoints documented)
 - [x] Security response headers ✅ (v3.2 — HSTS, X-Frame-Options, CSP, X-XSS-Protection)
-- [x] DMSMS/Obsolescence Tracker ✅ (v3.2 — per-program tracking with real component data)
-- [x] Readiness Calculator (Ao/MTBF/MTTR) ✅ (v3.2 — full RAM analysis per MIL-STD-1390D)
+- [x] Obsolescence Alert ✅ (v3.2 — per-program tracking with real component data)
+- [x] Readiness Score (Ao/MTBF/MTTR) ✅ (v3.2 — full RAM analysis per MIL-STD-1390D)
 - [x] Conversational AI Agent ✅ (v3.2 — memory, follow-ups, contextual responses, 30+ capabilities)
 
 ---
@@ -391,30 +391,30 @@ This document tracks every requirement for taking S4 Ledger to a fully productio
 ## 11. v3.8.x Changelog (Latest)
 
 ### v3.8.6 — Polish, Real Data, Financial Math
-- [x] **5 New ILS Tools Integrated** — AI Supply Chain Risk Engine (35+ platforms, 37 suppliers), Automated Audit Report Generator (6 report types), Contract Lifecycle Management (25 real DoW contracts), Digital Thread / Config Bridge (32 platform configs), Predictive Maintenance AI (40+ platforms with fleet sizes)
+- [x] **5 New ILS Tools Integrated** — Risk Radar (35+ platforms, 37 suppliers), Audit Builder (6 report types), Contract Lifecycle Management (25 real DoW contracts), Digital Thread / Config Bridge (32 platform configs), Maintenance Predictor (40+ platforms with fleet sizes)
 - [x] **Real DoW Dropdown Data** — All tool dropdowns populated with researched real platforms, contract numbers (N00024, FA8615, W58RGZ formats), platform variants (Flight IIA/III, Block IV/V, SEPv3/v4), fleet sizes, and 37 real defense suppliers
 - [x] **Custom Nautical Animation** — Replaced particles.js with zero-dependency canvas animation (floating anchors, chain links, hex hash fragments, wave lines)
-- [x] **Financial Math Updated** — 20+ tool savings recalculated: ~$1.02M–$2.6M per program/year, 15–100x ROI, ~$1.02B–$2.6B at 1,000 programs
-- [x] **API v3.8.6** — 90+ endpoints, 20+ tool handlers, health endpoint updated
+- [x] **Financial Math Updated** — 23 tool savings recalculated: ~$1.02M–$2.6M per program/year, 15–100x ROI, ~$1.02B–$2.6B at 1,000 programs
+- [x] **API v3.8.6** — 90+ endpoints, 23 tool handlers, health endpoint updated
 - [x] **Compliance Grade Enhanced** — Larger font (1.3rem/900-weight), gradient background, glow effects
 - [x] **How It Works Repositioned** — Collapsible boxes moved under Anchor/Verify headings for better UX
 - [x] **Marketplace Dates Fixed** — Future roadmap items updated to Q3 2026–Q1 2027
-- [x] **All Documentation Synced** — WHITEPAPER, PRODUCTION_READINESS, MAINNET_MIGRATION, BILLION_DOLLAR_ROADMAP, Internal Pitch, Exec Proposal, Investor Pitch updated with 20+ tool counts and v3.9.9 stamps
+- [x] **All Documentation Synced** — WHITEPAPER, PRODUCTION_READINESS, MAINNET_MIGRATION, BILLION_DOLLAR_ROADMAP, Internal Pitch, Exec Proposal, Investor Pitch updated with 23 tool counts and v3.9.9 stamps
 
 ### v3.8.5 — 5 New ILS Tools + Developer Marketplace
-- [x] AI Supply Chain Risk Engine, Audit Report Generator, Contract Lifecycle Management, Digital Thread/Config Bridge, Predictive Maintenance AI
+- [x] Risk Radar, Audit Builder, Contract Lifecycle Management, Digital Thread/Config Bridge, Maintenance Predictor
 - [x] Developer Marketplace at s4-marketplace/
 - [x] 5 new API routes
 
 ### v3.7.0 Changelog
 
 ### New ILS Workspace Tools
-- [x] **Audit Record Vault** — Client-side audit trail store. Every record anchored via any workspace tool is automatically saved with content + SHA-256 hash + TX hash. Search, filter by date, re-verify, export CSV/XLSX, and clear. Zero server-side storage — all data in browser localStorage.
+- [x] **Audit Vault** — Client-side audit trail store. Every record anchored via any workspace tool is automatically saved with content + SHA-256 hash + TX hash. Search, filter by date, re-verify, export CSV/XLSX, and clear. Zero server-side storage — all data in browser localStorage.
 - [x] **Defense Document Reference Library** — Searchable database of 100+ real defense documents loaded from `s4-assets/defense-docs.js`: MIL-STDs (810H, 882E, 881F, 1388-2B, 461G, etc.), OPNAVINSTs (4790.4F, 4441.12G, 5100.23H), DoD Directives (5000.01, 5000.02, 4140.01), NAVSEA/NAVAIR/NAVSUP manuals, FAR/DFARS clauses, NIST frameworks (800-171, 800-53, CMMC v2.0), all 9 branch regulations, DMSMS standards, CDRLs, and ILS element references. Filterable by branch and category with full-text search.
 - [x] **Compliance Scorecard** — Real-time multi-framework compliance calculator scoring CMMC Level 2 (25%), NIST 800-171 (20%), DFARS 252.204 (15%), FAR 46 Quality (15%), MIL-STD-1388 ILS (15%), DoDI 4245.15 DMSMS (10%). SVG ring chart with animated arc, letter grades (A+ through F), actionable recommendations, export to XLSX, and anchor scorecard to XRPL.
 
 ### Vault Integration
-- [x] **Auto-Vault for All Anchors** — All 19 anchor functions now auto-save to the Audit Record Vault with explorer links and network badges
+- [x] **Auto-Vault for All Anchors** — All 19 anchor functions now auto-save to the Audit Vault with explorer links and network badges
 - [x] **Workspace Notifications** — Toast-style notification system for vault saves and bulk operations
 
 ### UX Enhancements
@@ -427,15 +427,15 @@ This document tracks every requirement for taking S4 Ledger to a fully productio
 - [x] **Enhanced Tooltips** — `tooltip-enhanced` with `data-tip` for contextual help
 
 ### BAA / Agreement Updates
-- [x] **DDIA v2.0** — BAA_TEMPLATE.md updated with Audit Vault, Doc Library, Compliance Scorecard, and all 20+ ILS Workspace tools listed
+- [x] **DDIA v2.0** — BAA_TEMPLATE.md updated with Audit Vault, Doc Library, Compliance Scorecard, and all 23 ILS Workspace tools listed
 
 ---
 
 ## 12. v3.2.0 Changelog
 
 ### New Tools & Products
-- [x] **DMSMS / Obsolescence Tracker** — Track Diminishing Manufacturing Sources and Material Shortages per DoDI 4245.14. Per-program tracking using real component data (NSNs, manufacturers, lead times). Severity assessment, alternate source identification, resolution cost estimation. Export to CSV, anchor to XRPL.
-- [x] **Operational Readiness Calculator** — Calculate Ao (Operational Availability), Ai (Inherent Availability), MTBF, MTTR, MLDT, failure rate, and mission reliability per MIL-STD-1390D. Pre-loaded defaults for DDG-51, LCS, CVN-78, FFG-62, F-35, M1A2, AH-64E, HIMARS, KC-46A. Assessment ratings from Excellent to Critical. Export RAM reports, anchor to XRPL.
+- [x] **Obsolescence Alert (DMSMS Tracker)** — Track Diminishing Manufacturing Sources and Material Shortages per DoDI 4245.14. Per-program tracking using real component data (NSNs, manufacturers, lead times). Severity assessment, alternate source identification, resolution cost estimation. Export to CSV, anchor to XRPL.
+- [x] **Readiness Score** — Calculate Ao (Operational Availability), Ai (Inherent Availability), MTBF, MTTR, MLDT, failure rate, and mission reliability per MIL-STD-1390D. Pre-loaded defaults for DDG-51, LCS, CVN-78, FFG-62, F-35, M1A2, AH-64E, HIMARS, KC-46A. Assessment ratings from Excellent to Critical. Export RAM reports, anchor to XRPL.
 - [x] **NSN / Parts Cross-Reference** — National Stock Number lookup, CAGE code search, part name search, alternate/substitute part identification, cross-program part availability. 150+ parts from PROG_COMPONENTS database with manufacturer CAGE code mapping, FSC group classification, pricing, and stock status. Export parts lists, anchor to XRPL.
 
 ### Conversational AI Agent
@@ -464,7 +464,7 @@ This document tracks every requirement for taking S4 Ledger to a fully productio
 - [x] **Realistic Sample Documents** — Program-specific component data (systems, NSNs, manufacturers) used across all sample document generators for DDG-51, LCS, CVN-78, FFG-62, F-35, CH-53K, M1A2, Stryker, AH-64E, HIMARS, F-35A, KC-46A, B-21, C-17, GPS III, SBIRS, NSC, OPC, FRC, ACV
 - [x] **"Platform Type" Wording** — "Select Program / Vessel Type" updated to "Select Program / Platform Type" to be branch-neutral
 - [x] **"ILS Deliverables" Wording** — Landing page updated from "DI number gap detection" to "ILS deliverables gap detection"
-- [x] **Landing Page Explore Cards** — 3 new cards for DMSMS Tracker, Readiness Calculator, Parts Cross-Reference (12 total cards)
+- [x] **Landing Page Explore Cards** — 3 new cards for Obsolescence Alert, Readiness Score, Parts Cross-Reference (12 total cards)
 
 ## 12. v3.1.0 Changelog
 
@@ -498,7 +498,7 @@ This document tracks every requirement for taking S4 Ledger to a fully productio
 ---
 
 ## v12 Production Updates (2026-02-22)
-- 20+ ILS tools (added SBOM Viewer)
+- 23 ILS tools (added SBOM Scanner)
 - 34 Navy programs across 11 categories
 - AI Threat Scoring, Failure Timeline, Digital Thread, Collaboration, Zero-Trust Watermark
 - All charts now reactive to input changes
@@ -523,4 +523,4 @@ This document tracks every requirement for taking S4 Ledger to a fully productio
 - [x] **Custom program persistence** (localStorage)
 - [x] **/api/state/save and /api/state/load** endpoints added
 - [x] **user_state migration SQL** (supabase/migrations/005_user_state_table.sql)
-- [x] **50+ markdown docs audited** — tool counts (20+), branches (9 defense branches), CMMC L2-ready, FedRAMP/IL4
+- [x] **50+ markdown docs audited** — tool counts (23), branches (9 defense branches), CMMC L2-ready, FedRAMP/IL4

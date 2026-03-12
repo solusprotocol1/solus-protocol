@@ -25,31 +25,34 @@ Re-verify any record against its chain anchor. Instant tamper detection.
 - **Batch verification** — Verify multiple files at once with export report
 - **Visual tamper indicator** — Immediate red/green status
 
-### 3. 20+ ILS Workspace Tools
+### 3. 23 ILS Workspace Tools
 Full Integrated Logistics Support workspace:
 
 | Tool | Description |
 |------|-------------|
-| Gap Analysis | Upload DRL/CDRL, auto-detect compliance gaps |
-| DMSMS Tracker | Obsolescence tracking across 500+ platforms |
-| Readiness Calculator | Ao, MTBF, MTTR calculations |
+| Gap Finder | Upload DRL/CDRL, auto-detect compliance gaps |
+| Obsolescence Alert | Obsolescence tracking across 500+ platforms |
+| Readiness Score | Ao, MTBF, MTTR calculations |
 | Compliance Scorecard | Auto-scored across 6 frameworks |
-| Supply Chain Risk Engine | ML-powered risk scoring, GIDEP integration |
-| Action Items | Track corrective actions with severity/owners |
-| Predictive Maintenance | AI-driven failure prediction |
-| Lifecycle Cost | Total ownership cost estimation |
+| Risk Radar | ML-powered risk scoring, GIDEP integration |
+| Task Prioritizer | Track corrective actions with severity/owners |
+| Maintenance Predictor | AI-driven failure prediction |
+| Lifecycle Cost Estimator | Total ownership cost estimation |
 | ROI Calculator | Cost-benefit analysis for ILS investments |
-| Audit Record Vault | Blockchain-verified record storage |
-| Defense Document Library | 100+ searchable MIL-STDs, regulations |
-| Audit Report Generator | DCMA-ready compliance packages |
-| Submission Review (ILIE) | Line-by-line discrepancy detection |
-| SBOM Viewer | Software Bill of Materials analysis and vulnerability tracking |
-| GFP Tracker | Government Furnished Property accountability |
-| CDRL Validator | Contract Data Requirements List compliance checking |
-| Contract Extractor | AI-powered contract clause extraction |
-| Provenance Chain | End-to-end supply chain provenance tracking |
-| Cross-Program Analytics | Multi-program trend analysis and benchmarking |
-| Team Management | Role-based access and team collaboration |
+| Audit Vault | Blockchain-verified record storage |
+| Document Library | 100+ searchable MIL-STDs, regulations |
+| Audit Builder | DCMA-ready compliance packages |
+| Submissions Hub | Line-by-line discrepancy detection |
+| SBOM Scanner | Software Bill of Materials analysis and vulnerability tracking |
+| Property Custodian | Government Furnished Property accountability |
+| Deliverables Tracker | Contract Data Requirements List compliance checking |
+| Contract Analyzer | AI-powered contract clause extraction |
+| Chain of Custody | End-to-end supply chain provenance tracking |
+| Program Overview | Multi-program trend analysis and benchmarking |
+| Team Manager | Role-based access and team collaboration |
+| Fleet Optimizer | Fleet acquisition and sustainment analysis |
+| Milestone Monitor | Program milestone tracking and readiness |
+| Brief Composer | Automated briefing and report generation |
 
 ### 4. AI Agent (S4 Agent)
 Full-featured AI assistant specializing in defense logistics:
@@ -189,10 +192,10 @@ curl -X POST https://s4ledger.com/api/anchor \
 
 | Plan | Monthly | SLS/mo | Anchors | AI Queries | ILS Tools |
 |------|---------|--------|---------|------------|-----------|
-| Pilot | Free | 100 | 10,000 | 50 | 20+ |
-| Starter | $999 | 25,000 | 2,500,000 | 500 | 20+ |
-| Professional | $2,499 | 100,000 | 10,000,000 | Unlimited | 20+ |
-| Enterprise | $9,999 | 500,000 | 50,000,000 | Unlimited | 20+ + HarborLink |
+| Pilot | Free | 100 | 10,000 | 50 | 23 |
+| Starter | $999 | 25,000 | 2,500,000 | 500 | 23 |
+| Professional | $2,499 | 100,000 | 10,000,000 | Unlimited | 23 |
+| Enterprise | $9,999 | 500,000 | 50,000,000 | Unlimited | 23 + HarborLink |
 
 ---
 

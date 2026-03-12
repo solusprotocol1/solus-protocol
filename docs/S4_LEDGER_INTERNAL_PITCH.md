@@ -30,23 +30,23 @@ This is where it gets really practical for day-to-day ILS work. Instead of maint
 
 | What You'd Normally Use | What S4 Ledger Replaces It With | Saves |
 |------------------------|-------------------------------|-------|
-| A spreadsheet tracking which parts are going obsolete | **DMSMS Tracker** — shows you which parts are at risk, suggests alternatives | $60K–$200K/yr |
-| A calculator for figuring out equipment readiness rates | **Readiness Calculator** — plug in your MTBF/MTTR numbers, get Ao/Ai instantly | $25K–$60K/yr |
+| A spreadsheet tracking which parts are going obsolete | **Obsolescence Alert** — shows you which parts are at risk, suggests alternatives | $60K–$200K/yr |
+| A calculator for figuring out equipment readiness rates | **Readiness Score** — plug in your MTBF/MTTR numbers, get Ao/Ai instantly | $25K–$60K/yr |
 | A separate sheet estimating total ownership costs | **Lifecycle Cost Estimator** — follows DoD 5000.73 methodology | $30K–$80K/yr |
 | A manual log of warranty expirations | (Now in **HarborLink**) | — |
 | An Excel ROI model | **ROI Calculator** — shows leadership the dollar value of using S4 Ledger | $10K–$20K/yr |
-| A shared to-do list for ILS issues | **Action Items** — auto-generates tasks from all the other tools, tracks severity, assigns people | $10K–$25K/yr |
-| A checklist for data package completeness | **Gap Analysis** — checks your ILS data package against MIL-STD requirements and tells you what's missing | $40K–$80K/yr |
-| Printing and filing every anchored record for auditors | **Audit Record Vault** — automatically saves every record you anchor, searchable, exportable. Lives in your browser, never on someone else's server | $45K–$150K/yr |
-| Hunting through binders for the right MIL-STD reference | **Defense Document Library** — 100+ real defense docs (MIL-STDs, OPNAVINSTs, DoD Directives) searchable by branch and category | $5K–$15K/yr |
+| A shared to-do list for ILS issues | **Task Prioritizer** — auto-generates tasks from all the other tools, tracks severity, assigns people | $10K–$25K/yr |
+| A checklist for data package completeness | **Gap Finder** — checks your ILS data package against MIL-STD requirements and tells you what's missing | $40K–$80K/yr |
+| Printing and filing every anchored record for auditors | **Audit Vault** — automatically saves every record you anchor, searchable, exportable. Lives in your browser, never on someone else's server | $45K–$150K/yr |
+| Hunting through binders for the right MIL-STD reference | **Document Library** — 100+ real defense docs (MIL-STDs, OPNAVINSTs, DoD Directives) searchable by branch and category | $5K–$15K/yr |
 | A manual compliance checklist before audits | **Compliance Scorecard** — real-time grade (A+ through F) across CMMC, NIST, DFARS. Shows exactly what's passing and what needs work | $10K–$35K/yr |
-| Calling 5 people to check if a supplier is at risk | **AI Supply Chain Risk Engine** — scans 37 real defense suppliers across 35+ platforms. Flags risks (GIDEP alerts, lead time spikes, financial distress) before they become crises | $75K–$200K/yr |
-| Spending weeks assembling audit packages by hand | **Audit Report Generator** — one button, six report types, done in seconds instead of weeks. Compliance scores baked in. Hash-anchored so auditors can verify the report itself | $30K–$80K/yr |
-| Guessing when equipment will fail based on gut feeling | **Predictive Maintenance AI** — analyzes failure patterns across 40+ platforms with real fleet sizes. Tells you what's likely to fail, when, and what it'll cost if you don't act. Turns reactive maintenance into proactive planning | $80K–$250K/yr |
+| Calling 5 people to check if a supplier is at risk | **Risk Radar** — scans 37 real defense suppliers across 35+ platforms. Flags risks (GIDEP alerts, lead time spikes, financial distress) before they become crises | $75K–$200K/yr |
+| Spending weeks assembling audit packages by hand | **Audit Builder** — one button, six report types, done in seconds instead of weeks. Compliance scores baked in. Hash-anchored so auditors can verify the report itself | $30K–$80K/yr |
+| Guessing when equipment will fail based on gut feeling | **Maintenance Predictor** — analyzes failure patterns across 40+ platforms with real fleet sizes. Tells you what's likely to fail, when, and what it'll cost if you don't act. Turns reactive maintenance into proactive planning | $80K–$250K/yr |
 
-| Contractors manually reviewing every vendor submission line-by-line for errors | **Submissions & PTD** — Upload vendor submissions (spares lists, config drawings, BOMs, ECPs, 24+ types), auto-compare against previous versions, get severity-rated discrepancy reports with cost anomalies, new/removed components, and red flags. Leadership-ready reports in seconds. | $120K–$500K/yr |
+| Contractors manually reviewing every vendor submission line-by-line for errors | **Submissions Hub** — Upload vendor submissions (spares lists, config drawings, BOMs, ECPs, 24+ types), auto-compare against previous versions, get severity-rated discrepancy reports with cost anomalies, new/removed components, and red flags. Leadership-ready reports in seconds. | $120K–$500K/yr |
 
-All 20+ tools talk to each other. When the DMSMS Tracker finds an obsolete part, it automatically creates an action item. When a warranty is about to expire, it shows up on the calendar AND triggers an alert. When Supply Chain Risk flags a supplier issue, it connects to the affected contracts and parts.
+All 23 tools talk to each other. When the Obsolescence Alert finds an obsolete part, it automatically creates an action item. When a warranty is about to expire, it shows up on the calendar AND triggers an alert. When Risk Radar flags a supplier issue, it connects to the affected contracts and parts.
 
 ---
 
@@ -72,7 +72,7 @@ All 20+ tools talk to each other. When the DMSMS Tracker finds an obsolete part,
 | Capability | S4 Ledger | Palantir Foundry | Anduril Lattice | SAP S/4HANA | Oracle NetSuite | Spreadsheets / SharePoint |
 |---|---|---|---|---|---|---|
 | **What they do** | ILS platform + tamper-proof records | Data analytics / AI | Autonomous systems / C2 | Enterprise ERP | Cloud ERP / SCM | Manual tracking |
-| **Defense ILS tools** | 20+ purpose-built ILS tools | None — analytics only | None — hardware/autonomy | Generic — not ILS-specific | Generic — not ILS-specific | None |
+| **Defense ILS tools** | 23 purpose-built ILS tools | None — analytics only | None — hardware/autonomy | Generic — not ILS-specific | Generic — not ILS-specific | None |
 | **Tamper-proof records** | Yes — SHA-256 on XRPL blockchain | No blockchain | No blockchain | No blockchain | No blockchain | No |
 | **Data stays off-chain** | Yes — only fingerprints on-chain | N/A | N/A | N/A | N/A | N/A |
 | **CMMC/NIST compliance built-in** | Yes — Compliance Scorecard | Partial | No | Partial (add-on) | Partial (add-on) | No |
@@ -106,9 +106,9 @@ Most blockchain companies focus on cryptocurrency or consumer supply chains (tra
 Everything described above is **live and working right now** at [s4ledger.com](https://s4ledger.com). It was built by Nick Frankfort on his own time at zero cost to the company. The tech stack:
 
 - **Website:** 25+ pages, fully branded
-- **Demo App:** All 20+ ILS Workspace tools working, 156+ pre-built record types across 9 branches (USN, USA, USAF, USMC, USCG, DLA, Joint, SOCOM, USSF) (supports any defense record type), 500+ pre-loaded military platforms, real DoW data in all dropdowns (35+ platforms, 25 contracts, 37 suppliers)
-- **Audit Record Vault:** Automatically stores every anchored record with content + hash for instant auditing
-- **Defense Document Library:** 100+ real MIL-STDs, OPNAVINSTs, DoD Directives searchable by branch and category
+- **Demo App:** All 23 ILS Workspace tools working, 156+ pre-built record types across 9 branches (USN, USA, USAF, USMC, USCG, DLA, Joint, SOCOM, USSF) (supports any defense record type), 500+ pre-loaded military platforms, real DoW data in all dropdowns (35+ platforms, 25 contracts, 37 suppliers)
+- **Audit Vault:** Automatically stores every anchored record with content + hash for instant auditing
+- **Document Library:** 100+ real MIL-STDs, OPNAVINSTs, DoD Directives searchable by branch and category
 - **Compliance Scorecard:** Real-time CMMC/NIST/DFARS compliance calculator with letter grades
 - **API:** 90+ working endpoints that other software can connect to
 - **SDK:** A Python toolkit developers can use to plug S4 Ledger into existing systems

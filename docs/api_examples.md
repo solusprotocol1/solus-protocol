@@ -133,7 +133,7 @@ curl -X POST https://s4ledger.com/api/defense/task \
   }'
 ```
 
-## ILS Gap Analysis (cURL)
+## ILS Gap Finder (cURL)
 
 ```bash
 curl https://s4ledger.com/api/ils/gap-analysis \

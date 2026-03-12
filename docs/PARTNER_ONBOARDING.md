@@ -46,7 +46,7 @@ For onboarding help: info@s4ledger.com | [s4ledger.com](https://s4ledger.com)
 ---
 
 ## v12 Partner Update (2026-02-22)
-- Platform now includes 20+ ILS tools (added SBOM Viewer)
+- Platform now includes 23 ILS tools (added SBOM Scanner)
 - 34 Navy programs available for partner evaluation
 - AI Threat Scoring and Failure Timeline enhance risk management demos
 - Zero-Trust Audit Watermark on all exports strengthens compliance positioning

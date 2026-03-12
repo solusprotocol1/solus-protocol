@@ -41,7 +41,7 @@ Keep these in your back pocket. Use them in order.
 
 ### 2. We Already Have a Working Product
 
-> "This isn't a concept or a slide deck. I built a fully working platform with 20+ defense logistics tools, a Python SDK, REST API, and blockchain-verified audit trails. It's live at s4ledger.com right now. It cost the company zero dollars."
+> "This isn't a concept or a slide deck. I built a fully working platform with 23 defense logistics tools, a Python SDK, REST API, and blockchain-verified audit trails. It's live at s4ledger.com right now. It cost the company zero dollars."
 
 **Why this works:** CEOs hear pitches for vaporware all the time. Showing a working product built at no cost is the opposite of risk — it's pure upside.
 
@@ -118,8 +118,8 @@ If you get 10 minutes with a screen, here's the flow:
 
 1. **Open s4ledger.com/demo-app** — Show the ILS Workspace
 2. **Pick a real platform** (DDG-51, F-35, CVN-78) — "These are real program entities"
-3. **Run the DMSMS Tracker** — Show how it flags obsolescence in seconds vs. days of manual GIDEP searching
-4. **Run the Readiness Calculator** — Show real Ao/Ai/MTBF numbers generating instantly
+3. **Run the Obsolescence Alert** — Show how it flags obsolescence in seconds vs. days of manual GIDEP searching
+4. **Run the Readiness Score** — Show real Ao/Ai/MTBF numbers generating instantly
 5. **Anchor a record** — Click "Anchor to XRPL" and show the 3-second blockchain confirmation
 6. **Show the Audit Vault** — "Every anchored record is automatically stored with proof"
 7. **Show the transaction on XRPL** — Open the Livenet Explorer link. "This is permanent, public, tamper-proof. Anyone can verify it."
@@ -154,7 +154,7 @@ If the CEO says no:
 | Per-program savings | $1.02M–$2.6M/year |
 | S4 Ledger cost | $12K–$120K/year |
 | ROI for government | 15–100x |
-| ILS tools built | 20+ |
+| ILS tools built | 23 |
 | SDK functions | 21 |
 | API endpoints | 90+ |
 | Pre-loaded platforms | 500+ across 9 defense branches |

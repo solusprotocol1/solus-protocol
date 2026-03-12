@@ -19,7 +19,7 @@ S4 Ledger is ready to pitch as a **working prototype with real blockchain integr
 | Capability | Live Demo? | Description |
 |-----------|-----------|-------------|
 | **XRPL anchoring** | ✅ Yes | Hash any record → anchor to XRP Ledger → get immutable TX ID. This is real, verifiable, on-chain. |
-| **20+ ILS tools** | ✅ Yes | Gap Analysis, DMSMS, Readiness, Parts, ROI, Compliance, Contracts, etc. — all render and produce results |
+| **23 ILS tools** | ✅ Yes | Gap Finder, Obsolescence Alert, Readiness Score, Compliance, ROI, Contracts, etc. — all render and produce results |
 | **File upload** | ✅ Yes | Drag-and-drop CSV, XLSX, PDF, DOCX — parsed client-side, no data leaves the browser |
 | **SLS token economy** | ✅ Yes | Real XRPL wallet provisioning, TrustLine setup, SLS delivery from Treasury |
 | **AI Agent** | ✅ Yes | LLM-powered defense logistics assistant (if API keys configured) with regex fallback |
@@ -43,7 +43,7 @@ S4 Ledger is ready to pitch as a **working prototype with real blockchain integr
 
 2. **Solution** (3 min): S4 Ledger hashes every logistics record and anchors it to the XRP Ledger. Immutable proof of every decision. One-click audit readiness.
 
-3. **Live Demo** (5 min): Show Gap Analysis with a real platform → upload a file → run analysis → anchor to XRPL → show TX on ledger → verify the hash. This is the money demo — it's all real.
+3. **Live Demo** (5 min): Show Gap Finder with a real platform → upload a file → run analysis → anchor to XRPL → show TX on ledger → verify the hash. This is the money demo — it's all real.
 
 4. **Market** (2 min): $15B+ defense logistics software market. 6,000+ defense contractors need ILS management. No one else offers blockchain-anchored records.
 
@@ -111,7 +111,7 @@ The defense logistics software market has no direct competitor doing what S4 Led
 - **Defense customers**: Every major defense prime
 - **ILS overlap**: Maintenance planning, supply management, procurement
 - **Why they're not a direct threat**: SAP implementations cost $1M–$50M+. Take 12-36 months. Require armies of consultants. SAP does the "big ERP" — S4 Ledger does the "last mile" of ILS management that SAP doesn't touch (document-level anchoring, blockchain immutability, per-record audit trails).
-- **S4 Ledger advantage**: $999/mo vs $1M+ implementation. 20+ ILS-specific tools vs generic ERP. Blockchain anchoring vs database records.
+- **S4 Ledger advantage**: $999/mo vs $1M+ implementation. 23 ILS-specific tools vs generic ERP. Blockchain anchoring vs database records.
 
 #### Oracle Federal — Similar to SAP
 - **ILS overlap**: Similar to SAP — enterprise ERP, not ILS-specific
@@ -144,7 +144,7 @@ The defense logistics software market has no direct competitor doing what S4 Led
 - **Key fact**: $24M funding, strong pedigree (Palantir DNA), focused on modernizing defense logistics
 - **ILS overlap**: Logistics optimization, predictive maintenance
 - **Risk**: If Rune pivots to ILS record management with blockchain, they'd be a direct competitor with more funding
-- **S4 Ledger advantage**: Rune is focused on AI/ML analytics, not record immutability. S4 has deeper ILS element coverage via the 20+ tool workspace. Rune doesn't use blockchain anchoring.
+- **S4 Ledger advantage**: Rune is focused on AI/ML analytics, not record immutability. S4 has deeper ILS element coverage via the 23 tool workspace. Rune doesn't use blockchain anchoring.
 
 ### Competitive Positioning Matrix
 

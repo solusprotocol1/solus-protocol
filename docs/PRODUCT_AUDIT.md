@@ -60,18 +60,18 @@ S4 Ledger is a **sophisticated, well-architected platform with real XRPL blockch
 
 ---
 
-## 2. ILS Workspace — 20+ purpose-built ILS tools
+## 2. ILS Workspace — 23 purpose-built ILS tools
 
 ### Tools That Genuinely Work
 
 | Tool | What Works | What's Simulated |
 |------|-----------|-----------------|
-| **ILS Gap Analysis** | File upload (CSV/XLSX/PDF/DOCX) → keyword matching → readiness scoring → anchor. Per-program checklists (PMS 300, DDG-51, LCS, etc.) with real DRL items | Checklist items are curated samples, not complete program baselines |
-| **Readiness Calculator** | User inputs MTBF/MTTR/MLDT → real Ao/Ai calculation per MIL-STD-1390D → export → anchor | Pre-loaded values are representative ranges, not from FRACAS databases |
+| **Gap Finder** | File upload (CSV/XLSX/PDF/DOCX) → keyword matching → readiness scoring → anchor. Per-program checklists (PMS 300, DDG-51, LCS, etc.) with real DRL items | Checklist items are curated samples, not complete program baselines |
+| **Readiness Score** | User inputs MTBF/MTTR/MLDT → real Ao/Ai calculation per MIL-STD-1390D → export → anchor | Pre-loaded values are representative ranges, not from FRACAS databases |
 | **ROI Calculator** | All inputs editable, real math, real-time output | Representative cost assumptions |
 | **Lifecycle Cost Estimator** | 20-year projection from user inputs per DoD 5000.73 | O&S growth rates are estimates |
 | **Compliance Scorecard** | Auto-calculated from workspace activity across 6 frameworks | Scoring weights are representative |
-| **Defense Doc Library** | 100+ real MIL-STD/OPNAVINST references with search | Static reference data |
+| **Document Library** | 100+ real MIL-STD/OPNAVINST references with search | Static reference data |
 | **Quick Anchor** | Hash any text → anchor → get XRPL TX ID | N/A — fully real |
 | **Hash Calculator** | SHA-256 of any input | N/A — fully real |
 | **Wallet Manager** | Real XRPL balance queries, TrustLine status | Requires wallet env vars |
@@ -83,7 +83,7 @@ S4 Ledger is a **sophisticated, well-architected platform with real XRPL blockch
 
 | Tool | What It Shows | Data Source |
 |------|-------------|-------------|
-| **DMSMS Tracker** | Parts with Active/At Risk/Obsolete status, resolution costs | `generateDMSMSData()` — deterministic simulation |
+| **Obsolescence Alert** | Parts with Active/At Risk/Obsolete status, resolution costs | `generateDMSMSData()` — deterministic simulation |
 | **Supply Chain Risk** | Risk scores for 10 parts | Hardcoded scores |
 | **Predictive Maintenance** | 4 predictions | Hardcoded |
 
@@ -141,7 +141,7 @@ S4 Ledger is a **sophisticated, well-architected platform with real XRPL blockch
 5. **AI Agent system prompt** — 200+ lines of accurate defense-specific ILS guidance
 6. **Security headers** — HSTS, CSP, X-Frame-Options, Referrer-Policy all properly configured in vercel.json
 7. **All export buttons produce real downloadable files**
-8. **Gap Analysis** with per-program checklists is the most production-ready ILS feature
+8. **Gap Finder** with per-program checklists is the most production-ready ILS feature
 
 ---
 

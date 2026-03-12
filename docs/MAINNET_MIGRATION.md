@@ -1,6 +1,6 @@
 # S4 Ledger — XRPL Mainnet Migration Guide
 
-> **Status:** **$SLS Token: LIVE on XRPL Mainnet.** Token issuance, trustlines, and AMM pools are operational. COMPLETE — All 20+ ILS tools anchor to XRPL Mainnet with explorer links (v4.0) server-side signing deployment (see Section 2).
+> **Status:** **$SLS Token: LIVE on XRPL Mainnet.** Token issuance, trustlines, and AMM pools are operational. COMPLETE — All 23 ILS tools anchor to XRPL Mainnet with explorer links (v4.0) server-side signing deployment (see Section 2).
 
 ---
 
@@ -39,7 +39,7 @@
 31. [Enhanced Scheduling System (v2.10.4)](#31-enhanced-scheduling-system-v2104)
 32. [Platform Database & New Tools (v3.3.0)](#32-platform-database--new-tools-v330)
 33. [ILS Workspace & Cross-Tool Integration (v3.5.0)](#33-ils-intelligence-hub--cross-tool-integration-v350)
-34. [Audit Record Vault, Defense Document Library & Compliance Scorecard (v3.7.0)](#34-audit-record-vault-defense-document-library--compliance-scorecard-v370)
+34. [Audit Vault, Document Library & Compliance Scorecard (v3.7.0)](#34-audit-record-vault-defense-document-library--compliance-scorecard-v370)
 
 ---
 

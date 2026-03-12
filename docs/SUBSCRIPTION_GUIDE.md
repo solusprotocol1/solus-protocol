@@ -28,28 +28,35 @@ Instead of filing records in spreadsheets that can be altered, lost, or disputed
 
 ---
 
-## The ILS Workspace — 20+ Tools Included
+## The ILS Workspace — 23 Tools Included
 
 Every subscription tier includes access to the full ILS Workspace:
 
 | # | Tool | What It Does |
 |---|------|-------------|
-| 1 | **ILS Gap Analysis** | Upload DRLs, DI docs, provisioning data — get automated readiness scoring across all 12 ILS elements |
-| 2 | **DMSMS Tracker** | Track obsolescence cases, at-risk parts, resolution costs, and anchor decisions per DoDI 4245.14 |
-| 3 | **Readiness Calculator** | Calculate Ao, MTBF, MTTR, MLDT per MIL-STD-1390D — anchor results for milestone briefings |
+| 1 | **Gap Finder** | Upload DRLs, DI docs, provisioning data — get automated readiness scoring across all 12 ILS elements |
+| 2 | **Obsolescence Alert** | Track obsolescence cases, at-risk parts, resolution costs, and anchor decisions per DoDI 4245.14 |
+| 3 | **Readiness Score** | Calculate Ao, MTBF, MTTR, MLDT per MIL-STD-1390D — anchor results for milestone briefings |
 | 4 | **ROI Calculator** | Quantify cost savings from S4 Ledger adoption — use in proposals and business case briefings |
 | 5 | **Lifecycle Cost Estimator** | Estimate O&S costs across 20-year weapon system lifecycles |
 | 6 | **Compliance Scorecard** | Real-time posture across CMMC Level 2, NIST 800-171, DFARS 252.204, FAR 46, MIL-STD-1388 |
-| 7 | **Audit Record Vault** | Every record you stamp is saved here with its blockchain verification. Export for audits anytime |
-| 8 | **Defense Document Library** | Searchable reference library of 100+ defense standards — MIL-STDs, regulations, instructions |
-| 9 | **Supply Chain Risk Engine** | Automated supply chain risk scoring and mitigation recommendations |
-| 10 | **Audit Report Generator** | One-click audit report generation with blockchain-verified evidence packages |
-| 11 | **Predictive Maintenance AI** | Analyze patterns to predict when equipment will need maintenance before it fails |
-| 12 | **Submissions & PTD** | AI-powered submission review — compares vendor data against baselines, flags discrepancies |
-| 13 | **AI Agent** | LLM-powered assistant trained on all 12 ILS elements, 30+ defense systems, and 6 compliance frameworks |
-| 14 | **SBOM Viewer** | Software Bill of Materials viewer for analyzing software component dependencies and known vulnerabilities |
-
-> **Looking for parts cross-reference, contract tracking, provisioning, warranty management, scheduling, configuration management, or database import?** These tools are available in **HarborLink**, S4 Systems' companion collaboration portal.
+| 7 | **Audit Vault** | Every record you stamp is saved here with its blockchain verification. Export for audits anytime |
+| 8 | **Document Library** | Searchable reference library of 100+ defense standards — MIL-STDs, regulations, instructions |
+| 9 | **Risk Radar** | Automated supply chain risk scoring and mitigation recommendations |
+| 10 | **Audit Builder** | One-click audit report generation with blockchain-verified evidence packages |
+| 11 | **Maintenance Predictor** | Analyze patterns to predict when equipment will need maintenance before it fails |
+| 12 | **Submissions Hub** | AI-powered submission review — compares vendor data against baselines, flags discrepancies |
+| 13 | **SBOM Scanner** | Software Bill of Materials analysis for component dependencies and known vulnerabilities |
+| 14 | **Property Custodian** | Government Furnished Property accountability and tracking |
+| 15 | **Deliverables Tracker** | Contract Data Requirements List compliance checking and DRL status management |
+| 16 | **Contract Analyzer** | AI-powered contract clause extraction and lifecycle management |
+| 17 | **Chain of Custody** | End-to-end supply chain provenance tracking with tamper detection |
+| 18 | **Program Overview** | Multi-program trend analysis, benchmarking, and cross-program insights |
+| 19 | **Team Manager** | Role-based access, workload visibility, and team collaboration |
+| 20 | **Fleet Optimizer** | Fleet acquisition and sustainment analysis across platforms |
+| 21 | **Milestone Monitor** | Program milestone tracking, readiness gates, and schedule visibility |
+| 22 | **Brief Composer** | Automated briefing and report generation for leadership |
+| 23 | **AI Agent** | LLM-powered assistant trained on all 12 ILS elements, 30+ defense systems, and 6 compliance frameworks |
 
 **File upload support**: All tools accept CSV, XLSX, XLS, PDF, DOCX, and TXT files. Drag-and-drop enabled. All processing happens client-side — no classified data leaves your browser.
 
@@ -65,7 +72,7 @@ Every subscription tier includes access to the full ILS Workspace:
 | Monthly SLS allocation | 100 SLS (Credits) |
 | Anchoring capacity | Up to 10,000 anchors |
 | XRPL wallet | Auto-provisioned |
-| ILS Workspace | All 20+ tools |
+| ILS Workspace | All 23 tools |
 | AI agent | Included |
 | Support | Community |
 
@@ -79,7 +86,7 @@ Every subscription tier includes access to the full ILS Workspace:
 | Monthly SLS allocation | 25,000 SLS |
 | Anchoring capacity | Up to 2,500,000 anchors |
 | XRPL wallet | Auto-provisioned |
-| ILS Workspace | All 20+ tools |
+| ILS Workspace | All 23 tools |
 | AI Agent | Full LLM access (cloud-backed) |
 | SDK & REST API | Full access |
 | Support | Email support |
@@ -98,7 +105,7 @@ Every subscription tier includes access to the full ILS Workspace:
 | Monthly SLS allocation | 100,000 SLS |
 | Anchoring capacity | Up to 10,000,000 anchors |
 | XRPL wallet | Auto-provisioned |
-| ILS Workspace | All 20+ tools |
+| ILS Workspace | All 23 tools |
 | AI Agent | Full LLM access (cloud-backed) |
 | SDK & REST API | Full access |
 | CDRL & supply chain modules | Included |
@@ -118,7 +125,7 @@ Every subscription tier includes access to the full ILS Workspace:
 | Monthly SLS allocation | 500,000 SLS |
 | Anchoring capacity | Up to 50,000,000 anchors |
 | XRPL wallets | Dedicated wallets (multiple) |
-| ILS Workspace | All 20+ tools |
+| ILS Workspace | All 23 tools |
 | AI Agent | Full LLM access (cloud-backed) |
 | Custom integrations | Included |
 | Volume SLS pricing | Available |
@@ -215,7 +222,7 @@ No. S4 Ledger is a commercial SaaS platform. For organizations that require CAC 
 
 ## v12 Feature Updates (2026-02-22)
 All subscription tiers now include:
-- SBOM Viewer with blockchain attestation
+- SBOM Scanner with blockchain attestation
 - AI Threat Intelligence Scoring
 - Predictive Failure Timeline
 - Digital Thread Traceability

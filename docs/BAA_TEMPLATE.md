@@ -24,12 +24,12 @@ S4 Ledger provides **hash anchoring services** for defense logistics records, in
 - Operational readiness assessments (RAM — Reliability, Availability, Maintainability)
 - Lifecycle cost estimates and warranty contract status
 - ROI analyses and cost-benefit calculations
-- ILS Gap Analysis reports (MIL-STD-1388 compliance checklists)
+- ILS Gap Finder reports (MIL-STD-1388 compliance checklists)
 - Compliance Scorecards (CMMC, NIST 800-171, DFARS, FAR 46, MIL-STD-1388)
 
-### 1.1 Audit Record Vault
+### 1.1 Audit Vault
 
-All anchored records are automatically stored in the **S4 Audit Record Vault**, a client-side record store that pairs the original record content with its SHA-256 hash and XRPL transaction hash. The Vault enables:
+All anchored records are automatically stored in the **S4 Audit Vault**, a client-side record store that pairs the original record content with its SHA-256 hash and XRPL transaction hash. The Vault enables:
 
 - Instant search and filtering of all anchored records by type, date, or content
 - One-click re-verification of any stored record against its on-chain hash
@@ -98,32 +98,31 @@ S4 Ledger is designed to be compatible with CMMC Level 2-ready environments. The
 
 ### 3.4 ILS Workspace Tools
 
-S4 Ledger v5.11.1 includes a comprehensive ILS Workspace with 24+ integrated tools:
+S4 Ledger v5.12.36 includes a comprehensive ILS Workspace with 23 integrated tools:
 
-1. **Gap Analysis** — MIL-STD-1388 compliance checklists for 500+ defense platforms across 9 branches
-2. **Action Items** — Task tracking with priority, assignment, and deadline management
-3. **DMSMS Tracker** — Obsolescence monitoring and resolution planning
-4. **Readiness Calculator** — RAM (Reliability, Availability, Maintainability) analysis
+1. **Gap Finder** — MIL-STD-1388 compliance checklists for 500+ defense platforms across 9 branches
+2. **Task Prioritizer** — Task tracking with priority, assignment, and deadline management
+3. **Obsolescence Alert** — Obsolescence monitoring and resolution planning
+4. **Readiness Score** — RAM (Reliability, Availability, Maintainability) analysis
 5. **ROI Calculator** — Cost-benefit analysis with 5-year projections
-6. **Lifecycle Estimator** — Total ownership cost modeling
-7. **Audit Record Vault** — Searchable archive of all anchored records with hash verification
-8. **Defense Document Library** — 100+ real MIL-STDs, OPNAVINSTs, and DoW references
+6. **Lifecycle Cost Estimator** — Total ownership cost modeling
+7. **Audit Vault** — Searchable archive of all anchored records with hash verification
+8. **Document Library** — 100+ real MIL-STDs, OPNAVINSTs, and DoW references
 9. **Compliance Scorecard** — Multi-framework compliance posture assessment
-10. **Supply Chain Risk Engine** — Automated supply chain risk scoring and mitigation recommendations
-11. **Audit Report Generator** — One-click audit report generation with blockchain-verified evidence packages
-12. **Predictive Maintenance AI** — AI-driven failure prediction and maintenance scheduling optimization
-13. **Submission Review & Discrepancy Analyzer (ILIE)** — AI-powered submission review with severity-rated discrepancy reports
-14. **SBOM Viewer** — Software Bill of Materials tracking with CVE monitoring and EO 14028 compliance
-15. **GFP Tracker** — Government-furnished property accountability and DPAS compliance
-16. **CDRL Validator** — DD-1423 specification validation with automated compliance checks
-17. **Contract Extractor** — AI-powered extraction of key terms, CLINs, and deliverables
-18. **Provenance Chain** — End-to-end supply chain provenance with blockchain-verified custody
-19. **Cross-Program Analytics** — Aggregate ILS metrics across programs for fleet-wide trends
-20. **Team Management** — Role-based access control, task assignment, and collaboration
-21. **Acquisition Planner** — Multi-year service craft acquisition tracker with POM funding and ROH scheduling
-22. **Program Milestone Tracker** — Vessel construction milestones with OWLD variance and Gantt timeline
-23. **Program Brief Engine** — Slide-based brief generator with DoD templates, program/vessel selectors, and collaborative comments
-24. **Verify Records** — Independent hash verification of any anchored record
+10. **Risk Radar** — Automated supply chain risk scoring and mitigation recommendations
+11. **Audit Builder** — One-click audit report generation with blockchain-verified evidence packages
+12. **Maintenance Predictor** — AI-driven failure prediction and maintenance scheduling optimization
+13. **Submissions Hub** — AI-powered submission review with severity-rated discrepancy reports
+14. **SBOM Scanner** — Software Bill of Materials analysis and vulnerability tracking
+15. **Property Custodian** — Government Furnished Property accountability and tracking
+16. **Deliverables Tracker** — Contract Data Requirements List compliance checking and DRL status management
+17. **Contract Analyzer** — AI-powered contract clause extraction and lifecycle management
+18. **Chain of Custody** — End-to-end supply chain provenance tracking
+19. **Program Overview** — Multi-program trend analysis and benchmarking
+20. **Team Manager** — Role-based access, workload visibility, and team collaboration
+21. **Fleet Optimizer** — Fleet acquisition and sustainment analysis
+22. **Milestone Monitor** — Program milestone tracking, readiness gates, and schedule visibility
+23. **Brief Composer** — Automated briefing and report generation for leadership
 
 > **Companion Product:** S4 Systems also offers **HarborLink**, a collaboration portal providing parts cross-reference, contract lifecycle management, provisioning (ICAPS replacement), warranty tracking, configuration management, scheduling, and defense database import/export.
 

@@ -102,28 +102,35 @@ Each entry shows the time, type of record, the fingerprint (hash), a link to the
 
 ---
 
-### Tab 4 — ILS Workspace (20+ Analysis Tools)
+### Tab 4 — ILS Workspace (23 Analysis Tools)
 
-This is the powerhouse of S4 Ledger. It contains **20+ specialized tools** designed for defense logistics professionals. Here's what each one does in plain English:
+This is the powerhouse of S4 Ledger. It contains **23 specialized tools** designed for defense logistics professionals. Here's what each one does in plain English:
 
 | # | Tool | What It Does |
 |---|------|-------------|
-| 1 | **Gap Analysis** | Upload your program documents (DRL spreadsheets, PDFs, Word docs). The system checks them against what's required and scores your coverage. It tells you exactly what's missing, what's critical, and what to fix first. |
-| 2 | **Action Items** | Shows all the things that need attention — sorted by urgency (critical, warning, info) with cost estimates. |
-| 3 | **DMSMS Checker** | Enter part numbers (NSNs) and find out if they're still being manufactured, at risk, or obsolete. Helps prevent supply problems. |
-| 4 | **Readiness Calculator** | Plug in equipment reliability numbers and calculate how "available" your system will be. Uses standard DoW formulas. |
+| 1 | **Gap Finder** | Upload your program documents (DRL spreadsheets, PDFs, Word docs). The system checks them against what's required and scores your coverage. It tells you exactly what's missing, what's critical, and what to fix first. |
+| 2 | **Task Prioritizer** | Shows all the things that need attention — sorted by urgency (critical, warning, info) with cost estimates. |
+| 3 | **Obsolescence Alert** | Enter part numbers (NSNs) and find out if they're still being manufactured, at risk, or obsolete. Helps prevent supply problems. |
+| 4 | **Readiness Score** | Plug in equipment reliability numbers and calculate how "available" your system will be. Uses standard DoW formulas. |
 | 5 | **ROI Calculator** | Calculate how much money and time S4 Ledger saves your organization. Generates briefing-ready numbers. |
-| 6 | **Lifecycle Cost** | Estimate the total cost of owning and maintaining a system over its entire life — from purchase through sustainment. |
+| 6 | **Lifecycle Cost Estimator** | Estimate the total cost of owning and maintaining a system over its entire life — from purchase through sustainment. |
 | 7 | **Audit Vault** | Every record you stamp is saved here with its blockchain verification. Export for audits anytime. |
 | 8 | **Document Library** | Searchable reference library of defense standards — MIL-STDs, regulations, instructions. |
-| 9 | **Compliance Dashboard** | See your compliance score across NIST 800-171, CMMC, DFARS, and more. Letter grade for executives. |
-| 10 | **Supply Chain Risk** | See which parts have single-source suppliers, geographic risks, or other vulnerabilities. |
-| 11 | **Audit Reports** | Generate formal audit reports automatically — stamped to the blockchain for tamper-proof storage. |
-| 12 | **Predictive Maintenance** | Analyze patterns to predict when equipment will need maintenance before it fails. |
-| 13 | **ILIE** | AI-powered submission review — compares vendor data against baselines, flags discrepancies with severity ratings. |
-| 14 | **SBOM Viewer** | Software Bill of Materials viewer — analyze software component dependencies and known vulnerabilities. |
-
-> **Note:** Tools for parts cross-reference, contract tracking, provisioning, warranty management, scheduling, configuration management, and database import are available in **HarborLink**, S4 Systems' companion collaboration portal.
+| 9 | **Compliance Scorecard** | See your compliance score across NIST 800-171, CMMC, DFARS, and more. Letter grade for executives. |
+| 10 | **Risk Radar** | See which parts have single-source suppliers, geographic risks, or other vulnerabilities. |
+| 11 | **Audit Builder** | Generate formal audit reports automatically — stamped to the blockchain for tamper-proof storage. |
+| 12 | **Maintenance Predictor** | Analyze patterns to predict when equipment will need maintenance before it fails. |
+| 13 | **Submissions Hub** | AI-powered submission review — compares vendor data against baselines, flags discrepancies with severity ratings. |
+| 14 | **SBOM Scanner** | Software Bill of Materials viewer — analyze software component dependencies and known vulnerabilities. |
+| 15 | **Property Custodian** | Government Furnished Property accountability and tracking. |
+| 16 | **Deliverables Tracker** | Contract Data Requirements List compliance checking and DRL status management. |
+| 17 | **Contract Analyzer** | AI-powered contract clause extraction and lifecycle management. |
+| 18 | **Chain of Custody** | End-to-end supply chain provenance tracking with tamper detection. |
+| 19 | **Program Overview** | Multi-program trend analysis, benchmarking, and cross-program insights. |
+| 20 | **Team Manager** | Role-based access, workload visibility, and team collaboration. |
+| 21 | **Fleet Optimizer** | Fleet acquisition and sustainment analysis across platforms. |
+| 22 | **Milestone Monitor** | Program milestone tracking, readiness gates, and schedule visibility. |
+| 23 | **Brief Composer** | Automated briefing and report generation for leadership. |
 
 #### How Document Analysis Works
 
@@ -243,8 +250,8 @@ NSERC-IDE, MERLIN, NAVAIR AMS-PMT, COMPASS, CDMD-OA, NDE, MBPS, PEO-MLB, CSPT, G
 
 ## v12 New Features Training (2026-02-22)
 
-### SBOM Viewer
-1. Navigate to Anchor-S4 → SBOM Viewer
+### SBOM Scanner
+1. Navigate to Anchor-S4 → SBOM Scanner
 2. Select a platform from the dropdown
 3. Click "Scan Components" to load software components
 4. Review CVE status and severity for each component
@@ -252,7 +259,7 @@ NSERC-IDE, MERLIN, NAVAIR AMS-PMT, COMPASS, CDMD-OA, NDE, MBPS, PEO-MLB, CSPT, G
 6. Click "Anchor SBOM to XRPL" to create blockchain attestation
 
 ### AI Threat Intelligence
-- Automatically appears in Supply Chain Risk Engine after loading risk data
+- Automatically appears in Risk Radar after loading risk data
 - Shows composite threat score (0-100) with RED/AMBER/GREEN classification
 - Tracks single-source dependencies, GIDEP alerts, and lead time spikes
 
@@ -261,5 +268,5 @@ NSERC-IDE, MERLIN, NAVAIR AMS-PMT, COMPASS, CDMD-OA, NDE, MBPS, PEO-MLB, CSPT, G
 - Shows complete provenance chain from source through verification
 
 ### Failure Timeline
-- In Predictive Maintenance, run predictions to see 12-month forecast
+- In Maintenance Predictor, run predictions to see 12-month forecast
 - Stacked bar chart shows predicted failures by severity per month

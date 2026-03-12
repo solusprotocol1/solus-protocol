@@ -33,7 +33,7 @@ Think of S4 Ledger like a notary for defense records. When an ILS manager comple
 - 500+ real defense platforms (DDG-51, F-35, CVN-78, etc.) with real program data
 - Tools that calculate readiness, track obsolescence, estimate lifecycle costs, score compliance, and generate audit reports — all using real MIL-STD formulas
 - Every tool generates actionable alerts: warranty expirations 90 days out, DMSMS obsolescence flags, readiness threshold violations
-- A unified Action Items tracker that consolidates tasks across all tools with severity sorting, filtering, and CSV export
+- A unified Task Prioritizer that consolidates tasks across all tools with severity sorting, filtering, and CSV export
 
 **What this means for a program manager:** Instead of juggling spreadsheets across 5 different systems, one interface shows you what's expiring, what's obsolete, what needs attention, and what it costs — with every record anchored to an immutable audit trail that proves when it was created and that it hasn't been changed.
 
@@ -42,13 +42,13 @@ Think of S4 Ledger like a notary for defense records. When an ILS manager comple
 - **$SLS token LIVE on XRPL Mainnet** — tradable, AMM pools active, trustlines established
   - Issuer: `r95GyZac4butvVcsTWUPpxzekmyzaHsTA5`
   - 100M total supply | ~15M circulating | 30M in multi-sig treasury
-- **20+ interactive defense tools** live at s4ledger.com/demo-app — not mockups, real working interfaces
+- **23 interactive defense tools** live at s4ledger.com/demo-app — not mockups, real working interfaces
 - **21 Python SDK functions** for defense-grade hash anchoring, verification, and batch operations
 - **90+ REST API endpoints** for enterprise integration
 - **500+ pre-loaded military entities** — 500+ defense platforms across 9 branches (USN, USA, USAF, USMC, USCG, DLA, Joint, SOCOM, USSF), 37 real defense suppliers, 25 real DoW contracts
 - **156+ pre-built record types across 9 defense branches** mapped to real-world logistics workflows (supports any defense record type)
 - **100+ real defense documents** in searchable reference library (MIL-STDs, OPNAVINSTs, DoD Directives)
-- **Audit Record Vault** — automatic audit trail storage for every anchored record
+- **Audit Vault** — automatic audit trail storage for every anchored record
 - **Compliance Scorecard** — real-time CMMC/NIST/DFARS compliance posture calculator
 - Working Python SDK + CLI with defense use case library
 - 25+ page website at s4ledger.com
@@ -64,7 +64,7 @@ Think of S4 Ledger like a notary for defense records. When an ILS manager comple
 | **High-Scale** (50+ programs) | $12M–$48M | $1.2M–$3.6M ARR/enterprise |
 
 *Key drivers: 65% labor reduction, 90% error savings, 70% audit cost reduction, 15-25% DMSMS cost avoidance, 70% less data reconciliation*
-*Per-program savings: ~$1.02M–$2.6M/year from 20+ ILS tools (including Submissions & PTD) — 15–100x ROI for government*
+*Per-program savings: ~$1.02M–$2.6M/year from 23 ILS tools (including Submissions & PTD) — 15–100x ROI for government*
 
 ## National Impact
 
@@ -90,7 +90,7 @@ Think of S4 Ledger like a notary for defense records. When an ILS manager comple
 | **SAP S/4HANA** | — | $500K–$5M+ | Generic | No |
 | **Oracle NetSuite** | — | $200K–$1M+ | Generic | No |
 | **Microsoft Dynamics** | — | $150K–$800K+ | Generic | No |
-| **S4 Ledger** | Pre-revenue | **$12K–$120K** | **20+ built-in** | **Yes (XRPL)** |
+| **S4 Ledger** | Pre-revenue | **$12K–$120K** | **23 built-in** | **Yes (XRPL)** |
 
 ### Why the XRP Ledger?
 
@@ -133,7 +133,7 @@ S4 Ledger scales from zero infrastructure cost (today) to 50,000+ concurrent use
 | Phase | Timeline | Focus |
 |---|---|---|
 | Foundation | Q4 2025 – Q1 2026 ✅ | SDK, $SLS token, website |
-| Defense Platform | Q1 – Q2 2026 ✅ | 500+ platforms, 20+ tools, Submissions & PTD, toast alerts, action tracking, ROI/Lifecycle calculators |
+| Defense Platform | Q1 – Q2 2026 ✅ | 500+ platforms, 23 tools, Submissions & PTD, toast alerts, action tracking, ROI/Lifecycle calculators |
 | MVP & Pilot | Q3 – Q4 2026 | Pilot on real data, server persistence, user auth, pagination |
 | Partner & SaaS | Q1 – Q2 2027 | REST API, SaaS dashboard, Merkle batch anchoring, DIU/NavalX |
 | Scale & Certify | Q3 2027+ | NIST, FedRAMP, CDN/edge, microservices, production deployments |
@@ -170,13 +170,13 @@ info@s4ledger.com | [s4ledger.com](https://s4ledger.com)
 ### New Competitive Moat Features
 1. **AI Threat Intelligence Scoring** — Auto-classifies supply chain risk (vs Palantir: $10M+)
 2. **Predictive Failure Timeline** — 12-month visual forecast (vs Oracle: requires IoT sensors)
-3. **SBOM Viewer** — First blockchain-verified SBOM in defense (addresses EO 14028)
+3. **SBOM Scanner** — First blockchain-verified SBOM in defense (addresses EO 14028)
 4. **Digital Thread** — Complete provenance visualization (no competitor equivalent)
 5. **Zero-Trust Watermark** — Self-verifying exports (makes competitor exports look amateur)
 6. **Live Collaboration** — Multi-analyst workspace indicators
 
 ### Scale
 - **34 Navy programs** supported (SSBNs through service craft)
-- **20+ integrated ILS tools** in a single platform
+- **23 integrated ILS tools** in a single platform
 - **$0.01/anchor** on XRP Ledger — cost advantage over $5M-$50M legacy implementations
 
