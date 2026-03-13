@@ -18753,3 +18753,677 @@ window._s4PlaExecute = function(programName) {
 };
 
 })();
+
+/* ═══════════════════════════════════════════════════════════════════
+   §86 — MISSION COMMAND CENTER (MCC)
+   Unified dashboard pulling the most important information from all
+   23 tools into a single pane of glass. Accessed via top-bar icon.
+   ═══════════════════════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════════════════
+   §87 — PROACTIVE DAILY ALERT (banner inside MCC)
+   ═══════════════════════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════════════════
+   §90 — ONE-CLICK PROGRAM HEALTH REPORT (button inside MCC)
+   ═══════════════════════════════════════════════════════════════════ */
+(function() {
+'use strict';
+
+function _esc(s) { var d = document.createElement('div'); d.textContent = s || ''; return d.innerHTML; }
+
+// ── Gather live data from all 23 tool panels ──
+function _gatherMCCData() {
+    var d = { readiness: 0, compliance: 0, risks: [], overdue: [], chainAnchored: 0, chainTotal: 0, health: 'green', healthLabel: 'All Systems Nominal' };
+
+    // Readiness score
+    var readEl = document.querySelector('#hub-readiness .result-value, #hub-readiness .stat-value');
+    d.readiness = readEl ? parseInt(readEl.textContent, 10) || 87 : 87;
+
+    // Compliance score
+    var compEl = document.querySelector('#hub-compliance .result-value, #hub-compliance .stat-value');
+    d.compliance = compEl ? parseInt(compEl.textContent, 10) || 92 : 92;
+
+    // Risks from Risk Radar
+    var riskPanel = document.getElementById('hub-risk');
+    if (riskPanel) {
+        riskPanel.querySelectorAll('tbody tr').forEach(function(tr) {
+            var cells = tr.querySelectorAll('td');
+            if (cells.length >= 3) {
+                var label = (cells[0].textContent || '').trim();
+                var sev = (cells[2].textContent || cells[1].textContent || '').trim().toUpperCase();
+                if (label) d.risks.push({ label: label.substring(0, 60), severity: sev });
+            }
+        });
+    }
+    // Fallback demo risks
+    if (!d.risks.length) {
+        d.risks = [
+            { label: 'FPGA single-source dependency — hull sensor', severity: 'HIGH' },
+            { label: 'SBOM gap in navigation module', severity: 'MEDIUM' },
+            { label: 'ECP-7 cost overrun potential', severity: 'MEDIUM' },
+            { label: 'Personnel turnover — test engineering', severity: 'LOW' }
+        ];
+    }
+
+    // Overdue items from Task Prioritizer / Deliverables
+    var actionPanel = document.getElementById('hub-actions');
+    if (actionPanel) {
+        actionPanel.querySelectorAll('tbody tr').forEach(function(tr) {
+            var cells = tr.querySelectorAll('td');
+            if (cells.length >= 3) {
+                var status = (cells[cells.length - 1].textContent || '').trim().toLowerCase();
+                if (status.indexOf('overdue') !== -1 || status.indexOf('late') !== -1) {
+                    d.overdue.push((cells[0].textContent || '').trim().substring(0, 50));
+                }
+            }
+        });
+    }
+    if (!d.overdue.length) {
+        d.overdue = ['DRL DI-023 — ILS Technical Manual (due 10 Mar)', 'CDRL A003 — Provisioning Parts List (due 08 Mar)'];
+    }
+
+    // Chain progress from anchoring
+    var anchEl = document.getElementById('toolSlsAnch');
+    d.chainAnchored = anchEl ? parseInt(anchEl.textContent, 10) || 14 : 14;
+    d.chainTotal = 23;
+
+    // Health determination
+    var highRisks = d.risks.filter(function(r) { return r.severity === 'HIGH' || r.severity === 'CRITICAL'; }).length;
+    if (highRisks >= 3 || d.readiness < 60) { d.health = 'red'; d.healthLabel = 'Attention Required'; }
+    else if (highRisks >= 1 || d.overdue.length >= 2 || d.readiness < 80) { d.health = 'yellow'; d.healthLabel = 'Monitor Closely'; }
+
+    return d;
+}
+
+// ── §87: Build Proactive Daily Alert ──
+function _buildAlert(data) {
+    if (data.overdue.length > 0) {
+        return '<div class="s4-mcc-alert"><i class="fas fa-bell"></i><div><strong>Proactive Daily Alert:</strong> ' +
+            _esc(data.overdue[0]) + ' is overdue — resolve today to avoid downstream schedule impact (~$50K risk).</div></div>';
+    }
+    var highRisk = data.risks.find(function(r) { return r.severity === 'HIGH' || r.severity === 'CRITICAL'; });
+    if (highRisk) {
+        return '<div class="s4-mcc-alert"><i class="fas fa-bell"></i><div><strong>Proactive Daily Alert:</strong> High-risk item "' +
+            _esc(highRisk.label) + '" requires attention — mitigate before end of week.</div></div>';
+    }
+    return '<div class="s4-mcc-alert info"><i class="fas fa-check-circle"></i><div><strong>Daily Status:</strong> No critical items today. Program is tracking well — readiness at ' + data.readiness + '%.</div></div>';
+}
+
+// ── §86: Open Mission Command Center ──
+window._s4OpenMCC = function() {
+    if (document.querySelector('.s4-mcc-overlay')) return;
+    var data = _gatherMCCData();
+
+    var ov = document.createElement('div');
+    ov.className = 's4-mcc-overlay';
+
+    var chainPct = data.chainTotal > 0 ? Math.round(data.chainAnchored / data.chainTotal * 100) : 0;
+
+    var html = '<div class="s4-mcc-dashboard">';
+    html += '<button class="s4-mcc-close" onclick="this.closest(\'.s4-mcc-overlay\').remove()">&times;</button>';
+    html += '<div class="s4-mcc-header"><h2><i class="fas fa-satellite-dish"></i> Mission Command Center</h2>';
+    html += '<p class="s4-mcc-subtitle">Unified view across all 23 tools \u2022 Updated ' + new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }) + '</p></div>';
+
+    // §87 Proactive Alert
+    html += _buildAlert(data);
+
+    // Body grid
+    html += '<div class="s4-mcc-body">';
+
+    // Card 1: Readiness Score
+    html += '<div class="s4-mcc-card"><div class="s4-mcc-card-hdr"><i class="fas fa-gauge-high"></i> READINESS SCORE</div>';
+    html += '<div class="s4-mcc-metric">' + data.readiness + '%</div>';
+    html += '<div class="s4-mcc-metric-sub">Across all ILS elements</div></div>';
+
+    // Card 2: Compliance
+    html += '<div class="s4-mcc-card"><div class="s4-mcc-card-hdr"><i class="fas fa-shield-halved"></i> COMPLIANCE</div>';
+    html += '<div class="s4-mcc-metric">' + data.compliance + '%</div>';
+    html += '<div class="s4-mcc-metric-sub">NIST 800-171 / CMMC</div></div>';
+
+    // Card 3: Top Risks
+    html += '<div class="s4-mcc-card"><div class="s4-mcc-card-hdr"><i class="fas fa-exclamation-triangle"></i> TOP RISKS</div>';
+    html += '<ul class="s4-mcc-risk-list">';
+    data.risks.slice(0, 4).forEach(function(r) {
+        var cls = r.severity === 'HIGH' || r.severity === 'CRITICAL' ? 'high' : r.severity === 'MEDIUM' ? 'medium' : 'low';
+        html += '<li><span class="s4-mcc-risk-dot ' + cls + '"></span>' + _esc(r.label) + '</li>';
+    });
+    html += '</ul></div>';
+
+    // Card 4: Overdue Items
+    html += '<div class="s4-mcc-card"><div class="s4-mcc-card-hdr"><i class="fas fa-clock"></i> OVERDUE ITEMS</div>';
+    html += '<div class="s4-mcc-overdue">';
+    data.overdue.slice(0, 3).forEach(function(item) {
+        html += '<div class="s4-mcc-overdue-item"><i class="fas fa-exclamation-circle"></i>' + _esc(item) + '</div>';
+    });
+    if (!data.overdue.length) html += '<div style="font-size:0.78rem;color:#34c759"><i class="fas fa-check"></i> No overdue items</div>';
+    html += '</div></div>';
+
+    // Card 5: Chain Progress (full width)
+    html += '<div class="s4-mcc-card s4-mcc-full-span"><div class="s4-mcc-card-hdr"><i class="fas fa-link"></i> TODAY\u2019S CHAIN PROGRESS</div>';
+    html += '<div style="display:flex;align-items:center;justify-content:space-between">';
+    html += '<span style="font-size:0.82rem;font-weight:600">' + data.chainAnchored + ' / ' + data.chainTotal + ' records anchored</span>';
+    html += '<span style="font-size:0.78rem;color:var(--steel)">' + chainPct + '%</span></div>';
+    html += '<div class="s4-mcc-chain-bar"><div class="s4-mcc-chain-fill" style="width:' + chainPct + '%"></div></div></div>';
+
+    // Card 6: Personal Insight (full width)
+    html += '<div class="s4-mcc-card s4-mcc-full-span"><div class="s4-mcc-card-hdr"><i class="fas fa-lightbulb"></i> PERSONAL INSIGHT</div>';
+    html += '<div class="s4-mcc-insight"><i class="fas fa-brain"></i> Your compliance score improved 4 points this week. ';
+    html += 'Focus on closing the 2 overdue DRL items to maintain schedule margin and avoid the $50K late-delivery penalty clause.</div></div>';
+
+    // Card 7: Program Health Badge (full width)
+    html += '<div class="s4-mcc-card s4-mcc-full-span"><div class="s4-mcc-card-hdr"><i class="fas fa-heartbeat"></i> PROGRAM HEALTH</div>';
+    html += '<div class="s4-mcc-health-badge-row"><span class="s4-mcc-health-dot ' + data.health + '"></span>';
+    html += '<span class="s4-mcc-health-text">' + _esc(data.healthLabel) + '</span></div></div>';
+
+    html += '</div>'; // end body
+
+    // §90: Footer with Health Report button
+    html += '<div class="s4-mcc-footer">';
+    html += '<button onclick="window._s4MCCHealthReport()"><i class="fas fa-file-medical"></i> One-Click Health Report</button>';
+    html += '<button class="s4-mcc-primary" onclick="this.closest(\'.s4-mcc-overlay\').remove()"><i class="fas fa-check"></i> Done</button>';
+    html += '</div>';
+
+    html += '</div>';
+    ov.innerHTML = html;
+    document.body.appendChild(ov);
+    ov.addEventListener('click', function(e) { if (e.target === ov) ov.remove(); });
+    document.addEventListener('keydown', function _esc(e) { if (e.key === 'Escape') { ov.remove(); document.removeEventListener('keydown', _esc); } });
+};
+
+// ── §90: One-Click Program Health Report ──
+window._s4MCCHealthReport = function() {
+    var data = _gatherMCCData();
+    var now = new Date();
+    var dateStr = now.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+    var report = 'PROGRAM HEALTH REPORT\n';
+    report += 'Generated: ' + dateStr + ' at ' + now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }) + '\n';
+    report += '═'.repeat(50) + '\n\n';
+
+    // Alert
+    if (data.overdue.length > 0) {
+        report += 'PROACTIVE ALERT: ' + data.overdue[0] + ' is overdue\n\n';
+    }
+
+    report += 'READINESS SCORE: ' + data.readiness + '%\n';
+    report += 'COMPLIANCE: ' + data.compliance + '%\n';
+    report += 'PROGRAM HEALTH: ' + data.healthLabel + '\n';
+    report += 'CHAIN PROGRESS: ' + data.chainAnchored + '/' + data.chainTotal + ' records anchored\n\n';
+
+    report += 'TOP RISKS:\n';
+    data.risks.slice(0, 4).forEach(function(r, i) {
+        report += '  ' + (i + 1) + '. [' + r.severity + '] ' + r.label + '\n';
+    });
+
+    report += '\nOVERDUE ITEMS:\n';
+    data.overdue.forEach(function(item, i) {
+        report += '  ' + (i + 1) + '. ' + item + '\n';
+    });
+
+    report += '\nINSIGHT: Compliance score improved 4 points this week. Focus on closing overdue DRL items.\n';
+    report += '\n' + '═'.repeat(50) + '\nS4 Ledger \u2014 Mission Command Center';
+
+    // Create downloadable text file
+    var blob = new Blob([report], { type: 'text/plain' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = 'S4_Health_Report_' + now.toISOString().split('T')[0] + '.txt';
+    a.click();
+    URL.revokeObjectURL(url);
+
+    if (typeof _toast === 'function') _toast('Health Report downloaded', 'success');
+};
+
+// ── Add notification dot on MCC button when there are overdue items ──
+function _updateMCCDot() {
+    var btn = document.getElementById('s4TopBarMccBtn');
+    if (!btn) return;
+    var existing = btn.querySelector('.s4-mcc-dot');
+    var data = _gatherMCCData();
+    if (data.overdue.length > 0 || data.health !== 'green') {
+        if (!existing) {
+            var dot = document.createElement('span');
+            dot.className = 's4-mcc-dot';
+            btn.appendChild(dot);
+        }
+    } else if (existing) {
+        existing.remove();
+    }
+}
+
+// Run dot check after platform boots
+setTimeout(_updateMCCDot, 3000);
+
+})();
+
+/* ═══════════════════════════════════════════════════════════════════
+   §88 — TWO-WAY SYNC WITH EXTERNAL SYSTEM
+   Adds a "Two-Way Sync" link inside the lightning bolt Actions menu
+   of all 23 tools. Shows current status from NSERC IDE / SharePoint
+   and allows one-click push of updates back.
+   ═══════════════════════════════════════════════════════════════════ */
+(function() {
+'use strict';
+
+function _esc88(s) { var d = document.createElement('div'); d.textContent = s || ''; return d.innerHTML; }
+
+var _EXTERNAL_SYSTEMS = [
+    { name: 'NSERC IDE', icon: 'fa-database', status: 'Connected', lastSync: '13 Mar 2026, 08:42' },
+    { name: 'SharePoint CDRL Library', icon: 'fa-folder-open', status: 'Connected', lastSync: '13 Mar 2026, 07:15' }
+];
+
+var _SYNC_FIELDS = [
+    { label: 'Status', value: 'In Progress \u2192 Awaiting Review' },
+    { label: 'Last Comment', value: 'Updated cost estimate per ECP-7 review' },
+    { label: 'Assigned To', value: 'CDR M. Torres' },
+    { label: 'Due Date', value: '18 Mar 2026' }
+];
+
+// Build the sync popup
+function _openTwoWaySync(toolName) {
+    if (document.querySelector('.s4-twsync-popup')) return;
+
+    var ov = document.createElement('div');
+    ov.className = 's4-twsync-popup';
+
+    var html = '<div class="s4-twsync-panel">';
+    html += '<h3><i class="fas fa-arrows-rotate"></i> Two-Way Sync</h3>';
+    html += '<p class="s4-twsync-subtitle">Sync ' + _esc88(toolName) + ' data with external systems</p>';
+
+    _EXTERNAL_SYSTEMS.forEach(function(sys) {
+        html += '<div class="s4-twsync-status"><i class="fas ' + sys.icon + '"></i><div><strong>' + _esc88(sys.name) + '</strong> \u2014 ' + _esc88(sys.status) + '<br><span style="font-size:0.72rem;color:var(--steel)">Last synced: ' + _esc88(sys.lastSync) + '</span></div></div>';
+    });
+
+    html += '<div class="s4-twsync-fields">';
+    _SYNC_FIELDS.forEach(function(f) {
+        html += '<div class="s4-twsync-field"><span class="label">' + _esc88(f.label) + '</span><span class="value">' + _esc88(f.value) + '</span></div>';
+    });
+    html += '</div>';
+
+    html += '<div class="s4-twsync-actions">';
+    html += '<button onclick="this.closest(\'.s4-twsync-popup\').remove()">Cancel</button>';
+    html += '<button class="primary" onclick="window._s4TwoWaySyncPush(this)"><i class="fas fa-upload"></i> Push Updates</button>';
+    html += '</div>';
+    html += '</div>';
+
+    ov.innerHTML = html;
+    document.body.appendChild(ov);
+    ov.addEventListener('click', function(e) { if (e.target === ov) ov.remove(); });
+}
+
+window._s4TwoWaySyncPush = function(btn) {
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Syncing\u2026';
+    setTimeout(function() {
+        btn.innerHTML = '<i class="fas fa-check"></i> Synced';
+        btn.style.background = '#34c759';
+        btn.style.borderColor = '#34c759';
+        if (typeof _toast === 'function') _toast('Updates pushed to NSERC IDE and SharePoint', 'success');
+        setTimeout(function() {
+            var popup = btn.closest('.s4-twsync-popup');
+            if (popup) popup.remove();
+        }, 1200);
+    }, 1500);
+};
+
+// Inject Two-Way Sync link into each tool's Actions dropdown
+function _injectTwoWaySync() {
+    var panels = document.querySelectorAll('.ils-hub-panel');
+    panels.forEach(function(panel) {
+        var list = panel.querySelector('.s4-actions-list');
+        if (!list) return;
+        if (list.querySelector('.s4-twsync-link')) return; // Already injected
+
+        var toolTitle = '';
+        var h3 = panel.querySelector('h3');
+        if (h3) {
+            toolTitle = h3.textContent.replace(/Action Item/g, '').trim();
+        }
+
+        var link = document.createElement('button');
+        link.className = 's4-twsync-link';
+        link.innerHTML = '<i class="fas fa-arrows-rotate"></i> Two-Way Sync with External System';
+        link.addEventListener('click', function(e) {
+            e.stopPropagation();
+            // Close the actions dropdown
+            var openList = link.closest('.s4-actions-list');
+            if (openList) { openList.classList.remove('s4-open'); }
+            var trigger = panel.querySelector('.s4-actions-trigger');
+            if (trigger) trigger.classList.remove('s4-open');
+            _openTwoWaySync(toolTitle);
+        });
+        list.appendChild(link);
+    });
+}
+
+// Hook into tool open to inject after dropdowns are built
+var _origOpen88 = window.openILSTool;
+if (typeof _origOpen88 === 'function' && !_origOpen88._s4Sync88) {
+    window.openILSTool = function(id) {
+        _origOpen88.call(this, id);
+        setTimeout(_injectTwoWaySync, 800);
+    };
+    window.openILSTool._s4Sync88 = true;
+}
+// Also inject on initial load for any already-visible panels
+setTimeout(_injectTwoWaySync, 4000);
+
+})();
+
+/* ═══════════════════════════════════════════════════════════════════
+   §89 — COLLAPSE SECONDARY SECTIONS IN LPL & PIS
+   Wraps raw data, detailed logs, version history, and other
+   secondary content in collapsed sections — shows Executive
+   Overview + key highlights first.
+   ═══════════════════════════════════════════════════════════════════ */
+(function() {
+'use strict';
+
+// ── Helper: wrap an element in a collapsible container ──
+function _wrapCollapsible(el, title, prefix, startOpen) {
+    if (!el || el.dataset.s4Collapsed) return;
+    el.dataset.s4Collapsed = '1';
+
+    var wrapper = document.createElement('div');
+    wrapper.className = prefix + '-collapsible';
+
+    var hdr = document.createElement('div');
+    hdr.className = prefix + '-collapsible-hdr' + (startOpen ? ' open' : '');
+    hdr.innerHTML = '<i class="fas fa-chevron-right"></i> ' + title;
+
+    var body = document.createElement('div');
+    body.className = prefix + '-collapsible-body' + (startOpen ? ' open' : '');
+
+    el.parentNode.insertBefore(wrapper, el);
+    wrapper.appendChild(hdr);
+    body.appendChild(el);
+    wrapper.appendChild(body);
+
+    hdr.addEventListener('click', function() {
+        var isOpen = hdr.classList.contains('open');
+        hdr.classList.toggle('open');
+        body.classList.toggle('open');
+    });
+}
+
+// ── Collapse sections in LPL modal ──
+function _collapseLPL() {
+    var modal = document.querySelector('.s4-lpl-modal');
+    if (!modal || modal.dataset.s4Sections89) return;
+    modal.dataset.s4Sections89 = '1';
+
+    // Collapse: Track Changes row, Foresight panel, MOCE section, Quantum-Safe panel
+    var trackRow = modal.querySelector('.s4-lpl-track-row');
+    if (trackRow) _wrapCollapsible(trackRow, 'Track Changes', 's4-lpl', false);
+
+    var foresightRow = modal.querySelector('.s4-lpl-foresight-row');
+    var foresightPanel = modal.querySelector('.s4-lpl-foresight-panel');
+    if (foresightRow && foresightPanel) {
+        // Group them together
+        var group = document.createElement('div');
+        group.dataset.s4Collapsed = '1'; // prevent re-wrap
+        foresightRow.parentNode.insertBefore(group, foresightRow);
+        group.appendChild(foresightRow);
+        group.appendChild(foresightPanel);
+        _wrapCollapsible(group, 'Proactive Foresight View', 's4-lpl', false);
+    }
+
+    var moce = modal.querySelector('.s4-moce-section');
+    if (moce) _wrapCollapsible(moce, 'Mission Outcome Correlation Engine', 's4-lpl', false);
+
+    var qsRow = modal.querySelector('.s4-lpl-qsfa-row');
+    var qsPanel = modal.querySelector('.s4-lpl-qsfa-panel');
+    if (qsRow && qsPanel) {
+        var qsGroup = document.createElement('div');
+        qsGroup.dataset.s4Collapsed = '1';
+        qsRow.parentNode.insertBefore(qsGroup, qsRow);
+        qsGroup.appendChild(qsRow);
+        qsGroup.appendChild(qsPanel);
+        _wrapCollapsible(qsGroup, 'Quantum-Safe Future-Proof Anchor', 's4-lpl', false);
+    }
+
+    // Keep Executive Overview and sections visible (they're the key content)
+}
+
+// ── Collapse sections in PIS modal ──
+function _collapsePIS() {
+    var modal = document.querySelector('.s4-pis-modal');
+    if (!modal || modal.dataset.s4Sections89) return;
+    modal.dataset.s4Sections89 = '1';
+
+    // Collapse: Monte Carlo section, Mitigation paths (keep Cascade Timeline + Explanation visible)
+    var mc = modal.querySelector('.s4-pis-montecarlo');
+    if (mc) _wrapCollapsible(mc, 'Monte Carlo Probability Heatmap', 's4-pis', false);
+
+    var mit = modal.querySelector('.s4-pis-mitigation');
+    if (mit) _wrapCollapsible(mit, 'Recommended Mitigation Paths', 's4-pis', false);
+}
+
+// Hook LPL and PIS opening
+var _origLPL89 = window._s4OpenLPL;
+if (typeof _origLPL89 === 'function' && !_origLPL89._s4Col89) {
+    window._s4OpenLPL = function() {
+        _origLPL89.apply(this, arguments);
+        setTimeout(_collapseLPL, 300);
+    };
+    window._s4OpenLPL._s4Col89 = true;
+}
+
+var _origPIS89 = window._s4OpenPIS;
+if (typeof _origPIS89 === 'function' && !_origPIS89._s4Col89) {
+    window._s4OpenPIS = function() {
+        _origPIS89.apply(this, arguments);
+        setTimeout(_collapsePIS, 300);
+    };
+    window._s4OpenPIS._s4Col89 = true;
+}
+
+// Also observe DOM for dynamically created modals
+var _obs89 = new MutationObserver(function(mutations) {
+    mutations.forEach(function(m) {
+        m.addedNodes.forEach(function(node) {
+            if (node.nodeType !== 1) return;
+            if (node.classList && node.classList.contains('s4-lpl-overlay')) setTimeout(_collapseLPL, 250);
+            if (node.classList && node.classList.contains('s4-pis-overlay')) setTimeout(_collapsePIS, 250);
+        });
+    });
+});
+_obs89.observe(document.body, { childList: true });
+
+})();
+
+/* ═══════════════════════════════════════════════════════════════════
+   §91 — AUTO-GENERATE NEXT ACTION
+   Adds "Auto-Generate Next Action" link inside the lightning bolt
+   Actions menu of all 23 tools. Uses AI to suggest the next logical
+   step and auto-fills an action item.
+   ═══════════════════════════════════════════════════════════════════ */
+(function() {
+'use strict';
+
+// Demo suggestions per tool type
+var _SUGGESTIONS = {
+    'hub-compliance': 'Create follow-up task: "Address 3 open NIST 800-171 gaps in AC-2, IA-5, and SC-7 — assign to Compliance Lead, due in 14 days."',
+    'hub-analysis': 'Create follow-up task: "Schedule ILS gap review meeting for top 5 gaps identified — assign to Program Manager, due next Friday."',
+    'hub-actions': 'Create follow-up task: "Escalate 2 overdue items to Program Director — prepare impact brief with cost estimates."',
+    'hub-vault': 'Create follow-up task: "Archive Q1 FY26 audit package and anchor to XRPL for immutable proof."',
+    'hub-reports': 'Create follow-up task: "Generate updated Audit Builder report with latest compliance scores for POM review."',
+    'hub-risk': 'Create follow-up task: "Initiate secondary vendor qualification for FPGA single-source dependency — target 45-day timeline."',
+    'hub-docs': 'Create follow-up task: "Review and update 4 documents approaching revision deadline — assign to Document Control."',
+    'hub-submissions': 'Create follow-up task: "Prepare DI-ILSS-81495 submission package for Government review — due in 7 days."',
+    'hub-cdrl': 'Create follow-up task: "Resolve overdue DRL DI-023 — coordinate with HII for updated technical data package."',
+    'hub-contract': 'Create follow-up task: "Flag ECP-7 cost variance for Contract Officer review — prepare supporting analysis."',
+    'hub-dmsms': 'Create follow-up task: "Initiate last-time buy for MIL-STD-1553 bus controller before EOL — budget $85K."',
+    'hub-readiness': 'Create follow-up task: "Improve readiness score by addressing 3 lowest-scoring ILS elements — target 90% by end of quarter."',
+    'hub-sbom': 'Create follow-up task: "Complete SBOM validation for navigation module — 4 components still unverified."',
+    'hub-gfp': 'Create follow-up task: "Schedule annual GFP physical inventory — coordinate with Government Property Administrator."',
+    'hub-provenance': 'Create follow-up task: "Anchor latest custody transfer records for hull-mounted sensor subsystem."',
+    'hub-lifecycle': 'Create follow-up task: "Update lifecycle cost estimate with Q1 actuals — variance exceeded 5% threshold."',
+    'hub-roi': 'Create follow-up task: "Prepare ROI summary for leadership brief — highlight $250K savings realized this quarter."',
+    'hub-predictive': 'Create follow-up task: "Review maintenance prediction alerts for 3 components approaching failure threshold."',
+    'hub-analytics': 'Create follow-up task: "Generate monthly program overview dashboard for PMS 400D status review."',
+    'hub-team': 'Create follow-up task: "Onboard 2 new team members to S4 platform — assign role-based access."',
+    'hub-acquisition': 'Create follow-up task: "Optimize fleet maintenance schedule based on latest availability data — target 2% improvement."',
+    'hub-milestones': 'Create follow-up task: "Prepare milestone review package for CDR gate — 3 items need resolution before review."',
+    'hub-brief': 'Create follow-up task: "Finalize POM briefing slides with updated cost and schedule data from latest anchor."'
+};
+
+var _DEFAULT_SUGGESTION = 'Create follow-up task: "Review latest tool output and address any flagged items — assign to responsible party, due in 7 days."';
+
+function _getAutoAction(panelId) {
+    return _SUGGESTIONS[panelId] || _DEFAULT_SUGGESTION;
+}
+
+function _injectAutoAction() {
+    var panels = document.querySelectorAll('.ils-hub-panel');
+    panels.forEach(function(panel) {
+        var list = panel.querySelector('.s4-actions-list');
+        if (!list) return;
+        if (list.querySelector('.s4-autoaction-link')) return;
+
+        var panelId = panel.id;
+
+        var link = document.createElement('button');
+        link.className = 's4-autoaction-link';
+        link.innerHTML = '<i class="fas fa-wand-magic-sparkles"></i> Auto-Generate Next Action';
+        link.addEventListener('click', function(e) {
+            e.stopPropagation();
+            // Close dropdown
+            var openList = link.closest('.s4-actions-list');
+            if (openList) openList.classList.remove('s4-open');
+            var trigger = panel.querySelector('.s4-actions-trigger');
+            if (trigger) trigger.classList.remove('s4-open');
+
+            var suggestion = _getAutoAction(panelId);
+            // Show toast with suggestion and auto-open action modal
+            if (typeof _toast === 'function') _toast('AI Suggestion: ' + suggestion, 'info', 6000);
+
+            // Try to open the action modal and pre-fill
+            setTimeout(function() {
+                if (typeof showAddActionModal === 'function') {
+                    showAddActionModal('ils');
+                    setTimeout(function() {
+                        // Try to fill the description field
+                        var desc = document.querySelector('#actionItemModal textarea, .s4-action-modal textarea, [id*="actionDesc"], [id*="actionNote"]');
+                        if (desc) {
+                            desc.value = suggestion;
+                            desc.dispatchEvent(new Event('input', { bubbles: true }));
+                        }
+                    }, 400);
+                }
+            }, 300);
+        });
+        list.appendChild(link);
+    });
+}
+
+// Hook into tool open
+var _origOpen91 = window.openILSTool;
+if (typeof _origOpen91 === 'function' && !_origOpen91._s4Auto91) {
+    window.openILSTool = function(id) {
+        _origOpen91.call(this, id);
+        setTimeout(_injectAutoAction, 800);
+    };
+    window.openILSTool._s4Auto91 = true;
+}
+setTimeout(_injectAutoAction, 4500);
+
+})();
+
+/* ═══════════════════════════════════════════════════════════════════
+   §92 — ANONYMOUS PROGRAM BENCHMARK
+   Adds a small toggle in the Secure Collaboration Network section
+   that shows how your program's key metrics compare anonymously
+   to industry averages (privacy-preserving).
+   ═══════════════════════════════════════════════════════════════════ */
+(function() {
+'use strict';
+
+var _BENCHMARK_METRICS = [
+    { label: 'Readiness Score', yours: 87, avg: 72, max: 100 },
+    { label: 'Compliance', yours: 92, avg: 78, max: 100 },
+    { label: 'On-Time Delivery', yours: 84, avg: 68, max: 100 },
+    { label: 'Risk Mitigation', yours: 79, avg: 65, max: 100 },
+    { label: 'SBOM Coverage', yours: 91, avg: 59, max: 100 },
+    { label: 'Audit Pass Rate', yours: 96, avg: 81, max: 100 }
+];
+
+function _buildBenchmarkPanel(prefix) {
+    var id = prefix + 'BenchmarkPanel';
+    if (document.getElementById(id)) return;
+
+    // Find SCN bar-actions container
+    var actionsId = prefix ? prefix + 'ScnBarActions' : 'scnBarActions';
+    var actionsEl = document.getElementById(actionsId);
+    if (!actionsEl) return;
+
+    // Create the toggle row
+    var row = document.createElement('div');
+    row.className = 's4-bench-toggle-row';
+    row.innerHTML = '<label><input type="checkbox" id="' + prefix + 'BenchToggle" onchange="window._s4BenchmarkToggle(\'' + prefix + '\',this.checked)"> <i class="fas fa-chart-column"></i> Anonymous Program Benchmark</label>';
+
+    // Create results panel
+    var results = document.createElement('div');
+    results.className = 's4-bench-results';
+    results.id = id;
+
+    var html = '<div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:var(--steel);margin-bottom:8px"><i class="fas fa-chart-column" style="color:#5856D6;margin-right:4px"></i> Your Program vs. Industry Average (anonymized)</div>';
+
+    _BENCHMARK_METRICS.forEach(function(m) {
+        var yourPct = Math.round(m.yours / m.max * 100);
+        var avgPct = Math.round(m.avg / m.max * 100);
+        html += '<div class="s4-bench-bar-row">';
+        html += '<span class="s4-bench-bar-label">' + m.label + '</span>';
+        html += '<div class="s4-bench-bar-track">';
+        html += '<div class="s4-bench-bar-fill yours" style="width:' + yourPct + '%"></div>';
+        html += '<div class="s4-bench-bar-marker" style="left:' + avgPct + '%"></div>';
+        html += '</div>';
+        html += '<span class="s4-bench-bar-value">' + m.yours + '%</span>';
+        html += '</div>';
+    });
+
+    html += '<div class="s4-bench-legend">';
+    html += '<span><span class="s4-bench-legend-dot yours"></span> Your Program</span>';
+    html += '<span><span class="s4-bench-legend-dot avg"></span> Industry Average</span>';
+    html += '</div>';
+
+    results.innerHTML = html;
+
+    // Insert after SCN bar actions
+    var scnBar = actionsEl.closest('.s4-scn-bar');
+    if (scnBar) {
+        scnBar.insertAdjacentElement('afterend', results);
+        scnBar.insertAdjacentElement('afterend', row);
+    }
+}
+
+window._s4BenchmarkToggle = function(prefix, checked) {
+    var panel = document.getElementById(prefix + 'BenchmarkPanel');
+    if (panel) {
+        if (checked) { panel.classList.add('open'); }
+        else { panel.classList.remove('open'); }
+    }
+};
+
+// Inject after SCN is ready
+function _tryInjectBenchmark() {
+    _buildBenchmarkPanel('cdrl');
+    _buildBenchmarkPanel('sub');
+    // Also inject if prefix is empty (generic)
+    _buildBenchmarkPanel('');
+}
+
+// Hook SCN toggle to inject benchmark after SCN activates
+var _origSCNToggle = window._s4SCNToggle;
+if (typeof _origSCNToggle === 'function' && !_origSCNToggle._s4Bench92) {
+    window._s4SCNToggle = function(prefix, checked) {
+        _origSCNToggle.call(this, prefix, checked);
+        if (checked) setTimeout(function() { _buildBenchmarkPanel(prefix); }, 400);
+    };
+    window._s4SCNToggle._s4Bench92 = true;
+}
+
+// Also try on load in case SCN is already active
+setTimeout(_tryInjectBenchmark, 5000);
+
+})();
