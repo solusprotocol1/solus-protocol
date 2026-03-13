@@ -13898,7 +13898,7 @@ function _openLPLModal() {
 
     var html = '<div class="s4-lpl-modal">';
     html += '<button class="s4-lpl-close" onclick="this.closest(\'.s4-lpl-overlay\').remove()">&times;</button>';
-    html += '<h2><i class="fas fa-book-open"></i> Living Program Ledger \u2014 ' + _escHtml(data.program) + '</h2>';
+    html += '<h2><i class="fas fa-book-open"></i> Living Program Ledger</h2>';
     html += '<p class="s4-lpl-subtitle">Single source of truth \u2022 Versioned \u2022 Anchored to XRPL \u2022 AI-enhanced</p>';
 
     // Version bar
@@ -14214,6 +14214,416 @@ if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', function() { setTimeout(_hookLPL, 1100); });
 } else {
     setTimeout(_hookLPL, 1100);
+}
+
+})();
+
+/* ═══════════════════════════════════════════════════════════════════
+   PROGRAM IMPACT SIMULATOR — Standalone buttons in Risk Radar
+   and Obsolescence Alert. Shows cascade effects of a single risk
+   or delay through the entire program and mission.
+   ═══════════════════════════════════════════════════════════════════ */
+// TODO: Backend endpoint /api/impact-simulator to calculate cascade effects from anchored data.
+(function() {
+'use strict';
+
+var _pisAIOn = true;
+
+// ── Gather risks/items from the source panel ──
+function _gatherPanelItems(panelId) {
+    var panel = document.getElementById(panelId);
+    if (!panel) return [];
+    var items = [];
+
+    // Try table rows first
+    panel.querySelectorAll('tbody tr').forEach(function(tr) {
+        var cells = tr.querySelectorAll('td');
+        if (cells.length >= 2) {
+            var text = (cells[0].textContent || '').trim();
+            var severity = (cells.length >= 3 ? cells[2].textContent : cells[1].textContent || '').trim();
+            if (text && text.length > 3) items.push({ label: text.substring(0, 80), severity: severity });
+        }
+    });
+    // Try list items
+    if (!items.length) {
+        panel.querySelectorAll('.list-group-item, li, .result-item').forEach(function(el) {
+            var text = (el.textContent || '').trim().replace(/\s+/g, ' ');
+            if (text && text.length > 5 && text.length < 120) items.push({ label: text.substring(0, 80), severity: '' });
+        });
+    }
+    // Fallback demo items based on panel
+    if (!items.length) {
+        if (panelId === 'hub-risk') {
+            items = [
+                { label: 'Vendor delivery delay — hull-mounted sensor subsystem', severity: 'HIGH' },
+                { label: 'SBOM completeness gap in navigation module', severity: 'MEDIUM' },
+                { label: 'Contract ECP-7 cost overrun potential', severity: 'MEDIUM' },
+                { label: 'Personnel turnover in test engineering', severity: 'LOW' },
+                { label: 'Supply chain single-source dependency (FPGA supplier)', severity: 'HIGH' }
+            ];
+        } else {
+            items = [
+                { label: 'MIL-STD-1553 bus controller — EOL announced Q3 FY26', severity: 'CRITICAL' },
+                { label: 'AN/SPS-73 radar display unit — diminishing sources', severity: 'HIGH' },
+                { label: 'GPS receiver module (L1/L2) — last-time buy window closing', severity: 'HIGH' },
+                { label: 'Power supply unit PSU-4A — replacement qualified', severity: 'MEDIUM' },
+                { label: 'Communication encryption card — NIST transition required', severity: 'MEDIUM' }
+            ];
+        }
+    }
+    return items;
+}
+
+// ── Generate cascade effects for selected risk ──
+function _generateCascade(item, panelId) {
+    var sev = (item.severity || '').toUpperCase();
+    var isCritical = sev === 'CRITICAL' || sev === 'HIGH';
+    var isMedium = sev === 'MEDIUM';
+
+    var schedDelay = isCritical ? Math.floor(Math.random() * 60) + 30 : isMedium ? Math.floor(Math.random() * 30) + 10 : Math.floor(Math.random() * 14) + 3;
+    var costImpact = isCritical ? Math.floor(Math.random() * 4000 + 1500) : isMedium ? Math.floor(Math.random() * 1200 + 300) : Math.floor(Math.random() * 200 + 50);
+    var readinessDrop = isCritical ? (Math.random() * 12 + 5).toFixed(1) : isMedium ? (Math.random() * 5 + 1).toFixed(1) : (Math.random() * 2 + 0.5).toFixed(1);
+    var downstreamCount = isCritical ? Math.floor(Math.random() * 4) + 2 : isMedium ? Math.floor(Math.random() * 2) + 1 : 1;
+
+    return {
+        scheduleDelay: schedDelay,
+        costImpact: costImpact,
+        readinessDrop: readinessDrop,
+        downstreamPrograms: downstreamCount,
+        riskLabel: item.label,
+        severity: sev
+    };
+}
+
+// ── Fallback explanation + mitigations ──
+function _fallbackExplanation(cascade) {
+    var lines = [];
+    lines.push('Risk: ' + cascade.riskLabel);
+    lines.push('');
+    lines.push('If this risk materializes, the program faces a ' + cascade.scheduleDelay + '-day schedule delay, impacting the critical path through integration testing and system verification.');
+    lines.push('');
+    lines.push('Cost impact of ~$' + cascade.costImpact + 'K includes additional labor, expedite fees, and potential retest costs. Readiness score projected to drop ' + cascade.readinessDrop + '% from current baseline.');
+    lines.push('');
+    lines.push(cascade.downstreamPrograms + ' downstream program' + (cascade.downstreamPrograms > 1 ? 's' : '') + ' would be affected due to shared components and schedule dependencies.');
+    return lines.join('\n');
+}
+
+function _fallbackMitigations(cascade) {
+    var m = [];
+    m.push('Establish secondary vendor qualification to reduce single-source dependency (timeline: 45-60 days).');
+    m.push('Pre-position critical long-lead components from safety stock to maintain schedule buffer.');
+    if (cascade.costImpact > 1000) {
+        m.push('Request management reserve allocation of $' + Math.round(cascade.costImpact * 0.3) + 'K to cover expedite and retest costs.');
+    }
+    m.push('Accelerate ECP approval process to reduce decision-to-action lag from 30 to 10 days.');
+    if (cascade.downstreamPrograms > 1) {
+        m.push('Notify ' + cascade.downstreamPrograms + ' downstream PMs to activate contingency schedules and update IMS baselines.');
+    }
+    return m;
+}
+
+// ── AI call ──
+function _pisCallAI(cascade, panelId, callback) {
+    var toolName = panelId === 'hub-risk' ? 'Risk Radar' : 'Obsolescence Alert';
+    var prompt = 'You are a defense program risk analyst for S4 Ledger. Analyze this risk impact:\n\n' +
+        'Risk: ' + cascade.riskLabel + '\nSeverity: ' + cascade.severity + '\n' +
+        'Schedule Delay: ' + cascade.scheduleDelay + ' days\nCost Impact: $' + cascade.costImpact + 'K\n' +
+        'Readiness Drop: ' + cascade.readinessDrop + '%\nDownstream Programs Affected: ' + cascade.downstreamPrograms + '\n' +
+        'Source Tool: ' + toolName + '\n\n' +
+        'Return JSON with:\n' +
+        '"explanation" — 2-3 paragraph analysis of cascade effects, root cause, and program impact.\n' +
+        '"mitigations" — array of 3-5 specific, actionable mitigation strategies with timelines.';
+
+    fetch('/api/ai-chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: prompt, conversation: [], tool_context: 'impact_simulator', analysis_data: cascade })
+    }).then(function(r) { return r.json(); })
+    .then(function(resp) { callback(resp.response || resp.message || null); })
+    .catch(function() { callback(null); });
+}
+
+function _pisParseAI(text) {
+    if (!text) return null;
+    try {
+        var m = text.match(/\{[\s\S]*\}/);
+        if (m) {
+            var obj = JSON.parse(m[0]);
+            return { explanation: obj.explanation || '', mitigations: Array.isArray(obj.mitigations) ? obj.mitigations : [] };
+        }
+    } catch(e) { /* fall through */ }
+    return { explanation: text.substring(0, 1000), mitigations: [] };
+}
+
+function _escH(s) { var d = document.createElement('div'); d.textContent = s || ''; return d.innerHTML; }
+
+// ── Open the Impact Simulator modal ──
+function _openPISModal(panelId) {
+    if (document.querySelector('.s4-pis-overlay')) return;
+    var items = _gatherPanelItems(panelId);
+    var toolName = panelId === 'hub-risk' ? 'Risk Radar' : 'Obsolescence Alert';
+
+    var ov = document.createElement('div');
+    ov.className = 's4-pis-overlay';
+
+    var html = '<div class="s4-pis-modal">';
+    html += '<button class="s4-pis-close" onclick="this.closest(\'.s4-pis-overlay\').remove()">&times;</button>';
+    html += '<h2><i class="fas fa-bolt"></i> Program Impact Simulator</h2>';
+    html += '<p class="s4-pis-subtitle">Simulate how a single risk or delay cascades through the entire program \u2022 Source: ' + _escH(toolName) + '</p>';
+
+    // Controls: item selector + run button
+    html += '<div class="s4-pis-controls">';
+    html += '<div><span class="s4-pis-lbl">Select Risk / Item to Simulate</span>';
+    html += '<select class="s4-pis-sel" id="s4PisItemSel">';
+    items.forEach(function(item, i) {
+        var sevTag = item.severity ? ' [' + item.severity + ']' : '';
+        html += '<option value="' + i + '">' + _escH(item.label + sevTag) + '</option>';
+    });
+    html += '</select></div>';
+    html += '<button class="s4-pis-run-btn" onclick="window._s4PisRunSim()"><i class="fas fa-play"></i> Run Simulation</button>';
+    html += '</div>';
+
+    // AI toggle
+    html += '<div class="s4-pis-ai-row">';
+    html += '<label><input type="checkbox" id="s4PisAIAssist" checked onchange="window._s4PisAIToggle(this.checked)"> Enhance with AI Analysis</label>';
+    html += '<span class="s4-pis-ai-tag">AI</span>';
+    html += '</div>';
+
+    // Cascade timeline (placeholder)
+    html += '<div class="s4-pis-timeline">';
+    html += '<div class="s4-pis-timeline-hdr"><i class="fas fa-stream"></i> Cascade Impact Timeline</div>';
+    html += '<div id="s4PisCascade" class="s4-pis-cascade"></div>';
+    html += '</div>';
+
+    // AI explanation
+    html += '<div class="s4-pis-explanation">';
+    html += '<div class="s4-pis-explanation-hdr"><i class="fas fa-brain"></i> Impact Analysis</div>';
+    html += '<div class="s4-pis-explanation-body" id="s4PisExplanation">Select a risk and click "Run Simulation" to see cascade effects.</div>';
+    html += '</div>';
+
+    // Mitigation paths
+    html += '<div class="s4-pis-mitigation">';
+    html += '<div class="s4-pis-mitigation-hdr"><i class="fas fa-shield-alt"></i> Recommended Mitigation Paths</div>';
+    html += '<div id="s4PisMitigations" class="s4-pis-mitigation-list"></div>';
+    html += '</div>';
+
+    // Footer
+    html += '<div class="s4-pis-footer">';
+    html += '<button onclick="window._s4PisExportSlide()"><i class="fas fa-file-powerpoint"></i> Export as Briefing Slide</button>';
+    html += '<button onclick="window._s4PisSaveToLPL()"><i class="fas fa-book-open"></i> Save to Living Program Ledger</button>';
+    html += '<button class="s4-pis-primary" onclick="this.closest(\'.s4-pis-overlay\').remove()"><i class="fas fa-check"></i> Done</button>';
+    html += '</div>';
+
+    html += '</div>';
+    ov.innerHTML = html;
+    document.body.appendChild(ov);
+    ov.addEventListener('click', function(e) { if (e.target === ov) ov.remove(); });
+
+    var escHandler = function(e) { if (e.key === 'Escape') { ov.remove(); document.removeEventListener('keydown', escHandler); } };
+    document.addEventListener('keydown', escHandler);
+
+    // Store items and panelId for later use
+    ov._pisItems = items;
+    ov._pisPanelId = panelId;
+
+    // Auto-run simulation for first item
+    setTimeout(function() { window._s4PisRunSim(); }, 300);
+}
+
+// ── Run simulation ──
+window._s4PisRunSim = function() {
+    var ov = document.querySelector('.s4-pis-overlay');
+    if (!ov) return;
+    var sel = document.getElementById('s4PisItemSel');
+    if (!sel) return;
+    var idx = parseInt(sel.value, 10);
+    var items = ov._pisItems || [];
+    var panelId = ov._pisPanelId || 'hub-risk';
+    if (idx < 0 || idx >= items.length) return;
+
+    var item = items[idx];
+    var cascade = _generateCascade(item, panelId);
+
+    // Render cascade timeline
+    var cascadeEl = document.getElementById('s4PisCascade');
+    if (cascadeEl) {
+        cascadeEl.innerHTML =
+            '<div class="s4-pis-cascade-step">' +
+                '<div class="s4-pis-cascade-icon">\u26A0\uFE0F</div>' +
+                '<div class="s4-pis-cascade-label">Risk Event</div>' +
+                '<div class="s4-pis-cascade-value warning">' + _escH(cascade.severity || 'IDENTIFIED') + '</div>' +
+                '<div class="s4-pis-cascade-sub">' + _escH(cascade.riskLabel.substring(0, 40)) + '</div>' +
+            '</div>' +
+            '<div class="s4-pis-cascade-step">' +
+                '<div class="s4-pis-cascade-icon">\uD83D\uDCC5</div>' +
+                '<div class="s4-pis-cascade-label">Schedule Delay</div>' +
+                '<div class="s4-pis-cascade-value negative">+' + cascade.scheduleDelay + ' days</div>' +
+                '<div class="s4-pis-cascade-sub">Critical path impact</div>' +
+            '</div>' +
+            '<div class="s4-pis-cascade-step">' +
+                '<div class="s4-pis-cascade-icon">\uD83D\uDCB0</div>' +
+                '<div class="s4-pis-cascade-label">Cost Impact</div>' +
+                '<div class="s4-pis-cascade-value negative">+$' + cascade.costImpact + 'K</div>' +
+                '<div class="s4-pis-cascade-sub">Labor + expedite + retest</div>' +
+            '</div>' +
+            '<div class="s4-pis-cascade-step">' +
+                '<div class="s4-pis-cascade-icon">\uD83D\uDCC9</div>' +
+                '<div class="s4-pis-cascade-label">Readiness Drop</div>' +
+                '<div class="s4-pis-cascade-value negative">\u2212' + cascade.readinessDrop + '%</div>' +
+                '<div class="s4-pis-cascade-sub">From current baseline</div>' +
+            '</div>' +
+            '<div class="s4-pis-cascade-step">' +
+                '<div class="s4-pis-cascade-icon">\uD83D\uDD17</div>' +
+                '<div class="s4-pis-cascade-label">Downstream</div>' +
+                '<div class="s4-pis-cascade-value warning">' + cascade.downstreamPrograms + ' program' + (cascade.downstreamPrograms > 1 ? 's' : '') + '</div>' +
+                '<div class="s4-pis-cascade-sub">Shared dependencies</div>' +
+            '</div>';
+    }
+
+    // Render explanation + mitigations
+    var explEl = document.getElementById('s4PisExplanation');
+    var mitEl = document.getElementById('s4PisMitigations');
+
+    if (_pisAIOn) {
+        if (explEl) explEl.innerHTML = '<span class="s4-pis-spinner"></span> AI analyzing cascade effects\u2026';
+        if (mitEl) mitEl.innerHTML = '<div style="font-size:0.82rem;color:var(--muted,#6e6e73);padding:8px"><span class="s4-pis-spinner"></span> Generating mitigation paths\u2026</div>';
+
+        _pisCallAI(cascade, panelId, function(text) {
+            var parsed = _pisParseAI(text);
+            if (parsed && parsed.explanation) {
+                if (explEl) explEl.textContent = parsed.explanation;
+            } else {
+                if (explEl) explEl.textContent = _fallbackExplanation(cascade);
+            }
+            var mits = (parsed && parsed.mitigations.length) ? parsed.mitigations : _fallbackMitigations(cascade);
+            _renderMitigations(mitEl, mits);
+        });
+    } else {
+        if (explEl) explEl.textContent = _fallbackExplanation(cascade);
+        _renderMitigations(mitEl, _fallbackMitigations(cascade));
+    }
+
+    // Store current cascade for export
+    ov._pisCascade = cascade;
+};
+
+function _renderMitigations(container, mitigations) {
+    if (!container) return;
+    container.innerHTML = '';
+    mitigations.forEach(function(m) {
+        var text = typeof m === 'string' ? m : (m.action || m.description || m.text || JSON.stringify(m));
+        var div = document.createElement('div');
+        div.className = 's4-pis-mitigation-item';
+        div.innerHTML = '<i class="fas fa-check-circle"></i> <span>' + _escH(text) + '</span>';
+        container.appendChild(div);
+    });
+}
+
+// ── AI toggle ──
+window._s4PisAIToggle = function(on) { _pisAIOn = on; };
+
+// ── Export as Briefing Slide ──
+window._s4PisExportSlide = function() {
+    var ov = document.querySelector('.s4-pis-overlay');
+    var cascade = ov ? ov._pisCascade : null;
+    if (!cascade) { if (typeof _toast === 'function') _toast('Run a simulation first', 'info'); return; }
+
+    var explEl = document.getElementById('s4PisExplanation');
+    var lines = [];
+    lines.push('PROGRAM IMPACT SIMULATION — BRIEFING SLIDE');
+    lines.push('='.repeat(50));
+    lines.push('');
+    lines.push('RISK: ' + cascade.riskLabel);
+    lines.push('SEVERITY: ' + (cascade.severity || 'N/A'));
+    lines.push('');
+    lines.push('CASCADE IMPACT:');
+    lines.push('  Schedule Delay: +' + cascade.scheduleDelay + ' days');
+    lines.push('  Cost Impact: +$' + cascade.costImpact + 'K');
+    lines.push('  Readiness Drop: -' + cascade.readinessDrop + '%');
+    lines.push('  Downstream Programs: ' + cascade.downstreamPrograms);
+    lines.push('');
+    lines.push('ANALYSIS:');
+    if (explEl) lines.push(explEl.textContent);
+    lines.push('');
+    lines.push('RECOMMENDED MITIGATIONS:');
+    document.querySelectorAll('#s4PisMitigations .s4-pis-mitigation-item span').forEach(function(s, i) {
+        lines.push('  ' + (i + 1) + '. ' + s.textContent);
+    });
+    lines.push('');
+    lines.push('\u2014 Generated by S4 Ledger Program Impact Simulator');
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(lines.join('\n')).then(function() {
+            if (typeof _toast === 'function') _toast('Briefing slide copied to clipboard \u2014 paste into PowerPoint', 'success');
+        });
+    }
+};
+
+// ── Save to Living Program Ledger ──
+window._s4PisSaveToLPL = function() {
+    var ov = document.querySelector('.s4-pis-overlay');
+    var cascade = ov ? ov._pisCascade : null;
+    if (!cascade) { if (typeof _toast === 'function') _toast('Run a simulation first', 'info'); return; }
+
+    // Append to LPL risks section in localStorage
+    var lplKey = 's4_lpl_data';
+    var lplData;
+    try { lplData = JSON.parse(localStorage.getItem(lplKey)); } catch(e) { lplData = null; }
+    if (!lplData) lplData = { sections: {}, executive: '', savedAt: new Date().toISOString() };
+    if (!lplData.sections) lplData.sections = {};
+
+    var existing = lplData.sections.risks || '';
+    var addition = '\n\u2022 [SIMULATED] ' + cascade.riskLabel + ' \u2014 +' + cascade.scheduleDelay + 'd delay, +$' + cascade.costImpact + 'K cost, -' + cascade.readinessDrop + '% readiness';
+    lplData.sections.risks = existing + addition;
+    lplData.savedAt = new Date().toISOString();
+    localStorage.setItem(lplKey, JSON.stringify(lplData));
+
+    if (typeof _toast === 'function') _toast('Impact simulation saved to Living Program Ledger', 'success');
+};
+
+// ── Inject buttons into Risk Radar and Obsolescence Alert ──
+function _injectPISBtn(panelId) {
+    var panel = document.getElementById(panelId);
+    if (!panel) return;
+    if (panel.querySelector('.s4-pis-standalone-btn')) return;
+    var actionsMenu = panel.querySelector('.s4-actions-menu');
+    var btn = document.createElement('button');
+    btn.className = 's4-pis-standalone-btn';
+    btn.innerHTML = '<i class="fas fa-bolt"></i> Run Program Impact Simulator';
+    btn.onclick = function() { _openPISModal(panelId); };
+    if (actionsMenu && actionsMenu.parentNode) {
+        actionsMenu.parentNode.insertBefore(btn, actionsMenu.nextSibling);
+    }
+}
+
+// ── Hook into openILSTool chain ──
+function _hookPIS() {
+    var orig = window.openILSTool;
+    if (typeof orig !== 'function' || orig._s4PISHooked) return;
+    var wrapped = function(toolId) {
+        orig.call(this, toolId);
+        if (toolId === 'hub-risk' || toolId === 'hub-dmsms') {
+            setTimeout(function() { _injectPISBtn(toolId); }, 2000);
+        }
+    };
+    wrapped._s4PISHooked = true;
+    if (orig._s4ProdHooked) wrapped._s4ProdHooked = true;
+    if (orig._s4ChainHooked) wrapped._s4ChainHooked = true;
+    if (orig._s4R13Hooked) wrapped._s4R13Hooked = true;
+    if (orig._s4TodayHooked) wrapped._s4TodayHooked = true;
+    if (orig._s4R58Hooked) wrapped._s4R58Hooked = true;
+    if (orig._s4R65Hooked) wrapped._s4R65Hooked = true;
+    if (orig._s4R72Hooked) wrapped._s4R72Hooked = true;
+    if (orig._s4HLHooked) wrapped._s4HLHooked = true;
+    if (orig._s4R79Hooked) wrapped._s4R79Hooked = true;
+    if (orig._s4LPLHooked) wrapped._s4LPLHooked = true;
+    window.openILSTool = wrapped;
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() { setTimeout(_hookPIS, 1150); });
+} else {
+    setTimeout(_hookPIS, 1150);
 }
 
 })();
