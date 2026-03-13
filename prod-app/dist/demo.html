@@ -11,20 +11,20 @@
     <noscript><link rel="stylesheet" href="/s4-assets/style.css"></noscript>
     <style>
         :root {
-            --bg: #2c2c2e;
-            --surface: #0a0f1c;
-            --card: #0d1220;
-            --border: rgba(255,255,255,0.06);
+            --bg: #f5f5f7;
+            --surface: #ffffff;
+            --card: #ffffff;
+            --border: rgba(0,0,0,0.08);
             --accent: #00aaff;
             --gold: #c9a84c;
-            --text: #c8d6e5;
-            --muted: #6b7d93;
-            --steel: #8ea4b8;
+            --text: #1d1d1f;
+            --muted: #6e6e73;
+            --steel: #3a3a3c;
             --green: #00cc66;
             --red: #ff6b6b;
-            --demo-border: rgba(255,255,255,0.1);
-            --demo-card-bg: #0d1220;
-            --demo-text: #c8d6e5;
+            --demo-border: rgba(0,0,0,0.10);
+            --demo-card-bg: #ffffff;
+            --demo-text: #1d1d1f;
         }
         * { margin:0; padding:0; box-sizing:border-box; }
         body { font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; overflow-x:hidden; padding-top:64px; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; line-height:1.6; }
@@ -36,44 +36,57 @@
             left:0;
             right:0;
             z-index:1000;
-            background:rgba(5,8,16,0.95);
-            backdrop-filter:blur(20px);
-            -webkit-backdrop-filter:blur(20px);
-            border-bottom:1px solid rgba(255,255,255,0.06);
-            padding:0 2rem;
+            background:rgba(255,255,255,0.92);
+            backdrop-filter:blur(24px);
+            -webkit-backdrop-filter:blur(24px);
+            border-bottom:1px solid rgba(0,0,0,0.06);
+            padding:0 24px;
             height:64px;
             display:flex;
             align-items:center;
             justify-content:space-between;
+            max-width:100%;
+        }
+        .demo-header .nav-inner {
+            max-width:1200px;
+            margin:0 auto;
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            width:100%;
+            height:64px;
         }
         .demo-logo {
             display:flex;
             align-items:center;
-            gap:12px;
+            gap:10px;
             text-decoration:none;
+            color:#1d1d1f;
+            font-weight:700;
+            font-size:1.1rem;
+            letter-spacing:-0.02em;
         }
-        .demo-logo img { height:32px; }
-        .demo-logo span { font-size:1.1rem; font-weight:700; color:#fff; letter-spacing:-0.02em; }
+        .demo-logo img { height:32px; width:32px; }
         .demo-logo .sub { font-size:0.72rem; color:var(--muted); font-weight:500; margin-left:8px; }
-        .demo-nav { display:flex; gap:12px; align-items:center; }
+        .demo-nav { display:flex; gap:32px; align-items:center; list-style:none; }
         .demo-nav a {
             color:var(--steel);
             text-decoration:none;
             font-size:0.875rem;
             font-weight:500;
-            padding:8px 20px;
-            border-radius:3px;
-            border:1px solid rgba(0,170,255,0.3);
-            transition:all 0.2s;
+            transition:color 0.3s;
             letter-spacing:-0.01em;
         }
-        .demo-nav a:hover { background:rgba(0,170,255,0.1); }
+        .demo-nav a:hover { color:var(--text); }
         .demo-nav a.primary {
-            background:linear-gradient(135deg,#00aaff,#0088cc);
+            background:#00aaff;
             color:#fff;
-            border:none;
+            padding:8px 20px;
+            border-radius:3px;
+            font-weight:600;
+            font-size:0.8125rem;
         }
-        .demo-nav a.primary:hover { opacity:0.9; }
+        .demo-nav a.primary:hover { opacity:0.85; }
 
         /* ═══ HERO ═══ */
         .demo-hero {
@@ -85,7 +98,7 @@
         .demo-hero h1 {
             font-size:2.4rem;
             font-weight:900;
-            color:#fff;
+            color:#1d1d1f;
             margin-bottom:12px;
             letter-spacing:-1px;
         }
@@ -120,7 +133,7 @@
             color:var(--accent);
             border-color:rgba(0,170,255,0.4);
         }
-        .demo-tab:hover:not(.active) { border-color:rgba(255,255,255,0.15); color:var(--steel); }
+        .demo-tab:hover:not(.active) { border-color:rgba(0,0,0,0.15); color:var(--steel); }
 
         /* ═══ DEMO PANELS ═══ */
         .demo-panel { display:none; max-width:900px; margin:0 auto; padding:0 32px 60px; }
@@ -137,7 +150,7 @@
         .anchor-demo-card h3 {
             font-size:1.1rem;
             font-weight:800;
-            color:#fff;
+            color:#1d1d1f;
             margin-bottom:16px;
             display:flex;
             align-items:center;
@@ -422,7 +435,7 @@
             border-radius:3px;
             padding:24px;
         }
-        .info-card h4 { font-size:0.9rem; color:#fff; margin-bottom:8px; display:flex; align-items:center; gap:8px; }
+        .info-card h4 { font-size:0.9rem; color:#1d1d1f; margin-bottom:8px; display:flex; align-items:center; gap:8px; }
         .info-card p { font-size:0.8rem; color:var(--steel); line-height:1.5; }
         .info-card i { color:var(--accent); }
 
@@ -442,7 +455,9 @@
             .pipeline { flex-direction:column; padding:0; }
             .pipeline-arrow { transform:rotate(90deg); width:auto; }
             .record-type-grid { grid-template-columns:repeat(4,1fr); }
-            .demo-header { flex-direction:column; gap:12px; }
+            .demo-header { height:auto; padding:12px 24px; }
+            .demo-header .nav-inner { flex-direction:column; gap:12px; height:auto; }
+            .demo-nav { gap:16px; flex-wrap:wrap; justify-content:center; }
             .demo-tabs { flex-wrap:wrap; }
         }
     </style>
@@ -451,15 +466,17 @@
 
 <!-- ═══ HEADER ═══ -->
 <div class="demo-header">
-    <a href="/demo-app/" class="demo-logo">
-        <img src="/s4-assets/S4Ledger_logo.png" alt="S4 Ledger" style="height:32px;width:32px;">
-        <span>S4 Ledger <span class="sub">Interactive Demo</span></span>
-    </a>
-    <div class="demo-nav">
-        <a href="/prod-app/" style="color:rgba(255,255,255,0.7);border:none;padding:0.5rem 0.75rem;font-size:0.875rem;font-weight:500;">Platform</a>
-        <a href="/s4-use-cases/" style="color:rgba(255,255,255,0.7);border:none;padding:0.5rem 0.75rem;font-size:0.875rem;font-weight:500;">Use Cases</a>
-        <a href="/s4-pricing/" style="color:rgba(255,255,255,0.7);border:none;padding:0.5rem 0.75rem;font-size:0.875rem;font-weight:500;">Pricing</a>
-        <a href="/demo-app/" class="primary"><i class="fas fa-rocket"></i> Enter Platform</a>
+    <div class="nav-inner">
+        <a href="/" class="demo-logo">
+            <img src="/s4-assets/S4Ledger_logo.png" alt="S4 Ledger">
+            <span>S4 Ledger <span class="sub">Interactive Demo</span></span>
+        </a>
+        <div class="demo-nav">
+            <a href="/prod-app/">Platform</a>
+            <a href="/s4-use-cases/">Use Cases</a>
+            <a href="/s4-pricing/">Pricing</a>
+            <a href="/demo-app/" class="primary"><i class="fas fa-rocket" style="margin-right:6px"></i>Enter Platform</a>
+        </div>
     </div>
 </div>
 
@@ -629,7 +646,7 @@
         <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
             <i class="fas fa-check-circle" style="color:var(--green);font-size:1.3rem"></i>
             <div>
-                <div style="font-size:1rem;font-weight:800;color:#fff">Record Anchored Successfully</div>
+                <div style="font-size:1rem;font-weight:800;color:#1d1d1f">Record Anchored Successfully</div>
                 <div style="font-size:0.75rem;color:var(--green)">Permanent, tamper-proof record on the XRP Ledger</div>
             </div>
         </div>
@@ -702,7 +719,7 @@
 
 <!-- ═══ INFO SECTION ═══ -->
 <div class="demo-info">
-    <h2 style="font-size:1.3rem;font-weight:800;color:#fff;text-align:center;margin-bottom:24px"><i class="fas fa-info-circle" style="color:var(--accent);margin-right:8px"></i>How S4 Ledger Works</h2>
+    <h2 style="font-size:1.3rem;font-weight:800;color:#1d1d1f;text-align:center;margin-bottom:24px"><i class="fas fa-info-circle" style="color:var(--accent);margin-right:8px"></i>How S4 Ledger Works</h2>
     <div class="info-grid">
         <div class="info-card">
             <h4><i class="fas fa-fingerprint"></i> SHA-256 Hashing</h4>
@@ -725,7 +742,7 @@
 
 <!-- ═══ FOOTER ═══ -->
 <div class="demo-footer">
-    <p>&copy; 2025 S4 Ledger — Blockchain Integrity for Defense Logistics &nbsp;|&nbsp; <a href="/demo-app/">Home</a> &nbsp;|&nbsp; <a href="/demo-app/">Enter Platform</a></p>
+    <p>&copy; 2025–2026 S4 Systems, LLC — Blockchain Integrity for Defense Logistics &nbsp;|&nbsp; <a href="/demo-app/">Home</a> &nbsp;|&nbsp; <a href="/demo-app/">Enter Platform</a></p>
 </div>
 
 <script>

@@ -418,8 +418,8 @@
 
         function getDataForView(baseKey, view) { return metricsData[baseKey + '_by_' + view] || {}; }
 
-        const chartGrid = '#1a2a3a';
-        const chartTick = '#6b7d93';
+        const chartGrid = 'rgba(0,0,0,0.08)';
+        const chartTick = '#3a3a3c';
 
         function renderHashChart(view) {
             const data = getDataForView('hashes', view);
@@ -436,7 +436,7 @@
             const colors = ['#00aaff', 'var(--accent)', 'var(--text-muted)', '#ffa502', '#3742fa', '#2ed573', '#ff6b81', '#70a1ff', '#eccc68', '#a29bfe', '#fd79a8', '#00cec9', '#55efc4', '#74b9ff', '#fab1a0', '#8ea4b8', '#ffeaa7', '#81ecec'];
             const ctx = document.getElementById('recordChart').getContext('2d');
             if (recordChart) recordChart.destroy();
-            recordChart = new Chart(ctx, { type: 'doughnut', data: { labels: labels.length ? labels : ['No records'], datasets: [{ data: values.length ? values : [1], backgroundColor: labels.length ? colors.slice(0, labels.length) : ['#333'], borderWidth: 0 }] }, options: { responsive: true, plugins: { legend: { display: true, position: 'right', labels: { color: '#fff' } } } } });
+            recordChart = new Chart(ctx, { type: 'doughnut', data: { labels: labels.length ? labels : ['No records'], datasets: [{ data: values.length ? values : [1], backgroundColor: labels.length ? colors.slice(0, labels.length) : ['#333'], borderWidth: 0 }] }, options: { responsive: true, plugins: { legend: { display: true, position: 'right', labels: { color: '#1d1d1f', font: { size: 12 } } } } } });
         }
 
         function renderFeeChart(view) {
