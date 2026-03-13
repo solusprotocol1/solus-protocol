@@ -11377,6 +11377,10 @@ function _s4ConvertButtonDensity(targetPanel) {
                 document.querySelectorAll('.s4-actions-list.s4-open').forEach(function(l) { l.classList.remove('s4-open'); });
                 document.querySelectorAll('.s4-actions-trigger.s4-open').forEach(function(t) { t.classList.remove('s4-open'); });
             }
+            // Also close modal footer dropdowns (LPL/PIS)
+            if (!e.target.closest('.s4-modal-footer-dd')) {
+                document.querySelectorAll('.s4-modal-footer-dd.open').forEach(function(dd) { dd.classList.remove('open'); });
+            }
         });
         _s4ConvertButtonDensity._closeAttached = true;
     }
@@ -13978,21 +13982,22 @@ function _openLPLModal() {
     html += '<div id="s4MoceContent" class="s4-moce-content"><button class="s4-moce-run-btn" onclick="window._s4MissionOutcomeCorrelation()"><i class="fas fa-play"></i> Run Correlation Analysis</button></div>';
     html += '</div>';
 
-    // Footer – two compact rows
-    html += '<div class="s4-lpl-footer s4-footer-compact">';
-    html += '<div class="s4-footer-row">';
-    html += '<button onclick="window._s4LplDownloadPDF()"><i class="fas fa-file-pdf"></i> Download PDF</button>';
-    html += '<button class="s4-lpl-signed-pkg-btn" onclick="window._s4LplSignedPackage()"><i class="fas fa-file-signature"></i> Generate Signed Executive Package</button>';
-    html += '<button onclick="window._s4LplCopyEmail()"><i class="fas fa-copy"></i> Copy for Email</button>';
-    html += '<button class="s4-lpl-share-btn" onclick="window._s4LplShare()"><i class="fas fa-user-plus"></i> Share with Team</button>';
-    html += '<button class="s4-lpl-ucb-btn" onclick="window._s4UnifiedCommandBrief()"><i class="fas fa-star"></i> Unified Command Brief</button>';
+    // Footer – Actions dropdown + primary button
+    html += '<div class="s4-lpl-footer s4-modal-footer-bar">';
+    html += '<div class="s4-modal-footer-dd">';
+    html += '<button class="s4-modal-footer-trigger" onclick="this.parentElement.classList.toggle(\'open\')" type="button"><i class="fas fa-bolt"></i> Actions <i class="fas fa-chevron-down s4-mft-chev"></i></button>';
+    html += '<div class="s4-modal-footer-list">';
+    html += '<button onclick="window._s4LplDownloadPDF();this.closest(\'.s4-modal-footer-dd\').classList.remove(\'open\')"><i class="fas fa-file-pdf"></i> Download PDF</button>';
+    html += '<button onclick="window._s4LplSignedPackage();this.closest(\'.s4-modal-footer-dd\').classList.remove(\'open\')"><i class="fas fa-file-signature"></i> Generate Signed Executive Package</button>';
+    html += '<button onclick="window._s4LplCopyEmail();this.closest(\'.s4-modal-footer-dd\').classList.remove(\'open\')"><i class="fas fa-copy"></i> Copy for Email</button>';
+    html += '<button onclick="window._s4LplShare();this.closest(\'.s4-modal-footer-dd\').classList.remove(\'open\')"><i class="fas fa-user-plus"></i> Share with Team</button>';
+    html += '<button onclick="window._s4UnifiedCommandBrief();this.closest(\'.s4-modal-footer-dd\').classList.remove(\'open\')"><i class="fas fa-star"></i> Unified Command Brief</button>';
+    html += '<button onclick="window._s4ZeroTrustHandoff();this.closest(\'.s4-modal-footer-dd\').classList.remove(\'open\')"><i class="fas fa-right-left"></i> Generate Zero-Trust Handoff Package</button>';
+    html += '<button onclick="window._s4ImmutableAAR();this.closest(\'.s4-modal-footer-dd\').classList.remove(\'open\')"><i class="fas fa-clipboard-list"></i> Generate Immutable After-Action Review</button>';
+    html += '<button onclick="window._s4CongressionalFundingForecaster();this.closest(\'.s4-modal-footer-dd\').classList.remove(\'open\')"><i class="fas fa-landmark"></i> Congressional Funding Impact Forecaster</button>';
     html += '</div>';
-    html += '<div class="s4-footer-row">';
-    html += '<button class="s4-zt-handoff-btn" onclick="window._s4ZeroTrustHandoff()"><i class="fas fa-right-left"></i> Generate Zero-Trust Handoff Package</button>';
-    html += '<button class="s4-aar-btn" onclick="window._s4ImmutableAAR()"><i class="fas fa-clipboard-list"></i> Generate Immutable After-Action Review</button>';
-    html += '<button class="s4-cfif-btn" onclick="window._s4CongressionalFundingForecaster()"><i class="fas fa-landmark"></i> Congressional Funding Impact Forecaster</button>';
+    html += '</div>';
     html += '<button class="s4-lpl-primary" onclick="window._s4LplSaveClose()"><i class="fas fa-save"></i> Save & Close</button>';
-    html += '</div>';
     html += '</div>';
 
     html += '</div>';
@@ -14449,20 +14454,21 @@ function _openPISModal(panelId) {
     html += '<div id="s4PisMonteCarloLegend" class="s4-pis-montecarlo-legend"></div>';
     html += '</div>';
 
-    // Footer – two compact rows
-    html += '<div class="s4-pis-footer s4-footer-compact">';
-    html += '<div class="s4-footer-row">';
-    html += '<button onclick="window._s4PisExportSlide()"><i class="fas fa-file-powerpoint"></i> Export as Briefing Slide</button>';
-    html += '<button onclick="window._s4PisSaveScenarioToLPL()"><i class="fas fa-book-open"></i> Save Scenario to Living Program Ledger</button>';
-    html += '<button class="s4-cmil-btn" onclick="window._s4SaveToCMIL()"><i class="fas fa-shield-halved"></i> Save to Cryptographic Mission Impact Ledger</button>';
-    html += '<button class="s4-pis-ucb-btn" onclick="window._s4UnifiedCommandBrief()"><i class="fas fa-star"></i> Unified Command Brief</button>';
+    // Footer – Actions dropdown + primary button
+    html += '<div class="s4-pis-footer s4-modal-footer-bar">';
+    html += '<div class="s4-modal-footer-dd">';
+    html += '<button class="s4-modal-footer-trigger" onclick="this.parentElement.classList.toggle(\'open\')" type="button"><i class="fas fa-bolt"></i> Actions <i class="fas fa-chevron-down s4-mft-chev"></i></button>';
+    html += '<div class="s4-modal-footer-list">';
+    html += '<button onclick="window._s4PisExportSlide();this.closest(\'.s4-modal-footer-dd\').classList.remove(\'open\')"><i class="fas fa-file-powerpoint"></i> Export as Briefing Slide</button>';
+    html += '<button onclick="window._s4PisSaveScenarioToLPL();this.closest(\'.s4-modal-footer-dd\').classList.remove(\'open\')"><i class="fas fa-book-open"></i> Save Scenario to Living Program Ledger</button>';
+    html += '<button onclick="window._s4SaveToCMIL();this.closest(\'.s4-modal-footer-dd\').classList.remove(\'open\')"><i class="fas fa-shield-halved"></i> Save to Cryptographic Mission Impact Ledger</button>';
+    html += '<button onclick="window._s4UnifiedCommandBrief();this.closest(\'.s4-modal-footer-dd\').classList.remove(\'open\')"><i class="fas fa-star"></i> Unified Command Brief</button>';
+    html += '<button onclick="window._s4SelfExecutingContractClause();this.closest(\'.s4-modal-footer-dd\').classList.remove(\'open\')"><i class="fas fa-file-contract"></i> Self-Executing Contract Clause</button>';
+    html += '<button onclick="window._s4SupplyChainInsuranceOptimizer();this.closest(\'.s4-modal-footer-dd\').classList.remove(\'open\')"><i class="fas fa-shield-virus"></i> Supply Chain Insurance Optimizer</button>';
+    html += '<button onclick="window._s4MultiProgramCascadeSimulator();this.closest(\'.s4-modal-footer-dd\').classList.remove(\'open\')"><i class="fas fa-diagram-project"></i> Multi-Program Cascade Simulator</button>';
     html += '</div>';
-    html += '<div class="s4-footer-row">';
-    html += '<button class="s4-semc-btn" onclick="window._s4SelfExecutingContractClause()"><i class="fas fa-file-contract"></i> Self-Executing Contract Clause</button>';
-    html += '<button class="s4-scio-btn" onclick="window._s4SupplyChainInsuranceOptimizer()"><i class="fas fa-shield-virus"></i> Supply Chain Insurance Optimizer</button>';
-    html += '<button class="s4-mpcs-btn" onclick="window._s4MultiProgramCascadeSimulator()"><i class="fas fa-diagram-project"></i> Multi-Program Cascade Simulator</button>';
+    html += '</div>';
     html += '<button class="s4-pis-primary" onclick="this.closest(\'.s4-pis-overlay\').remove()"><i class="fas fa-check"></i> Done</button>';
-    html += '</div>';
     html += '</div>';
 
     html += '</div>';
