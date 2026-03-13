@@ -13995,6 +13995,7 @@ function _openLPLModal() {
     html += '<button onclick="window._s4ZeroTrustHandoff();this.closest(\'.s4-modal-footer-dd\').classList.remove(\'open\')"><i class="fas fa-right-left"></i> Generate Zero-Trust Handoff Package</button>';
     html += '<button onclick="window._s4ImmutableAAR();this.closest(\'.s4-modal-footer-dd\').classList.remove(\'open\')"><i class="fas fa-clipboard-list"></i> Generate Immutable After-Action Review</button>';
     html += '<button onclick="window._s4CongressionalFundingForecaster();this.closest(\'.s4-modal-footer-dd\').classList.remove(\'open\')"><i class="fas fa-landmark"></i> Congressional Funding Impact Forecaster</button>';
+    html += '<button onclick="window._s4ProgramLegacyArchive();this.closest(\'.s4-modal-footer-dd\').classList.remove(\'open\')"><i class="fas fa-vault"></i> One-Click Program Legacy Archive</button>';
     html += '</div>';
     html += '</div>';
     html += '<button class="s4-lpl-primary" onclick="window._s4LplSaveClose()"><i class="fas fa-save"></i> Save & Close</button>';
@@ -14466,6 +14467,7 @@ function _openPISModal(panelId) {
     html += '<button onclick="window._s4SelfExecutingContractClause();this.closest(\'.s4-modal-footer-dd\').classList.remove(\'open\')"><i class="fas fa-file-contract"></i> Self-Executing Contract Clause</button>';
     html += '<button onclick="window._s4SupplyChainInsuranceOptimizer();this.closest(\'.s4-modal-footer-dd\').classList.remove(\'open\')"><i class="fas fa-shield-virus"></i> Supply Chain Insurance Optimizer</button>';
     html += '<button onclick="window._s4MultiProgramCascadeSimulator();this.closest(\'.s4-modal-footer-dd\').classList.remove(\'open\')"><i class="fas fa-diagram-project"></i> Multi-Program Cascade Simulator</button>';
+    html += '<button onclick="window._s4ProgramLegacyArchive();this.closest(\'.s4-modal-footer-dd\').classList.remove(\'open\')"><i class="fas fa-vault"></i> One-Click Program Legacy Archive</button>';
     html += '</div>';
     html += '</div>';
     html += '<button class="s4-pis-primary" onclick="this.closest(\'.s4-pis-overlay\').remove()"><i class="fas fa-check"></i> Done</button>';
@@ -18755,6 +18757,47 @@ window._s4PlaExecute = function(programName) {
         }
     }, delay * steps.length + 400);
 };
+
+})();
+
+// ── Inject "One-Click Program Legacy Archive" into every tool Actions dropdown ──
+(function() {
+'use strict';
+
+function _injectPLABtn(panelId) {
+    var panel = document.getElementById(panelId);
+    if (!panel) return;
+    if (panel.querySelector('.s4-pla-dropdown-item')) return;
+    var actionsList = panel.querySelector('.s4-actions-list');
+    if (!actionsList) return;
+    var btn = document.createElement('button');
+    btn.className = 's4-btn-secondary s4-pla-dropdown-item';
+    btn.innerHTML = '<i class="fas fa-vault"></i> One-Click Program Legacy Archive';
+    btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        var openList = btn.closest('.s4-actions-list');
+        if (openList) openList.classList.remove('s4-open');
+        var trigger = panel.querySelector('.s4-actions-trigger');
+        if (trigger) trigger.classList.remove('s4-open');
+        window._s4ProgramLegacyArchive();
+    });
+    actionsList.appendChild(btn);
+}
+
+function _injectPLAAll() {
+    var panels = document.querySelectorAll('.ils-hub-panel');
+    panels.forEach(function(panel) { if (panel.id) _injectPLABtn(panel.id); });
+}
+
+var _origOpenPLA = window.openILSTool;
+if (typeof _origOpenPLA === 'function' && !_origOpenPLA._s4PLAHooked) {
+    window.openILSTool = function(id) {
+        _origOpenPLA.call(this, id);
+        setTimeout(function() { _injectPLABtn(id); }, 900);
+    };
+    window.openILSTool._s4PLAHooked = true;
+}
+setTimeout(_injectPLAAll, 4800);
 
 })();
 

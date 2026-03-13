@@ -1597,6 +1597,55 @@
           }
         }
       }
+    },
+    "/api/program-legacy-archive": {
+      "post": {
+        "summary": "One-Click Program Legacy Archive",
+        "description": "Creates a complete, cryptographically sealed archive of the entire program history for long-term retention and future audits. The archive is immutable, tamper-evident, and anchored to XRPL.",
+        "operationId": "programLegacyArchive",
+        "tags": ["Programs"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "program_id": { "type": "string", "description": "Program identifier to archive" },
+                  "program_name": { "type": "string", "description": "Human-readable program name" },
+                  "user_email": { "type": "string", "format": "email", "description": "Email of user sealing the archive" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Archive sealed successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": { "type": "string", "example": "program_legacy_archive_sealed" },
+                    "archive_id": { "type": "string", "example": "PLA-18F3A2B1C" },
+                    "program_id": { "type": "string" },
+                    "program_name": { "type": "string" },
+                    "archive_hash": { "type": "string", "description": "SHA-256 hash of the complete archive manifest" },
+                    "records_archived": { "type": "integer" },
+                    "tx_hash": { "type": "string", "nullable": true },
+                    "explorer_url": { "type": "string", "nullable": true },
+                    "contents": { "type": "array", "items": { "type": "string" } },
+                    "retention": { "type": "string", "example": "permanent" },
+                    "immutable": { "type": "boolean" },
+                    "sealed_at": { "type": "string", "format": "date-time" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
