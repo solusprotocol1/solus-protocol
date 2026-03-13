@@ -15622,7 +15622,237 @@ var _emailToolNames = {
 
 function _escH(s) { var d = document.createElement('div'); d.textContent = s || ''; return d.innerHTML; }
 
-// ── Vault storage (localStorage) ──
+// ── Signature persistence (localStorage) ──
+var SIG_KEY = 's4_email_signature';
+function _loadSignature() { return localStorage.getItem(SIG_KEY) || ''; }
+function _saveSignature(html) { localStorage.setItem(SIG_KEY, html); }
+
+// ── Rich Text Editor builder ──
+// Creates a contenteditable div with a floating toolbar that appears on text selection.
+// Returns { wrap, editor, getHTML, getText, setHTML }
+function _buildRTE(opts) {
+    opts = opts || {};
+    var wrap = document.createElement('div');
+    wrap.className = 's4-rte-wrap';
+
+    // Floating toolbar
+    var toolbar = document.createElement('div');
+    toolbar.className = 's4-rte-toolbar';
+    var cmds = [
+        { cmd: 'bold', icon: 'fa-bold', title: 'Bold' },
+        { cmd: 'italic', icon: 'fa-italic', title: 'Italic' },
+        { cmd: 'underline', icon: 'fa-underline', title: 'Underline' },
+        { sep: true },
+        { cmd: 'insertUnorderedList', icon: 'fa-list-ul', title: 'Bullet List' },
+        { cmd: 'insertOrderedList', icon: 'fa-list-ol', title: 'Numbered List' },
+        { sep: true },
+        { cmd: 'formatBlock_H1', icon: 'fa-heading', title: 'Heading 1', label: 'H1' },
+        { cmd: 'formatBlock_H2', icon: 'fa-heading', title: 'Heading 2', label: 'H2' },
+        { sep: true },
+        { cmd: 'createLink', icon: 'fa-link', title: 'Insert Link' },
+        { cmd: 'insertImage', icon: 'fa-image', title: 'Insert Image' }
+    ];
+    cmds.forEach(function(c) {
+        if (c.sep) {
+            var sep = document.createElement('span');
+            sep.className = 's4-rte-sep';
+            toolbar.appendChild(sep);
+            return;
+        }
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.title = c.title;
+        btn.innerHTML = c.label ? '<i class="fas ' + c.icon + '" style="font-size:0.6rem"></i><span style="font-size:0.65rem;margin-left:2px">' + c.label + '</span>' : '<i class="fas ' + c.icon + '"></i>';
+        btn.onmousedown = function(e) { e.preventDefault(); }; // prevent blur
+        btn.onclick = function(e) {
+            e.preventDefault();
+            editor.focus();
+            if (c.cmd === 'createLink') {
+                var url = prompt('Enter URL:');
+                if (url) document.execCommand('createLink', false, url);
+            } else if (c.cmd === 'insertImage') {
+                var input = document.createElement('input');
+                input.type = 'file';
+                input.accept = 'image/*';
+                input.onchange = function() {
+                    if (!input.files || !input.files[0]) return;
+                    var reader = new FileReader();
+                    reader.onload = function(ev) {
+                        editor.focus();
+                        document.execCommand('insertImage', false, ev.target.result);
+                    };
+                    reader.readAsDataURL(input.files[0]);
+                };
+                input.click();
+            } else if (c.cmd.indexOf('formatBlock_') === 0) {
+                var tag = c.cmd.replace('formatBlock_', '');
+                document.execCommand('formatBlock', false, '<' + tag + '>');
+            } else {
+                document.execCommand(c.cmd, false, null);
+            }
+            _updateToolbarActive();
+        };
+        toolbar.appendChild(btn);
+    });
+    wrap.appendChild(toolbar);
+
+    // Editor area
+    var editor = document.createElement('div');
+    editor.className = 's4-rte-editor' + (opts.sigMode ? ' s4-sig-editor' : '');
+    editor.contentEditable = 'true';
+    editor.setAttribute('role', 'textbox');
+    editor.setAttribute('aria-multiline', 'true');
+    if (opts.placeholder) editor.setAttribute('data-placeholder', opts.placeholder);
+    wrap.appendChild(editor);
+
+    // Show/hide toolbar on selection
+    function _updateToolbarActive() {
+        var btns = toolbar.querySelectorAll('button');
+        btns.forEach(function(b) {
+            var cmdKey = null;
+            cmds.forEach(function(c2) { if (b.title === c2.title) cmdKey = c2.cmd; });
+            if (cmdKey && ['bold','italic','underline','insertUnorderedList','insertOrderedList'].indexOf(cmdKey) !== -1) {
+                b.classList.toggle('active', document.queryCommandState(cmdKey));
+            }
+        });
+    }
+
+    function _positionToolbar() {
+        var sel = window.getSelection();
+        if (!sel || sel.isCollapsed || !sel.rangeCount) {
+            toolbar.classList.remove('visible');
+            return;
+        }
+        var node = sel.anchorNode;
+        var inEditor = false;
+        while (node) { if (node === editor) { inEditor = true; break; } node = node.parentNode; }
+        if (!inEditor) { toolbar.classList.remove('visible'); return; }
+
+        var range = sel.getRangeAt(0);
+        var rect = range.getBoundingClientRect();
+        var wrapRect = wrap.getBoundingClientRect();
+        toolbar.classList.add('visible');
+        var tbW = toolbar.offsetWidth;
+        var left = rect.left - wrapRect.left + (rect.width / 2) - (tbW / 2);
+        left = Math.max(4, Math.min(left, wrapRect.width - tbW - 4));
+        var top = rect.top - wrapRect.top - toolbar.offsetHeight - 8;
+        if (top < 0) top = rect.bottom - wrapRect.top + 8;
+        toolbar.style.left = left + 'px';
+        toolbar.style.top = top + 'px';
+        _updateToolbarActive();
+    }
+
+    editor.addEventListener('mouseup', function() { setTimeout(_positionToolbar, 10); });
+    editor.addEventListener('keyup', function(e) {
+        if (e.shiftKey || e.key === 'Shift') setTimeout(_positionToolbar, 10);
+        else if (window.getSelection && !window.getSelection().isCollapsed) setTimeout(_positionToolbar, 10);
+        else toolbar.classList.remove('visible');
+    });
+    editor.addEventListener('blur', function() { setTimeout(function() { if (!wrap.contains(document.activeElement)) toolbar.classList.remove('visible'); }, 150); });
+
+    // Handle image drag-and-drop
+    editor.addEventListener('dragover', function(e) { e.preventDefault(); });
+    editor.addEventListener('drop', function(e) {
+        e.preventDefault();
+        var files = e.dataTransfer && e.dataTransfer.files;
+        if (!files || !files.length) return;
+        Array.prototype.forEach.call(files, function(f) {
+            if (!f.type.match(/^image\//)) return;
+            var reader = new FileReader();
+            reader.onload = function(ev) {
+                editor.focus();
+                document.execCommand('insertImage', false, ev.target.result);
+            };
+            reader.readAsDataURL(f);
+        });
+    });
+
+    // Handle paste — allow rich text but sanitize scripts
+    editor.addEventListener('paste', function(e) {
+        var html = e.clipboardData && e.clipboardData.getData('text/html');
+        if (html) {
+            e.preventDefault();
+            html = html.replace(/<script[\s\S]*?<\/script>/gi, '');
+            document.execCommand('insertHTML', false, html);
+        }
+    });
+
+    return {
+        wrap: wrap,
+        editor: editor,
+        getHTML: function() { return editor.innerHTML; },
+        getText: function() { return editor.innerText || editor.textContent || ''; },
+        setHTML: function(h) { editor.innerHTML = h; }
+    };
+}
+
+// ── HTML-to-plain-text converter (for mailto) ──
+function _htmlToPlain(html) {
+    var tmp = document.createElement('div');
+    tmp.innerHTML = html;
+    // Convert <br> to newlines
+    tmp.querySelectorAll('br').forEach(function(br) { br.replaceWith('\n'); });
+    // Convert block elements to have newlines
+    tmp.querySelectorAll('p,div,h1,h2,h3,li').forEach(function(el) {
+        el.prepend(document.createTextNode('\n'));
+    });
+    tmp.querySelectorAll('ul,ol').forEach(function(el) {
+        el.prepend(document.createTextNode('\n'));
+    });
+    // Handle list items with bullets/numbers
+    tmp.querySelectorAll('li').forEach(function(li) {
+        var parent = li.parentNode;
+        if (parent && parent.tagName === 'OL') {
+            var idx = Array.prototype.indexOf.call(parent.children, li) + 1;
+            li.prepend(document.createTextNode(idx + '. '));
+        } else {
+            li.prepend(document.createTextNode('• '));
+        }
+    });
+    return (tmp.textContent || tmp.innerText || '').replace(/\n{3,}/g, '\n\n').trim();
+}
+
+// ── Extract tool content as HTML (rich text version) ──
+function _extractToolContentHTML(panelId) {
+    var panel = document.getElementById(panelId);
+    if (!panel) return '';
+    var toolName = _emailToolNames[panelId] || panelId;
+    var html = '<h2>S4 Ledger \u2014 ' + _escH(toolName) + ' Report</h2>';
+    var headers = panel.querySelectorAll('h3, h4, .s4-card h3');
+    if (headers.length) {
+        headers.forEach(function(h) { html += '<p><b>' + _escH(h.textContent.trim()) + '</b></p>'; });
+    }
+    var metrics = panel.querySelectorAll('.metric-value, .stat-value, .score-value, .risk-score');
+    if (metrics.length) {
+        html += '<p><b>Key Metrics:</b></p><ul>';
+        metrics.forEach(function(m) {
+            var label = m.previousElementSibling ? m.previousElementSibling.textContent.trim() : '';
+            html += '<li>' + (label ? _escH(label) + ': ' : '') + _escH(m.textContent.trim()) + '</li>';
+        });
+        html += '</ul>';
+    }
+    var table = panel.querySelector('table');
+    if (table) {
+        var ths = table.querySelectorAll('thead th');
+        if (ths.length) {
+            var headerArr = [];
+            ths.forEach(function(th) { headerArr.push(_escH(th.textContent.trim())); });
+            html += '<p><b>' + headerArr.join(' | ') + '</b></p>';
+            var rows = table.querySelectorAll('tbody tr');
+            var rowCount = 0;
+            rows.forEach(function(tr) {
+                if (rowCount >= 10) return;
+                var cells = [];
+                tr.querySelectorAll('td').forEach(function(td) { cells.push(_escH(td.textContent.trim())); });
+                html += '<p>' + cells.join(' | ') + '</p>';
+                rowCount++;
+            });
+            if (rows.length > 10) html += '<p><i>\u2026and ' + (rows.length - 10) + ' more rows</i></p>';
+        }
+    }
+    html += '<br><p>\u2014\u2014\u2014</p><p>Prepared via <a href="https://s4ledger.com">S4 Ledger Platform</a></p>';
+    return html;
+}
 var VAULT_KEY = 's4_email_vault';
 function _loadVault() { try { return JSON.parse(localStorage.getItem(VAULT_KEY)) || []; } catch(e) { return []; } }
 function _saveVault(v) { localStorage.setItem(VAULT_KEY, JSON.stringify(v)); }
@@ -15680,8 +15910,8 @@ function _openEmailComposer(toolId) {
     if (existing) existing.remove();
 
     var toolName = _emailToolNames[toolId] || toolId;
-    var bodyContent = _extractToolContent(toolId);
-    var defaultSubject = 'S4 Ledger — ' + toolName + ' Report';
+    var bodyContentHTML = _extractToolContentHTML(toolId);
+    var defaultSubject = 'S4 Ledger \u2014 ' + toolName + ' Report';
 
     var ov = document.createElement('div');
     ov.className = 's4-email-overlay';
@@ -15694,7 +15924,7 @@ function _openEmailComposer(toolId) {
     // ── Header ──
     var header = document.createElement('div');
     header.className = 's4-email-header';
-    header.innerHTML = '<h2><i class="fas fa-envelope"></i> Prepare Email — ' + _escH(toolName) + '</h2>';
+    header.innerHTML = '<h2><i class="fas fa-envelope"></i> Prepare Email \u2014 ' + _escH(toolName) + '</h2>';
     var closeBtn = document.createElement('button');
     closeBtn.className = 's4-email-close';
     closeBtn.innerHTML = '<i class="fas fa-times"></i>';
@@ -15749,32 +15979,53 @@ function _openEmailComposer(toolId) {
     var aiBar = document.createElement('div');
     aiBar.className = 's4-email-ai-bar';
     aiBar.style.cursor = 'pointer';
-    aiBar.innerHTML = '<i class="fas fa-wand-magic-sparkles"></i> <span>AI Assist — Click to auto-enhance email body</span>';
+    aiBar.innerHTML = '<i class="fas fa-wand-magic-sparkles"></i> <span>AI Assist \u2014 Click to auto-enhance email body</span>';
     aiBar.onclick = function() {
         aiBar.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span>Enhancing with AI\u2026</span>';
         setTimeout(function() {
-            var current = bodyTextarea.value;
-            var enhanced = 'Dear Team,\n\n' +
-                'Please find below the latest ' + toolName + ' analysis from S4 Ledger.\n\n' +
-                current + '\n\n' +
-                'Please review and provide feedback at your earliest convenience.\n\n' +
-                'Best regards,\n' +
-                (document.getElementById('s4ApName') ? document.getElementById('s4ApName').textContent : 'S4 Operator');
-            bodyTextarea.value = enhanced;
+            var current = bodyRTE.getHTML();
+            var operatorName = document.getElementById('s4ApName') ? document.getElementById('s4ApName').textContent : 'S4 Operator';
+            var enhanced = '<p>Dear Team,</p>' +
+                '<p>Please find below the latest <b>' + _escH(toolName) + '</b> analysis from S4 Ledger.</p>' +
+                current +
+                '<p>Please review and provide feedback at your earliest convenience.</p>' +
+                '<p>Best regards,<br>' + _escH(operatorName) + '</p>';
+            bodyRTE.setHTML(enhanced);
             aiBar.innerHTML = '<i class="fas fa-check-circle"></i> <span>AI-enhanced \u2014 email body updated</span>';
             // TODO: Replace with real AI backend call POST /api/email-ai-assist
         }, 800);
     };
     body.appendChild(aiBar);
 
-    // Body textarea
+    // Body — Rich Text Editor (UPGRADED from textarea)
     var bodyField = document.createElement('div');
     bodyField.className = 's4-email-field';
     bodyField.innerHTML = '<label>Body</label>';
-    var bodyTextarea = document.createElement('textarea');
-    bodyTextarea.value = bodyContent;
-    bodyField.appendChild(bodyTextarea);
+    var bodyRTE = _buildRTE({ placeholder: 'Compose your email\u2026' });
+    bodyRTE.setHTML(bodyContentHTML);
+    bodyField.appendChild(bodyRTE.wrap);
     body.appendChild(bodyField);
+
+    // Custom Signature field
+    var sigSection = document.createElement('div');
+    sigSection.className = 's4-email-sig-section';
+    var sigHeader = document.createElement('div');
+    sigHeader.className = 's4-email-sig-header';
+    sigHeader.innerHTML = '<label><i class="fas fa-signature" style="margin-right:4px"></i> Custom Signature (auto-appends to email body)</label>';
+    var sigSaveBtn = document.createElement('button');
+    sigSaveBtn.type = 'button';
+    sigSaveBtn.innerHTML = '<i class="fas fa-save"></i> Save Signature';
+    sigSaveBtn.onclick = function() {
+        _saveSignature(sigRTE.getHTML());
+        if (typeof _toast === 'function') _toast('Signature saved', 'success');
+    };
+    sigHeader.appendChild(sigSaveBtn);
+    sigSection.appendChild(sigHeader);
+    var sigRTE = _buildRTE({ sigMode: true, placeholder: 'Name, title, phone, email, company\u2026' });
+    var savedSig = _loadSignature();
+    if (savedSig) sigRTE.setHTML(savedSig);
+    sigSection.appendChild(sigRTE.wrap);
+    body.appendChild(sigSection);
 
     // Attachments
     var attachField = document.createElement('div');
@@ -15827,6 +16078,23 @@ function _openEmailComposer(toolId) {
 
     modal.appendChild(body);
 
+    // ── Helper: get full body text + signature as plain text ──
+    function _getFullPlainText() {
+        var bodyText = bodyRTE.getText();
+        var sigText = sigRTE.getText().trim();
+        if (sigText) bodyText += '\n\n\u2014\u2014\n' + sigText;
+        return bodyText;
+    }
+    // ── Helper: get full body HTML + signature ──
+    function _getFullHTML() {
+        var html = bodyRTE.getHTML();
+        var sigHTML = sigRTE.getHTML().trim();
+        if (sigHTML && sigHTML !== '<br>') {
+            html += '<br><hr style="border:none;border-top:1px solid #ccc;margin:12px 0">' + sigHTML;
+        }
+        return html;
+    }
+
     // ── Footer ──
     var footer = document.createElement('div');
     footer.className = 's4-email-footer';
@@ -15839,6 +16107,8 @@ function _openEmailComposer(toolId) {
     saveBtn.className = 's4-email-save';
     saveBtn.innerHTML = '<i class="fas fa-shield-halved"></i> Save to Secure Emails';
     saveBtn.onclick = function() {
+        // Also persist signature
+        _saveSignature(sigRTE.getHTML());
         var email = {
             id: Date.now().toString(36) + Math.random().toString(36).slice(2, 7),
             toolId: toolId,
@@ -15847,7 +16117,8 @@ function _openEmailComposer(toolId) {
             to: toState.chips.slice(),
             cc: ccState.chips.slice(),
             bcc: bccState.chips.slice(),
-            body: bodyTextarea.value,
+            body: _getFullPlainText(),
+            bodyHTML: _getFullHTML(),
             options: Object.assign({}, optState),
             savedAt: new Date().toISOString(),
             pinned: false,
@@ -15869,7 +16140,7 @@ function _openEmailComposer(toolId) {
         var cc = ccState.chips.join(',');
         var bcc = bccState.chips.join(',');
         var subject = encodeURIComponent(subjectInput.value);
-        var mailBody = encodeURIComponent(bodyTextarea.value);
+        var mailBody = encodeURIComponent(_getFullPlainText());
         var mailto = 'mailto:' + encodeURIComponent(to) + '?subject=' + subject + '&body=' + mailBody;
         if (cc) mailto += '&cc=' + encodeURIComponent(cc);
         if (bcc) mailto += '&bcc=' + encodeURIComponent(bcc);
@@ -16058,7 +16329,9 @@ window._s4VaultAction = function(action, idx) {
         var to = (email.to || []).join(',');
         var cc = (email.cc || []).join(',');
         var bcc = (email.bcc || []).join(',');
-        var mailto = 'mailto:' + encodeURIComponent(to) + '?subject=' + encodeURIComponent(email.subject || '') + '&body=' + encodeURIComponent(email.body || '');
+        // Use plain text body (with signature already embedded from save)
+        var mailtoBody = email.body || '';
+        var mailto = 'mailto:' + encodeURIComponent(to) + '?subject=' + encodeURIComponent(email.subject || '') + '&body=' + encodeURIComponent(mailtoBody);
         if (cc) mailto += '&cc=' + encodeURIComponent(cc);
         if (bcc) mailto += '&bcc=' + encodeURIComponent(bcc);
         window.open(mailto);
@@ -16067,9 +16340,9 @@ window._s4VaultAction = function(action, idx) {
         // Pre-fill from saved email after a tiny delay
         setTimeout(function() {
             var subj = document.querySelector('.s4-email-modal input[type="text"]');
-            var ta = document.querySelector('.s4-email-modal textarea');
+            var rteEditor = document.querySelector('.s4-email-modal .s4-rte-editor:not(.s4-sig-editor)');
             if (subj) subj.value = email.subject || '';
-            if (ta) ta.value = email.body || '';
+            if (rteEditor) rteEditor.innerHTML = email.bodyHTML || _escH(email.body || '').replace(/\n/g, '<br>');
         }, 200);
     }
 };
