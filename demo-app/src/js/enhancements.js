@@ -3854,7 +3854,7 @@ console.log('[Round-16c] All tech enhancements loaded — IndexedDB, WebSocket, 
 
     // Default onboarding tour steps
     S4.tour.define([
-        {selector:'.sidebar',title:'Navigation Sidebar',description:'Browse 30+ DoD logistics tools organized by category. Click any tool to open it.',position:'right'},
+        {selector:'.sidebar',title:'Navigation Sidebar',description:'Browse 23+ DoD logistics tools organized by category. Click any tool to open it.',position:'right'},
         {selector:'#searchInput',title:'Global Search',description:'Search across all tools, vault records, and documentation with Cmd+K.',position:'bottom'},
         {selector:'.vault-section',title:'Audit Vault',description:'Your blockchain-anchored audit trail. Every record is hashed and verifiable.',position:'left'},
         {selector:'.sls-fee-section',title:'Credit Balance',description:'Track your S4 Ledger Service Credit fees for anchoring and verification operations.',position:'bottom'},

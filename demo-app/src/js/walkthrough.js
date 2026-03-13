@@ -16,7 +16,7 @@ var _steps = [
                 + '<h2 style="color:#1d1d1f;font-size:1.4rem;font-weight:700;margin:16px 0 8px;">S4 Ledger Platform</h2>'
                 + '<p style="color:var(--steel);font-size:0.9rem;margin-bottom:24px;">The integrity layer for defense logistics</p>'
                 + '<div class="wt-stat-grid">'
-                + '<div class="wt-stat"><span class="wt-stat-num" data-animate="20">0</span><span class="wt-stat-label">ILS Tools</span></div>'
+                + '<div class="wt-stat"><span class="wt-stat-num" data-animate="23">0</span><span class="wt-stat-label">ILS Tools</span></div>'
                 + '<div class="wt-stat"><span class="wt-stat-num" data-animate="500">0</span><span class="wt-stat-label">Defense Platforms</span></div>'
                 + '<div class="wt-stat"><span class="wt-stat-num" data-animate="64">0</span><span class="wt-stat-label">Record Types</span></div>'
                 + '<div class="wt-stat"><span class="wt-stat-num" data-animate="3">0</span><span class="wt-stat-label">Sec. to Anchor</span></div>'
@@ -461,6 +461,92 @@ var _steps = [
                 + '<tr><td>ILSMT Brief</td><td>ILSMT</td><td>5</td><td>ILS management team meetings</td></tr>'
                 + '<tr><td>IPR Brief</td><td>IPR</td><td>5</td><td>Interim progress reviews</td></tr>'
                 + '</tbody></table></div>';
+        }
+    },
+    {
+        id: 'living-ledger', title: 'Living Program Ledger', icon: 'fas fa-book-open', cat: 'Feature',
+        narr: 'See your single source of truth for the entire program with real-time AI insights and change tracking. The Living Program Ledger consolidates every deliverable, risk, schedule item, and cost element into one live view \u2014 with AI-powered annotations that surface what matters most, right when you need it.',
+        mock: function() {
+            return '<div class="wt-mock-tool"><div class="wt-mock-tool-head" style="color:var(--accent);"><i class="fas fa-book-open"></i> Living Program Ledger \u2014 DDG-51 Flight III</div>'
+                + '<div class="wt-mock-result">'
+                + '<div class="wt-mock-result-row"><span class="wt-mock-label">Status</span><span class="wt-mock-badge-green">LIVE</span></div>'
+                + '<div class="wt-mock-result-row"><span class="wt-mock-label">Deliverables Tracked</span><span style="color:var(--accent);">54</span></div>'
+                + '<div class="wt-mock-result-row"><span class="wt-mock-label">AI Insights</span><span style="color:var(--green);">12 active</span></div>'
+                + '<div class="wt-mock-result-row"><span class="wt-mock-label">Change Log</span><span>847 entries</span></div>'
+                + '<div class="wt-mock-result-row"><span class="wt-mock-label">Last Updated</span><span>2 minutes ago</span></div>'
+                + '</div>'
+                + '<div style="margin-top:12px;padding:10px;background:rgba(0,170,255,0.06);border-radius:6px;border-left:3px solid var(--accent);">'
+                + '<div style="font-size:0.72rem;font-weight:700;color:var(--accent);margin-bottom:4px;"><i class="fas fa-brain" style="margin-right:4px;"></i>AI Insight</div>'
+                + '<div style="font-size:0.78rem;color:var(--steel);">DI-ILSS-81497 completion rate dropped 4% this week \u2014 recommend prioritizing before April DCMA review.</div>'
+                + '</div></div>';
+        }
+    },
+    {
+        id: 'impact-simulator', title: 'Program Impact Simulator', icon: 'fas fa-bolt', cat: 'Feature',
+        narr: 'Simulate how one risk cascades through schedule, cost, and mission readiness \u2014 then save the results directly to the Living Program Ledger. Test what-if scenarios before they become real problems, and brief leadership with data instead of guesses.',
+        mock: function() {
+            return '<div class="wt-mock-tool"><div class="wt-mock-tool-head" style="color:var(--gold);"><i class="fas fa-bolt"></i> Program Impact Simulator</div>'
+                + '<div class="wt-mock-field"><label>Scenario</label><div class="wt-mock-select">Single-source supplier failure \u2014 Kaman Aerospace</div></div>'
+                + '<div class="wt-mock-risk-summary" style="margin:12px 0;">'
+                + '<div class="wt-mock-risk-item high"><span class="wt-mock-risk-count">+$4.2M</span><span>Cost Impact</span></div>'
+                + '<div class="wt-mock-risk-item med"><span class="wt-mock-risk-count">+90 days</span><span>Schedule Slip</span></div>'
+                + '<div class="wt-mock-risk-item low"><span class="wt-mock-risk-count">\u22128%</span><span>Readiness</span></div>'
+                + '</div>'
+                + '<div style="padding:10px;background:rgba(255,149,0,0.06);border-radius:6px;border-left:3px solid var(--gold);">'
+                + '<div style="font-size:0.72rem;font-weight:700;color:var(--gold);margin-bottom:4px;"><i class="fas fa-diagram-project" style="margin-right:4px;"></i>Cascade Path</div>'
+                + '<div style="font-size:0.78rem;color:var(--steel);">Supplier failure \u2192 12 parts affected \u2192 3 subsystems delayed \u2192 IOC slips Q3\u2192Q4 FY27</div>'
+                + '</div>'
+                + '<button class="wt-mock-btn" style="margin-top:10px;"><i class="fas fa-save"></i> Save to Living Ledger</button>'
+                + '</div>';
+        }
+    },
+    {
+        id: 'secure-collab', title: 'Secure Collaboration Network', icon: 'fas fa-users-between-lines', cat: 'Feature',
+        narr: 'Invite shipbuilders, contractors, and government reviewers into a secure, shared view with role-based permissions and AI-powered conflict resolution. Every participant sees only what they are authorized to see, and every change is logged with HMAC-signed verification.',
+        mock: function() {
+            return '<div class="wt-mock-tool"><div class="wt-mock-tool-head" style="color:var(--green);"><i class="fas fa-users-between-lines"></i> Secure Collaboration Network</div>'
+                + '<table class="wt-mock-table"><thead><tr><th>Participant</th><th>Organization</th><th>Permission</th><th>Status</th></tr></thead><tbody>'
+                + '<tr><td>CDR J. Martinez</td><td>NAVSEA PMS 325</td><td><span class="wt-mock-badge-blue">Admin</span></td><td><span class="wt-mock-badge-green">Active</span></td></tr>'
+                + '<tr><td>S. Thompson</td><td>Huntington Ingalls</td><td><span class="wt-mock-badge-green">Editor</span></td><td><span class="wt-mock-badge-green">Active</span></td></tr>'
+                + '<tr><td>R. Chen</td><td>Raytheon</td><td><span class="wt-mock-badge-yellow">Viewer</span></td><td><span class="wt-mock-badge-green">Active</span></td></tr>'
+                + '<tr><td>K. Davis</td><td>DCMA</td><td><span class="wt-mock-badge-yellow">Reviewer</span></td><td><span class="wt-mock-badge-blue">Invited</span></td></tr>'
+                + '</tbody></table>'
+                + '<div style="display:flex;gap:8px;margin-top:10px;">'
+                + '<button class="wt-mock-btn wt-mock-btn-primary"><i class="fas fa-user-plus"></i> Invite</button>'
+                + '<button class="wt-mock-btn"><i class="fas fa-link"></i> Shared View Link</button>'
+                + '</div></div>';
+        }
+    },
+    {
+        id: 'enhancements', title: 'World-Class Enhancements', icon: 'fas fa-wand-magic-sparkles', cat: 'Feature',
+        narr: 'Seven AI-powered enhancements work across the platform to give you an unfair advantage. Proactive Foresight predicts risks before they appear. The Signed Executive Package bundles reports with tamper-proof verification. Monte Carlo Heatmaps visualize probability across your program. AI Conflict Resolution settles data discrepancies. Federated Benchmarking compares your program anonymously against peers. And the Unified Command Brief gives leadership a single-page view of everything that matters.',
+        mock: function() {
+            return '<div class="wt-mock-tool"><div class="wt-mock-tool-head" style="color:var(--accent);"><i class="fas fa-wand-magic-sparkles"></i> 7 World-Class Enhancements</div>'
+                + '<div class="wt-mock-extract-list">'
+                + '<div class="wt-mock-extract-item"><span class="wt-mock-extract-tag" style="background:rgba(88,86,214,0.1);color:#5856D6;">AI</span><div><strong>Proactive Foresight</strong> \u2014 AI-predicted risks surfaced before they appear</div></div>'
+                + '<div class="wt-mock-extract-item"><span class="wt-mock-extract-tag">EXEC</span><div><strong>Signed Executive Package</strong> \u2014 Tamper-proof report bundles for leadership</div></div>'
+                + '<div class="wt-mock-extract-item"><span class="wt-mock-extract-tag" style="background:rgba(255,59,48,0.1);color:#FF3B30;">RISK</span><div><strong>Monte Carlo Heatmap</strong> \u2014 Probability visualization across your program</div></div>'
+                + '<div class="wt-mock-extract-item"><span class="wt-mock-extract-tag" style="background:rgba(52,199,89,0.1);color:#34C759;">SCN</span><div><strong>AI Conflict Resolver</strong> \u2014 Automated resolution of data discrepancies</div></div>'
+                + '<div class="wt-mock-extract-item"><span class="wt-mock-extract-tag" style="background:rgba(255,149,0,0.1);color:#FF9500;">BENCH</span><div><strong>Federated Benchmarking</strong> \u2014 Anonymous peer comparison across programs</div></div>'
+                + '<div class="wt-mock-extract-item"><span class="wt-mock-extract-tag" style="background:rgba(0,170,255,0.1);color:#00AAFF;">BRIEF</span><div><strong>Unified Command Brief</strong> \u2014 One-page leadership view of everything</div></div>'
+                + '<div class="wt-mock-extract-item"><span class="wt-mock-extract-tag" style="background:rgba(175,82,222,0.1);color:#AF52DE;">SAVE</span><div><strong>Save Scenario to Ledger</strong> \u2014 Anchor simulations for audit trail</div></div>'
+                + '</div></div>';
+        }
+    },
+    {
+        id: 'platform-close', title: 'The Most Advanced ILS Platform', icon: 'fas fa-star', cat: 'Summary',
+        narr: 'You now have the most advanced Integrated Logistics Support platform in defense \u2014 ready to save your program time and money every day. From anchoring records in three seconds to simulating risks across your entire portfolio, S4 Ledger replaces dozens of disconnected tools with one trusted, verified system.',
+        mock: function() {
+            return '<div class="wt-mock-welcome">'
+                + '<div class="wt-mock-logo"><i class="fas fa-star" style="font-size:3rem;color:var(--gold);"></i></div>'
+                + '<h2 style="color:#1d1d1f;font-size:1.3rem;font-weight:700;margin:16px 0 8px;">The Most Advanced ILS Platform in Defense</h2>'
+                + '<p style="color:var(--steel);font-size:0.88rem;margin-bottom:20px;max-width:400px;">Ready to save your program time and money every day.</p>'
+                + '<div class="wt-stat-grid">'
+                + '<div class="wt-stat"><span class="wt-stat-num">23+</span><span class="wt-stat-label">ILS Tools</span></div>'
+                + '<div class="wt-stat"><span class="wt-stat-num">3</span><span class="wt-stat-label">New Features</span></div>'
+                + '<div class="wt-stat"><span class="wt-stat-num">7</span><span class="wt-stat-label">AI Enhancements</span></div>'
+                + '<div class="wt-stat"><span class="wt-stat-num">1</span><span class="wt-stat-label">Trusted Platform</span></div>'
+                + '</div></div>';
         }
     },
     {
