@@ -38,8 +38,10 @@ S4 Ledger: Immutable logistics verification for the defense industry, anchored o
 - **$SLS token LIVE on XRPL Mainnet** — tradable, AMM pools, trustlines
 - 100M total supply | ~15M circulating | 30M multi-sig treasury
 - **23 interactive defense tools** live at s4ledger.com (not mockups)
+- **7 major platform features**: Living Platform Ledger (LPL), Platform Intelligence Suite (PIS), Secure Collaboration Network (SCN), Email Composer, DRL/DI Lookup, Export Summary Dashboard, Key Highlights
+- **7 world-class enhancements**: CMIL, Self-Healing Compliance, Zero-Trust Custody Handoff, Predictive Resource Allocator, Immutable After-Action Review, Quantum-Safe Anchoring, Dark-Launch Feature Flags
 - **21 Python SDK functions** for defense-grade hash anchoring and verification
-- **90+ REST API endpoints** for enterprise integration
+- **90+ core REST API endpoints + 14 major feature endpoints** for enterprise integration
 - **500+ pre-loaded military entities** — 500+ platforms, 37 suppliers, 25 contracts
 - **156+ pre-built record types across 9 defense branches** mapped to real-world logistics workflows
 - **100+ real defense documents** in searchable reference library
@@ -59,13 +61,13 @@ S4 Ledger: Immutable logistics verification for the defense industry, anchored o
 | Enterprise (50+ programs) | $12M–$48M | $1.2M–$3.6M ARR |
 
 Key: 65% labor reduction • 90% error savings • 70% audit reduction • 15-25% DMSMS avoidance • 70% less data reconciliation
-**Per-program savings: ~$1.02M–$2.6M/year • 15–100x ROI for government**
+**Per-program savings: ~$250K–$600K/year • 3–50x ROI for government**
 
 ---
 
 ## National Impact
 - **$150B+ defense logistics market** directly addressable
-- **Saves $900M–$2.1B/year at scale** across all DoW programs
+- **Saves $225M–$540M/year at scale** across 900+ DoW programs
 - **340+ jobs created by Year 5** (30–45 direct + 100–200 indirect)
 - **$8M–$17M economic impact** per DoW's 3.4× multiplier
 - Expands defense industrial base for Tier 2–4 small businesses
@@ -163,4 +165,11 @@ info@s4ledger.com | s4ledger.com
 - **Milestone readiness assessment** — MS A/B/C, IOC, FOC scoring based on document completeness
 - **AI Agent** — hybrid local (115+ defense patterns) + cloud AI (OpenAI/Anthropic/Mistral/Groq) for context-aware analysis
 - **Zero-knowledge architecture** — all document processing client-side; no CUI/ITAR data leaves the browser
+
+### Post-v12 Platform Additions (March 2026)
+- **7 major platform features**: LPL, PIS, SCN, Email Composer, DRL/DI Lookup, Export Summary, Key Highlights
+- **7 world-class enhancements**: CMIL, Self-Healing Compliance, Zero-Trust Handoff, Predictive Resource Allocator, Immutable After-Action Review, Quantum-Safe Anchoring, Dark-Launch Feature Flags
+- **5 novel features**: CAC/PKI Login, Real-Time Collaboration, Predictive Maintenance AI, AI Threat Intelligence, Digital Thread Provenance
+- **14 new API endpoints** for major features
+- **Per-program savings: $250K–$600K/year** — 5,500+ lines of production API code
 

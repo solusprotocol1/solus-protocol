@@ -1,5 +1,30 @@
 # Changelog
 
+## [Post-v12 — March 2026] — Platform-Wide Feature Expansion
+### Added
+- **Living Platform Ledger (LPL)** — Real-time platform health dashboard with readiness scoring, DMSMS tracking, and lifecycle cost integration across all 23 tools
+- **Platform Intelligence Suite (PIS)** — AI-powered analytics combining threat intelligence, predictive failure timelines, and resource optimization
+- **Secure Collaboration Network (SCN)** — Multi-analyst workspace with role-based access, real-time presence indicators, and encrypted communication
+- **Email Composer** — Defense-grade email system with classification markings, CUI handling, and blockchain-anchored correspondence trails
+- **DRL/DI Lookup** — Instant cross-reference engine for Data Requirements Lists and Data Item Descriptions across all active contracts
+- **Export Summary Dashboard** — One-click executive reporting across all tools with customizable templates and hash-anchored exports
+- **Key Highlights** — Auto-generated intelligence briefing summarizing critical alerts, readiness changes, and action items across the entire platform
+- **Cryptographic Mission-Impact Ledger (CMIL)** — Links every logistics decision to mission-readiness outcomes with cryptographic proof
+- **Self-Healing Compliance Engine** — Auto-detects compliance drift and generates remediation plans in real time
+- **Zero-Trust Custody Handoff** — Cryptographic chain-of-custody for every part transfer, maintenance action, and CDRL delivery
+- **Predictive Resource Allocator** — AI-optimized resource distribution across programs based on readiness priorities
+- **Immutable After-Action Review** — Blockchain-anchored lessons learned that cannot be revised or sanitized
+- **Quantum-Safe Future-Proof Anchoring** — Post-quantum cryptographic hashing for records that must remain verifiable for 30+ years
+- **Dark-Launch Feature Flags** — Controlled rollout of new capabilities per program office without platform-wide risk
+- **CAC/PKI Login** — DoD Common Access Card authentication for production environments
+- **Real-Time Collaboration Indicators** — Live presence and activity tracking across multi-analyst sessions
+- **14 new API endpoints** — `/api/living-ledger`, `/api/impact-simulator`, `/api/secure-collaboration`, `/api/prepare-email`, `/api/save-draft`, `/api/scheduled-send`, `/api/import-received-email`, `/api/send-email`, `/api/vault-emails`, `/api/cryptographic-mission-impact-ledger`, `/api/self-healing-compliance`, `/api/zero-trust-handoff`, `/api/predictive-resource-allocator`, `/api/immutable-after-action-review`
+
+### Changed
+- Savings model updated to $250K–$600K per program per year (3–50x ROI for government)
+- API backend expanded to 90+ core endpoints + 14 major feature endpoints (5,500+ lines)
+- Comprehensive documentation audit across all 46 docs/*.md files
+
 ## [5.12.13] — 2026-03-11
 ### Changed
 - **DRL / DI Status Tracker — Inline Editing** — every cell is now double-click editable. Click any cell to edit in-place; press Enter or blur to save. Changes auto-sync across Deliverables Tracker and Submissions Hub views.

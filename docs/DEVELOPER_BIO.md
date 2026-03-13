@@ -4,7 +4,7 @@
 
 Nick Frankfort is the creator, owner, and sole developer of S4 Ledger — a defense logistics verification product line of **S4 Systems, LLC**. S4 Ledger anchors tamper-proof audit trails on the XRP Ledger, providing the defense industry's first blockchain-verified integrity layer for supply chains, maintenance records, and contract deliverables.
 
-Nick built the entire platform — 23 ILS tools, 21 Python SDK functions, 90+ REST API endpoints, 25+ page website, and the $SLS utility token — at zero cost to the company, on his own time, as a working ILS contractor.
+Nick built the entire platform — 23 ILS tools plus 7 major features, 21 Python SDK functions, 90+ core REST API endpoints plus 14 feature endpoints, 25+ page website, and the $SLS utility token — at zero cost to the company, on his own time, as a working ILS contractor.
 
 ### Background
 
@@ -17,7 +17,7 @@ Nick built the entire platform — 23 ILS tools, 21 Python SDK functions, 90+ RE
 
 - **23 interactive ILS tools** covering every ILS element — readiness, DMSMS, lifecycle cost, supply chain risk, predictive maintenance, audit reporting, submission review & discrepancy analysis (Submissions Hub), and more
 - **21 Python SDK functions** for defense-grade hash anchoring and verification
-- **90+ REST API endpoints** for enterprise integration
+- **90+ core REST API endpoints + 14 major feature endpoints** for enterprise integration
 - **500+ real defense platforms** across the U.S. Navy with real program data
 - **156+ pre-built record types across 9 branches (USN, USA, USAF, USMC, USCG, DLA, Joint, SOCOM, USSF)** mapped to real-world logistics workflows
 - **$SLS utility token** live on XRPL Mainnet (100M supply)
@@ -25,7 +25,7 @@ Nick built the entire platform — 23 ILS tools, 21 Python SDK functions, 90+ RE
 
 ### Mission
 
-To give the defense industry an integrity layer it can trust — immutable proof that logistics records are authentic, unaltered, and independently verifiable. S4 Ledger saves the government ~$1.02M–$2.6M per program per year and delivers 15–100x ROI at a fraction of the cost of Palantir, SAP, or Oracle solutions.
+To give the defense industry an integrity layer it can trust — immutable proof that logistics records are authentic, unaltered, and independently verifiable. S4 Ledger saves the government ~$250K–$600K per program per year and delivers 3–50x ROI at a fraction of the cost of Palantir, SAP, or Oracle solutions.
 
 ### Contact
 

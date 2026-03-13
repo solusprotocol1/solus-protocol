@@ -54,7 +54,46 @@ Full Integrated Logistics Support workspace:
 | Milestone Monitor | Program milestone tracking and readiness |
 | Brief Composer | Automated briefing and report generation |
 
-### 4. AI Agent (S4 Agent)
+### 4. Major Platform Features
+
+| Feature | Description |
+|---------|-------------|
+| **Living Program Ledger (LPL)** | AI-enhanced program review with Track Changes, Foresight View, Quantum-Safe Future-Proof Anchor toggle, and Mission Outcome Correlation Engine |
+| **Program Impact Simulator (PIS)** | Cascade analysis showing how changes to one item ripple across the entire program |
+| **Secure Collaboration Network (SCN)** | Real-time co-editing with Federated Lessons Learned Knowledge Graph, Verifiable Performance Scorecard Sharing, and Automated Neutral Mediator |
+| **Prepared Email Composer** | Secure email with vault storage, rich text editor, import, AI-powered reply drafting, and scheduled send |
+| **DRL/DI Status Tracker** | Deliverable Requirements List tracking with real-time status visualization |
+| **Export Summary with AI** | AI-generated executive summaries for any tool's data |
+| **Highlights Document** | Cross-tool insight capture with import, sharing, and version tracking |
+
+### 5. World-Class Enhancements
+
+| Enhancement | Description |
+|-------------|-------------|
+| Unified Command Brief | One-click executive briefing compiled from all program data |
+| Zero-Trust Handoff Package | Cryptographically sealed program transition package |
+| Immutable After-Action Review | Tamper-proof post-event review anchored to XRPL |
+| Cryptographic Mission Impact Ledger (CMIL) | Blockchain-verified mission impact records with full chain of custody |
+| Self-Healing Compliance Auto-Repair | Automatically detects and suggests fixes for compliance gaps |
+| Predictive Resource Allocator | AI-driven resource optimization across program elements |
+| Shared View Link | Secure, time-limited read-only sharing of any tool view |
+
+### 6. Additional Capabilities
+
+| Capability | Description |
+|------------|-------------|
+| Self-Executing Mitigation Contract Clause | Smart contract clauses that auto-trigger based on anchored evidence |
+| Supply Chain Insurance Optimizer | Risk-weighted insurance cost modeling across vendors |
+| Congressional Funding Impact Forecaster | Budget scenario analysis tied to program logistics data |
+| Multi-Program Cascade Simulator | Cross-program ripple effect analysis for shared resources |
+| One-Click Program Legacy Archive | Complete program archival with cryptographic attestation |
+| Federated Lessons Learned Knowledge Graph | Cross-program knowledge sharing with privacy-preserving federation |
+| Verifiable Performance Scorecard Sharing | Cryptographically signed performance metrics for auditors |
+| Automated Neutral Mediator | AI-assisted dispute resolution for multi-party logistics disagreements |
+
+**Estimated savings: $250K–$600K per program per year** in labor and risk reduction.
+
+### 7. AI Agent (S4 Agent)
 Full-featured AI assistant specializing in defense logistics:
 
 - Natural language queries about ILS, compliance, regulations
@@ -124,6 +163,20 @@ curl -H "X-API-Key: YOUR_KEY" https://s4ledger.com/api/metrics
 | POST | `/api/offline/sync` | Trigger batch sync |
 | GET | `/api/metrics/prometheus` | Prometheus metrics |
 | GET | `/api/docs` | OpenAPI 3.1 spec |
+| POST | `/api/living-ledger` | Living Program Ledger operations |
+| POST | `/api/impact-simulator` | Program Impact Simulator analysis |
+| POST | `/api/secure-collaboration` | Secure Collaboration Network sessions |
+| POST | `/api/prepare-email` | Prepare email for secure sending |
+| POST | `/api/save-draft` | Save email draft to vault |
+| POST | `/api/scheduled-send` | Schedule an email for future delivery |
+| POST | `/api/import-received-email` | Import received email into vault |
+| POST | `/api/send-email` | Send prepared email |
+| GET | `/api/vault-emails` | List vault-stored emails |
+| POST | `/api/cryptographic-mission-impact-ledger` | CMIL record operations |
+| POST | `/api/self-healing-compliance` | Self-Healing Compliance analysis |
+| POST | `/api/zero-trust-handoff` | Generate Zero-Trust Handoff Package |
+| POST | `/api/predictive-resource-allocator` | Predictive resource optimization |
+| POST | `/api/immutable-after-action-review` | Generate Immutable After-Action Review |
 
 ### Webhook Events
 
@@ -173,7 +226,7 @@ curl -X POST https://s4ledger.com/api/anchor \
                      │ HTTPS / gRPC
 ┌────────────────────▼─────────────────────────────────────┐
 │                   S4 Ledger API                           │
-│  Python (Vercel Serverless)  ──  3,300+ lines             │
+│  Python (Vercel Serverless)  ──  5,500+ lines             │
 │  RBAC • Rate Limiting • Webhooks • AI Agent               │
 │  Circuit Breakers • Prometheus Metrics                    │
 └────────┬───────────┬────────────┬────────────────────────┘

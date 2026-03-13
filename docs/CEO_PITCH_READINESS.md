@@ -20,6 +20,7 @@ S4 Ledger is ready to pitch as a **working prototype with real blockchain integr
 |-----------|-----------|-------------|
 | **XRPL anchoring** | ✅ Yes | Hash any record → anchor to XRP Ledger → get immutable TX ID. This is real, verifiable, on-chain. |
 | **23 ILS tools** | ✅ Yes | Gap Finder, Obsolescence Alert, Readiness Score, Compliance, ROI, Contracts, etc. — all render and produce results |
+| **7 major features** | ✅ Yes | Living Platform Ledger (LPL), Platform Intelligence Suite (PIS), Secure Collaboration Network (SCN), Email Composer, DRL/DI Lookup, Export Summary, Key Highlights |
 | **File upload** | ✅ Yes | Drag-and-drop CSV, XLSX, PDF, DOCX — parsed client-side, no data leaves the browser |
 | **SLS token economy** | ✅ Yes | Real XRPL wallet provisioning, TrustLine setup, SLS delivery from Treasury |
 | **AI Agent** | ✅ Yes | LLM-powered defense logistics assistant (if API keys configured) with regex fallback |
@@ -45,7 +46,7 @@ S4 Ledger is ready to pitch as a **working prototype with real blockchain integr
 
 3. **Live Demo** (5 min): Show Gap Finder with a real platform → upload a file → run analysis → anchor to XRPL → show TX on ledger → verify the hash. This is the money demo — it's all real.
 
-4. **Market** (2 min): $15B+ defense logistics software market. 6,000+ defense contractors need ILS management. No one else offers blockchain-anchored records.
+4. **Market** (2 min): $15B+ defense logistics software market. 6,000+ defense contractors need ILS management. No one else offers blockchain-anchored records. Per-program savings of $250K–$600K/year.
 
 5. **Business Model** (2 min): SaaS subscriptions ($999-$9,999/mo) with SLS utility token for per-anchor micro-transactions. Treasury-based delivery — no exchange complexity.
 

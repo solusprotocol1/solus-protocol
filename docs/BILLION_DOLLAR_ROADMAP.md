@@ -233,9 +233,9 @@ At 12–15x revenue multiple: **$1.07B–$1.34B valuation**
 
 1. **The market is massive.** DoW spends $150B+/year on logistics. The software tools serving this market are fragmented, overpriced, and 10–20 years behind commercial tech. No one has built a unified ILS platform with blockchain-verified records.
 
-2. **We have a working prototype.** Not a slide deck. Not a concept. A live, functional platform with 23 ILS tools, a Python SDK, REST API, and real XRPL blockchain integration. Zero cost to the company so far.
+2. **We have a working prototype.** Not a slide deck. Not a concept. A live, functional platform with 23 ILS tools plus 7 major features, a Python SDK, REST API with 90+ core endpoints and 14 feature endpoints, and real XRPL blockchain integration. Zero cost to the company so far.
 
-3. **The economics are undeniable.** S4 Ledger saves the government ~$1.02M–$2.6M per program per year. It costs them $12K–$120K/year. That's a 15–100x ROI. The government doesn't say no to that math.
+3. **The economics are undeniable.** S4 Ledger saves the government ~$250K–$600K per program per year. It costs them $12K–$120K/year. That's a 3–50x ROI. The government doesn't say no to that math.
 
 4. **The path to $1B is clear.** Defense SaaS companies are valued at 15–20x revenue. We need $70M ARR to reach $1B. The Defense Logistics market can support $200M+ ARR for a dominant platform player. Palantir did it. Anduril did it. We can do it — and we're starting with a working product, not a pitch deck.
 
@@ -311,7 +311,7 @@ The Government Accountability Office (GAO) and DoD Inspector General repeatedly 
 - Audit failures requiring expensive remediation
 - Manual processes that consume skilled labor on paperwork instead of readiness
 
-**S4 Ledger directly addresses every one of these findings.** When appropriations committees see a platform delivering 15–100x ROI on logistics spending, that changes how defense dollars flow. Programs using S4 Ledger become models of fiscal responsibility — the kind of efficiency that earns additional funding, not cuts.
+**S4 Ledger directly addresses every one of these findings.** When appropriations committees see a platform delivering 3–50x ROI on logistics spending, that changes how defense dollars flow. Programs using S4 Ledger become models of fiscal responsibility — the kind of efficiency that earns additional funding, not cuts.
 
 #### Taxpayer Value
 
@@ -321,7 +321,7 @@ Every dollar the DoW saves on manual record-keeping can be redirected to:
 - **Faster procurement** of critical capabilities
 - **Reinvestment** in the defense industrial base
 
-At scale (1,000+ programs), S4 Ledger saves the government **$900M–$2.1B per year**. That's real money back to the American taxpayer — not through cuts, but through efficiency. The same missions get accomplished with fewer wasted dollars.
+At scale (1,000+ programs), S4 Ledger saves the government **$225M–$540M per year**. That's real money back to the American taxpayer — not through cuts, but through efficiency. The same missions get accomplished with fewer wasted dollars.
 
 #### Military Readiness & Warfighter Safety
 

@@ -106,7 +106,7 @@ Here's a simple breakdown of the 23 tools and what they replace:
 | **AI Assistant** (AI Agent) | Nothing — this capability didn't exist | Brand new capability |
 | **Reviews vendor submissions for errors** (Submissions Hub) | Contractors manually compare new submissions line-by-line against previous versions (40–120 hours each) | $120K–$500K |
 | **Imports data from 24 DoW systems** (Defense Database Import) | Manual data reconciliation across GCSS, DPAS, MERLIN, and 21 more | $300K–$500K |
-| **TOTAL** | | **~$1.02M–$2.6M / year** |
+| **TOTAL** | | **~$250K–$600K / year** |
 
 ### What Happens When You Multiply That
 
@@ -276,10 +276,10 @@ Here are the six things your CEO needs to hear:
 The U.S. military spends over **$150 billion a year** on logistics. The software supporting this is mostly outdated, fragmented, and overpriced. No one has built a single, modern platform that handles everything AND proves records haven't been tampered with.
 
 ### 2. We Already Have a Working Product
-This isn't a PowerPoint dream. S4 Ledger is a **live, functional platform** with 23 tools, a developer toolkit, and real blockchain integration. It cost the company zero dollars to build — Nick built it on his own time.
+This isn't a PowerPoint dream. S4 Ledger is a **live, functional platform** with 23 tools plus 7 major features, a developer toolkit, and real blockchain integration. It cost the company zero dollars to build — Nick built it on his own time.
 
 ### 3. The Savings Are Insane
-S4 Ledger saves the government **~$1.02M–$2.6M per program per year**. It costs them **$12K–$120K/year**. That's a **15x to 100x return on investment**. The government does not say no to that kind of math.
+S4 Ledger saves the government **~$250K–$600K per program per year**. It costs them **$12K–$120K/year**. That's a **3x to 50x return on investment**. The government does not say no to that kind of math.
 
 ### 4. The Path to $1B Is Straightforward
 Defense software companies are valued at 15–20x their revenue. We need **$70M/year in revenue** to reach a **$1 billion valuation**. The defense logistics software market is **$25B+ per year**. We only need to capture **1–4%** of it. Palantir and Anduril both followed this exact playbook.

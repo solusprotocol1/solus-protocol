@@ -211,7 +211,7 @@ When a tampered record is corrected:
 
 ---
 
-## 10. Full API Endpoint Inventory (90+ Endpoints)
+## 10. Full API Endpoint Inventory (90+ Core Endpoints + 14 Feature Endpoints)
 
 ### Core Platform
 | Endpoint | Method | Description |

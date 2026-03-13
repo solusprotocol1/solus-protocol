@@ -5,11 +5,11 @@
 
 - **$1.2B+ Problem:** Counterfeit parts, falsified maintenance records, and unverifiable supply chains cost the DoW billions annually. S4 Ledger fixes this with blockchain-secured, tamper-proof logistics verification.
 - **Unique Approach:** Anchors only SHA-256 hashes (never sensitive data) to the XRP Ledger — zero data on-chain, full compliance with NIST/CMMC.
-- **Traction:** Live $SLS token on XRPL mainnet, 23 interactive ILS tools, 21 Python SDK functions, 90+ REST API endpoints, 500+ pre-loaded military entities, and a clear path to pilot deployments.
+- **Traction:** Live $SLS token on XRPL mainnet, 23 interactive ILS tools plus major features (Living Program Ledger, Program Impact Simulator, Secure Collaboration Network, Prepared Email Composer, DRL/DI Status Tracker, Export Summary with AI, Highlights Document), 7 world-class enhancements (Unified Command Brief, Zero-Trust Handoff, Immutable After-Action Review, CMIL, Self-Healing Compliance, Predictive Resource Allocator, Shared View Link), 8 additional capabilities, 21 Python SDK functions, 90+ REST API endpoints plus 14 major feature endpoints, 500+ pre-loaded military entities, and a clear path to pilot deployments.
 - **Two Products:** S4 Systems offers **S4 Ledger** (trust & intelligence layer — 23 tools for analysis, compliance, and audit) and **HarborLink** (collaboration portal — parts cross-reference, contract management, provisioning, warranty tracking, configuration management, scheduling, and database import). Together, they provide a complete ILS platform.
 - **Market:** Defense logistics verification is underserved. $850B+ annual DoW budget with no common integrity layer across systems. CMMC 2.0 enforcement begins 2025–2026.
-- **Revenue Model:** SaaS subscriptions ($999–$9,999/mo), $SLS utility fees per anchor, enterprise API tiers. 15–100x ROI for government customers.
-- **Savings:** ~$1.02M–$2.6M per program per year from 23 ILS tools. Saves $1.02B–$2.6B/year at scale across all DoW programs.
+- **Revenue Model:** SaaS subscriptions ($999–$9,999/mo), $SLS utility fees per anchor, enterprise API tiers. 3–50x ROI for government customers.
+- **Savings:** $250K–$600K per program per year from 23 ILS tools plus major features and enhancements. Saves $250M–$600M/year at scale across 1,000 DoW programs.
 - **Compliance:** Designed for NIST 800-171, practically CMMC Level 2-ready, DFARS 252.204-7012. FedRAMP/IL4 authorization planned for CUI environments. $SLS is a utility token — not a security.
 - **Team:** Created and built entirely by **Nick Frankfort**, ILS contractor and founder and CEO of S4 Systems, LLC — at zero cost to the company.
 - **National Impact:** 340+ jobs created by Year 5, $8M–$17M economic impact, expands defense industrial base for small businesses.
@@ -23,15 +23,15 @@
 | **Cost per Anchor** | ~$0.01 (0.01 SLS) |
 | **Confirmation Time** | 3-5 seconds |
 | **Treasury** | 30M SLS (multi-sig) |
-| **ILS Tools** | 23 interactive workspace tools |
+| **ILS Tools** | 23 interactive workspace tools + 7 major features |
 | **SDK Functions** | 21 Python SDK functions |
-| **API Endpoints** | 90+ REST API endpoints |
+| **API Endpoints** | 90+ core REST API endpoints + 14 major feature endpoints |
 | **Defense Documents** | 100+ real MIL-STDs, OPNAV, DoW refs |
 | **Platforms** | 500+ across 9 defense branches |
 | **Pre-loaded Entities** | 500+ (500+ platforms + 37 suppliers + 25 contracts) |
 | **Record Types** | 156+ pre-built record types across 9 defense branches |
-| **Savings/Program** | ~$1.02M–$2.6M/year |
-| **ROI** | 15–100x for government |
+| **Savings/Program** | $250K–$600K/year |
+| **ROI** | 3–50x for government |
 
 ## Cost Savings (Realistic)
 
@@ -72,7 +72,7 @@ info@s4ledger.com | [s4ledger.com](https://s4ledger.com)
 
 ---
 
-## Platform Update — v12 (2026-02-22)
+## Platform Update — Post-v12 (March 2026)
 
 ### New Competitive Moat Features
 1. **AI Threat Intelligence Scoring** — Auto-classifies supply chain risk (vs Palantir: $10M+)
@@ -81,9 +81,19 @@ info@s4ledger.com | [s4ledger.com](https://s4ledger.com)
 4. **Digital Thread** — Complete provenance visualization (no competitor equivalent)
 5. **Zero-Trust Watermark** — Self-verifying exports (makes competitor exports look amateur)
 6. **Live Collaboration** — Multi-analyst workspace indicators
+7. **Living Program Ledger (LPL)** — AI-enhanced program review with Track Changes, Foresight View, Quantum-Safe Anchor, Mission Outcome Correlation Engine
+8. **Program Impact Simulator (PIS)** — Cascade analysis for program-wide impact assessment
+9. **Secure Collaboration Network (SCN)** — Real-time co-editing with Federated Knowledge Graph, Verifiable Scorecard Sharing, Automated Neutral Mediator
+10. **Prepared Email Composer** — Secure email with vault, AI reply, scheduled send
+11. **Cryptographic Mission Impact Ledger (CMIL)** — Blockchain-verified mission impact records
+12. **Self-Healing Compliance Auto-Repair** — Automatic compliance gap detection and remediation
+13. **Unified Command Brief** — One-click executive briefing from all program data
+14. **Zero-Trust Handoff Package** — Cryptographically sealed program transitions
 
 ### Scale
 - **34 Navy programs** supported (SSBNs through service craft)
-- **23 integrated ILS tools** in a single platform
-- **$0.01/anchor** on XRP Ledger — cost advantage over $5M-$50M legacy implementations
+- **23 integrated ILS tools** plus 7 major features and 7 world-class enhancements
+- **14 new API endpoints** for advanced features
+- **$0.01/anchor** on XRP Ledger — cost advantage over $5M–$50M legacy implementations
+- **$250K–$600K savings** per program per year
 

@@ -187,7 +187,7 @@ See [SEC_COMPLIANCE.md](SEC_COMPLIANCE.md) for full analysis under the Howey tes
 - **Batch support:** Up to 1,000 records per batch
 - **CLI:** Command-line interface for scripting and automation
 
-### 5.2 REST API (90+ endpoints — Live)
+### 5.2 REST API (90+ core endpoints + 14 feature endpoints — Live)
 
 - REST API with API key authentication (master + org keys)
 - 90+ production endpoints: anchor, verify, hash, categorize, status, health, metrics, transactions, record-types, xrpl-status, auth, infrastructure, and 23 ILS tool endpoints
@@ -297,7 +297,7 @@ Infrastructure costs scale with revenue and never exceed 6% of ARR at any phase.
 
 ## 8. Team
 
-S4 Ledger is a product line of **S4 Systems, LLC**, created and built entirely by **Nick Frankfort** — ILS contractor and founder and CEO. Nick built the entire platform (23 ILS tools, 21 Python SDK functions, 90+ REST API endpoints, $SLS token, 25+ page website, 500+ pre-loaded military entities) at zero cost to the company, on his own time, drawing on years of hands-on ILS experience across Navy and DoW programs.
+S4 Ledger is a product line of **S4 Systems, LLC**, created and built entirely by **Nick Frankfort** — ILS contractor and founder and CEO. Nick built the entire platform (23 ILS tools plus 7 major features, 21 Python SDK functions, 90+ core REST API endpoints + 14 feature endpoints, $SLS token, 25+ page website, 500+ pre-loaded military entities) at zero cost to the company, on his own time, drawing on years of hands-on ILS experience across Navy and DoW programs.
 
 Based in Charleston, SC.
 

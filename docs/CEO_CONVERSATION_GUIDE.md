@@ -23,7 +23,7 @@ Don't schedule a "meeting about blockchain." Schedule a "meeting about a new rev
 
 **Opening line example:**
 
-> "I built something that saves the government $1.02M–$2.6M per program per year in logistics labor — and it costs them $12K–$120K/year. I want to show you how it works and what it means for S4 Systems."
+> "I built something that saves the government $250K–$600K per program per year in logistics labor — and it costs them $12K–$120K/year. I want to show you how it works and what it means for S4 Systems."
 
 That gets attention. Then you open the demo app at s4ledger.com/demo-app and walk through 2-3 tools live. Let them see it working. Don't explain the technology — explain the outcome.
 
@@ -41,15 +41,15 @@ Keep these in your back pocket. Use them in order.
 
 ### 2. We Already Have a Working Product
 
-> "This isn't a concept or a slide deck. I built a fully working platform with 23 defense logistics tools, a Python SDK, REST API, and blockchain-verified audit trails. It's live at s4ledger.com right now. It cost the company zero dollars."
+> "This isn't a concept or a slide deck. I built a fully working platform with 23 defense logistics tools plus 7 major platform features, a Python SDK, REST API with 90+ core endpoints and 14 feature endpoints, and blockchain-verified audit trails. It's live at s4ledger.com right now. It cost the company zero dollars."
 
 **Why this works:** CEOs hear pitches for vaporware all the time. Showing a working product built at no cost is the opposite of risk — it's pure upside.
 
 ### 3. The Economics Are Undeniable
 
-> "S4 Ledger saves the government ~$1.02M–$2.6M per program per year. It costs them $12K–$120K/year. That's a 15–100x return on investment. Government program managers don't say no to that math."
+> "S4 Ledger saves the government ~$250K–$600K per program per year. It costs them $12K–$120K/year. That's a 3–50x return on investment. Government program managers don't say no to that math."
 
-**Why this works:** ROI is the universal language of business. 15–100x ROI is extraordinary by any standard.
+**Why this works:** ROI is the universal language of business. 3–50x ROI is extraordinary by any standard.
 
 ### 4. This Transforms the Company
 
@@ -107,7 +107,7 @@ Keep these in your back pocket. Use them in order.
 - **Don't lead with technical details.** No SHA-256, no XRPL consensus, no Merkle trees. If they ask, explain simply. Otherwise, keep it about outcomes.
 - **Don't compare to Bitcoin or Ethereum.** S4 Ledger anchors hashes on XRPL — completely different use case, different technology, different purpose.
 - **Don't promise revenue timelines you can't deliver.** Say "first revenue within 90 days of launch" — not "we'll make $5M next year."
-- **Don't undersell the opportunity.** $1.02M–$2.6M savings per program is real. $150B+ logistics market is real. Don't hedge so much that the opportunity sounds trivial.
+- **Don't undersell the opportunity.** $250K–$600K savings per program is real. $150B+ logistics market is real. Don't hedge so much that the opportunity sounds trivial.
 - **Don't mention the token ($SLS) first.** If it comes up, explain it as "a usage credit system for recording audit data — like buying stamps for certified mail." Keep it simple.
 
 ---
@@ -151,12 +151,12 @@ If the CEO says no:
 
 | Metric | Number |
 |---|---|
-| Per-program savings | $1.02M–$2.6M/year |
+| Per-program savings | $250K–$600K/year |
 | S4 Ledger cost | $12K–$120K/year |
-| ROI for government | 15–100x |
-| ILS tools built | 23 |
+| ROI for government | 3–50x |
+| ILS tools built | 23 + 7 major features |
 | SDK functions | 21 |
-| API endpoints | 90+ |
+| API endpoints | 90+ core + 14 feature endpoints |
 | Pre-loaded platforms | 500+ across 9 defense branches |
 | Cost to build so far | $0 to the company |
 | Cost to go production | $12K–$35K |

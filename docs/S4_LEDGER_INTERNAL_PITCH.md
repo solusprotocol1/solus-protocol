@@ -48,6 +48,8 @@ This is where it gets really practical for day-to-day ILS work. Instead of maint
 
 All 23 tools talk to each other. When the Obsolescence Alert finds an obsolete part, it automatically creates an action item. When a warranty is about to expire, it shows up on the calendar AND triggers an alert. When Risk Radar flags a supplier issue, it connects to the affected contracts and parts.
 
+Beyond the core 23 tools, S4 Ledger now includes **7 major platform features** (Living Platform Ledger, Platform Intelligence Suite, Secure Collaboration Network, Email Composer, DRL/DI Lookup, Export Summary Dashboard, Key Highlights), **7 world-class enhancements** (CMIL, Self-Healing Compliance, Zero-Trust Custody Handoff, Predictive Resource Allocator, Immutable After-Action Review, Quantum-Safe Anchoring, Dark-Launch Feature Flags), and **5 novel features** (CAC/PKI Login, Real-Time Collaboration, Predictive Maintenance AI, AI Threat Intelligence Scoring, Digital Thread Provenance).
+
 ---
 
 ## Who Is This For?
@@ -110,7 +112,7 @@ Everything described above is **live and working right now** at [s4ledger.com](h
 - **Audit Vault:** Automatically stores every anchored record with content + hash for instant auditing
 - **Document Library:** 100+ real MIL-STDs, OPNAVINSTs, DoD Directives searchable by branch and category
 - **Compliance Scorecard:** Real-time CMMC/NIST/DFARS compliance calculator with letter grades
-- **API:** 90+ working endpoints that other software can connect to
+- **API:** 90+ core working endpoints + 14 major feature endpoints that other software can connect to
 - **SDK:** A Python toolkit developers can use to plug S4 Ledger into existing systems
 - **$SLS Token:** A usage credit system — live on the XRP Ledger mainnet (production network)
 - **Documentation:** Whitepaper, compliance guides, migration plans, security review — all written
@@ -127,7 +129,7 @@ Everything described above is **live and working right now** at [s4ledger.com](h
 - **Year 5 projection:** $12M–$25M+
 
 ### Cost Savings for Government Customers
-These are realistic, defensible numbers based on ~$1.02M–$2.6M per-program annual savings:
+These are realistic, defensible numbers based on ~$250K–$600K per-program annual savings:
 
 | Scale | Programs | Government Saves (Total) | S4 Systems Earns |
 |---|---|---|---|
@@ -266,10 +268,10 @@ Let's address this head-on, because it's the first thing everyone thinks when th
 S4 Ledger isn't just good for S4 Systems. Here's why it matters for the country:
 
 ### For Congress and Defense Budgets
-Congress gives DoW over **$850 billion per year**, with logistics eating up **$150B+** of that. Government auditors (GAO, Inspector General) find billions wasted every year on duplicate purchases, unreliable data, counterfeit parts, and manual paperwork. **S4 Ledger fixes all of this** — and when Congressional appropriations committees see 15–100x ROI, those programs get funded.
+Congress gives DoW over **$850 billion per year**, with logistics eating up **$150B+** of that. Government auditors (GAO, Inspector General) find billions wasted every year on duplicate purchases, unreliable data, counterfeit parts, and manual paperwork. **S4 Ledger fixes all of this** — and when Congressional appropriations committees see 3–50x ROI, those programs get funded.
 
 ### For Taxpayers
-Every dollar saved on manual record-keeping goes to better equipment, more training, faster procurement, and a stronger industrial base. At scale, that's **$900M–$2.1B per year in savings** — not from cuts, but from eliminating waste.
+Every dollar saved on manual record-keeping goes to better equipment, more training, faster procurement, and a stronger industrial base. At scale, that's **$225M–$540M per year in savings** — not from cuts, but from eliminating waste.
 
 ### For the Warfighter
 This is what matters most. **Logistics wins wars.** S4 Ledger strengthens readiness by:

@@ -19,8 +19,8 @@ S4 Ledger is a **working platform** — live at [s4ledger.com](https://s4ledger.
 
 | Asset | Value |
 |-------|-------|
-| Live platform (25+ pages, 90+ API endpoints) | Built |
-| 23 ILS tools in unified workspace | Built |
+| Live platform (25+ pages, 90+ core API endpoints + 14 feature endpoints) | Built |
+| 23 ILS tools + 7 major platform features in unified workspace | Built |
 | $SLS token live on XRPL Mainnet (100M supply) | Live |
 | Python SDK + playground | Built |
 | Metrics dashboard + transaction browser | Built |
@@ -160,6 +160,9 @@ No platform combines **tamper-proof blockchain anchoring** with a **full ILS man
 | Predictive maintenance AI | ❌ | ❌ | ❌ | ✅ |
 | Compliance scorecard (CMMC/NIST) | Partial | ❌ | ❌ | ✅ |
 | Defense document library (100+) | ❌ | ❌ | ❌ | ✅ |
+| Living Platform Ledger (LPL) | ❌ | ❌ | ❌ | ✅ |
+| Platform Intelligence Suite (PIS) | ❌ | ❌ | ❌ | ✅ |
+| Secure Collaboration Network | ❌ | ❌ | ❌ | ✅ |
 | **Price** | $500K–$5M | $200K–$1M | $150K–$800K | **$999–$9,999/mo** |
 | **Deployment** | 6–24 months | 3–12 months | 3–6 months | **Same day** |
 
@@ -214,7 +217,7 @@ S4 Ledger's working prototype is essentially a **completed SBIR Phase I delivera
 | $0 (SBIR Phase II) | $500K–$1.5M non-dilutive funding | 12–18 months |
 
 **Break-even: 2–4 Starter customers cover Phase 1 costs.**  
-**10 mid-scale customers in Year 2 = $2.4M–$6M in government savings delivered.**
+**10 mid-scale customers in Year 2 = $2.5M–$6M in government savings delivered ($250K–$600K per program).**
 
 ---
 

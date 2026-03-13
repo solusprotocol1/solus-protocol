@@ -24,7 +24,7 @@
 | **Code Quality** | 78% | ESLint 9+ flat config (42 rules), consistent naming, error handling patterns, no eval() |
 | **Deployment** | 90% | Vite 6.4.1 build pipeline, Vercel + CDN, immutable cache headers, GitHub Actions CI (8 jobs) |
 | **Testing** | 80% | Vitest (121 tests), Playwright E2E smoke tests, pytest (20+ Python tests), GitHub Actions CI |
-| **Documentation** | 95% | OpenAPI 3.0 (90+ endpoints), SDK reference, whitepaper, deployment guide, training guide |
+| **Documentation** | 95% | OpenAPI 3.0 (90+ core endpoints + 14 feature endpoints), SDK reference, whitepaper, deployment guide, training guide |
 | **Legal/Compliance** | 85% | TOS published, Privacy Policy, ITAR banners, NIST 800-171 aligned, SEC Howey analysis |
 | **Weighted Overall** | **86.5%** | — |
 
@@ -66,12 +66,12 @@ This document tracks every requirement for taking S4 Ledger to a fully productio
 | Area | Status | MVP Score | Enterprise Score |
 |------|--------|-----------|-----------------|
 | **Frontend / Demo** | ILS Workspace (unified command center with 23 ILS tools (hub/card layout)), 23 ILS tools + action items + AI Agent, universal program support, 156+ pre-built record types across 9 defense branches, PDF/DOCX document parsing, cross-document discrepancy detection, ITAR warning banner, login portal, SDK Playground with 20 interactive function boxes, Metrics dashboard auto-refresh (5s), Transactions page with filters, Treasury Wallet widget, classification banners, dark/light mode, S4 color palette (PMS 325/385), drag-reorder tool cards, first-visit How It Works UX, real QR codes | **98%** | **95%** |
-| **API / Backend** | Serverless API v5.12.1, 90+ endpoints including 12 HarborLink integration endpoints, subscription-based SLS provisioning, Stripe payment verification, AI cascade (Azure OpenAI → OpenAI GPT-4o → Anthropic Claude Sonnet → client-side fallback), RAG endpoint, /api/state/save + /api/state/load for Supabase persistence, /api/demo/provision for demo SLS flow, rate limiting, security headers, health check, OpenAPI 3.0 spec, server-side JWT validation | **92%** | **85%** |
+| **API / Backend** | Serverless API v5.12.1, 90+ core endpoints + 14 feature endpoints including 12 HarborLink integration endpoints, subscription-based SLS provisioning, Stripe payment verification, AI cascade (Azure OpenAI → OpenAI GPT-4o → Anthropic Claude Sonnet → client-side fallback), RAG endpoint, /api/state/save + /api/state/load for Supabase persistence, /api/demo/provision for demo SLS flow, rate limiting, security headers, health check, OpenAPI 3.0 spec, server-side JWT validation | **92%** | **85%** |
 | **XRPL Integration** | $SLS LIVE on XRPL Mainnet (100M total). Full mainnet anchoring live — all 23 ILS tools anchor to mainnet with explorer links. 3-wallet architecture (Issuer, Treasury, Ops). secp256k1 (Xaman-compatible). 0.01 SLS fee per anchor. | **100%** | **98%** |
 | **SDK** | Python SDK with 21 functions including 11 new HarborLink methods (webhooks, composite, batch, custody, proof chain, file hash, bulk verify, org records), CLI tool, CSV/XML/JSON import, encryption, SDK Playground with 20 clickable function boxes | **92%** | **90%** |
 | **Infrastructure** | Vercel deployment, SSL, CDN, PWA manifest, custom 404, security headers, **Supabase PostgreSQL persistence** (43+ tables, user state sync, 100% localStorage coverage), automated database backups, encryption at rest (AES-256 via Supabase), offline queue with client-side encryption — no GovCloud, no multi-region, no external monitoring/APM | **85%** | **70%** |
 | **Authentication** | Real Supabase Auth (sign in, sign up, password reset, session restore), JWT token issuance + server-side JWT validation (_validate_supabase_jwt, _get_auth_user), login portal, API key system, wallet provisioning, subscription-gated SLS delivery, role-based access controls (UI), session state persistence via Supabase, SSO scaffolding (CAC/PIV, Microsoft) — no MFA enforcement, no key rotation | **80%** | **65%** |
-| **Documentation** | OpenAPI 3.0 spec (90+ endpoints), SDK reference (21 functions), whitepaper, technical specs, security policy, investor docs, deployment guide, User Training Guide, HarborLink Integration doc v2.0, SEC Compliance / Howey Test analysis, CEO Launch Costs, Executive Proposal, Internal Pitch — all synced to v5.12.1 | **98%** | **98%** |
+| **Documentation** | OpenAPI 3.0 spec (90+ core endpoints + 14 feature endpoints), SDK reference (21 functions), whitepaper, technical specs, security policy, investor docs, deployment guide, User Training Guide, HarborLink Integration doc v2.0, SEC Compliance / Howey Test analysis, CEO Launch Costs, Executive Proposal, Internal Pitch — all synced to v5.12.1 | **98%** | **98%** |
 | **Compliance** | NIST 800-171 architecture aligned, ITAR warnings, security headers — practically CMMC Level 2-ready, FedRAMP/IL4 hosting planned, SEC utility token Howey Test analysis complete, no SOC 2 | **45%** | **42%** |
 | **Legal / Business** | S4 Systems LLC exists, TOS + Privacy Policy published, SEC Howey Test analysis documented — token legal opinion, EULA, DPA, SLA pending | **45%** | **40%** |
 | **Security** | Zero-data-on-chain, HMAC-SHA256 webhook signing, rate limiting, HSTS, security headers, client-side encryption for offline queue, NVD vulnerability scanning, server-side JWT validation (_validate_supabase_jwt + _get_auth_user), 20 pytest security/validation tests passing — no pen test, no SOC 2, no WAF | **48%** | **42%** |
@@ -380,7 +380,7 @@ This document tracks every requirement for taking S4 Ledger to a fully productio
 - [x] Post-analysis workflow actions ✅ (Send, Schedule Meeting, Action Tracker, Print)
 - [x] SDK pip-installable with CLI ✅ (pyproject.toml, entry points, argparse CLI)
 - [x] Landing page ILS Analyzer showcase ✅
-- [x] OpenAPI 3.0 spec ✅ (v3.9.8 — all 90+ endpoints documented)
+- [x] OpenAPI 3.0 spec ✅ (v3.9.8 — all 90+ core endpoints + 14 feature endpoints documented)
 - [x] Security response headers ✅ (v3.2 — HSTS, X-Frame-Options, CSP, X-XSS-Protection)
 - [x] Obsolescence Alert ✅ (v3.2 — per-program tracking with real component data)
 - [x] Readiness Score (Ao/MTBF/MTTR) ✅ (v3.2 — full RAM analysis per MIL-STD-1390D)
@@ -394,8 +394,8 @@ This document tracks every requirement for taking S4 Ledger to a fully productio
 - [x] **5 New ILS Tools Integrated** — Risk Radar (35+ platforms, 37 suppliers), Audit Builder (6 report types), Contract Lifecycle Management (25 real DoW contracts), Digital Thread / Config Bridge (32 platform configs), Maintenance Predictor (40+ platforms with fleet sizes)
 - [x] **Real DoW Dropdown Data** — All tool dropdowns populated with researched real platforms, contract numbers (N00024, FA8615, W58RGZ formats), platform variants (Flight IIA/III, Block IV/V, SEPv3/v4), fleet sizes, and 37 real defense suppliers
 - [x] **Custom Nautical Animation** — Replaced particles.js with zero-dependency canvas animation (floating anchors, chain links, hex hash fragments, wave lines)
-- [x] **Financial Math Updated** — 23 tool savings recalculated: ~$1.02M–$2.6M per program/year, 15–100x ROI, ~$1.02B–$2.6B at 1,000 programs
-- [x] **API v3.8.6** — 90+ endpoints, 23 tool handlers, health endpoint updated
+- [x] **Financial Math Updated** — 23 tools plus major features savings recalculated: ~$250K–$600K per program/year, 3–50x ROI
+- [x] **API v3.8.6** — 90+ core endpoints + 14 feature endpoints, 23 tool handlers, health endpoint updated
 - [x] **Compliance Grade Enhanced** — Larger font (1.3rem/900-weight), gradient background, glow effects
 - [x] **How It Works Repositioned** — Collapsible boxes moved under Anchor/Verify headings for better UX
 - [x] **Marketplace Dates Fixed** — Future roadmap items updated to Q3 2026–Q1 2027

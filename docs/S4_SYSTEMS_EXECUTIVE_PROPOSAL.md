@@ -47,7 +47,7 @@ Every day, the U.S. Department of War (DoW) processes millions of logistics reco
 | Component | Description | Status |
 |-----------|-------------|--------|
 | **Live Website** | 25+ pages at [s4ledger.com](https://s4ledger.com) with full branding | ✅ Deployed |
-| **Python API** | 90+ REST endpoints, zero external dependencies | ✅ Live |
+| **Python API** | 90+ core REST endpoints + 14 major feature endpoints, zero external dependencies | ✅ Live |
 | **Demo Application** | Interactive platform — the U.S. Navy, 156+ pre-built record types across 9 defense branches (any defense record type supported) | ✅ Live |
 | **SDK Playground** | Browser-based Python SDK sandbox with live API | ✅ Live |
 | **$SLS Utility Token** | LIVE on XRPL Mainnet — 100M supply, ~15M circulating, AMM (Automated Market Maker) pools active | ✅ Live |
@@ -293,7 +293,7 @@ S4 Ledger's prototype is essentially a **completed Phase I deliverable**. We cou
 5. **Time allocation** for me to lead development (partial or full-time on S4 Ledger)
 
 ### What I Bring
-1. **A working prototype** — live, publicly accessible, with 25+ pages and 90+ API endpoints
+1. **A working prototype** — live, publicly accessible, with 25+ pages and 90+ core API endpoints + 14 feature endpoints
 2. **Domain expertise** — I understand defense logistics AND the underlying technology
 3. **Complete documentation** — whitepaper, technical specs, migration guides, compliance docs, API specification
 4. **ILS Workspace** — a fully functional suite of 23 integrated logistics tools ready for demonstration — the trust and intelligence layer for defense ILS
@@ -449,8 +449,8 @@ Defense SaaS companies are valued at 12–20× revenue (Palantir: 27×, Anduril:
 
 ### The Math That Gets Us There
 
-**Current platform savings per program:** ~$1.02M–$2.6M/year (23 ILS tools + hash anchoring + defense database import + Submissions Hub intelligence combined).  
-**S4 Ledger charges 5–10% of value delivered** → $12K–$120K/year per customer → 15–100× ROI for government.
+**Current platform savings per program:** ~$250K–$600K/year (23 ILS tools plus major features + hash anchoring + defense database import + Submissions Hub intelligence combined).  
+**S4 Ledger charges 5–10% of value delivered** → $12K–$120K/year per customer → 3–50× ROI for government.
 
 | Scale | Programs | Govt Savings/Year | S4 Revenue (ARR) | Valuation (15×) |
 |---|---|---|---|
