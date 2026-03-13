@@ -1948,6 +1948,18 @@ class handler(BaseHTTPRequestHandler):
             return "federated_benchmark"
         if path == "/api/unified-brief":
             return "unified_brief"
+        if path == "/api/prepare-email":
+            return "prepare_email"
+        if path == "/api/save-draft":
+            return "save_draft"
+        if path == "/api/scheduled-send":
+            return "scheduled_send"
+        if path == "/api/import-received-email":
+            return "import_received_email"
+        if path == "/api/send-email":
+            return "send_email"
+        if path == "/api/vault-emails":
+            return "vault_emails"
         return None
 
     def _check_rate_limit(self):
@@ -2663,6 +2675,10 @@ class handler(BaseHTTPRequestHandler):
             self._log_request("state-load")
             self._get_user_state(parse_qs(parsed.query))
 
+        elif route == "vault_emails":
+            self._log_request("vault-emails-get")
+            self._get_vault_emails(parse_qs(parsed.query))
+
         else:
             self._send_json({"error": "Not found", "path": self.path}, 404)
 
@@ -2955,6 +2971,415 @@ class handler(BaseHTTPRequestHandler):
                     saved += 1
 
         self._send_json({"status": "saved", "saved": saved, "total": len(entries), "session_id": session_id})
+
+    # ═══════════════════════════════════════════════════════════════════════
+    #  PREPARED EMAIL COMPOSER — Enterprise-Grade Email API Handlers
+    #  Supports AI enhancement, draft/schedule storage, import/reply,
+    #  mailto generation, and Secure Email Vault persistence.
+    # ═══════════════════════════════════════════════════════════════════════
+
+    def _get_vault_emails(self, params):
+        """GET /api/vault-emails
+        Return list of saved/imported/sent emails for the user (searchable, flagged, pinned, deleted).
+        Purpose: Populate the Secure Email Vault section in the profile popover.
+        """
+        user_id = params.get("user_id", [None])[0] or self.headers.get("X-API-Key", "anonymous")
+        search = params.get("search", [None])[0]
+        filter_type = params.get("type", [None])[0]  # draft, sent, scheduled, imported
+
+        # Try Supabase first
+        query_params = f"user_id=eq.{user_id}&order=saved_at.desc&limit=200"
+        if filter_type:
+            query_params += f"&type=eq.{filter_type}"
+        sb_result = _supabase_request("email_vault", query_params=query_params)
+        if sb_result is not None:
+            emails = sb_result
+        else:
+            emails = []
+
+        # Apply text search filter if provided
+        if search and emails:
+            search_lower = search.lower()
+            emails = [e for e in emails if search_lower in (e.get("subject", "") + " " + " ".join(e.get("to", []))).lower()]
+
+        self._send_json({
+            "emails": emails,
+            "total": len(emails),
+            "user_id": user_id,
+        })
+
+    def _post_prepare_email(self, data):
+        """POST /api/prepare-email
+        Receives: selected tool data, AI checkbox state, recipients, CC/BCC, subject,
+        body (rich HTML), attachments (files or base64), signature, importance,
+        schedule time, encrypt flag, read receipt flag.
+        If AI checkbox is on: call built-in OpenAI/Anthropic to enhance.
+        Append signature to body if not already done.
+        Return: pre-filled mailto string, formatted PDF blob (placeholder), saved draft ID.
+        """
+        # Supports multiple emails by accepting array of recipient sets.
+        subject = data.get("subject", "")
+        body_html = data.get("bodyHTML", data.get("body", ""))
+        signature = data.get("signature", "")
+        recipients = data.get("to", [])
+        cc = data.get("cc", [])
+        bcc = data.get("bcc", [])
+        importance = data.get("importance", "normal")
+        use_ai = data.get("useAI", False)
+        encrypt = data.get("encrypt", False)
+        read_receipt = data.get("readReceipt", False)
+        schedule_time = data.get("scheduleTime", None)
+        tool_name = data.get("toolName", "")
+        tool_data = data.get("toolData", "")
+        attachments = data.get("attachments", [])
+        batches = data.get("batches", None)
+
+        # AI enhancement
+        ai_enhanced = False
+        if use_ai:
+            system_prompt = (
+                "You are a professional defense logistics communications assistant. "
+                "Enhance the provided ILS data into a professional email body and subject. "
+                "Keep it concise, defense-appropriate, include all key bullets and summaries, "
+                "and append the signature. Return JSON with keys: 'subject', 'bodyHTML'."
+            )
+            user_msg = (
+                f"Tool: {tool_name}\n"
+                f"Original Subject: {subject}\n"
+                f"Original Body:\n{body_html[:3000]}\n"
+                f"Tool Data:\n{str(tool_data)[:2000]}\n"
+                f"Signature:\n{signature}\n"
+                f"Importance: {importance}"
+            )
+            ai_response = self._call_ai_cascade(system_prompt, user_msg)
+            if ai_response:
+                ai_enhanced = True
+                try:
+                    json_match = re.search(r'\{[\s\S]*\}', ai_response)
+                    if json_match:
+                        ai_data = json.loads(json_match.group())
+                        subject = ai_data.get("subject", subject)
+                        body_html = ai_data.get("bodyHTML", ai_response)
+                    else:
+                        body_html = ai_response
+                except Exception:
+                    body_html = ai_response
+
+        # Append signature if not already present
+        if signature and signature.strip() and signature.strip() not in body_html:
+            body_html += f'<br><hr style="border:none;border-top:1px solid #ccc;margin:12px 0">{signature}'
+
+        # Build mailto link
+        import urllib.parse
+        to_str = ",".join(recipients) if isinstance(recipients, list) else str(recipients)
+        mailto_parts = [f"subject={urllib.parse.quote(subject)}", f"body={urllib.parse.quote(body_html[:2000])}"]
+        if cc:
+            cc_str = ",".join(cc) if isinstance(cc, list) else str(cc)
+            mailto_parts.append(f"cc={urllib.parse.quote(cc_str)}")
+        if bcc:
+            bcc_str = ",".join(bcc) if isinstance(bcc, list) else str(bcc)
+            mailto_parts.append(f"bcc={urllib.parse.quote(bcc_str)}")
+        mailto = f"mailto:{urllib.parse.quote(to_str)}?{'&'.join(mailto_parts)}"
+
+        # Save as draft to vault (Supabase)
+        now = datetime.now(timezone.utc)
+        draft_id = hashlib.sha256(f"{now.isoformat()}{subject}".encode()).hexdigest()[:16]
+        user_id = data.get("userId", self.headers.get("X-API-Key", "anonymous"))
+        vault_entry = {
+            "draft_id": draft_id,
+            "user_id": user_id,
+            "tool_name": tool_name,
+            "subject": subject,
+            "body_html": body_html,
+            "to": json.dumps(recipients),
+            "cc": json.dumps(cc),
+            "bcc": json.dumps(bcc),
+            "signature": signature,
+            "importance": importance,
+            "encrypt": encrypt,
+            "read_receipt": read_receipt,
+            "schedule_time": schedule_time,
+            "attachments": json.dumps(attachments[:20]),  # Limit stored attachment metadata
+            "type": "draft",
+            "ai_enhanced": ai_enhanced,
+            "saved_at": now.isoformat(),
+            "pinned": False,
+            "flagged": False,
+        }
+        _supabase_request("email_vault", method="POST", data=vault_entry)
+
+        self._send_json({
+            "status": "prepared",
+            "draftId": draft_id,
+            "subject": subject,
+            "bodyHTML": body_html,
+            "mailto": mailto,
+            "aiEnhanced": ai_enhanced,
+            "importance": importance,
+            "timestamp": now.isoformat(),
+        })
+
+    def _post_save_draft(self, data):
+        """POST /api/save-draft
+        Receives: full email object (subject, body HTML, signature, recipients, attachments, options).
+        Store securely in Secure Email Vault (anchored to user).
+        Return: draft ID and success message.
+        """
+        now = datetime.now(timezone.utc)
+        draft_id = data.get("id", hashlib.sha256(f"{now.isoformat()}{data.get('subject', '')}".encode()).hexdigest()[:16])
+        user_id = data.get("userId", self.headers.get("X-API-Key", "anonymous"))
+
+        vault_entry = {
+            "draft_id": draft_id,
+            "user_id": user_id,
+            "tool_name": data.get("toolName", ""),
+            "subject": data.get("subject", ""),
+            "body_html": data.get("bodyHTML", ""),
+            "to": json.dumps(data.get("to", [])),
+            "cc": json.dumps(data.get("cc", [])),
+            "bcc": json.dumps(data.get("bcc", [])),
+            "signature": data.get("signature", ""),
+            "importance": data.get("importance", "normal"),
+            "encrypt": data.get("encrypt", False),
+            "read_receipt": data.get("readReceipt", False),
+            "schedule_time": data.get("scheduleTime"),
+            "attachments": json.dumps(data.get("attachments", [])[:20]),
+            "type": "draft",
+            "ai_enhanced": data.get("aiEnhanced", False),
+            "saved_at": now.isoformat(),
+            "pinned": data.get("pinned", False),
+            "flagged": data.get("flagged", False),
+        }
+        result = _supabase_request("email_vault", method="POST", data=vault_entry)
+
+        self._send_json({
+            "status": "saved",
+            "draftId": draft_id,
+            "message": "Draft saved to Secure Email Vault",
+            "timestamp": now.isoformat(),
+            "persisted": result is not None,
+        })
+
+    def _post_scheduled_send(self, data):
+        """POST /api/scheduled-send
+        Receives: full email object + schedule date/time.
+        Store in scheduled queue with countdown (frontend shows it in Vault).
+        """
+        # TODO: Cron/queue job to trigger send at scheduled time.
+        now = datetime.now(timezone.utc)
+        schedule_time = data.get("scheduleTime")
+        if not schedule_time:
+            self._send_json({"error": "scheduleTime is required"}, 400)
+            return
+
+        draft_id = data.get("id", hashlib.sha256(f"{now.isoformat()}{data.get('subject', '')}".encode()).hexdigest()[:16])
+        user_id = data.get("userId", self.headers.get("X-API-Key", "anonymous"))
+
+        vault_entry = {
+            "draft_id": draft_id,
+            "user_id": user_id,
+            "tool_name": data.get("toolName", ""),
+            "subject": data.get("subject", ""),
+            "body_html": data.get("bodyHTML", ""),
+            "to": json.dumps(data.get("to", [])),
+            "cc": json.dumps(data.get("cc", [])),
+            "bcc": json.dumps(data.get("bcc", [])),
+            "signature": data.get("signature", ""),
+            "importance": data.get("importance", "normal"),
+            "encrypt": data.get("encrypt", False),
+            "read_receipt": data.get("readReceipt", False),
+            "schedule_time": schedule_time,
+            "attachments": json.dumps(data.get("attachments", [])[:20]),
+            "type": "scheduled",
+            "ai_enhanced": data.get("aiEnhanced", False),
+            "saved_at": now.isoformat(),
+            "pinned": False,
+            "flagged": False,
+        }
+        result = _supabase_request("email_vault", method="POST", data=vault_entry)
+
+        # Calculate countdown
+        try:
+            sched_dt = datetime.fromisoformat(schedule_time.replace("Z", "+00:00"))
+            seconds_until = max(0, (sched_dt - now).total_seconds())
+        except Exception:
+            seconds_until = 0
+
+        self._send_json({
+            "status": "scheduled",
+            "draftId": draft_id,
+            "scheduleTime": schedule_time,
+            "secondsUntilSend": round(seconds_until),
+            "message": "Email scheduled and stored in vault",
+            "timestamp": now.isoformat(),
+            "persisted": result is not None,
+        })
+
+    def _post_import_received_email(self, data):
+        """POST /api/import-received-email
+        Receives: pasted text or uploaded .eml/.msg file content.
+        Store securely in Vault.
+        Trigger AI reply drafting: call OpenAI/Anthropic to draft a professional reply.
+        Return: AI draft ready for composer pre-fill.
+        """
+        raw_content = data.get("content", "")
+        file_name = data.get("fileName", "")
+        user_id = data.get("userId", self.headers.get("X-API-Key", "anonymous"))
+        tool_name = data.get("toolName", "Imported Email")
+
+        if not raw_content:
+            self._send_json({"error": "content is required"}, 400)
+            return
+
+        # Parse .eml-style content (headers + body)
+        lines = raw_content.split("\n")
+        headers_parsed = {}
+        body_lines = []
+        in_headers = True
+        for line in lines:
+            stripped = line.strip()
+            if in_headers and stripped == "":
+                in_headers = False
+                continue
+            if in_headers:
+                import re as _re
+                m = _re.match(r'^(From|To|Subject|Cc|Date|Reply-To):\s*(.+)', line, _re.IGNORECASE)
+                if m:
+                    headers_parsed[m.group(1).lower()] = m.group(2).strip()
+            else:
+                body_lines.append(line)
+
+        parsed_subject = headers_parsed.get("subject", file_name or "Imported Email")
+        parsed_from = headers_parsed.get("from", "")
+        parsed_to = headers_parsed.get("to", "")
+        parsed_body = "\n".join(body_lines).strip() or raw_content[:5000]
+
+        # Save to vault as imported
+        now = datetime.now(timezone.utc)
+        import_id = hashlib.sha256(f"{now.isoformat()}{parsed_subject}".encode()).hexdigest()[:16]
+        vault_entry = {
+            "draft_id": import_id,
+            "user_id": user_id,
+            "tool_name": tool_name,
+            "subject": parsed_subject,
+            "body_html": parsed_body.replace("\n", "<br>"),
+            "to": json.dumps(parsed_to.split(",") if parsed_to else []),
+            "cc": json.dumps([]),
+            "bcc": json.dumps([]),
+            "signature": "",
+            "importance": "normal",
+            "encrypt": False,
+            "read_receipt": False,
+            "schedule_time": None,
+            "attachments": json.dumps([]),
+            "type": "imported",
+            "ai_enhanced": False,
+            "saved_at": now.isoformat(),
+            "pinned": False,
+            "flagged": False,
+        }
+        _supabase_request("email_vault", method="POST", data=vault_entry)
+
+        # AI reply drafting
+        ai_reply = None
+        system_prompt = (
+            "You are a professional defense logistics communications assistant. "
+            "Draft a professional reply to the received email using platform data. "
+            "Include all necessary bullets, summaries, attachments references, and references. "
+            "Return JSON with keys: 'subject', 'bodyHTML'."
+        )
+        user_msg = (
+            f"Received email from: {parsed_from}\n"
+            f"Subject: {parsed_subject}\n"
+            f"Body:\n{parsed_body[:3000]}\n\n"
+            f"Tool context: {tool_name}\n"
+            f"Draft a professional reply."
+        )
+        ai_response = self._call_ai_cascade(system_prompt, user_msg)
+        if ai_response:
+            try:
+                json_match = re.search(r'\{[\s\S]*\}', ai_response)
+                if json_match:
+                    ai_reply = json.loads(json_match.group())
+                else:
+                    ai_reply = {"subject": f"Re: {parsed_subject}", "bodyHTML": ai_response}
+            except Exception:
+                ai_reply = {"subject": f"Re: {parsed_subject}", "bodyHTML": ai_response}
+
+        self._send_json({
+            "status": "imported",
+            "importId": import_id,
+            "parsed": {
+                "subject": parsed_subject,
+                "from": parsed_from,
+                "to": parsed_to,
+                "body": parsed_body[:5000],
+            },
+            "aiReply": ai_reply,
+            "timestamp": now.isoformat(),
+        })
+
+    def _post_send_email(self, data):
+        """POST /api/send-email (placeholder for future deep integration)
+        Receives: prepared email data.
+        For now: generate mailto link and log send in Vault.
+        """
+        # TODO: Future Outlook Graph or Apple Mail API integration for direct send, scheduling, encryption, read receipts.
+        now = datetime.now(timezone.utc)
+        subject = data.get("subject", "")
+        recipients = data.get("to", [])
+        cc = data.get("cc", [])
+        bcc = data.get("bcc", [])
+        body_html = data.get("bodyHTML", "")
+        importance = data.get("importance", "normal")
+        user_id = data.get("userId", self.headers.get("X-API-Key", "anonymous"))
+
+        # Build mailto link
+        import urllib.parse
+        to_str = ",".join(recipients) if isinstance(recipients, list) else str(recipients)
+        subj_prefix = "\u26A1 [HIGH] " if importance == "high" else ""
+        mailto_parts = [f"subject={urllib.parse.quote(subj_prefix + subject)}"]
+        if cc:
+            cc_str = ",".join(cc) if isinstance(cc, list) else str(cc)
+            mailto_parts.append(f"cc={urllib.parse.quote(cc_str)}")
+        if bcc:
+            bcc_str = ",".join(bcc) if isinstance(bcc, list) else str(bcc)
+            mailto_parts.append(f"bcc={urllib.parse.quote(bcc_str)}")
+        mailto = f"mailto:{urllib.parse.quote(to_str)}?{'&'.join(mailto_parts)}"
+
+        # Log send in Vault
+        send_id = hashlib.sha256(f"{now.isoformat()}{subject}".encode()).hexdigest()[:16]
+        vault_entry = {
+            "draft_id": send_id,
+            "user_id": user_id,
+            "tool_name": data.get("toolName", ""),
+            "subject": subject,
+            "body_html": body_html[:10000],
+            "to": json.dumps(recipients),
+            "cc": json.dumps(cc),
+            "bcc": json.dumps(bcc),
+            "signature": data.get("signature", ""),
+            "importance": importance,
+            "encrypt": data.get("encrypt", False),
+            "read_receipt": data.get("readReceipt", False),
+            "schedule_time": None,
+            "attachments": json.dumps(data.get("attachments", [])[:20]),
+            "type": "sent",
+            "ai_enhanced": data.get("aiEnhanced", False),
+            "saved_at": now.isoformat(),
+            "pinned": False,
+            "flagged": False,
+        }
+        result = _supabase_request("email_vault", method="POST", data=vault_entry)
+
+        self._send_json({
+            "status": "sent",
+            "sendId": send_id,
+            "mailto": mailto,
+            "message": "Email logged to Secure Email Vault. Use mailto link to open in email client.",
+            "timestamp": now.isoformat(),
+            "persisted": result is not None,
+        })
 
     def do_POST(self):
         _hydrate_from_supabase()  # Cold-start recovery
@@ -6093,6 +6518,30 @@ class handler(BaseHTTPRequestHandler):
                 "generated_at": now.isoformat() + "Z",
                 "raw_response": ai_response if ai_response else None,
             })
+
+        # ═══════════════════════════════════════════════════════════════════
+        #  PREPARED EMAIL COMPOSER — Enterprise Email API Endpoints
+        # ═══════════════════════════════════════════════════════════════════
+
+        elif route == "prepare_email":
+            self._log_request("prepare-email")
+            self._post_prepare_email(data)
+
+        elif route == "save_draft":
+            self._log_request("save-draft")
+            self._post_save_draft(data)
+
+        elif route == "scheduled_send":
+            self._log_request("scheduled-send")
+            self._post_scheduled_send(data)
+
+        elif route == "import_received_email":
+            self._log_request("import-received-email")
+            self._post_import_received_email(data)
+
+        elif route == "send_email":
+            self._log_request("send-email")
+            self._post_send_email(data)
 
         else:
             self._send_json({"error": "Not found", "path": self.path}, 404)

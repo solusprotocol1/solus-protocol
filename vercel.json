@@ -457,6 +457,30 @@
       "destination": "/api"
     },
     {
+      "source": "/api/prepare-email",
+      "destination": "/api"
+    },
+    {
+      "source": "/api/save-draft",
+      "destination": "/api"
+    },
+    {
+      "source": "/api/scheduled-send",
+      "destination": "/api"
+    },
+    {
+      "source": "/api/import-received-email",
+      "destination": "/api"
+    },
+    {
+      "source": "/api/send-email",
+      "destination": "/api"
+    },
+    {
+      "source": "/api/vault-emails",
+      "destination": "/api"
+    },
+    {
       "source": "/demo",
       "destination": "/prod-app/demo.html"
     },

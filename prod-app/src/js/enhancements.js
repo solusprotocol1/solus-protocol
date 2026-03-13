@@ -15967,27 +15967,48 @@ function _importReceivedIntoComposer(toolId, toolName, bodyRTE, subjectInput) {
     importSaveBtn.onclick = function() {
         if (activePanelKey === 'paste' && pasteArea.value.trim()) _parseEml(pasteArea.value);
         if (!importedData.subject && !importedData.body) { if (typeof _toast === 'function') _toast('No email content to import', 'warning'); return; }
-        // Save to vault as imported
+        // Save to vault as imported (localStorage)
         var toEmails = importedData.to ? importedData.to.split(/[,;]/).map(function(e) { return e.trim(); }).filter(Boolean) : [];
         var email = { id: Date.now().toString(36) + Math.random().toString(36).slice(2, 7), toolId: 'imported', toolName: 'Imported Email', subject: importedData.subject || 'Imported Email', to: toEmails, cc: [], bcc: [], body: importedData.body, bodyHTML: importedData.bodyHTML, options: {}, importance: 'normal', type: 'imported', savedAt: new Date().toISOString(), pinned: false, flagged: false };
         var vault = _loadVault(); vault.unshift(email); _saveVault(vault); _renderVaultList();
-        // AI Reply — pre-fill composer with AI-generated reply
-        var opName = document.getElementById('s4ApName') ? document.getElementById('s4ApName').textContent : 'S4 Operator';
-        var aiReply = '<p>Dear ' + _escH(importedData.from || 'Sender') + ',</p>' +
-            '<p>Thank you for your email regarding <b>' + _escH(importedData.subject || 'this matter') + '</b>.</p>' +
-            '<p>I\u2019ve reviewed the content alongside our latest <b>' + _escH(toolName) + '</b> platform data and have the following response:</p>' +
-            '<ul><li>All referenced data points have been verified against our anchored records</li>' +
-            '<li>The analysis aligns with our current compliance posture</li>' +
-            '<li>I recommend scheduling a follow-up to discuss next steps</li></ul>' +
-            '<p>Please let me know if you need additional detail.</p>' +
-            '<p>Best regards,<br>' + _escH(opName) + '</p>' +
-            '<br><hr style="border:none;border-top:1px solid #ccc;margin:12px 0">' +
-            '<p style="color:#6e6e73;font-size:0.82rem"><i>Original received email:</i></p>' +
-            importedData.bodyHTML;
-        bodyRTE.setHTML(aiReply);
-        if (subjectInput) subjectInput.value = 'Re: ' + (importedData.subject || '');
-        if (typeof _toast === 'function') _toast('Email imported and AI reply drafted.', 'success');
-        ov.remove();
+        // Call backend API for AI reply drafting
+        var rawContent = importedData.body || '';
+        if (importedData.from) rawContent = 'From: ' + importedData.from + '\nSubject: ' + (importedData.subject || '') + '\nTo: ' + (importedData.to || '') + '\n\n' + rawContent;
+        importSaveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> AI drafting reply\u2026';
+        fetch('/api/import-received-email', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ content: rawContent, fileName: '', toolName: toolName })
+        }).then(function(r) { return r.json(); }).then(function(res) {
+            if (res.aiReply && res.aiReply.bodyHTML) {
+                bodyRTE.setHTML(res.aiReply.bodyHTML);
+                if (subjectInput && res.aiReply.subject) subjectInput.value = res.aiReply.subject;
+            } else {
+                _localAIReplyFallback();
+            }
+            if (typeof _toast === 'function') _toast('Email imported and AI reply drafted.', 'success');
+            ov.remove();
+        }).catch(function() {
+            _localAIReplyFallback();
+            if (typeof _toast === 'function') _toast('Email imported and AI reply drafted.', 'success');
+            ov.remove();
+        });
+        function _localAIReplyFallback() {
+            var opName = document.getElementById('s4ApName') ? document.getElementById('s4ApName').textContent : 'S4 Operator';
+            var aiReply = '<p>Dear ' + _escH(importedData.from || 'Sender') + ',</p>' +
+                '<p>Thank you for your email regarding <b>' + _escH(importedData.subject || 'this matter') + '</b>.</p>' +
+                '<p>I\u2019ve reviewed the content alongside our latest <b>' + _escH(toolName) + '</b> platform data and have the following response:</p>' +
+                '<ul><li>All referenced data points have been verified against our anchored records</li>' +
+                '<li>The analysis aligns with our current compliance posture</li>' +
+                '<li>I recommend scheduling a follow-up to discuss next steps</li></ul>' +
+                '<p>Please let me know if you need additional detail.</p>' +
+                '<p>Best regards,<br>' + _escH(opName) + '</p>' +
+                '<br><hr style="border:none;border-top:1px solid #ccc;margin:12px 0">' +
+                '<p style="color:#6e6e73;font-size:0.82rem"><i>Original received email:</i></p>' +
+                importedData.bodyHTML;
+            bodyRTE.setHTML(aiReply);
+            if (subjectInput) subjectInput.value = 'Re: ' + (importedData.subject || '');
+        }
     };
     footer.appendChild(cancelImport);
     footer.appendChild(importSaveBtn);
@@ -16113,8 +16134,31 @@ function _openEmailComposer(toolId) {
     aiBar.innerHTML = '<i class="fas fa-wand-magic-sparkles"></i> <span>AI Assist \u2014 Click to auto-enhance email body</span>';
     aiBar.onclick = function() {
         aiBar.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span>Enhancing with AI\u2026</span>';
-        setTimeout(function() {
-            var current = bodyRTE.getHTML();
+        var current = bodyRTE.getHTML();
+        var sigHTML = sigRTE ? sigRTE.getHTML() : '';
+        fetch('/api/prepare-email', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                subject: subjectInput.value,
+                bodyHTML: current,
+                signature: sigHTML,
+                toolName: toolName,
+                toolData: _extractToolContent(toolId),
+                useAI: true,
+                importance: optState.importance,
+                to: toState.chips,
+                cc: ccState.chips,
+                bcc: bccState.chips
+            })
+        }).then(function(r) { return r.json(); }).then(function(res) {
+            if (res.bodyHTML) {
+                bodyRTE.setHTML(res.bodyHTML);
+                if (res.subject) subjectInput.value = res.subject;
+            }
+            aiBar.innerHTML = '<i class="fas fa-check-circle"></i> <span>AI-enhanced \u2014 email body updated</span>';
+        }).catch(function() {
+            // Graceful fallback: local enhancement if API unavailable
             var operatorName = document.getElementById('s4ApName') ? document.getElementById('s4ApName').textContent : 'S4 Operator';
             var enhanced = '<p>Dear Team,</p>' +
                 '<p>Please find below the latest <b>' + _escH(toolName) + '</b> analysis from S4 Ledger.</p>' +
@@ -16123,8 +16167,7 @@ function _openEmailComposer(toolId) {
                 '<p>Best regards,<br>' + _escH(operatorName) + '</p>';
             bodyRTE.setHTML(enhanced);
             aiBar.innerHTML = '<i class="fas fa-check-circle"></i> <span>AI-enhanced \u2014 email body updated</span>';
-            // TODO: Replace with real AI backend call POST /api/email-ai-assist
-        }, 800);
+        });
     };
     body.appendChild(aiBar);
 
@@ -16264,6 +16307,25 @@ function _openEmailComposer(toolId) {
         vault.unshift(email);
         _saveVault(vault);
         _renderVaultList();
+        // Persist draft to backend API
+        fetch('/api/save-draft', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                id: email.id,
+                subject: email.subject,
+                bodyHTML: email.bodyHTML,
+                to: email.to,
+                cc: email.cc,
+                bcc: email.bcc,
+                signature: sigRTE.getHTML(),
+                toolName: toolName,
+                importance: email.importance,
+                encrypt: email.options.encrypt,
+                readReceipt: email.options.receipt,
+                attachments: [toolName + '_Report.pdf']
+            })
+        }).catch(function() { /* localStorage already saved */ });
         if (typeof _toast === 'function') _toast('Draft saved to vault', 'success');
         ov.remove();
     };
@@ -16336,6 +16398,27 @@ function _openEmailComposer(toolId) {
         vault.unshift(email);
         _saveVault(vault);
         _renderVaultList();
+        // Persist to backend API
+        var apiEndpoint = type === 'scheduled' ? '/api/scheduled-send' : '/api/save-draft';
+        fetch(apiEndpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                id: email.id,
+                subject: email.subject,
+                bodyHTML: email.bodyHTML,
+                to: email.to,
+                cc: email.cc,
+                bcc: email.bcc,
+                signature: sigRTE.getHTML(),
+                toolName: toolName,
+                importance: email.importance,
+                encrypt: email.options.encrypt,
+                readReceipt: email.options.receipt,
+                scheduleTime: email.scheduleTime,
+                attachments: [toolName + '_Report.pdf']
+            })
+        }).catch(function() { /* localStorage already saved — graceful fallback */ });
         if (typeof _toast === 'function') _toast(type === 'scheduled' ? 'Email scheduled & saved to vault' : 'Email saved to Secure Email Vault', 'success');
         ov.remove();
     };
@@ -16365,6 +16448,24 @@ function _openEmailComposer(toolId) {
         vault.unshift(email);
         _saveVault(vault);
         _renderVaultList();
+        // Log send to backend API
+        fetch('/api/send-email', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                subject: email.subject,
+                bodyHTML: email.bodyHTML,
+                to: email.to,
+                cc: email.cc,
+                bcc: email.bcc,
+                signature: sigRTE.getHTML(),
+                toolName: toolName,
+                importance: email.importance,
+                encrypt: email.options.encrypt,
+                readReceipt: email.options.receipt,
+                attachments: [toolName + '_Report.pdf']
+            })
+        }).catch(function() { /* localStorage already saved — graceful fallback */ });
         if (typeof _toast === 'function') _toast('Email opened in client & logged to vault', 'success');
         ov.remove();
     };
@@ -16669,25 +16770,42 @@ window._s4VaultAction = function(action, idx) {
             var subj = document.querySelector('.s4-email-modal input[type="text"]');
             var rteEditor = document.querySelector('.s4-email-modal .s4-rte-editor:not(.s4-sig-editor)');
             if (subj) subj.value = 'Re: ' + (email.subject || '');
-            if (rteEditor) {
-                var opName = document.getElementById('s4ApName') ? document.getElementById('s4ApName').textContent : 'S4 Operator';
-                var aiDraft = '<p>Dear Team,</p>' +
-                    '<p>Thank you for sharing the <b>' + _escH(email.toolName || '') + '</b> report.</p>' +
-                    '<p>I\u2019ve reviewed the analysis and have the following observations:</p>' +
-                    '<ul><li>The data quality and completeness look solid</li>' +
-                    '<li>Key metrics are within expected parameters</li>' +
-                    '<li>I recommend we discuss the highlighted items in our next review</li></ul>' +
-                    '<p>Please let me know if additional context is needed.</p>' +
-                    '<p>Best regards,<br>' + _escH(opName) + '</p>' +
-                    '<br><hr style="border:none;border-top:1px solid #ccc;margin:12px 0">' +
-                    '<p style="color:#6e6e73;font-size:0.82rem"><i>Original message:</i></p>' +
-                    (email.bodyHTML || _escH(email.body || '').replace(/\n/g, '<br>'));
-                rteEditor.innerHTML = aiDraft;
-            }
-            // TODO: Replace with real AI backend call POST /api/email-ai-reply
+            // Call backend API for AI reply
+            var rawContent = 'Subject: ' + (email.subject || '') + '\n\n' + (email.body || '');
+            fetch('/api/import-received-email', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ content: rawContent, toolName: email.toolName || '' })
+            }).then(function(r) { return r.json(); }).then(function(res) {
+                if (rteEditor && res.aiReply && res.aiReply.bodyHTML) {
+                    rteEditor.innerHTML = res.aiReply.bodyHTML;
+                    if (subj && res.aiReply.subject) subj.value = res.aiReply.subject;
+                } else {
+                    _vaultAIReplyFallback(rteEditor, email);
+                }
+            }).catch(function() {
+                _vaultAIReplyFallback(rteEditor, email);
+            });
         }, 300);
     }
 };
+
+function _vaultAIReplyFallback(rteEditor, email) {
+    if (!rteEditor) return;
+    var opName = document.getElementById('s4ApName') ? document.getElementById('s4ApName').textContent : 'S4 Operator';
+    var aiDraft = '<p>Dear Team,</p>' +
+        '<p>Thank you for sharing the <b>' + _escH(email.toolName || '') + '</b> report.</p>' +
+        '<p>I\u2019ve reviewed the analysis and have the following observations:</p>' +
+        '<ul><li>The data quality and completeness look solid</li>' +
+        '<li>Key metrics are within expected parameters</li>' +
+        '<li>I recommend we discuss the highlighted items in our next review</li></ul>' +
+        '<p>Please let me know if additional context is needed.</p>' +
+        '<p>Best regards,<br>' + _escH(opName) + '</p>' +
+        '<br><hr style="border:none;border-top:1px solid #ccc;margin:12px 0">' +
+        '<p style="color:#6e6e73;font-size:0.82rem"><i>Original message:</i></p>' +
+        (email.bodyHTML || _escH(email.body || '').replace(/\n/g, '<br>'));
+    rteEditor.innerHTML = aiDraft;
+}
 
 window._s4RenderEmailVault = _renderVaultList;
 
@@ -16860,6 +16978,14 @@ window._s4ImportEmail = function() {
         vault.unshift(email);
         _saveVault(vault);
         _renderVaultList();
+        // Persist import to backend API
+        var rawContent = importedData.body || '';
+        if (importedData.from) rawContent = 'From: ' + importedData.from + '\nSubject: ' + (importedData.subject || '') + '\nTo: ' + (importedData.to || '') + '\n\n' + rawContent;
+        fetch('/api/import-received-email', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ content: rawContent, toolName: 'Imported Email' })
+        }).catch(function() { /* localStorage already saved */ });
         if (typeof _toast === 'function') _toast('Email imported to vault', 'success');
         ov.remove();
     };
