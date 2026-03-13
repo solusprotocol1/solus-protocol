@@ -15724,37 +15724,11 @@ function _buildRTE(opts) {
     }
 
     function _positionToolbar() {
-        var sel = window.getSelection();
-        if (!sel || sel.isCollapsed || !sel.rangeCount) {
-            toolbar.classList.remove('visible');
-            return;
-        }
-        var node = sel.anchorNode;
-        var inEditor = false;
-        while (node) { if (node === editor) { inEditor = true; break; } node = node.parentNode; }
-        if (!inEditor) { toolbar.classList.remove('visible'); return; }
-
-        var range = sel.getRangeAt(0);
-        var rect = range.getBoundingClientRect();
-        var wrapRect = wrap.getBoundingClientRect();
-        toolbar.classList.add('visible');
-        var tbW = toolbar.offsetWidth;
-        var left = rect.left - wrapRect.left + (rect.width / 2) - (tbW / 2);
-        left = Math.max(4, Math.min(left, wrapRect.width - tbW - 4));
-        var top = rect.top - wrapRect.top - toolbar.offsetHeight - 8;
-        if (top < 0) top = rect.bottom - wrapRect.top + 8;
-        toolbar.style.left = left + 'px';
-        toolbar.style.top = top + 'px';
         _updateToolbarActive();
     }
 
     editor.addEventListener('mouseup', function() { setTimeout(_positionToolbar, 10); });
-    editor.addEventListener('keyup', function(e) {
-        if (e.shiftKey || e.key === 'Shift') setTimeout(_positionToolbar, 10);
-        else if (window.getSelection && !window.getSelection().isCollapsed) setTimeout(_positionToolbar, 10);
-        else toolbar.classList.remove('visible');
-    });
-    editor.addEventListener('blur', function() { setTimeout(function() { if (!wrap.contains(document.activeElement)) toolbar.classList.remove('visible'); }, 150); });
+    editor.addEventListener('keyup', function() { setTimeout(_positionToolbar, 10); });
 
     // Handle image drag-and-drop
     editor.addEventListener('dragover', function(e) { e.preventDefault(); });
