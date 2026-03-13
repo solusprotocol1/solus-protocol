@@ -104,10 +104,10 @@ var _steps = [
         }
     },
     {
-        id: 'gap-analysis', title: 'Gap Analysis', icon: 'fas fa-search-plus', cat: 'Analysis',
-        narr: 'Upload your program documents \u2014 DRL spreadsheets, technical manual indexes, or PDF packages. The Gap Analysis tool scans them against the applicable requirements, scores your overall coverage, and identifies exactly what is missing and what to address first.',
+        id: 'gap-analysis', title: 'Gap Finder', icon: 'fas fa-search-plus', cat: 'Analysis',
+        narr: 'Upload your program documents \u2014 DRL spreadsheets, technical manual indexes, or PDF packages. The Gap Finder scans them against the applicable requirements, scores your overall coverage, and identifies exactly what is missing and what to address first.',
         mock: function() {
-            return '<div class="wt-mock-tool"><div class="wt-mock-tool-head"><i class="fas fa-search-plus"></i> Gap Analysis \u2014 DDG-51 Program</div>'
+            return '<div class="wt-mock-tool"><div class="wt-mock-tool-head"><i class="fas fa-search-plus"></i> Gap Finder \u2014 DDG-51 Program</div>'
                 + '<div class="wt-mock-score-panel">'
                 + '<div class="wt-mock-score-circle" id="wtGapScore"><span>0%</span></div>'
                 + '<div style="margin-left:16px;"><div style="color:#1d1d1f;font-weight:700;font-size:0.95rem;">Program Coverage</div><div style="color:var(--steel);font-size:0.78rem;">42 of 54 required deliverables found</div></div>'
@@ -126,10 +126,10 @@ var _steps = [
         }
     },
     {
-        id: 'dmsms', title: 'DMSMS Tracker', icon: 'fas fa-microchip', cat: 'Analysis',
-        narr: 'Enter a part number to check its obsolescence status instantly. The DMSMS Tracker flags parts that are discontinued, at risk, or have known alternatives \u2014 replacing days of manual GIDEP research with a two-second lookup.',
+        id: 'dmsms', title: 'Obsolescence Alert', icon: 'fas fa-microchip', cat: 'Analysis',
+        narr: 'Enter a part number to check its obsolescence status instantly. Obsolescence Alert flags parts that are discontinued, at risk, or have known alternatives \u2014 replacing days of manual GIDEP research with a two-second lookup.',
         mock: function() {
-            return '<div class="wt-mock-tool"><div class="wt-mock-tool-head"><i class="fas fa-microchip"></i> DMSMS Tracker \u2014 Obsolescence Check</div>'
+            return '<div class="wt-mock-tool"><div class="wt-mock-tool-head"><i class="fas fa-microchip"></i> Obsolescence Alert</div>'
                 + '<div class="wt-mock-field"><label>NSN / Part Number</label><div class="wt-mock-select" style="font-family:monospace;">5340-01-587-2963</div></div>'
                 + '<table class="wt-mock-table"><thead><tr><th>Part</th><th>Status</th><th>Alternative</th><th>Lead Time</th></tr></thead><tbody>'
                 + '<tr><td>5340-01-587-2963</td><td><span class="wt-mock-badge-green">Active</span></td><td>\u2014</td><td>45 days</td></tr>'
@@ -140,10 +140,10 @@ var _steps = [
         }
     },
     {
-        id: 'readiness', title: 'Readiness Calculator', icon: 'fas fa-calculator', cat: 'Analysis',
+        id: 'readiness', title: 'Readiness Score', icon: 'fas fa-calculator', cat: 'Analysis',
         narr: 'Input your equipment reliability parameters \u2014 mean time between failures, mean time to repair, and administrative delay \u2014 to calculate operational availability using standard Department of Defense formulas. Results are instant and ready for briefings.',
         mock: function() {
-            return '<div class="wt-mock-tool"><div class="wt-mock-tool-head"><i class="fas fa-calculator"></i> Readiness Calculator \u2014 F-35C Lightning II</div>'
+            return '<div class="wt-mock-tool"><div class="wt-mock-tool-head"><i class="fas fa-calculator"></i> Readiness Score \u2014 F-35C Lightning II</div>'
                 + '<div class="wt-mock-inputs">'
                 + '<div class="wt-mock-input-row"><span>MTBF (hrs)</span><span class="wt-mock-input-val">340</span></div>'
                 + '<div class="wt-mock-input-row"><span>MTTR (hrs)</span><span class="wt-mock-input-val">4.2</span></div>'
@@ -180,10 +180,10 @@ var _steps = [
         }
     },
     {
-        id: 'supply-chain', title: 'Supply Chain Risk', icon: 'fas fa-exclamation-triangle', cat: 'Supply Chain',
+        id: 'supply-chain', title: 'Risk Radar', icon: 'fas fa-exclamation-triangle', cat: 'Supply Chain',
         narr: 'Identify supply chain vulnerabilities before they become mission-critical failures. The risk engine flags single-source suppliers, geographic concentration, extended lead times, and obsolescence overlap across your entire program.',
         mock: function() {
-            return '<div class="wt-mock-tool"><div class="wt-mock-tool-head"><i class="fas fa-exclamation-triangle"></i> Supply Chain Risk \u2014 V-22 Osprey Program</div>'
+            return '<div class="wt-mock-tool"><div class="wt-mock-tool-head"><i class="fas fa-exclamation-triangle"></i> Risk Radar \u2014 V-22 Osprey Program</div>'
                 + '<div class="wt-mock-risk-summary">'
                 + '<div class="wt-mock-risk-item high"><span class="wt-mock-risk-count">3</span><span>Critical Risk</span></div>'
                 + '<div class="wt-mock-risk-item med"><span class="wt-mock-risk-count">7</span><span>Moderate Risk</span></div>'
@@ -197,10 +197,10 @@ var _steps = [
         }
     },
     {
-        id: 'actions', title: 'Action Items', icon: 'fas fa-tasks', cat: 'Operations',
+        id: 'actions', title: 'Task Prioritizer', icon: 'fas fa-tasks', cat: 'Operations',
         narr: 'Every analysis generates prioritized action items sorted by urgency \u2014 critical, warning, and informational. Each item includes a cost estimate and a recommended resolution so your team knows exactly what to do next.',
         mock: function() {
-            return '<div class="wt-mock-tool"><div class="wt-mock-tool-head"><i class="fas fa-tasks"></i> Action Items \u2014 6 Open</div>'
+            return '<div class="wt-mock-tool"><div class="wt-mock-tool-head"><i class="fas fa-tasks"></i> Task Prioritizer \u2014 6 Open</div>'
                 + '<div class="wt-mock-action critical"><div class="wt-mock-action-head"><span class="wt-mock-badge-red">CRITICAL</span> Resolve DMSMS obsolescence for NSN 5961-01-234-8901</div><div class="wt-mock-action-meta">Est. cost: $45,000 | Due: 30 days | Owner: Engineering</div></div>'
                 + '<div class="wt-mock-action critical"><div class="wt-mock-action-head"><span class="wt-mock-badge-red">CRITICAL</span> Submit missing DI-ILSS-81495 to DCMA</div><div class="wt-mock-action-meta">Est. cost: $12,000 | Due: 14 days | Owner: ILS Lead</div></div>'
                 + '<div class="wt-mock-action warning"><div class="wt-mock-action-head"><span class="wt-mock-badge-yellow">WARNING</span> Update tech manual index to rev D</div><div class="wt-mock-action-meta">Est. cost: $3,200 | Due: 45 days | Owner: Tech Pubs</div></div>'
@@ -209,10 +209,10 @@ var _steps = [
         }
     },
     {
-        id: 'predictive', title: 'Predictive Maintenance', icon: 'fas fa-chart-line', cat: 'Analysis',
+        id: 'predictive', title: 'Maintenance Predictor', icon: 'fas fa-chart-line', cat: 'Analysis',
         narr: 'Analyze failure patterns to predict when equipment will need maintenance before it fails. The predictive engine calculates remaining useful life and recommends optimal maintenance windows to prevent unplanned downtime.',
         mock: function() {
-            return '<div class="wt-mock-tool"><div class="wt-mock-tool-head"><i class="fas fa-chart-line"></i> Predictive Maintenance \u2014 LCS-9 Main Engine</div>'
+            return '<div class="wt-mock-tool"><div class="wt-mock-tool-head"><i class="fas fa-chart-line"></i> Maintenance Predictor \u2014 LCS-9 Main Engine</div>'
                 + '<div class="wt-mock-pred-card">'
                 + '<div class="wt-mock-pred-row"><span>Component</span><span style="color:#1d1d1f;">LM2500 Gas Turbine Engine</span></div>'
                 + '<div class="wt-mock-pred-row"><span>Current Hours</span><span style="color:#1d1d1f;">12,847 hrs</span></div>'
@@ -236,10 +236,10 @@ var _steps = [
         }
     },
     {
-        id: 'lifecycle', title: 'Lifecycle Cost', icon: 'fas fa-dollar-sign', cat: 'Analysis',
+        id: 'lifecycle', title: 'Lifecycle Cost Estimator', icon: 'fas fa-dollar-sign', cat: 'Analysis',
         narr: 'Estimate the total cost of owning and maintaining a system over its entire service life \u2014 from acquisition through sustainment and disposal. The tool breaks down costs by phase and identifies the largest cost drivers.',
         mock: function() {
-            return '<div class="wt-mock-tool"><div class="wt-mock-tool-head"><i class="fas fa-dollar-sign"></i> Lifecycle Cost \u2014 CVN-78 Gerald R. Ford</div>'
+            return '<div class="wt-mock-tool"><div class="wt-mock-tool-head"><i class="fas fa-dollar-sign"></i> Lifecycle Cost Estimator \u2014 CVN-78 Gerald R. Ford</div>'
                 + '<div class="wt-mock-cost-breakdown">'
                 + '<div class="wt-mock-cost-row"><span>Acquisition</span><div class="wt-mock-cost-bar" style="width:30%;background:var(--accent);"></div><span>$13.3B</span></div>'
                 + '<div class="wt-mock-cost-row"><span>Sustainment</span><div class="wt-mock-cost-bar" style="width:55%;background:var(--gold);"></div><span>$24.1B</span></div>'
@@ -302,10 +302,10 @@ var _steps = [
         }
     },
     {
-        id: 'reports', title: 'Report Generator', icon: 'fas fa-file-alt', cat: 'Compliance',
+        id: 'reports', title: 'Audit Builder', icon: 'fas fa-file-alt', cat: 'Compliance',
         narr: 'Generate formal audit reports automatically. Each report includes a tamper-proof verification stamp so recipients can confirm the report has not been modified. Choose from pre-built templates or customize your own, and export as PDF.',
         mock: function() {
-            return '<div class="wt-mock-tool"><div class="wt-mock-tool-head"><i class="fas fa-file-alt"></i> Report Generator</div>'
+            return '<div class="wt-mock-tool"><div class="wt-mock-tool-head"><i class="fas fa-file-alt"></i> Audit Builder</div>'
                 + '<div class="wt-mock-report-list">'
                 + '<div class="wt-mock-report-item"><i class="fas fa-file-pdf" style="color:var(--red);"></i><div><div style="color:#1d1d1f;font-weight:600;">Quarterly Compliance Report</div><div style="color:var(--steel);font-size:0.72rem;">DDG-51 FY26 Q1 \u2014 12 pages, tamper-proof verified</div></div><span class="wt-mock-badge-green">Ready</span></div>'
                 + '<div class="wt-mock-report-item"><i class="fas fa-file-pdf" style="color:var(--red);"></i><div><div style="color:#1d1d1f;font-weight:600;">Gap Analysis Summary</div><div style="color:var(--steel);font-size:0.72rem;">F-35C Program \u2014 8 pages, 6 critical findings</div></div><span class="wt-mock-badge-green">Ready</span></div>'
@@ -314,10 +314,10 @@ var _steps = [
         }
     },
     {
-        id: 'submissions', title: 'Submissions & PTD', icon: 'fas fa-paper-plane', cat: 'Documents',
+        id: 'submissions', title: 'Submissions Hub', icon: 'fas fa-paper-plane', cat: 'Documents',
         narr: 'The submission review tool compares vendor-provided data against your program baselines. It flags discrepancies automatically, scores data quality, and assigns severity ratings \u2014 catching errors before they become audit findings.',
         mock: function() {
-            return '<div class="wt-mock-tool"><div class="wt-mock-tool-head"><i class="fas fa-paper-plane"></i> Submissions & PTD \u2014 ILIE Review</div>'
+            return '<div class="wt-mock-tool"><div class="wt-mock-tool-head"><i class="fas fa-paper-plane"></i> Submissions Hub \u2014 ILIE Review</div>'
                 + '<div class="wt-mock-submission">'
                 + '<div class="wt-mock-sub-header">Vendor Submission: Raytheon \u2014 LSAR Data Package (DI-ILSS-81495)</div>'
                 + '<div class="wt-mock-sub-score"><span>Data Quality Score:</span><span style="color:var(--gold);font-weight:700;font-size:1.1rem;">84%</span></div>'
@@ -329,10 +329,10 @@ var _steps = [
         }
     },
     {
-        id: 'sbom', title: 'SBOM Viewer', icon: 'fas fa-sitemap', cat: 'Supply Chain',
-        narr: 'View and analyze your Software Bill of Materials. The SBOM viewer identifies component dependencies, known vulnerabilities, and license compliance issues across your entire software supply chain.',
+        id: 'sbom', title: 'SBOM Scanner', icon: 'fas fa-sitemap', cat: 'Supply Chain',
+        narr: 'View and analyze your Software Bill of Materials. The SBOM Scanner identifies component dependencies, known vulnerabilities, and license compliance issues across your entire software supply chain.',
         mock: function() {
-            return '<div class="wt-mock-tool"><div class="wt-mock-tool-head"><i class="fas fa-sitemap"></i> SBOM Viewer \u2014 Mission Computer v4.2.1</div>'
+            return '<div class="wt-mock-tool"><div class="wt-mock-tool-head"><i class="fas fa-sitemap"></i> SBOM Scanner \u2014 Mission Computer v4.2.1</div>'
                 + '<table class="wt-mock-table"><thead><tr><th>Component</th><th>Version</th><th>License</th><th>CVEs</th></tr></thead><tbody>'
                 + '<tr><td>openssl</td><td>3.0.12</td><td>Apache-2.0</td><td><span class="wt-mock-badge-green">0</span></td></tr>'
                 + '<tr><td>zlib</td><td>1.2.13</td><td>Zlib</td><td><span class="wt-mock-badge-green">0</span></td></tr>'
@@ -343,10 +343,10 @@ var _steps = [
         }
     },
     {
-        id: 'gfp', title: 'GFP Tracker', icon: 'fas fa-box', cat: 'Supply Chain',
+        id: 'gfp', title: 'Property Custodian', icon: 'fas fa-box', cat: 'Supply Chain',
         narr: 'Track Government-Furnished Property across your program \u2014 equipment, materials, and special tooling. Every custody transfer is recorded with a tamper-proof verification stamp, creating a complete chain of accountability.',
         mock: function() {
-            return '<div class="wt-mock-tool"><div class="wt-mock-tool-head"><i class="fas fa-box"></i> GFP Tracker \u2014 23 Items</div>'
+            return '<div class="wt-mock-tool"><div class="wt-mock-tool-head"><i class="fas fa-box"></i> Property Custodian \u2014 23 Items</div>'
                 + '<table class="wt-mock-table"><thead><tr><th>Item</th><th>Serial</th><th>Custodian</th><th>Status</th></tr></thead><tbody>'
                 + '<tr><td>AN/SPS-73 Radar</td><td>SN-44821</td><td>BAE Systems</td><td><span class="wt-mock-badge-green">In Use</span></td></tr>'
                 + '<tr><td>MK 45 Gun Mount</td><td>SN-10034</td><td>Huntington Ingalls</td><td><span class="wt-mock-badge-green">In Use</span></td></tr>'
@@ -356,10 +356,10 @@ var _steps = [
         }
     },
     {
-        id: 'cdrl', title: 'CDRL Validator', icon: 'fas fa-file-check', cat: 'Documents',
+        id: 'cdrl', title: 'Deliverables Tracker', icon: 'fas fa-file-check', cat: 'Documents',
         narr: 'Validate Contract Data Requirements List items against your delivery schedule. The tool checks that every required deliverable is accounted for, properly formatted, and submitted on time.',
         mock: function() {
-            return '<div class="wt-mock-tool"><div class="wt-mock-tool-head"><i class="fas fa-file-circle-check"></i> CDRL Validator \u2014 N00024-26-C-5312</div>'
+            return '<div class="wt-mock-tool"><div class="wt-mock-tool-head"><i class="fas fa-file-circle-check"></i> Deliverables Tracker \u2014 N00024-26-C-5312</div>'
                 + '<table class="wt-mock-table"><thead><tr><th>CDRL</th><th>DI Number</th><th>Due</th><th>Status</th></tr></thead><tbody>'
                 + '<tr><td>A001</td><td>DI-ILSS-81495</td><td>15 Mar 2026</td><td><span class="wt-mock-badge-green">Submitted</span></td></tr>'
                 + '<tr><td>A002</td><td>DI-SESS-81514</td><td>01 Apr 2026</td><td><span class="wt-mock-badge-yellow">In Progress</span></td></tr>'
@@ -369,10 +369,10 @@ var _steps = [
         }
     },
     {
-        id: 'contract', title: 'Contract Extractor', icon: 'fas fa-file-contract', cat: 'Documents',
-        narr: 'Upload a contract document and the extractor identifies key clauses, DFARS references, delivery requirements, and compliance obligations automatically. No more reading 200-page contracts line by line.',
+        id: 'contract', title: 'Contract Analyzer', icon: 'fas fa-file-contract', cat: 'Documents',
+        narr: 'Upload a contract document and the analyzer identifies key clauses, DFARS references, delivery requirements, and compliance obligations automatically. No more reading 200-page contracts line by line.',
         mock: function() {
-            return '<div class="wt-mock-tool"><div class="wt-mock-tool-head"><i class="fas fa-file-contract"></i> Contract Extractor \u2014 N00024-26-C-5312</div>'
+            return '<div class="wt-mock-tool"><div class="wt-mock-tool-head"><i class="fas fa-file-contract"></i> Contract Analyzer \u2014 N00024-26-C-5312</div>'
                 + '<div class="wt-mock-extract-list">'
                 + '<div class="wt-mock-extract-item"><span class="wt-mock-extract-tag">DFARS</span><div><strong>252.204-7012</strong> \u2014 Safeguarding Covered Defense Information</div></div>'
                 + '<div class="wt-mock-extract-item"><span class="wt-mock-extract-tag">CDRL</span><div><strong>12 deliverables</strong> identified across 4 CLINs</div></div>'
@@ -383,10 +383,10 @@ var _steps = [
         }
     },
     {
-        id: 'provenance', title: 'Provenance Chain', icon: 'fas fa-link', cat: 'Supply Chain',
+        id: 'provenance', title: 'Chain of Custody', icon: 'fas fa-link', cat: 'Supply Chain',
         narr: 'Visualize the complete chain of custody for any tracked item \u2014 from manufacturer to end user. Every handoff carries a tamper-proof verification stamp, creating an unbroken record of who held what, and when.',
         mock: function() {
-            return '<div class="wt-mock-tool"><div class="wt-mock-tool-head"><i class="fas fa-link"></i> Provenance Chain \u2014 NSN 5340-01-587-2963</div>'
+            return '<div class="wt-mock-tool"><div class="wt-mock-tool-head"><i class="fas fa-link"></i> Chain of Custody \u2014 NSN 5340-01-587-2963</div>'
                 + '<div class="wt-mock-chain">'
                 + '<div class="wt-mock-chain-node"><div class="wt-mock-chain-dot green"></div><div class="wt-mock-chain-info"><strong>Manufactured</strong><div>Northrop Grumman, Melbourne FL</div><div class="wt-mock-chain-date">12 Jan 2026</div></div><div class="wt-mock-chain-proof"><i class="fas fa-check-circle" style="color:var(--green);"></i></div></div>'
                 + '<div class="wt-mock-chain-line"></div>'
@@ -399,10 +399,10 @@ var _steps = [
         }
     },
     {
-        id: 'analytics', title: 'Cross-Program Analytics', icon: 'fas fa-chart-bar', cat: 'Analysis',
+        id: 'analytics', title: 'Program Overview', icon: 'fas fa-chart-bar', cat: 'Analysis',
         narr: 'Compare performance, risk, and compliance metrics across multiple programs in a single dashboard. Identify trends, share best practices, and allocate resources where they will have the greatest impact.',
         mock: function() {
-            return '<div class="wt-mock-tool"><div class="wt-mock-tool-head"><i class="fas fa-chart-bar"></i> Cross-Program Analytics</div>'
+            return '<div class="wt-mock-tool"><div class="wt-mock-tool-head"><i class="fas fa-chart-bar"></i> Program Overview</div>'
                 + '<table class="wt-mock-table"><thead><tr><th>Program</th><th>Readiness</th><th>Compliance</th><th>Risk</th><th>Trend</th></tr></thead><tbody>'
                 + '<tr><td>DDG-51 Flight III</td><td><span style="color:var(--green);">98.3%</span></td><td>A-</td><td><span class="wt-mock-badge-green">Low</span></td><td><i class="fas fa-arrow-up" style="color:var(--green);"></i></td></tr>'
                 + '<tr><td>F-35C Lightning II</td><td><span style="color:var(--green);">94.7%</span></td><td>B+</td><td><span class="wt-mock-badge-yellow">Moderate</span></td><td><i class="fas fa-arrow-right" style="color:var(--gold);"></i></td></tr>'
@@ -412,10 +412,10 @@ var _steps = [
         }
     },
     {
-        id: 'team', title: 'Team Management', icon: 'fas fa-users', cat: 'Operations',
+        id: 'team', title: 'Team Manager', icon: 'fas fa-users', cat: 'Operations',
         narr: 'Manage your team with role-based access control. Assign capabilities per user \u2014 administrators manage credit allocations, program managers oversee deliverables, and analysts focus on their assigned tools. Every permission change is logged.',
         mock: function() {
-            return '<div class="wt-mock-tool"><div class="wt-mock-tool-head"><i class="fas fa-users"></i> Team Management \u2014 8 Members</div>'
+            return '<div class="wt-mock-tool"><div class="wt-mock-tool-head"><i class="fas fa-users"></i> Team Manager \u2014 8 Members</div>'
                 + '<table class="wt-mock-table"><thead><tr><th>Name</th><th>Role</th><th>Last Active</th><th>Credits Used</th></tr></thead><tbody>'
                 + '<tr><td>CDR J. Martinez</td><td><span class="wt-mock-badge-blue">Admin</span></td><td>Today</td><td>1,240 SLS</td></tr>'
                 + '<tr><td>LCDR S. Thompson</td><td><span class="wt-mock-badge-green">PM</span></td><td>Today</td><td>890 SLS</td></tr>'
@@ -425,10 +425,10 @@ var _steps = [
         }
     },
     {
-        id: 'acquisition', title: 'Acquisition Planner', icon: 'fas fa-ship', cat: 'Operations',
-        narr: 'The Acquisition Planner replaces fragile 30-year spreadsheets. Track every hull type, hull number, replacement need, POM funding status, material condition, ROH history, and ship builder in one auditable grid. Sort, filter, export to Excel, and anchor the full plan for tamper-proof verification.',
+        id: 'acquisition', title: 'Fleet Optimizer', icon: 'fas fa-ship', cat: 'Operations',
+        narr: 'The Fleet Optimizer replaces fragile 30-year spreadsheets. Track every hull type, hull number, replacement need, POM funding status, material condition, ROH history, and ship builder in one auditable grid. Sort, filter, export to Excel, and anchor the full plan for tamper-proof verification.',
         mock: function() {
-            return '<div class="wt-mock-tool"><div class="wt-mock-tool-head"><i class="fas fa-ship"></i> Acquisition Planner \u2014 6 Vessels</div>'
+            return '<div class="wt-mock-tool"><div class="wt-mock-tool-head"><i class="fas fa-ship"></i> Fleet Optimizer \u2014 6 Vessels</div>'
                 + '<table class="wt-mock-table"><thead><tr><th>Hull #</th><th>Type</th><th>Need</th><th>POM</th><th>Condition</th><th>Total $K</th></tr></thead><tbody>'
                 + '<tr><td>YP-703</td><td>YP</td><td><span class="wt-mock-badge-yellow">Replacement</span></td><td><span class="wt-mock-badge-green">Yes</span></td><td><span class="wt-mock-badge-red">Poor</span></td><td>$45,000</td></tr>'
                 + '<tr><td>YP-705</td><td>YP</td><td><span class="wt-mock-badge-blue">SLE</span></td><td><span class="wt-mock-badge-yellow">Partial</span></td><td><span class="wt-mock-badge-yellow">Fair</span></td><td>$5,150</td></tr>'
@@ -438,10 +438,10 @@ var _steps = [
         }
     },
     {
-        id: 'milestones', title: 'Program Milestones', icon: 'fas fa-flag-checkered', cat: 'Operations',
-        narr: 'Track every vessel from contract award through delivery with the Program Milestone Tracker. Monitor construction starts, builder trials, acceptance trials, sail-away dates, and Obligation Work Limiting Dates across PMS 300, PMS 325, PMS 501, and Strategic Programs. Filter by program or status, view the Gantt timeline, and export to Excel.',
+        id: 'milestones', title: 'Milestone Monitor', icon: 'fas fa-flag-checkered', cat: 'Operations',
+        narr: 'Track every vessel from contract award through delivery with the Milestone Monitor. Monitor construction starts, builder trials, acceptance trials, sail-away dates, and Obligation Work Limiting Dates across PMS 300, PMS 325, PMS 501, and Strategic Programs. Filter by program or status, view the Gantt timeline, and export to Excel.',
         mock: function() {
-            return '<div class="wt-mock-tool"><div class="wt-mock-tool-head"><i class="fas fa-flag-checkered"></i> Program Milestones \u2014 10 Vessels</div>'
+            return '<div class="wt-mock-tool"><div class="wt-mock-tool-head"><i class="fas fa-flag-checkered"></i> Milestone Monitor \u2014 10 Vessels</div>'
                 + '<table class="wt-mock-table"><thead><tr><th>Hull #</th><th>Type</th><th>Program</th><th>Status</th><th>Contract Delivery</th><th>OWLD Date</th></tr></thead><tbody>'
                 + '<tr><td>YRBM-44</td><td>YRBM</td><td>PMS 300</td><td><span class="wt-mock-badge-green">On Track</span></td><td>Mar 30, 2025</td><td>Feb 28, 2026</td></tr>'
                 + '<tr><td>DDG-140</td><td>DDG</td><td>PMS 325</td><td><span class="wt-mock-badge-green">On Track</span></td><td>Dec 31, 2028</td><td>Nov 30, 2029</td></tr>'
@@ -451,10 +451,10 @@ var _steps = [
         }
     },
     {
-        id: 'brief', title: 'Program Brief Engine', icon: 'fas fa-briefcase', cat: 'Operations',
-        narr: 'Create professional slide-based briefs from templates — Program Status, Milestone Review, POM, President\'s Budget, ILSMT, ILSMP, and IPR. The Brief Engine auto-populates platform data, provides formatting tools for fonts, colors, and images, and lets you import PPTX files. Set permissions, export printable HTML, and anchor briefs to the Ledger.',
+        id: 'brief', title: 'Brief Composer', icon: 'fas fa-briefcase', cat: 'Operations',
+        narr: 'Create professional slide-based briefs from templates — Program Status, Milestone Review, POM, President\'s Budget, ILSMT, ILSMP, and IPR. The Brief Composer auto-populates platform data, provides formatting tools for fonts, colors, and images, and lets you import PPTX files. Set permissions, export printable HTML, and anchor briefs to the Ledger.',
         mock: function() {
-            return '<div class="wt-mock-tool"><div class="wt-mock-tool-head"><i class="fas fa-briefcase"></i> Program Brief Engine — 7 Templates</div>'
+            return '<div class="wt-mock-tool"><div class="wt-mock-tool-head"><i class="fas fa-briefcase"></i> Brief Composer — 7 Templates</div>'
                 + '<table class="wt-mock-table"><thead><tr><th>Template</th><th>Type</th><th>Slides</th><th>Use Case</th></tr></thead><tbody>'
                 + '<tr><td>Program Status Brief</td><td>STATUS</td><td>5</td><td>Weekly/monthly program updates</td></tr>'
                 + '<tr><td>POM Brief</td><td>POM</td><td>4</td><td>PPBE resource allocation</td></tr>'

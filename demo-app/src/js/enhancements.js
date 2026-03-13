@@ -13946,8 +13946,7 @@ function _openLPLModal() {
 
     // Proactive Foresight View toggle
     html += '<div class="s4-lpl-foresight-row">';
-    html += '<label class="s4-lpl-foresight-label"><input type="checkbox" id="s4LplForesight" onchange="window._s4LplForesightToggle(this.checked)"> <i class="fas fa-crystal-ball"></i> Proactive Foresight View</label>';
-    html += '<span class="s4-lpl-foresight-tag">NEW</span>';
+    html += '<label class="s4-lpl-foresight-label"><input type="checkbox" id="s4LplForesight" onchange="window._s4LplForesightToggle(this.checked)"> <i class="fas fa-crystal-ball"></i> Proactive Foresight View <span class="s4-lpl-foresight-tag">NEW</span></label>';
     html += '</div>';
     html += '<div id="s4LplForesightPanel" class="s4-lpl-foresight-panel" style="display:none">';
     html += '<div class="s4-lpl-foresight-hdr"><i class="fas fa-binoculars"></i> 30 / 60 / 90-Day Forecast</div>';
