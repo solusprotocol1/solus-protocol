@@ -14706,7 +14706,14 @@ function _injectSCN(prefix) {
     var viewId = prefix === 'sub' ? 'subView-drl' : 'cdrlView-drl';
     var viewEl = document.getElementById(viewId);
     if (!viewEl) return;
-    if (viewEl.querySelector('.s4-scn-bar')) return; // already injected
+
+    // ── IDs ──
+    var barId = prefix ? prefix + 'ScnBar' : 'scnBar';
+    var partId = prefix ? prefix + 'ScnParticipants' : 'scnParticipants';
+    var toggleId = prefix ? prefix + 'ScnToggle' : 'scnToggle';
+
+    // Guard: already injected (bar may now live in .s4-actions-row, not viewEl)
+    if (document.getElementById(barId)) return;
 
     // Find the table scroll container (always present) as our anchor
     var tableId = prefix === 'sub' ? 'subDrlStatusTable' : 'drlStatusTable';
@@ -14715,13 +14722,9 @@ function _injectSCN(prefix) {
     var tableWrapper = table.closest('div[style*="overflow"]') || table.parentNode;
     if (!tableWrapper) return;
 
-    // ── 1. Collaboration toggle bar — insert before the table ──
-    var barId = prefix ? prefix + 'ScnBar' : 'scnBar';
-    var partId = prefix ? prefix + 'ScnParticipants' : 'scnParticipants';
-    var toggleId = prefix ? prefix + 'ScnToggle' : 'scnToggle';
-
+    // ── 1. Collaboration toggle bar ──
     var bar = document.createElement('div');
-    bar.className = 's4-scn-bar';
+    bar.className = 's4-scn-bar s4-drl-action';
     bar.id = barId;
     bar.innerHTML =
         '<label class="s4-scn-toggle">' +
@@ -14743,9 +14746,33 @@ function _injectSCN(prefix) {
             '</button>' +
         '</div>';
 
-    tableWrapper.parentNode.insertBefore(bar, tableWrapper);
+    // ── Find the .s4-actions-row in the parent panel ──
+    var panelId = prefix === 'sub' ? 'hub-submissions' : 'hub-cdrl';
+    var panel = document.getElementById(panelId);
+    var actionsRow = panel ? panel.querySelector('.s4-actions-row') : null;
 
-    // ── 2. Network Participants section — insert between bar and table ──
+    if (actionsRow) {
+        // Move AI Assist button into the actions row (as standalone, not in dropdown)
+        var aiBtnId = prefix === 'sub' ? 'subDrlAiBtn' : 'drlAiBtn';
+        var aiBtn = document.getElementById(aiBtnId);
+        if (aiBtn && !actionsRow.contains(aiBtn)) {
+            var origRow = aiBtn.parentElement;
+            aiBtn.classList.add('s4-drl-action');
+            actionsRow.appendChild(aiBtn);
+            // Hide original action buttons row if now empty of buttons
+            if (origRow) {
+                var hasButtons = Array.from(origRow.children).some(function(el) { return el.tagName === 'BUTTON'; });
+                if (!hasButtons) origRow.style.display = 'none';
+            }
+        }
+        // Append SCN bar into the actions row
+        actionsRow.appendChild(bar);
+    } else {
+        // Fallback: insert before table as before
+        tableWrapper.parentNode.insertBefore(bar, tableWrapper);
+    }
+
+    // ── 2. Network Participants section — insert before the table ──
     var partSection = document.createElement('div');
     partSection.className = 's4-scn-participants';
     partSection.id = partId;
@@ -14981,6 +15008,15 @@ window._s4SCNSendInvite = function(prefix) {
 
 // ── Inject SCN into DRL views when they become visible ──
 // Wrap switchCdrlView and switchSubView
+// Show/hide DRL-only actions when switching views
+function _toggleDrlActions(panelId, show) {
+    var panel = document.getElementById(panelId);
+    if (!panel) return;
+    panel.querySelectorAll('.s4-drl-action').forEach(function(el) {
+        el.style.display = show ? '' : 'none';
+    });
+}
+
 function _hookSCN() {
     // Hook switchCdrlView
     var origCdrl = window.switchCdrlView;
@@ -14988,7 +15024,10 @@ function _hookSCN() {
         var wrappedCdrl = function(view) {
             origCdrl.call(this, view);
             if (view === 'drl') {
-                setTimeout(function() { _injectSCN(''); }, 200);
+                _injectSCN('');
+                _toggleDrlActions('hub-cdrl', true);
+            } else {
+                _toggleDrlActions('hub-cdrl', false);
             }
         };
         wrappedCdrl._s4SCNHooked = true;
@@ -15001,7 +15040,10 @@ function _hookSCN() {
         var wrappedSub = function(view) {
             origSub.call(this, view);
             if (view === 'drl') {
-                setTimeout(function() { _injectSCN('sub'); }, 200);
+                _injectSCN('sub');
+                _toggleDrlActions('hub-submissions', true);
+            } else {
+                _toggleDrlActions('hub-submissions', false);
             }
         };
         wrappedSub._s4SCNHooked = true;
@@ -15023,12 +15065,16 @@ function _hookSCN() {
         wrappedRender._s4SCNHooked = true;
         window.renderDrlStatusTable = wrappedRender;
     }
+
+    // Initial injection for any already-visible DRL views
+    _injectSCN('');
+    _injectSCN('sub');
 }
 
 if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', function() { setTimeout(_hookSCN, 1200); });
+    document.addEventListener('DOMContentLoaded', function() { setTimeout(_hookSCN, 550); });
 } else {
-    setTimeout(_hookSCN, 1200);
+    setTimeout(_hookSCN, 550);
 }
 
 // ═══════════════════════════════════════════════════════════════════════

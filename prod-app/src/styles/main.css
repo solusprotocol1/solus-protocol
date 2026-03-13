@@ -6372,6 +6372,8 @@ h4{font-size:0.95rem;font-weight:700}
 .s4-actions-row{display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin-top:16px;margin-bottom:16px}
 .s4-actions-row > .s4-actions-menu{margin-top:0;margin-bottom:0}
 .s4-actions-row > button{margin-left:0;margin-top:0}
+.s4-actions-row > .s4-scn-bar{margin-top:0;margin-bottom:0}
+.s4-actions-row > .s4-drl-action{margin-top:0;margin-bottom:0}
 .s4-actions-menu{position:relative;display:inline-block;margin-top:16px;margin-bottom:16px}
 .s4-actions-header{display:flex;align-items:center;gap:6px;font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:var(--text,#1d1d1f);margin-bottom:8px}
 .s4-actions-header i{color:#34c759;font-size:0.7rem}
@@ -6762,9 +6764,10 @@ h4{font-size:0.95rem;font-weight:700}
 /* ═══════════════════════════════════════════════════════════════
    Enhancement #1 — Proactive Foresight View (LPL)
    ═══════════════════════════════════════════════════════════════ */
-.s4-lpl-foresight-row{display:flex;align-items:center;gap:12px;padding:8px 0}
-.s4-lpl-foresight-row label{font-size:0.78rem;font-weight:600;color:var(--text,#1d1d1f);white-space:nowrap;display:flex;align-items:center;gap:6px}
+.s4-lpl-foresight-row{display:flex;align-items:center;gap:12px;padding:8px 0;white-space:nowrap}
+.s4-lpl-foresight-row label{font-size:0.78rem;font-weight:600;color:var(--text,#1d1d1f);white-space:nowrap;display:inline-flex;align-items:center;gap:6px}
 .s4-lpl-foresight-row label i{color:#5856D6;font-size:0.82rem}
+.s4-lpl-foresight-tag{font-size:0.65rem;font-weight:700;color:#5856D6;background:rgba(88,86,214,0.1);padding:2px 8px;border-radius:10px;white-space:nowrap;flex-shrink:0}
 .s4-lpl-foresight-panel{background:linear-gradient(135deg,rgba(88,86,214,0.04),rgba(0,122,255,0.04));border:1px solid rgba(88,86,214,0.15);border-radius:12px;padding:16px;margin-top:12px}
 .s4-lpl-foresight-panel h4{font-size:0.82rem;font-weight:700;color:#5856D6;margin-bottom:12px;display:flex;align-items:center;gap:8px}
 .s4-lpl-foresight-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
