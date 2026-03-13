@@ -17045,4 +17045,223 @@ if (document.readyState === 'loading') {
 //     Backend should run a cron/worker to send at scheduleTime.
 //   POST /api/email-import      → server-side .eml/.msg parsing
 
+// ── Secure Email Center (top-bar global access) ──
+window._s4OpenEmailCenter = function() {
+    var existing = document.querySelector('.s4-sec-overlay');
+    if (existing) existing.remove();
+
+    var ov = document.createElement('div');
+    ov.className = 's4-sec-overlay';
+    ov.onclick = function(e) { if (e.target === ov) ov.remove(); };
+
+    var modal = document.createElement('div');
+    modal.className = 's4-sec-modal';
+    modal.onclick = function(e) { e.stopPropagation(); };
+
+    // ── Header ──
+    var header = document.createElement('div');
+    header.className = 's4-sec-header';
+    header.innerHTML = '<h2><i class="fas fa-envelope-open-text" style="color:#5856D6"></i> Secure Email Center</h2>';
+    var closeBtn = document.createElement('button');
+    closeBtn.className = 's4-email-close';
+    closeBtn.innerHTML = '<i class="fas fa-times"></i>';
+    closeBtn.onclick = function() { ov.remove(); };
+    header.appendChild(closeBtn);
+    modal.appendChild(header);
+
+    // ── Tabs ──
+    var tabBar = document.createElement('div');
+    tabBar.className = 's4-sec-tabs';
+
+    var vaultTab = document.createElement('button');
+    vaultTab.className = 's4-sec-tab active';
+    vaultTab.innerHTML = '<i class="fas fa-lock"></i> Vault';
+    vaultTab.setAttribute('data-tab', 'vault');
+
+    var composeTab = document.createElement('button');
+    composeTab.className = 's4-sec-tab';
+    composeTab.innerHTML = '<i class="fas fa-pen-to-square"></i> Compose New';
+    composeTab.setAttribute('data-tab', 'compose');
+
+    tabBar.appendChild(vaultTab);
+    tabBar.appendChild(composeTab);
+    modal.appendChild(tabBar);
+
+    // ── Body ──
+    var body = document.createElement('div');
+    body.className = 's4-sec-body';
+
+    // Vault pane
+    var vaultPane = document.createElement('div');
+    vaultPane.className = 's4-sec-pane active';
+    vaultPane.setAttribute('data-pane', 'vault');
+
+    // Vault search
+    var searchWrap = document.createElement('div');
+    searchWrap.style.cssText = 'padding:0 0 12px;display:flex;gap:8px;align-items:center';
+    var searchInput = document.createElement('input');
+    searchInput.type = 'text';
+    searchInput.placeholder = 'Search emails\u2026';
+    searchInput.className = 's4-sec-search';
+    searchWrap.appendChild(searchInput);
+
+    // Import button
+    var importBtn = document.createElement('button');
+    importBtn.className = 's4-email-standalone-btn';
+    importBtn.innerHTML = '<i class="fas fa-file-import"></i> Import';
+    importBtn.onclick = function() { if (window._s4ImportEmail) window._s4ImportEmail(); };
+    searchWrap.appendChild(importBtn);
+    vaultPane.appendChild(searchWrap);
+
+    // Vault filter tabs
+    var filterBar = document.createElement('div');
+    filterBar.className = 's4-sec-filter-tabs';
+    var filters = [
+        { label: 'All', value: 'all' },
+        { label: 'Saved', value: 'saved' },
+        { label: 'Drafts', value: 'draft' },
+        { label: 'Sent', value: 'sent' },
+        { label: 'Scheduled', value: 'scheduled' },
+        { label: 'Received', value: 'received' }
+    ];
+    var secActiveFilter = 'all';
+    filters.forEach(function(f) {
+        var btn = document.createElement('button');
+        btn.className = 's4-sec-filter' + (f.value === 'all' ? ' active' : '');
+        btn.textContent = f.label;
+        btn.setAttribute('data-filter', f.value);
+        btn.onclick = function() {
+            filterBar.querySelectorAll('.s4-sec-filter').forEach(function(b) { b.classList.remove('active'); });
+            btn.classList.add('active');
+            secActiveFilter = f.value;
+            renderSecVault();
+        };
+        filterBar.appendChild(btn);
+    });
+    vaultPane.appendChild(filterBar);
+
+    // Vault email list
+    var listEl = document.createElement('div');
+    listEl.className = 's4-sec-vault-list';
+    vaultPane.appendChild(listEl);
+
+    function renderSecVault() {
+        var vault = _loadVault();
+        var q = searchInput.value.toLowerCase();
+        var filtered = [];
+        vault.forEach(function(e, idx) {
+            if (secActiveFilter !== 'all') {
+                var t = e.type || 'saved';
+                if (t !== secActiveFilter) return;
+            }
+            if (q && !((e.subject && e.subject.toLowerCase().indexOf(q) !== -1) ||
+                       (e.toolName && e.toolName.toLowerCase().indexOf(q) !== -1) ||
+                       (e.to && e.to.join(',').toLowerCase().indexOf(q) !== -1))) return;
+            filtered.push({ email: e, idx: idx });
+        });
+
+        if (!filtered.length) {
+            listEl.innerHTML = '<div class="s4-vault-email-empty"><i class="fas fa-envelope-open"></i>' +
+                (q ? 'No emails match your search.' : (secActiveFilter !== 'all' ? 'No ' + secActiveFilter + ' emails.' : 'No saved emails yet.<br>Use \u201cCompose New\u201d to create one.')) + '</div>';
+            return;
+        }
+
+        var html = '';
+        filtered.forEach(function(item) {
+            var email = item.email;
+            var idx = item.idx;
+            var pinClass = email.pinned ? ' pinned' : '';
+            var flagClass = email.flagged ? ' flagged' : '';
+            var date = new Date(email.savedAt);
+            var dateStr = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) + ' ' + date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+            var t = email.type || 'saved';
+            var typeBadge = '<span class="s4-ve-badge ' + _escH(t) + '">' + _escH(t) + '</span>';
+
+            var optBadges = '';
+            var opts = email.options || {};
+            var imp = email.importance || 'normal';
+            if (opts.encrypt) optBadges += '<span class="s4-ve-opt-badge encrypt"><i class="fas fa-lock"></i> Encrypted</span>';
+            if (opts.receipt) optBadges += '<span class="s4-ve-opt-badge receipt"><i class="fas fa-receipt"></i> Receipt</span>';
+            if (imp !== 'normal') optBadges += '<span class="s4-ve-opt-badge ' + _escH(imp) + '">' + (imp === 'high' ? '\u26A1 High' : imp === 'medium' ? '\u25CF Medium' : '\u25CB Low') + '</span>';
+            var optBadgeHTML = optBadges ? '<div class="s4-ve-opt-badges">' + optBadges + '</div>' : '';
+
+            var countdownHTML = '';
+            if (t === 'scheduled' && email.scheduleTime) {
+                var diff = new Date(email.scheduleTime) - new Date();
+                if (diff > 0) {
+                    var hrs = Math.floor(diff / 3600000);
+                    var mins = Math.floor((diff % 3600000) / 60000);
+                    countdownHTML = '<div class="s4-ve-countdown"><i class="fas fa-clock"></i> Sends in ' + (hrs > 0 ? hrs + 'h ' : '') + mins + 'm</div>';
+                } else {
+                    countdownHTML = '<div class="s4-ve-countdown" style="color:#34c759"><i class="fas fa-check"></i> Send time reached</div>';
+                }
+            }
+
+            html += '<div class="s4-vault-email-item' + pinClass + flagClass + '" data-eidx="' + idx + '">' +
+                '<div class="s4-ve-icon"><i class="fas fa-envelope"></i></div>' +
+                '<div class="s4-ve-body">' +
+                '<div class="s4-ve-subject">' + _escH(email.subject) + typeBadge + '</div>' +
+                '<div class="s4-ve-meta">' + _escH(email.toolName) + ' \u2022 ' + dateStr +
+                (email.to && email.to.length ? ' \u2022 To: ' + _escH(email.to.join(', ')) : '') + '</div>' +
+                optBadgeHTML + countdownHTML +
+                '</div>' +
+                '<div class="s4-ve-actions">' +
+                '<button onclick="window._s4VaultAction(\'pin\',' + idx + ')" title="' + (email.pinned ? 'Unpin' : 'Pin') + '"><i class="fas fa-thumbtack"></i></button>' +
+                '<button onclick="window._s4VaultAction(\'flag\',' + idx + ')" title="' + (email.flagged ? 'Unflag' : 'Flag') + '"><i class="fas fa-flag"></i></button>' +
+                '<button onclick="window._s4VaultAction(\'mailto\',' + idx + ')" title="Open in email client"><i class="fas fa-paper-plane"></i></button>' +
+                '<button onclick="window._s4VaultAction(\'reopen\',' + idx + ')" title="Re-open in composer"><i class="fas fa-pen"></i></button>' +
+                '<button onclick="window._s4VaultAction(\'aiReply\',' + idx + ')" title="AI Reply"><i class="fas fa-robot"></i></button>' +
+                '<button onclick="window._s4VaultAction(\'delete\',' + idx + ')" title="Delete"><i class="fas fa-trash"></i></button>' +
+                '</div></div>';
+        });
+        listEl.innerHTML = html;
+    }
+
+    searchInput.oninput = function() { renderSecVault(); };
+    renderSecVault();
+
+    body.appendChild(vaultPane);
+
+    // Compose pane
+    var composePane = document.createElement('div');
+    composePane.className = 's4-sec-pane';
+    composePane.setAttribute('data-pane', 'compose');
+
+    var composeInner = document.createElement('div');
+    composeInner.className = 's4-sec-compose-inner';
+    composeInner.innerHTML = '<div style="text-align:center;padding:40px 20px">' +
+        '<i class="fas fa-pen-to-square" style="font-size:2.4rem;color:#5856D6;margin-bottom:16px;display:block"></i>' +
+        '<h3 style="margin:0 0 8px;font-size:1.1rem;color:var(--text,#1d1d1f)">Compose a New Email</h3>' +
+        '<p style="color:var(--muted,#6e6e73);font-size:0.85rem;margin:0 0 20px">Create a secure email with AI assistance, encryption, and read receipts.</p>' +
+        '<button class="s4-email-standalone-btn" style="margin:0 auto;font-size:0.88rem;padding:10px 24px" onclick="window._s4SecCompose()"><i class="fas fa-plus"></i> New Email</button>' +
+        '</div>';
+    composePane.appendChild(composeInner);
+    body.appendChild(composePane);
+
+    modal.appendChild(body);
+    ov.appendChild(modal);
+    document.body.appendChild(ov);
+
+    // Tab switching
+    var allTabs = tabBar.querySelectorAll('.s4-sec-tab');
+    var allPanes = body.querySelectorAll('.s4-sec-pane');
+    allTabs.forEach(function(tab) {
+        tab.onclick = function() {
+            allTabs.forEach(function(t) { t.classList.remove('active'); });
+            allPanes.forEach(function(p) { p.classList.remove('active'); });
+            tab.classList.add('active');
+            var target = tab.getAttribute('data-tab');
+            body.querySelector('[data-pane="' + target + '"]').classList.add('active');
+            if (target === 'vault') renderSecVault();
+        };
+    });
+};
+
+// Compose New from Secure Email Center
+window._s4SecCompose = function() {
+    var secOv = document.querySelector('.s4-sec-overlay');
+    if (secOv) secOv.remove();
+    _openEmailComposer('hub-analytics');
+};
+
 })();
