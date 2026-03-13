@@ -270,7 +270,7 @@
         .ils-action-item .action-title{font-weight:700;color:#fff}
         .ils-action-item .action-owner{font-size:0.78rem;padding:2px 8px;border-radius:4px;background:rgba(0,170,255,0.1);color:var(--accent)}
         .ils-action-item .action-detail{color:var(--steel);font-size:0.82rem}
-        @media(max-width:991px){.navbar-collapse{background:rgba(5,8,16,0.98);padding:15px;border-radius:3px;margin-top:10px;border:1px solid var(--border);max-height:85vh;overflow-y:auto}.navbar-nav{gap:5px}.nav-link{padding:10px 15px!important;border-radius:3px}.nav-link:hover{background:rgba(0,170,255,0.1)}}
+        @media(max-width:991px){.navbar-collapse{background:rgba(255,255,255,0.98);padding:15px;border-radius:3px;margin-top:10px;border:1px solid var(--border);max-height:85vh;overflow-y:auto}.navbar-nav{gap:5px}.nav-link{padding:10px 15px!important;border-radius:3px}.nav-link:hover{background:rgba(0,170,255,0.1)}}
         /* AI Agent Chat */
         .ai-chat-container{background:var(--surface);border:1px solid var(--border);border-radius:3px;overflow:hidden;display:flex;flex-direction:column;height:420px}
         .ai-chat-header{background:linear-gradient(135deg,rgba(0,170,255,0.15),rgba(201,168,76,0.1));padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
@@ -975,26 +975,26 @@
         .ils-tool-card { background:var(--card); border:1px solid var(--border); border-radius:3px; padding:16px 18px; cursor:pointer; transition:all 0.25s cubic-bezier(0.25,0.1,0.25,1); display:flex; align-items:flex-start; gap:12px; }
         .ils-tool-card:hover { border-color:var(--accent); background:rgba(0,170,255,0.04); transform:translateY(-2px); box-shadow:0 4px 16px rgba(0,170,255,0.06); }
         .ils-tool-card .itc-icon { font-size:1.1rem; flex-shrink:0; width:36px; height:36px; border-radius:3px; background:rgba(0,170,255,0.06); display:flex; align-items:center; justify-content:center; }
-        .ils-tool-card .itc-title { font-size:0.85rem; font-weight:700; color:#fff; margin-bottom:3px; }
+        .ils-tool-card .itc-title { font-size:0.85rem; font-weight:700; color:#1d1d1f; margin-bottom:3px; }
         .ils-tool-card .itc-desc { font-size:0.73rem; color:var(--steel); line-height:1.5; }
         .ils-sub-hub { display:grid; grid-template-columns:repeat(auto-fill, minmax(260px, 1fr)); gap:10px; }
 
         /* ═══ APPLE-STYLE UI MODERNIZATION ═══ */
-        /* Pure black canvas, cleaner surfaces, refined typography */
-        body { background:var(--bg,#000); letter-spacing:-0.01em; }
+        /* Light canvas, cleaner surfaces, refined typography */
+        body { background:var(--bg,#f5f5f7); letter-spacing:-0.01em; }
         
         /* Refined card/panel surfaces — subtle glass effect */
         .s4-card, .glass-card { 
-            background:rgba(18,18,18,0.8) !important; 
+            background:rgba(255,255,255,0.9) !important; 
             backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); 
-            border:1px solid rgba(255,255,255,0.06) !important; 
+            border:1px solid rgba(0,0,0,0.08) !important; 
             border-radius:3px !important;
         }
         
         /* Hub cards — cleaner, more spacious */
         .hub-card { 
-            background:rgba(18,18,18,0.6); 
-            border:1px solid rgba(255,255,255,0.06); 
+            background:rgba(255,255,255,0.8); 
+            border:1px solid rgba(0,0,0,0.08); 
             border-radius:3px; 
             padding:28px 26px; 
             backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
@@ -1007,8 +1007,8 @@
         
         /* Tool cards — subtler surfaces */
         .ils-tool-card {
-            background:rgba(18,18,18,0.6);
-            border:1px solid rgba(255,255,255,0.05);
+            background:rgba(255,255,255,0.8);
+            border:1px solid rgba(0,0,0,0.06);
             border-radius:3px;
             backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
         }
@@ -1019,8 +1019,8 @@
         
         /* Nav pills — cleaner active states */
         .nav-pills .nav-link {
-            background:rgba(255,255,255,0.04);
-            border:1px solid rgba(255,255,255,0.06);
+            background:rgba(0,0,0,0.03);
+            border:1px solid rgba(0,0,0,0.06);
             border-radius:100px;
             font-weight:500;
             font-size:0.84rem;
@@ -1051,22 +1051,22 @@
         
         /* Inputs — refined, subtle */
         select, input, textarea {
-            background:rgba(255,255,255,0.04) !important;
-            border:1px solid rgba(255,255,255,0.08) !important;
+            background:#f8f8fa !important;
+            border:1px solid rgba(0,0,0,0.12) !important;
             border-radius:3px !important;
             font-size:0.88rem !important;
             transition:border-color 0.2s, box-shadow 0.2s, background 0.2s;
         }
         select:focus, input:focus, textarea:focus {
-            background:rgba(255,255,255,0.06) !important;
+            background:#fff !important;
             border-color:rgba(0,170,255,0.4) !important;
             box-shadow:0 0 0 4px rgba(0,170,255,0.08) !important;
         }
         
         /* Stat strip — cleaner */
         .stat-strip {
-            background:rgba(255,255,255,0.02);
-            border:1px solid rgba(255,255,255,0.05);
+            background:rgba(0,0,0,0.02);
+            border:1px solid rgba(0,0,0,0.06);
             border-radius:3px;
             backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
         }
@@ -1105,8 +1105,8 @@
         
         /* Landing feature cards — Apple grid style */
         #platformLanding .col-md-4 > div {
-            background:rgba(18,18,18,0.6) !important;
-            border:1px solid rgba(255,255,255,0.06) !important;
+            background:rgba(255,255,255,0.8) !important;
+            border:1px solid rgba(0,0,0,0.08) !important;
             border-radius:3px !important;
             backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
             transition:all 0.3s;
@@ -1120,8 +1120,8 @@
         /* Scrollbars — minimal */
         ::-webkit-scrollbar { width:6px; }
         ::-webkit-scrollbar-track { background:transparent; }
-        ::-webkit-scrollbar-thumb { background:rgba(255,255,255,0.1); border-radius:3px; }
-        ::-webkit-scrollbar-thumb:hover { background:rgba(255,255,255,0.2); }
+        ::-webkit-scrollbar-thumb { background:rgba(0,0,0,0.12); border-radius:3px; }
+        ::-webkit-scrollbar-thumb:hover { background:rgba(0,0,0,0.2); }
         
         /* Details/summary — cleaner toggles */
         details { border-radius:3px !important; }
@@ -1136,8 +1136,8 @@
         
         /* Result panels — subtle */
         .result-panel {
-            background:rgba(255,255,255,0.02);
-            border:1px solid rgba(255,255,255,0.06);
+            background:#f8f8fa;
+            border:1px solid rgba(0,0,0,0.08);
             border-radius:3px;
         }
 
@@ -18843,45 +18843,32 @@ console.log('[Round-16c] All tech enhancements loaded — IndexedDB, WebSocket, 
 // ── LIGHT/DARK MODE TOGGLE ──
 // Platform-only theme switcher with localStorage persistence
 function toggleTheme() {
+    // Light mode only — always enforce light
     var body = document.body;
-    var isLight = body.classList.toggle('light-mode');
-    // Sync data-theme attribute for [data-theme="light"] CSS selectors
-    if (isLight) { body.setAttribute('data-theme', 'light'); } else { body.removeAttribute('data-theme'); }
-    localStorage.setItem('s4-theme', isLight ? 'light' : 'dark');
-    _updateThemeIcon(isLight);
-    // Update nav link colors for light mode
+    if (!body.classList.contains('light-mode')) body.classList.add('light-mode');
+    body.setAttribute('data-theme', 'light');
+    localStorage.setItem('s4-theme', 'light');
+    _updateThemeIcon(true);
+    // Ensure nav stays light
+    var nav = document.querySelector('nav');
+    if (nav) {
+        nav.style.background = 'rgba(255,255,255,0.92)';
+        nav.style.backdropFilter = 'blur(20px)';
+        nav.style.borderBottomColor = 'rgba(0,0,0,0.06)';
+    }
+    // Ensure nav link colors are light-mode
     var navLinks = document.querySelectorAll('#navLinks a:not([style*="background:#00aaff"]):not([style*="background:var(--accent)"])');
     navLinks.forEach(function(a) {
         if (a.classList.contains('theme-toggle')) return;
-        if (isLight) {
-            a.style.color = a.getAttribute('href') === '../prod-app/' ? '#0077cc' : 'rgba(0,0,0,0.6)';
-        } else {
-            a.style.color = a.getAttribute('href') === '../prod-app/' ? '#00aaff' : 'rgba(255,255,255,0.7)';
-        }
+        a.style.color = a.getAttribute('href') === '../prod-app/' ? '#0077cc' : 'rgba(0,0,0,0.6)';
     });
-    // Update the main nav bar background
-    var nav = document.querySelector('nav');
-    if (nav) {
-        if (isLight) {
-            nav.style.background = 'rgba(255,255,255,0.92)';
-            nav.style.backdropFilter = 'blur(20px)';
-            nav.style.borderBottomColor = 'rgba(0,0,0,0.06)';
-        } else {
-            nav.style.background = 'rgba(5,8,16,0.92)';
-            nav.style.backdropFilter = 'blur(20px)';
-            nav.style.borderBottomColor = 'rgba(255,255,255,0.06)';
-        }
-    }
-    // Update logo brand text
     var brand = document.querySelector('.nav-brand span, nav span');
-    if (brand) brand.style.color = isLight ? '#1d1d1f' : '#fff';
-    // Update hamburger menu button
+    if (brand) brand.style.color = '#1d1d1f';
     var hamburger = document.querySelector('nav button[aria-label="Menu"]');
-    if (hamburger) hamburger.style.color = isLight ? '#1d1d1f' : '#fff';
-    // Update Chart.js chart colors for theme
+    if (hamburger) hamburger.style.color = '#1d1d1f';
     if (typeof Chart !== 'undefined') {
-        var textColor = isLight ? '#333' : '#ccc';
-        var gridColor = isLight ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.06)';
+        var textColor = '#333';
+        var gridColor = 'rgba(0,0,0,0.1)';
         Chart.defaults.color = textColor;
         Chart.defaults.borderColor = gridColor;
         Object.values(Chart.instances || {}).forEach(function(c) {
@@ -18906,24 +18893,20 @@ function toggleTheme() {
 function _updateThemeIcon(isLight) {
     var btn = document.getElementById('themeToggleBtn');
     if (btn) {
-        btn.innerHTML = isLight ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
-        btn.title = isLight ? 'Switch to Dark Mode' : 'Switch to Light Mode';
+        btn.innerHTML = '<i class="fas fa-moon"></i>';
+        btn.title = 'Light mode active';
     }
 }
 
-// Apply saved theme on load (user-controlled only — no OS auto-detection)
+// Force light mode on load — always light, no dark mode
 (function() {
-    var saved = localStorage.getItem('s4-theme');
-    if (saved === 'light') {
-        document.body.classList.add('light-mode');
-        document.body.setAttribute('data-theme', 'light');
-        _updateThemeIcon(true);
-        // Defer nav color updates until DOM is ready
-        document.addEventListener('DOMContentLoaded', function() {
-            setTimeout(function() { toggleTheme(); toggleTheme(); }, 100);
-        });
-    }
-    // No OS prefers-color-scheme listener — theme is user-controlled via the toggle button
+    document.body.classList.add('light-mode');
+    document.body.setAttribute('data-theme', 'light');
+    localStorage.setItem('s4-theme', 'light');
+    _updateThemeIcon(true);
+    document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(function() { toggleTheme(); }, 100);
+    });
 })();
 
 // ═══════════════════════════════════════════════════════════════

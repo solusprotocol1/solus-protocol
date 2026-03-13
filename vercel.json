@@ -80,6 +80,15 @@
       ]
     },
     {
+      "source": "/s4-assets/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, no-cache, must-revalidate"
+        }
+      ]
+    },
+    {
       "source": "/demo-app",
       "headers": [
         {
