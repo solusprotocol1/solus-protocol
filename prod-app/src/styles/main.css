@@ -6972,8 +6972,8 @@ h4{font-size:0.95rem;font-weight:700}
 .s4-rte-toolbar{position:absolute;display:none;background:var(--surface,#fff);border:1px solid var(--border,rgba(0,0,0,0.1));border-radius:10px;box-shadow:0 8px 28px rgba(0,0,0,0.14);padding:4px 6px;z-index:10;gap:2px;flex-wrap:nowrap;animation:s4FadeIn 0.12s ease;white-space:nowrap}
 .s4-rte-toolbar.visible{display:inline-flex}
 .s4-rte-toolbar button{background:none;border:none;padding:5px 7px;border-radius:6px;cursor:pointer;color:var(--text,#1d1d1f);font-size:0.78rem;transition:background 0.12s,color 0.12s;line-height:1;display:inline-flex;align-items:center;justify-content:center;min-width:26px}
-.s4-rte-toolbar button:hover{background:rgba(88,86,214,0.1);color:#5856D6}
-.s4-rte-toolbar button.active{background:rgba(88,86,214,0.15);color:#5856D6}
+.s4-rte-toolbar button:hover{background:rgba(0,122,255,0.1);color:#007AFF}
+.s4-rte-toolbar button.active{background:rgba(0,122,255,0.15);color:#007AFF}
 .s4-rte-toolbar .s4-rte-sep{width:1px;height:18px;background:var(--border,rgba(0,0,0,0.1));margin:0 3px;flex-shrink:0}
 /* ── Custom Signature ── */
 .s4-email-sig-section{margin-top:14px;border-top:1px solid var(--border,rgba(0,0,0,0.06));padding-top:14px}
@@ -7065,3 +7065,9 @@ h4{font-size:0.95rem;font-weight:700}
 .s4-email-batch-label{font-size:0.68rem;font-weight:700;color:#5856D6;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:4px}
 .s4-email-add-batch{display:inline-flex;align-items:center;gap:5px;padding:5px 10px;border-radius:8px;border:1px dashed rgba(88,86,214,0.3);background:rgba(88,86,214,0.04);color:#5856D6;font-size:0.72rem;font-weight:600;cursor:pointer;transition:background 0.15s;margin-bottom:14px}
 .s4-email-add-batch:hover{background:rgba(88,86,214,0.1)}
+/* ── Download PDF & Copy buttons ── */
+.s4-email-pdf,.s4-email-copy{background:rgba(0,122,255,0.08) !important;color:#007AFF !important;border:1px solid rgba(0,122,255,0.2) !important;font-size:0.78rem !important}
+.s4-email-pdf:hover,.s4-email-copy:hover{background:rgba(0,122,255,0.16) !important}
+/* ── Import Inline button in composer ── */
+.s4-email-import-inline{border-color:rgba(175,82,222,0.25) !important;background:rgba(175,82,222,0.06) !important;color:#af52de !important}
+.s4-email-import-inline:hover{background:rgba(175,82,222,0.14) !important}

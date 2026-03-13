@@ -15650,7 +15650,13 @@ function _buildRTE(opts) {
         { cmd: 'formatBlock_H2', icon: 'fa-heading', title: 'Heading 2', label: 'H2' },
         { sep: true },
         { cmd: 'createLink', icon: 'fa-link', title: 'Insert Link' },
-        { cmd: 'insertImage', icon: 'fa-image', title: 'Insert Image' }
+        { cmd: 'insertImage', icon: 'fa-image', title: 'Insert Image' },
+        { sep: true },
+        { cmd: 'justifyLeft', icon: 'fa-align-left', title: 'Align Left' },
+        { cmd: 'justifyCenter', icon: 'fa-align-center', title: 'Align Center' },
+        { cmd: 'justifyRight', icon: 'fa-align-right', title: 'Align Right' },
+        { sep: true },
+        { cmd: 'removeFormat', icon: 'fa-eraser', title: 'Remove Formatting' }
     ];
     cmds.forEach(function(c) {
         if (c.sep) {
@@ -15711,7 +15717,7 @@ function _buildRTE(opts) {
         btns.forEach(function(b) {
             var cmdKey = null;
             cmds.forEach(function(c2) { if (b.title === c2.title) cmdKey = c2.cmd; });
-            if (cmdKey && ['bold','italic','underline','insertUnorderedList','insertOrderedList'].indexOf(cmdKey) !== -1) {
+            if (cmdKey && ['bold','italic','underline','insertUnorderedList','insertOrderedList','justifyLeft','justifyCenter','justifyRight'].indexOf(cmdKey) !== -1) {
                 b.classList.toggle('active', document.queryCommandState(cmdKey));
             }
         });
@@ -15903,6 +15909,127 @@ function _extractToolContent(panelId) {
     return lines.join('\n');
 }
 
+// ── Import Received Email → AI Reply (inline in composer) ──
+function _importReceivedIntoComposer(toolId, toolName, bodyRTE, subjectInput) {
+    var existing = document.querySelector('.s4-import-overlay');
+    if (existing) existing.remove();
+
+    var ov = document.createElement('div');
+    ov.className = 's4-import-overlay';
+    ov.onclick = function(e) { if (e.target === ov) ov.remove(); };
+    var modal = document.createElement('div');
+    modal.className = 's4-import-modal';
+    modal.onclick = function(e) { e.stopPropagation(); };
+
+    var header = document.createElement('div');
+    header.className = 's4-import-header';
+    header.innerHTML = '<h3><i class="fas fa-file-import"></i> Import Received Email</h3>';
+    var closeBtn = document.createElement('button');
+    closeBtn.className = 's4-email-close';
+    closeBtn.innerHTML = '<i class="fas fa-times"></i>';
+    closeBtn.onclick = function() { ov.remove(); };
+    header.appendChild(closeBtn);
+    modal.appendChild(header);
+
+    var bodyEl = document.createElement('div');
+    bodyEl.className = 's4-import-body';
+
+    var activePanelKey = 'file';
+    var tabs = document.createElement('div');
+    tabs.className = 's4-import-tabs';
+    var fileTab = document.createElement('button');
+    fileTab.className = 's4-import-tab active';
+    fileTab.textContent = 'Upload .eml / .msg';
+    var pasteTab = document.createElement('button');
+    pasteTab.className = 's4-import-tab';
+    pasteTab.textContent = 'Paste Email';
+    tabs.appendChild(fileTab);
+    tabs.appendChild(pasteTab);
+    bodyEl.appendChild(tabs);
+
+    var filePanel = document.createElement('div');
+    var dropZone = document.createElement('div');
+    dropZone.className = 's4-import-drop';
+    dropZone.innerHTML = '<i class="fas fa-cloud-arrow-up"></i>Drop .eml or .msg file here<br>or click to browse';
+    var fileInput = document.createElement('input');
+    fileInput.type = 'file'; fileInput.accept = '.eml,.msg,.txt'; fileInput.style.display = 'none';
+    var importedData = { subject: '', from: '', to: '', cc: '', body: '', bodyHTML: '' };
+
+    dropZone.onclick = function() { fileInput.click(); };
+    dropZone.ondragover = function(e) { e.preventDefault(); dropZone.classList.add('dragover'); };
+    dropZone.ondragleave = function() { dropZone.classList.remove('dragover'); };
+    dropZone.ondrop = function(e) { e.preventDefault(); dropZone.classList.remove('dragover'); if (e.dataTransfer.files.length) _procFile(e.dataTransfer.files[0]); };
+    fileInput.onchange = function() { if (fileInput.files.length) _procFile(fileInput.files[0]); };
+    filePanel.appendChild(dropZone); filePanel.appendChild(fileInput);
+    bodyEl.appendChild(filePanel);
+
+    var pastePanel = document.createElement('div');
+    pastePanel.style.display = 'none';
+    var pasteArea = document.createElement('textarea');
+    pasteArea.className = 's4-import-paste';
+    pasteArea.placeholder = 'Paste email content here (headers + body)\u2026';
+    pastePanel.appendChild(pasteArea);
+    bodyEl.appendChild(pastePanel);
+
+    fileTab.onclick = function() { activePanelKey = 'file'; fileTab.classList.add('active'); pasteTab.classList.remove('active'); filePanel.style.display = ''; pastePanel.style.display = 'none'; };
+    pasteTab.onclick = function() { activePanelKey = 'paste'; pasteTab.classList.add('active'); fileTab.classList.remove('active'); pastePanel.style.display = ''; filePanel.style.display = 'none'; };
+
+    modal.appendChild(bodyEl);
+
+    function _procFile(file) {
+        var reader = new FileReader();
+        reader.onload = function(ev) { _parseEml(ev.target.result); dropZone.innerHTML = '<i class="fas fa-check-circle" style="color:#34c759"></i>Parsed: <b>' + _escH(importedData.subject || file.name) + '</b>'; };
+        reader.readAsText(file);
+    }
+    function _parseEml(text) {
+        var lines = text.split(/\r?\n/); var inHeaders = true; var hLines = []; var bLines = [];
+        for (var i = 0; i < lines.length; i++) { if (inHeaders && lines[i].trim() === '') { inHeaders = false; continue; } if (inHeaders) hLines.push(lines[i]); else bLines.push(lines[i]); }
+        var hdrs = {};
+        hLines.forEach(function(l) { var m = l.match(/^(From|To|Subject|Cc|Date):\s*(.+)/i); if (m) hdrs[m[1].toLowerCase()] = m[2].trim(); });
+        importedData.subject = hdrs.subject || ''; importedData.from = hdrs.from || ''; importedData.to = hdrs.to || ''; importedData.cc = hdrs.cc || '';
+        importedData.body = bLines.join('\n').trim(); importedData.bodyHTML = '<p>' + _escH(importedData.body).replace(/\n/g, '<br>') + '</p>';
+    }
+
+    var footer = document.createElement('div');
+    footer.className = 's4-import-footer';
+    var cancelImport = document.createElement('button');
+    cancelImport.innerHTML = '<i class="fas fa-times"></i> Cancel';
+    cancelImport.onclick = function() { ov.remove(); };
+    var importSaveBtn = document.createElement('button');
+    importSaveBtn.className = 's4-import-save';
+    importSaveBtn.innerHTML = '<i class="fas fa-robot"></i> Import & AI Reply';
+    importSaveBtn.onclick = function() {
+        if (activePanelKey === 'paste' && pasteArea.value.trim()) _parseEml(pasteArea.value);
+        if (!importedData.subject && !importedData.body) { if (typeof _toast === 'function') _toast('No email content to import', 'warning'); return; }
+        // Save to vault as imported
+        var toEmails = importedData.to ? importedData.to.split(/[,;]/).map(function(e) { return e.trim(); }).filter(Boolean) : [];
+        var email = { id: Date.now().toString(36) + Math.random().toString(36).slice(2, 7), toolId: 'imported', toolName: 'Imported Email', subject: importedData.subject || 'Imported Email', to: toEmails, cc: [], bcc: [], body: importedData.body, bodyHTML: importedData.bodyHTML, options: {}, importance: 'normal', type: 'imported', savedAt: new Date().toISOString(), pinned: false, flagged: false };
+        var vault = _loadVault(); vault.unshift(email); _saveVault(vault); _renderVaultList();
+        // AI Reply — pre-fill composer with AI-generated reply
+        var opName = document.getElementById('s4ApName') ? document.getElementById('s4ApName').textContent : 'S4 Operator';
+        var aiReply = '<p>Dear ' + _escH(importedData.from || 'Sender') + ',</p>' +
+            '<p>Thank you for your email regarding <b>' + _escH(importedData.subject || 'this matter') + '</b>.</p>' +
+            '<p>I\u2019ve reviewed the content alongside our latest <b>' + _escH(toolName) + '</b> platform data and have the following response:</p>' +
+            '<ul><li>All referenced data points have been verified against our anchored records</li>' +
+            '<li>The analysis aligns with our current compliance posture</li>' +
+            '<li>I recommend scheduling a follow-up to discuss next steps</li></ul>' +
+            '<p>Please let me know if you need additional detail.</p>' +
+            '<p>Best regards,<br>' + _escH(opName) + '</p>' +
+            '<br><hr style="border:none;border-top:1px solid #ccc;margin:12px 0">' +
+            '<p style="color:#6e6e73;font-size:0.82rem"><i>Original received email:</i></p>' +
+            importedData.bodyHTML;
+        bodyRTE.setHTML(aiReply);
+        if (subjectInput) subjectInput.value = 'Re: ' + (importedData.subject || '');
+        if (typeof _toast === 'function') _toast('Email imported and AI reply drafted.', 'success');
+        ov.remove();
+    };
+    footer.appendChild(cancelImport);
+    footer.appendChild(importSaveBtn);
+    modal.appendChild(footer);
+    ov.appendChild(modal);
+    document.body.appendChild(ov);
+}
+
 // ── Open Email Composer modal ──
 function _openEmailComposer(toolId) {
     // Remove existing overlay if any
@@ -16088,6 +16215,17 @@ function _openEmailComposer(toolId) {
         }
     };
     attachField.appendChild(attachBtn);
+    // Import Received Email — inline button next to attachments
+    var importBtn = document.createElement('button');
+    importBtn.className = 's4-email-opt s4-email-import-inline';
+    importBtn.style.marginTop = '8px';
+    importBtn.style.marginLeft = '8px';
+    importBtn.innerHTML = '<i class="fas fa-file-import"></i> Import Received Email';
+    importBtn.onclick = function() {
+        // Open import modal, then auto-AI-reply into this composer
+        _importReceivedIntoComposer(toolId, toolName, bodyRTE, subjectInput);
+    };
+    attachField.appendChild(importBtn);
     body.appendChild(attachField);
 
     // Options row (enhanced — schedule picker, importance selector, draft action)
@@ -16268,6 +16406,48 @@ function _openEmailComposer(toolId) {
     footer.appendChild(cancelBtn);
     footer.appendChild(saveBtn);
     footer.appendChild(sendBtn);
+
+    // Download PDF button
+    var pdfBtn = document.createElement('button');
+    pdfBtn.className = 's4-email-pdf';
+    pdfBtn.innerHTML = '<i class="fas fa-file-pdf"></i> Download PDF';
+    pdfBtn.onclick = function() {
+        var fullHTML = _getFullHTML();
+        var subjectText = subjectInput.value || 'S4 Email';
+        var printWin = window.open('', '_blank', 'width=800,height=600');
+        if (printWin) {
+            printWin.document.write('<html><head><title>' + _escH(subjectText) + '</title>' +
+                '<style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;max-width:680px;margin:40px auto;color:#1d1d1f;line-height:1.6;font-size:14px}' +
+                'h1{font-size:1.4rem}h2{font-size:1.15rem}a{color:#007AFF}img{max-width:100%}' +
+                'hr{border:none;border-top:1px solid #e0e0e0;margin:16px 0}</style></head><body>' +
+                '<h1>' + _escH(subjectText) + '</h1>' + fullHTML + '</body></html>');
+            printWin.document.close();
+            setTimeout(function() { printWin.print(); }, 400);
+        }
+    };
+    footer.appendChild(pdfBtn);
+
+    // Copy for Email / Word button
+    var copyBtn = document.createElement('button');
+    copyBtn.className = 's4-email-copy';
+    copyBtn.innerHTML = '<i class="fas fa-copy"></i> Copy for Email / Word';
+    copyBtn.onclick = function() {
+        var fullHTML = _getFullHTML();
+        var fullText = _getFullPlainText();
+        if (navigator.clipboard && typeof ClipboardItem !== 'undefined') {
+            var htmlBlob = new Blob([fullHTML], { type: 'text/html' });
+            var textBlob = new Blob([fullText], { type: 'text/plain' });
+            navigator.clipboard.write([new ClipboardItem({ 'text/html': htmlBlob, 'text/plain': textBlob })]).then(function() {
+                if (typeof _toast === 'function') _toast('Copied rich text to clipboard', 'success');
+            });
+        } else {
+            navigator.clipboard.writeText(fullText).then(function() {
+                if (typeof _toast === 'function') _toast('Copied text to clipboard', 'success');
+            });
+        }
+    };
+    footer.appendChild(copyBtn);
+
     modal.appendChild(footer);
 
     ov.appendChild(modal);
